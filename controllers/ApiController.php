@@ -164,14 +164,12 @@ class ApiController extends Controller {
      * List all the latest observations
      * @return [json Map] list
      */
-	public function actionIndex() 
-	{
-	    $this->render("../../../../components/api/views/index", array("path"=>Yii::app()->params["modulePath"].$this::$moduleKey.'.views.api.') );
-	}
+	
     public function actions()
     {
         return array(
-            'login'     =>'application.controllers.user.LoginAction',
+            'index'             => 'application.components.api.controllers.IndexAction',
+            'login'         =>'application.controllers.user.LoginAction',
             'saveuser'  =>'application.controllers.user.SaveUserAction',
             'communect' => 'application.controllers.user.CommunectAction',
             'getuser'   => 'application.controllers.user.GetUserAction',
