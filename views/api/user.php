@@ -16,7 +16,7 @@
 					params = { "email" : $("#emailCommunect").val() , 
 					    	   "cp" : $("#cpCommunect").val()
 					    	};
-					testitpost("communectResult",'/ph/<?php echo $this::$moduleKey?>/api/communect',params);
+					testitpost("communectResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/communect',params);
 				}
 			</script>
 			
@@ -39,7 +39,7 @@
 					params = { "email" : $("#emailLogin").val() , 
 					    	   "pwd" : $("#pwdLogin").val()
 					    	};
-					testitpost("loginResult",'/ph/<?php echo $this::$moduleKey?>/api/login',params);
+					testitpost("loginResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/login',params);
 					
 				}
 			</script>
@@ -70,7 +70,7 @@
 					    	   "cp" : $("#postalcodeSaveUser").val() ,
 					    	   "pwd":$("#pwdSaveUser").val() ,
 					    	   "phoneNumber" : $("#phoneNumberSaveUser").val()};
-					testitpost("createUserResult",'/ph/<?php echo $this::$moduleKey?>/api/saveUser',params);
+					testitpost("createUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/saveUser',params);
 				}
 			</script>
 		</div>
@@ -86,7 +86,7 @@
 			<div id="getUserResult" class="result fss"></div>
 			<script>
 				function getUser(){
-					testitget("getUserResult",'/ph/<?php echo $this::$moduleKey?>/api/getUser/email/'+$("#getUseremail").val());
+					testitget("getUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getUser/email/'+$("#getUseremail").val());
 				}
 				
 			</script>
@@ -105,11 +105,11 @@
 			<script>
 				function getpeopleby(){
 					params = { "cp" : $("#postalcodegetPeople").val() };
-					testitpost("getPeopleResult",'/ph/<?php echo $this::$moduleKey?>/api/getpeopleby',params);
+					testitpost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby',params);
 				}
 				function countpeopleby(){
 					params = { "cp" : $("#postalcodegetPeople").val() };
-					testitpost("getPeopleResult",'/ph/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params);
+					testitpost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params);
 				}
 			</script>
 		</div>
@@ -127,7 +127,7 @@
 			<script>
 				function inviteUser(){
 					params = { "email" : $("#inviteUseremail").val() };
-					testitpost("inviteUserResult",'/ph/<?php echo $this::$moduleKey?>/api/inviteUser',params);
+					testitpost("inviteUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params);
 				}
 				
 			</script>

@@ -140,14 +140,14 @@ $this->pageTitle=$this::moduleTitle;
 <script type="text/javascript">
 function countpeopleby(){
   params = { "cp" : $("#codepostal").val() };
-  testitpost("communected",'/ph/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params, 
+  testitpost("communected", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params, 
               function(data){ $(".communectedcp").html($("#codepostal").val());$(".communected").html(data.count)} );
 }
 function communectme(){
   params = { "email" : $("#email").val() , 
             "cp" : $("#codepostal").val()
           };
-  testitpost("communectResult",'/ph/<?php echo $this::$moduleKey?>/api/communect',params,
+  testitpost("communectResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/communect',params,
             function(data){
               if(!data.isNewUser)
               {
@@ -170,7 +170,7 @@ function communectme(){
 }
 function inviteUser(){
   params = { "email" : $("#inviteEmail").val() };
-  testitpost("inviteResult",'/ph/<?php echo $this::$moduleKey?>/api/inviteUser',params,
+  testitpost("inviteResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params,
             function(data){
               email = $("#inviteEmail").val();
               name = email.substr(0,email.indexOf("@"));

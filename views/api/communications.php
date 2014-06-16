@@ -26,7 +26,7 @@
 			    	   "email" : $("#sendMessageemail").val() , 
 			    	   "msg" : $("#sendMessagemsg").val() 
 			    	   };
-					testitpost("sendMessageResult",'/ph/egpc/api/sendMessage',params);
+					testitpost("sendMessageResult", baseUrl+'/egpc/api/sendMessage',params);
 				}
 				function setPeople(){
 					$("#sendMessageemail").val("");
