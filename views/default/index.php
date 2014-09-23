@@ -1,225 +1,819 @@
-<?php 
+<?php
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/api.js' , CClientScript::POS_END);
-$cs->registerScriptFile('http://visjs.org/dist/vis.js' , CClientScript::POS_END);
+
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/weather-icons/css/weather-icons.min.css');
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/nv.d3.min.css');
+
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/bootstrap-progressbar/bootstrap-progressbar.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/nv.d3.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/src/models/historicalBar.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/src/models/historicalBarChart.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/src/models/stackedArea.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/nvd3/src/models/stackedAreaChart.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/jquery.sparkline/jquery.sparkline.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//plugins/easy-pie-chart/dist/jquery.easypiechart.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//js/index.js' , CClientScript::POS_END);
 ?>
+<!-- start: PAGE CONTENT -->
+<div class="row">
 
-
-<section class="mt80 stepContainer">
-<span style="margin-left:50px;font-size:xx-large;font-weight: bolder;" > Se Communecter </span>
-<br/>Se connecter à sa commune et aux communs
-<br/>Citoyen conscient, acteur, curieux et autonome     
-
-    <div class="step home">
-      <div class="fr">
-        <div class="communectedcp">97421</div>
-        <div class="communected "><?php echo Yii::app()->mongodb->citoyens->count( array( "cp" => "97421" ));?></div>
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
       </div>
-
-      <div class="stepTitle">Se Communecter = se connecter à sa commune et aux communs</div>
-      s'incrire : <input type="text" name="codepostal" id="codepostal" onblur="countpeopleby()" placeholder="code postal(ex:97421)"/> <input type="text" id="email" placeholder="email"/>
-      <a href="javascript:communectme()" class="btn">Communectez moi</a> <br>
-       Communiquer sans intermediare avec toute votre commune<br><br>
-       <div class="fr" style="margin-right:20px;" id="communectResult">combien etes vous communecter dans votre commune?  </div>
-       <div style="clear:both;"></div>
-     </div>
-    
-    <div class="step home">
-      <div class="stepTitle">5s Pour tenter une nouvelle experience : <?php echo Yii::app()->session["userId"]?></div>
-      se Communecter == Se connecter à sa commune pour etre informer, partager et agir<br>
-      un habitant en connecte un autre et ainsi de suite<br>
-      Pour mieux comprendre la société<br>
-      Sommes nous capable de l'organiser et l'améliorer <br>
-      
+      <div class="panel-body no-padding">
+        <div class="partition-green padding-20 text-center core-icon">
+          <i class="fa fa-users fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Association</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <div class=""></div>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
     </div>
-    
-    <div class="step home">
-      <div class="stepTitle">L'objectif</div>
-      nous comptons déja <span id="communeCount" class="highlight"><?php echo count(Yii::app()->mongodb->citoyens->distinct( "cp" ));?></span> communes, et <span id="peopleCount" class="highlight"><?php echo count(Yii::app()->mongodb->citoyens->distinct( "email" ));?></span> communectés<br>
-      1- Symboliquement, Nous aimerions atteindre 1% de la population réunionaise (env. 8000)<br>
-      2- Lancer notre campagnes de méiose = chaque communecté amène un nouveau connecté par mois<br>
-      3- Atteindre 2% de la pop, soit 16000 communectés.<br>
-      4- Lancer la dynamique nationalement.<br>
-      5- Defi : Combien de temps pour communecté la france ?<br>
+  </div>
+
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-blue padding-20 text-center core-icon">
+          <i class="fa fa-institution fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Entreprise</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
     </div>
+  </div>
 
-    <div class="step invite hidden">
-      <style type="text/css">
-        #mygraph {
-          float:right;
-          width: 300px;
-          height: 300px;
-          border: 1px solid lightgray;
-        }
-      </style>
-      <div id="mygraph"></div>
-      <div id="info"></div>
-      <div class="stepTitle">Participer c'est bien, etre plusieur, c'est mieux : Creer son reseau</div>
-      Faire du buzz, 
-      inviter des gens de votre commune et d'ailleurs<br>
-      Connecter Quelqu'un : <input type="text" id="inviteEmail" placeholder="email"/> <a href="javascript:;" onclick="inviteUser()" class="btn">Envoyer L'invitation</a><br>
-      Cette action a plus d'impact que vous n'imaginez.
-      <div class="fr" style="margin-right:20px;" id="inviteResult"> </div>
-
-      <div style="clear:both;"></div>
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-red padding-20 text-center core-icon">
+          <i class="fa fa-child  fa-5x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Périscolaire</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
     </div>
+  </div>
 
-    <div class="step home" >
-      
-      <div class="stepTitle">Future : boite à outils citoyens</div>
-      <a href="http://pixelhumain.com" class="btn">le Pixel Humain</a><br>
-      un reseau sociétal vous attends pour agir<br>
-      interagir localement<br>
-      organiser des actions<br>
-       ... l'histoire ne fait que commencer
-      <div style="clear:both;"></div>
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-azure padding-20 text-center core-icon">
+          <i class="fa fa-comments fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Information</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
     </div>
+  </div>
 
-    <div class="step why hidden" >
-      
-      <div class="stepTitle">Pourquoi ?</div>
-      Parce qu'il est temps<br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+</div>
+
+<div class="row">
+  <div class="col-md-7 col-lg-4">
+    <div class="panel panel-dark">
+      <div class="panel-heading">
+        <h4 class="panel-title">Évennement</h4>
+        <div class="panel-tools">
+          <div class="dropdown">
+            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-white">
+              <i class="fa fa-cog"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+              <li>
+                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+              </li>
+              <li>
+                <a class="panel-refresh" href="#">
+                  <i class="fa fa-refresh"></i> <span>Refresh</span>
+                </a>
+              </li>
+              <li>
+                <a class="panel-config" href="#panel-config" data-toggle="modal">
+                  <i class="fa fa-wrench"></i> <span>Configurations</span>
+                </a>
+              </li>
+              <li>
+                <a class="panel-expand" href="#">
+                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <a class="btn btn-xs btn-link panel-close" href="#">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-green padding-15 text-center">
+          <h4 class="no-margin">Activité Locale</h4>
+          <span class="text-light">crowd sourcé</span>
+        </div>
+        <div id="accordion" class="panel-group accordion accordion-white no-margin">
+          <div class="panel no-radius">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+              <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15">
+                <i class="icon-arrow"></i>
+                Ce mois ci <span class="label label-danger pull-right">4</span>
+              </a></h4>
+            </div>
+            <div class="panel-collapse collapse in" id="collapseOne">
+              <div class="panel-body no-padding partition-light-grey">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="center">1</td>
+                      <td>Festival musique africaine</td>
+                      <td class="center">4909</td>
+                      <td><i class="fa fa-caret-down text-red"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">2</td>
+                      <td>Exposition Photo</td>
+                      <td class="center">3857</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">3</td>
+                      <td>Concert Local</td>
+                      <td class="center">1789</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">4</td>
+                      <td>Journée Porte ouverte</td>
+                      <td class="center">612</td>
+                      <td><i class="fa fa-caret-down text-red"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="panel no-radius">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+              <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
+                <i class="icon-arrow"></i>
+                Dans 1 mois
+              </a></h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseTwo">
+              <div class="panel-body no-padding partition-light-grey">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="center">1</td>
+                      <td>Google Chrome</td>
+                      <td class="center">5228</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">2</td>
+                      <td>Mozilla Firefox</td>
+                      <td class="center">2853</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">3</td>
+                      <td>Safari</td>
+                      <td class="center">1948</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">4</td>
+                      <td>Internet Explorer</td>
+                      <td class="center">456</td>
+                      <td><i class="fa fa-caret-down text-red"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="panel no-radius">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+              <a href="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
+                <i class="icon-arrow"></i>
+                Dans 2 mois
+              </a></h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseThree">
+              <div class="panel-body no-padding partition-light-grey">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td class="center">1</td>
+                      <td>Google Chrome</td>
+                      <td class="center">4256</td>
+                      <td><i class="fa fa-caret-down text-red"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">2</td>
+                      <td>Mozilla Firefox</td>
+                      <td class="center">3557</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">3</td>
+                      <td>Safari</td>
+                      <td class="center">1435</td>
+                      <td><i class="fa fa-caret-up text-green"></i></td>
+                    </tr>
+                    <tr>
+                      <td class="center">4</td>
+                      <td>Internet Explorer</td>
+                      <td class="center">423</td>
+                      <td><i class="fa fa-caret-down text-red"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="step what hidden" >
-      
-      <div class="stepTitle">Quoi ?</div>
-      De Réunir nos réfléxions individuelles au service de l'intelligence collective.<br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+  </div>
+  <div class="col-lg-4 col-md-5">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-blue">
+          <div class="panel-body padding-20 text-center">
+            <div class="space10">
+              <h5 class="text-white semi-bold no-margin p-b-5">Aujourd'hui</h5>
+              <h3 class="text-white no-margin"><span class="text-small">&euro;</span>1,450</h3>
+              25 Echanges
+            </div>
+            <div class="sparkline-4 space10">
+              <span ></span>
+            </div>
+            <span class="text-light"><i class="fa fa-clock-o"></i> 1 hour ago</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-green">
+          <div class="panel-body padding-20 text-center">
+            <div class="space10">
+              <h5 class="text-white semi-bold no-margin p-b-5">Hier</h5>
+              <h3 class="text-white no-margin"><span class="text-small">&euro;</span>1,250</h3>
+              18 Echanges
+            </div>
+            <div class="sparkline-5 space10">
+              <span></span>
+            </div>
+            <span class="text-light"><i class="fa fa-clock-o"></i> 1 hour ago</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="easy-pie-chart">
+              <span class="cpu number appear" data-percent="82" data-plugin-options='{"barColor": "#ff0000"}'> <span class="percent"></span> </span>
+              <div class="label-chart">
+                <h4 class="no-margin">Population <br/>Communnecté</h4>
+              </div>
+            </div>
+            <div class="small-text text-center space15">
+              <span class="block">Objectif</span><span class="label label-danger vertical-align-bottom">85%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel">
+          <div class="panel-body">
+            <div class="easy-pie-chart">
+              <span class="bounce number appear" data-percent="44" data-plugin-options='{"barColor": "#35aa47"}'> <span class="percent"></span> </span>
+              <div class="label-chart">
+                <h4 class="no-margin">Utilisateur <br/>Connecté</h4>
+              </div>
+            </div>
+            <div class="text-center space15">
+              <span class="block">Objectif</span><span class="label label-danger vertical-align-bottom">58%</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="step how hidden" >
-      
-      <div class="stepTitle">Comment ?</div>
-      Ensemble !!<br>
-      se communecter , c'est se connecter a sa commune <br>
-      La plus petite unité de l'état la plus proche de chacun d'entre nous<br>
-      La toile est l'outil qui portera la solution<br>
-      mais seul la masse que nous pouvons etre en sera l'action.<br>
-      <br>
-      <br>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div class="panel panel-white">
+      <div class="panel-heading border-light">
+        <h4 class="panel-title">Mon Réseau</h4>
+        <div class="panel-tools">
+          <div class="dropdown">
+            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
+              <i class="fa fa-cog"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+              <li>
+                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+              </li>
+              <li>
+                <a class="panel-refresh" href="#">
+                  <i class="fa fa-refresh"></i> <span>Refresh</span>
+                </a>
+              </li>
+              <li>
+                <a class="panel-config" href="#panel-config" data-toggle="modal">
+                  <i class="fa fa-wrench"></i> <span>Configurations</span>
+                </a>
+              </li>
+              <li>
+                <a class="panel-expand" href="#">
+                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <a class="btn btn-xs btn-link panel-close" href="#">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="padding-10">
+          <img width="50" height="50" alt="" class="img-circle pull-left" src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1-big.jpg">
+          <h4 class="no-margin inline-block padding-5">Peter Clark <span class="block text-small text-left">UI Designer</span></h4>
+          <div class="pull-right padding-15">
+            <span class="text-small text-bold text-green"><i class="fa fa-dot-circle-o"></i> on-line</span>
+          </div>
+        </div>
+        <div class="clearfix padding-5 space5">
+          <div class="col-xs-4 text-center no-padding">
+            <div class="border-right border-dark">
+              <a href="#" class="text-dark">
+                <i class="fa fa-heart-o text-red"></i> 250
+              </a>
+            </div>
+          </div>
+          <div class="col-xs-4 text-center no-padding">
+            <div class="border-right border-dark">
+              <a href="#" class="text-dark">
+                <i class="fa fa-bookmark-o text-green"></i> 20
+              </a>
+            </div>
+          </div>
+          <div class="col-xs-4 text-center no-padding">
+            <a href="#" class="text-dark"><i class="fa fa-comment-o text-azure"></i> 544</a>
+          </div>
+        </div>
+        <div class="tabbable no-margin no-padding partition-dark">
+          <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+              <a data-toggle="tab" href="#users_tab_example1">
+                All
+              </a>
+            </li>
+            <li class="">
+              <a data-toggle="tab" href="#users_tab_example2">
+                View and Edit
+              </a>
+            </li>
+            <li class="">
+              <a data-toggle="tab" href="#users_tab_example3">
+                View Only
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content partition-white">
+            <div id="users_tab_example1" class="tab-pane padding-bottom-5 active">
+              <div class="panel-scroll height-230">
+                <table class="table table-striped table-hover">
+                  <tbody>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">UI Designer</span><span class="text-large">Peter Clark</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-2.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Content Designer</span><span class="text-large">Nicole Bell</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="users_tab_example2" class="tab-pane padding-bottom-5">
+              <div class="panel-scroll height-230">
+                <table class="table table-striped table-hover">
+                  <tbody>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="users_tab_example3" class="tab-pane padding-bottom-5">
+              <div class="panel-scroll height-230">
+                <table class="table table-striped table-hover">
+                  <tbody>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-2.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Content Designer</span><span class="text-large">Nicole Bell</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                    <tr>
+                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
+                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
+                      <td class="center">
+                      <div>
+                        <div class="btn-group">
+                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                          </a>
+                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-edit"></i> Edit
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-share"></i> Share
+                              </a>
+                            </li>
+                            <li role="presentation">
+                              <a role="menuitem" tabindex="-1" href="#">
+                                <i class="fa fa-times"></i> Remove
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="step who hidden" >
-      
-      <div class="stepTitle">Qui ?</div>
-      Nous devons tous nous réunir pour essayer<br>
-      C'est le minimum demandé<br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </div>
-
-    <div class="step when hidden" >
-      
-      <div class="stepTitle">Quand ?</div>
-      De suite, si vous etes là , c'est un des endroit parmis d'autre<br>
-      c'est maintement et pour le future<br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </div>
-  </section>
-
-<script type="text/javascript">
-function countpeopleby(){
-  params = { "cp" : $("#codepostal").val() };
-  testitpost("communected", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params, 
-              function(data){ $(".communectedcp").html($("#codepostal").val());$(".communected").html(data.count)} );
-}
-function communectme(){
-  params = { "email" : $("#email").val() , 
-            "cp" : $("#codepostal").val()
-          };
-  testitpost("communectResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/communect',params,
-            function(data){
-              if(!data.isNewUser)
-              {
-                $("#communectResult").html( "Vous étiez deja connecté a votre commune" );
-              }
-              else
-              {
-                $("#communectResult").html( "Bienvenue, vous etes communecté à présent." );
-                nodecount++;
-                nodes.push({id: nodecount, label: $("#codepostal").val()});
-                nodecount++;
-                nodes.push({id: nodecount, label: 'Vous'});
-                edges.push({from: 1, to: 2});
-              }
-              $(".invite").slideDown();
-              
-              drawGraph();
-            });
-  countpeopleby();
-}
-function inviteUser(){
-  params = { "email" : $("#inviteEmail").val() };
-  testitpost("inviteResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params,
-            function(data){
-              email = $("#inviteEmail").val();
-              name = email.substr(0,email.indexOf("@"));
-              nodecount++;
-              nodes.push({id: nodecount, label: name});
-              
-              txt = "";
-              if(data.invitedButNotLinked == "noUserLogguedin")
-                txt = "But no one is loggued in, so no link is possible.";
-              else if(data.link2Users_Call!=null && data.link2Users_Call.result)
-              {
-                edges.push({from: 2, to: nodecount});
-                txt = "The user was connected to your account";
-              }
-              if(data.userAdded)
-                txt = "The User was created. "+txt;
-              else if(data.userAllreadyExists)
-                txt = "The User allready exists. "+txt;
-              $("#inviteResult").html( txt+JSON.stringify(data, null, 4) );
-              drawGraph();
-            });
-}
-function hideShow(ids){
-  $(".step").slideUp();
-  $(ids).slideDown();
-}
-var nodecount = 0;
-var nodes = [];
-var edges = [];
-function drawGraph(){
-        // create a graph
-        var container = document.getElementById('mygraph');
-        var data = {
-          nodes: nodes,
-          edges: edges
-        };
-        var options = {
-          nodes: {
-            shape: 'box'
-          }
-        };
-        graph = new vis.Graph(container, data, options);
-
-        // add event listener
-        /*graph.on('select', function(properties) {
-          document.getElementById('info').innerHTML += 'selection: ' + JSON.stringify(properties) + '<br>';
-        });*/
-
-        // set initial selection (id's of some nodes)
-        graph.setSelection([3, 4, 5]);
-}
-
+  </div>
+</div>
+<!-- end: PAGE CONTENT-->
+<script>
+  jQuery(document).ready(function() {
+    Main.init();
+    SVExamples.init();
+    Index.init();
+  });
 </script>

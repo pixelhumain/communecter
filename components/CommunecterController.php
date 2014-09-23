@@ -14,6 +14,7 @@ class CommunecterController extends Controller
   public $description = "Communecter : Connecter a sa commune, reseau societal, le citoyen au centre de la société.";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
+  public $projectImageL = "/images/logo.png";
   public $footerImages = array("/images/logo_region_reunion.png","/images/technopole.jpg");
 	public $sidebar1 = array(
     array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy","generate"=>true,

@@ -22,22 +22,20 @@ class PersonController extends CommunecterController {
    */
 	public function actionLogin() 
 	{
-   $this->layout = "//layouts/mainSimple";
-   $this->render( "login" );
+    $this->layout = "//layouts/mainSimple";
+    if(Yii::app()->session["userId"]) 
+      $this->redirect(Yii::app()->homeUrl);
+    else
+      $this->render( "login" );
 	}
-
-  public function actionAuthenticate() 
-  {
-        
-  }
   public function actionLogout() 
   {
-    Yii::app()->session["user"] = null;
+    Yii::app()->session["userId"] = null;
     $this->redirect(Yii::app()->homeUrl);
   }
   public function actionProfile() 
   {
-    if(!Yii::app()->session["user"])
+    if(!Yii::app()->session["userId"])
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     else 
       $this->render( "index" );

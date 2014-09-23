@@ -12,8 +12,8 @@ class DefaultController extends CommunecterController {
     protected function beforeAction($action)
   	{
   		Yii::app()->theme  = "rapidos";
-      if(!Yii::app()->session["user"])
-        $this->redirect(Yii::app()->createUrl("/teeo/person/login"));
+      if(!Yii::app()->session["userId"])
+        $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
       else  
 		  return parent::beforeAction($action);
   	}

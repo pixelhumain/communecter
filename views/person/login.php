@@ -5,10 +5,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
 		<div class="logo">
-			<?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
+			<img height="30" src="<?php echo $this->module->assetsUrl?>/images/COMMUNECTION.png"/>
 		</div>
 		<!-- start: LOGIN BOX -->
 		<div class="box-login">
+			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
 			<h3>Sign in to your account</h3>
 			<p>
 				Please enter your name and password to log in.
@@ -23,12 +24,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" name="username" placeholder="Username">
+							<input type="text" class="form-control" name="email" id="email" placeholder="Email">
 							<i class="fa fa-user"></i> </span>
 					</div>
 					<div class="form-group form-actions">
 						<span class="input-icon">
-							<input type="password" class="form-control password" name="password" placeholder="Password">
+							<input type="password" class="form-control password"  name="password" id="password" placeholder="Password">
 							<i class="fa fa-lock"></i>
 							<a class="forgot" href="#">
 								I forgot my password
@@ -53,7 +54,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			</form>
 			<!-- start: COPYRIGHT -->
 			<div class="copyright">
-				2014 &copy; <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
+				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
 			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
@@ -62,7 +63,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		<div class="box-forgot">
 			<h3>Forget Password?</h3>
 			<p>
-				Enter your e-mail address below to reset your password.
+				Enter your e-mail address below to get your password by email.
 			</p>
 			<form class="form-forgot">
 				<div class="errorHandler alert alert-danger no-display">
@@ -71,7 +72,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="email" class="form-control" name="email" placeholder="Email">
+							<input type="email" class="form-control" id="email2" placeholder="Email">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
 					<div class="form-actions">
@@ -86,7 +87,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			</form>
 			<!-- start: COPYRIGHT -->
 			<div class="copyright">
-				2014 &copy; <img height="30" src="<?php echo $this->module->assetsUrl?>/images/teeo_banniere.png"/>
+				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
 			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
@@ -103,43 +104,19 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				</div>
 				<fieldset>
 					<div class="form-group">
-						<input type="text" class="form-control" name="full_name" placeholder="Full Name">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" name="address" placeholder="Address">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" name="city" placeholder="City">
-					</div>
-					<div class="form-group">
-						<div>
-							<label class="radio-inline">
-								<input type="radio" class="grey" value="F" name="gender">
-								Female
-							</label>
-							<label class="radio-inline">
-								<input type="radio" class="grey" value="M" name="gender">
-								Male
-							</label>
-						</div>
-					</div>
-					<p>
-						Enter your account details below:
-					</p>
-					<div class="form-group">
 						<span class="input-icon">
-							<input type="email" class="form-control" name="email" placeholder="Email">
+							<input type="email" class="form-control" id="email3" placeholder="Email">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							<input type="password" class="form-control" id="password3" placeholder="Password">
 							<i class="fa fa-lock"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" name="password_again" placeholder="Password Again">
-							<i class="fa fa-lock"></i> </span>
+							<input type="text" class="form-control" id="cp" placeholder="Postal Code">
+							<i class="fa fa-home"></i></span>
 					</div>
 					<div class="form-group">
 						<div>
@@ -149,6 +126,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 							</label>
 						</div>
 					</div>
+
 					<div class="form-actions">
 						Already have an account?
 						<a href="#" class="go-back">
@@ -162,7 +140,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			</form>
 			<!-- start: COPYRIGHT -->
 			<div class="copyright">
-				2014 &copy; <img height="30" src="<?php echo $this->module->assetsUrl?>/images/teeo_banniere.png"/>
+				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
 			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
@@ -176,6 +154,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		Main.init();
 		Login.init();
 		
+	
 	});
 
 var Login = function() {
@@ -287,31 +266,33 @@ var Login = function() {
 					required : true
 				},
 				password : {
-					minlength : 6,
+					minlength : 4,
 					required : true
 				}
 			},
 			submitHandler : function(form) {
 				errorHandler.hide();
-				var params = $(form).serialize();
-				params += "&appId=8000";
-				/*testitpost(null,baseUrl+'/teeo/person/authenticate',params,function(data,id){
-						console.dir(data);
-					});*/
-				console.log(params);
-				$.ajax({
-			        type: $(form).attr('method'),
-			        url: $(form).attr('action'),
-			        data: params,
-			        dataType : 'json'
-			    })
-			    .done(function (data) {
-			        if (data.userId) {               
-			            window.location.href=baseUrl+"/<?php echo $this->module->id?>";                   
-			        } else {
-			            $('.loginResult').show();
-			        }
-			    });
+				var params = { 
+				   "email" : $("#email").val() , 
+                   "pwd" : $("#password").val()
+                };
+			      
+		    	$.ajax({
+		    	  type: "POST",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/api/login",
+		    	  data: params,
+		    	  success: function(data){
+		    		  if(data.result)
+		    		  {
+		        		window.location.reload();
+		    		  }
+		    		  else {
+						$('.loginResult').html(data.msg);
+						$('.loginResult').show();
+		    		  }
+		    	  },
+		    	  dataType: "json"
+		    	});
 			    return false; // required to block normal submit since you used ajax
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
@@ -330,7 +311,17 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler2.hide();
-				form2.submit();
+				var params = { "email" : $("#email2").val()};
+		        $.ajax({
+		          type: "POST",
+		          url: baseUrl+"/<?php echo $this->module->id?>/api/sendemailpwd",
+		          data: params,
+		          success: function(data){
+		              alert(data.msg);
+		          },
+		          dataType: "json"
+		        });
+		        return false;
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler2.show();
@@ -342,32 +333,16 @@ var Login = function() {
 		var errorHandler3 = $('.errorHandler', form3);
 		form3.validate({
 			rules : {
-				full_name : {
-					minlength : 2,
-					required : true
-				},
-				address : {
-					minlength : 2,
-					required : true
-				},
-				city : {
-					minlength : 2,
-					required : true
-				},
-				gender : {
+				cp : {
+					maxlength : 5,
 					required : true
 				},
 				email : {
 					required : true
 				},
 				password : {
-					minlength : 6,
+					minlength : 4,
 					required : true
-				},
-				password_again : {
-					required : true,
-					minlength : 5,
-					equalTo : "#password"
 				},
 				agree : {
 					minlength : 1,
@@ -376,7 +351,29 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
-				form3.submit();
+				var params = { 
+				   "email" : $("#email3").val() , 
+                   "pwd" : $("#password3").val(),
+                   "cp" : $("#cp").val(),
+                };
+			      
+		    	$.ajax({
+		    	  type: "POST",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/api/saveUser",
+		    	  data: params,
+		    	  success: function(data){
+		    		  if(data.result)
+		    		  {
+		        		window.location.reload();
+		    		  }
+		    		  else {
+						$('.loginResult').html(data.msg);
+						$('.loginResult').show();
+		    		  }
+		    	  },
+		    	  dataType: "json"
+		    	});
+			    return false;
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler3.show();
