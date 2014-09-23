@@ -15,11 +15,11 @@ class CommunecterModule extends CWebModule
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
-
+		Yii::app()->homeUrl = "/ph/communecter";
 		// import the module-level models and components
 		$this->setImport(array(
-			'communecter.models.*',
-			'communecter.components.*',
+			$this->id.'.models.*',
+			$this->id.'.components.*',
 		));
 	}
 
@@ -33,5 +33,14 @@ class CommunecterModule extends CWebModule
 		}
 		else
 			return false;
+	}
+	private $_assetsUrl;
+
+	public function getAssetsUrl()
+	{
+		if ($this->_assetsUrl === null)
+	        $this->_assetsUrl = Yii::app()->getAssetManager()->publish(
+	            Yii::getPathOfAlias($this->id.'.assets') );
+	    return $this->_assetsUrl;
 	}
 }

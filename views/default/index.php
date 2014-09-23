@@ -2,13 +2,28 @@
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/api.js' , CClientScript::POS_END);
 $cs->registerScriptFile('http://visjs.org/dist/vis.js' , CClientScript::POS_END);
-$this->pageTitle=$this::moduleTitle;
 ?>
-<style type="text/css">
-  body {background: url("<?php echo Yii::app()->theme->baseUrl;?>/img/crowd.jpg") repeat;}
-</style>
-<section class="mt80 stepContainer">
 
+
+<section class="mt80 stepContainer">
+<span style="margin-left:50px;font-size:xx-large;font-weight: bolder;" > Se Communecter </span>
+<br/>Se connecter à sa commune et aux communs
+<br/>Citoyen conscient, acteur, curieux et autonome     
+
+    <div class="step home">
+      <div class="fr">
+        <div class="communectedcp">97421</div>
+        <div class="communected "><?php echo Yii::app()->mongodb->citoyens->count( array( "cp" => "97421" ));?></div>
+      </div>
+
+      <div class="stepTitle">Se Communecter = se connecter à sa commune et aux communs</div>
+      s'incrire : <input type="text" name="codepostal" id="codepostal" onblur="countpeopleby()" placeholder="code postal(ex:97421)"/> <input type="text" id="email" placeholder="email"/>
+      <a href="javascript:communectme()" class="btn">Communectez moi</a> <br>
+       Communiquer sans intermediare avec toute votre commune<br><br>
+       <div class="fr" style="margin-right:20px;" id="communectResult">combien etes vous communecter dans votre commune?  </div>
+       <div style="clear:both;"></div>
+     </div>
+    
     <div class="step home">
       <div class="stepTitle">5s Pour tenter une nouvelle experience : <?php echo Yii::app()->session["userId"]?></div>
       se Communecter == Se connecter à sa commune pour etre informer, partager et agir<br>
@@ -27,22 +42,6 @@ $this->pageTitle=$this::moduleTitle;
       4- Lancer la dynamique nationalement.<br>
       5- Defi : Combien de temps pour communecté la france ?<br>
     </div>
-
-    <div class="step home">
-      <div class="fr">
-        <div class="communectedcp">97421</div>
-        <div class="communected "><?php echo Yii::app()->mongodb->citoyens->count( array( "cp" => "97421" ));?></div>
-      </div>
-
-      <div class="stepTitle">5s pour participer</div>
-      s'incrire : <input type="text" name="codepostal" id="codepostal" onblur="countpeopleby()" placeholder="code postal(ex:97421)"/> <input type="text" id="email" placeholder="email"/>
-      <a href="javascript:communectme()" class="btn">Communectez moi</a> <br>
-       Communiquer sans intermediare avec toute votre commune<br><br>
-       <div class="fr" style="margin-right:20px;" id="communectResult">combien etes vous communecter dans votre commune?  </div>
-       <div style="clear:both;"></div>
-     </div>
-    
-    
 
     <div class="step invite hidden">
       <style type="text/css">
@@ -66,7 +65,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step home" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Future : boite à outils citoyens</div>
       <a href="http://pixelhumain.com" class="btn">le Pixel Humain</a><br>
       un reseau sociétal vous attends pour agir<br>
@@ -77,7 +76,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step why hidden" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Pourquoi ?</div>
       Parce qu'il est temps<br>
       <br>
@@ -89,7 +88,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step what hidden" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Quoi ?</div>
       De Réunir nos réfléxions individuelles au service de l'intelligence collective.<br>
       <br>
@@ -101,7 +100,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step how hidden" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Comment ?</div>
       Ensemble !!<br>
       se communecter , c'est se connecter a sa commune <br>
@@ -113,7 +112,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step who hidden" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Qui ?</div>
       Nous devons tous nous réunir pour essayer<br>
       C'est le minimum demandé<br>
@@ -125,7 +124,7 @@ $this->pageTitle=$this::moduleTitle;
     </div>
 
     <div class="step when hidden" >
-      <img src="<?php echo Yii::app()->theme->baseUrl;?>/img/bdb.png" style="width:120px;float:right;">
+      
       <div class="stepTitle">Quand ?</div>
       De suite, si vous etes là , c'est un des endroit parmis d'autre<br>
       c'est maintement et pour le future<br>
