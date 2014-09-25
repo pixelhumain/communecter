@@ -23,13 +23,13 @@ class CommunecterController extends Controller
 	public $sidebar1 = array(
     array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy","generate"=>true,
                 "children"=> array(
-                  "login" => array( "label"=>"Login","key"=>"login", "href"=>"/teeo/person/login"),
-                  "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/teeo/person/login?box=register"),
-                  "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/teeo/person/profile"),
-                  "group" => array( "label"=>"Group","key"=>"group", "href"=>"/teeo/default/group"),
-                  "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/teeo/default/asso"),
-                  "company" => array( "label"=>"Company","key"=>"company", "href"=>"/teeo/default/company"),
-                  "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/teeo/default/listing"),
+                  "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
+                  "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
+                  "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person/profile"),
+                  "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
+                  "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
+                  "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
+                  "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
                 )
           ),
     );
