@@ -14,7 +14,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			<p>
 				Please enter your name and password to log in.
 			</p>
-			<form class="form-login" action="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/authenticate")?>" method="POST">
+			<form class="form-login" action="" method="POST">
 				<div class="errorHandler alert alert-danger no-display">
 					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 				</div>
