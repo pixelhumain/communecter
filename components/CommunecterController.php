@@ -16,6 +16,10 @@ class CommunecterController extends Controller
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
   public $footerImages = array("/images/logo_region_reunion.png","/images/technopole.jpg");
+
+  const theme = "rapidos";
+  public $themeStyle = "theme-style5";//3,4,5,7,9
+
 	public $sidebar1 = array(
     array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy","generate"=>true,
                 "children"=> array(
