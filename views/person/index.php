@@ -20,8 +20,23 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 					</a>
 				</li>
 				<li>
-					<a data-toggle="tab" href="#panel_projects">
-						Projects
+					<a data-toggle="tab" href="#panel_association">
+						My NGO
+					</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#panel_company">
+						My Company
+					</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#panel_city">
+						My City
+					</a>
+				</li>
+				<li>
+					<a data-toggle="tab" href="#panel_network">
+						My Network
 					</a>
 				</li>
 			</ul>
@@ -31,7 +46,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						<div class="col-sm-5 col-md-4">
 							<div class="user-left">
 								<div class="center">
-									<h4><?php echo Yii::app()->session["user"]["firstName"]." ".Yii::app()->session["user"]["lastName"]?></h4>
+									<h4><?php echo Yii::app()->session["user"]["name"]?></h4>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
 										<div class="user-image">
 											<div class="fileupload-new thumbnail"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1-xl.jpg" alt="">
@@ -359,13 +374,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<label class="control-label">
 										First Name
 									</label>
-									<input type="text" placeholder="Peter" class="form-control" id="firstname" name="firstname" value="<?php echo Yii::app()->session["user"]["firstName"]?>">
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Last Name
-									</label>
-									<input type="text" placeholder="Clark" class="form-control" id="lastname" name="lastname" value="<?php echo Yii::app()->session["user"]["lastName"]?>">
+									<input type="text" placeholder="Peter" class="form-control" id="firstname" name="firstname" value="<?php echo Yii::app()->session["user"]["name"]?>">
 								</div>
 								<div class="form-group">
 									<label class="control-label">
@@ -589,7 +598,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 					</form>
 				</div>
-				<div id="panel_projects" class="tab-pane fade">
+				<div id="panel_association" class="tab-pane fade">
 					<table class="table table-striped table-bordered table-hover" id="projects">
 						<thead>
 							<tr>

@@ -61,6 +61,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		<!-- end: LOGIN BOX -->
 		<!-- start: FORGOT BOX -->
 		<div class="box-forgot">
+			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
 			<h3>Forget Password?</h3>
 			<p>
 				Enter your e-mail address below to get your password by email.
@@ -94,6 +95,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		<!-- end: FORGOT BOX -->
 		<!-- start: REGISTER BOX -->
 		<div class="box-register">
+			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
 			<h3>Sign Up</h3>
 			<p>
 				Enter your personal details below:
@@ -103,6 +105,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 				</div>
 				<fieldset>
+					<div class="form-group">
+						<span class="input-icon">
+							<input type="text" class="form-control" id="name" placeholder="Nom">
+							<i class="fa fa-user"></i> </span>
+					</div>
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="email" class="form-control" id="email3" placeholder="Email">
@@ -261,7 +268,7 @@ var Login = function() {
 		var errorHandler = $('.errorHandler', form);
 		form.validate({
 			rules : {
-				username : {
+				email : {
 					minlength : 2,
 					required : true
 				},
@@ -305,7 +312,7 @@ var Login = function() {
 		var errorHandler2 = $('.errorHandler', form2);
 		form2.validate({
 			rules : {
-				email : {
+				email2 : {
 					required : true
 				}
 			},
@@ -337,10 +344,13 @@ var Login = function() {
 					maxlength : 5,
 					required : true
 				},
-				email : {
+				name : {
 					required : true
 				},
-				password : {
+				email3 : {
+					required : true
+				},
+				password3 : {
 					minlength : 4,
 					required : true
 				},
@@ -352,9 +362,11 @@ var Login = function() {
 			submitHandler : function(form) {
 				errorHandler3.hide();
 				var params = { 
+				   "name" : $("#name").val() ,
 				   "email" : $("#email3").val() , 
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
+                   "app" : "<?php echo $this->module->id?>"
                 };
 			      
 		    	$.ajax({

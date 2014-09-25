@@ -36,9 +36,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets//js/index.js' , CCl
       </div>
       <div class="panel-footer clearfix no-padding">
         <div class=""></div>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="Vos Associations"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Ajouter une Association"><i class="fa fa-plus"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="Découvrir"><i class="fa fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
