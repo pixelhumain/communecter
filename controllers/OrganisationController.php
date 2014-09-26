@@ -8,16 +8,24 @@
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 15/08/13
  */
-class AssociationController extends CommunecterController {
+class OrganisationController extends CommunecterController {
   const moduleTitle = "Association";
     
 	
-  public function actionIndex()
+  public function actionIndex($type=null)
   {
-    $this->title = "Associations";
-    $this->subTitle = "Découvrez les associations locales";
-    $this->pageTitle = "Association, Découvrez les associations locales";
-    $groups = Yii::app()->mongodb->groups->find(array("type"=>PHType::TYPE_ASSOCIATION));
+    if($type){
+     $params =  array("type"=>$type);
+     $this->title = ucfirst($type);
+    } else
+      $this->title = "Organisation";
+    $this->subTitle = "Découvrez les organisation locales";
+    $this->pageTitle = "Organisation : Association, Entreprises, Groupes locales";
+    $params = array();
+    if($type){
+     $params =  array("type"=>$type);
+    } 
+    $groups = Yii::app()->mongodb->groups->find($params);
 	  $this->render("index",array("groups"=>$groups));
 	}
 
@@ -25,14 +33,16 @@ class AssociationController extends CommunecterController {
   {
         $asso = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($id)));
         if(isset($asso["key"]) )
-            $this->redirect(Yii::app()->createUrl('index.php/assocation/'.$asso["key"]));
+            $this->redirect(Yii::app()->createUrl('assocation/'.$asso["key"]));
         else    
 	        $this->render("view",array('asso'=>$asso));
 	}
 
-  public function actionCreer() 
+  public function actionForm($type) 
   {
-	    $this->render("form");
+      $asso = ( isset(Yii::app()->session["userId"]) ) ? Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
+      $types = Yii::app()->mongodb->lists->findOne( array("name"=>"organisationTypes"), array('list'));
+	    $this->renderPartial( "form" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
 	}
 
   public function actionSave() 

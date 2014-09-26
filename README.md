@@ -43,9 +43,26 @@ V0.12
 		visualisations
 			list
 			calendar
-
+V0.13
+	Data Organizer
+		in a linked list, drag , order and hierachize data under family groups
+		groups 
+			My Friends
+			My NGOs
+			My Companies
+			My Places
+	try representing in a mixit up interface
 Sitemap 
 ===========
+- Dashboard
+	- Organisation of type Association (NGOs)
+		- List of associations
+		- add an association
+	- Organisation of type Company
+		- List of companies
+		- Add a company 
+	- Périscolaire
+	- Information
 - Person
 	- can register 
 	- can login

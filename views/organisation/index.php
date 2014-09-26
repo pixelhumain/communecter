@@ -11,7 +11,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		<!-- start: DYNAMIC TABLE PANEL -->
 		<div class="panel panel-white">
 			<div class="panel-heading">
-				<h4 class="panel-title">Liste des Association <span class="text-bold">Table</span></h4>
+				<h4 class="panel-title">Liste d'organisation</h4>
 				<div class="panel-tools">
 					<div class="dropdown">
 						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
@@ -44,18 +44,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				</div>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-12 space20">
-						<button class="btn btn-green add-row">
-							Add New <i class="fa fa-plus"></i>
-						</button>
-					</div>
-				</div>
 				<div class="table-responsive">
 					<table class="table table-striped table-hover" id="sample_2">
 						<thead>
 							<tr>
 								<th>Name</th>
+								<th>Type</th>
 								<th>Edit</th>
 								<th>Delete</th>
 							</tr>
@@ -66,6 +60,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 							?>
 							<tr>
 								<td><a href="<?php echo Yii::app()->createUrl('association/view/id/'.$e["_id"])?>"><?php echo $e["name"]?></a></td>
+								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 								<td><a href="#" class="edit-row">Edit</a></td>
 								<td><a href="#" class="delete-row">Delete</a></td>
 							</tr>
