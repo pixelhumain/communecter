@@ -103,28 +103,22 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 								<label class="control-label">
 									Centre d'interet 
 								</label>
-								<?php 
-                                  $cursor = Yii::app()->mongodb->lists->findOne( array("name"=>"tags"), array('list'));
-                                  $this->widget('yiiwheels.widgets.select2.WhSelect2', array(
-                                    'asDropDownList' => false,
-                                    'name' => 'tagsAsso',
-                                  	'id' => 'tagsAsso',
-                                    'value'=>($asso && isset($asso['tags']) ) ? implode(",", $asso['tags']) : "",
-                                    'pluginOptions' => array(
-                                        'tags' => $cursor['list'],
-                                        'placeholder' => "Mots clefs descriptifs",
-                                        'width' => '100%',
-                                        'tokenSeparators' => array(',', ' ')
-                                    )));
-                    		    ?>
-                    		    <input id="tags_1" class="tags" type="text" value="foo,bar,baz,roffle" style="display: none;">
-                    		    <div class="tagsinput" id="tags_1_tagsinput" style="width: auto; min-height: 100px; height: 100%;">
+								
+                    		    <input id="tagsAsso" class="tags" type="text" value="<?php echo ($asso && isset($asso['tags']) ) ? implode(",", $asso['tags']) : ""?>" style="display: none;">
+                    		    <div class="tagsinput" id="tagsAsso_tagsinput" style="width: auto; min-height: 100px; height: 100%;">
                     		    	<span class="tag"><span>foo&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
                     		    	<span class="tag"><span>bar&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
                     		    	<span class="tag"><span>baz&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
                     		    	<span class="tag"><span>roffle&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
-                    		    	<div id="tags_1_addTag"><input data-default="add a tag" value="" id="tags_1_tag" style="color: rgb(102, 102, 102); width: 78px;"></div>
-                    		    	<div class="tags_clear"></div></div>
+                    		    	<div id="tagsAsso_addTag"><input data-default="add a tag" value="" id="tagsAsso_tag" style="color: rgb(102, 102, 102); width: 78px;"></div>
+                    		    	<div class="tags_clear"></div>
+                    		    </div>
+							</div>
+
+							<div class="form-group">
+								Todo : 
+								<br/>connect a sub organisation
+								<br/>invite & connect members
 							</div>
 
 						</div>
@@ -155,9 +149,7 @@ jQuery(document).ready(function() {
 		    type: 'get'
 		  }
 		});*/
-	$('#tags_1').tagsInput({
-			width: 'auto'
-		});
+	//$('#tagsAsso').tagsInput();
 	$("#organisationForm").submit( function(event){
     	if($('.error').length){
     		alert('Veuillez remplir les champs obligatoires.');

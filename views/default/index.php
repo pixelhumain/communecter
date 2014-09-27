@@ -37,7 +37,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
       <div class="panel-footer clearfix no-padding">
         <div class=""></div>
         <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="Vos Associations"><i class="fa fa-cog"></i></a>
-        <a href="javascript:getModal('assoForm', '/<?php echo $this->module->id?>/organisation/form/type/association',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Ajouter une Association"><i class="fa fa-plus"></i></a>
+        <a href="javascript:getCoco('assoForm', '/<?php echo $this->module->id?>/organisation/form/type/association',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Ajouter une Association"><i class="fa fa-plus"></i></a>
         <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organisation/index/type/association")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="Découvrir"><i class="fa fa-chevron-right"></i></a>
       </div>
     </div>
@@ -817,33 +817,5 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
     Index.init();
   });
 title = "Edit Form";
-function getModal(what, url,id)
-{
-  loaded = {};
-  $('#ajax-modal').modal("hide");
-  console.log("getEvent",what,"url",url,"event",id);
-  if(id)
-    url = url+id;
-  //var params = $(form).serialize();
-  //$("#ajax-modal-modal-body").html("<i class='fa fa-cog fa-spin fa-2x icon-big'></i> Loading");
-  $('body').modalmanager('loading'); 
-  $.ajax({
-        type: "GET",
-        url: baseUrl+url,
-        //dataType : "json"
-        //data: params
-    })
-    .done(function (data) 
-    {
-        if (data) {               
-        $("#ajax-modal-modal-title").html("<i class='fa fa-pencil'></i> "+title);
-            $("#ajax-modal-modal-body").html(data); 
-            $('#ajax-modal').modal("show");
-        } else {
-            $("#ajax-modal-modal-body").html("bug get event "+id);
-            $('#ajax-modal').modal("show");
-        }
-    });
-  
-}
+
 </script>

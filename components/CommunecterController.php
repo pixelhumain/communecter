@@ -21,7 +21,7 @@ class CommunecterController extends Controller
   public $themeStyle = "theme-style5";//3,4,5,7,9
 
 	public $sidebar1 = array(
-    array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy","generate"=>true,
+    array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
                 "children"=> array(
                   "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
                   "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
@@ -33,4 +33,13 @@ class CommunecterController extends Controller
                 )
           ),
     );
+  public $toolbarMenu = array(
+    array('label' => "Note", "key"=>"note",
+                "children"=> array(
+                  "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"), "href"=>"#newNote"),
+                  "readNote" => array( "label"=>"REgister","class"=>"read-all-notes","key"=>"readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger"), "href"=>"#readNote"),
+                )
+          ),
+
+  );
 }

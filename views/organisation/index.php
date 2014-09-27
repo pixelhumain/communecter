@@ -4,6 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.css');
 
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/jquery.dataTables.min.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
