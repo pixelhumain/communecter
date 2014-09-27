@@ -37,7 +37,7 @@ class CommunecterController extends Controller
     array('label' => "Note", "key"=>"note",
                 "children"=> array(
                   "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"), "href"=>"#newNote"),
-                  "readNote" => array( "label"=>"REgister","class"=>"read-all-notes","key"=>"readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger"), "href"=>"#readNote"),
+                  "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger"), "href"=>"#readNote"),
                 )
           ),
 
