@@ -26,8 +26,17 @@ class DefaultController extends CommunecterController {
       $this->title = "Communectez vous";
       $this->subTitle = "se connecter à sa commune";
       $this->pageTitle = "Communecter, se connecter à sa commune";
-
-	    $this->render("index");
-	}
+      
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+	$this->render("indexMob");
+      }
+      else {
+	$this->render("index");
+      }
+      
+    }
   
 }
