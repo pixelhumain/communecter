@@ -15,7 +15,7 @@ class CommunecterController extends Controller
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
-  public $footerImages = array("/images/logo_region_reunion.png","/images/technopole.jpg");
+  public $footerImages = array("/images/logoORD.png","/images/logo_region_reunion.png","/images/technopole.jpg");
 
   const theme = "rapidos";
   public $themeStyle = "theme-style5";//3,4,5,7,9
@@ -33,13 +33,25 @@ class CommunecterController extends Controller
                 )
           ),
     );
-  public $toolbarMenu = array(
+  public $toolbarMenuAdd = array(
     array('label' => "Note", "key"=>"note",
                 "children"=> array(
-                  "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"), "href"=>"#newNote"),
-                  "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger"), "href"=>"#readNote"),
+                  "test" => array( "label"=>"testAjax","key"=>"test", "class"=>"test", "onclick"=>"alert('')", "iconClass"=>"fa fa-warning"),
+                  "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "href"=>"#newNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
-
+     array('label' => "Calendar", "key"=>"calendar",
+                "children"=> array(
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                )
+          ),
+    array('label' => "Contributors", "key"=>"contributors",
+                "children"=> array(
+                  "newNote" => array( "label"=>"Add new contributor","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "showContributors" => array( "label"=>"Show all contributor","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                )
+          ),
   );
-}
+};
