@@ -16,7 +16,7 @@ class CommunecterController extends Controller
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
   public $footerImages = array(
-      array("img"=>"/images/logoORD.png","url"=>"http://openrd.io"),
+      array("img"=>"/images/logoORD.PNG","url"=>"http://openrd.io"),
       array("img"=>"/images/logo_region_reunion.png","url"=>"http://www.regionreunion.com"),
       array("img"=>"/images/technopole.jpg","url"=>"http://technopole-reunion.com"),
       array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
