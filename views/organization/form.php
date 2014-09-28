@@ -9,15 +9,15 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 <!-- start: PAGE CONTENT -->
 <div class="row">
 	<div class="col-md-12">
-		<h1>Référencer votre Organisation</h1>
+		<h1>Référencer votre organization</h1>
     	<h3> Merci de compléter vos données. </h3>
         
-        <p> si vous gérer une ou plusieurs organisations ou etes simplement membre
+        <p> si vous gérer une ou plusieurs organizations ou etes simplement membre
        <br/>Vous etes au bon endroit pour la valorisé, la diffuser, l'aider à la faire vivre</p>
 		<!-- start: FORM VALIDATION 1 PANEL -->
 		<div class="panel panel-white">
 			<div class="panel-body">
-				<form id="organisationForm"  role="form" id="form">
+				<form id="organizationForm"  role="form" id="form">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="errorHandler alert alert-danger no-display">
@@ -117,7 +117,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 
 							<div class="form-group">
 								Todo : 
-								<br/>connect a sub organisation
+								<br/>connect a sub organization
 								<br/>invite & connect members
 							</div>
 
@@ -132,7 +132,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 							</div>
 						</div>
 					</div>
-					<button class="btn btn-primary" id="organisationFormSubmit" onclick="$('#organisationForm').submit();">Enregistrer</button>
+					<button class="btn btn-primary" id="organizationFormSubmit" onclick="$('#organizationForm').submit();">Enregistrer</button>
 				</form>
 			</div>
 		</div>
@@ -145,25 +145,25 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 jQuery(document).ready(function() {
 	/*$('#assoName').typeahead({
 		  source: {
-		    url: baseUrl+'/<?php echo $this->module->id?>/organisation/getNames',
+		    url: baseUrl+'/<?php echo $this->module->id?>/organization/getNames',
 		    type: 'get'
 		  }
 		});*/
 	//$('#tagsAsso').tagsInput();
-	$("#organisationForm").submit( function(event){
+	$("#organizationForm").submit( function(event){
     	if($('.error').length){
     		alert('Veuillez remplir les champs obligatoires.');
     	}else{
         	event.preventDefault();
-        	$("#organisationForm").modal('hide');
+        	$("#organizationForm").modal('hide');
         	$.ajax({
         	  type: "POST",
-        	  url: baseUrl+"/<?php echo $this->module->id?>/organisation/save",
-        	  data: $("#organisationForm").serialize(),
+        	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
+        	  data: $("#organizationForm").serialize(),
         	  success: function(data){
         			  $("#flashInfo .modal-body").html(data.msg);
         			  $("#flashInfo").modal('show');
-        			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/organisation";
+        			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/organization";
         	  },
         	  dataType: "json"
         	});

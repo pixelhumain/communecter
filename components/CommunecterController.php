@@ -15,7 +15,13 @@ class CommunecterController extends Controller
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
-  public $footerImages = array("/images/logoORD.png","/images/logo_region_reunion.png","/images/technopole.jpg");
+  public $footerImages = array(
+      array("img"=>"/images/logoORD.png","url"=>"http://openrd.io"),
+      array("img"=>"/images/logo_region_reunion.png","url"=>"http://www.regionreunion.com"),
+      array("img"=>"/images/technopole.jpg","url"=>"http://technopole-reunion.com"),
+      array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
+      array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
+      array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
   const theme = "rapidos";
   public $themeStyle = "theme-style5";//3,4,5,7,9
@@ -36,7 +42,7 @@ class CommunecterController extends Controller
   public $toolbarMenuAdd = array(
     array('label' => "Note", "key"=>"note",
                 "children"=> array(
-                  "test" => array( "label"=>"testAjax","key"=>"test", "class"=>"test", "onclick"=>"alert('')", "iconClass"=>"fa fa-warning"),
+                  "test" => array( "label"=>"testAjax","key"=>"test", "class"=>"test", "href"=>"#ajaxSV", "onclick"=>"alert('')", "iconClass"=>"fa fa-warning"),
                   "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "href"=>"#newNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
