@@ -281,7 +281,10 @@ class PersonController extends CommunecterController {
         else
              echo "Compte inconnue.";
   }
-    public function actionInvitation()
+  public function actionInvite(){
+      $this->renderPartial("invite");
+  }
+  public function actionInvitation()
   {
       if(Yii::app()->request->isAjaxRequest && isset($_POST['inviteEmail']) && !empty($_POST['inviteEmail']))
     {
