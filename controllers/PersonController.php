@@ -64,7 +64,7 @@ class PersonController extends CommunecterController {
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      if(true) {
+      if($isMobile) {
 	$this->render( "loginMobile" );
       }
       else {
