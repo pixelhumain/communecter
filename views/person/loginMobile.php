@@ -53,6 +53,9 @@ var spinner = new Spinner(opts).spin(target);
                 <div class="modal-body" >
                     <div style="height:200px">
                       <span id="searching_spinner_center" style="position: absolute;display: block;top: 50%;left: 50%;"></span>
+                      <div class="errorHandler alert alert-danger no-display loginResult">
+					<i class="fa fa-remove-sign"></i> Please verify your entries.
+				</div>
                     </div>
                 </div>
                 <div class="modal-footer" style="text-align: center"></div>
@@ -73,12 +76,7 @@ var spinner = new Spinner(opts).spin(target);
 				Please enter your name and password to log in.
 			</p>
 			<form class="form-login" action="" method="POST">
-				<div class="errorHandler alert alert-danger no-display">
-					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-				</div>
-				<div class="errorHandler alert alert-danger no-display loginResult">
-					<i class="fa fa-remove-sign"></i> Please verify your entries.
-				</div>
+				
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">		
@@ -357,6 +355,8 @@ var Login = function() {
 		    		  else {
 						$('.loginResult').html(data.msg);
 						$('.loginResult').show();
+						
+						$('#searching_spinner_center').hide();
 		    		  }
 		    	  },
 		    	  dataType: "json"
@@ -365,6 +365,7 @@ var Login = function() {
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler.show();
+				$('#Searching_Modal').modal('hide');
 			}
 		});
 	};
