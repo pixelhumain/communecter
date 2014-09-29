@@ -15,7 +15,13 @@ class CommunecterController extends Controller
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
-  public $footerImages = array("/images/logo_region_reunion.png","/images/technopole.jpg");
+  public $footerImages = array(
+      array("img"=>"/images/logoORD.PNG","url"=>"http://openrd.io"),
+      array("img"=>"/images/logo_region_reunion.png","url"=>"http://www.regionreunion.com"),
+      array("img"=>"/images/technopole.jpg","url"=>"http://technopole-reunion.com"),
+      array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
+      array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
+      array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
   const theme = "rapidos";
   public $themeStyle = "theme-style5";//3,4,5,7,9
@@ -33,13 +39,30 @@ class CommunecterController extends Controller
                 )
           ),
     );
-  public $toolbarMenu = array(
+  public $toolbarMenuAdd = array(
+     array('label' => "My Network", "key"=>"myNetwork",
+            "children"=> array(
+              "myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
+              "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
+              "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+            )
+          ),
+    array('label' => "Organisation", "key"=>"organization",
+            "children"=> array(
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/organization/form/type/association',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+            )
+          ),
     array('label' => "Note", "key"=>"note",
                 "children"=> array(
-                  "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"), "href"=>"#newNote"),
-                  "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "iconStack"=>array("fa fa-file-text-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger"), "href"=>"#readNote"),
+                  "newNote" => array( "label"=>"Add new note","key"=>"newNote", "class"=>"new-note", "href"=>"#newNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "readNote" => array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
-
+     array('label' => "Calendar", "key"=>"calendar",
+                "children"=> array(
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                )
+          )
   );
-}
+};

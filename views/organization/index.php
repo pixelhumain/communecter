@@ -12,7 +12,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/
 		<!-- start: DYNAMIC TABLE PANEL -->
 		<div class="panel panel-white">
 			<div class="panel-heading">
-				<h4 class="panel-title">Liste d'organisation</h4>
+				<h4 class="panel-title">Liste d'organization</h4>
 				<div class="panel-tools">
 					<div class="dropdown">
 						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">

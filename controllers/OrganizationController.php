@@ -8,30 +8,30 @@
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 15/08/13
  */
-class OrganisationController extends CommunecterController {
-  const moduleTitle = "Association";
+class OrganizationController extends CommunecterController {
+  const moduleTitle = "Organization";
     
 	
   public function actionIndex($type=null)
   {
+    $this->title = "Organization";
     if($type){
-     $params =  array("type"=>$type);
-     $this->title = ucfirst($type);
+      $params =  array("type"=>$type);
+      $this->subTitle = "Découvrez les <b>$type</b> locales";
     } else
-      $this->title = "Organisation";
-    $this->subTitle = "Découvrez les organisation locales";
-    $this->pageTitle = "Organisation : Association, Entreprises, Groupes locales";
+      $this->subTitle = "Découvrez les organization locales";
+    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
     $params = array();
-    if($type){
+    if($type)
      $params =  array("type"=>$type);
-    } 
-    $groups = Yii::app()->mongodb->groups->find($params);
+    
+    $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
 	  $this->render("index",array("groups"=>$groups));
 	}
 
   public function actionView($id) 
   {
-        $asso = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($id)));
+        $asso = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
         if(isset($asso["key"]) )
             $this->redirect(Yii::app()->createUrl('assocation/'.$asso["key"]));
         else    
@@ -40,8 +40,8 @@ class OrganisationController extends CommunecterController {
 
   public function actionForm($type) 
   {
-      $asso = ( isset(Yii::app()->session["userId"]) ) ? Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
-      $types = Yii::app()->mongodb->lists->findOne( array("name"=>"organisationTypes"), array('list'));
+      $asso = ( isset(Yii::app()->session["userId"]) ) ? PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
+      $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
 	    $this->renderPartial( "form" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
 	}
 
@@ -49,7 +49,7 @@ class OrganisationController extends CommunecterController {
   {
 	    if(Yii::app()->request->isAjaxRequest && isset($_POST['assoEmail']) && !empty($_POST['assoEmail']))
 		{
-            $account = Yii::app()->mongodb->groups->findOne(array( "name" => $_POST['assoName']));
+            $account = PHDB::findOne( PHType::TYPE_GROUPS,array( "name" => $_POST['assoName']));
             if(!$account)
             { 
                //validate isEmail
@@ -78,11 +78,11 @@ class OrganisationController extends CommunecterController {
                         else if($_POST['assoPosition']==Association::$positionList[5])
                             $newAccount["benevolesActif"] = $position;
                     }
-                    Yii::app()->mongodb->groups->insert($newAccount);
+                    PHDB::insert( PHType::TYPE_GROUPS,$newAccount);
                     
                     //add the association to the users association list
                     $where = array("_id" => new MongoId(Yii::app()->session["userId"]));	
-                    Yii::app()->mongodb->citoyens->update($where, array('$push' => array("associations"=>$newAccount["_id"])));
+                    PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("associations"=>$newAccount["_id"])));
                   
                     //send validation mail
                     //TODO : make emails as cron jobs
@@ -111,7 +111,7 @@ class OrganisationController extends CommunecterController {
   public function actionGetNames() 
     {
        $assos = array();
-       foreach( Yii::app()->mongodb->groups->find( array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
+       foreach( PHDB::find( PHType::TYPE_GROUPS, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
            $assos[] = array("name"=>$v["name"],"cp"=>$v["cp"],"id"=>$a);
        header('Content-Type: application/json');
        echo json_encode( array( "names"=>$assos ) ) ;
@@ -123,13 +123,13 @@ class OrganisationController extends CommunecterController {
   {
 	    if(Yii::app()->request->isAjaxRequest && Citoyen::isAdminUser())
 		{
-            $account = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($_POST["id"])));
+            $account = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
             if( $account )
             {
-                  Yii::app()->mongodb->groups->remove(array("_id"=>new MongoId($_POST["id"])));
+                  PHDB::remove( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
                   //temporary for dev
                   //TODO : Remove the association from all Ci accounts
-                  Yii::app()->mongodb->citoyens->update( array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
+                  PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
                   $result = array("result"=>true,"msg"=>"Donnée enregistrée.");
                   
                   echo json_encode($result); 
