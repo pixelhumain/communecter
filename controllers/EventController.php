@@ -7,7 +7,7 @@
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 15/08/13
  */
-class EvenementController extends CommunecterController {
+class EventController extends CommunecterController {
     const moduleTitle = "Évènement";
     
     
