@@ -61,8 +61,16 @@ class PersonController extends CommunecterController {
     if(Yii::app()->session["userId"]) 
       $this->redirect(Yii::app()->homeUrl);
     else
-      $this->render( "login" );
-	}
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+	$this->render( "loginMobile" );
+      }
+      else {
+	$this->render( "login" );
+      }
+    }
   public function actionLogout() 
   {
     Yii::app()->session["userId"] = null;
