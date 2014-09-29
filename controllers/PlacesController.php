@@ -6,7 +6,7 @@
  * Date: 7/23/12
  * Time: 12:25 AM
  */
-class DecouvrirController extends CommunecterController {
+class PlacesController extends CommunecterController {
     const moduleTitle = "decouvrir";
     
 	public function accessRules() {
