@@ -12,7 +12,8 @@ class OrganizationController extends CommunecterController {
   const moduleTitle = "Organization";
     
 	
-  public function actionIndex($type=null)
+
+    public function actionIndex($type=null)
   {
     $this->title = "Organization";
     if($type){
@@ -26,8 +27,18 @@ class OrganizationController extends CommunecterController {
      $params =  array("type"=>$type);
     
     $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
-	  $this->render("index",array("groups"=>$groups));
-	}
+    
+    
+    $detect = new Mobile_Detect;
+    $isMobile = $detect->isMobile();
+    if($isMobile) 
+	$this->layout = "//layouts/mainSimple";
+    
+    
+    $this->render("index",array("groups"=>$groups));
+  }
+	
+	
   public function actionTags($type=null)
   {
     $this->title = "Organization";
@@ -44,6 +55,8 @@ class OrganizationController extends CommunecterController {
     $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
     $this->render("index",array("groups"=>$groups));
   }
+    
+    
 
   public function actionView($id) 
   {
@@ -58,8 +71,19 @@ class OrganizationController extends CommunecterController {
   {
       $asso = ( isset(Yii::app()->session["userId"]) ) ? PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
       $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-	    $this->renderPartial( "form" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
-	}
+      
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+	  $this->layout = "//layouts/mainSimple";
+	  $this->render( "formMobile" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
+      }
+      else {
+	  $this->renderPartial( "form" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
+      }
+	
+  }
 
   public function actionSave() 
   {

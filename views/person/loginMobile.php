@@ -59,6 +59,7 @@ var spinner = new Spinner(opts).spin(target);
                     </div>
                 </div>
                 <div class="modal-footer" style="text-align: center"></div>
+		<input type='button'  value="Ok" onclick = "$('#Searching_Modal').modal('hide')" class="btn btn-lg btn-info" />
             </div>
         </div>
 </div>
@@ -355,7 +356,6 @@ var Login = function() {
 		    		  else {
 						$('.loginResult').html(data.msg);
 						$('.loginResult').show();
-						
 						$('#searching_spinner_center').hide();
 		    		  }
 		    	  },
@@ -422,6 +422,8 @@ var Login = function() {
 				}
 			},
 			submitHandler : function(form) {
+			
+				$('#Searching_Modal').modal('show');
 				errorHandler3.hide();
 				var params = { 
 				   "name" : $("#name").val() ,
@@ -443,6 +445,7 @@ var Login = function() {
 		    		  else {
 						$('.loginResult').html(data.msg);
 						$('.loginResult').show();
+						$('#searching_spinner_center').hide();
 		    		  }
 		    	  },
 		    	  dataType: "json"
