@@ -2,7 +2,7 @@
 <style type="text/css">
  .mapCanvas{
  	min-width:100%;
- 	min-height:300px;
+ 	min-height:400px;
  	background-color:#425766;
  	color:black;
  }
@@ -325,7 +325,7 @@ $(document).ready( function()
 	map.setView([30.29702, -21.97266], 3);
 	listId["getCommunected"] = new Array(); //getNetworkMapElement
 	map.on('dragend', function(e) {
-    		//showCitoyensClusters(map, "getNetworkMapElement", listId);
+    		showCitoyensClusters(map, "getCommunected", listId);
 		}); showCitoyensClusters(map, "getCommunected", listId);
 		
 	//Yii::app()->session["userId"] PHP
@@ -333,4 +333,4 @@ $(document).ready( function()
 });
 </script>
 
-<h1>La Super carte de Tristango !!</h1>
+<h1>!!</h1>
