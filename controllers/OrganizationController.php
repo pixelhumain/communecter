@@ -12,7 +12,8 @@ class OrganizationController extends CommunecterController {
   const moduleTitle = "Organization";
     
 	
-  public function actionIndex($type=null)
+
+    public function actionIndex($type=null)
   {
     $this->title = "Organization";
     if($type){
@@ -28,7 +29,6 @@ class OrganizationController extends CommunecterController {
     $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
     
     
-    
     $detect = new Mobile_Detect;
     $isMobile = $detect->isMobile();
     if($isMobile) 
@@ -36,10 +36,27 @@ class OrganizationController extends CommunecterController {
     
     
     $this->render("index",array("groups"=>$groups));
-    
-	  
-	  
   }
+	
+	
+  public function actionTags($type=null)
+  {
+    $this->title = "Organization";
+    if($type){
+      $params =  array("type"=>$type);
+      $this->subTitle = "Découvrez les <b>$type</b> locales";
+    } else
+      $this->subTitle = "Découvrez les organization locales";
+    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
+    $params = array();
+    if($type)
+     $params =  array("tags"=>$type);
+    
+    $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
+    $this->render("index",array("groups"=>$groups));
+  }
+    
+    
 
   public function actionView($id) 
   {
