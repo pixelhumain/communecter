@@ -38,5 +38,55 @@ class DefaultController extends CommunecterController {
       }
       
     }
-  
+    public function actionAbout() 
+    {
+      $this->title = "About";
+      $this->subTitle = "se connecter à sa commune";
+      $this->pageTitle = "Communecter, se connecter à sa commune";
+      
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+        $this->render("aboutMob");
+      }
+      else {
+        $this->render("about");
+      }
+      
+    }
+    public function actionHelp() 
+    {
+      $this->title = "Help Us Make it Happen";
+      $this->subTitle = "se connecter à sa commune";
+      $this->pageTitle = "Communecter, se connecter à sa commune";
+      
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+        $this->render("aboutMob");
+      }
+      else {
+        $this->render("help");
+      }
+      
+    }
+  public function actionContact() 
+    {
+      $this->title = "Contact us";
+      $this->subTitle = "se connecter à sa commune";
+      $this->pageTitle = "Communecter, se connecter à sa commune";
+      
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+        $this->render("contactusMob");
+      }
+      else {
+        $this->render("contact");
+      }
+      
+    }
 }

@@ -38,6 +38,9 @@ class CommunecterController extends Controller
                   "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
                 )
           ),
+    array('label' => "About", "key"=>"about","iconClass"=>"fa fa-book","href"=>"communecter/default/about"),
+    array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
+    array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),
     );
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",

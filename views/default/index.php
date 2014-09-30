@@ -813,8 +813,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
 <script>
   jQuery(document).ready(function() {
     Main.init();
-    Index.init();
+   //Index.init();
   });
-title = "Edit Form";
 
 </script>
