@@ -20,7 +20,8 @@ class SIGController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-	$this->render("index");
+		$this->render("index");
     }
   
+  	
 }
