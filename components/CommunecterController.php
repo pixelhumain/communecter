@@ -49,7 +49,7 @@ class CommunecterController extends Controller
           ),
     array('label' => "Organisation", "key"=>"organization",
             "children"=> array(
-              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/organization/form/type/association',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/organization/form/type/association',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "Note", "key"=>"note",
