@@ -62,13 +62,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 						Country <span class="symbol required"></span>
 					</label>
 					<?php 
-                      $this->widget('yiiwheels.widgets.select2.WhSelect2', array(
+                     /*$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
                         'data' => OpenData::$phCountries, 
                         'name' => 'countryAsso',
                       	'id' => 'countryAsso',
                         'value'=>($asso && isset($asso['country']) ) ? $asso['country'] : "Réunion",
                         'pluginOptions' => array('width' => '150px')
-                      ));
+                      ));*/
         		    ?>
 				</div>
 				<div class="form-group">
@@ -85,13 +85,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 						Position
 					</label>
 					<?php 
-                		$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
+                		/*$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
                                 'data' => Association::$position, 
                                 'name' => 'assoPosition',
                               	'id' => 'assoPosition',
                                 'value'=>($asso && isset($asso['position']) ) ? $asso['position'] : "membre",
                                 'pluginOptions' => array('width' => '150px')
-                              ));
+                              ));*/
                 		?>
 				</div>
 
