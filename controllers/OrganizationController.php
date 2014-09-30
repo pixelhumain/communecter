@@ -28,6 +28,22 @@ class OrganizationController extends CommunecterController {
     $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
 	  $this->render("index",array("groups"=>$groups));
 	}
+  public function actionTags($type=null)
+  {
+    $this->title = "Organization";
+    if($type){
+      $params =  array("type"=>$type);
+      $this->subTitle = "Découvrez les <b>$type</b> locales";
+    } else
+      $this->subTitle = "Découvrez les organization locales";
+    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
+    $params = array();
+    if($type)
+     $params =  array("tags"=>$type);
+    
+    $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
+    $this->render("index",array("groups"=>$groups));
+  }
 
   public function actionView($id) 
   {

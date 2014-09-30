@@ -30,7 +30,7 @@ class DefaultController extends CommunecterController {
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      if(true) {
+      if(false) {
 	$this->render("indexMob");
       }
       else {
