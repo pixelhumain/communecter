@@ -136,4 +136,10 @@ class EventController extends CommunecterController {
 		    echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
 		exit;
 	}
+  public function actionAgenda() {
+    $this->render("agenda");
+  }
+  public function actionTimeline() {
+    $this->render("timeline");
+  }
 }
