@@ -1,41 +1,4 @@
-
-<?php 
-$cs = Yii::app()->getClientScript();
-
-$cs->registerCssFile(Yii::app()->request->baseUrl. '/css/vis.css');
-$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/api.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/vis.min.js' , CClientScript::POS_END);
-
-$cs->registerCssFile("http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
-$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.css');
-$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.ie.css');
-$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.css');
-$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.Default.css');
-$cs->registerCssFile($this->module->assetsUrl. '/css/sig.css');
-//$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.awesome-markers.css');
-
-$cs->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw-src.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.js' , CClientScript::POS_END);
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/sigCommunecter.js' , CClientScript::POS_END);
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
-
-//$this->pageTitle=$this::moduleTitle;
-
-
-?>
-
-<div class="mapCanvas" id="mapCanvas">
-</div> 
- 
- 
-<script type="text/javascript">
-
-$(document).ready( function() 
-{ 
-	
-	var listIdElementMap = new Array();
+var listIdElementMap = new Array();
 	
 	function loadMap(canvasId, myPosition){
 
@@ -78,15 +41,9 @@ $(document).ready( function()
 		params["lngMaxScope"] = bounds.getNorthEast().lng;
 		
 		$('#gif_loading_map').css({'visibility' : 'visible'});
-		$('#gif_loading_map').html('<img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif">' + 'Chargement de la carte en cours ... ');
 		
 		testitpost("", '/ph/communecter/sig/' + origine, params,
 			function (data){ //alert(JSON.stringify(data));
-			
-				var length = 0;
-				$.each(data, function() { 	length++; });
-				$('#gif_loading_map').append((length-1) + " éléments reçus ");
-		
 				var origineName = data["origine"]; //alert(origineName);
 					$.each(data, function() { 			
 					if(this._id != null){
@@ -223,9 +180,9 @@ $(document).ready( function()
 	//##
 	//récupère le nom de l'icon en fonction du type de marker souhaité
 	function getIcoMarker(tag){
-		
+			alert("tag : ");
 		if(tag == null) tag = "citoyen";
-						
+					
   		if(tag == "citoyen") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_CITOYENS.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7, 7],
@@ -285,22 +242,4 @@ $(document).ready( function()
 		
 	}
 	
-	testitpost("", '/ph/communecter/sig/GetMyPosition', null,
-		function (data){ //alert(JSON.stringify(data));
-			var myPosition;
-			$.each(data, function() { 
-				myPosition = new Array( this.geo.latitude, this.geo.longitude );
-			});
-		initMap("ShowMyNetwork", myPosition);
-	});	
 	
-});
-</script>
-
-<div style="margin:5px; padding:5px; background-color:white; visibility:hidden;" id="gif_loading_map">
-	<h4><img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif">
-		<div id="msg_loading_map"></div>
-	</h4>
-</div>
-
-
