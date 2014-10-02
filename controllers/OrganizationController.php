@@ -71,16 +71,18 @@ class OrganizationController extends CommunecterController {
   {
       $asso = ( isset(Yii::app()->session["userId"]) ) ? PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
       $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+      $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
       
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
+      $params = array("asso" => $asso,'type'=>$type,'types'=>$types['list'],'tags'=>json_encode($tags['list']));
       if($isMobile) {
-	  $this->layout = "//layouts/mainSimple";
-	  $this->render( "formMobile" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
+    	  $this->layout = "//layouts/mainSimple";
+    	  $this->render( "formMobile" , $params );
       }
       else {
-	  $this->renderPartial( "form" , array("asso"=>$asso,'type'=>$type,'types'=>$types['list']) );
+	       $this->renderPartial( "form" , $params );
       }
 	
   }
