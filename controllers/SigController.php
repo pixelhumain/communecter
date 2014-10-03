@@ -25,7 +25,7 @@ class SigController extends CommunecterController {
   
   	public function actionGetMyPosition(){ //Yii::app()->session["userId"]
   		$where = array(	'_id'  => new MongoId(Yii::app()->session["userId"]) );
-	 	$user = PHDB::find(PHType::TYPE_CITOYEN, $where, array("geo" => true, "cp" => true));
+	 	$user = PHDB::find(PHType::TYPE_CITOYEN, $where);
     	 
     	 //si l'utilisateur connecté n'a pas enregistré sa position geo
     	 //on prend la position de son CP

@@ -26,6 +26,30 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 
 ?>
 
+
+<!-- 	LEFT BAR MAP -->
+	<div id="left_barre_tool_map">	
+		<!-- 	BTN HOME -->
+		<a href="javascript:zoomToMyPosition()" id="btn_home" class="btn_right_barre_tool_map" style="padding-top:12px; padding-bottom:8px;">
+			<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/btn_go_home.png" height=25></center>
+		</a>
+		<!-- 	BTN ZOOM IN -->
+		<a href="javascript:zoomIn()" id="btn_zoom_in" class="btn_right_barre_tool_map" style="font-size:25px;">
+			<center>+</center>
+		</a>
+		<!-- 	BTN ZOOM OUT -->
+		<a href="javascript:zoomOut()" id="btn_zoom_out" class="btn_right_barre_tool_map" style="font-size:25px;">
+			<center>-</center>
+		</a>
+		<!-- 	BTN RELOAD MAP -->
+		<a href="#" id="btn_reload_map" class="btn_right_barre_tool_map">
+			<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/reload.png" height=30></center>
+		</a>
+		
+		
+	</div>
+<!-- 	LEFT BAR MAP -->
+
 <div class="mapCanvas" id="mapCanvas">
 </div> 
  
@@ -33,14 +57,16 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 <script type="text/javascript">
 
 $(document).ready( function() 
-{ 
-	
+{ 	
 	var listIdElementMap = new Array();
 	
 	function loadMap(canvasId, myPosition){
 
 		//initialisation des variables de départ de la carte
-		var map = L.map(canvasId).setView(myPosition, 12);
+		var map = L.map(canvasId, { "zoomControl" : false, 
+									"scrollWheelZoom" : false,
+									"doubleClickZoom" : true,
+									"worldCopyJump" : true }).setView(myPosition, 12);
 		//alert(myPosition);
 		L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -48,11 +74,6 @@ $(document).ready( function()
 			minZoom: 2,
 			maxZoom: 14
 		}).setOpacity(0.4).addTo(map);
-	
-		map.on('click', function(e) {
-    		alert(map.getZoom()); 
-    		//alert(e.latlng);
-		});
 	
 		return map; 
 	}								
@@ -77,8 +98,8 @@ $(document).ready( function()
 		params["latMaxScope"] = bounds.getNorthEast().lat;
 		params["lngMaxScope"] = bounds.getNorthEast().lng;
 		
-		$('#gif_loading_map').css({'visibility' : 'visible'});
-		$('#gif_loading_map').html('<img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif">' + 'Chargement de la carte en cours ... ');
+		//$('#gif_loading_map').css({'visibility' : 'visible'});
+		$('#btn_reload_map').html('<center><img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif" height=22></center>');
 		
 		testitpost("", '/ph/communecter/sig/' + origine, params,
 			function (data){ //alert(JSON.stringify(data));
@@ -143,7 +164,9 @@ $(document).ready( function()
 				markersLayer.addLayer(points); 			// add it to the cluster group
 				mapClusters.addLayer(markersLayer);		// add it to the map
 				
-				$('#gif_loading_map').css({'visibility' : 'hidden'});
+				//$('#gif_loading_map').css({'visibility' : 'hidden'});
+				//$('#gif_loading_map').css({'visibility' : 'hidden'});
+				$('#btn_reload_map').html('<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/reload.png" height=30></center>');
 		
 			});
 						
@@ -226,75 +249,113 @@ $(document).ready( function()
 		
 		if(tag == null) tag = "citoyen";
 						
-  		if(tag == "citoyen") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_CITOYENS.png'; ?>",
+  		if(tag == "citoyen") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_CITOYENS.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7, 7],
 												popupAnchor: 	[0, -14] });
 													
-		if(tag == "pixelActif") 		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_PIXEL_ACTIF.png'; ?>",
+		if(tag == "pixelActif") 		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PIXEL_ACTIF.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
 												popupAnchor: 	[0, -14] });	
 																								
-		if(tag == "partnerPH") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_PARTENAIRES.png'; ?>",
+		if(tag == "partnerPH") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PARTENAIRES.png'; ?>",
 												iconSize: 		[14, 16],
 												iconAnchor: 	[7,  16],
 												popupAnchor: 	[0, -14] });		
 													
-		if(tag == "commune") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_COMMUNES.png'; ?>",
+		if(tag == "commune") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_COMMUNES.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
 												popupAnchor: 	[0, -14] });		
 		
-		if(tag == "association") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_ASSOCIATIONS.png'; ?>",
+		if(tag == "association") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ASSOCIATIONS.png'; ?>",
 												iconSize: 		[15, 13],
 												iconAnchor: 	[7,  13],
 												popupAnchor: 	[0, -13] });		
 		
-		if(tag == "projectLeader") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_PORTEUR_PROJET.png'; ?>",
+		if(tag == "projectLeader") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PORTEUR_PROJET.png'; ?>",
 												iconSize: 		[15, 16],
 												iconAnchor: 	[7,  16],
 												popupAnchor: 	[0, -16] });		
 		
-		if(tag == "artiste") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_ARTISTES.png'; ?>",
+		if(tag == "artiste") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ARTISTES.png'; ?>",
 												iconSize: 		[17, 19],
 												iconAnchor: 	[8,  19],
 												popupAnchor: 	[0, -19] });		
 		
-		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/markers/02_ICON_CITOYENS.png'; ?>",
+		if(tag == "home") 		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/HOME.png'; ?>",
+												iconSize: 		[32, 32],
+												iconAnchor: 	[16,  32],
+												popupAnchor: 	[0, -32] });			  		
+		
+		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/btn_zoom_my_home.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
 												popupAnchor: 	[0, -14] });			  						
 	}
 	
-	function initMap(origine, myPosition){	
+	function showMyPosition(map, origine, myInfos){
+		var content = getPopupCitoyen(myInfos);
+								
+		//création de l'icon sur la carte
+		var theIcon = getIcoMarker("home");
+		var properties = { 	icon : theIcon,
+							content: content };
 		
-		var initCenter = myPosition;
-		if(initCenter == null) initCenter = [30.29702, -21.97266];
+		//récupération des coordonnées
+		var coordinates;
+		if( myInfos['geo']['longitude'] != null ){
+			coordinates = new Array (myInfos['geo']['longitude'], myInfos['geo']['latitude']);
+		}
+		else{
+			coordinates = myInfos['geoPosition']['coordinates'];
+		}
+
+		getMarkerSingle(map, properties, coordinates);
+		var objectId = myInfos._id.$id.toString();
+		listIdElementMap[origine].push(objectId);
+	}
+	
+	function initMap(origine, myInfos, myPosition){	
+		
+		var initCenter = (myPosition != null) ? myPosition : [30.29702, -21.97266];
 		
 		//charge la carte
-		var map = loadMap("mapCanvas", initCenter);
-		//map.panTo(initCenter);
-		//map.setView(initCenter, 3);
-
+		map = loadMap("mapCanvas", initCenter);
+		
 		listIdElementMap[origine] = new Array(); //getNetworkMapElement
-		map.on('dragend', function(e) {
-				showCitoyensClusters(map, origine, listIdElementMap);
-			}); showCitoyensClusters(map, origine, listIdElementMap);
+		showMyPosition(map, origine, myInfos);
+		// map.on('dragend', function(e) {
+		//	showCitoyensClusters(map, origine, listIdElementMap);
+		// }); 
+		showCitoyensClusters(map, origine, listIdElementMap);
+		
+		$('#btn_reload_map').click(function(event) {
+			showCitoyensClusters(map, origine, listIdElementMap);
+		});
 		
 		
 	}
 	
 	testitpost("", '/ph/communecter/sig/GetMyPosition', null,
 		function (data){ //alert(JSON.stringify(data));
-			var myPosition;
+			var myInfos;
 			$.each(data, function() { 
+				myInfos = this;
 				myPosition = new Array( this.geo.latitude, this.geo.longitude );
 			});
-		initMap("ShowMyNetwork", myPosition);
+		initMap("ShowMyNetwork", myInfos, myPosition);
 	});	
 	
 });
+
+	var map, myPosition;
+	function zoomIn(){ map.zoomIn(); }
+	function zoomOut(){ map.zoomOut(); }
+	function zoomToMyPosition(){ map.panTo(myPosition); map.setZoom(12); }
+	
+	
 </script>
 
 <div style="margin:5px; padding:5px; background-color:white; visibility:hidden;" id="gif_loading_map">
