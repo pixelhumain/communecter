@@ -26,6 +26,21 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 
 ?>
 
+ <!-- 	RIGHT TOOL MAP (PSEUDO SEARCH + LIST ELEMENTS) -->		
+	<div id="right_tool_map">
+		<!-- 	PSEUDO SEARCH -->	
+		<div id="map_pseudo_filters">
+			<input type="text" placeholder="recherche par pseudo..." id="input_txt_pseudo_filter"/>
+			<a href="" id="btn_pseudo_filter">
+				<center><img src='<?php echo $this->module->assetsUrl; ?>/images/sig/ico_filter_pseudo.png' style='margin-top:3px;' width=22></center>
+			</a>
+		</div>
+		<!-- 	PSEUDO SEARCH -->	
+		<!-- 	LIST ELEMENT -->	
+		<div id="liste_map_element">
+		</div>
+	</div>
+<!-- 	RIGHT TOOL MAP (PSEUDO SEARCH + LIST ELEMENTS) -->	
 
 <!-- 	LEFT BAR MAP -->
 	<div id="left_barre_tool_map">	
@@ -53,12 +68,12 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 <div class="mapCanvas" id="mapCanvas">
 </div> 
  
+
  
 <script type="text/javascript">
 
 $(document).ready( function() 
 { 	
-	var listIdElementMap = new Array();
 	
 	function loadMap(canvasId, myPosition){
 
@@ -66,7 +81,7 @@ $(document).ready( function()
 		var map = L.map(canvasId, { "zoomControl" : false, 
 									"scrollWheelZoom" : false,
 									"doubleClickZoom" : true,
-									"worldCopyJump" : true }).setView(myPosition, 12);
+									"worldCopyJump" : true }).setView(myPosition, 3);//12);
 		//alert(myPosition);
 		L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -98,20 +113,27 @@ $(document).ready( function()
 		params["latMaxScope"] = bounds.getNorthEast().lat;
 		params["lngMaxScope"] = bounds.getNorthEast().lng;
 		
-		//$('#gif_loading_map').css({'visibility' : 'visible'});
 		$('#btn_reload_map').html('<center><img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif" height=22></center>');
-		
 		testitpost("", '/ph/communecter/sig/' + origine, params,
 			function (data){ //alert(JSON.stringify(data));
 			
 				var length = 0;
 				$.each(data, function() { 	length++; });
-				$('#gif_loading_map').append((length-1) + " éléments reçus ");
-		
-				var origineName = data["origine"]; //alert(origineName);
-					$.each(data, function() { 			
-					if(this._id != null){
 				
+				var listItemMap = "";			
+				var origineName = data["origine"];
+				
+				//rend invisible tous les éléments de la liste de droite (pour afficher ensuite seulement les éléments qui sont dans le bound)
+				$.each(listIdElementMap[origineName], function() {  //alert(this[0]);	
+					$("#item_map_list_" + this[0]).css({ "display" : "none" });				
+				});
+					
+				$.each(data, function() { 	
+					if(this._id != null){
+						
+						//crée la liste à afficher à droite de la carte
+						listItemMap += getItemRigthListMap(this, origineName);	
+											
 						var objectId = this._id.$id.toString();
 								
 						if($.inArray(objectId, listIdElementMap[origineName]) == -1){							 	
@@ -121,9 +143,11 @@ $(document).ready( function()
 								var content = getPopupCitoyen(this);
 								
 								//création de l'icon sur la carte
-								var theIcon = getIcoMarker(this['tag']);
-								var properties = { 	icon : theIcon,
+								var theIcon = L.icon(getIcoMarker(this['tag']));
+								var properties = { 	_id : objectId,
+													icon : theIcon,
 													content: content };
+													
 								
 								//récupération des coordonnées
 								var coordinates;
@@ -134,44 +158,77 @@ $(document).ready( function()
 									coordinates = this['geoPosition']['coordinates'];
 								}
 						
+								//affiche la liste d'éléments
+								$("#liste_map_element").append(getItemRigthListMap(this, origineName));
+				
 								var tag = this['tag'];
 								if(this['tag'] == null) tag = "citoyen";
 								//gère l'affichage de certains éléments hors des clusters
 								if($.inArray(tag, notClusteredTag) > -1){ //si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
-									getMarkerSingle(mapClusters, properties, coordinates);
+									
+									var marker = getMarkerSingle(mapClusters, properties, coordinates);
 									listIdElementMap[origineName].push(objectId);
+									listPosElementMap[origineName].push({ "_id" : objectId, "coordinates" : coordinates });
+									
+									//evénement au click sur une éléments de la liste (de droite)
+									$('#item_map_list_'+ objectId).on('click',  
+									function(e) { marker.openPopup();  map.panTo(marker.getLatLng()); });
 								} 
-								else{
+								else {
 									var marker = getGeoJsonMarker(properties, coordinates);
 									geoJsonCollection['features'].push(marker);	
+									//mémorise l'id de l'élément
 									listIdElementMap[origineName].push(objectId);
+									//mémorise les coordonnées de l'élément
+									listPosElementMap[origineName].push({ "_id" : objectId, "coordinates" : coordinates });
 								} 
-						
+							 }
+						   } else // si l'élément a déjà été affiché
+						   {	  // on le rend à nouveau visible (sans recharger le marker)
+						   		$("#item_map_list_" + objectId).css({"display" : "inline" });	
 							}
-						}
-					}
-				});
-				
+					      }
+					});
+								
 				var points = L.geoJson(geoJsonCollection, {					   //Pour les clusters seulement :
 					onEachFeature: function (feature, layer) {				   //sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); //ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   //affiche l'icon demandé
-							layer.on('mouseover', function(e) {	if(!layer.getPopup()._isOpen) layer.openPopup(); });
+							layer.on('mouseover', function(e) { layer.openPopup(); });
 							layer.on('mouseout',  function(e) { layer.closePopup(); });
+							
+							//evénement au click sur une éléments de la liste (de droite)
+							$('#item_map_list_'+ feature["properties"]["_id"]).on('click',  
+							function(e) { layer.openPopup(); map.panTo(layer.getLatLng()); });
 						}
 					});
 									
 				markersLayer.addLayer(points); 			// add it to the cluster group
 				mapClusters.addLayer(markersLayer);		// add it to the map
 				
-				//$('#gif_loading_map').css({'visibility' : 'hidden'});
-				//$('#gif_loading_map').css({'visibility' : 'hidden'});
 				$('#btn_reload_map').html('<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/reload.png" height=30></center>');
 		
 			});
 						
 	}
 	
+	function getItemRigthListMap(element, origine){
+		
+		var place = "";
+		if(element['city'] != null) place += element['city'];
+		if(element['city'] != null && element['cp'] != null) place += ", ";	
+		if(element['cp'] != null) place += element['cp'];
+		
+		var iconUrl = getIcoMarker(element['tag']).iconUrl;
+		var item = '<a id="item_map_list_'+ element._id.$id.toString() +'" href="#" class="item_map_list">' 
+						+  '<img class="ico_item_map_list" src="' + iconUrl + '" height=14>'
+						+  '<div class="pseudo_item_map_list">' +	element['name'] + "</div>"	
+						+  '<div class="city_item_map_list">' +	place + "</div>"	
+					+  '</a>';	
+					
+		return item;
+	}
+		
 	function getPopupCitoyen(citoyen){
 		//THUMB PHOTO PROFIL
 		var content = "";
@@ -240,6 +297,8 @@ $(document).ready( function()
 		marker.on('mouseover', function(e) { marker.openPopup(); });
 		marker.on('mouseout',  function(e) { marker.closePopup(); });
 		
+		
+									
 		return marker;
 	}
 		
@@ -249,57 +308,77 @@ $(document).ready( function()
 		
 		if(tag == null) tag = "citoyen";
 						
-  		if(tag == "citoyen") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_CITOYENS.png'; ?>",
+  		if(tag == "citoyen") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_CITOYENS.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7, 7],
-												popupAnchor: 	[0, -14] });
+												popupAnchor: 	[0, -14] };
 													
-		if(tag == "pixelActif") 		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PIXEL_ACTIF.png'; ?>",
+		if(tag == "pixelActif") return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PIXEL_ACTIF.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
-												popupAnchor: 	[0, -14] });	
+												popupAnchor: 	[0, -14] };	
 																								
-		if(tag == "partnerPH") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PARTENAIRES.png'; ?>",
+		if(tag == "partnerPH") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PARTENAIRES.png'; ?>",
 												iconSize: 		[14, 16],
 												iconAnchor: 	[7,  16],
-												popupAnchor: 	[0, -14] });		
+												popupAnchor: 	[0, -14] };		
 													
-		if(tag == "commune") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_COMMUNES.png'; ?>",
+		if(tag == "commune") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_COMMUNES.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
-												popupAnchor: 	[0, -14] });		
+												popupAnchor: 	[0, -14] };		
 		
-		if(tag == "association") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ASSOCIATIONS.png'; ?>",
+		if(tag == "association") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ASSOCIATIONS.png'; ?>",
 												iconSize: 		[15, 13],
 												iconAnchor: 	[7,  13],
-												popupAnchor: 	[0, -13] });		
+												popupAnchor: 	[0, -13] };		
 		
-		if(tag == "projectLeader") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PORTEUR_PROJET.png'; ?>",
+		if(tag == "projectLeader") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_PORTEUR_PROJET.png'; ?>",
 												iconSize: 		[15, 16],
 												iconAnchor: 	[7,  16],
-												popupAnchor: 	[0, -16] });		
+												popupAnchor: 	[0, -16] };		
 		
-		if(tag == "artiste") 	return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ARTISTES.png'; ?>",
+		if(tag == "artiste") 	return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/02_ICON_ARTISTES.png'; ?>",
 												iconSize: 		[17, 19],
 												iconAnchor: 	[8,  19],
-												popupAnchor: 	[0, -19] });		
+												popupAnchor: 	[0, -19] };		
 		
-		if(tag == "home") 		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/HOME.png'; ?>",
+		if(tag == "home") 		return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/HOME.png'; ?>",
 												iconSize: 		[32, 32],
 												iconAnchor: 	[16,  32],
-												popupAnchor: 	[0, -32] });			  		
+												popupAnchor: 	[0, -32] };			  		
 		
-		return L.icon({ iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/btn_zoom_my_home.png'; ?>",
+		return { iconUrl: "<?php echo $this->module->assetsUrl.'/images/sig/markers/btn_zoom_my_home.png'; ?>",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7,  14],
-												popupAnchor: 	[0, -14] });			  						
+												popupAnchor: 	[0, -14] };			  						
+	}
+	
+	function checkListElementMap(origine){ 
+	
+		//rend invisible tous les éléments de la liste (mais ne les supprime pas
+		$.each(listIdElementMap[origine], function() { 
+			$("#item_map_list_" + this).css({ "display" : "none" });				
+		});
+	
+		//rend visible tous les éléments qui se trouve dans le bound visible de la carte
+		$.each(listPosElementMap[origine], 
+			function() { 	
+				var bounds = map.getBounds();
+		
+				if( this.coordinates[0] > bounds.getSouthWest().lng && this.coordinates[0] < bounds.getNorthEast().lng && 
+					this.coordinates[1] > bounds.getSouthWest().lat && this.coordinates[1] < bounds.getNorthEast().lat)
+					$("#item_map_list_" + this._id).css({"display" : "inline" });	
+					 
+			});
+				
 	}
 	
 	function showMyPosition(map, origine, myInfos){
 		var content = getPopupCitoyen(myInfos);
 								
 		//création de l'icon sur la carte
-		var theIcon = getIcoMarker("home");
+		var theIcon = L.icon(getIcoMarker("home"));
 		var properties = { 	icon : theIcon,
 							content: content };
 		
@@ -318,25 +397,55 @@ $(document).ready( function()
 	}
 	
 	function initMap(origine, myInfos, myPosition){	
-		
+		myPosition = null;
 		var initCenter = (myPosition != null) ? myPosition : [30.29702, -21.97266];
 		
 		//charge la carte
 		map = loadMap("mapCanvas", initCenter);
 		
-		listIdElementMap[origine] = new Array(); //getNetworkMapElement
+		listIdElementMap[origine] = new Array(); 
+		listPosElementMap[origine] = new Array(); 
+		
 		showMyPosition(map, origine, myInfos);
-		// map.on('dragend', function(e) {
-		//	showCitoyensClusters(map, origine, listIdElementMap);
-		// }); 
+		 map.on('dragend', function(e) {
+			checkListElementMap(origine);
+		 }); 
 		showCitoyensClusters(map, origine, listIdElementMap);
 		
 		$('#btn_reload_map').click(function(event) {
 			showCitoyensClusters(map, origine, listIdElementMap);
 		});
-		
-		
 	}
+	
+	function findPlace(){
+	var address = "Paris France";
+	//var url = "search?q=135+pilkington+avenue,+birmingham&format=json&polygon=1&addressdetails=1";
+	$.ajax({
+		url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
+		type: 'POST',
+		//data: { 'htmlViewType': htmlViewType },
+		complete: function () { },
+		success: function (obj) {//alert(JSON.stringify(obj));
+		if (obj.length > 0) {
+			//document.getElementById('LblError').innerHTML = obj[0].display_name;
+			alert(obj[0].address.city + " - " + obj[0].lat);
+			//var markerslonLat = new OpenLayers.LonLat(obj[0].lon, obj[0].lat).transform(WGS84, map.getProjectionObject(), 0);
+			//map.setCenter(markerslonLat, 10);
+			//var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+			//var icon = new OpenLayers.Icon(' http://maps.google.com/mapfiles/ms/micons/blue.png', size, offset);
+			//markers.addMarker(new OpenLayers.Marker(markerslonLat, icon));
+			//map.addLayer(markers);
+		}
+		else {
+			alert('no such address.');
+		}
+		},
+		error: function (error) {
+		alert(error);
+		}
+		});
+	}
+	
 	
 	testitpost("", '/ph/communecter/sig/GetMyPosition', null,
 		function (data){ //alert(JSON.stringify(data));
@@ -346,22 +455,18 @@ $(document).ready( function()
 				myPosition = new Array( this.geo.latitude, this.geo.longitude );
 			});
 		initMap("ShowMyNetwork", myInfos, myPosition);
+		//findPlace();
 	});	
 	
 });
 
 	var map, myPosition;
+	var listIdElementMap = new Array();
+	var listPosElementMap = new Array();
 	function zoomIn(){ map.zoomIn(); }
 	function zoomOut(){ map.zoomOut(); }
 	function zoomToMyPosition(){ map.panTo(myPosition); map.setZoom(12); }
 	
 	
+	
 </script>
-
-<div style="margin:5px; padding:5px; background-color:white; visibility:hidden;" id="gif_loading_map">
-	<h4><img src="<?php echo $this->module->assetsUrl; ?>/images/ajax-loader.gif">
-		<div id="msg_loading_map"></div>
-	</h4>
-</div>
-
-

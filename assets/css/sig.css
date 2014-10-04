@@ -1,5 +1,6 @@
 .mapCanvas{
- 	min-width:94%;
+ 	min-width:69%;
+ 	max-width:70%;
  	min-height:380px;
  	background-color:#425766;
  	color:black;
@@ -63,7 +64,7 @@
 
 
 /*
-	
+	from KaVa
 */
 #left_barre_tool_map{
 	width:6%;
@@ -89,7 +90,7 @@
 
 #right_tool_map{
 	width:25%;
-	float:left;
+	float:right;
 	height:380px;
 	background-color:white;
 	-moz-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
@@ -112,20 +113,20 @@
 	padding-right:2%;
 	height:30px;
 	background-color:white;
-	font-family: "OpenSans";
-	font-size: 14px;
+	font-family: "Raleway",sans-serif;
+	font-size: 12px;
 	border-width:1px;
-	border-color:d3d1d5;
+	border-color:#d3d1d5;
 	border-style:solid;
 	border-radius:4px 0px 0px 4px;
 	float:left;
 }
 #btn_pseudo_filter{
 	width:15%;
-	height:28px;
+	height:30px;
 	border-width:1px;
 	border-left-width:0px;
-	border-color:d3d1d5;
+	border-color:#d3d1d5;
 	border-style:solid;
 	border-radius:0px 4px 4px 0px;
 	float:left;
@@ -162,20 +163,21 @@
 }
 .ico_item_map_list{
 	float:left;
-	height:23px;
 	margin-left:10px;
+	margin-top:2px;
 	margin-right:5px;
 }
 .pseudo_item_map_list{
 	float:left;
 	max-width:65%;
-	margin-top:3px;
-	font-family: "OpenSans";
+	margin-top:0px;
+	font-family: "Raleway",sans-serif;
 	font-size: 12px;
 	color:black;
 }
 .city_item_map_list{
-		font-family: "OpenSansLight";
+		font-family: "Raleway",sans-serif;
+		text-align:right;
 		max-width:40%;
 		margin-right: 5px;
 		margin-top: 3px;
@@ -192,7 +194,7 @@
 	width:100%;
 	text-decoration:none;
 	color:black;
-	font-family: "OpenSans";
+	font-family: "Raleway",sans-serif;
 	border-width:0px;
 	border-bottom-width:1px;
 	border-style:dashed;
