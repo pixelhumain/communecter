@@ -14,6 +14,29 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/src/mo
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.sparkline/jquery.sparkline.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/easy-pie-chart/dist/jquery.easypiechart.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CClientScript::POS_END);
+
+		/**
+		* 	LIB SIG
+		**/
+		//$cs = Yii::app()->getClientScript();
+
+		$cs->registerCssFile(Yii::app()->request->baseUrl. '/css/vis.css');
+		$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/api.js' , CClientScript::POS_END);
+		$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/vis.min.js' , CClientScript::POS_END);
+
+		$cs->registerCssFile("http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
+		$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.css');
+		$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.ie.css');
+		$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.css');
+		$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.Default.css');
+		$cs->registerCssFile($this->module->assetsUrl. '/css/sig.css');
+		//$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.awesome-markers.css');
+
+		$cs->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw-src.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.js' , CClientScript::POS_END);
+
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
