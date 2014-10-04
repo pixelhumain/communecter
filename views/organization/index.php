@@ -51,8 +51,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/
 							<tr>
 								<th>Name</th>
 								<th>Type</th>
-								<th>Edit</th>
-								<th>Delete</th>
+								<th>contact</th>
+								<th>Tags</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -62,8 +62,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/
 							<tr>
 								<td><a href="<?php echo Yii::app()->createUrl('association/view/id/'.$e["_id"])?>"><?php echo $e["name"]?></a></td>
 								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
-								<td><a href="#" class="edit-row">Edit</a></td>
-								<td><a href="#" class="delete-row">Delete</a></td>
+								<td><?php if(isset($e["email"]))echo $e["email"]?></td>
+								<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
 							</tr>
 							<?php } ?>
 						</tbody>
@@ -109,147 +109,6 @@ if(Citoyen::isAdminUser()){
 });
 
 var initDataTable = function() {
-		var newRow = false;
-		var actualEditingRow = null;
-
-		function restoreRow(oTable, nRow) {
-			var aData = oTable.fnGetData(nRow);
-			var jqTds = $('>td', nRow);
-
-			for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
-				oTable.fnUpdate(aData[i], nRow, i, false);
-			}
-
-			oTable.fnDraw();
-		}
-
-		function editRow(oTable, nRow) {
-			var aData = oTable.fnGetData(nRow);
-			var jqTds = $('>td', nRow);
-			jqTds[0].innerHTML = '<input type="text" class="form-control" value="' + aData[0] + '">';
-
-			jqTds[1].innerHTML = '<a class="save-row" href="">Save</a>';
-			jqTds[2].innerHTML = '<a class="cancel-row" href="">Cancel</a>';
-
-		}
-
-		function saveRow(oTable, nRow) {
-			var jqInputs = $('input', nRow);
-			oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-			oTable.fnUpdate('<a class="edit-row" href="">Edit</a>', nRow, 1, false);
-			oTable.fnUpdate('<a class="delete-row" href="">Delete</a>', nRow, 2, false);
-			oTable.fnDraw();
-			newRow = false;
-			actualEditingRow = null;
-		}
-
-		$('body').on('click', '.add-row', function(e) {
-			e.preventDefault();
-			if (newRow == false) {
-				if (actualEditingRow) {
-					restoreRow(oTable, actualEditingRow);
-				}
-				newRow = true;
-				var aiNew = oTable.fnAddData(['', '', '', '', '']);
-				var nRow = oTable.fnGetNodes(aiNew[0]);
-				editRow(oTable, nRow);
-				actualEditingRow = nRow;
-			}
-		});
-		$('#sample_2').on('click', '.cancel-row', function(e) {
-
-			e.preventDefault();
-			if (newRow) {
-				newRow = false;
-				actualEditingRow = null;
-				var nRow = $(this).parents('tr')[0];
-				oTable.fnDeleteRow(nRow);
-
-			} else {
-				restoreRow(oTable, actualEditingRow);
-				actualEditingRow = null;
-			}
-		});
-		$('#sample_2').on('click', '.delete-row', function(e) {
-			e.preventDefault();
-			if (newRow && actualEditingRow) {
-				oTable.fnDeleteRow(actualEditingRow);
-				newRow = false;
-
-			}
-			var nRow = $(this).parents('tr')[0];
-			bootbox.confirm("Are you sure to delete this row?", function(result) {
-				if (result) {
-					$.blockUI({
-					message : '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
-					});
-					$.mockjax({
-						url : '/tabledata/delete/webservice',
-						dataType : 'json',
-						responseTime : 1000,
-						responseText : {
-							say : 'ok'
-						}
-					});
-					$.ajax({
-						url : '/tabledata/delete/webservice',
-						dataType : 'json',
-						success : function(json) {
-							$.unblockUI();
-							if (json.say == "ok") {
-							oTable.fnDeleteRow(nRow);
-							}
-						}
-					});				
-					
-				}
-			});
-			
-
-			
-		});
-		$('#sample_2').on('click', '.save-row', function(e) {
-			e.preventDefault();
-
-			var nRow = $(this).parents('tr')[0];
-			$.blockUI({
-					message : '<i class="fa fa-spinner fa-spin"></i> Do some ajax to sync with backend...'
-					});
-					$.mockjax({
-						url : '/tabledata/add/webservice',
-						dataType : 'json',
-						responseTime : 1000,
-						responseText : {
-							say : 'ok'
-						}
-					});
-					$.ajax({
-						url : '/tabledata/add/webservice',
-						dataType : 'json',
-						success : function(json) {
-							$.unblockUI();
-							if (json.say == "ok") {
-								saveRow(oTable, nRow);
-							}
-						}
-					});	
-		});
-		$('#sample_2').on('click', '.edit-row', function(e) {
-			e.preventDefault();
-			if (actualEditingRow) {
-				if (newRow) {
-					oTable.fnDeleteRow(actualEditingRow);
-					newRow = false;
-				} else {
-					restoreRow(oTable, actualEditingRow);
-
-				}
-			}
-			var nRow = $(this).parents('tr')[0];
-			editRow(oTable, nRow);
-			actualEditingRow = nRow;
-
-		});
 		var oTable = $('#sample_2').dataTable({
 			"aoColumnDefs" : [{
 				"aTargets" : [0]

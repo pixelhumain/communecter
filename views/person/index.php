@@ -19,26 +19,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						Edit Account
 					</a>
 				</li>
+				
 				<li>
-					<a data-toggle="tab" href="#panel_association">
-						My NGO
+					<a data-toggle="tab" href="#panel_organisations">
+						Organizations
 					</a>
 				</li>
-				<li>
-					<a data-toggle="tab" href="#panel_company">
-						My Company
-					</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#panel_city">
-						My City
-					</a>
-				</li>
-				<li>
-					<a data-toggle="tab" href="#panel_network">
-						My Network
-					</a>
-				</li>
+
+				
 			</ul>
 			<div class="tab-content">
 				<div id="panel_overview" class="tab-pane fade in active">
@@ -380,7 +368,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<label class="control-label">
 										Email Address
 									</label>
-									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email">
+									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" >
 								</div>
 								<div class="form-group">
 									<label class="control-label">
@@ -598,322 +586,44 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 					</form>
 				</div>
-				<div id="panel_association" class="tab-pane fade">
+				<div id="panel_organisations" class="tab-pane fade">
 					<table class="table table-striped table-bordered table-hover" id="projects">
 						<thead>
 							<tr>
-								<th class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey selectall">
-									</label>
-								</div></th>
-								<th>Project Name</th>
-								<th class="hidden-xs">Client</th>
-								<th>Proj Comp</th>
-								<th class="hidden-xs">%Comp</th>
-								<th class="hidden-xs center">Priority</th>
+								<th>Name</th>
+								<th class="hidden-xs">Type</th>
+								<th class="hidden-xs center">Tags</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>IT Help Desk</td>
-								<td class="hidden-xs">Master Company</td>
-								<td>11 november 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 70%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar" class="progress-bar progress-bar-warning">
-										<span class="sr-only"> 70% Complete (danger)</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-danger">Critical</span></td>
+							<?php
+							foreach ($organizations as $e) 
+							{
+							?>
+							<tr id="organisation<?php echo (string)$e["_id"];?>">
+								<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+								<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
 								<td class="center">
 								<div class="visible-md visible-lg hidden-sm hidden-xs">
 									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+									<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
+								</td>
 							</tr>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>PM New Product Dev</td>
-								<td class="hidden-xs">Brand Company</td>
-								<td>12 june 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-info">
-										<span class="sr-only"> 40% Complete</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-warning">High</span></td>
-								<td class="center">
-								<div class="visible-md visible-lg hidden-sm hidden-xs">
-									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
-							</tr>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>ClipTheme Web Site</td>
-								<td class="hidden-xs">Internal</td>
-								<td>11 november 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 90%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="90" role="progressbar" class="progress-bar progress-bar-success">
-										<span class="sr-only"> 90% Complete</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-success">Normal</span></td>
-								<td class="center">
-								<div class="visible-md visible-lg hidden-sm hidden-xs">
-									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
-							</tr>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>Local Ad</td>
-								<td class="hidden-xs">UI Fab</td>
-								<td>15 april 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-warning">
-										<span class="sr-only"> 50% Complete</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-success">Normal</span></td>
-								<td class="center">
-								<div class="visible-md visible-lg hidden-sm hidden-xs">
-									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
-							</tr>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>Design new theme</td>
-								<td class="hidden-xs">Internal</td>
-								<td>2 october 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 20%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" class="progress-bar progress-bar-success">
-										<span class="sr-only"> 20% Complete (warning)</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-danger">Critical</span></td>
-								<td class="center">
-								<div class="visible-md visible-lg hidden-sm hidden-xs">
-									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
-							</tr>
-							<tr>
-								<td class="center">
-								<div class="checkbox-table">
-									<label>
-										<input type="checkbox" class="flat-grey foocheck">
-									</label>
-								</div></td>
-								<td>IT Help Desk</td>
-								<td class="hidden-xs">Designer TM</td>
-								<td>6 december 2014</td>
-								<td class="hidden-xs">
-								<div class="progress active progress-xs">
-									<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-warning">
-										<span class="sr-only"> 40% Complete (warning)</span>
-									</div>
-								</div></td>
-								<td class="center hidden-xs"><span class="label label-warning">High</span></td>
-								<td class="center">
-								<div class="visible-md visible-lg hidden-sm hidden-xs">
-									<a href="#" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-									<a href="#" class="btn btn-green tooltips" data-placement="top" data-original-title="Share"><i class="fa fa-share"></i></a>
-									<a href="#" class="btn btn-red tooltips" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-								</div>
-								<div class="visible-xs visible-sm hidden-md hidden-lg">
-									<div class="btn-group">
-										<a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-											<i class="fa fa-cog"></i> <span class="caret"></span>
-										</a>
-										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-edit"></i> Edit
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-share"></i> Share
-												</a>
-											</li>
-											<li role="presentation">
-												<a role="menuitem" tabindex="-1" href="#">
-													<i class="fa fa-times"></i> Remove
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div></td>
-							</tr>
+							<?php
+							}
+							?>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
-
 
 <script>
 	jQuery(document).ready(function() {
@@ -921,4 +631,29 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 		SVExamples.init();
 		PagesUserProfile.init();
 	});
+	$(".delBtn").on("click",function(){
+		id = $(this).data("id");
+
+		bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" organization ?", function(result) {
+			if(result)
+			{
+				testitpost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
+					function(data,id){
+						if(data.result){
+							toastr.success("delete successfull ");
+							$('organisation'+$(this).data("id")).remove();
+							var tr = $(this).closest('tr');
+					        tr.css("background-color","#FF3700");
+					        tr.fadeOut(400, function(){
+					            tr.remove();
+					        });
+					        return false;
+						}
+						else 
+							toastr.error(data.msg);
+					});
+			}
+		});
+
+	})
 </script>

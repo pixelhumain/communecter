@@ -126,6 +126,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 							<i class="fa fa-home"></i></span>
 					</div>
 					<div class="form-group">
+						<span class="input-icon">
+							<input id="tags" type="hidden"  class="form-control" placeholder="Tags about you, or Organization you member of">
+							<i class="fa fa-tag"></i></span>
+					</div>
+					<div class="form-group">
 						<div>
 							<label for="agree" class="checkbox-inline">
 								<input type="checkbox" class="grey agree" id="agree" name="agree">
@@ -160,7 +165,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 	jQuery(document).ready(function() {
 		Main.init();
 		Login.init();
-		
+		$('#tags').select2({ tags: <?php echo $tags?> });
 	
 	});
 
@@ -366,6 +371,7 @@ var Login = function() {
 				   "email" : $("#email3").val() , 
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
+                   "tags" : $("#tags").val(),
                    "app" : "<?php echo $this->module->id?>"
                 };
 			      

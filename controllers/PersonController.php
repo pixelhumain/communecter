@@ -58,19 +58,19 @@ class PersonController extends CommunecterController {
 	public function actionLogin() 
 	{
     $this->layout = "//layouts/mainSimple";
+    $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
     if(Yii::app()->session["userId"]) 
       $this->redirect(Yii::app()->homeUrl);
-    else
-      $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) {
-	$this->render( "loginMobile" );
-      }
-      else {
-	$this->render( "login" );
-      }
-    }
+
+    $detect = new Mobile_Detect;
+    $isMobile = $detect->isMobile();
+    
+    $params = array('tags'=>json_encode($tags['list']) );
+    if($isMobile) 
+      $this->render( "loginMobile",$params );
+    else 
+      $this->render( "login",$params );
+  }
   public function actionLogout() 
   {
     Yii::app()->session["userId"] = null;
@@ -78,10 +78,12 @@ class PersonController extends CommunecterController {
   }
   public function actionProfile() 
   {
+    
+    $organizations = PHDB::find(PHType::TYPE_GROUPS, array('email'=>'oceatoon@gmail.com'));
     if(!Yii::app()->session["userId"])
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     else 
-      $this->render( "index" );
+      $this->render( "index", array("organizations"=>$organizations) );
   }
 
   /**

@@ -30,14 +30,11 @@ class DefaultController extends CommunecterController {
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      if($isMobile) {
-	$this->render("indexMob");
-      }
-      else {
-	$this->render("index");
-      }
-      
-    }
+      if($isMobile) 
+	      $this->render("indexMob");
+      else
+	      $this->render("index");
+  }
     public function actionAbout() 
     {
       $this->title = "About";

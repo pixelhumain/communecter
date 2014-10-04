@@ -3,6 +3,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.css');
 //$cs->registerScriptFile(Yii::app()->request->baseUrl. '/js/bootstrap/bootstrap-typeahead.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jquery.autosize.min.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="noteWrap col-md-8 col-md-offset-2">
@@ -23,7 +24,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				</div>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-6 col-sd-6 ">
 
 				<div class="form-group">
 					<label class="control-label">
@@ -53,20 +54,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 					<label class="control-label">
 						Email <span class="symbol required"></span>
 					</label>
-					<input id="assoEmail" class="form-control" name="assoEmail" value="<?php if($asso && isset($asso['email']) ) echo $asso['email']; else $asso["email"]; ?>"/>
+					<input id="assoEmail" class="form-control" name="assoEmail" value="<?php if($asso && isset($asso['email']) ) echo $asso['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 				</div>
+
 				
-				<div class="form-group">
-					<div>
-						<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-						<textarea  class="form-control" name="description" id="form-field-24" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;">
-							<?php if($asso && isset($asso['description']) ) echo $asso['description']; else $asso["description"]; ?>
-						</textarea>
-					</div>
-				</div>
 				
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 col-sd-6 ">
 				
 				<div class="form-group">
 					<label class="control-label">
@@ -93,6 +87,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 					<input id="assoCP" name="assoCP" class="form-control span2" value="<?php if($asso && isset($asso['cp']) )echo $asso['cp'] ?>">
 				</div>
 
+				<?php /*?>
 				<div class="form-group">
 					<label class="control-label">
 						Position
@@ -108,6 +103,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 						?>
 					</select>
 				</div>
+				*/?>
 
 				<div class="form-group">
 					<label class="control-label">
@@ -119,7 +115,16 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				</div>
 
 			</div>
-			
+			<div class="col-md-12">
+			<div class="form-group">
+					<div>
+						<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
+						<textarea  class="form-control" name="description" id="form-field-24" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;">
+							<?php if($asso && isset($asso['description']) ) echo $asso['description']; else $asso["description"]; ?>
+						</textarea>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			
@@ -129,6 +134,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 					Todo 2 3 etape : file:///X:/X_Dev/playground/bootstrap/templates/rapido_v1.1/rapido/form_wizard.html
 					<br/>connect a sub / linked / partner organization
 					<br/>invite & connect members
+					<br/>check existence 
 				</div>
 				<hr>
 				<div>
@@ -137,7 +143,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				</div>
 			</div>
 		</div>
-		<button class="btn btn-primary" id="organizationFormSubmit" onclick="$('#organizationForm').submit();">Enregistrer</button>
+		<button class="btn btn-primary" id="organizationFormSubmit">Enregistrer</button>
 	</form>
 </div>
 
@@ -145,6 +151,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 //very strange BUg this only works when declaring it twice, no idea and no time to loose
 $('#tagsAsso').select2({ tags: <?php echo $tags?> });
 $('#tagsAsso').select2({ tags: <?php echo $tags?> });
+
+$("textarea.autosize").autosize();
 
 //$('#tagsAsso').tagsInput();
 $("#organizationForm").submit( function(event){
@@ -160,7 +168,7 @@ $("#organizationForm").submit( function(event){
     	  success: function(data){
     			  $("#flashInfo .modal-body").html(data.msg);
     			  $("#flashInfo").modal('show');
-    			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/organization";
+    			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/person/profile?tabId=panel_organisations";
     	  },
     	  dataType: "json"
     	});

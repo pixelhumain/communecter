@@ -36,7 +36,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
       </div>
       <div class="panel-footer clearfix no-padding">
         <div class=""></div>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="Vos Associations" ><i class="fa fa-cog"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/profile?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="Vos Associations" ><i class="fa fa-cog"></i></a>
         <a href="#" onclick="getModal($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/association',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add an NGO" alt="Add an NGO"><i class="fa fa-plus"></i></a>
         <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/association")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="Découvrir"><i class="fa fa-chevron-right"></i></a>
       </div>
@@ -60,7 +60,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
         </div>
       </div>
       <div class="panel-footer clearfix no-padding">
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/profile?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
         <a href="#" onclick="getModal($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/entreprise',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
         <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/entreprise")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
       </div>

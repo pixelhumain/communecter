@@ -41,18 +41,19 @@ class CommunecterController extends Controller
     array('label' => "About", "key"=>"about","iconClass"=>"fa fa-book","href"=>"communecter/default/about"),
     array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
     array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),
-    );
+  );
+
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
               "myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('Invite someone', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
             "children"=> array(
-              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('TOTO', '/communecter/organization/form/type/association',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/form',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "Note", "key"=>"note",
@@ -70,7 +71,8 @@ class CommunecterController extends Controller
   );
   
   public $toolbarMenuMaps = array(
-      array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "href"=>"/ph/communecter/sig",'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
+    array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "key"=>"yourNetwork", "class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', '/communecter/sig', null)",'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
+    //  array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "href"=>"/ph/communecter/sig",'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
       array('label' => "Local Companies", 'desc' => "Discover Companies around you", 'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
       array('label' => "Local State", 'desc' => "All the city hall public services", 'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
       array('label' => "Local Events", 'desc' => "Discover All sorts of local events around you", 'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
