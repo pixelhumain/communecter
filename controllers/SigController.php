@@ -14,13 +14,9 @@ class SigController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
-    /**
-     * List all the latest observations
-     * @return [json Map] list
-     */
-	public function actionIndex() 
+    public function actionIndex() 
 	{
-		$this->render("index");
+		$this->renderPartial("index");
     }
   
   	public function actionGetMyPosition(){ //Yii::app()->session["userId"]
