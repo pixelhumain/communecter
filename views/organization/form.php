@@ -25,12 +25,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 			</div>
 
 			<div class="col-md-6 col-sd-6 ">
-
+				<input id="assoId" type="hidden" name="assoId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
 				<div class="form-group">
 					<label class="control-label">
 						Nom(Raison Sociale) <span class="symbol required"></span>
 					</label>
-					<input id="assoName" class="form-control" name="assoName" value="<?php if($asso && isset($asso['name']) ) echo $asso['name']; else $asso["name"]; ?>"/>
+					<input id="assoName" class="form-control" name="assoName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
 				</div>
 
 				<div class="form-group">
@@ -43,7 +43,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						foreach ($types as $key=>$value) 
 						{
 						?>
-						<option value="<?php echo $key?>" <?php if(($asso && isset($asso['type']) && $key == $asso['type']) ) echo "selected"; ?> ><?php echo $key?></option>
+						<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $key?></option>
 						<?php 
 						}
 						?>
@@ -54,7 +54,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					<label class="control-label">
 						Email <span class="symbol required"></span>
 					</label>
-					<input id="assoEmail" class="form-control" name="assoEmail" value="<?php if($asso && isset($asso['email']) ) echo $asso['email']; else echo Yii::app()->session['userEmail']; ?>"/>
+					<input id="assoEmail" class="form-control" name="assoEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 				</div>
 
 				
@@ -72,7 +72,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						foreach (OpenData::$phCountries as $key => $value) 
 						{
 						?>
-						<option value="<?php echo $key?>" <?php if(($asso && isset($asso['countryAsso']) && $key == $asso['countryAsso']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
+						<option value="<?php echo $key?>" <?php if(($organization && isset($organization['countryAsso']) && $key == $organization['countryAsso']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
 						<?php 
 						}
 						?>
@@ -84,7 +84,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					<label class="control-label">
 						au code postal <span class="symbol required"></span>
 					</label>
-					<input id="assoCP" name="assoCP" class="form-control span2" value="<?php if($asso && isset($asso['cp']) )echo $asso['cp'] ?>">
+					<input id="assoCP" name="assoCP" class="form-control span2" value="<?php if($organization && isset($organization['cp']) )echo $organization['cp'] ?>">
 				</div>
 
 				<?php /*?>
@@ -97,7 +97,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						foreach (Association::$position as $key => $value) 
 						{
 						?>
-						<option value="<?php echo $key?>" <?php if($asso && isset($asso['assoPosition']) && $key == $asso['assoPosition']) echo "selected"; else if ($key == "membre") echo "selected"; ?> ><?php echo $value?></option>
+						<option value="<?php echo $key?>" <?php if($organization && isset($organization['assoPosition']) && $key == $organization['assoPosition']) echo "selected"; else if ($key == "membre") echo "selected"; ?> ><?php echo $value?></option>
 						<?php 
 						}
 						?>
@@ -110,7 +110,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						Centre d'interet 
 					</label>
 					
-        		    <input id="tagsAsso" type="hidden" value="<?php echo ($asso && isset($asso['tags']) ) ? implode(",", $asso['tags']) : ""?>" style="display: none;">
+        		    <input id="tagsAsso" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
         		    
 				</div>
 
@@ -119,9 +119,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 			<div class="form-group">
 					<div>
 						<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-						<textarea  class="form-control" name="description" id="form-field-24" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;">
-							<?php if($asso && isset($asso['description']) ) echo $asso['description']; else $asso["description"]; ?>
-						</textarea>
+						<textarea  class="form-control" name="description" id="form-field-24" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 					</div>
 				</div>
 			</div>
