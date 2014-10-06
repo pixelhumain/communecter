@@ -6,6 +6,7 @@ Interface de Gestion de commune et de citoyen connectés à leur commune.
 
 is an application for connected cities or territories 
 
+
 ASAP
 ===========
 we need asap the a json-ld smaple descriptions of : 
@@ -16,11 +17,13 @@ we need asap the a json-ld smaple descriptions of :
 - [event]() 
 - [city]()
 
+
 current Status 
 ===========
 released : xx
 url : 
 implementing : Version0.1
+
 
 Roadmap & Milestones
 ===========
@@ -52,8 +55,17 @@ V0.13
 			My Companies
 			My Places
 	try representing in a mixit up interface
+
+
 Sitemap 
 ===========
+- Entry point 
+	- The platform's content information is fully open 
+	- loging in give access to 
+		- notifications
+		- creating an Organization
+		- participating
+		- and much more
 - Dashboard
 	- Organization of type Association (NGOs)
 		- List of associations
@@ -68,7 +80,7 @@ Sitemap
 	- can login
 	- searched by tag
 - Organizations
-	- can be created by a person
+	- can be created by a registered person
 		- can contain people 
 		- can contain organisations 
 	- be joined by a person
@@ -82,6 +94,7 @@ Sitemap
 	- exists when simply one person is in a postalCode
 	- contains People, Organizations
 	- has Events
+
 
 Think Tank & wishlist
 ===========
