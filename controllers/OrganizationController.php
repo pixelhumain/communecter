@@ -60,23 +60,34 @@ class OrganizationController extends CommunecterController {
 
   public function actionView($id) 
   {
-        $asso = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
-        if(isset($asso["key"]) )
-            $this->redirect(Yii::app()->createUrl('assocation/'.$asso["key"]));
-        else    
-	        $this->render("view",array('asso'=>$asso));
+    $organization = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
+    $this->title = $organization["name"];
+    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "Type ".$organization["type"];
+    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
+    if(isset($asso["key"]) )
+        $this->redirect(Yii::app()->createUrl('organization/'.$asso["key"]));
+    else    
+      $this->render("view",array('organization'=>$organization));
 	}
 
-  public function actionForm($type) 
+  public function actionForm($type=null,$id=null) 
   {
-      $asso = ( isset(Yii::app()->session["userId"]) ) ? PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId(Yii::app()->session["userId"]))) : null;
+      $organization = null;
+      if(isset($id)){
+        $organization = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
+        //make sure conected user is the owner
+        if( $organization["email"] != Yii::app()->session["userEmail"] || ( isset($organization["ph:owner"]) && $organization["ph:owner"] != Yii::app()->session["userEmail"] ) ) {
+          $organization = null;
+        }
+          
+      }
       $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
       $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
       
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      $params = array("asso" => $asso,'type'=>$type,'types'=>$types['list'],'tags'=>json_encode($tags['list']));
+      $params = array( "organization" => $organization,'type'=>$type,'types'=>$types['list'],'tags'=>json_encode($tags['list']));
       if($isMobile) {
     	  $this->layout = "//layouts/mainSimple";
     	  $this->render( "formMobile" , $params );
@@ -86,7 +97,43 @@ class OrganizationController extends CommunecterController {
       }
 	
   }
+  /*
+  {
+  "@context": "http://schema.org",
+  "@type": "LocalBusiness",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Mexico Beach",
+    "addressRegion": "FL",
+    "streetAddress": "3102 Highway 98"
+  },
+  "description": "A superb collection of fine gifts and clothing to accent your stay in Mexico Beach.",
+  "name": "Beachwalk Beachwear & Giftware",
+  "telephone": "850-648-4200"
+}
 
+"@context": "http://schema.org",
+  "@type": "NGO",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Paris, France",
+    "postalCode": "F-75002",
+    "streetAddress": "38 avenue de l'Opera"
+  },
+  "email": "secretariat(at)google.org",
+  "faxNumber": "( 33 1) 42 68 53 01",
+  "member": [
+    {
+      "@type": "Organization"
+    },
+    {
+      "@type": "Organization"
+    }
+  ],
+  "name": "Google.org (GOOG)",
+  "telephone": "( 33 1) 42 68 53 00"
+  }
+   */
   public function actionSave() 
   {
 	    if(Yii::app()->request->isAjaxRequest && isset($_POST['assoEmail']) && !empty($_POST['assoEmail']))
@@ -97,35 +144,71 @@ class OrganizationController extends CommunecterController {
                //validate isEmail
                $email = $_POST['assoEmail'];
                if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$email)) { 
+ 
                     $newAccount = array(
-                    			'email'=>$email,
-                    			"name" => $_POST['assoName'],
-                                'type'=>PHType::TYPE_ASSOCIATION ,
-                                'tobeactivated' => true,
-                                'adminNotified' => false,
-                                'created' => time()
-                                );
-                                
-                    if(!empty($_POST['assoCP']))
-                         $newAccount["cp"] = $_POST['assoCP'];
-                    //admin can create association for other people 
-                    if( !Citoyen::isAdminUser() ){     
-                        $position = array(new MongoId(Yii::app()->session["userId"]));
-                        if($_POST['assoPosition']==Association::$positionList[0])
-                            $newAccount["membres"] = $position;
-                        else if($_POST['assoPosition']==Association::$positionList[4])
-                            $newAccount["conseilAdministration"] = $position;
-                        else if(in_array($_POST['assoPosition'], array(Association::$positionList[1],Association::$positionList[2],Association::$positionList[3])))
-                            $newAccount["bureau"] = $position;
-                        else if($_POST['assoPosition']==Association::$positionList[5])
-                            $newAccount["benevolesActif"] = $position;
-                    }
-                    PHDB::insert( PHType::TYPE_GROUPS,$newAccount);
+                      "@context"=> array(
+                        "@vocab"=>"http://schema.org",
+                        "ph"=>"http://pixelhumain.com/ph/ontology/",
+                			),
+                      'email'=>$email,
+                			"name" => $_POST['assoName'],
+                      "type" => $_POST['type'],
+                      'ph:created' => time(),
+                      'ph:owner' => Yii::app()->session["userEmail"]
+                    );
+
+                    if($_POST['type'] == "association")
+                      $newAccount["@type"] = "NGO";
+                    elseif ($_POST['type'] == "entreprise") 
+                      $newAccount["@type"] = "LocalBusiness";
+                    else 
+                      $newAccount["@type"] = "Organization";
                     
+                    if(!empty($_POST['assoCP']))
+                    {
+                         $newAccount["cp"] = $_POST['assoCP'];
+                         $newAccount["address"] = array(
+                         "@type"=>"PostalAddress",
+                         "postalCode"=> $_POST['assoCP'],
+                         "addressLocality"=> $_POST['countryAsso']);
+                    }
+                    if(!empty($_POST['description']))
+                      $newAccount["description"] = $_POST['description'];
+                    
+                    //TODO : admin can create association for other people 
+                       
+                    //if($_POST['assoPosition']==Association::$positionList[0]) //"Membre"
+                    $newAccount["membres"] = array(Yii::app()->session["userId"]);
+                    /*else if($_POST['assoPosition']==Association::$positionList[4]) //"Secrétaire"
+                        $newAccount["conseilAdministration"] = $position;
+                    else if(in_array($_POST['assoPosition'], array(Association::$positionList[1],Association::$positionList[2],Association::$positionList[3])))
+                        $newAccount["bureau"] = $position;
+                    else if($_POST['assoPosition']==Association::$positionList[5])
+                        $newAccount["benevolesActif"] = $position;
+                    */
+                    //save any inexistant tag to DB 
+                    if( !empty($_POST['tagsAsso']) ){
+                      $tagsList = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+                      foreach( explode(",", $_POST['tagsAsso']) as $tag)
+                      {
+                        if(!in_array($tag, $tagsList['list']))
+                          PHDB::update( PHType::TYPE_LISTS,array("name"=>"tags"), array('$push' => array("list"=>$tag)));
+                      }
+                      $newAccount["tags"] = $_POST['tagsAsso'];
+                    }
+                    if(!isset($_POST['AssoId']))
+                      PHDB::insert( PHType::TYPE_GROUPS,$newAccount);
+                    else {
+                        //if there's an email change 
+                        PHDB::update( PHType::TYPE_GROUPS,array("_id" => new MongoId($_POST['AssoId'])), 
+                                                            array('$set' => $newAccount ) 
+                                                          );
+                    }
                     //add the association to the users association list
                     $where = array("_id" => new MongoId(Yii::app()->session["userId"]));	
                     PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("associations"=>$newAccount["_id"])));
                   
+                    
                     //send validation mail
                     //TODO : make emails as cron jobs
                     /*$message = new YiiMailMessage;
@@ -137,7 +220,7 @@ class OrganizationController extends CommunecterController {
                     Yii::app()->mail->send($message);*/
                     
                     //TODO : add an admin notification
-                    Notification::saveNotification(array("type"=>NotificationType::ASSOCIATION_SAVED,
+                    Notification::saveNotification(array("type"=>"Saved",
                     						"user"=>$newAccount["_id"]));
                     
                     echo json_encode(array("result"=>true, "msg"=>"Votre association est communecté.", "id"=>$newAccount["_id"]));
@@ -163,22 +246,24 @@ class OrganizationController extends CommunecterController {
 	 */
   public function actionDelete() 
   {
-	    if(Yii::app()->request->isAjaxRequest && Citoyen::isAdminUser())
+    $result = array("result"=>false, "msg"=>"Cette requete ne peut aboutir.");
+	  if(Yii::app()->session["userId"])
 		{
-            $account = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
-            if( $account )
-            {
-                  PHDB::remove( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
-                  //temporary for dev
-                  //TODO : Remove the association from all Ci accounts
-                  PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
-                  $result = array("result"=>true,"msg"=>"Donnée enregistrée.");
-                  
-                  echo json_encode($result); 
-            } else 
-                  echo json_encode(array("result"=>false,"msg"=>"Cette requete ne peut aboutir."));
-		} else
-		    echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
-		exit;
-	}
+    
+      $account = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
+      if( $account && Yii::app()->session["userEmail"] == $account['ph:owner'])
+      {
+        
+        PHDB::remove( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
+        //temporary for dev
+        //TODO : Remove the association from all Ci accounts
+        PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
+        
+        $result = array("result"=>true,"msg"=>"Donnée enregistrée.");
+
+      }
+	  }
+    echo Rest::json($result);
+  }
+
 }
