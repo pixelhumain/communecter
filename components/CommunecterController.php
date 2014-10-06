@@ -71,12 +71,9 @@ class CommunecterController extends Controller
   );
   
   public $toolbarMenuMaps = array(
-<<<<<<< HEAD
-      array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "key"=>"yourNetwork", "class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', '/communecter/sig/index', null)", 'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
-=======
+
     array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "key"=>"yourNetwork", "class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', '/communecter/sig', null)",'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
     //  array('label' => "Your Network", 'desc' => "People, Organisation, Events, Projects ", "href"=>"/ph/communecter/sig",'extra' => "around You", "iconClass"=>"fa-sitemap text-dark-green"),
->>>>>>> 30508727bad3924886f6c7fc9bd3a1228b9e6b33
       array('label' => "Local Companies", 'desc' => "Discover Companies around you", 'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
       array('label' => "Local State", 'desc' => "All the city hall public services", 'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
       array('label' => "Local Events", 'desc' => "Discover All sorts of local events around you", 'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),

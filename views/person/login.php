@@ -167,7 +167,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 	jQuery(document).ready(function() {
 		Main.init();
 		Login.init();
-		//$('#tags').select2({ tags: <?php echo $tags?> });
+		<?php //$('#tags').select2({ tags: <?php echo $tags }); ?>
 	
 	});
 
