@@ -6,10 +6,7 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags-In
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags-Input/jquery.tagsinput.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
-
 <div class="noteWrap col-md-8 col-md-offset-2">
-
-
 	<h1>Référencer votre organization</h1>
 	<h3> Merci de compléter vos données. </h3>
     
@@ -65,13 +62,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 						Country <span class="symbol required"></span>
 					</label>
 					<?php 
-                      $this->widget('yiiwheels.widgets.select2.WhSelect2', array(
+                     /*$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
                         'data' => OpenData::$phCountries, 
                         'name' => 'countryAsso',
                       	'id' => 'countryAsso',
                         'value'=>($asso && isset($asso['country']) ) ? $asso['country'] : "Réunion",
                         'pluginOptions' => array('width' => '150px')
-                      ));
+                      ));*/
         		    ?>
 				</div>
 				<div class="form-group">
@@ -88,13 +85,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags
 						Position
 					</label>
 					<?php 
-                		$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
+                		/*$this->widget('yiiwheels.widgets.select2.WhSelect2', array(
                                 'data' => Association::$position, 
                                 'name' => 'assoPosition',
                               	'id' => 'assoPosition',
                                 'value'=>($asso && isset($asso['position']) ) ? $asso['position'] : "membre",
                                 'pluginOptions' => array('width' => '150px')
-                              ));
+                              ));*/
                 		?>
 				</div>
 
@@ -165,7 +162,5 @@ jQuery(document).ready(function() {
     });
     
 });
-
-	
 </script>	
 
