@@ -1,13 +1,13 @@
 COMMUNECTED : get connected to your city
 ===========
-COMMUNECTED is part of the citizen's toolbox developped by the open-source network : HUMAN PIXEL.()
-With simply an email and his postal code, a citizen get connected to his city and all its actors. ()
-Through a dynamic interface each citizen can : ()
-- get linked to any fellow citizen sharing his interests,()
-- interact with locals organisations (associations or entreprises)() 
-- and communicate directly with his town hall.()
-Easily connected with their proximity network, citizens build local value from the usefulness of their interaction.()
-More  aware of neighbourhood intiatives and stake, citizens can get more involved in district council decisions and local() actions.
+COMMUNECTED is part of the citizen's toolbox developped by the open-source network : HUMAN PIXEL.
+With simply an email and his postal code, a citizen get connected to his city and all its actors.
+Through a dynamic interface each citizen can :
+- get linked to any fellow citizen sharing his interests,
+- interact with locals organisations (associations or entreprises)
+- and communicate directly with his town hall.
+Easily connected with their proximity network, citizens build local value from the usefulness of their interaction.
+More  aware of neighbourhood intiatives and stake, citizens can get more involved in district council decisions and local actions.
 
 ASAP
 ===========
