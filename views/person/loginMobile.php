@@ -2,6 +2,12 @@
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 ?>
+<style>
+body.login .main-login {
+  margin-top: 0px;
+  position: relative;
+}
+</style>
 
 <div class="row">
 
@@ -14,10 +20,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			<img height="150" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
 		</div>
 		
-		<!-- start: LOGIN BOX -->
-		
+		<!-- start: LOGIN BOX -->	
 		<div class="box-login2">
-			<form class="form-login" action="" method="POST">
+			<form name="loginForm" class="form-login" action="" method="POST">
 				<div class="errorHandler alert alert-danger no-display loginResult">
 					<i class="fa fa-remove-sign"></i> Please verify your entries.
 				</div>
@@ -27,7 +32,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 							<input type="text" class="form-control" name="email" id="email" placeholder="Email">
 							<i class="fa fa-user"></i> </span>
 					</div>
-					<div class="form-group form-actions">
+					<div class="form-group form-actions">	
 						<span class="input-icon">
 							<input type="password" class="form-control password"  name="password" id="password" placeholder="Password">
 							<i class="fa fa-lock"></i>
@@ -40,7 +45,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
 						</label>
-						<button type="submit" class="btn btn-green pull-right">
+						<button type="submit" name="submitLogin" style="display: none;" class="btn btn-green pull-right">
 							Login <i class="fa fa-arrow-circle-right"></i>
 						</button>
 						
@@ -48,12 +53,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					
 				</fieldset>
 			</form>
-			<a href="#" class="register"><button class="btn btn-blue pull-right">
+			<a href="#" id="startRegisterForm" class="register" ><button class="btn btn-blue pull-right" style="display: none;">
 				Register new account <i class="fa fa-arrow-circle-right"></i>
 			</button></a>
 		</div>
-		
-
+		<!-- end: LOGIN BOX -->
+		<!-- start: FORGOT BOX -->
 		<div class="box-forgot2" style="display: none;">
 			<p>
 				Enter your e-mail address below to get your password by email.
@@ -72,7 +77,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 						<a class="btn btn-light-grey go-back">
 							<i class="fa fa-chevron-circle-left"></i> Log-In
 						</a>
-						<button type="submit" class="btn btn-green pull-right">
+						<button type="submit" style="display: none;" class="btn btn-green pull-right">
 							Submit <i class="fa fa-arrow-circle-right"></i>
 						</button>
 					</div>
@@ -90,7 +95,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			<p>
 				Enter your personal details below:
 			</p>
-			<form class="form-register">
+			<form name="registerForm" class="form-register" >
 				<div class="errorHandler alert alert-danger no-display">
 					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 				</div>
@@ -125,20 +130,16 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					</div>
 
 					<div class="form-actions">
-						<button type="submit" class="btn btn-green pull-right">
+						<button type="submit" name="submitRegister" style="display: none;" class="btn btn-green pull-right">
 							Submit <i class="fa fa-arrow-circle-right"></i>
 						</button>
 					</div>
-					Already have an account?<a href="#" class="register"><button class="btn btn-blue go-back pull-right">
+					<a href="#" id="startConnectForm" class="go-back"><button style="display: none;" class="btn btn-blue go-back pull-right">
 				Log-In <i class="fa fa-arrow-circle-right"></i>
 			</button></a>
 				</fieldset>
 			</form>
-			<!-- start: COPYRIGHT -->
-			<div class="copyright">
-				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
-			</div>
-			<!-- end: COPYRIGHT -->
+			
 		</div>
 		<!-- end: REGISTER BOX -->
 	</div>
