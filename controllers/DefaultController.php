@@ -11,6 +11,9 @@ class DefaultController extends CommunecterController {
 
     protected function beforeAction($action)
   	{
+
+      parent::initPage();
+
       if(!Yii::app()->session["userId"])
         $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
       else  
@@ -23,21 +26,16 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-      $this->title = "Communectez vous";
-      $this->subTitle = "se connecter à sa commune";
-      $this->pageTitle = "Communecter, se connecter à sa commune";
-      
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      if($isMobile) {
-	$this->render("indexMob");
-      }
-      else {
-	$this->render("index");
-      }
+      if($isMobile) 
+      	$this->render("indexMob");
+      else 
+      	$this->render("index");
       
-    }
+      
+  }
     public function actionAbout() 
     {
       $this->title = "About";

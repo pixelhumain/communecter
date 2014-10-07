@@ -598,6 +598,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</thead>
 						<tbody>
 							<?php
+							if(isset($organizations)){
 							foreach ($organizations as $e) 
 							{
 							?>
@@ -613,7 +614,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 								</td>
 							</tr>
 							<?php
-							}
+							}}
 							?>
 						</tbody>
 					</table>

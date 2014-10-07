@@ -59,9 +59,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
       </div>
       <div class="panel-footer clearfix no-padding">
         <div class=""></div>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="Vos Associations" ><i class="fa fa-cog"></i></a>
-        <a href="#" onclick="getModal($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/association',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add an NGO" alt="Add an NGO"><i class="fa fa-plus"></i></a>
-        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/association")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="Découvrir"><i class="fa fa-chevron-right"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/profile?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="my NGOs" ><i class="fa fa-user"></i></a>
+        <a href="#" onclick="openSubView($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/association',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add an NGO" alt="Add an NGO"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/association")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="all NGOs"><i class="fa fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -83,9 +83,110 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
         </div>
       </div>
       <div class="panel-footer clearfix no-padding">
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/profile?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="My companies"><i class="fa fa-user"></i></a>
+        <a href="#" onclick="openSubView($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/entreprise',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add a Company"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/entreprise")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View all companies"><i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-red padding-20 text-center core-icon">
+          <i class="fa fa-child  fa-5x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Citizens</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
         <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
-        <a href="#" onclick="getModal($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/entreprise',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
-        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/entreprise")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/find")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-azure padding-20 text-center core-icon">
+          <i class="fa fa-institution fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">City Hall</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/type/cityhall")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-green padding-20 text-center core-icon">
+          <i class="fa fa-heart fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Sport</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <div class=""></div>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="my NGOs" ><i class="fa fa-user"></i></a>
+        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add an NGO" alt="Add an NGO"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/tags/type/sport")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="all NGOs"><i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3 col-sm-6">
+    <div class="panel panel-default panel-white core-box">
+      <div class="panel-tools">
+        <a href="#" class="btn btn-xs btn-link panel-close">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <div class="panel-body no-padding">
+        <div class="partition-blue padding-20 text-center core-icon">
+          <i class="fa fa-money fa-3x icon-big"></i>
+        </div>
+        <div class="padding-20 core-content">
+          <h3 class="title block no-margin">Consommation</h3>
+          <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
+        </div>
+      </div>
+      <div class="panel-footer clearfix no-padding">
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/profile?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="My companies"><i class="fa fa-user"></i></a>
+        <a href="#" onclick="openSubView($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/form/type/entreprise',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add a Company"><i class="fa fa-plus"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/entreprise")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View all companies"><i class="fa fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -123,17 +224,17 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
       </div>
       <div class="panel-body no-padding">
         <div class="partition-azure padding-20 text-center core-icon">
-          <i class="fa fa-comments fa-3x icon-big"></i>
+          <i class="fa fa-car fa-3x icon-big"></i>
         </div>
         <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Information</h3>
+          <h3 class="title block no-margin">Transport</h3>
           <span class="subtitle"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span>
         </div>
       </div>
       <div class="panel-footer clearfix no-padding">
         <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="More Options"><i class="fa fa-cog"></i></a>
         <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add Content"><i class="fa fa-plus"></i></a>
-        <a href="#" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
+        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/discuss/index")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="View More"><i class="fa fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -835,7 +936,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
 <!-- end: PAGE CONTENT-->
 <script>
   jQuery(document).ready(function() {
-    Main.init();
+   
    //Index.init();
   });
 
