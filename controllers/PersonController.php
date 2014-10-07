@@ -78,10 +78,14 @@ class PersonController extends CommunecterController {
   }
   public function actionProfile() 
   {
+    $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+    $organizations = PHDB::find(PHType::TYPE_GROUPS, array( "email" => Yii::app()->session["userEmail"] ) );
+    $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+
     if(!Yii::app()->session["userId"])
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     else 
-      $this->render( "index" );
+      $this->render( "index" , array("person"=>$person,"organizations"=>$organizations,"tags"=>$tags) );
   }
 
   /**
@@ -94,7 +98,7 @@ class PersonController extends CommunecterController {
   /**
    * Point d'entrée pour gérer son compte 
    */
-    public function actionMoi() {
+  public function actionMoi() {
       $this->render("compte");
   }
   /**
@@ -102,28 +106,28 @@ class PersonController extends CommunecterController {
    * he must click it to activate his account
    * This is cleared by removing the tobeactivated field in the pixelactifs collection
    */
-    public function actionActivate($user) {
-        $account = PHDB::findOne(PHType::TYPE_CITOYEN,array("_id"=>new MongoId($user)));
-        if($account){
-            Yii::app()->session["userId"] = $user;
-            Yii::app()->session["userEmail"] = $account["email"];
-            //remove tobeactivated attribute on account
-            Yii::app()->mongodb->citoyens->update(array("_id"=>new MongoId($user)), array('$unset' => array("tobeactivated"=>"")));
-            /*Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_ACTIVATED,
-                          "user"=>$account["_id"]));*/
-        }
-        //TODO : add notification to the cities,region,departement info panel
-        
-        
-        //TODO : redirect to monPH page , inciter le rezotage local
-        $this->redirect(Yii::app()->homeUrl);
+  public function actionActivate($user) {
+    $account = PHDB::findOne(PHType::TYPE_CITOYEN,array("_id"=>new MongoId($user)));
+    if($account){
+        Yii::app()->session["userId"] = $user;
+        Yii::app()->session["userEmail"] = $account["email"];
+        //remove tobeactivated attribute on account
+        Yii::app()->mongodb->citoyens->update(array("_id"=>new MongoId($user)), array('$unset' => array("tobeactivated"=>"")));
+        /*Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_ACTIVATED,
+                      "user"=>$account["_id"]));*/
+    }
+    //TODO : add notification to the cities,region,departement info panel
+    
+    
+    //TODO : redirect to monPH page , inciter le rezotage local
+    $this->redirect(Yii::app()->homeUrl);
                 
   }
   
   public function actionRegister()
   {
-      echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
-      exit;
+    echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
+    exit;
   }
   /**
    * Register to a secuure application, the unique pwd is linked to the application instance retreived by type
@@ -191,6 +195,9 @@ class PersonController extends CommunecterController {
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     
     exit;
+  }
+  public function actionSave(){
+      echo Rest::json(array("msg"=>"test  ok "));
   }
   /**
    * More details added to the user s registration account
