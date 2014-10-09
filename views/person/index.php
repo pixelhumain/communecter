@@ -365,7 +365,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<label class="control-label">
 										Tags
 									</label>
-									<input id="tags" type="hidden" value="<?php echo ($person && isset($person['tags']) ) ? implode(",", $person['tags']) : ""?>" style="display: none;">
+									
+									<input id="tags" name="tags" value="<?php echo ($person && isset($person['tags']) ) ?  $person['tags'] : ""?>" style="display: block;">
 								</div>
 							</div>
 							<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
@@ -503,11 +504,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 </div>
 
 <!-- end: PAGE CONTENT-->
-
 <script>
 	jQuery(document).ready(function() {
-		$('#tags').select2({ tags: <?php echo $tags?> });
-		$('#tags').select2({ tags: <?php echo $tags?> });
+	$('#tags').select2({ tags: <?php echo $tags ?> });
+	$('#tags').select2({ tags: <?php echo $tags ?> });
 		PagesUserProfile.init();
 	});
 	$(".delBtn").on("click",function(){
