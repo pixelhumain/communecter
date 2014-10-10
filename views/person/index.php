@@ -37,7 +37,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<h4><?php echo Yii::app()->session["user"]["name"]?></h4>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
 										<div class="user-image">
-											<div class="fileupload-new thumbnail"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1-xl.jpg" alt="">
+											<div class="fileupload-new thumbnail"><img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">
 											</div>
 											<div class="fileupload-preview fileupload-exists thumbnail"></div>
 											<div class="user-image-buttons">
@@ -341,8 +341,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 					</div>
 				</div>
-				<div id="panel_edit_account" class="tab-pane fade">
-					<form action="#" role="form" id="personForm">
+				<div id="panel_edit_account" class="tab-pane fade" >
+					<form action="#" role="form" id="personForm" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-12">
 								<h3>Account Info</h3>
@@ -422,12 +422,15 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 										Image Upload
 									</label>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
-										<div class="fileupload-new thumbnail"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1-xl.jpg" alt="">
+										<div class="fileupload-new thumbnail">
+											
+											<img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg' ?>" alt="">
+											
 										</div>
 										<div class="fileupload-preview fileupload-exists thumbnail"></div>
 										<div class="user-edit-image-buttons">
 											<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-												<input type="file">
+												<input type="file" name="avatar" id="avatar">
 											</span>
 											<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
 												<i class="fa fa-times"></i> Remove
@@ -537,11 +540,16 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 	});
 	$("#personForm").submit( function(event){	
 	event.preventDefault();
-	console.log($("#personForm").serialize());
+	var formData = new FormData($(this)[0]);
+
+	console.log(formData);
+	
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
-	  data: $("#personForm").serialize(),
+	  data: formData,
+	  contentType: false,
+	  processData : false,
 	  success: function(data){
 	  		if(data.result)
 	  			toastr.success(data.msg);
