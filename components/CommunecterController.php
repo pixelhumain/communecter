@@ -84,10 +84,10 @@ class CommunecterController extends Controller
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
     "person"=> array(
-      "index"=>array("href"=>"/ph/communecter/person",'title' => "Person", "subTitle"=>"all you need to know about TEEO events","pageTitle"=>"TEEO : Management de l'énergie"),
+      "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
     ),
     "organization"=> array(
-      "index"=>array("href"=>"/ph/communecter",'title' => "Meter Dashboard", "subTitle"=>"all you need to know about TEEO events","pageTitle"=>"TEEO : Management de l'énergie"),
+      "index"=>array("href"=>"/ph/communecter",'title' => "Organization"),
     ),
   );
 
