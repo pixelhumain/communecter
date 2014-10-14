@@ -76,7 +76,7 @@ class PersonController extends CommunecterController {
     Yii::app()->session["userId"] = null;
     $this->redirect(Yii::app()->homeUrl);
   }
-  public function actionProfile() 
+  public function actionIndex() 
   {
     $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
     $organizations = PHDB::find(PHType::TYPE_GROUPS, array( "email" => Yii::app()->session["userEmail"] ) );

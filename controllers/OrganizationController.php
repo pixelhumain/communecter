@@ -13,7 +13,7 @@ class OrganizationController extends CommunecterController {
     
 	
 
-    public function actionIndex($type=null)
+  public function actionIndex($type=null)
   {
     $this->title = "Organization";
     if($type){
