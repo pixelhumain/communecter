@@ -6,7 +6,7 @@
 class CommunecterController extends Controller
 {
 	//array_push( $this->sidebar1 , TeeoApi::getUserMap() );
-  public $title = "Communectez vous";
+  public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
   public static $moduleKey = "communecter";
@@ -76,4 +76,25 @@ class CommunecterController extends Controller
       array('label' => "Local State", 		'desc' => "All the city hall public services",				"key"=>"localStates", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local States', 	 	'/communecter/sig/state', null)", 		'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
       array('label' => "Local Events", 		'desc' => "Discover All sorts of local events around you", 	"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local Events', 	 	'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
   );
+
+  public $pages = array(
+    "default"=> array(
+      "index"=>array("href"=>"/ph/communecter"),
+      "about"=>array("href"=>"/ph/communecter/default/about"),
+      "contact"=>array("href"=>"/ph/communecter/default/contact"),
+    ),
+    "person"=> array(
+      "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
+    ),
+    "organization"=> array(
+      "index"=>array("href"=>"/ph/communecter",'title' => "Organization"),
+    ),
+  );
+
+  function initPage(){
+    $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
+    $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
+    $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
+    $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+  }
 }

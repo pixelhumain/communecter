@@ -185,7 +185,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 						<div class="col-sm-7 col-md-8">
 							<p>
-								<?php echo $organization["description"]?>
+								<?php if(isset($organization["description"]))echo $organization["description"]?>
 							</p>
 							<div class="row space20">
 								<div class="col-sm-3">
@@ -373,7 +373,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<label class="control-label">
 										Email Address
 									</label>
-									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo $organization["email"]?>" >
+									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php if(isset($organization["email"]))echo $organization["email"]?>" >
 								</div>
 								<div class="form-group">
 									<label class="control-label">
@@ -475,7 +475,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 											<label class="control-label">
 												Postal Code
 											</label>
-											<input class="form-control" placeholder="12345" type="text" name="zipcode" id="zipcode" value="<?php echo $organization["address"]["postalCode"]?>" >
+											<input class="form-control" placeholder="12345" type="text" name="zipcode" id="zipcode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 										</div>
 									</div>
 									<div class="col-md-8">

@@ -91,31 +91,22 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 									<tbody>
 										<tr>
 											<td>url</td>
-											<td>
-											<a href="#">
-												www.example.com
-											</a></td>
+											<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
 											<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 										</tr>
 										<tr>
 											<td>email:</td>
-											<td>
-											<a href="">
-												peter@example.com
-											</a></td>
+											<td><a href=""><?php echo Yii::app()->session["userEmail"];?></a></td>
 											<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 										</tr>
 										<tr>
 											<td>phone:</td>
-											<td>(641)-734-4763</td>
+											<td><?php if(isset($person["telephone"]))echo $person["telephone"];?></td>
 											<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 										</tr>
 										<tr>
-											<td>skye</td>
-											<td>
-											<a href="">
-												peterclark82
-											</a></td>
+											<td>skype</td>
+											<td><?php if(isset($person["skype"]))echo $person["skype"];?></td>
 											<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 										</tr>
 									</tbody>
@@ -351,138 +342,77 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 					</div>
 				</div>
 				<div id="panel_edit_account" class="tab-pane fade">
-					<form action="#" role="form" id="form">
+					<form action="#" role="form" id="personForm">
 						<div class="row">
 							<div class="col-md-12">
 								<h3>Account Info</h3>
 								<hr>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label class="control-label">
 										First Name
 									</label>
-									<input type="text" placeholder="Peter" class="form-control" id="firstname" name="firstname" value="<?php echo Yii::app()->session["user"]["name"]?>">
+									<input type="text" placeholder="Peter" class="form-control" id="name" name="name" value="<?php if(isset($person["name"]))echo $person["name"];?>">
 								</div>
 								<div class="form-group">
 									<label class="control-label">
 										Email Address
 									</label>
-									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" >
+									<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo Yii::app()->session["userEmail"];?>">
 								</div>
 								<div class="form-group">
 									<label class="control-label">
-										Phone
+										Tags
 									</label>
-									<input type="email" placeholder="(641)-734-4763" class="form-control" id="phone" name="email">
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Password
-									</label>
-									<input type="password" placeholder="password" class="form-control" name="password" id="password">
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Confirm Password
-									</label>
-									<input type="password"  placeholder="password" class="form-control" id="password_again" name="password_again">
+									<input id="tags" type="hidden" value="<?php echo ($person && isset($person['tags']) ) ? implode(",", $person['tags']) : ""?>" style="display: none;">
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group connected-group">
-									<label class="control-label">
-										Date of Birth
-									</label>
-									<div class="row">
-										<div class="col-md-3">
-											<select name="dd" id="dd" class="form-control" >
-												<option value="">DD</option>
-												<option value="01">1</option>
-												<option value="02">2</option>
-												<option value="03">3</option>
-												<option value="04">4</option>
-												<option value="05">5</option>
-												<option value="06">6</option>
-												<option value="07">7</option>
-												<option value="08">8</option>
-												<option value="09">9</option>
-												<option value="10">10</option>
-												<option value="11">11</option>
-												<option value="12">12</option>
-												<option value="13">13</option>
-												<option value="14">14</option>
-												<option value="15">15</option>
-												<option value="16">16</option>
-												<option value="17">17</option>
-												<option value="18">18</option>
-												<option value="19">19</option>
-												<option value="20">20</option>
-												<option value="21" selected="selected">21</option>
-												<option value="22">22</option>
-												<option value="23">23</option>
-												<option value="24">24</option>
-												<option value="25">25</option>
-												<option value="26">26</option>
-												<option value="27">27</option>
-												<option value="28">28</option>
-												<option value="29">29</option>
-												<option value="30">30</option>
-												<option value="31">31</option>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<select name="mm" id="mm" class="form-control" >
-												<option value="">MM</option>
-												<option value="01">1</option>
-												<option value="02">2</option>
-												<option value="03">3</option>
-												<option value="04">4</option>
-												<option value="05">5</option>
-												<option value="06">6</option>
-												<option value="07">7</option>
-												<option value="08">8</option>
-												<option value="09">9</option>
-												<option value="10" selected="selected">10</option>
-												<option value="11">11</option>
-												<option value="12">12</option>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<input type="text" placeholder="1982" id="yyyy" name="yyyy" class="form-control">
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Gender
-									</label>
-									<div>
-										<label class="radio-inline">
-											<input type="radio" class="grey" value="" name="gender" id="gender_female">
-											Female
-										</label>
-										<label class="radio-inline">
-											<input type="radio" class="grey" value="" name="gender"  id="gender_male" checked="checked">
-											Male
-										</label>
-									</div>
-								</div>
+							<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
+								
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
 											<label class="control-label">
-												Zip Code
+												Postal Code
 											</label>
-											<input class="form-control" placeholder="12345" type="text" name="zipcode" id="zipcode">
+											<input class="form-control" placeholder="12345" type="text" name="postalCode" id="postalCode"  value="<?php if(isset($person["cp"]))echo $person["cp"];?>">
 										</div>
 									</div>
-									<div class="col-md-8">
+									<div class="col-md-4">
 										<div class="form-group">
 											<label class="control-label">
 												City
 											</label>
-											<input class="form-control tooltips" placeholder="London (UK)" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
+											<select name="city" id="city" class="form-control">
+												<option></option>
+												<?php 
+												foreach (OpenData::$commune["974"] as $key => $value) 
+												{
+												?>
+												<option value="<?php echo $value?>" <?php if(($person && isset($person['city']) && $value == $person['city']) ) echo "selected"; ?> ><?php echo $value?></option>
+												<?php 
+												}
+												?>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="control-label">
+												Country
+											</label>
+											<select name="country" id="country" class="form-control">
+												<option></option>
+												<?php 
+												foreach (OpenData::$phCountries as $key => $value) 
+												{
+												?>
+												<option value="<?php echo $key?>" <?php if(($person && isset($person["address"]["addressLocality"]) && $key == $person["address"]["addressLocality"]) ) echo "selected";  ?> ><?php echo $key?></option>
+												<?php 
+												}
+												?>
+											</select>
 										</div>
 									</div>
 								</div>
@@ -508,64 +438,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<h3>Additional Info</h3>
-								<hr>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">
-										Twitter
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-twitter"></i> </span>
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Facebook
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-facebook"></i> </span>
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Google Plus
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-google-plus"></i> </span>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="control-label">
-										Github
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-github"></i> </span>
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Linkedin
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-linkedin"></i> </span>
-								</div>
-								<div class="form-group">
-									<label class="control-label">
-										Skype
-									</label>
-									<span class="input-icon">
-										<input class="form-control" type="text" placeholder="Text Field">
-										<i class="fa fa-skype"></i> </span>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
 								<div>
 									Required Fields
 									<hr>
@@ -573,12 +445,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-8">
+							<div class="col-sm-8  col-xs-12">
 								<p>
 									By clicking UPDATE, you are agreeing to the Policy and Terms &amp; Conditions.
 								</p>
 							</div>
-							<div class="col-md-4">
+							<div class="col-sm-4  col-xs-12">
 								<button class="btn btn-green btn-block" type="submit">
 									Update <i class="fa fa-arrow-circle-right"></i>
 								</button>
@@ -598,6 +470,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</thead>
 						<tbody>
 							<?php
+							if(isset($organizations)){
 							foreach ($organizations as $e) 
 							{
 							?>
@@ -613,22 +486,28 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 								</td>
 							</tr>
 							<?php
-							}
+							}}
 							?>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
+<div class="row">
+	<div class="col-md-12 padding-20">
 		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
+		<a href="javascript:;" onclick="openSubView('Invite Someone', '/communecter/person/invite',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Invite Someone</a>
+	</div>	
+</div>
 	</div>
 </div>
+
 <!-- end: PAGE CONTENT-->
 
 <script>
 	jQuery(document).ready(function() {
-		Main.init();
-		SVExamples.init();
+		$('#tags').select2({ tags: <?php echo $tags?> });
+		$('#tags').select2({ tags: <?php echo $tags?> });
 		PagesUserProfile.init();
 	});
 	$(".delBtn").on("click",function(){
@@ -656,4 +535,20 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 		});
 
 	});
+	$("#personForm").submit( function(event){	
+	event.preventDefault();
+	console.log($("#personForm").serialize());
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/"+moduleId+"/api/saveUser",
+	  data: $("#personForm").serialize(),
+	  success: function(data){
+	  		if(data.result)
+	  			toastr.success(data.msg);
+	  		else
+	  			toastr.error(data.msg);
+	  },
+	  dataType: "json"
+	});
+});
 </script>

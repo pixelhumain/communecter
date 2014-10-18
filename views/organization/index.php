@@ -60,7 +60,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/
 							foreach ($groups as $e) {
 							?>
 							<tr>
-								<td><a href="<?php echo Yii::app()->createUrl('association/view/id/'.$e["_id"])?>"><?php echo $e["name"]?></a></td>
+								<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/view/id/'.$e["_id"])?>"><?php echo $e["name"]?></a></td>
 								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 								<td><a href="#" class="edit-row">Edit</a></td>
 								<td><a href="#" class="delete-row">Delete</a></td>
