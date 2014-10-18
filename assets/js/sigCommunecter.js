@@ -439,7 +439,7 @@
 		listDataElementMap[origine] = new Array(); 
 		
 		//affiche ma position sur la carte (icon Maison / Home)
-		showMyPosition(map, origine, myInfos);
+		//showMyPosition(map, origine, myInfos);
 		
 		//lorsque la carte bouge, on vérifie la liste de droite,
 		//pour n'afficher que les éléments qui sont visible sur la carte dans le nouveau bound
