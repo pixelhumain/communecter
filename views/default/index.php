@@ -30,6 +30,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
 		$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.css');
 		$cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.Default.css');
 		$cs->registerCssFile($this->module->assetsUrl. '/css/sig.css');
+		$cs->registerCssFile($this->module->assetsUrl. '/css/news.css');
 		//$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.awesome-markers.css');
 
 		$cs->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js' , CClientScript::POS_END);

@@ -10,7 +10,9 @@ $cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.css');
 $cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.draw.ie.css');
 $cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.css');
 $cs->registerCssFile($this->module->assetsUrl. '/css/MarkerCluster.Default.css');
+$cs->registerCssFile($this->module->assetsUrl. '/css/dvf.css');
 $cs->registerCssFile($this->module->assetsUrl. '/css/sig.css');
+$cs->registerCssFile($this->module->assetsUrl. '/css/news.css');
 //$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.awesome-markers.css');
 
 $cs->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js' , CClientScript::POS_END);
@@ -20,8 +22,40 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 //$cs->registerScriptFile($this->module->assetsUrl.'/js/sigCommunecter.js' , CClientScript::POS_END);
 //$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
 
-//$this->pageTitle=$this::moduleTitle;
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/copyright.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.utils.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.linearfunctions.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.palettes.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.regularpolygon.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.markers.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.chartmarkers.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.datalayer.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.lines.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.controls.js' , CClientScript::POS_END);
+
+
 ?>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/copyright.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.utils.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.linearfunctions.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.palettes.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.regularpolygon.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.markers.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.chartmarkers.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.datalayer.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.lines.js';?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.controls.js';?>" type="text/javascript"></script>
+
+<style>
+	<?php //solve bug polygones invisible ?>
+	svg{
+		height:auto;
+		width:auto;		
+	}
+</style>
+
+<div class="mapCanvas" id="mapCanvas" style="background-color:#2C2F3B;">
+</div> 
 
  <!-- 	RIGHT TOOL MAP (PSEUDO SEARCH + LIST ELEMENTS) -->		
 	<div id="right_tool_map">
@@ -43,7 +77,7 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 	<div id="left_barre_tool_map">	
 		<!-- 	BTN HOME -->
 		<a href="javascript:zoomToMyPosition()" id="btn_home" class="btn_right_barre_tool_map" style="padding-top:12px; padding-bottom:8px;">
-			<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/btn_go_home.png" height=25></center>
+			<center><i class='fa fa-home fa-2x' title='zoomer sur votre position'></i></center>
 		</a>
 		<!-- 	BTN ZOOM IN -->
 		<a href="javascript:zoomIn()" id="btn_zoom_in" class="btn_right_barre_tool_map" style="font-size:25px;">
@@ -54,14 +88,10 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.
 			<center>-</center>
 		</a>
 		<!-- 	BTN RELOAD MAP -->
-		<a href="#" id="btn_reload_map" class="btn_right_barre_tool_map">
-			<center><img src="<?php echo $this->module->assetsUrl; ?>/images/sig/reload.png" height=30></center>
+		<a href="#" id="btn_reload_map" class="btn_right_barre_tool_map" style="padding-top:10px; padding-bottom:10px;">
+			<center><i class="fa fa-refresh fa-lg"></i></center>
 		</a>
 		
 		
 	</div>
 <!-- 	LEFT BAR MAP -->
-
-<div class="mapCanvas" id="mapCanvas">
-</div> 
- 

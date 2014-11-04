@@ -24,7 +24,7 @@
 		
 		//affiche le GIF pendant le chargement de la carte
 		$('#btn_reload_map').html(
-			'<center><img src="' + assetPath + '/images/sig/ajax-loader.gif" height=22></center>');
+			'<center><i class="fa fa-refresh fa-spin fa-lg"></i></center>');
 		
 		//envoie la requête pour récupérer les éléments à afficher sur la carte
 		testitpost("", '/ph/communecter/sig/' + origine, params, //ShowMapByOrigine', params,
@@ -85,7 +85,22 @@
 									//evénement au click sur un élément de la liste de droite
 									//on affiche la popup et on centre la carte sur le marker correspondant
 									$('#item_map_list_'+ objectId).on('click',  
-									function(e) { marker.openPopup();  map.panTo(marker.getLatLng()); });
+									function(e) { 
+										map.panTo(marker.getLatLng());  
+										if(map.getZoom() < 13) map.setZoom(13);  
+										marker.openPopup();
+									});
+									//evénement au click sur un élément de la liste de droite
+									//on affiche la popup et on centre la carte sur le marker correspondant
+									$('#item_map_list_'+ objectId).on('mouseover',  
+									function(e) { showCirclePosAt(marker.getLatLng(), 23); });
+									
+									//evénement au click sur un élément de la liste de droite
+									//on affiche la popup et on centre la carte sur le marker correspondant
+									$('#item_map_list_'+ objectId).on('mouseout',  
+									function(e) { hideCircle(); });
+									
+									
 								} 
 								//sinon on créé un marker pour les clusters
 								else {
@@ -112,19 +127,37 @@
 					onEachFeature: function (feature, layer) {				   //sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); //ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   //affiche l'icon demandé
-							layer.on('mouseover', function(e) { layer.openPopup(); });
-							layer.on('mouseout',  function(e) { layer.closePopup(); });
+							layer.on('mouseover', 
+							function(e) { 
+								layer.openPopup(); 
+								showCirclePosAt(layer.getLatLng(), 23); 
+							});
+							//layer.on('mouseout',  function(e) { layer.closePopup(); });
 							
 							//evénement au click sur une éléments de la liste (de droite)
 							$('#item_map_list_'+ feature["properties"]["_id"]).on('click',  
-							function(e) { layer.openPopup(); map.panTo(layer.getLatLng()); });
+							function(e) { 
+								map.setView(layer.getLatLng());  
+								if(map.getZoom() < map.getMaxZoom()) map.setZoom(map.getMaxZoom());  
+								layer.openPopup();
+							});
+							
+							//evénement au click sur une éléments de la liste (de droite)
+							$('#item_map_list_'+ feature["properties"]["_id"]).on('mouseover',  
+							function(e) { showCirclePosAt(layer.getLatLng(), 23); });
+							
+							//evénement au click sur une éléments de la liste (de droite)
+							//$('#item_map_list_'+ feature["properties"]["_id"]).on('mouseout',  
+							//function(e) { hideCircle(); });
+							
+						
 						}
 					});
 									
 				markersLayer.addLayer(points); 			// add it to the cluster group
 				mapClusters.addLayer(markersLayer);		// add it to the map
 				
-				$('#btn_reload_map').html('<center><img src="' + assetPath + '/images/sig/reload.png" height=30></center>');
+				$('#btn_reload_map').html('<center><i class="fa fa-refresh fa-lg"></i></center>');
 		
 			});					
 	}
@@ -176,6 +209,8 @@
 		if(citoyen['phoneNumber'] != null)     
 		content += 	"<div class='popup-info-profil'>" + citoyen['phoneNumber'] + "<div/>";
 		
+		content += "<center><a href='#' class='btn btn-primary' style='color:white; margin-top:7px;'>Voir le profil <i class='fa fa-arrow-circle-right'></i></a></center>";
+		
 		return content;
 	}				
 	
@@ -199,8 +234,12 @@
 		var marker = L.marker(new Array(coordinates[1], coordinates[0]), { icon : options.icon }).addTo(thisMap)
 		.bindPopup(contentString);
 		
-		marker.on('mouseover', function(e) { marker.openPopup(); });
-		marker.on('mouseout',  function(e) { marker.closePopup(); });
+		marker.on('mouseover', 
+			function(e) { 
+				marker.openPopup(); 
+				showCirclePosAt(marker.getLatLng(), 23); 
+			});
+		//marker.on('mouseout',  function(e) { marker.closePopup(); });
 									
 		return marker;
 	}
@@ -213,42 +252,42 @@
   		if(tag == "citoyen") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_CITOYENS.png",
 												iconSize: 		[14, 14],
 												iconAnchor: 	[7, 7],
-												popupAnchor: 	[0, -14] };
+												popupAnchor: 	[0, -7] };
 													
 		if(tag == "pixelActif") return { iconUrl: assetPath + "/images/sig/markers/02_ICON_PIXEL_ACTIF.png",
 												iconSize: 		[14, 14],
-												iconAnchor: 	[7,  14],
-												popupAnchor: 	[0, -14] };	
+												iconAnchor: 	[7,  7],
+												popupAnchor: 	[0, -7] };	
 																								
 		if(tag == "partnerPH") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_PARTENAIRES.png",
 												iconSize: 		[14, 16],
-												iconAnchor: 	[7,  16],
-												popupAnchor: 	[0, -14] };		
+												iconAnchor: 	[7,  8],
+												popupAnchor: 	[0, -8] };		
 													
 		if(tag == "commune") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_COMMUNES.png",
 												iconSize: 		[14, 14],
-												iconAnchor: 	[7,  14],
-												popupAnchor: 	[0, -14] };		
+												iconAnchor: 	[7,  7],
+												popupAnchor: 	[0, -7] };		
 		
 		if(tag == "association") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_ASSOCIATIONS.png",
 												iconSize: 		[15, 13],
-												iconAnchor: 	[7,  13],
-												popupAnchor: 	[0, -13] };		
+												iconAnchor: 	[7,  6],
+												popupAnchor: 	[0, -6] };		
 		
 		if(tag == "projectLeader") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_PORTEUR_PROJET.png",
 												iconSize: 		[15, 16],
-												iconAnchor: 	[7,  16],
-												popupAnchor: 	[0, -16] };		
+												iconAnchor: 	[7,  8],
+												popupAnchor: 	[0, -8] };		
 		
 		if(tag == "artiste") 	return { iconUrl: assetPath + "/images/sig/markers/02_ICON_ARTISTES.png",
 												iconSize: 		[17, 19],
-												iconAnchor: 	[8,  19],
-												popupAnchor: 	[0, -19] };		
+												iconAnchor: 	[8,  9],
+												popupAnchor: 	[0, -9] };		
 		
 		if(tag == "home") 		return { iconUrl: assetPath + "/images/sig/markers/HOME.png",
 												iconSize: 		[32, 32],
-												iconAnchor: 	[16,  32],
-												popupAnchor: 	[0, -32] };			  		
+												iconAnchor: 	[16,  16],
+												popupAnchor: 	[0, -16] };			  		
 		
 		return { iconUrl: assetPath + "/images/sig/markers/02_ICON_CITOYENS.png",
 												iconSize: 		[14, 14],
@@ -403,16 +442,28 @@
 		var map = L.map(canvasId, { "zoomControl" : false, 
 									"scrollWheelZoom" : false,
 									"doubleClickZoom" : true,
-									"worldCopyJump" : true }).setView(myPosition, 12);
+									//"worldCopyJump" : true 
+									}).setView(myPosition, 9);
 		
 		//choix du style de la carte							
+		/*L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+			minZoom: 2,
+			maxZoom: 18,
+	
+		}).setOpacity(0.8).addTo(map);*/
 		L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 			subdomains: 'abcd',
-			minZoom: 2,
-			maxZoom: 15
+			minZoom: 0,
+			maxZoom: 20
 		}).setOpacity(0.4).addTo(map);
-	
+		/*
+		var OpenWeatherMap_Clouds = L.tileLayer('http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>',
+			opacity: 0.5
+			}).addTo(map);
+		*/	
 		//$('#' + canvasId).css({"height" : "100%"; });
 		
 		return map; 
@@ -426,7 +477,7 @@
 		
 		//définition du centre de la carte (par defaut [30.29702, -21.97266])
 		var initCenter = (myPosition != null) ? myPosition : [30.29702, -21.97266];
-		
+		//initCenter = [45.89001, 3.60352];
 		//charge la carte
 		map = loadMap("mapCanvas", initCenter);
 		
@@ -446,25 +497,92 @@
 		map.on('moveend', function(e) {
 			checkListElementMap(origine);
 		 }); 
+		
 		 
 		//appèle la fonction principale qui permet de récupérer les éléments à afficher sur la carte 
 		showCitoyensClusters(map, origine, listIdElementMap);
 
+		showNews("Network");
 		
 		//losqu'on click sur le bouton "recharger la carte", on appele la fonction principale
 		$('#btn_reload_map').click(function(event) {
 			showCitoyensClusters(map, origine, listIdElementMap);
+			if($("#newsstream") != null)
+			showNews("Network");
 		});
 		 
 		//lorsqu'on click sur le bouton pour filter la liste de droite par UserName,
-		//on lance la recherche !
+		//on lance la recherche
 		$('#btn_pseudo_filter').click(function(event) {
 			searchByUserName(origine, $('#input_txt_pseudo_filter').val());
 		});
 		
-		
+		initCirclePosition(myPosition);
 	}
 	
+	function showNews(origine){
+	
+		var bounds = map.getBounds();
+		var params = {};
+		params["latMinScope"] = bounds.getSouthWest().lat;
+		params["lngMinScope"] = bounds.getSouthWest().lng;
+		params["latMaxScope"] = bounds.getNorthEast().lat;
+		params["lngMaxScope"] = bounds.getNorthEast().lng;
+		params["myPosition"]  = myPosition;
+		
+		testitpost("", '/ph/communecter/sig/GetNews' + origine, params,
+			function (data){ //alert(JSON.stringify(data));				
+				$("#newsstream").html(data);
+				$("#more_info_news").html(data);
+			
+		});	
+	}
+	
+	function showPolygones(){ 
+	
+		var marker = new L.RegularPolygonMarker(new L.LatLng(51.508, -0.11), {
+			 numberOfSides: 5,
+			 color:"red",
+			 radius: 30
+			});
+         map.addLayer(marker);
+         map.panTo(marker.getLatLng());     
+         
+
+	}
+	
+	function initCirclePosition(circleLocation){ 
+	
+		// Add a circle...
+        // var circleLocation = new L.LatLng(51.508, -0.11);
+         var circleOptions = {
+                 color: '#428BCA', 
+                 fillColor: '#78b5e8', 
+                 fillOpacity: 0.3,
+                 weight:3,
+                 radius:25
+             };
+             
+         circlePosition = new L.CircleMarker(circleLocation, circleOptions);
+         map.addLayer(circlePosition);   
+         //map.panTo(circle.getLatLng());     
+         
+	}
+	
+	function showCirclePosAt(latlng, radius){
+		circlePosition.setLatLng(latlng);
+		circlePosition.setRadius(radius);
+		circlePosition.setStyle({
+			fillOpacity: 0.5,
+            opacity: 0.8                 
+		});	
+	}
+	function hideCircle(){
+		circlePosition.setStyle({
+			fillOpacity: 0,
+            opacity: 0                 
+		});		
+	}
 	
 	function zoomIn(){ map.zoomIn(); }
 	function zoomOut(){ map.zoomOut(); }
