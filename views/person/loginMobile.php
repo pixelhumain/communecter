@@ -45,7 +45,7 @@ body.login .main-login {
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
 						</label>
-						<button type="submit" name="submitLogin" style="display: none;" class="btn btn-green pull-right">
+						<button type="submit" name="submitLogin" class="btn btn-green pull-right">
 							Login <i class="fa fa-arrow-circle-right"></i>
 						</button>
 						
@@ -53,7 +53,7 @@ body.login .main-login {
 					
 				</fieldset>
 			</form>
-			<a href="#" id="startRegisterForm" class="register" ><button class="btn btn-blue pull-right" style="display: none;">
+			<a href="#" class="register" ><button id="startRegisterForm" class="btn btn-blue pull-right" >
 				Register new account <i class="fa fa-arrow-circle-right"></i>
 			</button></a>
 		</div>
@@ -77,7 +77,7 @@ body.login .main-login {
 						<a class="btn btn-light-grey go-back">
 							<i class="fa fa-chevron-circle-left"></i> Log-In
 						</a>
-						<button type="submit" style="display: none;" class="btn btn-green pull-right">
+						<button type="submit" class="btn btn-green pull-right">
 							Submit <i class="fa fa-arrow-circle-right"></i>
 						</button>
 					</div>
@@ -130,11 +130,11 @@ body.login .main-login {
 					</div>
 
 					<div class="form-actions">
-						<button type="submit" name="submitRegister" style="display: none;" class="btn btn-green pull-right">
+						<button type="submit" name="submitRegister" class="btn btn-green pull-right">
 							Submit <i class="fa fa-arrow-circle-right"></i>
 						</button>
 					</div>
-					<a href="#" id="startConnectForm" class="go-back"><button style="display: none;" class="btn btn-blue go-back pull-right">
+					<a href="#" id="startConnectForm" class="go-back"><button class="btn btn-blue go-back pull-right">
 				Log-In <i class="fa fa-arrow-circle-right"></i>
 			</button></a>
 				</fieldset>

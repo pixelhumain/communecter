@@ -1,6 +1,6 @@
 .mapCanvas{
  	min-width:69%;
- 	max-width:70%;
+ 	max-width:100%;
  	min-height:380px;
  	background-color:#425766;
  	color:black;
@@ -61,15 +61,21 @@
  	font-size:13px;
  	color:#2aa0bd;
  }
-
+svg{
+		height:auto;
+		width:auto;
+		
+	}
 
 /*
-	from KaVa
+	-------------
 */
 #left_barre_tool_map{
 	width:6%;
-	float:left;
-	height:380px;
+	position:absolute !important;
+	top:10px;
+	left:10px;
+	border-radius:5px;
 	background-color:white;
 	-moz-box-shadow: inset -1px 0px 2px 0px #c0c0c0;
 	-webkit-box-shadow: inset -1px 0px 2px 0px #c0c0c0;
@@ -90,8 +96,11 @@
 
 #right_tool_map{
 	width:25%;
-	float:right;
-	height:380px;
+	position:absolute !important;
+	top:10px;
+	left:400px;
+	height:340px;
+	border-radius:5px;
 	background-color:white;
 	-moz-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
 	-webkit-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
@@ -138,7 +147,7 @@
 	float:left;
 	width:100%;
 	padding-top:5px;
-	height:325px;
+	height:285px;
 	margin-top:10px;
 	overflow-y:auto;
 	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
@@ -203,3 +212,4 @@
 .btn_right_barre_tool_map:hover{
 	background-color:d3d1d5;
 }
+

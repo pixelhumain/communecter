@@ -152,10 +152,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					</div>
 				</fieldset>
 			</form>
-			<!-- start: COPYRIGHT -->
-			<div class="copyright">
-				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
-			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
 		<!-- end: REGISTER BOX -->
