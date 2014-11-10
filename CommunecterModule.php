@@ -15,7 +15,7 @@ class CommunecterModule extends CWebModule
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
-		Yii::app()->homeUrl = "/ph/communecter";
+		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
 		Yii::app()->theme  = "rapidos";
 		// import the module-level models and components
 		$this->setImport(array(

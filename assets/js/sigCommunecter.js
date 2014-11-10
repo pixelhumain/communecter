@@ -27,7 +27,7 @@
 			'<center><i class="fa fa-refresh fa-spin fa-lg"></i></center>');
 		
 		//envoie la requête pour récupérer les éléments à afficher sur la carte
-		testitpost("", '/ph/communecter/sig/' + origine, params, //ShowMapByOrigine', params,
+		testitpost("", baseUrl+'/communecter/sig/' + origine, params, //ShowMapByOrigine', params,
 			function (data){ //alert(JSON.stringify(data));
 			
 				//mémorise le nom de la carte
@@ -530,7 +530,7 @@
 		params["lngMaxScope"] = bounds.getNorthEast().lng;
 		params["myPosition"]  = myPosition;
 		
-		testitpost("", '/ph/communecter/sig/GetNews' + origine, params,
+		testitpost("", baseUrl+'/communecter/sig/GetNews' + origine, params,
 			function (data){ //alert(JSON.stringify(data));				
 				$("#newsstream").html(data);
 				$("#more_info_news").html(data);
