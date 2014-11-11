@@ -168,8 +168,8 @@ class ApiController extends Controller {
     public function actions()
     {
         return array(
-            'index'             => 'application.components.api.controllers.IndexAction',
-            'login'         =>'application.controllers.user.LoginAction',
+            'index'     => 'application.components.api.controllers.IndexAction',
+            'login'     =>'application.controllers.user.LoginAction',
             'saveuser'  =>'application.controllers.user.SaveUserAction',
             'communect' => 'application.controllers.user.CommunectAction',
             'getuser'   => 'application.controllers.user.GetUserAction',

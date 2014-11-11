@@ -46,7 +46,7 @@ class CommunecterController extends Controller
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
-              "myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
+              //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
               "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('Invite someone', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
