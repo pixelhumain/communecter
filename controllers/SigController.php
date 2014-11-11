@@ -39,7 +39,7 @@ class SigController extends CommunecterController {
     	 foreach($user as $me)
     	 if(!isset($me["geo"]) && isset($me["cp"])) {
     		$res = array(Yii::app()->session["userId"] => 
-						getGeoPositionByCp($me["cp"]));
+						$this->getGeoPositionByCp($me["cp"]));
 			Rest::json( $res );
 			Yii::app()->end();
         }
@@ -285,7 +285,7 @@ class SigController extends CommunecterController {
 								
 				//PHOTO PROFIL
 				$html .= "<div class='pic_profil_author_post'>".
-						 "<img class='img_profil_round'  src='/ph/themes/rapidos/assets/images/avatar-1.jpg' height=55>".
+						 "<img class='img_profil_round'  src='".Yii::app()->theme->baseUrl."/assets/images/avatar-1.jpg' height=55>".
 						 "</div>";
 			
 				//ICO TYPE ACCOUNT
