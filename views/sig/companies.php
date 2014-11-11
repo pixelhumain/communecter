@@ -8,7 +8,7 @@ $(document).ready( function()
 { 	
 	//récupère les coordonnées de ma position
 	//et lance la création de la carte
-	testitpost("", '/ph/communecter/sig/GetMyPosition', null,
+	testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/sig/GetMyPosition', null,
 		function (data){ //alert(JSON.stringify(data));
 			var myInfos;
 			$.each(data, function() { 

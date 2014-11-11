@@ -85,7 +85,7 @@ class PersonController extends CommunecterController {
     if(!Yii::app()->session["userId"])
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     else 
-      $this->render( "index" , array("person"=>$person,"organizations"=>$organizations,"tags"=>$tags) );
+      $this->render( "index" , array("person"=>$person,"organizations"=>$organizations,'tags'=>json_encode($tags['list'])) );
   }
 
   /**
