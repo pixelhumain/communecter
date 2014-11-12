@@ -413,8 +413,8 @@ div.timeline{ margin-right:0px; }
 <script type="text/javascript">
 	
 	//importer les données News
-	$('#btn_import_data').click(function(event) {
-		testitpost("", '/ph/communecter/sig/ImportData', null,
+	$('#btn_import_data').click(function(event) { 
+		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/sig/ImportData', null,
 			function (data){ //alert(JSON.stringify(data));				
 				$("#resImportData").html(data);
 		});	

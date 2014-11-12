@@ -1,8 +1,10 @@
 <style>
 	.label-info{
 		margin-right:4px !important;
+		font-weight: normal !important;
 		margin-bottom:4px !important;
-		font-size:12px !important;
+		margin-top:-3px;
+		font-size:14px !important;
 		display:inline-block !important;
 	}
 	.label-inverse{
@@ -65,9 +67,6 @@
 					
 					
 					<ul class="dropdown-menu" id="dropdown_contact" style="width:250px;">
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Tristan Goguet', 'contact')">@Tristan Goguet</a></li>
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Tibor Katelback', 'contact')">@Tibor Katelback</a></li>
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Houssama Benladen', 'contact')">@Houssama Benladen</a></li>
 					</ul>
 				</td>
 				<td style="width:50%;">
@@ -103,9 +102,7 @@
 					</div>
 					
 					<ul class="dropdown-menu" id="dropdown_geo" style="width:335px; left:45%;">
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Paris', 'geo')">@Paris</a></li>
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Pekin', 'geo')">@Pekin</a></li>
-					<li class="li-dropdown-scope"><a href="javascript:setChoice('@Houagadougou', 'geo')">@Houagadougou</a></li>
+					<li class="li-dropdown-scope">-</li>
 					</ul>
 				</td>
 				</tr>
@@ -150,18 +147,23 @@
 
 $(document).ready( function() 
 { 	
-	// ------- CONTACT + GEO
+	var timeout = setTimeout('', 1000);
+	
+	// ------- INITIALISATION DES OUTILS DE SELECTION DES DESTINATAIRES / SCOPE (CONTACT + GEO)
 	function initDestTools(type){
 		$("#scope_news_"+type).focusout( function (){
 			//$("#dropdown_"+type).css({"display" : "none" });
 		});
+		
 		$("#scope_news_"+type).focus( function (){
 			$("#dropdown_"+type).css({"display" : "block" });
 		});
+		
 		$("#scope_news_"+type).click( function (){
 			if($("#scope_news_"+type).val() == "")
 			$("#scope_news_"+type).val("@");
 		});
+		
 		$("#scope_news_"+type).keyup( function (){
 			var length = $("#scope_news_"+type).val().length;
 			if(length == 0){
@@ -175,67 +177,27 @@ $(document).ready( function()
 				if($("#dropdown_"+type).css("display") != "block")
 				$("#dropdown_"+type).css({"display" : "block" });
 			}
-			if(length == 4){
+			if(length >= 3){
 				//alert("lancement de la recherche en BD");	
-				findPlace();
+				clearTimeout(timeout);
+				timeout = setTimeout('findPlace()', 1000);
+				//findPlace();
 			}
 			$("#btn_add_"+type).removeClass('btn-green').addClass('btn-blue');
-			
-			
+						
 		});
-	}
-	
+	}	
 	initDestTools("contact");
 	initDestTools("geo");
 		
 });
-
-
-	//ON_CLICK_BUTTON + 
-	var HASHTAGS_LIST = new Array();
-	function addToListDest(type){
-		//vérifie que le bouton + est activé (= vert)
-		if( $("#btn_add_" + type).attr('class') != "btn btn-green" ) return;
-		
-		//récupère le contenu du champs de texte
-		var value = $("#scope_news_" + type).val(); //alert(value);
-		
-		//récupère l'icon correspondant au type de scope choisi (contact, groupe, departement, etc)
-		var ico = getIcoScope(typeSelected[type]); //alert(ico);
-		
-		//memorise le hashtag
-		HASHTAGS_LIST.push({"value" : value, "type" : typeSelected[type]});
-		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
-		
-		//rajoute l'élément dans la liste des destinataires
-		$("#hashtags_list").append("<span class='label label-info'><i class='fa fa-"+ ico +"'></i> " + value + "</span>");
-	}
-	
-	//ON CLICK ELEMENT LIST
-	function setChoice(value, type){
-		//remplace le contenu du champs de texte
-		$("#scope_news_" + type).val(value);
-		
-		//ferme la liste déroulante
-		$("#dropdown_" + type).css({"display" : "none" });
-		
-		//change la couleur du bouton + ("ajouter") en vert
-		activateBtnAdd(true, type);
-	}
-	
-	function activateBtnAdd(bool, type){
-		//affiche le bouton + en vert = prêt à valider / ajouter à la liste des destinataires
-		if(bool){ $("#btn_add_" + type).removeClass('btn-blue').addClass('btn-green'); }
-		//ou affiche en bleu = desactivé
-		else 	{ $("#btn_add_" + type).removeClass('btn-green').addClass('btn-blue'); }
-	}
-	
 
 	var typeSelected = new Array("contact", "geo");
 	typeSelected["contact"] = "contact";
 	typeSelected["geo"] = "ville";
 	
 	//ON CLICK BTN_GROUP type = CONTACT/GEO, val |= contact, groupe, tous, quartier, ville, departement, pays
+	//CHOIX D'UN TYPE DE SCOPE
 	function showDestInput(type, val){
 	
 		//raz champs texte
@@ -246,9 +208,10 @@ $(document).ready( function()
 		$("#btn_group_" + type + "_" + val).removeClass('btn-info').addClass('btn-blue');
 		
 		//masque la dropdown
-		if($("#dropdown_"+type).css("display") != "none")
-		$("#dropdown_"+type).css({"display" : "none" });
-		
+		if($("#dropdown_"+type).css("display") != "none"){
+			$("#dropdown_"+type).css({"display" : "none" });
+			$("#dropdown_"+type).html("");
+		}
 		//memorise le nouveau choix (dans le tableau qui correspond à Contact ou Geo (type))
 		typeSelected[type] = val;
 				
@@ -264,9 +227,10 @@ $(document).ready( function()
 		else if(type == "geo"){
 			if(val == "quartier"){
 			}
-			if(val == "ville"){
+			if(val == "ville"){ $("#scope_news_" + type).attr("placeholder", "@" + val + " ex: Paris, Marseille");
 			}
-			if(val == "departement"){
+			if(val == "departement"){ $("#scope_news_" + type).attr("placeholder", "@" + val + " ex: 17, 33, 75001");
+		
 			}
 			if(val == "region"){
 			}
@@ -276,6 +240,201 @@ $(document).ready( function()
 		}
 	}
 	
+	//ON CLICK ELEMENT DROPDOWN
+	function setChoice(value, type, placeId){
+		//remplace le contenu du champs de texte
+		$("#scope_news_" + type).val(value);
+		
+		//ferme la liste déroulante
+		$("#dropdown_" + type).css({"display" : "none" });
+		
+		idPlace[type] = placeId;
+		//change la couleur du bouton + ("ajouter") en vert
+		activateBtnAdd(true, type);
+	}
+	
+	//ACTIVATION DU BOUTON (+)
+	function activateBtnAdd(bool, type){
+		//affiche le bouton + en vert = prêt à valider / ajouter à la liste des destinataires
+		if(bool){ $("#btn_add_" + type).removeClass('btn-blue').addClass('btn-green'); }
+		//ou affiche en bleu = desactivé
+		else 	{ $("#btn_add_" + type).removeClass('btn-green').addClass('btn-blue'); }
+	}
+	
+	//ON_CLICK_BUTTON (+) 
+	var HASHTAGS_LIST = new Array();
+	var idPlace = new Array("contact", "geo");
+	function addToListDest(type){
+		//vérifie que le bouton + est activé (= vert)
+		if( $("#btn_add_" + type).attr('class') != "btn btn-green" ) return;
+		
+		//récupère le contenu du champs de texte
+		var value = $("#scope_news_" + type).val(); //alert(value);
+		
+		//récupère l'icon correspondant au type de scope choisi (contact, groupe, departement, etc)
+		var ico = getIcoScope(typeSelected[type]); //alert(ico);
+		
+		//memorise le hashtag
+		HASHTAGS_LIST.push({"value" : value, "type" : typeSelected[type], "idPlace" : idPlace[type] });
+		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
+		
+		//rajoute l'élément dans la liste des destinataires
+		$("#hashtags_list").append("<div class='label label-info'><i class='fa fa-"+ ico +"'></i> " + value + "</span>");
+	}
+	
+	
+	function findPlace(){
+	
+		//récupère le contenu du champs de texte GEO
+		var lieu = $("#scope_news_geo").val(); 
+		lieu = lieu.substring(1, lieu.length); //supprime le @
+	
+		//récupère le type de scope choisi
+		var type = typeSelected["geo"];
+		
+		//initialisation de la requete Nominatim
+		var request = "";
+		request += "limit=5";
+		request += "&format=json";
+	
+		//limite la recherche par pays (sauf si le scope choisi est le pays)
+		if(type != "pays") 
+			request += "&countrycodes=" + "fr";
+	
+		//si on cherche une ville
+		if(type == "ville"){
+			//si le lieu fourni est sous forme numérique : recherche par code postal
+			if($.isNumeric(lieu)){ 
+				if(lieu.length == 5)
+				request += "&postalcode=" + lieu; 
+				else request = "";
+			} //si le lieu n'est pas numérique : recherche par nom de ville
+			else { request += "&city=" + lieu; }
+		}
+	
+		//si on cherche un département
+		if(type == "departement"){
+			//on utilise toujours le code numérique du département (pas de nom de dep)
+			if($.isNumeric(lieu)){
+				//l'utilisateur n'indique que 2 chiffres, on rajoute 3 zéro pour que la recherche fonctionne
+				if(lieu.length == 2) lieu += "000";
+				request += "&postalcode=" + lieu; 
+			}
+			//else { request += "&county=" + lieu; }
+		}
+	
+		//si on cherche un pays
+		if(type == "pays") 
+			request += "&country=" + lieu;//+"&state=" + lieu;
+	
+		//si la requette est vide, il y a eu un pb
+		if(request == "") {
+			$("#dropdown_geo").html("<li class='li-dropdown-scope'>aucune recherche possible</li>");
+			return;
+		}
+		
+		//affiche le chargement en cours
+		$("#dropdown_geo").html('<i class="fa fa-circle-o-notch fa-spin" style="padding:4px;"></i> Recherche en cours');
+		
+		//requête auprès du service Nominatim
+		$.ajax({
+			url: "http://nominatim.openstreetmap.org/search?" + request + "&format=json&polygon=0&addressdetails=1",
+			type: 'POST',
+			complete: function () { },
+			success: function (obj) { //alert(JSON.stringify(obj));
+			if (obj.length > 0) {
+			//initialise le contenu de la dropdown
+			var dropdown_content = "";
+				$.each(obj, 
+				function() { //alert(request + " ");
+				
+					//cas du quartier à définir
+					//if(type == "quartier")
+					
+					//cas ou on recherche une ville par son nom
+					if(type == "ville")
+					if(request.indexOf("city") > 0){ //alert(JSON.stringify(this));
+					
+						var cityName = "";
+						var cp = "";
+					
+						//le nom de la ville peut être défini dans l'attribut Town ou City
+						if(this.address.town != undefined) cityName = this.address.town;
+						if(this.address.city != undefined) cityName = this.address.city;
+					
+						//on utilise le CP seulement s'il est unique, ex : 17100. 
+						//Pour les grandes ville comme Marseille qui ont des arrondissements => 13001, 13002, etc, on utilise le nom de la ville
+						if(this.address.postcode != undefined && this.address.postcode.length == 5) 
+							 cp = this.address.postcode;
+						else cp = cityName;
+				
+						var placeName = cp;
+						if(cp != cityName) placeName += ", " + cityName;
+					
+						if(placeName != ""){// && this.address.postcode != undefined)
+							var display = placeName+', '+this.address.state+', '+this.address.country_code;
+							dropdown_content += getDropdownElement(cp, "geo", this.place_id, display);
+						}
+					}
+					//cas ou on recherche une ville par son Code Postal
+					if(type == "ville")
+					if(request.indexOf("postalcode") > 0){ //alert(JSON.stringify(this));
+						var cityName = "";
+						if(this.address.town != undefined) cityName = ', '+this.address.town;
+						if(this.address.city != undefined) cityName = ', '+this.address.city;
+						
+						var display = this.address.postcode + cityName+', '+this.address.state+', '+this.address.country_code;					
+						dropdown_content += getDropdownElement(this.address.postcode, "geo", this.place_id, display);	
+					}
+				
+				
+					if(type == "departement")
+					if(lieu.length == 5){ //alert(JSON.stringify(this));
+						var departementName = getDepName(this.display_name);
+						var display = departementName;					
+						dropdown_content += getDropdownElement(lieu, "geo", this.place_id, display);	
+					}
+					
+					if(type == "pays"){ //alert(JSON.stringify(this));
+						//alert(lieu + " state : " + this.address.state);
+						var state = "";
+						if(this.address.country != undefined)
+						if(lieu.toLowerCase() == this.address.country.toLowerCase()) state = this.address.country;
+					
+						if(this.address.state != undefined)
+						if(lieu.toLowerCase() == this.address.state.toLowerCase()) state = this.address.state;
+					
+						if(state != ""){
+							var display = state;					
+							dropdown_content += getDropdownElement(state, "geo", this.place_id, display);	
+						}
+					}
+				});
+				$("#dropdown_geo").html(dropdown_content);
+			}
+			else {
+				$("#dropdown_geo").html("<li class='li-dropdown-scope'>aucun résultat</li>");
+			}
+			},
+			error: function (error) {
+			}
+		});
+	}
+	
+	//retourne le nom du département (après la 2eme virgule)
+	function getDepName(display_name){ //alert(display_name);
+		var depName = "";
+		var x = 0;
+		for(var i = 0; i<2; i++){
+			x = display_name.indexOf(",", x+1); 
+			//alert(x);
+		}
+		var x2 = display_name.indexOf(",", x+1); 
+		depName = display_name.substring(x+2, x2);
+		return depName;
+	}
+	
+	//gère la correspondance entre les btn et les icons
 	var listIcoScope = {	"contact" 		: "user",
 							"groupe" 		: "users",
 							"tous" 			: "asterisk",
@@ -283,51 +442,15 @@ $(document).ready( function()
 							"ville" 		: "building",
 							"departement" 	: "puzzle-piece",
 							"pays" 			: "globe" };
-							
 	function getIcoScope(value){
 		return listIcoScope[value];
 	}
 	
-	function searchElementDropdown(){
-	
-	}
-	
-	function findPlace(){
-	var lieu = $("#scope_news_geo".val();
-	var type = typeSelected["geo"];
-	var request = "";
-	
-	if(type == "ville") request = "city : " + lieu;
-	if(type == "departement") request = "county : " + lieu;
-	if(type == "pays") request = "country : " + lieu;
-	
-	alert(request);
-	//request += "countrycodes=fr&limit=5";
-	//var url = "search?q=135+pilkington+avenue,+birmingham&format=json&polygon=1&addressdetails=1";
-	$.ajax({
-		url: "http://nominatim.openstreetmap.org/search?" + request + "&format=json&polygon=0&addressdetails=1",
-		type: 'POST',
-		//data: { 'htmlViewType': htmlViewType },
-		complete: function () { },
-		success: function (obj) { alert(JSON.stringify(obj));
-		if (obj.length > 0) {
-			//document.getElementById('LblError').innerHTML = obj[0].display_name;
-			alert(obj[0].address.city + " - " + obj[0].lat);
-			//var markerslonLat = new OpenLayers.LonLat(obj[0].lon, obj[0].lat).transform(WGS84, map.getProjectionObject(), 0);
-			//map.setCenter(markerslonLat, 10);
-			//var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
-			//var icon = new OpenLayers.Icon(' http://maps.google.com/mapfiles/ms/micons/blue.png', size, offset);
-			//markers.addMarker(new OpenLayers.Marker(markerslonLat, icon));
-			//map.addLayer(markers);
-		}
-		else {
-			alert('no such address.');
-		}
-		},
-		error: function (error) {
-		alert(error);
-		}
-		});
+	//retourne un élément de la dropdown
+	function getDropdownElement(HTag, type, place_id, display_content){
+		return '<li class="li-dropdown-scope">'+
+				//'<a href="javascript:setChoice(\'@'+cp+'\', \'geo\', \''+this.place_id+'\')">@'+placeName+', '+this.address.state+', '+this.address.country_code+'</a></li>';	
+				'<a href="javascript:setChoice(\'@'+HTag+'\', \''+type+'\', \''+place_id+'\')">@'+display_content+'</a></li>';	
 	}
 	
 </script>
