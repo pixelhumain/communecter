@@ -1,3 +1,9 @@
+<?php
+	$cs = Yii::app()->getClientScript();
+	$cs->registerScriptFile($this->module->assetsUrl.'/js/news/formScope.js' , CClientScript::POS_END);
+?>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/news/formScope.js';?>" type="text/javascript"></script>
+
 <style>
 	.label-info{
 		margin-right:4px !important;
@@ -13,6 +19,46 @@
 	}
 	.li-dropdown-scope{
 		padding:3px;
+		font-size:12px;
+	}
+	.btn-sm{
+		padding:5px 6px;
+		font-size:11px;
+	}
+	.item_dropdown{
+		white-space:normal !important; 
+		background-color:#EDEDED !important;
+	}
+	.item_dropdown:hover{
+		background-color:#BCE8F1 !important;
+	}
+	.tag{
+		background-color:#5BC0DE !important;
+		color:white !important;
+		display:inline-block;
+		margin-right:8px;
+		margin-bottom:10px;
+		margin-top:-4px;
+		border-radius:0px !important;
+		font-size:12px !important;
+		padding:5px !important;
+	}
+	div.tagsinput span.tag a:before{
+		color:white !important;
+		margin-left:3px;
+		margin-top:2px;
+		
+	}
+	
+	span.tag i:before{
+		margin-left:8px;
+	}
+	.btn-blue{
+		border-radius:0px;
+	}.btn-green{
+		border-radius:0px;
+	}.btn-info{
+		border-radius:0px;
 	}
 </style>
 <!-- start: SUBVIEW SAMPLE CONTENTS -->
@@ -27,58 +73,67 @@
 					<label class="control-label"><h4> Titre :</h4></label>
 					<input class="form-control" name="noteTitle" placeholder="Votre titre..." type="text" id="title_news">		
 			</div>
-			<div class="alert alert-info" id="config_dest">
+			<div class="alert alert-info" style="padding:10px;" id="config_dest">
 			<div class="form-group">
 				<label class="control-label" style="width:100%;">
 					<h4 style="max-width:130px; float:left; margin-right:10px;"> Destinataires :</h4> 
-					<div id="hashtags_list" style="width:75%;max-width:75%; float:left;"></div>
-					<div id="hashtags_list_json"></div>
-				
+					<div id="hashtags_list" class="tagsinput" style="width:75%;max-width:75%; float:left;"></div>
+					
 				</label>
-				<table>
+				<table style="width:100%;">
 					<tr> 
-					<td style="width:45%;">
+					<td style="width:50%; margin-left:10px; text-align:center;">
 											<!-- 			CONTACTS					 -->
 					
 					<i class="fa fa-navicon"></i><b> Parmis mes contacts : </b></br>
 					
-					<div class="btn-group">
+					<div class="btn-group" id="btn-group-contact" style="margin-top:12px;">
 					<a class="btn btn-blue btn-sm" id="btn_group_contact_contact" href="javascript:showDestInput('contact', 'contact')">
 						<i class="fa fa-user"></i>
-						Contact
+						Contacts
 					</a>
 					<a class="btn btn-info btn-sm" id="btn_group_contact_groupe" href="javascript:showDestInput('contact', 'groupe')">
 						<i class="fa fa-users"></i>
-						Groupe
+						Groupes
 					</a>
-					<a class="btn btn-info btn-sm" id="btn_group_contact_tous" href="javascript:showDestInput('contact', 'tous')">
-						<i class="fa fa-asterisk"></i>
-						Tous
+					<a class="btn btn-info btn-sm" id="btn_group_contact_organisation" href="javascript:showDestInput('contact', 'organisation')">
+						<i class="fa fa-university"></i>
+						Organisations
 					</a>
 					</div>
-					<div class="input-group" style="width:250px;">
+					<div class="input-group" id="input-group-contact" style="width:272px; margin:auto;">
 						<input id="scope_news_contact" placeholder="@contact..." class="form-control input-mask-product" type="text">
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-blue" id="btn_add_contact" onclick="javascript:addToListDest('contact')">
 								<i class="fa fa-plus"></i>
 							</button>
 						</span>
+						<ul class="dropdown-menu" id="dropdown_contact" style="width:236px;">
+							<li class="li-dropdown-scope">-</li>
+						</ul>
 					</div>
 					
 					
-					<ul class="dropdown-menu" id="dropdown_contact" style="width:250px;">
-					</ul>
 				</td>
-				<td style="width:50%;">
-										<!-- 			GEOGRAPIQUE					 -->
-
+				<td style="width:50%; text-align:center;">
+											<!-- 			ADMINISTRATIF						 -->
 				
-					<b><i class="fa fa-map-marker"></i> Géographique : </b></br>
-					<div class="btn-group">
-					<a class="btn btn-info btn-sm" id="btn_group_geo_quartier" href="javascript:showDestInput('geo', 'quartier')">
-						<i class="fa fa-home"></i>
-						Quartier
-					</a>
+					<b><i class="fa fa-bank" style="margin-top:0px; "></i> Administratif : </b>
+					<select style="margin-bottom:4px; margin-top:-7px; max-width:180px; font-size:12px;" id="select_state">
+						<option value="fr">France
+						<option value="be">Belgique
+						<option value="ch">Suisse
+						<option value="ca">Canada
+						<option value="gb">Royaumes-Unis
+						<option value="es">Espagne
+						<option value="it">Italie
+						<option value="pt">Portugal
+						<option value="us">USA
+						<option value="au">Australie						
+					</select>
+					
+					</br>
+					<div class="btn-group" id="btn-group-geo">
 					<a class="btn btn-blue btn-sm" id="btn_group_geo_ville" href="javascript:showDestInput('geo', 'ville')">
 						<i class="fa fa-building"></i>
 						Ville
@@ -87,29 +142,39 @@
 						<i class="fa fa-puzzle-piece"></i>
 						Département
 					</a>
+					<a class="btn btn-info btn-sm" id="btn_group_geo_region" href="javascript:showDestInput('geo', 'region')">
+						<i class="fa fa-home"></i>
+						Région
+					</a>
 					<a class="btn btn-info btn-sm" id="btn_group_geo_pays" href="javascript:showDestInput('geo', 'pays')">
 						<i class="fa fa-globe"></i>
 						Pays
 					</a>
+					<a class="btn btn-info btn-sm" id="btn_group_geo_map" href="javascript:showDestInput('geo', 'map')">
+						<i class="fa fa-map-marker"></i>
+						Carte
+					</a>
 					</div>								
-					<div class="input-group" style="width:335px;">
+					<div class="input-group" id="input-group-geo" style="width:302px; margin:auto;">
 						<input id="scope_news_geo" placeholder="@ville" class="form-control input-mask-product" type="text">
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-blue" id="btn_add_geo" onclick="javascript:addToListDest('geo')">
 								<i class="fa fa-plus"></i>
 							</button>
 						</span>
+						<ul class="dropdown-menu" id="dropdown_geo" style="width:332px; left:0px;">
+							<li class="li-dropdown-scope">-</li>
+						</ul>
 					</div>
 					
-					<ul class="dropdown-menu" id="dropdown_geo" style="width:335px; left:45%;">
-					<li class="li-dropdown-scope">-</li>
-					</ul>
+					
 				</td>
 				</tr>
 				</table>
 				</div>
 			</div>
-			
+			<div id="hashtags_list_json"></div>
+				
 <!-- 	TEXT EDIT		 -->
 
 			<div class="form-group">
@@ -133,9 +198,9 @@
 					</a>
 				</div>
 				<div class="btn-group">
-					<button class="btn btn-info save-note" type="submit">
+					<a href="javascript:saveNews()" class="btn btn-info close-subview-button">
 						Save
-					</button>
+					</a>
 				</div>
 			</div>
 		</form>
@@ -144,313 +209,24 @@
 </div>
 
 <script type="text/javascript">
-
 $(document).ready( function() 
-{ 	
-	var timeout = setTimeout('', 1000);
+{ 
+	//initialisation des valeurs par defaut
+	initFormScope();
 	
-	// ------- INITIALISATION DES OUTILS DE SELECTION DES DESTINATAIRES / SCOPE (CONTACT + GEO)
-	function initDestTools(type){
-		$("#scope_news_"+type).focusout( function (){
-			//$("#dropdown_"+type).css({"display" : "none" });
-		});
-		
-		$("#scope_news_"+type).focus( function (){
-			$("#dropdown_"+type).css({"display" : "block" });
-		});
-		
-		$("#scope_news_"+type).click( function (){
-			if($("#scope_news_"+type).val() == "")
-			$("#scope_news_"+type).val("@");
-		});
-		
-		$("#scope_news_"+type).keyup( function (){
-			var length = $("#scope_news_"+type).val().length;
-			if(length == 0){
-				$("#scope_news_"+type).val("@");
-			}
-			if(length <= 1){
-				if($("#dropdown_"+type).css("display") != "none")
-				$("#dropdown_"+type).css({"display" : "none" });
-			}
-			if(length > 1){
-				if($("#dropdown_"+type).css("display") != "block")
-				$("#dropdown_"+type).css({"display" : "block" });
-			}
-			if(length >= 3){
-				//alert("lancement de la recherche en BD");	
-				clearTimeout(timeout);
-				timeout = setTimeout('findPlace()', 1000);
-				//findPlace();
-			}
-			$("#btn_add_"+type).removeClass('btn-green').addClass('btn-blue');
-						
-		});
-	}	
-	initDestTools("contact");
-	initDestTools("geo");
-		
+	$("#input-group-contact").css({"width" : $("#btn-group-contact").width()});
+	$("#input-group-geo").css({"width" : $("#btn-group-geo").width()});
+	
+	//var baseUrl = '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>';
+	var url = "<?php echo $this->module->assetsUrl; ?>" + "/data/countries.json";
+	//ajoute la liste des pays
+	$.getJSON(url, function(data) {
+		 $.each( data, function( key, val ) {
+ 			$("#select_state").append("<option value='"+val.code+"'>" + val.name + "</option>");
+ 		});
+	});
 });
 
-	var typeSelected = new Array("contact", "geo");
-	typeSelected["contact"] = "contact";
-	typeSelected["geo"] = "ville";
 	
-	//ON CLICK BTN_GROUP type = CONTACT/GEO, val |= contact, groupe, tous, quartier, ville, departement, pays
-	//CHOIX D'UN TYPE DE SCOPE
-	function showDestInput(type, val){
-	
-		//raz champs texte
-		$("#scope_news_" + type).val("");
-		$("#scope_news_" + type).attr("placeholder", "@" + val);
-		
-		$("#btn_group_" + type + "_" + typeSelected[type]).removeClass('btn-blue').addClass('btn-info');
-		$("#btn_group_" + type + "_" + val).removeClass('btn-info').addClass('btn-blue');
-		
-		//masque la dropdown
-		if($("#dropdown_"+type).css("display") != "none"){
-			$("#dropdown_"+type).css({"display" : "none" });
-			$("#dropdown_"+type).html("");
-		}
-		//memorise le nouveau choix (dans le tableau qui correspond à Contact ou Geo (type))
-		typeSelected[type] = val;
-				
-		if(type == "contact"){
-			if(val == "contact"){
-			}
-			if(val == "groupe"){
-			}
-			if(val == "tous"){
-			}
-			
-		}
-		else if(type == "geo"){
-			if(val == "quartier"){
-			}
-			if(val == "ville"){ $("#scope_news_" + type).attr("placeholder", "@" + val + " ex: Paris, Marseille");
-			}
-			if(val == "departement"){ $("#scope_news_" + type).attr("placeholder", "@" + val + " ex: 17, 33, 75001");
-		
-			}
-			if(val == "region"){
-			}
-			if(val == "pays"){
-			}
-			
-		}
-	}
-	
-	//ON CLICK ELEMENT DROPDOWN
-	function setChoice(value, type, placeId){
-		//remplace le contenu du champs de texte
-		$("#scope_news_" + type).val(value);
-		
-		//ferme la liste déroulante
-		$("#dropdown_" + type).css({"display" : "none" });
-		
-		idPlace[type] = placeId;
-		//change la couleur du bouton + ("ajouter") en vert
-		activateBtnAdd(true, type);
-	}
-	
-	//ACTIVATION DU BOUTON (+)
-	function activateBtnAdd(bool, type){
-		//affiche le bouton + en vert = prêt à valider / ajouter à la liste des destinataires
-		if(bool){ $("#btn_add_" + type).removeClass('btn-blue').addClass('btn-green'); }
-		//ou affiche en bleu = desactivé
-		else 	{ $("#btn_add_" + type).removeClass('btn-green').addClass('btn-blue'); }
-	}
-	
-	//ON_CLICK_BUTTON (+) 
-	var HASHTAGS_LIST = new Array();
-	var idPlace = new Array("contact", "geo");
-	function addToListDest(type){
-		//vérifie que le bouton + est activé (= vert)
-		if( $("#btn_add_" + type).attr('class') != "btn btn-green" ) return;
-		
-		//récupère le contenu du champs de texte
-		var value = $("#scope_news_" + type).val(); //alert(value);
-		
-		//récupère l'icon correspondant au type de scope choisi (contact, groupe, departement, etc)
-		var ico = getIcoScope(typeSelected[type]); //alert(ico);
-		
-		//memorise le hashtag
-		HASHTAGS_LIST.push({"value" : value, "type" : typeSelected[type], "idPlace" : idPlace[type] });
-		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
-		
-		//rajoute l'élément dans la liste des destinataires
-		$("#hashtags_list").append("<div class='label label-info'><i class='fa fa-"+ ico +"'></i> " + value + "</span>");
-	}
-	
-	
-	function findPlace(){
-	
-		//récupère le contenu du champs de texte GEO
-		var lieu = $("#scope_news_geo").val(); 
-		lieu = lieu.substring(1, lieu.length); //supprime le @
-	
-		//récupère le type de scope choisi
-		var type = typeSelected["geo"];
-		
-		//initialisation de la requete Nominatim
-		var request = "";
-		request += "limit=5";
-		request += "&format=json";
-	
-		//limite la recherche par pays (sauf si le scope choisi est le pays)
-		if(type != "pays") 
-			request += "&countrycodes=" + "fr";
-	
-		//si on cherche une ville
-		if(type == "ville"){
-			//si le lieu fourni est sous forme numérique : recherche par code postal
-			if($.isNumeric(lieu)){ 
-				if(lieu.length == 5)
-				request += "&postalcode=" + lieu; 
-				else request = "";
-			} //si le lieu n'est pas numérique : recherche par nom de ville
-			else { request += "&city=" + lieu; }
-		}
-	
-		//si on cherche un département
-		if(type == "departement"){
-			//on utilise toujours le code numérique du département (pas de nom de dep)
-			if($.isNumeric(lieu)){
-				//l'utilisateur n'indique que 2 chiffres, on rajoute 3 zéro pour que la recherche fonctionne
-				if(lieu.length == 2) lieu += "000";
-				request += "&postalcode=" + lieu; 
-			}
-			//else { request += "&county=" + lieu; }
-		}
-	
-		//si on cherche un pays
-		if(type == "pays") 
-			request += "&country=" + lieu;//+"&state=" + lieu;
-	
-		//si la requette est vide, il y a eu un pb
-		if(request == "") {
-			$("#dropdown_geo").html("<li class='li-dropdown-scope'>aucune recherche possible</li>");
-			return;
-		}
-		
-		//affiche le chargement en cours
-		$("#dropdown_geo").html('<i class="fa fa-circle-o-notch fa-spin" style="padding:4px;"></i> Recherche en cours');
-		
-		//requête auprès du service Nominatim
-		$.ajax({
-			url: "http://nominatim.openstreetmap.org/search?" + request + "&format=json&polygon=0&addressdetails=1",
-			type: 'POST',
-			complete: function () { },
-			success: function (obj) { //alert(JSON.stringify(obj));
-			if (obj.length > 0) {
-			//initialise le contenu de la dropdown
-			var dropdown_content = "";
-				$.each(obj, 
-				function() { //alert(request + " ");
-				
-					//cas du quartier à définir
-					//if(type == "quartier")
-					
-					//cas ou on recherche une ville par son nom
-					if(type == "ville")
-					if(request.indexOf("city") > 0){ //alert(JSON.stringify(this));
-					
-						var cityName = "";
-						var cp = "";
-					
-						//le nom de la ville peut être défini dans l'attribut Town ou City
-						if(this.address.town != undefined) cityName = this.address.town;
-						if(this.address.city != undefined) cityName = this.address.city;
-					
-						//on utilise le CP seulement s'il est unique, ex : 17100. 
-						//Pour les grandes ville comme Marseille qui ont des arrondissements => 13001, 13002, etc, on utilise le nom de la ville
-						if(this.address.postcode != undefined && this.address.postcode.length == 5) 
-							 cp = this.address.postcode;
-						else cp = cityName;
-				
-						var placeName = cp;
-						if(cp != cityName) placeName += ", " + cityName;
-					
-						if(placeName != ""){// && this.address.postcode != undefined)
-							var display = placeName+', '+this.address.state+', '+this.address.country_code;
-							dropdown_content += getDropdownElement(cp, "geo", this.place_id, display);
-						}
-					}
-					//cas ou on recherche une ville par son Code Postal
-					if(type == "ville")
-					if(request.indexOf("postalcode") > 0){ //alert(JSON.stringify(this));
-						var cityName = "";
-						if(this.address.town != undefined) cityName = ', '+this.address.town;
-						if(this.address.city != undefined) cityName = ', '+this.address.city;
-						
-						var display = this.address.postcode + cityName+', '+this.address.state+', '+this.address.country_code;					
-						dropdown_content += getDropdownElement(this.address.postcode, "geo", this.place_id, display);	
-					}
-				
-				
-					if(type == "departement")
-					if(lieu.length == 5){ //alert(JSON.stringify(this));
-						var departementName = getDepName(this.display_name);
-						var display = departementName;					
-						dropdown_content += getDropdownElement(lieu, "geo", this.place_id, display);	
-					}
-					
-					if(type == "pays"){ //alert(JSON.stringify(this));
-						//alert(lieu + " state : " + this.address.state);
-						var state = "";
-						if(this.address.country != undefined)
-						if(lieu.toLowerCase() == this.address.country.toLowerCase()) state = this.address.country;
-					
-						if(this.address.state != undefined)
-						if(lieu.toLowerCase() == this.address.state.toLowerCase()) state = this.address.state;
-					
-						if(state != ""){
-							var display = state;					
-							dropdown_content += getDropdownElement(state, "geo", this.place_id, display);	
-						}
-					}
-				});
-				$("#dropdown_geo").html(dropdown_content);
-			}
-			else {
-				$("#dropdown_geo").html("<li class='li-dropdown-scope'>aucun résultat</li>");
-			}
-			},
-			error: function (error) {
-			}
-		});
-	}
-	
-	//retourne le nom du département (après la 2eme virgule)
-	function getDepName(display_name){ //alert(display_name);
-		var depName = "";
-		var x = 0;
-		for(var i = 0; i<2; i++){
-			x = display_name.indexOf(",", x+1); 
-			//alert(x);
-		}
-		var x2 = display_name.indexOf(",", x+1); 
-		depName = display_name.substring(x+2, x2);
-		return depName;
-	}
-	
-	//gère la correspondance entre les btn et les icons
-	var listIcoScope = {	"contact" 		: "user",
-							"groupe" 		: "users",
-							"tous" 			: "asterisk",
-							"quartier"  	: "home",
-							"ville" 		: "building",
-							"departement" 	: "puzzle-piece",
-							"pays" 			: "globe" };
-	function getIcoScope(value){
-		return listIcoScope[value];
-	}
-	
-	//retourne un élément de la dropdown
-	function getDropdownElement(HTag, type, place_id, display_content){
-		return '<li class="li-dropdown-scope">'+
-				//'<a href="javascript:setChoice(\'@'+cp+'\', \'geo\', \''+this.place_id+'\')">@'+placeName+', '+this.address.state+', '+this.address.country_code+'</a></li>';	
-				'<a href="javascript:setChoice(\'@'+HTag+'\', \''+type+'\', \''+place_id+'\')">@'+display_content+'</a></li>';	
-	}
 	
 </script>
