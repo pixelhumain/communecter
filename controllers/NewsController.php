@@ -128,12 +128,15 @@ class NewsController extends CommunecterController {
 	public function actionSaveNews(){
 		
 		$json_news = json_decode($_POST["json"]);
-		
 		$news = array("name" => $json_news->name,
 					  "text" => $json_news->text,
 					  "genre" => $json_news->genre,
-					  "about" => $json_news->about);
-	
+					  "about" => $json_news->about,
+					  "author" => new MongoId(Yii::app()->session["userId"]));
+	 //Rest::json( array("msg" => "every thing all right" ) );
+		//Rest::json( $news );
+		//Yii::app()->end();
+		
 		//recupere les donnes de l'utilisateur
 		$where = array(	'_id'  => new MongoId(Yii::app()->session["userId"]) );
 	 	$user = PHDB::find(PHType::TYPE_CITOYEN, $where);
@@ -147,7 +150,7 @@ class NewsController extends CommunecterController {
 	 			//pour chacun de ses groupes de contact
     			foreach($user["knows"] as $groupe){
     				//pour chaque membre du groupe demandé
-    				if($groupe["name"] == $scope->refId)
+    				if($groupe["name"] == $scope->id)
     				foreach($groupe["members"] as $contact){
     					//recupere les donnes du contact
 						$where = array(	'_id'  => $contact );
@@ -156,13 +159,12 @@ class NewsController extends CommunecterController {
 	 					//ajoute un scope de type "contact" dans la news
 						$news["scope"][] = array("scopeType" => "contact",
 					  						 	"at" => "@".$allContact["name"],
-					  						 	"refId" => $contact,
-					  						 	"countrycodes" => $scope->countrycodes);
+					  						 	"id" => $contact);
 					}	
 				}
 			}
 			//cas de tous les contact
-			else if($scope->refId == "all_contact" && $scope->scopeType == "contact"){
+			else if($scope->id == "all_contact" && $scope->scopeType == "contact"){
 				//pour chacun de ses groupes de contact
     			foreach($user["knows"] as $groupe){
     				//pour chaque membre d'un groupe
@@ -176,15 +178,14 @@ class NewsController extends CommunecterController {
 						if(isset($allContact["name"]))
 						$news["scope"][] = array("scopeType" => "contact",
 					  						 	"at" => "@".$allContact["name"],
-					  						 	"refId" => $contact,
-					  						 	"countrycodes" => $scope->countrycodes);
+					  						 	"id" => $contact);
 						
 					}
 					
 				}	
 			}
 			//cas de toutes les organisations
-			else if($scope->refId == "all_organisation" && $scope->scopeType == "organisation"){
+			else if($scope->id == "all_organisation" && $scope->scopeType == "organisation"){
 				//pour chacun de ses organisations
     			foreach($user["memberOf"] as $organization){
     					//recupere les donnes de l'organisation
@@ -194,8 +195,7 @@ class NewsController extends CommunecterController {
 	 					//ajoute un scope de type "organisation" dans la news
 						$news["scope"][] = array("scopeType" => $scope->scopeType,
 					  						 	"at" => "@".$allOrga["name"],
-					  						 	"refId" => $organization,
-					  						 	"countrycodes" => $scope->countrycodes);
+					  						 	"id" => $organization);
 					}	
 			}
 			//par défaut ajoute le scope telquel
@@ -205,7 +205,7 @@ class NewsController extends CommunecterController {
 		}
 		
 						
-		Yii::app()->mongodb->news->insert($news);
+		Yii::app()->mongodb->articles->insert($news);
         
         //Rest::json( array("msg" => "every thing all right" ) );
 		Rest::json( $news );

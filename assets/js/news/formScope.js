@@ -17,7 +17,7 @@
 							"pays" 			: "globe" };
 							
 	//initialisation des valeurs par defaut
-	function initFormScope(){
+	function initFormScope(scope){
 	
 		typeSelected["contact"] = "contact";
 		typeSelected["geo"] = "ville";
@@ -32,12 +32,27 @@
 		showDestInput("contact", "contact");
 		showDestInput("geo", "ville");
 		
+		initScope(scope);
+		
 		initDataContact();
+	}
+	
+	function initScope(scope){
+		//alert(JSON.stringify(scope));
+		
+		HASHTAGS_LIST = scope;
+		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
+		
+		$.each(HASHTAGS_LIST, function(){ //alert("value : "+JSON.stringify(this.scopeType));
+			var ico = getIcoScope(this.scopeType);
+			$("#hashtags_list").append("<span class='tag' id='idPlace"+this.id+"'><span><a href='javascript:removeHashtag(\""+this.id+"\")'>x </a> <i class='fa fa-"+ ico +"'></i> @" + this.at + "</span></span>");
+		});
+		
 	}
 	
 	function initDataContact(){
 			testitpost("", baseUrl + "/" + moduleId + '/news/initDataContact', null, //ShowMapByOrigine', params,
-			function (data){ alert(JSON.stringify(data));
+			function (data){ //alert(JSON.stringify(data));
 				dataContact = data;
 			});
 	}
@@ -175,10 +190,15 @@
 		var ico = getIcoScope(typeSelected[type]); //alert(ico);
 		
 		//memorise le hashtag
+		if(type=="geo")
 		HASHTAGS_LIST.push({	"scopeType" : typeSelected[type], 
 								"at" : value, 
-								"refId" : idPlace[type],
+								"id" : idPlace[type],
 								"countrycodes" : countrycodes });
+		if(type=="contact")
+		HASHTAGS_LIST.push({	"scopeType" : typeSelected[type], 
+								"at" : value, 
+								"id" : idPlace[type] });
 								
 		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
 		//rajoute l'élément dans la liste des destinataires
@@ -427,13 +447,19 @@
 		var name = $("#title_news").val();
 		var text = $("#txt_news").html();
 		
+		//récupère les valeurs des checkbox "about"
+		var about = new Array();
+		for(var i=1;i<21;i++){
+			if($("#chk_about_"+i).is(':checked'))
+				about.push($("#chk_about_"+i).val());
+		}
+		
 		var news = { "name" : name,
 					 "text" : text,
 					 "genre" : "free_msg",
-					 "about" : new Array(1, 2, 3),
+					 "about" : about,
 					 "scope" : HASHTAGS_LIST
 					};
-					
 		//alert(JSON.stringify(news));
 		testitpost("", baseUrl + "/" + moduleId + '/news/saveNews', "json="+JSON.stringify(news), //ShowMapByOrigine', params,
 			function (data){ 
@@ -462,7 +488,7 @@
 		depName = display_name.substring(x+2, x2);
 		return depName;
 	}
-	//retourne le nom du département à partir du display_name (après la 2eme virgule)
+	//retourne le nom du département à partir du display_name (après la 3eme virgule)
 	function getRegionName(display_name){ //alert(display_name);
 		var depName = "";
 		var x = 0;
