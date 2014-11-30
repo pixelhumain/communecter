@@ -125,7 +125,7 @@
 		}
 		
 		//desactive le bouton +
-		activateBtnAdd(false, type);
+		//activateBtnAdd(false, type);
 		
 		//memorise le nouveau choix (dans le tableau qui correspond à Contact ou Geo (type))
 		typeSelected[type] = val;
@@ -157,34 +157,19 @@
 	//ON CLICK ELEMENT DROPDOWN
 	function setChoice(value, type, placeId){
 	
+	
 		//remplace le contenu du champs de texte
-		$("#scope_news_" + type).val(value);
+		$("#scope_news_" + type).val("@");
 		
 		//ferme la liste déroulante
 		$("#dropdown_" + type).css({"display" : "none" });
 		
-		idPlace[type] = placeId;
+		//idPlace[type] = placeId;
 		//change la couleur du bouton + ("ajouter") en vert
-		activateBtnAdd(true, type);
-	}
+		//activateBtnAdd(true, type);
 	
-	//ACTIVATION DU BOUTON (+)
-	function activateBtnAdd(bool, type){
-		//affiche le bouton + en vert = prêt à valider / ajouter à la liste des destinataires
-		if(bool){ $("#btn_add_" + type).removeClass('btn-blue').addClass('btn-green'); }
-		//ou affiche en bleu = desactivé
-		else 	{ $("#btn_add_" + type).removeClass('btn-green').addClass('btn-blue'); }
-	}
-	
-	//ON_CLICK_BUTTON (+) 
-	//var HASHTAGS_LIST = new Array();
-	//var idPlace = new Array("contact", "geo");
-	function addToListDest(type){
-		//vérifie que le bouton + est activé (= vert)
-		if( $("#btn_add_" + type).attr('class') != "btn btn-green" ) return;
-		
 		//récupère le contenu du champs de texte
-		var value = $("#scope_news_" + type).val(); //alert(value);
+		//var value = $("#scope_news_" + type).val(); //alert(value);
 		
 		//récupère l'icon correspondant au type de scope choisi (contact, groupe, departement, etc)
 		var ico = getIcoScope(typeSelected[type]); //alert(ico);
@@ -193,12 +178,12 @@
 		if(type=="geo")
 		HASHTAGS_LIST.push({	"scopeType" : typeSelected[type], 
 								"at" : value, 
-								"id" : idPlace[type],
+								"id" : placeId,
 								"countrycodes" : countrycodes });
 		if(type=="contact")
 		HASHTAGS_LIST.push({	"scopeType" : typeSelected[type], 
 								"at" : value, 
-								"id" : idPlace[type] });
+								"id" : placeId });
 								
 		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
 		//rajoute l'élément dans la liste des destinataires
@@ -206,7 +191,7 @@
 		$("#hashtags_list").append("<span class='tag' id='idPlace"+idPlace[type]+"'><span><a href='javascript:removeHashtag(\""+idPlace[type]+"\")'>x </a> <i class='fa fa-"+ ico +"'></i> " + value + "</span></span>");
 		$("#scope_news_" + type).val("@");
 		
-		activateBtnAdd(false, type);
+		//activateBtnAdd(false, type);
 	}
 	
 	
@@ -442,22 +427,27 @@
 		
 	}
 	
+	//var genreSelected = "free_msg";
 	function saveNews(){
 		
 		var name = $("#title_news").val();
 		var text = $("#txt_news").html();
 		
 		//récupère les valeurs des checkbox "about"
-		var about = new Array();
+		/*var about = new Array();
 		for(var i=1;i<21;i++){
 			if($("#chk_about_"+i).is(':checked'))
 				about.push($("#chk_about_"+i).val());
-		}
+		}*/
+		
+		
+		//récupère la valeur du genre (radio btn) (free_msg, idea, true_information, rumor, question, help)
+		var genre = genreSelected; 
 		
 		var news = { "name" : name,
 					 "text" : text,
-					 "genre" : "free_msg",
-					 "about" : about,
+					 "genre" : genre,
+					 "about" : aboutList,
 					 "scope" : HASHTAGS_LIST
 					};
 		//alert(JSON.stringify(news));
@@ -467,6 +457,11 @@
 											  JSON.stringify(data));
 				
 			});
+	}
+	function openListGenre(genre){
+		$("#").removeClass('btn-blue').addClass('btn-info');
+		$("#btn_group_" + type + "_" + val).removeClass('btn-info').addClass('btn-blue');
+		
 	}
 	
 	function showContactLoading(){

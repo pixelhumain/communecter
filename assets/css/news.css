@@ -23,7 +23,7 @@
 	padding:8px;
 }
 .img_illu_publication_theme{
-	margin-top:2px;
+	margin-top:-4px;
 	padding:3px;
 }
 
@@ -130,13 +130,33 @@
 	box-shadow: 0px -2px 2px 0px #c0c0c0;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=90, Strength=2);
 }
-.header_post.white	{ background-color:#f0f0f0 !important; color:#474740 !important;}
+.header_post.white	{ background-color:#f0f0f0 !important; color:black !important;}
 .header_post.red	{ background-color:#E66B6B !important; }
-.header_post.yellow	{ background-color:#FFB848 !important; color:#474740 !important;}
-.header_post.purple	{ background-color:#804C75 !important; }
+.header_post.yellow	{ background-color:#FFB848 !important; color:black !important;}
+.header_post.purple	{ background-color:#805F79 !important; }
 .header_post.orange	{ background-color:#F58A5C !important; }
 .header_post.green	{ background-color:#1FBBA6 !important; }
 
+.spiral{
+	background-image:url('spirale_network.png');
+		
+}
+.header_new_post{
+		background-image:url('spirale_network.png');
+		-moz-box-shadow: 0px -2px 4px 0px #656565;
+		-webkit-box-shadow: 0px -2px 4px 0px #656565;
+		-o-box-shadow: 0px -2px 4px 0px #656565;
+		box-shadow: 0px -2px 4px 0px #656565;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
+	}
+	.header_new_post.white	{ background-color:#f0f0f0 !important; color:black !important;}
+	.header_new_post.red	{ background-color:#E66B6B !important; color:black !important;}
+	.header_new_post.yellow	{ background-color:#FFB848 !important; color:black !important;}
+	.header_new_post.purple	{ background-color:#805F79 !important; color:white !important;}
+	.header_new_post.orange	{ background-color:#F58A5C !important; color:black !important;}
+	.header_new_post.green	{ background-color:#1FBBA6 !important; color:black !important;}
+--#474740
+	
 
 .img_profil_round{
 	border-radius:50px;

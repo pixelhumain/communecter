@@ -78,11 +78,11 @@ class SigController extends CommunecterController {
  						'scope.geoArea.latMaxScope' => array('$gt' => floatval($_POST['myPosition'][0])),
  						'scope.geoArea.lngMaxScope' => array('$gt' => floatval($_POST['myPosition'][1]))
 					  );
-		
 			//join les deux parties de la requette
 			$where = array_merge($where, $whereGeo);
+			$where = array();
 						
-			$news = PHDB::find(PHType::TYPE_NEWS, $where);
+			$news = PHDB::find("articles", $where);
 			//$news["origine"] = "ShowMyNetwork";
 		
 			$html = $this->getNewsStreamHtml($news);
@@ -268,7 +268,7 @@ class SigController extends CommunecterController {
 							"rumor" 			=> "orange", 
 							"true_information" 	=> "green" );
 		
-		$color = $natures[$post['nature']];
+		$color = $natures[$post['genre']];
 		// 							
 //     	if($post['nature'] == "free_msg") $color="red";
 //     	if($post['nature'] == "") $color="red";
@@ -326,9 +326,9 @@ class SigController extends CommunecterController {
 			$html .= "</div>";
 		
 			
-			//NATURE
+			//GENRE
 			$html .= "<div class='nature_post'>".
-					 "<img src='".$this->module->assetsUrl."/images/news/natures/".$post['nature'].".png' class='img_illu_publication_nature' style='margin-top:0px;' title='nature du message : ".News::get_NATURES_NAMES($post['nature'])."' id='".$post['nature']."' height=50>".
+					 "<img src='".$this->module->assetsUrl."/images/news/natures/".$post['genre'].".png' class='img_illu_publication_nature' style='margin-top:0px;' title='nature du message : ".News::get_NATURES_NAMES($post['genre'])."' id='".$post['genre']."' height=50>".
 					 "</div>";
 				 
 			//FAVORITES
@@ -344,8 +344,8 @@ class SigController extends CommunecterController {
 								 
 			//LIST THEMES	
 			$html .= "<div class='list_themes_post'>";
-			if(isset($post['themes'])){
-				foreach($post['themes'] as $theme){
+			if(isset($post['about'])){
+				foreach($post['about'] as $theme){
 					$html .= "<div class='theme_post'>".
 								"<img src='".$this->module->assetsUrl."/images/news/themes/".$theme.".png' class='img_illu_publication_theme' title='thème : ".News::get_THEMES_NAMES($theme)."' id='".$theme."' style='margin-top:0px;' height=30>".
 							 "</div>";
@@ -354,19 +354,19 @@ class SigController extends CommunecterController {
 			$html .= "</div>";
 			
 			$html .= "<div class='panel-title' style='float:left; min-width:100%;'>".
-						"<h4 style='font-size:15px; margin:0px; margin-left:10px; padding:0px;'><b>".News::get_NATURES_NAMES($post['nature'])."</b></h4>".
+						"<h4 style='font-size:15px; margin:0px; margin-left:10px; padding:0px;'><b>".News::get_NATURES_NAMES($post['genre'])."</b></h4>".
 					"</div>";
 		
 			
 			//TITLE
-			if(isset($post['title']))
+			if(isset($post['name']))
 			$html .= "<div class='panel-title' style='float:left; min-width:100%;'>".
-						"<h3 style='font-size:18px; margin:0px; margin-left:10px; padding:0px;'>".$post['title']."</h3>".
+						"<h3 style='font-size:18px; margin:0px; margin-left:10px; padding:0px;'>".$post['name']."</h3>".
 					"</div>";
 		
 			//CONTENT
-			if(isset($post['msg']))
-			$html .= "<div class='panel-body' style='float:left;  margin-bottom:10px;'><p>".$post['msg']."</p></div>";
+			if(isset($post['text']))
+			$html .= "<div class='panel-body' style='float:left;  margin-bottom:10px;'><p>".$post['text']."</p></div>";
 		
 			//BAR TOOL
 			$html .= "<div class='bar_tools_post'>".
