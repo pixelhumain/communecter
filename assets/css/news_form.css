@@ -1,0 +1,295 @@
+.label-info{
+		margin-right:4px !important;
+		font-weight: normal !important;
+		margin-bottom:4px !important;
+		margin-top:-3px;
+		font-size:14px !important;
+		display:inline-block !important;
+	}
+	.label-inverse{
+		margin-right:4px;
+		font-size:12px !important;
+	}
+	.li-dropdown-scope{
+		padding:3px;
+		font-size:12px;
+	}
+	.btn-sm{
+		padding:3px 6px;
+		font-size:11px;
+	}
+	.item_dropdown{
+		white-space:normal !important; 
+		background-color:#EDEDED !important;
+	}
+	.item_dropdown:hover{
+		background-color:#BCE8F1 !important;
+	}
+	.tag{
+		background-color:#5F8295 !important;
+		color:white !important;
+		display:inline-block;
+		margin-left:8px;
+		margin-bottom:10px;
+		margin-top:-4px;
+		border-radius:0px !important;
+		font-size:14px !important;
+		padding:5px !important;
+	}
+	div.tagsinput span.tag a:before{
+		color:white !important;
+		margin-left:3px;
+		margin-top:2px;
+		
+	}
+	
+	span.tag i:before{
+		margin-left:8px;
+	}
+	.btn-blue{
+		border-radius:0px;
+	}.btn-green{
+		border-radius:0px;
+	}.btn-info{
+		border-radius:0px;
+	}
+	.dropdown-menu{
+		margin:0px;
+		margin-top:-2px;
+	}
+	#dropdown_contact{
+		max-height:300px;
+		overflow-y:auto;
+	}
+	#dropdown_geo{
+		max-height:250px;
+		overflow-y:auto;
+	}
+	.alert.label-article-about{
+		 background-image:url('spirale_network.png');
+		 padding:6px; 
+		 margin:3px; 
+		 display:inline-block; 
+		 width:76px; 
+		 text-align:center;
+		 color:#474740;
+		 font-weight:bold;
+		 font-size:11px;
+		 border-radius:0px;
+		-moz-box-shadow: 0px 0px 2px 2px #5F8295;
+		-webkit-box-shadow: 0px 0px 2px 2px #5F8295;
+		-o-box-shadow: 0px 0px 2px 2px #5F8295;
+		box-shadow: 0px 0px 2px 2px #5F8295;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=##5F8295, Direction=NaN, Strength=2);
+	}
+	.alert.label-article-about:hover{
+		background-color:#DFF0D8 !important;
+		-moz-box-shadow: 0px 0px 3px 3px #3D8151;
+		-webkit-box-shadow: 0px 0px 3px 3px #3D8151;
+		-o-box-shadow: 0px 0px 3px 3px #3D8151;
+		box-shadow: 0px 0px 3px 3px #3D8151;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#3D8151, Direction=NaN, Strength=3);
+	}
+	.alert.label-success.label-article-about:hover{
+		background-color:#f8a102 !important;
+		-moz-box-shadow: 0px 0px 3px 3px #f8a102;
+		-webkit-box-shadow: 0px 0px 3px 3px #f8a102;
+		-o-box-shadow: 0px 0px 3px 3px #f8a102;
+		box-shadow: 0px 0px 3px 3px #f8a102;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#f8a102, Direction=NaN, Strength=3);
+	}
+	.chk_box_about{
+		margin-top:0px !important;
+	}
+	
+	
+	.select_about{
+		text-align:left;
+		min-width:180px;
+		margin-right:4%;
+		margin-bottom:3px;
+		display:inline-block;
+		font-size:13px;
+		font-weight:none;
+	}
+	.header_post{
+		max-width:100%;
+		min-width:100%;
+		min-height:80px;
+		padding:5px 6px;
+		padding-right:10px;
+		border-radius:3px;
+		margin-top:20px;
+		margin-left:8px;
+		float:left;
+	}
+	.header_new_post{
+		margin-top:-4px;
+		border-radius:0px 5px 0px 0px ;
+		margin-left:0%;
+		padding:4%;
+		padding-top:3%;
+		width:100%;
+	}
+	.select_about_img{
+		float:left;
+		margin-top:0px;
+		margin-bottom:14px;
+		--background-color:white;
+		--border-radius:40px;
+		--padding:8px;
+	}
+	.border-note-editable{
+		padding:15px;
+		margin-top:-15px;
+		-moz-box-shadow: 0px 0px 8px 0px #656565;
+		-webkit-box-shadow: 0px 0px 8px 0px #656565;
+		-o-box-shadow: 0px 0px 8px 0px #656565;
+		box-shadow: 0px 0px 8px 0px #656565;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=8);
+	}
+	.noteWrap .note-editor .note-editable{
+		padding-left:0px;
+		padding-right:0px;
+	}
+	#title_news{
+		margin-bottom:5px;
+		-moz-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-webkit-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-o-box-shadow: 0px 0px 8px 0px #656565 !important;
+		box-shadow: 0px 0px 8px 0px #656565 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=8) !important;
+	}
+	#txt_news{
+		margin-top:10px;
+		min-height:410px;
+	}
+	#btnSelectGenre{
+		display:inline-block;
+		margin-top:5px;
+		margin-right:-15px;
+		border-radius:3px;
+		margin-bottom:0px;
+	}
+	.itemBtnSelectGenre{
+		--background-image:url(''); 
+		background-color:white;
+		min-height:35px;
+		height:35px;
+		width:45px;
+		max-width:45px;
+		min-width:45px;
+		text-align:center;
+		margin:0px;
+		margin-left:0px;
+		border-radius:0px;--6px 6px 0px 0px;
+		padding:4px;
+		-moz-box-shadow: 	0px -3px 3px 0px #656565;
+		-webkit-box-shadow: 0px -3px 3px 0px #656565;
+		-o-box-shadow: 		0px -3px 3px 0px #656565;
+		box-shadow: 		0px -3px 3px 0px #656565;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=3);
+	}
+	.itemBtnSelectGenre:hover{
+		-moz-box-shadow: 0px -4px 2px 0px #5BC0DE;
+		-webkit-box-shadow: 0px -4px 2px 0px #5BC0DE;
+		-o-box-shadow: 0px -4px 2px 0px #5BC0DE;
+		box-shadow: 0px -4px 2px 0px #5BC0DE;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#5BC0DE, Direction=90, Strength=4);
+	}
+	.itemBtnSelectGenreNewsStream{
+		--background-image:url(''); 
+		background-color:white;
+		min-height:35px;
+		height:35px;
+		width:15%;
+		max-width:15%;
+		min-width:15%;
+		text-align:center;
+		margin:0px;
+		margin-left:1%;
+		margin-bottom:8px;
+		border-radius: 6px;
+		padding:3px;
+		-moz-box-shadow: 0px 0px 5px 0px #656565;
+		-webkit-box-shadow: 0px 0px 5px 0px #656565;
+		-o-box-shadow: 0px 0px 5px 0px #656565;
+		box-shadow: 0px 0px 5px 0px #656565;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+	}
+	.itemBtnSelectGenreNewsStream:hover{
+		-moz-box-shadow: 0px 0px 5px 3px #5BC0DE;
+		-webkit-box-shadow: 0px 0px 5px 3px #5BC0DE;
+		-o-box-shadow: 0px 0px 5px 3px #5BC0DE;
+		box-shadow: 0px 0px 5px 3px #5BC0DE;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#5BC0DE, Direction=NaN, Strength=5);
+	}
+	.itemBtnSelectGenreNewsStream.selected{
+		-moz-box-shadow: 0px 0px 5px 3px #009901;
+		-webkit-box-shadow: 0px 0px 5px 3px #009901;
+		-o-box-shadow: 0px 0px 5px 3px #009901;
+		box-shadow: 0px 0px 5px 3px #009901;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#009901, Direction=NaN, Strength=5);
+	}
+	.itemBtnSelectGenreNewsStream.selected:hover{
+		-moz-box-shadow: 0px 0px 5px 3px #f56b00;
+		-webkit-box-shadow: 0px 0px 5px 3px #f56b00;
+		-o-box-shadow: 0px 0px 5px 3px #f56b00;
+		box-shadow: 0px 0px 5px 3px #f56b00;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#f56b00, Direction=NaN, Strength=5);
+	}
+	#tooltip_genre_block{
+		display:block;
+		margin-top:10px;	
+		margin-bottom:8px;		
+	}
+	#tooltip_genre_name{
+		display:inline;	
+		position:relative;
+		left:0px;
+		--color:#5BC0DE;
+		font-weight:bold;
+		--background-color:#5F8295;
+		padding:6px 20px;
+		border-radius:4px;
+	}
+	#lbl_genre_name_selected{
+		margin-top:7px; 
+		margin-left:5px; 
+		display:inline-block; 
+		font-size:15px;
+		font-weight:bold;
+	}
+	input#hashtags_news{
+		-moz-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-webkit-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-o-box-shadow: 0px 0px 8px 0px #656565 !important;
+		box-shadow: 0px 0px 8px 0px #656565 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=8) !important;
+	}
+	#btn_publish_news{
+		-moz-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-webkit-box-shadow: 0px 0px 8px 0px #656565 !important;
+		-o-box-shadow: 0px 0px 8px 0px #656565 !important;
+		box-shadow: 0px 0px 8px 0px #656565 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=8) !important;
+	}
+	#scope_news_contact{
+		margin-top:0px;
+		-moz-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		-webkit-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		-o-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=180, Strength=2) !important;
+	}
+	
+	#scope_news_geo{
+		margin-top:0px;
+		-moz-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		-webkit-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		-o-box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		box-shadow: 0px 2px 2px 1px #9b9b9b !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=180, Strength=2) !important;
+	}
+	
+		

@@ -33,19 +33,27 @@
 		showDestInput("geo", "ville");
 		
 		initScope(scope);
-		
 		initDataContact();
+		
+		//initialise la taille des champs de texte
+		$("#input-group-contact").css({"width" : $("#btn-group-contact").width()});
+		$("#input-group-geo").css({"width" : $("#btn-group-geo").width()});
+	
 	}
 	
 	function initScope(scope){
 		//alert(JSON.stringify(scope));
 		
 		HASHTAGS_LIST = scope;
-		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
+		//$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
 		
 		$.each(HASHTAGS_LIST, function(){ //alert("value : "+JSON.stringify(this.scopeType));
 			var ico = getIcoScope(this.scopeType);
-			$("#hashtags_list").append("<span class='tag' id='idPlace"+this.id+"'><span><a href='javascript:removeHashtag(\""+this.id+"\")'>x </a> <i class='fa fa-"+ ico +"'></i> @" + this.at + "</span></span>");
+			var display = this.at;
+			if(this.scopeType == "ville") display = "ma ville";
+			if(this.scopeType == "departement") display = "mon département";
+			
+			$("#hashtags_list").append("<span class='tag' id='idPlace"+this.id+"'><span><a href='javascript:removeHashtag(\""+this.id+"\")'>x </a> <i class='fa fa-"+ ico +"'></i> @" + display + "</span></span>");
 		});
 		
 	}
@@ -115,8 +123,8 @@
 		$("#scope_news_" + type).val("");
 		$("#scope_news_" + type).attr("placeholder", "@" + val);
 		
-		$("#btn_group_" + type + "_" + typeSelected[type]).removeClass('btn-blue').addClass('btn-info');
-		$("#btn_group_" + type + "_" + val).removeClass('btn-info').addClass('btn-blue');
+		$("#btn_group_" + type + "_" + typeSelected[type]).removeClass('btn-blue').addClass('btn-default');
+		$("#btn_group_" + type + "_" + val).removeClass('btn-default').addClass('btn-blue');
 		
 		//masque la dropdown
 		if($("#dropdown_"+type).css("display") != "none"){
@@ -185,7 +193,7 @@
 								"at" : value, 
 								"id" : placeId });
 								
-		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
+		//$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));		
 		//rajoute l'élément dans la liste des destinataires
 		//$("#hashtags_list").append("<div class='label label-info'><i class='fa fa-"+ ico +"'></i> " + value + "</span>");
 		$("#hashtags_list").append("<span class='tag' id='idPlace"+idPlace[type]+"'><span><a href='javascript:removeHashtag(\""+idPlace[type]+"\")'>x </a> <i class='fa fa-"+ ico +"'></i> " + value + "</span></span>");
@@ -453,8 +461,7 @@
 		//alert(JSON.stringify(news));
 		testitpost("", baseUrl + "/" + moduleId + '/news/saveNews', "json="+JSON.stringify(news), //ShowMapByOrigine', params,
 			function (data){ 
-				$("#hashtags_list_json").html("VOTRE MESSAGE A BIEN ÉTÉ PUBLIÉ :</br>" + 
-											  JSON.stringify(data));
+				$("#hashtags_list_json").html("VOTRE MESSAGE A BIEN ÉTÉ PUBLIÉ</br>");// +  JSON.stringify(data));
 				
 			});
 	}
@@ -508,11 +515,10 @@
 
 	function removeHashtag(refId){
 		$("#idPlace"+refId).remove();
-		var i = 0;
 		$.each(HASHTAGS_LIST, function(index){
 			if(this.refId == refId) HASHTAGS_LIST.splice(index, 1);	
 		});
-		$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));
+		//$("#hashtags_list_json").html(JSON.stringify(HASHTAGS_LIST));
 	}
 
 	function addslashes(str) {

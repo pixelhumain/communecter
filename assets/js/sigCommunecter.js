@@ -520,23 +520,7 @@
 		initCirclePosition(myPosition);
 	}
 	
-	function showNews(origine){
 	
-		var bounds = map.getBounds();
-		var params = {};
-		params["latMinScope"] = bounds.getSouthWest().lat;
-		params["lngMinScope"] = bounds.getSouthWest().lng;
-		params["latMaxScope"] = bounds.getNorthEast().lat;
-		params["lngMaxScope"] = bounds.getNorthEast().lng;
-		params["myPosition"]  = myPosition;
-		
-		testitpost("", baseUrl+'/communecter/sig/GetNews' + origine, params,
-			function (data){ //alert(JSON.stringify(data));				
-				$("#newsstream").html(data);
-				$("#more_info_news").html(data);
-			
-		});	
-	}
 	
 	function showPolygones(){ 
 	
