@@ -1,8 +1,22 @@
-
-/*   ############# leaflet ################## */
-  
-  .leaflet-popup-content-wrapper{
- 	background-color:rgba(39, 52, 65, 0.69);
+.mapCanvas{
+ 	min-width:69%;
+ 	max-width:100%;
+ 	min-height:380px;
+ 	background-color:#425766;
+ 	color:black;
+ }
+ 
+ #project .slide-content .mapCanvasSlider img{
+ 	border-radius:0px;
+ 	box-shadow: 0px 0px 0px 0px;
+ }
+ 
+ #project{
+ 	color:black;
+ }
+ 
+ .leaflet-popup-content-wrapper{
+ 	background-color:rgba(53, 61, 68, 0.7);
  	border-radius:10px;
  	color:white;
  	font-family: "Open Sans";
@@ -11,34 +25,15 @@
  .leaflet-popup-tip{
  	background-color:rgba(53, 61, 68, 0.7);
  }
-
- .leaflet-popup-content{
- 	padding:20px;
- 	min-width:350px;
- 	padding-bottom:40px;
+ 
+ .popup-img-profil{
+ 
  }
-/*   ############################### */
-
-
- #menu a.btn-success{
-	border-color: #82b440;
-}
 
  .popup-info-profil{
  	width:100%;
  	text-align:center;
- 	font-size:16px;
- }
- .popup-info-profil-thumb-lbl{
- 	float:left;
- 	width:100%;
- 	text-align:center;
- }
- .popup-info-profil-thumb{
- 	border-radius:190px;
- 	border-width:6px;
- 	border-color:yellow;
- 	border-style:solid;
+ 	font-size:14px;
  }
  .popup-info-profil-username{
  	width:100%;
@@ -49,60 +44,77 @@
  }
  .popup-info-profil-usertype{
  	width:100%;
- 	text-align:center;
- 	text-weight:bold;
  	text-transform:capitalize;
- 	font-size:22px;
+ 	text-align:center;
+ 	font-size:18px;
  }
  .popup-info-profil-work{
  	width:100%;
  	text-align:center;
  	font-size:18px;
  	text-transform:capitalize;
+ 	
  }
- a.popup-info-profil-url{
- 	float:left;
- 	margin-top:10px !important;
- 	width:100% !important;
- 	text-align:center !important;
- 	font-size:14px !important;
- 	color:#2aa0bd !important;
+ .popup-info-profil-url{
+ 	width:100%;
+ 	text-align:center;
+ 	font-size:13px;
+ 	color:#2aa0bd;
  }
- .modal-lg {
-    width: 90%;
-  }
- .modal-dialog {
- 	height: 90%;
- }
-  .modal-content{
- 	height: 100%;
- }
- .modal-body{
- 	height: 95%;
- }
- 
- #right_tool_map{
+svg{
+		height:auto;
+		width:auto;
+		
+	}
+
+/*
+	-------------
+*/
+#left_barre_tool_map{
+	width:6%;
+	position:absolute !important;
+	top:10px;
+	left:10px;
+	border-radius:5px;
+	background-color:white;
+	-moz-box-shadow: inset -1px 0px 2px 0px #c0c0c0;
+	-webkit-box-shadow: inset -1px 0px 2px 0px #c0c0c0;
+	-o-box-shadow: inset -1px 0px 2px 0px #c0c0c0;
+	box-shadow: inset -1px 0px 2px 0px #c0c0c0;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
+}
+#map_account_filters{
+	width:75%;
+	height:60px;
+	float:left;
+	color:black;
+	background-color:white;
+	font-family: "OpenSansLight";
+	font-size: 15px;
+	
+}
+
+#right_tool_map{
 	width:25%;
 	position:absolute !important;
-	float:right;
-	top:0px;
-/* 	left:400px; */
-/* 	height:340px; */
-/* 	border-radius:5px; */
+	top:10px;
+	left:400px;
+	height:340px;
+	border-radius:5px;
 	background-color:white;
-	/* 
--moz-box-shadow: 2px 0px 2px 0px #c0c0c0;
-	-webkit-box-shadow: 2px 0px 2px 0px #c0c0c0;
-	-o-box-shadow: 2px 0px 2px 0px #c0c0c0;
+	-moz-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
+	-webkit-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
+	-o-box-shadow: inset 2px 0px 2px 0px #c0c0c0;
 	box-shadow: inset 2px 0px 2px 0px #c0c0c0;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=90, Strength=2);
- */
 }
 #map_pseudo_filters{
-	width:100%;
+	width:90%;
+	height:30px;
 	float:left;
 	background-color:white;	
-	padding:8px;
+	margin-top:10px;
+	margin-left:10px;
 }
 #input_txt_pseudo_filter{
 	width:84%;
@@ -135,9 +147,8 @@
 	float:left;
 	width:100%;
 	padding-top:5px;
-	height:100%;
-	max-height:100%;
-/* 	margin-top:10px; */
+	height:285px;
+	margin-top:10px;
 	overflow-y:auto;
 	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
 	-webkit-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
@@ -201,3 +212,4 @@
 .btn_right_barre_tool_map:hover{
 	background-color:d3d1d5;
 }
+

@@ -15,36 +15,8 @@ $cs->registerCssFile($this->module->assetsUrl. '/css/sig.css');
 $cs->registerCssFile($this->module->assetsUrl. '/css/news.css');
 //$cs->registerCssFile($this->module->assetsUrl. '/css/leaflet.awesome-markers.css');
 
-$cs->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw-src.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.draw.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.markercluster-src.js' , CClientScript::POS_END);
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/sigCommunecter.js' , CClientScript::POS_END);
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
-
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/copyright.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.utils.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.linearfunctions.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.palettes.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.regularpolygon.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.markers.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.chartmarkers.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.datalayer.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.lines.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl.'/js/dvf/leaflet.dvf.controls.js' , CClientScript::POS_END);
-
 
 ?>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/copyright.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.utils.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.linearfunctions.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.palettes.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.regularpolygon.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.markers.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.chartmarkers.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.datalayer.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.lines.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/dvf/leaflet.dvf.controls.js';?>" type="text/javascript"></script>
 
 <style>
 	<?php //solve bug polygones invisible ?>

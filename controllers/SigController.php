@@ -66,8 +66,35 @@ class SigController extends CommunecterController {
         Yii::app()->end();
 	}
 	
-		
 	
+	//******************************************************************************
+	//** MENU COMPANIES
+	//******************************************************************************
+		
+	public function actionShowNetworkMapping() //show element on map
+    {
+		$where = array(	'geo'  => array( '$exists' => true ) );
+		
+		//rajoute les filtres choisi dans le panel (seulement s'il y a au moins 1 filtre selectionné)
+		if(isset($_POST['types']))
+		//TAG = TYPE = "citoyen,pixelActif,partnerPH,commune,association,projectLeader
+		$where['type'] = array('$in' => $_POST['types']);
+    	//si aucun filtre n'est selectionné, on ne fait pas la recherche
+    	else { 
+    		Rest::json( array("result" => "Aucun résultat") );
+        	Yii::app()->end();
+    	}
+    	
+    								  
+    	$users = PHDB::find(PHType::TYPE_CITOYEN, $where);
+        $users["origine"] = "getPixelActif";
+    	
+    	
+    	Rest::json( $users );
+        Yii::app()->end();
+    }
+    
+    
 	//******************************************************************************
 	//** MENU COMPANIES
 	//******************************************************************************
