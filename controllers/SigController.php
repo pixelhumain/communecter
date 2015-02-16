@@ -73,24 +73,32 @@ class SigController extends CommunecterController {
 		
 	public function actionShowNetworkMapping() //show element on map
     {
-		$where = array(	'geo'  => array( '$exists' => true ) );
-		
-		//rajoute les filtres choisi dans le panel (seulement s'il y a au moins 1 filtre selectionné)
-		if(isset($_POST['types']))
-		//TAG = TYPE = "citoyen,pixelActif,partnerPH,commune,association,projectLeader
-		$where['type'] = array('$in' => $_POST['types']);
-    	//si aucun filtre n'est selectionné, on ne fait pas la recherche
-    	else { 
-    		Rest::json( array("result" => "Aucun résultat") );
-        	Yii::app()->end();
-    	}
+    	//début de la requete => scope geographique
+    	$where = array( 'name' => $_POST["assoName"] );
+		$asso = PHDB::findOne(PHType::TYPE_GROUPS, $where);
+        
+     	$orgaMembres = array();
     	
-    								  
-    	$users = PHDB::find(PHType::TYPE_CITOYEN, $where);
-        $users["origine"] = "getPixelActif";
+		foreach($asso["membres"] as $membre){
+			if(in_array($membre["tag_rangement"], $_POST["types"])){
+				$where = array( 'geo'  => array( '$exists' => true ),
+								'_id' => new MongoId($membre["id"]) );
+			
+				$newMembre = PHDB::findOne(PHType::TYPE_CITOYEN, $where);
+				$newMembre["type"] = $membre["tag_rangement"];
+					
+				foreach($asso["tags_rangement"] as $tagR){
+					if($membre["tag_rangement"] == $tagR["name"]){
+						$newMembre["ico"] = $tagR["ico"];
+						$newMembre["color"] = $tagR["color"];
+						break;
+					}
+				}
+				$orgaMembres[] = $newMembre;
+			}
+		}
     	
-    	
-    	Rest::json( $users );
+    	Rest::json( $orgaMembres );
         Yii::app()->end();
     }
     
@@ -191,7 +199,69 @@ class SigController extends CommunecterController {
 	}
 	
 	
-	
+	public function actionInitDataNetworkMapping(){
+		
+		//liste des tags de rangements de l'asso
+		$tags_rangements = array(
+								array(	"name" => "Citoyens", 
+										"ico" => "male", 
+										"color" => "yellow"),
+										
+								array(	"name" => "Entreprises", 
+										"ico" => "briefcase", 
+										"color" => "blue"),
+										
+								array(	"name" => "Collaborateurs", 
+										"ico" => "circle", 
+										"color" => "purple"),
+										
+								array(	"name" => "Chercheurs", 
+										"ico" => "male", 
+										"color" => "green")
+							);
+		
+		//liste des tags de rangements de chaque membre
+		$tagsR = array( "Citoyens", "Citoyens", "Citoyens", "Entreprises", "Entreprises", 
+						"Collaborateurs", "Chercheurs", "Chercheurs", "Chercheurs", "Chercheurs");
+		
+		$where = array('geo' => array( '$exists' => true ));				
+    	$citoyens = PHDB::findAndSort(PHType::TYPE_CITOYEN, $where, array('name' => 1), 10);
+    	
+    	$membres = array(); $i = 0;
+    	foreach($citoyens as $citoyen){
+    		$membres[] = array("id" => $citoyen["_id"], "tag_rangement" => $tagsR[$i]);
+    		$i++;
+    	}
+    	
+    	$where = array(	'_id'  => new MongoId(Yii::app()->session["userId"]) );
+	 	$me = PHDB::findOne(PHType::TYPE_CITOYEN, $where);
+    	
+    	
+    	$newAsso = array(
+    	
+        "@context" => array("@vocab" => "http://schema.org",
+        					"ph" => "http://pixelhumain.com/ph/ontology/"
+    						),
+   		"email" => $me["email"],
+    	"name" => "asso1",
+    	"type" => "association",
+    	"cp" => "75000",
+    	"address" => array(	"@type" => "PostalAddress",
+        					"postalCode" => "75000",
+        					"addressLocality" => "France"
+    					),
+   		"description" => "Description de l'association",
+    	"tags_rangement" => $tags_rangements,
+    	"membres" => $membres
+    	
+    	);
+    	
+    	$res = PHDB::insert(PHType::TYPE_GROUPS, $newAsso);
+    	
+    	if($res["ok"] == 1) $res = "Initialisation des données : OK</br>Rechargez la carte !";
+        Rest::json( $res );
+        Yii::app()->end();
+	}
 	
 	
 	
@@ -212,3 +282,11 @@ class SigController extends CommunecterController {
 }
 
 
+//{"54d9ff9bc0461f4414ff0844":{"_id":{"$id":"54d9ff9bc0461f4414ff0844"},"@context":{"@vocab":"http://schema.org","ph":"http://pixelhumain.com/ph/ontology/"},"email":"tg@mail.com","name":"asso1","type":"association","ph:created":1423572891,"ph:owner":"tg@mail.com","@type":"NGO","cp":"75000","address":{"@type":"PostalAddress","postalCode":"75000","addressLocality":"France"},"description":"dfhfdhfgh","membres":[{"id":"54265d58c0461fcf528e8d04","tag_rangement":"Citoyens"},{"id":"54daf98ab544492102580835","tag_rangement":"Citoyens"},{"id":"54daf98ab544492102580834","tag_rangement":"Entreprises"},{"id":"54daf98ab544492102580832","tag_rangement":"Chercheurs"}],"tags_rangement":[{"name":"Citoyens","ico":"circle","color":"yellow"},{"name":"Entreprises","ico":"stop","color":"blue"},{"name":"Collaborateurs","ico":"circle","color":"red"},{"name":"Chercheurs","ico":"rocket","color":"green"},{"name":"pixelActif","ico":"circle","color":"yellow"}]}}
+/*
+[{"54265d58c0461fcf528e8d04":{"_id":{"$id":"54265d58c0461fcf528e8d04"},"email":"tg@mail.com","pwd":"7ddeae63181559a4012005f3a2d1acabdf7f7d72b7b3fb272bd80e1420d60e19","tobeactivated":true,"adminNotified":false,"created":1411800408,"cp":"98800","name":"Tristan Calédonie 1","applications":{"communecter":{"usertype":"communecter"},"sig":{"isAdmin":true,"usertype":"sig"},"news":{"isAdmin":true,"usertype":"news"},"twh":{"isAdmin":true,"usertype":"twh"},"user":{"isAdmin":true,"usertype":"user"}},"geo":{"@type":"GeoCoordinates","latitude":-22.302959,"longitude":166.439087},"geoPosition":{"type":"Point","coordinates":[166.439087,-22.302959]},"memberOf":[{"$id":"5472c1e8c0461f190288cf96"},{"$id":"5472c1e8c0461f190288cf97"},{"$id":"5472c1e8c0461f190288cf98"}],"knows":[{"type":"group","name":"*","members":[{"$id":"542e0c6cc0461f1225892696"},{"$id":"542e0c6cc0461f1225892699"},{"$id":"542e0c6cc0461f122589269a"},{"$id":"542e0c6cc0461f122589269b"},{"$id":"542e0c6cc0461f122589269c"}]},{"type":"group","name":"Famille","members":[{"$id":"542e0c6cc0461f1225892689"},{"$id":"542e0c6cc0461f122589268a"},{"$id":"542e0c6cc0461f122589268b"},{"$id":"542e0c6cc0461f122589268c"},{"$id":"542e0c6cc0461f122589268d"}]},{"type":"group","name":"Amis","members":[{"$id":"542e0c6cc0461f122589268e"},{"$id":"542e0c6cc0461f122589268f"},{"$id":"542e0c6cc0461f1225892690"},{"$id":"542e0c6cc0461f1225892691"},{"$id":"542e0c6cc0461f1225892694"}]}],"associations":[{"$id":"54d9ff9bc0461f4414ff0844"},{"$id":"54db07b5b54449a90431bdd5"}],"city":"","tags":"","address":{"addressLocality":""}},"type":"Citoyens"},
+{"54daf98ab544492102580835":{"_id":{"$id":"54daf98ab544492102580835"},"name":"Olivier Cortès","type":"pixelActif","created":1423636874,"geo":{"@type":"GeoCoordinates","longitude":-0.8349609,"latitude":45.2748864},"geoPosition":{"type":"Point","coordinates":[-0.8349609,45.2748864]}},"type":"Citoyens"},
+{"54daf98ab544492102580834":{"_id":{"$id":"54daf98ab544492102580834"},"name":"Guillaume Libersat","type":"pixelActif","created":1423636874,"geo":{"@type":"GeoCoordinates","longitude":2.8125,"latitude":50.3174081},"geoPosition":{"type":"Point","coordinates":[2.8125,50.3174081]}},"type":"Entreprises"},
+{"54daf98ab544492102580832":{"_id":{"$id":"54daf98ab544492102580832"},"name":"Elf Pavlik","type":"pixelActif","created":1423636874,"geo":{"@type":"GeoCoordinates","longitude":8.9648438,"latitude":51.179343},"geoPosition":{"type":"Point","coordinates":[8.9648438,51.179343]}},"type":"Chercheurs"}]
+
+*/
