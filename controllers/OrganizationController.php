@@ -81,8 +81,8 @@ class OrganizationController extends CommunecterController {
         }
           
       }
-      $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-      $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+      $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+      $tags = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
       
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
