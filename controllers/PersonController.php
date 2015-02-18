@@ -25,31 +25,6 @@ class PersonController extends CommunecterController {
   
   protected function beforeAction($action)
 	{
-    /*array_push( $this->sidebar1, array( "label"=>"Invitation","href"=>"#invitation", "iconClass"=>"icon-link",  "isModal"=>true));
-        array_push( $this->sidebar1, array( "label"=>"Voir Mes", "iconClass"=>"icon-eye",
-                                            "children"=> array( 
-                                                array( "label"=>"Groupes", "href"=>Yii::app()->createUrl('group')),
-                                                array( "label"=>"Évenements", "href"=>Yii::app()->createUrl('evenement')),
-                                                array( "label"=>"Associations", "href"=>Yii::app()->createUrl('association')),
-                                                array( "label"=>"Entreprises", "href"=>Yii::app()->createUrl('entreprise'))
-                                            ) 
-                                        ));
-      array_push( $this->sidebar1, array( "label"=>"Creer", "iconClass"=>"icon-plus",
-                                            "children"=> array( 
-                                                array( "label"=>"Group", "onclick"=>"openModal('groupCreerForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Actualité", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Évenement", "onclick"=>"openModal('eventForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Évenement", "href"=>Yii::app()->createUrl('evenement/creer')),
-                                                array( "label"=>"Pensée", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Projet", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Lieu", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Date", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Question", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Annonces", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                                array( "label"=>"Covoiturage", "onclick"=>"openModal('actuAjoutForm','data',null,'dynamicallyBuild')"),
-                                            ) 
-                                        ));*/
-		Yii::app()->theme  = "rapidos";
     return parent::beforeAction($action);
 	}
   /**

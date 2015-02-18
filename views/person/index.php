@@ -26,6 +26,18 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 					</a>
 				</li>
 
+				<li>
+					<a data-toggle="tab" href="#panel_organisations">
+						Events
+					</a>
+				</li>
+
+				<li>
+					<a data-toggle="tab" href="#panel_organisations">
+						Projects
+					</a>
+				</li>
+
 				
 			</ul>
 			<div class="tab-content">
@@ -34,7 +46,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						<div class="col-sm-5 col-md-4">
 							<div class="user-left">
 								<div class="center">
-									<h4><?php echo Yii::app()->session["user"]["name"]?></h4>
+									<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
 										<div class="user-image">
 											<div class="fileupload-new thumbnail"><img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">
@@ -462,6 +474,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</div>
 					</form>
 				</div>
+
 				<div id="panel_organisations" class="tab-pane fade">
 					<table class="table table-striped table-bordered table-hover" id="projects">
 						<thead>
@@ -495,6 +508,75 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 						</tbody>
 					</table>
 				</div>
+
+				<div id="panel_events" class="tab-pane fade">
+					<table class="table table-striped table-bordered table-hover" id="projects">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th class="hidden-xs">Type</th>
+								<th class="hidden-xs center">Tags</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							if(isset($organizations)){
+							foreach ($organizations as $e) 
+							{
+							?>
+							<tr id="organisation<?php echo (string)$e["_id"];?>">
+								<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+								<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
+								<td class="center">
+								<div class="visible-md visible-lg hidden-sm hidden-xs">
+									<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/view/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+									<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+								</div>
+								</td>
+							</tr>
+							<?php
+							}}
+							?>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="panel_projects" class="tab-pane fade">
+					<table class="table table-striped table-bordered table-hover" id="projects">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th class="hidden-xs">Type</th>
+								<th class="hidden-xs center">Tags</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							if(isset($organizations)){
+							foreach ($organizations as $e) 
+							{
+							?>
+							<tr id="organisation<?php echo (string)$e["_id"];?>">
+								<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+								<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
+								<td class="center">
+								<div class="visible-md visible-lg hidden-sm hidden-xs">
+									<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/view/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+									<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+								</div>
+								</td>
+							</tr>
+							<?php
+							}}
+							?>
+						</tbody>
+					</table>
+				</div>
+
 			</div>
 		</div>
 <div class="row">

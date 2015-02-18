@@ -83,6 +83,7 @@ class CommunecterController extends Controller
     "default"=> array(
       "index"=>array("href"=>"/ph/communecter"),
       "about"=>array("href"=>"/ph/communecter/default/about"),
+      "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
     "person"=> array(
