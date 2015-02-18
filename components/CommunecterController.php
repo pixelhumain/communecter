@@ -23,8 +23,8 @@ class CommunecterController extends Controller
       array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
-  const theme = "rapidos";
-  public $themeStyle = "theme-style5";//3,4,5,7,9
+  const theme = "ph-dori";
+  public $themeStyle = "theme-style11";//3,4,5,7,9
 
 	public $sidebar1 = array(
     array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
