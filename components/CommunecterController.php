@@ -5,7 +5,6 @@
  */
 class CommunecterController extends Controller
 {
-	//array_push( $this->sidebar1 , TeeoApi::getUserMap() );
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -26,22 +25,7 @@ class CommunecterController extends Controller
   const theme = "rapidos";
   public $themeStyle = "theme-style5";//3,4,5,7,9
 
-	public $sidebar1 = array(
-    array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
-                "children"=> array(
-                  "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
-                  "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
-                  "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person/profile"),
-                  "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
-                  "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
-                  "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
-                  "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
-                )
-          ),
-    array('label' => "About", "key"=>"about","iconClass"=>"fa fa-book","href"=>"communecter/default/about"),
-    array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
-    array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),
-  );
+	public $sidebar1 = array();
 
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
@@ -94,6 +78,8 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
+    $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
+    
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
