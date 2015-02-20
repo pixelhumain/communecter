@@ -38,19 +38,31 @@ class DefaultController extends CommunecterController {
   }
     public function actionAbout() 
     {
-      $this->title = "About";
-      $this->subTitle = "se connecter à sa commune";
-      $this->pageTitle = "Communecter, se connecter à sa commune";
-      
-      $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) {
-        $this->render("aboutMob");
-      }
-      else {
-        $this->render("about");
-      }
+        $this->title = "About";
+        $this->subTitle = "se connecter à sa commune";
+        $this->pageTitle = "Communecter, se connecter à sa commune";
+          
+        $this->sidebar2 = array(
+            array('label' => "Direct Links", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
+                    "children"=> array(
+                      "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login",),
+                      "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
+                      "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person"),
+                      "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
+                      "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
+                      "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
+                      "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
+                    )
+            )
+        );
+
+        $detect = new Mobile_Detect;
+        $isMobile = $detect->isMobile();
+
+        if($isMobile) 
+            $this->render("aboutMob");
+        else 
+            $this->render("about");
       
     }
     public function actionHelp() 

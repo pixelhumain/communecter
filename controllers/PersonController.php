@@ -25,17 +25,14 @@ class PersonController extends CommunecterController {
   
   protected function beforeAction($action)
 	{
-		Yii::app()->theme  = "rapidos";
     return parent::beforeAction($action);
 	}
-
   /**
    * @return [json Map] list
    */
 	public function actionLogin() 
 	{
     $this->layout = "//layouts/mainSimple";
-    
     if(Yii::app()->session["userId"]) 
       $this->redirect(Yii::app()->homeUrl);
     else
@@ -43,19 +40,17 @@ class PersonController extends CommunecterController {
       $isMobile = $detect->isMobile();
       
       if($isMobile) {
-	       $this->render( "loginMobile" );
+	$this->render( "loginMobile" );
       }
       else {
-	       $this->render( "login" );
+	$this->render( "login" );
       }
-  }
-
+    }
   public function actionLogout() 
   {
     Yii::app()->session["userId"] = null;
     $this->redirect(Yii::app()->homeUrl);
   }
-
   public function actionIndex() 
   {
     $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
@@ -115,17 +110,17 @@ class PersonController extends CommunecterController {
    * for the moment works with a unique password for all users 
    * specified on the event instance 
    * Steps : 
-   * 1 - find the App (ex:event in group) exists in appType table
+   * 1- find the App (ex:event in group) exists in appType table
    * 2 - check if email is valid
-   * 3 - test password matches
-   * 4 - find the user exists in "citoyens" table based on email
-   * 5 - save session information 
+   * 3- test password matches
+   * 4- find the user exists in "citoyens" table based on email
+   * 5- save session information 
    */
   public function actionRegisterAppPwd()
   {
       if(Yii::app()->request->isAjaxRequest && isset($_POST['registerEmail']) && !empty($_POST['registerEmail']) 
-                                            && isset($_POST['registerPwd']) && !empty($_POST['registerPwd'])) 
-      {
+                                            && isset($_POST['registerPwd']) && !empty($_POST['registerPwd']))
+    {
         //check application exists
         if(isset($_POST['appKey']) && !empty($_POST['appKey']) 
              && isset($_POST['appType']) && !empty($_POST['appType']))
@@ -333,7 +328,7 @@ class PersonController extends CommunecterController {
                     echo json_encode(array("result"=>true, "id"=>$newAccount["_id"],"msg"=>"Meci pour votre contribution.".
                                                         "<br/> Plus on est nombreux, mieux ca marchera.".
                                                         "<br/> Plus on est de fous, plus on rit.".
-                                                        "<br/>« Plus on est nombreux plus on crie dans le désert. »"));
+                                                                                            "<br/>« Plus on est nombreux plus on crie dans le désert. »"));
                }else
                    echo json_encode(array("result"=>false, "msg"=>"Vous devez remplir un email valide."));
             }
