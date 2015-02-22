@@ -9,9 +9,12 @@
  * Date: 15/08/13
  */
 class OrganizationController extends CommunecterController {
-  const moduleTitle = "Organization";
-    
-	
+  
+  protected function beforeAction($action)
+  {
+    parent::initPage();
+    return parent::beforeAction($action);
+  }
 
   public function actionIndex($type=null)
   {
@@ -41,13 +44,11 @@ class OrganizationController extends CommunecterController {
 	
   public function actionTags($type=null)
   {
-    $this->title = "Organization";
     if($type){
       $params =  array("type"=>$type);
-      $this->subTitle = "Découvrez les <b>$type</b> locales";
-    } else
-      $this->subTitle = "Découvrez les organization locales";
-    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
+      //$this->subTitle = Yii::t("organisation","Découvrez les <b>$type</b> locales");
+      $this->subTitle = Yii::t("organisation","Discover local Organisations",null,$this->module->id);
+    } 
     $params = array();
     if($type)
      $params =  array("tags"=>$type);

@@ -90,7 +90,7 @@ class CommunecterController extends Controller
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
     ),
     "organization"=> array(
-      "index"=>array("href"=>"/ph/communecter",'title' => "Organization"),
+      "index"=>array("href"=>"/ph/communecter",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
     ),
   );
 
@@ -99,5 +99,9 @@ class CommunecterController extends Controller
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+
+    CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
   }
+
+
 }
