@@ -27,13 +27,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 				</li>
 
 				<li>
-					<a data-toggle="tab" href="#panel_organisations">
+					<a data-toggle="tab" href="#panel_events">
 						Events
 					</a>
 				</li>
 
 				<li>
-					<a data-toggle="tab" href="#panel_organisations">
+					<a data-toggle="tab" href="#panel_projects">
 						Projects
 					</a>
 				</li>
@@ -476,7 +476,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 				</div>
 
 				<div id="panel_organisations" class="tab-pane fade">
-					<table class="table table-striped table-bordered table-hover" id="projects">
+					<table class="table table-striped table-bordered table-hover" id="organizations">
 						<thead>
 							<tr>
 								<th>Name</th>
@@ -510,7 +510,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 				</div>
 
 				<div id="panel_events" class="tab-pane fade">
-					<table class="table table-striped table-bordered table-hover" id="projects">
+					<table class="table table-striped table-bordered table-hover" id="events">
 						<thead>
 							<tr>
 								<th>Name</th>
