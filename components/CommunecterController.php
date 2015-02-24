@@ -82,21 +82,25 @@ class CommunecterController extends Controller
   );
 
   public $pages = array(
+
     "default"=> array(
       "index"=>array("href"=>"/ph/communecter"),
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
+
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
     ),
+
     "organization"=> array(
       "view"=>array("href"=>"/ph/communecter/view",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "index"=>array("href"=>"/ph/communecter",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
-      "view"=>array("href"=>"organization/view")
+      "view"=>array("href"=>"/ph/communecter/organization/view"),
+      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
     ),
   );
 
