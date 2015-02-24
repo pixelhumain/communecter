@@ -18,19 +18,19 @@
 					</label>
 					<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo Yii::app()->session["userEmail"];?>">
 				</div>
-				<div class="form-group col-xs-4">
+				<div class="form-group">
 					<label class="control-label">
 						Url
 					</label>
 					<input type="url" placeholder="www.peter-example.com" class="form-control" id="url" name="url" value="<?php if(isset($person["url"]))echo $person["url"];?>">
 				</div>
-				<div class="form-group col-xs-4"> 
+				<div class="form-group"> 
 					<label class="control-label">
 						Phone
 					</label>
 					<input type="tel" placeholder="+000-000" class="form-control" id="tel" name="tel" value="<?php if(isset($person["telephone"]))echo $person["telephone"];?>">
 				</div>
-				<div class="form-group col-xs-4"> 
+				<div class="form-group"> 
 					<label class="control-label">
 						Skype
 					</label>
