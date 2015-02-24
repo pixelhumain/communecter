@@ -3,7 +3,7 @@ class Menu {
 	public static $sectionMenu = array(
         
     );
-    public static function menuItems($conn,$type=null)
+    public static function menuItems($conn=null,$type=null)
     {
         
         //$userId = Yii::app()->session["user"]["userId"];
