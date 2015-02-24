@@ -8,10 +8,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 <!-- start: PAGE CONTENT -->
 <div class="noteWrap col-md-8 col-md-offset-2">
 	<h1>Référencer votre organization</h1>
-	<h3> Merci de compléter vos données. </h3>
+	<h3>Merci de compléter vos données. </h3>
     
     <p> si vous gérer une ou plusieurs organizations ou etes simplement membre
-   <br/>Vous etes au bon endroit pour la valorisé, la diffuser, l'aider à la faire vivre</p>
+    <br/>Vous etes au bon endroit pour la valorisé, la diffuser, l'aider à la faire vivre</p>
 	
 	<form id="organizationForm"  role="form" id="form">
 		<div class="row">
@@ -28,7 +28,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 				<input id="assoId" type="hidden" name="assoId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
 				<div class="form-group">
 					<label class="control-label">
-						Nom(Raison Sociale) <span class="symbol required"></span>
+						Nom (Raison Sociale) <span class="symbol required"></span>
 					</label>
 					<input id="assoName" class="form-control" name="assoName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
 				</div>
@@ -64,7 +64,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 				
 				<div class="form-group">
 					<label class="control-label">
-						Country <span class="symbol required"></span>
+						Pays <span class="symbol required"></span>
 					</label>
 					<select name="countryAsso" id="countryAsso" class="form-control">
 						<option></option>
@@ -82,7 +82,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 
 				<div class="form-group">
 					<label class="control-label">
-						au code postal <span class="symbol required"></span>
+						Code postal <span class="symbol required"></span>
 					</label>
 					<input id="assoCP" name="assoCP" class="form-control span2" value="<?php if($organization && isset($organization['cp']) )echo $organization['cp'] ?>">
 				</div>
@@ -107,7 +107,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 
 				<div class="form-group">
 					<label class="control-label">
-						Centre d'interet 
+						Centres d'interet 
 					</label>
 					
         		    <input id="tagsAsso" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
