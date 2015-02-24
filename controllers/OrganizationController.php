@@ -160,56 +160,12 @@ class OrganizationController extends CommunecterController {
                   
     if (!empty($_POST['description']))
       $newOrganization["description"] = $_POST['description'];
-
-    //Add the creator as the first member
-    $newOrganization["membres"] = array(Yii::app()->session["userId"]);
                   
-                  //TODO : admin can create association for other people 
-                     
-                  //if($_POST['assoPosition']==Association::$positionList[0]) //"Membre"
-                  
-                  /*else if($_POST['assoPosition']==Association::$positionList[4]) //"Secrétaire"
-                      $newAccount["conseilAdministration"] = $position;
-                  else if(in_array($_POST['assoPosition'], array(Association::$positionList[1],Association::$positionList[2],Association::$positionList[3])))
-                      $newAccount["bureau"] = $position;
-                  else if($_POST['assoPosition']==Association::$positionList[5])
-                      $newAccount["benevolesActif"] = $position;
-                  */
-
-    //save any inexistant tag to DB 
-    $newOrganization["tags"] = Tags::filterAndSaveNewTags(explode(",", $_POST['tagsOrganization']));
+    //Tags
+    $newOrganization["tags"] = explode(",", $_POST['tagsOrganization']);
     
     //Save the organization
-    if(!isset($_POST['organizationId']))
-      PHDB::insert( PHType::TYPE_ORGANIZATIONS,$newOrganization);
-    else {
-      //update the organization
-      PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($_POST['organizationId'])), 
-                                          array('$set' => $newOrganization));
-    }
-    
-    //add the association to the users association list
-    //TODO : Manage if the orgnization is already in the array memberOf
-    $where = array("_id" => new MongoId(Yii::app()->session["userId"]));	
-    PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("memberOf"=>$newOrganization["_id"])));
-                
-                  
-                  //send validation mail
-                  //TODO : make emails as cron jobs
-                  /*$message = new YiiMailMessage;
-                  $message->view = 'validation';
-                  $message->setSubject('Confirmer votre compte Pixel Humain');
-                  $message->setBody(array("user"=>$newAccount["_id"]), 'text/html');
-                  $message->addTo("oceatoon@gmail.com");//$_POST['registerEmail']
-                  $message->from = Yii::app()->params['adminEmail'];
-                  Yii::app()->mail->send($message);*/
-                  
-    //TODO : add an admin notification
-    Notification::saveNotification(array("type"=>"Saved",
-    						"user"=>$newOrganization["_id"]));
-                  
-    echo Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$newOrganization["_id"]));
-		exit;
+    echo Organization::save($newOrganization, Yii::app()->session["userId"] );
 	}
 
   public function actionGetNames() 
