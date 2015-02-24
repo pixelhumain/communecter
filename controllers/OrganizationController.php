@@ -66,9 +66,10 @@ class OrganizationController extends CommunecterController {
     $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
 
     $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-    $tags = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+    
+    $tags = Tags::getActiveTags();
 
-    $this->render("view",array('organization'=>$organization,'types'=>$types['list'],'tags'=>json_encode($tags['list'])));
+    $this->render("view",array('organization'=>$organization,'types'=>$types['list'],'tags'=>json_encode($tags)));
 	}
 
   public function actionForm($type=null,$id=null) 
@@ -83,12 +84,16 @@ class OrganizationController extends CommunecterController {
           
       }
       $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-      $tags = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+      $tags = Tags::getActiveTags();
       
       $detect = new Mobile_Detect;
       $isMobile = $detect->isMobile();
       
-      $params = array( "organization" => $organization,'type'=>$type,'types'=>$types['list'],'tags'=>json_encode($tags['list']));
+      $params = array( 
+        "organization" => $organization,'type'=>$type,
+        'types'=>$types['list'],
+        'tags'=>json_encode($tags));
+
       if($isMobile) {
     	  $this->layout = "//layouts/mainSimple";
     	  $this->render( "formMobile" , $params );
@@ -118,39 +123,38 @@ class OrganizationController extends CommunecterController {
   public function actionSave() 
   {
     //email : mandotory 
-    if(Yii::app()->request->isAjaxRequest && empty($_POST['assoEmail'])) {
-      echo json_encode(array("result"=>false, "msg"=>"Vous devez remplir un email."));
+    if(Yii::app()->request->isAjaxRequest && empty($_POST['organizationEmail'])) {
+      Rest::json(array("result"=>false, "msg"=>"Vous devez remplir un email."));
       return;
     } else {
       //validate Email
-      $email = $_POST['assoEmail'];
+      $email = $_POST['organizationEmail'];
       if (! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$email)) { 
-        echo json_encode(array("result"=>false, "msg"=>"Vous devez remplir un email valide."));
+        Rest::json(array("result"=>false, "msg"=>"Vous devez remplir un email valide."));
         return;
       }
     }
     
     // Is There a association with the same name ?
-    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['assoName']));      
+    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['organizationName']));      
     if($organization) { 
-      echo json_encode(array("result"=>false, "msg"=>"Cette Association existe déjà."));
+      Rest::json(array("result"=>false, "msg"=>"Cette Organisation existe déjà."));
       return;
     }
        
     $newOrganization = array(
       'email'=>$email,
-			"name" => $_POST['assoName'],
+			"name" => $_POST['organizationName'],
       'created' => time(),
       'owner' => Yii::app()->session["userEmail"]
     );
 
     $newOrganization["type"] = $_POST['type'];
                   
-    if(!empty($_POST['assoCP'])) {
-       $newOrganization["cp"] = $_POST['assoCP'];
+    if(!empty($_POST['postalCode'])) {
        $newOrganization["address"] = array(
-         "postalCode"=> $_POST['assoCP'],
-         "addressCountry"=> $_POST['countryAsso']
+         "postalCode"=> $_POST['postalCode'],
+         "addressCountry"=> $_POST['organizationCountry']
        );
     } 
                   
@@ -173,26 +177,19 @@ class OrganizationController extends CommunecterController {
                   */
 
     //save any inexistant tag to DB 
-    if( !empty($_POST['tagsAsso']) ){
-      $tagsList = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
-      foreach( explode(",", $_POST['tagsAsso']) as $tag)
-      {
-        if(!in_array($tag, $tagsList['list']))
-          PHDB::update( PHType::TYPE_LISTS,array("name"=>"tags"), array('$push' => array("list"=>$tag)));
-      }
-      $newOrganization["tags"] = $_POST['tagsAsso'];
-    }
+    $newOrganization["tags"] = Tags::filterAndSaveNewTags(explode(",", $_POST['tagsOrganization']));
     
     //Save the organization
-    if(!isset($_POST['AssoId']))
+    if(!isset($_POST['organizationId']))
       PHDB::insert( PHType::TYPE_ORGANIZATIONS,$newOrganization);
     else {
-      //if there's an email change 
-      PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($_POST['AssoId'])), 
+      //update the organization
+      PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($_POST['organizationId'])), 
                                           array('$set' => $newOrganization));
     }
     
     //add the association to the users association list
+    //TODO : Manage if the orgnization is already in the array memberOf
     $where = array("_id" => new MongoId(Yii::app()->session["userId"]));	
     PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("memberOf"=>$newOrganization["_id"])));
                 
@@ -211,7 +208,7 @@ class OrganizationController extends CommunecterController {
     Notification::saveNotification(array("type"=>"Saved",
     						"user"=>$newOrganization["_id"]));
                   
-    echo json_encode(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$newOrganization["_id"]));
+    echo Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$newOrganization["_id"]));
 		exit;
 	}
 

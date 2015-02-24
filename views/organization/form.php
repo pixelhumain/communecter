@@ -25,7 +25,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 			</div>
 
 			<div class="col-md-6 col-sd-6 ">
-				<input id="organizationId" type="hidden" name="organizationId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
 				<div class="form-group">
 					<label class="control-label">
 						Nom (Raison Sociale) <span class="symbol required"></span>
@@ -43,7 +42,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						foreach ($types as $key=>$value) 
 						{
 						?>
-						<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $key?></option>
+						<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
 						<?php 
 						}
 						?>
@@ -92,7 +91,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 						Centres d'interet 
 					</label>
 					
-        		    <input id="tagsOrganization" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
+        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
         		    
 				</div>
 
@@ -128,31 +127,35 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 </div>
 
 <script type="text/javascript">
-//very strange BUg this only works when declaring it twice, no idea and no time to loose
-$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
-$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+jQuery(document).ready(function() {
+	//very strange BUg this only works when declaring it twice, no idea and no time to loose
+	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+	console.log('toto');
 
-$("textarea.autosize").autosize();
+	$("textarea.autosize").autosize();
 
-$("#organizationForm").submit( function(event){
-	if($('.error').length){
-		alert('Veuillez remplir les champs obligatoires.');
-	}else{
-    	event.preventDefault();
-    	$("#organizationForm").modal('hide');
-    	$.ajax({
-    	  type: "POST",
-    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
-    	  data: $("#organizationForm").serialize(),
-    	  success: function(data){
-    			  $("#flashInfo .modal-body").html(data.msg);
-    			  $("#flashInfo").modal('show');
-    			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
-    	  },
-    	  dataType: "json"
-    	});
-	}
-});
-    
+	$("#organizationForm").submit( function(event){
+		if($('.error').length){
+			alert('Veuillez remplir les champs obligatoires.');
+		}else{
+	    	event.preventDefault();
+	    	$("#organizationForm").modal('hide');
+	    	$.ajax({
+	    	  type: "POST",
+	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
+	    	  data: $("#organizationForm").serialize(),
+	    	  success: function(data){
+	    			if(!data.result)
+                        toastr.error(data.msg);
+                    else    
+                        toastr.success(data.msg);
+	    			window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+	    	  },
+	    	  dataType: "json"
+	    	});
+		}
+	});
+ });  
 </script>	
 

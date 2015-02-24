@@ -29,7 +29,7 @@
 						Centres d'interet 
 					</label>
 					
-        		    <input id="tagsOrganization" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
+        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
         		    
 				</div>
 			</div>
@@ -85,7 +85,7 @@
 							foreach (OpenData::$phCountries as $key => $value) 
 							{
 							?>
-							<option value="<?php echo $key?>" <?php if(($organization["address"] && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
+							<option value="<?php echo $key?>" <?php if((!empty($organization["address"]) && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
 							<?php 
 							}
 							?>

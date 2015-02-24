@@ -58,8 +58,8 @@ class PersonController extends CommunecterController {
     $organizations = array();
     
     //Load organizations
-    if (!empty($person["organizations"])) {
-      foreach ($person["organizations"] as $organizationId) {
+    if (!empty($person["memberOf"])) {
+      foreach ($person["memberOf"] as $organizationId) {
         
         $organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($organizationId)));
         if (!empty($organization)) {
