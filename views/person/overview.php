@@ -1,9 +1,4 @@
-<?php
-$cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
-?>
 
 <div id="panel_overview" class="tab-pane fade in active">
 	<div class="row">
