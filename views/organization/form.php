@@ -25,12 +25,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 			</div>
 
 			<div class="col-md-6 col-sd-6 ">
-				<input id="assoId" type="hidden" name="assoId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
+				<input id="organizationId" type="hidden" name="organizationId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
 				<div class="form-group">
 					<label class="control-label">
 						Nom (Raison Sociale) <span class="symbol required"></span>
 					</label>
-					<input id="assoName" class="form-control" name="assoName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
+					<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
 				</div>
 
 				<div class="form-group">
@@ -54,7 +54,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					<label class="control-label">
 						Email <span class="symbol required"></span>
 					</label>
-					<input id="assoEmail" class="form-control" name="assoEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
+					<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 				</div>
 
 				
@@ -66,13 +66,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					<label class="control-label">
 						Pays <span class="symbol required"></span>
 					</label>
-					<select name="countryAsso" id="countryAsso" class="form-control">
+					<select name="organizationCountry" id="organizationCountry" class="form-control">
 						<option></option>
 						<?php 
 						foreach (OpenData::$phCountries as $key => $value) 
 						{
 						?>
-						<option value="<?php echo $key?>" <?php if(($organization && isset($organization['countryAsso']) && $key == $organization['countryAsso']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
+						<option value="<?php echo $key?>" <?php if(($organization["address"] && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
 						<?php 
 						}
 						?>
@@ -84,33 +84,15 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					<label class="control-label">
 						Code postal <span class="symbol required"></span>
 					</label>
-					<input id="assoCP" name="assoCP" class="form-control span2" value="<?php if($organization && isset($organization['cp']) )echo $organization['cp'] ?>">
+					<input class="form-control" placeholder="12345" type="text" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 				</div>
-
-				<?php /*?>
-				<div class="form-group">
-					<label class="control-label">
-						Position
-					</label>
-					<select name="assoPosition" id="assoPosition" class="form-control">
-						<?php 
-						foreach (Association::$position as $key => $value) 
-						{
-						?>
-						<option value="<?php echo $key?>" <?php if($organization && isset($organization['assoPosition']) && $key == $organization['assoPosition']) echo "selected"; else if ($key == "membre") echo "selected"; ?> ><?php echo $value?></option>
-						<?php 
-						}
-						?>
-					</select>
-				</div>
-				*/?>
 
 				<div class="form-group">
 					<label class="control-label">
 						Centres d'interet 
 					</label>
 					
-        		    <input id="tagsAsso" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
+        		    <input id="tagsOrganization" type="hidden" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
         		    
 				</div>
 
@@ -147,12 +129,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 
 <script type="text/javascript">
 //very strange BUg this only works when declaring it twice, no idea and no time to loose
-$('#tagsAsso').select2({ tags: <?php echo $tags?> });
-$('#tagsAsso').select2({ tags: <?php echo $tags?> });
+$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 
 $("textarea.autosize").autosize();
 
-//$('#tagsAsso').tagsInput();
 $("#organizationForm").submit( function(event){
 	if($('.error').length){
 		alert('Veuillez remplir les champs obligatoires.');

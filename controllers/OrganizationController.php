@@ -61,14 +61,15 @@ class OrganizationController extends CommunecterController {
 
   public function actionView($id) 
   {
-    $organization = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
+    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
     $this->title = $organization["name"];
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "Type ".$organization["type"];
     $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
-    if(isset($asso["key"]) )
-        $this->redirect(Yii::app()->createUrl('organization/'.$asso["key"]));
-    else    
-      $this->render("view",array('organization'=>$organization));
+
+    $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+    $tags = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+
+    $this->render("view",array('organization'=>$organization,'types'=>$types['list'],'tags'=>json_encode($tags['list'])));
 	}
 
   public function actionForm($type=null,$id=null) 
@@ -144,18 +145,13 @@ class OrganizationController extends CommunecterController {
       'owner' => Yii::app()->session["userEmail"]
     );
 
-    if ($_POST['type'] == "association")
-      $newOrganization["type"] = "NGO";
-    elseif ($_POST['type'] == "entreprise") 
-      $newOrganization["type"] = "LocalBusiness";
-    else 
-      $newOrganization["type"] = "Organization";
+    $newOrganization["type"] = $_POST['type'];
                   
     if(!empty($_POST['assoCP'])) {
        $newOrganization["cp"] = $_POST['assoCP'];
        $newOrganization["address"] = array(
          "postalCode"=> $_POST['assoCP'],
-         "addressLocality"=> $_POST['countryAsso']
+         "addressCountry"=> $_POST['countryAsso']
        );
     } 
                   
@@ -199,7 +195,7 @@ class OrganizationController extends CommunecterController {
     
     //add the association to the users association list
     $where = array("_id" => new MongoId(Yii::app()->session["userId"]));	
-    PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("organizations"=>$newOrganization["_id"])));
+    PHDB::update( PHType::TYPE_CITOYEN,$where, array('$push' => array("memberOf"=>$newOrganization["_id"])));
                 
                   
                   //send validation mail
