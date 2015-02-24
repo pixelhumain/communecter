@@ -137,3 +137,34 @@
 		</div>
 	</form>
 </div>
+
+<!-- end: PAGE CONTENT-->
+<script>
+jQuery(document).ready(function() {
+
+	$('#tags').select2({ tags: <?php echo $tags ?> });
+	$('#tags').select2({ tags: <?php echo $tags ?> });
+	PagesUserProfile.init();
+
+});
+
+
+$("#personForm").submit( function(event){	
+	event.preventDefault();
+	formData = $("#personForm").serializeFormJSON();
+	console.dir(formData);
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/"+moduleId+"/api/saveUser",
+	  data: $("#personForm").serialize(),
+	  dataType: "json",
+	  success: function(data){
+	  		if(data.result)
+	  			toastr.success(data.msg);
+	  		else
+	  			toastr.error(data.msg);
+	  },
+	  dataType: "json"
+	});
+});
+</script>
