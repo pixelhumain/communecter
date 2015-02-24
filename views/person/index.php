@@ -96,8 +96,9 @@ $(".delBtn").on("click",function(){
 
 $("#personForm").submit( function(event){	
 	event.preventDefault();
-	formData = $("#personForm").serializeFormJSON();
-	console.dir(formData);
+	//console.log($("#personForm"));
+	//formData = $("#personForm").serializeFormJSON();
+	//console.dir(formData);
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",

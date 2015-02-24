@@ -44,7 +44,7 @@
 							Tags
 						</label>
 						
-						<input id="tags" name="tags" value="<?php echo ($person && isset($person['tags']) ) ?  $person['tags'] : ""?>" style="display: block;">
+						<input id="tags" name="tags" value="" style="display: block;">
 					</div>
 			</div>
 			<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
