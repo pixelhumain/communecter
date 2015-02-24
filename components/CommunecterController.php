@@ -25,7 +25,25 @@ class CommunecterController extends Controller
   const theme = "ph-dori";
   public $themeStyle = "theme-style11";//3,4,5,7,9
 
-	public $sidebar1 = array();
+	//TODO - Faire le tri des liens
+  //TODO - Les children ne s'affichent pas dans le menu
+  public $sidebar1 = array(
+    array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
+                "children"=> array(
+                  "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
+                  "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
+                  "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person/profile"),
+                  "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
+                  "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
+                  "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
+                  "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
+                )
+          ),
+    array('label' => "About", "key"=>"about","iconClass"=>"fa fa-book","href"=>"communecter/default/about"),
+    array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
+    array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),
+  );
+
 
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
