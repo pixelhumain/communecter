@@ -68,3 +68,4 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 
 	</div>
 </div>
+

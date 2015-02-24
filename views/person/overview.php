@@ -72,7 +72,7 @@
 						</tr>
 						<tr>
 							<td>phone:</td>
-							<td><?php if(isset($person["telephone"]))echo $person["telephone"];?></td>
+							<td><?php if(isset($person["phoneNumber"]))echo $person["phoneNumber"];?></td>
 							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 						</tr>
 						<tr>
