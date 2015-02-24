@@ -67,12 +67,7 @@
 					</label>
 					<input type="text" placeholder="Supervisor" class="form-control" id="supervisor" name="supervisor" value="<?php if(isset($person["supervisor"]))echo $person["supervisor"];?>">
 				</div>
-				<div class="form-group"> 
-					<label class="control-label">
-						Group(s)
-					</label>
-					<input type="text" placeholder="Group1, Group2" class="form-control" id="group" name="group" value="<?php if(isset($person["group"]))echo $person["group"];?>">
-				</div>
+				
 				<div class="row">
 
 					<div class="col-md-4">
