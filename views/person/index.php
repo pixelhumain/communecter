@@ -363,9 +363,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 							<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label class="control-label">
-										First Name
+										Name
 									</label>
-									<input type="text" placeholder="Peter" class="form-control" id="name" name="name" value="<?php if(isset($person["name"]))echo $person["name"];?>">
+									<input type="text" placeholder="Your Name" class="form-control" id="name" name="name" value="<?php if(isset($person["name"]))echo $person["name"];?>">
 								</div>
 								<div class="form-group">
 									<label class="control-label">
@@ -637,12 +637,13 @@ $(".delBtn").on("click",function(){
 
 $("#personForm").submit( function(event){	
 	event.preventDefault();
+	formData = $("#personForm").serializeFormJSON();
+	console.dir(formData);
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
 	  data: $("#personForm").serialize(),
-	  contentType: false,
-	  processData : false,
+	  dataType: "json",
 	  success: function(data){
 	  		if(data.result)
 	  			toastr.success(data.msg);
