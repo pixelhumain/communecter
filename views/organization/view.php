@@ -7,8 +7,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 <!-- start: PAGE CONTENT -->
 <div class="row">
 	<div class="col-md-12 padding-20 ">
-		<a href="javascript:;" onclick="openSubView('Add a Sub Organisation', '/communecter/organization/form',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add a Sub Organization</a>
-		<a href="javascript:;" onclick="openSubView('Add Members', '/communecter/organization/members',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Invite Someone</a>
+		<a href="javascript:;" onclick="openSubView('Add Members', '/communecter/organization/addMembers',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add members</a>
 	</div>	
 </div>
 
