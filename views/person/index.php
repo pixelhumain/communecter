@@ -375,6 +375,18 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 								</div>
 								<div class="form-group">
 									<label class="control-label">
+										Url
+									</label>
+									<input type="url" placeholder="www.peter-example.com" class="form-control" id="url" name="url" value="<?php if(isset($person["url"]))echo $person["url"];?>">
+								</div>
+								<div class="form-group">
+									<label class="control-label">
+										Phone
+									</label>
+									<input type="tel" placeholder="+000-000" class="form-control" id="tel" name="tel" value="<?php if(isset($person["telephone"]))echo $person["telephone"];?>">
+								</div>
+								<div class="form-group">
+									<label class="control-label">
 										Tags
 									</label>
 									
