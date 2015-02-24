@@ -12,41 +12,69 @@
 					</label>
 					<input type="text" placeholder="Peter" class="form-control" id="name" name="name" value="<?php if(isset($person["name"]))echo $person["name"];?>">
 				</div>
-				<div class="form-group">
-					<label class="control-label">
-						Email Address
-					</label>
-					<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo Yii::app()->session["userEmail"];?>">
-				</div>
-				<div class="form-group">
-					<label class="control-label">
-						Url
-					</label>
-					<input type="url" placeholder="www.peter-example.com" class="form-control" id="url" name="url" value="<?php if(isset($person["url"]))echo $person["url"];?>">
-				</div>
-				<div class="form-group"> 
-					<label class="control-label">
-						Phone
-					</label>
-					<input type="tel" placeholder="+000-000" class="form-control" id="tel" name="tel" value="<?php if(isset($person["telephone"]))echo $person["telephone"];?>">
-				</div>
-				<div class="form-group"> 
-					<label class="control-label">
-						Skype
-					</label>
-					<input type="text" placeholder="" class="form-control" id="skype" name="skype" value="<?php if(isset($person["skype"]))echo $person["skype"];?>">
-				</div>
-				<div class="form-group">
-					<label class="control-label">
-						Tags
-					</label>
+				<fieldset>
+					<div class="form-group">
+						<label class="control-label">
+							Email Address
+						</label>
+						<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo Yii::app()->session["userEmail"];?>">
+					</div>
+					<div class="form-group">
+						<label class="control-label">
+							Url
+						</label>
+						<input type="url" placeholder="www.peter-example.com" class="form-control" id="url" name="url" value="<?php if(isset($person["url"]))echo $person["url"];?>">
+					</div>
+					<div class="form-group"> 
+						<label class="control-label">
+							Phone
+						</label>
+						<input type="tel" placeholder="" class="form-control" id="tel" name="tel" value="<?php if(isset($person["phoneNumber"]))echo $person["phoneNumber"];?>">
+					</div>
+					<div class="form-group"> 
+						<label class="control-label">
+							Skype
+						</label>
+						<input type="text" placeholder="" class="form-control" id="skype" name="skype" value="<?php if(isset($person["skype"]))echo $person["skype"];?>">
+					</div>
+				</fieldset>
 					
-					<input id="tags" name="tags" value="<?php echo ($person && isset($person['tags']) ) ?  $person['tags'] : ""?>" style="display: block;">
-				</div>
+					<div class="form-group">
+						<label class="control-label">
+							Tags
+						</label>
+						
+						<input id="tags" name="tags" value="<?php echo ($person && isset($person['tags']) ) ?  $person['tags'] : ""?>" style="display: block;">
+					</div>
 			</div>
 			<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
 				
+				<div class="form-group"> 
+					<label class="control-label">
+						Birth
+					</label>
+					<input type="date" placeholder="01/01/1901" class="form-control" id="birth" name="birth" value="<?php if(isset($person["birt"]))echo $person["birth"];?>">
+				</div>
+				<div class="form-group"> 
+					<label class="control-label">
+						Position(s)
+					</label>
+					<input type="text" placeholder="Position1, Position2" class="form-control" id="position" name="position" value="<?php if(isset($person["position"]))echo $person["position"];?>">
+				</div>
+				<div class="form-group"> 
+					<label class="control-label">
+						Supervisor
+					</label>
+					<input type="text" placeholder="Supervisor" class="form-control" id="supervisor" name="supervisor" value="<?php if(isset($person["supervisor"]))echo $person["supervisor"];?>">
+				</div>
+				<div class="form-group"> 
+					<label class="control-label">
+						Group(s)
+					</label>
+					<input type="text" placeholder="Group1, Group2" class="form-control" id="group" name="group" value="<?php if(isset($person["group"]))echo $person["group"];?>">
+				</div>
 				<div class="row">
+
 					<div class="col-md-4">
 						<div class="form-group">
 							<label class="control-label">
@@ -91,6 +119,7 @@
 							</select>
 						</div>
 					</div>
+					
 				</div>
 				<div class="form-group">
 					<label>
