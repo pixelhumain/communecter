@@ -84,8 +84,8 @@ padding:5px;
 			<h2>Mes Assocations</h2>
 			<?php 
 			
-			foreach($user["associations"] as $a){
-			    $entity = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($a),"type"=>PHType::TYPE_ASSOCIATION));
+			foreach($user["organizations"] as $a){
+			    $entity = Yii::app()->mongodb->organizations->findOne(array("_id"=>new MongoId($a),"type"=>PHType::TYPE_ASSOCIATION));
 			    echo "<a href='".Yii::app()->createUrl('index.php/association/view/id/'.$entity["_id"])."' class='btn btn-warning'>".$entity["name"]."</a><br/>";
 			}
 			?>
