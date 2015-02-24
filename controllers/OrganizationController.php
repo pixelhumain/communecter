@@ -29,8 +29,7 @@ class OrganizationController extends CommunecterController {
     if($type)
      $params =  array("type"=>$type);
     
-    $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
-    
+    $organizations = PHDB::find( PHType::TYPE_ORGANIZATIONS,$params);
     
     $detect = new Mobile_Detect;
     $isMobile = $detect->isMobile();
@@ -38,7 +37,7 @@ class OrganizationController extends CommunecterController {
 	$this->layout = "//layouts/mainSimple";
     
     
-    $this->render("index",array("groups"=>$groups));
+    $this->render("index",array("organizations"=>$organizations));
   }
 	
 	
@@ -53,18 +52,20 @@ class OrganizationController extends CommunecterController {
     if($type)
      $params =  array("tags"=>$type);
     
-    $groups = PHDB::find( PHType::TYPE_GROUPS,$params);
-    $this->render("index",array("groups"=>$groups));
+    $organizations = PHDB::find( PHType::TYPE_ORGANIZATIONS,$params);
+    $this->render("index",array("organizations"=>$organizations));
   }
     
     
 
   public function actionView($id) 
   {
-    $organization = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
+    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
+
     $this->title = $organization["name"];
-    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "Type ".$organization["type"];
+    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : ( (isset($organization["type"])) ? "Type ".$organization["type"] : "");
     $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
+
     if(isset($asso["key"]) )
         $this->redirect(Yii::app()->createUrl('organization/'.$asso["key"]));
     else    
@@ -75,7 +76,7 @@ class OrganizationController extends CommunecterController {
   {
       $organization = null;
       if(isset($id)){
-        $organization = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($id)));
+        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
         //make sure conected user is the owner
         if( $organization["email"] != Yii::app()->session["userEmail"] || ( isset($organization["ph:owner"]) && $organization["ph:owner"] != Yii::app()->session["userEmail"] ) ) {
           $organization = null;
@@ -223,7 +224,7 @@ class OrganizationController extends CommunecterController {
   public function actionGetNames() 
     {
        $assos = array();
-       foreach( PHDB::find( PHType::TYPE_GROUPS, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
+       foreach( PHDB::find( PHType::TYPE_ORGANIZATIONS, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
            $assos[] = array("name"=>$v["name"],"cp"=>$v["cp"],"id"=>$a);
        header('Content-Type: application/json');
        echo json_encode( array( "names"=>$assos ) ) ;
@@ -237,11 +238,11 @@ class OrganizationController extends CommunecterController {
 	  if(Yii::app()->session["userId"])
 		{
     
-      $account = PHDB::findOne( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
+      $account = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["id"])));
       if( $account && Yii::app()->session["userEmail"] == $account['ph:owner'])
       {
         
-        PHDB::remove( PHType::TYPE_GROUPS,array("_id"=>new MongoId($_POST["id"])));
+        PHDB::remove( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["id"])));
         //temporary for dev
         //TODO : Remove the association from all Ci accounts
         PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));

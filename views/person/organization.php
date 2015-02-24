@@ -1,4 +1,5 @@
 <div id="panel_organisations" class="tab-pane fade">
+	Organisations I follow or I'm am member of.<br/>
 	<table class="table table-striped table-bordered table-hover" id="organizations">
 		<thead>
 			<tr>
@@ -31,3 +32,36 @@
 		</tbody>
 	</table>
 </div>
+
+<!-- end: PAGE CONTENT-->
+<script>
+jQuery(document).ready(function() {
+
+	$(".delBtn").on("click",function(){
+		id = $(this).data("id");
+
+		bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" organization ?", function(result) {
+			if(result)
+			{
+				testitpost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
+					function(data,id){
+						if(data.result){
+							toastr.success("delete successfull ");
+							$('#organisation'+$(this).data("id")).remove();
+							var tr = $(this).closest('tr');
+					        tr.css("background-color","#FF3700");
+					        tr.fadeOut(400, function(){
+					            tr.remove();
+					        });
+					        return false;
+						}
+						else 
+							toastr.error(data.msg);
+					});
+			}
+		});
+	});
+
+});
+
+</script>
