@@ -27,13 +27,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 				</li>
 
 				<li>
-					<a data-toggle="tab" href="#panel_organisations">
+					<a data-toggle="tab" href="#panel_events">
 						Events
 					</a>
 				</li>
 
 				<li>
-					<a data-toggle="tab" href="#panel_organisations">
+					<a data-toggle="tab" href="#panel_projects">
 						Projects
 					</a>
 				</li>
@@ -625,14 +625,10 @@ $(".delBtn").on("click",function(){
 
 $("#personForm").submit( function(event){	
 	event.preventDefault();
-	var formData = $(this).serialize();//new FormData($(this)[0]);
-
-	console.log(formData);
-
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
-	  data: $(this).serialize(),
+	  data: $("#personForm").serialize(),
 	  contentType: false,
 	  processData : false,
 	  success: function(data){
