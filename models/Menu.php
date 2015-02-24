@@ -33,7 +33,7 @@ class Menu {
           //logFileWrite('row : '.json_encode($row));
         }*/
 
-        $result->menuTree = TeeoApi::buildMenu( $result->items,0 );
+        //$result->menuTree = TeeoApi::buildMenu( $result->items,0 );
        
         return $result;
     } 
