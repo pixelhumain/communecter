@@ -1,5 +1,5 @@
 <div id="panel_organisations" class="tab-pane fade">
-	<table class="table table-striped table-bordered table-hover" id="projects">
+	<table class="table table-striped table-bordered table-hover" id="organizations">
 		<thead>
 			<tr>
 				<th>Name</th>

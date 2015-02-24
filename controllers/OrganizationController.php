@@ -112,29 +112,9 @@ class OrganizationController extends CommunecterController {
   "name": "Beachwalk Beachwear & Giftware",
   "telephone": "850-648-4200"
 }
+*/
 
-"@context": "http://schema.org",
-  "@type": "NGO",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Paris, France",
-    "postalCode": "F-75002",
-    "streetAddress": "38 avenue de l'Opera"
-  },
-  "email": "secretariat(at)google.org",
-  "faxNumber": "( 33 1) 42 68 53 01",
-  "member": [
-    {
-      "@type": "Organization"
-    },
-    {
-      "@type": "Organization"
-    }
-  ],
-  "name": "Google.org (GOOG)",
-  "telephone": "( 33 1) 42 68 53 00"
-  }
-   */
+  //TODO : Move all model logic in model Organization
   public function actionSave() 
   {
     //email : mandotory 
