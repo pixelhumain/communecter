@@ -602,46 +602,49 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 
 <!-- end: PAGE CONTENT-->
 <script>
-	jQuery(document).ready(function() {
+jQuery(document).ready(function() {
+
 	$('#tags').select2({ tags: <?php echo $tags ?> });
 	$('#tags').select2({ tags: <?php echo $tags ?> });
-		PagesUserProfile.init();
-	});
-	$(".delBtn").on("click",function(){
-		id = $(this).data("id");
+	PagesUserProfile.init();
 
-		bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" organization ?", function(result) {
-			if(result)
-			{
-				testitpost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
-					function(data,id){
-						if(data.result){
-							toastr.success("delete successfull ");
-							$('organisation'+$(this).data("id")).remove();
-							var tr = $(this).closest('tr');
-					        tr.css("background-color","#FF3700");
-					        tr.fadeOut(400, function(){
-					            tr.remove();
-					        });
-					        return false;
-						}
-						else 
-							toastr.error(data.msg);
-					});
-			}
-		});
+});
 
+$(".delBtn").on("click",function(){
+	id = $(this).data("id");
+
+	bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" organization ?", function(result) {
+		if(result)
+		{
+			testitpost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
+				function(data,id){
+					if(data.result){
+						toastr.success("delete successfull ");
+						$('organisation'+$(this).data("id")).remove();
+						var tr = $(this).closest('tr');
+				        tr.css("background-color","#FF3700");
+				        tr.fadeOut(400, function(){
+				            tr.remove();
+				        });
+				        return false;
+					}
+					else 
+						toastr.error(data.msg);
+				});
+		}
 	});
-	$("#personForm").submit( function(event){	
+});
+
+$("#personForm").submit( function(event){	
 	event.preventDefault();
-	var formData = new FormData($(this)[0]);
+	var formData = $(this).serialize();//new FormData($(this)[0]);
 
 	console.log(formData);
-	
+
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
-	  data: formData,
+	  data: $(this).serialize(),
 	  contentType: false,
 	  processData : false,
 	  success: function(data){

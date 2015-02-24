@@ -2,6 +2,7 @@
 class Organization {
 	public $jsonLD= array();
 
+	//TODO : a quoi ça sert ? On supprime ?
 	public $urls = array(
 		"form" => array(
 				"params" => array("type"),
@@ -16,5 +17,11 @@ class Organization {
 		"getNames" => array(),
 		"delete" => array(),
 	);
+
+
+	public function save($organization) {
+		
+	}
+
 }
 ?>
