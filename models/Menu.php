@@ -6,6 +6,7 @@ class Menu {
     public static function menuItems($conn=null,$type=null)
     {
         $result = array();
+        
         //$userId = Yii::app()->session["user"]["userId"];
         //$appId  = Yii::app()->session["user"]["treeId"];
         //$result = json_decode('{"items":[{"menuItemId":"10001","menuId":"8000","menuItemLabelFr":"Management","menuItemLabelEn":"itemEnergyManagement","parentMenuItemId":"0","menuItemData":"","menuItemOrder":"2","menuItemIcon":"76"},{"menuItemId":"10004","menuId":"8000","menuItemLabelFr":"Configuration","menuItemLabelEn":"itemSettings","parentMenuItemId":"0","menuItemData":"","menuItemOrder":"5","menuItemIcon":"42"},{"menuItemId":"10019","menuId":"8000","menuItemLabelFr":"Evenements","menuItemLabelEn":"itemEnergyEventManager","parentMenuItemId":"10001","menuItemData":"management.energyEvents.EnergyEventsContainer","menuItemOrder":"3","menuItemIcon":""},{"menuItemId":"10020","menuId":"8000","menuItemLabelFr":"RPEE","menuItemLabelEn":"itemRPEEManager","parentMenuItemId":"10001","menuItemData":"","menuItemOrder":"4","menuItemIcon":""},{"menuItemId":"10021","menuId":"8000","menuItemLabelFr":"Audits","menuItemLabelEn":"itemAuditManager","parentMenuItemId":"10001","menuItemData":"","menuItemOrder":"5","menuItemIcon":""},{"menuItemId":"10016","menuId":"8000","menuItemLabelFr":"Management \u00e9nergie","menuItemLabelEn":"itemEnergyManagementConfig","parentMenuItemId":"10004","menuItemData":"management.energyEvents.EnergyEventsConfig","menuItemOrder":"0","menuItemIcon":""}]}');

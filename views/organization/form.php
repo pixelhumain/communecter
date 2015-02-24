@@ -166,7 +166,7 @@ $("#organizationForm").submit( function(event){
     	  success: function(data){
     			  $("#flashInfo .modal-body").html(data.msg);
     			  $("#flashInfo").modal('show');
-    			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/person/profile?tabId=panel_organisations";
+    			  window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
     	  },
     	  dataType: "json"
     	});
