@@ -14,6 +14,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
+	<div class="col-md-12 padding-20 ">
+		<a href="javascript:;" onclick="openSubView('Add a Sub Organisation', '/communecter/organization/form',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add a Sub Organization</a>
+		<a href="javascript:;" onclick="openSubView('Add Members', '/communecter/organization/members',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Invite Someone</a>
+	</div>	
+</div>
+
+<div class="row">
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">
@@ -50,7 +57,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				?>
 			</div>
 		</div>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add a Sub Organization</a>
+		
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
