@@ -41,7 +41,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profi
 				
 			</ul>
 			<div class="tab-content">
-				
 				<?php 
 					$this->renderPartial('overview',array( "person" => $person));
 					$this->renderPartial('editAccount',array( "person" => $person));
@@ -97,12 +96,13 @@ $(".delBtn").on("click",function(){
 
 $("#personForm").submit( function(event){	
 	event.preventDefault();
+	formData = $("#personForm").serializeFormJSON();
+	console.dir(formData);
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
 	  data: $("#personForm").serialize(),
-	  contentType: false,
-	  processData : false,
+	  dataType: "json",
 	  success: function(data){
 	  		if(data.result)
 	  			toastr.success(data.msg);
