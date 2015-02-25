@@ -99,6 +99,21 @@
 							</label>
 							<input class="form-control tooltips" placeholder="Saint Louis" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city">
 						</div>
+						<div class="form-group">
+						<label class="control-label">
+							Country <span class="symbol required"></span>
+						</label>
+						<select name="addressCountry" id="addressCountry" class="form-control">
+							<option></option>
+							<?php 
+							foreach ( OpenData::$phCountries as $key => $value) 
+							{
+							?>
+							<option value="<?php echo $key?>" <?php if((!empty($organization["address"]) && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
+							<?php 
+							}
+							?>
+						</select>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
