@@ -35,8 +35,7 @@ class OrganizationController extends CommunecterController {
     $isMobile = $detect->isMobile();
     if($isMobile) 
 	$this->layout = "//layouts/mainSimple";
-    
-    
+
     $this->render("index",array("organizations"=>$organizations));
   }
 	
@@ -209,6 +208,9 @@ class OrganizationController extends CommunecterController {
 
   /**
    * ajax called method to save a new participant user to a group
+   * the new member can be of type PERSON or ORGANISATION 
+   * makes an existence check before adding it into "members.persons" or "members.organizations"
+   * @return Json
    */
   public function actionSaveMember(){
     $res = array( "result" => false , "content" => "Something went wrong" );
@@ -221,26 +223,43 @@ class OrganizationController extends CommunecterController {
                 //check citizen exist by email 
                 if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['memberEmail'])) 
                 { 
-                    $account = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
-                    if( !$account )
+                    if($_POST['memberType'] == "persons")
+                        $member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
+                    else 
+                        $member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['memberEmail']));
+
+                    if( !$member )
                     {
                           //create an entry in the citoyens colelction
-                          $account = array(
-                            'name'=>$_POST['memberName'],
-                            'email'=>$_POST['memberEmail'],
-                            'invitedBy'=>Yii::app()->session["userId"],
-                            'tobeactivated' => true,
-                            'created' => time(),
-                            'type'=>'citoyen',
-                            'memberOf'=>array( $_POST["parentOrganisation"] )
-                          );
+                        if($_POST['memberType'] == "persons"){
+                            $member = array(
+                                'name'=>$_POST['memberName'],
+                                'email'=>$_POST['memberEmail'],
+                                'invitedBy'=>Yii::app()->session["userId"],
+                                'tobeactivated' => true,
+                                'created' => time(),
+                                'type'=>'citoyen',
+                                'memberOf'=>array( $_POST["parentOrganisation"] )
+                            );
                         
-                          PHDB::insert( PHType::TYPE_CITOYEN , $account );
-                          
+                             Person::createAndInvite($member);
+                        } else {
+                            $member = array(
+                                'name'=>$_POST['memberName'],
+                                'email'=>$_POST['memberEmail'],
+                                'invitedBy'=>Yii::app()->session["userId"],
+                                'tobeactivated' => true,
+                                'created' => time(),
+                                'type'=>'Group',
+                                'memberOf'=>array( $_POST["parentOrganisation"] )
+                            );
+                        
+                            Organization::createAndInvite($member);
+                        }
                           //add the member into the organization map
-                          PHDB::update( PHType::TYPE_ORGANIZATIONS , 
+                        PHDB::update( PHType::TYPE_ORGANIZATIONS , 
                                         array("_id" => new MongoId($_POST["parentOrganisation"])) , 
-                                        array('$push' => array( "members" => (string)$account["_id"] ) ));
+                                        array('$push' => array( "members.".$_POST['memberType'] => (string)$member["_id"] ) ));
                           //TODO : background send email 
                           //send validation mail
                           //TODO : make emails as cron jobs
@@ -248,31 +267,38 @@ class OrganizationController extends CommunecterController {
                           $message->view = 'invitation';
                           $name = (isset($sponsor["name"])) ? "par ".$sponsor["name"] : "par ".$sponsor["email"];
                           $message->setSubject('Invitation au projet Pixel Humain '.$name);
-                          $message->setBody(array("user"=>$account["_id"],
+                          $message->setBody(array("user"=>$member["_id"],
                                                   "sponsorName"=>$name), 'text/html');
                           $message->addTo("oceatoon@gmail.com");//$_POST['inviteEmail']
                           $message->from = Yii::app()->params['adminEmail'];
                           Yii::app()->mail->send($message);*/
                           
-                          //TODO : add an admin notification
-                          Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+                        //TODO : add an admin notification
+                        Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
                                                    "user"=>Yii::app()->session["userId"],
-                                                   "invited"=>$account["_id"]));
+                                                   "invited"=>$member["_id"]));
                     } 
                     else 
                     {   
-                        //person exists with this email 
-                        if( in_array( $account["_id"], $organization["members"] ) )
+                        //person exists with this email and is connected to this Organisation 
+                        if( isset($organization["members"]) && isset( $organization["members"][$_POST['memberType']] ) && in_array( (string)$member["_id"], $organization["members"][$_POST['memberType']] ) )
                             $res = array( "result" => false , "content" => "member allready exists" );
                         else {
-
-                            PHDB::update( PHType::TYPE_CITOYEN , 
-                                          array( "email" => $_POST['memberEmail']) , 
-                                          array('$push' => array( "memberOf" => $_POST["parentOrganisation"] ) ));
+                            if( isset($member["memberOf"]) && !in_array( $_POST["parentOrganisation"] , $member["memberOf"] ) )
+                            {
+                                if($_POST['memberType'] == "persons")
+                                    PHDB::update( PHType::TYPE_CITOYEN , 
+                                                  array( "email" => $_POST['memberEmail']) , 
+                                                  array('$push' => array( "memberOf" => $_POST["parentOrganisation"] ) ));
+                                else
+                                    PHDB::update( PHType::TYPE_ORGANIZATIONS , 
+                                                  array( "email" => $_POST['memberEmail']) , 
+                                                  array('$push' => array( "memberOf" => $_POST["parentOrganisation"] ) ));
+                            }
 
                             PHDB::update( PHType::TYPE_ORGANIZATIONS , 
                                           array("_id" => new MongoId($_POST["parentOrganisation"])) , 
-                                          array('$push' => array( "members" => (string)$account["_id"] ) ));
+                                          array('$push' => array( "members.".$_POST['memberType'] => (string)$member["_id"] ) ));
                         }
                     }
                   
@@ -281,6 +307,6 @@ class OrganizationController extends CommunecterController {
                 $res = array( "result" => false , "content" => "email must be valid" );
            }
     } 
-    echo json_encode( $res );  
+    Rest::json( $res );  
   }
 }

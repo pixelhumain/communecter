@@ -5,13 +5,30 @@
     <p>An Organization can have People as members or Organizations</p>
 	
 	<form id="addMemberForm" style="line-height:40px;">
+        <div class="row ">
+            <table class="table table-striped table-bordered table-hover newMembersAddedTable hide">
+                <thead>
+                    <tr>
+                        <th class="hidden-xs">Type</th>
+                        <th>Name</th>
+                        <th class="hidden-xs center">Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="newMembersAdded"></tbody>
+            </table
+        </div>
         <div class="row">
 	        <input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
-	        <input placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
+            <select id="memberType" name="memberType">
+                <option value="persons">People</option>
+                <option value="organizations">Organisation</option>
+            </select>
 	        <input placeholder="Name" id="memberName" name="memberName" value=""/></td>
+            <input placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
 	    </div>
 	    <div class="row">
-	        <button class="btn btn-primary" onclick="$('#addMemberForm').submit();">Enregistrer</button>
+	        <button class="btn btn-primary" >Enregistrer</button>
 	    </div>
     </form>
 </div>
@@ -32,7 +49,7 @@
             <textarea name="memberBatchImport" id="memberBatchImport" cols="30" rows="10"></textarea>
         </div>
         <div class="row">
-            <button class="btn btn-primary" onclick="$('#memberBatchImport').submit();">Enregistrer</button>
+            <button class="btn btn-primary" >Enregistrer</button>
         </div>
     </form>
 </div>
@@ -51,7 +68,7 @@
             <input placeholder="Url" id="memberUrl" name="memberUrl" value=""/></td>
         </div>
         <div class="row">
-            <button class="btn btn-primary" onclick="$('#memberUrlImport').submit();">Enregistrer</button>
+            <button class="btn btn-primary">Enregistrer</button>
         </div>
     </form>
 </div>
@@ -59,16 +76,27 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
-	 $("#addMemberForm").submit( function(event){
+	 $("#addMemberForm").off().on("submit",function(event){
     	event.preventDefault();
     	$.ajax({
             type: "POST",
             url: baseUrl+"/communecter/organization/savemember",
             data: $("#addMemberForm").serialize(),
-            dataType: "json"
+            dataType: "json",
             success: function(data){
-        	   toastr.success("delete successfull ");
-               window.location.href = baseUrl+"/<?php echo $this->module->id?>/organization/view/id/<?php echo (string)$organization['_id']?>?tabId=panel_members";
+        	   toastr.success("member added successfully ");
+               strHTML = "<tr>"+
+                        "<td>"+$("#memberType").val()+"</td>"+
+                        "<td>"+$("#memberName").val()+"</td>"+
+                        "<td>"+$("#memberEmail").val()+"</td>"+
+                        "<td><span class='label label-info'>added</span></td> <tr>";
+                $(".newMembersAdded").append(strHTML);
+                if($(".newMembersAddedTable").hasClass("hide"))
+                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+                $("#memberType").val("");
+                $("#memberName").val("");
+                $("#memberEmail").val("");
+               
             },
             error:function (xhr, ajaxOptions, thrownError){
               toastr.error( thrownError );

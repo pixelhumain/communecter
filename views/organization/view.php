@@ -14,12 +14,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
-	<div class="col-md-12 padding-20 ">
-		<a href="javascript:;" onclick="openSubView('Add Members', '/communecter/organization/addMembers/id/<?php echo (string)$organization['_id']?>',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add members</a>
-	</div>	
-</div>
-
-<div class="row">
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">

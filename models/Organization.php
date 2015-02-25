@@ -15,7 +15,7 @@ class Organization {
 	    //Save the organization
 	    if(!isset($organization['organizationId'])) {
 	      //Add the creator as the first member
-	      $organization["membres"] = array(Yii::app()->session["userId"]);
+	      $organization["membres.persons"] = array(Yii::app()->session["userId"]);
 	      PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
 	    } else {
 	      //update the organization
@@ -45,6 +45,29 @@ class Organization {
 	                  
 	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]));
 	}
+	/**
+	 * get an Organisation By Id
+	 * @param type $id : is the mongoId of the organisation
+	 * @return type
+	 */
+	public static function getById($id) {
+	  	return PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
+	}
 
+	/**
+	 * Happens when an Organisation is invited or linked as a member and doesn't exist in the system
+	 * It is created in a temporary state
+	 * This creates and invites the email to fill extra information 
+	 * into the Organisation profile 
+	 * @param type $param 
+	 * @return type
+	 */
+	public static function createAndInvite($param) {
+	  	PHDB::insert( PHType::TYPE_ORGANIZATIONS , $param );
+
+        //TODO TIB : mail Notification 
+        //for the organisation owner to subscribe to the network 
+        //and complete the Organisation Profile
+	}
 }
 ?>
