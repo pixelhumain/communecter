@@ -17,6 +17,7 @@
 						<label class="control-label">
 							Email Address
 						</label>
+
 						<input type="email" placeholder="peter@example.com" class="form-control" id="email" name="email" value="<?php echo Yii::app()->session["userEmail"];?>">
 					</div>
 					<div class="form-group">
@@ -53,13 +54,15 @@
 					<label class="control-label">
 						Birth
 					</label>
-					<input type="date" placeholder="01/01/1901" class="form-control" id="birth" name="birth" value="<?php if(isset($person["birt"]))echo $person["birth"];?>">
+					<input type="date" placeholder="01/01/1901" class="form-control" id="birth" name="birth" value="<?php if(isset($person["birth"]))echo $person["birth"];?>">
 				</div>
-				<div class="form-group"> 
+				<div class="form-group posdiv"> 
 					<label class="control-label">
-						Position(s)
+						Position
 					</label>
-					<input type="text" placeholder="Position1, Position2" class="form-control" id="position" name="position" value="<?php if(isset($person["position"]))echo $person["position"];?>">
+					<a href='javascript:addPos()'><i class="fa fa-plus fa-lg"></i></a>
+					<input type="text" placeholder="Position" class="form-control" id="position" name="position" value=""></input>
+
 				</div>
 				<div class="form-group"> 
 					<label class="control-label">
@@ -164,23 +167,43 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
+var compt = 0;
 jQuery(document).ready(function() {
 
 	$('#tags').select2({ tags: <?php echo $tags ?> });
 	$('#tags').select2({ tags: <?php echo $tags ?> });
 	PagesUserProfile.init();
+	/*
 
+	for(var i = 1; i<positionTab.length; i++){
+		$(".posdiv").append("label")
+			.attr("class"; "control-label")
+			.text("Position")
+
+		$(".posdiv").append("input")
+			.attr("type", "text")
+			.attr("placeholder", "Position")
+			.attr("class","form-control")
+			.attr("id", "position")
+			.attr("name", "position")
+			.attr("value", positionTab[i])
+	}*/
 });
 
-
+function addPos(){
+	compt++;
+	$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position" name="position" value=""></input>');
+}
 $("#personForm").submit( function(event){	
+	//console.log($("#personForm").serialize());
 	event.preventDefault();
-	//formData = $("#personForm").serializeFormJSON();
-	//console.dir(formData);
+	formData = $("#personForm").serializeFormJSON();
+	console.dir(formData);
+	console.log($("#position"));
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
-	  data: $("#personForm").serialize(),
+	  data: formData,//$("#personForm").serialize()+"&compt="+compt+"",
 	  dataType: "json",
 	  success: function(data){
 	  		if(data.result)

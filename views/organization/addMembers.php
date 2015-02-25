@@ -37,6 +37,25 @@
     </form>
 </div>
 
+<div class="col-md-8 col-md-offset-2 hide">
+    <h1>Url Import </h1>
+    <p>
+        import from a PLP ressource or directory, Git Repo... <br/>
+        thoughts : <br/>
+        could be interesting to have the jsonFromJsonTo conversion tool <br/>
+        takes any url, show humanily > the user maps to the PH schema 
+    </p>
+    
+    <form id="memberUrlImport" style="line-height:40px;">
+        <div class="row">
+            <input placeholder="Url" id="memberUrl" name="memberUrl" value=""/></td>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" onclick="$('#memberUrlImport').submit();">Enregistrer</button>
+        </div>
+    </form>
+</div>
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	

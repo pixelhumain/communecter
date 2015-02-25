@@ -50,7 +50,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 			<div class="tab-content">
 				<?php 
 					$this->renderPartial('overview',array("organization" => $organization));
-					$this->renderPartial('editAccount',array("organization" => $organization,'types'=>$types,'tags'=>$tags));
+					$this->renderPartial('editOrganization',array("organization" => $organization,'types'=>$types,'tags'=>$tags));
 					$this->renderPartial('linkedOrganizations',array("organization" => $organization));
 					$this->renderPartial('members',array("organization" => $organization));
 				?>
