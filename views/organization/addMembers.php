@@ -24,6 +24,7 @@
                 <option value="persons">People</option>
                 <option value="organizations">Organisation</option>
             </select>
+	        
 	        <input placeholder="Name" id="memberName" name="memberName" value=""/></td>
             <input placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
 	    </div>
@@ -106,7 +107,6 @@ jQuery(document).ready(function() {
     $("#memberBatchImport").submit( function(event){
         event.preventDefault();
     });
-
 });
 </script>	
 
