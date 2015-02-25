@@ -1,5 +1,6 @@
 <div id="panel_edit_account" class="tab-pane fade">
 	<form action="#" role="form" id="form">
+		<input id="organizationId" type="hidden" name="organizationId" value="<?php if($organization)echo (string)$organization['_id']; ?>"/>
 		<div class="row">
 			<div class="col-md-12">
 				<h3>Organization Info</h3>
