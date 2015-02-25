@@ -131,7 +131,6 @@ jQuery(document).ready(function() {
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
-	console.log('toto');
 
 	$("textarea.autosize").autosize();
 
@@ -143,14 +142,14 @@ jQuery(document).ready(function() {
 	    	$("#organizationForm").modal('hide');
 	    	$.ajax({
 	    	  type: "POST",
-	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
+	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
 	    	  data: $("#organizationForm").serialize(),
 	    	  success: function(data){
 	    			if(!data.result)
                         toastr.error(data.msg);
                     else    
                         toastr.success(data.msg);
-	    			window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
 	    	  },
 	    	  dataType: "json"
 	    	});
