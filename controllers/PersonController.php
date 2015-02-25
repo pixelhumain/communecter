@@ -54,7 +54,7 @@ class PersonController extends CommunecterController {
   public function actionIndex() 
   {
     $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
-    
+    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
     
     //Load organizations

@@ -47,7 +47,7 @@
 					<label class="control-label">
 						Phone
 					</label>
-					<input type="phone" placeholder="02 62 99 99 99" class="form-control" id="phone" name="phone" value="<?php HtmlHelper::echoIfSetOr($organization["phone"]);?>"/>
+					<input type="phone" placeholder="02 62 99 99 99" class="form-control" id="phone" name="phone" value="<?php if (isset($organization["phone"])) echo $organization["phone"] ?>"/>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -63,7 +63,7 @@
 						Date of Creation
 					</label>
 					<div class="input-group">
-						<input type="text" class="form-control" id="creationDate" name="creationDate" value="<?php HtmlHelper::echoIfSetOr($organization["creationDate"]);?>" >
+						<input type="text" class="form-control" id="creationDate" name="creationDate" value="<?php if (isset($organization["creationDate"])) echo $organization["creationDate"];?>" >
 						<span class="input-group-addon btn-blue"><i class="fa fa-calendar"></i></span>
 					</div>
 				</div>
@@ -97,7 +97,17 @@
 							<label class="control-label">
 								City
 							</label>
-							<input class="form-control tooltips" placeholder="Saint Louis" type="text" title="" name="city" id="city" value="<?php if(isset($organization["address"])) HtmlHelper::echoIfSetOr($organization["address"]["addressLocality"])?>">
+							<select name="city" id="city" class="form-control">
+								<option></option>
+								<?php 
+								foreach (OpenData::$commune["974"] as $key => $value) 
+								{
+								?>
+								<option value="<?php echo $value?>" <?php if((!empty($organization["address"]) && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $value?></option>
+								<?php 
+								}
+								?>
+							</select>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -127,14 +137,13 @@
 				<h3>Additional Info</h3>
 				<hr>
 			</div>
-			<?php $isSocialNework = isset($organization["socialNetwork"]); ?>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="control-label">
 						Twitter
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="Twitter Account" name="twitterAccount" id="twitterAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["twitterAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="Twitter Account" name="twitterAccount" id="twitterAccount" value="<?php if (isset($organization["socialNetwork"]["twitterAccount"])) echo $organization["socialNetwork"]["twitterAccount"] ?>">
 						<i class="fa fa-twitter"></i> </span>
 				</div>
 				<div class="form-group">
@@ -142,7 +151,7 @@
 						Facebook
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="Facebook Account" name="facebookAccount" id="facebookAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["facebookAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="Facebook Account" name="facebookAccount" id="facebookAccount" value="<?php if (isset($organization["socialNetwork"]["facebookAccount"])) echo $organization["socialNetwork"]["facebookAccount"] ?>">
 						<i class="fa fa-facebook"></i> </span>
 				</div>
 				<div class="form-group">
@@ -150,7 +159,7 @@
 						Google Plus
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="Google Plus Account" name="gplusAccount" id="gplusAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["gplusAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="Google Plus Account" name="gplusAccount" id="gplusAccount" value="<?php if (isset($organization["socialNetwork"]["gplusAccount"])) echo $organization["socialNetwork"]["gplusAccount"] ?>">
 						<i class="fa fa-google-plus"></i> </span>
 				</div>
 			</div>
@@ -160,7 +169,7 @@
 						Github
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="GitHub Account" name="gitHubAccount" id="gitHubAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["gitHubAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="GitHub Account" name="gitHubAccount" id="gitHubAccount" value="<?php if (isset($organization["socialNetwork"]["gitHubAccount"])) echo $organization["socialNetwork"]["gitHubAccount"] ?>">
 						<i class="fa fa-github"></i> </span>
 				</div>
 				<div class="form-group">
@@ -168,7 +177,7 @@
 						Linkedin
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="LinkedIn Account" name="linkedInAccount" id="linkedInAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["linkedInAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="LinkedIn Account" name="linkedInAccount" id="linkedInAccount" value="<?php if (isset($organization["socialNetwork"]["linkedInAccount"])) echo $organization["socialNetwork"]["linkedInAccount"] ?>">
 						<i class="fa fa-linkedin"></i> </span>
 				</div>
 				<div class="form-group">
@@ -176,7 +185,7 @@
 						Skype
 					</label>
 					<span class="input-icon">
-						<input class="form-control" type="text" placeholder="Skype Account" name="skypeAccount" id="skypeAccount" value="<?php if ($isSocialNework) HtmlHelper::echoIfSetOr($organization["socialNetwork"]["skypeAccount"]); ?>">
+						<input class="form-control" type="text" placeholder="Skype Account" name="skypeAccount" id="skypeAccount" value="<?php if (isset($organization["socialNetwork"]["skypeAccount"])) echo $organization["socialNetwork"]["skypeAccount"] ?>">
 						<i class="fa fa-skype"></i> </span>
 				</div>
 			</div>
