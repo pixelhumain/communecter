@@ -60,7 +60,7 @@
 					<label class="control-label">
 						Position
 					</label>
-					<a href='javascript:addPos()'><i class="fa fa-plus fa-lg"></i></input>
+					<a href='javascript:addPos()'><i class="fa fa-plus fa-lg"></i></a>
 					<input type="text" placeholder="Position" class="form-control" id="position" name="position" value=""></input>
 
 				</div>

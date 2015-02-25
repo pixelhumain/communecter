@@ -108,7 +108,7 @@
 							<td>Supervisor</td>
 							<td>
 							<a href="#">
-								Kenneth Ross
+								<?php if(isset($person["supervisor"]))echo $person["supervisor"];?>
 							</a></td>
 							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
 						</tr>
