@@ -79,6 +79,25 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		SVExamples.init();
 		PagesUserProfile.init();
 	});
+
+	$("#organizationForm").submit( function(event){	
+		//console.log($("#personForm").serialize());
+		event.preventDefault();
+		$.ajax({
+	    	  type: "POST",
+	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
+	    	  data: $("#organizationForm").serialize(),
+	    	  success: function(data){
+	    			if(!data.result)
+                        toastr.error(data.msg);
+                    else    
+                        toastr.success(data.msg);
+	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+	    	  },
+	    	  dataType: "json"
+	    	});
+	});
+
 	$(".delBtn").on("click",function(){
 		id = $(this).data("id");
 

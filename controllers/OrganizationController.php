@@ -103,48 +103,82 @@ class OrganizationController extends CommunecterController {
       }
 	
   }
-  /*
-  {
-  "@context": "http://schema.org",
-  "@type": "LocalBusiness",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Mexico Beach",
-    "addressRegion": "FL",
-    "streetAddress": "3102 Highway 98"
-  },
-  "description": "A superb collection of fine gifts and clothing to accent your stay in Mexico Beach.",
-  "name": "Beachwalk Beachwear & Giftware",
-  "telephone": "850-648-4200"
-}
-*/
 
-  //TODO : Move all model logic in model Organization
-  public function actionSave() 
-  {
+  /**
+   * Save a new organization with the minimal information
+   * @return an array with result and message json encoded
+   */
+  public function actionSaveNew() {
+    // Retrieve data from form
+    try {
+      $newOrganization = $this->populateNewOrganizationFromPost();
+    } catch (CommunecterException $e) {
+      return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+    }
+    
+    //Save the organization
+    return Organization::insert($newOrganization, Yii::app()->session["userId"] );;
+	}
+
+  /**
+   * Update an existing organization
+   * @return an array with result and message json encoded
+   */
+  public function actionSave() {
+    
+    
+
+    // Minimal data
+    try {
+      $organization = $this->populateNewOrganizationFromPost();
+    } catch (CommunecterException $e) {
+      return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+    }
+
+    if (! isset($_POST["organizationId"])) 
+      throw new CommunecterException("You must specify an organization Id to update");
+    else 
+      $organizationId = $_POST['organizationId'];
+    
+    //Complementary Data
+    if (isset($_POST["shortName"])) $organization["shortName"] = $_POST["shortName"];
+    if (isset($_POST["phone"])) $organization["phone"] = $_POST["phone"];
+    if (isset($_POST["creationDate"])) $organization["creationDate"] = $_POST["creationDate"];
+    if (isset($_POST["city"])) $organization["address"]["addressLocality"] = $_POST["city"];
+
+    //Social Network info
+    $socialNetwork = array();
+    if (isset($_POST["twitterAccount"])) $socialNetwork["twitterAccount"] = $_POST["twitterAccount"];
+    if (isset($_POST["facebookAccount"])) $socialNetwork["facebookAccount"] = $_POST["facebookAccount"];
+    if (isset($_POST["gplusAccount"])) $socialNetwork["gplusAccount"] = $_POST["gplusAccount"];
+    if (isset($_POST["gitHubAccount"])) $socialNetwork["gitHubAccount"] = $_POST["gitHubAccount"];
+    if (isset($_POST["linkedInAccount"])) $socialNetwork["linkedInAccount"] = $_POST["linkedInAccount"];
+    if (isset($_POST["skypeAccount"])) $socialNetwork["skypeAccount"] = $_POST["skypeAccount"];
+    $organization["socialNetwork"] = $socialNetwork;
+
+    //Save the organization
+    echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
+  }
+
+  /**
+  * Create and return new array with all the mandatory fields
+  * @return array as organization
+  */
+  private function populateNewOrganizationFromPost() {
     //email : mandotory 
     if(Yii::app()->request->isAjaxRequest && empty($_POST['organizationEmail'])) {
-      Rest::json(array("result"=>false, "msg"=>"Vous devez remplir un email."));
-      return;
+      throw new CommunecterException("Vous devez remplir un email.");
     } else {
       //validate Email
       $email = $_POST['organizationEmail'];
       if (! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$email)) { 
-        Rest::json(array("result"=>false, "msg"=>"Vous devez remplir un email valide."));
-        return;
+        throw new CommunecterException("Vous devez remplir un email valide.");
       }
-    }
-    
-    // Is There a association with the same name ?
-    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['organizationName']));      
-    if($organization) { 
-      Rest::json(array("result"=>false, "msg"=>"Cette Organisation existe déjà."));
-      return;
     }
        
     $newOrganization = array(
       'email'=>$email,
-			"name" => $_POST['organizationName'],
+      "name" => $_POST['organizationName'],
       'created' => time(),
       'owner' => Yii::app()->session["userEmail"]
     );
@@ -163,10 +197,8 @@ class OrganizationController extends CommunecterController {
                   
     //Tags
     $newOrganization["tags"] = explode(",", $_POST['tagsOrganization']);
-    
-    //Save the organization
-    echo Organization::save($newOrganization, Yii::app()->session["userId"] );
-	}
+    return $newOrganization;
+  }
 
   public function actionGetNames() 
     {
@@ -177,7 +209,7 @@ class OrganizationController extends CommunecterController {
        echo json_encode( array( "names"=>$assos ) ) ;
 	}
 	/**
-	 * Delete an entry from the group table using the id
+	 * Delete an entry from the organization table using the id
 	 */
   public function actionDelete() 
   {
