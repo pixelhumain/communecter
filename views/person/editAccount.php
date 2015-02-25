@@ -1,3 +1,19 @@
+<style type="text/css">
+	.dropzoneTEEO {
+	    background: none repeat scroll 0 0 white;
+	    border: 1px dashed rgba(0, 0, 0, 0.4);
+	    min-height: 130px;
+	    max-width: 200px;
+	}
+	.uploaderDiv{
+		max-width: 250px;
+	}
+	.panel-footing{
+		text-align: center;
+		padding-bottom: 10px;
+	}
+</style>
+
 <div id="panel_edit_account" class="tab-pane fade" >
 	<form action="#" role="form" id="personForm" enctype="multipart/form-data">
 		<div class="row">
@@ -11,6 +27,12 @@
 						First Name
 					</label>
 					<input type="text" placeholder="Peter" class="form-control" id="name" name="name" value="<?php if(isset($person["name"]))echo $person["name"];?>">
+				</div>
+				<div class="form-group"> 
+					<label class="control-label">
+						Birth
+					</label>
+					<input type="date" placeholder="01/01/1901" class="form-control" id="birth" name="birth" value="<?php if(isset($person["birth"]))echo $person["birth"];?>">
 				</div>
 				<fieldset>
 					<div class="form-group">
@@ -40,22 +62,18 @@
 					</div>
 				</fieldset>
 					
-					<div class="form-group">
-						<label class="control-label">
-							Tags
-						</label>
-						
-						<input id="tags" name="tags" value="" style="display: block;">
-					</div>
+				<div class="form-group">
+					<label class="control-label">
+						Tags
+					</label>
+					
+					<input id="tags" type="hidden" name="tagsOrganization" value="<?php echo ($person && isset($person['tags']) ) ? implode(",", $person['tags']) : ""?>" style="display: none;">
+				</div>
+					
 			</div>
 			<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
 				
-				<div class="form-group"> 
-					<label class="control-label">
-						Birth
-					</label>
-					<input type="date" placeholder="01/01/1901" class="form-control" id="birth" name="birth" value="<?php if(isset($person["birth"]))echo $person["birth"];?>">
-				</div>
+				
 				<div class="form-group posdiv"> 
 					<label class="control-label">
 						Position
@@ -123,10 +141,31 @@
 					<label>
 						Image Upload
 					</label>
-					<div class="fileupload fileupload-new" data-provides="fileupload">
+					<div class="row uploaderDiv">
+						<div class="col-sm-12">
+							<!-- start: DROPZONE PANEL -->
+							<div class="panel panel-white">
+								<div class="panel-heading">
+									<h4 class="panel-title">Déposez votre <span class="text-bold">image</span> (max. 2.0Mb))</h4>
+								</div>
+								<div class="panel-body uploadPanel">
+									<div class="dz-clickable dropzoneTEEO" id="project-dropzone"></div>
+									
+								</div>
+								<div class="panel-footing">
+									<button data-dz-remove class="btn btn-warning cancel">
+								         <i class="glyphicon glyphicon-ban-circle"></i>
+								         <span>Cancel</span>
+								     </button>
+								</div>
+							</div>
+							<!-- end: DROPZONE PANEL -->
+						</div>
+					</div>
+					<!--<div class="fileupload fileupload-new" data-provides="fileupload">
 						<div class="fileupload-new thumbnail">
 							
-							<img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg' ?>" alt="">
+							<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg' ?>" alt="">
 							
 						</div>
 						<div class="fileupload-preview fileupload-exists thumbnail"></div>
@@ -138,7 +177,7 @@
 								<i class="fa fa-times"></i> Remove
 							</a>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
 		</div>
@@ -173,33 +212,96 @@ jQuery(document).ready(function() {
 	$('#tags').select2({ tags: <?php echo $tags ?> });
 	$('#tags').select2({ tags: <?php echo $tags ?> });
 	PagesUserProfile.init();
-	/*
 
-	for(var i = 1; i<positionTab.length; i++){
-		$(".posdiv").append("label")
-			.attr("class"; "control-label")
-			.text("Position")
-
-		$(".posdiv").append("input")
-			.attr("type", "text")
-			.attr("placeholder", "Position")
-			.attr("class","form-control")
-			.attr("id", "position")
-			.attr("name", "position")
-			.attr("value", positionTab[i])
-	}*/
+	//-------Position input generator-------------------
+	var positions = "<?php echo ($person && isset($person['position']) ) ? implode(",", $person['position']) : ""?>";
+	$("#position").val(positions.split(",")[0]);
+	for(var i=1; i<positions.split(",").length; i++){
+		addPos();
+		$("#position"+compt).val(positions.split(",")[i]);
+	}
+	$(".uploaderDiv .cancel").onclick = function() {
+  		projectDropzone.removeAllFiles(true);
+	};
+	//---------------Profil photo generator----------------------
+	projectDropzone = new Dropzone("#project-dropzone", {
+	  acceptedFiles: "image/*,application/pdf",
+	  url : baseUrl+"/templates/upload/dir/collection/input/file",
+	  maxFilesize: 2.0, // MB
+	  maxFile: 1,
+	  complete: function(response) { 
+	  	//console.log(file.name); 
+	  	if(response.xhr)
+	  	{
+		  	docObj = JSON.parse(response.xhr.responseText);
+		  	console.log(docObj.result);
+		  	var	editProjectDocuments = [];
+		  	var doc = { 
+		  		"name" : docObj.name, 
+		  		"date" : new Date(), 
+		  		"size" : docObj.size  
+		  	};
+		  	console.dir(doc); 
+		  	editProjectDocuments.push( doc );	
+		  	
+		}
+	  },
+	  error: function(response) 
+	  { 
+	  	toastr.error("Something went wrong!!"); 
+	  }
+	});
 });
+
+function initDropZone()
+{
+	console.log("initDropZone"); 
+	$(".projectFiles").html("");
+	
+	if(projects[editProjectId].documents && typeof projects[editProjectId].documents == "object")
+	{
+		$.each(projects[editProjectId].documents,function(i,docObj)
+		{
+			addFileLine(docObj,i);
+		});
+	}
+
+	if( !$('.projectFilesTable').hasClass("dataTable") ){
+		projectFilesTable = $('.projectFilesTable').dataTable({
+				"aoColumnDefs" : [{
+					"aTargets" : [0]
+				}],
+				"oLanguage" : {
+					"sLengthMenu" : "Show _MENU_ Rows",
+					"sSearch" : "",
+					"oPaginate" : {
+						"sPrevious" : "",
+						"sNext" : ""
+					}
+				},
+				"aaSorting" : [[1, 'asc']],
+				"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+				],
+				// set the initial value
+				"iDisplayLength" : 10,
+				"bDestroy": true
+			});
+	} else
+		projectFilesTable.DataTable().draw();
+}
+
 
 function addPos(){
 	compt++;
-	$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position" name="position" value=""></input>');
+	$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position'+compt+'" name="position" value=""></input>');
 }
 $("#personForm").submit( function(event){	
 	//console.log($("#personForm").serialize());
 	event.preventDefault();
 	formData = $("#personForm").serializeFormJSON();
-	console.dir(formData);
-	console.log($("#position"));
+	formData["tags"] = $("#tags").val();
+	formData["imagePath"] = baseUrl+"/upload/collection/"+$(".dz-filename").text();
+	console.log(formData);
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/api/saveUser",
