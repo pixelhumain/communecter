@@ -15,10 +15,11 @@ class Organization {
 
 		//Manage tags : save any inexistant tag to DB 
 		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
-	    
+
 	    //Add the creator as the first member
 	    $organization["membres"] = array(Yii::app()->session["userId"]);
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
+
     
 	    //add the association to the users association list
 	    //TODO SBAR : Manage if the orgnization is already in the array memberOf
@@ -31,8 +32,17 @@ class Organization {
 	                  
 	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]));
 	}
-
 	/**
+	 * get an Organisation By Id
+	 * @param type $id : is the mongoId of the organisation
+	 * @return type
+	 */
+	public static function getById($id) {
+	  	return PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
+	}
+
+	
+	/*
 	 * Save an organization in database
 	 * @param array A well format organization 
 	 * @return a json result as an array. 
@@ -52,6 +62,21 @@ class Organization {
 	                  
 	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
 	}
+	
+	/**
+	 * Happens when an Organisation is invited or linked as a member and doesn't exist in the system
+	 * It is created in a temporary state
+	 * This creates and invites the email to fill extra information 
+	 * into the Organisation profile 
+	 * @param type $param 
+	 * @return type
+	 */
+	public static function createAndInvite($param) {
+	  	PHDB::insert( PHType::TYPE_ORGANIZATIONS , $param );
 
+        //TODO TIB : mail Notification 
+        //for the organisation owner to subscribe to the network 
+        //and complete the Organisation Profile
+	}
 }
 ?>
