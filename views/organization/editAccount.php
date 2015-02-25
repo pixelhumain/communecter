@@ -82,10 +82,10 @@
 						<select name="addressCountry" id="addressCountry" class="form-control">
 							<option></option>
 							<?php 
-							foreach (OpenData::$phCountries as $key => $value) 
+							foreach ( OpenData::$phCountries as $key => $value) 
 							{
 							?>
-							<option value="<?php echo $key?>" <?php if(($organization["address"] && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
+							<option value="<?php echo $key?>" <?php if(( isset($organization["address"]) && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
 							<?php 
 							}
 							?>
