@@ -1,0 +1,23 @@
+.mapCanvas{
+ 	background-color:#B1B8B8;
+ }
+
+.leaflet-marker-pane i{
+ 	font-size:35px;
+ }
+ 
+/* boutons */
+ 
+.btn-group-map{
+	float:right;
+ 	top:10px;
+ 	margin-right:10px;
+}
+.btn-map{
+	background-color:#E6D414;
+	color:#213042 !important;
+	font-size:22px !important;
+}
+.btn-map:hover{
+	background-color:#5896AB;
+}

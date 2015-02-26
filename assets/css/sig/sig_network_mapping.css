@@ -28,7 +28,7 @@
 	padding-bottom:3px;
 	padding-top:3px;
  	color:white !important;
- 	font-size:1.2em;
+ 	font-size:1em;
  } 
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
@@ -40,9 +40,8 @@
  	text-decoration:none !important;
  	color:white !important;
  }
- .item_panel_map img{
- 	padding:8px;
- 	margin-top:-4px;
+ .item_panel_map i{
+ 	font-size:1.3em;
  }
  p.item_panel_map {
  	margin-bottom:3px;

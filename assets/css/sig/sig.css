@@ -1,4 +1,11 @@
-
+.mapCanvas{
+ 	width:100%;
+ 	height:730px;
+ 	margin-bottom:-730px;
+ 	background-color:#2A3945;
+ 	color:black;
+ }
+ 
 /*   ############# leaflet ################## */
   
   .leaflet-popup-content-wrapper{
@@ -188,4 +195,20 @@
 }
 .btn_right_barre_tool_map:hover{
 	background-color:d3d1d5;
+}
+
+/* boutons */
+ 
+.btn-group-map{
+	float:right;
+ 	top:10px;
+ 	margin-right:10px;
+}
+.btn-map{
+	background-color:#E6D414;
+	color:#213042 !important;
+	font-size:22px !important;
+}
+.btn-map:hover{
+	background-color:#5896AB;
 }
