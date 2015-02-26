@@ -54,7 +54,22 @@ class PersonController extends CommunecterController {
   public function actionIndex() 
   {
     $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
-    $organizations = PHDB::find(PHType::TYPE_GROUPS, array( "email" => Yii::app()->session["userEmail"] ) );
+    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
+    $organizations = array();
+    
+    //Load organizations
+    if (!empty($person["memberOf"])) {
+      foreach ($person["memberOf"] as $organizationId) {
+        
+        $organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($organizationId)));
+        if (!empty($organization)) {
+          array_push($organizations, $organization);
+        } else {
+          throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+        }
+      }
+    }
+    
     $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
 
     if(!Yii::app()->session["userId"])

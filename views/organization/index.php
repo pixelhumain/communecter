@@ -57,7 +57,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/
 						</thead>
 						<tbody>
 							<?php
-							foreach ($groups as $e) {
+							foreach ($organizations as $e) {
 							?>
 							<tr>
 								<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/view/id/'.$e["_id"])?>"><?php echo $e["name"]?></a></td>

@@ -5,7 +5,6 @@
  */
 class CommunecterController extends Controller
 {
-	//array_push( $this->sidebar1 , TeeoApi::getUserMap() );
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -26,7 +25,9 @@ class CommunecterController extends Controller
   const theme = "ph-dori";
   public $themeStyle = "theme-style11";//3,4,5,7,9
 
-	public $sidebar1 = array(
+	//TODO - Faire le tri des liens
+  //TODO - Les children ne s'affichent pas dans le menu
+  public $sidebar1 = array(
     array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
                 "children"=> array(
                   "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
@@ -42,6 +43,7 @@ class CommunecterController extends Controller
     array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
     array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),
   );
+
 
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
@@ -80,24 +82,40 @@ class CommunecterController extends Controller
   );
 
   public $pages = array(
+
     "default"=> array(
       "index"=>array("href"=>"/ph/communecter"),
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
+
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
     ),
+
     "organization"=> array(
-      "index"=>array("href"=>"/ph/communecter",'title' => "Organization"),
+      "view"=>array("href"=>"/ph/communecter/view",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "index"=>array("href"=>"/ph/communecter",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
+      "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
+      "view"=>array("href"=>"/ph/communecter/organization/view"),
+      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
+      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
     ),
   );
 
   function initPage(){
+    $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
+    
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+
+    CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
   }
+
+
 }

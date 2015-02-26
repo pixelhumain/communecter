@@ -183,7 +183,4 @@ class ApiController extends Controller {
             'sendmessage'   => 'application.controllers.messages.SendMessageAction',  
         );
     }
-    
-
-
 }
