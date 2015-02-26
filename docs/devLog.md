@@ -1,16 +1,9 @@
-//SBAR - 25/02/15
-Idea : history log
-- Add an history object to keep track of change on every objects (person, organization, event...)
-	- CreatedBy : userId
-	- CreatedDate : DateTime
-	- logbook :
-		- id : MongoId
-		- updateDate : DateTime
-		- updateBy : userId
-	- EveryUpdate a hook keep track of the modification and add an entry in the logbook of the object
+// This file helps any devlopper to update his environment in order to make it work
+// according to the new development
+// Add a datetime or better a commit id linked to the modification
 
-Organization or Person
-- Add ContactPoints : http://schema.org/ContactPoint
+//XXX - 01/01/01 - commitId fb11716e5a92340ef4f47c58c241716a3575a623
+bla bla
 
 //TKA - 24/2/15
 db.organizations.update({type:"entreprise"},{"$set":{type:"LocalBusiness"}},{"multi":1})
@@ -27,9 +20,5 @@ DB lists update documents
     }
 }
 
-//SBAR - 25/02/15
-Some bugs/features to fix/add :
-- No error message when email (person) already exist in the database
-- No Mail send when forgot your password ("NetworkError: 404 Not Found - http://127.0.0.1:8888/ph/communecter/api/sendemailpwd")
-- Mail send to validate email account when new person
+
 
