@@ -41,8 +41,8 @@
 		
 		//VILLE ET PAYS
 		var place = citoyen['city'];
-		if(citoyen['city'] != null && citoyen['country'] != null) place += ", ";
-		place += citoyen['country'];
+		if(citoyen['city'] != null && citoyen['country'] != null) //place += ", ";
+		place += ", " + citoyen['country'];
 
 		if(citoyen['city'] != null)     
 		popupContent += 	"<div class='popup-info-profil'>" + place + "</div>";

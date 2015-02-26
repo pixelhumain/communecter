@@ -1,16 +1,9 @@
-//SBAR
-Idea : history log
-- Add an history object to keep track of change on every objects (person, organization, event...)
-	- CreatedBy : userId
-	- CreatedDate : DateTime
-	- logbook :
-		- id : MongoId
-		- updateDate : DateTime
-		- updateBy : userId
-	- EveryUpdate a hook keep track of the modification and add an entry in the logbook of the object
+// This file helps any devlopper to update his environment in order to make it work
+// according to the new development
+// Add a datetime or better a commit id linked to the modification
 
-Organization or Person
-- Add ContactPoints : http://schema.org/ContactPoint
+//XXX - 01/01/01 - commitId fb11716e5a92340ef4f47c58c241716a3575a623
+bla bla
 
 //TKA - 24/2/15
 db.organizations.update({type:"entreprise"},{"$set":{type:"LocalBusiness"}},{"multi":1})
@@ -26,4 +19,6 @@ DB lists update documents
         "Group" : "Group"
     }
 }
+
+
 

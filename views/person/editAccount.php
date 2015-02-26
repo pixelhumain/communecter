@@ -2,6 +2,7 @@
 	.dropzoneTEEO {
 	    background: none repeat scroll 0 0 white;
 	    border: 1px dashed rgba(0, 0, 0, 0.4);
+
 	    min-height: 130px;
 	    max-width: 200px;
 	}
@@ -149,14 +150,14 @@
 									<h4 class="panel-title">Déposez votre <span class="text-bold">image</span> (max. 2.0Mb))</h4>
 								</div>
 								<div class="panel-body uploadPanel">
-									<div class="dz-clickable dropzoneTEEO" id="project-dropzone"></div>
+									<div onclick="javascript:removeDrop()" class="dz-clickable dropzoneTEEO" id="project-dropzone"></div>
 									
 								</div>
 								<div class="panel-footing">
-									<button data-dz-remove class="btn btn-warning cancel">
+									<a href="javascript:removeDrop()" data-dz-remove class="btn btn-warning cancel">
 								         <i class="glyphicon glyphicon-ban-circle"></i>
 								         <span>Cancel</span>
-								     </button>
+								     </a>
 								</div>
 							</div>
 							<!-- end: DROPZONE PANEL -->
@@ -206,114 +207,159 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-var compt = 0;
-jQuery(document).ready(function() {
+	var compt = 0;
+	jQuery(document).ready(function() {
 
-	$('#tags').select2({ tags: <?php echo $tags ?> });
-	$('#tags').select2({ tags: <?php echo $tags ?> });
-	PagesUserProfile.init();
+		$('#tags').select2({ tags: <?php echo $tags ?> });
+		$('#tags').select2({ tags: <?php echo $tags ?> });
+		PagesUserProfile.init();
 
-	//-------Position input generator-------------------
-	var positions = "<?php echo ($person && isset($person['position']) ) ? implode(",", $person['position']) : ""?>";
-	$("#position").val(positions.split(",")[0]);
-	for(var i=1; i<positions.split(",").length; i++){
-		addPos();
-		$("#position"+compt).val(positions.split(",")[i]);
-	}
-	$(".uploaderDiv .cancel").onclick = function() {
-  		projectDropzone.removeAllFiles(true);
-	};
-	//---------------Profil photo generator----------------------
-	projectDropzone = new Dropzone("#project-dropzone", {
-	  acceptedFiles: "image/*,application/pdf",
-	  url : baseUrl+"/templates/upload/dir/collection/input/file",
-	  maxFilesize: 2.0, // MB
-	  maxFile: 1,
-	  complete: function(response) { 
-	  	//console.log(file.name); 
-	  	if(response.xhr)
-	  	{
-		  	docObj = JSON.parse(response.xhr.responseText);
-		  	console.log(docObj.result);
-		  	var	editProjectDocuments = [];
-		  	var doc = { 
-		  		"name" : docObj.name, 
-		  		"date" : new Date(), 
-		  		"size" : docObj.size  
-		  	};
-		  	console.dir(doc); 
-		  	editProjectDocuments.push( doc );	
-		  	
+		//-------Position input generator-------------------
+		
+		if("<?php if(isset($person['positions'])){echo is_string($person['positions']);} ?>"){
+			$("#position").val("<?php if(isset($person['positions'])  && is_array($person['positions'])==FALSE){ echo $person['positions']; }?>");
+		}else{
+			var positions = "<?php echo ($person && isset($person['positions']) && is_array($person['positions'])) ? implode(',', $person['positions']) : ""?>";
+			console.log(positions.split(","));
+			$("#position").val(positions.split(",")[0]);
+			for(var i=1; i<positions.split(",").length; i++){
+				addPos();
+				$("#position"+compt).val(positions.split(",")[i]);
+			}
 		}
-	  },
-	  error: function(response) 
-	  { 
-	  	toastr.error("Something went wrong!!"); 
-	  }
-	});
-});
+			
+		//---------------Profil photo generator----------------------
+		var	projectDropTab;
+		projectDropzone = new Dropzone("#project-dropzone", {
+		  acceptedFiles: "image/*",
+		  url : baseUrl+"/templates/upload/dir/communecter/collection/person/input/file/rename/true",
+		  maxFilesize: 2.0, // MB
+		  addRemoveLinks: true,
+		  maxFile: 1,
+		  autoProcessQueue:false,
+		  paramName: "file",
+		  /*removedfile: function(file) {
+			var _ref;
+			return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+		   },*/
+		  complete: function(response) { 
+		  	//console.log(file.name); 
+		  	if(response.xhr)
+		  	{
 
-function initDropZone()
-{
-	console.log("initDropZone"); 
-	$(".projectFiles").html("");
-	
-	if(projects[editProjectId].documents && typeof projects[editProjectId].documents == "object")
-	{
-		$.each(projects[editProjectId].documents,function(i,docObj)
-		{
-			addFileLine(docObj,i);
+			  	docObj = JSON.parse(response.xhr.responseText);
+			  	docObj.name="image";
+			  	console.log(docObj.result);
+			  	editProjectDocuments = [];
+			  	var doc = { 
+			  		"name" : docObj.name, 
+			  		"date" : new Date(), 
+			  		"size" : docObj.size  
+			  	};
+			  	console.dir(doc); 
+			  	editProjectDocuments.push( doc );	
+			  	
+			}
+		  },
+		  error: function(response) 
+		  { 
+		  	toastr.error("Something went wrong!!"); 
+		  }
 		});
+		projectDropzone.on('processingfile', function(file) {
+			console.log('filename', file.name);
+		  file.name = 'image1.jpg';
+		});
+		var mockFile = { name: $(".dz-filename").text(), size:1285957, type: 'image/jpeg' };
+		projectDropzone.options.addedfile.call(projectDropzone, mockFile);
+		projectDropzone.options.thumbnail.call(projectDropzone, mockFile, "<?php if ($person && isset($person['imagePath'])) echo $person['imagePath']; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>")
+	});
+
+
+	function removeDrop(){
+		projectDropzone.removeAllFiles(true);
+	    $('div.dz-success').remove();
+	    $('div.dz-preview').remove();
 	}
 
-	if( !$('.projectFilesTable').hasClass("dataTable") ){
-		projectFilesTable = $('.projectFilesTable').dataTable({
-				"aoColumnDefs" : [{
-					"aTargets" : [0]
-				}],
-				"oLanguage" : {
-					"sLengthMenu" : "Show _MENU_ Rows",
-					"sSearch" : "",
-					"oPaginate" : {
-						"sPrevious" : "",
-						"sNext" : ""
-					}
-				},
-				"aaSorting" : [[1, 'asc']],
-				"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-				],
-				// set the initial value
-				"iDisplayLength" : 10,
-				"bDestroy": true
+
+	function initDropZone()
+	{
+		console.log("initDropZone"); 
+		$(".projectFiles").html("");
+		projectDropTab = projects;
+		console.log(projectDropTab);
+		if(projects[editProjectId].documents && typeof projects[editProjectId].documents == "object")
+		{
+			$.each(projects[editProjectId].documents,function(i,docObj)
+			{
+				addFileLine(docObj,i);
 			});
-	} else
-		projectFilesTable.DataTable().draw();
-}
+		}
+
+		if( !$('.projectFilesTable').hasClass("dataTable") ){
+			projectFilesTable = $('.projectFilesTable').dataTable({
+					"aoColumnDefs" : [{
+						"aTargets" : [0]
+					}],
+					"oLanguage" : {
+						"sLengthMenu" : "Show _MENU_ Rows",
+						"sSearch" : "",
+						"oPaginate" : {
+							"sPrevious" : "",
+							"sNext" : ""
+						}
+					},
+					"aaSorting" : [[1, 'asc']],
+					"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+					],
+					// set the initial value
+					"iDisplayLength" : 10,
+					"bDestroy": true
+				});
+		} else
+			projectFilesTable.DataTable().draw();
+	}
 
 
-function addPos(){
-	compt++;
-	$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position'+compt+'" name="position" value=""></input>');
-}
-$("#personForm").submit( function(event){	
-	//console.log($("#personForm").serialize());
-	event.preventDefault();
-	formData = $("#personForm").serializeFormJSON();
-	formData["tags"] = $("#tags").val();
-	formData["imagePath"] = baseUrl+"/upload/collection/"+$(".dz-filename").text();
-	console.log(formData);
-	$.ajax({
-	  type: "POST",
-	  url: baseUrl+"/"+moduleId+"/api/saveUser",
-	  data: formData,//$("#personForm").serialize()+"&compt="+compt+"",
-	  dataType: "json",
-	  success: function(data){
-	  		if(data.result)
-	  			toastr.success(data.msg);
-	  		else
-	  			toastr.error(data.msg);
-	  },
-	  dataType: "json"
+	function addPos(){
+		compt++;
+		$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position'+compt+'" name="position" value=""></input>');
+	}
+
+
+	$("#personForm").submit( function(event){	
+		//console.log($("#personForm").serialize());
+		
+		event.preventDefault();
+		formData = $("#personForm").serializeFormJSON();
+		formData["tags"] = $("#tags").val();
+
+		projectDropzone.processQueue();
+		console.log("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>");
+		if($('.dz-filename').text() == ""){
+			if("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>" != ""){
+				
+				$('.dz-filename').text("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>");
+			}
+		}
+		formData["imagePath"] = baseUrl+"/upload/communecter/person/<?php echo Yii::app()->session['userId'] ?>."+$('.dz-filename').text().split(".")[$('.dz-filename').text().split(".").length-1];
+		
+		$.ajax({
+		  type: "POST",
+		  url: baseUrl+"/"+moduleId+"/api/saveUser",
+		  data: formData,//$("#personForm").serialize()+"&compt="+compt+"",
+		  dataType: "json",
+		  success: function(data){
+		  		if(data.result)
+		  			toastr.success(data.msg);
+		  		else
+		  			toastr.error(data.msg);
+		  },
+		  dataType: "json"
+
+		});
+		
 	});
-});
+
 </script>
