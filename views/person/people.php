@@ -1,7 +1,7 @@
 <div id="panel_people" class="tab-pane fade">
 	
 	<?php 
-	if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworking" ) ){ ?>
+	if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
 		<div class="row">
 			<div class="col-md-12 padding-20 ">
 				<a href="javascript:;" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People into your Network</a>
@@ -21,22 +21,23 @@
 		</thead>
 		<tbody>
 			<?php
-			if(isset($people)){
-			foreach ($people as $e) 
+			if(!empty($people))
 			{
-			?>
-			<tr id="people<?php echo (string)$e["_id"];?>">
-				<td><?php if(isset($e["name"]))echo $e["name"]?></td>
-				<td><?php if(isset($e["type"]))echo $e["type"]?></td>
-				<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
-				<td class="center">
-					<div class="visible-md visible-lg hidden-sm hidden-xs">
-						<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/view/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
-						<a href="#" class="btn btn-red tooltips delBtnKnows" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-					</div>
-				</td>
-			</tr>
-			<?php
+				foreach ($people as $e) 
+				{
+				?>
+				<tr id="people<?php echo (string)$e["_id"];?>">
+					<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+					<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+					<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
+					<td class="center">
+						<div class="visible-md visible-lg hidden-sm hidden-xs">
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/view/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+							<a href="#" class="btn btn-red tooltips delBtnKnows" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+						</div>
+					</td>
+				</tr>
+				<?php
 			}}
 			?>
 		</tbody>

@@ -1,4 +1,5 @@
 {
+    "linkAllToActiveUser":true,
     "citoyens":[
         {
             "_id" : {"$oid":"5374fc91f6b95c9c1b000871"},

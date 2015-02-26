@@ -58,12 +58,28 @@ class PersonController extends CommunecterController {
     $organizations = array();
     
     //Load organizations
-    if (!empty($person["memberOf"])) {
-      foreach ($person["memberOf"] as $organizationId) {
-        
-        $organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($organizationId)));
+    if (isset($person["links"]) && !empty($person["links"]["memberOf"])) 
+    {
+      foreach ($person["links"]["memberOf"] as $organizationId) 
+      {
+        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($organizationId)));
         if (!empty($organization)) {
           array_push($organizations, $organization);
+        } else {
+          throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+        }
+      }
+    }
+
+    $people = array();
+    //Load people I know
+    if (isset($person["links"]) && !empty($person["links"]["knows"])) 
+    {
+      foreach ($person["links"]["knows"] as $personId) 
+      {
+        $personIKnow = PHDB::findOne( PHType::TYPE_CITOYEN , array( "_id" => new MongoId($personId)));
+        if (!empty($personIKnow)) {
+          array_push($people, $personIKnow);
         } else {
           throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -75,7 +91,10 @@ class PersonController extends CommunecterController {
     if(!Yii::app()->session["userId"])
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     else 
-      $this->render( "index" , array("person"=>$person,"organizations"=>$organizations,'tags'=>json_encode($tags['list'])) );
+      $this->render( "index" , array( "person"=>$person,
+                                      "people"=>$people, 
+                                      "organizations"=>$organizations, 
+                                      'tags'=>json_encode($tags['list'] )) );
   }
 
   /**
@@ -357,30 +376,24 @@ class PersonController extends CommunecterController {
     $import = Admin::initModuleData( $this->module->id, "personNetworking", PHType::TYPE_CITOYEN,true );
     $import = Admin::initModuleData($this->module->id, "organizationNetworking", PHType::TYPE_ORGANIZATIONS);
 
-    //$where = array( '_id'  => new MongoId(Yii::app()->session["userId"]) );
-    //$me = PHDB::update(PHType::TYPE_CITOYEN, $where, array('$push'=>array("links.knows"=>array("53761738f6b95c342d006fc9","536c9c02f6b95c60200001eb","5374fc91f6b95c9c1b000871"))));
     $result = ( $import["errors"] > 0 ) ? false : true;
-    Rest::json( array("result"=>$result,"import"=>$import) );
+    Rest::json( $import );
     Yii::app()->end();
   }
   public function actionInitDataPeopleAll(){
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
-    //$import = Admin::initModuleData($this->module->id, "organizationNetworking", PHType::TYPE_ORGANIZATIONS,true);
 
-    //$where = array( '_id'  => new MongoId(Yii::app()->session["userId"]) );
-    //$me = PHDB::update(PHType::TYPE_CITOYEN, $where, array('$push'=>array("links.knows"=>array("53761738f6b95c342d006fc9","536c9c02f6b95c60200001eb","5374fc91f6b95c9c1b000871"))));
     $result = ( $import["errors"] > 0 ) ? false : true;
-    Rest::json( array("result"=>$result,"import"=>$import) );
+    Rest::json( $import );
     Yii::app()->end();
   }
 
-  public function actionClearInitDataPeople(){
+  public function actionClearInitDataPeopleAll(){
     //inject Data brute d'une liste de Person avec Id
-    PHDB::remove(PHType::TYPE_CITOYEN, array("dummyData"=>"personNetworking"));
-    //Admin::initModuleData($this->module->id, "organizationNetworking");
+    $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true,true,true );
 
-    Rest::json( array("result"=>true,"msg"=>"Data initialised") );
+    Rest::json( $import );
     Yii::app()->end();
   }
 
