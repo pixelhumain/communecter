@@ -351,4 +351,37 @@ class PersonController extends CommunecterController {
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     exit;
   }
+
+  public function actionInitDataPeople(){
+    //inject Data brute d'une liste de Person avec Id
+    $import = Admin::initModuleData( $this->module->id, "personNetworking", PHType::TYPE_CITOYEN,true );
+    $import = Admin::initModuleData($this->module->id, "organizationNetworking", PHType::TYPE_ORGANIZATIONS);
+
+    //$where = array( '_id'  => new MongoId(Yii::app()->session["userId"]) );
+    //$me = PHDB::update(PHType::TYPE_CITOYEN, $where, array('$push'=>array("links.knows"=>array("53761738f6b95c342d006fc9","536c9c02f6b95c60200001eb","5374fc91f6b95c9c1b000871"))));
+    $result = ( $import["errors"] > 0 ) ? false : true;
+    Rest::json( array("result"=>$result,"import"=>$import) );
+    Yii::app()->end();
+  }
+  public function actionInitDataPeopleAll(){
+    //inject Data brute d'une liste de Person avec Id
+    $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
+    //$import = Admin::initModuleData($this->module->id, "organizationNetworking", PHType::TYPE_ORGANIZATIONS,true);
+
+    //$where = array( '_id'  => new MongoId(Yii::app()->session["userId"]) );
+    //$me = PHDB::update(PHType::TYPE_CITOYEN, $where, array('$push'=>array("links.knows"=>array("53761738f6b95c342d006fc9","536c9c02f6b95c60200001eb","5374fc91f6b95c9c1b000871"))));
+    $result = ( $import["errors"] > 0 ) ? false : true;
+    Rest::json( array("result"=>$result,"import"=>$import) );
+    Yii::app()->end();
+  }
+
+  public function actionClearInitDataPeople(){
+    //inject Data brute d'une liste de Person avec Id
+    PHDB::remove(PHType::TYPE_CITOYEN, array("dummyData"=>"personNetworking"));
+    //Admin::initModuleData($this->module->id, "organizationNetworking");
+
+    Rest::json( array("result"=>true,"msg"=>"Data initialised") );
+    Yii::app()->end();
+  }
+
 }

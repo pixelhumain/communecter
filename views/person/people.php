@@ -1,4 +1,14 @@
 <div id="panel_people" class="tab-pane fade">
+	
+	<?php 
+	if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworking" ) ){ ?>
+		<div class="row">
+			<div class="col-md-12 padding-20 ">
+				<a href="javascript:;" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People into your Network</a>
+			</div>	
+		</div>
+	<?php } ?>
+
 	People I follow or I know 
 	<table class="table table-striped table-bordered table-hover" id="people">
 		<thead>
