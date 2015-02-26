@@ -153,10 +153,10 @@
 									
 								</div>
 								<div class="panel-footing">
-									<button data-dz-remove class="btn btn-warning cancel">
+									<a href="javascript:removeDrop()" data-dz-remove class="btn btn-warning cancel">
 								         <i class="glyphicon glyphicon-ban-circle"></i>
 								         <span>Cancel</span>
-								     </button>
+								     </a>
 								</div>
 							</div>
 							<!-- end: DROPZONE PANEL -->
@@ -221,12 +221,13 @@ jQuery(document).ready(function() {
 		$("#position"+compt).val(positions.split(",")[i]);
 	}
 	$(".uploaderDiv .cancel").onclick = function() {
+		console.log("ok");
   		projectDropzone.removeAllFiles(true);
 	};
 	//---------------Profil photo generator----------------------
 	projectDropzone = new Dropzone("#project-dropzone", {
-	  acceptedFiles: "image/*,application/pdf",
-	  url : baseUrl+"/templates/upload/dir/collection/input/file",
+	  acceptedFiles: "image/*",
+	  url : baseUrl+"/templates/upload/dir/communecter/collection/profiles/input/file",
 	  maxFilesize: 2.0, // MB
 	  maxFile: 1,
 	  complete: function(response) { 
@@ -252,6 +253,10 @@ jQuery(document).ready(function() {
 	  }
 	});
 });
+
+function removeDrop(){
+	projectDropzone.removeAllFiles(true);
+}
 
 function initDropZone()
 {
@@ -300,7 +305,7 @@ $("#personForm").submit( function(event){
 	event.preventDefault();
 	formData = $("#personForm").serializeFormJSON();
 	formData["tags"] = $("#tags").val();
-	formData["imagePath"] = baseUrl+"/upload/collection/"+$(".dz-filename").text();
+	formData["imagePath"] = baseUrl+"/upload/communecter/profiles/"+$(".dz-filename").text();
 	console.log(formData);
 	$.ajax({
 	  type: "POST",
