@@ -70,4 +70,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/do
 
 	</div>
 </div>
+<script type="text/javascript">
+<?php $mapPerson = array("person"=>$person,
+                      "people"=>$people, 
+                      "organizations"=>$organizations
+                      ); ?>
+var mapPerson = <?php echo json_encode($mapPerson)?>;
+</script>
 

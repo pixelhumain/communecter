@@ -49,10 +49,7 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-<?php $mapPerson = array("person"=>$person,
-                          "people"=>$people, 
-                          "organizations"=>$organizations); ?>
-var mapPerson = <?php echo json_encode($mapPerson)?>;
+
 jQuery(document).ready(function() {
 
 	$(".delBtnKnows").on("click",function(){
