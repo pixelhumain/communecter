@@ -66,7 +66,7 @@ class PersonController extends CommunecterController {
         if (!empty($organization)) {
           array_push($organizations, $organization);
         } else {
-          throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
       }
     }
@@ -81,7 +81,7 @@ class PersonController extends CommunecterController {
         if (!empty($personIKnow)) {
           array_push($people, $personIKnow);
         } else {
-          throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
       }
     }

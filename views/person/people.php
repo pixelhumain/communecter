@@ -1,14 +1,17 @@
 <div id="panel_people" class="tab-pane fade">
 	
-	<?php 
-	if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
+	
 		<div class="row">
 			<div class="col-md-12 padding-20 ">
-				<a href="javascript:;" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People into your Network</a>
+				<?php 
+				if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
+					<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People into your Network</a>
+				<?php } else { ?>
+					<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> Remove Dummy People into your Network</a>
+				<?php } ?>
 			</div>	
 		</div>
-	<?php } ?>
-
+	
 	People I follow or I know 
 	<table class="table table-striped table-bordered table-hover" id="people">
 		<thead>
