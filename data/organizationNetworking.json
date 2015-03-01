@@ -1,0 +1,79 @@
+[{
+    "_id" : {"$oid":"5370b477f6b95c280a00390c"},
+    "cp" : "97480",
+    "email" : "asso1@networkmapping.com",
+    "name" : "test Asso1",
+    "tags" : [ 
+        "social", 
+        "solidaire", 
+        "sport", 
+        "dance"
+    ],
+    "type" : "NGO"
+}
+,
+{
+    "_id" : {"$oid":"537f4360f6b95c881d002f15"},
+    "email" : "biz1@networkmapping.com",
+    "cp" : "974",
+    "name" : "test Local Business 1",
+    "type" : "LocalBusiness",
+    "tags" : [ 
+        "citoyen", 
+        "intellectuel", 
+        "recherche"
+    ]
+}
+,
+{
+    "_id" : {"$oid":"537f5453f6b95c881d00789d"},
+    "cp" : "97419",
+    "date" : "05/13/2014",
+    "email" : "asso5@networkmapping.com",
+    "name" : "Asso 5",
+    "tags" : [ 
+        "aide", 
+        "formation"
+    ],
+    "type" : "NGO"
+}
+,
+{
+    "_id" : {"$oid":"537f4d34f6b95c881d005cca"},
+    "email" : "biz5@networkmapping.com",
+    "cp" : "97419",
+    "name" : "test Biz 5",
+    "type" : "LocalBusiness",
+    "tags" : [ 
+        "citoyen", 
+        "intellectuel", 
+        "recherche"
+    ]
+}
+,
+{
+    "_id" : {"$oid":"5382fe65f6b95c00270036a1"},
+    "email" : "asso6@networkmapping.com",
+    "cp" : "97460",
+    "name" : "Asso 6",
+    "type" : "NGO",
+    "tags" : [ 
+        "aide", 
+        "formation"
+    ]
+}
+,
+{
+    "_id" : {"$oid":"53834072f6b95c881d00588b"},
+    "cp" : "97470",
+    "email" : "group@networkmapping.com",
+    "name" : "Group",
+    "tags" : [ 
+        "social", 
+        "culture", 
+        "vitesse", 
+        "communication"
+    ],
+    "type" : "Group"
+}
+]

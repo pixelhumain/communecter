@@ -75,7 +75,7 @@ class SigController extends CommunecterController {
     {
     	//début de la requete => scope geographique
     	$where = array( 'name' => $_POST["assoName"] );
-		$asso = PHDB::findOne(PHType::TYPE_GROUPS, $where);
+		$asso = PHDB::findOne(PHType::TYPE_ORGANIZATIONS, $where);
         
      	$orgaMembres = array();
     	
@@ -114,7 +114,7 @@ class SigController extends CommunecterController {
 	    
 	    $where = array_merge($where, $whereGeo);
 	    				
-    	$companies = PHDB::find(PHType::TYPE_GROUPS, $where);
+    	$companies = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
     	$companies["origine"] = "ShowLocalCompanies";
     	  	
         Rest::json( $companies );
@@ -133,7 +133,7 @@ class SigController extends CommunecterController {
 	    
 	    $where = array_merge($where, $whereGeo);
 	    				
-    	$states = PHDB::find(PHType::TYPE_GROUPS, $where);
+    	$states = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
     	$states["origine"] = "ShowLocalState";
     	   	
         Rest::json( $states );
@@ -256,7 +256,7 @@ class SigController extends CommunecterController {
     	
     	);
     	
-    	$res = PHDB::insert(PHType::TYPE_GROUPS, $newAsso);
+    	$res = PHDB::insert(PHType::TYPE_ORGANIZATIONS, $newAsso);
     	
     	if($res["ok"] == 1) $res = "Initialisation des données : OK</br>Rechargez la carte !";
         Rest::json( $res );

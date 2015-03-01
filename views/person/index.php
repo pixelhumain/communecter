@@ -60,7 +60,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/do
 				<?php 
 					$this->renderPartial('overview',array( "person" => $person));
 					$this->renderPartial('editAccount',array( "person" => $person,"tags" => $tags));
-					$this->renderPartial('people',array( "person" => $person));
+					$this->renderPartial('people',array( "person" => $person,"people" => $people));
 					$this->renderPartial('organization',array( "person" => $person, "organizations"=>$organizations));
 					$this->renderPartial('events',array( "person" => $person));
 					$this->renderPartial('projects',array( "person" => $person));
@@ -70,4 +70,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/do
 
 	</div>
 </div>
+<script type="text/javascript">
+<?php $mapPerson = array("person"=>$person,
+                      "people"=>$people, 
+                      "organizations"=>$organizations
+                      ); ?>
+var mapPerson = <?php echo json_encode($mapPerson)?>;
+</script>
 
