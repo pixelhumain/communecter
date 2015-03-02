@@ -11,7 +11,7 @@ class PersonController extends CommunecterController {
 
   public $hasSocial = false;
   public $loginRegister = true;
-
+  public function actionViewer() { $this->renderPartial("viewer"); 	}
   public function accessRules() {
     return array(
       // not logged in users should be able to login and view captcha images as well as errors
