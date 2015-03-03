@@ -93,6 +93,7 @@ class CommunecterController extends Controller
 
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
+      "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
     ),
 
     "organization"=> array(
@@ -104,6 +105,7 @@ class CommunecterController extends Controller
       "view"=>array("href"=>"/ph/communecter/organization/view"),
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
     ),
   );
 

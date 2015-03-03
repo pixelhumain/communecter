@@ -30,6 +30,12 @@ class PersonController extends CommunecterController {
   /**
    * @return [json Map] list
    */
+
+  	 public function actionGetById($id=null)
+	  {
+	  	$people = Person::getById($id);
+	  	Rest::json($people);
+	  }
 	public function actionLogin() 
 	{
     $this->layout = "//layouts/mainSimple";

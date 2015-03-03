@@ -24,7 +24,13 @@
 
 	#chart{
 		width: 100%;
-		position: absolute;
+		
+		z-index: 1;
+	}
+	#chart2{
+		width: 100%;
+		z-index:1;
+
 	}
 
 	.pop-div .popover-content {
@@ -32,128 +38,254 @@
 	    height: 250px;
 	    overflow-y:scroll;
 	}
+
+	.panel_map{
+		position: absolute;
+		top:10px;
+		left:15px;
+		background: none repeat scroll 0 0 #5f8295;
+		width: 150px;
+		border: 2px solid #5f8295;
+		color : white;
+		text-align: center;
+	}
+	p.item_panel_map {
+	  margin-bottom: 3px;
+	}
+
+	.item_panel_map {
+	  padding-bottom: 3px;
+	  padding-left: 15px;
+	  padding-top: 3px;
+	  text-align: left !important;
+	}
+
+	p {
+		font-family: "Lato",arial,sans-serif;
+  		line-height: 1.3em;
+	  	text-align: center !important;
+	}
+
+	.rectLegend{
+		width: 20px;
+		height: 10px
+	}
 </style>
 
-	<div id="chart">
-		<div id="titre"></div>
-	</div>
-
-  
-<script type="text/javascript">
-   	var oldW, oldH;
-   	var force;
-   	var testFile;
-
-	jQuery(document).ready(function() {
 	
-	$( window ).resize(function() { 
-			
-			clearTimeout(timer);
-		    timer = setTimeout(function(){ 
-		    	force.stop();
-				$("#svgNodes").empty();
-				$("#chart").empty();
-				getNewData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
-			} , 200);
-		   	
-		    //$("#svgNodes").remove();
-		});	
-
-	var data;
+<div id="chart">
+	<div id="titre"></div>
+</div>
+	
+	
+<div class="panel_map" style="max-width: 250px;">
+	<p name"].'"="" id="item_panel_map_'.$tag[" class="item_panel_map">
+		<span>
+		</span></p><center><i>Legends 
+		</i><center>
+		
+	<p></p>
+</center></center></div>  
+<script type="text/javascript">
+   
+   	var force;
+   	var data;
 	var dataTab;
 	var timer;
-	var btnSelect;
+	var dataAjax;
 	var datafile=mapPerson;
 	var parentId;
-	var parentTabId = [""];
-	var thisVarname;
 	var tabLinks = [""];
 	var tabColor = ["black"];
 	var fill;
-	
-	console.log(projects);
-	getNewData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
+	var lastLevel;
+	var maxLevel= 0;
 
 
+	var map = {"person":{"name":"name", "parentIdField":"links"}, "people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}};
+
+	jQuery(document).ready(function() {
+
+		$( window ).resize(function() { 
+				
+				clearTimeout(timer);
+			    timer = setTimeout(function(){ 
+			    	force.stop();
+					$("#svgNodes").empty();
+					$("#chart").empty();
+					data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
+					getNewData(data);
+				} , 200);
+			   	
+			    //$("#svgNodes").remove();
+			});	
+			data = createDataTest("person", "<?php echo Yii::app()->session['userId'] ?>", {"memberOf": "organizations", "knows":"people"}, datafile);
+			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
+			getNewData(data);
+	});
+
+	/*------------------------------------Formats----------------------------------------------
+	-- map : "person", id :"50003Czjzdzj", childrens: {link1:child1, link2:child2}, data=json
+	-----------------------------------------------------------------------------------------*/
+	function createDataTest(map, id, childrens, datafile){
+		var dataJson = [];
+		var newData = {};
+		parentId = id;
+	  	var children= [];
+	  	var newNode = {};
+	  	var name1;
+	  	dataTab = datafile;
+	  	console.log("ok");
+	  	$.each(datafile, function(key,obj){
+	  		console.log("ok");
+	  		if(key==map){
+	  			console.log("ok2");
+	  			name1 = obj.name;
+				newData["name"] = name1;
+				newData["rayon"] = 31;
+				newData["level"] = 1;
+				newData["fixed"] = "true";
+				newData["x"] = 0;
+				newData["y"] = 0;
+				obj2=obj.links
+				$.each(obj2, function(link, val){
+					if($.inArray(link, tabLinks)==-1){
+						tabLinks.push(link);
+						var newChild ={};
+						newChild["name"] = childrens[link];
+						newChild["rayon"] = 23;
+						newChild["level"] = 2;
+						var childrenLevel = [];
+						console.log(link, val);
+						for(var i = 0; i<val.length; i++){
+							var newChildLevel = {};
+							newChildLevel["link"] = link;
+							var newChildren4 = [];
+							var newChild4 = {};
+							var parent = map;
+							if(childrens[link] == "people")
+								parent = "person";
+							if(childrens[link] == "organizations")
+								parent = "organization";
+							console.log(parent);
+							newChildLevel["parent"] = parent;
+							newChildLevel["parentId"]= val[i];
+							newChildLevel["name"] = val[i];
+							newChildLevel["rayon"] = 15;
+							newChildLevel["level"] = 3;
+							newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/view/id/"+val[i];
+							childrenLevel.push(newChildLevel);
+						}
+						newChild["children"]= childrenLevel;
+						children.push(newChild);
+					}
+				})
+				newData["children"] = children;
+				dataJson.push(newData);
+			}
+		})	
+		return newData;
+	}
+
+
+	  	
+	function createData(varname, id, child, datafile){
+		var dataJson = [];
+		var newData = {};
+		parentId = id;
+	  	var children= [];
+	  	var newNode = {};
+	  	var name1;
+
+	  	$.each(datafile, function(key, obj){
+	  		if(key==varname ){
+	  			name1 = obj.name;	
+	  		}
+	  	})
+
+		dataTab = datafile;
+
+		newData["name"] = name1;
+		newData["rayon"] = 31;
+		newData["level"] = 1;
+		newData["fixed"] = "true";
+		newData["x"] = 0;
+		newData["y"] = 0;
+		//console.log(child);
+
+		$.each(child, function(key, obj){
+			//console.log(child[i], i);
+			if(key!= varname){
+				var newChild ={};
+				newChild["name"] = key;
+				newChild["rayon"] = 23;
+				newChild["level"] = 2;
+				var childrenLevel = [];
+				var name;
+				var thisId;
+				console.log(obj, key);
+				$.each(dataTab, function(key2, obj2){
+					if(key== key2){
+						$.each(obj2, function(key3, obj3){
+							var link= "";
+							if(typeof(obj["parentIdField"])=="string"){
+								name=obj3[obj["name"]];
+								thisId = obj3[obj["parentIdField"]];
+								while(typeof(thisId)=="object"){
+									$.each(thisId, function(key4, obj4){	
+										link += " " +key4;
+										thisId = obj4;
+									});
+								}
+							}
+							console.log(thisId);
+							if(thisId ==id){
+								var newChildLevel = {};
+								newChildLevel["link"] = link;
+								if($.inArray(link, tabLinks)==-1){
+									tabLinks.push(link);
+								}
+								var newChildren4 = [];
+								var newChild4 = {};
+								if(key == "people")
+									key = "person";
+								if(key == "organizations")
+									key = "organization";
+								newChildLevel["parent"] = key;
+
+								if(typeof(obj2["_id"])=='undefined'){
+									newChildLevel["parentId"]=obj3["_id"]["$id"];
+								}else{
+									newChildLevel["parentId"]= obj2["_id"]["$id"];
+								}
+								newChildLevel["name"] = name;
+								newChildLevel["rayon"] = 15;
+								newChildLevel["level"] = 3;
+								newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+key+"/view/id/"+parentId;
+								childrenLevel.push(newChildLevel);
+							}	
+						})
+							
+							
+					}
+
+				});
+			}
+			newChild["children"]= childrenLevel;
+			children.push(newChild);
+		});
+		newData["children"] = children;
+		dataJson.push(newData);
+		return newData;
+	}
   	
- function getNewData(varname, id, child, datafile){
+ function getNewData(data){
 
-  	data = {};
+  
     var color = d3.scale.category20();
  	var color_1 = randomColor();
  	var color_2 = randomColor();
  	var color_3 = randomColor();
-    parentId = id;
-  	var children= [];
-  	var newNode = {};
-  	var name1;
-  	$.each(datafile, function(key, obj){
-  		if(key==varname){
-  			name1 = obj.name;
-  		}
-  	})
-	dataTab = datafile;
-
-	data["name"] = name1;
-	data["rayon"] = 31;
-	data["level"] = 1;
-	data["fixed"] = "true";
-	data["x"] = 0;
-	data["y"] = 0;
-	//console.log(child);
-
-	$.each(child, function(key, obj){
-		//console.log(child[i], i);
-		var newChild ={};
-		newChild["name"] = key;
-		newChild["rayon"] = 23;
-		newChild["level"] = 2;
-		var childrenLevel = [];
-		var name;
-		var thisId;
-		
-		$.each(dataTab, function(key2, obj2){
-			if(key== key2){
-				$.each(obj2, function(key3, obj3){
-					var link= "";
-					if(typeof(obj["parentIdField"])=="string"){
-						name=obj3[obj["name"]];
-						thisId = obj3[obj["parentIdField"]];
-						while(typeof(thisId)=="object"){
-							$.each(thisId, function(key4, obj4){	
-								link += " " +key4;
-								thisId = obj4;
-							});
-						}
-					}
-					console.log(thisId);
-					if(thisId ==id){
-						var newChildLevel = {};
-						newChildLevel["link"] = link;
-						if($.inArray(link, tabLinks)==-1){
-							tabLinks.push(link);
-						}
-						newChildLevel["name"] = name;
-						newChildLevel["rayon"] = 15;
-						newChildLevel["level"] = 3;
-						childrenLevel.push(newChildLevel);
-					}	
-				})
-					
-					
-			}	
-		});
-		newChild["children"]= childrenLevel;
-		children.push(newChild);
-	});
-	data["children"] = children;
-
-  	
-  		//console.log(child,"3", dataTab);
-  	//console.log(child,"4", dataTab);
-  	//console.log(data);
-  	//console.log(child, dataTab);
-  	//console.log("data", data);
   	var n = 100,
   	node,
   	link,
@@ -167,6 +299,7 @@
   	force = d3.layout.force()
   		.linkDistance(100)
   		.charge(-2500)
+  		//.gravity(1)
   		.size([width, height])
   	//.on("tick", tick) // Remplacé par une boucle dans update()
   	var svg = d3.select("#chart").append("svg")
@@ -266,6 +399,7 @@
 			.style("visibility", "hidden")
 			.style("cursor", "pointer")
 			.attr("xlink:href","http://fluidlog.com/img/arrow_full_upperright_64.png")
+			.on("click", function(d){openLink(d);})
 			.append("title").text(function(d) { return d.url; })
 		/* Option d'information */
 		nodeEnter.append("circle")
@@ -286,7 +420,9 @@
 			.attr('height', 20)
 			.style("visibility", "hidden")
 			.attr("xlink:href","http://fluidlog.com/img/information_64.png")
-			.append("title").text(function(d) { return d.name; })
+			.attr('title', function(d){return d.name})
+			.attr('data-content',"<ul><li>Test1</li><li>Test2</li></ul>")
+			
 		/* Option de description */
 		nodeEnter.append("circle")
 			.attr("cx", function(d) { return d.rayon+20; })
@@ -304,26 +440,25 @@
 			.attr('y', function(d) { return d.rayon+10; })
 			.attr('width', 20)
 			.attr('height', 20)
-			.attr('title', function(d){return d.name})
-			.attr('data-content',"<ul><li>Test1</li><li>Test2</li></ul>")
 			.style("visibility", "hidden")
 			.style("cursor", "pointer")
 			.attr("xlink:href","http://fluidlog.com/img/comment_64.png")
-			.on("click", function(d){return getPanel(d);})
+			.on("click", function(d) { return getElem(d.parent, d.parentId, d);})
+			
 
 		 
 		// set the options – read more on the Bootstrap page linked to above
-		$('svg .ImageD').popover({
+		$('svg .ImageI').popover({
 		   'trigger':'hover',
 		   'container': '#chart',
 		   'placement': 'top',
 		   'white-space': 'nowrap',
 		   'html':'true'
 		});
-
+		//console.log(data);
 		//Cercle sur lequel nous allons déposer le texte
 		nodeEnter.append("circle")
-			.attr("class", function(d) { return d.level ? "level" +d.level : "level" +4 ; })
+			.attr("class", function(d) { return d.level ? "level" +d.level : "level" +5 ; })
       		.attr("r", function(d) {  return d.rayon; })
 			.attr("fill","white")
       		.style("stroke", function(d){return getStrokeColor(d)})
@@ -369,20 +504,20 @@
 
 		})
 		node.exit().remove();
-    $(".level3")
-      .attr("r", 30)
-      
+	    $(".level3, .level4")
+	      	.attr("r", 30)
+	      
 
-      $(".level2").attr("r", 40);
-      $(".level1").attr("r", 50);
-      for(var i = 1; i<tabLinks.length; i++){
-      	tabColor.push(randomColor());
-      }
+		$(".level2").attr("r", 40);
+		$(".level1").attr("r", 50);
+		for(var i = 1; i<tabLinks.length; i++){
+			tabColor.push(randomColor());
+		}
 
-      fill = d3.scale.ordinal()
-	        .domain(tabLinks)
-	        .range(tabColor);
-	// Update links.
+		fill = d3.scale.ordinal()
+		    .domain(tabLinks)
+		    .range(tabColor);
+		// Update links.
 		link = svg.selectAll(".link")
 			.data(links, function(d) { return d.target.id; });
 			link.enter().insert("line", ".node")
@@ -412,7 +547,7 @@
 		    .attr("class", "legend")
 		    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-		legend.append("rect")
+		/*legend.append("rect")
 		    .attr("x", width - 20)
 		    .attr("width", 20)
 		    .attr("height", 15)
@@ -425,166 +560,226 @@
 		    .attr("dy", ".35em")
 		    .style("text-anchor", "end")
 		    .text(function(d) { return d; });
-
+		*/
+		var legendHtml = "<div><p></p>"
+		for(var i= 0; i<tabLinks.length; i++){
+			if(tabLinks[i]!= "")
+				legendHtml += "<div><p class='item_panel_map'><i class='fa fa-square fa-1x' style='color:"+fill(tabLinks[i])+"'></i><span class='filter_name' style='display: inline;'>"+tabLinks[i]+"</span></div></p>"
 		}
+		legendHtml +="</div>"
 
-		function tick() {
-			link.attr("x1", function(d) { return d.source.x; })
-				.attr("y1", function(d) { return d.source.y; })
-				.attr("x2", function(d) { return d.target.x; })
-				.attr("y2", function(d) { return d.target.y; })
-				node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-		}
-		function openLink(d){
-			window.open("//"+d.url)
-		}
-
-	    function openModal(d){
-	      
-	      var modHtml = "";
-	      console.log(dataTab);
-	      $.each(dataTab, function(key, obj){
-	        if(obj.name == d){
-	          $.each(obj, function(key, value){
-	            modHtml=modHtml+"<li>"+key+ ":"+value+"</li>"
-	          });
-	        }
-	         console.log("key", "value",d, key, modHtml );
-	      });
-	      $('#ajaxSV').html("<ul>"+modHtml+"</ul>")
-	     
-	    }
-		function mouseover(d,i){
-			if (d.level==2){
-				hover(d);
-				nodes = flatten(data);
-				links = d3.layout.tree().links(nodes);
-				update(d);
-			}
-			else if (d.level==3)
-			{
-				var color = randomColor();
-				console.log("color", color, d3.select(this));
-				d3.select(this).select('.CircleOptions').transition().duration(300)
-				.attr("r", function(d) { return d.rayon + 30; })
-				.style("stroke", function(d){return color})
-       
-				d3.select(this).select('.CircleF').transition().duration(300).attr("r", 15)
-				d3.select(this).select('.ImageF').transition().duration(300).style("visibility", "visible")
-				d3.select(this).select('.ImageL').transition().duration(300).style("visibility", "visible")
-				d3.select(this).select('.CircleL').transition().duration(300).attr("r", 15)
-				d3.select(this).select('.ImageI').transition().duration(300).style("visibility", "visible")
-				d3.select(this).select('.CircleI').transition().duration(300).attr("r", 15)
-				d3.select(this).select('.ImageD').transition().duration(300).style("visibility", "visible")
-				d3.select(this).select('.CircleD').transition().duration(300).attr("r", 15)
-        //d3.select(this).tooltip.call();
-			}
-		}
-		function mouseout(d)
-		{
-			if (d.level==2)
-				hover(d);
-			else if (d.level==3)
-			{
-				d3.select(this).select('.CircleOptions').transition().duration(300).attr("r", 0)
-
-				d3.select(this).select('.CircleF').transition().duration(300).attr("r", 0)
-				d3.select(this).select('.ImageF').transition().duration(300).style("visibility", "hidden")
-				d3.select(this).select('.ImageL').transition().duration(300).style("visibility", "hidden")
-				d3.select(this).select('.CircleL').transition().duration(300).attr("r", 0)
-				d3.select(this).select('.ImageI').transition().duration(300).style("visibility", "hidden")
-				d3.select(this).select('.CircleI').transition().duration(300).attr("r", 0)
-				d3.select(this).select('.ImageD').transition().duration(300).style("visibility", "hidden")
-				d3.select(this).select('.CircleD').transition().duration(300).attr("r", 0)
-			}
-		}
-	//Returns a list of all nodes under the root.
-		function flatten(root) {
-			var nodes = [], i = 0;
-
-			function recurse(node){
-				if (node.children)
-					node.children.forEach(recurse);
-				if (!node.id)
-					node.id = ++i;
-				nodes.push(node);
-			}
-
-			recurse(root);
-			return nodes;
-		}
-
-		function getPanel(tasksObject){
-
-		  	
-		}
-
-
-		function getFontSize(text,r){
-			//var fontsize = (4 * r) / text.length-5 + "px"; // algorithme à trouver...
-			var fontsize = r/1.8 + "px";
-			return fontsize ;
-		}
-
-		function click(d,i){
-			if (d3.event.defaultPrevented) return;
-			d3.select(this).classed("fixed", d.fixed = false);
-		}
-
-		function dragstart(d, i){
-			force.stop()
-		}
-
-		function dragmove(d, i) {
-			d.px += d3.event.dx;
-			d.py += d3.event.dy;
-			d.x += d3.event.dx;
-			d.y += d3.event.dy;
-			tick(); // this is the key to make it work together with updating both px,py,x,y on d !
-		}
-
-		function dragend(d, i) {
-			d3.select(this).classed("fixed", d.fixed = true);
-			tick();
-			force.resume();
-		}
-
-		function toggleAll(d) {
-			if (d.children) {
-				d.children.forEach(toggleAll);
-				toggle(d);
-			}
-		}
-		//Toggle children.
-		function toggle(d) {
-			if (d.children) {
-				d._children = d.children;
-				d.children = null;
-			} else {
-				d.children = d._children;
-				d._children = null;
-			}
-		}
-		//Toggle children.
-		function hover(d) {
-			if (d3.event.defaultPrevented) return; // ignore drag
-				toggle(d);
-		}
-
-		function getStrokeColor(d){
-			var color;
-			if(d.level=="1"){
-				color = color_1;
-			}else if(d.level=="2"){
-				color = color_2;
-			}else{
-				color = color_3;
-			}
-			return color;
-		}
+		$(".panel_map").html(legendHtml);
 
 	}
-});
+
+	function tick() {
+		link.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; })
+			node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+	}
+
+	function openLink(d){
+		window.open(d.url)
+	}
+
+	    
+	function mouseover(d,i){
+		if (d.level>1){
+			hover(d);
+			nodes = flatten(data);
+			links = d3.layout.tree().links(nodes);
+			update(d);
+		}
+		if (d.level>=3)
+		{
+			var color = randomColor();
+			console.log("color", color, d3.select(this));
+			d3.select(this).select('.CircleOptions').transition().duration(300)
+			.attr("r", function(d) { return d.rayon + 30; })
+			.style("stroke", function(d){return color})
+   
+			d3.select(this).select('.CircleF').transition().duration(300).attr("r", 15)
+			d3.select(this).select('.ImageF').transition().duration(300).style("visibility", "visible")
+			d3.select(this).select('.ImageL').transition().duration(300).style("visibility", "visible")
+			d3.select(this).select('.CircleL').transition().duration(300).attr("r", 15)
+			d3.select(this).select('.ImageI').transition().duration(300).style("visibility", "visible")
+			d3.select(this).select('.CircleI').transition().duration(300).attr("r", 15)
+			d3.select(this).select('.ImageD').transition().duration(300).style("visibility", "visible")
+			d3.select(this).select('.CircleD').transition().duration(300).attr("r", 15)
+    //d3.select(this).tooltip.call();
+		}
+	}
+		
+			
+		
+	function mouseout(d)
+	{
+		if (d.level>=lastLevel)
+			hover(d);
+		if (d.level>=3)
+		{
+			d3.select(this).select('.CircleOptions').transition().duration(300).attr("r", 0)
+
+			d3.select(this).select('.CircleF').transition().duration(300).attr("r", 0)
+			d3.select(this).select('.ImageF').transition().duration(300).style("visibility", "hidden")
+			d3.select(this).select('.ImageL').transition().duration(300).style("visibility", "hidden")
+			d3.select(this).select('.CircleL').transition().duration(300).attr("r", 0)
+			d3.select(this).select('.ImageI').transition().duration(300).style("visibility", "hidden")
+			d3.select(this).select('.CircleI').transition().duration(300).attr("r", 0)
+			d3.select(this).select('.ImageD').transition().duration(300).style("visibility", "hidden")
+			d3.select(this).select('.CircleD').transition().duration(300).attr("r", 0)
+		}
+	}
+	//Returns a list of all nodes under the root.
+	function flatten(root) {
+		var nodes = [], i = 0;
+
+		function recurse(node){
+			if (node.children)
+				node.children.forEach(recurse);
+			if (!node.id)
+				node.id = ++i;
+			nodes.push(node);
+		}
+
+		recurse(root);
+		return nodes;
+	}
+
+	
+	function getFontSize(text,r){
+		//var fontsize = (4 * r) / text.length-5 + "px"; // algorithme à trouver...
+		var fontsize = r/1.8+ "px";		return fontsize ;
+	}
+
+	function click(d,i){
+
+		if (d3.event.defaultPrevented) return;
+		d3.select(this).classed("fixed", d.fixed = false);
+	}
+
+	function dragstart(d, i){
+		force.stop()
+	}
+
+	function dragmove(d, i) {
+		d.px += d3.event.dx;
+		d.py += d3.event.dy;
+		d.x += d3.event.dx;
+		d.y += d3.event.dy;
+		tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+	}
+
+	function dragend(d, i) {
+		d3.select(this).classed("fixed", d.fixed = true);
+		tick();
+		force.resume();
+	}
+
+	function toggleAll(d) {
+		if (d.children) {
+			d.children.forEach(toggleAll);
+			toggle(d);
+		}
+	}
+	//Toggle children.
+	function toggle(d) {
+		if (d.children) {
+			d._children = d.children;
+			d.children = null;
+		} else {
+			d.children = d._children;
+			d._children = null;
+		}
+	}
+	//Toggle children.
+	function hover(d) {
+		if (d3.event.defaultPrevented) return; // ignore drag
+			toggle(d);
+	}
+
+	function getStrokeColor(d){
+		var color;
+		if(d.level=="1"){
+			color = color_1;
+		}else if(d.level=="2"){
+			color = color_2;
+		}else{
+			color = color_3;
+		}
+		return color;
+	}
+
+	function getDetails(d, datamap){
+		
+		var newChild = [];
+		$.each(datamap, function(key, obj){
+			var links ="";
+			var members = "";
+			if(key == "links"){
+				$.each(obj, function(key3, obj3){
+					console.log(key, key3, obj3);
+					links = key3;
+					member = obj3;
+					console.log(key3, obj3);
+					while(typeof(obj3)=="object"){
+						$.each(obj3, function(key4, obj4){
+							links = key4;
+							member = obj4;
+							obj3 =obj4;
+						})
+					}
+								
+					var children = {};
+					children["name"] = member;
+					children["parent"] = "person";
+					children["x"] = 150;
+					children["y"] = 150;
+					children["parentId"] = member;
+					children["rayon"] = 10;
+					children["url"] =  baseUrl+"/<?php echo $this->module->id?>/person/view/id/"+member,
+					children["level"] = d.level+1;
+					console.log("children", children);
+					newChild.push(children);
+				
+				})
+			}
+		})
+		d["children"] = newChild;	
+		console.log("DATAEND", data);
+		onTimeTick();
+		d.children.forEach(toggleAll);
+		nodes = flatten(data);
+		links = d3.layout.tree().links(nodes);
+		update(d);
+	}
+	function getElem(type, id, d){
+		console.log(type, id);
+
+		$.ajax({
+  			type: "POST",
+			 url: baseUrl+"/<?php echo $this->module->id?>/"+type+"/getbyid/id/"+id,
+			 datatype: "json",
+		}).done(function(data) {
+			console.log(data);
+			clearTimeout(timer);
+			    timer = setTimeout(function(){ 
+			    	force.stop();
+					$("#svgNodes").empty();
+					$("#chart").empty();
+					data = createDataTest("oganization", id, {"member": "person", "knows":"people"}, data);
+					getNewData(data);
+				} , 200);
+			//getDetails(d, data);
+
+
+		});
+	}
+}
+
+	
 	function randomColor(){
 		  var golden_ratio_conjugate = 0.618033988749895;
 		  var h = Math.random();
@@ -618,5 +813,4 @@
 			return hslToRgb(h, 0.5, 0.60);
 	}
   
-	
-	</script>
+</script>

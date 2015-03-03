@@ -16,6 +16,12 @@ class OrganizationController extends CommunecterController {
     return parent::beforeAction($action);
   }
 
+
+  public function actionGetById($id=null)
+  {
+  	$organizations = Organization::getById($id);
+  	Rest::json($organizations);
+  }
   public function actionIndex($type=null)
   {
     $this->title = "Organization";
