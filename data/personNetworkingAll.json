@@ -60,7 +60,7 @@
                         "linkType" : "workWith"
                     }
                 },
-                "membersOf" : {
+                "memberOf" : {
                     "54eed904a1aa1958b70041ef" : {
                         "type" : "organizations"
                     }
@@ -88,7 +88,7 @@
                         "linkType" : "workWith"
                     }
                 },
-                "membersOf" : {
+                "memberOf" : {
                     "54eed4efa1aa1458b70041ac" : {
                         "type" : "organizations"
                     }
@@ -174,7 +174,7 @@
                         "linkType" : "workWith"
                     }
                 },
-                "membersOf" : {
+                "memberOf" : {
                     "54eed95ea1aa143e020041c8" : {
                         "type" : "organizations"
                     },
