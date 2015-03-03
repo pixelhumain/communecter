@@ -66,9 +66,9 @@ class PersonController extends CommunecterController {
     //Load organizations
     if (isset($person["links"]) && !empty($person["links"]["memberOf"])) 
     {
-      foreach ($person["links"]["memberOf"] as $eId) 
+      foreach ($person["links"]["memberOf"] as $id => $e) 
       {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($eId)));
+        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
         if (!empty($organization)) {
           array_push($organizations, $organization);
         } else {
@@ -81,9 +81,9 @@ class PersonController extends CommunecterController {
     //Load people I know
     if (isset($person["links"]) && !empty($person["links"]["knows"])) 
     {
-      foreach ($person["links"]["knows"] as $eId) 
+      foreach ($person["links"]["knows"] as $id => $e ) 
       {
-        $personIKnow = PHDB::findOne( PHType::TYPE_CITOYEN , array( "_id" => new MongoId($eId)));
+        $personIKnow = PHDB::findOne( PHType::TYPE_CITOYEN , array( "_id" => new MongoId($id)));
         if (!empty($personIKnow)) {
           array_push($people, $personIKnow);
         } else {
@@ -96,9 +96,9 @@ class PersonController extends CommunecterController {
     //Load people I know
     if (isset($person["events"]) && !empty($person["events"])) 
     {
-      foreach ($person["events"] as $eId) 
+      foreach ($person["events"] as $id ) 
       {
-        $el = PHDB::findOne( PHType::TYPE_EVENTS , array( "_id" => new MongoId($eId)));
+        $el = PHDB::findOne( PHType::TYPE_EVENTS , array( "_id" => new MongoId($id)));
         if (!empty($el)) {
           array_push($events, $el);
         } else {
@@ -111,9 +111,9 @@ class PersonController extends CommunecterController {
     //Load people I know
     if (isset($person["projects"]) && !empty($person["projects"])) 
     {
-      foreach ($person["projects"] as $eId) 
+      foreach ($person["projects"] as $id) 
       {
-        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($eId)));
+        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($id)));
         if (!empty($el)) {
           array_push($projects, $el);
         } else {
