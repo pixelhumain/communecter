@@ -61,6 +61,17 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>DummyData</td>
+							<td>
+								<?php 
+								if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
+									<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People into your Network</a>
+								<?php } else { ?>
+									<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> Remove Dummy People into your Network</a>
+								<?php } ?>
+							</td>
+						</tr>
+						<tr>
 							<td>url</td>
 							<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
 							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
