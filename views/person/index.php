@@ -64,8 +64,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 					$this->renderPartial('editAccount',array( "person" => $person,"tags" => $tags));
 					$this->renderPartial('people',array( "person" => $person,"people" => $people));
 					$this->renderPartial('organization',array( "person" => $person, "organizations"=>$organizations));
-					$this->renderPartial('events',array( "person" => $person));
-					$this->renderPartial('projects',array( "person" => $person));
+					$this->renderPartial('events',array( "person" => $person,"events" => $events));
+					$this->renderPartial('projects',array( "person" => $person,"projects" => $projects));
 				?>
 			</div>
 		</div>

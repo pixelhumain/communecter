@@ -1,0 +1,22 @@
+[
+{
+  "name": "Event 1",
+  "startDate": "19/06/2015 19:00",
+  "endDate": "19/06/2015 24:00",
+  "organizer": [
+    {
+      "id": "5370b477f6b95c280a00390c",
+      "type": "organization"
+    }
+  ],
+  "eventStatus": "Scheduled",
+  "location": [
+    {
+      "street": "Tempelhofer Ufer 23/24",
+      "code": "10963",
+      "city": "Berlin",
+      "country": "Germany"
+    }
+  ]
+}
+]

@@ -60,9 +60,9 @@ class PersonController extends CommunecterController {
     //Load organizations
     if (isset($person["links"]) && !empty($person["links"]["memberOf"])) 
     {
-      foreach ($person["links"]["memberOf"] as $organizationId) 
+      foreach ($person["links"]["memberOf"] as $eId) 
       {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($organizationId)));
+        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($eId)));
         if (!empty($organization)) {
           array_push($organizations, $organization);
         } else {
@@ -75,11 +75,41 @@ class PersonController extends CommunecterController {
     //Load people I know
     if (isset($person["links"]) && !empty($person["links"]["knows"])) 
     {
-      foreach ($person["links"]["knows"] as $personId) 
+      foreach ($person["links"]["knows"] as $eId) 
       {
-        $personIKnow = PHDB::findOne( PHType::TYPE_CITOYEN , array( "_id" => new MongoId($personId)));
+        $personIKnow = PHDB::findOne( PHType::TYPE_CITOYEN , array( "_id" => new MongoId($eId)));
         if (!empty($personIKnow)) {
           array_push($people, $personIKnow);
+        } else {
+         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+        }
+      }
+    }
+
+    $events = array();
+    //Load people I know
+    if (isset($person["events"]) && !empty($person["events"])) 
+    {
+      foreach ($person["events"] as $eId) 
+      {
+        $el = PHDB::findOne( PHType::TYPE_EVENTS , array( "_id" => new MongoId($eId)));
+        if (!empty($el)) {
+          array_push($events, $el);
+        } else {
+         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+        }
+      }
+    }
+
+    $projects = array();
+    //Load people I know
+    if (isset($person["projects"]) && !empty($person["projects"])) 
+    {
+      foreach ($person["projects"] as $eId) 
+      {
+        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($eId)));
+        if (!empty($el)) {
+          array_push($projects, $el);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -94,6 +124,8 @@ class PersonController extends CommunecterController {
       $this->render( "index" , array( "person"=>$person,
                                       "people"=>$people, 
                                       "organizations"=>$organizations, 
+                                      "events"=>$events, 
+                                      "projects"=>$projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
