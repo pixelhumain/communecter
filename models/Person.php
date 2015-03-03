@@ -25,5 +25,37 @@ class Person {
         //for the organisation owner to subscribe to the network 
         //and complete the Organisation Profile
 	}
+
+	/**
+	 * Get a person from an id and return filter data in order to return only public data
+	 * @param type $id 
+	 * @return person
+	 */
+	public static function getPublicData($id) {
+		//Public datas 
+		$publicData = array (
+			"imagePath",
+			"name",
+			"city",
+			"socialAccounts",
+			"positions",
+			"url",
+			"coi"
+		);
+		/*Photo de profil
+		Centre d’intérêts
+		Projets publics auxquels participe l’utilisateur
+		Actualité publique
+		Agenda public
+		Réseau (cartographie)*/
+
+		//TODO SBAR = filter data to retrieve only publi data	
+		$person = Person::getById($id);
+		if (empty($person)) {
+			throw new CommunecterException("The person id is unknown ! Check your URL");
+		}
+
+		return $person;
+	}
 }
 ?>

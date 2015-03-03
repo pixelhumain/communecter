@@ -15,11 +15,12 @@ class Tags {
 
 	    if(!empty($tags)){
 	      foreach($tags as $tag) {
-	        if(!in_array($tag, $existingTags))
+	        if(!in_array($tag, $existingTags)) {
+	          //TODO : Add here how to define if a tag is valid or not
 	          PHDB::update( PHType::TYPE_LISTS,array("name"=>"tags"), array('$push' => array("list"=>$tag)));
+	        }
+	      	array_push($res, $tag);
 	      }
-	      //TODO : Add here how to define if a tag is valid or not
-	      array_push($res, $tag);
 	    }
 
 	    return $res;

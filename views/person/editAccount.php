@@ -184,6 +184,64 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<h3>Additional Info</h3>
+				<hr>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">
+						Twitter
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="Twitter Account" name="twitterAccount" id="twitterAccount" value="<?php if (isset($person["socialNetwork"]["twitterAccount"])) echo $person["socialNetwork"]["twitterAccount"] ?>">
+						<i class="fa fa-twitter"></i> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">
+						Facebook
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="Facebook Account" name="facebookAccount" id="facebookAccount" value="<?php if (isset($person["socialNetwork"]["facebookAccount"])) echo $person["socialNetwork"]["facebookAccount"] ?>">
+						<i class="fa fa-facebook"></i> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">
+						Google Plus
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="Google Plus Account" name="gplusAccount" id="gplusAccount" value="<?php if (isset($person["socialNetwork"]["gplusAccount"])) echo $person["socialNetwork"]["gplusAccount"] ?>">
+						<i class="fa fa-google-plus"></i> </span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="control-label">
+						Github
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="GitHub Account" name="gitHubAccount" id="gitHubAccount" value="<?php if (isset($person["socialNetwork"]["gitHubAccount"])) echo $person["socialNetwork"]["gitHubAccount"] ?>">
+						<i class="fa fa-github"></i> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">
+						Linkedin
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="LinkedIn Account" name="linkedInAccount" id="linkedInAccount" value="<?php if (isset($person["socialNetwork"]["linkedInAccount"])) echo $person["socialNetwork"]["linkedInAccount"] ?>">
+						<i class="fa fa-linkedin"></i> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">
+						Skype
+					</label>
+					<span class="input-icon">
+						<input class="form-control" type="text" placeholder="Skype Account" name="skypeAccount" id="skypeAccount" value="<?php if (isset($person["socialNetwork"]["skypeAccount"])) echo $person["socialNetwork"]["skypeAccount"] ?>">
+						<i class="fa fa-skype"></i> </span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
 				<div>
 					Required Fields
 					<hr>
