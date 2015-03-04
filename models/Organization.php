@@ -78,5 +78,36 @@ class Organization {
         //for the organisation owner to subscribe to the network 
         //and complete the Organisation Profile
 	}
+
+	/**
+	 * Get an organization from an id and return filter data in order to return only public data
+	 * @param type $id 
+	 * @return organization structure
+	 */
+	public static function getPublicData($id) {
+		//Public datas 
+		$publicData = array (
+			"imagePath",
+			"name",
+			"city",
+			"socialAccounts",
+			"url",
+			"coi"
+		);
+		/*Photo de profil
+		Centre d’intérêts
+		Projets publics auxquels participe l’utilisateur
+		Actualité publique
+		Agenda public
+		Réseau (cartographie)*/
+
+		//TODO SBAR = filter data to retrieve only publi data	
+		$organization = Organization::getById($id);
+		if (empty($organization)) {
+			throw new CommunecterException("The organization id is unknown ! Check your URL");
+		}
+
+		return $organization;
+	}
 }
 ?>

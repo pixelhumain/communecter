@@ -338,4 +338,20 @@ class OrganizationController extends CommunecterController {
     } 
     Rest::json( $res );  
   }
+
+  public function actionPublic($id){
+    //get The organization Id
+    if (empty($id)) {
+      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+    }
+
+    $organization = Organization::getPublicData($id);
+    
+    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
+    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+
+    $this->render("public", array("organization" => $organization));
+  }
 }

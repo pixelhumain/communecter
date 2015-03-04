@@ -104,6 +104,7 @@ class CommunecterController extends Controller
       "view"=>array("href"=>"/ph/communecter/organization/view"),
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "public"=>array("href"=>"/ph/communecter/organization/public"),
     ),
   );
 
