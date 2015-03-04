@@ -97,7 +97,10 @@
 	var parentId;
 	var tabLinks = [""];
 	var tabColor = ["black"];
+	var tabType = [];
+	var tabColorType = [];
 	var fill;
+	var fill2;
 	var lastLevel;
 	var maxLevel= 0;
 
@@ -150,6 +153,16 @@
 				newChild["name"] = key;
 				newChild["rayon"] = 23;
 				newChild["level"] = 2;
+				var parent= key
+				if(parent == "people")
+					parent = "person";
+				if(parent == "organizations")
+					parent = "organization";
+				if(parent == "projects")
+					parent = "project"
+				if(parent == "events")
+					parent = "event";
+				newChild["parent"] = parent;
 				var childrenLevel = [];
 				$.each(obj, function(key2, obj2){
 					console.log(key2, obj2);
@@ -160,7 +173,6 @@
 						link = "attendees";
 					}
 					$.each(obj2[link], function(key, obj){
-						console.log(key, obj);
 						newChildLevel["link"] = key;
 						if($.inArray(key, tabLinks)==-1){
 							tabLinks.push(key);
@@ -170,6 +182,7 @@
 					newChildLevel["rayon"] = 15;
 					newChildLevel["level"] = 3;
 					var parent= key
+					
 					if(parent == "people")
 						parent = "person";
 					if(parent == "organizations")
@@ -178,6 +191,9 @@
 						parent = "project"
 					if(parent == "events")
 						parent = "event";
+					if($.inArray(parent, tabType)==-1){
+							tabType.push(parent);
+					}
 					newChildLevel["parent"] = parent;
 					console.log(obj2);
 					var id = obj2["_id"]["$id"];
@@ -334,7 +350,13 @@
 		for (var i = n * n; i > 0; --i) force.tick();
 		force.stop();
 	}
-
+	for(var i = 1; i<tabLinks.length; i++){
+			tabColor.push(randomColor());
+		}
+		console.log(tabType.length);
+		for(var i = 0; i<tabType.length; i++){
+			tabColorType.push(randomColor());
+		}
 	onTimeTick();
 	//////console.log("data", data);
 	update();
@@ -349,6 +371,16 @@
 	force.on("tick", tick);
 
 	function update(){
+
+
+
+		fill2 = d3.scale.ordinal()
+				.domain(tabType)
+				.range(tabColorType);
+
+		fill = d3.scale.ordinal()
+		    .domain(tabLinks)
+		    .range(tabColor);
 		node = svg.selectAll(".node")
 			.data(nodes, function(d) { return d.id });
 		var nodeEnter = node.enter()
@@ -474,13 +506,13 @@
       		.attr("r", function(d) {  return d.rayon; })
       		//.on("click", function(d) { return getElem(d.parent, d.parentId, d);})
 			.attr("fill","white")
-      		.style("stroke", function(d){return getStrokeColor(d)})
+      		.style("stroke", function(d){return fill2(d.parent)})
       		.style("stroke-width", "2")
 			.transition()
 			
 			.duration(500);
 			
-
+		console.log(tabType, tabColorType);
 		nodeEnter.append("svg:image")
 			.attr('x', -30)
 			.attr('y', -30)
@@ -496,6 +528,7 @@
 			.append("xhtml:body")
 			.style("width",function(d) { return d.rayon*2+4+"px"; })
 			.style("height",function(d) { return d.rayon*2+4+"px"; })
+			.attr("fill", function(d){return fill2(d.parent)})
 			.attr("class", "fObjectCircle")
 			.html(function(d)
 			{
@@ -518,13 +551,7 @@
 
 		$(".level2").attr("r", 40);
 		$(".level1").attr("r", 50);
-		for(var i = 1; i<tabLinks.length; i++){
-			tabColor.push(randomColor());
-		}
-
-		fill = d3.scale.ordinal()
-		    .domain(tabLinks)
-		    .range(tabColor);
+		
 		// Update links.
 		link = svg.selectAll(".link")
 			.data(links, function(d) { return d.target.id; });
@@ -690,17 +717,6 @@
 			toggle(d);
 	}
 
-	function getStrokeColor(d){
-		var color;
-		if(d.level=="1"){
-			color = color_1;
-		}else if(d.level=="2"){
-			color = color_2;
-		}else{
-			color = color_3;
-		}
-		return color;
-	}
 
 	function getDetails(d, datamap){
 		

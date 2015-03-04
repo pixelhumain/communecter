@@ -121,4 +121,5 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		id = $(this).data("id");
 		openSubView('Invite someone', "/"+moduleId+"/organization/form/id/"+id,null);
 	});
+
 </script>

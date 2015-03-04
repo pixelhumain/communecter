@@ -82,6 +82,7 @@ jQuery(document).ready(function() {
 	}
 initDataTable();
 
+
 	<?php 
 if(Citoyen::isAdminUser()){
 ?>
@@ -107,6 +108,10 @@ if(Citoyen::isAdminUser()){
 	  });
 <?php } ?>
 });
+
+
+
+ console.log(mapPerson);
 
 var initDataTable = function() {
 		var newRow = false;
