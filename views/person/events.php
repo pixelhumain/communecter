@@ -1,4 +1,10 @@
 <div id="panel_events" class="tab-pane fade">
+	<div class="row">
+	<div class="col-md-12 padding-20 ">
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Event</a>
+		
+	</div>	
+</div>
 	<table class="table table-striped table-bordered table-hover" id="events">
 		<thead>
 			<tr>

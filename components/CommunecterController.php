@@ -58,7 +58,7 @@ class CommunecterController extends Controller
               "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/form',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
-    array('label' => "Note", "key"=>"note",
+    array('label' => "News", "key"=>"note",
                 "children"=> array(
                   "createNews" 	=> array( "label"=>"Create news",	"key"=>"newNote", 	 "class"=>"ajaxSV", "onclick"=>"openSubView('Create news', '/communecter/news/formCreateNews', null)", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "newsStream" 	=> array( "label"=>"News stream",	"key"=>"newsstream", "class"=>"ajaxSV", "onclick"=>"openSubView('News stream', '/communecter/news/newsstream', null)", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
@@ -71,6 +71,11 @@ class CommunecterController extends Controller
                   "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
+          ),
+     array('label' => "Projects", "key"=>"projects",
+                "children"=> array(
+                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-eproject", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  )
           )
   );
   
