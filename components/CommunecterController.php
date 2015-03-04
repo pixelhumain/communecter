@@ -111,6 +111,11 @@ class CommunecterController extends Controller
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
     ),
+    
+    "event"=> array(
+      "public"=>array("href"=>"/ph/communecter/event/public"),
+    ),
+    
   );
 
   function initPage(){

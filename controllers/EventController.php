@@ -142,4 +142,20 @@ class EventController extends CommunecterController {
   public function actionTimeline() {
     $this->render("timeline");
   }
+
+  public function actionPublic($id){
+    //get The event Id
+    if (empty($id)) {
+      throw new CommunecterException("The event id is mandatory to retrieve the event !");
+    }
+
+    $event = Event::getPublicData($id);
+    
+    $this->title = (isset($event["name"])) ? $event["name"] : "";
+    $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+
+    $this->render("public", array("event" => $event));
+  }
 }
