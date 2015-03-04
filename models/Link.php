@@ -1,5 +1,5 @@
 <?php
-class Links {
+class Link {
 	
 	const MEMBER_TYPE_PERSON 			= "person";
 	const MEMBER_TYPE_ORGANIZATION 		= "organization";
@@ -54,7 +54,7 @@ class Links {
     }
 
     /**
-     * Check if two actors are connected with a link knows
+     * Check if two actors are connected with a links knows
      * @param type $originId The Id of actor to check the link with the $target
      * @param type $originType The Type (Organization or Person) of actor to check the link with the $target
      * @param type $targetId The actor to check that is linked
@@ -63,9 +63,16 @@ class Links {
      */
     public static function isConnected($originId, $originType, $targetId, $targetType) {
         
-        $result = array();
-       
-        return $result;
+        $res = false;
+        $targetLinksKnows = PHDB::findOne($originType, array("_id"=>new MongoId($originId)) , array("links"));
+        //var_dump($targetLinksKnows);
+        if( isset($targetLinksKnows["links"]) && 
+            isset($targetLinksKnows["links"]["knows"]) && 
+            isset($targetLinksKnows["links"]["knows"][$targetId]) && 
+            isset( $targetLinksKnows["links"]["knows"][$targetId]["type"][$targetType] ) )
+            $res = true;
+
+        return $res;
     }
 
     /** 

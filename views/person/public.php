@@ -12,6 +12,16 @@
 				<div id="#panel_public" class="tab-pane fade in active">
 					<div class="row">
 						<div class="col-sm-5 col-md-4">
+							<?php 
+								//connected user isn't allready connected with page User
+								if( Yii::app()->session['userId'] != (string)$person["_id"]) 
+								{
+									if( Link::isConnected( Yii::app()->session['userId'],PHType::TYPE_CITOYEN,(string)$person["_id"], PHType::TYPE_CITOYEN ) ){ //if connected user and pageUser are allready connected?> 
+										<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
+									<?php } else { ?>
+										<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
+									<?php }
+								} ?>
 							<div class="user-left">
 								<div class="center">
 									<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
@@ -51,6 +61,7 @@
 										</ul>
 									</div>
 									<hr>
+									
 								</div>
 								<table class="table table-condensed table-hover">
 									<thead>
