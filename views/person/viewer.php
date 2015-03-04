@@ -155,12 +155,6 @@
 				newData["x"] = 0;
 				newData["y"] = 0;
 				linkParent = obj.links;
-				if(typeof(obj.event)=="undefined"){
-					eventParent = obj.event;
-				}
-				if(typeof(obj.project) == "undefined"){
-					projectParent = obj.project;
-				}
 				
 			}else{
 				//console.log("ok3");
@@ -191,6 +185,22 @@
 						link = "contributors";
 					}
 					$.each(obj2[link], function(key, obj){
+						if(parent == "event" || parent =="project"){
+							key = "";
+						}else{
+							$.each(linkParent, function(label, obj2){
+								$.each(obj, function(label2, obj3){
+									$.each(obj2, function(id, type){
+										console.log(label2, id);
+										if(label2 == id){
+											console.log("ok", label);
+											key = label;
+										}
+									})
+								})
+
+							})	
+						}
 						newChildLevel["link"] = key;
 						if($.inArray(key, tabLinks)==-1 && typeof(obj.type)=="undefined"){
 							tabLinks.push(key);
