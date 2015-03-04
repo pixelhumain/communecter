@@ -50,7 +50,7 @@ font-family: "Homestead";
     <br/>
     <div class="hero-unit">
     
-    <h2> Évenement <?php echo $event["name"].", ".$event["date"].", "/*.OpenData::$commune["974"][$event["cp"]]*/?></h2>
+    <h2> Évenement <?php echo $event["name"].", "/*.$event["date"].", ".OpenData::$commune["974"][$event["cp"]]*/?></h2>
     <p> 
     Type : <?php if(isset($event["eventType"]))echo $event["eventType"]?><br/>
     Where : <?php /*if(isset($event["country"])) echo OpenData::$commune["974"][$event["cp"]].", ".$event["country"]*/?><br/>

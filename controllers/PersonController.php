@@ -23,10 +23,11 @@ class PersonController extends CommunecterController {
     );
   }
   
-  protected function beforeAction($action)
-	{
+  protected function beforeAction($action) {
+    parent::initPage();
     return parent::beforeAction($action);
 	}
+
   /**
    * @return [json Map] list
    */

@@ -63,7 +63,7 @@ class OrganizationController extends CommunecterController {
     
     
 
-  public function actionView($id) 
+  public function actionEdit($id) 
   {
     $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
     $type = "organization";
@@ -106,7 +106,9 @@ class OrganizationController extends CommunecterController {
     
     $tags = Tags::getActiveTags();
 
-    $this->render("view",array('organization'=>$organization, 'members'=>$members, 'organizations'=>$organizations,'types'=>$types['list'],'tags'=>json_encode($tags)));
+
+    $this->render("edit",array('organization'=>$organization, 'members'=>$members, 'organizations'=>$organizations,'types'=>$types['list'],'tags'=>json_encode($tags)));
+
 	}
 
   public function actionForm($type=null,$id=null) 
