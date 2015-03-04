@@ -102,8 +102,6 @@
 	var maxLevel= 0;
 
 
-	var map = {"person":{"name":"name", "parentIdField":"links"}, "people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}};
-
 	jQuery(document).ready(function() {
 
 		$( window ).resize(function() { 
@@ -113,82 +111,94 @@
 			    	force.stop();
 					$("#svgNodes").empty();
 					$("#chart").empty();
-					data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
+					data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
 					getNewData(data);
 				} , 200);
 			   	
 			    //$("#svgNodes").remove();
 			});	
-			data = createDataTest("person", "<?php echo Yii::app()->session['userId'] ?>", {"memberOf": "organizations", "knows":"people"}, datafile);
+			data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
 			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
 			getNewData(data);
 	});
 
-	/*------------------------------------Formats----------------------------------------------
-	-- map : "person", id :"50003Czjzdzj", childrens: {link1:child1, link2:child2}, data=json
-	-----------------------------------------------------------------------------------------*/
-	function createDataTest(map, id, childrens, datafile){
+
+	function createDataFinal(varname, id, data){
 		var dataJson = [];
 		var newData = {};
-		parentId = id;
+		var parentId = id;
 	  	var children= [];
 	  	var newNode = {};
 	  	var name1;
 	  	dataTab = datafile;
-	  	console.log("ok");
+	  	////console.log("ok");
 	  	$.each(datafile, function(key,obj){
-	  		console.log("ok");
-	  		if(key==map){
-	  			console.log("ok2");
+	  		////console.log("ok");
+	  		if(key==varname){
+	  			////console.log("ok2");
 	  			name1 = obj.name;
 				newData["name"] = name1;
 				newData["rayon"] = 31;
 				newData["level"] = 1;
 				newData["fixed"] = "true";
+				newData["parent"] = "person";
+				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
-				obj2=obj.links
-				$.each(obj2, function(link, val){
-					if($.inArray(link, tabLinks)==-1){
-						tabLinks.push(link);
-						var newChild ={};
-						newChild["name"] = childrens[link];
-						newChild["rayon"] = 23;
-						newChild["level"] = 2;
-						var childrenLevel = [];
-						console.log(link, val);
-						for(var i = 0; i<val.length; i++){
-							var newChildLevel = {};
-							newChildLevel["link"] = link;
-							var newChildren4 = [];
-							var newChild4 = {};
-							var parent = map;
-							if(childrens[link] == "people")
-								parent = "person";
-							if(childrens[link] == "organizations")
-								parent = "organization";
-							console.log(parent);
-							newChildLevel["parent"] = parent;
-							newChildLevel["parentId"]= val[i];
-							newChildLevel["name"] = val[i];
-							newChildLevel["rayon"] = 15;
-							newChildLevel["level"] = 3;
-							newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/view/id/"+val[i];
-							childrenLevel.push(newChildLevel);
-						}
-						newChild["children"]= childrenLevel;
-						children.push(newChild);
+			}else{
+				var newChild ={};
+				newChild["name"] = key;
+				newChild["rayon"] = 23;
+				newChild["level"] = 2;
+				var childrenLevel = [];
+				$.each(obj, function(key2, obj2){
+					console.log(key2, obj2);
+					var id = obj2["_id"]["$id"];
+					var newChildLevel = {};
+					var link = "links";
+					if(typeof(obj2.links)=="undefined"){
+						link = "attendees";
 					}
+					$.each(obj2[link], function(key, obj){
+						console.log(key, obj);
+						newChildLevel["link"] = key;
+						if($.inArray(key, tabLinks)==-1){
+							tabLinks.push(key);
+						}
+					})
+					newChildLevel["name"] = obj2.name;
+					newChildLevel["rayon"] = 15;
+					newChildLevel["level"] = 3;
+					var parent= key
+					if(parent == "people")
+						parent = "person";
+					if(parent == "organizations")
+						parent = "organization";
+					if(parent == "projects")
+						parent = "project"
+					if(parent == "events")
+						parent = "event";
+					newChildLevel["parent"] = parent;
+					console.log(obj2);
+					var id = obj2["_id"]["$id"];
+					newChildLevel["parentId"] = id;
+					newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/view/id/"+id;
+					//console.log(newChildLevel);
+					childrenLevel.push(newChildLevel);
 				})
-				newData["children"] = children;
-				dataJson.push(newData);
+				//console.log(childrenLevel);
+				newChild["children"]= childrenLevel;
+				children.push(newChild);
+				console.log(children);
 			}
-		})	
+		})
+		newData["children"] = children;
+		dataJson.push(newData);
+		console.log("dataJson", dataJson);
 		return newData;
 	}
 
 
-	  	
 	function createData(varname, id, child, datafile){
 		var dataJson = [];
 		var newData = {};
@@ -211,10 +221,10 @@
 		newData["fixed"] = "true";
 		newData["x"] = 0;
 		newData["y"] = 0;
-		//console.log(child);
+		//////console.log(child);
 
 		$.each(child, function(key, obj){
-			//console.log(child[i], i);
+			//////console.log(child[i], i);
 			if(key!= varname){
 				var newChild ={};
 				newChild["name"] = key;
@@ -223,7 +233,7 @@
 				var childrenLevel = [];
 				var name;
 				var thisId;
-				console.log(obj, key);
+				////console.log(obj, key);
 				$.each(dataTab, function(key2, obj2){
 					if(key== key2){
 						$.each(obj2, function(key3, obj3){
@@ -238,7 +248,7 @@
 									});
 								}
 							}
-							console.log(thisId);
+							////console.log(thisId);
 							if(thisId ==id){
 								var newChildLevel = {};
 								newChildLevel["link"] = link;
@@ -326,7 +336,7 @@
 	}
 
 	onTimeTick();
-	//console.log("data", data);
+	//////console.log("data", data);
 	update();
 //Initialize the display to show a few nodes.
 
@@ -346,6 +356,7 @@
 			.attr("class", "node")
 			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 			.on("click", click)
+			//.on("click", mouseover)
 			.on("mouseover", mouseover)
 			.on("mouseout", mouseout)
 			.call(node_drag)
@@ -358,6 +369,7 @@
 			.style("stroke-opacity", ".5")
 			.style("stroke-width", "15")
 			.style("stroke-dasharray", "10,5")
+			.on("mouseout", mouseout)
 		/* Option de déplacement */
 		nodeEnter.append("circle")
 			.attr("cx", function(d) { return -d.rayon-20; })
@@ -455,15 +467,17 @@
 		   'white-space': 'nowrap',
 		   'html':'true'
 		});
-		//console.log(data);
+		//////console.log(data);
 		//Cercle sur lequel nous allons déposer le texte
 		nodeEnter.append("circle")
 			.attr("class", function(d) { return d.level ? "level" +d.level : "level" +5 ; })
       		.attr("r", function(d) {  return d.rayon; })
+      		//.on("click", function(d) { return getElem(d.parent, d.parentId, d);})
 			.attr("fill","white")
       		.style("stroke", function(d){return getStrokeColor(d)})
       		.style("stroke-width", "2")
 			.transition()
+			
 			.duration(500);
 			
 
@@ -492,15 +506,9 @@
 				var inputtext = '<div class="intocircle" style="color:steelblue; font-size: '+fontsize+';"><span class="middlespan">';
 				inputtext += textNodes;
 				inputtext += '</span></div>';
-        		//console.log("input", inputtext);
+        		//////console.log("input", inputtext);
 				return inputtext;
 			}
-			svg.append('svg:foreignObject')
-			   .attr('width', '300px')
-			   .attr('height', '400px')
-			   .append('xhtml:div')
-			   .attr('class', 'pop-div')
-			   .html('<a href="#" class="myid" rel="popover" >click me</a>');
 
 		})
 		node.exit().remove();
@@ -541,26 +549,7 @@
 
 		link.exit().remove();
 
-		var legend = svg.selectAll(".legend")
-		    .data(fill.domain())
-		    .enter().append("g")
-		    .attr("class", "legend")
-		    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-		/*legend.append("rect")
-		    .attr("x", width - 20)
-		    .attr("width", 20)
-		    .attr("height", 15)
-		    .style("fill", fill);
-
-		legend.append("text")
-		    .attr("x", width - 26)
-		    .attr("class", "label label-default")
-		    .attr("y", 9)
-		    .attr("dy", ".35em")
-		    .style("text-anchor", "end")
-		    .text(function(d) { return d; });
-		*/
 		var legendHtml = "<div><p></p>"
 		for(var i= 0; i<tabLinks.length; i++){
 			if(tabLinks[i]!= "")
@@ -569,6 +558,7 @@
 		legendHtml +="</div>"
 
 		$(".panel_map").html(legendHtml);
+
 
 	}
 
@@ -586,16 +576,11 @@
 
 	    
 	function mouseover(d,i){
-		if (d.level>1){
-			hover(d);
-			nodes = flatten(data);
-			links = d3.layout.tree().links(nodes);
-			update(d);
-		}
+		
 		if (d.level>=3)
 		{
 			var color = randomColor();
-			console.log("color", color, d3.select(this));
+			////console.log("color", color, d3.select(this));
 			d3.select(this).select('.CircleOptions').transition().duration(300)
 			.attr("r", function(d) { return d.rayon + 30; })
 			.style("stroke", function(d){return color})
@@ -616,8 +601,8 @@
 		
 	function mouseout(d)
 	{
-		if (d.level>=lastLevel)
-			hover(d);
+		//if (d.level==2)
+		//	hover(d);
 		if (d.level>=3)
 		{
 			d3.select(this).select('.CircleOptions').transition().duration(300).attr("r", 0)
@@ -655,7 +640,12 @@
 	}
 
 	function click(d,i){
-
+		if (d.level>=2){
+			hover(d);
+			nodes = flatten(data);
+			links = d3.layout.tree().links(nodes);
+			update(d);
+		}
 		if (d3.event.defaultPrevented) return;
 		d3.select(this).classed("fixed", d.fixed = false);
 	}
@@ -715,66 +705,79 @@
 	function getDetails(d, datamap){
 		
 		var newChild = [];
+		var children;
 		$.each(datamap, function(key, obj){
-			var links ="";
-			var members = "";
+			var objectId ="";
+			var type = "";
+			////console.log(key, obj);
 			if(key == "links"){
+
 				$.each(obj, function(key3, obj3){
-					console.log(key, key3, obj3);
-					links = key3;
-					member = obj3;
-					console.log(key3, obj3);
-					while(typeof(obj3)=="object"){
+					//console.log(key, key3, obj3);
+					if(typeof(obj3.type)=="string"){
+						//console.log("ok");
+						ObjectId=key3;
+						type = obj3.type;
+					}else{
+						//console.log('notOK');
+						if($.inArray(key3, tabLinks)==-1){
+							tabLinks.push(key3);
+						}
 						$.each(obj3, function(key4, obj4){
-							links = key4;
-							member = obj4;
-							obj3 =obj4;
+							objectId = key4;
+							type = obj4.type;
 						})
+						//console.log(objectId, type);
 					}
 								
-					var children = {};
-					children["name"] = member;
-					children["parent"] = "person";
-					children["x"] = 150;
-					children["y"] = 150;
-					children["parentId"] = member;
+					children= {};
+					children["name"] = objectId;
+					if(type == "citoyens")
+						type = 'person';
+					if(type== "organizations")
+						type = "organization";
+					children["parent"] = type;
+					children["parentId"] = objectId;
 					children["rayon"] = 10;
-					children["url"] =  baseUrl+"/<?php echo $this->module->id?>/person/view/id/"+member,
+					children["x"]= d.x- 50 -Math.random()*200;
+					children["y"]= d.y- 50 -Math.random()*200;
+					children["url"] =  baseUrl+"/<?php echo $this->module->id?>/"+type+"/view/id/"+objectId,
 					children["level"] = d.level+1;
-					console.log("children", children);
+					////console.log("children", children);
+					//console.log(children, "child")
 					newChild.push(children);
+					//console.log('newChild', newChild);
 				
 				})
 			}
 		})
-		d["children"] = newChild;	
-		console.log("DATAEND", data);
+		
+		d["children"] = newChild;
+		
+			   		
+		//console.log("DATAEND", datamap);
 		onTimeTick();
 		d.children.forEach(toggleAll);
 		nodes = flatten(data);
 		links = d3.layout.tree().links(nodes);
+		
 		update(d);
+		//console.log(d)
+		mouseover(d);
+		
 	}
+
 	function getElem(type, id, d){
-		console.log(type, id);
+		////console.log(type, id);
 
 		$.ajax({
   			type: "POST",
 			 url: baseUrl+"/<?php echo $this->module->id?>/"+type+"/getbyid/id/"+id,
 			 datatype: "json",
 		}).done(function(data) {
-			console.log(data);
+			////console.log(data);
 			clearTimeout(timer);
-			    timer = setTimeout(function(){ 
-			    	force.stop();
-					$("#svgNodes").empty();
-					$("#chart").empty();
-					data = createDataTest("oganization", id, {"member": "person", "knows":"people"}, data);
-					getNewData(data);
-				} , 200);
-			//getDetails(d, data);
-
-
+			getDetails(d, data);
 		});
 	}
 }

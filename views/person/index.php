@@ -68,7 +68,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 <script type="text/javascript">
 <?php $mapPerson = array("person"=>$person,
                       "people"=>$people, 
-                      "organizations"=>$organizations
+                      "organizations"=>$organizations,
+                      "events"=>$events,
+                      "projects"=>$projects
                       ); ?>
 var mapPerson = <?php echo json_encode($mapPerson)?>;
 </script>
