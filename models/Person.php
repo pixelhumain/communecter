@@ -10,6 +10,26 @@ class Person {
 	public static function getById($id) {
 	  	return PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
 	}
+
+	/**
+	 * get memberOf a Person By a person Id
+	 * @param type $id : is the mongoId (String) of the person
+	 * @return person document as in db
+	 */
+	public static function getPersonMemberOfByPersonId($id) {
+	  	$res = array();
+	  	$person = PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
+	  	
+	  	if (empty($person)) {
+            throw new CommunecterException("The person id is unkown : contact your admin");
+        }
+	  	if (isset($person) && isset($person["links"]) && isset($person["links"]["memberOf"])) {
+	  		$res = $person["links"]["memberOf"];
+	  	}
+
+	  	return $res;
+	}
+
 	/**
 	 * Happens when a Person is invited or linked as a member and doesn't exist in the system
 	 * It is created in a temporary state
