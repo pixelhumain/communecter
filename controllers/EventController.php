@@ -10,26 +10,51 @@
 class EventController extends CommunecterController {
     const moduleTitle = "Évènement";
     
+  protected function beforeAction($action) {
+    parent::initPage();
+    return parent::beforeAction($action);
+  }
+
+  public function actionEdit($id) {
+      //menu sidebar
+      /*array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
+      array_push( $this->sidebar1, array( "label"=>"Modifier", "iconClass"=>"icon-pencil-neg","onclick"=>"openModal('eventForm','group','$id','dynamicallyBuild')" ) );
+      array_push( $this->sidebar1, array( "label"=>"Participant", "iconClass"=>"icon-users","onclick"=>"openModal('eventParticipantForm','group','$id','dynamicallyBuild')" ) );
+      */ 
+      $event = Event::getById($id);
+               
+      if(isset($event["key"]) )
+          $this->redirect(Yii::app()->createUrl('evenement/key/id/'.$event["key"]));
+      else
+        $this->render("edit",array('event'=>$event));
+  }
+  
+  public function actionPublic($id){
+    //get The event Id
+    if (empty($id)) {
+      throw new CommunecterException("The event id is mandatory to retrieve the event !");
+    }
+
+    $event = Event::getPublicData($id);
     
-	public function actionIndex() {
-	    array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
-	    $this->render("index");
-	}
-    public function actionView($id) {
-        //menu sidebar
-        array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
-        array_push( $this->sidebar1, array( "label"=>"Modifier", "iconClass"=>"icon-pencil-neg","onclick"=>"openModal('eventForm','group','$id','dynamicallyBuild')" ) );
-        array_push( $this->sidebar1, array( "label"=>"Participant", "iconClass"=>"icon-users","onclick"=>"openModal('eventParticipantForm','group','$id','dynamicallyBuild')" ) );
-        
-        $event = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($id)));
-                 
-        if(isset($event["key"]) )
-            $this->redirect(Yii::app()->createUrl('evenement/key/id/'.$event["key"]));
-        else
-	        $this->render("view",array('event'=>$event));
-	}
-    public function actionCreer() {
-        array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
+    $this->title = (isset($event["name"])) ? $event["name"] : "";
+    $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+
+    $this->render("public", array("event" => $event));
+  }
+
+  //**********
+  // Old - Still used ?
+  //**********
+  public function actionIndex() {
+      //array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
+      $this->render("index");
+  }
+
+  public function actionCreer() {
+      //array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
 	    $this->render("new2");
 	}
 	
@@ -143,19 +168,5 @@ class EventController extends CommunecterController {
     $this->render("timeline");
   }
 
-  public function actionPublic($id){
-    //get The event Id
-    if (empty($id)) {
-      throw new CommunecterException("The event id is mandatory to retrieve the event !");
-    }
-
-    $event = Event::getPublicData($id);
-    
-    $this->title = (isset($event["name"])) ? $event["name"] : "";
-    $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("event" => $event));
-  }
+  
 }

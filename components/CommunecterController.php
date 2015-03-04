@@ -102,12 +102,10 @@ class CommunecterController extends Controller
     ),
 
     "organization"=> array(
-      "view"=>array("href"=>"/ph/communecter/view",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "index"=>array("href"=>"/ph/communecter",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "edit"=>array("href"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
-      "view"=>array("href"=>"/ph/communecter/organization/view"),
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
@@ -115,10 +113,12 @@ class CommunecterController extends Controller
     ),
     
     "event"=> array(
+      "edit"=>array("href"=>"/ph/communecter/event/edit"),
       "public"=>array("href"=>"/ph/communecter/event/public"),
     ),
 
     "project"=> array(
+      "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
     ),
     

@@ -25,7 +25,7 @@
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
 					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
-					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/view/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/edit/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 				</div>
 				</td>
