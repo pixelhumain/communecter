@@ -46,7 +46,7 @@ font-family: "Homestead";
     <div class="hero-unit">
     
     <h2> Projet <?php echo $projet["name"]?></h2>
-    <p> DEscritpion et Valorisation des associations locales, des leurs actions et objectifs </p>
+    <p> Descritpion et Valorisation des associations locales, des leurs actions et objectifs </p>
  	<div class="grid">
         <div></div>
         <div  data-ss-colspan="2"><a href="<?php echo Yii::app()->createUrl('index.php/projet/people/id/'.$projet["_id"].'/type/team')?>">Team</a></div>
