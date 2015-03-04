@@ -4,12 +4,12 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jquery.autosize.min.js' , CClientScript::POS_END);
-
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jquery.autosize.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
 //Select2 css and JS
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/css/datepicker.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
 //Select2 css and JS
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.min.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
@@ -122,4 +122,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		openSubView('Invite someone', "/"+moduleId+"/organization/form/id/"+id,null);
 	});
 
+	<?php $mapPerson = array("organization"=>$organization,
+							"members"=>$members,
+							"organizations"=>$organizations); 
+	?>
+ 	var mapPerson = <?php echo json_encode($mapPerson)?>;
+ 	var type = "organization";
+ 	console.log(mapPerson);
 </script>

@@ -110,9 +110,6 @@ if(Citoyen::isAdminUser()){
 });
 
 
-
- console.log(mapPerson);
-
 var initDataTable = function() {
 		var newRow = false;
 		var actualEditingRow = null;

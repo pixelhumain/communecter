@@ -66,6 +66,38 @@ class OrganizationController extends CommunecterController {
   public function actionEdit($id) 
   {
     $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
+    $type = "organization";
+    $members = array();
+    $organizations = array();
+    //Load organizations
+    if (isset($organization["links"]) && !empty($organization["links"]["members"])) 
+    {
+      foreach ($organization["links"]["members"] as $id => $e) 
+      {
+      	
+      	if (!empty($organization)) {
+      		if($e["type"] == "citoyens"){
+      			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
+      			array_push($members, $member);
+      		}else if($e["type"] == "organizations"){
+          		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+          		array_push($organizations, $member);
+      		}
+        } else {
+         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+        }  	
+      }
+    }
+
+    $memberOf = array();
+    if (isset($organization["links"]) && !empty($organization["links"]["memberOf"]))
+    {
+    	foreach ($organization["links"]["members"] as $id => $e) 
+      	{
+      		
+      	}
+      		
+    }
     $this->title = $organization["name"];
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : ( (isset($organization["type"])) ? "Type ".$organization["type"] : "");
     $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
@@ -74,7 +106,9 @@ class OrganizationController extends CommunecterController {
     
     $tags = Tags::getActiveTags();
 
-    $this->render("edit",array('organization'=>$organization,'types'=>$types['list'],'tags'=>json_encode($tags)));
+
+    $this->render("edit",array('organization'=>$organization, 'members'=>$members, 'organizations'=>$organizations,'types'=>$types['list'],'tags'=>json_encode($tags)));
+
 	}
 
   public function actionForm($type=null,$id=null) 

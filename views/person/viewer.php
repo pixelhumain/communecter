@@ -96,7 +96,7 @@
 	var datafile=mapPerson;
 	var parentId;
 	var tabLinks = [""];
-	var tabColor = ["black"];
+	var tabColor = ["black", "red", "blue", "yellow", "green"];
 	var tabType = [];
 	var tabColorType = [];
 	var fill;
@@ -114,16 +114,19 @@
 			    	force.stop();
 					$("#svgNodes").empty();
 					$("#chart").empty();
-					data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
+					data = createDataFinal(type, "<?php echo Yii::app()->session['userId'] ?>", datafile);
 					getNewData(data);
 				} , 200);
 			   	
 			    //$("#svgNodes").remove();
 			});	
-			data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
+			//data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
+			data = createDataFinal(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
 			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
 			getNewData(data);
 	});
+
+
 
 
 	function createDataFinal(varname, id, data){
@@ -133,13 +136,16 @@
 	  	var children= [];
 	  	var newNode = {};
 	  	var name1;
+	  	var linkParent, eventParent, projectParent;
 	  	dataTab = datafile;
-	  	////console.log("ok");
+	  	//console.log("ok");
 	  	$.each(datafile, function(key,obj){
-	  		////console.log("ok");
+
+	  		//console.log("ok");
 	  		if(key==varname){
-	  			////console.log("ok2");
+	  			//console.log("ok2");
 	  			name1 = obj.name;
+	  			//console.log(key, obj);
 				newData["name"] = name1;
 				newData["rayon"] = 31;
 				newData["level"] = 1;
@@ -148,13 +154,22 @@
 				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
+				linkParent = obj.links;
+				if(typeof(obj.event)=="undefined"){
+					eventParent = obj.event;
+				}
+				if(typeof(obj.project) == "undefined"){
+					projectParent = obj.project;
+				}
+				
 			}else{
+				//console.log("ok3");
 				var newChild ={};
 				newChild["name"] = key;
 				newChild["rayon"] = 23;
 				newChild["level"] = 2;
 				var parent= key
-				if(parent == "people")
+				if(parent == "people" || parent=="members")
 					parent = "person";
 				if(parent == "organizations")
 					parent = "organization";
@@ -165,16 +180,19 @@
 				newChild["parent"] = parent;
 				var childrenLevel = [];
 				$.each(obj, function(key2, obj2){
-					console.log(key2, obj2);
+					//console.log(key2, obj2);
 					var id = obj2["_id"]["$id"];
 					var newChildLevel = {};
 					var link = "links";
 					if(typeof(obj2.links)=="undefined"){
 						link = "attendees";
 					}
+					if(typeof(obj2[link])=="undefined"){
+						link = "contributors";
+					}
 					$.each(obj2[link], function(key, obj){
 						newChildLevel["link"] = key;
-						if($.inArray(key, tabLinks)==-1){
+						if($.inArray(key, tabLinks)==-1 && typeof(obj.type)=="undefined"){
 							tabLinks.push(key);
 						}
 					})
@@ -195,115 +213,26 @@
 							tabType.push(parent);
 					}
 					newChildLevel["parent"] = parent;
-					console.log(obj2);
+					//console.log(obj2);
 					var id = obj2["_id"]["$id"];
 					newChildLevel["parentId"] = id;
 					newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/view/id/"+id;
-					//console.log(newChildLevel);
+					////console.log(newChildLevel);
 					childrenLevel.push(newChildLevel);
 				})
-				//console.log(childrenLevel);
+				////console.log(childrenLevel);
 				newChild["children"]= childrenLevel;
 				children.push(newChild);
-				console.log(children);
+				//console.log(children);
 			}
 		})
 		newData["children"] = children;
 		dataJson.push(newData);
-		console.log("dataJson", dataJson);
+		//console.log("dataJson", dataJson);
 		return newData;
 	}
 
 
-	function createData(varname, id, child, datafile){
-		var dataJson = [];
-		var newData = {};
-		parentId = id;
-	  	var children= [];
-	  	var newNode = {};
-	  	var name1;
-
-	  	$.each(datafile, function(key, obj){
-	  		if(key==varname ){
-	  			name1 = obj.name;	
-	  		}
-	  	})
-
-		dataTab = datafile;
-
-		newData["name"] = name1;
-		newData["rayon"] = 31;
-		newData["level"] = 1;
-		newData["fixed"] = "true";
-		newData["x"] = 0;
-		newData["y"] = 0;
-		//////console.log(child);
-
-		$.each(child, function(key, obj){
-			//////console.log(child[i], i);
-			if(key!= varname){
-				var newChild ={};
-				newChild["name"] = key;
-				newChild["rayon"] = 23;
-				newChild["level"] = 2;
-				var childrenLevel = [];
-				var name;
-				var thisId;
-				////console.log(obj, key);
-				$.each(dataTab, function(key2, obj2){
-					if(key== key2){
-						$.each(obj2, function(key3, obj3){
-							var link= "";
-							if(typeof(obj["parentIdField"])=="string"){
-								name=obj3[obj["name"]];
-								thisId = obj3[obj["parentIdField"]];
-								while(typeof(thisId)=="object"){
-									$.each(thisId, function(key4, obj4){	
-										link += " " +key4;
-										thisId = obj4;
-									});
-								}
-							}
-							////console.log(thisId);
-							if(thisId ==id){
-								var newChildLevel = {};
-								newChildLevel["link"] = link;
-								if($.inArray(link, tabLinks)==-1){
-									tabLinks.push(link);
-								}
-								var newChildren4 = [];
-								var newChild4 = {};
-								if(key == "people")
-									key = "person";
-								if(key == "organizations")
-									key = "organization";
-								newChildLevel["parent"] = key;
-
-								if(typeof(obj2["_id"])=='undefined'){
-									newChildLevel["parentId"]=obj3["_id"]["$id"];
-								}else{
-									newChildLevel["parentId"]= obj2["_id"]["$id"];
-								}
-								newChildLevel["name"] = name;
-								newChildLevel["rayon"] = 15;
-								newChildLevel["level"] = 3;
-								newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+key+"/view/id/"+parentId;
-								childrenLevel.push(newChildLevel);
-							}	
-						})
-							
-							
-					}
-
-				});
-			}
-			newChild["children"]= childrenLevel;
-			children.push(newChild);
-		});
-		newData["children"] = children;
-		dataJson.push(newData);
-		return newData;
-	}
   	
  function getNewData(data){
 
@@ -350,13 +279,11 @@
 		for (var i = n * n; i > 0; --i) force.tick();
 		force.stop();
 	}
-	for(var i = 1; i<tabLinks.length; i++){
-			tabColor.push(randomColor());
-		}
-		console.log(tabType.length);
-		for(var i = 0; i<tabType.length; i++){
-			tabColorType.push(randomColor());
-		}
+	
+	//console.log(tabType.length);
+	for(var i = 0; i<tabType.length; i++){
+		tabColorType.push(randomColor());
+	}
 	onTimeTick();
 	//////console.log("data", data);
 	update();
@@ -512,7 +439,7 @@
 			
 			.duration(500);
 			
-		console.log(tabType, tabColorType);
+		//console.log(tabType, tabColorType);
 		nodeEnter.append("svg:image")
 			.attr('x', -30)
 			.attr('y', -30)
@@ -729,13 +656,13 @@
 			if(key == "links"){
 
 				$.each(obj, function(key3, obj3){
-					//console.log(key, key3, obj3);
+					////console.log(key, key3, obj3);
 					if(typeof(obj3.type)=="string"){
-						//console.log("ok");
+						////console.log("ok");
 						ObjectId=key3;
 						type = obj3.type;
 					}else{
-						//console.log('notOK');
+						////console.log('notOK');
 						if($.inArray(key3, tabLinks)==-1){
 							tabLinks.push(key3);
 						}
@@ -743,7 +670,7 @@
 							objectId = key4;
 							type = obj4.type;
 						})
-						//console.log(objectId, type);
+						////console.log(objectId, type);
 					}
 								
 					children= {};
@@ -760,9 +687,9 @@
 					children["url"] =  baseUrl+"/<?php echo $this->module->id?>/"+type+"/view/id/"+objectId,
 					children["level"] = d.level+1;
 					////console.log("children", children);
-					//console.log(children, "child")
+					////console.log(children, "child")
 					newChild.push(children);
-					//console.log('newChild', newChild);
+					////console.log('newChild', newChild);
 				
 				})
 			}
@@ -771,14 +698,14 @@
 		d["children"] = newChild;
 		
 			   		
-		//console.log("DATAEND", datamap);
+		////console.log("DATAEND", datamap);
 		onTimeTick();
 		d.children.forEach(toggleAll);
 		nodes = flatten(data);
 		links = d3.layout.tree().links(nodes);
 		
 		update(d);
-		//console.log(d)
+		////console.log(d)
 		mouseover(d);
 		
 	}
