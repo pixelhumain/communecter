@@ -10,8 +10,8 @@ class Link {
 	 * The memberOf should be an organization
 	 * The member can be an organization or a person
 	 * 2 entry will be added :
-	 * - $memberOf.link.members["$memberId"]
-	 * - $member.link.memberOf["$memberOfId"]
+	 * - $memberOf.links.members["$memberId"]
+	 * - $member.links.memberOf["$memberOfId"]
 	 * @param type $memberOfId The Id memberOf (organization) where a member will be linked. 
 	 * @param type $memberOfType The Type (should be organization) memberOf where a member will be linked. 
 	 * @param type $memberId The member Id to add. It will be the member added to the memberOf
@@ -23,7 +23,19 @@ class Link {
         
         //0. Check if the $memberOf and the $member exists
         if ($memberOfType == MEMBER_TYPE_ORGANIZATION) {
-        	$organization = Organization::getById($memberOfId); 
+        	$member = Organization::getById($memberOfId); 
+        } else if ($memberOfType == MEMBER_TYPE_PERSON) {
+        	$member = Person::getById($memberOfId);
+        } else {
+        	throw new CommunecterException("Can not manage this type of MemberOf : ".$memberOfType);
+        }
+
+        if ($memberType == MEMBER_TYPE_ORGANIZATION) {
+        	$member = Organization::getById($memberOfId); 
+        } else if ($memberOfType == MEMBER_TYPE_PERSON) {
+        	$member = Person::getById($memberOfId);
+        } else {
+        	throw new CommunecterException("Can not manage this type of MemberOf : ".$memberOfType);
         }
         //1. Check if the $userId can manage the $memberOf
         //2. Create the links
@@ -38,7 +50,7 @@ class Link {
      * Connect 2 actors : organization or Person
 	 * Create a link between the 2 actors. The link will be typed as knows
 	 * 1 entry will be added :
-	 * - $origin.link.knows["$target"]
+	 * - $origin.links.knows["$target"]
      * @param type $originId The Id of actor who wants to create a link with the $target
      * @param type $originType The Type (Organization or Person) of actor who wants to create a link with the $target
      * @param type $targetId The actor that will be linked
@@ -62,7 +74,7 @@ class Link {
      * @return boolean : true if the actors are connected, false else
      */
     public static function isConnected($originId, $originType, $targetId, $targetType) {
-        
+
         $res = false;
         $targetLinksKnows = PHDB::findOne($originType, array("_id"=>new MongoId($originId)) , array("links"));
         //var_dump($targetLinksKnows);
@@ -73,6 +85,7 @@ class Link {
             $res = true;
 
         return $res;
+
     }
 
     /** 
@@ -80,7 +93,7 @@ class Link {
 	 * Create a link between the invitor and the guest with the status toBeValidated
 	 * The guest will receive a mail inviting him to create a ph account
 	 * 1 entry will be added :
-	 * - $invitor.link.knows["$guest"] = "status = toBeValidated"
+	 * - $invitor.links.knows["$guest"] = "status = toBeValidated"
 	 * One Person or Organization will be created with basic information
 	 * @param type $invitorId The actor Id who invite a guest
 	 * @param type $invitorType The type (organization or person) who invite the guest
