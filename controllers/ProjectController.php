@@ -8,7 +8,7 @@
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 15/08/13
  */
-class ProjectController extends Controller {
+class ProjectController extends CommunecterController {
     const moduleTitle = "Projet";
     public function actionIndex() 
     {
@@ -39,5 +39,21 @@ class ProjectController extends Controller {
     {
 	    $this->render("new");
 	}
+
+	public function actionPublic($id){
+    //get The project Id
+    if (empty($id)) {
+      throw new CommunecterException("The project id is mandatory to retrieve the project !");
+    }
+
+    $project = Project::getPublicData($id);
+    
+    $this->title = (isset($project["name"])) ? $project["name"] : "";
+    $this->subTitle = (isset($project["description"])) ? $project["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+
+    $this->render("public", array("project" => $project));
+  }
 	
 }

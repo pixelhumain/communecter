@@ -115,6 +115,10 @@ class CommunecterController extends Controller
     "event"=> array(
       "public"=>array("href"=>"/ph/communecter/event/public"),
     ),
+
+    "project"=> array(
+      "public"=>array("href"=>"/ph/communecter/project/public"),
+    ),
     
   );
 
