@@ -3,7 +3,7 @@ class Link {
 	
 	const MEMBER_TYPE_PERSON 			= "person";
 	const MEMBER_TYPE_ORGANIZATION 		= "organization";
-	
+
 	/**
 	 * Add a member to an organization
 	 * Create a link between the 2 actors. The link will be typed members and memberOf
@@ -21,29 +21,48 @@ class Link {
 	 */
     public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
         
-        //0. Check if the $memberOf and the $member exists
-        if ($memberOfType == MEMBER_TYPE_ORGANIZATION) {
-        	$member = Organization::getById($memberOfId); 
-        } else if ($memberOfType == MEMBER_TYPE_PERSON) {
-        	$member = Person::getById($memberOfId);
-        } else {
-        	throw new CommunecterException("Can not manage this type of MemberOf : ".$memberOfType);
-        }
+        //0. Check if the $memberOfId and the $memberId exists
+        $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
+		$member = Link::checkIdAndType($memberId, $memberType);
 
-        if ($memberType == MEMBER_TYPE_ORGANIZATION) {
-        	$member = Organization::getById($memberOfId); 
-        } else if ($memberOfType == MEMBER_TYPE_PERSON) {
-        	$member = Person::getById($memberOfId);
-        } else {
-        	throw new CommunecterException("Can not manage this type of MemberOf : ".$memberOfType);
-        }
         //1. Check if the $userId can manage the $memberOf
-        //2. Create the links
-        //3. Send Notifications
+        if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {
+        	throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
+        }
 
-        $result = array();
-       
-        return $result;
+        //2. Create the links
+        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+                   array("_id" => $memberOf["_id"]) , 
+                   array('$push' => array( "links.members.".$memberId.".type" => $memberType) ));
+ 
+        if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
+	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+	                   array("_id" => $member["_id"]) , 
+	                   array('$push' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+	    } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
+      		PHDB::update( PHType::TYPE_CITOYEN, 
+	                   array("_id" => $member["_id"]) , 
+	                   array('$push' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+	    }
+
+        //3. Send Notifications
+	    //TODO - Send email to the member
+
+        return Rest::json(array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId));
+    }
+
+    private static function checkIdAndType($id, $type) {
+		
+		if ($type == Link::MEMBER_TYPE_ORGANIZATION) {
+        	$res = Organization::getById($id); 
+        } else if ($type == Link::MEMBER_TYPE_PERSON) {
+        	$res = Person::getById($id);
+        } else {
+        	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
+        }
+        if (empty($res)) throw new CommunecterException("The actor (".$id." / ".$type.") is unknown");
+
+        return $res;
     }
 
     /**
@@ -60,9 +79,25 @@ class Link {
      */
     public static function connect($originId, $originType, $targetId, $targetType, $userId) {
         
-        $result = array();
-       
-        return $result;
+        //0. Check if the $memberOfId and the $memberId exists
+        $origin = Link::checkIdAndType($originId, $originType);
+		$target = Link::checkIdAndType($targetId, $targetType);
+
+        //2. Create the links
+        if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
+	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+	                   array("_id" => $origin["_id"]) , 
+	                   array('$push' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+	    } else if ($originType == Link::MEMBER_TYPE_PERSON) {
+      		PHDB::update( PHType::TYPE_CITOYEN, 
+	                   array("_id" => $origin["_id"]) , 
+	                   array('$push' => array( "links.memberOf.".$targetId.".type" => $targetType ) ));
+	    }
+
+        //3. Send Notifications
+	    //TODO - Send email to the member
+
+        return Rest::json(array("result"=>true, "msg"=>"The link knows has been added with success", "originId"=>$originId, "targetId"=>$targetId));
     }
 
     /**
@@ -77,7 +112,7 @@ class Link {
         
   		$res = false;
        
-        return false;
+        return $res;
     }
 
     /** 

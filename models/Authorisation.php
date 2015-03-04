@@ -45,6 +45,28 @@ class Authorisation {
     	return $res;
     }
 
+    /**
+     * Return true if the user is admin of the 
+     * @param type the id of the user
+     * @param type the id of the organization
+     * @return array of Organization (simple)
+     */
+    public static function isOrganizationAdmin($userId, $organizationId) {
+        $res = array();
+        
+        //get the person links memberOf
+        $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
+
+        if (isset($personMemberOf["$organizationId"])) {
+            $link = $personMemberOf["$organizationId"];
+            if ($link["isAdmin"]) {
+                $res = true;
+            }
+        }
+        
+        return $res;
+    }
+
  	/**
  	 * Description
  	 * @param type $userId 
