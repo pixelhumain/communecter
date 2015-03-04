@@ -8,6 +8,18 @@ class Authorisation {
      */
     public static function isUserOrganizationAdmin($userId) {
     	$res = false;
+        
+        //get the person links memberOf
+        $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
+
+        foreach ($personMemberOf as $linkKey => $linkValue) {
+            if (!empty($linkValue) && !empty($linkValue["isAdmin"])) {
+                if ($linkValue["isAdmin"]) {
+                    $res = true;
+                    break;
+                }
+            }
+        }
 
     	return $res;
     }
@@ -19,7 +31,17 @@ class Authorisation {
      */
     public static function listUserOrganizationAdmin($userId) {
     	$res = array();
+        
+        //get the person links memberOf
+        $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
 
+        foreach ($personMemberOf as $linkKey => $linkValue) {
+            if (!empty($linkValue) && !empty($linkValue["isAdmin"])) {
+                if ($linkValue["isAdmin"]) {
+                    array_push($res, array($linkKey => $linkValue));
+                }
+            }
+        }
     	return $res;
     }
 
@@ -33,7 +55,7 @@ class Authorisation {
         //TODO : think bout how to manage authentification
         //Authentification => Menu Access
 
-        $result = array('' => , );
+        $result = array();
        
         return $result;
     } 
