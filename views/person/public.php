@@ -17,9 +17,9 @@
 								if( Yii::app()->session['userId'] != (string)$person["_id"]) 
 								{
 									if( Link::isConnected( Yii::app()->session['userId'],PHType::TYPE_CITOYEN,(string)$person["_id"], PHType::TYPE_CITOYEN ) ){ //if connected user and pageUser are allready connected?> 
-										<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
+										<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
 									<?php } else { ?>
-										<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
+										<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="connectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
 									<?php }
 								} ?>
 							<div class="user-left">
@@ -326,3 +326,19 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	
+jQuery(document).ready(function() {
+	
+	$(".disconnectBtn").off().on("click",function () {
+        
+        
+		
+	});
+
+	$(".connectBtn").off().on("click",function () {
+        
+		
+	});
+});
+</script>
