@@ -1,7 +1,7 @@
 <div id="panel_members" class="tab-pane fade">
 
 	<div class="col-md-12 padding-20 pull-right">
-		<a href="javascript:;" onclick="openSubView('Add Members', '/communecter/organization/addMembers/id/<?php echo (string)$organization['_id']?>',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Connect Members</a>
+		<a href="#addMembers" class="addMembersBtn btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i> Connect Members</a>
 	</div>
 
 	<h1>List of Members</h1>
@@ -43,3 +43,62 @@
 		</tbody>
 	</table>
 </div>
+
+<?php
+$this->renderPartial('addMembers', array( "organization" => $organization ));
+?>
+
+<script type="text/javascript">
+	
+jQuery(document).ready(function() {
+	
+	$(".addMembersBtn").off().on("click",function () {
+        
+		subViewContent = $(this).attr('href');
+	    $.subview({
+	        content : subViewContent,
+	        onShow : function() {
+	        	binAddMembersEvents ();
+	        },
+	        onHide : function() {
+	          $.hideSubview();
+	          
+	        }
+	    });
+	});
+
+
+});
+function binAddMembersEvents () {  
+	$("#addMemberForm").off().on("submit",function(event){
+    	event.preventDefault();
+    	$.ajax({
+            type: "POST",
+            url: baseUrl+"/communecter/organization/savemember",
+            data: $("#addMemberForm").serialize(),
+            dataType: "json",
+            success: function(data){
+        	   toastr.success("member added successfully ");
+               strHTML = "<tr>"+
+                        "<td>"+$("#memberType").val()+"</td>"+
+                        "<td>"+$("#memberName").val()+"</td>"+
+                        "<td>"+$("#memberEmail").val()+"</td>"+
+                        "<td><span class='label label-info'>added</span></td> <tr>";
+                $(".newMembersAdded").append(strHTML);
+                if($(".newMembersAddedTable").hasClass("hide"))
+                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+                $("#memberType").val("");
+                $("#memberName").val("");
+                $("#memberEmail").val("");
+               
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+              toastr.error( thrownError );
+            } 
+    	});
+    });
+    $("#memberBatchImport").submit( function(event){
+        event.preventDefault();
+    });
+}
+</script>

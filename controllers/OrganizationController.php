@@ -269,12 +269,6 @@ class OrganizationController extends CommunecterController {
     echo Rest::json($result);
   }
 
-  public function actionAddmembers($id)
-  {
-    $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)) );
-    $this->renderPartial( "addMembers" , array( "organization" => $organization ));
-  }
-
   /**
    * ajax called method to save a new participant user to a group
    * the new member can be of type PERSON or ORGANISATION 
