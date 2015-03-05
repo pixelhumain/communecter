@@ -162,9 +162,10 @@
 	  	var linkParent, eventParent, projectParent;
 	  	dataTab = datafile;
 	  	var parent;
+	  	var nameLink;
 	  	//console.log("ok");
 	  	$.each(datafile, function(key,obj){
-	  		
+	  		console.log(obj, obj.length);
 	  		//console.log("ok");
 	  		if(key==varname){
 	  			//console.log("ok2");
@@ -181,17 +182,23 @@
 				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
-				linkParent = obj.links;
-				
-			}else{
-				//console.log("ok3");
+				if(typeof(obj.links)!= "undefined"){
+					linkParent = obj.links;
+				}else if(typeof(obj.attendees)!="undefined"){
+					linkParent = obj.attendees;
+					nameLink ="attendee";
+				}else{
+					linkParent = obj.contributors;
+					nameLink ="contributor"
+				}
+			}else if(obj.length>0){
 				var newChild ={};
 				newChild["name"] = key;
 				newChild["rayon"] = 23;
 				newChild["level"] = 2;
 				newChild["type"]= "";
 				parent = key;
-				if(parent == "people" || parent=="members")
+				if(parent == "people" || parent=="citoyens")
 					parent = "person";
 				if(parent == "organizations")
 					parent = "organization";
@@ -218,13 +225,11 @@
 					}
 					//console.log(parent);
 					$.each(obj2[link], function(key, obj){
-						var nameLink;
-						console.log(parent);
-						if(parent == "event"){
-							
+						
+						if(link == "attendees"){	
 							nameLink="attendee";
 						}
-						else if(parent =="project"){
+						else if(link =="contributors"){
 							nameLink = "contributor";
 						}else{
 							$.each(linkParent, function(label, obj2){
@@ -247,8 +252,8 @@
 					newChildLevel["rayon"] = 15;
 					newChildLevel["level"] = 3;
 					parent= key
-					
-					if(parent == "people" || parent=="members")
+					console.log(parent);
+					if(parent == "people" || parent=="citoyens")
 						parent = "person";
 					if(parent == "organizations")
 						parent = "organization";

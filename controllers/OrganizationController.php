@@ -66,7 +66,7 @@ class OrganizationController extends CommunecterController {
   public function actionEdit($id) 
   {
     $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
-    $members = array();
+    $citoyens = array();
     $organizations = array();
     //Load organizations
     if (isset($organization["links"]) && !empty($organization["links"]["members"])) 
@@ -77,7 +77,7 @@ class OrganizationController extends CommunecterController {
       	if (!empty($organization)) {
       		if($e["type"] == "citoyens"){
       			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
-      			array_push($members, $member);
+      			array_push($citoyens, $member);
       		}else if($e["type"] == "organizations"){
           		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
           		array_push($organizations, $member);
@@ -96,7 +96,7 @@ class OrganizationController extends CommunecterController {
       		if (!empty($organization)) {
 	      		if($e["type"] == "citoyens"){
 	      			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
-	      			array_push($members, $member);
+	      			array_push($citoyens, $member);
 	      		}else if($e["type"] == "organizations"){
 	          		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
 	          		array_push($organizations, $member);
@@ -115,7 +115,7 @@ class OrganizationController extends CommunecterController {
       		if (!empty($organization)) {
 	      		if($e["type"] == "citoyens"){
 	      			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
-	      			array_push($members, $member);
+	      			array_push($citoyens, $member);
 	      		}else if($e["type"] == "organizations"){
 	          		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
 	          		array_push($organizations, $member);
@@ -135,7 +135,7 @@ class OrganizationController extends CommunecterController {
     $tags = Tags::getActiveTags();
 
 
-    $this->render("edit",array('organization'=>$organization, 'members'=>$members, 'organizations'=>$organizations,'types'=>$types['list'],'tags'=>json_encode($tags)));
+    $this->render("edit",array('organization'=>$organization, 'citoyens'=>$citoyens, 'organizations'=>$organizations,'types'=>$types['list'],'tags'=>json_encode($tags)));
 
 	}
 

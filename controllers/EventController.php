@@ -22,11 +22,30 @@ class EventController extends CommunecterController {
       array_push( $this->sidebar1, array( "label"=>"Participant", "iconClass"=>"icon-users","onclick"=>"openModal('eventParticipantForm','group','$id','dynamicallyBuild')" ) );
       */ 
       $event = Event::getById($id);
-               
+      $citoyens = array();
+      $organizations = array();
+       if (isset($event["attendees"]) && !empty($event["attendees"])) 
+	    {
+	      foreach ($event["attendees"] as $id => $e) 
+	      {
+	      	
+	      	if (!empty($event)) {
+	      		if($e["type"] == "citoyens"){
+	      			$citoyen = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
+	      			array_push($citoyens, $citoyen);
+	      		}else if($e["type"] == "organizations"){
+	          		$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	          		array_push($organizations, $organization);
+	      		}
+	        } else {
+	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+	        }  	
+	      }
+	    }         
       if(isset($event["key"]) )
           $this->redirect(Yii::app()->createUrl('evenement/key/id/'.$event["key"]));
       else
-        $this->render("edit",array('event'=>$event));
+        $this->render("edit",array('event'=>$event, 'organizations'=>$organizations, 'citoyens'=>$citoyens));
   }
   
   public function actionPublic($id){

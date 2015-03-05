@@ -123,7 +123,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 	});
 
 	<?php $mapPerson = array("organization"=>$organization,
-							"members"=>$members,
+							"citoyens"=>$citoyens,
 							"organizations"=>$organizations); 
 	?>
  	var mapPerson = <?php echo json_encode($mapPerson)?>;

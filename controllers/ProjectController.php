@@ -24,7 +24,27 @@ class ProjectController extends CommunecterController {
     public function actionEdit($id) 
     {
         $project = Project::getById($id);
-        $this->render("edit",array('projet'=>$projet));
+        $citoyens = array();
+		$organizations = array();
+		if (isset($project["contributors"]) && !empty($project["contributors"])) 
+		{
+		  foreach ($project["contributors"] as $id => $e) 
+		  {
+		  	
+		  	if (!empty($project)) {
+		  		if($e["type"] == "citoyens"){
+		  			$citoyen = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
+		  			array_push($citoyens, $citoyen);
+		  		}else if($e["type"] == "organizations"){
+		      		$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+		      		array_push($organizations, $organization);
+		  		}
+		    } else {
+		     // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+		    }  	
+		  }
+		}         
+        $this->render("edit",array('project'=>$project, 'organizations'=>$organizations, 'citoyens'=>$citoyens));
 	}
 
 	public function actionPublic($id){

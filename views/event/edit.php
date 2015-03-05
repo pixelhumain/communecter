@@ -2,6 +2,7 @@
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->request->baseUrl. '/js/jquery.touch-punch.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->request->baseUrl. '/js/jquery.shapeshift.min.js' , CClientScript::POS_END);
 ?>
 <style>
@@ -141,12 +142,17 @@ font-family: "Homestead";
 </div></div>
 
 <script type="text/javascript"		>
-initT['animInit'] = function(){
-	$(".grid").shapeshift({
-	    minColumns: 3
-	  });
-        (function ani(){
-        	  TweenMax.staggerFromTo(".container h2", 4, {scaleX:0.4, scaleY:0.4}, {scaleX:1, scaleY:1},1);
-        })();
-};
+	initT['animInit'] = function(){
+		$(".grid").shapeshift({
+		    minColumns: 3
+		  });
+	        (function ani(){
+	        	  TweenMax.staggerFromTo(".container h2", 4, {scaleX:0.4, scaleY:0.4}, {scaleX:1, scaleY:1},1);
+	        })();
+	};
+
+	<?php $mapPerson = array("event"=>$event, "citoyens"=>$citoyens, "organizations"=>$organizations); 
+	?>
+	 	var mapPerson = <?php echo json_encode($mapPerson)?>;
+	 	var type = "event";
 </script>			
