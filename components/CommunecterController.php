@@ -101,8 +101,9 @@ class CommunecterController extends Controller
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
       "viewer"=>array("href" =>"openSubView('Network Viewer', '/communecter/person/viewer' , null)"),
-      "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
-      
+
+      "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+
     ),
 
     "organization"=> array(
