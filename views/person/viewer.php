@@ -7,6 +7,15 @@
 	margin: 0px auto;
 	padding: 0;
 	background-color: white;
+	z-index: 4;
+
+	}
+	.fObjectCircle_circle{
+	border: 0px;
+	margin: 0px auto;
+	padding: 0;
+	background-color: white;
+	z-index: 5;
 
 	}
 	.intocircle{
@@ -20,6 +29,14 @@
 	.middlespan{
 	display:table-cell;
 	vertical-align:middle;
+	}
+
+	.circle_type {
+	    cursor: pointer;
+	    fill: #eee;
+	    pointer-events: none;
+	    stroke: #ddd;
+	    stroke-width: 3px;
 	}
 
 	#chart{
@@ -70,6 +87,10 @@
 		width: 20px;
 		height: 10px
 	}
+
+	.text_id{
+		text-anchor: middle;
+	}
 </style>
 
 	
@@ -97,13 +118,14 @@
 	var parentId;
 	var tabLinks = [""];
 	//var tabColor = ["black", 'red', 'yellow', 'green',' blue', '#66899B‏'];
-	var tabColor = ["black", '#dd5a82', '#1fbba6', '#66899B', '#f58a5c', '#00bdcc'];
+	var tabColor = ["#00bdcc", '#dd5a82', '#1fbba6', '#66899B', '#f58a5c', 'black'];
 	var tabType = [];
 	var tabColorType = [];
 	var fill;
 	var fill2;
 	var lastLevel;
 	var maxLevel= 0;
+	var mapIconOrga = {"NGO":" fa-building-o", "LocalBusiness":"fa-home", "GovernmentOrganization":"fa-institution", "Group":"fa-group", "":"fa-dollar"};
 
 
 	jQuery(document).ready(function() {
@@ -152,7 +174,10 @@
 				newData["rayon"] = 31;
 				newData["level"] = 1;
 				newData["fixed"] = "true";
-				newData["parent"] = "person";
+				newData["parent"] = key;
+				if(typeof(obj.type)!="undefined"){
+					newData["type"]=obj.type;
+				}
 				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
@@ -164,6 +189,7 @@
 				newChild["name"] = key;
 				newChild["rayon"] = 23;
 				newChild["level"] = 2;
+				newChild["type"]= "";
 				parent = key;
 				if(parent == "people" || parent=="members")
 					parent = "person";
@@ -175,11 +201,15 @@
 					parent = "event";
 				newChild["parent"] = parent;
 				var childrenLevel = [];
+				var typeItem ="";
 				$.each(obj, function(key2, obj2){
 					//console.log(key2, obj2);
 					var id = obj2["_id"]["$id"];
 					var newChildLevel = {};
 					var link = "links";
+					if(typeof(obj2.type)!="undefined"){
+						typeItem = obj2.type;
+					}
 					if(typeof(obj2.links)=="undefined"){
 						link = "attendees";
 					}
@@ -192,10 +222,10 @@
 						console.log(parent);
 						if(parent == "event"){
 							
-							nameLink="attendeeOf";
+							nameLink="attendee";
 						}
 						else if(parent =="project"){
-							nameLink = "contributorOf";
+							nameLink = "contributor";
 						}else{
 							$.each(linkParent, function(label, obj2){
 								//console.log(obj2, label);
@@ -212,6 +242,7 @@
 							tabLinks.push(nameLink);
 						}
 					})
+					newChildLevel["type"] = typeItem;
 					newChildLevel["name"] = obj2.name;
 					newChildLevel["rayon"] = 15;
 					newChildLevel["level"] = 3;
@@ -432,7 +463,76 @@
 			.attr("xlink:href","http://fluidlog.com/img/comment_64.png")
 			.on("click", function(d) { return getElem(d.parent, d.parentId, d);})
 			
+		/* cercle entourant le type du noeud*/
+		nodeEnter.append("circle")
+				.attr("cx", 0)
+				.attr("cy", function(d){return +d.rayon;})
+				.attr("r", 13)
+				.style("stroke", function(d){return fill2(d.parent)})
+				.attr("fill", "white")
+				.style("z-index", "3000")
+			    .attr("class", "circle_type")
+		nodeEnter.append("foreignObject")
+			.attr("x", -7.5)
+			.attr("y", function(d) { return +d.rayon-8; })
+			.attr("width", 20)
+			.attr("height", 20)
+			.append("xhtml:body")
+			.style("width",20)
+			.style("height",20)
+			.attr("fill", function(d){return fill2(d.parent)})
+			.attr("class", "fObjectCircle_circle")
+			.html(function(d)
+			{
+			switch (d.parent)
+				{
+					case "event" :
+						return "<div class='intocircle' style='color: black;'><span class='middlespan'><i class='fa fa-smile-o fa-lg'></i></span></div>";
+						break;
+					case "organization" :
+						return "<div class='intocircle' style='color: black;'><span class='middlespan'><i class='fa "+mapIconOrga[d.type]+" fa-lg'></i></span></div>";
+						break;
+					case "person" :
+						return "<div class='intocircle' style='color: black;'><span class='middlespan'><i class='fa fa-child fa-lg'></i></span></div>";
+						break;
+					case "project" :
+						return "<div class='intocircle' style='color: black;'><span class='middlespan'><i class='fa fa-tasks fa-lg'></i></span></div>";
+						break;
+					default :
+						return "<div class='intocircle' style='color: black;'><span class='middlespan'><i class='fa fa-meh-o fa-lg'></i></span></div>";
+						break;
+				}
 
+		})
+		/* Image du type du noeud */
+		nodeEnter.append("svg:image")
+		    		.attr("class", "image_type")
+					.attr('x', -8)
+					.attr('y', function(d){return +d.rayon-55;})
+					.attr('width', 15)
+					.attr('height', 15)
+					.attr("xlink:href",function(d){
+						switch (d.type)
+						{
+							case "project" :
+								return "img/project.png";
+								break;
+							case "actor" :
+								return "img/actor.png";
+								break;
+							case "idea" :
+								return "img/idea.png";
+								break;
+							case "ressource" :
+								return "img/ressource.png";
+								break;
+							case "without" :
+								return "img/without.png";
+								break;
+						}
+
+					})
+					.style("cursor", "pointer")
 		 
 		// set the options – read more on the Bootstrap page linked to above
 		$('svg .ImageI').popover({
@@ -463,18 +563,21 @@
 			.attr('height', function(d) { if (d.image) return 60; })
 			.attr("xlink:href",function(d) { return d.image; })
 
-		nodeEnter.append("foreignObject")
-			.attr("x", function(d) { return -d.rayon-2; })
-			.attr("y", function(d) { return -d.rayon-2; })
-			.attr("width", function(d) { return d.rayon*2+4; })
-			.attr("height", function(d) { return d.rayon*2+4; })
-			.append("xhtml:body")
-			.style("width",function(d) { return d.rayon*2+4+"px"; })
-			.style("height",function(d) { return d.rayon*2+4+"px"; })
+		nodeEnter.append("text")
+			.attr("x", 0)
+			.attr("y", function(d) { return d.rayon/2-4; })
+			//.attr("width", function(d) { return d.rayon*2+4; })
+			//.attr("height", function(d) { return d.rayon*2+4; })
+			//.append("xhtml:body")
+			//.style("width",function(d) { return d.rayon*2+4+"px"; })
+			//.style("height",function(d) { return d.rayon*2+4+"px"; })
 			.attr("fill", function(d){return fill2(d.parent)})
-			.attr("class", "fObjectCircle")
-			.html(function(d)
+			.attr("class", "text_id")
+			.style("font-size", function(d){ return getFontSize(d.name, d.rayon);})
+			.text(function(d)
 			{
+				return d.name;
+			/*
 			if (d.level > 0)
 			{
 				var textNodes = d.name;
@@ -483,10 +586,10 @@
 				inputtext += textNodes;
 				inputtext += '</span></div>';
         		//////console.log("input", inputtext);
-				return inputtext;
-			}
+				return inputtext;*/
+			})
 
-		})
+		//})
 		node.exit().remove();
 	    $(".level3, .level4")
 	      	.attr("r", 30)
