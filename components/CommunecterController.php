@@ -103,7 +103,7 @@ class CommunecterController extends Controller
       "viewer"=>array("href" =>"openSubView('Network Viewer', '/communecter/person/viewer' , null)"),
 
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
-
+      "logout"=>array("href"=>"/ph/communecter/person/logout"),
     ),
 
     "organization"=> array(
