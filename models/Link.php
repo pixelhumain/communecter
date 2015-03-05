@@ -33,16 +33,16 @@ class Link {
         //2. Create the links
         PHDB::update( PHType::TYPE_ORGANIZATIONS, 
                    array("_id" => $memberOf["_id"]) , 
-                   array('$push' => array( "links.members.".$memberId.".type" => $memberType) ));
+                   array('$set' => array( "links.members.".$memberId.".type" => $memberType) ));
  
         if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
 	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
 	                   array("_id" => $member["_id"]) , 
-	                   array('$push' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
 	    } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
       		PHDB::update( PHType::TYPE_CITOYEN, 
 	                   array("_id" => $member["_id"]) , 
-	                   array('$push' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
 	    }
 
         //3. Send Notifications
@@ -87,11 +87,11 @@ class Link {
         if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
 	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
 	                   array("_id" => $origin["_id"]) , 
-	                   array('$push' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+	                   array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
 	    } else if ($originType == Link::MEMBER_TYPE_PERSON) {
       		PHDB::update( PHType::TYPE_CITOYEN, 
 	                   array("_id" => $origin["_id"]) , 
-	                   array('$push' => array( "links.memberOf.".$targetId.".type" => $targetType ) ));
+	                   array('$set' => array( "links.memberOf.".$targetId.".type" => $targetType ) ));
 	    }
 
         //3. Send Notifications
