@@ -97,7 +97,7 @@
 	var parentId;
 	var tabLinks = [""];
 	//var tabColor = ["black", 'red', 'yellow', 'green',' blue', '#66899B‏'];
-	var tabColor = ["black", '#DD5A82‏', '#1FBBA6‏', '#00BDCC‏',' #F58A5C‏', '#66899B‏'];
+	var tabColor = ["black", '#dd5a82', '#1fbba6', '#66899B', '#f58a5c', '#00bdcc'];
 	var tabType = [];
 	var tabColorType = [];
 	var fill;
