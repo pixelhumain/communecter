@@ -66,7 +66,6 @@ class OrganizationController extends CommunecterController {
   public function actionEdit($id) 
   {
     $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
-    $type = "organization";
     $members = array();
     $organizations = array();
     //Load organizations
@@ -92,9 +91,38 @@ class OrganizationController extends CommunecterController {
     $memberOf = array();
     if (isset($organization["links"]) && !empty($organization["links"]["memberOf"]))
     {
-    	foreach ($organization["links"]["members"] as $id => $e) 
+    	foreach ($organization["links"]["memberOf"] as $id => $e) 
       	{
+      		if (!empty($organization)) {
+	      		if($e["type"] == "citoyens"){
+	      			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
+	      			array_push($members, $member);
+	      		}else if($e["type"] == "organizations"){
+	          		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	          		array_push($organizations, $member);
+	      		}
+	        } else {
+	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+	        } 
+      	}
       		
+    }
+
+    if (isset($organization["links"]) && !empty($organization["links"]["knows"]))
+    {
+    	foreach ($organization["links"]["knows"] as $id => $e) 
+      	{
+      		if (!empty($organization)) {
+	      		if($e["type"] == "citoyens"){
+	      			$member = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
+	      			array_push($members, $member);
+	      		}else if($e["type"] == "organizations"){
+	          		$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	          		array_push($organizations, $member);
+	      		}
+	        } else {
+	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+	        } 
       	}
       		
     }

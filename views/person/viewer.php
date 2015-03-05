@@ -96,7 +96,8 @@
 	var datafile=mapPerson;
 	var parentId;
 	var tabLinks = [""];
-	var tabColor = ["black", "red", "blue", "yellow", "green"];
+	//var tabColor = ["black", 'red', 'yellow', 'green',' blue', '#66899B‏'];
+	var tabColor = ["black", '#DD5A82‏', '#1FBBA6‏', '#00BDCC‏',' #F58A5C‏', '#66899B‏'];
 	var tabType = [];
 	var tabColorType = [];
 	var fill;
@@ -138,9 +139,10 @@
 	  	var name1;
 	  	var linkParent, eventParent, projectParent;
 	  	dataTab = datafile;
+	  	var parent;
 	  	//console.log("ok");
 	  	$.each(datafile, function(key,obj){
-
+	  		
 	  		//console.log("ok");
 	  		if(key==varname){
 	  			//console.log("ok2");
@@ -162,7 +164,7 @@
 				newChild["name"] = key;
 				newChild["rayon"] = 23;
 				newChild["level"] = 2;
-				var parent= key
+				parent = key;
 				if(parent == "people" || parent=="members")
 					parent = "person";
 				if(parent == "organizations")
@@ -184,34 +186,38 @@
 					if(typeof(obj2[link])=="undefined"){
 						link = "contributors";
 					}
+					//console.log(parent);
 					$.each(obj2[link], function(key, obj){
-						if(parent == "event" || parent =="project"){
-							key = "";
+						var nameLink;
+						console.log(parent);
+						if(parent == "event"){
+							
+							nameLink="attendeeOf";
+						}
+						else if(parent =="project"){
+							nameLink = "contributorOf";
 						}else{
 							$.each(linkParent, function(label, obj2){
-								$.each(obj, function(label2, obj3){
-									$.each(obj2, function(id, type){
-										console.log(label2, id);
-										if(label2 == id){
-											console.log("ok", label);
-											key = label;
-										}
-									})
+								//console.log(obj2, label);
+								$.each(obj2, function(label3, obj3){
+									if(id==label3){
+										nameLink = label;
+									}
 								})
-
 							})	
 						}
-						newChildLevel["link"] = key;
-						if($.inArray(key, tabLinks)==-1 && typeof(obj.type)=="undefined"){
-							tabLinks.push(key);
+						console.log(nameLink);
+						newChildLevel["link"] = nameLink;
+						if($.inArray(nameLink, tabLinks)==-1 && typeof(nameLink)!= "undefined"){
+							tabLinks.push(nameLink);
 						}
 					})
 					newChildLevel["name"] = obj2.name;
 					newChildLevel["rayon"] = 15;
 					newChildLevel["level"] = 3;
-					var parent= key
+					parent= key
 					
-					if(parent == "people")
+					if(parent == "people" || parent=="members")
 						parent = "person";
 					if(parent == "organizations")
 						parent = "organization";
@@ -226,7 +232,7 @@
 					//console.log(obj2);
 					var id = obj2["_id"]["$id"];
 					newChildLevel["parentId"] = id;
-					newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/view/id/"+id;
+					newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
 					////console.log(newChildLevel);
 					childrenLevel.push(newChildLevel);
 				})
@@ -238,7 +244,7 @@
 		})
 		newData["children"] = children;
 		dataJson.push(newData);
-		//console.log("dataJson", dataJson);
+		console.log("dataJson", dataJson);
 		return newData;
 	}
 
