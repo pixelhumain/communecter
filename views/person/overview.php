@@ -25,27 +25,27 @@
 					<div class="social-icons block">
 						<ul>
 							<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
-								<a href="http://www.twitter.com" target="_blank">
+								<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
 									Twitter
 								</a>
 							</li>
 							<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
-								<a href="http://facebook.com" target="_blank">
+								<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
 									Facebook
 								</a>
 							</li>
 							<li data-placement="top" data-original-title="Google" class="social-google tooltips">
-								<a href="http://google.com" target="_blank">
+								<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
 									Google+
 								</a>
 							</li>
 							<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
-								<a href="http://linkedin.com" target="_blank">
+								<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
 									LinkedIn
 								</a>
 							</li>
 							<li data-placement="top" data-original-title="Github" class="social-github tooltips">
-								<a href="#" target="_blank">
+								<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
 									Github
 								</a>
 							</li>

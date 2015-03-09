@@ -16,6 +16,23 @@
 </style>
 
 <div id="panel_edit_account" class="tab-pane fade" >
+	<form  method="post" id="profileForm" enctype="multipart/form-data">
+		<div class="fileupload fileupload-new" data-provides="fileupload">
+		<div class="fileupload-new thumbnail">
+			<img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
+		</div>
+		<div class="fileupload-preview fileupload-exists thumbnail"></div>
+		<div class="user-edit-image-buttons">
+			<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
+				<input type="file" name="avatar" id="avatar">
+			</span>
+			<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+				<i class="fa fa-times"></i> Remove
+			</a>
+		</div>
+		</div>
+		<input type="submit" value="Upload File" />
+	</form>
 	<form action="#" role="form" id="personForm" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-md-12">
@@ -62,14 +79,6 @@
 						<input type="text" placeholder="" class="form-control" id="skype" name="skype" value="<?php if(isset($person["skype"]))echo $person["skype"];?>">
 					</div>
 				</fieldset>
-					
-				<div class="form-group">
-					<label class="control-label">
-						Tags
-					</label>
-					
-					<input id="tags" type="hidden" name="tagsOrganization" value="<?php echo ($person && isset($person['tags']) ) ? implode(",", $person['tags']) : ""?>" style="display: none;">
-				</div>
 					
 			</div>
 			<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
@@ -139,16 +148,20 @@
 					
 				</div>
 				<div class="form-group">
+					<label class="control-label">
+						Tags
+					</label>
+					
+					<input id="tags" type="hidden" style="min-width:100%" name="tagsOrganization" value="<?php echo ($person && isset($person['tags'] ) && $person['tags']!="") ? implode(",", $person['tags']) : ""?>" style="display: none;">
+				</div>
+				<!--<div class="form-group">
 					<label>
 						Image Upload
 					</label>
-					<div class="row uploaderDiv">
+					<div class="row uploaderDiv" >
 						<div class="col-sm-12">
-							<!-- start: DROPZONE PANEL -->
-							<div class="panel panel-white">
-								<div class="panel-heading">
-									<h4 class="panel-title">Déposez votre <span class="text-bold">image</span> (max. 2.0Mb))</h4>
-								</div>
+							
+							<div class="panel panel-white hidden">
 								<div class="panel-body uploadPanel">
 									<div onclick="javascript:removeDrop()" class="dz-clickable dropzoneTEEO" id="project-dropzone"></div>
 									
@@ -160,26 +173,11 @@
 								     </a>
 								</div>
 							</div>
-							<!-- end: DROPZONE PANEL -->
+							
 						</div>
 					</div>
-					<!--<div class="fileupload fileupload-new" data-provides="fileupload">
-						<div class="fileupload-new thumbnail">
-							
-							<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg' ?>" alt="">
-							
-						</div>
-						<div class="fileupload-preview fileupload-exists thumbnail"></div>
-						<div class="user-edit-image-buttons">
-							<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-								<input type="file" name="avatar" id="avatar">
-							</span>
-							<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-								<i class="fa fa-times"></i> Remove
-							</a>
-						</div>
-					</div>-->
-				</div>
+
+				</div>-->
 			</div>
 		</div>
 		<div class="row">
@@ -261,17 +259,18 @@
 			</div>
 		</div>
 	</form>
+
+
 </div>
 
 <!-- end: PAGE CONTENT-->
 <script>
 	var compt = 0;
 	jQuery(document).ready(function() {
-
+		
 		$('#tags').select2({ tags: <?php echo $tags ?> });
 		$('#tags').select2({ tags: <?php echo $tags ?> });
 		PagesUserProfile.init();
-
 		//-------Position input generator-------------------
 		
 		if("<?php if(isset($person['positions'])){echo is_string($person['positions']);} ?>"){
@@ -287,7 +286,7 @@
 		}
 			
 		//---------------Profil photo generator----------------------
-		var	projectDropTab;
+		/*var	projectDropTab;
 		projectDropzone = new Dropzone("#project-dropzone", {
 		  acceptedFiles: "image/*",
 		  url : baseUrl+"/templates/upload/dir/communecter/collection/person/input/file/rename/true",
@@ -300,7 +299,7 @@
 			var _ref;
 			return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
 		   },*/
-		  complete: function(response) { 
+		  /*complete: function(response) { 
 		  	//console.log(file.name); 
 		  	if(response.xhr)
 		  	{
@@ -331,7 +330,7 @@
 		var mockFile = { name: $(".dz-filename").text(), size:1285957, type: 'image/jpeg' };
 		projectDropzone.options.addedfile.call(projectDropzone, mockFile);
 		projectDropzone.options.thumbnail.call(projectDropzone, mockFile, "<?php if ($person && isset($person['imagePath'])) echo $person['imagePath']; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>")
-	});
+	*/});
 
 
 	function removeDrop(){
@@ -379,7 +378,6 @@
 			projectFilesTable.DataTable().draw();
 	}
 
-
 	function addPos(){
 		compt++;
 		$(".posdiv").append('<input type="text" placeholder="Position" class="form-control" id="position'+compt+'" name="position" value=""></input>');
@@ -388,21 +386,18 @@
 
 	$("#personForm").submit( function(event){	
 		//console.log($("#personForm").serialize());
-		
 		event.preventDefault();
 		formData = $("#personForm").serializeFormJSON();
 		formData["tags"] = $("#tags").val();
-
-		projectDropzone.processQueue();
-		console.log("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>");
-		if($('.dz-filename').text() == ""){
+		//projectDropzone.processQueue();
+		/*if($('.dz-filename').text() == ""){
 			if("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>" != ""){
 				
 				$('.dz-filename').text("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>");
 			}
-		}
-		formData["imagePath"] = baseUrl+"/upload/communecter/person/<?php echo Yii::app()->session['userId'] ?>."+$('.dz-filename').text().split(".")[$('.dz-filename').text().split(".").length-1];
-		
+		}*/
+		//formData["imagePath"] = baseUrl+"/upload/communecter/person/<?php echo Yii::app()->session['userId'] ?>."+$('.dz-filename').text().split(".")[$('.dz-filename').text().split(".").length-1];
+
 		$.ajax({
 		  type: "POST",
 		  url: baseUrl+"/"+moduleId+"/api/saveUser",
@@ -414,10 +409,27 @@
 		  		else
 		  			toastr.error(data.msg);
 		  },
-		  dataType: "json"
-
 		});
 		
 	});
+
+
+	$("#profileForm").on('submit',(function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages",
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			success: function(data){
+		  		if(data.result)
+		  			toastr.success(data.msg);
+		  		else
+		  			toastr.error(data.msg);
+		  },
+		});
+	}));
 
 </script>

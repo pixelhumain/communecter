@@ -176,7 +176,7 @@ class ApiController extends Controller {
             'getpeopleby'   => 'application.controllers.user.GetPeopleByAction',
             'inviteuser'   => 'application.controllers.user.InviteUserAction',
             'getnodeby'   => 'application.controllers.user.GetNodeByAction',
-
+            'saveuserimages' => 'application.controllers.user.SaveUserImagesAction',
             'savegroup'   => 'application.controllers.groups.SaveGroupAction',  
             'getgroupsby'   => 'application.controllers.groups.GetGroupsByAction',  
 
