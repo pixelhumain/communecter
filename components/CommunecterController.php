@@ -99,12 +99,14 @@ class CommunecterController extends Controller
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
+      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
       "viewer"=>array("href" =>"openSubView('Network Viewer', '/communecter/person/viewer' , null)"),
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
     ),
 
     "organization"=> array(
