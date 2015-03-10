@@ -343,15 +343,14 @@ jQuery(document).ready(function() {
 
 	$(".connectBtn").off().on("click",function () {
 		$.ajax({
-	        type: "GET",
-	        url: baseUrl+url
-	        //dataType : "json"
-	        //data: params
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
+	        dataType : "json"
 	    })
 	    .done(function (data) 
 	    {
 	        if ( data && data.result ) {               
-	        	toastr.info("add this guy to my knows connections");
+	        	toastr.info("added this guy to my knows connections");
 	        } else {
 	           console.error("bug get "+id);
 	        }
