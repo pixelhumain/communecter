@@ -55,7 +55,7 @@ class Link {
 		
 		if ($type == Link::MEMBER_TYPE_ORGANIZATION) {
         	$res = Organization::getById($id); 
-        } else if ($type == Link::MEMBER_TYPE_PERSON) {
+        } else if ($type == Link::MEMBER_TYPE_PERSON || $type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
@@ -79,7 +79,7 @@ class Link {
      */
     public static function connect($originId, $originType, $targetId, $targetType, $userId) {
         
-        //0. Check if the $memberOfId and the $memberId exists
+        //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
 		$target = Link::checkIdAndType($targetId, $targetType);
 
