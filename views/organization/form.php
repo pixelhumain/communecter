@@ -147,9 +147,12 @@ jQuery(document).ready(function() {
 	    	  success: function(data){
 	    			if(!data.result)
                         toastr.error(data.msg);
-                    else    
+                    else { 
                         toastr.success(data.msg);
-	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+                        setTimeout(function() {
+							window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+                        },2000);
+                    }
 	    	  },
 	    	  dataType: "json"
 	    	});
