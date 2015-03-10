@@ -2,7 +2,7 @@
 class Link {
 	
 	const MEMBER_TYPE_PERSON 			= "person";
-	const MEMBER_TYPE_ORGANIZATION 		= "organization";
+	const MEMBER_TYPE_ORGANIZATION 		= "organizations";
 
 	/**
 	 * Add a member to an organization
@@ -81,10 +81,12 @@ class Link {
         }
         //1.1 the $userId can manage the $memberOf (admin)
         // Or the user can remove himself from a member list of an organization
-        if (!Authorisation::isOrganizationAdmin($userId, $memberOfId) || $memberId != $userId) {
-            throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
-        } 
-        
+        if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {
+            if ($memberId != $userId) {
+                throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
+            }
+        }
+
         //2. Remove the links
         PHDB::update( PHType::TYPE_ORGANIZATIONS, 
                    array("_id" => $memberOf["_id"]) , 

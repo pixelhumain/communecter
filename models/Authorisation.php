@@ -65,7 +65,7 @@ class Authorisation {
 
         if (isset($personMemberOf["$organizationId"])) {
             $link = $personMemberOf["$organizationId"];
-            if ($link["isAdmin"]) {
+            if (isset($link["isAdmin"]) && $link["isAdmin"]) {
                 $res = true;
             }
         }

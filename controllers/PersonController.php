@@ -186,6 +186,12 @@ class PersonController extends CommunecterController {
   {
       Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
   }
+
+  public function actionRemoveMemberOf($id, $type){
+    Rest::json( 
+      Link::removeMember($id, $type, Yii::app()->session['userId'], PHType::TYPE_CITOYEN,Yii::app()->session['userId'] ));
+  }
+
   /**
    * Point d'entrée pour gérer son compte 
    */
@@ -480,22 +486,6 @@ class PersonController extends CommunecterController {
   }
 
   public function actionPublic($id){
-    //get The person Id
-    if (empty($id)) {
-      throw new CommunecterException("The person id is mandatory to retrieve the person !");
-    }
-
-    $person = Person::getPublicData($id);
-    
-    $this->title = (isset($person["name"])) ? $person["name"] : "";
-    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("person" => $person));
-  }
-
-  public function actionRemoveMemberOf($id){
     //get The person Id
     if (empty($id)) {
       throw new CommunecterException("The person id is mandatory to retrieve the person !");
