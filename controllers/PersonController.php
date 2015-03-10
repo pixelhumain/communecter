@@ -173,12 +173,18 @@ class PersonController extends CommunecterController {
       $this->render("list");
   }
   /**
-     * Listing de tout les citoyen locaux filtrable et cherchable
-     * par thématique
+     * connect 2 people together 
      */
   public function actionConnect($id,$type) 
   {
       Rest::json( Link::connect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
+  }
+  /**
+     * disconnect 2 people together 
+     */
+  public function actionDisconnect($id,$type) 
+  {
+      Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
   }
   /**
    * Point d'entrée pour gérer son compte 

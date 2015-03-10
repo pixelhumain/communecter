@@ -18,9 +18,9 @@
 								{
 									//if connected user and pageUser are allready connected
 									if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-										<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class=" disconnectBtnIcon fa fa-plus"></i> Disconnect</a>
+										<a href="javascript:;" class="disconnectBtn btn btn-red  pull-left  tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 									<?php } else { ?>
-										<a href="javascript:;" class="connectBtn btn btn-xs btn-red  pull-left" ><i class=" connectBtnIcon fa fa-plus"></i> Connect</a>
+										<a href="javascript:;" class="connectBtn btn btn-red  pull-left tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link"></i></a>
 									<?php }
 								} ?>
 							<div class="user-left">
@@ -333,24 +333,40 @@ var personData = <?php echo json_encode($person)?>;
 jQuery(document).ready(function() {
 	
 	$(".disconnectBtn").off().on("click",function () {
-        toastr.info("remove this guy's knows connection to me");
+        
+        $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
+	        dataType : "json"
+	    })
+	    .done(function (data) 
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("I don't know this guy any longer!!");
+	        	$(".disconnectBtn").fadeOut();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+	        }
+	    });
 	});
 
 	$(".connectBtn").off().on("click",function () {
-		$(".connectBtnIcon").removeClass("fa-plus").addClass("fa-spinner fa-spin");
+		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
 	        dataType : "json"
 	    })
-	    .done(function (data) 
+	    .done(function (data)
 	    {
 	        if ( data && data.result ) {               
 	        	toastr.info("added this guy to my knows connections");
 	        	$(".connectBtn").fadeOut();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
-	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-plus");
+	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 	        }
 	    });
         

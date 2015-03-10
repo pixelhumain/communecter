@@ -107,10 +107,11 @@ class CommunecterController extends Controller
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
-      "invite"=>array("href"=>"/ph/communecter/person/invite"),
+      "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
       "connect"=>array("href"=>"/ph/communecter/person/connect"),
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "removeMemberOf"=>array("href"=>"/ph/communecter/person/removememberOf"),
+      "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
     ),
 
     "organization"=> array(
