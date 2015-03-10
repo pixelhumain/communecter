@@ -334,6 +334,7 @@
 </div>
 <script type="text/javascript">
 var personData = <?php echo json_encode($person)?>;
+
 jQuery(document).ready(function() {
 	
 	$(".disconnectBtn").off().on("click",function () {
@@ -341,13 +342,28 @@ jQuery(document).ready(function() {
 	});
 
 	$(".connectBtn").off().on("click",function () {
-        toastr.info("add this guy to my knows connections");
+		$.ajax({
+	        type: "GET",
+	        url: baseUrl+url
+	        //dataType : "json"
+	        //data: params
+	    })
+	    .done(function (data) 
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("add this guy to my knows connections");
+	        } else {
+	           console.error("bug get "+id);
+	        }
+	    });
+        
 	});
 
 	$('.personData').off().on("click",function(){
 		console.dir(personData);
 		toastr.info("check Console");
 	});
+	debugMap.push(personData);
 
 });
 </script>
