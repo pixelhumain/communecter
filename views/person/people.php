@@ -33,7 +33,7 @@
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/edit/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
-							<a href="#" class="btn btn-red tooltips delBtnKnows" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+							<a href="javascript:;" class="disconnectBtn btn btn-red tooltips "  data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 						</div>
 					</td>
 				</tr>
@@ -49,27 +49,36 @@
 
 jQuery(document).ready(function() {
 
-	$(".delBtnKnows").on("click",function(){
-		id = $(this).data("id");
+	
 
-		bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" connection ?", function(result) {
+	$(".disconnectBtn").off().on("click",function () {
+        id = $(this).data("id");
+        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", function(result) {
 			if(result)
 			{
-				testitpost(null , baseUrl+"/"+moduleId+"/person/deleteKnows",{"id":id},
-					function(data,id){
-						if(data.result){
-							toastr.success("delete successfull ");
-							$('#people'+$(this).data("id")).remove();
-							var tr = $(this).closest('tr');
-					        tr.css("background-color","#FF3700");
-					        tr.fadeOut(400, function(){
-					            tr.remove();
-					        });
-					        return false;
-						}
-						else 
-							toastr.error(data.msg);
-					});
+				console.log( '#people'+id, $('#people'+id ) );
+				
+		        $(this).children("i").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+id+"/type/citoyens",
+			        dataType : "json"
+			    })
+			    .done(function (data) 
+			    {
+			        if ( data && data.result ) 
+			        {               
+			        	toastr.info("I don't know this guy any longer!!");
+			        	$('#people'+id ).css("background-color","#FF3700").fadeOut(400, function(){
+				            $('#people'+id ).remove();
+				        });
+			        } 
+			        else 
+			        {
+			           toastr.info("something went wrong!! please try again.");
+			           $(this).children("i").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			        }
+			    });
 			}
 		});
 	});

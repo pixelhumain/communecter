@@ -305,6 +305,18 @@
                     }
                 }
             }
+        },
+        {
+            "_id" : {"$oid":"54eedd91a1aa144002009999"},
+            "email" : "unlinkedOrga@gmail.com",
+            "name" : "Unlinked Organisation",
+            "type" : "NGO",
+            "address" : {
+                "postalCode" : "97410",
+                "addressCountry" : "Réunion"
+            },
+            "description" : "Testing Organisation",
+            "dontLink" : true
         }
     ],
     "events":[
