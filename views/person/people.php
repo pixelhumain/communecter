@@ -25,7 +25,7 @@
 				foreach ($people as $e) 
 				{
 				?>
-				<tr id="people<?php echo (string)$e["_id"];?>">
+				<tr id="<?php echo Link::MEMBER_TYPE_PERSON.(string)$e["_id"];?>">
 					<td><?php if(isset($e["name"]))echo $e["name"]?></td>
 					<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 					<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
@@ -33,7 +33,7 @@
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/edit/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
-							<a href="javascript:;" class="disconnectBtn btn btn-red tooltips "  data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+							<a href="javascript:;" class="disconnectBtn btn btn-red tooltips " data-type="<?php echo Link::MEMBER_TYPE_PERSON ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 						</div>
 					</td>
 				</tr>
@@ -48,20 +48,18 @@
 <script>
 
 jQuery(document).ready(function() {
-
-	
-
 	$(".disconnectBtn").off().on("click",function () {
         id = $(this).data("id");
+        type = $(this).data("type");
         bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", function(result) {
 			if(result)
 			{
-				console.log( '#people'+id, $('#people'+id ) );
+				//console.log( '#people'+id, $('#people'+id ) );
 				
 		        $(this).children("i").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 				$.ajax({
 			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+id+"/type/citoyens",
+			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+id+"/type/"+type,
 			        dataType : "json"
 			    })
 			    .done(function (data) 
@@ -69,8 +67,8 @@ jQuery(document).ready(function() {
 			        if ( data && data.result ) 
 			        {               
 			        	toastr.info("I don't know this guy any longer!!");
-			        	$('#people'+id ).css("background-color","#FF3700").fadeOut(400, function(){
-				            $('#people'+id ).remove();
+			        	$('#'+type+id ).css("background-color","#FF3700").fadeOut(400, function(){
+				            $('#'+type+id ).remove();
 				        });
 			        } 
 			        else 
