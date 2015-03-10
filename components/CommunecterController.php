@@ -109,7 +109,8 @@ class CommunecterController extends Controller
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "connect"=>array("href"=>"/ph/communecter/person/connect"),
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
+      "removeMemberOf"=>array("href"=>"/ph/communecter/person/removememberOf"),
     ),
 
     "organization"=> array(

@@ -51,6 +51,61 @@ class Link {
         return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
     }
 
+    /**
+     * Remove a member of an organization
+     * Delete a link between the 2 actors.
+     * The memberOf should be an organization
+     * The member can be an organization or a person
+     * 2 entry will be deleted :
+     * - $memberOf.links.members["$memberId"]
+     * - $member.links.memberOf["$memberOfId"]
+     * @param type $memberOfId The Id memberOf (organization) where a member will be deleted. 
+     * @param type $memberOfType The Type (should be organization) memberOf where a member will be deleted. 
+     * @param type $memberId The member Id to remove. It will be the member removed from the memberOf
+     * @param type $memberType MemberType to remove : could be an organization or a person
+     * @param type $userId $userId The userId doing the action
+     * @return result array with the result of the operation
+     */
+    public static function removeMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
+        
+        //0. Check if the $memberOfId and the $memberId exists
+        $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
+        $member = Link::checkIdAndType($memberId, $memberType);
+
+        //Change citizen type to person type
+        if ($memberOfType == PHType::TYPE_CITOYEN) {
+            $memberOfType = Link::MEMBER_TYPE_PERSON;
+        }
+        if ($memberType == PHType::TYPE_CITOYEN) {
+            $memberType = Link::MEMBER_TYPE_PERSON;
+        }
+        //1.1 the $userId can manage the $memberOf (admin)
+        // Or the user can remove himself from a member list of an organization
+        if (!Authorisation::isOrganizationAdmin($userId, $memberOfId) || $memberId != $userId) {
+            throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
+        } 
+        
+        //2. Remove the links
+        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+                   array("_id" => $memberOf["_id"]) , 
+                   array('$unset' => array( "links.members.".$memberId => "") ));
+ 
+        if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
+            PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+                       array("_id" => $member["_id"]) , 
+                       array('$unset' => array( "links.memberOf.".$memberOfId => "") ));
+        } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
+            PHDB::update( PHType::TYPE_CITOYEN, 
+                       array("_id" => $member["_id"]) , 
+                       array('$unset' => array( "links.memberOf.".$memberOfId => "") ));
+        }
+
+        //3. Send Notifications
+        //TODO - Send email to the member
+
+        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
+    }
+
     private static function checkIdAndType($id, $type) {
 		
 		if ($type == Link::MEMBER_TYPE_ORGANIZATION) {
