@@ -91,7 +91,8 @@ class OrganizationController extends CommunecterController {
     $memberOf = array();
     if (isset($organization["links"]) && !empty($organization["links"]["memberOf"]))
     {
-    	foreach ($organization["links"]["memberOf"] as $id => $e) 
+      $memberOf = $organization["links"]["memberOf"];
+    	foreach ($memberOf as $id => $e) 
       	{
       		if (!empty($organization)) {
 	      		if($e["type"] == "citoyens"){

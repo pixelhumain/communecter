@@ -12,6 +12,7 @@
 				<th>Name</th>
 				<th class="hidden-xs">Type</th>
 				<th class="hidden-xs center">Tags</th>
+				<th class="hidden-xs center">Link Type</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -24,7 +25,8 @@
 			<tr id="<?php echo Link::MEMBER_TYPE_ORGANIZATION.(string)$e["_id"];?>">
 				<td><?php if(isset($e["name"]))echo $e["name"]?></td>
 				<td><?php if(isset($e["type"]))echo $e["type"]?></td>
-				<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
+				<td><?php if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>
+				<td><?php if(isset($e["linkType"]))echo $e["linkType"]?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
 					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
