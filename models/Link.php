@@ -110,13 +110,13 @@ class Link {
      */
     public static function isConnected($originId, $originType, $targetId, $targetType) {
         $res = false;
-        $targetLinksKnows = PHDB::findOne($originType, array("_id"=>new MongoId($originId)) , array("links"));
-        //var_dump($targetLinksKnows);
-        if( isset($targetLinksKnows["links"]) && 
-            isset($targetLinksKnows["links"]["knows"]) && 
-            isset($targetLinksKnows["links"]["knows"][$targetId]) && 
-            isset( $targetLinksKnows["links"]["knows"][$targetId]["type"][$targetType] ) )
-            $res = true;
+        $where = array(
+                    "_id"=>new MongoId($originId),
+                    "links.knows.".$targetId =>  array('$exists' => 1));
+
+        $originLinksKnows = PHDB::findOne($originType, $where);
+        
+        $res = isset($originLinksKnows);     
 
         return $res;
     }
