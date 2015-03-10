@@ -7,6 +7,13 @@
             "created" : 1400175761,
             "email" : "networkmapping3@networkmapping.com",
             "name" : "Test User"
+        },
+        {
+            "_id" : {"$oid":"5374fc91f6b95c9c1b009999"},
+            "cp" : "97460",
+            "email" : "userNotConnected@networkmapping.com",
+            "name" : "User 2 Connect Manuelly",
+            "dontLink" : true
         }
     ],
     "organizations":[{

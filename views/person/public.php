@@ -16,10 +16,11 @@
 								//connected user isn't allready connected with page User
 								if( Yii::app()->session['userId'] != (string)$person["_id"]) 
 								{
-									if( Link::isConnected( Yii::app()->session['userId'],PHType::TYPE_CITOYEN,(string)$person["_id"], PHType::TYPE_CITOYEN ) ){ //if connected user and pageUser are allready connected?> 
-										<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
+									//if connected user and pageUser are allready connected
+									if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
+										<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
 									<?php } else { ?>
-										<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="connectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
+										<a href="javascript:;" class="connectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
 									<?php }
 								} ?>
 							<div class="user-left">
@@ -70,6 +71,11 @@
 										</tr>
 									</thead>
 									<tbody>
+										<tr>
+											<td>debug Data</td>
+											<td><a href='javascript:;' class='personData' ><i class='fa fa-bug'></i> View</a></td>
+											<td></td>
+										</tr>
 										<tr>
 											<td>url</td>
 											<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
@@ -327,18 +333,21 @@
 	</div>
 </div>
 <script type="text/javascript">
-	
+var personData = <?php echo json_encode($person)?>;
 jQuery(document).ready(function() {
 	
 	$(".disconnectBtn").off().on("click",function () {
-        
-        
-		
+        toastr.info("remove this guy's knows connection to me");
 	});
 
 	$(".connectBtn").off().on("click",function () {
-        
-		
+        toastr.info("add this guy to my knows connections");
 	});
+
+	$('.personData').off().on("click",function(){
+		console.dir(personData);
+		toastr.info("check Console");
+	});
+
 });
 </script>
