@@ -88,7 +88,7 @@ class Link {
 	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
 	                   array("_id" => $origin["_id"]) , 
 	                   array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
-	    } else if ($originType == Link::MEMBER_TYPE_PERSON) {
+	    } else if ($originType == Link::MEMBER_TYPE_PERSON || $type == PHType::TYPE_CITOYEN) {
       		PHDB::update( PHType::TYPE_CITOYEN, 
 	                   array("_id" => $origin["_id"]) , 
 	                   array('$set' => array( "links.memberOf.".$targetId.".type" => $targetType ) ));
