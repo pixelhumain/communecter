@@ -100,6 +100,7 @@ class CommunecterController extends Controller
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
+      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
       "viewer"=>array("href" =>"openSubView('Network Viewer', '/communecter/person/viewer' , null)"),
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
@@ -107,6 +108,7 @@ class CommunecterController extends Controller
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
     ),
 
     "organization"=> array(

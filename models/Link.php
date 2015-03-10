@@ -48,7 +48,7 @@ class Link {
         //3. Send Notifications
 	    //TODO - Send email to the member
 
-        return Rest::json(array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId));
+        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
     }
 
     private static function checkIdAndType($id, $type) {
@@ -97,7 +97,7 @@ class Link {
         //3. Send Notifications
 	    //TODO - Send email to the member
 
-        return Rest::json(array("result"=>true, "msg"=>"The link knows has been added with success", "originId"=>$originId, "targetId"=>$targetId));
+        return array("result"=>true, "msg"=>"The link knows has been added with success", "originId"=>$originId, "targetId"=>$targetId);
     }
 
     /**
@@ -110,13 +110,13 @@ class Link {
      */
     public static function isConnected($originId, $originType, $targetId, $targetType) {
         $res = false;
-        $targetLinksKnows = PHDB::findOne($originType, array("_id"=>new MongoId($originId)) , array("links"));
-        //var_dump($targetLinksKnows);
-        if( isset($targetLinksKnows["links"]) && 
-            isset($targetLinksKnows["links"]["knows"]) && 
-            isset($targetLinksKnows["links"]["knows"][$targetId]) && 
-            isset( $targetLinksKnows["links"]["knows"][$targetId]["type"][$targetType] ) )
-            $res = true;
+        $where = array(
+                    "_id"=>new MongoId($originId),
+                    "links.knows.".$targetId =>  array('$exists' => 1));
+
+        $originLinksKnows = PHDB::findOne($originType, $where);
+        
+        $res = isset($originLinksKnows);     
 
         return $res;
     }

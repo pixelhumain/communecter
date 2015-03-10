@@ -11,6 +11,13 @@ class Person {
 	  	return PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
 	}
 
+	public static function setNameByid($name, $id) {
+		PHDB::update(PHType::TYPE_CITOYEN,
+			array("_id" => new MongoId($id)),
+            array('$set' => array("name"=> $name))
+            );
+	}
+
 	/**
 	 * get memberOf a Person By a person Id
 	 * @param type $id : is the mongoId (String) of the person
