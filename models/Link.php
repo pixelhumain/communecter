@@ -88,7 +88,7 @@ class Link {
 
     private static function checkIdAndType($id, $type) {
 		
-		if ($type == PHType::TYPE_ORGANIZATIONS {
+		if ($type == PHType::TYPE_ORGANIZATIONS) {
         	$res = Organization::getById($id); 
         } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
