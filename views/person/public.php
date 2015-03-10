@@ -337,7 +337,7 @@ jQuery(document).ready(function() {
         $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
+	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo Link::MEMBER_TYPE_PERSON ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data) 
@@ -356,7 +356,7 @@ jQuery(document).ready(function() {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo Link::MEMBER_TYPE_PERSON ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)
