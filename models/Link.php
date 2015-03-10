@@ -1,9 +1,6 @@
 <?php
 class Link {
 	
-	const MEMBER_TYPE_PERSON 			= "person";
-	const MEMBER_TYPE_ORGANIZATION 		= "organizations";
-
 	/**
 	 * Add a member to an organization
 	 * Create a link between the 2 actors. The link will be typed members and memberOf
@@ -31,19 +28,13 @@ class Link {
         }
 
         //2. Create the links
-        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+        PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
                    array('$set' => array( "links.members.".$memberId.".type" => $memberType) ));
- 
-        if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
-	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
-	                   array("_id" => $member["_id"]) , 
-	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
-	    } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
-      		PHDB::update( PHType::TYPE_CITOYEN, 
-	                   array("_id" => $member["_id"]) , 
-	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
-	    }
+        
+        PHDB::update( $memberType, 
+                   array("_id" => $member["_id"]) , 
+                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
 
         //3. Send Notifications
 	    //TODO - Send email to the member
@@ -72,13 +63,6 @@ class Link {
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
         $member = Link::checkIdAndType($memberId, $memberType);
 
-        //Change citizen type to person type
-        if ($memberOfType == PHType::TYPE_CITOYEN) {
-            $memberOfType = Link::MEMBER_TYPE_PERSON;
-        }
-        if ($memberType == PHType::TYPE_CITOYEN) {
-            $memberType = Link::MEMBER_TYPE_PERSON;
-        }
         //1.1 the $userId can manage the $memberOf (admin)
         // Or the user can remove himself from a member list of an organization
         if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {
@@ -88,19 +72,13 @@ class Link {
         }
 
         //2. Remove the links
-        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+        PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
                    array('$unset' => array( "links.members.".$memberId => "") ));
  
-        if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
-            PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+        PHDB::update( $memberType, 
                        array("_id" => $member["_id"]) , 
                        array('$unset' => array( "links.memberOf.".$memberOfId => "") ));
-        } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
-            PHDB::update( PHType::TYPE_CITOYEN, 
-                       array("_id" => $member["_id"]) , 
-                       array('$unset' => array( "links.memberOf.".$memberOfId => "") ));
-        }
 
         //3. Send Notifications
         //TODO - Send email to the member
@@ -110,9 +88,9 @@ class Link {
 
     private static function checkIdAndType($id, $type) {
 		
-		if ($type == Link::MEMBER_TYPE_ORGANIZATION) {
+		if ($type == PHType::TYPE_ORGANIZATIONS {
         	$res = Organization::getById($id); 
-        } else if ($type == Link::MEMBER_TYPE_PERSON || $type == PHType::TYPE_CITOYEN) {
+        } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
@@ -140,27 +118,11 @@ class Link {
         $origin = Link::checkIdAndType($originId, $originType);
 		$target = Link::checkIdAndType($targetId, $targetType);
 
-        //Change citizen type to person type
-        if ($targetType == PHType::TYPE_CITOYEN) {
-            $targetType = Link::MEMBER_TYPE_PERSON;
-        }
-        if ($originType == PHType::TYPE_CITOYEN) {
-            $originType = Link::MEMBER_TYPE_PERSON;
-        }
-
         //2. Create the links
-        if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
-	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
-	                   array("_id" => $origin["_id"]) , 
-	                   array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
-	    } else if ($originType == Link::MEMBER_TYPE_PERSON) {
-      		PHDB::update( PHType::TYPE_CITOYEN, 
-	                   array("_id" => $origin["_id"]) , 
-	                   array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
-	    } else {
-            throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
-        }
-
+        PHDB::update( $originType, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+        
         //3. Send Notifications
 	    //TODO - Send email to the member
 
@@ -185,26 +147,10 @@ class Link {
         $origin = Link::checkIdAndType($originId, $originType);
         $target = Link::checkIdAndType($targetId, $targetType);
 
-        //Change citizen type to person type
-        if ($targetType == PHType::TYPE_CITOYEN) {
-            $targetType = Link::MEMBER_TYPE_PERSON;
-        }
-        if ($originType == PHType::TYPE_CITOYEN) {
-            $originType = Link::MEMBER_TYPE_PERSON;
-        }
-
         //2. Create the links
-        if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
-            PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+        PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
                        array('$unset' => array("links.knows.".$targetId => "") ));
-        } else if ($originType == Link::MEMBER_TYPE_PERSON) {
-            PHDB::update( PHType::TYPE_CITOYEN, 
-                       array("_id" => $origin["_id"]) , 
-                       array('$unset' => array("links.knows.".$targetId => "") ));
-        } else {
-            throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
-        }
 
         //3. Send Notifications
         //TODO - Send email to the member

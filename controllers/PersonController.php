@@ -103,14 +103,14 @@ class PersonController extends CommunecterController {
     //Load people or organization I know
     if (isset($person["links"]) && !empty($person["links"]["knows"])) {
       foreach ($person["links"]["knows"] as $id => $e ) {
-        if ($e["type"] == Link::MEMBER_TYPE_PERSON) {
+        if ($e["type"] == PHType::TYPE_CITOYEN) {
           $someoneIKnow = Person::getById($id);
           if (!empty($someoneIKnow)) {
             array_push($people, $someoneIKnow);
           } else {
           //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
           }
-        } else if ($e["type"] == Link::MEMBER_TYPE_ORGANIZATION) {
+        } else if ($e["type"] == PHType::TYPE_ORGANIZATIONS) {
             $someoneIKnow = Organization::getById($id);
             if (!empty($someoneIKnow)) {
               $someoneIKnow['linkType'] = "knows";
@@ -540,14 +540,14 @@ class PersonController extends CommunecterController {
     //Load people or organization I know
     if (isset($person["links"]) && !empty($person["links"]["knows"])) {
       foreach ($person["links"]["knows"] as $id => $e ) {
-        if ($e["type"] == Link::MEMBER_TYPE_PERSON) {
+        if ($e["type"] == PHType::TYPE_CITOYEN) {
           $someoneIKnow = Person::getById($id);
           if (!empty($someoneIKnow)) {
             array_push($people, $someoneIKnow);
           } else {
           //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
           }
-        } else if ($e["type"] == Link::MEMBER_TYPE_ORGANIZATION) {
+        } else if ($e["type"] == PHType::TYPE_ORGANIZATIONS) {
             $someoneIKnow = Organization::getById($id);
             if (!empty($someoneIKnow)) {
               $someoneIKnow['linkType'] = "knows";

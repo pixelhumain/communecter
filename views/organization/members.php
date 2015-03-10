@@ -22,9 +22,9 @@
 			if(isset($organization["links"]) && isset($organization["links"]["members"])){
 			foreach ($organization["links"]["members"] as $id => $link) 
 			{
-				if ($link["type"] == Link::MEMBER_TYPE_PERSON) {
+				if ($link["type"] == PHType::TYPE_CITOYEN) {
 					$e = Person::getById($id);
-				} else if ($link["type"] == Link::MEMBER_TYPE_ORGANIZATION) {
+				} else if ($link["type"] == PHType::TYPE_ORGANIZATIONS) {
 					$e = Organization::getById($id);
 				}
 			?>
