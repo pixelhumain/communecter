@@ -17,7 +17,7 @@ class Link {
 	 * @param type $memberId The member Id to add. It will be the member added to the memberOf
 	 * @param type $memberType MemberType to add : could be an organization or a person
 	 * @param type $userId $userId The userId doing the action
-	 * @return result as Json with the result of the operation
+	 * @return result array with the result of the operation
 	 */
     public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
         
@@ -75,7 +75,7 @@ class Link {
      * @param type $targetId The actor that will be linked
      * @param type $targetType The Type (Organization or Person) that will be linked
      * @param type $userId The userId doing the action
-     * @return result as Json with the result of the operation
+     * @return result array with the result of the operation
      */
     public static function connect($originId, $originType, $targetId, $targetType, $userId) {
         
@@ -111,6 +111,51 @@ class Link {
     }
 
     /**
+     * Disconnect 2 actors : organization or Person
+     * Delete a link knows between the 2 actors.
+     * 1 entry will be deleted :
+     * - $origin.links.knows["$target"]
+     * @param type $originId The Id of actor where a link with the $target will be deleted
+     * @param type $originType The Type (Organization or Person) of actor where a link with the $target will be deleted
+     * @param type $targetId The actor that will be unlinked
+     * @param type $targetType The Type (Organization or Person) that will be unlinked
+     * @param type $userId The userId doing the action
+     * @return result array with the result of the operation
+     */
+    public static function disconnect($originId, $originType, $targetId, $targetType, $userId) {
+        
+        //0. Check if the $originId and the $targetId exists
+        $origin = Link::checkIdAndType($originId, $originType);
+        $target = Link::checkIdAndType($targetId, $targetType);
+
+        //Change citizen type to person type
+        if ($targetType == PHType::TYPE_CITOYEN) {
+            $targetType = Link::MEMBER_TYPE_PERSON;
+        }
+        if ($originType == PHType::TYPE_CITOYEN) {
+            $originType = Link::MEMBER_TYPE_PERSON;
+        }
+
+        //2. Create the links
+        if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
+            PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$unset' => array("links.knows.".$targetId => "") ));
+        } else if ($originType == Link::MEMBER_TYPE_PERSON) {
+            PHDB::update( PHType::TYPE_CITOYEN, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$unset' => array("links.knows.".$targetId => "") ));
+        } else {
+            throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
+        }
+
+        //3. Send Notifications
+        //TODO - Send email to the member
+
+        return array("result"=>true, "msg"=>"The link knows has been removed with success", "originId"=>$originId, "targetId"=>$targetId);
+    }
+
+    /**
      * Check if two actors are connected with a links knows
      * @param type $originId The Id of actor to check the link with the $target
      * @param type $originType The Type (Organization or Person) of actor to check the link with the $target
@@ -143,7 +188,7 @@ class Link {
 	 * @param type $guestId The actor Id that will invited
 	 * @param type $guestType The type (organization or person) that will invited
 	 * @param type $userId The userId doing the action
-	 * @return result as Json with the result of the operation
+	 * @return result array with the result of the operation
 	 */
     public static function invite($invitorId, $invitorType, $guestId, $guestType, $userId) {
  
