@@ -18,9 +18,9 @@
 								{
 									//if connected user and pageUser are allready connected
 									if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-										<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Disconnect</a>
+										<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-left" ><i class=" disconnectBtnIcon fa fa-plus"></i> Disconnect</a>
 									<?php } else { ?>
-										<a href="javascript:;" class="connectBtn btn btn-xs btn-red  pull-left" ><i class="fa fa-plus"></i> Connect</a>
+										<a href="javascript:;" class="connectBtn btn btn-xs btn-red  pull-left" ><i class=" connectBtnIcon fa fa-plus"></i> Connect</a>
 									<?php }
 								} ?>
 							<div class="user-left">
@@ -71,11 +71,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>debug Data</td>
-											<td><a href='javascript:;' class='personData' ><i class='fa fa-bug'></i> View</a></td>
-											<td></td>
-										</tr>
 										<tr>
 											<td>url</td>
 											<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
@@ -342,6 +337,7 @@ jQuery(document).ready(function() {
 	});
 
 	$(".connectBtn").off().on("click",function () {
+		$(".connectBtnIcon").removeClass("fa-plus").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/citoyens",
@@ -351,18 +347,14 @@ jQuery(document).ready(function() {
 	    {
 	        if ( data && data.result ) {               
 	        	toastr.info("added this guy to my knows connections");
+	        	$(".connectBtn").fadeOut();
 	        } else {
-	           console.error("bug get "+id);
+	           toastr.info("something went wrong!! please try again.");
+	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-plus");
 	        }
 	    });
         
 	});
-
-	$('.personData').off().on("click",function(){
-		console.dir(personData);
-		toastr.info("check Console");
-	});
 	debugMap.push(personData);
-
 });
 </script>
