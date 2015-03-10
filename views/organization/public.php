@@ -362,7 +362,7 @@ jQuery(document).ready(function() {
 	    .done(function (data) 
 	    {
 	        if ( data && data.result ) {               
-	        	toastr.info("I don't know this guy any longer!!");
+	        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 	        	$(".disconnectBtn").fadeOut();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
@@ -381,7 +381,7 @@ jQuery(document).ready(function() {
 	    .done(function (data)
 	    {
 	        if ( data && data.result ) {               
-	        	toastr.info("added this guy to my knows connections");
+	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
