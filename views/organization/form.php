@@ -127,7 +127,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 </div>
 
 <script type="text/javascript">
-var dataRes;
+
 jQuery(document).ready(function() {
 	
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
@@ -150,13 +150,13 @@ jQuery(document).ready(function() {
 	    	  success: function(data){
 	    			if(!data.result)
                         toastr.error(data.msg);
-                    else{
-                    	toastr.success(data.msg);
-                    	dataRes = data;
-                    	//getData();
-                    }  
-                        
-	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+                    else { 
+                        toastr.success(data.msg);
+                        setTimeout(function() {
+							window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+                        },2000);
+                    }
+
 	    	  },
 	    	  dataType: "json"
 	    	});
@@ -164,9 +164,6 @@ jQuery(document).ready(function() {
 	});
 
  });  
-	function getData(){
-		console.log("ok");
-		React.renderComponent(<OrganizationApp/>, document.getElementById('organization'));
-	}
+	
 </script>	
 

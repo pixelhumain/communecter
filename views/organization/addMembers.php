@@ -74,40 +74,5 @@
         </form>
     </div>
 </div>
-
-<script type="text/javascript">
-jQuery(document).ready(function() {
 	
-	 $("#addMemberForm").off().on("submit",function(event){
-    	event.preventDefault();
-    	$.ajax({
-            type: "POST",
-            url: baseUrl+"/communecter/organization/savemember",
-            data: $("#addMemberForm").serialize(),
-            dataType: "json",
-            success: function(data){
-        	   toastr.success("member added successfully ");
-               strHTML = "<tr>"+
-                        "<td>"+$("#memberType").val()+"</td>"+
-                        "<td>"+$("#memberName").val()+"</td>"+
-                        "<td>"+$("#memberEmail").val()+"</td>"+
-                        "<td><span class='label label-info'>added</span></td> <tr>";
-                $(".newMembersAdded").append(strHTML);
-                if($(".newMembersAddedTable").hasClass("hide"))
-                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
-                $("#memberType").val("");
-                $("#memberName").val("");
-                $("#memberEmail").val("");
-               
-            },
-            error:function (xhr, ajaxOptions, thrownError){
-              toastr.error( thrownError );
-            } 
-    	});
-    });
-    $("#memberBatchImport").submit( function(event){
-        event.preventDefault();
-    });
-});
-</script>	
 

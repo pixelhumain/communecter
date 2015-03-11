@@ -1,9 +1,6 @@
 <?php
 class Link {
 	
-	const MEMBER_TYPE_PERSON 			= "person";
-	const MEMBER_TYPE_ORGANIZATION 		= "organization";
-
 	/**
 	 * Add a member to an organization
 	 * Create a link between the 2 actors. The link will be typed members and memberOf
@@ -17,7 +14,7 @@ class Link {
 	 * @param type $memberId The member Id to add. It will be the member added to the memberOf
 	 * @param type $memberType MemberType to add : could be an organization or a person
 	 * @param type $userId $userId The userId doing the action
-	 * @return result as Json with the result of the operation
+	 * @return result array with the result of the operation
 	 */
     public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
         
@@ -31,31 +28,69 @@ class Link {
         }
 
         //2. Create the links
-        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+        PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
                    array('$set' => array( "links.members.".$memberId.".type" => $memberType) ));
- 
-        if ($memberType == Link::MEMBER_TYPE_ORGANIZATION) {
-	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
-	                   array("_id" => $member["_id"]) , 
-	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
-	    } else if ($memberType == Link::MEMBER_TYPE_PERSON) {
-      		PHDB::update( PHType::TYPE_CITOYEN, 
-	                   array("_id" => $member["_id"]) , 
-	                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
-	    }
+        
+        PHDB::update( $memberType, 
+                   array("_id" => $member["_id"]) , 
+                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
 
         //3. Send Notifications
 	    //TODO - Send email to the member
 
-        return Rest::json(array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId));
+        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
+    }
+
+    /**
+     * Remove a member of an organization
+     * Delete a link between the 2 actors.
+     * The memberOf should be an organization
+     * The member can be an organization or a person
+     * 2 entry will be deleted :
+     * - $memberOf.links.members["$memberId"]
+     * - $member.links.memberOf["$memberOfId"]
+     * @param type $memberOfId The Id memberOf (organization) where a member will be deleted. 
+     * @param type $memberOfType The Type (should be organization) memberOf where a member will be deleted. 
+     * @param type $memberId The member Id to remove. It will be the member removed from the memberOf
+     * @param type $memberType MemberType to remove : could be an organization or a person
+     * @param type $userId $userId The userId doing the action
+     * @return result array with the result of the operation
+     */
+    public static function removeMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
+        
+        //0. Check if the $memberOfId and the $memberId exists
+        $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
+        $member = Link::checkIdAndType($memberId, $memberType);
+
+        //1.1 the $userId can manage the $memberOf (admin)
+        // Or the user can remove himself from a member list of an organization
+        if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {
+            if ($memberId != $userId) {
+                throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
+            }
+        }
+
+        //2. Remove the links
+        PHDB::update( $memberOfType, 
+                   array("_id" => $memberOf["_id"]) , 
+                   array('$unset' => array( "links.members.".$memberId => "") ));
+ 
+        PHDB::update( $memberType, 
+                       array("_id" => $member["_id"]) , 
+                       array('$unset' => array( "links.memberOf.".$memberOfId => "") ));
+
+        //3. Send Notifications
+        //TODO - Send email to the member
+
+        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
     }
 
     private static function checkIdAndType($id, $type) {
 		
-		if ($type == Link::MEMBER_TYPE_ORGANIZATION) {
+		if ($type == PHType::TYPE_ORGANIZATIONS) {
         	$res = Organization::getById($id); 
-        } else if ($type == Link::MEMBER_TYPE_PERSON) {
+        } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
@@ -75,29 +110,52 @@ class Link {
      * @param type $targetId The actor that will be linked
      * @param type $targetType The Type (Organization or Person) that will be linked
      * @param type $userId The userId doing the action
-     * @return result as Json with the result of the operation
+     * @return result array with the result of the operation
      */
     public static function connect($originId, $originType, $targetId, $targetType, $userId) {
         
-        //0. Check if the $memberOfId and the $memberId exists
+        //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
 		$target = Link::checkIdAndType($targetId, $targetType);
 
         //2. Create the links
-        if ($originType == Link::MEMBER_TYPE_ORGANIZATION) {
-	        PHDB::update( PHType::TYPE_ORGANIZATIONS, 
-	                   array("_id" => $origin["_id"]) , 
-	                   array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
-	    } else if ($originType == Link::MEMBER_TYPE_PERSON) {
-      		PHDB::update( PHType::TYPE_CITOYEN, 
-	                   array("_id" => $origin["_id"]) , 
-	                   array('$set' => array( "links.memberOf.".$targetId.".type" => $targetType ) ));
-	    }
-
+        PHDB::update( $originType, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+        
         //3. Send Notifications
 	    //TODO - Send email to the member
 
-        return Rest::json(array("result"=>true, "msg"=>"The link knows has been added with success", "originId"=>$originId, "targetId"=>$targetId));
+        return array("result"=>true, "msg"=>"The link knows has been added with success", "originId"=>$originId, "targetId"=>$targetId);
+    }
+
+    /**
+     * Disconnect 2 actors : organization or Person
+     * Delete a link knows between the 2 actors.
+     * 1 entry will be deleted :
+     * - $origin.links.knows["$target"]
+     * @param type $originId The Id of actor where a link with the $target will be deleted
+     * @param type $originType The Type (Organization or Person) of actor where a link with the $target will be deleted
+     * @param type $targetId The actor that will be unlinked
+     * @param type $targetType The Type (Organization or Person) that will be unlinked
+     * @param type $userId The userId doing the action
+     * @return result array with the result of the operation
+     */
+    public static function disconnect($originId, $originType, $targetId, $targetType, $userId) {
+        
+        //0. Check if the $originId and the $targetId exists
+        $origin = Link::checkIdAndType($originId, $originType);
+        $target = Link::checkIdAndType($targetId, $targetType);
+
+        //2. Create the links
+        PHDB::update( $originType, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$unset' => array("links.knows.".$targetId => "") ));
+
+        //3. Send Notifications
+        //TODO - Send email to the member
+
+        return array("result"=>true, "msg"=>"The link knows has been removed with success", "originId"=>$originId, "targetId"=>$targetId);
     }
 
     /**
@@ -110,13 +168,13 @@ class Link {
      */
     public static function isConnected($originId, $originType, $targetId, $targetType) {
         $res = false;
-        $targetLinksKnows = PHDB::findOne($originType, array("_id"=>new MongoId($originId)) , array("links"));
-        //var_dump($targetLinksKnows);
-        if( isset($targetLinksKnows["links"]) && 
-            isset($targetLinksKnows["links"]["knows"]) && 
-            isset($targetLinksKnows["links"]["knows"][$targetId]) && 
-            isset( $targetLinksKnows["links"]["knows"][$targetId]["type"][$targetType] ) )
-            $res = true;
+        $where = array(
+                    "_id"=>new MongoId($originId),
+                    "links.knows.".$targetId =>  array('$exists' => 1));
+
+        $originLinksKnows = PHDB::findOne($originType, $where);
+        
+        $res = isset($originLinksKnows);     
 
         return $res;
     }
@@ -133,7 +191,7 @@ class Link {
 	 * @param type $guestId The actor Id that will invited
 	 * @param type $guestType The type (organization or person) that will invited
 	 * @param type $userId The userId doing the action
-	 * @return result as Json with the result of the operation
+	 * @return result array with the result of the operation
 	 */
     public static function invite($invitorId, $invitorType, $guestId, $guestType, $userId) {
  

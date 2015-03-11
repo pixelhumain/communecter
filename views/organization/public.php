@@ -14,6 +14,17 @@
 						<div class="col-sm-5 col-md-4">
 							<div class="user-left">
 								<div class="center">
+									<?php 
+									//connected user isn't allready connected with page User
+									if( Yii::app()->session['userId'] != (string)$organization["_id"]) 
+									{
+										//if connected user and pageUser are allready connected
+										if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$organization["_id"] , PHType::TYPE_ORGANIZATIONS ) ){  ?>
+											<a href="javascript:;" class="disconnectBtn btn btn-red  pull-left  tooltips " data-placement="top" data-original-title="Remove this Organization Link" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+										<?php } else { ?>
+											<a href="javascript:;" class="connectBtn btn btn-red  pull-left tooltips " data-placement="top" data-original-title="Connect to this Organization" ><i class=" connectBtnIcon fa fa-link"></i></a>
+										<?php }
+									} ?>
 									<h4><?php echo $organization["name"]?></h4>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
 										<div class="user-image">
@@ -334,3 +345,51 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+var organizationData = <?php echo json_encode($organization)?>;
+debugMap.push(organizationData);
+jQuery(document).ready(function() {
+	
+	$(".disconnectBtn").off().on("click",function () {
+        
+        $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo PHType::TYPE_ORGANIZATIONS ?>",
+	        dataType : "json"
+	    })
+	    .done(function (data) 
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+	        	$(".disconnectBtn").fadeOut();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+	        }
+	    });
+	});
+
+	$(".connectBtn").off().on("click",function () {
+		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo PHType::TYPE_ORGANIZATIONS ?>",
+	        dataType : "json"
+	    })
+	    .done(function (data)
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
+	        	$(".connectBtn").fadeOut();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
+	        }
+	    });
+        
+	});
+	
+});
+</script>

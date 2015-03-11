@@ -15,16 +15,17 @@ class Organization {
 
 		//Manage tags : save any inexistant tag to DB 
 		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
-
-	    //Add the creator as the first member
-	    $organization["membres"] = array(Yii::app()->session["userId"]);
+		//Insert the organization
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
-
-    
-	    //add the association to the users association list
-	    //TODO SBAR : Manage if the orgnization is already in the array memberOf
-	    $where = array("_id" => new MongoId($userId));	
-	    PHDB::update( PHType::TYPE_CITOYEN, $where, array('$push' => array("memberOf"=>$organization["_id"])));
+		
+	    if (isset($organization["_id"])) {
+	    	$newOrganizationId = (String) $organization["_id"];
+	    } else {
+	    	throw new CommunecterException("Problem inserting the new organization");
+	    }
+		
+		//Add the creator as the first member
+	    Link::addMember($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId);
              
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",
@@ -41,7 +42,25 @@ class Organization {
 	  	return PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
 	}
 
-	
+	/**
+	 * get members an Organization By an organization Id
+	 * @param type $id : is the mongoId (String) of the organization
+	 * @return arrays of members (links.members)
+	 */
+	public static function getMembersByOrganizationId($id) {
+	  	$res = array();
+	  	$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS ,array("_id"=>new MongoId($id)));
+	  	
+	  	if (empty($organization)) {
+            throw new CommunecterException("The organization id is unkown : contact your admin");
+        }
+	  	if (isset($organization) && isset($organization["links"]) && isset($organization["links"]["members"])) {
+	  		$res = $organization["links"]["members"];
+	  	}
+
+	  	return $res;
+	}
+
 	/*
 	 * Save an organization in database
 	 * @param array A well format organization 

@@ -7,6 +7,13 @@
             "created" : 1400175761,
             "email" : "networkmapping3@networkmapping.com",
             "name" : "Test User"
+        },
+        {
+            "_id" : {"$oid":"5374fc91f6b95c9c1b009999"},
+            "cp" : "97460",
+            "email" : "userNotConnected@networkmapping.com",
+            "name" : "User 2 Connect Manuelly",
+            "dontLink" : true
         }
     ],
     "organizations":[{
@@ -298,6 +305,18 @@
                     }
                 }
             }
+        },
+        {
+            "_id" : {"$oid":"54eedd91a1aa144002009999"},
+            "email" : "unlinkedOrga@gmail.com",
+            "name" : "Unlinked Organisation",
+            "type" : "NGO",
+            "address" : {
+                "postalCode" : "97410",
+                "addressCountry" : "Réunion"
+            },
+            "description" : "Testing Organisation",
+            "dontLink" : true
         }
     ],
     "events":[

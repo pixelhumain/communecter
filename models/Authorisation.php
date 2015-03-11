@@ -2,7 +2,7 @@
 class Authorisation {
 	
     /**
-     * Return true if the user is admin of at least an organization
+     * Return true if the user is admin of at least an organization 
      * @param type the id of the user
      * @return boolean true/false
      */
@@ -46,20 +46,26 @@ class Authorisation {
     }
 
     /**
-     * Return true if the user is admin of the 
+     * Return true if the user is admin of the organization or if it's a new organization
      * @param type the id of the user
      * @param type the id of the organization
      * @return array of Organization (simple)
      */
     public static function isOrganizationAdmin($userId, $organizationId) {
-        $res = array();
+        $res = false;
         
+        //Get the members of the organization : if there is no member then it's a new organization
+        //We are in a creation process
+        $organizationMembers = Organization::getMembersByOrganizationId($organizationId);
+        if (count($organizationMembers) == 0) {
+            $res = true;
+        }
         //get the person links memberOf
         $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
 
         if (isset($personMemberOf["$organizationId"])) {
             $link = $personMemberOf["$organizationId"];
-            if ($link["isAdmin"]) {
+            if (isset($link["isAdmin"]) && $link["isAdmin"]) {
                 $res = true;
             }
         }

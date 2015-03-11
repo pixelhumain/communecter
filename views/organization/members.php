@@ -19,19 +19,23 @@
 		</thead>
 		<tbody>
 			<?php
-			if(isset($organization["members"]) && isset($organization["members"]["persons"])){
-			foreach ($organization["members"]["persons"] as $id) 
+			if(isset($organization["links"]) && isset($organization["links"]["members"])){
+			foreach ($organization["links"]["members"] as $id => $link) 
 			{
-				$e = Person::getById($id);
+				if ($link["type"] == PHType::TYPE_CITOYEN) {
+					$e = Person::getById($id);
+				} else if ($link["type"] == PHType::TYPE_ORGANIZATIONS) {
+					$e = Organization::getById($id);
+				}
 			?>
 			<tr id="person<?php echo $id;?>">
 				<td><?php if(isset($e["name"]))echo $e["name"]?></td>
-				<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+				<td><?php echo $link["type"]?></td>
 				<td><?php if(isset($e["email"]))echo $e["email"]?></td>
 				<td><?php if(isset($e["tobeactivated"]))echo "true"?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
-					<a href="#" class="btn btn-light-blue tooltips editBtn" data-id="<?php echo $id;?>" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $id;?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 				</div>
 				</td>
