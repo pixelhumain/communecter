@@ -14,7 +14,7 @@ class Person {
             throw new CommunecterException("The person id ".$id." is unkown : contact your admin");
         }
 
-	  	$person["publicURL"] = '/organization/public/id/'.$id;
+	  	$person["publicURL"] = '/person/public/id/'.$id;
 
 	  	return $person;
 	}

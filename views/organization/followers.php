@@ -25,10 +25,10 @@
 			<tr id="follower<?php echo (string)$follower["_id"];?>">
 				<td><?php if(isset($follower["name"]))echo $follower["name"]?></td>
 				<td><?php if(isset($follower["type"]))echo $follower["type"]?></td>
-				<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
+				<td><?php if(isset($follower["tags"]))echo implode(",", $follower["tags"])?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
-					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/public/id/'.$follower["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.$follower["publicURL"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 				</div>
 				</td>
 			</tr>

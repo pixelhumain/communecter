@@ -68,9 +68,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
             dateFormat: 'dd/mm/yyyy',
             autoclose: true,
         })
-		
-		Main.init();
-		SVExamples.init();
+
 		PagesUserProfile.init();
 	});
 

@@ -12,8 +12,8 @@
 			<tr>
 				<th>Name</th>
 				<th class="hidden-xs">Type</th>
-				<th class="hidden-xs center">Email</th>
-				<th>To be Activated</th>
+				<th class="hidden-xs center">Tags</th>
+				<th></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -27,10 +27,10 @@
 			<tr id="member<?php echo (string)$member["_id"];?>">
 				<td><?php if(isset($member["name"]))echo $member["name"]?></td>
 				<td><?php if(isset($member["type"]))echo $member["type"]?></td>
-				<td><?php if(isset($member["email"]))echo $member["email"]?></td>
+				<td><?php if(isset($member["tags"]))echo implode(",", $member["tags"])?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
-					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/public/id/'.$member["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.$member["publicURL"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$member["_id"];?>" data-name="<?php echo (string)$member["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 				</div>
 				</td>
