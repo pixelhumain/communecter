@@ -68,6 +68,7 @@ class OrganizationController extends CommunecterController {
     $organization = Organization::getById($id);
     $members = array();
     $followers = array();
+    $memberOf = array();
 
     //Load members
     $organizationMembers = Organization::getMembersByOrganizationId($id);
@@ -96,6 +97,18 @@ class OrganizationController extends CommunecterController {
             if (!empty($follower)) array_push($followers, $follower);
       	}	
     }
+
+    //Load memberOf
+    if (isset($organization["links"]) && !empty($organization["links"]["memberOf"])) {
+      foreach ($organization["links"]["memberOf"] as $id => $e) {
+          if($e["type"] == PHType::TYPE_CITOYEN){
+              $aMemberOf = Person::getById($id);
+            } else if($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+              $aMemberOf = Organization::getById($id);
+            }
+            if (!empty($aMemberOf)) array_push($memberOf, $aMemberOf);
+        } 
+    }
     
     $this->title = $organization["name"];
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : ( (isset($organization["type"])) ? "Type ".$organization["type"] : "");
@@ -106,8 +119,8 @@ class OrganizationController extends CommunecterController {
     $tags = Tags::getActiveTags();
 
     $this->render("edit",
-      array('organization'=>$organization,
-            'members'=>$members, 'followers' => $followers, 
+      array('organization'=>$organization, 'members'=>$members,
+            'followers' => $followers, 'memberOf' => $memberOf,
             'types'=>$types['list'],'tags'=>json_encode($tags)));
 
 	}

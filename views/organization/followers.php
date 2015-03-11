@@ -1,9 +1,5 @@
 <div id="panel_followers" class="tab-pane fade">
 
-	<div class="col-md-12 padding-20 pull-right">
-		<a href="javascript:;" onclick="openSubView('Add an organization to my Network', '/communecter/organization/addMembers/id/<?php echo (string)$organization['_id']?>',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an organization to my Network</a>
-	</div>
-
 	<h1>Followers of the Organization</h1>
 	<p>Followers are organizations or persons knowing you but not a member</p>
 

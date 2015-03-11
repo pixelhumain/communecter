@@ -40,6 +40,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 					</a>
 				</li>
 				
+				<li>
+					<a data-toggle="tab" href="#panel_member_of">
+						Member Of 
+					</a>
+				</li>
 			</ul>
 			<div class="tab-content">
 				<?php 
@@ -47,6 +52,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 					$this->renderPartial('editOrganization',array("organization" => $organization,'types'=>$types,'tags'=>$tags));
 					$this->renderPartial('members',array("organization" => $organization, "members" => $members));
 					$this->renderPartial('followers',array("organization" => $organization, "followers" => $followers));
+					$this->renderPartial('memberOf',array("organization" => $organization, "memberOf" => $memberOf));
 				?>
 			</div>
 		</div>
@@ -121,7 +127,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 	});
 
 	<?php $mapOrganization = array("organization"=>$organization,
-							"members"=>$members,
+							"members"=>$members, "memberOf"=>$memberOf,
 							"followers"=>$followers); 
 	?>
  	var mapOrganization = <?php echo json_encode($mapOrganization)?>;
