@@ -1,7 +1,9 @@
 <div id="panel_member_of" class="tab-pane fade">
 
 	<div class="col-md-12 padding-20 pull-right">
-		<a href="javascript:;" onclick="openSubView('Add an organization to my Network', '/communecter/organization/addMembers/id/<?php echo (string)$organization['_id']?>',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an organization to my Network</a>
+		<a href="#joinOrganization"
+				class="btn btn-xs btn-light-blue tooltips pull-right joinOrganizationBtn" 
+				data-placement="top" data-original-title="Become a member of an organization"><i class="fa fa-plus"></i> Join an organization</a>
 	</div>
 
 	<h1>Member of</h1>
@@ -39,3 +41,25 @@
 		</tbody>
 	</table>
 </div>	
+
+<?php 
+	$this->renderPartial('joinOrganization', array("organization" => $organization)); 
+?>
+<script type="text/javascript">
+	
+jQuery(document).ready(function() {
+	$(".joinOrganizationBtn").off().on("click",function () {
+        
+		subViewContent = $(this).attr('href');
+	    $.subview({
+	        content : subViewContent,
+	        onShow : function() {
+
+	        },
+	        onHide : function() {
+	          $.hideSubview();
+	        }
+	    });
+	});
+});
+</script>
