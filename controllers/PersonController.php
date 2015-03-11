@@ -42,6 +42,11 @@ class PersonController extends CommunecterController {
 	  	$people = Person::getById($id);
 	  	Rest::json($people);
 	  }
+
+	public function actionGetOrganization($id=null){
+	  	$organizations = Person::getOrganizationById($id);
+	    Rest::json($organizations);
+	  }
 	public function actionLogin() 
 	{
     $this->layout = "//layouts/mainSimple";
@@ -63,6 +68,8 @@ class PersonController extends CommunecterController {
     Yii::app()->session["userId"] = null;
     $this->redirect(Yii::app()->homeUrl);
   }
+
+
   public function actionIndex() 
   {
     $person = Person::getById(Yii::app()->session["userId"]);

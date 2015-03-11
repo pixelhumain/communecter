@@ -127,7 +127,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 </div>
 
 <script type="text/javascript">
+
 jQuery(document).ready(function() {
+	
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
@@ -135,6 +137,7 @@ jQuery(document).ready(function() {
 	$("textarea.autosize").autosize();
 
 	$("#organizationForm").submit( function(event){
+		
 		if($('.error').length){
 			alert('Veuillez remplir les champs obligatoires.');
 		}else{
@@ -153,11 +156,14 @@ jQuery(document).ready(function() {
 							window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
                         },2000);
                     }
+
 	    	  },
 	    	  dataType: "json"
 	    	});
 		}
 	});
+
  });  
+	
 </script>	
 
