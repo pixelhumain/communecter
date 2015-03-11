@@ -29,14 +29,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				</li>
 				
 				<li>
-					<a data-toggle="tab" href="#panel_organizations">
-						Linked Organizations
+					<a data-toggle="tab" href="#panel_members">
+						Members
 					</a>
 				</li>
 
 				<li>
-					<a data-toggle="tab" href="#panel_members">
-						Members
+					<a data-toggle="tab" href="#panel_followers">
+						Followers 
 					</a>
 				</li>
 				
@@ -45,8 +45,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 				<?php 
 					$this->renderPartial('overview',array("organization" => $organization));
 					$this->renderPartial('editOrganization',array("organization" => $organization,'types'=>$types,'tags'=>$tags));
-					$this->renderPartial('linkedOrganizations',array("organization" => $organization));
-					$this->renderPartial('members',array("organization" => $organization));
+					$this->renderPartial('members',array("organization" => $organization, "members" => $members));
+					$this->renderPartial('followers',array("organization" => $organization, "followers" => $followers));
 				?>
 			</div>
 		</div>
@@ -122,11 +122,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		openSubView('Invite someone', "/"+moduleId+"/organization/form/id/"+id,null);
 	});
 
-	<?php $mapPerson = array("organization"=>$organization,
-							"citoyens"=>$citoyens,
-							"organizations"=>$organizations); 
+	<?php $mapOrganization = array("organization"=>$organization,
+							"members"=>$members,
+							"followers"=>$followers); 
 	?>
- 	var mapPerson = <?php echo json_encode($mapPerson)?>;
- 	var type = "organization";
- 	console.log(mapPerson);
+ 	var mapOrganization = <?php echo json_encode($mapOrganization)?>;
+ 	debugMap.push(mapOrganization);
 </script>

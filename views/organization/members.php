@@ -5,7 +5,7 @@
 	</div>
 
 	<h1>List of Members</h1>
-    <p>An Organization can have People members</p>
+    <p>An Organization can have People or Organization as members</p>
     
     <table class="table table-striped table-bordered table-hover" id="members">
 		<thead>
@@ -19,30 +19,25 @@
 		</thead>
 		<tbody>
 			<?php
-			if(isset($organization["links"]) && isset($organization["links"]["members"])){
-			foreach ($organization["links"]["members"] as $id => $link) 
+			if(isset($members)) {
+			foreach ($members as $member) 
 			{
-				if ($link["type"] == PHType::TYPE_CITOYEN) {
-					$e = Person::getById($id);
-				} else if ($link["type"] == PHType::TYPE_ORGANIZATIONS) {
-					$e = Organization::getById($id);
-				}
+				if (isset($member["publicURL"])) $publicURL = $member["publicURL"];
 			?>
-			<tr id="person<?php echo $id;?>">
-				<td><?php if(isset($e["name"]))echo $e["name"]?></td>
-				<td><?php echo $link["type"]?></td>
-				<td><?php if(isset($e["email"]))echo $e["email"]?></td>
-				<td><?php if(isset($e["tobeactivated"]))echo "true"?></td>
+			<tr id="member<?php echo (string)$member["_id"];?>">
+				<td><?php if(isset($member["name"]))echo $member["name"]?></td>
+				<td><?php if(isset($member["type"]))echo $member["type"]?></td>
+				<td><?php if(isset($member["email"]))echo $member["email"]?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
-					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
-					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $id;?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/public/id/'.$member["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$member["_id"];?>" data-name="<?php echo (string)$member["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 				</div>
 				</td>
 			</tr>
 			<?php
+				}
 			}
-		}
 			?>
 		</tbody>
 	</table>
@@ -73,36 +68,4 @@ jQuery(document).ready(function() {
 
 
 });
-function binAddMembersEvents () {  
-	$("#addMemberForm").off().on("submit",function(event){
-    	event.preventDefault();
-    	$.ajax({
-            type: "POST",
-            url: baseUrl+"/communecter/organization/savemember",
-            data: $("#addMemberForm").serialize(),
-            dataType: "json",
-            success: function(data){
-        	   toastr.success("member added successfully ");
-               strHTML = "<tr>"+
-                        "<td>"+$("#memberType").val()+"</td>"+
-                        "<td>"+$("#memberName").val()+"</td>"+
-                        "<td>"+$("#memberEmail").val()+"</td>"+
-                        "<td><span class='label label-info'>added</span></td> <tr>";
-                $(".newMembersAdded").append(strHTML);
-                if($(".newMembersAddedTable").hasClass("hide"))
-                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
-                $("#memberType").val("");
-                $("#memberName").val("");
-                $("#memberEmail").val("");
-               
-            },
-            error:function (xhr, ajaxOptions, thrownError){
-              toastr.error( thrownError );
-            } 
-    	});
-    });
-    $("#memberBatchImport").submit( function(event){
-        event.preventDefault();
-    });
-}
 </script>

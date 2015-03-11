@@ -8,7 +8,15 @@ class Person {
 	 * @return type
 	 */
 	public static function getById($id) {
-	  	return PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
+	  	$person = PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
+	  	
+	  	if (empty($person)) {
+            throw new CommunecterException("The person id ".$id." is unkown : contact your admin");
+        }
+
+	  	$person["publicURL"] = '/organization/public/id/'.$id;
+
+	  	return $person;
 	}
 
 	public static function setNameByid($name, $id) {
@@ -25,7 +33,7 @@ class Person {
 	 */
 	public static function getPersonMemberOfByPersonId($id) {
 	  	$res = array();
-	  	$person = PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
+	  	$person = Person::getById($id);
 	  	
 	  	if (empty($person)) {
             throw new CommunecterException("The person id is unkown : contact your admin");

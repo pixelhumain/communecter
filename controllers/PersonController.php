@@ -65,7 +65,7 @@ class PersonController extends CommunecterController {
   }
   public function actionIndex() 
   {
-    $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+    $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
     
@@ -74,24 +74,9 @@ class PersonController extends CommunecterController {
     {
       foreach ($person["links"]["memberOf"] as $id => $e) 
       {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+        $organization = Organization::getById($id);
         if (!empty($organization)) {
           $organization["linkType"] = "memberOf";
-          array_push($organizations, $organization);
-        } else {
-         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-
-    //Load organizations person is following
-    if (isset($person["links"]) && !empty($person["links"]["knows"])) 
-    {
-      foreach ($person["links"]["knows"] as $id => $e) 
-      {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
-        if (!empty($organization)) {
-          $organization["linkType"] = "knows";
           array_push($organizations, $organization);
         } else {
          // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
@@ -204,7 +189,7 @@ class PersonController extends CommunecterController {
    * This is cleared by removing the tobeactivated field in the pixelactifs collection
    */
   public function actionActivate($user) {
-    $account = PHDB::findOne(PHType::TYPE_CITOYEN,array("_id"=>new MongoId($user)));
+    $account = Person::getById($user);
     if($account){
         Yii::app()->session["userId"] = $user;
         Yii::app()->session["userEmail"] = $account["email"];
@@ -303,7 +288,7 @@ class PersonController extends CommunecterController {
   {
       if(Yii::app()->request->isAjaxRequest && isset(Yii::app()->session["userId"]))
     {
-            $account = PHDB::findOne(PHType::TYPE_CITOYEN,array("_id"=>new MongoId(Yii::app()->session["userId"])));
+            $account = Person::getById(Yii::app()->session["userId"]);
             if($account)
             {
                   $result = array("result"=>true,"msg"=>"Vos Données ont bien été enregistrées.");
@@ -401,7 +386,7 @@ class PersonController extends CommunecterController {
       if(Yii::app()->request->isAjaxRequest && isset($_POST['inviteEmail']) && !empty($_POST['inviteEmail']))
     {
             $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$_POST['inviteEmail']));
-            $sponsor = Yii::app()->mongodb->citoyens->findOne(array("_id"=>new MongoId(Yii::app()->session["userId"])));
+            $sponsor = Person::getById(Yii::app()->session["userId"]);
             if($account){
                 //the sponsored user allready exists 
                 //simply add it to the sponsors conenctions 
@@ -502,7 +487,7 @@ class PersonController extends CommunecterController {
   }
 
   public function actionReact() { 
-    $person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+    $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
     

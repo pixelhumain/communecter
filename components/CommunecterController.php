@@ -115,12 +115,11 @@ class CommunecterController extends Controller
     ),
 
     "organization"=> array(
-      "edit"=>array("href"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
-      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
     ),

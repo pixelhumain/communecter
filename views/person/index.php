@@ -73,6 +73,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 						"projects"=>$projects
 						); ?>
 var mapPerson = <?php echo json_encode($mapPerson)?>;
+debugMap.push(mapPerson);
 var type = "person";
 
 jQuery(document).ready(function() {
