@@ -127,7 +127,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 </div>
 
 <script type="text/javascript">
+var dataRes;
 jQuery(document).ready(function() {
+	
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
@@ -135,6 +137,7 @@ jQuery(document).ready(function() {
 	$("textarea.autosize").autosize();
 
 	$("#organizationForm").submit( function(event){
+		
 		if($('.error').length){
 			alert('Veuillez remplir les champs obligatoires.');
 		}else{
@@ -147,14 +150,23 @@ jQuery(document).ready(function() {
 	    	  success: function(data){
 	    			if(!data.result)
                         toastr.error(data.msg);
-                    else    
-                        toastr.success(data.msg);
+                    else{
+                    	toastr.success(data.msg);
+                    	dataRes = data;
+                    	//getData();
+                    }  
+                        
 	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
 	    	  },
 	    	  dataType: "json"
 	    	});
 		}
 	});
+
  });  
+	function getData(){
+		console.log("ok");
+		React.renderComponent(<OrganizationApp/>, document.getElementById('organization'));
+	}
 </script>	
 

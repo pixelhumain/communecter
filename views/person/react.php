@@ -4,10 +4,18 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/react.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/es5-shim.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/es5-sham.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/console-polyfill.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/JSXTransformer.js' , CClientScript::POS_END);
 ?>
 <div id='content'></div>
-<div id ="organization"></div>
+<div id ="organization">
+	<h1>Organization</h1>
+	<a href="javascript:openSubView('Add an Organisation', '/communecter/organization/form',null)"  class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
+	<button onclick="javascript:getData()">ShowData</button>
+	
+</div>
 
 <button value="Switch" onclick='javascript:switchData()'>Switch</button>
 
@@ -104,12 +112,57 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build
 
 
 	var OrganizationApp = React.createClass({
+		getInitialState : function(){
+			return {data:[]}
+		},
+		
+		componentDidMount : function(){
+			$.ajax({
+				url: baseUrl+"/<?php echo $this->module->id?>/person/getorganization/id/<?php echo Yii::app()->session['userId'] ?>",
+				dataType : 'json',
+				success : function(data) {
+					console.log(data);
+					this.setState({data:data});
+
+				}.bind(this),
+				error: function(xhr, status, err){
+					console.error(url, status, err.toString());
+				}.bind(this)
+			});
+		},
+		addOrga : function(e){
+			e.preventDefault();
+			data = getData();
+			console.log('datasub', data);
+			$.ajax({
+				url: baseUrl+"/<?php echo $this->module->id?>/person/getorganization/id/<?php echo Yii::app()->session['userId'] ?>",
+				dataType : 'json',
+				success : function(data) {
+					console.log(data);
+					this.setState({data:data});
+
+				}.bind(this),
+				error: function(xhr, status, err){
+					console.error(url, status, err.toString());
+				}.bind(this)
+			});
+		},
 		render: function(){
 			return(
-				<div>
-					<h1>Organization</h1>
-					<OrganizationsList data={this.props.data}/>
-				</div>
+				<Table fill >
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th class="hidden-xs">Type</th>
+							<th class="hidden-xs center">Tags</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="orgacontent">
+						<OrganizationsList data={this.state.data}/>
+					</tbody>
+				</Table>
+				
 			)
 		}
 	})
@@ -137,5 +190,5 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build
 		}
 	})
 	React.renderComponent(<PersonApp />, document.getElementById('content'))
-	React.renderComponent(<OrganizationApp data={JSON.parse(JSON.stringify(dataOrganisation))}/>, document.getElementById('organization'))
+	React.renderComponent(<OrganizationApp/>, document.getElementById('organization'))
 </script>
