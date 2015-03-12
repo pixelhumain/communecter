@@ -22,7 +22,9 @@
 			if(isset($members)) {
 			foreach ($members as $member) 
 			{
-				if (isset($member["publicURL"])) $publicURL = $member["publicURL"];
+				if ( isset( $member["_id"] ) ) 
+				{
+					if (isset($member["publicURL"])) $publicURL = $member["publicURL"];
 			?>
 			<tr id="member<?php echo (string)$member["_id"];?>">
 				<td><?php if(isset($member["name"]))echo $member["name"]?></td>
@@ -36,6 +38,7 @@
 				</td>
 			</tr>
 			<?php
+					}
 				}
 			}
 			?>

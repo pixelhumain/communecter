@@ -41,9 +41,9 @@ class Organization {
 	public static function getById($id) {
 	  	$organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
 	  	
-	  	if (empty($organization)) {
+	  	/*if (empty($organization)) {
             throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
-        }
+        }*/
 
 	  	//add the public URL to the data structure
 	  	$organization["publicURL"] = '/organization/public/id/'.$id;

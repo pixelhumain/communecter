@@ -28,5 +28,51 @@ class Event {
 
 		return $event;
 	}
+	public static function saveEvent($params)
+	{
+	    $attendees = array();
+	    $attendees[ Yii::app()->session["userId"] ] = array( "type" => PHType::TYPE_CITOYEN );
+	    $new = array(
+			'email' => Yii::app()->session["userEmail"],
+			"name" => $params['title'],
+	          'type' => $params['type'],
+				      'public'=>true,//$params['public'],
+	          'created' => time(),
+	          "organizer" => array( 
+	              array(
+	                  "id" => Yii::app()->session["userId"],
+	                  "type" => PHType::TYPE_CITOYEN
+	              )
+	          ),
+	          "attendees" => array($attendees),
+	          "allDay" => $params['allDay'],
+	    );
+	    //sameAs      
+	    if(!empty($params['content']))
+	         $new["description"] = $params['content'];
+	    if(!empty($params['end']))
+	         $new["endDate"] = $params['end'];
+	    if(!empty($params['start']))
+	         $new["startDate"] = $params['start'];
+
+	    PHDB::insert(PHType::TYPE_EVENTS,$new);
+	    
+	    //add the association to the users association list
+	    $where = array("_id" => new MongoId(Yii::app()->session["userId"]));
+	    PHDB::update(PHType::TYPE_CITOYEN,$where, array('$push' => array("events"=>$new["_id"])));	
+	    //send validation mail
+	    //TODO : make emails as cron jobs
+	    /*$message = new YiiMailMessage;
+	    $message->view = 'validation';
+	    $message->setSubject('Confirmer votre compte Pixel Humain');
+	    $message->setBody(array("user"=>$new["_id"]), 'text/html');
+	    $message->addTo("oceatoon@gmail.com");//$params['registerEmail']
+	    $message->from = Yii::app()->params['adminEmail'];
+	    Yii::app()->mail->send($message);*/
+	    
+	    //TODO : add an admin notification
+	    //Notification::saveNotification(array("type"=>NotificationType::ASSOCIATION_SAVED,"user"=>$new["_id"]));
+	    return array("result"=>true, "msg"=>"Votre evenement est communecté.", "id"=>$new["_id"]);
+	}
 }
 ?>

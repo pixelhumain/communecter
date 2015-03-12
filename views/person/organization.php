@@ -21,6 +21,7 @@
 			if(isset($organizations)){
 			foreach ($organizations as $e) 
 			{
+				if(isset($e["_id"])){
 			?>
 			<tr id="<?php echo PHType::TYPE_ORGANIZATIONS.(string)$e["_id"];?>">
 				<td><?php if(isset($e["name"]))echo $e["name"]?></td>
@@ -36,6 +37,7 @@
 				</td>
 			</tr>
 			<?php
+			}
 			}}
 			?>
 		</tbody>
