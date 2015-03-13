@@ -114,7 +114,7 @@
 	var dataTab;
 	var timer;
 	var dataAjax;
-	var datafile=mapPerson;
+	var datafile;
 	var parentId;
 	var tabLinks = [""];
 	//var tabColor = ["black", 'red', 'yellow', 'green',' blue', '#66899B‏'];
@@ -125,6 +125,7 @@
 	var fill2;
 	var lastLevel;
 	var maxLevel= 0;
+	var type;
 	var mapIconOrga = {"NGO":" fa-building-o", "LocalBusiness":"fa-home", "GovernmentOrganization":"fa-institution", "Group":"fa-group", "":"fa-dollar"};
 
 
@@ -144,6 +145,7 @@
 			    //$("#svgNodes").remove();
 			});	
 			//data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
+			datafile = getDataFile();
 			data = createDataFinal(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
 			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
 			getNewData(data);
@@ -151,7 +153,22 @@
 
 
 
-
+	function getDataFile(){
+		var map;
+		if(typeof(mapPerson)!="undefined"){
+			map=mapPerson;
+			type = 'person';
+		}
+		if(typeof(mapOrganization)!="undefined"){
+			map=mapOrganization;
+			type = "organization";
+		}
+		if(typeof(mapEvent) != "undefined"){
+			map=mapEvent;
+			type ='event';
+		}
+		return map;
+	}
 	function createDataFinal(varname, id, data){
 		var dataJson = [];
 		var newData = {};
@@ -163,7 +180,7 @@
 	  	dataTab = datafile;
 	  	var parent;
 	  	var nameLink;
-	  	//console.log("ok");
+	  	console.log(varname);
 	  	$.each(datafile, function(key,obj){
 	  		console.log(obj, obj.length);
 	  		//console.log("ok");
@@ -182,6 +199,7 @@
 				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
+				console.log("objLinks", obj.links, varname);
 				if(typeof(obj.links)!= "undefined"){
 					linkParent = obj.links;
 				}else if(typeof(obj.attendees)!="undefined"){
@@ -209,8 +227,9 @@
 				newChild["parent"] = parent;
 				var childrenLevel = [];
 				var typeItem ="";
+				console.log(obj, key);
 				$.each(obj, function(key2, obj2){
-					//console.log(key2, obj2);
+					console.log(key2, obj2);
 					var id = obj2["_id"]["$id"];
 					var newChildLevel = {};
 					var link = "links";
@@ -225,15 +244,16 @@
 					}
 					//console.log(parent);
 					$.each(obj2[link], function(key, obj){
-						
+						console.log('key', key , 'obj', obj);
 						if(link == "attendees"){	
 							nameLink="attendee";
 						}
 						else if(link =="contributors"){
 							nameLink = "contributor";
 						}else{
+							console.log(linkParent);
 							$.each(linkParent, function(label, obj2){
-								//console.log(obj2, label);
+								console.log(obj2, label);
 								$.each(obj2, function(label3, obj3){
 									if(id==label3){
 										nameLink = label;
