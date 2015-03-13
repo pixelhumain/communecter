@@ -545,7 +545,8 @@
 		   'container': '#chart',
 		   'placement': 'top',
 		   'white-space': 'nowrap',
-		   'html':'true'
+		   'html':'true',
+		   
 		});
 		//////console.log(data);
 		//Cercle sur lequel nous allons déposer le texte

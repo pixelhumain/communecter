@@ -3,11 +3,11 @@ $cs = Yii::app()->getClientScript();
 
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/react.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/es5-shim.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/es5-sham.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/console-polyfill.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build/JSXTransformer.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/react.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/es5-shim.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/es5-sham.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/console-polyfill.js' , CClientScript::POS_END);
+$cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/JSXTransformer.js' , CClientScript::POS_END);
 ?>
 <div id='content'></div>
 <div id ="organization">
@@ -149,7 +149,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build
 		},
 		render: function(){
 			return(
-				<Table fill >
+				<table >
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -161,7 +161,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build
 					<tbody id="orgacontent">
 						<OrganizationsList data={this.state.data}/>
 					</tbody>
-				</Table>
+				</table>
 				
 			)
 		}
@@ -189,6 +189,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/react/build
 			)
 		}
 	})
-	React.renderComponent(<PersonApp />, document.getElementById('content'))
-	React.renderComponent(<OrganizationApp/>, document.getElementById('organization'))
+	React.render(<PersonApp />, document.getElementById('content'))
+	React.render(<OrganizationApp/>, document.getElementById('organization'))
 </script>
