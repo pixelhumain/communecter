@@ -113,6 +113,7 @@
    	var data;
 	var dataTab;
 	var timer;
+	
 	var dataAjax;
 	var datafile;
 	var parentId;
@@ -120,6 +121,7 @@
 	//var tabColor = ["black", 'red', 'yellow', 'green',' blue', '#66899B‏'];
 	var tabColor = ["#00bdcc", '#dd5a82', '#1fbba6', '#66899B', '#f58a5c', 'black'];
 	var tabType = [];
+	var tabTypebis = [];
 	var tabColorType = [];
 	var fill;
 	var fill2;
@@ -146,7 +148,7 @@
 			});	
 			//data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
 			datafile = getDataFile();
-			data = createDataFinal(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
+			data = createDataFinalBis(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
 			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
 			getNewData(data);
 	});
@@ -180,9 +182,9 @@
 	  	dataTab = datafile;
 	  	var parent;
 	  	var nameLink;
-	  	console.log(varname);
+	  	//console.log(varname);
 	  	$.each(datafile, function(key,obj){
-	  		console.log(obj, obj.length);
+	  		//console.log(obj, obj.length);
 	  		//console.log("ok");
 	  		if(key==varname){
 	  			//console.log("ok2");
@@ -199,7 +201,7 @@
 				newData["parentId"] =parentId;
 				newData["x"] = 0;
 				newData["y"] = 0;
-				console.log("objLinks", obj.links, varname);
+				//console.log("objLinks", obj.links, varname);
 				if(typeof(obj.links)!= "undefined"){
 					linkParent = obj.links;
 				}else if(typeof(obj.attendees)!="undefined"){
@@ -227,9 +229,9 @@
 				newChild["parent"] = parent;
 				var childrenLevel = [];
 				var typeItem ="";
-				console.log(obj, key);
+				//console.log(obj, key);
 				$.each(obj, function(key2, obj2){
-					console.log(key2, obj2);
+					//console.log(key2, obj2);
 					var id = obj2["_id"]["$id"];
 					var newChildLevel = {};
 					var link = "links";
@@ -244,16 +246,16 @@
 					}
 					//console.log(parent);
 					$.each(obj2[link], function(key, obj){
-						console.log('key', key , 'obj', obj);
+						//console.log('key', key , 'obj', obj);
 						if(link == "attendees"){	
 							nameLink="attendee";
 						}
 						else if(link =="contributors"){
 							nameLink = "contributor";
 						}else{
-							console.log(linkParent);
+							//console.log(linkParent);
 							$.each(linkParent, function(label, obj2){
-								console.log(obj2, label);
+								//console.log(obj2, label);
 								$.each(obj2, function(label3, obj3){
 									if(id==label3){
 										nameLink = label;
@@ -261,7 +263,7 @@
 								})
 							})	
 						}
-						console.log(nameLink);
+						//console.log(nameLink);
 						newChildLevel["link"] = nameLink;
 						if($.inArray(nameLink, tabLinks)==-1 && typeof(nameLink)!= "undefined"){
 							tabLinks.push(nameLink);
@@ -272,7 +274,7 @@
 					newChildLevel["rayon"] = 15;
 					newChildLevel["level"] = 3;
 					parent= key
-					console.log(parent);
+					//console.log(parent);
 					if(parent == "people" || parent=="citoyens")
 						parent = "person";
 					if(parent == "organizations")
@@ -300,15 +302,159 @@
 		})
 		newData["children"] = children;
 		dataJson.push(newData);
-		console.log("dataJson", dataJson);
+		//console.log("dataJson", dataJson);
 		return newData;
 	}
 
 
-  	
- function getNewData(data){
+function createDataFinalBis(varname, id, data){
+	
+	var firstNode;
+	
+	
+	var typeArray = [];
+	var firstNodeChildren = [];
+  	$.each(datafile, function(key,obj){
+  		var isType = false;
+  		var typeObject = {};
+  		if(key==varname){
+			firstNode = createDataNode(obj, 1);
+			firstNode['parent'] = key;
+		}else if(obj.length>0){
+			console.log(key);
+			var parent = key;
+			if(parent == "people" || parent=="citoyens")
+				parent = "person";
+			if(parent == "organizations")
+				parent = "organization";
+			if(parent == "projects")
+				parent = "project"
+			if(parent == "events")
+				parent = "event";
+			if($.inArray(parent, tabType)==-1){
+				tabType.push(parent);
+			}
+			var newNode = createDataNode(obj, 2);
+			newNode['parent'] = parent;
+			newNode['name'] = key;
+			var newNodeChildren= [];
+			$.each(obj, function(key2, obj2){
+				var newNodeChild;
+				var id = obj2["_id"]["$id"];
+				if(typeof(obj2.type)!='undefined'){
+					if(typeof(typeObject[obj2.type])!='undefined'){
+						typeObject[obj2.type].push(obj2);
+					}else{
+						typeObject[obj2.type] = [];
+						typeObject[obj2.type].push(obj2);
+					}
+					isType = true;
+				}else{
 
-  
+					newNodeChild = createDataNode(obj2, 3);
+					newNodeChild["link"] = getLink(id,datafile, varname);
+					newNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+					newNodeChildren.push(newNodeChild);
+				}
+				
+			})
+			if(isType){
+				$.each(typeObject, function(key2, obj2){
+					var typeNode = {};
+					typeNode['name'] = key2;
+					typeNode["type"] = key2;
+					typeNode['level'] = 3;
+					typeNode["rayon"] = 15;
+					typeNode["parent"] = parent;
+					var typeArrayChildren = [];
+					$.each(obj2, function(key3, obj3){
+						var typeNodeChild = createDataNode(obj3, 4);
+						var id = obj3['_id']['$id'];
+						typeNodeChild['parent'] = parent;
+						typeNodeChild['type'] = key2;
+						typeNodeChild['link'] = getLink(id, datafile, varname);
+						typeNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+						typeArrayChildren.push(typeNodeChild);
+					})
+					typeNode["children"] = typeArrayChildren;
+					newNodeChildren.push(typeNode);
+				})
+				console.log("newNodeChildren", newNodeChildren);
+			}
+			newNode['children'] = newNodeChildren;
+			firstNodeChildren.push(newNode);
+		}
+	});
+	firstNode['children']=firstNodeChildren;
+	return firstNode;
+}
+
+
+function getLink(id, map, varname){
+	var link = "";
+	$.each(map, function(key, obj){
+		if(key == varname){
+			console.log(obj)
+			if(typeof(obj.links)!= 'undefined'){
+				$.each(obj.links, function(key2, obj2){
+					if($.inArray(key2, tabLinks)==-1){
+						tabLinks.push(key2);
+					}
+					$.each(obj2, function(key3, obj3){
+						console.log(key3, obj3);
+						if(key3==id){
+							console.log('ok');
+							link=key2;
+						}
+					})				
+				})
+			}
+			if(typeof(obj.events)!= 'undefined' && obj.events.length>0){
+				if($.inArray("attendee", tabLinks)==-1){
+					tabLinks.push("attendee");
+				}
+				for(var i=0; i<obj.events.length; i++){
+					if(obj.events[i]==id){
+						link="attendee";
+					}
+				}
+			}
+			if(typeof(obj.projects)!= 'undefined' && obj.projects.length>0){
+				if($.inArray("contributor", tabLinks)==-1){
+					tabLinks.push("contributor");
+				}
+				for(var i=0; i<obj.projects.length; i++){
+					if(obj.projects[i]==id){
+						link="contributor";
+					}
+				}
+			}
+		}
+	});
+	console.log(link);
+	return link;
+}
+function createDataNode(object, level){
+	var newData = {};
+	$.each(object, function(key, obj){
+		newData[key]= obj;
+	})
+	if(level>3){
+		newData["rayon"] = 14;
+	}else{
+		newData["rayon"] = 31-8*(level-1);
+	}
+	newData["level"] = level;
+	if(level == 1){
+		newData["fixed"] = "true";
+		newData["x"] = 0;
+		newData["y"] = 0;
+	}
+	return newData;
+
+}
+
+function getNewData(data){
     var color = d3.scale.category20();
  	var color_1 = randomColor();
  	var color_2 = randomColor();
@@ -592,27 +738,13 @@
 		nodeEnter.append("text")
 			.attr("x", 0)
 			.attr("y", function(d) { return d.rayon/2-4; })
-			//.attr("width", function(d) { return d.rayon*2+4; })
-			//.attr("height", function(d) { return d.rayon*2+4; })
-			//.append("xhtml:body")
-			//.style("width",function(d) { return d.rayon*2+4+"px"; })
-			//.style("height",function(d) { return d.rayon*2+4+"px"; })
 			.attr("fill", function(d){return fill2(d.parent)})
 			.attr("class", "text_id")
 			.style("font-size", function(d){ return getFontSize(d.name, d.rayon);})
 			.text(function(d)
 			{
 				return d.name;
-			/*
-			if (d.level > 0)
-			{
-				var textNodes = d.name;
-				var fontsize = getFontSize(textNodes, d.rayon);
-				var inputtext = '<div class="intocircle" style="color:steelblue; font-size: '+fontsize+';"><span class="middlespan">';
-				inputtext += textNodes;
-				inputtext += '</span></div>';
-        		//////console.log("input", inputtext);
-				return inputtext;*/
+			
 			})
 
 		//})
@@ -633,7 +765,7 @@
 			.transition()
 			.duration(500)
 			.attr("stroke-width", "3")
-			.attr("stroke", function(d){return fill(d.target.link)})
+			.attr("stroke", function(d){console.log("target",d.target.link); return fill(d.target.link)})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })

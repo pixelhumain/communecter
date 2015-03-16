@@ -115,8 +115,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/JSXTra
 		getInitialState : function(){
 			return {data:[]}
 		},
-		
-		componentDidMount : function(){
+		loadOrganisationFromServer : function(){
 			$.ajax({
 				url: baseUrl+"/<?php echo $this->module->id?>/person/getorganization/id/<?php echo Yii::app()->session['userId'] ?>",
 				dataType : 'json',
@@ -129,6 +128,10 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/JSXTra
 					console.error(url, status, err.toString());
 				}.bind(this)
 			});
+		},
+		componentDidMount : function(){
+			this.loadOrganisationFromServer();
+    		setInterval(this.loadOrganisationFromServer, this.props.pollInterval);
 		},
 		addOrga : function(e){
 			e.preventDefault();
@@ -190,5 +193,5 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/JSXTra
 		}
 	})
 	React.render(<PersonApp />, document.getElementById('content'))
-	React.render(<OrganizationApp/>, document.getElementById('organization'))
+	React.render(<OrganizationApp pollInterval={20000} />, document.getElementById('organization'))
 </script>
