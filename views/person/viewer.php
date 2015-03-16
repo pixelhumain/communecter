@@ -140,7 +140,7 @@
 			    	force.stop();
 					$("#svgNodes").empty();
 					$("#chart").empty();
-					data = createDataFinal(type, "<?php echo Yii::app()->session['userId'] ?>", datafile);
+					data = createDataFinalBis(type, "<?php echo Yii::app()->session['userId'] ?>", datafile);
 					getNewData(data);
 				} , 200);
 			   	
