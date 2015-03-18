@@ -13,7 +13,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
     <p> si vous gérer une ou plusieurs organizations ou etes simplement membre
     <br/>Vous etes au bon endroit pour la valorisé, la diffuser, l'aider à la faire vivre</p>
 	
-	<form id="organizationForm"  role="form" id="form">
+	<form id="organizationForm"  role="form" >
 		<div class="row">
 			<div class="col-md-12">
 				<div class="errorHandler alert alert-danger no-display">
@@ -128,6 +128,58 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 
 <script type="text/javascript">
 
+var formValidator = function() {
+	var form = $('#organizationForm');
+	var errorHandler = $('.errorHandler');
+	form.validate({
+		rules : {
+			organizationCountry : {
+				required : true
+			},
+			description : {
+				required : true
+			},
+			organizationEmail : {
+				required : true
+			},
+			organizationName : {
+				required : true
+			},
+			type : {
+				required : true
+			},
+			postalCode : {
+				minlength : 5,
+				required : true
+			}
+		},
+		submitHandler : function(form) {
+			$("#organizationForm").modal('hide');
+	        $.ajax({
+		    	  type: "POST",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
+		    	  data: $("#organizationForm").serialize(),
+		    	  success: function(data){
+		    			if(!data.result)
+	                        toastr.error(data.msg);
+	                    else { 
+	                        toastr.success(data.msg);
+	                        setTimeout(function() {
+								window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
+	                        },2000);
+	                    }
+
+		    	  },
+		    	  dataType: "json"
+		    });
+	       	return false; // required to block normal submit since you used ajax
+		},
+		invalidHandler : function(event, validator) {//display error alert on form submit
+			errorHandler.show();
+		}
+	});
+}
+
 jQuery(document).ready(function() {
 	
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
@@ -136,32 +188,7 @@ jQuery(document).ready(function() {
 
 	$("textarea.autosize").autosize();
 
-	$("#organizationForm").submit( function(event){
-		
-		if($('.error').length){
-			alert('Veuillez remplir les champs obligatoires.');
-		}else{
-	    	event.preventDefault();
-	    	$("#organizationForm").modal('hide');
-	    	$.ajax({
-	    	  type: "POST",
-	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
-	    	  data: $("#organizationForm").serialize(),
-	    	  success: function(data){
-	    			if(!data.result)
-                        toastr.error(data.msg);
-                    else { 
-                        toastr.success(data.msg);
-                        setTimeout(function() {
-							window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
-                        },2000);
-                    }
-
-	    	  },
-	    	  dataType: "json"
-	    	});
-		}
-	});
+	formValidator();
 
  });  
 	

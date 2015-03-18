@@ -101,28 +101,28 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				Enter your personal details below:
 			</p>
 			<form class="form-register">
-				<div class="errorHandler alert alert-danger no-display">
+				<div class="errorHandler alert alert-danger no-display registerResult">
 					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 				</div>
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" id="name" placeholder="Nom">
+							<input type="text" class="form-control" id="name" name="name" placeholder="Nom">
 							<i class="fa fa-user"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="email" class="form-control" id="email3" placeholder="Email">
+							<input type="email" class="form-control" id="email3" name="email3" placeholder="Email">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" id="password3" placeholder="Password">
+							<input type="password" class="form-control" id="password3" name="password3" placeholder="Password">
 							<i class="fa fa-lock"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" id="cp" placeholder="Postal Code">
+							<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
 							<i class="fa fa-home"></i></span>
 					</div>
 					<?php /*
@@ -383,8 +383,8 @@ var Login = function() {
 		        		window.location.reload();
 		    		  }
 		    		  else {
-						$('.loginResult').html(data.msg);
-						$('.loginResult').show();
+						$('.registerResult').html(data.msg);
+						$('.registerResult').show();
 		    		  }
 		    	  },
 		    	  dataType: "json"

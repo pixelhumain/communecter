@@ -26,7 +26,7 @@
                 </select>
     	        
     	        <input placeholder="Name" id="memberName" name="memberName" value=""/></td>
-                <input placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
+                <input type="Email" placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
     	    </div>
     	    <div class="row">
     	        <button class="btn btn-primary" >Enregistrer</button>
@@ -74,5 +74,40 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+	$("#addMemberForm").off().on("submit",function(event){
+    	event.preventDefault();
+    	var params = { 
+			"memberName" : $("#addMembers #memberName").val(),
+			"memberEmail" : $("#addMembers #memberEmail").val(),
+			"memberType" : $("#addMembers #memberType").val(), 
+			"parentOrganisation" : $("#addMembers #parentOrganisation").val()
+		};
+    	$.ajax({
+            type: "POST",
+            url: baseUrl+"/communecter/organization/savemember/id/<?php echo (string)$organization['_id']; ?>",
+            data: params,
+            dataType: "json",
+            success: function(data){
+            	if(!data.result){
+            		toastr.error(data.content);
+            	}else{
+            		toastr.success("member added successfully ");
+	               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"+$("#addMembers #memberName").val()+"</td><td>"+$("#addMembers #memberEmail").val()+"</td><td><span class='label label-info'>added</span></td> <tr>";
+	                $(".newMembersAdded").append(strHTML);
+	                if($(".newMembersAddedTable").hasClass("hide"))
+	                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+	                $("#addMembers #memberType").val("");
+	                $("#addMembers #memberName").val("");
+	                $("#addMembers #memberEmail").val("");
+            	}
+            	console.log(data.result);   
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+              toastr.error( thrownError );
+            } 
+    	});
+    });
+</script>
 	
 

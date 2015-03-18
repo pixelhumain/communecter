@@ -298,4 +298,109 @@ class OrganizationController extends CommunecterController {
 
     $this->render("public", array("organization" => $organization));
   }
+
+  public function actionSaveMember(){
+	 $res = array( "result" => false , "content" => "Something went wrong" );
+	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
+	 {
+	 	//test if group exist
+		$organization = (isset($_POST["parentOrganisation"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentOrganisation"]))) : null;
+	
+		if($organization)
+		{
+		
+		 	//check citizen exist by email
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['memberEmail']))
+			{
+				if($_POST['memberType'] == "persons")
+					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
+				else
+					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['memberEmail']));
+
+				if( !$member )
+				{
+					 //create an entry in the citoyens colelction
+					 if($_POST['memberType'] == "persons"){
+					 $member = array(
+					 'name'=>$_POST['memberName'],
+					 'email'=>$_POST['memberEmail'],
+					 'invitedBy'=>Yii::app()->session["userId"],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'type'=>'citoyen',
+					 'memberOf'=>array( $_POST["parentOrganisation"] )
+					 );
+					  Person::createAndInvite($member);
+					 } else {
+						 $member = array(
+						 'name'=>$_POST['memberName'],
+						 'email'=>$_POST['memberEmail'],
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'Group',
+						 'memberOf'=>array( $_POST["parentOrganisation"] )
+						 );
+
+						 Organization::createAndInvite($member);
+					 }
+					 //add the member into the organization map
+					if($member['type']=="citoyen"){
+						$memberType = "citoyens";
+					}else{
+						$memberType = "organizations";
+					}
+					PHDB::update( PHType::TYPE_ORGANIZATIONS , 
+							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
+							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType ) ));
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					 //TODO : background send email
+					 //send validation mail
+					 //TODO : make emails as cron jobs
+					 /*$message = new YiiMailMessage;
+					 $message>view = 'invitation';
+					 $name = (isset($sponsor["name"])) ? "par ".$sponsor["name"] : "par ".$sponsor["email"];
+					 $message>setSubject('Invitation au projet Pixel Humain '.$name);
+					 $message>setBody(array("user"=>$member["_id"],
+					 "sponsorName"=>$name), 'text/html');
+					 $message>addTo("oceatoon@gmail.com");//$_POST['inviteEmail']
+					 $message>from = Yii::app()>params['adminEmail'];
+					Yii::app()>mail>send($message);*/
+
+					 //TODO : add an admin notification
+					 Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+					 "user"=>Yii::app()->session["userId"],
+					 "invited"=>$member["_id"]));
+					 
+				}
+				else
+				{
+				 //person exists with this email and is connected to this Organisation
+					if( isset($organization['links']["members"]) && isset( $organization['links']["members"][(string)$member["_id"]] ))
+
+						$res = array( "result" => false , "content" => "member allready exists" );
+					else {
+						$memberType = $_POST['memberType'];
+						
+						if($_POST['memberType'] == "persons"){
+							$memberType = "citoyens";
+							PHDB::update( PHType::TYPE_CITOYEN , array( "email" => $_POST['memberEmail']) ,
+							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
+						}else{
+							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
+							array('$push' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
+						}
+						
+						PHDB::update( PHType::TYPE_ORGANIZATIONS , 
+							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
+							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType  ) ));
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
+					}	
+				}
+			} else
+			$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	 }
+	 Rest::json( $res );
+ }
 }

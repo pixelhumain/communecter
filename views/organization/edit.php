@@ -86,10 +86,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
 	    	  data: $("#organizationForm").serialize(),
 	    	  success: function(data){
-	    			if(!data.result)
+	    			if(!data.result || data.errmsg!= null)
                         toastr.error(data.msg);
                     else    
-                        toastr.success(data.msg);
+                        toastr.success("Update successfull");
 	    			//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
 	    	  },
 	    	  dataType: "json"

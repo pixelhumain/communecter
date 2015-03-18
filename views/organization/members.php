@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
 	    $.subview({
 	        content : subViewContent,
 	        onShow : function() {
-	        	binAddMembersEvents ();
+	        	bindAddMembersEvents();
 	        },
 	        onHide : function() {
 	          $.hideSubview();
@@ -71,4 +71,34 @@ jQuery(document).ready(function() {
 
 
 });
+
+function bindAddMembersEvents () {  
+	/*$("#addMemberForm").off().on("submit",function(event){
+    	event.preventDefault();
+    	alert($("#addMemberForm").serialize());
+    	$.ajax({
+            type: "POST",
+            url: baseUrl+"/communecter/organization/savemember",
+            data: $("#addMemberForm").serialize(),
+            dataType: "json",
+            success: function(data){
+        	   toastr.success("member added successfully ");
+               strHTML = "<tr><td>"+$("#memberType").val()+"</td><td>"+$("#memberName").val()+"</td><td>"+$("#memberEmail").val()+"</td><td><span class='label label-info'>added</span></td> <tr>";
+                $(".newMembersAdded").append(strHTML);
+                if($(".newMembersAddedTable").hasClass("hide"))
+                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+                $("#memberType").val("");
+                $("#memberName").val("");
+                $("#memberEmail").val("");
+               
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+              toastr.error( thrownError );
+            } 
+    	});
+    });*/
+    $("#memberBatchImport").submit( function(event){
+        event.preventDefault();
+    });
+}
 </script>

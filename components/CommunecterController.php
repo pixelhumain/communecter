@@ -112,6 +112,7 @@ class CommunecterController extends Controller
       "connect"=>array("href"=>"/ph/communecter/person/connect"),
       "removememberof"=>array("href"=>"/ph/communecter/person/removememberOf"),
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
+      "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
     ),
 
@@ -123,6 +124,7 @@ class CommunecterController extends Controller
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
+      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
     ),
     
     "event"=> array(
