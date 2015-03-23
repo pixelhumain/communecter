@@ -92,6 +92,8 @@ class Link {
         	$res = Organization::getById($id); 
         } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
+        } else if ($type== PHType::TYPE_EVENTS){
+        	$res = Event:: getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
         }
@@ -112,7 +114,7 @@ class Link {
      * @param type $userId The userId doing the action
      * @return result array with the result of the operation
      */
-    public static function connect($originId, $originType, $targetId, $targetType, $userId) {
+    public static function connect($originId, $originType, $targetId, $targetType, $userId, $connectType) {
         
         //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
@@ -121,7 +123,8 @@ class Link {
         //2. Create the links
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
-                       array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+                       array('$set' => array( "links.".$connectType.".".$targetId.".type" => $targetType,
+                       						  "links.".$connectType.".".$targetId.".tobeconfirmed" => true)));
         
         //3. Send Notifications
 	    //TODO - Send email to the member

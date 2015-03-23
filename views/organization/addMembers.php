@@ -1,3 +1,14 @@
+<style>
+	#dropdown_email{
+		padding: 0px 15px; 
+		margin-left:2%; 
+		width:96%;
+	}
+	.li-dropdown-scope{
+		padding: 8px 3px;
+	}
+</style>
+
 <div style="display:none" id="addMembers">
     <!-- start: PAGE CONTENT -->
     <div class="col-md-8 col-md-offset-2">
@@ -27,6 +38,9 @@
     	        
     	        <input placeholder="Name" id="memberName" name="memberName" value=""/></td>
                 <input type="Email" placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
+	                <ul class="dropdown-menu" id="dropdown_email" style="">
+						<li class="li-dropdown-scope">-</li>
+					</ul>
     	    </div>
     	    <div class="row">
     	        <button class="btn btn-primary" >Enregistrer</button>
@@ -75,39 +89,72 @@
     </div>
 </div>
 <script type="text/javascript">
-	$("#addMemberForm").off().on("submit",function(event){
-    	event.preventDefault();
-    	var params = { 
-			"memberName" : $("#addMembers #memberName").val(),
-			"memberEmail" : $("#addMembers #memberEmail").val(),
-			"memberType" : $("#addMembers #memberType").val(), 
-			"parentOrganisation" : $("#addMembers #parentOrganisation").val()
-		};
-    	$.ajax({
-            type: "POST",
-            url: baseUrl+"/communecter/organization/savemember/id/<?php echo (string)$organization['_id']; ?>",
-            data: params,
-            dataType: "json",
-            success: function(data){
-            	if(!data.result){
-            		toastr.error(data.content);
-            	}else{
-            		toastr.success("member added successfully ");
-	               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"+$("#addMembers #memberName").val()+"</td><td>"+$("#addMembers #memberEmail").val()+"</td><td><span class='label label-info'>added</span></td> <tr>";
-	                $(".newMembersAdded").append(strHTML);
-	                if($(".newMembersAddedTable").hasClass("hide"))
-	                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
-	                $("#addMembers #memberType").val("");
-	                $("#addMembers #memberName").val("");
-	                $("#addMembers #memberEmail").val("");
-            	}
-            	console.log(data.result);   
-            },
-            error:function (xhr, ajaxOptions, thrownError){
-              toastr.error( thrownError );
-            } 
-    	});
-    });
+	var timeout;
+	jQuery(document).ready(function() {
+		$("#addMemberForm").off().on("submit",function(event){
+	    	event.preventDefault();
+	    	var params = { 
+				"memberName" : $("#addMembers #memberName").val(),
+				"memberEmail" : $("#addMembers #memberEmail").val(),
+				"memberType" : $("#addMembers #memberType").val(), 
+				"parentOrganisation" : $("#addMembers #parentOrganisation").val()
+			};
+	    	$.ajax({
+	            type: "POST",
+	            url: baseUrl+"/communecter/organization/savemember/id/<?php echo (string)$organization['_id']; ?>",
+	            data: params,
+	            dataType: "json",
+	            success: function(data){
+	            	if(!data.result){
+	            		toastr.error(data.content);
+	            	}else{
+	            		toastr.success("member added successfully ");
+		               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"+$("#addMembers #memberName").val()+"</td><td>"+$("#addMembers #memberEmail").val()+"</td><td><span class='label label-info'>added</span></td> <tr>";
+		                $(".newMembersAdded").append(strHTML);
+		                if($(".newMembersAddedTable").hasClass("hide"))
+		                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+		                $("#addMembers #memberType").val("");
+		                $("#addMembers #memberName").val("");
+		                $("#addMembers #memberEmail").val("");
+	            	}
+	            	console.log(data.result);   
+	            },
+	            error:function (xhr, ajaxOptions, thrownError){
+	              toastr.error( thrownError );
+	            } 
+	    	});
+	    });
+
+		$('#addMembers #memberEmail').keyup(function(e){
+		    var email = $('#addMembers #memberEmail').val();
+		    clearTimeout(timeout);
+		    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
+		});
+		$('#memberEmail').focusout(function(e){
+			//$("#ajaxSV #dropdown_city").css({"display" : "none" });
+		});
+	});
+
+	function autoCompleteEmail(email){
+		var data = { "email" : email};
+		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/RecueilinfoEmailAutoComplete', data,
+		function (data){
+			console.log(data);
+			var str = ""; var limit=0;
+ 			$.each(data, function() { limit++;
+ 				if(limit < 9) 
+  				str += "<li class='li-dropdown-scope'><a href='javascript:setEmailInput(\""+ this.email +"\")'>" + this.email + "</li>";
+  			}); 
+  			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
+  			$("#addMembers #dropdown_email").html(str);
+  			$("#addMembers #dropdown_email").css({"display" : "inline" });
+		});	
+	}
+
+	function setEmailInput(email){
+		$('#addMembers #memberEmail').val(email);
+		$("#addMembers #dropdown_email").css({"display" : "none" });	
+	}
 </script>
 	
 

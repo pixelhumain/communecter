@@ -50,7 +50,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('Invite someone', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"new-invite", "href"=>"#newInvite", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -66,7 +66,7 @@ class CommunecterController extends Controller
                  // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
-     array('label' => "Calendar", "key"=>"calendar",
+     array('label' => "Event", "key"=>"event",
                 "children"=> array(
                   "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
@@ -74,11 +74,17 @@ class CommunecterController extends Controller
           ),
      array('label' => "Projects", "key"=>"projects",
                 "children"=> array(
-                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-eproject", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
           )
   );
   
+  public $subviews = array(
+    "event.eventSV",
+    "person.inviteSV",
+    "project.projectSV",
+    "event.addAttendeesSV"
+  );
   public $toolbarMenuMaps = array(
       array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
       array('label' => "Local Companies", 	'desc' => "Discover Companies around you", 					"key"=>"localCompanies", "class"=>"ajaxSV", "onclick"=>"openSubView('Local Companies', 	'/communecter/sig/companies', null)", 	'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
@@ -113,7 +119,8 @@ class CommunecterController extends Controller
       "removememberof"=>array("href"=>"/ph/communecter/person/removememberOf"),
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
+      "recueilinfoemailautocomplete"=> array('href' => "/person/RecueilinfoEmailAutoComplete")
     ),
 
     "organization"=> array(
@@ -130,11 +137,15 @@ class CommunecterController extends Controller
     "event"=> array(
       "edit"=>array("href"=>"/ph/communecter/event/edit"),
       "public"=>array("href"=>"/ph/communecter/event/public"),
+      "save"=>array("href"=>"/ph/communecter/event/save"),
+      "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
     ),
 
     "project"=> array(
       "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
+      "save"=>array("href"=>"/ph/communecter/project/save"),
+
     ),
     
   );

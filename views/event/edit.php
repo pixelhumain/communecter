@@ -52,12 +52,16 @@ font-family: "Homestead";
     <div class="hero-unit">
     
     <h2> Évenement <?php echo $event["name"].", "/*.$event["date"].", ".OpenData::$commune["974"][$event["cp"]]*/?></h2>
+     <div class="col-md-12 padding-20 pull-right">
+		<a href="#newAttendees" class="new-attendees addAttendeesBtn btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-id="<?php echo (string)$event["_id"]; ?>" data-original-title="Invite someone to this event"><i class="fa fa-plus"></i> Invite attendees</a>
+	</div>
     <p> 
-    Type : <?php if(isset($event["eventType"]))echo $event["eventType"]?><br/>
+    Type : <?php if(isset($event["type"]))echo $event["type"]?><br/>
     Where : <?php /*if(isset($event["country"])) echo OpenData::$commune["974"][$event["cp"]].", ".$event["country"]*/?><br/>
     Description : <?php if(isset($event["description"]))echo $event["description"]?>
     
     </p>
+
  	<div class="grid">
    </div>
 </div></div>
@@ -69,6 +73,7 @@ font-family: "Homestead";
 		<div class="span4 block">
 			<h2>PARTICIPANT, STANDS</h2>
 			<br/>
+			
 		</div>
 		
 		<div class=" actu span4 block">

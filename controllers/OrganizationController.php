@@ -388,7 +388,7 @@ class OrganizationController extends CommunecterController {
 							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
 						}else{
 							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
-							array('$push' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
+							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
 						}
 						
 						PHDB::update( PHType::TYPE_ORGANIZATIONS , 

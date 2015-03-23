@@ -24,9 +24,9 @@ class EventController extends CommunecterController {
       $event = Event::getById($id);
       $citoyens = array();
       $organizations = array();
-       if (isset($event["attendees"]) && !empty($event["attendees"])) 
+       if (isset($event["link"]["attendees"]) && !empty($event["attendees"])) 
 	    {
-	      foreach ($event["attendees"] as $id => $e) 
+	      foreach ($event["link"]["attendees"] as $id => $e) 
 	      {
 	      	
 	      	if (!empty($event)) {
@@ -154,5 +154,118 @@ class EventController extends CommunecterController {
     $this->render("timeline");
   }
 
-  
+
+  public function actionSaveAttendees(){
+  	$res = array( "result" => false , "content" => "Something went wrong" );
+	if(Yii::app()->request->isAjaxRequest && isset( $_POST["id"]) )
+	{
+		$event = (isset($_POST["id"])) ? PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($_POST["id"]))) : null;
+	
+		if($event)
+		{
+			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
+			{
+				if($_POST['type'] == "persons"){
+					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_CITOYEN;
+				}
+				else
+				{
+					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_ORGANIZATIONS;
+				}
+
+				if( !$member )
+				{
+					if($_POST['type'] == "persons"){
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$_POST['email'],
+					 'invitedBy'=>Yii::app()->session["userId"],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'type'=>'citoyen',
+					 'links'=>array( 'attendees' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+					 );
+					  Person::createAndInvite($member);
+					 } else {
+						 $member = array(
+						 'name'=>$_POST['name'],
+						 'email'=>$_POST['email'],
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'Group',
+						 'links'=>array( 'attendees' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+						 );
+
+						 Organization::createAndInvite($member);
+					 }
+
+					Link::connect($_POST["id"], PHType::TYPE_EVENTS,$member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
+					/*PHDB::update( PHType::TYPE_EVENTS , 
+						array("_id" => new MongoId($_POST["id"])) ,
+						array('$set' => array( "links.attendees.".(string)$member["_id"].".type" => $memberType,
+											 	"links.attendees.".(string)$member["_id"].".invitedBy" => Yii::app()->session["userId"],
+											 	"links.attendees.".(string)$member["_id"].".tobeconfirmed" => true	 
+										)
+						)
+					);*/
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+				}else{
+
+					if( isset($event['links']["attendees"]) && isset( $event['links']["attendees"][(string)$member["_id"]] ))
+						$res = array( "result" => false , "content" => "member allready exists" );
+					else {
+						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "attendees" );
+						Link::connect($_POST["id"], PHType::TYPE_EVENTS, $member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+						/*if($_POST['type'] == "persons"){
+							PHDB::update( PHType::TYPE_CITOYEN , array( "email" => $_POST['memberEmail']) ,
+								array('$set' => array( "links.attendees.".$_POST["id"].".type" => "events",
+														"links.attendees.".$_POST["id"].".tobeconfirmed" => true,
+														"links.attendees.".$_POST["id"].".invitedBy" => Yii::app()->session["userId"]
+								 	) 
+								)
+							);
+						}else{
+							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
+								array('$set' => array( "links.attendees.".$_POST["id"].".type" => "events",
+														"links.attendees.".$_POST["id"].".tobeconfirmed" => true,
+														"links.attendees.".$_POST["id"].".invitedBy" => Yii::app()->session["userId"] 
+													) 
+								)
+							);
+						}*/
+
+
+
+						/*PHDB::update( PHType::TYPE_EVENTS , 
+							array("_id" => new MongoId($_POST["id"])) ,
+							array('$set' => array( "links.attendees.".(string)$member["_id"].".type" => $memberType,
+												 	"links.attendees.".(string)$member["_id"].".invitedBy" => Yii::app()->session["userId"],
+												 	"links.attendees.".(string)$member["_id"].".tobeconfirmed" => true	 
+											)
+							)
+						);*/
+					}
+				}
+			}else
+				$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	}
+	 Rest::json( $res );
+  }
 }

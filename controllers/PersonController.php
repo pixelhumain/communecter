@@ -11,7 +11,7 @@ class PersonController extends CommunecterController {
 
   public $hasSocial = false;
   public $loginRegister = true;
-  public function actionViewer() { $this->renderPartial("viewer"); 	}
+
   
   public function accessRules() {
     return array(
@@ -169,7 +169,7 @@ class PersonController extends CommunecterController {
      */
   public function actionConnect($id,$type) 
   {
-      Rest::json( Link::connect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
+      Rest::json( Link::connect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
   /**
      * disconnect 2 people together 
@@ -388,34 +388,34 @@ class PersonController extends CommunecterController {
   public function actionInvite(){
       $this->renderPartial("invite");
   }
-  public function actionInvitation()
+  /*public function actionInvitation()
   {
-      if(Yii::app()->request->isAjaxRequest && isset($_POST['inviteEmail']) && !empty($_POST['inviteEmail']))
+      if(Yii::app()->request->isAjaxRequest && isset($_POST['email']) && !empty($_POST['email']))
     {
-            $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$_POST['inviteEmail']));
+            $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$_POST['email']));
             $sponsor = Person::getById(Yii::app()->session["userId"]);
             if($account){
                 //the sponsored user allready exists 
                 //simply add it to the sponsors conenctions 
                 $where = array("_id" => new MongoId(Yii::app()->session["userId"]));  
-                $connect = (isset($sponsor["connect"])) ? array_push($connect["connect"], $account["_id"]) : array($account["_id"]);
+                $connect = (isset($sponsor["connect"])) ? array_push($sponsor["connect"], $account["_id"]) : array($account["_id"]);
                 Yii::app()->mongodb->citoyens->update($where, array('$set' => array("connect"=>$connect )));
                 echo json_encode(array("result"=>false, "id"=>"accountExist","msg"=>"Merci pour cette action de partage. "));
             }
             else 
             {
                 //validate isEmail
-               if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['inviteEmail'])) { 
+               if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email'])) { 
                     $newAccount = array(
-                          'email'=>$_POST['inviteEmail'],
+                          'email'=>$_POST['email'],
                                 'invitedBy'=>Yii::app()->session["userId"],
                                 'tobeactivated' => true,
                                 'adminNotified' => false,
                                 'created' => time(),
                                 'type'=>'citoyen'
                                 );
-                    if( isset($_POST['inviteName']) )
-                      $newAccount['name'] = $_POST['inviteName'];
+                    if( isset($_POST['name']) )
+                      $newAccount['name'] = $_POST['name'];
                       
                     Yii::app()->mongodb->citoyens->insert($newAccount);
                     //send validation mail
@@ -426,12 +426,12 @@ class PersonController extends CommunecterController {
                     $message->setSubject('Invitation au projet Pixel Humain '.$name);
                     $message->setBody(array("user"=>$newAccount["_id"],
                                             "sponsorName"=>$name), 'text/html');
-                    $message->addTo("oceatoon@gmail.com");//$_POST['inviteEmail']
+                    $message->addTo("oceatoon@gmail.com");//$_POST['email']
                     $message->from = Yii::app()->params['adminEmail'];
                     Yii::app()->mail->send($message);*/
                     
                     //TODO : add an admin notification
-                    Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+                    /*Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
                                              "user"=>Yii::app()->session["userId"],
                                              "invited"=>$newAccount["_id"]));
                     //simply add it to the sponsors conenctions 
@@ -449,7 +449,7 @@ class PersonController extends CommunecterController {
     } else
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     exit;
-  }
+  }*/
 
   public function actionInitDataPeople(){
     //inject Data brute d'une liste de Person avec Id
@@ -593,4 +593,100 @@ class PersonController extends CommunecterController {
                                       "projects"=>$projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
+
+    public function actionViewer() { $this->renderPartial("viewer"); }
+
+    public function actionRecueilinfoEmailAutoComplete(){
+	  	$query = array( "email" => new MongoRegex("/".$_POST['email']."/i"));
+	  	
+	  	$allEmail = PHDB::find ( PHType::TYPE_CITOYEN , $query);
+							   
+		Rest::json( $allEmail );
+		Yii::app()->end(); 
+	 }
+
+
+
+  public function actionInvitation(){
+	 $res = array( "result" => false , "content" => "Something went wrong" );
+	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["sponsorPA"]) )
+	 {
+	 	//test if group exist
+		$organization = (isset($_POST["sponsorPA"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["sponsorPA"]))) : null;
+		$citoyen = (isset($_POST["sponsorPA"])) ? PHDB::findOne( PHType::TYPE_CITOYEN,array("_id"=>new MongoId($_POST["sponsorPA"]))) : null;
+		if($citoyen || $organization)
+		{
+			if($citoyen){
+				$type =  PHType::TYPE_CITOYEN;
+			}
+			else if($organization){
+				$type = PHType::TYPE_ORGANIZATIONS;
+			}
+		 	//check citizen exist by email
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
+			{
+				$member = PHDB::findOne( $type , array("email"=>$_POST['email']));
+				if( !$member )
+				{
+					 //create an entry in the citoyens colelction
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$_POST['email'],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'type'=>'citoyen',
+					 "links" => array( 
+					 	'knows'=>array( $_POST["sponsorPA"] => array( "type" => $type) ),
+					 	'invitedBy'=>array(Yii::app()->session["userId"] => array( "type" => $type)),
+					 	),
+					 );
+					Person::createAndInvite($member);
+					 //add the member into the organization map
+					PHDB::update( $type, 
+							array("_id" => new MongoId($_POST["sponsorPA"])) ,
+							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $type ) ));
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					 //TODO : background send email
+					 //send validation mail
+					 //TODO : make emails as cron jobs
+					 /*$message = new YiiMailMessage;
+					 $message>view = 'invitation';
+					 $name = (isset($sponsor["name"])) ? "par ".$sponsor["name"] : "par ".$sponsor["email"];
+					 $message>setSubject('Invitation au projet Pixel Humain '.$name);
+					 $message>setBody(array("user"=>$member["_id"],
+					 "sponsorName"=>$name), 'text/html');
+					 $message>addTo("oceatoon@gmail.com");//$_POST['email']
+					 $message>from = Yii::app()>params['adminEmail'];
+					Yii::app()>mail>send($message);*/
+
+					 //TODO : add an admin notification
+					 Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+					 "user"=>Yii::app()->session["userId"],
+					 "invited"=>$member["_id"]));
+					 
+				}
+				else
+				{
+				 //person exists with this email and is connected to this Organisation
+					$memberType = "citoyens";
+					if( isset($citoyen['links']["knows"]) && isset( $organization['links']["knows"][(string)$member["_id"]] ))
+
+						$res = array( "result" => false , "content" => "allready in your contact" );
+					else {
+						PHDB::update( $type , array( "email" => $_POST['email']) ,
+							array('$set' => array( "links.knows.".$_POST["sponsorPA"].".type" => "citoyens" ) ));
+							
+						PHDB::update( $type , 
+							array("_id" => new MongoId($_POST["sponsorPA"])) ,
+							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $memberType  ) ));
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
+					}	
+				}
+			} else
+			$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	 }
+	 Rest::json( $res );
+ }
+
 }

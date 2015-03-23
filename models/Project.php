@@ -28,5 +28,25 @@ class Project {
 
 		return $project;
 	}
+
+	public static function saveProject($params){
+		$id = Yii::app()->session["userId"];
+	    $type = PHType::TYPE_CITOYEN;
+	    $new = array(
+			"name" => $params['title'],
+			'url' => $params['url'],
+			'version' => $params['version'],
+			'licence' => $params['licence'],
+			'created' => time(),
+			"links" => array( 
+				"contributors" => array( (string)$id =>array("type" => $type)), 
+				"organizer" => array((string)$id =>array("type" => $type)),  
+			),
+	    );
+	    PHDB::insert(PHType::TYPE_PROJECTS,$new);
+	    $where = array("_id" => new MongoId(Yii::app()->session["userId"]));
+	    PHDB::update(PHType::TYPE_CITOYEN,$where, array('$push' => array("projects"=>$new["_id"])));
+	    return array("result"=>true, "msg"=>"Votre projet est communecté.", "id"=>$new["_id"]);	
+	}
 }
 ?>
