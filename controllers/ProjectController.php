@@ -103,4 +103,84 @@ class ProjectController extends CommunecterController {
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     exit;
 	}
+
+
+  public function actionSaveContributor(){
+  	$res = array( "result" => false , "content" => "Something went wrong" );
+	if(Yii::app()->request->isAjaxRequest && isset( $_POST["id"]) )
+	{
+		$event = (isset($_POST["id"])) ? PHDB::findOne( PHType::TYPE_PROJECTS,array("_id"=>new MongoId($_POST["id"]))) : null;
+	
+		if($event)
+		{
+			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
+			{
+				if($_POST['type'] == "persons"){
+					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_CITOYEN;
+				}
+				else
+				{
+					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_ORGANIZATIONS;
+				}
+
+				if( !$member )
+				{
+					if($_POST['type'] == "persons"){
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$_POST['email'],
+					 'invitedBy'=>Yii::app()->session["userId"],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'type'=>'citoyen',
+					 'links'=>array( 'contributors' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+					 );
+					  Person::createAndInvite($member);
+					 } else {
+						 $member = array(
+						 'name'=>$_POST['name'],
+						 'email'=>$_POST['email'],
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'Group',
+						 'links'=>array( 'contributors' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+						 );
+
+						 Organization::createAndInvite($member);
+					 }
+
+					Link::connect($_POST["id"], PHType::TYPE_PROJECTS,$member["_id"], $memberType, Yii::app()->session["userId"], "contributors" );
+					
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+				}else{
+
+					if( isset($event['links']["contributors"]) && isset( $event['links']["contributors"][(string)$member["_id"]] ))
+						$res = array( "result" => false , "content" => "member allready exists" );
+					else {
+						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_PROJECTS, Yii::app()->session["userId"], "contributors" );
+						Link::connect($_POST["id"], PHType::TYPE_PROJECTS, $member["_id"], $memberType, Yii::app()->session["userId"], "contributors" );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+					}
+				}
+			}else
+				$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	}
+	 Rest::json( $res );
+  }
 }

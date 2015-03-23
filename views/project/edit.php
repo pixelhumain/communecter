@@ -47,6 +47,9 @@ font-family: "Homestead";
     <div class="hero-unit">
     
     <h2> project <?php echo $project["name"]?></h2>
+     <div class="col-md-12 padding-20 pull-right">
+		<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-id="<?php echo (string)$project["_id"]; ?>" data-original-title="Invite someone to this event"><i class="fa fa-plus"></i> Invite contributor</a>
+	</div>
     <p> Descritpion et Valorisation des associations locales, des leurs actions et objectifs </p>
  	<div class="grid">
         <div></div>

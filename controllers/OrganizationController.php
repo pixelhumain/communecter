@@ -312,10 +312,16 @@ class OrganizationController extends CommunecterController {
 		 	//check citizen exist by email
 		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['memberEmail']))
 			{
-				if($_POST['memberType'] == "persons")
+				if($_POST['memberType'] == "persons"){
 					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
+					$memberType = PHType::TYPE_CITOYEN;
+				}
 				else
+				{
 					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['memberEmail']));
+					$memberType = PHType::TYPE_ORGANIZATIONS;
+				}
+
 
 				if( !$member )
 				{
@@ -345,14 +351,8 @@ class OrganizationController extends CommunecterController {
 						 Organization::createAndInvite($member);
 					 }
 					 //add the member into the organization map
-					if($member['type']=="citoyen"){
-						$memberType = "citoyens";
-					}else{
-						$memberType = "organizations";
-					}
-					PHDB::update( PHType::TYPE_ORGANIZATIONS , 
-							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
-							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType ) ));
+					
+					Link::connect($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], "members" );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					 //TODO : background send email
 					 //send validation mail
@@ -380,21 +380,11 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						$memberType = $_POST['memberType'];
 						
-						if($_POST['memberType'] == "persons"){
-							$memberType = "citoyens";
-							PHDB::update( PHType::TYPE_CITOYEN , array( "email" => $_POST['memberEmail']) ,
-							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
-						}else{
-							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
-							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
-						}
-						
-						PHDB::update( PHType::TYPE_ORGANIZATIONS , 
-							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
-							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType  ) ));
-						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
+						Link::connect($member["_id"], $memberType, $_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, Yii::app()->session["userId"], "memberOf" );
+						Link::connect($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], "members" );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+	
 					}	
 				}
 			} else

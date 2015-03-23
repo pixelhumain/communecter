@@ -83,7 +83,8 @@ class CommunecterController extends Controller
     "event.eventSV",
     "person.inviteSV",
     "project.projectSV",
-    "event.addAttendeesSV"
+    "event.addAttendeesSV",
+    "project.addContributorSV"
   );
   public $toolbarMenuMaps = array(
       array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
@@ -145,6 +146,7 @@ class CommunecterController extends Controller
       "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
       "save"=>array("href"=>"/ph/communecter/project/save"),
+      "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
 
     ),
     

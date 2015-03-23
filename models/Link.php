@@ -94,6 +94,8 @@ class Link {
         	$res = Person::getById($id);
         } else if ($type== PHType::TYPE_EVENTS){
         	$res = Event:: getById($id);
+        } else if ($type== PHType::TYPE_PROJECTS){
+        	$res = Project:: getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
         }
