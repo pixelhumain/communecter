@@ -26,9 +26,9 @@ class ProjectController extends CommunecterController {
         $project = Project::getById($id);
         $citoyens = array();
 		$organizations = array();
-		if (isset($project["contributors"]) && !empty($project["contributors"])) 
+		if (isset($project['links']["contributors"]) && !empty($project['links']["contributors"])) 
 		{
-		  foreach ($project["contributors"] as $id => $e) 
+		  foreach ($project['links']["contributors"] as $id => $e) 
 		  {
 		  	
 		  	if (!empty($project)) {
@@ -134,8 +134,7 @@ class ProjectController extends CommunecterController {
 					 'invitedBy'=>Yii::app()->session["userId"],
 					 'tobeactivated' => true,
 					 'created' => time(),
-					 'type'=>'citoyen',
-					 'links'=>array( 'contributors' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 'links'=>array( 'projects' => array($_POST["id"] =>array("type" => $_POST["type"],
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -151,7 +150,7 @@ class ProjectController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'Group',
-						 'links'=>array( 'contributors' => array($_POST["id"] =>array("type" => $_POST["type"],
+						 'links'=>array( 'projects' => array($_POST["id"] =>array("type" => $_POST["type"],
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -171,7 +170,7 @@ class ProjectController extends CommunecterController {
 					if( isset($event['links']["contributors"]) && isset( $event['links']["contributors"][(string)$member["_id"]] ))
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_PROJECTS, Yii::app()->session["userId"], "contributors" );
+						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_PROJECTS, Yii::app()->session["userId"], "projects" );
 						Link::connect($_POST["id"], PHType::TYPE_PROJECTS, $member["_id"], $memberType, Yii::app()->session["userId"], "contributors" );
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 

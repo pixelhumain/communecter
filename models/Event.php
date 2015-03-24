@@ -43,7 +43,7 @@ class Event {
 			'created' => time(),
 			"links" => array( 
 				"attendees" => array( (string)$id =>array("type" => $type)), 
-				"organizer" => array((string)$id =>array("type" => $type)),  
+				"organizers" => array((string)$id =>array("type" => $type)),  
 			),
 	        "allDay" => $params['allDay'],
 	    );
@@ -58,10 +58,11 @@ class Event {
 	    PHDB::insert(PHType::TYPE_EVENTS,$new);
 	    
 	    //add the association to the users association list
-	    $where = array("_id" => new MongoId(Yii::app()->session["userId"]));
-	    PHDB::update( PHType::TYPE_EVENTS , 
-							array("_id" => new MongoId($id)) ,
-							array('$set' => array( "attendees.".(string)$id."type" => $type ) ));
+	    Link::connect($id, $type, $new["_id"], PHType::TYPE_EVENTS, $id, "events" );
+	    //$where = array("_id" => new MongoId(Yii::app()->session["userId"]));
+	    //PHDB::update( PHType::TYPE_EVENTS , 
+		//					array("_id" => new MongoId($id)) ,
+		//					array('$set' => array( "attendees.".(string)$id."type" => $type ) ));
 	    
 	    //send validation mail
 	    //TODO : make emails as cron jobs

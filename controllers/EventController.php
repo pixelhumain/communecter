@@ -24,9 +24,9 @@ class EventController extends CommunecterController {
       $event = Event::getById($id);
       $citoyens = array();
       $organizations = array();
-       if (isset($event["link"]["attendees"]) && !empty($event["attendees"])) 
+       if (isset($event["links"]["attendees"]) && !empty($event["links"]["attendees"])) 
 	    {
-	      foreach ($event["link"]["attendees"] as $id => $e) 
+	      foreach ($event["links"]["attendees"] as $id => $e) 
 	      {
 	      	
 	      	if (!empty($event)) {
@@ -184,8 +184,7 @@ class EventController extends CommunecterController {
 					 'invitedBy'=>Yii::app()->session["userId"],
 					 'tobeactivated' => true,
 					 'created' => time(),
-					 'type'=>'citoyen',
-					 'links'=>array( 'attendees' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $memberType,
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -201,7 +200,7 @@ class EventController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'Group',
-						 'links'=>array( 'attendees' => array($_POST["id"] =>array("type" => $_POST["type"],
+						 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $memberType,
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -213,53 +212,16 @@ class EventController extends CommunecterController {
 					 }
 
 					Link::connect($_POST["id"], PHType::TYPE_EVENTS,$member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
-					/*PHDB::update( PHType::TYPE_EVENTS , 
-						array("_id" => new MongoId($_POST["id"])) ,
-						array('$set' => array( "links.attendees.".(string)$member["_id"].".type" => $memberType,
-											 	"links.attendees.".(string)$member["_id"].".invitedBy" => Yii::app()->session["userId"],
-											 	"links.attendees.".(string)$member["_id"].".tobeconfirmed" => true	 
-										)
-						)
-					);*/
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 
 				}else{
 
-					if( isset($event['links']["attendees"]) && isset( $event['links']["attendees"][(string)$member["_id"]] ))
+					if( isset($event['links']["events"]) && isset( $event['links']["events"][(string)$member["_id"]] ))
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "attendees" );
+						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "events" );
 						Link::connect($_POST["id"], PHType::TYPE_EVENTS, $member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
-
-						/*if($_POST['type'] == "persons"){
-							PHDB::update( PHType::TYPE_CITOYEN , array( "email" => $_POST['memberEmail']) ,
-								array('$set' => array( "links.attendees.".$_POST["id"].".type" => "events",
-														"links.attendees.".$_POST["id"].".tobeconfirmed" => true,
-														"links.attendees.".$_POST["id"].".invitedBy" => Yii::app()->session["userId"]
-								 	) 
-								)
-							);
-						}else{
-							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
-								array('$set' => array( "links.attendees.".$_POST["id"].".type" => "events",
-														"links.attendees.".$_POST["id"].".tobeconfirmed" => true,
-														"links.attendees.".$_POST["id"].".invitedBy" => Yii::app()->session["userId"] 
-													) 
-								)
-							);
-						}*/
-
-
-
-						/*PHDB::update( PHType::TYPE_EVENTS , 
-							array("_id" => new MongoId($_POST["id"])) ,
-							array('$set' => array( "links.attendees.".(string)$member["_id"].".type" => $memberType,
-												 	"links.attendees.".(string)$member["_id"].".invitedBy" => Yii::app()->session["userId"],
-												 	"links.attendees.".(string)$member["_id"].".tobeconfirmed" => true	 
-											)
-							)
-						);*/
 					}
 				}
 			}else

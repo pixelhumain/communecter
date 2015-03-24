@@ -73,7 +73,7 @@ font-family: "Homestead";
 	        	  TweenMax.staggerFromTo(".container h2", 4, {scaleX:0.4, scaleY:0.4}, {scaleX:1, scaleY:1},1);
 	        })();
 	};
-	<?php $mapPerson = array("project"=>$project, "citoyens"=>$citoyens, "organizations"=>$organizations); ?>
- 	var mapPerson = <?php echo json_encode($mapPerson)?>;
+	<?php $mapProject = array("project"=>$project, "citoyens"=>$citoyens, "organizations"=>$organizations); ?>
+ 	var mapProject = <?php echo json_encode($mapProject)?>;
  	var type = "project";
 </script>			
