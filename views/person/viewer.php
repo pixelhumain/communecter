@@ -171,53 +171,23 @@
 		}
 		return map;
 	}
-	function createDataFinal(varname, id, data){
-		var dataJson = [];
-		var newData = {};
-		var parentId = id;
-	  	var children= [];
-	  	var newNode = {};
-	  	var name1;
-	  	var linkParent, eventParent, projectParent;
-	  	dataTab = datafile;
-	  	var parent;
-	  	var nameLink;
-	  	//console.log(varname);
+	
+	function createDataFinalBis(varname, id, data){
+		
+		var firstNode;
+		
+		
+		var typeArray = [];
+		var firstNodeChildren = [];
 	  	$.each(datafile, function(key,obj){
-	  		//console.log(obj, obj.length);
-	  		//console.log("ok");
+	  		var isType = false;
+	  		var typeObject = {};
 	  		if(key==varname){
-	  			//console.log("ok2");
-	  			name1 = obj.name;
-	  			//console.log(key, obj);
-				newData["name"] = name1;
-				newData["rayon"] = 31;
-				newData["level"] = 1;
-				newData["fixed"] = "true";
-				newData["parent"] = key;
-				if(typeof(obj.type)!="undefined"){
-					newData["type"]=obj.type;
-				}
-				newData["parentId"] =parentId;
-				newData["x"] = 0;
-				newData["y"] = 0;
-				//console.log("objLinks", obj.links, varname);
-				if(typeof(obj.links)!= "undefined"){
-					linkParent = obj.links;
-				}else if(typeof(obj.attendees)!="undefined"){
-					linkParent = obj.attendees;
-					nameLink ="attendee";
-				}else{
-					linkParent = obj.contributors;
-					nameLink ="contributor"
-				}
+				firstNode = createDataNode(obj, 1);
+				firstNode['parent'] = key;
 			}else if(obj.length>0){
-				var newChild ={};
-				newChild["name"] = key;
-				newChild["rayon"] = 23;
-				newChild["level"] = 2;
-				newChild["type"]= "";
-				parent = key;
+				//console.log(key);
+				var parent = key;
 				if(parent == "people" || parent=="citoyens")
 					parent = "person";
 				if(parent == "organizations")
@@ -226,168 +196,64 @@
 					parent = "project"
 				if(parent == "events")
 					parent = "event";
-				newChild["parent"] = parent;
-				var childrenLevel = [];
-				var typeItem ="";
-				//console.log(obj, key);
-				$.each(obj, function(key2, obj2){
-					//console.log(key2, obj2);
-					var id = obj2["_id"]["$id"];
-					var newChildLevel = {};
-					var link = "links";
-					if(typeof(obj2.type)!="undefined"){
-						typeItem = obj2.type;
-					}
-					if(typeof(obj2.links)=="undefined"){
-						link = "attendees";
-					}
-					if(typeof(obj2[link])=="undefined"){
-						link = "contributors";
-					}
-					//console.log(parent);
-					$.each(obj2[link], function(key, obj){
-						//console.log('key', key , 'obj', obj);
-						if(link == "attendees"){	
-							nameLink="attendee";
-						}
-						else if(link =="contributors"){
-							nameLink = "contributor";
-						}else{
-							//console.log(linkParent);
-							$.each(linkParent, function(label, obj2){
-								//console.log(obj2, label);
-								$.each(obj2, function(label3, obj3){
-									if(id==label3){
-										nameLink = label;
-									}
-								})
-							})	
-						}
-						//console.log(nameLink);
-						newChildLevel["link"] = nameLink;
-						if($.inArray(nameLink, tabLinks)==-1 && typeof(nameLink)!= "undefined"){
-							tabLinks.push(nameLink);
-						}
-					})
-					newChildLevel["type"] = typeItem;
-					newChildLevel["name"] = obj2.name;
-					newChildLevel["rayon"] = 15;
-					newChildLevel["level"] = 3;
-					parent= key
-					//console.log(parent);
-					if(parent == "people" || parent=="citoyens")
-						parent = "person";
-					if(parent == "organizations")
-						parent = "organization";
-					if(parent == "projects")
-						parent = "project"
-					if(parent == "events")
-						parent = "event";
-					if($.inArray(parent, tabType)==-1){
-							tabType.push(parent);
-					}
-					newChildLevel["parent"] = parent;
-					//console.log(obj2);
-					var id = obj2["_id"]["$id"];
-					newChildLevel["parentId"] = id;
-					newChildLevel["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
-					////console.log(newChildLevel);
-					childrenLevel.push(newChildLevel);
-				})
-				////console.log(childrenLevel);
-				newChild["children"]= childrenLevel;
-				children.push(newChild);
-				//console.log(children);
-			}
-		})
-		newData["children"] = children;
-		dataJson.push(newData);
-		//console.log("dataJson", dataJson);
-		return newData;
-	}
-
-
-function createDataFinalBis(varname, id, data){
-	
-	var firstNode;
-	
-	
-	var typeArray = [];
-	var firstNodeChildren = [];
-  	$.each(datafile, function(key,obj){
-  		var isType = false;
-  		var typeObject = {};
-  		if(key==varname){
-			firstNode = createDataNode(obj, 1);
-			firstNode['parent'] = key;
-		}else if(obj.length>0){
-			console.log(key);
-			var parent = key;
-			if(parent == "people" || parent=="citoyens")
-				parent = "person";
-			if(parent == "organizations")
-				parent = "organization";
-			if(parent == "projects")
-				parent = "project"
-			if(parent == "events")
-				parent = "event";
-			if($.inArray(parent, tabType)==-1){
-				tabType.push(parent);
-			}
-			var newNode = createDataNode(obj, 2);
-			newNode['parent'] = parent;
-			newNode['name'] = key;
-			var newNodeChildren= [];
-			$.each(obj, function(key2, obj2){
-				var newNodeChild;
-				var id = obj2["_id"]["$id"];
-				if(typeof(obj2.type)!='undefined'){
-					if(typeof(typeObject[obj2.type])!='undefined'){
-						typeObject[obj2.type].push(obj2);
-					}else{
-						typeObject[obj2.type] = [];
-						typeObject[obj2.type].push(obj2);
-					}
-					isType = true;
-				}else{
-
-					newNodeChild = createDataNode(obj2, 3);
-					newNodeChild["link"] = getLink(id,datafile, varname);
-					newNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
-					newNodeChildren.push(newNodeChild);
+				if($.inArray(parent, tabType)==-1){
+					tabType.push(parent);
 				}
-				
-			})
-			if(isType){
-				$.each(typeObject, function(key2, obj2){
-					var typeNode = {};
-					typeNode['name'] = key2;
-					typeNode["type"] = key2;
-					typeNode['level'] = 3;
-					typeNode["rayon"] = 15;
-					typeNode["parent"] = parent;
-					var typeArrayChildren = [];
-					$.each(obj2, function(key3, obj3){
-						var typeNodeChild = createDataNode(obj3, 4);
-						var id = obj3['_id']['$id'];
-						typeNodeChild['parent'] = parent;
-						typeNodeChild['type'] = key2;
-						typeNodeChild['link'] = getLink(id, datafile, varname);
-						typeNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
-						typeArrayChildren.push(typeNodeChild);
-					})
-					typeNode["children"] = typeArrayChildren;
-					newNodeChildren.push(typeNode);
+				var newNode = createDataNode(obj, 2);
+				newNode['parent'] = parent;
+				newNode['name'] = key;
+				var newNodeChildren= [];
+				console.log("obj2", obj, key);
+				$.each(obj, function(key2, obj2){
+					var newNodeChild;
+					var id = obj2["_id"]["$id"];
+					if(typeof(obj2.type)!='undefined'){
+						if(typeof(typeObject[obj2.type])!='undefined'){
+							typeObject[obj2.type].push(obj2);
+						}else{
+							typeObject[obj2.type] = [];
+							typeObject[obj2.type].push(obj2);
+						}
+						isType = true;
+					}else{
+
+						newNodeChild = createDataNode(obj2, 3);
+						newNodeChild["link"] = getLink(id,datafile, varname);
+						newNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+						newNodeChildren.push(newNodeChild);
+					}
+					
 				})
-				console.log("newNodeChildren", newNodeChildren);
+				if(isType){
+					$.each(typeObject, function(key2, obj2){
+						var typeNode = {};
+						typeNode['name'] = key2;
+						typeNode["type"] = key2;
+						typeNode['level'] = 3;
+						typeNode["rayon"] = 15;
+						typeNode["parent"] = parent;
+						var typeArrayChildren = [];
+						$.each(obj2, function(key3, obj3){
+							var typeNodeChild = createDataNode(obj3, 4);
+							var id = obj3['_id']['$id'];
+							typeNodeChild['parent'] = parent;
+							typeNodeChild['type'] = key2;
+							typeNodeChild['link'] = getLink(id, datafile, varname);
+							typeNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+							typeArrayChildren.push(typeNodeChild);
+						})
+						typeNode["children"] = typeArrayChildren;
+						newNodeChildren.push(typeNode);
+					})
+					console.log("newNodeChildren", newNodeChildren);
+				}
+				newNode['children'] = newNodeChildren;
+				firstNodeChildren.push(newNode);
 			}
-			newNode['children'] = newNodeChildren;
-			firstNodeChildren.push(newNode);
-		}
-	});
-	firstNode['children']=firstNodeChildren;
-	return firstNode;
-}
+		});
+		firstNode['children']=firstNodeChildren;
+		return firstNode;
+	}
 
 
 function getLink(id, map, varname){
@@ -408,26 +274,6 @@ function getLink(id, map, varname){
 						}
 					})				
 				})
-			}
-			if(typeof(obj.events)!= 'undefined' && obj.events.length>0){
-				if($.inArray("attendee", tabLinks)==-1){
-					tabLinks.push("attendee");
-				}
-				for(var i=0; i<obj.events.length; i++){
-					if(obj.events[i]==id){
-						link="attendee";
-					}
-				}
-			}
-			if(typeof(obj.projects)!= 'undefined' && obj.projects.length>0){
-				if($.inArray("contributor", tabLinks)==-1){
-					tabLinks.push("contributor");
-				}
-				for(var i=0; i<obj.projects.length; i++){
-					if(obj.projects[i]==id){
-						link="contributor";
-					}
-				}
 			}
 		}
 	});

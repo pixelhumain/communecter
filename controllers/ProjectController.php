@@ -26,9 +26,9 @@ class ProjectController extends CommunecterController {
         $project = Project::getById($id);
         $citoyens = array();
 		$organizations = array();
-		if (isset($project["contributors"]) && !empty($project["contributors"])) 
+		if (isset($project['links']["contributors"]) && !empty($project['links']["contributors"])) 
 		{
-		  foreach ($project["contributors"] as $id => $e) 
+		  foreach ($project['links']["contributors"] as $id => $e) 
 		  {
 		  	
 		  	if (!empty($project)) {

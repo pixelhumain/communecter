@@ -24,9 +24,9 @@ class EventController extends CommunecterController {
       $event = Event::getById($id);
       $citoyens = array();
       $organizations = array();
-       if (isset($event["link"]["attendees"]) && !empty($event["attendees"])) 
+       if (isset($event["links"]["attendees"]) && !empty($event["links"]["attendees"])) 
 	    {
-	      foreach ($event["link"]["attendees"] as $id => $e) 
+	      foreach ($event["links"]["attendees"] as $id => $e) 
 	      {
 	      	
 	      	if (!empty($event)) {

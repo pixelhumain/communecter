@@ -116,13 +116,13 @@ class PersonController extends CommunecterController {
 
     $events = array();
     //Load people I know
-    if (isset($person["events"]) && !empty($person["events"])) 
+    if (isset($person["links"]) && !empty($person["links"]["events"])) 
     {
-      foreach ($person["events"] as $id ) 
+      foreach ($person["links"]["events"]  as $id => $e ) 
       {
-        $el = PHDB::findOne( PHType::TYPE_EVENTS , array( "_id" => new MongoId($id)));
-        if (!empty($el)) {
-          array_push($events, $el);
+        $event = Event::getById($id);
+        if (!empty($event)) {
+          array_push($events, $event);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -131,13 +131,13 @@ class PersonController extends CommunecterController {
 
     $projects = array();
     //Load people I know
-    if (isset($person["projects"]) && !empty($person["projects"])) 
+    if (isset($person["links"]) && !empty($person["links"]["projects"])) 
     {
-      foreach ($person["projects"] as $id) 
+      foreach ($person["links"]["projects"] as $id => $e) 
       {
-        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($id)));
-        if (!empty($el)) {
-          array_push($projects, $el);
+        $project = Project:: getById($id);
+        if (!empty($project)) {
+          array_push($projects, $project);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
