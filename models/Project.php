@@ -44,8 +44,7 @@ class Project {
 			),
 	    );
 	    PHDB::insert(PHType::TYPE_PROJECTS,$new);
-	    $where = array("_id" => new MongoId(Yii::app()->session["userId"]));
-	    PHDB::update(PHType::TYPE_CITOYEN,$where, array('$push' => array("projects"=>$new["_id"])));
+	    Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
 	    return array("result"=>true, "msg"=>"Votre projet est communecté.", "id"=>$new["_id"]);	
 	}
 }
