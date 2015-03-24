@@ -1,5 +1,11 @@
 <?php
 class Link {
+
+    const person2person = "links.knows";
+    const person2organization = "links.memberOf";
+    const organization2person = "links.members";
+    const person2events = "links.events";
+    const person2projects = "links.projects";
 	
 	/**
 	 * Add a member to an organization
