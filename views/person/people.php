@@ -25,16 +25,18 @@
 				foreach ($people as $e) 
 				{
 				?>
-				<tr id="<?php echo PHType::TYPE_CITOYEN.(string)$e["_id"];?>">
+				<tr id="<?php echo (isset($e["_id"])) ? PHType::TYPE_CITOYEN.(string)$e["_id"] : "no Id";?>">
 					<td><?php if(isset($e["name"]))echo $e["name"]?></td>
 					<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 					<td><?php if(isset($e["tags"]))echo implode(",", $e["tags"])?></td>
 					<td class="center">
+						<?php if(isset($e["_id"])) {?>
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/edit/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/public/id/'.$e["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 							<a href="javascript:;" class="disconnectBtn btn btn-red tooltips " data-linkType="knows" data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 						</div>
+						<?php } ?>
 					</td>
 				</tr>
 				<?php

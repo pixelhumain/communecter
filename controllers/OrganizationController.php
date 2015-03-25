@@ -299,6 +299,7 @@ class OrganizationController extends CommunecterController {
     $this->render("public", array("organization" => $organization));
   }
 
+
   public function actionSaveMember(){
 	 $res = array( "result" => false , "content" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
@@ -393,4 +394,38 @@ class OrganizationController extends CommunecterController {
 	 }
 	 Rest::json( $res );
  }
+
+/* **************************************
+*
+*  Devrait peut etre partir dans le module organisation
+*
+***************************************** */
+  public function actionDashboard($id)
+  {
+    //get The organization Id
+    if (empty($id)) {
+      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+    }
+
+    $organization = Organization::getPublicData($id);
+
+    $testId = "54d9f142f6b95c7c050023c9";
+    $this->sidebar1 = array(
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$testId),
+      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/public/id/".$testId),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/organization/sig/id/".$testId),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar","href"=>"communecter/organization/calendar/id/".$testId),
+      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/organization/jobs/id/".$testId),
+      array('label' => "RESSOURCES", "key"=>"contact","iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$testId),
+      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$testId),
+      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$testId),
+      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$testId),
+    );
+
+    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
+    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+    $this->render("dashboard", array("organization" => $organization));
+  }
 }
