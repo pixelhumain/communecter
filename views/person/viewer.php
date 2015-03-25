@@ -162,7 +162,6 @@
 		
 		var firstNode;
 		
-		
 		var typeArray = [];
 		var firstNodeChildren = [];
 	  	$.each(datafile, function(key,obj){
