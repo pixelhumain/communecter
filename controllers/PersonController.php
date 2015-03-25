@@ -176,7 +176,7 @@ class PersonController extends CommunecterController {
      */
   public function actionDisconnect($id,$type) 
   {
-      Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
+      Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
 
   public function actionRemoveMemberOf($id, $type){

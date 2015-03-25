@@ -140,7 +140,7 @@
 			    	force.stop();
 					$("#svgNodes").empty();
 					$("#chart").empty();
-					data = createDataFinalBis(type, "<?php echo Yii::app()->session['userId'] ?>", datafile);
+					data = createDataGraph(type, "<?php echo Yii::app()->session['userId'] ?>", datafile);
 					getNewData(data);
 				} , 200);
 			   	
@@ -148,7 +148,7 @@
 			});	
 			//data = createDataFinal("person", "<?php echo Yii::app()->session['userId'] ?>", datafile);
 			datafile = getDataFile();
-			data = createDataFinalBis(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
+			data = createDataGraph(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
 			//data=createData("person", "<?php echo Yii::app()->session['userId'] ?>", {"people":{"name":"name", "parentIdField":"links"}, "organizations":{"name":"name", "parentIdField":"links"}}, datafile);
 			getNewData(data);
 	});
@@ -172,7 +172,7 @@
 		return map;
 	}
 	
-	function createDataFinalBis(varname, id, data){
+	function createDataGraph(varname, id, data){
 		
 		var firstNode;
 		
@@ -344,15 +344,15 @@ function getNewData(data){
 		force.stop();
 	}
 	
-	//console.log(tabType.length);
 	for(var i = 0; i<tabType.length; i++){
 		tabColorType.push(randomColor());
 	}
 	onTimeTick();
-	//////console.log("data", data);
+	
 	update();
-//Initialize the display to show a few nodes.
 
+//Initialize the display to show a few nodes.
+	
 	data.children.forEach(toggleAll);
 	// Restart the force layout.
 	nodes = flatten(data);
@@ -593,6 +593,7 @@ function getNewData(data){
 			
 			})
 
+
 		//})
 		node.exit().remove();
 	    $(".level3, .level4")
@@ -638,6 +639,9 @@ function getNewData(data){
 
 
 	}
+	
+
+	
 
 	function tick() {
 		link.attr("x1", function(d) { return d.source.x; })
@@ -711,6 +715,13 @@ function getNewData(data){
 	}
 
 	
+	function getSize(d) {
+	  var bbox = this.getBBox(),
+	      cbbox = this.parentNode.getBBox(),
+	      scale = Math.min(cbbox.width/bbox.width, cbbox.height/bbox.height);
+	      console.log("scale", scale);
+	  d.scale = scale;
+	}
 	function getFontSize(text,r){
 		//var fontsize = (4 * r) / text.length-5 + "px"; // algorithme à trouver...
 		var fontsize = r/1.8+ "px";		return fontsize ;

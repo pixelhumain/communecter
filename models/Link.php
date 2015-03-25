@@ -152,7 +152,7 @@ class Link {
      * @param type $userId The userId doing the action
      * @return result array with the result of the operation
      */
-    public static function disconnect($originId, $originType, $targetId, $targetType, $userId) {
+    public static function disconnect($originId, $originType, $targetId, $targetType, $userId, $connectType) {
         
         //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
@@ -161,7 +161,7 @@ class Link {
         //2. Create the links
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
-                       array('$unset' => array("links.knows.".$targetId => "") ));
+                       array('$unset' => array("links.".$connectType.".".$targetId => "") ));
 
         //3. Send Notifications
         //TODO - Send email to the member
