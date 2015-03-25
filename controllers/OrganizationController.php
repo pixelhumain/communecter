@@ -309,21 +309,24 @@ class OrganizationController extends CommunecterController {
 	
 		if($organization)
 		{
-		
+
+			$memberEmail = $_POST['memberEmail'];
+
+			if($_POST['memberType'] == "persons"){
+				$memberType = PHType::TYPE_CITOYEN;
+			}else{
+				$memberType = PHType::TYPE_ORGANIZATIONS;
+			}
+			if(isset($_POST["memberId"]) && $_POST["memberId"] != ""){
+				$memberEmailObject = PHDB::findOne( $memberType , array("_id" =>new MongoId($_POST["memberId"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
 		 	//check citizen exist by email
-		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['memberEmail']))
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
 			{
-				if($_POST['memberType'] == "persons"){
-					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
-					$memberType = PHType::TYPE_CITOYEN;
-				}
-				else
-				{
-					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['memberEmail']));
-					$memberType = PHType::TYPE_ORGANIZATIONS;
-				}
-
-
+				
+				$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+				
 				if( !$member )
 				{
 					 //create an entry in the citoyens colelction

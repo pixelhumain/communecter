@@ -596,10 +596,10 @@ class PersonController extends CommunecterController {
 
     public function actionViewer() { $this->renderPartial("viewer"); }
 
-    public function actionRecueilinfoEmailAutoComplete(){
+    public function actionGetUserAutoComplete(){
 	  	$query = array( "email" => new MongoRegex("/".$_POST['email']."/i"));
 	  	
-	  	$allEmail = PHDB::find ( PHType::TYPE_CITOYEN , $query);
+	  	$allEmail = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address"));
 							   
 		Rest::json( $allEmail );
 		Yii::app()->end(); 
@@ -609,41 +609,48 @@ class PersonController extends CommunecterController {
 
   public function actionInvitation(){
 	 $res = array( "result" => false , "content" => "Something went wrong" );
-	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["sponsorPA"]) )
+	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentId"]) )
 	 {
 	 	//test if group exist
-		$organization = (isset($_POST["sponsorPA"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["sponsorPA"]))) : null;
-		$citoyen = (isset($_POST["sponsorPA"])) ? PHDB::findOne( PHType::TYPE_CITOYEN,array("_id"=>new MongoId($_POST["sponsorPA"]))) : null;
+		$organization = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentId"]))) : null;
+		$citoyen = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_CITOYEN,array("_id"=>new MongoId($_POST["parentId"]))) : null;
 		if($citoyen || $organization)
 		{
+			$memberEmail = $_POST['email'];
 			if($citoyen){
 				$type =  PHType::TYPE_CITOYEN;
 			}
 			else if($organization){
 				$type = PHType::TYPE_ORGANIZATIONS;
 			}
+			
+			if(isset($_POST["id"]) && $_POST["id"] != ""){
+				$memberEmailObject = PHDB::findOne( $type , array("_id" =>new MongoId($_POST["id"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
+
 		 	//check citizen exist by email
-		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
 			{
-				$member = PHDB::findOne( $type , array("email"=>$_POST['email']));
+				$member = PHDB::findOne( $type , array("email"=>$memberEmail));
 				if( !$member )
 				{
 					 //create an entry in the citoyens colelction
 					 $member = array(
 					 'name'=>$_POST['name'],
-					 'email'=>$_POST['email'],
+					 'email'=>$memberEmail,
 					 'tobeactivated' => true,
 					 'created' => time(),
 					 'type'=>'citoyen',
 					 "links" => array( 
-					 	'knows'=>array( $_POST["sponsorPA"] => array( "type" => $type) ),
+					 	'knows'=>array( $_POST["parentId"] => array( "type" => $type) ),
 					 	'invitedBy'=>array(Yii::app()->session["userId"] => array( "type" => $type)),
 					 	),
 					 );
 					Person::createAndInvite($member);
 					 //add the member into the organization map
 					PHDB::update( $type, 
-							array("_id" => new MongoId($_POST["sponsorPA"])) ,
+							array("_id" => new MongoId($_POST["parentId"])) ,
 							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $type ) ));
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					 //TODO : background send email
@@ -673,11 +680,11 @@ class PersonController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "allready in your contact" );
 					else {
-						PHDB::update( $type , array( "email" => $_POST['email']) ,
-							array('$set' => array( "links.knows.".$_POST["sponsorPA"].".type" => "citoyens" ) ));
+						PHDB::update( $type , array( "email" => $memberEmail) ,
+							array('$set' => array( "links.knows.".$_POST["parentId"].".type" => "citoyens" ) ));
 							
 						PHDB::update( $type , 
-							array("_id" => new MongoId($_POST["sponsorPA"])) ,
+							array("_id" => new MongoId($_POST["parentId"])) ,
 							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $memberType  ) ));
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
 					}	

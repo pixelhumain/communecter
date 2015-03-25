@@ -163,28 +163,33 @@ class EventController extends CommunecterController {
 	
 		if($event)
 		{
-			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
-			{
-				if($_POST['type'] == "persons"){
-					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['email']));
-					$memberType = PHType::TYPE_CITOYEN;
-				}
-				else
-				{
-					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['email']));
-					$memberType = PHType::TYPE_ORGANIZATIONS;
-				}
+			$memberEmail = $_POST['email'];
 
+			if($_POST['type'] == "persons"){
+				$memberType = PHType::TYPE_CITOYEN;
+			}else{
+				$memberType = PHType::TYPE_ORGANIZATIONS;
+			}
+			if(isset($_POST["id"]) && $_POST["id"] != ""){
+				$memberEmailObject = PHDB::findOne( $type , array("_id" =>new MongoId($_POST["id"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
+
+			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
+			{
+				
+				$member = PHDB::findOne($memberType, array("email"=>$_POST['email']));
+				
 				if( !$member )
 				{
 					if($_POST['type'] == "persons"){
 					 $member = array(
 					 'name'=>$_POST['name'],
-					 'email'=>$_POST['email'],
+					 'email'=>$memberEmail,
 					 'invitedBy'=>Yii::app()->session["userId"],
 					 'tobeactivated' => true,
 					 'created' => time(),
-					 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $memberType,
+					 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $type,
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -195,12 +200,12 @@ class EventController extends CommunecterController {
 					 } else {
 						 $member = array(
 						 'name'=>$_POST['name'],
-						 'email'=>$_POST['email'],
+						 'email'=>$memberEmail,
 						 'invitedBy'=>Yii::app()->session["userId"],
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'Group',
-						 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $memberType,
+						 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $type,
 					 															"tobeconfirmed" => true,
 					 															"invitedBy" => Yii::app()->session["userId"]
 					 														)
@@ -211,7 +216,7 @@ class EventController extends CommunecterController {
 						 Organization::createAndInvite($member);
 					 }
 
-					Link::connect($_POST["id"], PHType::TYPE_EVENTS,$member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
+					Link::connect($_POST["id"], PHType::TYPE_EVENTS,$member["_id"], $type, Yii::app()->session["userId"], "attendees" );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 
 				}else{
@@ -219,8 +224,8 @@ class EventController extends CommunecterController {
 					if( isset($event['links']["events"]) && isset( $event['links']["events"][(string)$member["_id"]] ))
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "events" );
-						Link::connect($_POST["id"], PHType::TYPE_EVENTS, $member["_id"], $memberType, Yii::app()->session["userId"], "attendees" );
+						Link::connect($member["_id"], $type, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "events" );
+						Link::connect($_POST["id"], PHType::TYPE_EVENTS, $member["_id"], $type, Yii::app()->session["userId"], "attendees" );
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					}
 				}

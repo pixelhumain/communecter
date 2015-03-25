@@ -51,7 +51,8 @@ $this->renderPartial('addMembers', array( "organization" => $organization ));
 ?>
 
 <script type="text/javascript">
-	
+
+var str;	
 jQuery(document).ready(function() {
 	
 	$(".addMembersBtn").off().on("click",function () {

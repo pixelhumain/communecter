@@ -122,7 +122,7 @@ class CommunecterController extends Controller
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
-      "recueilinfoemailautocomplete"=> array('href' => "/person/RecueilinfoEmailAutoComplete")
+      "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete")
     ),
 
     "organization"=> array(
