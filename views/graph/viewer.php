@@ -88,7 +88,7 @@
 
 	
 <div id="chart">
-	<div id="titre"></div>
+	<div class="center text-extra-large text-bold padding-20"  id="titre"></div>
 	
 </div>
 	
@@ -147,12 +147,13 @@
 	}
 	
 	function initViewer(){
-		if(typeof(datafile)!="undefined"){
+		if(datafile!=null){
 			data = createDataGraph(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
 			getNewData(data);
 		}
 		else{
-			$("#title").text("Pas de donnée à afficher");
+			$("#titre").text("Pas de donnée à afficher");
+			$(".panel_map").remove();
 		}
 	}
 
@@ -804,7 +805,9 @@ function getNewData(data){
 			return hslToRgb(h, 0.5, 0.60);
 	}
   function clearViewer(){
-		force.stop();
+		if(typeof(force) != "undefined"){
+			force.stop();
+		};
 		$("#svgNodes").empty();
 		$("#chart").empty();
 	}
@@ -841,6 +844,6 @@ function getNewData(data){
 
 		datafile = getDataFile();
 
-		//initViewer();
+		initViewer();
 	});
 </script>

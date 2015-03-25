@@ -435,7 +435,7 @@
 	    	"type" : "Group",
 	    	"telephone" : "02.62.45.92.92",
 	    	"address" : {
-	    		"cp" : "97864"
+	    		"cp" : "97864",
 	    		"addressCountry" : "Réunion"
 	    	},
 	    	"description" : "",
@@ -477,7 +477,8 @@
 	    	]
 	    }
 
-    ]
+    ],
+
     "citoyens": [
     	{
             "email" : "",
