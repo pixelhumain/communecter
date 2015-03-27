@@ -1,7 +1,7 @@
 <!-- *** SHOW CALENDAR *** -->
 <div id="showCalendar" class="col-md-10 col-md-offset-1">
 	<div class="barTopSubview">
-		<a href="#addTaskForm" class="new-task button-sv" data-subviews-options='{"onShow": "bindTaskEvents();"}'><i class="fa fa-plus"></i> Add new Task</a>
+		<a href="#addTaskForm" class="new-task new-event button-sv" data-subviews-options='{"onShow": "bindTaskEvents();"}'><i class="fa fa-plus"></i> Add new Task</a>
 	</div>
 	<div id="calendar"></div>
 </div>
@@ -224,61 +224,75 @@ var setCalendarEvents = function() {
 
 };
 //creates fullCalendar
-function buildCalObj(taskObj)
+function buildCalObj(eventObj)
 {
-	//console.log("addTasks2CAlendar","task",taskId,taskObj);
+	//console.log("addTasks2CAlendar","task",taskId,eventObj);
 	//entries for the calendar
 	var taskCal = null;
 	var prioClass = 'event-job';
-	switch( taskObj.priority ){
+	switch( eventObj.priority ){
 		case "urgent" : prioClass = 'event-todo'; break;
 		case "high" : prioClass = 'event-offsite'; break;
 		case "normal" : prioClass = ''; break;
 		case "low" : prioClass = 'event-generic'; break;
 		default : prioClass = 'event-job'; 
 	}
-	if(taskObj.startDate && taskObj.startDate != "")
+	if(eventObj.startDate && eventObj.startDate != "")
 	{
-		var sd = taskObj.startDate.split("/");
-	 	var startDate = new Date(sd[2],parseInt(sd[1])-1,sd[0]  );
+		console.log("eventObj", eventObj, eventObj.startDate);
+		var sd = eventObj.startDate.split(" ")[0];
+		var sh = eventObj.startDate.split(" ")[1];
+		var sdv = sd.split("/");
+		var shv = sh.split(":");
+	 	var startDate = new Date(sdv[2],parseInt(sdv[1])-1,sdv[0], shv[0], shv[1]);
 	 	var endDate = null;
-	 	if(taskObj.endDate && taskObj.endDate != "" )
+	 	if(eventObj.endDate && eventObj.endDate != "" )
 	 	{
-		 	var ed = taskObj.endDate.split("/");
-		 	endDate = new Date(ed[2],parseInt(ed[1])-1,ed[0]  );
+		 	var ed = eventObj.endDate.split(" ")[0];
+		 	var eh = eventObj.endDate.split(" ")[1];
+		 	var edv = ed.split("/");
+		 	var ehv = eh.split(":");
+		 	endDate = new Date(edv[2],parseInt(edv[1])-1,edv[0], ehv[0], ehv[1]);
 		 }
-		 //console.log("taskCalObj",taskObj['_id']['$id']);
+		 //console.log("taskCalObj",eventObj['_id']['$id']);
 		taskCal = {
-			"title" : taskObj.name,
-			"id" : taskObj['_id']['$id'],
-			"content" : (taskObj.description && taskObj.description != "" ) ? new Date(taskObj.description) : "",
+			"title" : eventObj.name,
+			"id" : eventObj['_id']['$id'],
+			"content" : (eventObj.description && eventObj.description != "" ) ? new Date(eventObj.description) : "",
 				"start" : startDate,
 				"end" : ( endDate ) ? endDate : startDate,
-				"startDate" : taskObj.startDate,
-				"endDate" : taskObj.endDate,
+				"startDate" : eventObj.startDate,
+				"endDate" : eventObj.endDate,
 				"className": prioClass,
-	        "category": taskObj.type,
-				"allDay" : true
+	        "category": eventObj.type,
+				"allDay" : false,
 		}
+		console.log(taskCal);
 	}
 	return taskCal;
 }
 
 function showCalendar() {
 
-	/*
-	console.info("addTasks2Calendar",editProjectId);//,taskCalendar);
+	console.info("addTasks2Calendar",contextMap.events);//,taskCalendar);
 	
 	calendar = [];
-	if(editProjectId){
-		$.each(projectTasks[editProjectId],function(taskId,taskObj)
+	if(contextMap.events){
+		$.each(contextMap.events,function(eventId,eventObj)
 		{
+			eventCal = buildCalObj(eventObj);
+			if(eventCal)
+				calendar.push( eventCal );
+		});
+	}
+	if(contextMap.projects){
+		$.each(contextMap.projects, function(taskId, taskObj){
 			taskCal = buildCalObj(taskObj);
 			if(taskCal)
 				calendar.push( taskCal );
-		});
+		})
 	}
-	*/
+	
 
 	dateToShow = new Date();
 	$('#calendar').fullCalendar({
@@ -371,10 +385,12 @@ formEvent.validate({
 	submitHandler : function(form) {
 		successHandler2.show();
 		errorHandler2.hide();
+		var startDateSubmit = convertDate($('.form-event .event-range-date').val(), 0);
+		var endDateSubmit = convertDate($('.form-event .event-range-date').val(), 1);
 		newEvent = new Object;
 		newEvent.title = $(".form-event .event-name ").val(), 
-		newEvent.start = new Date($('.form-event .event-start-date').val()), 
-		newEvent.end = new Date($('.form-event .event-end-date').val()), 
+		newEvent.start = startDateSubmit, 
+		newEvent.end = endDateSubmit,
 		newEvent.allDay = $(".form-event .all-day").bootstrapSwitch('state'), 
 		newEvent.type = $(".form-event .event-categories option:checked").val(), 
 		newEvent.category = $(".form-event .event-categories option:checked").text(), 
@@ -509,7 +525,7 @@ function editEvent(el) {
 			format: 'DD/MM/YYYY h:mm A' 
 		});
 		
-		$('.form-event .all-day-range .event-range-date').val(moment().format('DD/MM/YYYY') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY'))
+		$('.form-event .all-day-range .event-range-date').val(moment().format('DD/MM/YYYY  h:mm A') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY  h:mm A'))
 		.daterangepicker({  
 			startDate: moment(),
 			endDate: moment().add('days', 1)
@@ -682,7 +698,27 @@ function readEvent(el)
 
 };
 	
-
+	
+	function convertDate(date, num){
+		var dateTab = date.split("-");
+		console.log(dateTab, dateTab[num]);
+		var hour = dateTab[num].split(" ")[1+num];
+		var hourRes ="";
+		var hourUnit = dateTab[num].split(" ")[2+num];
+		console.log(hourUnit);
+		if(hourUnit = "PM"){
+			hours = hour.split(":");
+			var newhour = parseInt(hours[0])+12;
+			if(newhour==24){
+				newhour = 00;
+			}
+			hourRes = newhour+":"+hours[1];
+		}else{
+			hourRes = hour;
+		}
+		console.log(hourRes);
+		return dateTab[num].split(" ")[0+num]+" "+hourRes;
+	}
 
 	
 </script>
