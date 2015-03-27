@@ -224,7 +224,62 @@ var setCalendarEvents = function() {
 
 };
 //creates fullCalendar
+function buildCalObj(taskObj)
+{
+	//console.log("addTasks2CAlendar","task",taskId,taskObj);
+	//entries for the calendar
+	var taskCal = null;
+	var prioClass = 'event-job';
+	switch( taskObj.priority ){
+		case "urgent" : prioClass = 'event-todo'; break;
+		case "high" : prioClass = 'event-offsite'; break;
+		case "normal" : prioClass = ''; break;
+		case "low" : prioClass = 'event-generic'; break;
+		default : prioClass = 'event-job'; 
+	}
+	if(taskObj.startDate && taskObj.startDate != "")
+	{
+		var sd = taskObj.startDate.split("/");
+	 	var startDate = new Date(sd[2],parseInt(sd[1])-1,sd[0]  );
+	 	var endDate = null;
+	 	if(taskObj.endDate && taskObj.endDate != "" )
+	 	{
+		 	var ed = taskObj.endDate.split("/");
+		 	endDate = new Date(ed[2],parseInt(ed[1])-1,ed[0]  );
+		 }
+		 //console.log("taskCalObj",taskObj['_id']['$id']);
+		taskCal = {
+			"title" : taskObj.name,
+			"id" : taskObj['_id']['$id'],
+			"content" : (taskObj.description && taskObj.description != "" ) ? new Date(taskObj.description) : "",
+				"start" : startDate,
+				"end" : ( endDate ) ? endDate : startDate,
+				"startDate" : taskObj.startDate,
+				"endDate" : taskObj.endDate,
+				"className": prioClass,
+	        "category": taskObj.type,
+				"allDay" : true
+		}
+	}
+	return taskCal;
+}
+
 function showCalendar() {
+
+	/*
+	console.info("addTasks2Calendar",editProjectId);//,taskCalendar);
+	
+	calendar = [];
+	if(editProjectId){
+		$.each(projectTasks[editProjectId],function(taskId,taskObj)
+		{
+			taskCal = buildCalObj(taskObj);
+			if(taskCal)
+				calendar.push( taskCal );
+		});
+	}
+	*/
+
 	dateToShow = new Date();
 	$('#calendar').fullCalendar({
 		header : {
