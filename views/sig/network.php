@@ -81,7 +81,7 @@ jQuery(document).ready(function()
 	
 			$( "#btn-init-data" )	.click(function (){ initDataNetworkMapping(); });
 	
-			$( "#input_name_filter" ).keyup(function (){ checkListElementMap(map1); });
+			$( "#input_name_filter" ).keyup(function (){console.log("keyup"); checkListElementMap(map1); });
 
 			$("#mapCanvas").html("");
 			$("#mapCanvas").css({"background-color": "#456074"});

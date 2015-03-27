@@ -10,7 +10,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 ?>
 <!-- start: PAGE CONTENT -->
 
-<div class="row">
+<div class="row" >
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">
@@ -77,7 +77,7 @@ debugMap.push(mapPerson);
 var type = "person";
 
 jQuery(document).ready(function() {
-
+	pageLoad();
 	//THis is a global relation disconnect feature
 	$(".disconnectBtn").off().on("click",function () {
         id = $(this).data("id");
@@ -114,5 +114,19 @@ jQuery(document).ready(function() {
 	});
 
 });
+
+	function pageLoad() {
+		console.log("pageLoad");
+		hash = window.location.hash;
+		hash && $('ul.nav a[href="' + hash + '"]').tab('show')
+
+		$('.nav-tabs a').click(function (e) {
+		    $(this).tab('show');
+		    var scrollmem = $('body').scrollTop();
+		    window.location.hash = this.hash;
+		    $('html,body').scrollTop(scrollmem);
+		});
+		$("#slidingbar").css("display", "none");
+	}
 </script>
 

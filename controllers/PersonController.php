@@ -696,4 +696,8 @@ class PersonController extends CommunecterController {
 	 Rest::json( $res );
  }
 
+	 public function actionGetNotification(){
+
+	 }
+
 }
