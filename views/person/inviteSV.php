@@ -3,7 +3,6 @@
 #newInvite{
 	display: none;
 }
-
 </style>
 <div id="newInvite">
 	<div class="noteWrap col-md-8 col-md-offset-2">
@@ -13,8 +12,9 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<input class="invite-id hide"  id="sponsorPA" name="sponsorPA" type="text">
-						<input class="invite-name form-control" name="inviteName" type="text" placeholder="name">
+						<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
+						<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
+						<input class="invite-name form-control" id="inviteName" name="inviteName" type="text" placeholder="name"/>
 						<input class="invite-email form-control" placeholder="Email" autocomplete = "off" id="inviteEmail" name="inviteEmail" value="">
 			        		<ul class="dropdown-menu" id="dropdown_email" style="">
 								<li class="li-dropdown-scope">-</li>
@@ -45,7 +45,7 @@ jQuery(document).ready(function() {
  	$('#inviteEmail').keyup(function(e){
 	    var email = $('#inviteEmail').val();
 	    clearTimeout(timeout);
-	    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
+	    timeout = setTimeout('autoCompleteInviteEmail("'+email+'")', 500);		
 	});
 	$('#inviteEmail').focusout(function(e){
 		//$(".new-invite #dropdown_city").css({"display" : "none" });
@@ -108,10 +108,6 @@ forminvite.validate({
 		inviteName : {
 			minlength : 2,
 			required : true
-		},
-		inviteEmail : {
-			minlength: 3,
-			required : true
 		}
 	},
 	messages : {
@@ -141,7 +137,8 @@ forminvite.validate({
 		successHandler2.show();
 		errorHandler2.hide();
 		newinvite = new Object;
-		newinvite.sponsorPA = $(".form-invite .invite-id").val(),
+		newinvite.parentId = $(".form-invite .invite-parentId").val(),
+		newinvite.id = $(".form-invite .invite-id").val(),
 		newinvite.name = $(".form-invite .invite-name ").val(), 
 		newinvite.email = $(".form-invite .invite-email ").val(),
 		$.blockUI({
@@ -193,7 +190,8 @@ function editinvite(el) {
 	
 
 	if ( typeof el == "undefined") {
-		$(".form-invite .invite-id").val("<?php echo Yii::app()->session['userId']; ?>");
+		$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
+		$(".form-invite .invite-id").val("");
 		$(".form-invite .invite-name").val("");
 		$(".form-invite .invite-email").val("");
 	} else {
@@ -223,14 +221,13 @@ function readinvite(el)
 
 };
 	
-function autoCompleteEmail(email){
+function autoCompleteInviteEmail(email){
 		var data = { "email" : email};
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/RecueilinfoEmailAutoComplete', data,
+		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/GetUserAutoComplete', data,
 		function (data){
-			var str = ""; var limit=0;
- 			$.each(data, function() { limit++;
- 				if(limit < 9) 
-  				str += "<li class='li-dropdown-scope'><a href='javascript:setEmailInput(\""+ this.email +"\")'>" + this.email + "</li>";
+			var str = "";
+ 			$.each(data, function(k, v) { 
+  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInput(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</li>";
   			}); 
   			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
   			$("#newInvite #dropdown_email").html(str);
@@ -238,9 +235,11 @@ function autoCompleteEmail(email){
 		});	
 	}
 
-function setEmailInput(email){
-	$('#inviteEmail').val(email);
-	$("#dropdown_email").css({"display" : "none" });	
+function setMemberInput(id, name){
+	$('#newInvite #inviteName').val(name);
+	$('#newInvite #inviteId').val(id);
+	$("#newInvite #inviteEmail").css({"display" : "none"});
+	$("#newInvite #dropdown_email").css({"display" : "none" });	
 }
 	
 </script>

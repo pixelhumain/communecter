@@ -106,6 +106,9 @@ class CommunecterController extends Controller
 
     ),
 
+    "search"=>array(
+    	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
+    ),
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
@@ -122,7 +125,8 @@ class CommunecterController extends Controller
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
-      "recueilinfoemailautocomplete"=> array('href' => "/person/RecueilinfoEmailAutoComplete")
+      "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
+      'getnotification' => array("href" => "/person/GetNotification")
     ),
 
     "organization"=> array(

@@ -9,13 +9,13 @@
 	}
 </style>
 
-<div style="display:none" id="addMembers">
+<div style="display:none" id="addMembers" >
     <!-- start: PAGE CONTENT -->
     <div class="col-md-8 col-md-offset-2">
     	<h1>Add a Member ( Person, Organization )</h1>
         <p>An Organization can have People as members or Organizations</p>
     	
-    	<form id="addMemberForm" style="line-height:40px;">
+    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off">
             <div class="row ">
                 <table class="table table-striped table-bordered table-hover newMembersAddedTable hide">
                     <thead>
@@ -31,16 +31,19 @@
             </div>
             <div class="row">
     	        <input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
+    	        <input type="hidden" id="memberId" name="memberId" value=""/>
                 <select id="memberType" name="memberType">
                     <option value="persons">People</option>
                     <option value="organizations">Organisation</option>
                 </select>
     	        
-    	        <input placeholder="Name" id="memberName" name="memberName" value=""/></td>
-                <input type="Email" placeholder="Email" id="memberEmail" name="memberEmail" value=""/>
-	                <ul class="dropdown-menu" id="dropdown_email" style="">
+    	        <input class="form-control" placeholder="Name" id="memberName" name="memberName" value=""/></td>
+               	<input class="member-email form-control" placeholder="Email" autocomplete = "off" id="memberEmail" name="memberEmail" value="">
+	        		<ul class="dropdown-menu" id="dropdown_email" style="">
 						<li class="li-dropdown-scope">-</li>
 					</ul>
+				</input>
+
     	    </div>
     	    <div class="row">
     	        <button class="btn btn-primary" >Enregistrer</button>
@@ -94,6 +97,7 @@
 		$("#addMemberForm").off().on("submit",function(event){
 	    	event.preventDefault();
 	    	var params = { 
+	    		"memberId" : $("#addMembers #memberId").val(),
 				"memberName" : $("#addMembers #memberName").val(),
 				"memberEmail" : $("#addMembers #memberEmail").val(),
 				"memberType" : $("#addMembers #memberType").val(), 
@@ -128,32 +132,43 @@
 		$('#addMembers #memberEmail').keyup(function(e){
 		    var email = $('#addMembers #memberEmail').val();
 		    clearTimeout(timeout);
-		    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
+		    timeout = setTimeout('autoCompleteEmailAddMember("'+email+'")', 500);		
 		});
 		$('#memberEmail').focusout(function(e){
 			//$("#ajaxSV #dropdown_city").css({"display" : "none" });
 		});
 	});
+	
 
-	function autoCompleteEmail(email){
-		var data = { "email" : email};
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/RecueilinfoEmailAutoComplete', data,
-		function (data){
-			console.log(data);
-			var str = ""; var limit=0;
- 			$.each(data, function() { limit++;
- 				if(limit < 9) 
-  				str += "<li class='li-dropdown-scope'><a href='javascript:setEmailInput(\""+ this.email +"\")'>" + this.email + "</li>";
-  			}); 
-  			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
-  			$("#addMembers #dropdown_email").html(str);
-  			$("#addMembers #dropdown_email").css({"display" : "inline" });
-		});	
+	function setMemberInput(id, name){
+		$("#addMembers #memberName").val(name);
+		$("#addMembers #memberId").val(id);
+		$('#addMembers #memberEmail').css({"display" : "none"});
+		$("#addMembers #dropdown_email").css({"display" : "none" });	
 	}
 
-	function setEmailInput(email){
-		$('#addMembers #memberEmail').val(email);
-		$("#addMembers #dropdown_email").css({"display" : "none" });	
+	function autoCompleteEmailAddMember(email){
+		console.log("autoCompleteEmailAddMember");
+		var data = {"email" : email};
+		$.ajax({
+			type: "POST",
+	        url: baseUrl+"/communecter/person/GetUserAutoComplete",
+	        data: data,
+	        dataType: "json",
+	        success: function(data){
+	        	if(!data){
+	        		toastr.error(data.content);
+	        	}else{
+					str = "";
+		 			$.each(data, function(i, v) {
+		  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInput(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</a></li>";
+		  			}); 
+		  			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
+		  			$("#addMembers #dropdown_email").html(str);
+		  			$("#addMembers #dropdown_email").css({"display" : "inline" });
+	  			}
+			}	
+		})
 	}
 </script>
 	
