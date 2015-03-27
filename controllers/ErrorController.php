@@ -7,11 +7,10 @@
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 18/07/2014
  */
-class ErrorController extends TeeoController {
+class ErrorController extends CommunecterController {
 
   protected function beforeAction($action)
 	{
-		Yii::app()->theme  = "rapidos";
 	  return parent::beforeAction($action);
 	}
 

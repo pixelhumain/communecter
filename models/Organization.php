@@ -14,7 +14,9 @@ class Organization {
 	    }
 
 		//Manage tags : save any inexistant tag to DB 
-		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		if (isset($organization["tags"]))
+			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		$organization["canEdit"] = array( Yii::app()->session['userId'] );
 		//Insert the organization
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
 		
@@ -32,7 +34,7 @@ class Organization {
 	    Notification::saveNotification(array("type"=>"Created",
 	    						"user"=>$organization["_id"]));
 	                  
-	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]));
+	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
 	}
 	/**
 	 * get an Organisation By Id
@@ -137,6 +139,23 @@ class Organization {
 		}
 
 		return $organization;
+	}
+	/**
+   *
+   * @return [json Map] list
+   */
+	public static function userCanEdit($id,$parentOrganisationId)
+	{
+		$res = false;
+		$organization = Organization::getById($id);
+		if( isset($organization["canEdit"]) && in_array( Yii::app()->session['userId'], $organization["canEdit"]) )
+			$res = true;
+		elseif($parentOrganisationId){
+			$parentOrganisation = Organization::getById($parentOrganisationId);
+			if($parentOrganisation["canEditMembers"] && isset($parentOrganisation["canEdit"]) && in_array( Yii::app()->session['userId'], $parentOrganisation["canEdit"]) )
+				$res = true;
+		}
+	    return $res;
 	}
 }
 ?>

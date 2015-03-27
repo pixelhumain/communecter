@@ -431,4 +431,14 @@ class OrganizationController extends CommunecterController {
 
     $this->render("dashboard", array("organization" => $organization));
   }
+  public function actionJoin($id)
+  {
+    //get The organization Id
+    if (empty($id)) {
+      throw new CommunecterException("The Parent organization doesn't exist !");
+    }
+    $organization = Organization::getPublicData($id);
+    $this->layout = "//layouts/mainSimple";
+    $this->render("join", array("organization" => $organization));
+  }
 }

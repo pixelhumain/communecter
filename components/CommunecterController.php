@@ -139,6 +139,8 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/organization/public"),
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "join"=>array("href"=>"/ph/communecter/organization/join"),
+      "savenewaddmember"=>array("href"=>"/ph/communecter/organization/savenewaddmember"),  
     ),
     
     "event"=> array(
