@@ -156,8 +156,8 @@ font-family: "Homestead";
 	        })();
 	};
 
-	<?php $mapEvent = array("event"=>$event, "citoyens"=>$citoyens, "organizations"=>$organizations); 
+	<?php $contextMap = array("event"=>$event, "citoyens"=>$citoyens, "organizations"=>$organizations); 
 	?>
-	 var mapEvent = <?php echo json_encode($mapEvent)?>;
+	 var contextMap = <?php echo json_encode($contextMap)?>;
 	 
 </script>			

@@ -66,14 +66,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 	</div>
 </div>
 <script type="text/javascript">
-<?php $mapPerson = array("person"=>$person,
+<?php $contextMap = array("person"=>$person,
 						"people"=>$people, 
 						"organizations"=>$organizations,
 						"events"=>$events,
 						"projects"=>$projects
 						); ?>
-var mapPerson = <?php echo json_encode($mapPerson)?>;
-debugMap.push(mapPerson);
+var contextMap = <?php echo json_encode($contextMap)?>;
+debugMap.push(contextMap);
 var type = "person";
 
 jQuery(document).ready(function() {
@@ -116,15 +116,13 @@ jQuery(document).ready(function() {
 });
 
 	function pageLoad() {
-		console.log("pageLoad");
+		
 		hash = window.location.hash;
 		hash && $('ul.nav a[href="' + hash + '"]').tab('show')
 
 		$('.nav-tabs a').click(function (e) {
 		    $(this).tab('show');
-		    var scrollmem = $('body').scrollTop();
 		    window.location.hash = this.hash;
-		    $('html,body').scrollTop(scrollmem);
 		});
 		$("#slidingbar").css("display", "none");
 	}

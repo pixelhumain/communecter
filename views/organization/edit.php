@@ -126,10 +126,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		openSubView('Invite someone', "/"+moduleId+"/organization/form/id/"+id,null);
 	});
 
-	<?php $mapOrganization = array("organization"=>$organization,
+	<?php $contextMap = array("organization"=>$organization,
 							"members"=>$members, "memberOf"=>$memberOf,
 							"followers"=>$followers); 
 	?>
- 	var mapOrganization = <?php echo json_encode($mapOrganization)?>;
- 	debugMap.push(mapOrganization);
+ 	var contextMap = <?php echo json_encode($contextMap)?>;
+ 	debugMap.push(contextMap);
 </script>

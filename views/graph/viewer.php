@@ -127,21 +127,18 @@
 	function getDataFile(){
 		console.log("getDataFile");
 		var map = null;
-		if(typeof(mapPerson)!="undefined"){
-			map=mapPerson;
-			type = 'person';
-		}
-		else if(typeof(mapOrganization)!="undefined"){
-			map=mapOrganization;
-			type = "organization";
-		}
-		else if(typeof(mapEvent) != "undefined"){
-			map=mapEvent;
-			type ='event';
-		}
-		else if(typeof(mapProject)!= "undefined"){
-			map = mapProject;
-			type = "project";
+		if(typeof(contextMap)!="undefined"){
+			map=contextMap;
+			if(typeof(contextMap.person) != "undefined"){
+				type = 'person';
+			}else if(typeof(contextMap.organization) != "undefined"){
+				type = 'organization';
+			}else if(typeof(contextMap.event) != "undefined"){
+				type = "event";
+			}else if(typeof(contextMap.project) != "undefined"){
+				type ="project";
+			}
+			
 		}
 		return map;
 	}
