@@ -38,6 +38,15 @@ var formDefinition = {
 	        "title" : "Todyn Form",
 	        "type" : "object",
 	        "properties" : {
+	        	"separator1":{
+	        		"title":"Organization"
+	        	},
+	        	"parentOrganisation" : {
+	                "inputType" : "text",
+	                "value" : "<?php echo $_GET['id'] ?>",
+	                "icon" : "fa fa-user",
+	                "placeholder":"Your Name"
+	            },
 	            "organizationName" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-group",
@@ -72,6 +81,9 @@ var formDefinition = {
 	                "icon" : "fa fa-envelope",
 	                "placeholder":"Organization Email"
 	            },
+	            "separator2":{
+	        		"title":"Person"
+	        	},
 	            "personName" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-user",
@@ -81,12 +93,6 @@ var formDefinition = {
 	                "inputType" : "text",
 	                "icon" : "fa fa-envelope",
 	                "placeholder":"Your Email"
-	            },
-	            "parentOrganisation" : {
-	                "inputType" : "text",
-	                "value" : "<?php echo $_GET['id'] ?>",
-	                "icon" : "fa fa-user",
-	                "placeholder":"Your Name"
 	            },
 	            "isOrgaAdmin" : {
 	                "inputType" : "checkbox",

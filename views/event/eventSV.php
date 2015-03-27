@@ -155,6 +155,20 @@ function bindEventSubViewEvents() {
 			}
 		});
 	});
+	$(".show-calendar").off().on("click", function() {
+		subViewElement = $(this);
+		subViewContent = subViewElement.attr('href');
+		$.subview({
+			content : subViewContent,
+			startFrom : "right",
+			onShow : function() {
+				showCalendar();
+			},
+			onHide : function() {
+				destroyCalendar();
+			}
+		});
+	});
 
 	$(".close-subview-button").off().on("click", function(e) {
 		$(".close-subviews").trigger("click");
@@ -169,17 +183,11 @@ var subViewElement, subViewContent, subViewIndex;
 
 // creates an array of events to display in the calendar
 var setCalendarEvents = function() {
-var date = new Date();
-dateToShow = date;
-if(typeof addTasks2CAlendar != 'undefined' && typeof addTasks2CAlendar == "function")
-{
-  calendar = addTasks2CAlendar();
-  //console.dir("calendar",calendar);
-}else{
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
-		calendar = [
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+	calendar = [
     {
 			title : 'Networking',
 			start : new Date(y, m, d, 20, 0),
@@ -213,10 +221,11 @@ if(typeof addTasks2CAlendar != 'undefined' && typeof addTasks2CAlendar == "funct
         category: 'To Do',
         allDay: true
     }];
-}
+
 };
 //creates fullCalendar
 function showCalendar() {
+	dateToShow = new Date();
 	$('#calendar').fullCalendar({
 		header : {
 			left : 'prev,next today',
