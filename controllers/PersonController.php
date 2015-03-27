@@ -57,10 +57,10 @@ class PersonController extends CommunecterController {
       $isMobile = $detect->isMobile();
       
       if($isMobile) {
-	$this->render( "loginMobile" );
+	       $this->render( "loginMobile" );
       }
       else {
-	$this->render( "login" );
+	       $this->render( "login" );
       }
     }
   public function actionLogout() 
