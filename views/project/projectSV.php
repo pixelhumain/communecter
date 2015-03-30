@@ -20,8 +20,43 @@
 						<input class="project-url form-control" name="projectName" type="text" placeholder="Project url...">
 						<input class="project-version form-control" name="projectName" type="text" placeholder="Project version...">
 						<input class="project-licence form-control" name="projectName" type="text" placeholder="Project licence...">
+
 					</div>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<input type="checkbox" class="all-day" data-label-text="All-Day" data-on-text="True" data-off-text="False">
+					</div>
+				</div>
+				<div class="no-all-day-range">
+					<div class="col-md-8">
+						<div class="form-group">
+							<div class="form-group">
+								<span class="input-icon">
+									<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
+									<i class="fa fa-clock-o"></i> </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="all-day-range">
+					<div class="col-md-8">
+						<div class="form-group">
+							<div class="form-group">
+								<span class="input-icon">
+									<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
+									<i class="fa fa-calendar"></i> </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="hide">
+					<input type="text" class="event-start-date" name="eventStartDate"/>
+					<input type="text" class="event-end-date" name="eventEndDate"/>
+				</div>
+			</div>
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
 				<div class="col-md-12">
 					<div class="form-group">
