@@ -130,6 +130,7 @@ class CommunecterController extends Controller
     ),
 
     "organization"=> array(
+      "index"=> array("href" =>"ph/Communecter/organization", "title" => "Person"),
       "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),

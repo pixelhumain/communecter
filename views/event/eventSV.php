@@ -1,7 +1,8 @@
 <!-- *** SHOW CALENDAR *** -->
 <div id="showCalendar" class="col-md-10 col-md-offset-1">
 	<div class="barTopSubview">
-		<a href="#addTaskForm" class="new-task new-event button-sv" data-subviews-options='{"onShow": "bindTaskEvents();"}'><i class="fa fa-plus"></i> Add new Task</a>
+		<a href="#newEvent" class="new-task new-event button-sv" ><i class="fa fa-plus"></i> Add new Event</a>
+		<a href="#newProject" class="new-task new-project button-sv" ><i class="fa fa-plus"></i> Add new Project</a>
 	</div>
 	<div id="calendar"></div>
 </div>

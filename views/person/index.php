@@ -75,9 +75,28 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 var contextMap = <?php echo json_encode($contextMap)?>;
 debugMap.push(contextMap);
 var type = "person";
+var contextTags = [];
+$.each(contextMap, function(k, v){
+	if(k==type){
+		for(var n=0; n<v.tags.length; n++){
+			if($.inArray(v.tags[n], contextTags)==-1)
+				contextTags.push(v.tags[n]);
+		}
+	}else{
+		$.each(v, function(i, j){
+			if(typeof(j["tags"])!="undefined"){
+				for(var n=0; n<j["tags"].length; n++){
+					if($.inArray(j["tags"][n], contextTags)==-1)
+						contextTags.push(j["tags"][n]);
+				}
+			}
+		})
+	}
+});
 
 jQuery(document).ready(function() {
 	pageLoad();
+	initDataTable();
 	//THis is a global relation disconnect feature
 	$(".disconnectBtn").off().on("click",function () {
         id = $(this).data("id");
@@ -126,5 +145,84 @@ jQuery(document).ready(function() {
 		});
 		$("#slidingbar").css("display", "none");
 	}
+
+	var initDataTable = function() {
+		oTableOrganization = $('#organizations').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+
+		oTableEvent = $('#events').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+		oTablePeople= $('#people').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+		oTableProject = $('#projects').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+	};
 </script>
 
