@@ -431,6 +431,7 @@ class OrganizationController extends CommunecterController {
 
     $this->render("dashboard", array("organization" => $organization));
   }
+  
   public function actionJoin($id)
   {
     //get The organization Id
