@@ -137,10 +137,14 @@ jQuery(document).ready(function() {
 			it is called after creation
 			*/
 			$.each(dataBindOrganization,function(field,path){
-					console.log("field key",field);
-					if(field != "")
-						$(field).val(jsonHelper.getValueByPath( organizationInitData, path ));
-				});
+				if(field != ""){
+					var val = jsonHelper.getValueByPath( organizationInitData, path );
+					if(val){
+						$(field).val(val);
+						console.log("field key",field);
+					}
+				}
+			});
 			
 		},
 		onSave : function(){

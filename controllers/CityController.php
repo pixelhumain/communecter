@@ -14,9 +14,10 @@ class CityController extends CommunecterController {
 	 * @param string $type : pays || region || commune
 	 * @param $id : france || code postale
 	 */
-	public function actionIndex() {
-	    $page = 'index';
-	    $this->render($page);
+	public function actionIndex($cp) {
+	    $this->render('dashboard');
 	}
-	
+	public function actionPublic($cp) {
+	    $this->render('dashboard');
+	}
 }
