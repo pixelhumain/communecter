@@ -80,18 +80,22 @@ class Organization {
 	 */
 	public static function update($organizationId, $organization, $userId) {
 		
-		//Manage tags : save any inexistant tag to DB 
-		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		if(self::userCanEdit($organizationId)){
+			//Manage tags : save any inexistant tag to DB 
+			if(isset($organization["tags"]))
+				$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		    
+		    //update the organization
+		    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
+		                                          array('$set' => $organization));
 	    
-	    //update the organization
-	    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
-	                                          array('$set' => $organization));
-    
-	    //TODO ???? : add an admin notification
-	    Notification::saveNotification(array("type"=>"Updated",
-	    						"user"=>$organizationId));
-	                  
-	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
+		    //TODO ???? : add an admin notification
+		    Notification::saveNotification(array("type"=>"Updated",
+		    						"user"=>$organizationId));
+		                  
+		    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
+		} else
+			return Rest::json(array("result"=>false, "msg"=>"Unauthorized Access."));
 	}
 	
 	/**
@@ -144,13 +148,13 @@ class Organization {
    *
    * @return [json Map] list
    */
-	public static function userCanEdit($id,$parentOrganisationId)
+	public static function userCanEdit($id,$parentOrganisationId=null)
 	{
 		$res = false;
 		$organization = Organization::getById($id);
 		if( isset($organization["canEdit"]) && in_array( Yii::app()->session['userId'], $organization["canEdit"]) )
 			$res = true;
-		elseif($parentOrganisationId){
+		elseif(isset($parentOrganisationId)){
 			$parentOrganisation = Organization::getById($parentOrganisationId);
 			if($parentOrganisation["canEditMembers"] && isset($parentOrganisation["canEdit"]) && in_array( Yii::app()->session['userId'], $parentOrganisation["canEdit"]) )
 				$res = true;

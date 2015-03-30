@@ -210,6 +210,23 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
+  public function actionSaveFields() {
+    // Minimal data
+    
+    if (! isset($_POST["id"])) 
+      throw new CommunecterException("You must specify an organization Id to update");
+    else 
+      $organizationId = $_POST['id'];
+    
+    $organizationFields = array();
+
+    if(isset($_POST['description']))
+      $organizationFields['description'] = $_POST['description'];
+
+    //Save the organization
+    echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
+  }
+
   /**
   * Create and return new array with all the mandatory fields
   * @return array as organization
@@ -411,6 +428,7 @@ class OrganizationController extends CommunecterController {
     }
 
     $organization = Organization::getPublicData($id);
+    $params = array( "organization" => $organization);
 
     $testId = "54d9f142f6b95c7c050023c9";
     $this->sidebar1 = array(
@@ -429,9 +447,22 @@ class OrganizationController extends CommunecterController {
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
-    $this->render("dashboard", array("organization" => $organization));
+    if( isset($organization["links"]) && isset($organization["links"]["members"])) {
+        $subOrganizationIds = array();
+        foreach ($organization["links"]["members"] as $key => $member) {
+            
+            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+            {
+                array_push($subOrganizationIds, $key);
+            }
+        }
+        $randomOrganizationId = array_rand($subOrganizationIds);
+        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+        $params["randomOrganization"] = $randomOrganization;
+    }
+    $this->render( "dashboard", $params );
   }
-  
+
   public function actionJoin($id)
   {
     //get The organization Id
