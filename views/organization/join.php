@@ -68,6 +68,15 @@ var formDefinition = {
                     	"Groups":"Group"
 	            	}
 	            },
+	            "theme" :{
+	            	"inputType" : "selectMultiple",
+	            	"placeholder" : "Thematique",
+	            	"options" : {
+	            		"sport":"Sport",
+                    	"LocalBusiness":"Local Businesse",
+                    	"Groups":"Group"
+	            	}
+	            },
 	            "postalCode" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-map-marker",
@@ -149,7 +158,7 @@ jQuery(document).ready(function() {
 		},
 		onSave : function(){
 			console.log("saving Organization!!");
-			var organization = {};
+			var params = {};
 			$.each(dataBindOrganization,function(field,path){
 				console.log("save key ",field,path);
 				if(field != "" )
@@ -157,15 +166,15 @@ jQuery(document).ready(function() {
 					if( $(field) && $(field).val() && $(field).val() != "" )
 					{
 						value = $(field).val();
-						jsonHelper.setValueByPath( organization, path, value );
+						jsonHelper.setValueByPath( params, path, value );
 					} 
 				}
 				else
 					console.log("save Error",field);
 			});
-			console.dir(organization);
+			console.dir(params);
 			$.unblockUI();
-			return false;
+			
 			/*var params = { 
 			   "parentOrganisation":"<?php echo $_GET['id'] ?>",
 			   "organizationEmail" : $("#organizationEmail").val() , 
@@ -176,7 +185,7 @@ jQuery(document).ready(function() {
                "description" : $("#description").val(),
                "personName" : $("#personName").val(),
                "personEmail" : $("#personEmail").val()
-            };
+            };*/
 		      
 	    	$.ajax({
 	    	  type: "POST",
@@ -192,7 +201,7 @@ jQuery(document).ready(function() {
 					$('.errorHandler').html(data.msg);
 					$('.errorHandler').show();
 	    		}
-	    	});*/
+	    	});
 		}
 	});
 	console.dir(form);

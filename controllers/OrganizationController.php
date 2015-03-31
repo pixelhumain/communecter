@@ -449,16 +449,26 @@ class OrganizationController extends CommunecterController {
 
     if( isset($organization["links"]) && isset($organization["links"]["members"])) {
         $subOrganizationIds = array();
+        $members = array(
+            "citoyens"=>array(),
+            "organizations"=>array()
+        );
         foreach ($organization["links"]["members"] as $key => $member) {
             
             if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
             {
                 array_push($subOrganizationIds, $key);
+                array_push( $members[PHType::TYPE_ORGANIZATIONS], Organization::getById( $key ) );
+            }
+            elseif($member['type'] == PHType::TYPE_CITOYEN )
+            {
+                array_push( $members[PHType::TYPE_CITOYEN], Person::getById( $key ) );
             }
         }
         $randomOrganizationId = array_rand($subOrganizationIds);
         $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
         $params["randomOrganization"] = $randomOrganization;
+        $params["members"] = $members;
     }
     $this->render( "dashboard", $params );
   }
