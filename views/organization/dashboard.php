@@ -64,49 +64,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-7 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">ANNUAIRE DU RESEAU </h4>
-      </div>
-      <div class="panel-body no-padding center">
-        <img class="img-responsive center-block"style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
-      <div class="panel-footer center"   >
-        <a href="">TROUVER PAR THEME</a>
-      </div>
-    </div>
+    <?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
   </div>
 
   <div class="col-sm-5 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">UNE ASSO AU HASARD </h4>
-      </div>
-      <div class="panel-body no-padding"  >
-        <div class="row">
-          <div class="col-xs-6">
-            <img class="img-responsive center-block" style="height:250px" src="http://placehold.it/350x180"/>
-          </div>
-          <div class="col-xs-6">
-            <div class="row center">
-              ASSOCIATION 1
-            </div>
-            <div class="row" >
-              <img class="img-circle pull-left" src="http://placehold.it/50x50"/>
-            </div>
-            <hr>
-            <div class="row">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde iste voluptates magni, doloribus officia aperiam provident nihil repudiandae perspiciatis in expedita cumque et, qui perferendis ex facilis eveniet quae laudantium.
-            </div>
-            
-          </div>  
-        </div>
-        
-      </div>
-      <div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>
-    </div>
+    <?php $this->renderPartial('dashboard/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
   </div>
 
 </div>

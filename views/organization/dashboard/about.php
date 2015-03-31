@@ -57,14 +57,13 @@ var formDefinition = {
     "key" : "ajaxForm",
     //"savePath":moduleId+""
 };
-var aboutInitData = {
-	"description" : '<?php echo $organization["description"] ?>'
-};
-var aboutDataBind = {
-	"#description": "description"
-};
-var aboutDataBindFrontEnd = {
-	"#description": ".orgaDescription"
+
+var dataBind = {
+	"#description": {
+		"value" : '<?php echo $organization["description"] ?>',
+		"saveTo":"description",
+		"updateElement" : ".orgaDescription"
+	},
 };
 
 jQuery(document).ready(function() {
@@ -88,9 +87,9 @@ jQuery(document).ready(function() {
 						here you can load anythnig into your form fields 
 						it is called after creation
 						*/
-						$.each(aboutInitData,function(field,path){
+						$.each(dataBind,function(field,fieldObj){
 							if(field != ""){
-								var val = jsonHelper.getValueByPath( aboutInitData, path );
+								var val = jsonHelper.getValueByPath( dataBind, fieldObj.saveTo );
 								if(val){
 									$(field).val(val);
 									console.log("field key",field);
@@ -101,38 +100,29 @@ jQuery(document).ready(function() {
 					},
 					onSave : function(){
 						console.log("saving Organization!!");
-						var data = {};
-						$.each(aboutDataBind,function(field,path){
-							console.log("save key ",field,path);
+						var params = {};
+						$.each(dataBind,function(field,fieldObj){
+							console.log("save key ",field,fieldObj.saveTo);
 							if(field != "" )
 							{
 								if( $(field) && $(field).val() && $(field).val() != "" )
 								{
 									value = $(field).val();
-									jsonHelper.setValueByPath( data, path, value );
+									jsonHelper.setValueByPath( params, fieldObj.saveTo, value );
+									$(fieldObj.updateElement).html($(field).val());
 								} 
 							}
 							else
 								console.log("save Error",field);
 						});
+						params.id = '<?php echo (string)$organization["_id"] ?>';
 						$.ajax({
 				    	  type: "POST",
-				    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/saveNewAddMember",
+				    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/saveFields",
 				    	  data: params,
 				    	  dataType: "json"
-				    	}).done(function(data){
+				    	}).done( function(data){
 				    		if(data.result){
-				    			$.each(aboutDataBindFrontEnd,function(field,endpoint){
-									if(field != "" )
-									{
-										if( $(field) && $(field).val() && $(field).val() != "" )
-										{
-											$(endpoint).html($(field).val());
-										} 
-									}
-									else
-										console.log("save Error",field);
-								});
 								console.dir(data);
 								$.unblockUI();
 								$("#ajaxSV").html('');
@@ -144,7 +134,7 @@ jQuery(document).ready(function() {
 				    			$.unblockUI();
 								toastr.error('Something went wrong!');
 				    		}
-				    	});
+				    	} );
 						
 						return false;
 					}
