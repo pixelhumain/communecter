@@ -60,7 +60,7 @@ var formDefinition = {
 
 var dataBind = {
 	"#description": {
-		"value" : '<?php echo $organization["description"] ?>',
+		"value" : "<?php echo $organization["description"] ?>",
 		"saveTo":"description",
 		"updateElement" : ".orgaDescription"
 	},

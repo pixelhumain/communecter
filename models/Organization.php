@@ -42,15 +42,17 @@ class Organization {
 	 * @return type
 	 */
 	public static function getById($id) {
+
 	  	$organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
 	  	
-	  	/*if (empty($organization)) {
-            throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
-        }*/
+	  	if (empty($organization)) {
+            //TODO Sylvain - Find a way to manage inconsistente data
+            //throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
+        } else {
+			//add the public URL to the data structure
+	  		$organization["publicURL"] = '/organization/public/id/'.$id;
+        }
 
-	  	//add the public URL to the data structure
-	  	$organization["publicURL"] = '/organization/public/id/'.$id;
-	  	
 	  	return $organization;
 	}
 
