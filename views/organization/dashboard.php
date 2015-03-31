@@ -6,6 +6,25 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 */
 ?>
 <!-- start: PAGE CONTENT -->
+
+<style>
+.flexslider .slides {
+    height: 250px;
+}
+.flexslider img {
+    height: 250px;
+}
+
+.flex-control-nav{
+	display: none;
+}
+
+.divLeftEv{
+	height: 100px;
+	text-align: center;
+}
+
+</style>
 <div class="row">
 
   <div class="col-sm-7 col-xs-12">
@@ -19,9 +38,21 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
       <div class="panel-heading border-light">
         <h4 class="panel-title">AGENDA PARTAGEE </h4>
       </div>
-      <div class="panel-body no-padding center"  >
-        <img class="img-responsive center-block" style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
+       <div class="panel-body no-padding center">
+		  <div class="flexslider">
+			<ul class="slides">
+				<li>
+					<div id="slideEv1"></div>
+				</li>
+				<li>
+					<div id="slideEv2"></div>
+				</li>
+				<li>
+					<div id="slideEv3"></div>
+				</li>
+			</ul>
+		  </div>
+		</div>
       <div class="panel-footer "  >
         <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
       </div>
@@ -115,8 +146,87 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 <!-- end: PAGE CONTENT-->
 <script>
-  jQuery(document).ready(function() {
-   
-  });
+	jQuery(document).ready(function() {
+		initDashboard();
+		$(".flexslider").flexslider();
+	});
 
+	function initDashboard(){
+		var mapOrganization = <?php echo json_encode($organization) ?>;
+		$.ajax({
+			type: "POST",
+			url: baseUrl+"/"+moduleId+'/organization/getCalendar/id/'+mapOrganization["_id"]["$id"],
+			dataType : "json",
+		})
+		.done(function (data) 
+		{
+			console.log(data);
+			var n = 1;
+			var today = new Date();
+			$.each(data, function(k, v){
+				var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
+				if(n<4 && compareDate(today, date)){
+					var htmlRes = "<img src=\""+v.imagePath+"\"></img>";
+					htmlRes +="<div class=\"divLeftEv\" style=\"float:left\"><h2>"+v.startDate+"</h2></div>";
+					htmlRes += "<div class=\"divLeftEv\" style=\"float:right\"><h1>"+v.name+"</h1></div>";
+					$("#slideEv"+n).html(htmlRes);
+					n++;
+				}
+			})
+			//showCalendarDashBoard(data);
+		})
+	}
+
+	function compareDate(d, f){
+		var res = false;
+		console.log(d, f, d<= f)
+		if(d <= f){
+			res= true;
+		}
+		return res;
+	}
+	/*function showCalendarDashBoard(data) {
+
+	console.info("addTasks2Calendar",data);//,taskCalendar);
+	
+	calendar = [];
+	if(data){
+		$.each(data,function(eventId,eventObj)
+		{
+			eventCal = buildCalObj(eventObj);
+			if(eventCal)
+				calendar.push( eventCal );
+		});
+	}
+
+	dateToShow = new Date();
+	$('.mini-calendar').fullCalendar({
+		header : {
+			left : 'prev,next today',
+			center : 'title',
+			right : 'month,agendaWeek,agendaDay'
+		},
+		year : dateToShow.getFullYear(),
+		month : dateToShow.getMonth(),
+		date : dateToShow.getDate(),
+		editable : true,
+		events : calendar,
+		eventClick : function(calEvent, jsEvent, view) {
+			//show event in subview
+			dateToShow = calEvent.start;
+			$.subview({
+				content : "#readEvent",
+				startFrom : "right",
+				onShow : function() {
+					readEvent(calEvent._id);
+				}
+			});
+		}
+	});
+	dateToShow = new Date();
+};
+//destroy fullCalendar
+function destroyCalendarDashBoard() {
+	$('#mini-calendar').fullCalendar('destroy');
+};*/
 </script>

@@ -442,4 +442,20 @@ class OrganizationController extends CommunecterController {
     $this->layout = "//layouts/mainSimple";
     $this->render("join", array("organization" => $organization));
   }
+
+  public function actionGetCalendar($id){
+  	$events = [];
+  	$organization = Organization::getPublicData($id);
+  	foreach ($organization["links"]["members"] as $newId => $e) {
+  		$member = Organization::getPublicData($newId);
+  		if(isset($member["links"]["events"])){
+  			foreach ($member["links"]["events"] as $key => $value) {
+  				$event = Event::getById($key);
+  				array_push($events, $event);
+  			}
+  		}
+  	}
+  	Rest::json($events);
+  }
+
 }

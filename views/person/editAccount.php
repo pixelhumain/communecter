@@ -389,6 +389,7 @@
 		event.preventDefault();
 		formData = $("#personForm").serializeFormJSON();
 		formData["tags"] = $("#tags").val();
+		$("#profileForm").submit();
 		//projectDropzone.processQueue();
 		/*if($('.dz-filename').text() == ""){
 			if("<?php if (isset($person['imagePath'])) echo $person['imagePath']?>" != ""){
@@ -404,8 +405,10 @@
 		  data: formData,//$("#personForm").serialize()+"&compt="+compt+"",
 		  dataType: "json",
 		  success: function(data){
-		  		if(data.result)
-		  			toastr.success(data.msg);
+		  		if(data){
+		  			toastr.success(data.msg)
+		  			//window.location.reload();
+		  		}
 		  		else
 		  			toastr.error(data.msg);
 		  },
@@ -417,7 +420,7 @@
 	$("#profileForm").on('submit',(function(e) {
 		e.preventDefault();
 		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/saveUserImages",
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/person/id/<?php echo Yii::app()->session['userId'] ?>",
 			type: "POST",
 			data: new FormData(this),
 			contentType: false,
