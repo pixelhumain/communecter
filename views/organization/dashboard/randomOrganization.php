@@ -24,7 +24,6 @@
       </div>
       </div>
     <div class="panel-footer "  >
-      <?php echo $randomOrganization['_id'] ?>
       <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/public/id/".$randomOrganization['_id'])?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
     </div>
   </div>

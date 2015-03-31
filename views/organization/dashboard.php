@@ -33,23 +33,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-7 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">ANNUAIRE DU RESEAU </h4>
-      </div>
-      <div class="panel-body no-padding center">
-        <img class="img-responsive center-block"style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
-      <div class="panel-footer center"   >
-        <a href="">TROUVER PAR THEME</a>
-      </div>
-    </div>
+    <?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
   </div>
 
   <div class="col-sm-5 col-xs-12">
-    <?php 
-    $this->renderPartial('dashboard/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null ));
-    ?>
+    <?php $this->renderPartial('dashboard/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
   </div>
 
 </div>
