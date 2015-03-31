@@ -141,7 +141,8 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "savenewaddmember"=>array("href"=>"/ph/communecter/organization/savenewaddmember"),  
+      "savenewaddmember"=>array("href"=>"/ph/communecter/organization/savenewaddmember"),
+      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),  
     ),
     

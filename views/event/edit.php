@@ -62,6 +62,24 @@ font-family: "Homestead";
     
     </p>
 
+    <form  method="post" id="profileFormEvent" enctype="multipart/form-data">
+		<div class="fileupload fileupload-new" data-provides="fileupload">
+		<div class="fileupload-new thumbnail">
+			<img src="<?php if ($event && isset($event["imagePath"])) echo $event["imagePath"];?>" alt="">	
+		</div>
+		<div class="fileupload-preview fileupload-exists thumbnail"></div>
+		<div class="user-edit-image-buttons">
+			<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
+				<input type="file" name="avatar" id="avatar">
+			</span>
+			<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+				<i class="fa fa-times"></i> Remove
+			</a>
+		</div>
+		</div>
+		<input type="submit" value="Upload File" />
+	</form>
+
  	<div class="grid">
    </div>
 </div></div>
@@ -160,4 +178,22 @@ font-family: "Homestead";
 	?>
 	 var contextMap = <?php echo json_encode($contextMap)?>;
 	 
+
+	$("#profileFormEvent").on('submit',(function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/event/id/"+contextMap['event']['_id']['$id'],
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			success: function(data){
+		  		if(data.result)
+		  			toastr.success(data.msg);
+		  		else
+		  			toastr.error(data.msg);
+		  },
+		});
+	}));
 </script>			
