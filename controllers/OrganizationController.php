@@ -499,4 +499,13 @@ class OrganizationController extends CommunecterController {
   	Rest::json($events);
   }
 
+
+	 public function actionCalendar($id){
+	  	 if (empty($id)) {
+		      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+		}
+
+		$organization = Organization::getPublicData($id);
+		$params = array( "organization" => $organization);
+	 }
 }

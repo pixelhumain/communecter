@@ -140,7 +140,7 @@
 	});
 	
 
-	function setMemberInput(id, name){
+	function setMemberInputAddMember(id, name){
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').css({"display" : "none"});
@@ -161,7 +161,7 @@
 	        	}else{
 					str = "";
 		 			$.each(data, function(i, v) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInput(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</a></li>";
+		  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</a></li>";
 		  			}); 
 		  			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
 		  			$("#addMembers #dropdown_email").html(str);

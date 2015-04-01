@@ -1,10 +1,51 @@
+<style>
+
+#calendar{
+	width:60%;
+	margin-left: 20%;
+}
+#lastEvent{
+	width:100%;
+}
+.lastEventPadding{
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 30%;
+}
+.imgEvent img{
+	width: 100%;
+	height: 200px;
+}
+</style>
+
+
 <!-- *** SHOW CALENDAR *** -->
+
+
 <div id="showCalendar" class="col-md-10 col-md-offset-1">
 	<div class="barTopSubview">
 		<a href="#newEvent" class="new-task new-event button-sv" ><i class="fa fa-plus"></i> Add new Event</a>
 		<a href="#newProject" class="new-task new-project button-sv" ><i class="fa fa-plus"></i> Add new Project</a>
 	</div>
-	<div id="calendar"></div>
+	<div class="row">
+    	<div class="panel panel-white">
+      		<div class="panel-heading border-light">
+      			<h4>PROCHAINS EVENEMENTS</h4>
+      		</div>
+			<div class='panel-body panel-transparent boder-light' id="lastEvent"></div>
+		</div>
+	</div>
+	<div class="row">
+    	<div class="panel panel-white">
+      		<div class="panel-heading border-light">
+        		<h4 class="panel-title">TOUS LES EVENEMENTS</h4>
+        	</div>
+        	<div class="panel-body boder-light">
+        		<div id="calendar"></div>
+        	</div>
+        </div>
+    </div>	
 </div>
 
 <!-- *** NEW EVENT *** -->
@@ -133,9 +174,12 @@
 </div>
 
 <script type="text/javascript">
+
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
- 	runEventFormValidation()
+ 	runEventFormValidation();
+ 	if(typeof(contextMap)!="undefined")
+ 		initLastsEvents();
 });
 
 function bindEventSubViewEvents() {
@@ -240,7 +284,7 @@ function buildCalObj(eventObj)
 	}
 	if(eventObj.startDate && eventObj.startDate != "")
 	{
-		console.log("eventObj", eventObj, eventObj.startDate);
+		//console.log("eventObj", eventObj, eventObj.startDate);
 		var sd = eventObj.startDate.split(" ")[0];
 		var sh = eventObj.startDate.split(" ")[1];
 		var sdv = sd.split("/");
@@ -268,7 +312,7 @@ function buildCalObj(eventObj)
 	        "category": eventObj.type,
 				"allDay" : false,
 		}
-		console.log(taskCal);
+		//console.log(taskCal);
 	}
 	return taskCal;
 }
@@ -454,7 +498,7 @@ formEvent.validate({
 		        if (data &&  data.result) {               
 		        	toastr.success('Event Created success');
 		        	$.hideSubview();
-		        	console.log("updateEvent");
+		        	//console.log("updateEvent");
 		        	if(updateEvent != undefined && typeof updateEvent == "function"){
 		        		//updateEvent( newEvent, data.id );
 		        	}	
@@ -702,11 +746,11 @@ function readEvent(el)
 	
 	function convertDate(date, num){
 		var dateTab = date.split("-");
-		console.log(dateTab, dateTab[num]);
+		//console.log(dateTab, dateTab[num]);
 		var hour = dateTab[num].split(" ")[1+num];
 		var hourRes ="";
 		var hourUnit = dateTab[num].split(" ")[2+num];
-		console.log(hourUnit);
+		//console.log(hourUnit);
 		if(hourUnit = "PM"){
 			hours = hour.split(":");
 			var newhour = parseInt(hours[0])+12;
@@ -717,9 +761,130 @@ function readEvent(el)
 		}else{
 			hourRes = hour;
 		}
-		console.log(hourRes);
+		//console.log(hourRes);
 		return dateTab[num].split(" ")[0+num]+" "+hourRes;
 	}
 
+	function getLastsEvent(events){
+		var today = new Date();
+		var eventsSelected = [];
+		$.each(events, function(k,v){
+			console.log("eventsSelected", eventsSelected, "v", v);
+			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
+			if(today<=date){
+				var date = new Date(v.startDate.split("/")[2].split(" ")[0], parseInt(v.startDate.split("/")[1])-1, v.startDate.split("/")[0]);
+				if(eventsSelected.length>=3){
+					for(var i = 0; i<eventsSelected.length;i++){
+						console.log("for", eventsSelected);
+						var date2 = new Date(eventsSelected[i].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[i].startDate.split("/")[1])-1, eventsSelected[i].startDate.split("/")[0]);
+						//console.log(date, date2);
+						if(date2>=date){
+							eventsSelected.splice(i, 0, v);
+							eventsSelected.pop();
+							i=eventsSelected.length;
+						}
+					}
+				}else if(eventsSelected.length<1){
+					eventsSelected.push(v);
+				}else if(eventsSelected.length==1){
+					var date2 = new Date(eventsSelected[0].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[0].startDate.split("/")[1])-1, eventsSelected[0].startDate.split("/")[0]);
+					if(date2>date){
+						eventsSelected.splice(0,0, v);
+					}else{
+						eventsSelected.push(v);
+					}
+				}else if(eventsSelected.length==2){
+					
+					var date2 = new Date(eventsSelected[0].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[0].startDate.split("/")[1])-1, eventsSelected[0].startDate.split("/")[0]);
+					var date3 = new Date(eventsSelected[1].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[1].startDate.split("/")[1])-1, eventsSelected[1].startDate.split("/")[0]);
+					if(date2>date){
+						eventsSelected.splice(0,0, v);
+					}else if(date3>date){
+						eventsSelected.splice(1,0,v);
+					}else{
+						eventsSelected.push(v);
+					}
+					/*for(var i = 0; i<eventsSelected.length;i++){
+						var date2 = new Date(eventsSelected[i].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[i].startDate.split("/")[1])-1, eventsSelected[i].startDate.split("/")[0]);
+						console.log(date, date2);
+						while(date2>=date && i>0){
+							i--;
+							var date2 = new Date(eventsSelected[i].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[i].startDate.split("/")[1])-1, eventsSelected[i].startDate.split("/")[0]);
+						}
+						if(date2>= date){
+							eventsSelected.splice(i, 0, v);
+							addEvent = true;
+							i=eventsSelected.length;	
+						}
+					}
+					if(addEvent == false){
+						eventsSelected.push(v);
+					}*/
+				}
+			}
+		})
+		return eventsSelected;
+	}
+
+	function initLastsEvents(){
+		console.log("OK initLastsEvents");
+		if(typeof(contextMap.events)!= "undefined"){
+			console.log("OK initLastsEvents");
+			var tabEvents = getLastsEvent(contextMap.events);
+			//console.log("tabEvents", tabEvents);
+			var htmlRes = "";
+
+			for(var i=0; i<tabEvents.length; i++ ){
+				var period = getStringPeriodValue(tabEvents[i].startDate, tabEvents[i].endDate);
+				htmlRes +='<div class="panel panel-white lastEventPadding">'+
+	       						'<div class="panel-body no-padding center">'+
+	       							'<div class="imgEvent"><img src="'+tabEvents[i].imagePath+'"></img></div>'+
+									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+tabEvents[i].name+'</div>'+
+								'</div>'+
+								'<div class="panel-footer">'+
+									'<div><p>En savoir + ></p></div>'+
+								'</div>'+
+							'</div>';
+
+			}
+		}else{
+			htlmRes = "<h1>Aucun evenement à venir</h1>";
+		}
+		$("#lastEvent").html(htmlRes);
+	}
 	
+
+	function getStringPeriodValue(d, f){
+		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MARS", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
+		var strPeriod = "";
+		var dTab = [];
+		var fTab = [];
+		var dHour = d.split(" ")[1];
+		var dDay = d.split(" ")[0].split("/");
+		
+		for(var i=0; i<dDay.length; i++){
+			dTab.push(dDay[i]);
+		}
+
+		var fHour = f.split(" ")[1].split(":");
+		var fDay = f.split(" ")[0].split("/");
+		for(var i=0; i<fDay.length; i++){
+			fTab.push(fDay[i]);
+		}
+		
+		if(dTab[2] == fTab[2]){
+			if(dTab[1] == fTab[1]){
+				if(dTab[0]== fTab[0]){
+					strPeriod += parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2]+" de "+dHour+" à "+fHour;
+				}else{
+					strPeriod += parseInt(dTab[0])+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+				}
+			}else{
+				strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+			}
+		}else{
+			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+		}
+		return strPeriod;
+	}
 </script>
