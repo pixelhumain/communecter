@@ -10,11 +10,12 @@ class Person {
 	public static function getById($id) {
 	  	$person = PHDB::findOne( PHType::TYPE_CITOYEN ,array("_id"=>new MongoId($id)));
 	  	
-	  	/*if (empty($person)) {
-            throw new CommunecterException("The person id ".$id." is unkown : contact your admin");
-        }*/
-
-	  	$person["publicURL"] = '/person/public/id/'.$id;
+	  	if (empty($person)) {
+	  		//TODO Sylvain - Find a way to manage inconsistente data
+            //throw new CommunecterException("The person id ".$id." is unkown : contact your admin");
+        } else {
+			$person["publicURL"] = '/person/public/id/'.$id;
+        }
 
 	  	return $person;
 	}
