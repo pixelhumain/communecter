@@ -133,8 +133,9 @@ class Link {
         //2. Create the links
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
-                       array('$set' => array( "links.".$connectType.".".$targetId.".type" => $targetType,
-                       						  "links.".$connectType.".".$targetId.".tobeconfirmed" => true)));
+                       array('$set' => array( "links.".$connectType.".".$targetId.".type" => $targetType
+                       						  //,"links.".$connectType.".".$targetId.".tobeconfirmed" => true
+                                              )));
         
         //3. Send Notifications
 	    //TODO - Send email to the member

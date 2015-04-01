@@ -321,9 +321,16 @@ class OrganizationController extends CommunecterController {
 	 $res = array( "result" => false , "content" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
 	 {
-	 	//test if group exist
-		$organization = (isset($_POST["parentOrganisation"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentOrganisation"]))) : null;
-	
+    
+    $isAdmin = false;
+    if (isset($_POST["isAdmin"])) {
+      $isAdmin = $_POST["isAdmin"];
+    }
+	 	//test if organization exists
+		if (isset($_POST["parentOrganisation"])) {
+      $organization = Organization::getById($_POST["parentOrganisation"]);
+    }
+
 		if($organization)
 		{
 
@@ -346,7 +353,7 @@ class OrganizationController extends CommunecterController {
 				
 				if( !$member )
 				{
-					 //create an entry in the citoyens colelction
+					 //create an entry in the citoyens collection
 					 if($_POST['memberType'] == "persons"){
 					 $member = array(
 					 'name'=>$_POST['memberName'],
@@ -372,8 +379,7 @@ class OrganizationController extends CommunecterController {
 						 Organization::createAndInvite($member);
 					 }
 					 //add the member into the organization map
-					
-					Link::connect($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], "members" );
+					Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					 //TODO : background send email
 					 //send validation mail
@@ -401,9 +407,7 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						
-						Link::connect($member["_id"], $memberType, $_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, Yii::app()->session["userId"], "memberOf" );
-						Link::connect($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], "members" );
+						Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 	
 					}	
