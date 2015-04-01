@@ -23,6 +23,7 @@
                             <th class="hidden-xs">Type</th>
                             <th>Name</th>
                             <th class="hidden-xs center">Email</th>
+                            <th>Admin</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -43,7 +44,16 @@
 						<li class="li-dropdown-scope">-</li>
 					</ul>
 				</input>
-
+				
+				<div class="form-group">
+					<label class="control-label">
+						Administrateur
+					</label>
+					<select id="memberIsAdmin" name="memberIsAdmin">
+                    	<option value="true">Oui</option>
+                    	<option value="false" selected>Non</option>
+                	</select>
+				</div>
     	    </div>
     	    <div class="row">
     	        <button class="btn btn-primary" >Enregistrer</button>
@@ -101,7 +111,8 @@
 				"memberName" : $("#addMembers #memberName").val(),
 				"memberEmail" : $("#addMembers #memberEmail").val(),
 				"memberType" : $("#addMembers #memberType").val(), 
-				"parentOrganisation" : $("#addMembers #parentOrganisation").val()
+				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
+				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val()
 			};
 	    	$.ajax({
 	            type: "POST",
@@ -113,13 +124,18 @@
 	            		toastr.error(data.content);
 	            	}else{
 	            		toastr.success("member added successfully ");
-		               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"+$("#addMembers #memberName").val()+"</td><td>"+$("#addMembers #memberEmail").val()+"</td><td><span class='label label-info'>added</span></td> <tr>";
+		               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"
+		               						+$("#addMembers #memberName").val()+"</td><td>"
+		               						+$("#addMembers #memberEmail").val()+"</td><td>"
+		               						+$("#addMembers #memberIsAdmin").val()+"</td><td>"+
+		               						"<span class='label label-info'>added</span></td> <tr>";
 		                $(".newMembersAdded").append(strHTML);
 		                if($(".newMembersAddedTable").hasClass("hide"))
 		                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
+		                $("#addMembers #memberIsAdmin").val("");
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -140,7 +156,7 @@
 	});
 	
 
-	function setMemberInput(id, name){
+	function setMemberInputAddMember(id, name){
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').css({"display" : "none"});
@@ -161,7 +177,7 @@
 	        	}else{
 					str = "";
 		 			$.each(data, function(i, v) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInput(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</a></li>";
+		  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\")'>" + v.name + "</a></li>";
 		  			}); 
 		  			if(str == "") str = "<li class='li-dropdown-scope'>Aucun résultat</li>";
 		  			$("#addMembers #dropdown_email").html(str);

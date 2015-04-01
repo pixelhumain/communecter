@@ -145,22 +145,5 @@ class Organization {
 
 		return $organization;
 	}
-	/**
-   *
-   * @return [json Map] list
-   */
-	public static function userCanEdit($id,$parentOrganisationId=null)
-	{
-		$res = false;
-		$organization = Organization::getById($id);
-		if( isset($organization["canEdit"]) && in_array( Yii::app()->session['userId'], $organization["canEdit"]) )
-			$res = true;
-		elseif(isset($parentOrganisationId)){
-			$parentOrganisation = Organization::getById($parentOrganisationId);
-			if($parentOrganisation["canEditMembers"] && isset($parentOrganisation["canEdit"]) && in_array( Yii::app()->session['userId'], $parentOrganisation["canEdit"]) )
-				$res = true;
-		}
-	    return $res;
-	}
 }
 ?>
