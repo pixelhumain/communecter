@@ -16,7 +16,7 @@ class Organization {
 		//Manage tags : save any inexistant tag to DB 
 		if (isset($organization["tags"]))
 			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
-		$organization["canEdit"] = array( Yii::app()->session['userId'] );
+
 		//Insert the organization
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
 		
@@ -26,10 +26,9 @@ class Organization {
 	    	throw new CommunecterException("Problem inserting the new organization");
 	    }
 		
-		//Add the creator as the first member
-	    Link::connect($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId,"members");
-	    Link::connect($userId, PHType::TYPE_CITOYEN, $newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId,"memberOf");
-             
+		//Add the creator as the first member and admin of the organization
+	    Link::addMember($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId, "true");
+
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",
 	    						"user"=>$organization["_id"]));
@@ -46,7 +45,7 @@ class Organization {
 	  	$organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
 	  	
 	  	if (empty($organization)) {
-            //TODO Sylvain - Find a way to manage inconsistente data
+            //TODO Sylvain - Find a way to manage inconsistent data
             //throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
         } else {
 			//add the public URL to the data structure
@@ -82,7 +81,7 @@ class Organization {
 	 */
 	public static function update($organizationId, $organization, $userId) {
 		
-		if(self::userCanEdit($organizationId)){
+		if (Authorisation::isOrganizationAdmin($userId, $organizationId)) {
 			//Manage tags : save any inexistant tag to DB 
 			if(isset($organization["tags"]))
 				$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
@@ -138,7 +137,7 @@ class Organization {
 		Agenda public
 		Réseau (cartographie)*/
 
-		//TODO SBAR = filter data to retrieve only publi data	
+		//TODO SBAR = filter data to retrieve only public data	
 		$organization = Organization::getById($id);
 		if (empty($organization)) {
 			throw new CommunecterException("The organization id is unknown ! Check your URL");

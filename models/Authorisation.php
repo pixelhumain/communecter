@@ -80,7 +80,7 @@ class Authorisation {
  	 */
     public static function getAuthorisation($userId) {
         
-        //TODO : think bout how to manage authentification
+        //TODO : think about how to manage authentification
         //Authentification => Menu Access
 
         $result = array();

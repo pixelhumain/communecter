@@ -22,7 +22,7 @@ class Link {
 	 * @param type $userId $userId The userId doing the action
 	 * @return result array with the result of the operation
 	 */
-    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
+    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false) {
         
         //0. Check if the $memberOfId and the $memberId exists
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
@@ -36,11 +36,13 @@ class Link {
         //2. Create the links
         PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
-                   array('$set' => array( "links.members.".$memberId.".type" => $memberType) ));
+                   array('$set' => array( "links.members.".$memberId.".type" => $memberType,
+                                          "links.members.".$memberId.".isAdmin" => $userAdmin  )));
         
         PHDB::update( $memberType, 
                    array("_id" => $member["_id"]) , 
-                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType, 
+                                          "links.memberOf.".$memberOfId.".isAdmin" => $userAdmin )));
 
         //3. Send Notifications
 	    //TODO - Send email to the member

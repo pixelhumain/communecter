@@ -16,7 +16,7 @@
               <i class="fa fa-refresh"></i> <span>Refresh</span>
             </a>
           </li>
-		  <?php if( isset($organization["canEdit"]) && in_array( Yii::app()->session['userId'] , $organization["canEdit"]) ){ ?>
+		  <?php if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'], $organization["_id"]) ){ ?>
           <li>
             <a href="#ajaxSV" id="aboutConfig">
               <i class="fa fa-wrench"></i> <span>Configurations</span>
