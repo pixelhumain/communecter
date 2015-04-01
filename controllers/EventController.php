@@ -1,6 +1,6 @@
 <?php
 /**
- * ActionLocaleController.php
+ * EventController.php
  *
  * tous ce que propose le PH en terme de gestion d'evennement
  *
