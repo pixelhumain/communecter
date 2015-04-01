@@ -450,7 +450,18 @@ class OrganizationController extends CommunecterController {
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
+    //Get this organizationEvent
+    $events = array();
+    if(isset($organization["links"]["events"])){
+  		foreach ($organization["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
+
     if( isset($organization["links"]) && isset($organization["links"]["members"])) {
+    	
+    	$memberData;
         $subOrganizationIds = array();
         $members = array(
             "citoyens"=>array(),
@@ -461,18 +472,29 @@ class OrganizationController extends CommunecterController {
             if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
             {
                 array_push($subOrganizationIds, $key);
-                array_push( $members[PHType::TYPE_ORGANIZATIONS], Organization::getById( $key ) );
+                $memberData = Organization::getPublicData( $key );
+                array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
             }
             elseif($member['type'] == PHType::TYPE_CITOYEN )
             {
-                array_push( $members[PHType::TYPE_CITOYEN], Person::getById( $key ) );
+            	$memberData = Person::getPublicData( $key );
+                array_push( $members[PHType::TYPE_CITOYEN], $memberData );
             }
+            if(isset($memberData["links"]["events"])){
+	  			foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
+	  				$event = Event::getPublicData($keyEv);
+	  				$events[$keyEv] = $event;	
+	  			}
+	  			
+	  		}
         }
+        $params["events"] = $events;
         $randomOrganizationId = array_rand($subOrganizationIds);
         $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
         $params["randomOrganization"] = $randomOrganization;
         $params["members"] = $members;
     }
+
     $this->render( "dashboard", $params );
   }
 
@@ -487,16 +509,28 @@ class OrganizationController extends CommunecterController {
     $this->render("join", array("organization" => $organization));
   }
 
+ //Get the events for create the calendar
   public function actionGetCalendar($id){
-  	$events = [];
+  	$events = array();
   	$organization = Organization::getPublicData($id);
+  	if(isset($organization["links"]["events"])){
+  		foreach ($organization["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
   	foreach ($organization["links"]["members"] as $newId => $e) {
-  		$member = Organization::getPublicData($newId);
+  		if($e["type"] == PHType::TYPE_ORGANIZATIONS){
+  			$member = Organization::getPublicData($newId);
+  		}else{
+  			$member = Person::getPublicData($newId);
+  		}
   		if(isset($member["links"]["events"])){
   			foreach ($member["links"]["events"] as $key => $value) {
-  				$event = Event::getById($key);
-  				array_push($events, $event);
+  				$event = Event::getPublicData($key);
+  				$events[$key] = $event;	
   			}
+  			
   		}
   	}
   	Rest::json($events);
