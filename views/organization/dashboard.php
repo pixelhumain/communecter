@@ -47,7 +47,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   <div class="col-sm-5 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title">AGENDA PARTAGEE </h4>
+        <h4 class="panel-title">AGENDA PARTAGE </h4>
       </div>
        <div class="panel-body no-padding center">
 		  <div class="flexslider">
