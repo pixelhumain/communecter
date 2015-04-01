@@ -26,7 +26,6 @@
 <div id="showCalendar" class="col-md-10 col-md-offset-1">
 	<div class="barTopSubview">
 		<a href="#newEvent" class="new-task new-event button-sv" ><i class="fa fa-plus"></i> Add new Event</a>
-		<a href="#newProject" class="new-task new-project button-sv" ><i class="fa fa-plus"></i> Add new Project</a>
 	</div>
 	<div class="row">
     	<div class="panel panel-white">
@@ -52,14 +51,42 @@
 <div id="newEvent">
 	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3>Add new event</h3>
+		<form  method="post" id="profileFormEventSV" enctype="multipart/form-data">
+			<div class="fileupload fileupload-new" data-provides="fileupload">
+				<div class="fileupload-new thumbnail">
+					<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
+				</div>
+				<div class="fileupload-preview fileupload-exists thumbnail"></div>
+				<div class="user-edit-image-buttons">
+					<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
+						<input type="file" name="avatar" id="avatar">
+					</span>
+					<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+						<i class="fa fa-times"></i> Remove
+					</a>
+				</div>
+			</div>
+		</form>
 		<form class="form-event">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="form-group">
-						<input class="event-id hide" type="text">
+						<input class="event-id hide" type="text" id="newEventId" name="newEventId">
 						<input class="event-name form-control" name="eventName" type="text" placeholder="Event Name...">
 					</div>
 				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<select class="form-control selectpicker event-categories">
+							<option data-content="<span class='event-category event-home'>Discussion</span>" value="discussion">Discussion</option>
+							<option data-content="<span class='event-category event-overtime'>Meeting</span>" value="meeting">Meeting</option>
+							<option data-content="<span class='event-category event-generic'>Event</span>" value="event" selected="selected">Event</option>
+							<option data-content="<span class='event-category event-job'>Cultural</span>" value="cultural">Cultural</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class= "row">
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
 				<div class="col-md-12">
 					<div class="form-group">
@@ -99,14 +126,7 @@
 					<input type="text" class="event-end-date" name="eventEndDate"/>
 				</div>
 				<div class="col-md-12">
-					<div class="form-group">
-						<select class="form-control selectpicker event-categories">
-							<option data-content="<span class='event-category event-home'>Discussion</span>" value="discussion">Discussion</option>
-							<option data-content="<span class='event-category event-overtime'>Meeting</span>" value="meeting">Meeting</option>
-							<option data-content="<span class='event-category event-generic'>Event</span>" value="event" selected="selected">Event</option>
-							<option data-content="<span class='event-category event-job'>Cultural</span>" value="cultural">Cultural</option>
-						</select>
-					</div>
+					
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
@@ -180,6 +200,25 @@ jQuery(document).ready(function() {
  	runEventFormValidation();
  	if(typeof(contextMap)!="undefined")
  		initLastsEvents();
+
+
+ 	$("#profileFormEventSV").on('submit',(function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/event/id/"+$("#newEventId").val(),
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			success: function(data){
+		  		if(data.result)
+		  			toastr.success(data.msg);
+		  		else
+		  			toastr.error(data.msg);
+		  },
+		});
+	}));
 });
 
 function bindEventSubViewEvents() {
@@ -497,11 +536,10 @@ formEvent.validate({
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('Event Created success');
-		        	$.hideSubview();
+		        	$("#newEventId").val(data.id["$id"]);
+		        	$("#profileFormEventSV").submit();
+		        	//$.hideSubview();
 		        	//console.log("updateEvent");
-		        	if(updateEvent != undefined && typeof updateEvent == "function"){
-		        		//updateEvent( newEvent, data.id );
-		        	}	
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }
@@ -866,7 +904,7 @@ function readEvent(el)
 			dTab.push(dDay[i]);
 		}
 
-		var fHour = f.split(" ")[1].split(":");
+		var fHour = f.split(" ")[1];
 		var fDay = f.split(" ")[0].split("/");
 		for(var i=0; i<fDay.length; i++){
 			fTab.push(fDay[i]);

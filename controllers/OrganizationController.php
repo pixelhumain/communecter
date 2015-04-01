@@ -484,15 +484,26 @@ class OrganizationController extends CommunecterController {
   }
 
   public function actionGetCalendar($id){
-  	$events = [];
+  	$events = array();
   	$organization = Organization::getPublicData($id);
+  	if(isset($organization["links"]["events"])){
+  		foreach ($organization["links"]["events"] as $key => $value) {
+  			$event = Event::getById($key);
+  			$events[$key] = $event;
+  		}
+  	}
   	foreach ($organization["links"]["members"] as $newId => $e) {
-  		$member = Organization::getPublicData($newId);
+  		if($e["type"] == PHType::TYPE_ORGANIZATIONS){
+  			$member = Organization::getPublicData($newId);
+  		}else{
+  			$member = Person::getPublicData($newId);
+  		}
   		if(isset($member["links"]["events"])){
   			foreach ($member["links"]["events"] as $key => $value) {
   				$event = Event::getById($key);
-  				array_push($events, $event);
+  				$events[$key] = $event;	
   			}
+  			
   		}
   	}
   	Rest::json($events);
