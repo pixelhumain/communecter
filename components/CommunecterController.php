@@ -76,7 +76,13 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
-          )
+          ),
+     array('label' => "GED", "key"=>"ged",
+        "children"=> array(
+          "newFiles" => array( "label"=>"Add new file","key"=>"newFiles","class"=>"new-file", "href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+          "fileList" => array( "label"=>"File List","key"=>"fileList", "class"=>"readFiles","href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-bars fa-stack-1x stack-right-bottom text-danger")),
+        )
+    ),
   );
   
   public $subviews = array(
@@ -84,7 +90,8 @@ class CommunecterController extends Controller
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    "project.addContributorSV"
+    "project.addContributorSV",
+    "default.gedSV",
   );
 
   public $toolbarMenuMaps = array(
@@ -126,7 +133,8 @@ class CommunecterController extends Controller
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
-      'getnotification' => array("href" => "/person/GetNotification")
+      'getnotification' => array("href" => "/person/GetNotification"),
+      "mydata" => array("href" => "/person/mydata"),
     ),
 
     "organization"=> array(
