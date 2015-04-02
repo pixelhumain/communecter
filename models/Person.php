@@ -27,8 +27,13 @@ class Person {
             );
 	}
 
-	public static function getOrganizationById($id){
-		$person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+	/**
+	 * get all organizations details of a Person By a person Id
+	 * @param type $id : is the mongoId (String) of the person
+	 * @return person document as in db
+	 */
+	public static function getOrganizationsById($id){
+		$person = Person::getById($id);
 	    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
 	    $organizations = array();
 	    
@@ -112,6 +117,49 @@ class Person {
 		}
 
 		return $person;
+	}
+
+ 	/**
+		 * get all events details of a Person By a person Id
+		 * @param type $id : is the mongoId (String) of the person
+		 * @return person document as in db
+	*/
+	public static function getEventsByPersonId($id){
+		$person = Person::getById($id);
+	    $events = array();
+	    
+	    //Load events
+	    if (isset($person["links"]) && !empty($person["links"]["events"])) 
+	    {
+	      foreach ($person["links"]["events"] as $id => $e) 
+	      {
+	        $event = PHDB::findOne( PHType::TYPE_EVENTS, array( "_id" => new MongoId($id)));
+	        if (!empty($event)) {
+	          array_push($events, $event);
+	        } else {
+	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+	        }
+	      }
+	    }
+	    return $events;
+	} 
+
+
+	/**
+		* get person Data => need to update
+		* @param type $id : is the mongoId (String) of the person
+		* @return a map with : Person's informations, his organizations, events,projects
+	*/
+	public static function getPersonMap($id){
+		$person = Person::getById($id);
+		$organizations = Person::getOrganizationsById($id);
+		$events = Person::getEventsByPersonId($id);
+		$personMap = array(
+							"person" => $person,
+							"organizations" => $organizations,
+							"events" => $events
+						);
+		return $personMap;
 	}
 }
 ?>

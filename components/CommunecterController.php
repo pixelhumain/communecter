@@ -23,6 +23,7 @@ class CommunecterController extends Controller
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
   const theme = "ph-dori";
+  public $person = null;
   public $themeStyle = "theme-style11";//3,4,5,7,9
 
 	//TODO - Faire le tri des liens
@@ -166,7 +167,9 @@ class CommunecterController extends Controller
 
   function initPage(){
     $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
-    
+
+    $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
+
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;

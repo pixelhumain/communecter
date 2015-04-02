@@ -44,7 +44,7 @@ class PersonController extends CommunecterController {
 	  }
 
 	public function actionGetOrganization($id=null){
-	  	$organizations = Person::getOrganizationById($id);
+	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
 	  }
 	public function actionLogin() 

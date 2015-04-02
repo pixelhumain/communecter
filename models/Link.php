@@ -134,7 +134,7 @@ class Link {
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
                        array('$set' => array( "links.".$connectType.".".$targetId.".type" => $targetType
-                       						  //,"links.".$connectType.".".$targetId.".tobeconfirmed" => true
+                       						  //,"links.".$connectType.".".$targetId.".isAdmin" => $userAdmin
                                               )));
         
         //3. Send Notifications
