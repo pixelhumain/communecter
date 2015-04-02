@@ -89,8 +89,8 @@ jQuery(document).ready(function() {
 						*/
 						$.each(dataBind,function(field,fieldObj){
 							if(field != ""){
-								var val = jsonHelper.getValueByPath( dataBind, fieldObj.saveTo );
-								if(val){
+								var val = fieldObj.value;
+								if(val) {
 									$(field).val(val);
 									console.log("field key",field);
 								}
