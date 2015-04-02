@@ -61,7 +61,7 @@ var formDefinition = {
 var dataBind = {
 	"#description": {
 		"value" : "<?php echo $organization["description"] ?>",
-		"saveTo":"description",
+		"saveTo": "description",
 		"updateElement" : ".orgaDescription"
 	},
 };
@@ -109,6 +109,10 @@ jQuery(document).ready(function() {
 								{
 									value = $(field).val();
 									jsonHelper.setValueByPath( params, fieldObj.saveTo, value );
+									
+									//update the databind with the new value (in case of second onload)
+									jsonHelper.setValueByPath( dataBind, field+".value", value );
+
 									$(fieldObj.updateElement).html($(field).val());
 								} 
 							}
