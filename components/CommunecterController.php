@@ -162,6 +162,14 @@ class CommunecterController extends Controller
       "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
 
     ),
+
+    "job"=> array(
+      "edit"=>array("href"=>"/ph/communecter/job/edit"),
+      "public"=>array("href"=>"/ph/communecter/job/public"),
+      "save"=>array("href"=>"/ph/communecter/job/save"),
+      "delete"=>array("href"=>"/ph/communecter/job/delete"),
+      "list"=>array("href"=>"/ph/communecter/job/list"),
+    ),
     
   );
 

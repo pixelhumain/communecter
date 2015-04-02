@@ -19,11 +19,14 @@ class Link {
 	 * @param type $memberOfType The Type (should be organization) memberOf where a member will be linked. 
 	 * @param type $memberId The member Id to add. It will be the member added to the memberOf
 	 * @param type $memberType MemberType to add : could be an organization or a person
-	 * @param type $userId $userId The userId doing the action
+	 * @param type $userId The userId doing the action
+     * @param type $userAdmin Boolean to set if the member is admin or not
 	 * @return result array with the result of the operation
 	 */
     public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false) {
         
+        //TODO SBAR => Change the boolean userAdmin to a role (admin, contributor, moderator...)
+
         //0. Check if the $memberOfId and the $memberId exists
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
 		$member = Link::checkIdAndType($memberId, $memberType);

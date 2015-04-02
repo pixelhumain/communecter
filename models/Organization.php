@@ -17,6 +17,9 @@ class Organization {
 		if (isset($organization["tags"]))
 			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
 
+		//Add the user creator of the organization in the system
+		$organization["creator"] = $userId;
+
 		//Insert the organization
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
 		

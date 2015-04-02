@@ -35,19 +35,19 @@
   <div class="panel-body no-padding">
     <div class="tabbable no-margin no-padding partition-dark">
       <ul class="nav nav-tabs" id="myTab">
-        <li class="<?php if(count($members[PHType::TYPE_CITOYEN])) echo "active" ?>">
+        <li class="<?php if(count($members[PHType::TYPE_CITOYEN]) && count($members[PHType::TYPE_CITOYEN]) > count($members[PHType::TYPE_ORGANIZATIONS])) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example2">
             <i class="fa fa-user text-red"></i> People <?php echo count($members[PHType::TYPE_CITOYEN]) ?>
           </a>
         </li>
-        <li class="<?php if(count($members[PHType::TYPE_ORGANIZATIONS])) echo "active" ?>">
+        <li class="<?php if(count($members[PHType::TYPE_ORGANIZATIONS]) && count($members[PHType::TYPE_CITOYEN]) < count($members[PHType::TYPE_ORGANIZATIONS]) ) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example3">
             <i class="fa fa-group text-green"></i> Organizations <?php echo count($members[PHType::TYPE_ORGANIZATIONS]) ?>
           </a>
         </li>
       </ul>
       <div class="tab-content partition-white">
-        <div id="users_tab_example2" class="tab-pane padding-bottom-5 <?php if(count($members[PHType::TYPE_CITOYEN])) echo "active" ?>">
+        <div id="users_tab_example2" class="tab-pane padding-bottom-5 <?php if(count($members[PHType::TYPE_CITOYEN]) && count($members[PHType::TYPE_CITOYEN]) > count($members[PHType::TYPE_ORGANIZATIONS])) echo "active" ?>">
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody>
@@ -61,7 +61,7 @@
             </table>
           </div>
         </div>
-        <div id="users_tab_example3" class="tab-pane padding-bottom-5 <?php if(count($members[PHType::TYPE_ORGANIZATIONS])) echo "active" ?>">
+        <div id="users_tab_example3" class="tab-pane padding-bottom-5 <?php if(count($members[PHType::TYPE_ORGANIZATIONS]) && count($members[PHType::TYPE_CITOYEN]) < count($members[PHType::TYPE_ORGANIZATIONS]) ) echo "active" ?>">
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody>
