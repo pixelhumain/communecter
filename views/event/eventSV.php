@@ -17,6 +17,10 @@
 	width: 100%;
 	height: 200px;
 }
+#dropBtn{
+	display: none;
+}
+
 </style>
 
 
@@ -51,12 +55,14 @@
 <div id="newEvent">
 	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3>Add new event</h3>
+		<div class="row">
+		<div class="col-md-3">
 		<form  method="post" id="profileFormEventSV" enctype="multipart/form-data">
 			<div class="fileupload fileupload-new" data-provides="fileupload">
 				<div class="fileupload-new thumbnail">
 					<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
 				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail"></div>
+				<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
 				<div class="user-edit-image-buttons">
 					<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
 						<input type="file" name="avatar" id="avatar">
@@ -67,7 +73,21 @@
 				</div>
 			</div>
 		</form>
-		<form class="form-event">
+		</div>
+		
+		<div class="col-md-7">
+			<form class="form-event">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="btn-group">
+                        <a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                          	<span id="labelOrga">Organisation</span><span class="caret"></span>
+                        </a>
+                        <ul role="menu" class="dropdown-menu" id="dropOrgaEvent"></ul>
+                    </div>
+                    <input class="hide" type="text" id="newEventOrga" name="newEventOrga">
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -86,6 +106,7 @@
 					</div>
 				</div>
 			</div>
+		
 			<div class= "row">
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
 				<div class="col-md-12">
@@ -147,6 +168,8 @@
 				</div>
 			</div>
 		</form>
+	</div>
+	</div>
 	</div>
 </div>
 <!-- *** READ EVENT *** -->
@@ -230,6 +253,8 @@ function bindEventSubViewEvents() {
 			content : subViewContent,
 			onShow : function() {
 				editEvent();
+				initMyOrganization();
+
 			},
 			onHide : function() {
 				hideEditEvent();
@@ -390,6 +415,7 @@ function showCalendar() {
 		date : dateToShow.getDate(),
 		editable : true,
 		events : calendar,
+
 		eventClick : function(calEvent, jsEvent, view) {
 			//show event in subview
 			dateToShow = calEvent.start;
@@ -487,7 +513,9 @@ formEvent.validate({
               '<cite title="Hegel">Hegel</cite>'+
             '</blockquote> '
 		});
-		
+		if($(".form-event #newEventOrga").val() !==""){
+			newEvent.organization = $(".form-event #newEventOrga").val();
+		}
 		if ($(".form-event .event-id").val() !== "") {
 			el = $(".form-event .event-id").val();
 
@@ -538,6 +566,7 @@ formEvent.validate({
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
+		        	setTimeout(function(){ $.hideSubview(); }, 3000);
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {
@@ -924,5 +953,45 @@ function readEvent(el)
 			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
 		}
 		return strPeriod;
+	}
+
+	function initMyOrganization(){
+		var mapOrganization = {};
+		var myOrganizationsAdmin = [];
+		if(typeof(personMap)!="undefined" && personMap["person"]["_id"]["$id"]== "<?php echo Yii::app()->session['userId'] ?>"){
+			if(typeof(personMap.organizations)!="undefined"){
+				$.each(personMap.organizations, function(k,v){
+					mapOrganization[v._id["$id"]] = v.name;
+				})
+			}
+			$.each(personMap.person.links.memberOf, function(k, v){
+				if(v.isAdmin == true){
+					myOrganizationAdmin = {};
+					myOrganizationAdmin[k] = mapOrganization[k];
+					myOrganizationsAdmin.push(myOrganizationAdmin);
+				}
+			})			
+		}
+		//create an show Dropdown Orga;
+
+		if(myOrganizationsAdmin.length>0){
+			$.each(myOrganizationsAdmin, function(k, v){
+				var orgaId;
+				var nameId;
+				$.each(v, function(id, name){
+					orgaId = id;
+					nameId = name;
+				})
+				var htmlDrop = '<li><a href="#" class="btn-drop dropOrg" data-id="'+orgaId+'" data-name="'+nameId+'">'+nameId+'</a></li>'
+				$("#dropOrgaEvent").append(htmlDrop);
+			})
+			$("#dropBtn").css("display", "block");
+		}
+
+		$(".dropOrg").click(function() {
+			console.log(this);
+			$("#labelOrga").text($(this).data("name"));
+			$("#newEventOrga").val($(this).data("id"));
+		})
 	}
 </script>

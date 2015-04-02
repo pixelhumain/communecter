@@ -84,22 +84,25 @@ class Organization {
 	 */
 	public static function update($organizationId, $organization, $userId) {
 		
-		if (Authorisation::isOrganizationAdmin($userId, $organizationId)) {
-			//Manage tags : save any inexistant tag to DB 
-			if(isset($organization["tags"]))
-				$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
-		    
-		    //update the organization
-		    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
-		                                          array('$set' => $organization));
-	    
-		    //TODO ???? : add an admin notification
-		    Notification::saveNotification(array("type"=>"Updated",
-		    						"user"=>$organizationId));
-		                  
-		    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
-		} else
+		//Check if user is authorized to update
+		if (! Authorisation::isOrganizationAdmin($userId, $organizationId)) {
 			return Rest::json(array("result"=>false, "msg"=>"Unauthorized Access."));
+		}
+
+		//Manage tags : save any inexistant tag to DB 
+		if(isset($organization["tags"]))
+			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+	    
+	    //update the organization
+	    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
+	                                          array('$set' => $organization));
+    
+	    //TODO ???? : add an admin notification
+	    Notification::saveNotification(array("type"=>"Updated",
+	    						"user"=>$organizationId));
+	                  
+	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
+		
 	}
 	
 	/**
@@ -147,6 +150,34 @@ class Organization {
 		}
 
 		return $organization;
+	}
+
+	/**
+	 * When an initation to join an organization network is sent :
+	 * this method will :
+	 * 1. Create a new person and organization.
+	 * 2. Make the new person a member and admin of the organization
+	 * 3. Join the network of the organization inviting
+	 * @param type $person the minimal data to create a person
+	 * @param type $organization the minimal data to create an organization
+	 * @param type $parentOrganizationId the organization Id to join the network of
+	 * @return newPersonId ans newOrganizationId
+	 */
+	public static function createPersonOrganizationAndAddMember($person, $organization, $parentOrganizationId) {
+		
+		//Create a new person
+		$newPerson = Person::insert($person);
+
+		//Create a new organization
+		$newOrganization = Organization::insert($organization);
+
+		//Link the person as an admin
+		Link::addMember($newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], PHType::TYPE_CITOYEN, $newPerson["id"], true);
+
+		//Link the organization as a mamber of the invitor
+		Link::addMember($parentOrganizationId, PHType::TYPE_ORGANIZATIONS, $newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], true);
+		
+		return array("result"=>true, "msg"=>"The invitation process completed with success", "id"=>$newOrganization["id"]);;
 	}
 }
 ?>

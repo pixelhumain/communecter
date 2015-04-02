@@ -246,8 +246,7 @@ class OrganizationController extends CommunecterController {
     $newOrganization = array(
       'email'=>$email,
       "name" => $_POST['organizationName'],
-      'created' => time(),
-      'owner' => Yii::app()->session["userEmail"]
+      'created' => time()
     );
 
     $newOrganization["type"] = $_POST['type'];
@@ -498,15 +497,40 @@ class OrganizationController extends CommunecterController {
     $this->render( "dashboard", $params );
   }
 
+  
   public function actionJoin($id)
   {
     //get The organization Id
     if (empty($id)) {
       throw new CommunecterException("The Parent organization doesn't exist !");
     }
-    $organization = Organization::getPublicData($id);
+    
+    $parentOrganization = Organization::getPublicData($id);
+    $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+    $tags = Tags::getActiveTags();
+
     $this->layout = "//layouts/mainSimple";
-    $this->render("join", array("organization" => $organization));
+    $this->render("join", array("parentOrganization" => $parentOrganization, "types" => $types['list'], "tags" => $tags));
+  }
+
+  public function actionAddNewOrganizationAsMember() {
+    //Get the person data
+    $newPerson = array(
+           'name'=>$_POST['personName'],
+           'email'=>$_POST['personEmail'],
+           'postalCode'=>$_POST['postalCode'],
+           'password'=>$_POST['password']);
+
+    // Retrieve data from form
+    try {
+      $newOrganization = $this->populateNewOrganizationFromPost();
+      
+      $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
+    } catch (CommunecterException $e) {
+      return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+    }
+
+    Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
   }
 
  //Get the events for create the calendar

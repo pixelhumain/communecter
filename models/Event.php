@@ -42,8 +42,7 @@ class Event {
 			      'public'=>true,//$params['public'],
 			'created' => time(),
 			"links" => array( 
-				"attendees" => array( (string)$id =>array("type" => $type)), 
-				"organizers" => array((string)$id =>array("type" => $type)),  
+				"attendees" => array( (string)$id =>array("type" => $type, "isAdmin" => true))  
 			),
 	        "allDay" => $params['allDay'],
 	    );
@@ -59,6 +58,29 @@ class Event {
 	    
 	    //add the association to the users association list
 	    Link::connect($id, $type, $new["_id"], PHType::TYPE_EVENTS, $id, "events" );
+	    $newId = new MongoId($new["_id"]);
+	    PHDB::update( PHType::TYPE_CITOYEN, 
+                       array("_id" => new MongoId($id)) , 
+                       array('$set' => array("links.events.".$newId.".isAdmin" => true
+                                              )));
+	    // add organization to event
+	    if(isset($params["organization"])){
+	    	/*PHDB::update( PHType::TYPE_EVENTS , 
+				array("_id" => new MongoId($new["_id"])) ,
+				array('$addToSet' => array( "links.attendees.".(string)$params["organization"]=>array("type" => PHType::TYPE_ORGANIZATIONS, "isAdmin"=>true )) 
+					)
+				);*/
+	    	Link::connect($new["_id"], PHType::TYPE_EVENTS, $params["organization"], PHType::TYPE_ORGANIZATIONS, $params["organization"], "attendees");
+	    	 PHDB::update( PHType::TYPE_EVENTS, 
+                       array("_id" => $new["_id"]) , 
+                       array('$set' => array("links.attendees.".$params["organization"].".isAdmin" => true
+                                              )));
+	    	Link::connect($params["organization"], PHType::TYPE_ORGANIZATIONS, $new["_id"], PHType::TYPE_EVENTS, $params["organization"], "events");
+	    	PHDB::update( PHType::TYPE_ORGANIZATIONS, 
+                       array("_id" => new MongoId($params["organization"])) , 
+                       array('$set' => array("links.events.".$newId.".isAdmin" => true
+                                 )));
+	    }
 	    //$where = array("_id" => new MongoId(Yii::app()->session["userId"]));
 	    //PHDB::update( PHType::TYPE_EVENTS , 
 		//					array("_id" => new MongoId($id)) ,

@@ -23,6 +23,7 @@ class CommunecterController extends Controller
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
   const theme = "ph-dori";
+  public $person = null;
   public $themeStyle = "theme-style11";//3,4,5,7,9
 
 	//TODO - Faire le tri des liens
@@ -134,7 +135,11 @@ class CommunecterController extends Controller
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
+<<<<<<< HEAD
       "mydata" => array("href" => "/person/mydata"),
+=======
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+>>>>>>> 7844220eb1bec465bee48be448faa0582cf2ce82
     ),
 
     "organization"=> array(
@@ -149,7 +154,7 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "savenewaddmember"=>array("href"=>"/ph/communecter/organization/savenewaddmember"),
+      "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  
@@ -182,7 +187,9 @@ class CommunecterController extends Controller
 
   function initPage(){
     $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
-    
+
+    $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
+
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;

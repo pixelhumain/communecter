@@ -27,8 +27,13 @@ class Person {
             );
 	}
 
-	public static function getOrganizationById($id){
-		$person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+	/**
+	 * get all organizations details of a Person By a person Id
+	 * @param type $id : is the mongoId (String) of the person
+	 * @return person document as in db
+	 */
+	public static function getOrganizationsById($id){
+		$person = Person::getById($id);
 	    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
 	    $organizations = array();
 	    
@@ -75,11 +80,38 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	PHDB::insert( PHType::TYPE_CITOYEN , $param );
+	  	Person::insert($param);
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
         //and complete the Organisation Profile
+	}
+
+	/**
+	 * Insert a new person from the minimal information inside the parameter
+	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'password')
+	 * @return array result, msg and id
+	 */
+	public static function insert($person) {
+	  	//Add aditional information
+	  	$person["tobeactivated"] = true;
+	  	$person["created"] = time();
+
+	  	//Check if the email of the person is already in the database
+	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
+	  	if ($account) {
+	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
+	  	}
+
+	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
+ 
+        if (isset($person["_id"])) {
+	    	$newpersonId = (String) $person["_id"];
+	    } else {
+	    	throw new CommunecterException("Problem inserting the new person");
+	    }
+
+	    return array("result"=>true, "msg"=>"Une nouvelle personne est communectée.", "id"=>$newpersonId); 
 	}
 
 	/**
@@ -112,6 +144,49 @@ class Person {
 		}
 
 		return $person;
+	}
+
+ 	/**
+		 * get all events details of a Person By a person Id
+		 * @param type $id : is the mongoId (String) of the person
+		 * @return person document as in db
+	*/
+	public static function getEventsByPersonId($id){
+		$person = Person::getById($id);
+	    $events = array();
+	    
+	    //Load events
+	    if (isset($person["links"]) && !empty($person["links"]["events"])) 
+	    {
+	      foreach ($person["links"]["events"] as $id => $e) 
+	      {
+	        $event = PHDB::findOne( PHType::TYPE_EVENTS, array( "_id" => new MongoId($id)));
+	        if (!empty($event)) {
+	          array_push($events, $event);
+	        } else {
+	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
+	        }
+	      }
+	    }
+	    return $events;
+	} 
+
+
+	/**
+		* get person Data => need to update
+		* @param type $id : is the mongoId (String) of the person
+		* @return a map with : Person's informations, his organizations, events,projects
+	*/
+	public static function getPersonMap($id){
+		$person = Person::getById($id);
+		$organizations = Person::getOrganizationsById($id);
+		$events = Person::getEventsByPersonId($id);
+		$personMap = array(
+							"person" => $person,
+							"organizations" => $organizations,
+							"events" => $events
+						);
+		return $personMap;
 	}
 }
 ?>

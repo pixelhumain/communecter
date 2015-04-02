@@ -155,6 +155,39 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		return res;
 	}
 
+	function getStringPeriodValue(d, f){
+		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MARS", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
+		var strPeriod = "";
+		var dTab = [];
+		var fTab = [];
+		var dHour = d.split(" ")[1];
+		var dDay = d.split(" ")[0].split("/");
+		
+		for(var i=0; i<dDay.length; i++){
+			dTab.push(dDay[i]);
+		}
+
+		var fHour = f.split(" ")[1];
+		var fDay = f.split(" ")[0].split("/");
+		for(var i=0; i<fDay.length; i++){
+			fTab.push(fDay[i]);
+		}
+		
+		if(dTab[2] == fTab[2]){
+			if(dTab[1] == fTab[1]){
+				if(dTab[0]== fTab[0]){
+					strPeriod += parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2]+" de "+dHour+" à "+fHour;
+				}else{
+					strPeriod += parseInt(dTab[0])+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+				}
+			}else{
+				strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+			}
+		}else{
+			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+		}
+		return strPeriod;
+	}
 
 	/*function showCalendarDashBoard(data) {
 

@@ -44,7 +44,7 @@ class PersonController extends CommunecterController {
 	  }
 
 	public function actionGetOrganization($id=null){
-	  	$organizations = Person::getOrganizationById($id);
+	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
 	  }
 	public function actionLogin() 
@@ -696,6 +696,80 @@ class PersonController extends CommunecterController {
 	 Rest::json( $res );
  }
 
+
+ public function actionDashboard($id)
+  {
+    //get The person Id
+    if (empty($id)) {
+      throw new CommunecterException("The person id is mandatory to retrieve the person !");
+    }
+
+    $person = Person::getPublicData($id);
+    $params = array( "person" => $person);
+
+    $this->sidebar1 = array(
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
+    );
+
+    $this->title = (isset($person["name"])) ? $person["name"] : "";
+    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+    //Get this organizationEvent
+    $events = array();
+    if(isset($person["links"]["events"])){
+  		foreach ($person["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
+
+    if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
+    	
+    	
+        //$organizationIds = array();
+        $organizations = array();
+        foreach ($person["links"]["memberOf"] as $key => $member) {
+            $organization;
+            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+            {
+                //array_push($organizationIds, $key);
+                $organization = Organization::getPublicData( $key );
+                array_push($organizations, $organization );
+            }
+       
+         	if(isset($organization["links"]["events"])){
+	  			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
+	  				$event = Event::getPublicData($keyEv);
+	  				$events[$keyEv] = $event;	
+	  			}
+	  			
+	  		}
+        }        
+        //$randomOrganizationId = array_rand($subOrganizationIds);
+        //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+        //$params["randomOrganization"] = $randomOrganization;
+         $params["organizations"] = $organizations;
+    }
+
+    if( isset($person["links"]) && isset($person["links"]["knows"])) {
+
+    	$people = array();
+    	foreach ($person["links"]["knows"] as $key => $member) {
+    		$citoyen;
+            if( $member['type'] == PHType::TYPE_CITOYEN )
+            {
+            	$citoyen = Person::getPublicData( $key );
+            	array_push($people, $citoyen);
+            }
+    	}
+    	$params["people"] = $people;
+    }
+    
+    $params["events"] = $events;
+
+    $this->render( "dashboard", $params );
+  }
 	 public function actionGetNotification(){
 
 	 }
