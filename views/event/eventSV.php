@@ -20,6 +20,7 @@
 #dropBtn{
 	display: none;
 }
+
 </style>
 
 
@@ -414,6 +415,7 @@ function showCalendar() {
 		date : dateToShow.getDate(),
 		editable : true,
 		events : calendar,
+
 		eventClick : function(calEvent, jsEvent, view) {
 			//show event in subview
 			dateToShow = calEvent.start;

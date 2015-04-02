@@ -127,7 +127,8 @@ class CommunecterController extends Controller
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
-      'getnotification' => array("href" => "/person/GetNotification")
+      'getnotification' => array("href" => "/person/GetNotification"),
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 
     "organization"=> array(
