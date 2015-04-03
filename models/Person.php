@@ -80,11 +80,47 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	PHDB::insert( PHType::TYPE_CITOYEN , $param );
+	  	Person::insert($param);
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
         //and complete the Organisation Profile
+	}
+
+	/**
+	 * Apply person checks and business rules before inserting
+	 * @param array $person : array with the data of the person to check
+	 * @return 
+	 */
+	public static function checkPersonData($person) {
+		//Check if the email of the person is already in the database
+	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
+	  	if ($account) {
+	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
+	  	}
+	}
+
+	/**
+	 * Insert a new person from the minimal information inside the parameter
+	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'pwd')
+	 * @return array result, msg and id
+	 */
+	public static function insert($person) {
+	  	//Add aditional information
+	  	$person["tobeactivated"] = true;
+	  	$person["created"] = time();
+
+	  	Person::checkPersonData($person);
+
+	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
+ 
+        if (isset($person["_id"])) {
+	    	$newpersonId = (String) $person["_id"];
+	    } else {
+	    	throw new CommunecterException("Problem inserting the new person");
+	    }
+
+	    return array("result"=>true, "msg"=>"Une nouvelle personne est communectée.", "id"=>$newpersonId); 
 	}
 
 	/**

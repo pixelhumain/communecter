@@ -242,7 +242,7 @@
         {
             "_id" : {"$oid":"54eedd91a1aa1440020041c4"},
             "email" : "sylvain.barbot@gmail.com",
-            "name" : "Le transfo",
+            "name" : "Le Transfo",
             "created" : 1424940433,
             "type" : "LocalBusiness",
             "address" : {
@@ -287,9 +287,9 @@
         {
             "_id" : {"$oid":"54eedd91a1aa1440020041bb"},
             "email" : "sylvain.barbot@gmail.com",
-            "name" : "Pixel OI",
+            "name" : "Sensorica",
             "created" : 1424940433,
-            "type" : "LocalBusiness",
+            "type" : "NGO",
             "address" : {
                 "postalCode" : "97410",
                 "addressCountry" : "Réunion"

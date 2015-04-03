@@ -77,7 +77,13 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
-          )
+          ),
+     array('label' => "GED", "key"=>"ged",
+        "children"=> array(
+          "newFiles" => array( "label"=>"Add new file","key"=>"newFiles","class"=>"new-file", "href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+          "fileList" => array( "label"=>"File List","key"=>"fileList", "class"=>"readFiles","href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-bars fa-stack-1x stack-right-bottom text-danger")),
+        )
+    ),
   );
   
   public $subviews = array(
@@ -85,7 +91,9 @@ class CommunecterController extends Controller
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    "project.addContributorSV"
+    "project.addContributorSV",
+    "default.gedSV",
+    //"sig.networkSV",
   );
 
   public $toolbarMenuMaps = array(
@@ -128,6 +136,7 @@ class CommunecterController extends Controller
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
+      "mydata" => array("href" => "/person/mydata"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 
@@ -143,7 +152,7 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "savenewaddmember"=>array("href"=>"/ph/communecter/organization/savenewaddmember"),
+      "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  

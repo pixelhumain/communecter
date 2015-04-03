@@ -786,4 +786,45 @@ class PersonController extends CommunecterController {
 
 	 }
 
+   /**
+   * Delete an entry from the data table using the id
+   */
+    public function actionMyData() {
+      if( isset(Yii::app()->session["userId"]) )
+      {
+              $account = Person::getById(Yii::app()->session["userId"]);
+              if( $account  )
+              {
+                  $account["_id"] = array('$oid'=>(string)$account["_id"]);
+                  unset( $account["_id"]['$id'] );
+                  $account["dummyData"] = "myData.".Yii::app()->session["userId"];
+                  /* **************************************
+                  * CITOYENS MAP
+                  ***************************************** */
+                  $exportInitData = array( 
+                    PHType::TYPE_CITOYEN=>array($account) 
+                  );
+
+                  /* **************************************
+                  * ORGANIZATIONS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_ORGANIZATIONS] = Data::getByAttributeForExport(PHType::TYPE_ORGANIZATIONS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  /* **************************************
+                  * EVENTS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  /* **************************************
+                  * PROJECTS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  echo Rest::json($exportInitData);
+              } else 
+                    echo Rest::json(array("result"=>false,"msg"=>"Cette requete ne peut aboutir."));
+      } else
+          echo Rest::json(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
+  }
+
 }

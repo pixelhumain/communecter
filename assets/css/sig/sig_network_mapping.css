@@ -17,6 +17,7 @@
  .panel_map{
  	position:relative;
  	max-width:250px;
+ 	min-width:60px;
  	left:10px;
  	top:10px;
  	background-color:rgba(82, 103, 119, 0.78);
@@ -28,7 +29,9 @@
 	padding-bottom:3px;
 	padding-top:3px;
  	color:white !important;
- 	font-size:1em;
+ 	max-width:250px;
+ 	min-width:60px;
+ 	
  } 
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
@@ -112,4 +115,12 @@
 	-o-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
 	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
+}
+
+
+@media screen and (max-width: 768px) {
+
+	.panel_map{
+		max-width:60px;
+	}
 }

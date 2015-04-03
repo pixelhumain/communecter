@@ -13,12 +13,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 		<!-- start: JOIN BOX -->
 		<div class="box-join panel-white padding-20">
 			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<span class="text-extra-large text-bold"><?php echo $organization['name'] ?></span> 
+			<span class="text-extra-large text-bold">Inivtation to join the network of <?php echo $parentOrganization['name'] ?></span> 
 			<br>
-			Invited your Organization as member 
-			please fill out this simple Form
-			<br> invited by <?php echo $organization['email'] ?>
-			<h3>Join organization</h3>
+			Your organization has been invited by <?php echo $parentOrganization['name'] ?>
+			<br>Please fill out this simple form bellow
 			<p>
 				Enter your personal details below:
 			</p>
@@ -38,15 +36,13 @@ var formDefinition = {
 	        "title" : "Todyn Form",
 	        "type" : "object",
 	        "properties" : {
+	        	"parentOrganization" : {
+	                "inputType" : "hidden",
+	                "value" : "<?php echo $_GET['id'] ?>",
+	            },
 	        	"separator1":{
 	        		"title":"Organization"
 	        	},
-	        	"parentOrganisation" : {
-	                "inputType" : "text",
-	                "value" : "<?php echo $_GET['id'] ?>",
-	                "icon" : "fa fa-user",
-	                "placeholder":"Your Name"
-	            },
 	            "organizationName" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-group",
@@ -61,20 +57,28 @@ var formDefinition = {
 	            },
 	            "type" :{
 	            	"inputType" : "select",
-	            	"placeholder" : "Describe your Organization",
+	            	"placeholder" : "Select the type of your organization",
+	            	"rules" : {
+						"required" : true
+					},
 	            	"options" : {
-	            		"NGO":"NGO",
-                    	"LocalBusiness":"Local Businesse",
-                    	"Groups":"Group"
+	            		<?php
+						foreach ($types as $key=>$value) {
+							echo "\"".$key."\" : \"".$value."\",";
+						}
+						?>
 	            	}
 	            },
 	            "theme" :{
 	            	"inputType" : "selectMultiple",
 	            	"placeholder" : "Thematique",
+	            	"tags" : "true",
 	            	"options" : {
-	            		"sport":"Sport",
-                    	"LocalBusiness":"Local Businesse",
-                    	"Groups":"Group"
+	            		<?php
+						foreach ($tags as $tags) {
+							echo "\"".$tags."\" : \"".$tags."\",";
+						}
+						?>
 	            	}
 	            },
 	            "postalCode" : {
@@ -82,13 +86,22 @@ var formDefinition = {
 	                "icon" : "fa fa-map-marker",
 	                "placeholder":"Postal Code",
 	                "rules" : {
-						"required" : true
+						"required" : true,
+						"rangelength" : [5, 5]
 					}
+	            },
+	            "organizationCountry" : {
+	                "inputType" : "hidden",
+	                "value" : "Reunion",
 	            },
 	            "organizationEmail" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-envelope",
-	                "placeholder":"Organization Email"
+	                "placeholder":"Organization Email",
+	                "rules" : {
+						"required" : true,
+						"email" : true
+					}
 	            },
 	            "separator2":{
 	        		"title":"Person"
@@ -96,44 +109,88 @@ var formDefinition = {
 	            "personName" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-user",
-	                "placeholder":"Your Name"
+	                "placeholder":"Your Name",
+	                "rules" : {
+						"required" : true
+					}
 	            },
 	            "personEmail" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-envelope",
-	                "placeholder":"Your Email"
+	                "placeholder":"Your Email",
+	                "rules" : {
+						"required" : true,
+						"email" : true
+					}
 	            },
-	            "isOrgaAdmin" : {
-	                "inputType" : "checkbox",
-	                "placeholder" : "I am the main contact of this organization",
-	                "class":"grey"
-	            }
+	           	"personPostalCode" : {
+	                "inputType" : "text",
+	                "icon" : "fa fa-map-marker",
+	                "placeholder":"Postal Code",
+	                "rules" : {
+						"required" : true,
+						"rangelength" : [5, 5]
+					}
+	            },
+	            "password1" : {
+	                "inputType" : "text",
+	                "icon" : "fa fa-map-marker",
+	                "placeholder":"Password",
+	                "rules" : {
+						"required" : true,
+						"minlength" : 8
+					}
+	            },
+	            "password2" : {
+	                "inputType" : "text",
+	                "icon" : "fa fa-map-marker",
+	                "placeholder":"Password again",
+	                "rules" : {
+						"required" : true,
+						"minlength" : 8,
+						"equalTo" : "#password1"
+					}
+	            },
 	        }
 	    },
-	    "collection" : "todos",
-	    "key" : "todoForm",
-	    //"savePath":moduleId+""
 	};
-var organizationInitData = {
-	"organizationEmail" : "toto@gogo.com",
-	"organizationName":"PING PONG",
-	"address": {
-		"postalCode":"97400"
-	}
-};
+
+// var organizationInitData = {
+// 	"parentOrganization" : "<?php echo $_GET['id'] ?>",
+// 	"organizationName": "Libertalia",
+// 	"description": "Le rugby sur la plage : c'est trop bon",
+// 	"type": "Association",
+// 	"tagsOrganization" : "Rugby",
+// 	"postalCode": "97426",
+// 	"organizationEmail": "toto@toto.fr",
+// 	"personName": "Sylvain Barbot",
+// 	"personEmail": "sylvain@gmail.com",
+// 	"personPostalCode": "97426",
+// 	"password": "password",
+// };
+
 var dataBindOrganization = {
-	   "parentOrganisation": {"value":"<?php echo $_GET['id'] ?>"},
-	   "#organizationEmail" : "organizationEmail" , 
-       "#organizationName" : "organizationName",
-       "#postalCode" : "address.postalCode",
-       "#organizationCountry" : {"value":"Réunion"},
-       "#type" : "type",
-       "#description" : "description",
-       "#personName" : "personName",
-       "#personEmail" : "personEmail"
+	"#parentOrganization": "parentOrganization",
+	"#organizationName" : "organizationName",
+	"#description" : "description",
+	"#type" : "type",
+	"#theme" : "tagsOrganization",
+	"#postalCode" : "postalCode",
+	"#organizationEmail" : "organizationEmail" , 
+    "#organizationCountry" : "organizationCountry",
+    "#personName" : "personName",
+    "#personEmail" : "personEmail",
+    "#personPostalCode" : "personPostalCode",
+    "#password1" : "password",
+    "#password2" : "password"
 };
 
 jQuery(document).ready(function() {
+	<?php $contextMap = array("types"=>$types, "parentOrganization"=>$parentOrganization, "tags"=>$tags); ?>
+
+ 	var contextMap = <?php echo json_encode($contextMap)?>;
+ 	console.log(contextMap);
+
 	$('.box-join').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});
@@ -169,32 +226,23 @@ jQuery(document).ready(function() {
 						jsonHelper.setValueByPath( params, path, value );
 					} 
 				}
-				else
+				else {
 					console.log("save Error",field);
+					alert("Erreur là");
+				}
+				
 			});
 			console.dir(params);
 			$.unblockUI();
-			
-			/*var params = { 
-			   "parentOrganisation":"<?php echo $_GET['id'] ?>",
-			   "organizationEmail" : $("#organizationEmail").val() , 
-               "organizationName" : $("#organizationName").val(),
-               "postalCode" : $("#postalCode").val(),
-               "organizationCountry" : "Réunion",
-               "type" : $("#type").val(),
-               "description" : $("#description").val(),
-               "personName" : $("#personName").val(),
-               "personEmail" : $("#personEmail").val()
-            };*/
-		      
 	    	$.ajax({
 	    	  type: "POST",
-	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/saveNewAddMember",
+	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/addNewOrganizationAsMember",
 	    	  data: params,
 	    	  dataType: "json"
 	    	}).done(function(data){
 	    		if(data.result)
-	        		window.location.reload();
+	    			console.log("Resultat", data);
+	    			toastr.info(data.msg);
 	    		else 
 	    		{
 	    			$.unblockUI();

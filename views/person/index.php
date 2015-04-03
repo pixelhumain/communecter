@@ -3,10 +3,8 @@ $cs = Yii::app()->getClientScript();
 
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/teeo.css');
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/ph.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/dropzone.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.tip.v0.6.3.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
 
@@ -73,8 +71,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 						"projects"=>$projects
 						); ?>
 var contextMap = <?php echo json_encode($contextMap)?>;
+
 debugMap.push(contextMap);
 var type = "person";
+var contextDocType = "<?php echo PHType::TYPE_CITOYEN.'_'.Yii::app()->session["userId"] ?>";
 var contextTags = [];
 $.each(contextMap, function(k, v){
 	if(k==type){
