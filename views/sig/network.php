@@ -7,13 +7,12 @@
 			            </div>
 			        	
 			        	<div class="panel_map">
-			        		<p class="item_panel_map" id="item_panel_map_'.$tag["name"].'">
-			        			<span>
-			        			<center><i>NetworkMapping 
+			        		<p class="item_panel_map hidden-xs">
+			        			
+			        			NetworkMapping 
 			        			</br>Collection Groups
 			        			</br>Name = "Asso1"
-			        			</i><center>
-			        			</span>
+			        			
 			        		</p>
 			        		<?php 
 			        				$where = array(	'name'  => "asso1" );
@@ -21,15 +20,15 @@
 									
 									foreach($assos as $asso){
 										foreach($asso["tags_rangement"] as $tag)
-										echo '<a href="javascript:changeFilter(\''.$tag["name"].'\')">
-			        							<p class="item_panel_map" id="item_panel_map_'.$tag["name"].'">
-			        							<i class="fa fa-'.$tag["ico"].' fa-'.$tag["color"].'"></i><span class="filter_name"> '.$tag["name"].'</span>
+										echo '<a href="javascript:changeFilter(\''.$tag["name"].'\')">'.
+			        							'<p class="item_panel_map" id="item_panel_map_'.$tag["name"].'">'.
+			        							'<i class="fa fa-'.$tag["ico"].' fa-'.$tag["color"].'"></i><span class="filter_name hidden-xs"> '.$tag["name"].'</span>
 			        							</p>
 			        						  </a>';			        						  
 									}
 			        		?>
 
-			        		<button type="button" class="btn btn-default" id="btn-init-data"><i class="fa fa-database"></i>Initialiser les données</button>
+			        		<button type="button" class="btn btn-default hidden-xs" id="btn-init-data"><i class="fa fa-database"></i>Initialiser les données</button>
 			        		
 			        	</div>
 			        	
@@ -73,8 +72,8 @@ var assetPath = "<?php echo $this->module->assetsUrl; ?>";
 jQuery(document).ready(function()
 { 		
 	$.getScript(assetPath+"/js/sig/map.js", function( ) { 
-	$.getScript(assetPath+"/js/sig/popupContent.js", function( ) { 
-		$.getScript(assetPath+"/js/sig/rightList.js", function( ) { 
+	  $.getScript(assetPath+"/js/sig/popupContent.js", function( ) { 
+		$.getScript(assetPath+"/js/sig/rightList.js",  function( ) { 
 			
 			$( "#btn-zoom-in" )		.click(function (){ zoomIn(); });
 			$( "#btn-zoom-out" )	.click(function (){ zoomOut(); });
@@ -144,7 +143,7 @@ jQuery(document).ready(function()
 	function loadMap(canvasId){
 		//initialisation des variables de départ de la carte
 		var map = L.map(canvasId, { "zoomControl" : false, 
-									"scrollWheelZoom":false, 
+									"scrollWheelZoom":true, 
 									"center" : [51.505, -0.09],
 									"zoom" : 4,
 									"worldCopyJump" : true });
@@ -163,16 +162,6 @@ jQuery(document).ready(function()
 	//gère les dimensions des différentes parties de la carte (carte, panel, etc)
 	function resizeMap(){
 	
-		//quand la taille de la fenetre est inférieur à 700px, on réduit la taille du panel
-		if($( "body" ).width() < 700){
-			$(".filter_name").css({"display":"none"});
-			$(".panel_map").css({"max-width":"60px"});
-		}
-		else{
-			$(".filter_name").css({"display":"inline"});
-			$(".panel_map").css({"max-width":"250px"});
-		}
-				
 		//full screen map
 		var mapHeight = $("body").height() - $(".topbar").height() - $(".toolbar").height() - $("footer").height() - 1;
 		$("#mapCanvas").css({"height":mapHeight});
