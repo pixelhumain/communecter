@@ -7,12 +7,9 @@ class Organization {
 	 * @return a json result as an array. 
 	 */
 	public static function insert($organization, $userId) {
-	    // Is There a association with the same name ?
-	    $organizationSameName = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['organizationName']));      
-	    if($organizationSameName) { 
-	      return Rest::json(array("result"=>false, "msg"=>"Cette Organisation existe déjà.", "id"=>$organizationSameName["_id"]));
-	    }
-
+	    
+		Organization::checkOrganizationData($organization);
+		
 		//Manage tags : save any inexistant tag to DB 
 		if (isset($organization["tags"]))
 			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
@@ -38,6 +35,20 @@ class Organization {
 	                  
 	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
 	}
+
+	/**
+	 * Apply organization checks and business rules before inserting
+	 * @param array $organization : array with the data of the person to check
+	 * @return 
+	 */
+	public static function checkOrganizationData($organization) {
+		// Is There a association with the same name ?
+	    $organizationSameName = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['organizationName']));      
+	    if($organizationSameName) { 
+	      throw new CommunecterException("An organization with the same name already exist in the plateform");
+	    }
+	}
+
 	/**
 	 * get an Organisation By Id
 	 * @param type $id : is the mongoId of the organisation
@@ -165,17 +176,28 @@ class Organization {
 	 */
 	public static function createPersonOrganizationAndAddMember($person, $organization, $parentOrganizationId) {
 		
+		//Check person datas 
+		Person::checkPersonData($person);
+		//Check organization datas 
+		Organization::checkOrganizationData($organization);
+		
 		//Create a new person
 		$newPerson = Person::insert($person);
 
 		//Create a new organization
-		$newOrganization = Organization::insert($organization);
+		$newOrganization = Organization::insert($organization, $newPerson["id"]);
 
 		//Link the person as an admin
 		Link::addMember($newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], PHType::TYPE_CITOYEN, $newPerson["id"], true);
 
-		//Link the organization as a mamber of the invitor
-		Link::addMember($parentOrganizationId, PHType::TYPE_ORGANIZATIONS, $newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], true);
+		//Link the organization as a member of the invitor
+		
+		//TODO SBAR - On GRANDDIR case, the parent organization can manage (data, event, project...) their organization members. 
+		//Should be a parameter of the application.
+		$isParentOrganizationAdmin = true;
+		
+		Link::addMember($parentOrganizationId, PHType::TYPE_ORGANIZATIONS, $newOrganization["id"], PHType::TYPE_ORGANIZATIONS, 
+						$newPerson["id"], $isParentOrganizationAdmin);
 		
 		return array("result"=>true, "msg"=>"The invitation process completed with success", "id"=>$newOrganization["id"]);;
 	}

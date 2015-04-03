@@ -262,7 +262,13 @@ class OrganizationController extends CommunecterController {
       $newOrganization["description"] = $_POST['description'];
                   
     //Tags
-    $newOrganization["tags"] = explode(",", $_POST['tagsOrganization']);
+    if (gettype($_POST['tagsOrganization']) == "array") {
+      $tags = $_POST['tagsOrganization'];
+    } else if (gettype($_POST['tagsOrganization']) == "string") {
+      $tags = explode(",", $_POST['tagsOrganization']);
+    }
+    $newOrganization["tags"] = $tags;
+
     return $newOrganization;
   }
 
@@ -437,9 +443,9 @@ class OrganizationController extends CommunecterController {
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/organization/sig/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar","href"=>"communecter/organization/calendar/id/".$id),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"communecter/organization/dashboard/id/".$id."#showCalendar"),
       array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact","iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
       array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
       array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
       array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
@@ -524,13 +530,12 @@ class OrganizationController extends CommunecterController {
     // Retrieve data from form
     try {
       $newOrganization = $this->populateNewOrganizationFromPost();
-      
       $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
     } catch (CommunecterException $e) {
       return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
     }
 
-    Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+    return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
   }
 
  //Get the events for create the calendar

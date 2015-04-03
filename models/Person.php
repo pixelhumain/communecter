@@ -88,8 +88,21 @@ class Person {
 	}
 
 	/**
+	 * Apply person checks and business rules before inserting
+	 * @param array $person : array with the data of the person to check
+	 * @return 
+	 */
+	public static function checkPersonData($person) {
+		//Check if the email of the person is already in the database
+	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
+	  	if ($account) {
+	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
+	  	}
+	}
+
+	/**
 	 * Insert a new person from the minimal information inside the parameter
-	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'password')
+	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'pwd')
 	 * @return array result, msg and id
 	 */
 	public static function insert($person) {
@@ -97,11 +110,7 @@ class Person {
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
 
-	  	//Check if the email of the person is already in the database
-	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
-	  	if ($account) {
-	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
-	  	}
+	  	Person::checkPersonData($person);
 
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
