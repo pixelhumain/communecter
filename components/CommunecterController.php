@@ -93,7 +93,7 @@ class CommunecterController extends Controller
     "event.addAttendeesSV",
     "project.addContributorSV",
     "default.gedSV",
-    "sig.networkSV",
+    //"sig.networkSV",
   );
 
   public $toolbarMenuMaps = array(
