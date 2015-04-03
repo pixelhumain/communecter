@@ -86,6 +86,18 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 
 <div class="row">
 
+  <div class="col-sm-7 col-xs-12">
+    <?php $this->renderPartial('dashboard/networkMap',array( "organization" => $organization,"members"=>$members)); ?>
+  </div>
+
+  <div class="col-sm-5 col-xs-12">
+    
+  </div>
+
+</div>
+
+<div class="row">
+
   <div class="col-sm-10 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
@@ -121,7 +133,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <script>
 	var contextMap = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
-	
+	contextMap.members  = <?php echo json_encode($members) ?>;
+
 	jQuery(document).ready(function() {
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
