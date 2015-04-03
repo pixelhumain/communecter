@@ -74,7 +74,6 @@ var contextMap = <?php echo json_encode($contextMap)?>;
 
 debugMap.push(contextMap);
 var type = "person";
-var contextDocType = "<?php echo PHType::TYPE_CITOYEN.'_'.Yii::app()->session["userId"] ?>";
 var contextTags = [];
 $.each(contextMap, function(k, v){
 	if(k==type){
