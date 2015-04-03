@@ -1,6 +1,6 @@
 <?php
 /**
- * ActionLocaleController.php
+ * EventController.php
  *
  * tous ce que propose le PH en terme de gestion d'evennement
  *
@@ -24,9 +24,9 @@ class EventController extends CommunecterController {
       $event = Event::getById($id);
       $citoyens = array();
       $organizations = array();
-       if (isset($event["attendees"]) && !empty($event["attendees"])) 
+       if (isset($event["links"]["attendees"]) && !empty($event["links"]["attendees"])) 
 	    {
-	      foreach ($event["attendees"] as $id => $e) 
+	      foreach ($event["links"]["attendees"] as $id => $e) 
 	      {
 	      	
 	      	if (!empty($event)) {
@@ -154,5 +154,85 @@ class EventController extends CommunecterController {
     $this->render("timeline");
   }
 
-  
+
+  public function actionSaveAttendees(){
+  	$res = array( "result" => false , "content" => "Something went wrong" );
+	if(Yii::app()->request->isAjaxRequest && isset( $_POST["id"]) )
+	{
+		$event = (isset($_POST["id"])) ? PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($_POST["id"]))) : null;
+	
+		if($event)
+		{
+			$memberEmail = $_POST['email'];
+
+			if($_POST['type'] == "persons"){
+				$memberType = PHType::TYPE_CITOYEN;
+			}else{
+				$memberType = PHType::TYPE_ORGANIZATIONS;
+			}
+			if(isset($_POST["id"]) && $_POST["id"] != ""){
+				$memberEmailObject = PHDB::findOne( $type , array("_id" =>new MongoId($_POST["id"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
+
+			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
+			{
+				
+				$member = PHDB::findOne($memberType, array("email"=>$_POST['email']));
+				
+				if( !$member )
+				{
+					if($_POST['type'] == "persons"){
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$memberEmail,
+					 'invitedBy'=>Yii::app()->session["userId"],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $type,
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+					 );
+					  Person::createAndInvite($member);
+					 } else {
+						 $member = array(
+						 'name'=>$_POST['name'],
+						 'email'=>$memberEmail,
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'Group',
+						 'links'=>array( 'events' => array($_POST["id"] =>array("type" => $type,
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+						 );
+
+						 Organization::createAndInvite($member);
+					 }
+
+					Link::connect($_POST["id"], PHType::TYPE_EVENTS,$member["_id"], $type, Yii::app()->session["userId"], "attendees" );
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+				}else{
+
+					if( isset($event['links']["events"]) && isset( $event['links']["events"][(string)$member["_id"]] ))
+						$res = array( "result" => false , "content" => "member allready exists" );
+					else {
+						Link::connect($member["_id"], $type, $_POST["id"], PHType::TYPE_EVENTS, Yii::app()->session["userId"], "events" );
+						Link::connect($_POST["id"], PHType::TYPE_EVENTS, $member["_id"], $type, Yii::app()->session["userId"], "attendees" );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					}
+				}
+			}else
+				$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	}
+	 Rest::json( $res );
+  }
 }

@@ -210,6 +210,23 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
+  public function actionSaveFields() {
+    // Minimal data
+    
+    if (! isset($_POST["id"])) 
+      throw new CommunecterException("You must specify an organization Id to update");
+    else 
+      $organizationId = $_POST['id'];
+    
+    $organizationFields = array();
+
+    if(isset($_POST['description']))
+      $organizationFields['description'] = $_POST['description'];
+
+    //Save the organization
+    echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
+  }
+
   /**
   * Create and return new array with all the mandatory fields
   * @return array as organization
@@ -229,8 +246,7 @@ class OrganizationController extends CommunecterController {
     $newOrganization = array(
       'email'=>$email,
       "name" => $_POST['organizationName'],
-      'created' => time(),
-      'owner' => Yii::app()->session["userEmail"]
+      'created' => time()
     );
 
     $newOrganization["type"] = $_POST['type'];
@@ -299,27 +315,44 @@ class OrganizationController extends CommunecterController {
     $this->render("public", array("organization" => $organization));
   }
 
+
   public function actionSaveMember(){
 	 $res = array( "result" => false , "content" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
 	 {
-	 	//test if group exist
-		$organization = (isset($_POST["parentOrganisation"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentOrganisation"]))) : null;
-	
+    
+    $isAdmin = false;
+    if (isset($_POST["isAdmin"])) {
+      $isAdmin = $_POST["isAdmin"];
+    }
+	 	//test if organization exists
+		if (isset($_POST["parentOrganisation"])) {
+      $organization = Organization::getById($_POST["parentOrganisation"]);
+    }
+
 		if($organization)
 		{
-		
-		 	//check citizen exist by email
-		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['memberEmail']))
-			{
-				if($_POST['memberType'] == "persons")
-					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['memberEmail']));
-				else
-					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['memberEmail']));
 
+			$memberEmail = $_POST['memberEmail'];
+
+			if($_POST['memberType'] == "persons"){
+				$memberType = PHType::TYPE_CITOYEN;
+			}else{
+				$memberType = PHType::TYPE_ORGANIZATIONS;
+			}
+			if(isset($_POST["memberId"]) && $_POST["memberId"] != ""){
+				$memberEmailObject = PHDB::findOne( $memberType , array("_id" =>new MongoId($_POST["memberId"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
+		 	//check citizen exist by email
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
+			{
+				
+				$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+				
 				if( !$member )
 				{
-					 //create an entry in the citoyens colelction
+					 //create an entry in the citoyens collection
 					 if($_POST['memberType'] == "persons"){
 					 $member = array(
 					 'name'=>$_POST['memberName'],
@@ -345,14 +378,7 @@ class OrganizationController extends CommunecterController {
 						 Organization::createAndInvite($member);
 					 }
 					 //add the member into the organization map
-					if($member['type']=="citoyen"){
-						$memberType = "citoyens";
-					}else{
-						$memberType = "organizations";
-					}
-					PHDB::update( PHType::TYPE_ORGANIZATIONS , 
-							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
-							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType ) ));
+					Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					 //TODO : background send email
 					 //send validation mail
@@ -380,21 +406,9 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						$memberType = $_POST['memberType'];
-						
-						if($_POST['memberType'] == "persons"){
-							$memberType = "citoyens";
-							PHDB::update( PHType::TYPE_CITOYEN , array( "email" => $_POST['memberEmail']) ,
-							array('$set' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
-						}else{
-							PHDB::update( PHType::TYPE_ORGANIZATIONS , array( "email" => $_POST['memberEmail']) ,
-							array('$push' => array( "links.memberOf.".$_POST["parentOrganisation"].".type" => "organizations" ) ));
-						}
-						
-						PHDB::update( PHType::TYPE_ORGANIZATIONS , 
-							array("_id" => new MongoId($_POST["parentOrganisation"])) ,
-							array('$set' => array( "links.members.".(string)$member["_id"].".type" => $memberType  ) ));
-						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
+						Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+	
 					}	
 				}
 			} else
@@ -403,4 +417,156 @@ class OrganizationController extends CommunecterController {
 	 }
 	 Rest::json( $res );
  }
+
+/* **************************************
+*
+*  Devrait peut etre partir dans le module organisation
+*
+***************************************** */
+  public function actionDashboard($id)
+  {
+    //get The organization Id
+    if (empty($id)) {
+      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+    }
+
+    $organization = Organization::getPublicData($id);
+    $params = array( "organization" => $organization);
+
+    $this->sidebar1 = array(
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
+      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/organization/sig/id/".$id),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar","href"=>"communecter/organization/calendar/id/".$id),
+      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
+      array('label' => "RESSOURCES", "key"=>"contact","iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
+      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
+      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
+    );
+
+    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
+    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+    //Get this organizationEvent
+    $events = array();
+    if(isset($organization["links"]["events"])){
+  		foreach ($organization["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
+
+    if( isset($organization["links"]) && isset($organization["links"]["members"])) {
+    	
+    	$memberData;
+        $subOrganizationIds = array();
+        $members = array(
+            "citoyens"=>array(),
+            "organizations"=>array()
+        );
+        foreach ($organization["links"]["members"] as $key => $member) {
+            
+            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+            {
+                array_push($subOrganizationIds, $key);
+                $memberData = Organization::getPublicData( $key );
+                array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
+            }
+            elseif($member['type'] == PHType::TYPE_CITOYEN )
+            {
+            	$memberData = Person::getPublicData( $key );
+                array_push( $members[PHType::TYPE_CITOYEN], $memberData );
+            }
+            if(isset($memberData["links"]["events"])){
+	  			foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
+	  				$event = Event::getPublicData($keyEv);
+	  				$events[$keyEv] = $event;	
+	  			}
+	  			
+	  		}
+        }
+        $params["events"] = $events;
+        $randomOrganizationId = array_rand($subOrganizationIds);
+        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+        $params["randomOrganization"] = $randomOrganization;
+        $params["members"] = $members;
+    }
+
+    $this->render( "dashboard", $params );
+  }
+
+  
+  public function actionJoin($id)
+  {
+    //get The organization Id
+    if (empty($id)) {
+      throw new CommunecterException("The Parent organization doesn't exist !");
+    }
+    
+    $parentOrganization = Organization::getPublicData($id);
+    $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+    $tags = Tags::getActiveTags();
+
+    $this->layout = "//layouts/mainSimple";
+    $this->render("join", array("parentOrganization" => $parentOrganization, "types" => $types['list'], "tags" => $tags));
+  }
+
+  public function actionAddNewOrganizationAsMember() {
+    //Get the person data
+    $newPerson = array(
+           'name'=>$_POST['personName'],
+           'email'=>$_POST['personEmail'],
+           'postalCode'=>$_POST['postalCode'],
+           'password'=>$_POST['password']);
+
+    // Retrieve data from form
+    try {
+      $newOrganization = $this->populateNewOrganizationFromPost();
+      
+      $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
+    } catch (CommunecterException $e) {
+      return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+    }
+
+    Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+  }
+
+ //Get the events for create the calendar
+  public function actionGetCalendar($id){
+  	$events = array();
+  	$organization = Organization::getPublicData($id);
+  	if(isset($organization["links"]["events"])){
+  		foreach ($organization["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
+  	foreach ($organization["links"]["members"] as $newId => $e) {
+  		if($e["type"] == PHType::TYPE_ORGANIZATIONS){
+  			$member = Organization::getPublicData($newId);
+  		}else{
+  			$member = Person::getPublicData($newId);
+  		}
+  		if(isset($member["links"]["events"])){
+  			foreach ($member["links"]["events"] as $key => $value) {
+  				$event = Event::getPublicData($key);
+  				$events[$key] = $event;	
+  			}
+  			
+  		}
+  	}
+  	Rest::json($events);
+  }
+
+
+	 public function actionCalendar($id){
+	  	 if (empty($id)) {
+		      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+		}
+
+		$organization = Organization::getPublicData($id);
+		$params = array( "organization" => $organization);
+	 }
 }

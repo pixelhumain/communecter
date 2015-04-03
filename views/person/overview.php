@@ -72,6 +72,11 @@
 							</td>
 						</tr>
 						<tr>
+							<td>id</td>
+							<td><a href="#"><?php if(isset(Yii::app()->session['userId']))echo Yii::app()->session['userId'];?></a></td>
+							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
+						</tr>
+						<tr>
 							<td>url</td>
 							<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
 							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>

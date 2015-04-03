@@ -32,6 +32,11 @@
 				<td><?php if(isset($member["tags"]))echo implode(",", $member["tags"])?></td>
 				<td class="center">
 				<div class="visible-md visible-lg hidden-sm hidden-xs">
+					<?php if(isset($organization["canEditMembers"])) 
+					{ ?>
+						<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/edit/id/'.(string)$member["_id"]."/parentOrganisation/".(string)$organization["_id"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-pencil"></i></a>
+					<?php 
+					} ?>
 					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.$member["publicURL"]);?>" class="btn btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 					<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo (string)$member["_id"];?>" data-name="<?php echo (string)$member["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 				</div>
@@ -51,7 +56,8 @@ $this->renderPartial('addMembers', array( "organization" => $organization ));
 ?>
 
 <script type="text/javascript">
-	
+
+var str;	
 jQuery(document).ready(function() {
 	
 	$(".addMembersBtn").off().on("click",function () {

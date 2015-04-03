@@ -11,7 +11,7 @@ class PersonController extends CommunecterController {
 
   public $hasSocial = false;
   public $loginRegister = true;
-  public function actionViewer() { $this->renderPartial("viewer"); 	}
+
   
   public function accessRules() {
     return array(
@@ -44,7 +44,7 @@ class PersonController extends CommunecterController {
 	  }
 
 	public function actionGetOrganization($id=null){
-	  	$organizations = Person::getOrganizationById($id);
+	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
 	  }
 	public function actionLogin() 
@@ -57,10 +57,10 @@ class PersonController extends CommunecterController {
       $isMobile = $detect->isMobile();
       
       if($isMobile) {
-	$this->render( "loginMobile" );
+	       $this->render( "loginMobile" );
       }
       else {
-	$this->render( "login" );
+	       $this->render( "login" );
       }
     }
   public function actionLogout() 
@@ -116,13 +116,13 @@ class PersonController extends CommunecterController {
 
     $events = array();
     //Load people I know
-    if (isset($person["events"]) && !empty($person["events"])) 
+    if (isset($person["links"]) && !empty($person["links"]["events"])) 
     {
-      foreach ($person["events"] as $id ) 
+      foreach ($person["links"]["events"]  as $id => $e ) 
       {
-        $el = PHDB::findOne( PHType::TYPE_EVENTS , array( "_id" => new MongoId($id)));
-        if (!empty($el)) {
-          array_push($events, $el);
+        $event = Event::getById($id);
+        if (!empty($event)) {
+          array_push($events, $event);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -131,13 +131,13 @@ class PersonController extends CommunecterController {
 
     $projects = array();
     //Load people I know
-    if (isset($person["projects"]) && !empty($person["projects"])) 
+    if (isset($person["links"]) && !empty($person["links"]["projects"])) 
     {
-      foreach ($person["projects"] as $id) 
+      foreach ($person["links"]["projects"] as $id => $e) 
       {
-        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($id)));
-        if (!empty($el)) {
-          array_push($projects, $el);
+        $project = Project:: getById($id);
+        if (!empty($project)) {
+          array_push($projects, $project);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -169,14 +169,14 @@ class PersonController extends CommunecterController {
      */
   public function actionConnect($id,$type) 
   {
-      Rest::json( Link::connect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
+      Rest::json( Link::connect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
   /**
      * disconnect 2 people together 
      */
   public function actionDisconnect($id,$type) 
   {
-      Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'] ));
+      Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
 
   public function actionRemoveMemberOf($id, $type){
@@ -388,34 +388,34 @@ class PersonController extends CommunecterController {
   public function actionInvite(){
       $this->renderPartial("invite");
   }
-  public function actionInvitation()
+  /*public function actionInvitation()
   {
-      if(Yii::app()->request->isAjaxRequest && isset($_POST['inviteEmail']) && !empty($_POST['inviteEmail']))
+      if(Yii::app()->request->isAjaxRequest && isset($_POST['email']) && !empty($_POST['email']))
     {
-            $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$_POST['inviteEmail']));
+            $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$_POST['email']));
             $sponsor = Person::getById(Yii::app()->session["userId"]);
             if($account){
                 //the sponsored user allready exists 
                 //simply add it to the sponsors conenctions 
                 $where = array("_id" => new MongoId(Yii::app()->session["userId"]));  
-                $connect = (isset($sponsor["connect"])) ? array_push($connect["connect"], $account["_id"]) : array($account["_id"]);
+                $connect = (isset($sponsor["connect"])) ? array_push($sponsor["connect"], $account["_id"]) : array($account["_id"]);
                 Yii::app()->mongodb->citoyens->update($where, array('$set' => array("connect"=>$connect )));
                 echo json_encode(array("result"=>false, "id"=>"accountExist","msg"=>"Merci pour cette action de partage. "));
             }
             else 
             {
                 //validate isEmail
-               if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['inviteEmail'])) { 
+               if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email'])) { 
                     $newAccount = array(
-                          'email'=>$_POST['inviteEmail'],
+                          'email'=>$_POST['email'],
                                 'invitedBy'=>Yii::app()->session["userId"],
                                 'tobeactivated' => true,
                                 'adminNotified' => false,
                                 'created' => time(),
                                 'type'=>'citoyen'
                                 );
-                    if( isset($_POST['inviteName']) )
-                      $newAccount['name'] = $_POST['inviteName'];
+                    if( isset($_POST['name']) )
+                      $newAccount['name'] = $_POST['name'];
                       
                     Yii::app()->mongodb->citoyens->insert($newAccount);
                     //send validation mail
@@ -426,12 +426,12 @@ class PersonController extends CommunecterController {
                     $message->setSubject('Invitation au projet Pixel Humain '.$name);
                     $message->setBody(array("user"=>$newAccount["_id"],
                                             "sponsorName"=>$name), 'text/html');
-                    $message->addTo("oceatoon@gmail.com");//$_POST['inviteEmail']
+                    $message->addTo("oceatoon@gmail.com");//$_POST['email']
                     $message->from = Yii::app()->params['adminEmail'];
                     Yii::app()->mail->send($message);*/
                     
                     //TODO : add an admin notification
-                    Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+                    /*Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
                                              "user"=>Yii::app()->session["userId"],
                                              "invited"=>$newAccount["_id"]));
                     //simply add it to the sponsors conenctions 
@@ -449,7 +449,7 @@ class PersonController extends CommunecterController {
     } else
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     exit;
-  }
+  }*/
 
   public function actionInitDataPeople(){
     //inject Data brute d'une liste de Person avec Id
@@ -593,4 +593,226 @@ class PersonController extends CommunecterController {
                                       "projects"=>$projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
+
+    public function actionViewer() { $this->renderPartial("viewer"); }
+
+    public function actionGetUserAutoComplete(){
+	  	$query = array( "email" => new MongoRegex("/".$_POST['email']."/i"));
+	  	
+	  	$allEmail = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address"));
+							   
+		Rest::json( $allEmail );
+		Yii::app()->end(); 
+	 }
+
+
+
+  public function actionInvitation(){
+	 $res = array( "result" => false , "content" => "Something went wrong" );
+	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentId"]) )
+	 {
+	 	//test if group exist
+		$organization = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentId"]))) : null;
+		$citoyen = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_CITOYEN,array("_id"=>new MongoId($_POST["parentId"]))) : null;
+		if($citoyen || $organization)
+		{
+			$memberEmail = $_POST['email'];
+			if($citoyen){
+				$type =  PHType::TYPE_CITOYEN;
+			}
+			else if($organization){
+				$type = PHType::TYPE_ORGANIZATIONS;
+			}
+			
+			if(isset($_POST["id"]) && $_POST["id"] != ""){
+				$memberEmailObject = PHDB::findOne( $type , array("_id" =>new MongoId($_POST["id"])), array("email"));
+				$memberEmail = $memberEmailObject['email'];
+			}
+
+		 	//check citizen exist by email
+		 	if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$memberEmail))
+			{
+				$member = PHDB::findOne( $type , array("email"=>$memberEmail));
+				if( !$member )
+				{
+					 //create an entry in the citoyens colelction
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$memberEmail,
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'type'=>'citoyen',
+					 "links" => array( 
+					 	'knows'=>array( $_POST["parentId"] => array( "type" => $type) ),
+					 	'invitedBy'=>array(Yii::app()->session["userId"] => array( "type" => $type)),
+					 	),
+					 );
+					Person::createAndInvite($member);
+					 //add the member into the organization map
+					PHDB::update( $type, 
+							array("_id" => new MongoId($_POST["parentId"])) ,
+							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $type ) ));
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					 //TODO : background send email
+					 //send validation mail
+					 //TODO : make emails as cron jobs
+					 /*$message = new YiiMailMessage;
+					 $message>view = 'invitation';
+					 $name = (isset($sponsor["name"])) ? "par ".$sponsor["name"] : "par ".$sponsor["email"];
+					 $message>setSubject('Invitation au projet Pixel Humain '.$name);
+					 $message>setBody(array("user"=>$member["_id"],
+					 "sponsorName"=>$name), 'text/html');
+					 $message>addTo("oceatoon@gmail.com");//$_POST['email']
+					 $message>from = Yii::app()>params['adminEmail'];
+					Yii::app()>mail>send($message);*/
+
+					 //TODO : add an admin notification
+					 Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
+					 "user"=>Yii::app()->session["userId"],
+					 "invited"=>$member["_id"]));
+					 
+				}
+				else
+				{
+				 //person exists with this email and is connected to this Organisation
+					$memberType = "citoyens";
+					if( isset($citoyen['links']["knows"]) && isset( $organization['links']["knows"][(string)$member["_id"]] ))
+
+						$res = array( "result" => false , "content" => "allready in your contact" );
+					else {
+						PHDB::update( $type , array( "email" => $memberEmail) ,
+							array('$set' => array( "links.knows.".$_POST["parentId"].".type" => "citoyens" ) ));
+							
+						PHDB::update( $type , 
+							array("_id" => new MongoId($_POST["parentId"])) ,
+							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $memberType  ) ));
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);	
+					}	
+				}
+			} else
+			$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	 }
+	 Rest::json( $res );
+ }
+
+
+ public function actionDashboard($id)
+  {
+    //get The person Id
+    if (empty($id)) {
+      throw new CommunecterException("The person id is mandatory to retrieve the person !");
+    }
+
+    $person = Person::getPublicData($id);
+    $params = array( "person" => $person);
+
+    $this->sidebar1 = array(
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
+    );
+
+    $this->title = (isset($person["name"])) ? $person["name"] : "";
+    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
+    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
+
+    //Get this organizationEvent
+    $events = array();
+    if(isset($person["links"]["events"])){
+  		foreach ($person["links"]["events"] as $key => $value) {
+  			$event = Event::getPublicData($key);
+  			$events[$key] = $event;
+  		}
+  	}
+
+    if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
+    	
+    	
+        //$organizationIds = array();
+        $organizations = array();
+        foreach ($person["links"]["memberOf"] as $key => $member) {
+            $organization;
+            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+            {
+                //array_push($organizationIds, $key);
+                $organization = Organization::getPublicData( $key );
+                array_push($organizations, $organization );
+            }
+       
+         	if(isset($organization["links"]["events"])){
+	  			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
+	  				$event = Event::getPublicData($keyEv);
+	  				$events[$keyEv] = $event;	
+	  			}
+	  			
+	  		}
+        }        
+        //$randomOrganizationId = array_rand($subOrganizationIds);
+        //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+        //$params["randomOrganization"] = $randomOrganization;
+         $params["organizations"] = $organizations;
+    }
+
+    if( isset($person["links"]) && isset($person["links"]["knows"])) {
+
+    	$people = array();
+    	foreach ($person["links"]["knows"] as $key => $member) {
+    		$citoyen;
+            if( $member['type'] == PHType::TYPE_CITOYEN )
+            {
+            	$citoyen = Person::getPublicData( $key );
+            	array_push($people, $citoyen);
+            }
+    	}
+    	$params["people"] = $people;
+    }
+    
+    $params["events"] = $events;
+
+    $this->render( "dashboard", $params );
+  }
+	 public function actionGetNotification(){
+
+	 }
+
+   /**
+   * Delete an entry from the data table using the id
+   */
+    public function actionMyData() {
+      if( isset(Yii::app()->session["userId"]) )
+      {
+              $account = Person::getById(Yii::app()->session["userId"]);
+              if( $account  )
+              {
+                  $account["_id"] = array('$oid'=>(string)$account["_id"]);
+                  unset( $account["_id"]['$id'] );
+                  $account["dummyData"] = "myData.".Yii::app()->session["userId"];
+                  /* **************************************
+                  * CITOYENS MAP
+                  ***************************************** */
+                  $exportInitData = array( 
+                    PHType::TYPE_CITOYEN=>array($account) 
+                  );
+
+                  /* **************************************
+                  * ORGANIZATIONS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_ORGANIZATIONS] = Data::getByAttributeForExport(PHType::TYPE_ORGANIZATIONS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  /* **************************************
+                  * EVENTS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  /* **************************************
+                  * PROJECTS MAP
+                  ***************************************** */
+                  $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
+
+                  echo Rest::json($exportInitData);
+              } else 
+                    echo Rest::json(array("result"=>false,"msg"=>"Cette requete ne peut aboutir."));
+      } else
+          echo Rest::json(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
+  }
+
 }

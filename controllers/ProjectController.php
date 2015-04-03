@@ -26,9 +26,9 @@ class ProjectController extends CommunecterController {
         $project = Project::getById($id);
         $citoyens = array();
 		$organizations = array();
-		if (isset($project["contributors"]) && !empty($project["contributors"])) 
+		if (isset($project['links']["contributors"]) && !empty($project['links']["contributors"])) 
 		{
-		  foreach ($project["contributors"] as $id => $e) 
+		  foreach ($project['links']["contributors"] as $id => $e) 
 		  {
 		  	
 		  	if (!empty($project)) {
@@ -86,4 +86,100 @@ class ProjectController extends CommunecterController {
     {
 	    $this->render("new");
 	}
+
+	public function actionSave(){
+		if( isset($_POST['title']) && !empty($_POST['title']))
+      {
+        //TODO check by key
+            $project = PHDB::findOne(PHType::TYPE_PROJECTS ,array( "name" => $_POST['title']));
+            if(!$project)
+            { 
+               //validate isEmail
+               $res = Project::saveProject($_POST);
+               echo json_encode($res);
+            } else
+                   echo json_encode(array("result"=>false, "msg"=>"Ce projet existe déjà."));
+    } else
+        echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
+    exit;
+	}
+
+
+  public function actionSaveContributor(){
+  	$res = array( "result" => false , "content" => "Something went wrong" );
+	if(Yii::app()->request->isAjaxRequest && isset( $_POST["id"]) )
+	{
+		$event = (isset($_POST["id"])) ? PHDB::findOne( PHType::TYPE_PROJECTS,array("_id"=>new MongoId($_POST["id"]))) : null;
+	
+		if($event)
+		{
+			if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$_POST['email']))
+			{
+				if($_POST['type'] == "persons"){
+					$member = PHDB::findOne( PHType::TYPE_CITOYEN , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_CITOYEN;
+				}
+				else
+				{
+					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['email']));
+					$memberType = PHType::TYPE_ORGANIZATIONS;
+				}
+
+				if( !$member )
+				{
+					if($_POST['type'] == "persons"){
+					 $member = array(
+					 'name'=>$_POST['name'],
+					 'email'=>$_POST['email'],
+					 'invitedBy'=>Yii::app()->session["userId"],
+					 'tobeactivated' => true,
+					 'created' => time(),
+					 'links'=>array( 'projects' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+					 );
+					  Person::createAndInvite($member);
+					 } else {
+						 $member = array(
+						 'name'=>$_POST['name'],
+						 'email'=>$_POST['email'],
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'Group',
+						 'links'=>array( 'projects' => array($_POST["id"] =>array("type" => $_POST["type"],
+					 															"tobeconfirmed" => true,
+					 															"invitedBy" => Yii::app()->session["userId"]
+					 														)
+					 									)
+					 			)
+						 );
+
+						 Organization::createAndInvite($member);
+					 }
+
+					Link::connect($_POST["id"], PHType::TYPE_PROJECTS,$member["_id"], $memberType, Yii::app()->session["userId"], "contributors" );
+					
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+				}else{
+
+					if( isset($event['links']["contributors"]) && isset( $event['links']["contributors"][(string)$member["_id"]] ))
+						$res = array( "result" => false , "content" => "member allready exists" );
+					else {
+						Link::connect($member["_id"], $memberType, $_POST["id"], PHType::TYPE_PROJECTS, Yii::app()->session["userId"], "projects" );
+						Link::connect($_POST["id"], PHType::TYPE_PROJECTS, $member["_id"], $memberType, Yii::app()->session["userId"], "contributors" );
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+
+					}
+				}
+			}else
+				$res = array( "result" => false , "content" => "email must be valid" );
+		}
+	}
+	 Rest::json( $res );
+  }
 }

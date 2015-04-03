@@ -323,6 +323,7 @@
 	***/
 	//affiche dans la liste de droite seulement les éléments visibles sur la carte
 	function checkListElementMap(origine){ 	
+    console.log("ok map2");
 		//rend invisible tous les éléments de la liste (mais ne les supprime pas
 		$.each(listIdElementMap[origine], function() { 
 			$("#item_map_list_" + this).css({ "display" : "none" });				

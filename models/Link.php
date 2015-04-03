@@ -1,5 +1,11 @@
 <?php
 class Link {
+
+    const person2person = "links.knows";
+    const person2organization = "links.memberOf";
+    const organization2person = "links.members";
+    const person2events = "links.events";
+    const person2projects = "links.projects";
 	
 	/**
 	 * Add a member to an organization
@@ -13,11 +19,14 @@ class Link {
 	 * @param type $memberOfType The Type (should be organization) memberOf where a member will be linked. 
 	 * @param type $memberId The member Id to add. It will be the member added to the memberOf
 	 * @param type $memberType MemberType to add : could be an organization or a person
-	 * @param type $userId $userId The userId doing the action
+	 * @param type $userId The userId doing the action
+     * @param type $userAdmin Boolean to set if the member is admin or not
 	 * @return result array with the result of the operation
 	 */
-    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId) {
+    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false) {
         
+        //TODO SBAR => Change the boolean userAdmin to a role (admin, contributor, moderator...)
+
         //0. Check if the $memberOfId and the $memberId exists
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
 		$member = Link::checkIdAndType($memberId, $memberType);
@@ -30,11 +39,13 @@ class Link {
         //2. Create the links
         PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
-                   array('$set' => array( "links.members.".$memberId.".type" => $memberType) ));
+                   array('$set' => array( "links.members.".$memberId.".type" => $memberType,
+                                          "links.members.".$memberId.".isAdmin" => $userAdmin  )));
         
         PHDB::update( $memberType, 
                    array("_id" => $member["_id"]) , 
-                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType ) ));
+                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType, 
+                                          "links.memberOf.".$memberOfId.".isAdmin" => $userAdmin )));
 
         //3. Send Notifications
 	    //TODO - Send email to the member
@@ -92,6 +103,10 @@ class Link {
         	$res = Organization::getById($id); 
         } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
+        } else if ($type== PHType::TYPE_EVENTS){
+        	$res = Event:: getById($id);
+        } else if ($type== PHType::TYPE_PROJECTS){
+        	$res = Project:: getById($id);
         } else {
         	throw new CommunecterException("Can not manage this type of MemberOf : ".$type);
         }
@@ -112,7 +127,7 @@ class Link {
      * @param type $userId The userId doing the action
      * @return result array with the result of the operation
      */
-    public static function connect($originId, $originType, $targetId, $targetType, $userId) {
+    public static function connect($originId, $originType, $targetId, $targetType, $userId, $connectType) {
         
         //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
@@ -121,7 +136,9 @@ class Link {
         //2. Create the links
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
-                       array('$set' => array( "links.knows.".$targetId.".type" => $targetType ) ));
+                       array('$set' => array( "links.".$connectType.".".$targetId.".type" => $targetType
+                       						  //,"links.".$connectType.".".$targetId.".isAdmin" => $userAdmin
+                                              )));
         
         //3. Send Notifications
 	    //TODO - Send email to the member
@@ -141,7 +158,7 @@ class Link {
      * @param type $userId The userId doing the action
      * @return result array with the result of the operation
      */
-    public static function disconnect($originId, $originType, $targetId, $targetType, $userId) {
+    public static function disconnect($originId, $originType, $targetId, $targetType, $userId, $connectType) {
         
         //0. Check if the $originId and the $targetId exists
         $origin = Link::checkIdAndType($originId, $originType);
@@ -150,7 +167,7 @@ class Link {
         //2. Create the links
         PHDB::update( $originType, 
                        array("_id" => $origin["_id"]) , 
-                       array('$unset' => array("links.knows.".$targetId => "") ));
+                       array('$unset' => array("links.".$connectType.".".$targetId => "") ));
 
         //3. Send Notifications
         //TODO - Send email to the member

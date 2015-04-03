@@ -23,6 +23,7 @@ class CommunecterController extends Controller
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
 
   const theme = "ph-dori";
+  public $person = null;
   public $themeStyle = "theme-style11";//3,4,5,7,9
 
 	//TODO - Faire le tri des liens
@@ -50,7 +51,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "invitePerson" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href"=>"#ajaxSV", "onclick"=>"openSubView('Invite someone', '/communecter/person/invite',null)", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"new-invite", "href"=>"#newInvite", "iconStack"=>array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -66,7 +67,7 @@ class CommunecterController extends Controller
                  // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
-     array('label' => "Calendar", "key"=>"calendar",
+     array('label' => "Event", "key"=>"event",
                 "children"=> array(
                   "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
@@ -74,17 +75,33 @@ class CommunecterController extends Controller
           ),
      array('label' => "Projects", "key"=>"projects",
                 "children"=> array(
-                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-eproject", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
-          )
+          ),
+     array('label' => "GED", "key"=>"ged",
+        "children"=> array(
+          "newFiles" => array( "label"=>"Add new file","key"=>"newFiles","class"=>"new-file", "href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+          "fileList" => array( "label"=>"File List","key"=>"fileList", "class"=>"readFiles","href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-bars fa-stack-1x stack-right-bottom text-danger")),
+        )
+    ),
   );
   
+  public $subviews = array(
+    "event.eventSV",
+    "person.inviteSV",
+    "project.projectSV",
+    "event.addAttendeesSV",
+    "project.addContributorSV",
+    "default.gedSV",
+  );
+
   public $toolbarMenuMaps = array(
       array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
       array('label' => "Local Companies", 	'desc' => "Discover Companies around you", 					"key"=>"localCompanies", "class"=>"ajaxSV", "onclick"=>"openSubView('Local Companies', 	'/communecter/sig/companies', null)", 	'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
       array('label' => "Local State", 		'desc' => "All the city hall public services",				"key"=>"localStates", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local States', 	 	'/communecter/sig/state', null)", 		'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
-      array('label' => "Local Events", 		'desc' => "Discover All sorts of local events around you", 	"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local Events', 	 	'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
-      array('label' => "Network Viewer",    'desc' => "Visualize your network", "key" =>"networkViewer", "class"=>"ajaxSV", "onclick"=>"openSubView('Network Viewer', '/communecter/person/viewer', null)",    'extra' => "arround You",  "iconClass"=>"fa-share-alt text-yellow"),
+      array('label' => "Calendar", 		'desc' => "Discover All sorts of local events around you", 	"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Calendar', 	 	'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
+
+      array('label' => "Network Viewer",    'desc' => "Visualize your network", "key" =>"networkViewer", "class"=>"ajaxSV", "onclick"=>"openSubView('Network Viewer', '/communecter/graph/viewer', null,null,function(){clearViewer();})",    'extra' => "arround You",  "iconClass"=>"fa-share-alt text-yellow"),
   );
 
   public $pages = array(
@@ -97,13 +114,15 @@ class CommunecterController extends Controller
 
     ),
 
+    "search"=>array(
+    	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
+    ),
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
-      "viewer"=>array("href" =>"openSubView('Network Viewer', '/communecter/person/viewer' , null)"),
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
@@ -113,10 +132,18 @@ class CommunecterController extends Controller
       "removememberof"=>array("href"=>"/ph/communecter/person/removememberOf"),
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest")
+      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
+      "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
+      'getnotification' => array("href" => "/person/GetNotification"),
+<<<<<<< HEAD
+      "mydata" => array("href" => "/person/mydata"),
+=======
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+>>>>>>> 7844220eb1bec465bee48be448faa0582cf2ce82
     ),
 
     "organization"=> array(
+      "index"=> array("href" =>"ph/Communecter/organization", "title" => "Person"),
       "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
@@ -124,24 +151,45 @@ class CommunecterController extends Controller
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
+      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "join"=>array("href"=>"/ph/communecter/organization/join"),
+      "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
+      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
+      "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
+      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  
     ),
     
     "event"=> array(
       "edit"=>array("href"=>"/ph/communecter/event/edit"),
       "public"=>array("href"=>"/ph/communecter/event/public"),
+      "save"=>array("href"=>"/ph/communecter/event/save"),
+      "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
     ),
 
     "project"=> array(
       "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
+      "save"=>array("href"=>"/ph/communecter/project/save"),
+      "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
+
+    ),
+
+    "job"=> array(
+      "edit"=>array("href"=>"/ph/communecter/job/edit"),
+      "public"=>array("href"=>"/ph/communecter/job/public"),
+      "save"=>array("href"=>"/ph/communecter/job/save"),
+      "delete"=>array("href"=>"/ph/communecter/job/delete"),
+      "list"=>array("href"=>"/ph/communecter/job/list"),
     ),
     
   );
 
   function initPage(){
     $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
-    
+
+    $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
+
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;

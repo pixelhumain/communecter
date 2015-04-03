@@ -1,6 +1,7 @@
 <?php 
-class Project {
+class Ressource {
 
+	const collection = "ressources";
 	/**
 	 * get an project By Id
 	 * @param type $id : is the mongoId of the project
@@ -29,23 +30,23 @@ class Project {
 		return $project;
 	}
 
-	public static function saveProject($params){
-		$id = Yii::app()->session["userId"];
-	    $type = PHType::TYPE_CITOYEN;
+	public static function save($params){
+		//$id = Yii::app()->session["userId"];
 	    $new = array(
-			"name" => $params['title'],
-			'url' => $params['url'],
-			'version' => $params['version'],
-			'licence' => $params['licence'],
-			'created' => time(),
-			"links" => array( 
-				"contributors" => array( (string)$id =>array("type" => $type)), 
-				"organizer" => array((string)$id =>array("type" => $type)),  
-			),
+			"id" => $params['id'],
+	  		"type" => $params['type'],
+	  		"moduleId" => $params['moduleId'],
+
+	  		"author" => $params['author'],
+	  		"name" => $params['name'],
+	  		"size" => $params['size'],
+	  		"category" => $params['category'],
+	  		'created' => time()
 	    );
-	    PHDB::insert(PHType::TYPE_PROJECTS,$new);
-	    Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
-	    return array("result"=>true, "msg"=>"Votre projet est communecté.", "id"=>$new["_id"]);	
+
+	    PHDB::insert(self::collection,$new);
+	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
+	    return array("result"=>true, "msg"=>"Votre ressource est enregistré.", "id"=>$new["_id"]);	
 	}
 }
 ?>

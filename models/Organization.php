@@ -14,7 +14,12 @@ class Organization {
 	    }
 
 		//Manage tags : save any inexistant tag to DB 
-		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		if (isset($organization["tags"]))
+			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+
+		//Add the user creator of the organization in the system
+		$organization["creator"] = $userId;
+
 		//Insert the organization
 	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
 		
@@ -24,14 +29,14 @@ class Organization {
 	    	throw new CommunecterException("Problem inserting the new organization");
 	    }
 		
-		//Add the creator as the first member
-	    Link::addMember($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId);
-             
+		//Add the creator as the first member and admin of the organization
+	    Link::addMember($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId, "true");
+
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",
 	    						"user"=>$organization["_id"]));
 	                  
-	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]));
+	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
 	}
 	/**
 	 * get an Organisation By Id
@@ -39,15 +44,17 @@ class Organization {
 	 * @return type
 	 */
 	public static function getById($id) {
+
 	  	$organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
 	  	
-	  	/*if (empty($organization)) {
-            throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
-        }*/
+	  	if (empty($organization)) {
+            //TODO Sylvain - Find a way to manage inconsistent data
+            //throw new CommunecterException("The organization id ".$id." is unkown : contact your admin");
+        } else {
+			//add the public URL to the data structure
+	  		$organization["publicURL"] = '/organization/public/id/'.$id;
+        }
 
-	  	//add the public URL to the data structure
-	  	$organization["publicURL"] = '/organization/public/id/'.$id;
-	  	
 	  	return $organization;
 	}
 
@@ -77,8 +84,14 @@ class Organization {
 	 */
 	public static function update($organizationId, $organization, $userId) {
 		
+		//Check if user is authorized to update
+		if (! Authorisation::isOrganizationAdmin($userId, $organizationId)) {
+			return Rest::json(array("result"=>false, "msg"=>"Unauthorized Access."));
+		}
+
 		//Manage tags : save any inexistant tag to DB 
-		$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
+		if(isset($organization["tags"]))
+			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
 	    
 	    //update the organization
 	    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
@@ -89,6 +102,7 @@ class Organization {
 	    						"user"=>$organizationId));
 	                  
 	    return Rest::json(array("result"=>true, "msg"=>"Votre organisation a été mise à jour.", "id"=>$organizationId));
+		
 	}
 	
 	/**
@@ -129,13 +143,41 @@ class Organization {
 		Agenda public
 		Réseau (cartographie)*/
 
-		//TODO SBAR = filter data to retrieve only publi data	
+		//TODO SBAR = filter data to retrieve only public data	
 		$organization = Organization::getById($id);
 		if (empty($organization)) {
 			throw new CommunecterException("The organization id is unknown ! Check your URL");
 		}
 
 		return $organization;
+	}
+
+	/**
+	 * When an initation to join an organization network is sent :
+	 * this method will :
+	 * 1. Create a new person and organization.
+	 * 2. Make the new person a member and admin of the organization
+	 * 3. Join the network of the organization inviting
+	 * @param type $person the minimal data to create a person
+	 * @param type $organization the minimal data to create an organization
+	 * @param type $parentOrganizationId the organization Id to join the network of
+	 * @return newPersonId ans newOrganizationId
+	 */
+	public static function createPersonOrganizationAndAddMember($person, $organization, $parentOrganizationId) {
+		
+		//Create a new person
+		$newPerson = Person::insert($person);
+
+		//Create a new organization
+		$newOrganization = Organization::insert($organization);
+
+		//Link the person as an admin
+		Link::addMember($newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], PHType::TYPE_CITOYEN, $newPerson["id"], true);
+
+		//Link the organization as a mamber of the invitor
+		Link::addMember($parentOrganizationId, PHType::TYPE_ORGANIZATIONS, $newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], true);
+		
+		return array("result"=>true, "msg"=>"The invitation process completed with success", "id"=>$newOrganization["id"]);;
 	}
 }
 ?>

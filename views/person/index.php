@@ -3,14 +3,12 @@ $cs = Yii::app()->getClientScript();
 
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-user-profile.js' , CClientScript::POS_END);
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/teeo.css');
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/ph.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/dropzone.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.tip.v0.6.3.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
 
-<div class="row">
+<div class="row" >
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue" id="myTab4">
@@ -66,18 +64,39 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3
 	</div>
 </div>
 <script type="text/javascript">
-<?php $mapPerson = array("person"=>$person,
+<?php $contextMap = array("person"=>$person,
 						"people"=>$people, 
 						"organizations"=>$organizations,
 						"events"=>$events,
 						"projects"=>$projects
 						); ?>
-var mapPerson = <?php echo json_encode($mapPerson)?>;
-debugMap.push(mapPerson);
+var contextMap = <?php echo json_encode($contextMap)?>;
+
+debugMap.push(contextMap);
 var type = "person";
+var contextDocType = "<?php echo PHType::TYPE_CITOYEN.'_'.Yii::app()->session["userId"] ?>";
+var contextTags = [];
+$.each(contextMap, function(k, v){
+	if(k==type){
+		for(var n=0; n<v.tags.length; n++){
+			if($.inArray(v.tags[n], contextTags)==-1)
+				contextTags.push(v.tags[n]);
+		}
+	}else{
+		$.each(v, function(i, j){
+			if(typeof(j["tags"])!="undefined"){
+				for(var n=0; n<j["tags"].length; n++){
+					if($.inArray(j["tags"][n], contextTags)==-1)
+						contextTags.push(j["tags"][n]);
+				}
+			}
+		})
+	}
+});
 
 jQuery(document).ready(function() {
-
+	pageLoad();
+	initDataTable();
 	//THis is a global relation disconnect feature
 	$(".disconnectBtn").off().on("click",function () {
         id = $(this).data("id");
@@ -115,5 +134,95 @@ jQuery(document).ready(function() {
 
 });
 
+	function pageLoad() {
+		
+		hash = window.location.hash;
+		hash && $('ul.nav a[href="' + hash + '"]').tab('show')
+
+		$('.nav-tabs a').click(function (e) {
+		    $(this).tab('show');
+		    window.location.hash = this.hash;
+		});
+		$("#slidingbar").css("display", "none");
+	}
+
+	var initDataTable = function() {
+		oTableOrganization = $('#organizations').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+
+		oTableEvent = $('#events').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+		oTablePeople= $('#people').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+
+		oTableProject = $('#projects').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+	};
 </script>
 

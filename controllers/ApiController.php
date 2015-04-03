@@ -156,7 +156,6 @@ class ApiController extends Controller {
     public $percent = 60; //TODO link it to unit test
     protected function beforeAction($action)
   {
-    Yii::app()->theme  = "webarch";
     array_push($this->sidebar1, array('label' => "All Modules", "key"=>"modules","iconClass"=>"fa fa-th", "menuOnly"=>true,"children"=>PH::buildMenuChildren("applications") ));
     return parent::beforeAction($action);
   }
