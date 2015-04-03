@@ -262,7 +262,13 @@ class OrganizationController extends CommunecterController {
       $newOrganization["description"] = $_POST['description'];
                   
     //Tags
-    $newOrganization["tags"] = explode(",", $_POST['tagsOrganization']);
+    if (gettype($_POST['tagsOrganization']) == "array") {
+      $tags = $_POST['tagsOrganization'];
+    } else if (gettype($_POST['tagsOrganization']) == "string") {
+      $tags = explode(",", $_POST['tagsOrganization']);
+    }
+    $newOrganization["tags"] = $tags;
+
     return $newOrganization;
   }
 
@@ -524,13 +530,12 @@ class OrganizationController extends CommunecterController {
     // Retrieve data from form
     try {
       $newOrganization = $this->populateNewOrganizationFromPost();
-      
       $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
     } catch (CommunecterException $e) {
       return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
     }
 
-    Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+    return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
   }
 
  //Get the events for create the calendar

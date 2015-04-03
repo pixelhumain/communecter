@@ -36,7 +36,7 @@ var formDefinition = {
 	        "title" : "Todyn Form",
 	        "type" : "object",
 	        "properties" : {
-	        	"parentOrganisation" : {
+	        	"parentOrganization" : {
 	                "inputType" : "hidden",
 	                "value" : "<?php echo $_GET['id'] ?>",
 	            },
@@ -72,6 +72,7 @@ var formDefinition = {
 	            "theme" :{
 	            	"inputType" : "selectMultiple",
 	            	"placeholder" : "Thematique",
+	            	"tags" : "true",
 	            	"options" : {
 	            		<?php
 						foreach ($tags as $tags) {
@@ -155,14 +156,21 @@ var formDefinition = {
 	};
 
 var organizationInitData = {
-	"organizationEmail" : "",
-	"organizationName":"",
-	"address": {
-		"postalCode":""
-	}
+	"parentOrganization" : "<?php echo $_GET['id'] ?>",
+	"organizationName": "Libertalia",
+	"description": "Le rugby sur la plage : c'est trop bon",
+	"type": "Association",
+	"tagsOrganization" : "Rugby",
+	"postalCode": "97426",
+	"organizationEmail": "toto@toto.fr",
+	"personName": "Sylvain Barbot",
+	"personEmail": "sylvain@gmail.com",
+	"personPostalCode": "97426",
+	"password": "password",
 };
+
 var dataBindOrganization = {
-	"parentOrganization": {"value":"<?php echo $_GET['id'] ?>"},
+	"#parentOrganization": "parentOrganization",
 	"#organizationName" : "organizationName",
 	"#description" : "description",
 	"#type" : "type",
@@ -173,7 +181,8 @@ var dataBindOrganization = {
     "#personName" : "personName",
     "#personEmail" : "personEmail",
     "#personPostalCode" : "personPostalCode",
-    "#password1" : "password"
+    "#password1" : "password",
+    "#password2" : "password"
 };
 
 jQuery(document).ready(function() {
@@ -217,8 +226,11 @@ jQuery(document).ready(function() {
 						jsonHelper.setValueByPath( params, path, value );
 					} 
 				}
-				else
+				else {
 					console.log("save Error",field);
+					alert("Erreur là");
+				}
+				
 			});
 			console.dir(params);
 			$.unblockUI();
@@ -229,7 +241,8 @@ jQuery(document).ready(function() {
 	    	  dataType: "json"
 	    	}).done(function(data){
 	    		if(data.result)
-	        		window.location.reload();
+	    			console.log("Resultat", data);
+	    			toastr.info(data.msg);
 	    		else 
 	    		{
 	    			$.unblockUI();
