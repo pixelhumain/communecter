@@ -467,40 +467,39 @@ class OrganizationController extends CommunecterController {
     if( isset($organization["links"]) && isset($organization["links"]["members"])) {
     	
     	$memberData;
-        $subOrganizationIds = array();
-        $members = array(
-            "citoyens"=> array(),
-            "organizations"=>array()
-        );
+      $subOrganizationIds = array();
+      $members = array(
+          "citoyens"=> array(),
+          "organizations"=>array()
+      );
         
-
-        foreach ($organization["links"]["members"] as $key => $member) {
-            
-            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
-            {
-                array_push($subOrganizationIds, $key);
-                $memberData = Organization::getPublicData( $key );
-                array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
-            }
-            elseif($member['type'] == PHType::TYPE_CITOYEN )
-            {
-            	$memberData = Person::getPublicData( $key );
-                array_push( $members[PHType::TYPE_CITOYEN], $memberData );
-            }
+      foreach ($organization["links"]["members"] as $key => $member) {
+          
+        if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+        {
+            array_push($subOrganizationIds, $key);
+            $memberData = Organization::getPublicData( $key );
+            array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
         }
-        
-        if(isset($memberData["links"]["events"])){
-	  			foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
-	  				$event = Event::getPublicData($keyEv);
-	  				$events[$keyEv] = $event;	
-	  			}	
-	  		}
+        elseif($member['type'] == PHType::TYPE_CITOYEN )
+        {
+        	$memberData = Person::getPublicData( $key );
+            array_push( $members[PHType::TYPE_CITOYEN], $memberData );
+        }
 
-        $params["events"] = $events;
-        $randomOrganizationId = array_rand($subOrganizationIds);
-        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-        $params["randomOrganization"] = $randomOrganization;
-        $params["members"] = $members;
+        if(isset($memberData["links"]["events"])){
+          foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
+            $event = Event::getPublicData($keyEv);
+            $events[$keyEv] = $event; 
+          } 
+        }
+      }
+      
+      $params["events"] = $events;
+      $randomOrganizationId = array_rand($subOrganizationIds);
+      $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+      $params["randomOrganization"] = $randomOrganization;
+      $params["members"] = $members;
     }
 
     $this->render( "dashboard", $params );
