@@ -155,19 +155,19 @@ var formDefinition = {
 	    },
 	};
 
-var organizationInitData = {
-	"parentOrganization" : "<?php echo $_GET['id'] ?>",
-	"organizationName": "Libertalia",
-	"description": "Le rugby sur la plage : c'est trop bon",
-	"type": "Association",
-	"tagsOrganization" : "Rugby",
-	"postalCode": "97426",
-	"organizationEmail": "toto@toto.fr",
-	"personName": "Sylvain Barbot",
-	"personEmail": "sylvain@gmail.com",
-	"personPostalCode": "97426",
-	"password": "password",
-};
+// var organizationInitData = {
+// 	"parentOrganization" : "<?php echo $_GET['id'] ?>",
+// 	"organizationName": "Libertalia",
+// 	"description": "Le rugby sur la plage : c'est trop bon",
+// 	"type": "Association",
+// 	"tagsOrganization" : "Rugby",
+// 	"postalCode": "97426",
+// 	"organizationEmail": "toto@toto.fr",
+// 	"personName": "Sylvain Barbot",
+// 	"personEmail": "sylvain@gmail.com",
+// 	"personPostalCode": "97426",
+// 	"password": "password",
+// };
 
 var dataBindOrganization = {
 	"#parentOrganization": "parentOrganization",
