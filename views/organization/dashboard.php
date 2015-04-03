@@ -45,7 +45,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-5 col-xs-12">
-   <?php $this->renderPartial('dashboard/sliderAgenda'); ?>
+   <?php $this->renderPartial('../pod/sliderAgenda'); ?>
   </div>
 
 </div>
@@ -57,7 +57,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-5 col-xs-12">
-    <?php $this->renderPartial('../dashboard/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
+    <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
   </div>
 
 </div>

@@ -71,20 +71,30 @@ class Organization {
 
 	/**
 	 * get members an Organization By an organization Id
-	 * @param type $id : is the mongoId (String) of the organization
+	 * @param String $id : is the mongoId (String) of the organization
+	 * @param String $type : can be use to filter the member by type (all (default), person, organization)
 	 * @return arrays of members (links.members)
 	 */
-	public static function getMembersByOrganizationId($id) {
+	public static function getMembersByOrganizationId($id, $type="all") {
 	  	$res = array();
-	  	$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS ,array("_id"=>new MongoId($id)));
+	  	$organization = Organization::getById($id);
 	  	
 	  	if (empty($organization)) {
             throw new CommunecterException("The organization id is unkown : contact your admin");
         }
 	  	if (isset($organization) && isset($organization["links"]) && isset($organization["links"]["members"])) {
-	  		$res = $organization["links"]["members"];
+	  		$members = $organization["links"]["members"];
+	  		//No filter needed
+	  		if ($type == "all") {
+	  			return $members;
+	  		} else {
+	  			foreach ($organization["links"]["members"] as $key => $member) {
+		            if ($member['type'] == $type ) {
+		                $res[$key] = $member;
+		            }
+	        	}
+	  		}
 	  	}
-
 	  	return $res;
 	}
 

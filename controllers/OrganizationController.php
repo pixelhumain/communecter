@@ -442,7 +442,7 @@ class OrganizationController extends CommunecterController {
     $this->sidebar1 = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/organization/sig/id/".$id),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
       array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"communecter/organization/dashboard/id/".$id."#showCalendar"),
       array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
       array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
@@ -469,9 +469,11 @@ class OrganizationController extends CommunecterController {
     	$memberData;
         $subOrganizationIds = array();
         $members = array(
-            "citoyens"=>array(),
+            "citoyens"=> array(),
             "organizations"=>array()
         );
+        
+
         foreach ($organization["links"]["members"] as $key => $member) {
             
             if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
@@ -485,14 +487,15 @@ class OrganizationController extends CommunecterController {
             	$memberData = Person::getPublicData( $key );
                 array_push( $members[PHType::TYPE_CITOYEN], $memberData );
             }
-            if(isset($memberData["links"]["events"])){
+        }
+        
+        if(isset($memberData["links"]["events"])){
 	  			foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
 	  				$event = Event::getPublicData($keyEv);
 	  				$events[$keyEv] = $event;	
-	  			}
-	  			
+	  			}	
 	  		}
-        }
+
         $params["events"] = $events;
         $randomOrganizationId = array_rand($subOrganizationIds);
         $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
