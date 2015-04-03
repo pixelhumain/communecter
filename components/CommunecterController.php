@@ -154,6 +154,7 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/event/public"),
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 
     "project"=> array(
@@ -161,6 +162,7 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/project/public"),
       "save"=>array("href"=>"/ph/communecter/project/save"),
       "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
+      "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 
     ),
 
