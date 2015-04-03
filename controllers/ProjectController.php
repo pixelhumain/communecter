@@ -182,4 +182,52 @@ class ProjectController extends CommunecterController {
 	}
 	 Rest::json( $res );
   }
+
+   public function actionDashboard($id){
+  	$project = Project::getPublicData($id);
+
+  	$this->sidebar1 = array(
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/project/dashboard/id/".$id),
+    );
+
+    $this->title = (isset($project["name"])) ? $project["name"] : "";
+    $this->subTitle = (isset($project["description"])) ? $project["description"] : "";
+    $this->pageTitle = "Communecter - Informations sur l'evenement ".$this->title;
+
+
+  	$organizations = array();
+  	$people = array();
+  	//$admins = array();
+  	$contributors =array();
+  	if(!empty($project)){
+  		$params = array();
+  		if(isset($project["links"])){
+  			foreach ($project["links"]["contributors"] as $id => $e) {
+  				if($e["type"]== PHType::TYPE_ORGANIZATIONS){
+  					$organization = Organization::getPublicData($id);
+  					if (!empty($organization)) {
+  						array_push($organizations, $organization);
+  						array_push($contributors, $organization);
+  					}
+  				}else if($e["type"]== PHType::TYPE_CITOYEN){
+  					$citoyen = Person::getPublicData($id);
+  					if(!empty($citoyen)){
+  						array_push($people, $citoyen);
+  						array_push($contributors, $citoyen);
+  					}
+  				}
+
+  				/*if(isset($e["isAdmin"]) && $e["isAdmin"]==true){
+  					array_push($admins, $e);
+  				}*/
+  			}
+  		}
+  	}
+  	$params["contributors"] = $contributors;
+  	$params["project"] = $project;
+  	$params["organizations"] = $organizations;
+  	$params["people"] = $people;
+  	//$params["admins"] = $admins;
+  	$this->render( "dashboard", $params );
+  }
 }
