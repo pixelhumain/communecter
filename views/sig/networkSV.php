@@ -63,6 +63,8 @@
 			</div>
 			<!-- END PROJECT SECTION -->
 		
+<?php echo ""; return; ?>
+
 <script type="text/javascript">
 
 var organizationName = "asso1";

@@ -18,7 +18,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
 		/**
 		* 	LIB SIG
 		**/
-		
+		/*
 		$cs->registerCssFile(Yii::app()->request->baseUrl. '/css/vis.css');
 		$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/api.js' , CClientScript::POS_END);
 		$cs->registerScriptFile(Yii::app()->request->baseUrl.'/js/vis.min.js' , CClientScript::POS_END);
@@ -41,7 +41,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CCli
 
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/rightList.js' , CClientScript::POS_END);
-		
+		*/
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">

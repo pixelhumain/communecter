@@ -2,6 +2,7 @@
 		/**
 		* 	LIB SIG
 		**/
+		/*
 		$cs = Yii::app()->getClientScript();
 
 		$cs->registerCssFile(Yii::app()->request->baseUrl. '/css/vis.css');
@@ -26,6 +27,7 @@
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/leaflet/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
 
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map.js' , CClientScript::POS_END);
+		*/
 ?>
 
 <style>
@@ -40,7 +42,7 @@
  	}
  
 </style>
-
+<!--
 <div class="mapCanvas" id="mapCanvas" style="background-color:white;">
 	<center><img style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
 </div> 
@@ -49,9 +51,9 @@
 	<button type="button" class="btn btn-map" id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
 	<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
 </div>
-			        	
+-->			        	
 <script type="text/javascript">
-
+/*
 //var organizationName = "asso1";
 var map1;
 var assetPath = "<?php echo $this->module->assetsUrl; ?>";
@@ -159,7 +161,7 @@ jQuery(document).ready(function()
 			$(".filter_name").css({"display":"inline"});
 			$(".panel_map").css({"max-width":"250px"});
 		}
-		*/
+		* /
 				
 		//full screen map
 		var mapHeight = $("body").height() - $(".top-navbar").height() - $(".toolbar").height() - $("footer").height() - 1;
@@ -167,8 +169,8 @@ jQuery(document).ready(function()
 		$("#mapCanvas").css({"height":mapHeight});
 		$("#mapCanvas").css({"margin-bottom":mapHeight*(-1)});
 		//$("#right_tool_map").css({"height":mapHeight});
-		//$("#liste_map_element").css({"height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ - $("#chk-scope").height() - 33 });
-		//$("#liste_map_element").css({"max-height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ });
+		//$("#liste_map_element").css({"height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding* / - $("#chk-scope").height() - 33 });
+		//$("#liste_map_element").css({"max-height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding* / });
 		// $("#right_tool_map").css({"left":$("#carto").width() - $("#right_tool_map").width()});
 		//$(".btn-group-map").css({"margin-top":$(".panel_map").height()*(-1) - 20});
 		
@@ -209,9 +211,12 @@ jQuery(document).ready(function()
 								content: content };
 	
 			var coordinates = new Array (this['geo']['longitude'], this['geo']['latitude']);
+		
 			
 			var marker = getMarkerSingle(map1, properties, coordinates);
 			
 		});
 	}
+	
+	*/
 </script>
