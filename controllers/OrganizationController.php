@@ -262,7 +262,13 @@ class OrganizationController extends CommunecterController {
       $newOrganization["description"] = $_POST['description'];
                   
     //Tags
-    $newOrganization["tags"] = explode(",", $_POST['tagsOrganization']);
+    if (gettype($_POST['tagsOrganization']) == "array") {
+      $tags = $_POST['tagsOrganization'];
+    } else if (gettype($_POST['tagsOrganization']) == "string") {
+      $tags = explode(",", $_POST['tagsOrganization']);
+    }
+    $newOrganization["tags"] = $tags;
+
     return $newOrganization;
   }
 
@@ -436,10 +442,10 @@ class OrganizationController extends CommunecterController {
     $this->sidebar1 = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/organization/sig/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar","href"=>"communecter/organization/calendar/id/".$id),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"communecter/organization/dashboard/id/".$id."#showCalendar"),
       array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact","iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
       array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
       array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
       array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
@@ -461,37 +467,39 @@ class OrganizationController extends CommunecterController {
     if( isset($organization["links"]) && isset($organization["links"]["members"])) {
     	
     	$memberData;
-        $subOrganizationIds = array();
-        $members = array(
-            "citoyens"=>array(),
-            "organizations"=>array()
-        );
-        foreach ($organization["links"]["members"] as $key => $member) {
-            
-            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
-            {
-                array_push($subOrganizationIds, $key);
-                $memberData = Organization::getPublicData( $key );
-                array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
-            }
-            elseif($member['type'] == PHType::TYPE_CITOYEN )
-            {
-            	$memberData = Person::getPublicData( $key );
-                array_push( $members[PHType::TYPE_CITOYEN], $memberData );
-            }
-            if(isset($memberData["links"]["events"])){
-	  			foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
-	  				$event = Event::getPublicData($keyEv);
-	  				$events[$keyEv] = $event;	
-	  			}
-	  			
-	  		}
+      $subOrganizationIds = array();
+      $members = array(
+          "citoyens"=> array(),
+          "organizations"=>array()
+      );
+        
+      foreach ($organization["links"]["members"] as $key => $member) {
+          
+        if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+        {
+            array_push($subOrganizationIds, $key);
+            $memberData = Organization::getPublicData( $key );
+            array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
         }
-        $params["events"] = $events;
-        $randomOrganizationId = array_rand($subOrganizationIds);
-        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-        $params["randomOrganization"] = $randomOrganization;
-        $params["members"] = $members;
+        elseif($member['type'] == PHType::TYPE_CITOYEN )
+        {
+        	$memberData = Person::getPublicData( $key );
+            array_push( $members[PHType::TYPE_CITOYEN], $memberData );
+        }
+
+        if(isset($memberData["links"]["events"])){
+          foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
+            $event = Event::getPublicData($keyEv);
+            $events[$keyEv] = $event; 
+          } 
+        }
+      }
+      
+      $params["events"] = $events;
+      $randomOrganizationId = array_rand($subOrganizationIds);
+      $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+      $params["randomOrganization"] = $randomOrganization;
+      $params["members"] = $members;
     }
 
     $this->render( "dashboard", $params );
@@ -524,13 +532,12 @@ class OrganizationController extends CommunecterController {
     // Retrieve data from form
     try {
       $newOrganization = $this->populateNewOrganizationFromPost();
-      
       $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
     } catch (CommunecterException $e) {
       return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
     }
 
-    Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+    return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
   }
 
  //Get the events for create the calendar

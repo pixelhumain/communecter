@@ -715,7 +715,15 @@ class PersonController extends CommunecterController {
     $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
-    //Get this organizationEvent
+    //Get projects
+    $projects = array();
+    if(isset($person["links"]["projects"])){
+    	foreach ($person["links"]["projects"] as $key => $value) {
+  			$project = PROJECT::getPublicData($key);
+  			array_push($projects, $project);
+  		}
+    }
+    //Get the Events
     $events = array();
     if(isset($person["links"]["events"])){
   		foreach ($person["links"]["events"] as $key => $value) {
@@ -724,11 +732,12 @@ class PersonController extends CommunecterController {
   		}
   	}
 
+  	$organizations = array();
     if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
     	
     	
         //$organizationIds = array();
-        $organizations = array();
+        //$organizations = array();
         foreach ($person["links"]["memberOf"] as $key => $member) {
             $organization;
             if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
@@ -749,12 +758,12 @@ class PersonController extends CommunecterController {
         //$randomOrganizationId = array_rand($subOrganizationIds);
         //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
         //$params["randomOrganization"] = $randomOrganization;
-         $params["organizations"] = $organizations;
+        
     }
-
+    $people = array();
     if( isset($person["links"]) && isset($person["links"]["knows"])) {
 
-    	$people = array();
+    	
     	foreach ($person["links"]["knows"] as $key => $member) {
     		$citoyen;
             if( $member['type'] == PHType::TYPE_CITOYEN )
@@ -763,10 +772,13 @@ class PersonController extends CommunecterController {
             	array_push($people, $citoyen);
             }
     	}
-    	$params["people"] = $people;
+    	
     }
-    
+
+    $params["organizations"] = $organizations;
+    $params["projects"] = $projects;
     $params["events"] = $events;
+    $params["people"] = $people;
 
     $this->render( "dashboard", $params );
   }

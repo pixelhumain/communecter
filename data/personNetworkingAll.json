@@ -292,7 +292,7 @@
             "type" : "NGO",
             "address" : {
                 "postalCode" : "97410",
-                "addressCountry" : "Réunion"
+                "addressCountry" : "canada"
             },
             "description" : "Formation en communication et DAO",
             "tags" : [
@@ -311,6 +311,18 @@
             "email" : "unlinkedOrga@gmail.com",
             "name" : "Unlinked Organisation",
             "type" : "NGO",
+            "address" : {
+                "postalCode" : "97410",
+                "addressCountry" : "Réunion"
+            },
+            "description" : "Testing Organisation",
+            "dontLink" : true
+        },
+        {
+            "_id" : {"$oid":"54eedd91a1aa144002009999"},
+            "email" : "unlinkedOrga@gmail.com",
+            "name" : "Unlinked Organisation",
+            "type" : "Group",
             "address" : {
                 "postalCode" : "97410",
                 "addressCountry" : "Réunion"

@@ -93,7 +93,7 @@ class CommunecterController extends Controller
     "event.addAttendeesSV",
     "project.addContributorSV",
     "default.gedSV",
-    "sig.networkSV",
+    //"sig.networkSV",
   );
 
   public $toolbarMenuMaps = array(
@@ -136,10 +136,13 @@ class CommunecterController extends Controller
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
+<<<<<<< HEAD
 
 
       "mydata" => array("href" => "/person/mydata"),
 
+=======
+>>>>>>> ee41e44a5c039831a9f52283c49edd03ff76f9ff
       "mydata" => array("href" => "/person/mydata"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
@@ -167,6 +170,7 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/event/public"),
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 
     "project"=> array(
@@ -174,6 +178,7 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/project/public"),
       "save"=>array("href"=>"/ph/communecter/project/save"),
       "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
+      "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 
     ),
 

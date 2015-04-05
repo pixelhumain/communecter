@@ -7,7 +7,15 @@ class Job {
 	 * @return json format of a job
 	 */
 	public static function getById($id) {
-	  	return PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($id)));
+	  	$job = PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($id)));
+	  	
+	  	//get the details of the hiring organization
+	  	if (!empty($job["hiringOrganization"])) {
+			$organization = Organization::getById($job["hiringOrganization"]);
+			$job["hiringOrganization"] = $organization;
+		}
+
+	  	return $job;
 	}
 
 	
@@ -42,6 +50,7 @@ class Job {
 	}
 
 	public static function getJobsList($organizationId = null) {
+		$res = array();
 		//List all job offers or filter by organizationId
 		if ($organizationId != null) {
 			$where = array("hiringOrganization" => $organizationId);
@@ -51,7 +60,18 @@ class Job {
 
 		$jobList = PHDB::findAndSort( PHType::TYPE_JOBS, $where, array("datePosted" => -1));
 
-		return $jobList;
+		//Get the organization hiring detail
+		if ($jobList != null) {
+			foreach ($jobList as $jobId => $job) {
+				if (!empty($job["hiringOrganization"])) {
+					$organization = Organization::getById($job["hiringOrganization"]);
+					$job["hiringOrganization"] = $organization;
+					array_push($res, $job);
+				}
+			}
+		}
+
+		return $res;
 	}
 }
 ?>

@@ -1,14 +1,5 @@
 <style>
-.fileupload-new.thumbnail {
-    width: 100%;
-}
-.fileupload-preview.thumbnail {
-	max-width: 100%;
-}
-.user-image{
-	width: 100%;
 
-}
 .thumbnail {
     border: 0px;
 }
@@ -20,57 +11,50 @@
 <div class="row">
 <div class ="col-lg-4 col-md-12">
 	<div class="panel panel-white">
-		<div class="panel-heading border-light">
-		</div>
-		<div class="panel-body no-padding">
-		<div class="center">
-			<div class="fileupload fileupload-new" data-provides="fileupload">
-				<div class="user-image">
-					<div class="fileupload-new thumbnail"><img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">
+		<div class="panel-heading border-light"></div>
+		<div class="panel-body">
+			<div class="center">
+
+				<div class="fileupload fileupload-new" data-provides="fileupload">
+					<div class="fileupload-new thumbnail">
+						<img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"];?>" alt="">	
 					</div>
 					<div class="fileupload-preview fileupload-exists thumbnail"></div>
-					<div class="user-image-buttons">
-						<span class="btn btn-azure btn-file btn-sm"><span class="fileupload-new"><i class="fa fa-pencil"></i></span><span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
-							<input type="file">
-						</span>
-						<a href="#" class="btn fileupload-exists btn-red btn-sm" data-dismiss="fileupload">
-							<i class="fa fa-times"></i>
-						</a>
-					</div>
+				</div>
+
+				</hr>
+
+				<div class="social-icons block">
+					<ul>
+						<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
+							<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
+								Twitter
+							</a>
+						</li>
+						<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
+							<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
+								Facebook
+							</a>
+						</li>
+						<li data-placement="top" data-original-title="Google" class="social-google tooltips">
+							<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
+								Google+
+							</a>
+						</li>
+						<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
+							<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
+								LinkedIn
+							</a>
+						</li>
+						<li data-placement="top" data-original-title="Github" class="social-github tooltips">
+							<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
+								Github
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
-			</hr>
-			<div class="social-icons block">
-				<ul>
-					<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
-							Twitter
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
-							Facebook
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Google" class="social-google tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
-							Google+
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
-							LinkedIn
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Github" class="social-github tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
-							Github
-						</a>
-					</li>
-				</ul>
-			</div>
 		</div>
-	</div>
 	</div>
 </div>
 
@@ -90,7 +74,7 @@
 			<div class="user-left">
 				<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
 				<!---->
-				<table class="table table-condensed table-hover">
+				<table class="table table-condensed table-hover" >
 					<thead>
 						<tr>
 							<th colspan="3">Information</th>
@@ -179,121 +163,118 @@
 	</div>
 </div>
 <div class="col-lg-4 col-md-12">
-	<div class="panel panel-white">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title">Annuaire</h4>
-			<div class="panel-tools">
-				<div class="dropdown">
-					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-						<i class="fa fa-cog"></i>
-					</a>
-					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-						<li>
-							<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-						</li>
-						<li>
-							<a href="#" class="panel-refresh">
-								<i class="fa fa-refresh"></i> <span>Refresh</span>
-							</a>
-						</li>
-						<li>
-							<a data-toggle="modal" href="#panel-config" class="panel-config">
-								<i class="fa fa-wrench"></i> <span>Configurations</span>
-							</a>
-						</li>
-						<li>
-							<a href="#" class="panel-expand">
-								<i class="fa fa-expand"></i> <span>Fullscreen</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<a href="#" class="btn btn-xs btn-link panel-close">
-					<i class="fa fa-times"></i>
-				</a>
-			</div>
-		</div>
-		<div class="panel-body no-padding">
-			<div class="tabbable no-margin no-padding partition-dark">
-				<ul id="myTab" class="nav nav-tabs">
-					<li class="active">
-						<a href="#users_tab_person" data-toggle="tab">
-							<span><i class="fa fa-child"></i>
-							Knows
-							</span>
-						</a>
-					</li>
-					<li class="">
-						<a href="#users_tab_organisation" data-toggle="tab">
-							<span><i class="fa fa-group"></i>
-							MemberOf
-							</span>
-						</a>
-					</li>
-				</ul>
-				<div class="tab-content partition-white">
-					<div class="tab-pane padding-bottom-5 active" id="users_tab_person">
-						<div class="panel-scroll height-230 ps-container">
-							<table class="table table-striped table-hover">
-								<tbody>
-									<?php foreach ($people as $member) { ?>
-									<tr>
-										<td class="center"><img width="50" height="50"  alt="image" class="img-circle" src="<?php if ($member && isset($member["imagePath"])) echo $member["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>"></td>
-										<td><span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-									</tr>
-									<?php } ?>
-								</tbody>
-							</table>
-						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -14px; width: 504px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 17px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 152px;"></div></div></div>
-					</div>
-					<div class="tab-pane padding-bottom-5" id="users_tab_organisation">
-						<div class="panel-scroll height-230 ps-container">
-							<table class="table table-striped table-hover">
-								<tbody>
-									<?php if(isset($organizations)){foreach ($organizations as $member) { ?>
-									<tr>
-										<td class="center"><img width="50" height="50" alt="image" class="img-circle" src="<?php if ($member && isset($member["imagePath"])) echo $member["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>"></td>
-										<td><span class="text-small block text-light"><?php if ($member && isset($member["type"])) echo $member["type"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-									</tr>
-									<?php }}; ?>
-								</tbody>
-							</table>
-						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" => new MongoId($person["_id"]))); ?>
 </div>
 </div>
 <div class="row">
 	<div class="col-md-4">
-		<div class="panel panel-white">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
-		</div>
-		<div class="panel-body no-padding">
-			<div class="panel-scroll height-230 ps-container">
-				<table class="table table-striped table-hover">
-					<tbody>
-						<?php if(isset($organizations)){foreach ($organizations as $member) { ?>
-						<tr>
-							<td class="center"><img width="50" height="50" alt="image" class="img-circle" src="<?php if ($member && isset($member["imagePath"])) echo $member["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>"></td>
-							<td><span class="text-small block text-light"><?php if ($member && isset($member["type"])) echo $member["type"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-						</tr>
-						<?php }}; ?>
-					</tbody>
-				</table>
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
-		</div>
+		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
+	<div class="col-md-4">
+		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => new MongoId($person["_id"]))); ?>
+	</div>
+	<div class="col-md-4">
+		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 </div>
 
 <script>
-var contextMap = <?php echo json_encode($person) ?>;
+var contextMap = {};
+contextMap['person'] = <?php echo json_encode($person) ?>;
+contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
+contextMap['events'] = [];
+contextMap['projects'] = <?php echo json_encode($projects) ?>;
+var events = <?php echo json_encode($events) ?>;
+$.each(events, function(k, v){
+	console.log(k, v);
+	contextMap['events'].push(v);
+});
+
 
 jQuery(document).ready(function() {
-
+	//initDataTable();
 });
+
+
+var initDataTable = function() {
+	oTableOrganization = $('#organizations').dataTable({
+		"aoColumnDefs" : [{
+			"aTargets" : [0]
+		}],
+		/*"oLanguage" : {
+			"sLengthMenu" : "Show _MENU_ Rows",
+			"sSearch" : "",
+			"oPaginate" : {
+				"sPrevious" : "",
+				"sNext" : ""
+			}
+		},
+		"aaSorting" : [[1, 'asc']],
+		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+		],*/
+		// set the initial value
+		"iDisplayLength" : 10,
+		"scrollY":        "230px",
+		"scrollCollapse": true,
+        "paging":         false
+	});
+
+
+	oTableEvent = $('#events').dataTable({
+		"aoColumnDefs" : [{
+			"aTargets" : [0]
+		}],
+		"oLanguage" : {
+			"sLengthMenu" : "Show _MENU_ Rows",
+			"sSearch" : "",
+			"oPaginate" : {
+				"sPrevious" : "",
+				"sNext" : ""
+			}
+		},
+		"aaSorting" : [[1, 'asc']],
+		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+		],
+		// set the initial value
+		"iDisplayLength" : 10,
+	});
+
+	oTablePeople= $('#people').dataTable({
+		"aoColumnDefs" : [{
+			"aTargets" : [0]
+		}],
+		"oLanguage" : {
+			"sLengthMenu" : "Show _MENU_ Rows",
+			"sSearch" : "",
+			"oPaginate" : {
+				"sPrevious" : "",
+				"sNext" : ""
+			}
+		},
+		"aaSorting" : [[1, 'asc']],
+		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+		],
+		// set the initial value
+		"iDisplayLength" : 10,
+	});
+
+	oTableProject = $('#projects').dataTable({
+		"aoColumnDefs" : [{
+			"aTargets" : [0]
+		}],
+		"oLanguage" : {
+			"sLengthMenu" : "Show _MENU_ Rows",
+			"sSearch" : "",
+			"oPaginate" : {
+				"sPrevious" : "",
+				"sNext" : ""
+			}
+		},
+		"aaSorting" : [[1, 'asc']],
+		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+		],
+		// set the initial value
+		"iDisplayLength" : 10,
+	});
+};
 </script>

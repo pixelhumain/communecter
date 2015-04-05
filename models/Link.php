@@ -31,26 +31,35 @@ class Link {
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
 		$member = Link::checkIdAndType($memberId, $memberType);
 
+        $setArrayMembers = array("links.members.".$memberId.".type" => $memberType);
+        $setArrayMemberOf = array("links.memberOf.".$memberOfId.".type" => $memberOfType);
+        
         //1. Check if the $userId can manage the $memberOf
         if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {
-        	throw new CommunecterException("You are not admin of the Organization : ".$memberOfId);
+            // Add a toBeValidated tag on the link
+            $setArrayMembers["links.members.".$memberId.".toBeValidated"] = true;
+            $setArrayMemberOf["links.memberOf.".$memberOfId.".toBeValidated"] = true;
+        }
+
+        if ($userAdmin) {
+            // Add an admin flag 
+            $setArrayMembers["links.members.".$memberId.".isAdmin"] = $userAdmin;
+            $setArrayMemberOf["links.memberOf.".$memberOfId.".isAdmin"] = $userAdmin;
         }
 
         //2. Create the links
         PHDB::update( $memberOfType, 
                    array("_id" => $memberOf["_id"]) , 
-                   array('$set' => array( "links.members.".$memberId.".type" => $memberType,
-                                          "links.members.".$memberId.".isAdmin" => $userAdmin  )));
+                   array('$set' => $setArrayMembers));
         
         PHDB::update( $memberType, 
                    array("_id" => $member["_id"]) , 
-                   array('$set' => array( "links.memberOf.".$memberOfId.".type" => $memberOfType, 
-                                          "links.memberOf.".$memberOfId.".isAdmin" => $userAdmin )));
+                   array('$set' => $setArrayMemberOf));
 
         //3. Send Notifications
 	    //TODO - Send email to the member
 
-        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
+        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfId"=>$memberOfId, "memberid"=>$memberId);
     }
 
     /**
