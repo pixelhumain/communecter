@@ -27,21 +27,15 @@ class Authorisation {
     /**
      * Return an array with the organizations the user is admin of
      * @param type the id of the user
-     * @return array of Organization (simple)
+     * @return array of Organization (organizationId => organizationValue)
      */
     public static function listUserOrganizationAdmin($userId) {
     	$res = array();
         
-        //get the person links memberOf
-        $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
+        //organization i'am admin 
+        $where = array("links.members.".$userId.".isAdmin" => true);
+        $res = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
 
-        foreach ($personMemberOf as $linkKey => $linkValue) {
-            if (!empty($linkValue) && !empty($linkValue["isAdmin"])) {
-                if ($linkValue["isAdmin"]) {
-                    array_push($res, array($linkKey => $linkValue));
-                }
-            }
-        }
     	return $res;
     }
 
@@ -95,17 +89,76 @@ class Authorisation {
      * @return boolean True if the organization can edit his members data. False, else.
      */
     public static function canEditMembersData($organizationId) {
-        return true;
+        $res = false;
+        $organization = Organization::getById($organizationId);
+        if (isset($organization["canEditMember"]) && $organization["canEditMember"])
+            $res = true;
+        return $res;
     }
 
     /**
      * Return true if the user is Admin of the event
+     * A user can be admin of an event if :
+     * 1/ He is attendee + admin of the event
+     * 2/ He is admin of an organization organizing an event
+     * 3/ He is admin of an organization that can edit it members (canEditMembers flag) 
+     *      and the organizations members is organizing the event
+     * @param String $eventId The eventId to check if the userId is admin of
      * @param String $userId The userId to get the authorisation of
      * @return boolean True if the user isAdmin, False else
      */
-    public static function isEventAdmin($userId) {
-        return true;
+    public static function isEventAdmin($eventId, $userId) {
+        $listEvent = Authorisation::listEventsIamAdminOf($userId);
+        $res = array_key_exists($listEvent, $eventId);
+        return $res;
+    }
 
+    /**
+     * List all the event the userId is adminOf
+     * A user can be admin of an event if :
+     * 1/ He is attendee + admin of the event
+     * 2/ He is admin of an organization organizing an event
+     * 3/ He is admin of an organization that can edit it members (canEditMembers flag) 
+     *      and the organizations members is organizing the event
+     * @param String $userId The userId to get the authorisation of
+     * @return array List of EventId (String) the user is admin of
+     */
+    public static function listEventsIamAdminOf($userId) {
+        $eventList = array();
+
+        //event i'am admin 
+        $where = array("links.attendees.".$userId.".isAdmin" => true);
+        $eventAdmin = PHDB::find(PHType::TYPE_EVENTS, $where);
+        foreach ($eventAdmin as $eventId => $eventValue) {
+            if (! array_key_exists($eventId,$eventList)) {
+                $eventList["$eventId"] = $eventValue;
+            }
+        }
+
+        //events of organization i'am admin 
+        $listOrganizationAdmin = Authorisation::listUserOrganizationAdmin($userId);
+        foreach ($listOrganizationAdmin as $organizationId => $organization) {
+            $eventOrganization = Event::getListOrganizationEvents($organizationId);
+            foreach ($eventOrganization as $eventId => $eventValue) {
+                if (! array_key_exists($eventId, $eventList)) {
+                    $eventList["$eventId"] = $eventValue;
+                }
+            }
+
+            //Manage the specific case of an organization that can manage the data of its members
+            if (Authorisation::canEditMembersData($organizationId)) {
+                $organizationMembers = Organization::getMembersByOrganizationId($organizationId, PHType::TYPE_ORGANIZATIONS);
+                //retrieve the event of all the members
+                foreach ($organizationMembers as $organizationMemberId => $organizaitonMember) {
+                    $eventOrganizationMember = Event::getListOrganizationEvents($organizationMemberId);
+                    if (! array_key_exists($eventId, $eventList)) {
+                        $eventList["$eventId"] = $eventValue;
+                    }
+                }
+            }
+        }
+
+        return $eventList;
     }
 
 } 

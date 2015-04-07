@@ -100,5 +100,22 @@ class Event {
 	    //Notification::saveNotification(array("type"=>NotificationType::ASSOCIATION_SAVED,"user"=>$new["_id"]));
 	    return array("result"=>true, "msg"=>"Votre evenement est communecté.", "id"=>$new["_id"]);
 	}
+
+	/**
+	 * Retrieve the list of events, the organization is part of the organizer
+	 * @param String $organizationId The organization Id
+	 * @return array list of the events the organization is part of the organization array["$eventId"] => $eventValue
+	 */
+	public static function getListOrganizationEvents($organizationId) {
+
+		$where = array("organizer.".$organizationId => array('$exists' => true));
+        $eventOrganization = PHDB::find(PHType::TYPE_EVENTS, $where);
+
+        /*foreach ($eventOrganization as $eventId => $eventValue) {
+        	$res["$eventId"] = $eventValue;
+        }*/
+
+        return $eventOrganization;
+	}
 }
 ?>
