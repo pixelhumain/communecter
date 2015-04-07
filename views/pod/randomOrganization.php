@@ -1,4 +1,10 @@
-<?php if(isset($randomOrganization)){ ?>
+<?php 
+  if(! isset($randomOrganization)){ 
+    $randomOrganization["name"] = "Il est temps d'alimenter son réseau !";
+    $randomOrganization["description"] = "Trouvez des organisations partenaires !";
+    $randomOrganization["publicURL"] = "";
+  }
+?>
   <div class="panel panel-white">
     <div class="panel-heading border-light">
       <h4 class="panel-title">UNE ASSO AU HASARD </h4>
@@ -24,7 +30,6 @@
       </div>
       </div>
     <div class="panel-footer "  >
-      <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/public/id/".$randomOrganization['_id'])?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
+      <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.$randomOrganization['publicURL'])?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
     </div>
   </div>
-<?php } ?>

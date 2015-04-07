@@ -89,15 +89,28 @@ class Person {
 
 	/**
 	 * Apply person checks and business rules before inserting
+	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
-	 * @return 
+	 * @return the new person with the business rules applied
 	 */
 	public static function checkPersonData($person) {
+		//Check the minimal data
+	  	if (empty($person["name"]) || empty($person["email"]) || empty($person["postalCode"]) || empty($person["pwd"])) {
+	  		throw new CommunecterException("Problem inserting the new person : data is missing");	
+	  	//Check email
+	  	} else if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
+	  		throw new CommunecterException("Problem inserting the new person : email is not well formated");
+        }
+
 		//Check if the email of the person is already in the database
 	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
 	  	if ($account) {
 	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
 	  	}
+
+	  	//Encode the password
+	  	$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+	  	return $person;
 	}
 
 	/**
@@ -109,8 +122,9 @@ class Person {
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
-
-	  	Person::checkPersonData($person);
+	  	
+	  	//Check Person data + business rules
+	  	$person = Person::checkPersonData($person);
 
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
