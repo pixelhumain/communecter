@@ -724,14 +724,10 @@ class PersonController extends CommunecterController {
   		}
     }
     //Get the Events
-    $events = array();
-    if(isset($person["links"]["events"])){
-  		foreach ($person["links"]["events"] as $key => $value) {
-  			$event = Event::getPublicData($key);
-  			$events[$key] = $event;
-  		}
-  	}
-
+   
+  	$events = Authorisation::listEventsIamAdminOf($id);
+  	
+  	//Get the organization where i am member of;
   	$organizations = array();
     if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
     	

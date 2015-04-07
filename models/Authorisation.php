@@ -135,7 +135,7 @@ class Authorisation {
         foreach ($listOrganizationAdmin as $organizationId => $organization) {
             $eventOrganization = Organization::listEventsPublicAgenda($organizationId);
             foreach ($eventOrganization as $eventId => $eventValue) {
-                $eventList["$eventId"] = $eventValue;
+                $eventList[$eventId] = $eventValue;
             }
         }
 
