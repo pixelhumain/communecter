@@ -225,5 +225,89 @@ class Link {
        
         return $result;
     }
+
+    /**
+	 * Add a organization to an event
+	 * Create a link between the 2 actors. The link will be typed event and organizer
+	 * @param type $organizerId The Id (organization) where an event will be linked. 
+	 * @param type $eventId The Id (event) where an organization will be linked. 
+	 * @param type $userId The user Id who try to link the organization to the event
+	 * @return result array with the result of the operation
+	 */
+    public static function addOrganizer($organizationId, $eventId, $userId) {
+		$res = array("result"=>false, "msg"=>"You can't add this event to this organization");
+   		$isUserAdmin = Authorisation::isOrganizationAdmin($userId, $organizationId);
+   		if($isUserAdmin){
+   			PHDB::update(PHType::TYPE_ORGANIZATIONS,
+   						array("_id" => new MongoId($organizationId)),
+   						array('$set' => array("links.events.".$eventId.".type" => PHType::TYPE_EVENTS))
+   				);
+   			PHDB::update(PHType::TYPE_EVENTS,
+   						array("_id"=>new MongoId($eventId)),
+   						array('$set'=> array("links.organizer.".$organizationId.".type"=>PHType::TYPE_ORGANIZATIONS))
+   				);
+   			$res = array("result"=>true, "msg"=>"The event has been added with success");
+   		};
+   		return $res;
+   }
+
+
+
+    /**
+	* Link a person to an event
+	* Create a link between the 2 actors. The link will be typed event and organizer
+	* @param type $eventId The Id (event) where a person will be linked. 
+	* @param type $userId The user (person) Id who want to be link to the event
+	* @param type $userAdmin (Boolean) to set if the member is admin or not
+	* @return result array with the result of the operation
+	*/
+    public static function attendee($eventId, $userId, $isAdmin = false){
+
+   		Link::addLink($userId, PHType::TYPE_CITOYEN, $eventId, PHType::TYPE_EVENTS, $userId, "events");
+   		Link::addLink($eventId, PHType::TYPE_EVENTS, $userId, PHType::TYPE_CITOYEN, $userId, "attendee");
+
+    	if($isAdmin){
+    		PHDB::update(PHType::TYPE_CITOYEN, 
+              		array("_id" => new MongoId($userId)), 
+                    array('$set' => array("links.events.".$eventId.".isAdmin" => true))
+            );
+
+            PHDB::update( PHType::TYPE_EVENTS, 
+              		array("_id" => new MongoId($eventId)), 
+                    array('$set' => array("links.attendee.".$userId.".isAdmin" => true))
+            );
+    	}
+    }
+
+
+    /**
+     * Connect 2 actors : Event, Person, Organization or Projecy
+	 * Create a link between the 2 actors. The link will be typed as knows, attendee, event, project or contributor
+	 * 1 entry will be added for example :
+	 * - $origin.links.knows["$target"]
+     * @param type $originId The Id of actor who wants to create a link with the $target
+     * @param type $originType The Type (Organization, Person, Project or Event) of actor who wants to create a link with the $target
+     * @param type $targetId The actor that will be linked
+     * @param type $targetType The Type (Organization, Person, Project or Event) that will be linked
+     * @param type $userId The userId doing the action (Optional)
+     * @param type $connectType The link between the two actors
+     * @return result array with the result of the operation
+     */
+    private static function addLink($originId, $originType, $targetId, $targetType, $userId= null, $connectType){
+
+    	//0. Check if the $originId and the $targetId exists
+        $origin = Link::checkIdAndType($originId, $originType);
+        $target = Link::checkIdAndType($targetId, $targetType);
+
+        //2. Create the links
+        PHDB::update( $originType, 
+                       array("_id" => $origin["_id"]) , 
+                       array('$unset' => array("links.".$connectType.".".$targetId => "") ));
+
+        //3. Send Notifications
+        //TODO - Send email to the member
+
+        return array("result"=>true, "msg"=>"The link knows has been removed with success", "originId"=>$originId, "targetId"=>$targetId);
+    }
 } 
 ?>

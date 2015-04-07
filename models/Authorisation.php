@@ -128,33 +128,14 @@ class Authorisation {
 
         //event i'am admin 
         $where = array("links.attendees.".$userId.".isAdmin" => true);
-        $eventAdmin = PHDB::find(PHType::TYPE_EVENTS, $where);
-        foreach ($eventAdmin as $eventId => $eventValue) {
-            if (! array_key_exists($eventId,$eventList)) {
-                $eventList["$eventId"] = $eventValue;
-            }
-        }
+        $eventList = PHDB::find(PHType::TYPE_EVENTS, $where);
 
         //events of organization i'am admin 
         $listOrganizationAdmin = Authorisation::listUserOrganizationAdmin($userId);
         foreach ($listOrganizationAdmin as $organizationId => $organization) {
-            $eventOrganization = Event::getListOrganizationEvents($organizationId);
+            $eventOrganization = Organization::listEventsPublicAgenda($organizationId);
             foreach ($eventOrganization as $eventId => $eventValue) {
-                if (! array_key_exists($eventId, $eventList)) {
-                    $eventList["$eventId"] = $eventValue;
-                }
-            }
-
-            //Manage the specific case of an organization that can manage the data of its members
-            if (Authorisation::canEditMembersData($organizationId)) {
-                $organizationMembers = Organization::getMembersByOrganizationId($organizationId, PHType::TYPE_ORGANIZATIONS);
-                //retrieve the event of all the members
-                foreach ($organizationMembers as $organizationMemberId => $organizaitonMember) {
-                    $eventOrganizationMember = Event::getListOrganizationEvents($organizationMemberId);
-                    if (! array_key_exists($eventId, $eventList)) {
-                        $eventList["$eventId"] = $eventValue;
-                    }
-                }
+                $eventList["$eventId"] = $eventValue;
             }
         }
 

@@ -178,6 +178,12 @@
 	</div>
 </div>
 
+<div class="row">
+	<div class="col-sm-5 col-xs-12">
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
+	 </div>
+</div>
+
 <script>
 var contextMap = {};
 contextMap['person'] = <?php echo json_encode($person) ?>;
