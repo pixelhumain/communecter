@@ -211,5 +211,35 @@ class Organization {
 		
 		return array("result"=>true, "msg"=>"The invitation process completed with success", "id"=>$newOrganization["id"]);;
 	}
+
+
+	/**
+	 * List all the event of an organization and his members
+	 * @param type $organisationId : is the mongoId of the organisation
+	 * @return all the event link with the organization
+	 */
+	public static function listEventsPublicAgenda($organizationId){
+		$events = array();
+		$organization = Organization::getById($organizationId);
+		$subOrganization = Organization::getMembersByOrganizationId($organizationId, PHType::TYPE_ORGANIZATIONS);
+		if(isset($organization["links"]["events"])){
+			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
+				 $event = Event::getPublicData($keyEv);
+           		 $events[$keyEv] = $event;
+			}
+		}
+		if(Authorisation::canEditMembersData($organizationId)){
+			foreach ($subOrganization as $key => $value) {
+				 $newOrganization = Organization::getById($key);
+				 if(!empty($newOrganization)&& isset($newOrganization["links"]["events"])){
+				 	foreach ($newOrganization["links"]["events"] as $keyEv => $valueEv) {
+				 		$event = Event::getPublicData($keyEv);
+           		 		$events[$keyEv] = $event;
+				 	}
+				 }	 
+			}
+		}
+		return $events;
+	}
 }
 ?>

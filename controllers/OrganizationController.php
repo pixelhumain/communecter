@@ -486,15 +486,8 @@ class OrganizationController extends CommunecterController {
         	$memberData = Person::getPublicData( $key );
             array_push( $members[PHType::TYPE_CITOYEN], $memberData );
         }
-
-        if(isset($memberData["links"]["events"])){
-          foreach ($memberData["links"]["events"] as $keyEv => $valueEv) {
-            $event = Event::getPublicData($keyEv);
-            $events[$keyEv] = $event; 
-          } 
-        }
       }
-      
+      $events = Organization::listEventsPublicAgenda($id);
       $params["events"] = $events;
       $randomOrganizationId = array_rand($subOrganizationIds);
       $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );

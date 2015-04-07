@@ -94,5 +94,7 @@ class Event {
 	    //Notification::saveNotification(array("type"=>NotificationType::ASSOCIATION_SAVED,"user"=>$new["_id"]));
 	    return array("result"=>true, "msg"=>"Votre evenement est communecté.", "id"=>$new["_id"]);
 	}
+
+	
 }
 ?>
