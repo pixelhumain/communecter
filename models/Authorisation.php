@@ -25,7 +25,7 @@ class Authorisation {
     }
 
     /**
-     * Return an array with the organization the user is admin of
+     * Return an array with the organizations the user is admin of
      * @param type the id of the user
      * @return array of Organization (simple)
      */
@@ -73,6 +73,7 @@ class Authorisation {
         return $res;
     }
 
+
  	/**
  	 * Description
  	 * @param type $userId 
@@ -86,6 +87,26 @@ class Authorisation {
         $result = array();
        
         return $result;
-    } 
+    }
+
+    /**
+     * Return true if the organization can modify his members datas
+     * @param String $organizationId An id of an organization
+     * @return boolean True if the organization can edit his members data. False, else.
+     */
+    public static function canEditMembersData($organizationId) {
+        return true;
+    }
+
+    /**
+     * Return true if the user is Admin of the event
+     * @param String $userId The userId to get the authorisation of
+     * @return boolean True if the user isAdmin, False else
+     */
+    public static function isEventAdmin($userId) {
+        return true;
+
+    }
+
 } 
 ?>
