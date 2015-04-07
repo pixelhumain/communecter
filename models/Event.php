@@ -28,6 +28,13 @@ class Event {
 
 		return $event;
 	}
+
+
+	/**
+	 * Get an event from an id and return filter data in order to return only public data
+	 * @param type POST
+	 * @return save the event
+	*/
 	public static function saveEvent($params)
 	{
 	    //$attendees = array();
@@ -70,16 +77,7 @@ class Event {
 				array('$addToSet' => array( "links.attendees.".(string)$params["organization"]=>array("type" => PHType::TYPE_ORGANIZATIONS, "isAdmin"=>true )) 
 					)
 				);*/
-	    	Link::connect($new["_id"], PHType::TYPE_EVENTS, $params["organization"], PHType::TYPE_ORGANIZATIONS, $params["organization"], "attendees");
-	    	 PHDB::update( PHType::TYPE_EVENTS, 
-                       array("_id" => $new["_id"]) , 
-                       array('$set' => array("links.attendees.".$params["organization"].".isAdmin" => true
-                                              )));
-	    	Link::connect($params["organization"], PHType::TYPE_ORGANIZATIONS, $new["_id"], PHType::TYPE_EVENTS, $params["organization"], "events");
-	    	PHDB::update( PHType::TYPE_ORGANIZATIONS, 
-                       array("_id" => new MongoId($params["organization"])) , 
-                       array('$set' => array("links.events.".$newId.".isAdmin" => true
-                                 )));
+	    	Link::addOrganizer($params["organization"], $newId, $id);
 	    }
 	    //$where = array("_id" => new MongoId(Yii::app()->session["userId"]));
 	    //PHDB::update( PHType::TYPE_EVENTS , 

@@ -62,6 +62,31 @@ class Link {
         return array("result"=>true, "msg"=>"The member has been added with success", "memberOfId"=>$memberOfId, "memberid"=>$memberId);
     }
 
+
+    /**
+	 * Add a organization to an event
+	 * Create a link between the 2 actors. The link will be typed event and organizer
+	 * @param type $organizerId The Id (organization) where an event will be linked. 
+	 * @param type $eventId The Id (event) where an organization will be linked. 
+	 * @param type $userId The user Id who try to link the organization to the event
+	 * @return result array with the result of the operation
+	 */
+    public static function addOrganizer($organizationId, $eventId, $userId) {
+    		$res = array("result"=>false, "msg"=>"You can't add this event to this organization");
+       		$isUserAdmin = Authorisation::isOrganizationAdmin($userId, $organizationId);
+       		if($isUserAdmin){
+       			PHDB::update(PHType::TYPE_ORGANIZATIONS,
+       						array("_id" => new MongoId($organizationId)),
+       						array('$set' => array("links.events.".$eventId.".type" => PHType::TYPE_EVENTS))
+       				);
+       			PHDB::update(PHType::TYPE_EVENTS,
+       						array("_id"=>new MongoId($eventId)),
+       						array('$set'=> array("links.organizer.".$organizationId.".type"=>PHType::TYPE_ORGANIZATIONS))
+       				);
+       			$res = array("result"=>true, "msg"=>"The event has been added with success");
+       		};
+       		return $res;
+       }
     /**
      * Remove a member of an organization
      * Delete a link between the 2 actors.
