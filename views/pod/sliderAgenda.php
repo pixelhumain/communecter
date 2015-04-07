@@ -26,6 +26,7 @@
 
  <script type="text/javascript">
 
+ var events = <?php echo json_encode($events) ?>;
  jQuery(document).ready(function() {
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
@@ -34,8 +35,7 @@
 	function initDashboardAgenda(){
 		var n = 1;
 		var today = new Date();
-		console.log(contextMap.events);
-		$.each(contextMap.events, function(k, v){
+		$.each(events, function(k, v){
 			console.log(k, v);
 			var period = getStringPeriodValue(v.startDate, v.endDate);
 			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);

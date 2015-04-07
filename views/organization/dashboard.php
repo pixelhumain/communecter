@@ -45,7 +45,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-5 col-xs-12">
-   <?php $this->renderPartial('../pod/sliderAgenda'); ?>
+   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
   </div>
 
 </div>
@@ -112,7 +112,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 	var contextMap = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
 	contextMap.members  = <?php echo json_encode($members) ?>;
-<<<<<<< HEAD
+
 	
 	jQuery(document).ready(function() {
 		initDashboardAgenda();
@@ -181,10 +181,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		return strPeriod;
 	}
 
-=======
-
-	
->>>>>>> ee41e44a5c039831a9f52283c49edd03ff76f9ff
 	/*function showCalendarDashBoard(data) {
 
 	console.info("addTasks2Calendar",data);//,taskCalendar);
