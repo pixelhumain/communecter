@@ -49,7 +49,7 @@ class Event {
 			      'public'=>true,//$params['public'],
 			'created' => time(),
 			"links" => array( 
-				"attendees" => array( (string)$id =>array("type" => $type, "isAdmin" => true))  
+				"creator" => array( (string)$id =>array("type" => $type, "isAdmin" => true))  
 			),
 	        "allDay" => $params['allDay'],
 	    );
@@ -64,12 +64,8 @@ class Event {
 	    PHDB::insert(PHType::TYPE_EVENTS,$new);
 	    
 	    //add the association to the users association list
-	    Link::connect($id, $type, $new["_id"], PHType::TYPE_EVENTS, $id, "events" );
-	    $newId = new MongoId($new["_id"]);
-	    PHDB::update( PHType::TYPE_CITOYEN, 
-                       array("_id" => new MongoId($id)) , 
-                       array('$set' => array("links.events.".$newId.".isAdmin" => true
-                                              )));
+	    Link::attendee($new["_id"], $id, true);
+	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_EVENTS, $id, "events" );
 	    // add organization to event
 	    if(isset($params["organization"])){
 	    	/*PHDB::update( PHType::TYPE_EVENTS , 
@@ -77,7 +73,7 @@ class Event {
 				array('$addToSet' => array( "links.attendees.".(string)$params["organization"]=>array("type" => PHType::TYPE_ORGANIZATIONS, "isAdmin"=>true )) 
 					)
 				);*/
-	    	Link::addOrganizer($params["organization"], $newId, $id);
+	    	Link::addOrganizer($params["organization"], $new["_id"], $id);
 	    }
 	    //$where = array("_id" => new MongoId(Yii::app()->session["userId"]));
 	    //PHDB::update( PHType::TYPE_EVENTS , 
