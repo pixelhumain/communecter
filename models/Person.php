@@ -211,5 +211,28 @@ class Person {
 						);
 		return $personMap;
 	}
+
+
+	/**
+		* Return an array with all image path
+		* @param type $id : is the mongoId (String)
+		* @param type $type : type (organization, event, person)
+		* @return a list of images
+	*/
+	public static function getListImage($id, $type){
+		clearstatcache();
+		$directory = "C:/Users/Johnson/Documents/dev/pixelhumain/ph/upload/communecter/".$type."/".$id."/";
+		$listImages=array();
+		
+		if(file_exists ( $directory )){
+	    	//get all image files with a .jpg extension. This way you can add extension parser
+	    	$images = glob($directory ."*.{jpg,png,gif}", GLOB_BRACE);
+	    	foreach($images as $image){
+	    		array_push($listImages, $image);
+	    	}
+	    }
+	    return $listImages;
+    }
+
 }
 ?>
