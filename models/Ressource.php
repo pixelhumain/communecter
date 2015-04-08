@@ -45,8 +45,8 @@ class Ressource {
 	    );
 
 	    PHDB::insert(self::collection,$new);
-	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
-	    return array("result"=>true, "msg"=>"Votre ressource est enregistré.", "id"=>$new["_id"]);	
+	    
+	    return array("result"=>true, "msg"=>"Votre ressource est enregistrée.", "id"=>$new["_id"]);	
 	}
 }
 ?>
