@@ -496,17 +496,21 @@ class OrganizationController extends CommunecterController {
   
   public function actionJoin($id)
   {
+    $params = array();
     //get The organization Id
     if (empty($id)) {
       throw new CommunecterException("The Parent organization doesn't exist !");
     }
     
-    $parentOrganization = Organization::getPublicData($id);
-    $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-    $tags = Tags::getActiveTags();
+    $params["parentOrganization"] = Organization::getPublicData($id);
+    
+    $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
+    $params["types"] = $types["list"];
+    
+    $params["tags"] = Tags::getActiveTags();
 
     $this->layout = "//layouts/mainSimple";
-    $this->render("join", array("parentOrganization" => $parentOrganization, "types" => $types['list'], "tags" => $tags));
+    $this->render("join", $params);
   }
 
   public function actionAddNewOrganizationAsMember() {
