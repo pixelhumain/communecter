@@ -156,7 +156,7 @@ class Authorisation {
     	$organization = Organization::getById($organizationId);
 		if(isset($organization["links"]["members"])){
     		foreach ($organization["links"]["members"] as $key => $value) {
-    			if($key ==  Yii::app()->session["userId"]){
+    			if($key ==  $userId){
     				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
     					$res = true;
     				}
@@ -169,7 +169,7 @@ class Authorisation {
     			$canEdit = Authorisation::canEditMembersData($key);
     			if(isset($organizationParent["links"]["members"]) && $canEdit){
 		    		foreach ($organizationParent["links"]["members"] as $key => $value) {
-		    			if($key ==  Yii::app()->session["userId"]){
+		    			if($key ==  $userId){
 		    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
 		    					$res = true;
 		    				}
@@ -177,6 +177,46 @@ class Authorisation {
 		    		}
 		    	}
     		}
+    	}
+    	return $res;
+    }
+
+    /**
+    * Get the authorization for edit an event
+    * An user can edit an event if :
+    * 1/ he is admin of this event
+    * 2/ he is admin of an organisation, which is the creator of an event
+    * 3/ he is admin of an organisation witch can edit an organisation creator 
+    * @param String $userId The userId to get the authorisation of
+    * @param String $eventId event to get authorisation of
+    * @return a boolean True if the user can edit and false else
+    */
+    public static function canEditEvent($userId, $eventId){
+    	$res = false;
+    	$event = EventId::getById($eventId);
+    	if(!empty($event)){
+
+    		// case 1
+
+    		if(isset($event["links"]["attendees"])){
+    			foreach ($event["links"]["attendees"] as $key => $value) {
+    				if($key ==  $userId){
+	    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+	    					$res = true;
+	    				}
+	    			}
+    			}
+    		}
+
+    		// case 2 and 3
+
+    		if(isset($event["links"]["organizer"])){
+    			foreach ($event["links"]["organizer"] as $key => $value) {
+    				if( Authorisation::canEditOrganisation($userId, $key)){
+    					$res = true;
+    				}
+    			}
+    		}	
     	}
     	return $res;
     }
