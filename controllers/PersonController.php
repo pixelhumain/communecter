@@ -225,7 +225,7 @@ class PersonController extends CommunecterController {
    * specified on the event instance 
    * Steps : 
    * 1- find the App (ex:event in group) exists in appType table
-   * 2 - check if email is valid
+   * 2- check if email is valid
    * 3- test password matches
    * 4- find the user exists in "citoyens" table based on email
    * 5- save session information 

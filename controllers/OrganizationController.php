@@ -489,9 +489,11 @@ class OrganizationController extends CommunecterController {
       }
       $events = Organization::listEventsPublicAgenda($id);
       $params["events"] = $events;
-      $randomOrganizationId = array_rand($subOrganizationIds);
-      $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-      $params["randomOrganization"] = $randomOrganization;
+      if (count($subOrganizationIds) != 0 ) {
+        $randomOrganizationId = array_rand($subOrganizationIds);
+        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+        $params["randomOrganization"] = $randomOrganization;
+      } 
       $params["members"] = $members;
     }
 
@@ -520,7 +522,7 @@ class OrganizationController extends CommunecterController {
            'name'=>$_POST['personName'],
            'email'=>$_POST['personEmail'],
            'postalCode'=>$_POST['postalCode'],
-           'password'=>$_POST['password']);
+           'pwd'=>$_POST['password']);
 
     // Retrieve data from form
     try {
