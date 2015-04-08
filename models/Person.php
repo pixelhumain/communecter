@@ -80,7 +80,7 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	Person::insert($param);
+	  	Person::insert($param, true);
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
@@ -91,14 +91,21 @@ class Person {
 	 * Apply person checks and business rules before inserting
 	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
+	 * @param boolean $minimal : true : a person can be created using only name and email. Else : postalCode and pwd are also requiered
 	 * @return the new person with the business rules applied
 	 */
-	public static function checkPersonData($person) {
+	public static function checkPersonData($person, $minimal) {
+		$dataPersonMinimal = array("name", "email");
+		if (! $minimal) {
+			array_push($dataPersonMinimal, "postalCode", "pwd");
+		}
 		//Check the minimal data
-	  	if (empty($person["name"]) || empty($person["email"]) || empty($person["postalCode"]) || empty($person["pwd"])) {
-	  		throw new CommunecterException("Problem inserting the new person : data is missing");	
-	  	//Check email
-	  	} else if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
+	  	foreach ($dataPersonMinimal as $data) {
+	  		if (empty($person["$data"])) 
+	  			throw new CommunecterException("Problem inserting the new person : ".$data." is missing");
+	  	}
+	  	
+	  	if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
 	  		throw new CommunecterException("Problem inserting the new person : email is not well formated");
         }
 
@@ -115,16 +122,17 @@ class Person {
 
 	/**
 	 * Insert a new person from the minimal information inside the parameter
-	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'pwd')
+	 * @param array $person Minimal information to create a person.
+	 * @param boolean $minimal : true : a person can be created using only "name" and "email". Else : "postalCode" and "pwd" are also requiered
 	 * @return array result, msg and id
 	 */
-	public static function insert($person) {
+	public static function insert($person, $minimal = false) {
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
 	  	
 	  	//Check Person data + business rules
-	  	$person = Person::checkPersonData($person);
+	  	$person = Person::checkPersonData($person, $minimal);
 
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  

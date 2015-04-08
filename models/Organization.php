@@ -187,7 +187,7 @@ class Organization {
 	public static function createPersonOrganizationAndAddMember($person, $organization, $parentOrganizationId) {
 		
 		//Check person datas 
-		Person::checkPersonData($person);
+		Person::checkPersonData($person, false);
 		//Check organization datas 
 		Organization::checkOrganizationData($organization);
 		
