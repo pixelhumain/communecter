@@ -265,10 +265,8 @@ function bindEventSubViewEvents() {
 		});
 	});
 	$(".show-calendar").off().on("click", function() {
-		subViewElement = $(this);
-		subViewContent = subViewElement.attr('href');
 		$.subview({
-			content : subViewContent,
+			content : "#showCalendar",
 			startFrom : "right",
 			onShow : function() {
 				showCalendar();
