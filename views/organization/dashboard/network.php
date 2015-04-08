@@ -2,6 +2,19 @@
   <div class="panel-heading border-light">
     <h4 class="panel-title">Annuaire </h4>
     <div class="panel-tools">
+    	<?php if(isset($organization) && isset(Yii::app()->session["userId"]) && isset($organization["links"]["members"]) ) { 
+    		$res = false;
+    		foreach ($organization["links"]["members"] as $key => $value) {
+    			if($key ==  Yii::app()->session["userId"]){
+    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+    					$res = true;
+    				}
+    			}
+    		}
+    		if($res){
+    	?>
+			<a href="#addMembers" class="addMembersBtn btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i> Add Members</a>
+		<?php }} ?>
       <div class="dropdown">
         <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
           <i class="fa fa-cog"></i>
@@ -54,7 +67,7 @@
               	<?php foreach ($members[PHType::TYPE_CITOYEN] as $member) { ?>
                 <tr>
                   <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
-                  <td><span class="text-small block text-light">Person</span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/public/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
+                  <td><span class="text-small block text-light">Person</span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
                 </tr>
                 <?php } ?>
               </tbody>
@@ -68,7 +81,7 @@
                 <?php foreach ($members[PHType::TYPE_ORGANIZATIONS] as $member) { ?>
                 <tr>
                   <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
-                  <td><span class="text-small block text-light"><?php echo $member['type'] ?></span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/public/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
+                  <td><span class="text-small block text-light"><?php echo $member['type'] ?></span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
                 </tr>
                 <?php } ?>
               </tbody>
@@ -79,3 +92,22 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+
+	jQuery(document).ready(function() {
+	
+		$(".addMembersBtn").off().on("click",function () {
+			subViewContent = $(this).attr('href');
+		    $.subview({
+		        content : subViewContent,
+		        onShow : function() {
+		        	//bindAddMembersEvents();
+		        },
+		        onHide : function() {
+		          $.hideSubview();
+		          
+		        }
+		    });
+		});
+	});
+</script>

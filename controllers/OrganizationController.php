@@ -328,8 +328,8 @@ class OrganizationController extends CommunecterController {
 	 {
     
     $isAdmin = false;
-    if (isset($_POST["isAdmin"])) {
-      $isAdmin = $_POST["isAdmin"];
+    if (isset($_POST["memberIsAdmin"])) {
+      $isAdmin = $_POST["memberIsAdmin"];
     }
 	 	//test if organization exists
 		if (isset($_POST["parentOrganisation"])) {
@@ -443,7 +443,7 @@ class OrganizationController extends CommunecterController {
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"communecter/organization/dashboard/id/".$id."#showCalendar"),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
       array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
       array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
       array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
@@ -455,46 +455,39 @@ class OrganizationController extends CommunecterController {
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
-    //Get this organizationEvent
-    $events = array();
-    if(isset($organization["links"]["events"])){
-  		foreach ($organization["links"]["events"] as $key => $value) {
-  			$event = Event::getPublicData($key);
-  			$events[$key] = $event;
-  		}
-  	}
-
     if( isset($organization["links"]) && isset($organization["links"]["members"])) {
     	
     	$memberData;
-      $subOrganizationIds = array();
-      $members = array(
+      	$subOrganizationIds = array();
+      	$members = array(
           "citoyens"=> array(),
           "organizations"=>array()
-      );
+      	);
         
-      foreach ($organization["links"]["members"] as $key => $member) {
+      	foreach ($organization["links"]["members"] as $key => $member) {
           
-        if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
-        {
-            array_push($subOrganizationIds, $key);
-            $memberData = Organization::getPublicData( $key );
-            array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
-        }
-        elseif($member['type'] == PHType::TYPE_CITOYEN )
-        {
-        	$memberData = Person::getPublicData( $key );
-            array_push( $members[PHType::TYPE_CITOYEN], $memberData );
-        }
-      }
+        	if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+	        {
+	            array_push($subOrganizationIds, $key);
+	            $memberData = Organization::getPublicData( $key );
+	            array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
+	        }
+	        elseif($member['type'] == PHType::TYPE_CITOYEN )
+	        {
+	        	$memberData = Person::getPublicData( $key );
+	            array_push( $members[PHType::TYPE_CITOYEN], $memberData );
+	        }
+	    }
+
       $events = Organization::listEventsPublicAgenda($id);
       $params["events"] = $events;
-      if (count($subOrganizationIds) != 0 ) {
-        $randomOrganizationId = array_rand($subOrganizationIds);
-        $randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-        $params["randomOrganization"] = $randomOrganization;
-      } 
-      $params["members"] = $members;
+
+		if (count($subOrganizationIds) != 0 ) {
+			$randomOrganizationId = array_rand($subOrganizationIds);
+			$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+			$params["randomOrganization"] = $randomOrganization;
+		} 
+		$params["members"] = $members;
     }
 
     $this->render( "dashboard", $params );

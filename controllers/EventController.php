@@ -257,18 +257,10 @@ class EventController extends CommunecterController {
   		$params = array();
   		if(isset($event["links"])){
   			foreach ($event["links"]["attendees"] as $id => $e) {
-  				if($e["type"]== PHType::TYPE_ORGANIZATIONS){
-  					$organization = Organization::getPublicData($id);
-  					if (!empty($organization)) {
-  						array_push($organizations, $organization);
-  						array_push($attending, $organization);
-  					}
-  				}else if($e["type"]== PHType::TYPE_CITOYEN){
-  					$citoyen = Person::getPublicData($id);
-  					if(!empty($citoyen)){
-  						array_push($people, $citoyen);
-  						array_push($attending, $citoyen);
-  					}
+  				$citoyen = Person::getPublicData($id);
+  				if(!empty($citoyen)){
+  					array_push($people, $citoyen);
+  					array_push($attending, $citoyen);
   				}
 
   				/*if(isset($e["isAdmin"]) && $e["isAdmin"]==true){

@@ -178,7 +178,7 @@
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => new MongoId($person["_id"]))); ?>
+		<?php $this->renderPartial('dashboard/events',array( "events" => $events)); ?>
 	</div>
 	<div class="col-md-4">
 		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => new MongoId($person["_id"]))); ?>
