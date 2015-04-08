@@ -467,7 +467,7 @@ formEvent.validate({
 		eventEndDate : {
 			required : true,
 			date : true
-		}
+		},
 	},
 	messages : {
 		eventName : "* Please specify your first name"
