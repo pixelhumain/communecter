@@ -142,5 +142,44 @@ class Authorisation {
         return $eventList;
     }
 
+    /**
+    * Get the authorization for edit an organization
+    * An user can edit an organization if :
+    * 1/ he is admin of this organization
+    * 2/ he is admin of an organization that can edit this orgarnisation
+    * @param String $userId The userId to get the authorisation of
+    * @param String $organizationId organization to get authorisation of
+    * @return a boolean True if the user can edit and false else
+    */
+    public static function canEditOrganisation($userId, $organizationId){
+    	$res = false;
+    	$organization = Organization::getById($organizationId);
+		if(isset($organization["links"]["members"])){
+    		foreach ($organization["links"]["members"] as $key => $value) {
+    			if($key ==  Yii::app()->session["userId"]){
+    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+    					$res = true;
+    				}
+    			}
+    		}
+    	}
+    	if(isset($organization["links"]["memberOf"])){
+    		foreach ($organization["links"]["memberOf"] as $key => $value) {
+    			$organizationParent = Organization::getById($key);
+    			$canEdit = Authorisation::canEditMembersData($key);
+    			if(isset($organizationParent["links"]["members"]) && $canEdit){
+		    		foreach ($organizationParent["links"]["members"] as $key => $value) {
+		    			if($key ==  Yii::app()->session["userId"]){
+		    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+		    					$res = true;
+		    				}
+		    			}
+		    		}
+		    	}
+    		}
+    	}
+    	return $res;
+    }
+
 } 
 ?>

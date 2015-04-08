@@ -116,7 +116,8 @@ class Person {
 	  	}
 
 	  	//Encode the password
-	  	$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+	  	if(isset($person["pwd"]))
+	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
 	  	return $person;
 	}
 

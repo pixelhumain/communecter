@@ -359,19 +359,19 @@ class OrganizationController extends CommunecterController {
 				if( !$member )
 				{
 					 //create an entry in the citoyens collection
-					 if($_POST['memberType'] == "persons"){
-					 $member = array(
-					 'name'=>$_POST['memberName'],
-					 'email'=>$_POST['memberEmail'],
-					 'invitedBy'=>Yii::app()->session["userId"],
-					 'tobeactivated' => true,
-					 'created' => time(),
-					 'type'=>'citoyen',
-					 'memberOf'=>array( $_POST["parentOrganisation"] )
-					 );
-					  Person::createAndInvite($member);
-					 } else {
-						 $member = array(
+					if($_POST['memberType'] == "persons"){
+					 	$member = array(
+						 'name'=>$_POST['memberName'],
+						 'email'=>$_POST['memberEmail'],
+						 'invitedBy'=>Yii::app()->session["userId"],
+						 'tobeactivated' => true,
+						 'created' => time(),
+						 'type'=>'citoyen',
+						 'memberOf'=>array( $_POST["parentOrganisation"] )
+					);
+					  	Person::createAndInvite($member);
+					}else{
+						$member = array(
 						 'name'=>$_POST['memberName'],
 						 'email'=>$_POST['memberEmail'],
 						 'invitedBy'=>Yii::app()->session["userId"],
@@ -379,10 +379,11 @@ class OrganizationController extends CommunecterController {
 						 'created' => time(),
 						 'type'=>'Group',
 						 'memberOf'=>array( $_POST["parentOrganisation"] )
-						 );
+						);
+						Organization::createAndInvite($member);
+					}
 
-						 Organization::createAndInvite($member);
-					 }
+					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					 //add the member into the organization map
 					Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
