@@ -330,6 +330,11 @@ class OrganizationController extends CommunecterController {
     $isAdmin = false;
     if (isset($_POST["memberIsAdmin"])) {
       $isAdmin = $_POST["memberIsAdmin"];
+      if($isAdmin == "true"){
+      	$isAdmin = true;
+      }else if($isAdmin=="false"){
+      	$isAdmin = false;
+      }
     }
 	 	//test if organization exists
 		if (isset($_POST["parentOrganisation"])) {

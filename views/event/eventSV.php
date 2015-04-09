@@ -77,17 +77,30 @@
 		
 		<div class="col-md-7">
 			<form class="form-event">
+			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
+					if(!empty($myOrganizationAdmin)) {
+				?>
 			<div class="row">
+				
 				<div class="col-md-5">
+					
 					<div class="btn-group">
                         <a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga">Organisation</span><span class="caret"></span>
                         </a>
-                        <ul role="menu" class="dropdown-menu" id="dropOrgaEvent"></ul>
+                        <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
+                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
+	                        	<li><a href="#" class="btn-drop dropOrg" data-id="<?php echo new MongoId($e['_id'])?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+	                       	<?php } ?>
+                        </ul>
                     </div>
+                    
                     <input class="hide" type="text" id="newEventOrga" name="newEventOrga">
+
 				</div>
+
 			</div>
+			<?php } ?>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -253,7 +266,7 @@ function bindEventSubViewEvents() {
 			content : subViewContent,
 			onShow : function() {
 				editEvent();
-				initMyOrganization();
+				//initMyOrganization();
 
 			},
 			onHide : function() {
