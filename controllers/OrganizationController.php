@@ -603,9 +603,6 @@ class OrganizationController extends CommunecterController {
 	    );
 
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-	    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
-	    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
 	 	$this->render( "dashboard", $params );
 	 }
 
