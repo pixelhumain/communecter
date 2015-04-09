@@ -1,4 +1,8 @@
-
+<style type="text/css">
+	.flexslider{
+		margin : 0px 0px 0px;
+	}
+</style>
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">AGENDA PARTAGE </h4>

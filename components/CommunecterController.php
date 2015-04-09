@@ -142,14 +142,18 @@ class CommunecterController extends Controller
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
-      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
+      "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
-      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  
+
+      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
+      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
+
       "documents"=>array("href"=>"/ph/communecter/organization/documents"),  
+
     ),
     
     "event"=> array(
