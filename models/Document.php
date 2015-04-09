@@ -49,6 +49,7 @@ class Document {
 	  		'created' => time()
 	    );
 
+
 	    PHDB::insert(self::COLLECTION,$new);
 	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
 	    return array("result"=>true, "msg"=>"Votre document est enregistré.", "id"=>$new["_id"]);	

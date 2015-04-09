@@ -7,70 +7,77 @@
 	padding-left: 20px;
 	padding-bottom: 25px;
 }
+
+.panel-tools{
+	filter: alpha(opacity=1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}
+
+#btnTools{
+	padding-right: 20px;
+	padding-top: 10px;
+}
 </style>
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<div class="panel panel-white">
-		<div class="panel-heading border-light"></div>
-		<div class="panel-body">
-			<div class="center">
-
-				<div class="fileupload fileupload-new" data-provides="fileupload">
-					<div class="fileupload-new thumbnail">
-						<img src="<?php if ($person && isset($person["imagePath"])) echo $person["imagePath"];?>" alt="">	
-					</div>
-					<div class="fileupload-preview fileupload-exists thumbnail"></div>
-				</div>
-
-				</hr>
-
-				<div class="social-icons block">
-					<ul>
-						<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
-							<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
-								Twitter
-							</a>
-						</li>
-						<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
-							<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
-								Facebook
-							</a>
-						</li>
-						<li data-placement="top" data-original-title="Google" class="social-google tooltips">
-							<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
-								Google+
-							</a>
-						</li>
-						<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
-							<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
-								LinkedIn
-							</a>
-						</li>
-						<li data-placement="top" data-original-title="Github" class="social-github tooltips">
-							<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
-								Github
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("person" => $person, "photos"=> $photos)); ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<h4 class="panel-title">About me</h4>
+			<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  About me</h4>
 		</div>
 		<div class="panel-tools">
-			<a href="#" class="panel-collapse collapses"><i class="fa fa-heart text-pink"></i> <span>Follow</span> </a>
-			<a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i> <span>Editer</span></a>
+			
+			<div class="dropdown">
+				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
+					<i class="fa fa-cog"></i>
+				</a>
+				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
+					<li>
+						<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+					</li>
+					<li>
+						<a href="#" class="panel-refresh">
+							<i class="fa fa-refresh"></i> <span>Refresh</span>
+						</a>
+					</li>
+					<li>
+						<a data-toggle="modal" href="#panel-config" class="panel-config">
+							<i class="fa fa-wrench"></i> <span>Configurations</span>
+						</a>
+					</li>
+					<li>
+						<a href="#" class="panel-expand">
+							<i class="fa fa-expand"></i> <span>Fullscreen</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 			<a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
 			</a>
 		</div>
 		<div class="panel-body no-padding">
+			<div id='btnTools'>
+				<?php 
+				//connected user isn't allready connected with page User
+				if( Yii::app()->session['userId'] != (string)$person["_id"]) 
+				{
+					//if connected user and pageUser are allready connected
+					if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
+						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-right tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
+					<?php } else { ?>
+						<a href="javascript:;" class="connectBtn btn btn-red btn-xs pull-right tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
+					<?php }
+				}else{ ?>
+					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info pull-right"></i></a>
+				<?php } ?>
+			</div>
 			<div class="user-left">
 				<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
 				<!---->
@@ -171,7 +178,7 @@
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => new MongoId($person["_id"]))); ?>
+		<?php $this->renderPartial('dashboard/events',array( "events" => $events)); ?>
 	</div>
 	<div class="col-md-4">
 		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => new MongoId($person["_id"]))); ?>
@@ -195,11 +202,64 @@ $.each(events, function(k, v){
 	console.log(k, v);
 	contextMap['events'].push(v);
 });
+var listPhotos = <?php echo json_encode($photos)?>;
 
 
 jQuery(document).ready(function() {
 	//initDataTable();
+	bindBtnFollow();
+	
 });
+
+var bindBtnFollow = function(){
+
+	$(".disconnectBtn").off().on("click",function () {
+        
+        $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        dataType : "json"
+	    })
+	    .done(function (data) 
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+	        	$(".disconnectBtn").fadeOut();
+	        	$("#btnTools").empty();
+	        	$("#btnTools").html('<a href="javascript:;" class="connectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link"></i></a>')
+	        	bindBtnFollow();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+	        }
+	    });
+	});
+
+	$(".connectBtn").off().on("click",function () {
+		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        dataType : "json"
+	    })
+	    .done(function (data)
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
+	        	$(".connectBtn").fadeOut();
+	        	$("#btnTools").empty();
+	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>')
+	        	bindBtnFollow();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
+	        }
+	    });
+        
+	});
+
+}
 
 
 var initDataTable = function() {

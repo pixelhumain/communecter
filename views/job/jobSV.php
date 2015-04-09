@@ -23,7 +23,7 @@
 <!-- *** SHOW CALENDAR *** -->
 
 
-<div id="showCalendar" class="col-md-10 col-md-offset-1">
+<div id="showJob" class="col-md-10 col-md-offset-1">
 	<div class="barTopSubview">
 		<a href="#newEvent" class="new-task new-event button-sv" ><i class="fa fa-plus"></i> Add new Event</a>
 		<a href="#newProject" class="new-task new-project button-sv" ><i class="fa fa-plus"></i> Add new Project</a>

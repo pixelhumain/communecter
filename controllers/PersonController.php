@@ -723,22 +723,20 @@ class PersonController extends CommunecterController {
   			array_push($projects, $project);
   		}
     }
+
+    $photos = Person::getListImage($id, "person");
     //Get the Events
    
   	$events = Authorisation::listEventsIamAdminOf($id);
-  	
+
   	//Get the organization where i am member of;
   	$organizations = array();
     if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
     	
-    	
-        //$organizationIds = array();
-        //$organizations = array();
         foreach ($person["links"]["memberOf"] as $key => $member) {
             $organization;
             if( $member['type'] == Organization::COLLECTION )
             {
-                //array_push($organizationIds, $key);
                 $organization = Organization::getPublicData( $key );
                 array_push($organizations, $organization );
             }
@@ -771,6 +769,7 @@ class PersonController extends CommunecterController {
     	
     }
 
+    $params["photos"] = $photos;
     $params["organizations"] = $organizations;
     $params["projects"] = $projects;
     $params["events"] = $events;

@@ -34,8 +34,22 @@ class Authorisation {
         
         //organization i'am admin 
         $where = array("links.members.".$userId.".isAdmin" => true);
-        $res = PHDB::find(Organization::COLLECTION, $where);
 
+        $organizations = PHDB::find(Organization::COLLECTION, $where);
+        $res = $organizations;
+        foreach ($organizations as $e) {
+        	$res[(string)new MongoId($e['_id'])] = $e;
+        	if(Authorisation::canEditMembersData(new MongoId($e['_id']))){
+        		if(isset($e["links"]["members"])){
+        			foreach ($e["links"]["members"] as $key => $value) {
+        				if(isset($value["type"]) && $value["type"] == Organization::COLLECTION){
+        					$subOrganization = Organization::getById($key);
+        					$res[$key] = $subOrganization;
+        				}
+        			}
+        		}
+        	}
+        }
     	return $res;
     }
 
@@ -140,6 +154,85 @@ class Authorisation {
         }
 
         return $eventList;
+    }
+
+    /**
+    * Get the authorization for edit an organization
+    * An user can edit an organization if :
+    * 1/ he is admin of this organization
+    * 2/ he is admin of an organization that can edit this orgarnisation
+    * @param String $userId The userId to get the authorisation of
+    * @param String $organizationId organization to get authorisation of
+    * @return a boolean True if the user can edit and false else
+    */
+    public static function canEditOrganisation($userId, $organizationId){
+    	$res = false;
+    	$organization = Organization::getById($organizationId);
+		if(isset($organization["links"]["members"])){
+    		foreach ($organization["links"]["members"] as $key => $value) {
+    			if($key ==  $userId){
+    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+    					$res = true;
+    				}
+    			}
+    		}
+    	}
+    	if(isset($organization["links"]["memberOf"])){
+    		foreach ($organization["links"]["memberOf"] as $key => $value) {
+    			$organizationParent = Organization::getById($key);
+    			$canEdit = Authorisation::canEditMembersData($key);
+    			if(isset($organizationParent["links"]["members"]) && $canEdit){
+		    		foreach ($organizationParent["links"]["members"] as $key => $value) {
+		    			if($key ==  $userId){
+		    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+		    					$res = true;
+		    				}
+		    			}
+		    		}
+		    	}
+    		}
+    	}
+    	return $res;
+    }
+
+    /**
+    * Get the authorization for edit an event
+    * An user can edit an event if :
+    * 1/ he is admin of this event
+    * 2/ he is admin of an organisation, which is the creator of an event
+    * 3/ he is admin of an organisation witch can edit an organisation creator 
+    * @param String $userId The userId to get the authorisation of
+    * @param String $eventId event to get authorisation of
+    * @return a boolean True if the user can edit and false else
+    */
+    public static function canEditEvent($userId, $eventId){
+    	$res = false;
+    	$event = EventId::getById($eventId);
+    	if(!empty($event)){
+
+    		// case 1
+
+    		if(isset($event["links"]["attendees"])){
+    			foreach ($event["links"]["attendees"] as $key => $value) {
+    				if($key ==  $userId){
+	    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
+	    					$res = true;
+	    				}
+	    			}
+    			}
+    		}
+
+    		// case 2 and 3
+
+    		if(isset($event["links"]["organizer"])){
+    			foreach ($event["links"]["organizer"] as $key => $value) {
+    				if( Authorisation::canEditOrganisation($userId, $key)){
+    					$res = true;
+    				}
+    			}
+    		}	
+    	}
+    	return $res;
     }
 
 } 

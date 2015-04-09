@@ -49,7 +49,7 @@
 	    overflow-y:scroll;
 	}
 
-	.panel_map{
+	.panel_legend{
 		position: absolute;
 		top:10px;
 		left:15px;
@@ -59,11 +59,11 @@
 		color : white;
 		text-align: center;
 	}
-	p.item_panel_map {
+	p.item_panel_legend {
 	  margin-bottom: 3px;
 	}
 
-	.item_panel_map {
+	.item_panel_legend {
 	  padding-bottom: 3px;
 	  padding-left: 15px;
 	  padding-top: 3px;
@@ -93,8 +93,8 @@
 </div>
 	
 	
-<div class="panel_map" style="max-width: 250px;">
-	<p name"].'"="" id="item_panel_map_'.$tag[" class="item_panel_map">
+<div class="panel_legend" style="max-width: 250px;">
+	<p name"].'"="" id="item_panel_legend_'.$tag[" class="item_panel_legend">
 		<span>
 		</span></p><center><i>Legends 
 		</i><center>
@@ -150,7 +150,7 @@
 		}
 		else{
 			$("#titre").text("Pas de donnée à afficher");
-			$(".panel_map").remove();
+			$(".panel_legend").remove();
 		}
 	}
 
@@ -616,11 +616,11 @@ function getNewData(data){
 		var legendHtml = "<div><p></p>"
 		for(var i= 0; i<tabLinks.length; i++){
 			if(tabLinks[i]!= "")
-				legendHtml += "<div><p class='item_panel_map'><i class='fa fa-square fa-1x' style='color:"+fill(tabLinks[i])+"'></i><span class='filter_name' style='display: inline;'>"+tabLinks[i]+"</span></div></p>"
+				legendHtml += "<div><p class='item_panel_legend'><i class='fa fa-square fa-1x' style='color:"+fill(tabLinks[i])+"'></i><span class='filter_name' style='display: inline;'>"+tabLinks[i]+"</span></div></p>"
 		}
 		legendHtml +="</div>"
 
-		$(".panel_map").html(legendHtml);
+		$(".panel_legend").html(legendHtml);
 
 
 	}
