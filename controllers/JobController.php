@@ -31,11 +31,17 @@ class JobController extends CommunecterController {
 	}
 
   /**
-   * Update an existing job
+   * Save a job
    * @return an array with result and message json encoded
    */
   public function actionSave() {
-    
+    //insert a new job
+    if (empty($_POST["pk"])) {
+      return Rest::json(array("msg"=>"insertion ok ", "id"=>"abcd"));
+    //update an existing job
+    } else {
+      return Rest::json(array("msg"=>"update ok "));
+    }
   }
 
 	/**
