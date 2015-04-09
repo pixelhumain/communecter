@@ -602,7 +602,10 @@ class OrganizationController extends CommunecterController {
 	    }
 
 	    $organization = Organization::getPublicData($id);
+	    $events = Organization::listEventsPublicAgenda($id);
+     	
 	    $params = array( "organization" => $organization);
+	    $params["events"] = $events;
 
 	    $this->sidebar1 = array(
 	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
