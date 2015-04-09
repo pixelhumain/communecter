@@ -159,7 +159,8 @@ class CommunecterController extends Controller
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
 
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),  
+      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
+      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"), 
 
     ),
     
