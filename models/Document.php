@@ -1,18 +1,18 @@
 <?php 
 class Document {
 
-	const collection = "documents";
+	const COLLECTION = "documents";
 	/**
 	 * get an project By Id
 	 * @param type $id : is the mongoId of the project
 	 * @return type
 	 */
 	public static function getById($id) {
-	  	return PHDB::findOne( self::collection,array("_id"=>new MongoId($id)));
+	  	return PHDB::findOne( self::COLLECTION,array("_id"=>new MongoId($id)));
 	}
 
 	public static function getWhere($params) {
-	  	return PHDB::find( self::collection,$params);
+	  	return PHDB::find( self::COLLECTION,$params);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Document {
 	  		'created' => time()
 	    );
 
-	    PHDB::insert(self::collection,$new);
+	    PHDB::insert(self::COLLECTION,$new);
 	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
 	    return array("result"=>true, "msg"=>"Votre document est enregistré.", "id"=>$new["_id"]);	
 	}
