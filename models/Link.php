@@ -108,7 +108,7 @@ class Link {
 
     private static function checkIdAndType($id, $type) {
 		
-		if ($type == PHType::TYPE_ORGANIZATIONS) {
+		if ($type == Organization::COLLECTION) {
         	$res = Organization::getById($id); 
         } else if ($type == PHType::TYPE_CITOYEN) {
         	$res = Person::getById($id);
@@ -238,13 +238,13 @@ class Link {
 		$res = array("result"=>false, "msg"=>"You can't add this event to this organization");
    		$isUserAdmin = Authorisation::isOrganizationAdmin($userId, $organizationId);
    		if($isUserAdmin){
-   			PHDB::update(PHType::TYPE_ORGANIZATIONS,
+   			PHDB::update(Organization::COLLECTION,
    						array("_id" => new MongoId($organizationId)),
    						array('$set' => array("links.events.".$eventId.".type" => PHType::TYPE_EVENTS))
    				);
    			PHDB::update(PHType::TYPE_EVENTS,
    						array("_id"=>new MongoId($eventId)),
-   						array('$set'=> array("links.organizer.".$organizationId.".type"=>PHType::TYPE_ORGANIZATIONS))
+   						array('$set'=> array("links.organizer.".$organizationId.".type"=>Organization::COLLECTION))
    				);
    			$res = array("result"=>true, "msg"=>"The event has been added with success");
    		};

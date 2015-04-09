@@ -34,14 +34,15 @@ class Authorisation {
         
         //organization i'am admin 
         $where = array("links.members.".$userId.".isAdmin" => true);
-        $organizations = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
+
+        $organizations = PHDB::find(Organization::COLLECTION, $where);
         $res = $organizations;
         foreach ($organizations as $e) {
         	$res[(string)new MongoId($e['_id'])] = $e;
         	if(Authorisation::canEditMembersData(new MongoId($e['_id']))){
         		if(isset($e["links"]["members"])){
         			foreach ($e["links"]["members"] as $key => $value) {
-        				if(isset($value["type"]) && $value["type"] == PHType::TYPE_ORGANIZATIONS){
+        				if(isset($value["type"]) && $value["type"] == Organization::COLLECTION){
         					$subOrganization = Organization::getById($key);
         					$res[$key] = $subOrganization;
         				}

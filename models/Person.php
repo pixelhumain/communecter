@@ -42,7 +42,7 @@ class Person {
 	    {
 	      foreach ($person["links"]["memberOf"] as $id => $e) 
 	      {
-	        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	        $organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
 	        if (!empty($organization)) {
 	          array_push($organizations, $organization);
 	        } else {

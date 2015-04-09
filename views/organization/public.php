@@ -19,7 +19,7 @@
 									if( Yii::app()->session['userId'] != (string)$organization["_id"]) 
 									{
 										//if connected user and pageUser are allready connected
-										if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$organization["_id"] , PHType::TYPE_ORGANIZATIONS ) ){  ?>
+										if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$organization["_id"] , Organization::COLLECTION ) ){  ?>
 											<a href="javascript:;" class="disconnectBtn btn btn-red  pull-left  tooltips " data-placement="top" data-original-title="Remove this Organization Link" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 										<?php } else { ?>
 											<a href="javascript:;" class="connectBtn btn btn-red  pull-left tooltips " data-placement="top" data-original-title="Connect to this Organization" ><i class=" connectBtnIcon fa fa-link"></i></a>
@@ -356,7 +356,7 @@ jQuery(document).ready(function() {
         $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo PHType::TYPE_ORGANIZATIONS ?>",
+	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo Organization::COLLECTION ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data) 
@@ -375,7 +375,7 @@ jQuery(document).ready(function() {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo PHType::TYPE_ORGANIZATIONS ?>",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$organization['_id'] ?>/type/<?php echo Organization::COLLECTION ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)

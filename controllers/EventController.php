@@ -34,7 +34,7 @@ class EventController extends CommunecterController {
 	      			$citoyen = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
 	      			array_push($citoyens, $citoyen);
 	      		}else if($e["type"] == "organizations"){
-	          		$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	          		$organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
 	          		array_push($organizations, $organization);
 	      		}
 	        } else {
@@ -168,7 +168,7 @@ class EventController extends CommunecterController {
 			if($_POST['type'] == "persons"){
 				$memberType = PHType::TYPE_CITOYEN;
 			}else{
-				$memberType = PHType::TYPE_ORGANIZATIONS;
+				$memberType = Organization::COLLECTION;
 			}
 			if(isset($_POST["id"]) && $_POST["id"] != ""){
 				$memberEmailObject = PHDB::findOne( $type , array("_id" =>new MongoId($_POST["id"])), array("email"));
@@ -257,6 +257,7 @@ class EventController extends CommunecterController {
   		$params = array();
   		if(isset($event["links"])){
   			foreach ($event["links"]["attendees"] as $id => $e) {
+
   				$citoyen = Person::getPublicData($id);
   				if(!empty($citoyen)){
   					array_push($people, $citoyen);

@@ -36,7 +36,7 @@ class ProjectController extends CommunecterController {
 		  			$citoyen = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
 		  			array_push($citoyens, $citoyen);
 		  		}else if($e["type"] == "organizations"){
-		      		$organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+		      		$organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
 		      		array_push($organizations, $organization);
 		  		}
 		    } else {
@@ -121,8 +121,8 @@ class ProjectController extends CommunecterController {
 				}
 				else
 				{
-					$member = PHDB::findOne( PHType::TYPE_ORGANIZATIONS , array("email"=>$_POST['email']));
-					$memberType = PHType::TYPE_ORGANIZATIONS;
+					$member = PHDB::findOne( Organization::COLLECTION , array("email"=>$_POST['email']));
+					$memberType = Organization::COLLECTION;
 				}
 
 				if( !$member )
@@ -203,7 +203,7 @@ class ProjectController extends CommunecterController {
   		$params = array();
   		if(isset($project["links"])){
   			foreach ($project["links"]["contributors"] as $id => $e) {
-  				if($e["type"]== PHType::TYPE_ORGANIZATIONS){
+  				if($e["type"]== Organization::COLLECTION){
   					$organization = Organization::getPublicData($id);
   					if (!empty($organization)) {
   						array_push($organizations, $organization);

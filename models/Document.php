@@ -1,14 +1,18 @@
 <?php 
-class Ressource {
+class Document {
 
-	const collection = "ressources";
+	const COLLECTION = "documents";
 	/**
 	 * get an project By Id
 	 * @param type $id : is the mongoId of the project
 	 * @return type
 	 */
 	public static function getById($id) {
-	  	return PHDB::findOne( PHType::TYPE_PROJECTS,array("_id"=>new MongoId($id)));
+	  	return PHDB::findOne( self::COLLECTION,array("_id"=>new MongoId($id)));
+	}
+
+	public static function getWhere($params) {
+	  	return PHDB::find( self::COLLECTION,$params);
 	}
 
 	/**
@@ -35,6 +39,7 @@ class Ressource {
 	    $new = array(
 			"id" => $params['id'],
 	  		"type" => $params['type'],
+	  		"folder" => $params['folder'],
 	  		"moduleId" => $params['moduleId'],
 
 	  		"author" => $params['author'],
@@ -44,9 +49,10 @@ class Ressource {
 	  		'created' => time()
 	    );
 
-	    PHDB::insert(self::collection,$new);
-	    
-	    return array("result"=>true, "msg"=>"Votre ressource est enregistrée.", "id"=>$new["_id"]);	
+
+	    PHDB::insert(self::COLLECTION,$new);
+	    //Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
+	    return array("result"=>true, "msg"=>"Votre document est enregistré.", "id"=>$new["_id"]);	
 	}
 }
 ?>

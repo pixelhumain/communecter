@@ -35,7 +35,7 @@ class OrganizationController extends CommunecterController {
     if($type)
      $params =  array("type"=>$type);
     
-    $organizations = PHDB::find( PHType::TYPE_ORGANIZATIONS,$params);
+    $organizations = PHDB::find( Organization::COLLECTION,$params);
     
     $detect = new Mobile_Detect;
     $isMobile = $detect->isMobile();
@@ -57,7 +57,7 @@ class OrganizationController extends CommunecterController {
     if($type)
      $params =  array("tags"=>$type);
     
-    $organizations = PHDB::find( PHType::TYPE_ORGANIZATIONS,$params);
+    $organizations = PHDB::find( Organization::COLLECTION,$params);
     $this->render("index",array("organizations"=>$organizations));
   }
     
@@ -78,7 +78,7 @@ class OrganizationController extends CommunecterController {
       		$i = $i + 1;
           if ($e["type"] == PHType::TYPE_CITOYEN) {
             $member = Person::getById($id);
-          } else if ($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+          } else if ($e["type"] == Organization::COLLECTION) {
             $member = Organization::getById($id);
           }
           if (!empty($member)) array_push($members, $member);
@@ -91,7 +91,7 @@ class OrganizationController extends CommunecterController {
     	foreach ($organization["links"]["knows"] as $id => $e) {
       		if($e["type"] == PHType::TYPE_CITOYEN){
               $follower = Person::getById($id);
-            } else if($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+            } else if($e["type"] == Organization::COLLECTION) {
               $follower = Organization::getById($id);
             }
             if (!empty($follower)) array_push($followers, $follower);
@@ -103,7 +103,7 @@ class OrganizationController extends CommunecterController {
       foreach ($organization["links"]["memberOf"] as $id => $e) {
           if($e["type"] == PHType::TYPE_CITOYEN){
               $aMemberOf = Person::getById($id);
-            } else if($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+            } else if($e["type"] == Organization::COLLECTION) {
               $aMemberOf = Organization::getById($id);
             }
             if (!empty($aMemberOf)) array_push($memberOf, $aMemberOf);
@@ -275,7 +275,7 @@ class OrganizationController extends CommunecterController {
   public function actionGetNames() 
     {
        $assos = array();
-       foreach( PHDB::find( PHType::TYPE_ORGANIZATIONS, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
+       foreach( PHDB::find( Organization::COLLECTION, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
            $assos[] = array("name"=>$v["name"],"cp"=>$v["cp"],"id"=>$a);
        header('Content-Type: application/json');
        echo json_encode( array( "names"=>$assos ) ) ;
@@ -293,7 +293,7 @@ class OrganizationController extends CommunecterController {
           if( $account && Yii::app()->session["userEmail"] == $account['ph:owner'])
           {
             
-            PHDB::remove( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["id"])));
+            PHDB::remove( Organization::COLLECTION,array("_id"=>new MongoId($_POST["id"])));
             //temporary for dev
             //TODO : Remove the association from all Ci accounts
             PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
@@ -349,7 +349,7 @@ class OrganizationController extends CommunecterController {
 			if($_POST['memberType'] == "persons"){
 				$memberType = PHType::TYPE_CITOYEN;
 			}else{
-				$memberType = PHType::TYPE_ORGANIZATIONS;
+				$memberType = Organization::COLLECTION;
 			}
 			if(isset($_POST["memberId"]) && $_POST["memberId"] != ""){
 				$memberEmailObject = PHDB::findOne( $memberType , array("_id" =>new MongoId($_POST["memberId"])), array("email"));
@@ -390,7 +390,7 @@ class OrganizationController extends CommunecterController {
 
 					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					 //add the member into the organization map
-					Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
+					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 					 //TODO : background send email
 					 //send validation mail
@@ -418,7 +418,7 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::addMember($_POST["parentOrganisation"], PHType::TYPE_ORGANIZATIONS, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
+						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
 	
 					}	
@@ -472,11 +472,11 @@ class OrganizationController extends CommunecterController {
         
       	foreach ($organization["links"]["members"] as $key => $member) {
           
-        	if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+        	if( $member['type'] == Organization::COLLECTION )
 	        {
 	            array_push($subOrganizationIds, $key);
 	            $memberData = Organization::getPublicData( $key );
-	            array_push( $members[PHType::TYPE_ORGANIZATIONS], $memberData );
+	            array_push( $members[Organization::COLLECTION], $memberData );
 	        }
 	        elseif($member['type'] == PHType::TYPE_CITOYEN )
 	        {
@@ -499,7 +499,9 @@ class OrganizationController extends CommunecterController {
     $this->render( "dashboardMember", $params );
   }
 
-  
+  /* **************************************
+   *  MEMBERS
+   ***************************************** */
   public function actionJoin($id)
   {
     $params = array();
@@ -538,6 +540,10 @@ class OrganizationController extends CommunecterController {
     return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
   }
 
+/* **************************************
+   *  CALENDAR
+   ***************************************** */
+
  //Get the events for create the calendar
   public function actionGetCalendar($id){
   	$events = array();
@@ -549,7 +555,7 @@ class OrganizationController extends CommunecterController {
   		}
   	}
   	foreach ($organization["links"]["members"] as $newId => $e) {
-  		if($e["type"] == PHType::TYPE_ORGANIZATIONS){
+  		if($e["type"] == Organization::COLLECTION){
   			$member = Organization::getPublicData($newId);
   		}else{
   			$member = Person::getPublicData($newId);
@@ -574,6 +580,7 @@ class OrganizationController extends CommunecterController {
 		$organization = Organization::getPublicData($id);
 		$params = array( "organization" => $organization);
 	 }
+
 
 	 public function actionDashboard($id){
 	 	if (empty($id)) {
@@ -601,4 +608,14 @@ class OrganizationController extends CommunecterController {
 
 	 	$this->render( "dashboard", $params );
 	 }
+
+   /* **************************************
+   *  DOCUMENTS
+   ***************************************** */
+
+    public function actionDocuments($id) {
+      $documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
+      $this->render("documents",array("documents"=>$documents));
+    }
+
 }

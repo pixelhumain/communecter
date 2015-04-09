@@ -137,10 +137,14 @@ function initDropZoneData(docs)
 			  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 					saveDoc(doc);
 			  	else */
-			  		genericSaveDoc(doc);
+			  		genericSaveDoc(doc,function(){
+						genericFilesTable.DataTable().destroy();
+					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
+						genericDropzone.removeAllFiles(true);
+						resetGenericFilesTable();
+					});
 			  	
-			  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length+1);
-				genericDropzone.removeAllFiles(true);
+				
 			}
 		  },
 		  error: function(response) 
@@ -161,7 +165,7 @@ function initDropZoneData(docs)
 			}
 		});
 	}
-/*
+resetGenericFilesTable();
 	if( !$('.genericFilesTable').hasClass("genericFilesTable") ){
 		genericFilesTable = $('.genericFilesTable').dataTable({
 				"aoColumnDefs" : [{
@@ -184,13 +188,47 @@ function initDropZoneData(docs)
 			});
 	} else
 		genericFilesTable.DataTable().draw();
-*/
+
 	$('#genericDocCategory').select2({
 	    createSearchChoice : function(term, data) { 
 	    	return {id:term, text:term};
 	    },
 	    data : genericDocCategoryData
 	});
+}
+
+function resetGenericFilesTable() 
+{ 
+	console.log("resetGenericFilesTable");
+
+	if( !$('.genericFilesTable').hasClass("dataTable") ){
+		genericFilesTable = $('.genericFilesTable').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ],
+			"iDisplayLength" : 10,
+			"destroy": true
+		});
+	} else {
+		if( $(".projectFiles").children('tr').length > 0 )
+		{
+			genericFilesTable.dataTable().fnDestroy();
+			genericFilesTable.dataTable().fnDraw();
+		} else {
+			console.log(" projectFilesTable fnClearTable");
+			genericFilesTable.dataTable().fnClearTable();
+		}
+	}
 }
 
 function addFileLine(id,doc,pos)
@@ -230,18 +268,21 @@ function bindDocsEvents()
 	});
 }
 
-function genericSaveDoc(doc)
+function genericSaveDoc(doc, callback)
 { 
 	console.log("genericSaveDoc",doc);
 	$.ajax({
 	  type: "POST",
-	  url: baseUrl+"/"+moduleId+"/ressource/save",
+	  url: baseUrl+"/"+moduleId+"/document/save",
 	  data: doc,
       dataType: "json"
 	}).done( function(data){
         
-        
-        toastr.success(data.msg);
+        	if(data.result){
+		        toastr.success(data.msg);
+			callback();
+		} else
+			toastr.error(data.msg);
 
 	});
 }

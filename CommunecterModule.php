@@ -13,6 +13,13 @@ class CommunecterModule extends CWebModule
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
+
+		Yii::app()->setComponents(array(
+		    'errorHandler'=>array(
+		        'errorAction'=>'/'.$this->id.'/error'
+		    )
+		));
+		
 		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
 		Yii::app()->theme  = "ph-dori";
 		Yii::app()->language = 'en';
