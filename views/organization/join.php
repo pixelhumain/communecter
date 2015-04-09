@@ -75,8 +75,36 @@ var formDefinition = {
 	            	"tags" : "true",
 	            	"options" : {
 	            		<?php
-						foreach ($tags as $tags) {
-							echo "\"".$tags."\" : \"".$tags."\",";
+						foreach ($tags as $tag) {
+							echo "\"".$tag."\" : \"".$tag."\",";
+						}
+						?>
+	            	}
+	            },
+	            "typeIntervention" :{
+	            	"inputType" : "selectMultiple",
+	            	"placeholder" : "Select the type of intervention",
+	            	"rules" : {
+						"required" : true
+					},
+	            	"options" : {
+	            		<?php
+						foreach ($listTypeIntervention as $typeIntervention) {
+							echo "\"".$typeIntervention."\" : \"".$typeIntervention."\",";
+						}
+						?>
+	            	}
+	            },
+	            "public" :{
+	            	"inputType" : "selectMultiple",
+	            	"placeholder" : "Select the public of your activities",
+	            	"rules" : {
+						"required" : true
+					},
+	            	"options" : {
+	            		<?php
+						foreach ($listPublic as $public) {
+							echo "\"".$public."\" : \"".$public."\",";
 						}
 						?>
 	            	}
@@ -156,7 +184,7 @@ var formDefinition = {
 	};
 
 var organizationInitData = {
-/*	"parentOrganization" : "<?php echo $_GET['id'] ?>",
+	"parentOrganization" : "<?php echo $_GET['id'] ?>",
 	"organizationName": "Libertalia",
 	"description": "Le rugby sur la plage : c'est trop bon",
 	"type": "Association",
@@ -166,7 +194,7 @@ var organizationInitData = {
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
 	"personPostalCode": "97426",
-	"password": "password",*/
+	"password": "password"
 };
 
 var dataBindOrganization = {
@@ -174,6 +202,8 @@ var dataBindOrganization = {
 	"#organizationName" : "organizationName",
 	"#description" : "description",
 	"#type" : "type",
+	"#typeIntervention" : "typeIntervention",
+	"#public" : "public",
 	"#theme" : "tagsOrganization",
 	"#postalCode" : "postalCode",
 	"#organizationEmail" : "organizationEmail" , 

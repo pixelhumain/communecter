@@ -269,6 +269,16 @@ class OrganizationController extends CommunecterController {
     }
     $newOrganization["tags"] = $tags;
 
+    //Type of Intervention
+    if (!empty($_POST["typeIntervention"])) {
+      $newOrganization["typeIntervention"] = $_POST["typeIntervention"];
+    }
+    
+    //Type of Intervention
+    if (!empty($_POST["public"])) {
+      $newOrganization["public"] = $_POST["public"];
+    }
+
     return $newOrganization;
   }
 
@@ -514,6 +524,10 @@ class OrganizationController extends CommunecterController {
     
     $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
     $params["types"] = $types["list"];
+    $listTypeIntervention = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"typeIntervention"), array('list'));
+    $params["listTypeIntervention"] = $listTypeIntervention["list"];
+    $listPublic = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"public"), array('list'));
+    $params["listPublic"] = $listPublic["list"];
     
     $params["tags"] = Tags::getActiveTags();
 
