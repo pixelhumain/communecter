@@ -75,7 +75,7 @@ class SigController extends CommunecterController {
     {
     	//début de la requete => scope geographique
     	$where = array( 'name' => $_POST["assoName"] );
-		$asso = PHDB::findOne(PHType::TYPE_ORGANIZATIONS, $where);
+		$asso = PHDB::findOne(Organization::COLLECTION, $where);
         
      	$orgaMembres = array();
     	
@@ -114,7 +114,7 @@ class SigController extends CommunecterController {
 	    
 	    $where = array_merge($where, $whereGeo);
 	    				
-    	$companies = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
+    	$companies = PHDB::find(Organization::COLLECTION, $where);
     	$companies["origine"] = "ShowLocalCompanies";
     	  	
         Rest::json( $companies );
@@ -133,7 +133,7 @@ class SigController extends CommunecterController {
 	    
 	    $where = array_merge($where, $whereGeo);
 	    				
-    	$states = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
+    	$states = PHDB::find(Organization::COLLECTION, $where);
     	$states["origine"] = "ShowLocalState";
     	   	
         Rest::json( $states );
@@ -256,7 +256,7 @@ class SigController extends CommunecterController {
     	
     	);
     	
-    	$res = PHDB::insert(PHType::TYPE_ORGANIZATIONS, $newAsso);
+    	$res = PHDB::insert(Organization::COLLECTION, $newAsso);
     	
     	if($res["ok"] == 1) $res = "Initialisation des données : OK</br>Rechargez la carte !";
         Rest::json( $res );
@@ -285,7 +285,7 @@ class SigController extends CommunecterController {
 	  	}
 
 	    //Manage random Organization
-	    $organizationMembers = Organization::getMembersByOrganizationId($id, PHType::TYPE_ORGANIZATIONS);
+	    $organizationMembers = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
         $randomOrganizationId = array_rand($organizationMembers);
 	    $randomOrganization = Organization::getById($randomOrganizationId);
 

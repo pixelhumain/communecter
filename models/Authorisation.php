@@ -34,7 +34,7 @@ class Authorisation {
         
         //organization i'am admin 
         $where = array("links.members.".$userId.".isAdmin" => true);
-        $res = PHDB::find(PHType::TYPE_ORGANIZATIONS, $where);
+        $res = PHDB::find(Organization::COLLECTION, $where);
 
     	return $res;
     }

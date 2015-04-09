@@ -70,7 +70,7 @@ class Event {
 	    if(isset($params["organization"])){
 	    	/*PHDB::update( PHType::TYPE_EVENTS , 
 				array("_id" => new MongoId($new["_id"])) ,
-				array('$addToSet' => array( "links.attendees.".(string)$params["organization"]=>array("type" => PHType::TYPE_ORGANIZATIONS, "isAdmin"=>true )) 
+				array('$addToSet' => array( "links.attendees.".(string)$params["organization"]=>array("type" => Organization::COLLECTION, "isAdmin"=>true )) 
 					)
 				);*/
 	    	Link::addOrganizer($params["organization"], $new["_id"], $id);

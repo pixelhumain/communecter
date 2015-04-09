@@ -102,7 +102,7 @@ class PersonController extends CommunecterController {
           } else {
           //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
           }
-        } else if ($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+        } else if ($e["type"] == Organization::COLLECTION) {
             $someoneIKnow = Organization::getById($id);
             if (!empty($someoneIKnow)) {
               $someoneIKnow['linkType'] = "knows";
@@ -454,7 +454,7 @@ class PersonController extends CommunecterController {
   public function actionInitDataPeople(){
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initModuleData( $this->module->id, "personNetworking", PHType::TYPE_CITOYEN,true );
-    $import = Admin::initModuleData($this->module->id, "organizationNetworking", PHType::TYPE_ORGANIZATIONS);
+    $import = Admin::initModuleData($this->module->id, "organizationNetworking", Organization::COLLECTION);
 
     $result = ( $import["errors"] > 0 ) ? false : true;
     Rest::json( $import );
@@ -503,7 +503,7 @@ class PersonController extends CommunecterController {
     {
       foreach ($person["links"]["memberOf"] as $id => $e) 
       {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+        $organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
         if (!empty($organization)) {
           array_push($organization, array("linkType" => "memberOf"));
           array_push($organizations, $organization);
@@ -518,7 +518,7 @@ class PersonController extends CommunecterController {
     {
       foreach ($person["links"]["knows"] as $id => $e) 
       {
-        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+        $organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
         if (!empty($organization)) {
           $organization["linkType"] = "knows";
           array_push($organizations, $organization);
@@ -539,7 +539,7 @@ class PersonController extends CommunecterController {
           } else {
           //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
           }
-        } else if ($e["type"] == PHType::TYPE_ORGANIZATIONS) {
+        } else if ($e["type"] == Organization::COLLECTION) {
             $someoneIKnow = Organization::getById($id);
             if (!empty($someoneIKnow)) {
               $someoneIKnow['linkType'] = "knows";
@@ -612,7 +612,7 @@ class PersonController extends CommunecterController {
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentId"]) )
 	 {
 	 	//test if group exist
-		$organization = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($_POST["parentId"]))) : null;
+		$organization = (isset($_POST["parentId"])) ? PHDB::findOne( Organization::COLLECTION,array("_id"=>new MongoId($_POST["parentId"]))) : null;
 		$citoyen = (isset($_POST["parentId"])) ? PHDB::findOne( PHType::TYPE_CITOYEN,array("_id"=>new MongoId($_POST["parentId"]))) : null;
 		if($citoyen || $organization)
 		{
@@ -621,7 +621,7 @@ class PersonController extends CommunecterController {
 				$type =  PHType::TYPE_CITOYEN;
 			}
 			else if($organization){
-				$type = PHType::TYPE_ORGANIZATIONS;
+				$type = Organization::COLLECTION;
 			}
 			
 			if(isset($_POST["id"]) && $_POST["id"] != ""){
@@ -736,7 +736,7 @@ class PersonController extends CommunecterController {
         //$organizations = array();
         foreach ($person["links"]["memberOf"] as $key => $member) {
             $organization;
-            if( $member['type'] == PHType::TYPE_ORGANIZATIONS )
+            if( $member['type'] == Organization::COLLECTION )
             {
                 //array_push($organizationIds, $key);
                 $organization = Organization::getPublicData( $key );
@@ -804,7 +804,7 @@ class PersonController extends CommunecterController {
                   /* **************************************
                   * ORGANIZATIONS MAP
                   ***************************************** */
-                  $exportInitData[PHType::TYPE_ORGANIZATIONS] = Data::getByAttributeForExport(PHType::TYPE_ORGANIZATIONS,array("creator"=>(string)Yii::app()->session["userId"]));
+                  $exportInitData[Organization::COLLECTION] = Data::getByAttributeForExport(Organization::COLLECTION,array("creator"=>(string)Yii::app()->session["userId"]));
 
                   /* **************************************
                   * EVENTS MAP

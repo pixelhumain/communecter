@@ -156,6 +156,7 @@ class CommunecterController extends Controller
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  
+      "documents"=>array("href"=>"/ph/communecter/organization/documents"),  
     ),
     
     "event"=> array(

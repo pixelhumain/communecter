@@ -1,6 +1,8 @@
 <?php 
 class Organization {
 
+	const COLLECTION = "organizations";
+	
 	/**
 	 * insert a new organization in database
 	 * @param array A well format organization 
@@ -18,7 +20,7 @@ class Organization {
 		$organization["creator"] = $userId;
 
 		//Insert the organization
-	    PHDB::insert( PHType::TYPE_ORGANIZATIONS, $organization);
+	    PHDB::insert( Organization::COLLECTION, $organization);
 		
 	    if (isset($organization["_id"])) {
 	    	$newOrganizationId = (String) $organization["_id"];
@@ -27,7 +29,7 @@ class Organization {
 	    }
 		
 		//Add the creator as the first member and admin of the organization
-	    Link::addMember($newOrganizationId, PHType::TYPE_ORGANIZATIONS, $userId, PHType::TYPE_CITOYEN, $userId, "true");
+	    Link::addMember($newOrganizationId, Organization::COLLECTION, $userId, PHType::TYPE_CITOYEN, $userId, "true");
 
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",
@@ -43,7 +45,7 @@ class Organization {
 	 */
 	public static function checkOrganizationData($organization) {
 		// Is There a association with the same name ?
-	    $organizationSameName = PHDB::findOne( PHType::TYPE_ORGANIZATIONS,array( "name" => $_POST['organizationName']));      
+	    $organizationSameName = PHDB::findOne( Organization::COLLECTION,array( "name" => $_POST['organizationName']));      
 	    if($organizationSameName) { 
 	      throw new CommunecterException("An organization with the same name already exist in the plateform");
 	    }
@@ -56,7 +58,7 @@ class Organization {
 	 */
 	public static function getById($id) {
 
-	  	$organization = PHDB::findOne(PHType::TYPE_ORGANIZATIONS,array("_id"=>new MongoId($id)));
+	  	$organization = PHDB::findOne(Organization::COLLECTION,array("_id"=>new MongoId($id)));
 	  	
 	  	if (empty($organization)) {
             //TODO Sylvain - Find a way to manage inconsistent data
@@ -115,7 +117,7 @@ class Organization {
 			$organization["tags"] = Tags::filterAndSaveNewTags($organization["tags"]);
 	    
 	    //update the organization
-	    PHDB::update( PHType::TYPE_ORGANIZATIONS,array("_id" => new MongoId($organizationId)), 
+	    PHDB::update( Organization::COLLECTION,array("_id" => new MongoId($organizationId)), 
 	                                          array('$set' => $organization));
     
 	    //TODO ???? : add an admin notification
@@ -135,7 +137,7 @@ class Organization {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	PHDB::insert( PHType::TYPE_ORGANIZATIONS , $param );
+	  	PHDB::insert( Organization::COLLECTION , $param );
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
@@ -198,7 +200,7 @@ class Organization {
 		$newOrganization = Organization::insert($organization, $newPerson["id"]);
 
 		//Link the person as an admin
-		Link::addMember($newOrganization["id"], PHType::TYPE_ORGANIZATIONS, $newPerson["id"], PHType::TYPE_CITOYEN, $newPerson["id"], true);
+		Link::addMember($newOrganization["id"], Organization::COLLECTION, $newPerson["id"], PHType::TYPE_CITOYEN, $newPerson["id"], true);
 
 		//Link the organization as a member of the invitor
 		
@@ -206,7 +208,7 @@ class Organization {
 		//Should be a parameter of the application.
 		$isParentOrganizationAdmin = true;
 		
-		Link::addMember($parentOrganizationId, PHType::TYPE_ORGANIZATIONS, $newOrganization["id"], PHType::TYPE_ORGANIZATIONS, 
+		Link::addMember($parentOrganizationId, Organization::COLLECTION, $newOrganization["id"], Organization::COLLECTION, 
 						$newPerson["id"], $isParentOrganizationAdmin);
 		
 		return array("result"=>true, "msg"=>"The invitation process completed with success", "id"=>$newOrganization["id"]);;
@@ -221,7 +223,7 @@ class Organization {
 	public static function listEventsPublicAgenda($organizationId){
 		$events = array();
 		$organization = Organization::getById($organizationId);
-		$subOrganization = Organization::getMembersByOrganizationId($organizationId, PHType::TYPE_ORGANIZATIONS);
+		$subOrganization = Organization::getMembersByOrganizationId($organizationId, Organization::COLLECTION);
 		if(isset($organization["links"]["events"])){
 			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
 				 $event = Event::getPublicData($keyEv);

@@ -6,7 +6,7 @@
  * Date: 7/23/12
  * Time: 12:25 AM
  */
-class RessourceController extends CommunecterController {
+class DocumentController extends CommunecterController {
   
 
 	/**
@@ -15,7 +15,6 @@ class RessourceController extends CommunecterController {
 	 * @param $id : france || code postale
 	 */
 	public function actionSave() {
-	      return Rest::json( Ressource::save($_POST) );
+	      return Rest::json( Document::save($_POST) );
 	}
-	
 }
