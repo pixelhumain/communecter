@@ -1,5 +1,5 @@
 <style>
-	#dropdown_email{
+	#dropdown_search{
 		padding: 0px 15px; 
 		margin-left:2%; 
 		width:96%;
@@ -13,6 +13,9 @@
 
 	#iconeChargement{
 		visibility: hidden;
+	}
+	#divAdmin{
+		display: none;
 	}
 </style>
 
@@ -39,7 +42,7 @@
 				           		<span class="input-icon input-icon-right">
 						           	<input class="member-search form-control" placeholder="Search By name, email" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-						        		<ul class="dropdown-menu" id="dropdown_email" style="">
+						        		<ul class="dropdown-menu" id="dropdown_search" style="">
 											<li class="li-dropdown-scope">-</li>
 										</ul>
 									</input>
@@ -51,10 +54,10 @@
 		            	<div class='row'>
 		            		<input type="hidden" id="memberType"/>
 		            		<div class="btn-group btn-group-xs">
-								<a href="javascript:switchType('citoyens');" class="btn btn-green active">
+								<a id="btnCitoyen" href="javascript:;" onclick="switchType('citoyens')" class="btn btn-green">
 									Citoyen
 								</a>
-								<a href="javascript:switchType('organizations');" class="btn btn-green">
+								<a id="btnOrganization" href="javascript:;" onclick="switchType('organizations')" class="btn btn-green">
 									Organisation
 								</a>
 							</div>
@@ -80,27 +83,33 @@
 		               		</div>
 		               	</div>
 		               	<div class ="row">
-			               	<div class="col-md-10 col-offset-1">	
+			               	<div class="col-md-10  col-md-offset-1">	
 								<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
 							</div>
 						</div>
+						<div class="row">
+							<div id="divAdmin" class="form-group">
+				    	    	<label class="control-label">
+									Administrateur :
+								</label>
+								<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+								<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox">
+					    	
+								
+								<!--<select id="memberIsAdmin" name="memberIsAdmin">
+				                	<option value="true">Oui</option>
+				                	<option value="false" selected>Non</option>
+				            	</select>-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+				    	        <button class="btn btn-primary" >Enregistrer</button>
+				    	    </div>
+				    	</div>
 		    	    </div>
-		    	    <div class="form-group">
-		    	    	<label class="control-label">
-							Administrateur :
-						</label>
-						<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-						<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox" checked>
-			    	
-						
-						<!--<select id="memberIsAdmin" name="memberIsAdmin">
-		                	<option value="true">Oui</option>
-		                	<option value="false" selected>Non</option>
-		            	</select>-->
-					</div>
-		    	    <div class="row">
-		    	        <button class="btn btn-primary" >Enregistrer</button>
-		    	    </div>
+		    	   
+		    	   
 		        </form>
 	        </div>
         </div>
@@ -164,9 +173,9 @@
 <script type="text/javascript">
 	var timeout;
 	jQuery(document).ready(function() {
-		$("#addMembers #memberIsAdmin").val("true");
+		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
-		$("#addMembers #memberType").val("citoyens");
+		$("#addMembers #btnCitoyen").trigger("click");
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
 			$("#addMembers #memberIsAdmin").val(""+state);
 		}); 
@@ -213,10 +222,16 @@
 
 		$('#addMembers #memberSearch').keyup(function(e){
 		    var searchValue = $('#addMembers #memberSearch').val();
-		    clearTimeout(timeout);
-		    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-		    clearTimeout(timeout);
-		    timeout = setTimeout('autoCompleteEmailAddMember("'+searchValue+'")', 500);    		
+		    if(searchValue.length>2){
+		    	clearTimeout(timeout);
+			    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
+			    clearTimeout(timeout);
+			    timeout = setTimeout('autoCompleteEmailAddMember("'+searchValue+'")', 500); 
+		    }else{
+		    	$("#addMembers #dropdown_search").css({"display" : "none" });
+		    	$("#iconeChargement").css("visibility", "hidden")
+		    }
+		       		
 		});
 		$('#memberEmail').focusout(function(e){
 			//$("#ajaxSV #dropdown_city").css({"display" : "none" });
@@ -224,14 +239,21 @@
 	});
 	
 
-	function setMemberInputAddMember(id, name, type){
+	function setMemberInputAddMember(id, name,email, type){
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
-		$("#addMembers #memberType").val(type); 
 		$("#addMembers #memberId").val(id);
-		$('#addMembers #memberEmail').css({"display" : "none"});
-		$("#addMembers #dropdown_email").css({"display" : "none" });	
+		console.log(type);
+		if(type=="citoyens"){
+			$("#addMembers #btnCitoyen").trigger("click");
+		}else{
+			$("#addMembers #btnOrganization").trigger("click");
+		}
+		$('#addMembers #memberEmail').val(email);
+		$("#addMembers #dropdown_search").css({"display" : "none" });
+		openNewMemberForm();
+
 	}
 
 	function autoCompleteEmailAddMember(searchValue){
@@ -246,15 +268,14 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-					str = "";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé? cliquez ici</a></li>";
 		 			$.each(data, function(key, value) {
 		 				$.each(value, function(i, v){
-		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+key+"\")'>" + v.name + "</a></li>";
+		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'>" + v.name + "</a></li>";
 		  				});
 		  			}); 
-		  			if(str == "") str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Aucun résultat</a></li>";
-		  			$("#addMembers #dropdown_email").html(str);
-		  			$("#addMembers #dropdown_email").css({"display" : "inline" });
+		  			$("#addMembers #dropdown_search").html(str);
+		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
 	  			}
 			}	
 		})
@@ -269,6 +290,11 @@
 	}
 
 	function switchType(str){
+		if(str=="citoyens"){
+			$("#addMembers #divAdmin").css("display", "block");
+		}else{
+			$("#addMembers #divAdmin").css("display", "none");
+		}
 		$("#addMembers #memberType").val(str);
 	}
 </script>
