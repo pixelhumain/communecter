@@ -17,6 +17,12 @@
 	#divAdmin{
 		display: none;
 	}
+	#addMemberForm{
+		padding: 20px;
+	}
+	#formNewMember{
+		display: none;
+	};
 </style>
 
 <div style="display:none" id="addMembers" >
@@ -51,9 +57,9 @@
 						</div>
 					</div>
 		            <div class="form-group" id="addMemberSection">
-		            	<div class='row'>
+		            	<div class='row center'>
 		            		<input type="hidden" id="memberType"/>
-		            		<div class="btn-group btn-group-xs">
+		            		<div class="btn-group ">
 								<a id="btnCitoyen" href="javascript:;" onclick="switchType('citoyens')" class="btn btn-green">
 									Citoyen
 								</a>
@@ -65,26 +71,28 @@
 			                    <option value="citoyens">People</option>
 			                    <option value="organizations">Organisation</option>
 			                </select>-->
-			            </div>
-		    	        <div class="row">
-		    	        	<div class="col-md-1">	
-				           		<i class="fa fa-user fa-2x"></i>
-				           	</div>
-				           	<div class="col-md-10">
-		    	        		<input class="form-control" placeholder="Name" id="memberName" name="memberName" value=""/>
-							</div>		    	        
-		    	        </div>
-		    	        <div class ="row">
-		    	        	<div class="col-md-1">	
-				           		<i class="fa fa-envelope-o fa-2x"></i>
-				           	</div>
-		    	        	<div class="col-md-10">
-		               			<input class="member-email form-control" placeholder="Email" autocomplete = "off" id="memberEmail" name="memberEmail" value=""/>
-		               		</div>
-		               	</div>
-		               	<div class ="row">
-			               	<div class="col-md-10  col-md-offset-1">	
-								<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
+			            </div><br>
+			            <div id="formNewMember">
+			    	        <div class="row">
+			    	        	<div class="col-md-1" id="iconUser">	
+					           		
+					           	</div>
+					           	<div class="col-md-10">
+			    	        		<input class="form-control" placeholder="Name" id="memberName" name="memberName" value=""/>
+								</div>		    	        
+			    	        </div>
+			    	        <div class ="row">
+			    	        	<div class="col-md-1">	
+					           		<i class="fa fa-envelope-o fa-2x"></i>
+					           	</div>
+			    	        	<div class="col-md-10">
+			               			<input class="member-email form-control" placeholder="Email" autocomplete = "off" id="memberEmail" name="memberEmail" value=""/>
+			               		</div>
+			               	</div>
+			               	<div class ="row">
+				               	<div class="col-md-10  col-md-offset-1">	
+									<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -93,13 +101,7 @@
 									Administrateur :
 								</label>
 								<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-								<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox">
-					    	
-								
-								<!--<select id="memberIsAdmin" name="memberIsAdmin">
-				                	<option value="true">Oui</option>
-				                	<option value="false" selected>Non</option>
-				            	</select>-->
+								<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
 							</div>
 						</div>
 						<div class="form-group">
@@ -114,8 +116,8 @@
 	        </div>
         </div>
     </div>
-     <div class="row ">
-     	<div class="col-md-8 col-md-offset-2">
+	<div class="row ">
+	 	<div class="col-md-8 col-md-offset-2">
 	        <table class="table table-striped table-bordered table-hover newMembersAddedTable hide">
 	            <thead>
 	                <tr>
@@ -129,7 +131,7 @@
 	            <tbody class="newMembersAdded"></tbody>
 	        </table>
 	    </div>
-    </div>
+	</div>
     <div class="col-md-8 col-md-offset-2 hide">
         <h1>Batch Import </h1>
         <p>import comma sepearated emails to connect people or Organisations</p>
@@ -173,9 +175,37 @@
 <script type="text/javascript">
 	var timeout;
 	jQuery(document).ready(function() {
+		
+		bindOrganizationSubViewAddMember();
+	});
+	
+
+	function bindOrganizationSubViewAddMember() {	
+		$(".addMembersBtn").off().on("click", function() {
+			subViewElement = $(this);
+			subViewContent = subViewElement.attr('href');
+			$.subview({
+				content : subViewContent,
+				onShow : function() {
+					initFormAddMember();
+				},
+				onHide : function() {
+					hideFormAddMember();
+				},
+				onSave: function() {
+					hideFormAddMember();
+				}
+			});
+		});
+
+		$(".close-subview-button").off().on("click", function(e) {
+			$(".close-subviews").trigger("click");
+			e.prinviteDefault();
+		});
+	};
+	function initFormAddMember(){
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
-		$("#addMembers #btnCitoyen").trigger("click");
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
 			$("#addMembers #memberIsAdmin").val(""+state);
 		}); 
@@ -211,6 +241,7 @@
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
+		                showSearch();
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -236,8 +267,13 @@
 		$('#memberEmail').focusout(function(e){
 			//$("#ajaxSV #dropdown_city").css({"display" : "none" });
 		});
-	});
-	
+	}
+
+	function hideFormAddMember(){
+		openNewMemberForm();
+		showSearch();
+		
+	}
 
 	function setMemberInputAddMember(id, name,email, type){
 		$("#iconeChargement").css("visibility", "hidden")
@@ -283,17 +319,29 @@
 	function openNewMemberForm(){
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");
+		$("#addMembers #memberName").val("");
+		$("#addMembers #memberId").val("");
+		$('#addMembers #memberEmail').val("");
 	}
 	function showSearch(){
+		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
 		$("#addMembers #searchMemberSection").css("display", "block");
+		$("#addMembers #divAdmin").css("display", "none");
+		$("#iconeChargement").css("visibility", "hidden")
+		$("#addMembers #memberSearch").val("");
+		$("#addMembers #dropdown_search").css({"display" : "none" });
 	}
 
 	function switchType(str){
+		$("#addMembers #formNewMember").css("display", "block");
+		$("#addMembers #iconUser").empty();
 		if(str=="citoyens"){
 			$("#addMembers #divAdmin").css("display", "block");
+			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
+			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
 		}
 		$("#addMembers #memberType").val(str);
 	}
