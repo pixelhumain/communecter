@@ -5,19 +5,7 @@
 <div class="row">
 	<div class="col-sm-8 col-xs-12">
 		<div class="row">
-			<div class="panel panel-white">
-				<div class="panel-heading border-light">
-					<h4 class="panel-title"> DOCUMENTS STRUCTURANTS </h4>
-				</div>
-				<div class="panel-body no-padding">
-					<div class="panel-scroll height-230 ps-container">
-						<table class="table table-striped table-hover" id="organizations">
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+			<?php $this->renderPartial('documents',array( "documents" => (isset($documents)) ? $documents : null ) ); ?>
 		</div>
 		<div class="row">
 			<div class="panel panel-white">
