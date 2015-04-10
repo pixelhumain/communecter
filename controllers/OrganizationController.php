@@ -637,7 +637,7 @@ class OrganizationController extends CommunecterController {
    ***************************************** */
 
     public function actionNews($id) {
-      $news = News::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
+      $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
       $this->render("news",array("news"=>$news));
     }
 

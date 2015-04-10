@@ -3,13 +3,13 @@ $this->renderPartial('../news/newsSV');
 ?>
 <div class="row">
 
-  <div class="col-sm-8 col-xs-12 docsPanel hide">
+  <div class="col-xs-12 newsPanel hide">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">NEWS </h4>
         <ul class="panel-heading-tabs border-light">
         	<li>
-        		<a class="new-file btn btn-info" href="#genericGED">Add Files <i class="fa fa-download"></i></a>
+        		<a class="new-note btn btn-dark-green" href="#newNote">Add a Feed <i class="fa fa-rss"></i></a>
         	</li>
 	        <li class="panel-tools">
 	          <div class="dropdown">
@@ -36,7 +36,7 @@ $this->renderPartial('../news/newsSV');
       <div class="panel-body no-padding">
         <div class="">
           <table class="table table-striped table-hover">
-            <tbody class="docsList">
+            <tbody class="newsList">
             	<?php foreach ($news as $article) { ?>
               <tr>
                 <td class="center">
@@ -45,7 +45,7 @@ $this->renderPartial('../news/newsSV');
 						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$article['folder']."/".$article['name'].'" target="_blank">'.
 								'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
 					else if( strrpos( $article['name'], ".jpg" ) != false || strrpos($article['name'], ".jpeg") != false || strrpos($article['name'], ".gif")  != false || strrpos($article['name'], ".png")  != false  )
-						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$article['folder']."/".$article['name'].'" data-lightbox="docs">'.
+						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$article['folder']."/".$article['name'].'" data-lightbox="news">'.
 									'<img width="50" class="img-responsive" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$article['folder']."/".$article['name'].'"/>'.
 								'</a>';	
 					else
@@ -71,7 +71,7 @@ $this->renderPartial('../news/newsSV');
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$(".docsPanel").removeClass('hide').addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		$(".newsPanel").removeClass('hide').addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 			$(this).removeClass("animated flipInX");
 		});
 		docType = "<?php echo Organization::COLLECTION?>";
@@ -79,9 +79,9 @@ $this->renderPartial('../news/newsSV');
 		ownerId = "<?php echo $_GET['id'] ?>";
 	});
 
-	function afterDocSave(doc){
+	function afterNewsSave(doc){
 
-		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folder+'/'+doc.name); 
+		console.log("afterNewsSave",'/upload/'+destinationFolder+'/'+folder+'/'+doc.name); 
 		console.log("addFileLine",doc); 
 		date = new Date(doc.date);
 		if(doc.name && doc.name.indexOf(".pdf") >= 0)

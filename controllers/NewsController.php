@@ -12,8 +12,12 @@ class NewsController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
-    public function actionFormCreateNews()  { $this->renderPartial("formCreateNews"); 		} 
-  	public function actionNewsstream()  	{ $this->renderPartial("newsstream"); 		} 
+    public function actionFormCreateNews() { 
+    	$this->renderPartial("formCreateNews"); 		
+    } 
+  	public function actionNewsstream() { 
+  		$this->renderPartial("newsstream"); 		
+  	} 
   	
   	
 	
