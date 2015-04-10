@@ -456,7 +456,7 @@ class OrganizationController extends CommunecterController {
     $params = array( "organization" => $organization);
 
     $this->sidebar1 = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
       array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
       array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
@@ -608,7 +608,7 @@ class OrganizationController extends CommunecterController {
 	    $params["events"] = $events;
 
 	    $this->sidebar1 = array(
-	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
+	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
 	      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
 	      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
 	      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
@@ -633,6 +633,37 @@ class OrganizationController extends CommunecterController {
     }
 
     /* **************************************
+    * Dashboard Specifique
+    ***************************************** */
+
+    public function actionDashboard1($id){
+	 	if (empty($id)) {
+	      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+	    }
+
+	    $organization = Organization::getPublicData($id);
+	    $events = Organization::listEventsPublicAgenda($id);
+     	
+	    $params = array( "organization" => $organization);
+	    $params["events"] = $events;
+
+	    $this->sidebar1 = array(
+	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
+	      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
+	      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+	      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
+	      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
+	      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+	      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
+	      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
+	      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
+	    );
+
+	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
+	 	$this->render( "dashboard1", $params );
+	 }
+
+   /* **************************************
    *  NEWS
    ***************************************** */
 
@@ -640,6 +671,4 @@ class OrganizationController extends CommunecterController {
       $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
       $this->render("news",array("news"=>$news));
     }
-
-
 }

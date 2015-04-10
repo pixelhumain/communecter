@@ -1,13 +1,15 @@
 <?php 
 class Job {
 
+	const COLLECTION = "jobPosting";
+
 	/**
 	 * get a job By Id
 	 * @param type $id : String as a mongoId of the job offer
 	 * @return json format of a job
 	 */
 	public static function getById($id) {
-	  	$job = PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($id)));
+	  	$job = PHDB::findOne( Job::COLLECTION,array("_id"=>new MongoId($id)));
 	  	
 	  	//get the details of the hiring organization
 	  	if (!empty($job["hiringOrganization"])) {
@@ -25,7 +27,7 @@ class Job {
 			$job["tags"] = Tags::filterAndSaveNewTags($job["tags"]);
 
 		//Insert the job
-	    PHDB::insert( PHType::TYPE_JOBS, $job);
+	    PHDB::insert( Job::COLLECTION, $job);
 		
 	    if (isset($job["_id"])) {
 	    	$newJobId = (String) $job["_id"];
@@ -43,7 +45,7 @@ class Job {
 			$job["tags"] = Tags::filterAndSaveNewTags($job["tags"]);
 
 		//update the job
-		PHDB::update( PHType::TYPE_JOBS,array("_id" => new MongoId($jobId)), 
+		PHDB::update( Job::COLLECTION, array("_id" => new MongoId($jobId)), 
 		                          array('$set' => $job));
 	                  
 	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été modifiée avec succès.", "id"=>$newJobId);
@@ -58,7 +60,7 @@ class Job {
 			$where = array();
 		}
 
-		$jobList = PHDB::findAndSort( PHType::TYPE_JOBS, $where, array("datePosted" => -1));
+		$jobList = PHDB::findAndSort( Job::COLLECTION, $where, array("datePosted" => -1));
 
 		//Get the organization hiring detail
 		if ($jobList != null) {

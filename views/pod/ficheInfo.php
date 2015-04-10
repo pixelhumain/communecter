@@ -1,7 +1,5 @@
 <style>
-.row{
-	padding: 10px;
-}
+
 </style>
 
 <div class="panel panel-white">
