@@ -153,7 +153,8 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
 
       "documents"=>array("href"=>"/ph/communecter/organization/documents"),
-      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"), 
+      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
+      "news"=>array("href"=>"/ph/communecter/organization/news"),
 
     ),
     
@@ -185,7 +186,25 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
-    $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
+    
+    /*
+    //managed public and private sections through a url manager 
+    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" && !Yii::app()->session["user"] )
+      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
+      */
+    $id = "54eed95ea1aa143e020041c8";
+    $grandirMenu = array(
+        array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
+        array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
+        array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+        array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
+        array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
+        array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+        array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
+        array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
+        array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
+      );
+    $this->sidebar1 = array_merge(Menu::menuItems(),$grandirMenu,$this->sidebar1);
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 

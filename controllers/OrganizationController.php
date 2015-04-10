@@ -634,7 +634,7 @@ class OrganizationController extends CommunecterController {
 
     /* **************************************
     * Dashboard Specifique
-     ***************************************** */
+    ***************************************** */
 
     public function actionDashboard1($id){
 	 	if (empty($id)) {
@@ -664,4 +664,13 @@ class OrganizationController extends CommunecterController {
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard1", $params );
 	 }
+
+   /* **************************************
+   *  NEWS
+   ***************************************** */
+
+    public function actionNews($id) {
+      $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
+      $this->render("news",array("news"=>$news));
+    }
 }
