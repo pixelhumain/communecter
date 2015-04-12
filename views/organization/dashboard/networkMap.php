@@ -1,203 +1,135 @@
 <?php 
-		//chargement de toutes les librairies css et js indispensable pour la carto 
-    	$this->renderPartial('../sig/mapLibs');
+	
+		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
+		$relativePath = "../sig/";
+		/* ***********************************************************************************/
+	   	
+	   	//chargement de toutes les librairies css et js indispensable pour la carto 
+    	$this->renderPartial($relativePath.'generic/mapLibs');
 		
-		$mapHeight = 450;
+		
+	
+		/* **************** modifier les parametre en fonction des besoins *******************/
+		$sigParams = array(
+				"sigKey" => "DashOrga",
+				"mapHeight" => 450,
+				"mapTop" => 50,
+				"useFullScreen" => true,
+				"usePanel" => true,
+				"useRightList" => true,
+				"useZoomButton" => true,
+				"useHelpCoordinates" => true,
+				"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
+												"zoom"		  => 9),
+				);
+		/* ***********************************************************************************/
+	   	
+	   	
+		$moduleName = "sigModule".$sigParams['sigKey'];
+		
+		/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
+	   	//chargement de toutes les librairies css et js indispensable pour la carto 
+    	$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+		
 ?>
 
+<?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
 <style>
-	.mapCanvas{
-		height:<?php echo $mapHeight; ?>px;
-		width:75%;
+
+	.<?php echo $moduleName; ?> .mapCanvas{
 	}
-	.panel_map{
-		position:absolute !important;
-		height:<?php echo $mapHeight; ?>px; 
-		padding-right:10px;
+	
+	.<?php echo $moduleName; ?> .panel_map{
 	}
-	#right_tool_map{
-		height:<?php echo $mapHeight; ?>px;
+	
+	.<?php echo $moduleName; ?> #right_tool_map{
 	}
-	#lbl-chk-scope{
-		background-color:white;
+	
+	.<?php echo $moduleName; ?> #lbl-chk-scope{
 	}
-	#liste_map_element{
-		background-color:white;
-		height:<?php echo $mapHeight-100; ?>px;
+	
+	.<?php echo $moduleName; ?> #liste_map_element{
 	}
-	.btn-group-map{
-		position:absolute !important;
-		right:25%;
-		left:auto;
-		top:60px;
+	
+	.<?php echo $moduleName; ?> .btn-group-map{
 	}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {
-		.mapCanvas{
-			width:100%; 
+		
+		.<?php echo $moduleName; ?> .mapCanvas{
 		}
-		.btn-group-map{
-			right:0% !important;
+		
+		.<?php echo $moduleName; ?> .btn-group-map{
 		}
 	}
 	
 </style>
+<?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
 
-<div class="panel panel-white">
-  <div class="panel-heading border-light">
-    <h4 class="panel-title">Annuaire Cartographique</h4>
-    <div class="panel-tools"
-      <a class="btn btn-xs btn-link panel-close" href="#">
-        <i class="fa fa-times"></i>
-      </a>
-    </div>
-  </div>
-  <div class="panel-body no-padding">
-    
-			        	<div class="mapCanvas" id="mapCanvasDashOrga">
-			        		<center><img style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
-			            </div>
-			        	
-			        	<div class="panel_map">
-			        		<p class="item_panel_map hidden-xs">
-			        		</p>
-			        		<?php 
-			        				$where = array(	'name'  => "asso1" );
-									$assos = PHDB::find(PHType::TYPE_GROUPS, $where);
-									
-									foreach($assos as $asso){
-										foreach($asso["tags_rangement"] as $tag)
-										echo '<a href="javascript:changeFilter(\''.$tag["name"].'\')">'.
-			        							'<p class="item_panel_map" id="item_panel_map_'.$tag["name"].'">'.
-			        							'<i class="fa fa-'.$tag["ico"].' fa-'.$tag["color"].'"></i><span class="filter_name hidden-xs"> '.$tag["name"].'</span>
-			        							</p>
-			        						  </a>';			        						  
-									}
-			        		?>
 
-			        		<!--<button type="button" class="btn btn-default hidden-xs" id="btn-init-data"><i class="fa fa-database"></i>Initialiser les données</button>-->
-			        		
-			        	</div>
-			        	
-			        	<div id="right_tool_map" class="hidden-xs">
-							<!-- 	PSEUDO SEARCH -->	
-							<div id="map_pseudo_filters">
-								
-								<div class="input-group">
-										<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
-										<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="recherche par nom">
-								</div>
-							</div>
-							<!-- 	PSEUDO SEARCH -->	
-							<!-- 	LIST ELEMENT -->	
-							<div id="liste_map_element">
-							</div>
-							
-							<label id="lbl-chk-scope">
-								<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
-							</label>
-						</div>
-						
-			        	<div class="btn-group btn-group-lg btn-group-map">
-			        		<button type="button" class="btn btn-map " id="btn-zoom-out-dashOrga"><i class="fa fa-search-minus"></i></button>
-			        		<button type="button" class="btn btn-map" id="btn-zoom-in-dashOrga"><i class="fa fa-search-plus"></i></button>
-			        	</div>
-			        	<div class="btn-group btn-group-lg btn-group-map" style="left:390px">
-			        		<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
-			        	</div>
-  </div>
+
+<div class="<?php echo $moduleName; ?>">	
+	<div class="panel panel-white">
+	  <div class="panel-heading border-light">
+	    <h4 class="panel-title">Annuaire Cartographique</h4>
+	    <div class="panel-tools"
+	      <a class="btn btn-xs btn-link panel-close" href="#">
+	        <i class="fa fa-times"></i>
+	      </a>
+	    </div>
+	  </div>
+	  <div class="panel-body no-padding">
+	  	
+	  		<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
+	   		<?php $this->renderPartial('../sig/generic/mapView', array( "sigParams" => $sigParams)); ?>
+	   		<?php /* *******************************************************************************/?>
+	   		
+	  </div>
+	</div>
 </div>
+
 <script type="text/javascript">
 	
-	//##
-	//##	INIT DATA	##
-	//##	
-	function initData(){ return;
-		var params = new Array();
-		$.ajax({
-			url:baseUrl+'/communecter/sig/InitDataNetworkMapping',
-			data:params,
-			type:"POST",
-			dataType:"json",
-			success:function(data) { 	
-				toastr.success(data);
-			}
-		});
-	}
 	
-	//##
-	//##	MAP	##
-	//##
-		
 	var Sig;
 	
-	//liste de tous les filtres du panel
-	//var allTagFilter = new Array("projectLeader", "pixelActif", "commune", "association", "entreprise", "citoyen", "parnerPH", "artiste");		
+	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
+	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script vvvv)
+	var mapDashboardOrga;
+	/**************************************************************************************************************/
 	
-	
-	
-	var mapDashOrga;
-	var assetPath = "<?php echo $this->module->assetsUrl; ?>";
-	
-	
+	//mémorise l'url des assets (si besoin)
+	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 	
 	jQuery(document).ready(function()
 	{ 	
-		//alert("dump : " + JSON.stringify(contextMap.members));
+		//création de l'objet SIG
 		Sig = SigLoader.getSig();
 		
-		//gère la liste des tags à ne pas clusteriser pour cette carte
-		Sig.notClusteredTag = new Array("commune", "association", "projectLeader");		
+		//affiche l'icone de chargement
+		Sig.showIcoLoading(true);
+		
+			//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
+			var initParams =  <?php echo json_encode($sigParams); ?>;
+			
+			//chargement la carte
+			mapDashboardOrga = Sig.loadMap("mapCanvas" + initParams.sigKey);
+			
+			//initialisation de l'interface
+			Sig.initEnvironnement(mapDashboardOrga, initParams);
+			
+			
+			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
+			var mapData = contextMap.members.citoyens;
+			/**************************************************************************************************************/
 	
-		//alert("SIG : " + Sig.toString());
-		//return;
-		$( "#btn-init-data" ).click(function (){ initDataNetworkMapping(); });
+			//affichage des éléments sur la carte
+			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 
-		$( "#input_name_filter" ).keyup(function (){console.log("keyup"); checkListElementMap(mapDashOrga); });
-
-		$("#mapCanvas").html("");
-		$("#mapCanvas").css({"background-color": "#456074"});
-
-		$("#chk-scope" ).click(function (){ checkListElementMap(mapDashOrga); });	
-
-		//$( window ).resize(function() { resizeMap(); });
-		
-		$("#ico_reload").css({"display":"none"});	
-		//charge la carte
-		mapDashOrga = Sig.loadMap("mapCanvasDashOrga");
-		
-		mapDashOrga.setView([-21.13318, 55.5314], 9);
-		var elementsMap = new Array();
-
-		$( "#btn-zoom-in-dashOrga" )	.click(function (){ mapDashOrga.zoomIn(); });
-		$( "#btn-zoom-out-dashOrga" )	.click(function (){ mapDashOrga.zoomOut(); });
-
-		//alert("members : " + JSON.stringify(contextMap.members));
-		mapDashOrga.on('dragend', function(e) {
-			//Sig.showMapElements(mapDashOrga, contextMap.members.citoyens);
-		});
-	
-		mapDashOrga.on('zoomend', function(e) {
-				//showMapElements(mapDashOrga, elementsMap);
-		}); 
-		
-		//récupérer la position du centre de la carte, et la valeur du zoom	
-		//pour établir la liste des Places de l'animation (animationPlan)
-		mapDashOrga.on('click', function(e) {
-				//alert(mapDashOrga.getCenter() + " - " + mapDashOrga.getZoom());
-		}); 
-
-		//lorsque la carte bouge, on vérifie la liste de droite,
-		//pour n'afficher que les éléments qui sont visible sur la carte dans le nouveau bound
-		mapDashOrga.on('moveend', function(e) {
-			Sig.checkListElementMap(mapDashOrga);
-		}); 
-		
-		//resizeMap();
-		Sig.showMapElements(mapDashOrga, contextMap.members.citoyens);//, elementsMap);
-
-		$("#ico_reload").css({"display":"none"});	
+		//masque l'icone de chargement
+		Sig.showIcoLoading(false);
 				
 	});
+	
 </script>

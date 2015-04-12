@@ -95,7 +95,7 @@
 	height:100%;
 	position:absolute !important;
 	right:0px;
-	top:50px;
+	top:0px;
 	background-color:white;
 }
 #map_pseudo_filters{
@@ -224,7 +224,6 @@
  	max-width:250px;
  	min-width:60px;
  	left:0px;
- 	top:50px;
  	background-color:rgba(82, 103, 119, 0.78);
  	padding:15px 0px;
  }
@@ -321,7 +320,9 @@
 	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
 }
-
+.world_pix{
+	max-width:60%;
+}
 
 @media screen and (max-width: 768px) {
 

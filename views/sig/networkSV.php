@@ -1,20 +1,68 @@
+<?php 
+		//chargement de toutes les librairies css et js indispensable pour la carto 
+    	$this->renderPartial('mapLibs');
+		
+		$mapHeight = 450;
+?>
 
-			<!-- START PROJECT SECTION -->
-			<div id="carto" class="section mapProject" >
+<style>
+	.mapCanvas{
+		height:<?php echo $mapHeight; ?>px;
+		width:75%;
+	}
+	.panel_map{
+		position:absolute !important;
+		height:<?php echo $mapHeight; ?>px; 
+		padding-right:10px;
+	}
+	#right_tool_map{
+		height:<?php echo $mapHeight; ?>px;
+	}
+	#lbl-chk-scope{
+		background-color:white;
+	}
+	#liste_map_element{
+		background-color:white;
+		height:<?php echo $mapHeight-100; ?>px;
+	}
+	.btn-group-map{
+		position:absolute !important;
+		right:25%;
+		left:auto;
+		top:60px;
+	}
+	
+	/* XS */
+	@media screen and (max-width: 768px) {
+		.mapCanvas{
+			width:100%; 
+		}
+		.btn-group-map{
+			right:0% !important;
+		}
+	}
+	
+</style>
 
-			        	<div class="mapCanvas" id="mapCanvas">
+<div class="panel panel-white">
+  <div class="panel-heading border-light">
+    <h4 class="panel-title">Annuaire Cartographique</h4>
+    <div class="panel-tools"
+      <a class="btn btn-xs btn-link panel-close" href="#">
+        <i class="fa fa-times"></i>
+      </a>
+    </div>
+  </div>
+  <div class="panel-body no-padding">
+    
+			        	<div class="mapCanvas" id="mapCanvasSV">
 			        		<center><img style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
 			            </div>
 			        	
 			        	<div class="panel_map">
 			        		<p class="item_panel_map hidden-xs">
-			        			
-			        			NetworkMapping 
-			        			</br>Collection Groups
-			        			</br>Name = "Asso1"
-			        			
 			        		</p>
-			        		<?php 
+			        		<?php /*
 			        				$where = array(	'name'  => "asso1" );
 									$assos = PHDB::find(PHType::TYPE_GROUPS, $where);
 									
@@ -26,13 +74,15 @@
 			        							</p>
 			        						  </a>';			        						  
 									}
+							 
+							 */
 			        		?>
 
-			        		<button type="button" class="btn btn-default hidden-xs" id="btn-init-data"><i class="fa fa-database"></i>Initialiser les données</button>
+			        		<!--<button type="button" class="btn btn-default hidden-xs" id="btn-init-data"><i class="fa fa-database"></i>Initialiser les données</button>-->
 			        		
 			        	</div>
 			        	
-			        	<div id="right_tool_map">
+			        	<div id="right_tool_map" class="hidden-xs">
 							<!-- 	PSEUDO SEARCH -->	
 							<div id="map_pseudo_filters">
 								
@@ -52,305 +102,21 @@
 						</div>
 						
 			        	<div class="btn-group btn-group-lg btn-group-map">
-			        		<button type="button" class="btn btn-map" id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
-			        		<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+			        		<button type="button" class="btn btn-map " id="btn-zoom-out-dashOrga"><i class="fa fa-search-minus"></i></button>
+			        		<button type="button" class="btn btn-map" id="btn-zoom-in-dashOrga"><i class="fa fa-search-plus"></i></button>
 			        	</div>
 			        	<div class="btn-group btn-group-lg btn-group-map" style="left:390px">
 			        		<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
 			        	</div>
-			        	
-			        	
-			</div>
-			<!-- END PROJECT SECTION -->
-		
-<?php echo ""; return; ?>
-
+  </div>
+</div>
+<div id="help-coordinates">0,000</div>
 <script type="text/javascript">
-
-var organizationName = "asso1";
-var map1;
-var assetPath = "<?php echo $this->module->assetsUrl; ?>";
-	
-jQuery(document).ready(function()
-{ 		
-	$.getScript(assetPath+"/js/sig/map.js", function( ) { 
-	  $.getScript(assetPath+"/js/sig/popupContent.js", function( ) { 
-		$.getScript(assetPath+"/js/sig/rightList.js",  function( ) { 
-			
-			$( "#btn-zoom-in" )		.click(function (){ zoomIn(); });
-			$( "#btn-zoom-out" )	.click(function (){ zoomOut(); });
-	
-			$( "#btn-init-data" )	.click(function (){ initDataNetworkMapping(); });
-	
-			$( "#input_name_filter" ).keyup(function (){console.log("keyup"); checkListElementMap(map1); });
-
-			$("#mapCanvas").html("");
-			$("#mapCanvas").css({"background-color": "#456074"});
-
-			$("#chk-scope" ).click(function (){ checkListElementMap(map1); });	
-	
-			$( window ).resize(function() { resizeMap(); });
-	
-			//charge la carte
-			map1 = loadMap("mapCanvas");
-			map1.setView([-21.13318, 55.5314], 10);
-			elementsMap = new Array();
-	
-			map1.on('dragend', function(e) {
-					//showMapElements(map1, elementsMap);
-				});
-		
-			map1.on('zoomend', function(e) {
-					//showMapElements(map1, elementsMap);
-				}); showMapElements(map1, elementsMap);
-	
-			//récupérer la position du centre de la carte, et la valeur du zoom	
-			//pour établir la liste des Places de l'animation (animationPlan)
-			map1.on('click', function(e) {
-					//alert(map1.getCenter() + " - " + map1.getZoom());
-				}); 
-	
-			//lorsque la carte bouge, on vérifie la liste de droite,
-			//pour n'afficher que les éléments qui sont visible sur la carte dans le nouveau bound
-			map1.on('moveend', function(e) {
-				checkListElementMap(map1);
-			}); 
-	
-			resizeMap();
-			$("#ico_reload").css({"display":"none"});
-		});
-	}); 
-	}); 
-	
-});
-	
-	
-	//##
-	//##	MAP	##
-	//##
-		
-	
-	//liste de tous les filtres du panel
-	//var allTagFilter = new Array("projectLeader", "pixelActif", "commune", "association", "entreprise", "citoyen", "parnerPH", "artiste");		
-	
-	//gère la liste des tags à ne pas clusteriser
-	var notClusteredTag = new Array("commune", "association", "projectLeader");
-		
-	var map1;
-	function zoomIn(){ map1.zoomIn(); }
-	function zoomOut(){ map1.zoomOut(); }
-	
-	//##
-	//chargement de la carte 
-	function loadMap(canvasId){
-		//initialisation des variables de départ de la carte
-		var map = L.map(canvasId, { "zoomControl" : false, 
-									"scrollWheelZoom":true, 
-									"center" : [51.505, -0.09],
-									"zoom" : 4,
-									"worldCopyJump" : true });
-
-		tileLayer = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-			subdomains: 'abcd',
-			minZoom: 0,
-			maxZoom: 20
-		}).setOpacity(0.4).addTo(map);
-	
-		return map;
-	}	
-	
-	//##
-	//gère les dimensions des différentes parties de la carte (carte, panel, etc)
-	function resizeMap(){
-	
-		//full screen map
-		var mapHeight = $("body").height() - $(".topbar").height() - $(".toolbar").height() - $("footer").height() - 1;
-		$("#mapCanvas").css({"height":mapHeight});
-		$("#mapCanvas").css({"margin-bottom":mapHeight*(-1)});
-		$("#right_tool_map").css({"height":mapHeight});
-		$("#liste_map_element").css({"height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ - $("#chk-scope").height() - 33 });
-		$("#liste_map_element").css({"max-height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ });
-		$("#right_tool_map").css({"left":$("#carto").width() - $("#right_tool_map").width()});
-		$(".btn-group-map").css({"margin-top":$(".panel_map").height()*(-1) - 20});
-		
-	}
-		
-												
-	
-	//##
-	//affiche les citoyens qui possèdent des attributs geo.latitude, geo.longitude, depuis la BD	
-	function showMapElements(mapClusters, elementsMap){ 
-			
-		if(markersLayer != "")
-			clearMap(mapClusters);
-			
-		markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 40});
-		mapClusters.addLayer(markersLayer);
-
-		geoJsonCollection = { type: 'FeatureCollection', features: new Array() };
-				
-		var bounds = mapClusters.getBounds();
-		var params = {
-			"latMinScope" :  bounds.getSouthWest().lat,
-			"lngMinScope" :  bounds.getSouthWest().lng,
-			"latMaxScope" :  bounds.getNorthEast().lat,
-			"lngMaxScope" :  bounds.getNorthEast().lng,
-			"assoName"	  :  organizationName,
-			"types"		  :  new Array()			
-		};
-		
-		if(currentFilter != "all")  params["types"].push(currentFilter); 
-		else 						params["types"] = allTagFilter;
-		//alert(JSON.stringify(params)); //return;
-		
-		$('#ico_reload').addClass("fa-spin");
-		$('#ico_reload').css({"display":"inline-block"});
-		
-		$.ajax({
-			//url:'/ph/<?php echo $this::$moduleKey?>/api/',
-			url:baseUrl+'/communecter/sig/ShowNetworkMapping',
-			data:params,
-			type:"POST",
-			dataType:"json",
-			success:function(data) {  			//alert(JSON.stringify(data));
-				$.each(data, function() { 		//alert(JSON.stringify(this._id));
-						
-					if(this._id != null){
-				
-						var objectId = this._id.$id.toString();
-								
-						//verifie si l'element a déjà été affiché sur la carte
-						//if($.inArray(objectId, listId) == -1){							 	
-						if(this['geo'] != null || this['geoPosition'] != null){
-									
-							//préparation du contenu de la bulle
-					
-							//THUMB PHOTO PROFIL
-							var content = getPopupCitoyen(this);
-						
-							//création de l'icon sur la carte
-							var tag;
-							if(this['type'] != null) tag = this['type'];
-							else tag = "citoyen";
-						
-							//alert(JSON.stringify(this));
-							var theIcon = getIcoMarker(this['ico'], this['color']);
-							var properties = { 	//name : this['name'], 
-												id : objectId,
-												icon : theIcon,
-												content: content };
-					
-							var coordinates;
-							if( this['geo']['longitude'] != null ){
-								coordinates = new Array (this['geo']['longitude'], this['geo']['latitude']);
-							}
-							else{
-								coordinates = this['geoPosition']['coordinates'];
-							}
-							
-							
-							
-							var marker;
-							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
-							//on créé un marker simple
-							if($.inArray(tag, notClusteredTag) > -1){ 
-								
-								marker = getMarkerSingle(mapClusters, properties, coordinates);
-						
-								//si l'élément n'est pas déjà dans la liste, on recrée le marker et on l'enregistre
-								if($.inArray(objectId, listId) == -1){	
-									elementsMap.push(this);		
-									listId.push(objectId);		
-									
-									//affiche l'éléments dans la liste de droite
-									$("#liste_map_element").append(createItemRigthListMap(this, marker));														
-									//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
-									$("#item_map_list_" + objectId).click(function(){
-										map1.panTo(marker.getLatLng(), {"animate" : true });
-										marker.openPopup();
-									});
-								}
-							} 
-							//sinon on crée un nouveau marker pour cluster
-							else{
-								
-								marker = getGeoJsonMarker(properties, coordinates);
-								geoJsonCollection['features'].push(marker);	
-																
-								//si l'élément n'est pas déjà dans la liste, on l'enregistre
-								if($.inArray(objectId, listId) == -1){	
-									
-									elementsMap.push(this);	
-									listId.push(objectId);
-									
-									//affiche l'éléments dans la liste de droite
-									$("#liste_map_element").append(createItemRigthListMap(this, marker));							
-								}
-																	
-							} 								
-						}
-					}
-					
-				});
-				
-				
-				var points = L.geoJson(geoJsonCollection, {					   //Pour les clusters seulement :
-					onEachFeature: function (feature, layer) {				   //sur chaque marker
-							layer.bindPopup(feature["properties"]["content"]); //ajoute la bulle d'info avec les données
-							layer.setIcon(feature["properties"]["icon"]);	   //affiche l'icon demandé
-							layer.on('mouseover', function(e) {	if(!layer.getPopup()._isOpen) layer.openPopup(); });
-							
-							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$("#item_map_list_" + feature.properties.id).click(function(){
-								map1.setView([feature.geometry.coordinates[1], 
-											  feature.geometry.coordinates[0]], 
-											  13, {"animate" : true });
-								layer.openPopup();
-							});
-						}
-					});
-					
-				markersLayer.addLayer(points); 			// add it to the cluster group
-				mapClusters.addLayer(markersLayer);		// add it to the map
-				
-				mapClusters.fitBounds(markersLayer.getBounds());					
-				mapClusters.panTo(markersLayer.getBounds().getCenter());					
-				
-				//$('#spin_loading_map').css({"display":"none"});
-				$('#ico_reload').removeClass("fa-spin");
-				$('#ico_reload').css({"display":"none"});
-		
-				checkListElementMap(mapClusters);
-			},
-			error:function (xhr, ajaxOptions, thrownError){
-			  //toastr.error(thrownError);
-			  
-			} 
-		  });
-						
-	}
-	
-	
-		
-	//##
-	//##	PANEL FILTER	##
-	//##
-	
-	function changeFilter(val){ 
-		if(currentFilter != "")
-			$('#item_panel_map_' + currentFilter).removeClass("selected");	
-				
-		$('#item_panel_map_' + val).addClass("selected");
-		currentFilter = val;	
-		showMapElements(map1, elementsMap);	
-	}		
-	
 	
 	//##
 	//##	INIT DATA	##
 	//##	
-	function initDataNetworkMapping(){
+	function initData(){ return;
 		var params = new Array();
 		$.ajax({
 			url:baseUrl+'/communecter/sig/InitDataNetworkMapping',
@@ -362,4 +128,81 @@ jQuery(document).ready(function()
 			}
 		});
 	}
-</script>		
+	
+	//##
+	//##	MAP	##
+	//##
+		
+	var Sig;
+	
+	//liste de tous les filtres du panel
+	//var allTagFilter = new Array("projectLeader", "pixelActif", "commune", "association", "entreprise", "citoyen", "parnerPH", "artiste");		
+	
+	
+	
+	var mapDashOrga;
+	var assetPath = "<?php echo $this->module->assetsUrl; ?>";
+	
+	
+	
+	jQuery(document).ready(function()
+	{ 	
+		//alert("dump : " + JSON.stringify(contextMap.members));
+		Sig = SigLoader.getSig();
+		
+		//gère la liste des tags à ne pas clusteriser pour cette carte
+		Sig.notClusteredTag = new Array("commune", "association", "projectLeader");		
+	
+		//alert("SIG : " + Sig.toString());
+		//return;
+		$( "#btn-init-data" ).click(function (){ initDataNetworkMapping(); });
+
+		$( "#input_name_filter" ).keyup(function (){ Sig.checkListElementMap(mapDashOrga); });
+
+		$("#mapCanvas").html("");
+		$("#mapCanvas").css({"background-color": "#456074"});
+
+		$("#chk-scope" ).click(function (){ Sig.checkListElementMap(mapDashOrga); });	
+
+		//$( window ).resize(function() { resizeMap(); });
+		
+		$("#ico_reload").css({"display":"none"});	
+		//charge la carte
+		mapDashOrga = Sig.loadMap("mapCanvasSV");
+		
+		mapDashOrga.setView([-21.13318, 55.5314], 9);
+		var elementsMap = new Array();
+
+		$( "#btn-zoom-in-dashOrga" )	.click(function (){ mapDashOrga.zoomIn(); });
+		$( "#btn-zoom-out-dashOrga" )	.click(function (){ mapDashOrga.zoomOut(); });
+
+		//alert("members : " + JSON.stringify(contextMap.members));
+		mapDashOrga.on('dragend', function(e) {
+			//Sig.showMapElements(mapDashOrga, contextMap.members.citoyens);
+		});
+	
+		mapDashOrga.on('zoomend', function(e) {
+				//showMapElements(mapDashOrga, elementsMap);
+		}); 
+		
+		//récupérer la position du centre de la carte, et la valeur du zoom	
+		//pour établir la liste des Places de l'animation (animationPlan)
+		mapDashOrga.on('click', function(e) {
+				var pos = e.latlng;
+				//alert(mapDashOrga.getCenter() + " - " + mapDashOrga.getZoom());
+				$("#help-coordinates").html('lat lng : ' + pos.lat + ", " + pos.lng);
+		}); 
+
+		//lorsque la carte bouge, on vérifie la liste de droite,
+		//pour n'afficher que les éléments qui sont visible sur la carte dans le nouveau bound
+		mapDashOrga.on('moveend', function(e) {
+			Sig.checkListElementMap(mapDashOrga);
+		}); 
+		
+		//resizeMap();
+		Sig.showMapElements(mapDashOrga, contextMap.members.citoyens);//, elementsMap);
+
+		$("#ico_reload").css({"display":"none"});	
+				
+	});
+</script>

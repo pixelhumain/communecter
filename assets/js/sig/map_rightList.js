@@ -8,10 +8,8 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){ 	
-	    	//console.log("ok map");
-			//rend invisible tous les éléments de la liste (mais ne les supprime pas)
-			//alert("checkListElementMap");
-			
+	    	
+	    	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() { 
 				$("#item_map_list_" + this._id.$id.toString()).css({ "display" : "none" });				
 			});

@@ -65,7 +65,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-12 col-xs-12" id="MapDashOrga">
-    <?php $this->renderPartial('dashboard/networkMap',array( "organization" => $organization,"members"=>$members)); ?>
+    <?php $this->renderPartial('dashboard/networkMap', array( "organization" => $organization,"members"=>$members)); ?>
   </div>
 
   <div class="col-sm-5 col-xs-12">
@@ -112,7 +112,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 	var contextMap = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
 	contextMap.members  = <?php echo json_encode($members) ?>;
-<<<<<<< HEAD
 	
 	jQuery(document).ready(function() {
 		initDashboardAgenda();
@@ -181,10 +180,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		return strPeriod;
 	}
 
-=======
 
-	
->>>>>>> ee41e44a5c039831a9f52283c49edd03ff76f9ff
 	/*function showCalendarDashBoard(data) {
 
 	console.info("addTasks2Calendar",data);//,taskCalendar);
