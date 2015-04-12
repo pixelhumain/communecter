@@ -1,20 +1,17 @@
-
+<style type="text/css">
+	.flexslider{
+		margin : 0px 0px 0px;
+	}
+</style>
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">AGENDA PARTAGE </h4>
       </div>
        <div class="panel-body no-padding center">
 		  <div class="flexslider">
-			<ul class="slides">
-				<li>
-					<div id="slideEv1"></div>
-				</li>
-				<li>
-					<div id="slideEv2"></div>
-				</li>
-				<li>
-					<div id="slideEv3"></div>
-				</li>
+			<ul class="slides" id="slidesAgenda">
+				
+	
 			</ul>
 		  </div>
 		</div>
@@ -26,6 +23,7 @@
 
  <script type="text/javascript">
 
+ var events = <?php echo json_encode($events) ?>;
  jQuery(document).ready(function() {
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
@@ -34,21 +32,21 @@
 	function initDashboardAgenda(){
 		var n = 1;
 		var today = new Date();
-		console.log(contextMap.events);
-		$.each(contextMap.events, function(k, v){
-			console.log(k, v);
+		$.each(events, function(k, v){
+			console.log("events",k, v);
 			var period = getStringPeriodValue(v.startDate, v.endDate);
 			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 			if(n<4 && compareDate(today, date)){
-				var htmlRes = "<img src=\""+v.imagePath+"\"></img>";
+				var htmlRes = "<li><div><img src=\""+v.imagePath+"\"></img>";
 				htmlRes +="<div class='row'><div class=\"col-xs-5\" ><h2>"+period+"</h2></div>";
-				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/public/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div>";
-				$("#slideEv"+n).html(htmlRes);
+				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div></div></li>";
+				$("#slidesAgenda").append(htmlRes);
 				n++;
 			}
 		})
 			//showCalendarDashBoard(data);
 	}
+
 
 	function compareDate(d, f){
 		var res = false;

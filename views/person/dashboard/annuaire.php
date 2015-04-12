@@ -5,7 +5,8 @@
 			<h4 class="panel-title">About me</h4>
 		</div>
 		<div class="panel-tools">
-			<a href="#" class="panel-collapse collapses"><i class="fa fa-heart text-pink"></i> <span>Follow</span> </a>
+			<a href="#" class="panel-collapse collapses" id="followBtn"><i class="fa fa-heart text-pink"></i> <span>Follow me</span> </a>
+			
 			<a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i> <span>Editer</span></a>
 			<a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
@@ -92,11 +93,6 @@
 							<td>Tags</td>
 							<td><?php if(isset($person["tags"]))echo implode(",", $person["tags"]);?></td>
 						</tr>
-						<!--<tr>
-							<td>Groups</td>
-							<td>New company web site development, HR Management</td>
-							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
-						</tr>-->
 					</tbody>
 				</table>
 			</div>

@@ -42,7 +42,7 @@ class Person {
 	    {
 	      foreach ($person["links"]["memberOf"] as $id => $e) 
 	      {
-	        $organization = PHDB::findOne( PHType::TYPE_ORGANIZATIONS, array( "_id" => new MongoId($id)));
+	        $organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
 	        if (!empty($organization)) {
 	          array_push($organizations, $organization);
 	        } else {
@@ -80,7 +80,7 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	Person::insert($param);
+	  	Person::insert($param, true);
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
@@ -89,28 +89,51 @@ class Person {
 
 	/**
 	 * Apply person checks and business rules before inserting
+	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
-	 * @return 
+	 * @param boolean $minimal : true : a person can be created using only name and email. Else : postalCode and pwd are also requiered
+	 * @return the new person with the business rules applied
 	 */
-	public static function checkPersonData($person) {
+	public static function checkPersonData($person, $minimal) {
+		$dataPersonMinimal = array("name", "email");
+		if (! $minimal) {
+			array_push($dataPersonMinimal, "postalCode", "pwd");
+		}
+		//Check the minimal data
+	  	foreach ($dataPersonMinimal as $data) {
+	  		if (empty($person["$data"])) 
+	  			throw new CommunecterException("Problem inserting the new person : ".$data." is missing");
+	  	}
+	  	
+	  	if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
+	  		throw new CommunecterException("Problem inserting the new person : email is not well formated");
+        }
+
 		//Check if the email of the person is already in the database
 	  	$account = PHDB::findOne(PHType::TYPE_CITOYEN,array("email"=>$person["email"]));
 	  	if ($account) {
 	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
 	  	}
+
+	  	//Encode the password
+	  	if(isset($person["pwd"]))
+	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+	  	return $person;
 	}
 
 	/**
 	 * Insert a new person from the minimal information inside the parameter
-	 * @param array $person Minimal information to create a person ( 'name', 'email', 'postalCode', 'pwd')
+	 * @param array $person Minimal information to create a person.
+	 * @param boolean $minimal : true : a person can be created using only "name" and "email". Else : "postalCode" and "pwd" are also requiered
 	 * @return array result, msg and id
 	 */
-	public static function insert($person) {
+	public static function insert($person, $minimal = false) {
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
-
-	  	Person::checkPersonData($person);
+	  	
+	  	//Check Person data + business rules
+	  	$person = Person::checkPersonData($person, $minimal);
 
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
@@ -197,5 +220,28 @@ class Person {
 						);
 		return $personMap;
 	}
+
+
+	/**
+		* Return an array with all image path
+		* @param type $id : is the mongoId (String)
+		* @param type $type : type (organization, event, person)
+		* @return a list of images
+	*/
+	public static function getListImage($id, $type){
+		clearstatcache();
+		$directory = "C:/Users/Johnson/Documents/dev/pixelhumain/ph/upload/communecter/".$type."/".$id."/";
+		$listImages=array();
+		
+		if(file_exists ( $directory )){
+	    	//get all image files with a .jpg extension. This way you can add extension parser
+	    	$images = glob($directory ."*.{jpg,png,gif}", GLOB_BRACE);
+	    	foreach($images as $image){
+	    		array_push($listImages, $image);
+	    	}
+	    }
+	    return $listImages;
+    }
+
 }
 ?>

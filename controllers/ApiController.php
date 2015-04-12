@@ -178,7 +178,7 @@ class ApiController extends Controller {
             'saveuserimages' => 'application.controllers.user.SaveUserImagesAction',
             'savegroup'   => 'application.controllers.groups.SaveGroupAction',  
             'getgroupsby'   => 'application.controllers.groups.GetGroupsByAction',  
-
+            'getuserimages' => 'application.controllers.user.GetUserImagesAction',
             'sendmessage'   => 'application.controllers.messages.SendMessageAction',  
         );
     }

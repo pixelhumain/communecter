@@ -39,7 +39,7 @@
 </div>
 <div class="row">
   	<div class="col-sm-5 col-xs-12">
-	    <?php $this->renderPartial('../pod/sliderAgenda'); ?>
+	    <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
 	</div>
 	<div class="col-sm-5 col-xs-12">
 	    <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>

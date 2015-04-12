@@ -1,68 +1,5 @@
-<?php
-/*$cs = Yii::app()->getClientScript();
-
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/weather-icons/css/weather-icons.min.css');
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js' , CClientScript::POS_END);
-*/
-?>
-<!-- start: PAGE CONTENT -->
-
-<style>
-.flexslider .slides {
-    height: 250px;
-}
-.flexslider img {
-    height: 250px;
-}
-
-.flex-control-nav{
-	display: none;
-}
-
-.divLeftEv{
-	height: 100px;
-	text-align: center;
-}
-#infoEventLink{
-	width: 100%;
-	background-color: #98bf0c;
-	text-align: left;
-}
-#infoEventLink a{
-	color:white;
-}
-
-#infoEventLink a:hover{
-	color:black;
-}
-</style>
 <div class="row">
-
-  <div class="col-sm-7 col-xs-12">
-    <?php 
-    $this->renderPartial('dashboard/about',array( "organization" => $organization));
-    ?>
-  </div>
-
-  <div class="col-sm-5 col-xs-12">
-   <?php $this->renderPartial('../pod/sliderAgenda'); ?>
-  </div>
-
-</div>
-
-<div class="row">
-
-  <div class="col-sm-7 col-xs-12">
-    <?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
-  </div>
-
-  <div class="col-sm-5 col-xs-12">
-    <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
-  </div>
-
-</div>
-
-<div class="row">
+<<<<<<< HEAD
 
   <div class="col-sm-12 col-xs-12" id="MapDashOrga">
     <?php $this->renderPartial('dashboard/networkMap', array( "organization" => $organization,"members"=>$members)); ?>
@@ -226,3 +163,42 @@ function destroyCalendarDashBoard() {
 	$('#mini-calendar').fullCalendar('destroy');
 };*/
 </script>
+=======
+	<div class="col-sm-8 col-xs-12">
+		<div class="row">
+			<div class="col-sm-12 col-xs-12">
+	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null )); ?>
+	    	</div>
+	    	<div class="col-sm-12 col-xs-12">
+	    		<div class="panel panel-white">
+					<div class="panel-heading border-light">
+						<h4 class="panel-title"> Ressources</h4>
+					</div>
+					<div class="panel-body no-padding">
+						<div class="panel-scroll height-230 ps-container">
+							<table class="table table-striped table-hover" id="organizations">
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+	    	</div>
+	    </div>
+	 </div>
+	 <div class="col-sm-4 col-xs-12">
+	 	<div class="row">
+	 		<div class="col-sm-12 col-xs-12">
+	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null )); ?>
+	 		</div>
+	 		<div class="col-sm-12 col-xs-12">
+	 			<?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
+	 		</div>
+
+	 		<div class="col-sm-12 col-xs-12">
+	 			
+	 		</div>
+	 	</div>
+	 </div>
+</div>
+>>>>>>> 60f98b2cdd21dab41f6a53f4f7554daf9db6da04

@@ -77,13 +77,7 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=>array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
-          ),
-     array('label' => "GED", "key"=>"ged",
-        "children"=> array(
-          "newFiles" => array( "label"=>"Add new file","key"=>"newFiles","class"=>"new-file", "href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
-          "fileList" => array( "label"=>"File List","key"=>"fileList", "class"=>"readFiles","href"=>"#genericGED", "iconStack"=>array("fa fa-file fa-stack-1x fa-lg","fa fa-bars fa-stack-1x stack-right-bottom text-danger")),
-        )
-    ),
+          )
   );
   
   public $subviews = array(
@@ -91,8 +85,7 @@ class CommunecterController extends Controller
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    "project.addContributorSV",
-    "default.gedSV",
+    "project.addContributorSV"
     //"sig.networkSV",
   );
 
@@ -136,8 +129,11 @@ class CommunecterController extends Controller
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
+<<<<<<< HEAD
       "mydata" => array("href" => "/person/mydata"),
 
+=======
+>>>>>>> 60f98b2cdd21dab41f6a53f4f7554daf9db6da04
       "mydata" => array("href" => "/person/mydata"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
@@ -151,13 +147,20 @@ class CommunecterController extends Controller
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "public"=>array("href"=>"/ph/communecter/organization/public"),
-      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),
+      "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
-      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),  
+
+      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
+      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
+
+      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
+      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
+      "news"=>array("href"=>"/ph/communecter/organization/news"),
+
     ),
     
     "event"=> array(
@@ -188,7 +191,25 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
-    $this->sidebar1 = array_merge(Menu::menuItems(),$this->sidebar1);
+    
+    /*
+    //managed public and private sections through a url manager 
+    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" && !Yii::app()->session["user"] )
+      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
+      */
+    $id = "54eed95ea1aa143e020041c8";
+    $grandirMenu = array(
+        array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard/id/".$id),
+        array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
+        array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+        array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
+        array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
+        array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
+        array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
+        array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
+        array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
+      );
+    $this->sidebar1 = array_merge(Menu::menuItems(),$grandirMenu,$this->sidebar1);
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 

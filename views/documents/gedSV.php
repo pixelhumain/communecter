@@ -14,7 +14,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 		<div class="space20"></div>
 
 		<h3><?php echo Yii::t("misc","Manage Documents",null,Yii::app()->controller->module->id) ?></h3>
-		<a href="javascript:;" class="btn btn-xs btn-info showDropZone"><i class="fa fa-download"></i></a>
 		<!-- start: PAGE CONTENT -->
 		<style type="text/css">
 			.dropzoneInstance {
@@ -24,12 +23,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 			}
 		</style>
 
-		<div class="row hide uploaderDiv">
+		<div class="row  uploaderDiv">
 			<div class="col-sm-12">
 				<!-- start: DROPZONE PANEL -->
 				<div class="panel panel-white">
 					<div class="panel-heading">
-						<h4 class="panel-title"><?php echo Yii::t("perimeter","Déposez vos",null,Yii::app()->controller->module->id) ?>  <span class="text-bold"><?php echo Yii::t("perimeter","fichiers",null,Yii::app()->controller->module->id) ?></span> (max. 2.0Mb))</h4>
+						<h4 class="panel-title">Add <span class="text-bold">Files</span> (max. 2.0Mb))</h4>
 					</div>
 					<div class="panel-body uploadPanel">
 						<?php echo Yii::t("perimeter","Catégories",null,Yii::app()->controller->module->id) ?> : <input type="text" id="genericDocCategory" name="genericDocCategory" type="hidden" style="width: 250px;">
@@ -47,7 +46,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 			<thead>
 				<tr>
 					<th><?php echo Yii::t("perimeter","Nom",null,Yii::app()->controller->module->id) ?></th>
-					<th class="hidden-xs"><?php echo Yii::t("perimeter","Responsable",null,Yii::app()->controller->module->id) ?></th>
 					<th class="hidden-xs center">Date</th>
 					<th class="hidden-xs"><?php echo Yii::t("perimeter","Taille",null,Yii::app()->controller->module->id) ?></th>
 					<th><?php echo Yii::t("perimeter","Categories",null,Yii::app()->controller->module->id) ?></th>
@@ -65,6 +63,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 var genericDropzone = null;
 var docType = "<?php echo PHType::TYPE_CITOYEN?>";
 var folder = "<?php echo PHType::TYPE_CITOYEN.'_'.Yii::app()->session["userId"] ?>";
+var ownerId = '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>';
 var destinationFolder = moduleId;
 jQuery(document).ready(function() 
 {
@@ -96,8 +95,7 @@ function initDropZoneData(docs)
 	if(!genericDropzone){
 		genericDropzone = new Dropzone("#generic-dropzone", {
 		  acceptedFiles: "image/*,"+
-		  				 "application/pdf,"+
-		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
+		  				 "application/pdf",
 		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/collection/"+folder+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
@@ -112,10 +110,10 @@ function initDropZoneData(docs)
 			  	console.log(docObj.result); 
 			  	
 			  	var doc = { 
-			  		"id":'<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>',
+			  		"id":ownerId,
 			  		"type":docType,
+			  		"folder":folder,
 			  		"moduleId":destinationFolder,
-
 			  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
 			  		"name" : docObj.name , 
 			  		"date" : new Date() , 
@@ -137,10 +135,16 @@ function initDropZoneData(docs)
 			  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 					saveDoc(doc);
 			  	else */
-			  		genericSaveDoc(doc);
+			  		genericSaveDoc(doc , function(){
+						genericFilesTable.DataTable().destroy();
+					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
+						genericDropzone.removeAllFiles(true);
+						resetGenericFilesTable();
+						if(afterDocSave && $.isFunction(afterDocSave))
+							afterDocSave(doc);
+					});
 			  	
-			  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length+1);
-				genericDropzone.removeAllFiles(true);
+				
 			}
 		  },
 		  error: function(response) 
@@ -161,7 +165,7 @@ function initDropZoneData(docs)
 			}
 		});
 	}
-/*
+resetGenericFilesTable();
 	if( !$('.genericFilesTable').hasClass("genericFilesTable") ){
 		genericFilesTable = $('.genericFilesTable').dataTable({
 				"aoColumnDefs" : [{
@@ -184,7 +188,7 @@ function initDropZoneData(docs)
 			});
 	} else
 		genericFilesTable.DataTable().draw();
-*/
+
 	$('#genericDocCategory').select2({
 	    createSearchChoice : function(term, data) { 
 	    	return {id:term, text:term};
@@ -193,21 +197,56 @@ function initDropZoneData(docs)
 	});
 }
 
+function resetGenericFilesTable() 
+{ 
+	console.log("resetGenericFilesTable");
+
+	if( !$('.genericFilesTable').hasClass("dataTable") ){
+		genericFilesTable = $('.genericFilesTable').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ],
+			"iDisplayLength" : 10,
+			"destroy": true
+		});
+	} else {
+		if( $(".projectFiles").children('tr').length > 0 )
+		{
+			genericFilesTable.dataTable().fnDestroy();
+			genericFilesTable.dataTable().fnDraw();
+		} else {
+			console.log(" projectFilesTable fnClearTable");
+			genericFilesTable.dataTable().fnClearTable();
+		}
+	}
+}
+
 function addFileLine(id,doc,pos)
 {
+	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folder+'/'+doc.name); 
 	console.log("addFileLine",doc); 
 	date = new Date(doc.date);
 	if(doc.name && doc.name.indexOf(".pdf") >= 0)
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
 	else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" data-lightbox="docs"><img width="150" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+docType+'/'+doc.name+'"/></a>';	
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" data-lightbox="docs">'+
+					'<img width="150" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'"/>'+
+				'</a>';	
 	else
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 	category = (doc.category) ? doc.category : "Unknown";
-	authorName = (doc.authorName) ? doc.authorName : "Unknown";
 	lineHTML = '<tr class="file'+pos+'">'+
 					'<td class="center">'+link+'</td>'+
-					'<td class="hidden-xs">'+authorName+'</td>'+
 					'<td>'+date.getDay()+"/"+(parseInt(date.getMonth())+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+'</td>'+
 					'<td class="hidden-xs">'+doc.size+'</td>'+
 					'<td class="center hidden-xs"><span class="label label-danger">'+category+'</span></td>'+
@@ -230,18 +269,21 @@ function bindDocsEvents()
 	});
 }
 
-function genericSaveDoc(doc)
+function genericSaveDoc(doc, callback)
 { 
 	console.log("genericSaveDoc",doc);
 	$.ajax({
 	  type: "POST",
-	  url: baseUrl+"/"+moduleId+"/ressource/save",
+	  url: baseUrl+"/"+moduleId+"/document/save",
 	  data: doc,
       dataType: "json"
 	}).done( function(data){
         
-        
-        toastr.success(data.msg);
+        	if(data.result){
+		        toastr.success(data.msg);
+			callback();
+		} else
+			toastr.error(data.msg);
 
 	});
 }
