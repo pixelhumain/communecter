@@ -33,7 +33,7 @@
 ?>
 
 
-<?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
+<?php /* ********************** CHANGER LE STYLE CSS PRINCIPAL SI BESOIN ********************/?>
 <style>
 
 	.<?php echo $moduleName; ?> .mapCanvas{
@@ -109,11 +109,11 @@
 			
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
-			var mapData = contextMap.members.citoyens;
+			//var mapData = contextMap.members.citoyens;
 			/**************************************************************************************************************/
 	
 			//affichage des éléments sur la carte
-			Sig.showMapElements(mapSV, mapData);//, elementsMap);
+			//Sig.showMapElements(mapSV, mapData);//, elementsMap);
 
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);

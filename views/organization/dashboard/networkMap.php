@@ -1,14 +1,15 @@
+<?php   ?>
+
 <?php 
 	
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
 		$relativePath = "../sig/";
 		/* ***********************************************************************************/
-	   	
+	  	
 	   	//chargement de toutes les librairies css et js indispensable pour la carto 
     	$this->renderPartial($relativePath.'generic/mapLibs');
 		
 		
-	
 		/* **************** modifier les parametre en fonction des besoins *******************/
 		$sigParams = array(
 				"sigKey" => "DashOrga",
@@ -65,7 +66,7 @@
 	}
 	
 </style>
-<?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
+<?php /* ********************** CHANGER LE STYLE CSS PRINCIPAL SI BESOIN ********************/?>
 
 
 
@@ -121,11 +122,11 @@
 			
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
-			var mapData = contextMap.members.citoyens;
+			//var mapData = contextMap.organization.citoyens;
 			/**************************************************************************************************************/
 	
 			//affichage des éléments sur la carte
-			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
+			//Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);

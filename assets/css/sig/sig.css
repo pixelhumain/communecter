@@ -85,7 +85,9 @@
  .modal-body{
  	height: 95%;
  }
- 
+ .leaflet-top, .leaflet-bottom{
+ 	z-index:0;
+ }
 
 /*
 	LISTE ELEMENT MAP (RIGHT)

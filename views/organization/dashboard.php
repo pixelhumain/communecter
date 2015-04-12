@@ -1,8 +1,9 @@
+<?php //var_dump($organization); die();?>
+
 <div class="row">
-<<<<<<< HEAD
 
   <div class="col-sm-12 col-xs-12" id="MapDashOrga">
-    <?php $this->renderPartial('dashboard/networkMap', array( "organization" => $organization,"members"=>$members)); ?>
+    <?php $this->renderPartial('dashboard/networkMap', array( "organization" => $organization)); ?>
   </div>
 
   <div class="col-sm-5 col-xs-12">
@@ -48,7 +49,7 @@
 <script>
 	var contextMap = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
-	contextMap.members  = <?php echo json_encode($members) ?>;
+
 	
 	jQuery(document).ready(function() {
 		initDashboardAgenda();
@@ -163,7 +164,6 @@ function destroyCalendarDashBoard() {
 	$('#mini-calendar').fullCalendar('destroy');
 };*/
 </script>
-=======
 	<div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
@@ -201,4 +201,3 @@ function destroyCalendarDashBoard() {
 	 	</div>
 	 </div>
 </div>
->>>>>>> 60f98b2cdd21dab41f6a53f4f7554daf9db6da04
