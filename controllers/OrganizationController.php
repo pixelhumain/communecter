@@ -401,7 +401,7 @@ class OrganizationController extends CommunecterController {
 					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					 //add the member into the organization map
 					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
-					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 					 //TODO : background send email
 					 //send validation mail
 					 //TODO : make emails as cron jobs
@@ -429,7 +429,7 @@ class OrganizationController extends CommunecterController {
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
 						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
-						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 	
 					}	
 				}

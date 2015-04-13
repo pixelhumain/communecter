@@ -2,16 +2,8 @@
   <div class="panel-heading border-light">
     <h4 class="panel-title">Annuaire </h4>
     <div class="panel-tools">
-    	<?php if(isset($organization) && isset(Yii::app()->session["userId"]) && isset($organization["links"]["members"]) ) { 
-    		$res = false;
-    		foreach ($organization["links"]["members"] as $key => $value) {
-    			if($key ==  Yii::app()->session["userId"]){
-    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
-    					$res = true;
-    				}
-    			}
-    		}
-    		if($res){
+    	<?php if(isset($organization) && isset(Yii::app()->session["userId"])) { 
+    		if(Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization["_id"]))){
     	?>
 			<a href="#addMembers" class="addMembersBtn btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i> Add Members</a>
 		<?php }} ?>
@@ -63,7 +55,7 @@
         <div id="users_tab_example2" class="tab-pane padding-bottom-5 <?php if(count($members[PHType::TYPE_CITOYEN]) && count($members[PHType::TYPE_CITOYEN]) > count($members[Organization::COLLECTION])) echo "active" ?>">
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
-              <tbody>
+              <tbody id='tPerson'>
               	<?php foreach ($members[PHType::TYPE_CITOYEN] as $member) { ?>
                 <tr>
                   <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
@@ -77,7 +69,7 @@
         <div id="users_tab_example3" class="tab-pane padding-bottom-5 <?php if(count($members[Organization::COLLECTION]) && count($members[PHType::TYPE_CITOYEN]) < count($members[Organization::COLLECTION]) ) echo "active" ?>">
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
-              <tbody>
+              <tbody id='tOrga'>
                 <?php foreach ($members[Organization::COLLECTION] as $member) { ?>
                 <tr>
                   <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
@@ -93,6 +85,35 @@
   </div>
 </div>
 <script type="text/javascript">
+
+
+	function updateOrganisation(newOrga,type){
+		console.log(newOrga);
+		var links ="";
+		var itemId = newOrga["_id"]["$id"];
+		if(type=="citoyens"){
+			links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
+			type = "Person"
+			tabObject= $("#tPerson");
+		}else{
+			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
+			tabObject = $("#tOrga");
+			type = newOrga.type;
+		}
+		var organizationLine = '<tr>'+
+          							'<td class="center">'+
+          								'<img src="http://placehold.it/50x50" class="img-circle" alt="image"/>'+
+          							'</td>'+
+          							'<td>'+
+          								'<span class="text-small block text-light">'+type+'</span>' +
+          								'<span class="text-large">'+newOrga.name+'</span>'+
+          								'<a href="'+links+'" class="btn"><i class="fa fa-chevron-circle-right"></i></a>'+
+      								'</td>'+
+        						'</tr>';
+
+        console.log(organizationLine);
+        tabObject.append(organizationLine);
+	}
 
 	jQuery(document).ready(function() {
 	
@@ -110,4 +131,7 @@
 		    });
 		});
 	});
+
+	
+
 </script>

@@ -41,10 +41,10 @@
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		    	    <div class="form-group" id="searchMemberSection">
 		    	    	<div class='row'>
-							<div class="col-md-1">	
+							<div class="col-md-2">	
 				           		<i class="fa fa-search fa-2x"></i> : 
 				           	</div>
-				           	<div class="col-md-11">
+				           	<div class="col-md-10">
 				           		<span class="input-icon input-icon-right">
 						           	<input class="member-search form-control" placeholder="Search By name, email" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
@@ -192,9 +192,6 @@
 				},
 				onHide : function() {
 					hideFormAddMember();
-				},
-				onSave: function() {
-					hideFormAddMember();
 				}
 			});
 		});
@@ -230,19 +227,14 @@
 	            		toastr.error(data.content);
 	            	}else{
 	            		toastr.success("member added successfully ");
-		               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"
-		               						+$("#addMembers #memberName").val()+"</td><td>"
-		               						+$("#addMembers #memberEmail").val()+"</td><td>"
-		               						+$("#addMembers #memberIsAdmin").val()+"</td><td>"+
-		               						"<span class='label label-info'>added</span></td> <tr>";
-		                $(".newMembersAdded").append(strHTML);
-		                if($(".newMembersAddedTable").hasClass("hide"))
-		                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+		               	setValidationTable();
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
 		                showSearch();
+		                if(updateOrganisation != undefined && typeof updateOrganisation == "function")
+		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -271,6 +263,8 @@
 	}
 
 	function hideFormAddMember(){
+		$(".newMembersAdded").empty();
+		$(".newMembersAddedTable").removeClass('animated bounceIn').addClass('hide');
 		openNewMemberForm();
 		showSearch();
 		
@@ -310,12 +304,13 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé? cliquez ici</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
 		 				$.each(value, function(i, v){
 		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'>" + v.name + "</a></li>";
 		  				});
 		  			}); 
+
 		  			$("#addMembers #dropdown_search").html(str);
 		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
 	  			}
@@ -338,6 +333,10 @@
 	function showSearch(){
 		$("#addMembers #btnOrganization").removeClass("disabled");
 		$("#addMembers #btnCitoyen").removeClass("disabled");
+		$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+		$("#addMembers #btnCitoyen").addClass("btn-green");
+		$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+		$("#addMembers #btnOrganization").addClass("btn-green");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
 		$("#addMembers #searchMemberSection").css("display", "block");
@@ -353,11 +352,42 @@
 		if(str=="citoyens"){
 			$("#addMembers #divAdmin").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
+			$("#addMembers #btnCitoyen").removeClass("btn-green");
+			$("#addMembers #btnCitoyen").addClass("btn-dark-green");
+			$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+			$("#addMembers #btnOrganization").addClass("btn-green");
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
 			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
+			$("#addMembers #btnOrganization").removeClass("btn-green");
+			$("#addMembers #btnOrganization").addClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").addClass("btn-green");
 		}
 		$("#addMembers #memberType").val(str);
+	}
+
+	function setValidationTable(){
+		var admin= "";
+		var type="";
+		if($("#addMembers #memberType").val()=="citoyens"){
+			type= "Personne";
+		}else{
+			type = "Organisation"
+		}
+		if($("#addMembers #memberIsAdmin").val()){
+			admin="Oui";
+		}else{
+			admin = "Non";
+		}
+		strHTML = "<tr><td>"+type+"</td><td>"
+       						+$("#addMembers #memberName").val()+"</td><td>"
+       						+$("#addMembers #memberEmail").val()+"</td><td>"
+       						+admin+"</td><td>"+
+       						"<span class='label label-info'>added</span></td> <tr>";
+        $(".newMembersAdded").append(strHTML);
+        if($(".newMembersAddedTable").hasClass("hide"))
+            $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
 </script>
 	
