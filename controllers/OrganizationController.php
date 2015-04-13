@@ -356,7 +356,7 @@ class OrganizationController extends CommunecterController {
 
 			$memberEmail = $_POST['memberEmail'];
 
-			if($_POST['memberType'] == "persons"){
+			if($_POST['memberType'] == "citoyens"){
 				$memberType = PHType::TYPE_CITOYEN;
 			}else{
 				$memberType = Organization::COLLECTION;
@@ -374,7 +374,7 @@ class OrganizationController extends CommunecterController {
 				if( !$member )
 				{
 					 //create an entry in the citoyens collection
-					if($_POST['memberType'] == "persons"){
+					if($_POST['memberType'] == "citoyens"){
 					 	$member = array(
 						 'name'=>$_POST['memberName'],
 						 'email'=>$_POST['memberEmail'],
@@ -597,7 +597,6 @@ class OrganizationController extends CommunecterController {
 	    $params["events"] = $events;
 
 
-
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard", $params );
 	 }
@@ -627,6 +626,8 @@ class OrganizationController extends CommunecterController {
 	    $params["events"] = $events;
 
 
+		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
+		$params["documents"] = $documents;
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard1", $params );
 	 }

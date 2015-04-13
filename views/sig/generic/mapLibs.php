@@ -18,8 +18,9 @@
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/leaflet/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
 
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map.js' , CClientScript::POS_END);
-		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/popupContent.js' , CClientScript::POS_END);
-		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/rightList.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_initializer.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_popupContent.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_rightList.js' , CClientScript::POS_END);
 	
 ?>
 

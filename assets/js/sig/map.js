@@ -9,6 +9,11 @@
 			this.Sig.markersLayer = "";
 			
 			this.Sig.geoJsonCollection = "";
+			
+			this.Sig.initParmerters = "";
+			
+			this.Sig.cssModuleName = "";
+			
 			this.Sig.currentFilter = "none";
 			
 			//mémorise les identifiants des éléments de chaque carte
@@ -71,7 +76,7 @@
 				if(thisData != undefined) 
 				{
 					var ico 	= thisData['ico'] ? thisData['ico'] : "circle";
-					var color 	= thisData['color'] ? thisData['color'] : "yellow";
+					var color 	= thisData['color'] ? thisData['color'] : "blue";
 				}
 				else{
 					var ico 	= "circle";
@@ -114,16 +119,20 @@
 			
 			this.Sig.showMapElements = function(thisMap, data)//, elementsMap)
 			{ 
-			
-				if(this.markersLayer != "")
-					this.clearMap(thisMap);
-					
+				//alert(JSON.stringify(data));
+				//efface les elements de la carte si elle n'est pas vide
+				if(this.markersLayer != "") this.clearMap(thisMap);
+				
+				//conteneur de marker cluster	
 				this.markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 40});
 				thisMap.addLayer(this.markersLayer);
 		
+				//collection de marker geojson
 				this.geoJsonCollection = { type: 'FeatureCollection', features: new Array() };
-						
+				
+				//récupère les bounds de la carte
 				var bounds = thisMap.getBounds();
+				//et créé les paramètres 
 				var params = {
 					"latMinScope" :  bounds.getSouthWest().lat,
 					"lngMinScope" :  bounds.getSouthWest().lng,
@@ -146,12 +155,10 @@
 				{ 	
 					//alert("element : " + JSON.stringify(thisData));	
 					if(thisData._id != null)
-					{ //alert("elementid : " + JSON.stringify(thisData._id));	
+					{ 
 						//recupere l'id de l'élément à afficher
 						var objectId = thisData._id.$id.toString();
-						//alert(objectId);		
-						//verifie si l'element a déjà été affiché sur la carte (desactivé car on affiche tous les éléments puis on masque si besoin)
-						//if($.inArray(objectId, listId) == -1){	
+						
 						//si on a une position geo						 	
 						if(thisData['geo'] != null || thisData['geoPosition'] != null){
 									
@@ -196,6 +203,7 @@
 									//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 									$("#item_map_list_" + objectId).click(function(){
 										thisMap.panTo(marker.getLatLng(), {"animate" : true });
+										this.checkListElementMap(thisMap);
 										marker.openPopup();
 									});
 								}
@@ -213,7 +221,7 @@
 									thisSig.listId.push(objectId);
 									
 									//affiche l'éléments dans la liste de droite
-									$("#liste_map_element").append(thisSig.createItemRigthListMap(thisData, marker));							
+									$(thisSig.cssModuleName + " #liste_map_element").append(thisSig.createItemRigthListMap(thisData, marker));							
 								}
 																	
 							} 								
@@ -224,14 +232,15 @@
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
-							layer.on('mouseover', function(e) {	
-								if(!layer.getPopup()._isOpen) layer.openPopup(); });
+							layer.on('mouseover', function(e) {	layer.openPopup(); });
 							
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$("#item_map_list_" + feature.properties.id).click(function(){
+							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1], 
 											  feature.geometry.coordinates[0]], 
 											  13, {"animate" : true });
+							    
+								thisSig.checkListElementMap(thisMap); //alert("check");
 								layer.openPopup();
 							});
 						}
@@ -260,12 +269,16 @@
 		
 		this.Sig.changeFilter = function (val, thisMap)
 		{ 
+			/*	A RE TESTER !!
+			 
+
 			if(this.currentFilter != "")
 				$('#item_panel_map_' + this.currentFilter).removeClass("selected");	
 					
 			$('#item_panel_map_' + val).addClass("selected");
 			this.currentFilter = val;	
 			this.showMapElements(thisMap, this.elementsMap);	
+			*/
 		};	
 		
 		
@@ -273,7 +286,9 @@
 		//chargement de la carte 
 	 	this.Sig.loadMap = function(canvasId)
 	 	{ 
-			$("#mapCanvasDashOrga").html("");
+			$("#"+canvasId).html("");
+			$("#"+canvasId).css({"background-color": "#456074"});
+
 			//initialisation des variables de départ de la carte
 			var map = L.map(canvasId, { "zoomControl" : false, 
 										"scrollWheelZoom":true, 
@@ -282,7 +297,8 @@
 										"worldCopyJump" : false });
 	
 			var tileLayer = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				subdomains: 'abcd',
 				minZoom: 0,
 				maxZoom: 20
@@ -291,7 +307,11 @@
 			return map;
 		};	
 		
+		
+
+
 		//alert((this.Sig));
+		this.Sig = this.getSigInitializer(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
 			

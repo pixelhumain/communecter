@@ -598,12 +598,17 @@ class PersonController extends CommunecterController {
 
     public function actionViewer() { $this->renderPartial("viewer"); }
 
+    // To move and refractor
     public function actionGetUserAutoComplete(){
-	  	$query = array( "email" => new MongoRegex("/".$_POST['email']."/i"));
-	  	
-	  	$allEmail = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address"));
-							   
-		Rest::json( $allEmail );
+	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
+	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
+	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email"));
+		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email"));
+		$all = array(
+			"citoyens" => $allCitoyens,
+			"organizations" => $allOrganization,
+		);		   
+		Rest::json( $all );
 		Yii::app()->end(); 
 	 }
 

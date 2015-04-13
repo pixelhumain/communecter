@@ -93,8 +93,7 @@ class CommunecterController extends Controller
       array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
       array('label' => "Local Companies", 	'desc' => "Discover Companies around you", 					"key"=>"localCompanies", "class"=>"ajaxSV", "onclick"=>"openSubView('Local Companies', 	'/communecter/sig/companies', null)", 	'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
       array('label' => "Local State", 		'desc' => "All the city hall public services",				"key"=>"localStates", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local States', 	 	'/communecter/sig/state', null)", 		'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
-      array('label' => "Calendar", 		'desc' => "Discover All sorts of local events around you", 	"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Calendar', 	 	'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
-
+      array('label' => "Calendar", 		'desc' => "Discover All sorts of local events around you", 		"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Calendar', 	 			'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
       array('label' => "Network Viewer",    'desc' => "Visualize your network", "key" =>"networkViewer", "class"=>"ajaxSV", "onclick"=>"openSubView('Network Viewer', '/communecter/graph/viewer', null,null,function(){clearViewer();})",    'extra' => "arround You",  "iconClass"=>"fa-share-alt text-yellow"),
   );
 
@@ -132,11 +131,12 @@ class CommunecterController extends Controller
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
       "mydata" => array("href" => "/person/mydata"),
+      "mydata" => array("href" => "/person/mydata"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 
     "organization"=> array(
-      "index"=> array("href" =>"ph/Communecter/organization", "title" => "Person"),
+      "index"=> array("href" =>"ph/communecter/organization", "title" => "Person"),
       "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
