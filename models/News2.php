@@ -1,7 +1,7 @@
 <?php 
-class Document {
+class News2 {
 
-	const COLLECTION = "documents";
+	const COLLECTION = "news";
 	/**
 	 * get an project By Id
 	 * @param type $id : is the mongoId of the project
@@ -24,9 +24,9 @@ class Document {
 	  		"moduleId" => $params['moduleId'],
 
 	  		"author" => $params['author'],
-	  		"name" => $params['name'],
-	  		"size" => $params['size'],
-	  		"category" => $params['category'],
+	  		"title" => $params['title'],
+	  		"content" => $params['content'],
+	  		"tags" => $params['tags'],
 	  		'created' => time()
 	    );
 

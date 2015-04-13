@@ -12,8 +12,69 @@ class NewsController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
-    public function actionFormCreateNews()  { $this->renderPartial("formCreateNews"); 		} 
-  	public function actionNewsstream()  	{ $this->renderPartial("newsstream"); 		} 
+    public function actionFormCreateNews() { 
+    	$this->renderPartial("formCreateNews"); 		
+    } 
+  	public function actionNewsstream() { 
+  		$this->renderPartial("newsstream"); 		
+  	} 
+  	public function actionIndex() { 
+  		/* **************************************
+  		* BUILDING MODULE MENU 
+  		***************************************** */
+  		//TODO : build dynamically based on content 
+		$msgTypes = array( 	
+			"free_msg" => array( "label"=>"Message Libre" , "color"=>"white"), 
+			"idea"     => array( "label"=>"Idée" , "color"=>"yellow"), 
+			"help"     => array( "label"=>"Aide" , "color"=>"red"), 
+			"rumor"    => array( "label"=>"Rumeur" , "color"=>"orange"), 
+			"true_information" => array( "label"=>"Vérité" , "color"=>"green") ,
+			"question" => array( "label"=>"Question" , "color"=>"purple")
+		);
+
+		$msgTypesMenu = array();
+		foreach( $msgTypes as $key=>$type ) { 
+			array_push($msgTypesMenu, array( "label"=>" <img src='".$this->module->assetsUrl."/images/news/natures/".$key.".png' style='margin-top:2px;' height=15> ".$type['label'], "key"=>$key, "onclick"=>"javascript:selectGenreNewsstream('".$key."')") );
+		}
+
+		//TODO : build dynamically based on content tags
+		$msgThemes = array(
+			"1" 	=> "Quotidien",
+			"2" 	=> "Logement",				
+			"3" 	=> "Bricolage",
+			"4" 	=> "Agriculture",
+			"5" 	=> "Transport",			
+			"6" 	=> "Éducation",
+			"7" 	=> "Nature",
+			"8" 	=> "Écologie", 
+			"9" 	=> "Énergie",				
+			"10" 	=> "Santé",
+			"11" 	=> "Art",
+			"12" 	=> "Spiritualité",			
+			"13" 	=> "Sciences",
+			"14" 	=> "Guerre",
+			"15" 	=> "Politique", 
+			"16" 	=> "Histoire",
+			"17" 	=> "Complot",
+			"18" 	=> "Sport",			
+			"19" 	=> "Argent",
+			"20" 	=> "Amour"  );
+
+		$msgThemeMenu = array();
+		foreach( $msgThemes as $key=>$theme ) { 
+			array_push($msgThemeMenu, array( "label"=>" <img src='".$this->module->assetsUrl."/images/news/themes/".$key.".png' style='margin-top:2px;' height=15> ".$theme, "key"=>"theme".$key, "onclick"=>"javascript:checkChkAbout('".$key."')") );
+		}
+
+  		$this->sidebar2 = array(
+            array('label' => "Type d'actu", "key"=>"newsType", "children"=> $msgTypesMenu ),
+            array('label' => "Thèmatique", "key"=>"newsTheme", "children"=> $msgThemeMenu )
+        );
+
+        $where = array();
+		$news = News::getWhere( $where );
+
+  		$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
+  	} 
   	
   	
 	
@@ -23,8 +84,6 @@ class NewsController extends CommunecterController {
 	public function actionGetNewsStream() //return News for news-stream
 	{
 		//$_POST['myPosition']
-		$where = array();
-					
 		$news = PHDB::find("articles", $where);
 		//$news["origine"] = "ShowMyNetwork";
 	
