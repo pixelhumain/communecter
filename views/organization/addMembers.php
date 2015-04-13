@@ -94,20 +94,21 @@
 									<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div id="divAdmin" class="form-group">
-				    	    	<label class="control-label">
-									Administrateur :
-								</label>
-								<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-								<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
-							</div>
-						</div>
-						<div class="form-group">
+							
 							<div class="row">
-				    	        <button class="btn btn-primary" >Enregistrer</button>
-				    	    </div>
+								<div id="divAdmin" class="form-group">
+					    	    	<label class="control-label">
+										Administrateur :
+									</label>
+									<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+									<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+					    	        <button class="btn btn-primary" >Enregistrer</button>
+					    	    </div>
+					    	</div>
 				    	</div>
 		    	    </div>
 		    	   
@@ -280,15 +281,20 @@
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
+		console.log(email);
+		$('#addMembers #memberEmail').val(email);
 		console.log(type);
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
+			$("#addMembers #btnOrganization").addClass("disabled");
 		}else{
 			$("#addMembers #btnOrganization").trigger("click");
+			$("#addMembers #btnCitoyen").addClass("disabled");
 		}
-		$('#addMembers #memberEmail').val(email);
+		
 		$("#addMembers #dropdown_search").css({"display" : "none" });
-		openNewMemberForm();
+		$("#addMembers #addMemberSection").css("display", "block");
+		$("#addMembers #searchMemberSection").css("display", "none");
 
 	}
 
@@ -322,8 +328,16 @@
 		$("#addMembers #memberName").val("");
 		$("#addMembers #memberId").val("");
 		$('#addMembers #memberEmail').val("");
+		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  		if(emailReg.test( $("#addMembers #memberSearch").val() )){
+  			$('#addMembers #memberEmail').val( $("#addMembers #memberSearch").val());
+  		}else{
+  			$("#addMembers #memberName").val($("#addMembers #memberSearch").val());
+  		}
 	}
 	function showSearch(){
+		$("#addMembers #btnOrganization").removeClass("disabled");
+		$("#addMembers #btnCitoyen").removeClass("disabled");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
 		$("#addMembers #searchMemberSection").css("display", "block");
