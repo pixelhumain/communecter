@@ -32,21 +32,23 @@ class PersonController extends CommunecterController {
   /**
    * @return [json Map] list
    */
-  	public function actionUpdateName($name=null, $id=null){
-  		Person::setNameById($name, $id);
-  		$people = Person::getById($id);
-	  	Rest::json($people);
-  	}
-  	 public function actionGetById($id=null)
-	  {
-	  	$people = Person::getById($id);
-	  	Rest::json($people);
-	  }
+  public function actionUpdateName($name=null, $id=null){
+  	Person::setNameById($name, $id);
+  	$people = Person::getById($id);
+	  Rest::json($people);
+  }
+
+  public function actionGetById($id=null)
+	{
+	  $people = Person::getById($id);
+	  Rest::json($people);
+	}
 
 	public function actionGetOrganization($id=null){
 	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
-	  }
+	 }
+
 	public function actionLogin() 
 	{
     $this->layout = "//layouts/mainSimple";
@@ -62,13 +64,13 @@ class PersonController extends CommunecterController {
       else {
 	       $this->render( "login" );
       }
-    }
+  }
+
   public function actionLogout() 
   {
     Yii::app()->session["userId"] = null;
     $this->redirect(Yii::app()->homeUrl);
   }
-
 
   public function actionIndex() 
   {

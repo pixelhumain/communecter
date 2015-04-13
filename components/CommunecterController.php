@@ -107,7 +107,9 @@ class CommunecterController extends Controller
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
 
     ),
-
+    "news"=>array(
+      "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
+    ),
     "search"=>array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
