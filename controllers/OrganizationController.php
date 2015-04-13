@@ -455,7 +455,6 @@ class OrganizationController extends CommunecterController {
     $organization = Organization::getPublicData($id);
     $params = array( "organization" => $organization);
 
-
     $this->title = (isset($organization["name"])) ? $organization["name"] : "";
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
@@ -464,7 +463,7 @@ class OrganizationController extends CommunecterController {
     	
     	$memberData;
       	$subOrganizationIds = array();
-      	$members = array(
+      	$members = array( 
           "citoyens"=> array(),
           "organizations"=>array()
       	);
@@ -596,9 +595,8 @@ class OrganizationController extends CommunecterController {
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
 
-
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-	 	$this->render( "dashboard", $params );
+	 	 $this->render( "dashboard", $params );
 	 }
 
    /* **************************************
