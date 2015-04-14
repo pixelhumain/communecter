@@ -164,6 +164,32 @@ class Authorisation {
         return $eventList;
     }
 
+    //**************************************************************
+    // Job Authorisation
+    //**************************************************************
+
+    /**
+     * Return true if the user is Admin of the job
+     * A user can be admin of an job if :
+     * 1/ He is admin of the organization posting the job offer
+     * 3/ He is admin of an organization that can edit it members (canEditMembers flag) 
+     *      and the organizations members is offering the job
+     * @param String $jobId The jobId to check if the userId is admin of
+     * @param String $userId The userId to get the authorisation of
+     * @return boolean True if the user isAdmin, False else
+     */
+    public static function isJobAdmin($jobId, $userId) {
+        $job = Job::getById($jobId);
+        if (!empty($job["hiringOrganization"])) {
+            $organizationId = (String) $job["hiringOrganization"]["_id"];
+        } else {
+            throw new CommunecterException("The job ". $jobId." is not well format : contact your admin.");
+        }
+        
+        $res = Authorisation::isOrganizationAdmin($userId, $organizationId);
+
+        return $res;
+    }
 
 
 

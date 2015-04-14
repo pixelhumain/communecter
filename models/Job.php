@@ -44,11 +44,72 @@ class Job {
 		if (isset($job["tags"]))
 			$job["tags"] = Tags::filterAndSaveNewTags($job["tags"]);
 
+		if (! Authorisation::isJobAdmin($jobId, $userId)) {
+			throw new CommunecterException("Can not update the job : you are not authorized to update that job offer !");	
+		}
+		
 		//update the job
 		PHDB::update( Job::COLLECTION, array("_id" => new MongoId($jobId)), 
 		                          array('$set' => $job));
 	                  
 	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été modifiée avec succès.", "id"=>$newJobId);
+	}
+
+	public static function updateJobField($jobId, $jobFieldName, $jobFieldValue, $userId) {  
+		
+		if (! Job::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {
+			throw new CommunecterException("Can not update the job : unknown field ".$jobFieldName);
+		}
+
+		if (! Authorisation::isJobAdmin($jobId, $userId)) {
+			throw new CommunecterException("Can not update the job : you are not authorized to update that job offer !");	
+		}
+
+		//Specific case : tags
+		if ($jobFieldName == "tags") {
+			$jobFieldValue = Tags::filterAndSaveNewTags($jobFieldValue);
+		}
+
+		$job = array($jobFieldName => $jobFieldValue);
+		
+		//update the job
+		PHDB::update( Job::COLLECTION, array("_id" => new MongoId($jobId)), 
+		                          array('$set' => $job));
+	                  
+	    return true;
+	}
+
+	private static function checkFieldBeforeUpdate($jobFieldName, $jobFieldValue) {
+		$res = false;
+		$listFieldName = array(
+		    "baseSalary",
+		    "benefits",
+		    "datePosted",
+		    "description",
+		    "educationRequirements",
+		    "employmentType",
+		    "experienceRequirements",
+		    "incentives",
+		    "industry",
+		    "jobLocation.address",
+		    "jobLocation.address.postalCode",
+		    "jobLocation.address.addressLocality",
+		    "jobLocation.address.addressRegion",
+		    "occupationalCategory",
+		    "qualifications",
+		    "responsibilities",
+		    "salaryCurrency",
+		    "skills",
+		    "specialCommitments",
+		    "title",
+		    "workHours",
+		    "hiringOrganization",
+		    "startDate", 
+		    "tags"
+		);
+		$res = in_array($jobFieldName, $listFieldName);
+
+		return $res;
 	}
 
 	public static function getJobsList($organizationId = null) {
