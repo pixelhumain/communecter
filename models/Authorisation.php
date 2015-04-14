@@ -1,6 +1,10 @@
 <?php
 class Authorisation {
 	
+    //**************************************************************
+    // Organization Authorisation
+    //**************************************************************
+
     /**
      * Return true if the user is admin of at least an organization 
      * @param type the id of the user
@@ -110,6 +114,10 @@ class Authorisation {
         return $res;
     }
 
+    //**************************************************************
+    // Event Authorisation
+    //**************************************************************
+
     /**
      * Return true if the user is Admin of the event
      * A user can be admin of an event if :
@@ -156,6 +164,12 @@ class Authorisation {
         return $eventList;
     }
 
+
+
+
+    //**************************************************************
+    // TO DELETE ????
+    //**************************************************************
     /**
     * Get the authorization for edit an organization
     * An user can edit an organization if :
