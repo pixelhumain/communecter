@@ -38,27 +38,7 @@ class NewsController extends CommunecterController {
 		}
 
 		//TODO : build dynamically based on content tags
-		$msgThemes = array(
-			"1" 	=> "Quotidien",
-			"2" 	=> "Logement",				
-			"3" 	=> "Bricolage",
-			"4" 	=> "Agriculture",
-			"5" 	=> "Transport",			
-			"6" 	=> "Éducation",
-			"7" 	=> "Nature",
-			"8" 	=> "Écologie", 
-			"9" 	=> "Énergie",				
-			"10" 	=> "Santé",
-			"11" 	=> "Art",
-			"12" 	=> "Spiritualité",			
-			"13" 	=> "Sciences",
-			"14" 	=> "Guerre",
-			"15" 	=> "Politique", 
-			"16" 	=> "Histoire",
-			"17" 	=> "Complot",
-			"18" 	=> "Sport",			
-			"19" 	=> "Argent",
-			"20" 	=> "Amour"  );
+		$msgThemes = News::$THEMES_NAMES;
 
 		$msgThemeMenu = array();
 		foreach( $msgThemes as $key=>$theme ) { 
@@ -66,8 +46,8 @@ class NewsController extends CommunecterController {
 		}
 
   		$this->sidebar2 = array(
-            array('label' => "Type d'actu", "key"=>"newsType", "children"=> $msgTypesMenu ),
-            array('label' => "Thèmatique", "key"=>"newsTheme", "children"=> $msgThemeMenu )
+            array( 'label' => "Type d'actu", "key"=>"newsType", "children"=> $msgTypesMenu ),
+            array( 'label' => "Thèmatique", "key"=>"newsTheme", "children"=> $msgThemeMenu )
         );
 
         $where = array();

@@ -15,7 +15,7 @@ div.timeline{ margin-right:0px; }
 	
 	<!-- 	FIL D'ACTUALITÉS		 -->
 	<div class="panel-body">
-		<a href='#' class='btn btn-default' style='float:right;'>Add NEWS <i class="fa fa-plus"></i></a>
+		<a href='#' class='btn btn-default new-note' style='float:right;'>Add NEWS <i class="fa fa-plus"></i></a>
 		<div class="timeline">
 			<center><h3>Fil d'actualités</h3></center>
 		</div>
