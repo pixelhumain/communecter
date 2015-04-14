@@ -244,6 +244,11 @@ class Organization {
 		return $events;
 	}
 
+	/**
+	 * Update the roles' list of an organization
+	 * @param $roleTab is an array with all the roles
+	 * @param type $organisationId : is the mongoId of the organisation
+	 */
 	public static function setRoles($roleTab, $organizationId){
 		PHDB::update( Organization::COLLECTION,
 						array("_id" => new MongoId($organizationId)), 
