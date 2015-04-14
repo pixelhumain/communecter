@@ -42,7 +42,7 @@
 		    	    <div class="form-group" id="searchMemberSection">
 		    	    	<div class='row'>
 							<div class="col-md-1">	
-				           		<i class="fa fa-search fa-2x"></i> : 
+				           		<i class="fa fa-search fa-2x"></i> 
 				           	</div>
 				           	<div class="col-md-11">
 				           		<span class="input-icon input-icon-right">
@@ -67,10 +67,6 @@
 									Organisation
 								</a>
 							</div>
-			                <!--<select id="memberType" name="memberType">
-			                    <option value="citoyens">People</option>
-			                    <option value="organizations">Organisation</option>
-			                </select>-->
 			            </div><br>
 			            <div id="formNewMember">
 			    	        <div class="row">
@@ -90,18 +86,28 @@
 			               		</div>
 			               	</div>
 			               	<div class ="row">
+			    	        	<div class="col-md-1">	
+					           		<i class="fa fa-tags fa-2x"></i>
+					           	</div>
+			    	        	<div class="col-md-10">
+			               			<input type="hidden" style="min-width:100%" placeholder="Role" autocomplete = "off" id="memberRole" name="memberRole" value=""/>
+			               		</div>
+			               	</div>
+			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1">	
 									<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
 								</div>
 							</div>
 							
 							<div class="row">
-								<div id="divAdmin" class="form-group">
-					    	    	<label class="control-label">
-										Administrateur :
-									</label>
-									<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-									<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+								<div class="col-md-5">
+									<div id="divAdmin" class="form-group">
+						    	    	<label class="control-label">
+											Administrateur :
+										</label>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+										<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -110,9 +116,7 @@
 					    	    </div>
 					    	</div>
 				    	</div>
-		    	    </div>
-		    	   
-		    	   
+		    	    </div>	    	   
 		        </form>
 	        </div>
         </div>
@@ -125,6 +129,7 @@
 	                    <th class="hidden-xs">Type</th>
 	                    <th>Name</th>
 	                    <th class="hidden-xs center">Email</th>
+	                    <th>Roles</th>
 	                    <th>Admin</th>
 	                    <th>Status</th>
 	                </tr>
@@ -175,6 +180,7 @@
 </div>
 <script type="text/javascript">
 	var timeout;
+	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
 		
 		bindOrganizationSubViewAddMember();
@@ -192,9 +198,6 @@
 				},
 				onHide : function() {
 					hideFormAddMember();
-				},
-				onSave: function() {
-					hideFormAddMember();
 				}
 			});
 		});
@@ -205,6 +208,12 @@
 		});
 	};
 	function initFormAddMember(){
+		if(typeof(organization["roles"])!="undefined"){
+			$('#memberRole').select2({ tags: organization["roles"]});
+			//$('#memberRole').select2({ tags: organization["roles"]});
+		}else{
+			$('#memberRole').select2({ tags: []});
+		}
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
@@ -218,7 +227,8 @@
 				"memberEmail" : $("#addMembers #memberEmail").val(),
 				"memberType" : $("#addMembers #memberType").val(), 
 				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
-				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val()
+				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
+				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
 	    	$.ajax({
 	            type: "POST",
@@ -230,19 +240,37 @@
 	            		toastr.error(data.content);
 	            	}else{
 	            		toastr.success("member added successfully ");
-		               	strHTML = "<tr><td>"+$("#addMembers #memberType").val()+"</td><td>"
-		               						+$("#addMembers #memberName").val()+"</td><td>"
-		               						+$("#addMembers #memberEmail").val()+"</td><td>"
-		               						+$("#addMembers #memberIsAdmin").val()+"</td><td>"+
-		               						"<span class='label label-info'>added</span></td> <tr>";
-		                $(".newMembersAdded").append(strHTML);
-		                if($(".newMembersAddedTable").hasClass("hide"))
-		                    $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+	            		if(updateOrganisation != undefined && typeof updateOrganisation == "function")
+		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
+		               	setValidationTable();
+		               if($("#addMembers #memberRole").val() != ""){
+			               	if(typeof(organization["roles"])!="undefined"){
+			               		var tabStrRole = $("#addMembers #memberRole").val().split(",");
+			               		for(var i = 0; i<tabStrRole.length; i++){
+			               			if($.inArray(tabStrRole[i], organization["roles"])==-1){
+			               				organization["roles"].push(tabStrRole[i]);
+			               			}
+			               		}
+			               		
+								$('#memberRole').select2({ tags: organization["roles"]});
+								//$('#memberRole').select2({ tags: organization["roles"]});
+							}else{
+								var tabStrRole = $("#addMembers #memberRole").val().split(",");
+								$('#memberRole').select2({ tags: tabStrRole});
+							}
+		               }
+		               
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
+		                $("#addMembers #memberRole").val("");
+						$("#addMembers #memberIsAdmin").val("false");
+						$("#memberRole").select2("val", "");
+						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		                showSearch();
+
+		                
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -271,6 +299,8 @@
 	}
 
 	function hideFormAddMember(){
+		$(".newMembersAdded").empty();
+		$(".newMembersAddedTable").removeClass('animated bounceIn').addClass('hide');
 		openNewMemberForm();
 		showSearch();
 		
@@ -310,12 +340,13 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé? cliquez ici</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
 		 				$.each(value, function(i, v){
 		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'>" + v.name + "</a></li>";
 		  				});
 		  			}); 
+
 		  			$("#addMembers #dropdown_search").html(str);
 		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
 	  			}
@@ -328,6 +359,9 @@
 		$("#addMembers #memberName").val("");
 		$("#addMembers #memberId").val("");
 		$('#addMembers #memberEmail').val("");
+		$("#addMembers #memberRole").val("");
+		$("#addMembers #memberIsAdmin").val("false");
+		$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   		if(emailReg.test( $("#addMembers #memberSearch").val() )){
   			$('#addMembers #memberEmail').val( $("#addMembers #memberSearch").val());
@@ -338,6 +372,10 @@
 	function showSearch(){
 		$("#addMembers #btnOrganization").removeClass("disabled");
 		$("#addMembers #btnCitoyen").removeClass("disabled");
+		$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+		$("#addMembers #btnCitoyen").addClass("btn-green");
+		$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+		$("#addMembers #btnOrganization").addClass("btn-green");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
 		$("#addMembers #searchMemberSection").css("display", "block");
@@ -353,11 +391,43 @@
 		if(str=="citoyens"){
 			$("#addMembers #divAdmin").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
+			$("#addMembers #btnCitoyen").removeClass("btn-green");
+			$("#addMembers #btnCitoyen").addClass("btn-dark-green");
+			$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+			$("#addMembers #btnOrganization").addClass("btn-green");
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
 			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
+			$("#addMembers #btnOrganization").removeClass("btn-green");
+			$("#addMembers #btnOrganization").addClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").addClass("btn-green");
 		}
 		$("#addMembers #memberType").val(str);
+	}
+
+	function setValidationTable(){
+		var admin= "";
+		var type="";
+		if($("#addMembers #memberType").val()=="citoyens"){
+			type= "Personne";
+		}else{
+			type = "Organisation"
+		}
+		if($("#addMembers #memberIsAdmin").val()=="true"){
+			admin="Oui";
+		}else{
+			admin = "Non";
+		}
+		strHTML = "<tr><td>"+type+"</td><td>"
+       						+$("#addMembers #memberName").val()+"</td><td>"
+       						+$("#addMembers #memberEmail").val()+"</td><td>"
+       						+$("#addMembers #memberRole").val()+"</td><td>"
+       						+admin+"</td><td>"+
+       						"<span class='label label-info'>added</span></td> <tr>";
+        $(".newMembersAdded").append(strHTML);
+        if($(".newMembersAddedTable").hasClass("hide"))
+            $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
 </script>
 	

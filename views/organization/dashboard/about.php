@@ -2,12 +2,6 @@
   <div class="panel-heading border-light">
     <h4 class="panel-title">QUI SOMMES NOUS ? </h4>
     <div class="panel-tools">
-    	<?php if(isset($organization) && isset(Yii::app()->session["userId"])  ) { 
-    		$res =  Authorisation::canEditOrganisation(Yii::app()->session["userId"], new MongoId($organization["_id"]));
-    		if($res){
-    	?>
-			<a href="#" class="btn btn-xs btn-light-blue tooltips" ><i class="fa fa-pencil"></i> Editer</a>
-		<?php }} ?>
       <div class="dropdown">
         <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
           <i class="fa fa-cog"></i>
