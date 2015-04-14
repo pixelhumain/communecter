@@ -131,15 +131,15 @@ class PersonController extends CommunecterController {
       }
     }
 
-    $projects = array();
+    $Projects = array();
     //Load people I know
-    if (isset($person["links"]) && !empty($person["links"]["projects"])) 
+    if (isset($person["links"]) && !empty($person["links"]["Projects"])) 
     {
-      foreach ($person["links"]["projects"] as $id => $e) 
+      foreach ($person["links"]["Projects"] as $id => $e) 
       {
-        $project = Project:: getById($id);
-        if (!empty($project)) {
-          array_push($projects, $project);
+        $Project = Project:: getById($id);
+        if (!empty($Project)) {
+          array_push($Projects, $Project);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -155,7 +155,7 @@ class PersonController extends CommunecterController {
                                       "people"=>$people, 
                                       "organizations"=>$organizations, 
                                       "events"=>$events, 
-                                      "projects"=>$projects, 
+                                      "Projects"=>$Projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
@@ -568,15 +568,15 @@ class PersonController extends CommunecterController {
       }
     }
 
-    $projects = array();
+    $Projects = array();
     //Load people I know
-    if (isset($person["projects"]) && !empty($person["projects"])) 
+    if (isset($person["Projects"]) && !empty($person["Projects"])) 
     {
-      foreach ($person["projects"] as $id) 
+      foreach ($person["Projects"] as $id) 
       {
-        $el = PHDB::findOne( PHType::TYPE_PROJECTS , array( "_id" => new MongoId($id)));
+        $el = PHDB::findOne( PHType::TYPE_ProjectS , array( "_id" => new MongoId($id)));
         if (!empty($el)) {
-          array_push($projects, $el);
+          array_push($Projects, $el);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -592,7 +592,7 @@ class PersonController extends CommunecterController {
                                       "people"=>$people, 
                                       "organizations"=>$organizations, 
                                       "events"=>$events, 
-                                      "projects"=>$projects, 
+                                      "Projects"=>$Projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
@@ -722,12 +722,12 @@ class PersonController extends CommunecterController {
     $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
-    //Get projects
-    $projects = array();
-    if(isset($person["links"]["projects"])){
-    	foreach ($person["links"]["projects"] as $key => $value) {
-  			$project = PROJECT::getPublicData($key);
-  			array_push($projects, $project);
+    //Get Projects
+    $Projects = array();
+    if(isset($person["links"]["Projects"])){
+    	foreach ($person["links"]["Projects"] as $key => $value) {
+  			$Project = Project::getPublicData($key);
+  			array_push($Projects, $Project);
   		}
     }
 
@@ -778,7 +778,7 @@ class PersonController extends CommunecterController {
 
     $params["photos"] = $photos;
     $params["organizations"] = $organizations;
-    $params["projects"] = $projects;
+    $params["Projects"] = $Projects;
     $params["events"] = $events;
     $params["people"] = $people;
 
@@ -818,9 +818,9 @@ class PersonController extends CommunecterController {
                   $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
 
                   /* **************************************
-                  * PROJECTS MAP
+                  * ProjectS MAP
                   ***************************************** */
-                  $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
+                  $exportInitData[PHType::TYPE_ProjectS] = Data::getByAttributeForExport(PHType::TYPE_ProjectS,array("creator"=>(string)Yii::app()->session["userId"]));
 
                   echo Rest::json($exportInitData);
               } else 

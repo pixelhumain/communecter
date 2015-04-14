@@ -152,7 +152,7 @@
 						Tags
 					</label>
 					
-					<input id="tags" type="hidden" style="min-width:100%" name="tagsOrganization" value="<?php echo ($person && isset($person['tags'] ) && $person['tags']!="") ? implode(",", $person['tags']) : ""?>" style="display: none;">
+					<input id="tags" type="hidden" style="min-width:100%" name="tagsOrganization" value="<?php echo ( $person && isset($person['tags'] ) && $person['tags']!="" ) ? implode(",", $person['tags']) : ""?>" style="display: none;">
 				</div>
 				<!--<div class="form-group">
 					<label>
