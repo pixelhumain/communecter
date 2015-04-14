@@ -59,8 +59,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 							<tr>
 								<th>Title</th>
 								<th class="hidden-xs">Employment Type</th>
-								<th class="hidden-xs">Date Posted</th>
-								<th class="hidden-xs">Tags</th>
 								<th class="hidden-xs">Organization Hiring</th>
 								<th></th>
 							</tr>
@@ -75,12 +73,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 							<tr id="job<?php echo $jobId;?>">
 								<td><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></td>
 								<td><?php if(isset($jobValue["employmentType"])) echo $jobValue["employmentType"] ?></td>
-								<td><?php if(isset($jobValue["datePosted"])) echo $jobValue["datePosted"] ?></td>
-								<td><?php if(isset($jobValue["tags"]))echo implode(",", $jobValue["tags"])?></td>
 								<td><?php if(isset($jobValue["hiringOrganization"]) && isset($jobValue["hiringOrganization"]["name"])) echo $jobValue["hiringOrganization"]["name"] ?></td>
 								<td class="center">
 								<div class="visible-md visible-lg hidden-sm hidden-xs">
 									<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips viewButton" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+									<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 									<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $jobId;?>" data-name="<?php echo (string)$jobValue["title"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 								</div>
 								</td>
@@ -112,6 +109,11 @@ jQuery(document).ready(function() {
 	$(".viewButton").off().on("click", function() {
 		console.log($(this).data('id'));
 		openJobSV("view", $(this).data('id'));
+	});
+
+	$(".editButton").off().on("click", function() {
+		console.log($(this).data('id'));
+		openJobSV("update", $(this).data('id'));
 	});
 
  	var contextMap = <?php echo json_encode($contextMap)?>;
@@ -159,12 +161,11 @@ function updateJob(njob, jobId) {
     var jobLine  = '<tr id="job'+jobId+'">'+
                 '<td>'+njob.title+'</td>'+
                 '<td>'+njob.employmentType+'</td>'+
-                '<td>'+njob.datePosted+'</td>'+
-                '<td>'+njob.tags+'</td>'+
                 '<td>'+njob.hiringOrganization.name+'</td>'+
                 '<td class="center">'+
                 '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-                    '<a href="'+baseUrl+'/'+moduleId+'/job/public/id/'+jobId+'" class="btn btn-light-blue tooltips " data-id="'+jobId+'" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
+                    '<a href="#" data-id="'+jobId+'" class="btn btn-light-blue tooltips viewButton" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>'+
+                    '<a href="#" data-id="'+jobId+'" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>'+
                     '<a href="#" class="btn btn-red tooltips delBtn" data-id="'+jobId+'" data-name="'+njob.title+'" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
                 '</div>'+
                 "</td>"+

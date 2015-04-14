@@ -37,11 +37,12 @@ class Job {
 		
 	    if (isset($result["upserted"])) {
 	    	$newJobId = (String) $result["upserted"];
+	    	$job = Job::getById($newJobId);
 	    } else {
 	    	throw new CommunecterException("Problem inserting the new job offer");
 	    }
 	                  
-	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été ajoutée avec succès.", "id"=>$newJobId);
+	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été ajoutée avec succès.", "id"=>$newJobId, "job"=>$job);
 	}
 
 	public static function updateJob($jobId, $job, $userId) {  

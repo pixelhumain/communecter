@@ -32,7 +32,7 @@ class JobController extends CommunecterController {
 			}
 			$res = Job::insertJob($job);
 			if ($res["result"]) {
-				return Rest::json(array("msg"=>"insertion ok ", "id"=>$res["id"]));
+				return Rest::json(array("msg"=>"insertion ok ", "id"=>$res["id"], "job"=>$res["job"]));
 			}
 		//update an existing job
 		} else {
