@@ -2,8 +2,11 @@
   <div class="panel-heading border-light">
     <h4 class="panel-title">Annuaire </h4>
     <div class="panel-tools">
-    	<?php if(isset($organization) && isset(Yii::app()->session["userId"])) { 
-    		if(Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization["_id"]))){
+    	<?php 
+    	$res= false;
+    	if(isset($organization) && isset(Yii::app()->session["userId"])) {
+    		$res =  Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization["_id"]));
+    		if($res){
     	?>
 			<a href="#addMembers" class="addMembersBtn btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i> Add Members</a>
 		<?php }} ?>
@@ -56,12 +59,30 @@
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody id='tPerson'>
-              	<?php foreach ($members[PHType::TYPE_CITOYEN] as $member) { ?>
-                <tr>
-                  <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
-                  <td><span class="text-small block text-light">Person</span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-                </tr>
-                <?php } ?>
+              	<?php if(isset($members[PHType::TYPE_CITOYEN])){foreach ($members[PHType::TYPE_CITOYEN] as $e) { $id = new MongoId($organization["_id"]); ?>
+						<tr id="<?php echo (string)$e["_id"];?>">
+							<td class="center">
+							<?php if ($e && isset($e["imagePath"])){ ?>
+								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
+							<?php } else { ?>
+								<i class="fa fa-user fa-2x"></i>
+							<?php } ?>
+							</td>
+							<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+							<td><?php if(isset($e["position"]))echo $e["position"]?></td>
+							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
+							<td><?php if(isset($e["links"]["memberOf"][(string)$id]["roles"])) echo implode(",", $e["links"]["memberOf"][(string)$id]["roles"]) ;?></td>
+							<td class="center">
+							<div class="visible-md visible-lg hidden-sm hidden-xs">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips "  data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+								<?php if( $res ) { ?>
+								<a  href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this member" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; ?>
+							</div>
+							</td>
+						</tr>
+					<?php }} ?>
               </tbody>
             </table>
           </div>
@@ -70,12 +91,30 @@
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody id='tOrga'>
-                <?php foreach ($members[Organization::COLLECTION] as $member) { ?>
-                <tr>
-                  <td class="center"><img src="http://placehold.it/50x50" class="img-circle" alt="image"/></td>
-                  <td><span class="text-small block text-light"><?php echo $member['type'] ?></span><span class="text-large"><?php echo $member['name'] ?> </span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-                </tr>
-                <?php } ?>
+                <?php if(isset($members[Organization::COLLECTION])){foreach ($members[Organization::COLLECTION] as $e) { ?>
+						<tr id="<?php echo (string)$e["_id"];?>">
+							<td class="center">
+							<?php if ($e && isset($e["imagePath"])){ ?>
+								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
+							<?php } else { ?>
+								<i class="fa fa-group fa-2x"></i>
+							<?php } ?>
+							</td>
+							<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
+							<td><?php if(isset($e["linkType"]))echo $e["linkType"]?></td>
+							<td class="center">
+							<div class="visible-md visible-lg hidden-sm hidden-xs">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+								<?php if( $res ) { ?>
+								<a  href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; ?>
+							</div>
+							</td>
+						</tr>
+					<?php }} ?>
               </tbody>
             </table>
           </div>
@@ -86,29 +125,58 @@
 </div>
 <script type="text/javascript">
 
+	var members = <?php echo json_encode($members); ?>;
+	
+	var organization = <?php echo json_encode($organization); ?>;
 
 	function updateOrganisation(newOrga,type){
-		console.log(newOrga);
+		console.log(newOrga, "type", type);
 		var links ="";
 		var itemId = newOrga["_id"]["$id"];
+		var imgHtml="";
+		var roles ="";
+		var parentId = organization["_id"]["$id"];
+
 		if(type=="citoyens"){
 			links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
-			type = "Person"
+			type = "";
+			imgHtml = '<i class="fa fa-user fa-2x"></i>';
 			tabObject= $("#tPerson");
 		}else{
 			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
 			tabObject = $("#tOrga");
+			imgHtml = '<i class="fa fa-group fa-2x"></i>'
 			type = newOrga.type;
 		}
-		var organizationLine = '<tr>'+
+		if(typeof(newOrga["imagePath"])!="undefined" && newOrga["imagePath"]!=""){
+			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newOrga["imagePath"]+'">'
+		}
+		console.log(newOrga["links"]["memberOf"][parentId]["roles"]);
+		if(typeof(newOrga["links"]["memberOf"][parentId]["roles"])!="undefined"){
+			var rolesTab = newOrga["links"]["memberOf"][parentId]["roles"];
+			for(var i = 0; i<rolesTab.length; i++){
+				if(i==0){
+					roles = rolesTab[i];
+				}else{
+					roles += ", "+rolesTab[i]
+				}	
+			}
+		}
+		
+		var organizationLine = '<tr id="'+itemId+'">'+
           							'<td class="center">'+
-          								'<img src="http://placehold.it/50x50" class="img-circle" alt="image"/>'+
+          								imgHtml+
           							'</td>'+
-          							'<td>'+
-          								'<span class="text-small block text-light">'+type+'</span>' +
-          								'<span class="text-large">'+newOrga.name+'</span>'+
-          								'<a href="'+links+'" class="btn"><i class="fa fa-chevron-circle-right"></i></a>'+
-      								'</td>'+
+          								'<td>'+newOrga.name+'</td>'+
+          							'<td>'+type+'</td>'+
+          							'<td>'+roles+'</td>'+
+      								'<td class="center">'+
+										'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
+											'<a href="'+links+'" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>'+
+											'<a  href="" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>'+
+											'<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-linkType=""  data-type="'+type+'" data-name="'+newOrga.name+'" data-placement="top" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>'+
+										'</div>'+
+									'</td>'+
         						'</tr>';
 
         console.log(organizationLine);
@@ -116,22 +184,30 @@
 	}
 
 	jQuery(document).ready(function() {
-	
-		$(".addMembersBtn").off().on("click",function () {
-			subViewContent = $(this).attr('href');
-		    $.subview({
-		        content : subViewContent,
-		        onShow : function() {
-		        	//bindAddMembersEvents();
-		        },
-		        onHide : function() {
-		          $.hideSubview();
-		          
-		        }
-		    });
-		});
+		bindBtnNetwork();
 	});
-
 	
+	function bindBtnNetwork(){
 
+		$(".disconnectBtnNet").off().on("click",function () {
+	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	        var idOrga = $(this).data("id");
+	        var typeOrga = $(this).data("type");
+	        console.log(idOrga);
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/organization/removemember/organizationId/<?php echo (string)$organization['_id'] ?>/id/"+idOrga+"/type/"+typeOrga,
+		       	dataType: "json",
+	        	success: function(data){
+		        	if ( data && data.result ) {               
+			       	 	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+			        	$("#"+idOrga).remove();
+			        } else {
+			           toastr.info("something went wrong!! please try again.");
+			           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			        }
+			    }
+			});
+		});
+	}
 </script>

@@ -370,7 +370,27 @@ class OrganizationController extends CommunecterController {
 			{
 				
 				$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+
+				if(isset($_POST["memberRoles"])){
+					if (gettype($_POST['memberRoles']) == "array") {
+				      $roles = $_POST['memberRoles'];
+				    } else if (gettype($_POST['memberRoles']) == "string") {
+				      $roles = explode(",", $_POST['memberRoles']);
+				    }
+				    $rolesOrgTab = array();
+				    if(isset($organization["roles"])){
+				    	$rolesOrgTab = $organization["roles"];
+				    }
+				    foreach ($roles as $value) {
+				    	if(!in_array($value, $rolesOrgTab)){
+				    		array_push($rolesOrgTab, $value);
+				    	}
+				    }
+
+				    Organization::setRoles($rolesOrgTab, $_POST["parentOrganisation"]);
+				}
 				
+
 				if( !$member )
 				{
 					 //create an entry in the citoyens collection
@@ -382,7 +402,6 @@ class OrganizationController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'citoyen',
-						 'memberOf'=>array( $_POST["parentOrganisation"] )
 					);
 					  	Person::createAndInvite($member);
 					}else{
@@ -393,14 +412,14 @@ class OrganizationController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'Group',
-						 'memberOf'=>array( $_POST["parentOrganisation"] )
 						);
 						Organization::createAndInvite($member);
 					}
 
 					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					 //add the member into the organization map
-					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
+					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
+					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 					 //TODO : background send email
 					 //send validation mail
@@ -428,7 +447,8 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
+						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
+						$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 	
 					}	
@@ -454,7 +474,6 @@ class OrganizationController extends CommunecterController {
 
     $organization = Organization::getPublicData($id);
     $params = array( "organization" => $organization);
-
     $this->title = (isset($organization["name"])) ? $organization["name"] : "";
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
@@ -637,5 +656,11 @@ class OrganizationController extends CommunecterController {
     public function actionNews($id) {
       $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
       $this->render("news",array("news"=>$news));
+    }
+
+
+    public function actionRemoveMember($organizationId, $id, $type){
+    	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
+    	return Rest::json($res);
     }
 }

@@ -243,5 +243,12 @@ class Organization {
 		}
 		return $events;
 	}
+
+	public static function setRoles($roleTab, $organizationId){
+		PHDB::update( Organization::COLLECTION,
+						array("_id" => new MongoId($organizationId)), 
+                        array('$set' => array( 'roles' => $roleTab))
+                    );
+	}
 }
 ?>

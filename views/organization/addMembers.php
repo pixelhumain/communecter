@@ -41,10 +41,10 @@
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		    	    <div class="form-group" id="searchMemberSection">
 		    	    	<div class='row'>
-							<div class="col-md-2">	
-				           		<i class="fa fa-search fa-2x"></i> : 
+							<div class="col-md-1">	
+				           		<i class="fa fa-search fa-2x"></i> 
 				           	</div>
-				           	<div class="col-md-10">
+				           	<div class="col-md-11">
 				           		<span class="input-icon input-icon-right">
 						           	<input class="member-search form-control" placeholder="Search By name, email" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
@@ -67,10 +67,6 @@
 									Organisation
 								</a>
 							</div>
-			                <!--<select id="memberType" name="memberType">
-			                    <option value="citoyens">People</option>
-			                    <option value="organizations">Organisation</option>
-			                </select>-->
 			            </div><br>
 			            <div id="formNewMember">
 			    	        <div class="row">
@@ -90,18 +86,28 @@
 			               		</div>
 			               	</div>
 			               	<div class ="row">
+			    	        	<div class="col-md-1">	
+					           		<i class="fa fa-envelope-o fa-2x"></i>
+					           	</div>
+			    	        	<div class="col-md-10">
+			               			<input type="hidden" style="min-width:100%" placeholder="Role" autocomplete = "off" id="memberRole" name="memberRole" value=""/>
+			               		</div>
+			               	</div>
+			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1">	
 									<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
 								</div>
 							</div>
 							
 							<div class="row">
-								<div id="divAdmin" class="form-group">
-					    	    	<label class="control-label">
-										Administrateur :
-									</label>
-									<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-									<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+								<div class="col-md-5">
+									<div id="divAdmin" class="form-group">
+						    	    	<label class="control-label">
+											Administrateur :
+										</label>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+										<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -110,9 +116,7 @@
 					    	    </div>
 					    	</div>
 				    	</div>
-		    	    </div>
-		    	   
-		    	   
+		    	    </div>	    	   
 		        </form>
 	        </div>
         </div>
@@ -175,6 +179,7 @@
 </div>
 <script type="text/javascript">
 	var timeout;
+	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
 		
 		bindOrganizationSubViewAddMember();
@@ -202,6 +207,12 @@
 		});
 	};
 	function initFormAddMember(){
+		if(typeof(organization["roles"])!="undefined"){
+			$('#memberRole').select2({ tags: organization["roles"]});
+			//$('#memberRole').select2({ tags: organization["roles"]});
+		}else{
+			$('#memberRole').select2({ tags: []});
+		}
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
@@ -215,7 +226,8 @@
 				"memberEmail" : $("#addMembers #memberEmail").val(),
 				"memberType" : $("#addMembers #memberType").val(), 
 				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
-				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val()
+				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
+				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
 	    	$.ajax({
 	            type: "POST",
@@ -227,14 +239,15 @@
 	            		toastr.error(data.content);
 	            	}else{
 	            		toastr.success("member added successfully ");
+	            		if(updateOrganisation != undefined && typeof updateOrganisation == "function")
+		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
 		                showSearch();
-		                if(updateOrganisation != undefined && typeof updateOrganisation == "function")
-		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
+		                
 	            	}
 	            	console.log(data.result);   
 	            },
