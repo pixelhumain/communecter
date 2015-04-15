@@ -22,24 +22,37 @@ class Job {
 
 	
 	public static function insertJob($job) {  
+		foreach ($job as $jobFieldName => $jobFieldValue) {
+			if (! Job::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {
+				throw new CommunecterException("Can not insert the job : unknown field ".$jobFieldName);
+			}
+		}
 		//Manage tags : save any inexistant tag to DB 
 		if (isset($job["tags"]))
 			$job["tags"] = Tags::filterAndSaveNewTags($job["tags"]);
 
 		//Insert the job
-	    PHDB::insert( Job::COLLECTION, $job);
+		$result = PHDB::updateWithOptions( Job::COLLECTION, array("_id" => new MongoId()), 
+                          array('$set' => $job), array("upsert" => true));
 		
-	    if (isset($job["_id"])) {
-	    	$newJobId = (String) $job["_id"];
+	    if (isset($result["upserted"])) {
+	    	$newJobId = (String) $result["upserted"];
+	    	$job = Job::getById($newJobId);
 	    } else {
 	    	throw new CommunecterException("Problem inserting the new job offer");
 	    }
 	                  
-	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été ajoutée avec succès.", "id"=>$newJobId);
+	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été ajoutée avec succès.", "id"=>$newJobId, "job"=>$job);
 	}
 
 	public static function updateJob($jobId, $job, $userId) {  
 		
+		foreach ($job as $jobFieldName => $jobFieldValue) {
+			if (! Job::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {
+				throw new CommunecterException("Can not insert the job : unknown field ".$jobFieldName);
+			}
+		}
+
 		//Manage tags : save any inexistant tag to DB 
 		if (isset($job["tags"]))
 			$job["tags"] = Tags::filterAndSaveNewTags($job["tags"]);
@@ -54,6 +67,25 @@ class Job {
 	                  
 	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été modifiée avec succès.", "id"=>$newJobId);
 	}
+
+	/**
+	 * Remove a job with his jobId
+	 * @param String $jobId 
+	 * @param String $userId 
+	 * @return array of the result (result => bool, msg => String)
+	 */
+	public static function removeJob($jobId, $userId) {  
+
+		if (! Authorisation::isJobAdmin($jobId, $userId)) {
+			throw new CommunecterException("Can not remove the job : you are not authorized to update that job offer !");	
+		}
+		
+		//update the job
+		PHDB::remove(Job::COLLECTION, array("_id" => new MongoId($jobId)));
+	                  
+	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été supprimé avec succès.");
+	}
+
 
 	public static function updateJobField($jobId, $jobFieldName, $jobFieldValue, $userId) {  
 		
@@ -91,10 +123,12 @@ class Job {
 		    "experienceRequirements",
 		    "incentives",
 		    "industry",
+		    "jobLocation.description",
 		    "jobLocation.address",
 		    "jobLocation.address.postalCode",
 		    "jobLocation.address.addressLocality",
 		    "jobLocation.address.addressRegion",
+		    "jobLocation.address.addressCountry",
 		    "occupationalCategory",
 		    "qualifications",
 		    "responsibilities",
@@ -107,7 +141,11 @@ class Job {
 		    "startDate", 
 		    "tags"
 		);
+
 		$res = in_array($jobFieldName, $listFieldName);
+		
+		//check for a composing fieldName
+		//TODO SBAR - The choise could be to send json Data
 
 		return $res;
 	}
@@ -120,7 +158,6 @@ class Job {
 		} else {
 			$where = array();
 		}
-
 		$jobList = PHDB::findAndSort( Job::COLLECTION, $where, array("datePosted" => -1));
 
 		//Get the organization hiring detail

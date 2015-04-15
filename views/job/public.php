@@ -1,52 +1,12 @@
-<?php 
-$cs = Yii::app()->getClientScript();
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/css/datepicker.css');
-
-//X-editable...
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
-
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
-
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END, array(), 2);
-?>
 <div class="row">
 	<div class="col-sm-12">
 		<div id="#panel_public" class="panel panel-white">
 			<div class="panel-heading">
 				<h4 class="panel-title">Offer a <span class="text-bold">Job</span></h4>
-				<ul class="panel-heading-tabs border-light">
-		        	<li>
-		        		<a href="#editJob" class="editJobBtn btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Edit the current job offer"><i class="fa"></i>Edit Job</a>
-		        	</li>
-			        <li class="panel-tools">
-			          <div class="dropdown">
-			            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-			              <i class="fa fa-cog"></i>
-			            </a>
-			            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-			              <li>
-			                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-			              </li>
-			              <li>
-			                <a class="panel-expand" href="#">
-			                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-			                </a>
-			              </li>
-			              </ul>
-		          	  </div>
-			          <a class="btn btn-xs btn-link panel-close" href="#">
-			            <i class="fa fa-times"></i>
-			          </a>
-			        </li>
-		        </ul>
 			</div>
-			<div class="panel-body" style="display: block;">
+			<div class="panel-body" style="display: block;">				
 				<form class="form-horizontal" role="form">
+					<div id="msg" class="alert alert-error" style="display: block;"></div>
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="panel panel-white">
@@ -63,7 +23,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 										<div class="form-group">
 											<label for="form-field-2" class="col-sm-3 control-label">Postal Code</label>
 											<div class="col-sm-9">
-												<a href="#" id="jobLocation.address.postalCode" data-type="text" data-original-title="Enter Job Postal Code" class="editable-job editable editable-click">
+												<a href="#" id="postalCode" data-type="text" data-original-title="Enter Job Postal Code" class="editable-job editable editable-click">
 													<?php 
 														if (isset($job["jobLocation"]) && isset($job["jobLocation"]["address"]) 
 															&& isset($job["jobLocation"]["address"]["postalCode"])) {
@@ -120,8 +80,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 										<div class="form-group">
 											<label for="form-field-7" class="col-md-2 control-label">Job Location details</label>
 											<div class="col-md-4">
-												<a href="#" id="jobLocation" data-type="text" data-original-title="Enter Job Location" class="editable-job editable editable-click">
-													Job Location
+												<a href="#" id="jobLoc" data-type="text" data-original-title="Enter Job Location" class="editable-job editable editable-click">
+													<?php echo (isset($job["jobLocation"]) && isset($job["jobLocation"]["description"]))  ? $job["jobLocation"]["description"] : "" ?>
 												</a>
 											</div>
 											<label for="form-field-8" class="col-md-2 control-label">Work Hours</label>
@@ -200,38 +160,28 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 
 <script type="text/javascript">
 var jobData = <?php echo json_encode($job)?>;
-var jobId = "<?php echo $job["_id"]; ?>";
+var jobId = "<?php echo isset($job["_id"]) ? $job["_id"] : ""; ?>";
 
 //By default : view mode
 //TODO SBAR - Get the mode from the request ?
-var mode = "viewMode";
+var mode = "<?php echo $mode ?>";
 
 jQuery(document).ready(function() {
 	//initLocation();
-	$('#tagsJob2').editable({
-        showbuttons: false,
-        mode: 'inline',
-        select2: {
-            tags: ['html', 'javascript', 'css', 'ajax'],
-            tokenSeparators: [",", " "],
-        }
-    });
 	activateEditable();
 	manageMode();
 	debugMap.push(jobData);
 });
 
 function manageMode() {
-	if (mode == "viewMode") {
-		$('.editJobBtn').text("Edit Job");
+	if (mode == "view") {
 		$('.editable-job').editable('toggleDisabled');
 		$('#startDate').editable('toggleDisabled');
 		$('#tagsJob').editable('toggleDisabled');
 		$('#hiringOrganization').editable('toggleDisabled');
 		$('#save-btn').hide();
 		$('#reset-btn').hide();
-	} else if (mode == "updateMode") {
-		$('.editJobBtn').text("View Job");
+	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-job').editable('option', 'pk', jobId);
 		$('#startDate').editable('option', 'pk', jobId);
@@ -245,8 +195,7 @@ function manageMode() {
 		//Hide the button
 		$('#save-btn').hide();
 		$('#reset-btn').hide();
-	} else if (mode == "insertMode") {
-		$('.editJobBtn').hide();
+	} else if (mode == "insert") {
 		$('#save-btn').show();
 		$('#reset-btn').show();
 	}
@@ -276,6 +225,7 @@ function activateEditable() {
 
     //make jobTitle required
 	$('#title').editable('option', 'validate', function(v) {
+    	console.log("Title Mandatory");
     	if(!v) return 'Required field!';
 	});
 
@@ -322,10 +272,14 @@ function activateEditable() {
             width: 200
         } 
     });
+    //make jobTitle required
+	$('#hiringOrganization').editable('option', 'validate', function(v) {
+    	if(!v) return 'Required field!';
+	});
     
     //Button Save
     $('#save-btn').click(function() {
-	   	$('.editable-job').editable('submit', { 
+	   	$('.editable').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response
@@ -337,16 +291,20 @@ function activateEditable() {
 	               //remove unsaved class
 	               $(this).removeClass('editable-unsaved');
 	               //show messages
-	               var msg = 'New user created! Now editables submit individually.';
+	               var msg = 'New job created!';
 	               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
 	               $('#save-btn').hide(); 
-	               $(this).off('save.newuser');                     
+	               console.log("data.job => "+data.job);
+	               if(updateJob != undefined && typeof updateJob == "function")
+		        			updateJob( data.job,  data.id);
+	               $.hideSubview();
 	           } else if(data && data.errors){ 
 	               //server-side validation error, response like {"errors": {"username": "username already exist"} }
 	               config.error.call(this, data.errors);
 	           }               
 	       },
 	       error: function(errors) {
+	           console.log("Bing y a une erreur !");
 	           var msg = '';
 	           if(errors && errors.responseText) { //ajax error, errors = xhr object
 	               msg = errors.responseText;
@@ -354,6 +312,7 @@ function activateEditable() {
 	               $.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
 	           } 
 	           $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
+	           console.log("Le msg : "+msg);
 	       }
 	   });
 	});
