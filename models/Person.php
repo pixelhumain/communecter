@@ -244,6 +244,7 @@ class Person {
 	*/
 	public static function getListImage($id, $type){
 		clearstatcache();
+		//TODO JR : this upload directory should be an application parameter.
 		$directory = Yii::app()->basePath."\\..\\upload\\communecter\\".$type."\\".$id."\\";
 		$listImages=array();
 		

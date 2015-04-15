@@ -114,7 +114,7 @@ class CommunecterController extends Controller
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
     "person"=> array(
-      "index"=>array("href"=>"/ph/communecter/person",'title' => "Person"),
+      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
