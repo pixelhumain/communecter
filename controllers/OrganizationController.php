@@ -387,7 +387,7 @@ class OrganizationController extends CommunecterController {
 				    	}
 				    }
 
-				    Organization::setRoles($rolesOrgTab, $_POST["parentOrganisation"]);
+				    Role::setRoles($rolesOrgTab, $_POST["parentOrganisation"], Organization::COLLECTION);
 				}
 				
 
