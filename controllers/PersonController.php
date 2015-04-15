@@ -726,7 +726,7 @@ class PersonController extends CommunecterController {
     $projects = array();
     if(isset($person["links"]["projects"])){
     	foreach ($person["links"]["projects"] as $key => $value) {
-  			$Project = Project::getPublicData($key);
+  			$project = Project::getPublicData($key);
   			array_push($projects, $project);
   		}
     }
