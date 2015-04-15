@@ -66,18 +66,16 @@ class Authorisation {
     public static function isOrganizationAdmin($userId, $organizationId) {
         $res = false;
         
-        $myOrganization = Authorisation::listUserOrganizationAdmin($userId);
-       	foreach ($myOrganization as $key => $value) {
-       		if($key == $organizationId){
-       			$res = true;
-       		}
-       	}
         //Get the members of the organization : if there is no member then it's a new organization
         //We are in a creation process
         $organizationMembers = Organization::getMembersByOrganizationId($organizationId);
         if (count($organizationMembers) == 0) {
-            $res = true;
-        }  
+            return $res;
+        } 
+
+        $myOrganizations = Authorisation::listUserOrganizationAdmin($userId);
+       	$res = array_key_exists($myOrganizations, $organizationId);
+        
         return $res;
     }
 

@@ -215,18 +215,23 @@ class PersonController extends CommunecterController {
   }
   
   /**
-   * create a user for the application
+   * Register a new user for the application
    * Data expected in the post : name, email, postalCode and pwd
    * @return Array as json with result => boolean and msg => String
    */
   public function actionRegister() {
     
+    if (!empty($_POST['name'])) $name = $_POST['name'];
+    if (!empty($_POST['email'])) $email = $_POST['email'];
+    if (!empty($_POST['cp'])) $postalCode = $_POST['cp'];
+    if (!empty($_POST['pwd'])) $pwd = $_POST['pwd'];
+
     //Get the person data
     $newPerson = array(
-       'name'=>$_POST['name'],
-       'email'=>$_POST['email'],
-       'postalCode'=>$_POST['cp'],
-       'pwd'=>$_POST['pwd']);
+       'name'=> $name,
+       'email'=>$email,
+       'postalCode'=> $postalCode,
+       'pwd'=>$pwd);
 
     try {
       $res = Person::insert($newPerson, false);
