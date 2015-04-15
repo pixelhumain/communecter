@@ -131,15 +131,15 @@ class PersonController extends CommunecterController {
       }
     }
 
-    $Projects = array();
+    $projects = array();
     //Load people I know
     if (isset($person["links"]) && !empty($person["links"]["Projects"])) 
     {
       foreach ($person["links"]["Projects"] as $id => $e) 
       {
-        $Project = Project:: getById($id);
-        if (!empty($Project)) {
-          array_push($Projects, $Project);
+        $project = Project::getById($id);
+        if (!empty($project)) {
+          array_push($projects, $project);
         } else {
          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
         }
@@ -155,7 +155,7 @@ class PersonController extends CommunecterController {
                                       "people"=>$people, 
                                       "organizations"=>$organizations, 
                                       "events"=>$events, 
-                                      "Projects"=>$Projects, 
+                                      "projects"=>$projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
