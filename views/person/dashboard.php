@@ -187,7 +187,7 @@
 
 <div class="row">
 	<div class="col-sm-5 col-xs-12">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => new MongoId($person["_id"]))); ?>
 	 </div>
 </div>
 

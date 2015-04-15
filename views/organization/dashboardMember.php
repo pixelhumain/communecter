@@ -55,7 +55,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-5 col-xs-12">
-   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
+   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "organizationId" => (isset($organization)) ? new MongoId($organization["_id"]) : null )); ?>
   </div>
 
 </div>
