@@ -6,6 +6,15 @@
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">AGENDA PARTAGE </h4>
+        <ul class="panel-heading-tabs border-light">
+        	<li>
+        		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) /*|| (isset($organization['_id']) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization['_id'])))*/) { ?>
+					<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Add an Event</a>
+				<?php } ?>
+        	</li>
+	        <li class="panel-tools">
+	        </li>
+	    </ul>
       </div>
        <div class="panel-body no-padding center">
 		  <div class="flexslider">
