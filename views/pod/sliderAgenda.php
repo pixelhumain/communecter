@@ -8,7 +8,7 @@
         <h4 class="panel-title">AGENDA PARTAGE </h4>
         <ul class="panel-heading-tabs border-light">
         	<li>
-        		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) /*|| (isset($organization['_id']) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization['_id'])))*/) { ?>
+        		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
 					<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Add an Event</a>
 				<?php } ?>
         	</li>
