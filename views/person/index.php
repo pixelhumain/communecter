@@ -56,7 +56,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/do
 					$this->renderPartial('people',array( "person" => $person,"people" => $people));
 					$this->renderPartial('organization',array( "person" => $person, "organizations"=>$organizations));
 					$this->renderPartial('events',array( "person" => $person,"events" => $events));
-					$this->renderPartial('projects',array( "person" => $person,"projects" => $projects));
+					//$this->renderPartial('projects',array( "person" => $person,"projects" => $projects));
 				?>
 			</div>
 		</div>
@@ -68,7 +68,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/do
 						"people"=>$people, 
 						"organizations"=>$organizations,
 						"events"=>$events,
-						"projects"=>$projects
+						//"projects"=>$projects
 						); ?>
 var contextMap = <?php echo json_encode($contextMap)?>;
 

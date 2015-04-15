@@ -43,7 +43,7 @@ class ProjectController extends CommunecterController {
 		     // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
 		    }  	
 		  }
-		}         
+		}
         $this->render("edit",array('project'=>$project, 'organizations'=>$organizations, 'citoyens'=>$citoyens));
 	}
 
