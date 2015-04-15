@@ -68,6 +68,25 @@ class Job {
 	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été modifiée avec succès.", "id"=>$newJobId);
 	}
 
+	/**
+	 * Remove a job with his jobId
+	 * @param String $jobId 
+	 * @param String $userId 
+	 * @return array of the result (result => bool, msg => String)
+	 */
+	public static function removeJob($jobId, $userId) {  
+
+		if (! Authorisation::isJobAdmin($jobId, $userId)) {
+			throw new CommunecterException("Can not remove the job : you are not authorized to update that job offer !");	
+		}
+		
+		//update the job
+		PHDB::remove(Job::COLLECTION, array("_id" => new MongoId($jobId)));
+	                  
+	    return array("result"=>true, "msg"=>"Votre Offre d'emploi a été supprimé avec succès.");
+	}
+
+
 	public static function updateJobField($jobId, $jobFieldName, $jobFieldValue, $userId) {  
 		
 		if (! Job::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {

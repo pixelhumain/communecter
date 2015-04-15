@@ -57,10 +57,15 @@ class JobController extends CommunecterController {
 	/**
 	 * Delete an entry from the job table using the id
 	 */
-  public function actionDelete($id) 
-  {
+	public function actionDelete($id) {
+		//get The job Id
+		if (empty($id)) {
+		  throw new CommunecterException("The job posting id is mandatory to retrieve the job posting !");
+		}
 
-  }
+		$res = Job::removeJob($id, Yii::app()->session["userId"]);
+		Rest::json($res);
+	}
 
   public function actionList($organizationId = null){
 
