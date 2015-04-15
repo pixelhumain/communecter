@@ -199,6 +199,7 @@ class PersonController extends CommunecterController {
    */
   public function actionActivate($user) {
     $account = Person::getById($user);
+    //TODO : move code below to the model Person
     if($account){
         Yii::app()->session["userId"] = $user;
         Yii::app()->session["userEmail"] = $account["email"];
@@ -208,16 +209,38 @@ class PersonController extends CommunecterController {
                       "user"=>$account["_id"]));*/
     }
     //TODO : add notification to the cities,region,departement info panel
-    
-    
     //TODO : redirect to monPH page , inciter le rezotage local
     $this->redirect(Yii::app()->homeUrl);
                 
   }
   
-  public function actionRegister()
-  {
-    echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
+  /**
+   * Register a new user for the application
+   * Data expected in the post : name, email, postalCode and pwd
+   * @return Array as json with result => boolean and msg => String
+   */
+  public function actionRegister() {
+    
+    if (!empty($_POST['name'])) $name = $_POST['name'];
+    if (!empty($_POST['email'])) $email = $_POST['email'];
+    if (!empty($_POST['cp'])) $postalCode = $_POST['cp'];
+    if (!empty($_POST['pwd'])) $pwd = $_POST['pwd'];
+
+    //Get the person data
+    $newPerson = array(
+       'name'=> $name,
+       'email'=>$email,
+       'postalCode'=> $postalCode,
+       'pwd'=>$pwd);
+
+    try {
+      $res = Person::insert($newPerson, false);
+    } catch (CommunecterException $e) {
+      $res = array("result" => false, "msg"=>$e->getMessage());
+    }
+
+    //echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
+    Rest::json($res);
     exit;
   }
   /**

@@ -132,7 +132,7 @@ class CommunecterController extends Controller
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
       "mydata" => array("href" => "/person/mydata"),
-      "mydata" => array("href" => "/person/mydata"),
+      "register" => array("href" => "/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
     ),
 

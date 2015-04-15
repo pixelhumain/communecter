@@ -167,8 +167,10 @@ class ApiController extends Controller {
     public function actions()
     {
         return array(
-            'index'     => 'application.components.api.controllers.IndexAction',
+            //user api
             'login'     =>'application.controllers.user.LoginAction',
+            'sendemailpwd' => 'application.controllers.user.SendEmailPwdAction',
+            //TODO SBAR - cleanup - Is it used ? 
             'saveuser'  =>'application.controllers.user.SaveUserAction',
             'communect' => 'application.controllers.user.CommunectAction',
             'getuser'   => 'application.controllers.user.GetUserAction',
@@ -176,6 +178,8 @@ class ApiController extends Controller {
             'inviteuser'   => 'application.controllers.user.InviteUserAction',
             'getnodeby'   => 'application.controllers.user.GetNodeByAction',
             'saveuserimages' => 'application.controllers.user.SaveUserImagesAction',
+            'index'     => 'application.components.api.controllers.IndexAction',
+            //Not used anymore ? The groups has been replaced by organization
             'savegroup'   => 'application.controllers.groups.SaveGroupAction',  
             'getgroupsby'   => 'application.controllers.groups.GetGroupsByAction',  
             'getuserimages' => 'application.controllers.user.GetUserImagesAction',
