@@ -230,7 +230,7 @@ class Person {
 	*/
 	public static function getListImage($id, $type){
 		clearstatcache();
-		$directory = "C:/Users/Johnson/Documents/dev/pixelhumain/ph/upload/communecter/".$type."/".$id."/";
+		$directory = Yii::app()->basePath."\\..\\upload\\communecter\\".$type."\\".$id."\\";
 		$listImages=array();
 		
 		if(file_exists ( $directory )){
