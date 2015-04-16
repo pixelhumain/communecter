@@ -13,21 +13,9 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light"></div>
 	<div class="panel-tools">
-		<div class="dropdown">
-			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-				<i class="fa fa-cog"></i>
-			</a>
-			<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-				<li>
-					<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-				</li>
-			<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-				<li>
-					<a href="#addPhoto" class="add-photo" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i> Add image</a>
-				</li>
-			<?php } ?>
-			</ul>
-		</div>
+		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+			<a href="#addPhoto" class="add-photo btn btn-xs btn-red tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i> Add image</a>
+		<?php } ?>	
 		<a href="#" class="btn btn-xs btn-link panel-close">
 			<i class="fa fa-times"></i>
 		</a>
@@ -101,9 +89,11 @@
 			success: function(data){
 		  		if(data) {
 		  			console.log(data);
-		  			for(var i=data.length-1; i>=0; i--){
+		  			var i=data.length-1;
+		  			while(i>=0 && i>=data.length-6){
 						var htmlSlide = "<li><img src='"+data[i]+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
+						i--;
 					}
 					$("#flexsliderPhoto").flexslider();
 				}

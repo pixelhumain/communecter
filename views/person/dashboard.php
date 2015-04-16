@@ -23,7 +23,7 @@
 </style>
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]), "photos"=> $photos)); ?>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]))); ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
@@ -210,7 +210,6 @@ $.each(events, function(k, v){
 	console.log(k, v);
 	contextMap['events'].push(v);
 });
-var listPhotos = <?php echo json_encode($photos)?>;
 
 
 jQuery(document).ready(function() {
