@@ -23,7 +23,7 @@
 </style>
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("person" => $person, "photos"=> $photos)); ?>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]), "photos"=> $photos)); ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
@@ -33,36 +33,6 @@
 		</div>
 		<div class="panel-tools">
 			
-			<div class="dropdown">
-				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-					<i class="fa fa-cog"></i>
-				</a>
-				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-					<li>
-						<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-					</li>
-					<li>
-						<a href="#" class="panel-refresh">
-							<i class="fa fa-refresh"></i> <span>Refresh</span>
-						</a>
-					</li>
-					<li>
-						<a data-toggle="modal" href="#panel-config" class="panel-config">
-							<i class="fa fa-wrench"></i> <span>Configurations</span>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="panel-expand">
-							<i class="fa fa-expand"></i> <span>Fullscreen</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
-		<div class="panel-body no-padding">
 			<div id='btnTools'>
 				<?php 
 				//connected user isn't allready connected with page User
@@ -70,14 +40,20 @@
 				{
 					//if connected user and pageUser are allready connected
 					if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-right tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
+						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
 					<?php } else { ?>
-						<a href="javascript:;" class="connectBtn btn btn-red btn-xs pull-right tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
+						<a href="javascript:;" class="connectBtn btn btn-red btn-xs tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
 					<?php }
 				}else{ ?>
-					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info pull-right"></i></a>
+					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>
 				<?php } ?>
 			</div>
+			<a href="#" class="btn btn-xs btn-link panel-close">
+				<i class="fa fa-times"></i>
+			</a>
+		</div>
+		<div class="panel-body no-padding">
+			
 			<div class="user-left">
 				<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
 				<!---->
@@ -223,6 +199,7 @@
 </div>
 
 <script>
+
 var contextMap = {};
 contextMap['person'] = <?php echo json_encode($person) ?>;
 contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
