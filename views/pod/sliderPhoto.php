@@ -88,13 +88,15 @@
 			processData: false,
 			success: function(data){
 		  		if(data) {
-		  			console.log(data);
-		  			var i=data.length-1;
-		  			while(i>=0 && i>=data.length-6){
-						var htmlSlide = "<li><img src='"+data[i]+"' /></li>";
-						$("#slidesPhoto").append(htmlSlide);
-						i--;
-					}
+		  			i=0;
+		  			$.each(data, function(k,v){
+		  				if(i<5){
+		  					var htmlSlide = "<li><img src='"+v+"' /></li>";
+							$("#slidesPhoto").append(htmlSlide);
+							i++;
+		  				}
+		  				
+		  			})
 					$("#flexsliderPhoto").flexslider();
 				}
 		  		else
