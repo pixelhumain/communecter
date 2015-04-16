@@ -7,7 +7,7 @@ class Authorisation {
 
     /**
      * Return true if the user is admin of at least an organization 
-     * @param type the id of the user
+     * @param String the id of the user
      * @return boolean true/false
      */
     public static function isUserOrganizationAdmin($userId) {
@@ -30,7 +30,7 @@ class Authorisation {
 
     /**
      * Return an array with the organizations the user is admin of
-     * @param type the id of the user
+     * @param String the id of the user
      * @return array of Organization (organizationId => organizationValue)
      */
     public static function listUserOrganizationAdmin($userId) {
@@ -59,8 +59,8 @@ class Authorisation {
 
     /**
      * Return true if the user is admin of the organization or if it's a new organization
-     * @param type the id of the user
-     * @param type the id of the organization
+     * @param String the id of the user
+     * @param String the id of the organization
      * @return array of Organization (simple)
      */
     public static function isOrganizationAdmin($userId, $organizationId) {

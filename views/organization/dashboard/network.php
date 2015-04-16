@@ -5,7 +5,7 @@
     	<?php 
     	$res= false;
     	if(isset($organization) && isset(Yii::app()->session["userId"])) {
-    		$res =  Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], new MongoId($organization["_id"]));
+    		$res =  Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]);
     		if($res){
     	?>
 			<a href="#addMembers" class="addMembersBtn btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i> Add Members</a>
@@ -59,7 +59,10 @@
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody id='tPerson'>
-              	<?php if(isset($members[PHType::TYPE_CITOYEN])){foreach ($members[PHType::TYPE_CITOYEN] as $e) { $id = new MongoId($organization["_id"]); ?>
+              	<?php if(isset($members[PHType::TYPE_CITOYEN])) {
+              		foreach ($members[PHType::TYPE_CITOYEN] as $e) { 
+              			$id = (String) $organization["_id"]; 
+              	?>
 						<tr id="<?php echo (string)$e["_id"];?>">
 							<td class="center">
 							<?php if ($e && isset($e["imagePath"])){ ?>
@@ -71,7 +74,7 @@
 							<td><?php if(isset($e["name"]))echo $e["name"]?></td>
 							<td><?php if(isset($e["position"]))echo $e["position"]?></td>
 							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
-							<td><?php if(isset($e["links"]["memberOf"][(string)$id]["roles"])) echo implode(",", $e["links"]["memberOf"][(string)$id]["roles"]) ;?></td>
+							<td><?php if(isset($e["links"]["memberOf"][$id]["roles"])) echo implode(",", $e["links"]["memberOf"][$id]["roles"]) ;?></td>
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips "  data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
