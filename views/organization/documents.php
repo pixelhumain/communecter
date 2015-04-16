@@ -3,7 +3,7 @@ $this->renderPartial('../documents/gedSV');
 ?>
 <div class="row">
 
-  <div class="col-xs-12 docsPanel hide">
+  <div class="col-xs-12 docsPanel">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">Documents </h4>
@@ -71,9 +71,9 @@ $this->renderPartial('../documents/gedSV');
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$(".docsPanel").removeClass('hide').addClass("animated bounceIn").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		/*$(".docsPanel").removeClass('hide').addClass("animated bounceIn").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 			$(this).removeClass("animated bounceIn");
-		});
+		});*/
 		docType = "<?php echo Organization::COLLECTION?>";
 		folder = "<?php echo Organization::COLLECTION.'_'.$_GET['id'] ?>";
 		ownerId = "<?php echo $_GET['id'] ?>";
