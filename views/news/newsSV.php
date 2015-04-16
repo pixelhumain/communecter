@@ -1,8 +1,9 @@
+
 <script type="text/javascript">
 
 var formDefinition = {
     "jsonSchema" : {
-        "title" : "About Pod Form",
+        "title" : "News Form",
         "type" : "object",
         "properties" : {
             "title" :{
@@ -11,7 +12,7 @@ var formDefinition = {
             },
             "description" :{
             	"inputType" : "wysiwyg",
-            	"placeholder" : "Describe your Organization"
+            	"placeholder" : "Describe your Organization",
             },
             "tags" :{
 	            	"inputType" : "tags",
@@ -37,7 +38,7 @@ var dataBind = {
 
 jQuery(document).ready(function() {
 	
-	$(".new-note").off().on("click",function() { 
+	$(".new-news").off().on("click",function() { 
 		$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 							"<div class='space20'></div>"+
 							"<h1>Edit About Information</h1>"+
@@ -47,7 +48,6 @@ jQuery(document).ready(function() {
 			content : "#ajaxSV",
 			onShow : function() 
 			{
-				console.log("build Form about");
 				var form = $.dynForm({
 					formId : "#ajaxForm",
 					formObj : formDefinition,

@@ -29,7 +29,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	 		</div>
 
 	 		<div class="col-sm-12 col-xs-12">
-	 			
+	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
 	 	</div>
 	 </div>

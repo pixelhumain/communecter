@@ -1,5 +1,5 @@
 <?php 
-class News2 {
+class News {
 
 	const COLLECTION = "news";
 	/**

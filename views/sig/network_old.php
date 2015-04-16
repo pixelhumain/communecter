@@ -8,7 +8,7 @@ $(document).ready( function()
 { 	
 	//récupère les coordonnées de ma position
 	//et lance la création de la carte
-	testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/sig/GetMyPosition', null,
+	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/sig/GetMyPosition', null,
 		function (data){ //alert(JSON.stringify(data));
 			var myInfos;
 			$.each(data, function() { 
@@ -52,7 +52,7 @@ div.timeline{ margin-right:0px; }
 	/*
 	//importer les données News
 	$('#btn_import_data').click(function(event) { 
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/sig/ImportData', null,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/sig/ImportData', null,
 			function (data){ //alert(JSON.stringify(data));				
 				$("#resImportData").html(data);
 		});	

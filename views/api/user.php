@@ -16,7 +16,7 @@
 					params = { "email" : $("#emailCommunect").val() , 
 					    	   "cp" : $("#cpCommunect").val()
 					    	};
-					testitpost("communectResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/communect',params);
+					ajaxPost("communectResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/communect',params);
 				}
 			</script>
 			
@@ -39,7 +39,7 @@
 					params = { "email" : $("#emailLogin").val() , 
 					    	   "pwd" : $("#pwdLogin").val()
 					    	};
-					testitpost("loginResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/login',params);
+					ajaxPost("loginResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/login',params);
 					
 				}
 			</script>
@@ -70,7 +70,7 @@
 					    	   "cp" : $("#postalcodeSaveUser").val() ,
 					    	   "pwd":$("#pwdSaveUser").val() ,
 					    	   "phoneNumber" : $("#phoneNumberSaveUser").val()};
-					testitpost("createUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/saveUser',params);
+					ajaxPost("createUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/saveUser',params);
 				}
 			</script>
 		</div>
@@ -86,7 +86,7 @@
 			<div id="getUserResult" class="result fss"></div>
 			<script>
 				function getUser(){
-					testitget("getUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getUser/email/'+$("#getUseremail").val());
+					ajaxGet("getUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getUser/email/'+$("#getUseremail").val());
 				}
 				
 			</script>
@@ -105,11 +105,11 @@
 			<script>
 				function getpeopleby(){
 					params = { "cp" : $("#postalcodegetPeople").val() };
-					testitpost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby',params);
+					ajaxPost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby',params);
 				}
 				function countpeopleby(){
 					params = { "cp" : $("#postalcodegetPeople").val() };
-					testitpost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params);
+					ajaxPost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby/count/1',params);
 				}
 			</script>
 		</div>
@@ -127,7 +127,7 @@
 			<script>
 				function inviteUser(){
 					params = { "email" : $("#inviteUseremail").val() };
-					testitpost("inviteUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params);
+					ajaxPost("inviteUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params);
 				}
 				
 			</script>

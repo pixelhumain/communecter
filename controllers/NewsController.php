@@ -11,7 +11,7 @@ class NewsController extends CommunecterController {
     protected function beforeAction($action) {
 		  return parent::beforeAction($action);
   	}
-
+  	
     public function actionFormCreateNews() { 
     	$this->renderPartial("formCreateNews"); 		
     } 
@@ -19,38 +19,8 @@ class NewsController extends CommunecterController {
   		$this->renderPartial("newsstream"); 		
   	} 
   	public function actionIndex() { 
-  		/* **************************************
-  		* BUILDING MODULE MENU 
-  		***************************************** */
-  		//TODO : build dynamically based on content 
-		$msgTypes = array( 	
-			"free_msg" => array( "label"=>"Message Libre" , "color"=>"white"), 
-			"idea"     => array( "label"=>"Idée" , "color"=>"yellow"), 
-			"help"     => array( "label"=>"Aide" , "color"=>"red"), 
-			"rumor"    => array( "label"=>"Rumeur" , "color"=>"orange"), 
-			"true_information" => array( "label"=>"Vérité" , "color"=>"green") ,
-			"question" => array( "label"=>"Question" , "color"=>"purple")
-		);
-
-		$msgTypesMenu = array();
-		foreach( $msgTypes as $key=>$type ) { 
-			array_push($msgTypesMenu, array( "label"=>" <img src='".$this->module->assetsUrl."/images/news/natures/".$key.".png' style='margin-top:2px;' height=15> ".$type['label'], "key"=>$key, "onclick"=>"javascript:selectGenreNewsstream('".$key."')") );
-		}
-
-		//TODO : build dynamically based on content tags
-		$msgThemes = News::$THEMES_NAMES;
-
-		$msgThemeMenu = array();
-		foreach( $msgThemes as $key=>$theme ) { 
-			array_push($msgThemeMenu, array( "label"=>" <img src='".$this->module->assetsUrl."/images/news/themes/".$key.".png' style='margin-top:2px;' height=15> ".$theme, "key"=>"theme".$key, "onclick"=>"javascript:checkChkAbout('".$key."')") );
-		}
-
-  		$this->sidebar2 = array(
-            array( 'label' => "Type d'actu", "key"=>"newsType", "children"=> $msgTypesMenu ),
-            array( 'label' => "Thèmatique", "key"=>"newsTheme", "children"=> $msgThemeMenu )
-        );
-
-        $where = array();
+  		
+        $where = array("created"=>array('$exists'=>1) ) ;
 		$news = News::getWhere( $where );
 
   		$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
@@ -188,91 +158,8 @@ class NewsController extends CommunecterController {
 	//******************************************************************************
 	//** SAVE NEWS
 	//******************************************************************************	
-	public function actionSaveNews(){
-		
-		$json_news = json_decode($_POST["json"]);
-		$news = array("name" => $json_news->name,
-					  "text" => $json_news->text,
-					  "genre" => $json_news->genre,
-					  "about" => $json_news->about,
-					  "author" => new MongoId(Yii::app()->session["userId"]));
-	 //Rest::json( array("msg" => "every thing all right" ) );
-		//Rest::json( $news );
-		//Yii::app()->end();
-		
-		//recupere les donnes de l'utilisateur
-		$where = array(	'_id'  => new MongoId(Yii::app()->session["userId"]) );
-	 	$user = PHDB::find(PHType::TYPE_CITOYEN, $where);
-	 	$user = $user[Yii::app()->session["userId"]];
-	 			
-		foreach($json_news->scope as $scope){
-			
-			//dans le cas d'un groupe
-			//ajoute un à un chaque membre du groupe demandé (=> contact)
-			if($scope->scopeType == "groupe"){				 
-	 			//pour chacun de ses groupes de contact
-    			foreach($user["knows"] as $groupe){
-    				//pour chaque membre du groupe demandé
-    				if($groupe["name"] == $scope->id)
-    				foreach($groupe["members"] as $contact){
-    					//recupere les donnes du contact
-						$where = array(	'_id'  => $contact );
-	 					$allContact = PHDB::find(PHType::TYPE_CITOYEN, $where);
-	 					$allContact = $allContact[$contact->__toString()];
-	 					//ajoute un scope de type "contact" dans la news
-						$news["scope"][] = array("scopeType" => "contact",
-					  						 	"at" => "@".$allContact["name"],
-					  						 	"id" => $contact);
-					}	
-				}
-			}
-			//cas de tous les contact
-			else if($scope->id == "all_contact" && $scope->scopeType == "contact"){
-				//pour chacun de ses groupes de contact
-    			foreach($user["knows"] as $groupe){
-    				//pour chaque membre d'un groupe
-    				foreach($groupe["members"] as $contact){
-    					//recupere les donnes du contact
-						$where = array(	'_id'  => $contact );
-	 					$allContact = PHDB::find(PHType::TYPE_CITOYEN, $where);
-	 					$allContact = $allContact[$contact->__toString()];
-	 					//if(!isset($allContact["name"])) {Rest::json( "pas de name" ); Yii::app()->end(); }
-	 					//ajoute un scope de type "contact" dans la news
-						if(isset($allContact["name"]))
-						$news["scope"][] = array("scopeType" => "contact",
-					  						 	"at" => "@".$allContact["name"],
-					  						 	"id" => $contact);
-						
-					}
-					
-				}	
-			}
-			//cas de toutes les organisations
-			else if($scope->id == "all_organisation" && $scope->scopeType == "organisation"){
-				//pour chacun de ses organisations
-    			foreach($user["memberOf"] as $organization){
-    					//recupere les donnes de l'organisation
-						$where = array(	'_id'  => $organization );
-	 					$allOrga = PHDB::find("organizations", $where);
-	 					$allOrga = $allOrga[$organization->__toString()];
-	 					//ajoute un scope de type "organisation" dans la news
-						$news["scope"][] = array("scopeType" => $scope->scopeType,
-					  						 	"at" => "@".$allOrga["name"],
-					  						 	"id" => $organization);
-					}	
-			}
-			//par défaut ajoute le scope telquel
-			else{
-				$news["scope"][] = $scope;
-			}
-		}
-		
-						
-		Yii::app()->mongodb->articles->insert($news);
-        
-        //Rest::json( array("msg" => "every thing all right" ) );
-		Rest::json( $news );
-		Yii::app()->end();            
+	public function actionSave() {
+	    return Rest::json( News::save($_POST) );
 	}
 	
 	//******************************************************************************
@@ -299,142 +186,6 @@ class NewsController extends CommunecterController {
 		Rest::json( $result );
         Yii::app()->end();        
 	}
-	
-	
-	//******************************************************************************
-	//** GET NEWS STREAM HTML (transforme une liste de ARTICLES en format html)
-	//** $newsList == Mongo.Articles
-	//******************************************************************************	
-	private function getNewsStreamHtml($newsList){
-		
-		//return $this->renderPartial("newsstream");
-		
-		$html = '<div class="spine"></div><ul class="columns">'; $count=0;
-		foreach($newsList as $post){
-		
-		//récupère les infos sur l'auteur du post / News
-		$where = array('_id' => $post['author'] );
-		$author = PHDB::findOne(PHType::TYPE_CITOYEN, $where);
-    	$color = "white";
-    		
-		$color = NEWS::get_GENRE_COLOR($post['genre']);
-    	
-    	//$html .=  "<div class='post'>";
-		$html .=  "<li>".
-					'<div class="timeline_element partition-white">';
-		
-			$html .=  "<div class='info_author_post'>";
-								
-				//PHOTO PROFIL
-				$html .= "<div class='pic_profil_author_post'>".
-						 "<img class='img_profil_round'  src='".Yii::app()->theme->baseUrl."/assets/images/avatar-1.jpg' height=55>".
-						 "</div>";
-			
-				//ICO TYPE ACCOUNT
-				$html .= "<div class='ico_type_account_author_post'>".
-						 //"<img src='application/pictures/account_type/User-M_24_B.png' height=30>".
-						 "</div>";
-			
-				//PSEUDO AUTHOR
-				if(isset($author['name']))
-				$html .= "<a href='' class='pseudo_author_post'>".
-							$author['name'].
-						 "</a>";
-	
-				//CITY AUTHOR
-				if(isset($author['cp']))
-				$html .= "<a href class='city_author_post'>- ".
-							$author['cp'].
-						 "</a>";
-	
-			$html .= "</div>"; //info_author_post
-			
-	
-			$html .=  "<div class='header_post ".$color."'>";
-			
-				//IL Y A
-				$html .= 	"<div class='ilya' style='float:left; max-width:100%; min-width:100%;'>".
-								"<center><i class='fa fa-clock-o'></i>".
-								"</br>il y a 18 minutes<center>".
-							"</div>";
-		
-				//ILLUSTRATION POST 
-				//if(isset($post['id_illustration']))
-				if($count == 0)
-				$html .= 	"<div style='float:left; max-width:100%; min-width:100%;'>".
-								"<center><img src='".$this->module->assetsUrl."/images/news/test_illu/illu_test.jpg' class='illustration_post'/></center>".
-							"</div>";
-				$count++;
-			$html .= "</div>";
-		
-			
-			//GENRE
-			$html .= "<div class='nature_post'>".
-					 "<img src='".$this->module->assetsUrl."/images/news/natures/".$post['genre'].".png' class='img_illu_publication_nature' style='margin-top:0px;' title='nature du message : ".News::get_NATURES_NAMES($post['genre'])."' id='".$post['genre']."' height=50>".
-					 "</div>";
-				 
-			//FAVORITES
-			$html .= "<a href='' class='btn_circle_post' id='btn_circle_favorites' style='margin-left:12px; color:#23D1B9'>".
-					 "<i class='fa fa-star' title='garder en favoris'></i>".
-					 "</a>";
-	
-			//ARLERT MODERATION
-			$html .= "<a href='' class='btn_circle_post' id='btn_circle_moderation' style='color:#E66B6B'>".
-					 "<i class='fa fa-bell' title='signaler le contenu'></i>".
-					 "</a>";
-					 
-								 
-			//LIST THEMES	
-			$html .= "<div class='list_themes_post'>";
-			if(isset($post['about'])){
-				foreach($post['about'] as $theme){
-					$html .= "<div class='theme_post'>".
-								"<img src='".$this->module->assetsUrl."/images/news/themes/".$theme.".png' class='img_illu_publication_theme' title='thème : ".News::get_THEMES_NAMES($theme)."' id='".$theme."' style='margin-top:0px;' height=30>".
-							 "</div>";
-				}
-			}
-			$html .= "</div>";
-			
-			$html .= "<div class='panel-title' style='float:left; min-width:100%;'>".
-						"<h4 style='font-size:15px; margin:0px; margin-left:10px; padding:0px;'><b>".News::get_NATURES_NAMES($post['genre'])."</b></h4>".
-					"</div>";
-		
-			
-			//TITLE
-			if(isset($post['name']))
-			$html .= "<div class='panel-title' style='float:left; min-width:100%;'>".
-						"<h3 style='font-size:18px; margin:0px; margin-left:10px; padding:0px;'>".$post['name']."</h3>".
-					"</div>";
-		
-			//CONTENT
-			if(isset($post['text']))
-			$html .= "<div class='panel-body' style='float:left;  margin-bottom:10px;'><p>".$post['text']."</p></div>";
-		
-			//BAR TOOL
-			$html .= "<div class='bar_tools_post'>".
-				"<ul>	
-						<li><a href=''>j'aime</a></li>
-						<li><a href=''>partager</a></li>						
-				</ul>".
-				"<ul style='float:left;'>".
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-comment'></i></span></li>".
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-up'></i></span></li>".
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-share-alt'></i></span></li>".
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-eye'></i></span></li>".
-				
-				"</ul>".
-				"</div>";
-					
-		//$html .= "</div>"; //post
-		$html .= "</li>"; //post
-		
-		}	
-		
-		$html.='</ul>';
-		
-		return $html;
-	}
-	
 	
 }
 

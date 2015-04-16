@@ -61,7 +61,7 @@ class CommunecterController extends Controller
           ),
     array('label' => "News", "key"=>"note",
                 "children"=> array(
-                  "createNews" 	=> array( "label"=>"Create news",	"key"=>"new-note", 	 "class"=>"new-note", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "createNews" 	=> array( "label"=>"Create news",	"key"=>"new-news", 	 "class"=>"new-news", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "newsStream" 	=> array( "label"=>"News stream",	"key"=>"newsstream", "class"=>"ajaxSV", "onclick"=>"openSubView('News stream', '/communecter/news/newsstream', null)", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
                   //"newNote"		=> array( "label"=>"Add new note",	"class"=>"new-note",	  "key"=>"newNote",  "href"=>"#newNote",  "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                  // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
@@ -90,12 +90,12 @@ class CommunecterController extends Controller
   );
 
   public $toolbarMenuMaps = array(
-      array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
+      /*array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
       array('label' => "Local Companies", 	'desc' => "Discover Companies around you", 					"key"=>"localCompanies", "class"=>"ajaxSV", "onclick"=>"openSubView('Local Companies', 	'/communecter/sig/companies', null)", 	'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
       array('label' => "Local State", 		'desc' => "All the city hall public services",				"key"=>"localStates", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local States', 	 	'/communecter/sig/state', null)", 		'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
       array('label' => "Calendar", 		'desc' => "Discover All sorts of local events around you", 		"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Calendar', 	 			'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
       array('label' => "Network Viewer",    'desc' => "Visualize your network", "key" =>"networkViewer", "class"=>"ajaxSV", "onclick"=>"openSubView('Network Viewer', '/communecter/graph/viewer', null,null,function(){clearViewer();})",    'extra' => "arround You",  "iconClass"=>"fa-share-alt text-yellow"),
-  );
+  */);
 
   public $pages = array(
 
@@ -199,17 +199,17 @@ class CommunecterController extends Controller
       */
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
-        array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboardMember/id/".$id),
-        array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard1/id/".$id),
-        array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
-        array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-        array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-        array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/documents/id/".$id),
-        array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
-        //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-        //array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-      );
-    $this->sidebar1 = array_merge(Menu::menuItems(),$grandirMenu,$this->sidebar1);
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboardMember/id/".$id),
+      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard1/id/".$id),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
+      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
+      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/documents/id/".$id),
+      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
+      //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
+      //array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
+    );
+    $this->sidebar1 = array_merge( Menu::menuItems(), $grandirMenu, $this->sidebar1 );
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
