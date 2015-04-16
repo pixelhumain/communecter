@@ -33,7 +33,7 @@
 
   <div class="col-xs-12">
     <?php 
-    $this->renderPartial('dashboard/sigSearch',array( "organization" => $organization));
+    $this->renderPartial('../organization/dashboard/networkMap',array( "organization" => $organization));
     ?>
   </div>
 </div>
