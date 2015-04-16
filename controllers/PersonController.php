@@ -74,6 +74,9 @@ class PersonController extends CommunecterController {
 
   public function actionIndex() 
   {
+    //Redirect to the dashboard of the user
+    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+
     $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
