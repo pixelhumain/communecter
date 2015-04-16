@@ -74,10 +74,7 @@ class Authorisation {
         } 
 
         $myOrganizations = Authorisation::listUserOrganizationAdmin($userId);
-       	if(isset($myOrganizations[(string)$organizationId])){
-       		$res=true;
-       	}
-        
+       	$res = array_key_exists((string)$organizationId, $myOrganizations);    
         return $res;
     }
 
