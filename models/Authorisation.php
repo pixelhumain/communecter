@@ -70,7 +70,7 @@ class Authorisation {
         //We are in a creation process
         $organizationMembers = Organization::getMembersByOrganizationId($organizationId);
         if (count($organizationMembers) == 0) {
-            return $res;
+            return true;
         } 
 
         $myOrganizations = Authorisation::listUserOrganizationAdmin($userId);
@@ -130,7 +130,7 @@ class Authorisation {
         $listEvent = Authorisation::listEventsIamAdminOf($userId);
         if(isset($listEvent[(string)$eventId])){
        		$res=true;
-       	}
+       	} 
        	return $res;
     }
 
