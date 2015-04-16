@@ -674,7 +674,6 @@ class PersonController extends CommunecterController {
   		}
     }
 
-    $photos = Person::getListImage($id, "person");
     
     //Get the Events
   	$events = Authorisation::listEventsIamAdminOf($id);
@@ -718,7 +717,6 @@ class PersonController extends CommunecterController {
     	
     }
 
-    $params["photos"] = $photos;
     $params["organizations"] = $organizations;
     $params["projects"] = $projects;
     $params["events"] = $events;
