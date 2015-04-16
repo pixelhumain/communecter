@@ -34,8 +34,8 @@
 	</div>
 	<div class="panel-body">
 		<div class="center">
-			<div class="flexslider" id="flexslider2">
-				<ul class="slides" id="slides2">
+			<div class="flexslider" id="flexsliderPhoto">
+				<ul class="slides" id="slidesPhoto">
 					
 				</ul>
 			  </div>
@@ -103,9 +103,9 @@
 		  			console.log(data);
 		  			for(var i=data.length-1; i>=0; i--){
 						var htmlSlide = "<li><img src='"+data[i]+"' /></li>";
-						$("#slides2").append(htmlSlide);
+						$("#slidesPhoto").append(htmlSlide);
 					}
-					$("#flexslider2").flexslider();
+					$("#flexsliderPhoto").flexslider();
 				}
 		  		else
 		  			toastr.error(data.msg);
@@ -140,6 +140,17 @@
 				success: function(data){
 			  		if(data.result)
 			  			toastr.success(data.msg);
+			  			if(typeof(data.imagePath)!="undefined"){
+			  				$('#flexsliderPhoto').removeData("flexslider")
+			  				$('#flexsliderPhoto').empty();
+			  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
+			  				initDashboardPhoto();
+			  				/*$('#flexsliderPhoto').removeData("flexslider");
+			  				var htmlSlide = "<li><img src='"+data.imagePath+"' /></li>";
+							$("#slidesPhoto").append(htmlSlide);
+
+							$("#flexsliderPhoto").flexslider();*/
+			  			}
 			  		else
 			  			toastr.error(data.msg);
 			  },
