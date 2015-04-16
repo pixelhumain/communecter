@@ -90,7 +90,7 @@
                         </a>
                         <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
                         	<?php foreach ($myOrganizationAdmin as $e) { ?>
-	                        	<li><a href="#" class="btn-drop dropOrg" data-id="<?php echo new MongoId($e['_id'])?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+	                        	<li><a href="#" class="btn-drop dropOrg" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 	                       	<?php } ?>
                         </ul>
                     </div>
