@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="panel-body no-padding center orgaDescription">
-    <?php echo $organization["description"] ?>
+    <?php if(isset($organization["description"])) echo $organization["description"]; ?>
   </div>
 </div>
 
@@ -60,7 +60,7 @@ var formDefinition = {
 
 var dataBind = {
 	"#description": {
-		"value" : "<?php echo $organization["description"] ?>",
+		"value" : "<?php if(isset($organization["description"])) echo $organization["description"]; ?>",
 		"saveTo": "description",
 		"updateElement" : ".orgaDescription"
 	},
