@@ -29,7 +29,7 @@
 	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null )); ?>
 	 		</div>
 	 		<div class="col-sm-12 col-xs-12">
-	 			<?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "organizationId" => (isset($organization)) ? new MongoId($organization["_id"]) : null )); ?>
+	 			<?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "organizationId" => (isset($organization)) ? $organization["_id"] : null )); ?>
 	 		</div>
 
 	 		<div class="col-sm-12 col-xs-12">

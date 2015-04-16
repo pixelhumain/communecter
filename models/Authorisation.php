@@ -74,7 +74,7 @@ class Authorisation {
         } 
 
         $myOrganizations = Authorisation::listUserOrganizationAdmin($userId);
-       	$res = array_key_exists($myOrganizations, $organizationId);
+       	$res = array_key_exists($organizationId, $myOrganizations);
         
         return $res;
     }
@@ -125,7 +125,7 @@ class Authorisation {
      */
     public static function isEventAdmin($eventId, $userId) {
         $listEvent = Authorisation::listEventsIamAdminOf($userId);
-        $res = array_key_exists($listEvent, $eventId);
+        $res = array_key_exists($eventId, $listEvent);
         return $res;
     }
 
