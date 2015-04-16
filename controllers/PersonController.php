@@ -166,6 +166,10 @@ class PersonController extends CommunecterController {
   public function actionList() {
       $this->render("list");
   }
+
+  public function actionGallery() {
+      $this->render("gallery");
+  }
   /**
      * connect 2 people together 
      */
