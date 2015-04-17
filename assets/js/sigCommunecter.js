@@ -27,7 +27,7 @@
 			'<center><i class="fa fa-refresh fa-spin fa-lg"></i></center>');
 		
 		//envoie la requête pour récupérer les éléments à afficher sur la carte
-		testitpost("", baseUrl+'/communecter/sig/' + origine, params, //ShowMapByOrigine', params,
+		ajaxPost("", baseUrl+'/communecter/sig/' + origine, params, //ShowMapByOrigine', params,
 			function (data){ //alert(JSON.stringify(data));
 			
 				//mémorise le nom de la carte

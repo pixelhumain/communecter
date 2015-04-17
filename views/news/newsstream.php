@@ -440,7 +440,7 @@ $(document).ready( function()
 		//params["latMinScope"] = bounds.getSouthWest().lat;
 		
 		
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/news/GetNewsStream', params,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/news/GetNewsStream', params,
 			function (data){ //alert(JSON.stringify(data));				
 				$("#newsstream").html(data);
 				

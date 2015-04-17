@@ -102,7 +102,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 		bootbox.confirm("Are you sure you want to delete "+$(this).data("name")+" organization ?", function(result) {
 			if(result)
 			{
-				testitpost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
+				ajaxPost(null , baseUrl+"/"+moduleId+"/organization/delete",{"id":id},
 					function(data,id){
 						if(data.result){
 							toastr.success("delete successfull ");

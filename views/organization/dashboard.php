@@ -1,28 +1,24 @@
-<?php //var_dump($organization); die();?>
-
-
-	<div class="col-sm-8 col-xs-12">
+	<?php
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
+?>
+<div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
 	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null )); ?>
 	    	</div>
-	    	<div class="col-sm-12 col-xs-12">
-	    		<div class="panel panel-white">
-					<div class="panel-heading border-light">
-						<h4 class="panel-title"> Ressources</h4>
-					</div>
-					<div class="panel-body no-padding">
-						<div class="panel-scroll height-230 ps-container">
-							<table class="table table-striped table-hover" id="organizations">
-								<tbody>
-								</tbody>
-							</table>
-						</div>
+	    	<div class="col-sm-12 col-xs-12 documentPod">
+	    		<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Documents Section</h4>
+						<div class="space5"></div>
 					</div>
 				</div>
+	    		
 	    	</div>
 	    </div>
 	 </div>
+
 	 <div class="col-sm-4 col-xs-12">
 	 	<div class="row">
 	 		<div class="col-sm-12 col-xs-12">
@@ -33,7 +29,7 @@
 	 		</div>
 
 	 		<div class="col-sm-12 col-xs-12">
-	 			
+	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
 	 	</div>
 	 </div>
@@ -47,10 +43,37 @@
 
 	
 	jQuery(document).ready(function() {
+
+		$('.pulsate').pulsate({
+            color: '#2A3945', // set the color of the pulse
+            reach: 10, // how far the pulse goes in px
+            speed: 1000, // how long one pulse takes in ms
+            pause: 200, // how long the pause between pulses is in ms
+            glow: false, // if the glow should be shown too
+            repeat: 10, // will repeat forever if true, if given a number will repeat for that many times
+            onHover: false // if true only pulsate if user hovers over the element
+        });
+
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
+
+		getDocumentPod();
+		
 	});
 
+	function getDocumentPod() { 
+		console.log("getDocumentPod","<?php echo $_GET["id"]?>");
+		$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>"
+	    })
+	    .done(function (data) 
+	    {
+	        $(".documentPod ").html(data);
+	    });
+		
+	}
+	
 	function initDashboardAgenda(){
 		var n = 1;
 		var today = new Date();

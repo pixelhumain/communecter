@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
 });
 function autoCompleteEmail(email){
 		var data = { "email" : email};
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/RecueilinfoEmailAutoComplete', data,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/RecueilinfoEmailAutoComplete', data,
 		function (data){
 			var str = ""; var limit=0;
  			$.each(data, function() { limit++;

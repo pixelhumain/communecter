@@ -630,7 +630,10 @@ class OrganizationController extends CommunecterController {
 
     public function actionDocuments($id) {
       $documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
-      $this->render("documents",array("documents"=>$documents));
+      if(Yii::app()->request->isAjaxRequest)
+        echo $this->renderPartial("../documents/documents",array("documents"=>$documents),true);
+      else
+        $this->render("../documents/documents",array("documents"=>$documents));
     }
 
     /* **************************************

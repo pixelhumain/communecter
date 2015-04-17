@@ -55,7 +55,8 @@
 		
 		//***
 		//afficher / masquer l'icone de chargement
-		Sig.showIcoLoading = function (loading){ if(this.cssModuleName == "") return;
+		Sig.showIcoLoading = function (loading){ 
+			if(this.cssModuleName == "") return;
 			if(loading == true) { $( this.cssModuleName + " #ico_reload").css({"display":"block"});	 }
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
