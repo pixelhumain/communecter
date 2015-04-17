@@ -86,7 +86,7 @@ class CommunecterController extends Controller
     "project.projectSV",
     "event.addAttendeesSV",
     "project.addContributorSV",
-    "news.newsSV"
+    //"sig.networkSV",
   );
 
   public $toolbarMenuMaps = array(
@@ -153,6 +153,7 @@ class CommunecterController extends Controller
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
+      "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
 
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  

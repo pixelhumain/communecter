@@ -1,6 +1,7 @@
 <?php 
 class Person {
 	public $jsonLD= array();
+	const COLLECTION = "citoyens";
 
 	/**
 	 * get a Person By Id
@@ -233,6 +234,38 @@ class Person {
 							"events" => $events
 						);
 		return $personMap;
+	}
+
+	/**
+	 * Update a person field value
+	 * @param String $personId The person Id to update
+	 * @param String $personFieldName The name of the field to update
+	 * @param String $personFieldValue 
+	 * @param String $userId 
+	 * @return boolean True if the update has been done correctly. Can throw CommunecterException on error.
+	 */
+	public static function updatePersonField($personId, $personFieldName, $personFieldValue, $userId) {  
+		//TODO : Check the field sent
+		if (! Person::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {
+			throw new CommunecterException("Can not update the person : unknown field ".$personFieldName);
+		}
+
+		if ($personId == $userId) {
+			throw new CommunecterException("Can not update the person : you are not authorized to update that person !");	
+		}
+
+		//Specific case : tags
+		if ($personFieldName == "tags") {
+			$personFieldValue = Tags::filterAndSaveNewTags($jobFieldValue);
+		}
+
+		$person = array($jobFieldName => $jobFieldValue);
+		
+		//update the person
+		PHDB::update( Person::COLLECTION, array("_id" => new MongoId($jobId)), 
+		                          array('$set' => $person));
+	                  
+	    return true;
 	}
 }
 ?>

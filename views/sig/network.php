@@ -1,3 +1,4 @@
+
 <?php 
 	
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
@@ -65,20 +66,19 @@
 	}
 	
 </style>
-<?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
+<?php /* ********************** HTML ********************/?>
 
 
 
 <div class="<?php echo $moduleName; ?>">	
 	
 	  		<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
-	   		<?php $this->renderPartial('./generic/mapView', array( "sigParams" => $sigParams)); ?>
+	   		<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
 	   		<?php /* *******************************************************************************/?>
 	 
 </div>
 
 <script type="text/javascript">
-	
 	
 	var Sig;
 	
@@ -94,7 +94,6 @@
 	{ 	
 		//création de l'objet SIG
 		Sig = SigLoader.getSig();
-		
 		//affiche l'icone de chargement
 		Sig.showIcoLoading(true);
 		

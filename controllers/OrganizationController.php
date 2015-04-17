@@ -45,7 +45,9 @@ class OrganizationController extends CommunecterController {
     $this->render("index",array("organizations"=>$organizations));
   }
 	
-	
+	/**********************************************************************
+  /* Still used ?
+  /**********************************************************************/
   public function actionTags($type=null)
   {
     if($type){
@@ -62,7 +64,9 @@ class OrganizationController extends CommunecterController {
   }
     
     
-
+  /**********************************************************************
+  /* Sall we keep edit action : Replaced by the dashboard ?
+  /**********************************************************************/
   public function actionEdit($id) 
   {
     $organization = Organization::getById($id);
@@ -170,7 +174,8 @@ class OrganizationController extends CommunecterController {
     }
     
     //Save the organization
-    return Organization::insert($newOrganization, Yii::app()->session["userId"] );;
+    Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
+    
 	}
 
   /**
@@ -229,6 +234,7 @@ class OrganizationController extends CommunecterController {
 
   /**
   * Create and return new array with all the mandatory fields
+  * TODO SBAR - May be moved that function to model
   * @return array as organization
   */
   private function populateNewOrganizationFromPost() {
@@ -666,4 +672,18 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
+
+	/**********************************************************************
+	/* Search Organization
+	/**********************************************************************/
+	public function actionSearchOrganizationByCriteria() {
+		$criterias = array();
+		foreach ($_POST as $key => $value) {
+			$criterias[$key] = $value;
+		}
+
+		$listOrganization = Organization::findOrganizationByCriterias($criterias, "name", 10);
+
+		return Rest::json(array("result" => true, "list" => $listOrganization));
+	}
 }

@@ -1,4 +1,4 @@
-<?php   ?>
+
 
 <?php 
 	
@@ -66,7 +66,7 @@
 	}
 	
 </style>
-<?php /* ********************** CHANGER LE STYLE CSS PRINCIPAL SI BESOIN ********************/?>
+<?php /* ********************** HTML ********************/?>
 
 
 
@@ -91,7 +91,6 @@
 </div>
 
 <script type="text/javascript">
-	
 	
 	var Sig;
 	
