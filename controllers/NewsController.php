@@ -23,7 +23,20 @@ class NewsController extends CommunecterController {
         $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
 		$news = News::getWhere( $where );
 
-  		$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
+		if(Yii::app()->request->isAjaxRequest)
+	        echo $this->renderPartial("index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
+	    else
+  			$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
+  	} 
+  	public function actionLatest() { 
+  		
+        $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
+		$news = News::getWhere( $where );
+
+		if(Yii::app()->request->isAjaxRequest)
+	        echo $this->renderPartial("one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
+	    else
+  			$this->render( "one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
   	} 
   	
   	
