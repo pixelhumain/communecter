@@ -13,7 +13,7 @@
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  About me</h4>
+		<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  Account info</h4>
 	</div>
 	<div class="panel-tools">
 		
@@ -39,14 +39,10 @@
 	<div class="panel-body ">
 		<form action="#" role="form" id="personForm" enctype="multipart/form-data">
 			<div class="row">
-				<div class="col-md-12">
-					<h3>Account Info</h3>
-					<hr>
-				</div>
-				<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12">
+				<div class="col-md-12 col-ld-12 col-sm-12 col-xs-12">
 					<div class="form-group">
 						<label class="control-label">
-							First Name
+							First Name : 
 						</label>
 						<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
 							<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
@@ -63,7 +59,7 @@
 					<fieldset>
 						<div class="form-group">
 							<label class="control-label">
-								Email Address
+								Email Address : 
 							</label>
 
 							<a href="#" id="email" data-type="text" data-original-title="Enter your email" class="editable-person editable editable-click">
@@ -72,7 +68,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">
-								Url
+								Url : 
 							</label>
 							<a href="#" id="url" data-type="text" data-original-title="Enter your url website" class="editable-person editable editable-click">
 								<?php if(isset($person["url"]))echo $person["url"]; else echo "";?>
@@ -80,21 +76,16 @@
 						</div>
 						<div class="form-group"> 
 							<label class="control-label">
-								Phone
+								Phone : 
 							</label>
 							<a href="#" id="phoneNumber" data-type="text" data-original-title="Enter your phoneNumber" class="editable-person editable editable-click">
 								<?php if(isset($person["phoneNumber"]))echo $person["phoneNumber"]; else echo "";?>
 							</a>
 						</div>
 					</fieldset>
-						
-				</div>
-				<div class="col-md-6 col-ld-6 col-sm-6 col-xs-12 ">
-					
-					
-					<div class="form-group posdiv"> 
+					<div class="form-group"> 
 						<label class="control-label">
-							Position
+							Position : 
 						</label>
 						<a href="#" id="position" data-type="text" data-original-title="Enter your position" class="editable-person editable editable-click">
 							<?php if(isset($person["position"]))echo $person["position"]; else echo "";?>
@@ -106,7 +97,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label class="control-label">
-									Postal Code
+									Postal Code : 
 								</label>
 								<a href="#" id="postalCode" data-type="text" data-original-title="Enter PostalCode" class="editable-person editable editable-click">
 									<?php if(isset($person["postalCode"]))echo $person["postalCode"]; else echo "";?>
@@ -117,26 +108,22 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label">
-							Tags
+							Tags : 
 						</label>
 						
-						<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable-person editable editable-click">
+						<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
 							<?php if(isset($person["tags"]))echo implode(",", $person["tags"]); else echo "";?>
 						</a>
-					</div>
+					</div>	
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-					<h3>Additional Info</h3>
-					<hr>
-				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label">
 							<i class="fa fa-twitter"></i> Twitter : 
 						</label>
-						<a href="#" id="twitterAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.twitterAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["twitterAccount"])) echo $person["socialNetwork"]["twitterAccount"]; else echo ""; ?>
 						</a>		 
 					</div>
@@ -144,7 +131,7 @@
 						<label class="control-label">
 							<i class="fa fa-facebook"></i> Facebook : 
 						</label>
-						<a href="#" id="facebookAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.facebookAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["facebookAccount"])) echo $person["socialNetwork"]["facebookAccount"]; else echo ""; ?>
 						</a>	
 					</div>
@@ -152,17 +139,15 @@
 						<label class="control-label">
 							<i class="fa fa-google-plus"></i> Google Plus : 
 						</label>
-						<a href="#" id="gpplusAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.gpplusAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["gpplusAccount"])) echo $person["socialNetwork"]["gpplusAccount"]; else echo ""; ?>
 						</a>
 					</div>
-				</div>
-				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label">
 							<i class="fa fa-github"></i> Github : 
 						</label>
-						<a href="#" id="gitHubAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.gitHubAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["gitHubAccount"])) echo $person["socialNetwork"]["gitHubAccount"]; else echo ""; ?>
 						</a>
 					</div>
@@ -170,7 +155,7 @@
 						<label class="control-label">
 							<i class="fa fa-linkedin"></i> Linkedin : 
 						</label>
-						<a href="#" id="linkedInAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.linkedInAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["linkedInAccount"])) echo $person["socialNetwork"]["linkedInAccount"]; else echo ""; ?>
 						</a>
 					</div>
@@ -178,7 +163,7 @@
 						<label class="control-label">
 							<i class="fa fa-skype"></i> Skype :
 						</label>
-						<a href="#" id="skypeAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
+						<a href="#" id="socialNetwork.skypeAccount" data-type="text" data-original-title="" class="editable-person editable editable-click">
 							<?php if (isset($person["socialNetwork"]["skypeAccount"])) echo $person["socialNetwork"]["skypeAccount"]; else echo ""; ?>
 						</a>
 					</div>
@@ -199,10 +184,14 @@
 <script type="text/javascript">
 	var personData = <?php echo json_encode($person)?>;
 	var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
+	var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 
 	//By default : view mode
 	//TODO SBAR - Get the mode from the request ?
-	var mode = "update";
+	if(personId == personConnectId )
+		var mode = "update";
+	else
+		var mode = "view";
 		
 
 	jQuery(document).ready(function() {
@@ -242,7 +231,7 @@
         mode: 'inline',
         showbuttons: false,
         select2: {
-            tags: <?php echo $tags?>,
+            tags: <?php echo json_encode($tags)?>,
             tokenSeparators: [",", " "]
         }
     }); 
