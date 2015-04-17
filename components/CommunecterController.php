@@ -85,7 +85,7 @@ class CommunecterController extends Controller
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    "project.addContributorSV"
+    "project.addContributorSV",
     //"sig.networkSV",
   );
 
