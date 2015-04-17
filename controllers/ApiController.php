@@ -182,7 +182,7 @@ class ApiController extends Controller {
             //Not used anymore ? The groups has been replaced by organization
             'savegroup'   => 'application.controllers.groups.SaveGroupAction',  
             'getgroupsby'   => 'application.controllers.groups.GetGroupsByAction',  
-            'getuserimages' => 'application.controllers.user.GetUserImagesAction',
+            'getuserimages' => 'application.controllers.user.getUserImagesAction',
             'sendmessage'   => 'application.controllers.messages.SendMessageAction',  
         );
     }

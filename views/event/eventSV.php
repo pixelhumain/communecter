@@ -231,6 +231,7 @@
 
 <script type="text/javascript">
 
+var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
@@ -266,7 +267,7 @@ function bindEventSubViewEvents() {
 			content : subViewContent,
 			onShow : function() {
 				editEvent();
-				//initMyOrganization();
+				initMyOrganization();
 
 			},
 			onHide : function() {
@@ -573,7 +574,11 @@ formEvent.validate({
 		    .done(function (data) 
 		    {
 		    	$.unblockUI();
-		        if (data &&  data.result) {               
+		        if (data &&  data.result) {
+
+		        	if(typeof updateEvent != "undefined" && typeof updateEvent == "function")
+		        			updateEvent( data.event); 
+
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
@@ -967,37 +972,7 @@ function readEvent(el)
 	}
 
 	function initMyOrganization(){
-		var mapOrganization = {};
-		var myOrganizationsAdmin = [];
-		if(typeof(personMap)!="undefined" && personMap["person"]["_id"]["$id"]== "<?php echo Yii::app()->session['userId'] ?>"){
-			if(typeof(personMap.organizations)!="undefined"){
-				$.each(personMap.organizations, function(k,v){
-					mapOrganization[v._id["$id"]] = v.name;
-				})
-			}
-			$.each(personMap.person.links.memberOf, function(k, v){
-				if(v.isAdmin == true){
-					myOrganizationAdmin = {};
-					myOrganizationAdmin[k] = mapOrganization[k];
-					myOrganizationsAdmin.push(myOrganizationAdmin);
-				}
-			})			
-		}
-		//create an show Dropdown Orga;
-
-		if(myOrganizationsAdmin.length>0){
-			$.each(myOrganizationsAdmin, function(k, v){
-				var orgaId;
-				var nameId;
-				$.each(v, function(id, name){
-					orgaId = id;
-					nameId = name;
-				})
-				var htmlDrop = '<li><a href="#" class="btn-drop dropOrg" data-id="'+orgaId+'" data-name="'+nameId+'">'+nameId+'</a></li>'
-				$("#dropOrgaEvent").append(htmlDrop);
-			})
-			$("#dropBtn").css("display", "block");
-		}
+		
 
 		$(".dropOrg").click(function() {
 			console.log(this);
