@@ -227,7 +227,7 @@
 	function activateEditablePerson() {
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-person').editable({
-    	url: baseUrl+"/"+moduleId+"/api/saveUser", //this url will not be used for creating new job, it is only for update
+    	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false
 	});
@@ -238,7 +238,7 @@
 
 	//Select2 tags
     $('#tags').editable({
-        url: baseUrl+"/"+moduleId+"/api/saveUser", //this url will not be used for creating new user, it is only for update
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode: 'inline',
         showbuttons: false,
         select2: {

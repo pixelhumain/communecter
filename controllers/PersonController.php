@@ -798,7 +798,7 @@ class PersonController extends CommunecterController {
 			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
 				$personFieldName = $_POST["name"];
 				$personFieldValue = $_POST["value"];
-				Person::updateJobField($personId, $personFieldName, $personFieldValue, Yii::app()->session["userId"] );
+				Person::updatePersonField($personId, $personFieldName, $personFieldValue, Yii::app()->session["userId"] );
 			}
 	  	}else{
 	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $jobFieldName=>$jobFieldValue));
