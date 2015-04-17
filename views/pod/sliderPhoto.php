@@ -14,7 +14,7 @@
 	<div class="panel-heading border-light"></div>
 	<div class="panel-tools">
 		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-			<a href="#addPhoto" class="add-photo btn btn-xs btn-red tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i> Add image</a>
+			<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i> Add image</a>
 		<?php } ?>	
 		<a href="#" class="btn btn-xs btn-link panel-close">
 			<i class="fa fa-times"></i>
@@ -89,6 +89,10 @@
 			success: function(data){
 		  		if(data) {
 		  			i=0;
+		  			if(data.length == 0){
+		  				var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
+						$("#slidesPhoto").append(htmlSlide);
+		  			}
 		  			$.each(data, function(k,v){
 		  				if(i<5){
 		  					var htmlSlide = "<li><img src='"+v+"' /></li>";

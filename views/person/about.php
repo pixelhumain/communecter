@@ -14,27 +14,33 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  Account info</h4>
-	</div>
-	<div class="panel-tools">
-		
-		<div id='btnTools'>
-			<?php 
-			//connected user isn't allready connected with page User
-			if( Yii::app()->session['userId'] != (string)$person["_id"]) 
-			{
-				//if connected user and pageUser are allready connected
-				if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-					<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
-				<?php } else { ?>
-					<a href="javascript:;" class="connectBtn btn btn-red btn-xs tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
-				<?php }
-			}else{ ?>
-				<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>
-			<?php } ?>
-		</div>
-		<a href="#" class="btn btn-xs btn-link panel-close">
-			<i class="fa fa-times"></i>
-		</a>
+		<ul class="panel-heading-tabs border-light">
+        	<li>
+        		<?php 
+					if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
+						<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> InitData : Dummy People</a>
+					<?php } else { ?>
+						<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> Remove Dummy People</a>
+				<?php } ?>
+        	</li>
+        	<li>
+        		<div class="center" id='btnTools'>
+					<?php 
+					//connected user isn't allready connected with page User
+					if( Yii::app()->session['userId'] != (string)$person["_id"]) 
+					{
+						//if connected user and pageUser are allready connected
+						if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
+							<a href="javascript:;" class="disconnectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
+						<?php } else { ?>
+							<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
+						<?php }
+					}else{ ?>
+						<!--<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>-->
+					<?php } ?>
+				</div>
+        	</li>
+	    </ul>
 	</div>
 	<div class="panel-body ">
 		<form action="#" role="form" id="personForm" enctype="multipart/form-data">
