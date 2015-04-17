@@ -36,3 +36,9 @@
 		</tbody>
 	</table>
 </div>
+
+<script>
+	function updateEventPod(newEvent){
+		console.log("eventPod");
+	}
+</script>
