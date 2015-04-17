@@ -655,7 +655,7 @@ class PersonController extends CommunecterController {
     //get The person Id
     if (empty($id)) {
         if (empty(Yii::app()->session["userId"])) {
-            throw new CommunecterException("The person id is mandatory to retrieve the person !");
+            $this->redirect(Yii::app()->homeUrl);
         } else {
             $id = Yii::app()->session["userId"];
         }
