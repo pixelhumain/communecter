@@ -76,7 +76,9 @@ class PersonController extends CommunecterController {
       }
     }
 
-    $events = array();
+    $events= array();
+    
+
     //Load people I know
     if (isset($person["links"]) && !empty($person["links"]["events"])) 
     {
@@ -778,4 +780,28 @@ class PersonController extends CommunecterController {
           echo Rest::json(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
   }
 
+  public function actionAbout(){
+
+  	$person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );
+  	$tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
+  	
+  	$this->render( "about" , array("person"=>$person,'tags'=>json_encode($tags['list'])) );
+
+  }
+
+  	 /**
+	  * Update an information field for a person
+	  */
+	public function actionUpdateField(){
+	  	if (!empty($_POST["pk"])) {
+	  		$personId = $_POST["pk"];
+			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
+				$personFieldName = $_POST["name"];
+				$personFieldValue = $_POST["value"];
+				Person::updatePersonField($personId, $personFieldName, $personFieldValue, Yii::app()->session["userId"] );
+			}
+	  	}else{
+	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $jobFieldName=>$jobFieldValue));
+	  	}
+	}
 }

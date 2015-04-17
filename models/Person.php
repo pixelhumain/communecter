@@ -246,23 +246,23 @@ class Person {
 	 */
 	public static function updatePersonField($personId, $personFieldName, $personFieldValue, $userId) {  
 		//TODO : Check the field sent
-		if (! Person::checkFieldBeforeUpdate($jobFieldName, $jobFieldValue)) {
+		/*if (! Person::checkFieldBeforeUpdate($personFieldName, $personFieldValue)) {
 			throw new CommunecterException("Can not update the person : unknown field ".$personFieldName);
-		}
+		}*/
 
-		if ($personId == $userId) {
+		if ($personId != $userId) {
 			throw new CommunecterException("Can not update the person : you are not authorized to update that person !");	
 		}
 
 		//Specific case : tags
 		if ($personFieldName == "tags") {
-			$personFieldValue = Tags::filterAndSaveNewTags($jobFieldValue);
+			$personFieldValue = Tags::filterAndSaveNewTags($personFieldValue);
 		}
 
-		$person = array($jobFieldName => $jobFieldValue);
+		$person = array($personFieldName => $personFieldValue);
 		
 		//update the person
-		PHDB::update( Person::COLLECTION, array("_id" => new MongoId($jobId)), 
+		PHDB::update( Person::COLLECTION, array("_id" => new MongoId($personId)), 
 		                          array('$set' => $person));
 	                  
 	    return true;

@@ -135,6 +135,8 @@ class CommunecterController extends Controller
       "register" => array("href" => "/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "gallery"=>array("href@"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "about" =>array("href"=>"/person/about"),
+      "updatefield" =>array("href"=>"/person/updatefield"),
     ),
 
     "organization"=> array(

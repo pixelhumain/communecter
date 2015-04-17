@@ -268,7 +268,7 @@ class Link {
     public static function attendee($eventId, $userId, $isAdmin = false){
 
    		Link::addLink($userId, PHType::TYPE_CITOYEN, $eventId, PHType::TYPE_EVENTS, $userId, "events");
-   		Link::addLink($eventId, PHType::TYPE_EVENTS, $userId, PHType::TYPE_CITOYEN, $userId, "attendee");
+   		Link::addLink($eventId, PHType::TYPE_EVENTS, $userId, PHType::TYPE_CITOYEN, $userId, "attendees");
 
     	if($isAdmin){
     		PHDB::update(PHType::TYPE_CITOYEN, 
@@ -278,7 +278,7 @@ class Link {
 
             PHDB::update( PHType::TYPE_EVENTS, 
               		array("_id" => new MongoId($eventId)), 
-                    array('$set' => array("links.attendee.".$userId.".isAdmin" => true))
+                    array('$set' => array("links.attendees.".$userId.".isAdmin" => true))
             );
     	}
     }

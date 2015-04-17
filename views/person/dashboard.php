@@ -23,7 +23,7 @@
 </style>
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]))); ?>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
@@ -177,7 +177,7 @@
 	</div>
 </div>
 <div class="col-lg-4 col-md-12">
-	<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" => new MongoId($person["_id"]))); ?>
+	<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
 </div>
 </div>
 <div class="row">
@@ -185,18 +185,19 @@
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events)); ?>
+		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
 	</div>
 	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => new MongoId($person["_id"]))); ?>
+		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-sm-5 col-xs-12">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => new MongoId($person["_id"]))); ?>
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
 	 </div>
 </div>
+
 
 <script>
 
@@ -350,4 +351,11 @@ var initDataTable = function() {
 		"iDisplayLength" : 10,
 	});
 };
+
+ function updateEvent(newEvent){
+
+	if(typeof updateEventPod != "undefined" && typeof updateEventPod == "function")
+			updateEvent(newEvent);
+
+ }
 </script>
