@@ -21,21 +21,21 @@ class DefaultController extends CommunecterController {
   	}
 
     /**
-     * List all the latest observations
-     * @return [json Map] list
+     * Home page
      */
 	public function actionIndex() 
 	{
-      $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) 
-      	$this->render("indexMob");
-      else 
-      	$this->render("index");
-      
-      
-  }
+	//Redirect to the dashboard of the user
+	$this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+	$detect = new Mobile_Detect;
+	$isMobile = $detect->isMobile();
+
+	if($isMobile) 
+		$this->render("indexMob");
+	else 
+		$this->render("index");      
+	}
+
     public function actionAbout() 
     {
         $this->title = "About";

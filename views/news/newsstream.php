@@ -25,8 +25,7 @@ div.timeline{ margin-right:0px; }
 </style>
 
 
-
-<div class="col-md-12" style="padding:0px;">
+<div class="col-md-9">
 	<div class="tabbable partition-dark" >
 												
 		<ul id="myTab6" class="nav nav-tabs">
@@ -63,9 +62,8 @@ div.timeline{ margin-right:0px; }
 												array("help", 				"red"), 
 												array("rumor", 				"orange"), 
 												array("true_information", 	"green") ,
-												array("question", 			"purple"), 
-							
-												);
+												array("question", 			"purple")
+											);
 
 							$selected=" selected";
 							foreach($natures as $nature) { 
@@ -416,18 +414,19 @@ $(document).ready( function()
 		$("#tooltip_genre_block").css({"visibility":"hidden"});});
 	//par default : hide tooltip genre
 	$("#tooltip_genre_block").css({"visibility":"hidden"});
+	showNewsStream();
 });	
 	//scope de départ
 	var userCP = "<?php echo $userCP; ?>";
-	var scope = new Array({	"scopeType" : "ville", 
-							"at" : userCP, 
-							"id" : userCP //devrait correspondre à l'id nominatim de la ville de l'utilisateur
-						  },
-						  {	"scopeType" : "departement", 
-							"at" : userCP.substring(0, 2), 
-							"id" : userCP.substring(0, 2) //devrait correspondre à l'id nominatim du departement de l'utilisateur
-						  }
-						  );
+	var scope = [
+		{	"scopeType" : "ville", 
+			"at" : userCP, 
+			"id" : userCP //devrait correspondre à l'id nominatim de la ville de l'utilisateur
+		},
+		{	"scopeType" : "departement", 
+			"at" : userCP.substring(0, 2), 
+			"id" : userCP.substring(0, 2) //devrait correspondre à l'id nominatim du departement de l'utilisateur
+	}];
 						
 	//initialisation des valeurs par defaut
 	initFormScope(scope);
@@ -441,7 +440,7 @@ $(document).ready( function()
 		//params["latMinScope"] = bounds.getSouthWest().lat;
 		
 		
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/news/GetNewsStream', params,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id?>/news/GetNewsStream', params,
 			function (data){ //alert(JSON.stringify(data));				
 				$("#newsstream").html(data);
 				
@@ -449,5 +448,5 @@ $(document).ready( function()
 	}
 	
 	
-	showNewsStream();
+	
 </script>

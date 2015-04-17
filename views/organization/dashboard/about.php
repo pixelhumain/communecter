@@ -2,12 +2,6 @@
   <div class="panel-heading border-light">
     <h4 class="panel-title">QUI SOMMES NOUS ? </h4>
     <div class="panel-tools">
-    	<?php if(isset($organization) && isset(Yii::app()->session["userId"])  ) { 
-    		$res =  Authorisation::canEditOrganisation(Yii::app()->session["userId"], new MongoId($organization["_id"]));
-    		if($res){
-    	?>
-			<a href="#" class="btn btn-xs btn-light-blue tooltips" ><i class="fa fa-pencil"></i> Editer</a>
-		<?php }} ?>
       <div class="dropdown">
         <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
           <i class="fa fa-cog"></i>
@@ -42,7 +36,7 @@
     </div>
   </div>
   <div class="panel-body no-padding center orgaDescription">
-    <?php echo $organization["description"] ?>
+    <?php if(isset($organization["description"])) echo $organization["description"]; ?>
   </div>
 </div>
 
@@ -66,7 +60,7 @@ var formDefinition = {
 
 var dataBind = {
 	"#description": {
-		"value" : "<?php echo $organization["description"] ?>",
+		"value" : "<?php if(isset($organization["description"])) echo $organization["description"]; ?>",
 		"saveTo": "description",
 		"updateElement" : ".orgaDescription"
 	},

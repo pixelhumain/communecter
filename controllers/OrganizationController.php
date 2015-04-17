@@ -370,7 +370,27 @@ class OrganizationController extends CommunecterController {
 			{
 				
 				$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+
+				if(isset($_POST["memberRoles"])){
+					if (gettype($_POST['memberRoles']) == "array") {
+				      $roles = $_POST['memberRoles'];
+				    } else if (gettype($_POST['memberRoles']) == "string") {
+				      $roles = explode(",", $_POST['memberRoles']);
+				    }
+				    $rolesOrgTab = array();
+				    if(isset($organization["roles"])){
+				    	$rolesOrgTab = $organization["roles"];
+				    }
+				    foreach ($roles as $value) {
+				    	if(!in_array($value, $rolesOrgTab)){
+				    		array_push($rolesOrgTab, $value);
+				    	}
+				    }
+
+				    Role::setRoles($rolesOrgTab, $_POST["parentOrganisation"], Organization::COLLECTION);
+				}
 				
+
 				if( !$member )
 				{
 					 //create an entry in the citoyens collection
@@ -382,7 +402,6 @@ class OrganizationController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'citoyen',
-						 'memberOf'=>array( $_POST["parentOrganisation"] )
 					);
 					  	Person::createAndInvite($member);
 					}else{
@@ -393,15 +412,15 @@ class OrganizationController extends CommunecterController {
 						 'tobeactivated' => true,
 						 'created' => time(),
 						 'type'=>'Group',
-						 'memberOf'=>array( $_POST["parentOrganisation"] )
 						);
 						Organization::createAndInvite($member);
 					}
 
 					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					 //add the member into the organization map
-					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
-					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
+					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 					 //TODO : background send email
 					 //send validation mail
 					 //TODO : make emails as cron jobs
@@ -428,8 +447,9 @@ class OrganizationController extends CommunecterController {
 
 						$res = array( "result" => false , "content" => "member allready exists" );
 					else {
-						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin );
-						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true);
+						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
+						$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
+						$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
 	
 					}	
 				}
@@ -454,19 +474,6 @@ class OrganizationController extends CommunecterController {
 
     $organization = Organization::getPublicData($id);
     $params = array( "organization" => $organization);
-
-    $this->sidebar1 = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
-      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
-      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
-      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-    );
-
     $this->title = (isset($organization["name"])) ? $organization["name"] : "";
     $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
@@ -475,7 +482,7 @@ class OrganizationController extends CommunecterController {
     	
     	$memberData;
       	$subOrganizationIds = array();
-      	$members = array(
+      	$members = array( 
           "citoyens"=> array(),
           "organizations"=>array()
       	);
@@ -607,20 +614,8 @@ class OrganizationController extends CommunecterController {
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
 
-	    $this->sidebar1 = array(
-	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
-	      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
-	      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
-	      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-	      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-	      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
-	      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
-	      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-	      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-	    );
-		
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-	 	$this->render( "dashboard", $params );
+	 	 $this->render( "dashboard", $params );
 	 }
 
    /* **************************************
@@ -629,7 +624,10 @@ class OrganizationController extends CommunecterController {
 
     public function actionDocuments($id) {
       $documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
-      $this->render("documents",array("documents"=>$documents));
+      if(Yii::app()->request->isAjaxRequest)
+        echo $this->renderPartial("../documents/documents",array("documents"=>$documents),true);
+      else
+        $this->render("../documents/documents",array("documents"=>$documents));
     }
 
     /* **************************************
@@ -647,17 +645,6 @@ class OrganizationController extends CommunecterController {
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
 
-	    $this->sidebar1 = array(
-	      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboard1/id/".$id),
-	      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard/id/".$id),
-	      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
-	      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-	      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-	      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/resources/id/".$id),
-	      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o ","href"=>"communecter/organization/infos/id/".$id),
-	      array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-	      array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-	    );
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
@@ -672,5 +659,11 @@ class OrganizationController extends CommunecterController {
     public function actionNews($id) {
       $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
       $this->render("news",array("news"=>$news));
+    }
+
+
+    public function actionRemoveMember($organizationId, $id, $type){
+    	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
+    	return Rest::json($res);
     }
 }

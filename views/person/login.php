@@ -12,7 +12,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
 			<h3>Sign in to your account</h3>
 			<p>
-				Please enter your name and password to log in.
+				Please enter your email and password to log in.
 			</p>
 			<form class="form-login" action="" method="POST">
 				<div class="errorHandler alert alert-danger no-display">
@@ -54,7 +54,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			</form>
 			<!-- start: COPYRIGHT -->
 			<div class="copyright">
-				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
+				2014-2015  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
 			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
@@ -88,7 +88,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 			</form>
 			<!-- start: COPYRIGHT -->
 			<div class="copyright">
-				2014  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
+				2014-2015  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
 			</div>
 			<!-- end: COPYRIGHT -->
 		</div>
@@ -136,7 +136,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 						<div>
 							<label for="agree" class="checkbox-inline">
 								<input type="checkbox" class="grey agree" id="agree" name="agree">
-								I agree to the Terms of Service and Privacy Policy
+								I agree to the Terms of <a href="#" class="bootbox-spp">Service and Privacy Policy</a>
 							</label>
 						</div>
 					</div>
@@ -158,13 +158,17 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 	</div>
 </div>
 <script type="text/javascript">
-	
 
 	jQuery(document).ready(function() {
 		Main.init();
 		Login.init();
-		<?php //$('#tags').select2({ tags: <?php echo $tags }); ?>
-	
+		//Bootbox
+		$('.bootbox-spp').on('click', function() {
+			bootbox.dialog({
+	             title: "Coming soon...",
+	             message: "A click here should show the Service and Privacy Policy",
+	         });
+		});
 	});
 
 var Login = function() {
@@ -208,7 +212,6 @@ var Login = function() {
 				$(this).show().removeClass("animated bounceInLeft");
 
 			});
-
 		});
 		$('.go-back').click(function() {
 			var boxToShow;
@@ -327,7 +330,22 @@ var Login = function() {
 		          url: baseUrl+"/<?php echo $this->module->id?>/api/sendemailpwd",
 		          data: params,
 		          success: function(data){
-		              alert(data.msg);
+					if (data.result) {
+						alert(data.msg);
+			            window.location.reload();
+					} else if (data.errId == "UNKNOWN_ACCOUNT_ID") {
+						if (confirm(data.msg)) {
+							$('.box-forgot').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+								$(this).hide().removeClass("animated bounceOutRight");
+							});
+							$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+								$(this).show().removeClass("animated bounceInLeft");
+
+							});
+						} else {
+							window.location.reload();
+						}
+					}
 		          },
 		          dataType: "json"
 		        });
@@ -365,8 +383,8 @@ var Login = function() {
 			submitHandler : function(form) {
 				errorHandler3.hide();
 				var params = { 
-				   "name" : $("#name").val() ,
-				   "email" : $("#email3").val() , 
+				   "name" : $("#name").val(),
+				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
                    //"tags" : $("#tags").val(),
@@ -375,11 +393,12 @@ var Login = function() {
 			      
 		    	$.ajax({
 		    	  type: "POST",
-		    	  url: baseUrl+"/<?php echo $this->module->id?>/api/saveUser",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",
 		    	  data: params,
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
+		        		alert(data.msg);
 		        		window.location.reload();
 		    		  }
 		    		  else {

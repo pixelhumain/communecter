@@ -23,7 +23,7 @@
 </style>
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("person" => $person, "photos"=> $photos)); ?>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]))); ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
@@ -33,36 +33,6 @@
 		</div>
 		<div class="panel-tools">
 			
-			<div class="dropdown">
-				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-					<i class="fa fa-cog"></i>
-				</a>
-				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-					<li>
-						<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-					</li>
-					<li>
-						<a href="#" class="panel-refresh">
-							<i class="fa fa-refresh"></i> <span>Refresh</span>
-						</a>
-					</li>
-					<li>
-						<a data-toggle="modal" href="#panel-config" class="panel-config">
-							<i class="fa fa-wrench"></i> <span>Configurations</span>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="panel-expand">
-							<i class="fa fa-expand"></i> <span>Fullscreen</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
-		<div class="panel-body no-padding">
 			<div id='btnTools'>
 				<?php 
 				//connected user isn't allready connected with page User
@@ -70,14 +40,20 @@
 				{
 					//if connected user and pageUser are allready connected
 					if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red  pull-right tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
+						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
 					<?php } else { ?>
-						<a href="javascript:;" class="connectBtn btn btn-red btn-xs pull-right tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
+						<a href="javascript:;" class="connectBtn btn btn-red btn-xs tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
 					<?php }
 				}else{ ?>
-					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info pull-right"></i></a>
+					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>
 				<?php } ?>
 			</div>
+			<a href="#" class="btn btn-xs btn-link panel-close">
+				<i class="fa fa-times"></i>
+			</a>
+		</div>
+		<div class="panel-body no-padding">
+			
 			<div class="user-left">
 				<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
 				<!---->
@@ -166,6 +142,37 @@
 					</tbody>
 				</table>
 			</div>
+			</hr>
+
+			<div class="social-icons block center">
+				<ul>
+					<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
+						<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
+							Twitter
+						</a>
+					</li>
+					<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
+						<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
+							Facebook
+						</a>
+					</li>
+					<li data-placement="top" data-original-title="Google" class="social-google tooltips">
+						<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
+							Google+
+						</a>
+					</li>
+					<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
+						<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
+							LinkedIn
+						</a>
+					</li>
+					<li data-placement="top" data-original-title="Github" class="social-github tooltips">
+						<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
+							Github
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
@@ -187,11 +194,12 @@
 
 <div class="row">
 	<div class="col-sm-5 col-xs-12">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => new MongoId($person["_id"]))); ?>
 	 </div>
 </div>
 
 <script>
+
 var contextMap = {};
 contextMap['person'] = <?php echo json_encode($person) ?>;
 contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
@@ -202,7 +210,6 @@ $.each(events, function(k, v){
 	console.log(k, v);
 	contextMap['events'].push(v);
 });
-var listPhotos = <?php echo json_encode($photos)?>;
 
 
 jQuery(document).ready(function() {

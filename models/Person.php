@@ -91,7 +91,8 @@ class Person {
 	 * Apply person checks and business rules before inserting
 	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
-	 * @param boolean $minimal : true : a person can be created using only name and email. Else : postalCode and pwd are also requiered
+	 * @param boolean $minimal : true : a person can be created using only name and email. 
+	 * Else : postalCode and pwd are also requiered
 	 * @return the new person with the business rules applied
 	 */
 	public static function checkPersonData($person, $minimal) {
@@ -118,6 +119,10 @@ class Person {
 	  	//Encode the password
 	  	if(isset($person["pwd"]))
 	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+	  	
+	  	//Add the postal code in adresse section
+	  	$person["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode']);
+
 	  	return $person;
 	}
 
@@ -128,13 +133,16 @@ class Person {
 	 * @return array result, msg and id
 	 */
 	public static function insert($person, $minimal = false) {
+	  	$person["@context"] = array("@vocab"=>"http://schema.org",
+            "ph"=>"http://pixelhumain.com/ph/ontology/");
+
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
 	  	
 	  	//Check Person data + business rules
 	  	$person = Person::checkPersonData($person, $minimal);
-
+	  	
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
         if (isset($person["_id"])) {
@@ -142,6 +150,18 @@ class Person {
 	    } else {
 	    	throw new CommunecterException("Problem inserting the new person");
 	    }
+
+	    //send validation mail
+        //TODO : make emails as cron jobs
+        /*$app = new Application($_POST["app"]);
+        Mail::send(array("tpl"=>'validation',
+             "subject" => 'Confirmer votre compte  pour le site '.$app->name,
+             "from"=>Yii::app()->params['adminEmail'],
+             "to" => (!PH::notlocalServer()) ? Yii::app()->params['adminEmail']: $email,
+             "tplParams" => array( "user"=>$newAccount["_id"] ,
+                                   "title" => $app->name ,
+                                   "logo"  => $app->logoUrl )
+        ));*/
 
 	    return array("result"=>true, "msg"=>"Une nouvelle personne est communectée.", "id"=>$newpersonId); 
 	}
@@ -162,13 +182,7 @@ class Person {
 			"url",
 			"coi"
 		);
-		/*Photo de profil
-		Centre d’intérêts
-		Projets publics auxquels participe l’utilisateur
-		Actualité publique
-		Agenda public
-		Réseau (cartographie)*/
-
+		
 		//TODO SBAR = filter data to retrieve only publi data	
 		$person = Person::getById($id);
 		if (empty($person)) {
@@ -220,28 +234,5 @@ class Person {
 						);
 		return $personMap;
 	}
-
-
-	/**
-		* Return an array with all image path
-		* @param type $id : is the mongoId (String)
-		* @param type $type : type (organization, event, person)
-		* @return a list of images
-	*/
-	public static function getListImage($id, $type){
-		clearstatcache();
-		$directory = "C:/Users/Johnson/Documents/dev/pixelhumain/ph/upload/communecter/".$type."/".$id."/";
-		$listImages=array();
-		
-		if(file_exists ( $directory )){
-	    	//get all image files with a .jpg extension. This way you can add extension parser
-	    	$images = glob($directory ."*.{jpg,png,gif}", GLOB_BRACE);
-	    	foreach($images as $image){
-	    		array_push($listImages, $image);
-	    	}
-	    }
-	    return $listImages;
-    }
-
 }
 ?>

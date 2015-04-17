@@ -223,7 +223,7 @@ function readinvite(el)
 	
 function autoCompleteInviteEmail(email){
 		var data = { "email" : email};
-		testitpost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/GetUserAutoComplete', data,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/GetUserAutoComplete', data,
 		function (data){
 			var str = "";
  			$.each(data, function(k, v) { 

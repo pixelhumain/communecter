@@ -1,9 +1,13 @@
 <?php
 class Authorisation {
 	
+    //**************************************************************
+    // Organization Authorisation
+    //**************************************************************
+
     /**
      * Return true if the user is admin of at least an organization 
-     * @param type the id of the user
+     * @param String the id of the user
      * @return boolean true/false
      */
     public static function isUserOrganizationAdmin($userId) {
@@ -26,7 +30,7 @@ class Authorisation {
 
     /**
      * Return an array with the organizations the user is admin of
-     * @param type the id of the user
+     * @param String the id of the user
      * @return array of Organization (organizationId => organizationValue)
      */
     public static function listUserOrganizationAdmin($userId) {
@@ -55,8 +59,8 @@ class Authorisation {
 
     /**
      * Return true if the user is admin of the organization or if it's a new organization
-     * @param type the id of the user
-     * @param type the id of the organization
+     * @param String the id of the user
+     * @param String the id of the organization
      * @return array of Organization (simple)
      */
     public static function isOrganizationAdmin($userId, $organizationId) {
@@ -66,18 +70,11 @@ class Authorisation {
         //We are in a creation process
         $organizationMembers = Organization::getMembersByOrganizationId($organizationId);
         if (count($organizationMembers) == 0) {
-            $res = true;
-        }
-        //get the person links memberOf
-        $personMemberOf = Person::getPersonMemberOfByPersonId($userId);
+            return true;
+        } 
 
-        if (isset($personMemberOf["$organizationId"])) {
-            $link = $personMemberOf["$organizationId"];
-            if (isset($link["isAdmin"]) && $link["isAdmin"]) {
-                $res = true;
-            }
-        }
-        
+        $myOrganizations = Authorisation::listUserOrganizationAdmin($userId);
+       	$res = array_key_exists((string)$organizationId, $myOrganizations);    
         return $res;
     }
 
@@ -110,6 +107,10 @@ class Authorisation {
         return $res;
     }
 
+    //**************************************************************
+    // Event Authorisation
+    //**************************************************************
+
     /**
      * Return true if the user is Admin of the event
      * A user can be admin of an event if :
@@ -122,9 +123,12 @@ class Authorisation {
      * @return boolean True if the user isAdmin, False else
      */
     public static function isEventAdmin($eventId, $userId) {
+    	$res = false;
         $listEvent = Authorisation::listEventsIamAdminOf($userId);
-        $res = array_key_exists($listEvent, $eventId);
-        return $res;
+        if(isset($listEvent[(string)$eventId])){
+       		$res=true;
+       	} 
+       	return $res;
     }
 
     /**
@@ -156,43 +160,31 @@ class Authorisation {
         return $eventList;
     }
 
+    //**************************************************************
+    // Job Authorisation
+    //**************************************************************
+
     /**
-    * Get the authorization for edit an organization
-    * An user can edit an organization if :
-    * 1/ he is admin of this organization
-    * 2/ he is admin of an organization that can edit this orgarnisation
-    * @param String $userId The userId to get the authorisation of
-    * @param String $organizationId organization to get authorisation of
-    * @return a boolean True if the user can edit and false else
-    */
-    public static function canEditOrganisation($userId, $organizationId){
-    	$res = false;
-    	$organization = Organization::getById($organizationId);
-		if(isset($organization["links"]["members"])){
-    		foreach ($organization["links"]["members"] as $key => $value) {
-    			if($key ==  $userId){
-    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
-    					$res = true;
-    				}
-    			}
-    		}
-    	}
-    	if(isset($organization["links"]["memberOf"])){
-    		foreach ($organization["links"]["memberOf"] as $key => $value) {
-    			$organizationParent = Organization::getById($key);
-    			$canEdit = Authorisation::canEditMembersData($key);
-    			if(isset($organizationParent["links"]["members"]) && $canEdit){
-		    		foreach ($organizationParent["links"]["members"] as $key => $value) {
-		    			if($key ==  $userId){
-		    				if(isset($value["isAdmin"]) && $value["isAdmin"]==true){
-		    					$res = true;
-		    				}
-		    			}
-		    		}
-		    	}
-    		}
-    	}
-    	return $res;
+     * Return true if the user is Admin of the job
+     * A user can be admin of an job if :
+     * 1/ He is admin of the organization posting the job offer
+     * 3/ He is admin of an organization that can edit it members (canEditMembers flag) 
+     *      and the organizations members is offering the job
+     * @param String $jobId The jobId to check if the userId is admin of
+     * @param String $userId The userId to get the authorisation of
+     * @return boolean True if the user isAdmin, False else
+     */
+    public static function isJobAdmin($jobId, $userId) {
+        $job = Job::getById($jobId);
+        if (!empty($job["hiringOrganization"])) {
+            $organizationId = (String) $job["hiringOrganization"]["_id"];
+        } else {
+            throw new CommunecterException("The job ". $jobId." is not well format : contact your admin.");
+        }
+        
+        $res = Authorisation::isOrganizationAdmin($userId, $organizationId);
+
+        return $res;
     }
 
     /**
@@ -234,6 +226,7 @@ class Authorisation {
     	}
     	return $res;
     }
+
 
 } 
 ?>

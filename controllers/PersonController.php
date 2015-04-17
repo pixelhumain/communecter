@@ -29,49 +29,11 @@ class PersonController extends CommunecterController {
     return parent::beforeAction($action);
 	}
 
-  /**
-   * @return [json Map] list
-   */
-  	public function actionUpdateName($name=null, $id=null){
-  		Person::setNameById($name, $id);
-  		$people = Person::getById($id);
-	  	Rest::json($people);
-  	}
-  	 public function actionGetById($id=null)
-	  {
-	  	$people = Person::getById($id);
-	  	Rest::json($people);
-	  }
-
-	public function actionGetOrganization($id=null){
-	  	$organizations = Person::getOrganizationsById($id);
-	    Rest::json($organizations);
-	  }
-	public function actionLogin() 
-	{
-    $this->layout = "//layouts/mainSimple";
-    if(Yii::app()->session["userId"]) 
-      $this->redirect(Yii::app()->homeUrl);
-    else
-      $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) {
-	       $this->render( "loginMobile" );
-      }
-      else {
-	       $this->render( "login" );
-      }
-    }
-  public function actionLogout() 
-  {
-    Yii::app()->session["userId"] = null;
-    $this->redirect(Yii::app()->homeUrl);
-  }
-
-
   public function actionIndex() 
   {
+    //Redirect to the dashboard of the user
+    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+
     $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
@@ -135,7 +97,7 @@ class PersonController extends CommunecterController {
     {
       foreach ($person["links"]["projects"] as $id => $e) 
       {
-        $project = Project:: getById($id);
+        $project = Project::getById($id);
         if (!empty($project)) {
           array_push($projects, $project);
         } else {
@@ -156,6 +118,51 @@ class PersonController extends CommunecterController {
                                       "projects"=>$projects, 
                                       'tags'=>json_encode($tags['list'] )) );
   }
+  
+  /**
+   * @return [json Map] list
+   */
+  public function actionUpdateName($name=null, $id=null){
+  	Person::setNameById($name, $id);
+  	$people = Person::getById($id);
+	  Rest::json($people);
+  }
+
+  public function actionGetById($id=null)
+	{
+	  $people = Person::getById($id);
+	  Rest::json($people);
+	}
+
+	public function actionGetOrganization($id=null){
+	  	$organizations = Person::getOrganizationsById($id);
+	    Rest::json($organizations);
+	 }
+
+	public function actionLogin() 
+	{
+    $this->layout = "//layouts/mainSimple";
+    if(Yii::app()->session["userId"]) 
+      $this->redirect(Yii::app()->homeUrl);
+    else
+      $detect = new Mobile_Detect;
+      $isMobile = $detect->isMobile();
+      
+      if($isMobile) {
+	       $this->render( "loginMobile" );
+      }
+      else {
+	       $this->render( "login" );
+      }
+  }
+
+  public function actionLogout() 
+  {
+    Yii::app()->session["userId"] = null;
+    $this->redirect(Yii::app()->homeUrl);
+  }
+
+  
 
   /**
      * Listing de tout les citoyen locaux filtrable et cherchable
@@ -163,6 +170,10 @@ class PersonController extends CommunecterController {
      */
   public function actionList() {
       $this->render("list");
+  }
+
+  public function actionGallery() {
+      $this->render("gallery");
   }
   /**
      * connect 2 people together 
@@ -197,6 +208,7 @@ class PersonController extends CommunecterController {
    */
   public function actionActivate($user) {
     $account = Person::getById($user);
+    //TODO : move code below to the model Person
     if($account){
         Yii::app()->session["userId"] = $user;
         Yii::app()->session["userEmail"] = $account["email"];
@@ -206,20 +218,41 @@ class PersonController extends CommunecterController {
                       "user"=>$account["_id"]));*/
     }
     //TODO : add notification to the cities,region,departement info panel
-    
-    
     //TODO : redirect to monPH page , inciter le rezotage local
     $this->redirect(Yii::app()->homeUrl);
                 
   }
   
-  public function actionRegister()
-  {
-    echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
+  /**
+   * Register a new user for the application
+   * Data expected in the post : name, email, postalCode and pwd
+   * @return Array as json with result => boolean and msg => String
+   */
+  public function actionRegister() {
+    $name = (!empty($_POST['name'])) ? $_POST['name'] : "";
+    $email = (!empty($_POST['email'])) ? $_POST['email'] : "";
+    $postalCode = (!empty($_POST['cp'])) ? $_POST['cp'] : "";
+    $pwd = (!empty($_POST['pwd'])) ? $_POST['pwd'] : "";
+
+    //Get the person data
+    $newPerson = array(
+       'name'=> $name,
+       'email'=>$email,
+       'postalCode'=> $postalCode,
+       'pwd'=>$pwd);
+
+    try {
+      $res = Person::insert($newPerson, false);
+    } catch (CommunecterException $e) {
+      $res = array("result" => false, "msg"=>$e->getMessage());
+    }
+
+    //echo json_encode(Citoyen::login($_POST['registerEmail'] , $_POST['registerPwd'] ));
+    Rest::json($res);
     exit;
   }
   /**
-   * Register to a secuure application, the unique pwd is linked to the application instance retreived by type
+   * Register to a secure application, the unique pwd is linked to the application instance retreived by type
    * the appKey is saved in a sessionvariable loggedIn
    * for the moment works with a unique password for all users 
    * specified on the event instance 
@@ -288,94 +321,6 @@ class PersonController extends CommunecterController {
   public function actionSave(){
       echo Rest::json(array("msg"=>"test  ok "));
   }
-  /**
-   * More details added to the user s registration account
-   */
-    public function actionRegister2()
-  {
-      if(Yii::app()->request->isAjaxRequest && isset(Yii::app()->session["userId"]))
-    {
-            $account = Person::getById(Yii::app()->session["userId"]);
-            if($account)
-            {
-                  $result = array("result"=>true,"msg"=>"Vos Données ont bien été enregistrées.");
-                  $newInfos = array();
-                  if( !empty($_POST['registerName']) )
-                      $newInfos['name'] = $_POST['registerName'];
-                  if( !empty($_POST['registerCP']) )
-                      $newInfos['cp'] = $_POST['registerCP'];
-                  if( isset($_POST['registerHelpout']) )
-                      $newInfos['activeOnProject'] = $_POST['registerHelpout'];
-                  if( !empty($_POST['helpJob']) )
-                      $newInfos['positions'] = explode(",", $_POST['helpJob']);
-                  if( !empty($_POST['registeroldpwd']) && !empty($_POST['registernewpwd']) ){
-                      if( $account["pwd"] == hash( 'sha256', Yii::app()->session["userEmail"].$_POST['registeroldpwd'] ) )
-                        $newInfos['pwd'] = hash('sha256', Yii::app()->session["userEmail"].$_POST['registernewpwd']); 
-                      else
-                        $result["msg"] .= ", mais votre ancien mot passe ne correspond pas"; 
-                    }
-                  /*if( isset($_POST['registerVieAssociative']) ){
-                      //demande validation du responsable 
-                      $newInfos['associations'] = explode(",", $_POST['listAssociation']);
-                  }*/
-                      
-                  if( !empty($_POST['tagsPA']) )
-                      $newInfos['tags'] = explode(",", $_POST['tagsPA']);
-                  if( !empty($_POST['imageCitoyen']) )
-                      $newInfos['img'] = $_POST['imageCitoyen'];
-                  $newInfos['type']=$_POST['typePA'];
-                  $newInfos['country']=$_POST['countryPA'];
-                  
-                  //if a job in the list doesn't exist is new , add it to the jobType collection
-                  if( !empty($_POST['helpJob']) ){
-                    $jobList = Yii::app()->mongodb->jobTypes->findOne(array("_id"=>new MongoId("5202375bc073efb084a9d2aa")));
-                    foreach( explode(",", $_POST['helpJob']) as $job)
-                    {
-                        if(!in_array($job, $jobList['list']))
-                        {
-                            array_push($jobList['list'], $job);
-                            Yii::app()->mongodb->jobTypes->update(array("_id"=>new MongoId("5202375bc073efb084a9d2aa")), array('$set' => array("list"=>$jobList['list'])));
-                        }
-                    }
-                  }
-                  //if a job in the list doesn't exist is new , add it to the jobType collection
-                  
-                  if( !empty($_POST['helpJob']) ){
-                    $tagsList = Yii::app()->mongodb->tags->findOne(array("_id"=>new MongoId("51b972ebe4b075a9690bbc5b")));
-                    foreach( explode(",", $_POST['tagsPA']) as $tag)
-                    {
-                        if(!in_array($tag, $tagsList['list']))
-                        {
-                            array_push($tagsList['list'], $tag);
-                            Yii::app()->mongodb->tags->update(array("_id"=>new MongoId("51b972ebe4b075a9690bbc5b")), array('$set' => array("list"=>$tagsList['list'])));
-                        }
-                    }
-                  }
-                  
-                  //if a job in the list doesn't exist is new , add it to the group collection
-                 /* $newAsso = false;
-                  foreach( explode(",", $_POST['listAssociation']) as $asso)
-                  {
-                      if(!Yii::app()->mongodb->groups->findOne(array("name"=>$asso)))
-                          Yii::app()->mongodb->groups->insert(array("name"=>$asso,
-                                                 "type"=>"association",
-                                                                   'tobeValidated' => true,
-                                                   'adminNotified' => false));
-                      $newAsso = $asso;
-                  }*/
-                  
-                  $where = array("_id" => new MongoId(Yii::app()->session["userId"]));  
-                  Yii::app()->mongodb->citoyens->update($where, array('$set' => $newInfos));
-                  
-                  
-                  echo json_encode($result); 
-            } else 
-                  echo json_encode(array("result"=>false, "id"=>"accountNotExist ".Yii::app()->session["userId"],"msg"=>"Ce compte n'existe plus."));
-                
-    } else
-        echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
-    exit;
-  }
   
   public function actionFind($email){
       $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$email));
@@ -383,7 +328,7 @@ class PersonController extends CommunecterController {
             echo json_encode($account);
         }
         else
-             echo "Compte inconnue.";
+             echo "Compte inconnu.";
   }
   public function actionInvite(){
       $this->renderPartial("invite");
@@ -600,8 +545,8 @@ class PersonController extends CommunecterController {
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
 	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
-	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email"));
-		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email"));
+	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email", "links"));
+		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links"));
 		$all = array(
 			"citoyens" => $allCitoyens,
 			"organizations" => $allOrganization,
@@ -701,12 +646,21 @@ class PersonController extends CommunecterController {
 	 Rest::json( $res );
  }
 
-
- public function actionDashboard($id)
+ /**
+  * Display the dashboard of the person
+  * @param String $id Not mandatory : if specify, look for the person with this Id. 
+  * Else will get the id of the person logged
+  * @return type
+  */
+ public function actionDashboard($id = null)
   {
     //get The person Id
     if (empty($id)) {
-      throw new CommunecterException("The person id is mandatory to retrieve the person !");
+        if (empty(Yii::app()->session["userId"])) {
+            throw new CommunecterException("The person id is mandatory to retrieve the person !");
+        } else {
+            $id = Yii::app()->session["userId"];
+        }
     }
 
     $person = Person::getPublicData($id);
@@ -720,20 +674,20 @@ class PersonController extends CommunecterController {
     $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 
-    //Get projects
+    //Get Projects
     $projects = array();
     if(isset($person["links"]["projects"])){
     	foreach ($person["links"]["projects"] as $key => $value) {
-  			$project = PROJECT::getPublicData($key);
+  			$project = Project::getPublicData($key);
   			array_push($projects, $project);
   		}
     }
 
-    $photos = Person::getListImage($id, "person");
+    
     //Get the Events
-   
   	$events = Authorisation::listEventsIamAdminOf($id);
 
+    //TODO - SBAR : Pour le dashboard person, affiche t-on les événements des associations dont je suis memebre ?
   	//Get the organization where i am member of;
   	$organizations = array();
     if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
@@ -761,8 +715,6 @@ class PersonController extends CommunecterController {
     }
     $people = array();
     if( isset($person["links"]) && isset($person["links"]["knows"])) {
-
-    	
     	foreach ($person["links"]["knows"] as $key => $member) {
     		$citoyen;
             if( $member['type'] == PHType::TYPE_CITOYEN )
@@ -774,7 +726,6 @@ class PersonController extends CommunecterController {
     	
     }
 
-    $params["photos"] = $photos;
     $params["organizations"] = $organizations;
     $params["projects"] = $projects;
     $params["events"] = $events;
@@ -816,7 +767,7 @@ class PersonController extends CommunecterController {
                   $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
 
                   /* **************************************
-                  * PROJECTS MAP
+                  * ProjectS MAP
                   ***************************************** */
                   $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
 
