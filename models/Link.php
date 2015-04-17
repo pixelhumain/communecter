@@ -23,7 +23,7 @@ class Link {
      * @param type $userAdmin Boolean to set if the member is admin or not
 	 * @return result array with the result of the operation
 	 */
-    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false, $userRole = false) {
+    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false, $userRole = "") {
         
         //TODO SBAR => Change the boolean userAdmin to a role (admin, contributor, moderator...)
 
@@ -46,7 +46,7 @@ class Link {
             $setArrayMembers["links.members.".$memberId.".isAdmin"] = $userAdmin;
             $setArrayMemberOf["links.memberOf.".$memberOfId.".isAdmin"] = $userAdmin;
         }
-        if ($userRole){
+        if ($userRole != ""){
         	$setArrayMembers["links.members.".$memberId.".roles"] = $userRole;
         	$setArrayMemberOf["links.memberOf.".$memberOfId.".roles"] = $userRole;
         }

@@ -237,9 +237,9 @@
 	            dataType: "json",
 	            success: function(data){
 	            	if(!data.result){
-	            		toastr.error(data.content);
+	            		toastr.error(data.msg);
 	            	}else{
-	            		toastr.success("member added successfully ");
+	            		toastr.success("Member added successfully ");
 	            		if(updateOrganisation != undefined && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();

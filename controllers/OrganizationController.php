@@ -63,7 +63,6 @@ class OrganizationController extends CommunecterController {
     $this->render("index",array("organizations"=>$organizations));
   }
     
-    
   /**********************************************************************
   /* Sall we keep edit action : Replaced by the dashboard ?
   /**********************************************************************/
@@ -337,9 +336,9 @@ class OrganizationController extends CommunecterController {
     $this->render("public", array("organization" => $organization));
   }
 
-
+  //TODO SBAR => part of controls done has been done on the Link model. 
   public function actionSaveMember(){
-	 $res = array( "result" => false , "content" => "Something went wrong" );
+	 $res = array( "result" => false , "msg" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
 	 {
     
@@ -451,7 +450,7 @@ class OrganizationController extends CommunecterController {
 				 //person exists with this email and is connected to this Organisation
 					if( isset($organization['links']["members"]) && isset( $organization['links']["members"][(string)$member["_id"]] ))
 
-						$res = array( "result" => false , "content" => "member allready exists" );
+						$res = array( "result" => false , "msg" => "Member allready exists" );
 					else {
 						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
 						$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
@@ -460,7 +459,7 @@ class OrganizationController extends CommunecterController {
 					}	
 				}
 			} else
-			$res = array( "result" => false , "content" => "email must be valid" );
+			$res = array( "result" => false , "msg" => "Email must be valid" );
 		}
 	 }
 	 Rest::json( $res );
@@ -686,4 +685,5 @@ class OrganizationController extends CommunecterController {
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
 	}
+
 }

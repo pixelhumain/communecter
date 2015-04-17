@@ -49,6 +49,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 					</div>
 					<div id="formNewOrganization">
 						<div class="col-md-6 col-sd-6" >
+							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
 								<label class="control-label">
 									Nom (Raison Sociale) <span class="symbol required"></span>
@@ -177,17 +178,14 @@ var formValidator = function() {
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
 		    	  data: $("#organizationForm").serialize(),
 		    	  success: function(data){
-		    			console.log("Retour de saveNew : "+data);
 		    			if(!data.result)
 	                        toastr.error(data.msg);
 	                    else { 
 	                        toastr.success(data.msg);
-	                        console.log("Id="+data.id);
 	                        if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
 		        				updateMyOrganization(data.newOrganization, data.id);
 							$.hideSubview()
 	                    }
-
 		    	  },
 		    	  dataType: "json"
 		    });
@@ -226,12 +224,43 @@ jQuery(document).ready(function() {
 		    }else{
 		    	$("#organizationSearch #dropdown_search").css({"display" : "none" });
 		    	$("#iconeChargement").css("visibility", "hidden")
-		    }
-		       		
+		    }		       		
 		});
-		$('#memberEmail').focusout(function(e){
-			//$("#ajaxSV #dropdown_city").css({"display" : "none" });
-		});
+
+		//Add Me as member Of Button
+		$('#btnAddMeAsMemberOf').click(function(e) {
+			e.preventDefault();
+			var formData = {
+	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
+				"memberName" : "",
+				"memberEmail" : "",
+				"memberType" : '<?php echo PHType::TYPE_CITOYEN ?>', 
+				"parentOrganisation" : $("#addOrganization #organizationId").val(),
+				"memberIsAdmin" : false,
+				"memberRoles" : ""
+			};
+			console.log("Data saveMember : "+formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/organization/saveMember",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						toastr.success(data.content);
+						organization = {"id" : formData.parentOrganization, 
+										"name": $("#addOrganization #organizationName").val(),
+										"type" : $("#addOrganization #type").val(),
+									}
+						if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
+		        				updateMyOrganization(organization, organization.id);
+						$.hideSubview();
+					}
+					else
+						toastr.error(data.content);
+				},
+			});               
+		});	
 	}	
 	
 	function autoCompleteOrganizationName(searchValue){
@@ -309,6 +338,7 @@ jQuery(document).ready(function() {
 
 	function setOrganizationForm(organizationId) {
 		organization = organizationList[organizationId];
+		$("#addOrganization #organizationId").val(organizationId);
 		$("#addOrganization #organizationName").val(organization.name);
 		$("#addOrganization #type").val(organization.type);
 		$("#addOrganization #organizationEmail").val(organization.email);
