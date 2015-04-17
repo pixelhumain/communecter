@@ -9,7 +9,7 @@
 class NewsController extends CommunecterController {
 
     protected function beforeAction($action) {
-		  return parent::beforeAction($action);
+    	return parent::beforeAction($action);
   	}
   	
     public function actionFormCreateNews() { 
@@ -20,7 +20,7 @@ class NewsController extends CommunecterController {
   	} 
   	public function actionIndex() { 
   		
-        $where = array("created"=>array('$exists'=>1) ) ;
+        $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
 		$news = News::getWhere( $where );
 
   		$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		

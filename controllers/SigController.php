@@ -290,7 +290,7 @@ class SigController extends CommunecterController {
 	    $randomOrganization = Organization::getById($randomOrganizationId);
 
 	    $this->render( "dashboard", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
-	  }
+	}
 	
 	
 	/* modele de requette geoWithin */
