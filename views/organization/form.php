@@ -182,12 +182,10 @@ var formValidator = function() {
 	                        toastr.error(data.msg);
 	                    else { 
 	                        toastr.success(data.msg);
-	                        setTimeout(function() {
-								if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
-		        					updateMyOrganization( data,  data.id);
-								$.hideSubview()
-								//window.location.href = baseUrl+"/<?php echo $this->module->id?>/person?tabId=panel_organisations";
-	                        },2000);
+	                        console.log("Id="+data.id);
+	                        if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
+		        				updateMyOrganization(data.newOrganization, data.id);
+							$.hideSubview()
 	                    }
 
 		    	  },
@@ -279,6 +277,7 @@ jQuery(document).ready(function() {
 		$("#searchOrganizationSection").css("display", "none");
 		
 		initNewOrganizationForm();
+		$("#addOrganization #organizationName").val($('#organizationForm #organizationSearch').val());
 	}
 
 	function initNewOrganizationForm() {

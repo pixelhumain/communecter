@@ -35,7 +35,9 @@ class Organization {
 	    Notification::saveNotification(array("type"=>"Created",
 	    						"user"=>$organization["_id"]));
 	                  
-	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
+	    $newOrganization = Organization::getById($newOrganizationId);
+	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", 
+	    	"id"=>$newOrganizationId, "newOrganization"=> $newOrganization);
 	}
 
 	/**

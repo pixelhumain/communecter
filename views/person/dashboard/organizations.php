@@ -7,32 +7,6 @@
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
 		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
 		<?php } ?>
-
-		<div class="dropdown">
-			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-				<i class="fa fa-cog"></i>
-			</a>
-			<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-				<li>
-					<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-				</li>
-				<li>
-					<a href="#" class="panel-refresh">
-						<i class="fa fa-refresh"></i> <span>Refresh</span>
-					</a>
-				</li>
-				<li>
-					<a data-toggle="modal" href="#panel-config" class="panel-config">
-						<i class="fa fa-wrench"></i> <span>Configurations</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="panel-expand">
-						<i class="fa fa-expand"></i> <span>Fullscreen</span>
-					</a>
-				</li>
-			</ul>
-		</div>
 		<a href="#" class="btn btn-xs btn-link panel-close">
 			<i class="fa fa-times"></i>
 		</a>
@@ -52,13 +26,11 @@
 							</td>
 							<td><?php if(isset($e["name"]))echo $e["name"]?></td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
-							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
-							<td><?php if(isset($e["linkType"]))echo $e["linkType"]?></td>
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 							</td>
@@ -73,21 +45,23 @@
 </div>
 
 <script type="text/javascript">
+	var temp;
 	function updateMyOrganization(nOrganization, organizationId) {
+	    temp = nOrganization;
 	    console.log("updateMyOrganization func");
 	    var organizationLine  = 
 	    '<tr id="organization'+organizationId+'">'+
-	                '<td><i class="fa fa-group fa-2x"></i></td>'+
+	                '<td class="center"><i class="fa fa-group fa-2x"></i></td>'+
 	                '<td>'+nOrganization.name+'</td>'+
 	                '<td>'+nOrganization.type+'</td>'+
 	                '<td class="center">'+
 	                '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
 	                    '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
-						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="'+nOrganization.linkType+'" data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
+						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
 	                '</div>'+
 	                "</td>"+
 	            "</tr>";
-	    $(".organizations").prepend(organizationLine);
+	    $("#organizations").prepend(organizationLine);
 	}
 
 </script>
