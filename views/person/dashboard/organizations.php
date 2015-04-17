@@ -71,3 +71,23 @@
 		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function updateMyOrganization(nOrganization, organizationId) {
+	    console.log("updateMyOrganization func");
+	    var organizationLine  = 
+	    '<tr id="organization'+organizationId+'">'+
+	                '<td><i class="fa fa-group fa-2x"></i></td>'+
+	                '<td>'+nOrganization.name+'</td>'+
+	                '<td>'+nOrganization.type+'</td>'+
+	                '<td class="center">'+
+	                '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
+	                    '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
+						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="'+nOrganization.linkType+'" data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
+	                '</div>'+
+	                "</td>"+
+	            "</tr>";
+	    $(".organizations").prepend(organizationLine);
+	}
+
+</script>
