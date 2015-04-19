@@ -38,6 +38,11 @@ class Organization {
 	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
 	}
 
+	/* TODO Ajouter la position geo sur l'orga */
+	public static function addGeoPos($organization){
+		
+	}
+	
 	/**
 	 * Apply organization checks and business rules before inserting
 	 * @param array $organization : array with the data of the person to check

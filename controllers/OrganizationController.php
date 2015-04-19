@@ -666,4 +666,35 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
+    
+	
+	public function actionSig($id) {
+		//get The organization Id
+	    if (empty($id)) {
+	      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+	    }
+
+	    $organization = Organization::getPublicData($id);
+
+	    $this->title = "Annuaire du réseau";
+	    $this->subTitle = "Trouver une structure grâce à de multiples critères";
+	    $this->pageTitle = "Communecter - ".$this->title;
+
+	    //Get this organizationEvent
+	    $events = array();
+	    if(isset($organization["links"]["events"])){
+	  		foreach ($organization["links"]["events"] as $key => $value) {
+	  			$event = Event::getPublicData($key);
+	  			$events[$key] = $event;
+	  		}
+	  	}
+
+	    //Manage random Organization
+	    $organizationMembers = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+        $randomOrganizationId = array_rand($organizationMembers);
+	    $randomOrganization = Organization::getById($randomOrganizationId);
+
+	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
+	  }
+	
 }

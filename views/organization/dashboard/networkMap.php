@@ -83,7 +83,7 @@
 	  <div class="panel-body no-padding">
 	  	
 	  		<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
-	   		<?php $this->renderPartial('../sig/generic/mapView', array( "sigParams" => $sigParams)); ?>
+	   		<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
 	   		<?php /* *******************************************************************************/?>
 	   		
 	  </div>
@@ -121,9 +121,12 @@
 			
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
-			//var mapData = contextMap.organization.citoyens;
+			//var mapData = contextMap.members;
+			//var mapData = ;
 			/**************************************************************************************************************/
 	
+			//alert("organizationMembers");
+			//alert(JSON.stringify(organizationMembers));
 			//affichage des éléments sur la carte
 			//Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 
