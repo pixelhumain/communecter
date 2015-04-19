@@ -75,6 +75,7 @@ class Event {
 				);*/
 	    	Link::addOrganizer($params["organization"], $new["_id"], $id);
 	    }
+
 	    //$where = array("_id" => new MongoId(Yii::app()->session["userId"]));
 	    //PHDB::update( PHType::TYPE_EVENTS , 
 		//					array("_id" => new MongoId($id)) ,
@@ -92,7 +93,7 @@ class Event {
 	    
 	    //TODO : add an admin notification
 	    //Notification::saveNotification(array("type"=>NotificationType::ASSOCIATION_SAVED,"user"=>$new["_id"]));
-	    return array("result"=>true, "msg"=>"Votre evenement est communecté.", "id"=>$new["_id"]);
+	    return array("result"=>true, "msg"=>"Votre evenement est communecté.", "id"=>$new["_id"], "event" => $new );
 	}
 
 	/**

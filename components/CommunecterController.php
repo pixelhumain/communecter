@@ -135,6 +135,8 @@ class CommunecterController extends Controller
       "register" => array("href" => "/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "gallery"=>array("href@"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "about" =>array("href"=>"/person/about"),
+      "updatefield" =>array("href"=>"/person/updatefield"),
     ),
 
     "organization"=> array(
@@ -152,6 +154,7 @@ class CommunecterController extends Controller
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
       "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
       "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
+      "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
 
       "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
@@ -202,12 +205,12 @@ class CommunecterController extends Controller
       */
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/organization/dashboardMember/id/".$id),
-      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"communecter/organization/dashboard1/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"communecter/sig/dashboard/id/".$id),
+      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
+      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
+      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"/ph/communecter/organization/sig/id/".$id),
       array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"communecter/organization/documents/id/".$id),
+      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"/ph/communecter/job/list"),
+      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"/ph/communecter/organization/documents/id/".$id),
       array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
       //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
       //array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)

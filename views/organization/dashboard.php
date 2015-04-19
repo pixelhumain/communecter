@@ -57,22 +57,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
 
-		getDocumentPod();
+		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
 		
 	});
 
-	function getDocumentPod() { 
-		console.log("getDocumentPod","<?php echo $_GET["id"]?>");
-		$.ajax({
-	        type: "GET",
-	        url: baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>"
-	    })
-	    .done(function (data) 
-	    {
-	        $(".documentPod ").html(data);
-	    });
-		
-	}
 	
 	function initDashboardAgenda(){
 		var n = 1;

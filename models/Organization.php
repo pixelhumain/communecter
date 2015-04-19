@@ -35,7 +35,9 @@ class Organization {
 	    Notification::saveNotification(array("type"=>"Created",
 	    						"user"=>$organization["_id"]));
 	                  
-	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", "id"=>$organization["_id"]);
+	    $newOrganization = Organization::getById($newOrganizationId);
+	    return array("result"=>true, "msg"=>"Votre organisation est communectée.", 
+	    	"id"=>$newOrganizationId, "newOrganization"=> $newOrganization);
 	}
 
 	/* TODO Ajouter la position geo sur l'orga */
@@ -260,5 +262,36 @@ class Organization {
                         array('$set' => array( 'roles' => $roleTab))
                     );
 	}
+
+	/**
+	 * Find organizations based on criteria (field contains value)
+	 * By default the criterias will be separated bay a "OR"
+	 * @param array $criterias array (field=>value)
+	 * @param String $sortOnField sort on this field name
+	 * @param integer $nbResultMax number of results max to return
+	 * @return array of Organizations
+	 */
+	public static function findOrganizationByCriterias($criterias, $sortOnField="", $nbResultMax = 10){
+	  	//TODO SBAR - add the collection as a parameter and make the function work on everything
+	  	//TODO SBAR - move it to PHDB ?
+
+	  	$seprator = '$or';
+	  	$query = array();
+
+	  	//Add the criterias 
+	  	foreach ($criterias as $field => $value) {
+	  		$query[$field] = new MongoRegex("/".$value."/i");
+	  	}
+
+	  	if (count($criterias) > 1) {
+	  		$where = array($seprator => array($query));
+	  	} else {
+	  		$where = $query;
+	  	}
+
+	  	$res = PHDB::findAndSort(Organization::COLLECTION, $where, array($sortOnField => 1), $nbResultMax);
+
+	  	return $res;
+	 }
 }
 ?>

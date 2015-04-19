@@ -22,181 +22,37 @@
 }
 </style>
 <div class="row">
-<div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => new MongoId($person["_id"]))); ?>
+<div class ="col-lg-4 col-md-4">
+	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
 </div>
 
-<div class="col-lg-4 col-md-12">
-	<div class="panel panel-white">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  About me</h4>
-		</div>
-		<div class="panel-tools">
-			
-			<div id='btnTools'>
-				<?php 
-				//connected user isn't allready connected with page User
-				if( Yii::app()->session['userId'] != (string)$person["_id"]) 
-				{
-					//if connected user and pageUser are allready connected
-					if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-						<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
-					<?php } else { ?>
-						<a href="javascript:;" class="connectBtn btn btn-red btn-xs tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
-					<?php }
-				}else{ ?>
-					<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>
-				<?php } ?>
-			</div>
-			<a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
-		<div class="panel-body no-padding">
-			
-			<div class="user-left">
-				<h4><?php //echo Yii::app()->session["user"]["name"]?></h4>
-				<!---->
-				<table class="table table-condensed table-hover" >
-					<thead>
-						<tr>
-							<th colspan="3">Information</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>DummyData</td>
-							<td>
-								<?php 
-								if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
-									<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> InitData : Dummy People</a>
-								<?php } else { ?>
-									<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red  pull-right" ><i class="fa fa-plus"></i> Remove Dummy People</a>
-								<?php } ?>
-							</td>
-						</tr>
-						<tr>
-							<td>url</td>
-							<td><a href="#"><?php if(isset($person["url"]))echo $person["url"];?></a></td>
-						</tr>
-						<tr>
-							<td>email</td>
-							<td><a href=""><?php echo Yii::app()->session["userEmail"];?></a></td>
-						</tr>
-						<tr>
-							<td>phone</td>
-							<td><?php if(isset($person["phoneNumber"]))echo $person["phoneNumber"];?></td>
-						</tr>
-						<tr>
-							<td>skype</td>
-							<td><?php if(isset($person["skype"]))echo $person["skype"];?></td>
-						</tr>
-					</tbody>
-				</table>
-				<hr>
-				<table class="table table-condensed table-hover">
-					<thead>
-						<tr>
-							<th colspan="3">General information</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Position</td>
-							<td>UI Designer</td>
-						</tr>
-						<tr>
-							<td>Position</td>
-							<td>Senior Marketing Manager</td>
-						</tr>
-						<tr>
-							<td>Supervisor</td>
-							<td>
-							<a href="#">
-								<?php if(isset($person["supervisor"]))echo $person["supervisor"];?>
-							</a></td>
-						</tr>
-					</tbody>
-				</table>
-				<table class="table table-condensed table-hover">
-					<thead>
-						<tr>
-							<th colspan="3">Additional information</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Birth</td>
-							<td><?php if(isset($person["birth"]))echo $person["birth"];?></td>
-							
-						</tr>
-						<tr>
-							<td>Tags</td>
-							<td><?php if(isset($person["tags"]))echo implode(",", $person["tags"]);?></td>
-						</tr>
-						<!--<tr>
-							<td>Groups</td>
-							<td>New company web site development, HR Management</td>
-							<td><a href="#panel_edit_account" class="show-tab"><i class="fa fa-pencil edit-user-info"></i></a></td>
-						</tr>-->
-					</tbody>
-				</table>
-			</div>
-			</hr>
-
-			<div class="social-icons block center">
-				<ul>
-					<li data-placement="top" data-original-title="Twitter" class="social-twitter tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["twitterAccount"]) && $person["socialNetwork"]["twitterAccount"]!="")echo $person["socialNetwork"]["twitterAccount"]; else echo "http://www.twitter.com";?>" target="_blank">
-							Twitter
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Facebook" class="social-facebook tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["facebookAccount"]) && $person["socialNetwork"]["facebookAccount"]!="")echo $person["socialNetwork"]["facebookAccount"]; else echo "http://www.facebook.com";?>" target="_blank">
-							Facebook
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Google" class="social-google tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["gplusAccount"]) && $person["socialNetwork"]["gplusAccount"]!="")echo $person["socialNetwork"]["gplusAccount"]; else echo "http://www.google.com";?>" target="_blank">
-							Google+
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="LinkedIn" class="social-linkedin tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["linkedInAccount"]) && $person["socialNetwork"]["linkedInAccount"]!="")echo $person["socialNetwork"]["linkedInAccount"]; else echo "http://www.linkedin.com";?>" target="_blank">
-							LinkedIn
-						</a>
-					</li>
-					<li data-placement="top" data-original-title="Github" class="social-github tooltips">
-						<a href="http://<?php if(isset($person["socialNetwork"]["gitHubAccount"]) && $person["socialNetwork"]["gitHubAccount"]!="")echo $person["socialNetwork"]["gitHubAccount"]; else echo "#";?>" target="_blank">
-							Github
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="col-lg-4 col-md-12">
-	<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" => new MongoId($person["_id"]))); ?>
-</div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
-	</div>
-	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events)); ?>
-	</div>
-	<div class="col-md-4">
-		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => new MongoId($person["_id"]))); ?>
-	</div>
+<div class="col-lg-4 col-md-4">
+	<?php $this->renderPartial('about', array("person" => $person, "tags" => $tags )); ?>
 </div>
 
-<div class="row">
-	<div class="col-sm-5 col-xs-12">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => new MongoId($person["_id"]))); ?>
+<div class="col-lg-4 col-md-4">
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
 	 </div>
 </div>
+<div class="row">
+	<div class="col-md-3">
+		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+	</div>
+	<div class="col-md-3">
+		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+	</div>
+	<div class="col-md-3">
+		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
+	</div>
+	<div class="col-lg-3 col-md-3">
+		<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
+	</div>
+</div>
+
+<div class="row">
+	
+</div>
+
 
 <script>
 
@@ -350,4 +206,11 @@ var initDataTable = function() {
 		"iDisplayLength" : 10,
 	});
 };
+
+ function updateEvent(newEvent){
+
+	if(typeof updateEventPod != "undefined" && typeof updateEventPod == "function")
+			updateEvent(newEvent);
+
+ }
 </script>

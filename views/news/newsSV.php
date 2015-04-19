@@ -6,12 +6,12 @@ var formDefinition = {
         "title" : "News Form",
         "type" : "object",
         "properties" : {
-            "title" :{
+            "name" :{
             	"inputType" : "text",
             	"placeholder" : "Title"
             },
-            "description" :{
-            	"inputType" : "wysiwyg",
+            "text" :{
+            	"inputType" : "textarea",
             	"placeholder" : "Describe your Organization",
             },
             "tags" :{
@@ -31,9 +31,13 @@ var formDefinition = {
 };
 
 var dataBind = {
-   "#description" : "description",
-   "#title" : "title",
-   "#tags" : "tags"
+   "#text" : "text",
+   "#name" : "name",
+   "#tags" : {
+   		field : "tags",
+   		format : "string2array",
+   		seperator : ","
+   	}
 };
 
 jQuery(document).ready(function() {
@@ -52,7 +56,7 @@ jQuery(document).ready(function() {
 					formId : "#ajaxForm",
 					formObj : formDefinition,
 					onLoad : function  () {
-						/*
+						/*console.log("on show subview",);
 						here you can load anythnig into your form fields 
 						it is called after creation
 						*/
@@ -70,32 +74,39 @@ jQuery(document).ready(function() {
 					onSave : function(){
 						console.log("saving Organization!!");
 						var params = {};
-						$.each(dataBind,function(field,fieldObj){
-							console.log("save key ",field,fieldObj.saveTo);
+						$.each(dataBind,function(field,dest){
+							console.log("dataBind 1 ",field,$(field).val());
 							if(field != "" )
 							{
-								if( $(field) && $(field).val() && $(field).val() != "" )
-								{
+								console.log("dataBind 2",field);
+								value = "";
+								if(typeof dest == "object"){
+									if(dest.format == "string2array")
+										value = $(field).val().split(dest.seperator);
+								} else if( $(field) && $(field).val() && $(field).val() != "" )
 									value = $(field).val();
-									jsonHelper.setValueByPath( params, fieldObj.saveTo, value );
-									
-									//update the databind with the new value (in case of second onload)
-									jsonHelper.setValueByPath( dataBind, field+".value", value );
 
-									$(fieldObj.updateElement).html($(field).val());
+								if( value != "" )
+								{
+									console.log("dataBind 3 ",field,dest,value);
+									jsonHelper.setValueByPath( params, dest, value );
 								} 
 							}
 							else
 								console.log("save Error",field);
 						});
 						params.id = '<?php echo Yii::app()->session['userId']; ?>';
+						console.dir(params);
 						$.ajax({
 				    	  type: "POST",
 				    	  url: baseUrl+"/<?php echo $this->module->id?>/news/save",
 				    	  data: params,
 				    	  dataType: "json"
 				    	}).done( function(data){
-				    		if(data.result){
+				    		if(data.result)
+				    		{
+				    			if( typeof updateNews == "function" )
+		                    		updateNews(data.object);
 								console.dir(data);
 								$.unblockUI();
 								$("#ajaxSV").html('');
@@ -108,7 +119,7 @@ jQuery(document).ready(function() {
 								toastr.error('Something went wrong!');
 				    		}
 				    	} );
-						
+
 						return false;
 					}
 				});

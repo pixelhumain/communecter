@@ -23,7 +23,7 @@ class Link {
      * @param type $userAdmin Boolean to set if the member is admin or not
 	 * @return result array with the result of the operation
 	 */
-    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false, $userRole = false) {
+    public static function addMember($memberOfId, $memberOfType, $memberId, $memberType, $userId, $userAdmin = false, $userRole = "") {
         
         //TODO SBAR => Change the boolean userAdmin to a role (admin, contributor, moderator...)
 
@@ -46,7 +46,7 @@ class Link {
             $setArrayMembers["links.members.".$memberId.".isAdmin"] = $userAdmin;
             $setArrayMemberOf["links.memberOf.".$memberOfId.".isAdmin"] = $userAdmin;
         }
-        if ($userRole){
+        if ($userRole != ""){
         	$setArrayMembers["links.members.".$memberId.".roles"] = $userRole;
         	$setArrayMemberOf["links.memberOf.".$memberOfId.".roles"] = $userRole;
         }
@@ -268,7 +268,7 @@ class Link {
     public static function attendee($eventId, $userId, $isAdmin = false){
 
    		Link::addLink($userId, PHType::TYPE_CITOYEN, $eventId, PHType::TYPE_EVENTS, $userId, "events");
-   		Link::addLink($eventId, PHType::TYPE_EVENTS, $userId, PHType::TYPE_CITOYEN, $userId, "attendee");
+   		Link::addLink($eventId, PHType::TYPE_EVENTS, $userId, PHType::TYPE_CITOYEN, $userId, "attendees");
 
     	if($isAdmin){
     		PHDB::update(PHType::TYPE_CITOYEN, 
@@ -278,7 +278,7 @@ class Link {
 
             PHDB::update( PHType::TYPE_EVENTS, 
               		array("_id" => new MongoId($eventId)), 
-                    array('$set' => array("links.attendee.".$userId.".isAdmin" => true))
+                    array('$set' => array("links.attendees.".$userId.".isAdmin" => true))
             );
     	}
     }

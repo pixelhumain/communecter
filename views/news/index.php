@@ -92,68 +92,87 @@ function buildTimeLine()
 	console.log("buildTimeLine",Object.keys(news).length);
 	
 	currentMonth = null;
+	countEntries = 0;
 	$.each( news , function(key,newsObj)
 	{
-		if(newsObj.msg && newsObj.created)
+		if(newsObj.text && newsObj.created)
 		{
 			var date = new Date( parseInt(newsObj.created)*1000 );
-			var year = date.getFullYear();
-			var month = months[date.getMonth()];
-			var day = date.getDate();
-			var hour = date.getHours();
-			var min = date.getMinutes();
-			var dateStr = day + ' ' + month + '' + year + ' ' + hour + ':' + min;
-			console.log("date",dateStr);
-			if( currentMonth != date.getMonth() )
-			{
-				currentMonth = date.getMonth();
-				linkHTML =  '<li class="">'+
-								'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
-							'</li>';
-				$(".newsTLmonthsList").append(linkHTML);
-
-				titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-								'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-							'</div>'+
-							'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
-				$(".newsTL").append(titleHTML);
-			}
-
-			var color = "white";
-			var icon = "fa-user";
-			var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
-			
-			url = 'href="javascript:;" onclick="'+url+'"';	
-			iconStr = '<i class=" fa fa-pencil fa-2x pull-left fa-border"></i>';
-			var content = newsObj.msg;
-			var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
-			var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
-			
-			var personName = "Unknown";
-			//var dateString = date.toLocaleString();
-			
-			newsTLLine = '<li><div class="timeline_element partition-'+color+'">'+
-								'<div class="timeline_title">'+
-									objectLink+
-									'<span class="text-large text-bold light-text no-margin padding-5">'+content+'</span>'+
-								'</div>'+
-								'<div class="space10"></div>'+	
-								'<div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-								"<div class='bar_tools_post'>"+
-								"<ul>"+
-									"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-comment'></i></span></li>"+
-									"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-up'></i></span></li>"+
-									"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-down'></i></span></li>"+
-									"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-share-alt'></i></span></li>"+
-									"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-eye'></i></span></li>"+
-								"</ul>"+
-								"</div>"+
-							'</div></li>';
-
+			var newsTLLine = buildLineHTML(newsObj);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
+			countEntries++;
 		}
 	});
+	if(!countEntries)
+		$(".newsTL").html("<div class='center text-extra-large'>Sorry, no news available</div>");
 	bindEvent();
+}
+
+var currentMonth = null;
+function buildLineHTML(newsObj)
+{
+	var date = new Date( parseInt(newsObj.created)*1000 );
+	var year = date.getFullYear();
+	var month = months[date.getMonth()];
+	var day = date.getDate();
+	var hour = date.getHours();
+	var min = date.getMinutes();
+	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	console.log("date",dateStr);
+	if( currentMonth != date.getMonth() )
+	{
+		currentMonth = date.getMonth();
+		linkHTML =  '<li class="">'+
+						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
+					'</li>';
+		$(".newsTLmonthsList").append(linkHTML);
+
+		titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+					'</div>'+
+					'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
+		$(".newsTL").append(titleHTML);
+	}
+
+	var color = "blue";
+	var icon = "fa-user";
+	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
+	
+	url = 'href="javascript:;" onclick="'+url+'"';	
+	iconStr = '<i class=" fa fa-pencil fa-2x pull-left fa-border"></i>';
+	var content = newsObj.text;
+	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
+	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
+	
+	var personName = "Unknown";
+	//var dateString = date.toLocaleString();
+	
+	newsTLLine = '<li><div class="timeline_element partition-'+color+'">'+
+					'<div class="timeline_title">'+
+						objectLink+
+						'<span class="text-large text-bold light-text no-margin padding-5">'+content+'</span>'+
+					'</div>'+
+					'<div class="space10"></div>'+	
+					'<div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
+					"<div class='bar_tools_post'>"+
+					"<ul>"+
+						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-comment'></i></span></li>"+
+						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-up'></i></span></li>"+
+						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-down'></i></span></li>"+
+						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-share-alt'></i></span></li>"+
+						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-eye'></i></span></li>"+
+					"</ul>"+
+					"</div>"+
+				'</div></li>';
+	return newsTLLine;
+}
+
+
+function updateNews(newsObj)
+{
+	var date = new Date( parseInt(newsObj.created)*1000 );
+	var newsTLLine = buildLineHTML(newsObj);
+	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
 }
 
 </script>

@@ -45,7 +45,9 @@ class OrganizationController extends CommunecterController {
     $this->render("index",array("organizations"=>$organizations));
   }
 	
-	
+	/**********************************************************************
+  /* Still used ?
+  /**********************************************************************/
   public function actionTags($type=null)
   {
     if($type){
@@ -61,8 +63,9 @@ class OrganizationController extends CommunecterController {
     $this->render("index",array("organizations"=>$organizations));
   }
     
-    
-
+  /**********************************************************************
+  /* Sall we keep edit action : Replaced by the dashboard ?
+  /**********************************************************************/
   public function actionEdit($id) 
   {
     $organization = Organization::getById($id);
@@ -170,7 +173,8 @@ class OrganizationController extends CommunecterController {
     }
     
     //Save the organization
-    return Organization::insert($newOrganization, Yii::app()->session["userId"] );;
+    Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
+    
 	}
 
   /**
@@ -229,6 +233,7 @@ class OrganizationController extends CommunecterController {
 
   /**
   * Create and return new array with all the mandatory fields
+  * TODO SBAR - May be moved that function to model
   * @return array as organization
   */
   private function populateNewOrganizationFromPost() {
@@ -331,9 +336,9 @@ class OrganizationController extends CommunecterController {
     $this->render("public", array("organization" => $organization));
   }
 
-
+  //TODO SBAR => part of controls done has been done on the Link model. 
   public function actionSaveMember(){
-	 $res = array( "result" => false , "content" => "Something went wrong" );
+	 $res = array( "result" => false , "msg" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
 	 {
     
@@ -445,7 +450,7 @@ class OrganizationController extends CommunecterController {
 				 //person exists with this email and is connected to this Organisation
 					if( isset($organization['links']["members"]) && isset( $organization['links']["members"][(string)$member["_id"]] ))
 
-						$res = array( "result" => false , "content" => "member allready exists" );
+						$res = array( "result" => false , "msg" => "Member allready exists" );
 					else {
 						Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
 						$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
@@ -454,7 +459,7 @@ class OrganizationController extends CommunecterController {
 					}	
 				}
 			} else
-			$res = array( "result" => false , "content" => "email must be valid" );
+			$res = array( "result" => false , "msg" => "Email must be valid" );
 		}
 	 }
 	 Rest::json( $res );
@@ -666,6 +671,7 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
+<<<<<<< HEAD
     
 	
 	public function actionSig($id) {
@@ -697,4 +703,21 @@ class OrganizationController extends CommunecterController {
 	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
 	
+=======
+
+	/**********************************************************************
+	/* Search Organization
+	/**********************************************************************/
+	public function actionSearchOrganizationByCriteria() {
+		$criterias = array();
+		foreach ($_POST as $key => $value) {
+			$criterias[$key] = $value;
+		}
+
+		$listOrganization = Organization::findOrganizationByCriterias($criterias, "name", 10);
+
+		return Rest::json(array("result" => true, "list" => $listOrganization));
+	}
+
+>>>>>>> b8d13d9fe3fcc82098b429366be07ce9149e60d9
 }
