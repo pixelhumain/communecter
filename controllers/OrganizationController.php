@@ -671,8 +671,6 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
-<<<<<<< HEAD
-    
 	
 	public function actionSig($id) {
 		//get The organization Id
@@ -702,8 +700,6 @@ class OrganizationController extends CommunecterController {
 
 	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
-	
-=======
 
 	/**********************************************************************
 	/* Search Organization
@@ -718,6 +714,4 @@ class OrganizationController extends CommunecterController {
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
 	}
-
->>>>>>> b8d13d9fe3fcc82098b429366be07ce9149e60d9
 }
