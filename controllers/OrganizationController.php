@@ -672,7 +672,6 @@ class OrganizationController extends CommunecterController {
     	return Rest::json($res);
     }
 
-    
 	
 	public function actionSig($id) {
 		//get The organization Id
@@ -702,7 +701,6 @@ class OrganizationController extends CommunecterController {
 
 	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
-	
 
 
 	/**********************************************************************
@@ -718,6 +716,7 @@ class OrganizationController extends CommunecterController {
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
 	}
+
 
 
 	/**
