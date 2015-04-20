@@ -1,7 +1,17 @@
-	<?php
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
+<?php
+	$cs = Yii::app()->getClientScript();
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 ?>
+<style type="text/css">
+	.panel-tools{
+		filter: alpha(opacity=1);
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+		opacity: 1;
+	}
+
+</style>
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
@@ -16,6 +26,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 				</div>
 	    		
 	    	</div>
+	    	<?php 
+		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
+
+		    ?>
+			<div class="col-sm-12 col-xs-12">
+	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
+	    	</div>
+	    	<?php }; ?>
 	    </div>
 	 </div>
 
@@ -31,6 +49,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
+
+
 	 	</div>
 	 </div>
 </div>

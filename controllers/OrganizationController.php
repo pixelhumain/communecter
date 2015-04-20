@@ -520,7 +520,7 @@ class OrganizationController extends CommunecterController {
 
 
 
-     $contextMap = array();
+    $contextMap = array();
     $contextMap["organization"] = $organization;
     $contextMap["events"] = array();
     $contextMap["organizations"] = array();
@@ -639,7 +639,10 @@ class OrganizationController extends CommunecterController {
 
 	    $organization = Organization::getPublicData($id);
 	    $events = Organization::listEventsPublicAgenda($id);
-     	
+     	$members = array( 
+          "citoyens"=> array(),
+          "organizations"=>array()
+      	);
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
 	    $contextMap = array();
@@ -652,6 +655,7 @@ class OrganizationController extends CommunecterController {
 	    foreach ($organizations as $key => $value) {
 	    	$newOrga = Organization::getById($key);
 	    	array_push($contextMap["organizations"], $newOrga);
+	    	array_push($members["organizations"], $newOrga);
 	    }
 
 	    foreach ($events as $key => $value) {
@@ -661,7 +665,9 @@ class OrganizationController extends CommunecterController {
 	    foreach ($people as $key => $value) {
 	    	$newCitoyen = Person::getById($key);
 	    	array_push($contextMap["people"], $newCitoyen);
+	    	array_push($members["citoyens"], $newCitoyen);
 	    }
+	    $params["members"] = $members;
 	    $params["contextMap"] = $contextMap;
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard", $params );
