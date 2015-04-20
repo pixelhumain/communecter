@@ -166,6 +166,7 @@ class CommunecterController extends Controller
       
       
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
+      "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
 
     ),
     
