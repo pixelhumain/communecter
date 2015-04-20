@@ -227,6 +227,23 @@ class Authorisation {
     	return $res;
     }
 
+    /**
+    * Get the authorization for edit an item
+    * @param type is the type of item, (organization or event)
+    * @param itemId id of the item we want to edits
+    * @return a boolean
+    */
+    public static function canEditItem($userId, $type, $itemId){
+    	$res=false;
+    	if($type==PHType::TYPE_EVENTS){
+    		$res = Authorisation::isEventAdmin($itemId, $userId);
+    	}else if($type == Organization::COLLECTION){
+    		$res = Authorisation::isOrganizationAdmin($userId, $itemId);
+    	}
+
+    	return $res;
+    }
+
 
 } 
 ?>
