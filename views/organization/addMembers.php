@@ -306,12 +306,13 @@
 		
 	}
 
-	function setMemberInputAddMember(id, name,email, type){
+	function setMemberInputAddMember(id, name,email,type){
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
-		$("#addMembers #memberRole").val(listTag)
+		$('#addMembers #memberEmail').val(email);
+		//$("#addMembers #memberRole").val(listTag)
 		/*if(isAdmin){
 			$("#addMembers #memberIsAdmin").val("true");
 			$("[name='my-checkbox']").bootstrapSwitch('state', true);
@@ -321,7 +322,7 @@
 		}
 		$('#memberRole').select2({ text: listTag});
 		console.log(email);
-		$('#addMembers #memberEmail').val(email);
+		
 		console.log(type);*/
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
