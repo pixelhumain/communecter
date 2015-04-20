@@ -121,6 +121,7 @@
 	var lastLevel;
 	var maxLevel= 0;
 	var type;
+	var contextId;
 	var mapIconOrga = {"NGO":" fa-building-o", "LocalBusiness":"fa-home", "GovernmentOrganization":"fa-institution", "Group":"fa-group", "":"fa-dollar"};
 
 
@@ -130,12 +131,16 @@
 		if(typeof(contextMap)!="undefined"){
 			map=contextMap;
 			if(typeof(contextMap.person) != "undefined"){
+				contextId = contextMap.person["_id"]["$id"];
 				type = 'person';
 			}else if(typeof(contextMap.organization) != "undefined"){
+				contextId = contextMap.organization["_id"]["$id"];
 				type = 'organization';
 			}else if(typeof(contextMap.event) != "undefined"){
+				contextId = contextMap.event["_id"]["$id"];
 				type = "event";
 			}else if(typeof(contextMap.project) != "undefined"){
+				contextId = contextMap.project["_id"]["$id"];
 				type ="project";
 			}
 			
@@ -145,7 +150,7 @@
 	
 	function initViewer(){
 		if(datafile!=null){
-			data = createDataGraph(type, "<?php echo Yii::app()->session['userId'] ?>", datafile)
+			data = createDataGraph(type, contextId, datafile)
 			getNewData(data);
 		}
 		else{
@@ -170,7 +175,7 @@
 				firstNode = createDataNode(obj, 1);
 				firstNode['parent'] = key;
 			}else if(obj.length>0){
-				//console.log(key);
+				console.log(key);
 				var parent = key;
 				if(parent == "people" || parent=="citoyens")
 					parent = "person";
@@ -236,6 +241,7 @@
 			}
 		});
 		firstNode['children']=firstNodeChildren;
+		console.log("firstNode", firstNode);
 		return firstNode;
 	}
 

@@ -46,7 +46,6 @@
 		var n = 1;
 		var today = new Date();
 		$.each(events, function(k, v){
-			console.log("events",k, v);
 			var period = getStringPeriodValue(v.startDate, v.endDate);
 			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 			if(n<4 && compareDate(today, date)){

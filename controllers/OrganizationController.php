@@ -507,9 +507,6 @@ class OrganizationController extends CommunecterController {
 	        }
 	    }
 
-      $events = Organization::listEventsPublicAgenda($id);
-      $params["events"] = $events;
-
 		if (count($subOrganizationIds) != 0 ) {
 			$randomOrganizationId = array_rand($subOrganizationIds);
 			$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
@@ -517,6 +514,33 @@ class OrganizationController extends CommunecterController {
 		} 
 		$params["members"] = $members;
     }
+    
+    $events = Organization::listEventsPublicAgenda($id);
+    $params["events"] = $events;
+
+
+
+    $contextMap = array();
+    $contextMap["organization"] = $organization;
+    $contextMap["events"] = array();
+    $contextMap["organizations"] = array();
+    $contextMap["people"] = array();
+    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+    foreach ($organizations as $key => $value) {
+    	$newOrga = Organization::getById($key);
+    	array_push($contextMap["organizations"], $newOrga);
+    }
+
+    foreach ($events as $key => $value) {
+    	$newEvent = Event::getById($key);
+    	array_push($contextMap["events"], $newEvent);
+    }
+    foreach ($people as $key => $value) {
+    	$newCitoyen = Person::getById($key);
+    	array_push($contextMap["people"], $newCitoyen);
+    }
+    $params["contextMap"] = $contextMap;
 
     $this->render( "dashboardMember", $params );
   }
@@ -615,12 +639,38 @@ class OrganizationController extends CommunecterController {
 
 	    $organization = Organization::getPublicData($id);
 	    $events = Organization::listEventsPublicAgenda($id);
-     	
+     	$members = array( 
+          "citoyens"=> array(),
+          "organizations"=>array()
+      	);
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
+	    $contextMap = array();
+	    $contextMap["organization"] = $organization;
+	    $contextMap["events"] = array();
+	    $contextMap["organizations"] = array();
+	    $contextMap["people"] = array();
+	    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+	    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+	    foreach ($organizations as $key => $value) {
+	    	$newOrga = Organization::getById($key);
+	    	array_push($contextMap["organizations"], $newOrga);
+	    	array_push($members["organizations"], $newOrga);
+	    }
 
+	    foreach ($events as $key => $value) {
+	    	$newEvent = Event::getById($key);
+	    	array_push($contextMap["events"], $newEvent);
+	    }
+	    foreach ($people as $key => $value) {
+	    	$newCitoyen = Person::getById($key);
+	    	array_push($contextMap["people"], $newCitoyen);
+	    	array_push($members["citoyens"], $newCitoyen);
+	    }
+	    $params["members"] = $members;
+	    $params["contextMap"] = $contextMap;
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-	 	 $this->render( "dashboard", $params );
+	 	$this->render( "dashboard", $params );
 	 }
 
    /* **************************************
@@ -653,6 +703,27 @@ class OrganizationController extends CommunecterController {
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
+		$contextMap = array();
+	    $contextMap["organization"] = $organization;
+	    $contextMap["events"] = array();
+	    $contextMap["organizations"] = array();
+	    $contextMap["people"] = array();
+	    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+	    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+	    foreach ($organizations as $key => $value) {
+	    	$newOrga = Organization::getById($key);
+	    	array_push($contextMap["organizations"], $newOrga);
+	    }
+
+	    foreach ($events as $key => $value) {
+	    	$newEvent = Event::getById($key);
+	    	array_push($contextMap["events"], $newEvent);
+	    }
+	    foreach ($people as $key => $value) {
+	    	$newCitoyen = Person::getById($key);
+	    	array_push($contextMap["people"], $newCitoyen);
+	    }
+	    $params["contextMap"] = $contextMap;
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard1", $params );
 	 }

@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-sm-8 col-xs-12">
 		<div class="row">
-			<?php $this->renderPartial('documents',array( "documents" => (isset($documents)) ? $documents : null ) ); ?>
+			<?php $this->renderPartial('../documents/documents',array( "documents" => (isset($documents)) ? $documents : null ) ); ?>
 		</div>
 		<div class="row">
 			<div class="panel panel-white">
@@ -28,3 +28,7 @@
 		<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null )); ?>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var contextMap= <?php echo json_encode($contextMap) ?>;
+</script>

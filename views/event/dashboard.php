@@ -1,19 +1,6 @@
 <div class="row">
 <div class ="col-lg-4 col-md-12">
-	<div class="panel panel-white">
-		<div class="panel-heading border-light"></div>
-		<div class="panel-body">
-			<div class="center">
-
-				<div class="fileupload fileupload-new" data-provides="fileupload">
-					<div class="fileupload-new thumbnail">
-						<img src="<?php if ($event && isset($event["imagePath"])) echo $event["imagePath"]; ?>" alt="">	
-					</div>
-					<div class="fileupload-preview fileupload-exists thumbnail"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)) ?>
 </div>
 
 <div class="col-lg-4 col-md-12">
