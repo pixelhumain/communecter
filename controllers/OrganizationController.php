@@ -671,6 +671,7 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
+
 	
 	public function actionSig($id) {
 		//get The organization Id
@@ -701,6 +702,7 @@ class OrganizationController extends CommunecterController {
 	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
 
+
 	/**********************************************************************
 	/* Search Organization
 	/**********************************************************************/
@@ -714,4 +716,23 @@ class OrganizationController extends CommunecterController {
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
 	}
+
+
+
+	/**
+	  * Update an information field for a person
+	  */
+	public function actionUpdateField(){
+	  	if (!empty($_POST["pk"])) {
+	  		$organizationId = $_POST["pk"];
+			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
+				$organizationFieldName = $_POST["name"];
+				$organizationFieldValue = $_POST["value"];
+				Organization::updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+			}
+	  	}else{
+	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $jobFieldName=>$jobFieldValue));
+	  	}
+	}
+
 }

@@ -134,7 +134,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 
   jQuery(document).ready(function() {
 
-    $('.pulsate').pulsate({
+    /*$('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
             reach: 10, // how far the pulse goes in px
             speed: 1000, // how long one pulse takes in ms
@@ -144,7 +144,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
             onHover: false // if true only pulsate if user hovers over the element
         });
     //get News OPod with Ajax
-    getAjax(".newsPod" , baseUrl+"/"+moduleId+"/news/latest" , null , "html");
+    getAjax(".newsPod" , baseUrl+"/"+moduleId+"/news/latest" , null , "html");*/
     
   });
   
