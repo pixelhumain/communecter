@@ -38,8 +38,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = <?php echo json_encode($organization) ?>;
-	contextMap.events = <?php echo json_encode($events) ?>;
+	var contextMap= <?php echo json_encode($contextMap) ?>;
+
 
 	
 	jQuery(document).ready(function() {

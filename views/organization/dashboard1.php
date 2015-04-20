@@ -28,3 +28,7 @@
 		<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null )); ?>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var contextMap= <?php echo json_encode($contextMap) ?>;
+</script>

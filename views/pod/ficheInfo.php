@@ -52,33 +52,32 @@
 				</div>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<i class="fa fa-home fa-lg"></i>  : 
-				<a href="#" id="address.streetAddress" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="address.streetAddress" data-type="text" data-title="streetAddress" data-original-title="" class="editable-context editable editable-click">
 					<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 				</a>
 				<br>
-				<a href="#" id="address.postalCode" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="address.postalCode" data-type="text" data-title="codePostal" data-original-title="" class="editable-context editable editable-click">
 					 <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>
 				</a>
-				<a href="#" id="address.addressCountry" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="address.addressCountry" data-type="text" data-title="Localité" data-original-title="" class="editable-context editable editable-click">
 				 	<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?>
 				 </a>
 				<br>
-				Télephone : 
-				<a href="#" id="Tel" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="tel" data-type="text" data-title="Télephone" data-original-title="" class="editable-context editable editable-click">
+					<?php echo (isset($context["tel"])) ? $context["tel"] : null; ?>
 				</a>
 				<br>
-				<a href="#" id="email" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="email" data-type="text" data-title="Email" data-original-title="" class="editable-context editable editable-click">
 					<?php echo (isset($context["email"])) ? $context["email"] : null; ?>
 				</a>
 				<br>
-				<a href="#" id="url" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="url" data-type="text" data-title="Url" data-original-title="" class="editable-context editable editable-click">
 					<?php echo (isset($context["url"])) ? $context["url"] : null; ?>
 				</a>
 			</div>
 		</div>
 		<div class="row">
-			<a href="#" id="description" data-type="wysihtml5" data-original-title="" class="editable-context editable editable-click">
+			<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-original-title="" class="editable-context editable editable-click">
 				<?php echo (isset($context["description"])) ? $context["description"] : null; ?>
 			</a>
 		</div>
@@ -92,13 +91,13 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="typeIntervention" data-type="select2" data-original-title="" class="editable editable-click">
-					<?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?>
+				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="select2" data-original-title="" class="editable editable-click">
+					<?php echo (isset($context["typeIntervention"])) ? implode("\r\n", $context["typeIntervention"]) : null; ?>
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="tags" data-type="select2" data-original-title="" class="editable editable-click">
-					<?php echo (isset($context["tags"])) ? implode(",", $context["tags"]) : null; ?>
+				<a href="#" id="tags" data-type="select2" data-type="Tags" data-original-title="" class="editable editable-click">
+					<?php echo (isset($context["tags"])) ? implode("\r\n", $context["tags"]) : null; ?>
 				</a>
 			</div>
 		</div>
@@ -176,9 +175,11 @@
 	}
 
 	function activateEditableContext() {
-		$.fn.editable.defaults.mode = 'inline';
+		$.fn.editable.defaults.mode = 'popup';
 		$('.editable-context').editable({
 	    	url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new job, it is only for update
+	    	emptytext : "Editez",
+	    	title : $(this).data("title"),
 	    	onblur: 'submit',
 	    	showbuttons: false
 		});
@@ -190,8 +191,9 @@
 		//Select2 tags
 	    $('#tags').editable({
 	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
-	        mode: 'inline',
+	        mode: 'popup',
 	        showbuttons: false,
+	        emptytext: "Editez",
 	        select2: {
 	            tags: <?php if(isset($context["tags"])) echo json_encode($context["tags"]); else echo json_encode(array())?>,
 	            tokenSeparators: [",", " "]
@@ -199,8 +201,9 @@
     	});
     	$('#typeIntervention').editable({
 	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
-	        mode: 'inline',
+	        mode: 'popup',
 	        showbuttons: false,
+	        emptytext: "Editez",
 	        select2: {
 	            typeIntervention: <?php if(isset($context["typeIntervention"])) echo json_encode($context["typeIntervention"]); else echo json_encode(array())?>,
 	            tokenSeparators: [",", " "]
@@ -211,14 +214,15 @@
     function switchMode() {
     	if(mode == "view"){
     		mode = "update";
+    		manageModeContext();
     		$("#divImgView").css("display", "none");
     		$("#divImgEdit").css("display", "block");
     	}else{
     		mode ="view";
+    		manageModeContext();
     		$("#divImgView").css("display", "block");
     		$("#divImgEdit").css("display", "none");
     	}
-    	manageModeContext();
     }
 
 </script>

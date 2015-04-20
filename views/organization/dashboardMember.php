@@ -127,10 +127,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
  ?>
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = {};
-	contextMap["organization"] = <?php echo json_encode($organization) ?>;
+	var contextMap= <?php echo json_encode($contextMap) ?>;
 	contextMap.members = <?php echo json_encode($members) ?>;
-	contextMap.events = <?php echo json_encode($events) ?>;
 
   jQuery(document).ready(function() {
 
