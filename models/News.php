@@ -14,6 +14,10 @@ class News {
 	public static function getWhere($params) {
 	  	return PHDB::find( self::COLLECTION,$params);
 	}
+	public static function getWhereSortLimit($params,$sort,$limit=1) {
+	  	return PHDB::findAndSort( self::COLLECTION,$params,$sort,$limit);
+	}
+	
 
 	public static function save($params){
 		//$id = Yii::app()->session["userId"];

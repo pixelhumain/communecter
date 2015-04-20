@@ -31,12 +31,12 @@ class NewsController extends CommunecterController {
   	public function actionLatest() { 
   		
         $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
-		$news = News::getWhere( $where );
+		$news = News::getWhereSortLimit( $where, array("created"=>-1) ,2);
 
 		if(Yii::app()->request->isAjaxRequest)
 	        echo $this->renderPartial("one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
 	    else
-  			$this->render( "one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
+  			$this->render( "one" , array( "news"=>$news ) ); 		
   	} 
   	
   	

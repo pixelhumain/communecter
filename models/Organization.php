@@ -224,7 +224,7 @@ class Organization {
 
 	/**
 	 * List all the event of an organization and his members
-	 * @param type $organisationId : is the mongoId of the organisation
+	 * @param String $organisationId : is the mongoId of the organisation
 	 * @return all the event link with the organization
 	 */
 	public static function listEventsPublicAgenda($organizationId){

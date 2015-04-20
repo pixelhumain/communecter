@@ -14,35 +14,41 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFix
 	<div class="col-md-12">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white">
-			<div class="panel-heading">
-				<h4 class="panel-title">Timeline</h4>
-			</div>
 			<div class="panel-body">
-						<div class="partition-white">
-							<div class="timeline_date">
-								<div>
-									<div class="inline-block">
-										<span class="day text-bold">02</span>
-									</div>
-									<div class="inline-block">
-										<span class="block week-day text-extra-large">Wensdey</span>
-										<span class="block month text-large text-light">november 2014</span>
+					<?php 
+					$compteur = 0;
+					foreach ($news as $key => $value) 
+					{
+						$classNews = ($compteur) ? "blockquote-reverse" : "";
+						$iconNews = ($compteur) ? "pull-right" : "pull-left";
+					?>
+						<blockquote class=" <?php echo $classNews ?> ">
+							<div class="partition-white border-dark">
+								<div class="timeline_date">
+									<div>
+										<div class="inline-block">
+											<span class="block month text-large text-light"><?php echo date('d F Y H:i', $value["created"]); ?></span>
+										</div>
 									</div>
 								</div>
+								<div class="timeline_title">
+									<i class="fa fa-rss fa-2x <?php echo $iconNews ?> fa-border"></i>
+									<h4 class="light-text no-margin padding-5">type : News</h4>
+								</div>
+								<div class="timeline_content">
+									<?php echo $value["text"]; echo "<br/>".date("Y-m-d H:i:s", $value["created"]);?>
+								</div>
+								<div class="readmore">
+									<a href="#" class="btn btn-green">
+										Read More <i class="fa fa-arrow-circle-right"></i>
+									</a>
+								</div>
 							</div>
-							<div class="timeline_title">
-								<i class="fa fa-check fa-2x pull-left fa-border"></i>
-								<h4 class="light-text no-margin padding-5">Appointment</h4>
-							</div>
-							<div class="timeline_content">
-								<b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-							</div>
-							<div class="readmore">
-								<a href="#" class="btn btn-green">
-									Read More <i class="fa fa-arrow-circle-right"></i>
-								</a>
-							</div>
-						</div>
+						</blockquote>
+						<div class="space20"></div>
+					<?php 
+						$compteur = ($compteur) ? 0 : 1;
+					} ?>
 					</div>
 				</div>
 			</div>

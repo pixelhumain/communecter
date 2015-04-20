@@ -61,26 +61,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		
 	});
 
-	
-	function initDashboardAgenda(){
-		var n = 1;
-		var today = new Date();
-		console.log(contextMap.events);
-		$.each(contextMap.events, function(k, v){
-			console.log(k, v);
-			var period = getStringPeriodValue(v.startDate, v.endDate);
-			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-			if(n<4 && compareDate(today, date)){
-				var htmlRes = "<img src=\""+v.imagePath+"\"></img>";
-				htmlRes +="<div class='row'><div class=\"col-xs-5\" ><h2>"+period+"</h2></div>";
-				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/public/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div>";
-				$("#slideEv"+n).html(htmlRes);
-				n++;
-			}
-		})
-			//showCalendarDashBoard(data);
-	}
-
 	function compareDate(d, f){
 		var res = false;
 		console.log(d, f, d<= f)

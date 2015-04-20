@@ -507,9 +507,6 @@ class OrganizationController extends CommunecterController {
 	        }
 	    }
 
-      $events = Organization::listEventsPublicAgenda($id);
-      $params["events"] = $events;
-
 		if (count($subOrganizationIds) != 0 ) {
 			$randomOrganizationId = array_rand($subOrganizationIds);
 			$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
@@ -517,6 +514,9 @@ class OrganizationController extends CommunecterController {
 		} 
 		$params["members"] = $members;
     }
+    
+    $events = Organization::listEventsPublicAgenda($id);
+    $params["events"] = $events;
 
 
 
