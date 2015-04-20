@@ -34,6 +34,16 @@
 	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
 	    	</div>
 	    	<?php }; ?>
+	    	
+	    	<div class="col-sm-12 col-xs-12 jobPod">
+	    		<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Jobs Section</h4>
+						<div class="space5"></div>
+					</div>
+				</div>
+	    		
+	    	</div>
 	    </div>
 	 </div>
 
@@ -78,6 +88,7 @@
 		$(".flexslider").flexslider();
 
 		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list",null,"html");
 		
 	});
 

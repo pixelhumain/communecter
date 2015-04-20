@@ -71,7 +71,11 @@ class JobController extends CommunecterController {
 
 	$jobList = Job::getJobsList($organizationId);
   
-	$this->render("jobList", array("jobList" => $jobList));
+	if(Yii::app()->request->isAjaxRequest){
+		$this->renderPartial("jobList", array("jobList" => $jobList));
+	} else {
+		$this->render("jobList", array("jobList" => $jobList));
+	}
   }
 
   public function actionPublic($id){
@@ -103,8 +107,7 @@ class JobController extends CommunecterController {
 	$this->pageTitle = "Job Posting";
 
 	Rest::json(array("result"=>true, 
-		"content" => $this->renderPartial("public", array("job" => $job, "tags" => $tags, "organizations" => $organizations, "mode" => $mode), true)));
-	
+		"content" => $this->renderPartial("jobSV", array("job" => $job, "tags" => $tags, "organizations" => $organizations, "mode" => $mode), true)));	
   }
 
 }

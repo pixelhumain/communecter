@@ -1,16 +1,10 @@
-<style>
-	.tooltip {
-		z-index:999999;
-	}
-</style>
-
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 		<div class="dropdown">
 			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
