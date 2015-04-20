@@ -40,6 +40,11 @@ class Organization {
 	    	"id"=>$newOrganizationId, "newOrganization"=> $newOrganization);
 	}
 
+	/* TODO Ajouter la position geo sur l'orga */
+	public static function addGeoPos($organization){
+		
+	}
+	
 	/**
 	 * Apply organization checks and business rules before inserting
 	 * @param array $organization : array with the data of the person to check
@@ -287,6 +292,34 @@ class Organization {
 	  	$res = PHDB::findAndSort(Organization::COLLECTION, $where, array($sortOnField => 1), $nbResultMax);
 
 	  	return $res;
+	 }
+
+
+	 /**
+	 * Update an organization field value
+	 * @param String $organisationId The organization Id to update
+	 * @param String $organizationFieldName The name of the field to update
+	 * @param String $organizationFieldValue 
+	 * @param String $userId 
+	 * @return boolean True if the update has been done correctly. Can throw CommunecterException on error.
+	 */
+	 public static function updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, $userId){
+	 	if (!Authorisation::isOrganizationAdmin($userId, $organizationId)) {
+			throw new CommunecterException("Can not update this organization : you are not authorized to update that organization !");	
+		}
+
+		//Specific case : tags
+		if ($organizationFieldName == "tags") {
+			$organizationFieldValue = Tags::filterAndSaveNewTags($organizationFieldValue);
+		}
+
+		$organization = array($organizationFieldName => $organizationFieldValue);
+		
+		//update the person
+		PHDB::update( Organization::COLLECTION, array("_id" => new MongoId($organizationId)), 
+		                          array('$set' => $organization));
+	                  
+	    return true;
 	 }
 }
 ?>

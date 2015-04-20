@@ -672,6 +672,37 @@ class OrganizationController extends CommunecterController {
     	return Rest::json($res);
     }
 
+	
+	public function actionSig($id) {
+		//get The organization Id
+	    if (empty($id)) {
+	      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
+	    }
+
+	    $organization = Organization::getPublicData($id);
+
+	    $this->title = "Annuaire du réseau";
+	    $this->subTitle = "Trouver une structure grâce à de multiples critères";
+	    $this->pageTitle = "Communecter - ".$this->title;
+
+	    //Get this organizationEvent
+	    $events = array();
+	    if(isset($organization["links"]["events"])){
+	  		foreach ($organization["links"]["events"] as $key => $value) {
+	  			$event = Event::getPublicData($key);
+	  			$events[$key] = $event;
+	  		}
+	  	}
+
+	    //Manage random Organization
+	    $organizationMembers = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+        $randomOrganizationId = array_rand($organizationMembers);
+	    $randomOrganization = Organization::getById($randomOrganizationId);
+
+	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
+	  }
+
+
 	/**********************************************************************
 	/* Search Organization
 	/**********************************************************************/
@@ -684,6 +715,24 @@ class OrganizationController extends CommunecterController {
 		$listOrganization = Organization::findOrganizationByCriterias($criterias, "name", 10);
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
+	}
+
+
+
+	/**
+	  * Update an information field for a person
+	  */
+	public function actionUpdateField(){
+	  	if (!empty($_POST["pk"])) {
+	  		$organizationId = $_POST["pk"];
+			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
+				$organizationFieldName = $_POST["name"];
+				$organizationFieldValue = $_POST["value"];
+				Organization::updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+			}
+	  	}else{
+	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $jobFieldName=>$jobFieldValue));
+	  	}
 	}
 
 }

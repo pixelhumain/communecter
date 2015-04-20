@@ -1,3 +1,8 @@
+<style>
+	.tooltip {
+		z-index:999999;
+	}
+</style>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
@@ -5,11 +10,25 @@
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
 		<?php } ?>
-		<a href="#" class="btn btn-xs btn-link panel-close">
-			<i class="fa fa-times"></i>
-		</a>
+		<div class="dropdown">
+			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
+				<i class="fa fa-cog"></i>
+			</a>
+			<ul role="menu" class="dropdown-menu dropdown-light pull-right">
+				<li>
+					<a href="#" class="panel-refresh">
+						<i class="fa fa-refresh"></i> <span>Refresh</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="panel-expand">
+						<i class="fa fa-expand"></i> <span>Fullscreen</span>
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">
@@ -30,7 +49,7 @@
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 							</td>
@@ -57,7 +76,7 @@
 	                '<td class="center">'+
 	                '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
 	                    '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
-						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
+						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
 	                '</div>'+
 	                "</td>"+
 	            "</tr>";
