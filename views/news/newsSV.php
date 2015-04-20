@@ -6,13 +6,27 @@ var formDefinition = {
         "title" : "News Form",
         "type" : "object",
         "properties" : {
+        	"id" :{
+            	"inputType" : "hidden",
+            	"value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
+            },
+            "type" :{
+            	"inputType" : "hidden",
+            	"value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+            },
             "name" :{
             	"inputType" : "text",
-            	"placeholder" : "Title"
+            	"placeholder" : "Title",
+            	"rules" : {
+						"required" : true
+					}
             },
             "text" :{
             	"inputType" : "textarea",
             	"placeholder" : "Describe your Organization",
+            	"rules" : {
+						"required" : true
+					}
             },
             "tags" :{
 	            	"inputType" : "tags",
@@ -33,11 +47,14 @@ var formDefinition = {
 var dataBind = {
    "#text" : "text",
    "#name" : "name",
-   "#tags" : {
+   "#tags" : "tags",
+   "#id" : "typeId",
+   "#type" : "type"
+   /*{
    		field : "tags",
    		format : "string2array",
    		seperator : ","
-   	}
+   	}*/
 };
 
 jQuery(document).ready(function() {
@@ -60,7 +77,7 @@ jQuery(document).ready(function() {
 						here you can load anythnig into your form fields 
 						it is called after creation
 						*/
-						$.each(dataBind,function(field,fieldObj){
+						$.each( dataBind, function(field,fieldObj){
 							if(field != ""){
 								var val = fieldObj.value;
 								if(val) {
@@ -80,9 +97,8 @@ jQuery(document).ready(function() {
 							{
 								console.log("dataBind 2",field);
 								value = "";
-								if(typeof dest == "object"){
-									if(dest.format == "string2array")
-										value = $(field).val().split(dest.seperator);
+								if(dest == "tags"){
+									value = $(field).val().split(",");
 								} else if( $(field) && $(field).val() && $(field).val() != "" )
 									value = $(field).val();
 

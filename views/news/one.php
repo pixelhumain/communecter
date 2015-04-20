@@ -31,7 +31,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFix
 										</div>
 									</div>
 								</div>
-								<div class="timeline_title">
+								<div class="timeline_title text-blue">
 									<i class="fa fa-rss fa-2x <?php echo $iconNews ?> fa-border"></i>
 									<h4 class="light-text no-margin padding-5">type : News</h4>
 								</div>
@@ -40,7 +40,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFix
 								</div>
 								<div class="readmore">
 									<a href="#" class="btn btn-green">
-										Read More <i class="fa fa-arrow-circle-right"></i>
+										<i class="fa fa-arrow-circle-right"></i>
 									</a>
 								</div>
 							</div>
@@ -53,6 +53,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFix
 				</div>
 			</div>
 		</div>
+		
 		<!-- end: TIMELINE PANEL -->
 	</div>
 </div>
@@ -66,19 +67,19 @@ div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 jQuery(document).ready(function() 
 {
 	var separator, anchor;
-		$('.timeline-scrubber').scrollToFixed({
-			marginTop: $('header').outerHeight() + 100
-		}).find("a").on("click", function(e){			
-			anchor = $(this).data("separator");
-			$("body").scrollTo(anchor, 300);
-			e.preventDefault();
-		});
-		$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
-			separator = '#' + $(this).attr("id");
-			$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
-		}).on('disappear', function(event, $all_disappeared_elements) {   				
-			separator = $(this).attr("id");
-			$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
-		});
+	$('.timeline-scrubber').scrollToFixed({
+		marginTop: $('header').outerHeight() + 100
+	}).find("a").on("click", function(e){			
+		anchor = $(this).data("separator");
+		$("body").scrollTo(anchor, 300);
+		e.preventDefault();
+	});
+	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
+		separator = '#' + $(this).attr("id");
+		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
+	}).on('disappear', function(event, $all_disappeared_elements) {   				
+		separator = $(this).attr("id");
+		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
+	});
 });
 </script>

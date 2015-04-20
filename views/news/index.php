@@ -68,23 +68,6 @@ jQuery(document).ready(function()
 	
 });
 
-function bindEvent(){
-	var separator, anchor;
-		$('.timeline-scrubber').scrollToFixed({
-			marginTop: $('header').outerHeight() + 100
-		}).find("a").on("click", function(e){			
-			anchor = $(this).data("separator");
-			$("body").scrollTo(anchor, 300);
-			e.preventDefault();
-		});
-		$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
-			separator = '#' + $(this).attr("id");
-			$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
-		}).on('disappear', function(event, $all_disappeared_elements) {   				
-			separator = $(this).attr("id");
-			$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
-		});
-}
 function buildTimeLine()
 {
 	$(".newsTL").html('<div class="spine"></div>');
@@ -114,9 +97,9 @@ function buildLineHTML(newsObj)
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	var year = date.getFullYear();
 	var month = months[date.getMonth()];
-	var day = date.getDate();
-	var hour = date.getHours();
-	var min = date.getMinutes();
+	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
+	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
+	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	console.log("date",dateStr);
 	if( currentMonth != date.getMonth() )
@@ -134,13 +117,21 @@ function buildLineHTML(newsObj)
 		$(".newsTL").append(titleHTML);
 	}
 
-	var color = "blue";
+	var color = "white";
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
 	url = 'href="javascript:;" onclick="'+url+'"';	
-	iconStr = '<i class=" fa fa-pencil fa-2x pull-left fa-border"></i>';
-	var content = newsObj.text;
+	iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
+	var title = newsObj.name;
+	var tags = "";
+	if( "undefined" != typeof newsObj.tags)
+	{
+		$.each(newsObj.tags,function(i,tag){
+			tags += "<span class='label label-inverse'>"+tag+"</span> ";
+		});
+		tags = '<div class="pull-right"><i class="fa fa-tags"></i> '+tags+'</div>';
+	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	
@@ -148,25 +139,73 @@ function buildLineHTML(newsObj)
 	//var dateString = date.toLocaleString();
 	
 	newsTLLine = '<li><div class="timeline_element partition-'+color+'">'+
+					tags+
 					'<div class="timeline_title">'+
 						objectLink+
-						'<span class="text-large text-bold light-text no-margin padding-5">'+content+'</span>'+
+						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
 					'</div>'+
-					'<div class="space10"></div>'+	
-					'<div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
+					'<div class="space10"></div>'+
+					newsObj.text+	
+					'<div class="space10"></div>'+
+					
+					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
 					"<div class='bar_tools_post'>"+
-					"<ul>"+
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-comment'></i></span></li>"+
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-up'></i></span></li>"+
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-thumbs-down'></i></span></li>"+
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-share-alt'></i></span></li>"+
-						"<li style='float:left; margin-top:2px;'>10 <i class='fa fa-eye'></i></span></li>"+
-					"</ul>"+
+					"<a href='javascript:;' class='newsAddComment'  data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-comment'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
+					"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 					"</div>"+
 				'</div></li>';
 	return newsTLLine;
 }
 
+
+function bindEvent(){
+	var separator, anchor;
+	$('.timeline-scrubber').scrollToFixed({
+		marginTop: $('header').outerHeight() + 100
+	}).find("a").on("click", function(e){			
+		anchor = $(this).data("separator");
+		$("body").scrollTo(anchor, 300);
+		e.preventDefault();
+	});
+	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
+		separator = '#' + $(this).attr("id");
+		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
+	}).on('disappear', function(event, $all_disappeared_elements) {   				
+		separator = $(this).attr("id");
+		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
+	});
+	$('.newsAddComment').off().on("click",function(){
+		toastr.info('TODO : COMMENT this news Entry');
+		console.log("newsAddComment",$(this).data("id"));
+		count = parseInt($(this).data("count"));
+		$(this).data( "count" , count+1 );
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");
+	});
+	$('.newsVoteUp').off().on("click",function(){
+		toastr.info('TODO : VOTE UP this news Entry');
+		console.log("newsVoteUp",$(this).data("id"));
+		count = parseInt($(this).data("count"));
+		$(this).data( "count" , count+1 );
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
+	});
+	$('.newsVoteDown').off().on("click",function(){
+		toastr.info('TODO : VOTE DOWN this news Entry');
+		console.log("newsVoteDown",$(this).data("id"));
+		count = parseInt($(this).data("count"));
+		$(this).data( "count" , count+1 );
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+	});
+	$('.newsShare').off().on("click",function(){
+		toastr.info('TODO : SHARE this news Entry');
+		console.log("newsShare",$(this).data("id"));
+		count = parseInt($(this).data("count"));
+		$(this).data( "count" , count+1 );
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
+	});
+}
 
 function updateNews(newsObj)
 {
