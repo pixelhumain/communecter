@@ -11,6 +11,11 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
 ?>
+<style>
+#divImgEdit{
+	display: none;
+}
+</style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"> <?php echo (isset($context)) ? $context["name"] : null; ?></h4>
@@ -27,33 +32,54 @@
 	<div class="panel-body border-light">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-					<img id="check" width="100%" src="<?php echo (isset($context["imagePath"])) ? $context["imagePath"] : null; ?>" />
+				<div id="divImgView">
+					<img id="imgView" width="100%" src="<?php echo (isset($context["imagePath"])) ? $context["imagePath"] : 'http://placehold.it/450x300'; ?>" />
+				</div>
+				<div id="divImgEdit">
+					<form  method="post" id="photoAddEdit" enctype="multipart/form-data">
+						<div class="fileupload fileupload-new" data-provides="fileupload">
+							<div class="fileupload-new thumbnail">
+								<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
+							</div>
+							<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
+							<div class="user-edit-image-buttons">
+								<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
+									<input type="file" name="avatar" id="avatar">
+								</span>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="street" data-type="text" data-original-title="" class="editable-context editable editable-click">
-					<span><i class="fa fa-home"></i> <?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?></span>
+				<i class="fa fa-home fa-lg"></i>  : 
+				<a href="#" id="address.streetAddress" data-type="text" data-original-title="" class="editable-context editable editable-click">
+					<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 				</a>
 				<br>
-				<a href="#" id="postalCode" data-type="text" data-original-title="" class="editable-context editable editable-click">
-					<span><i class="fa fa-home"></i> <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>  <?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?></span>
+				<a href="#" id="address.postalCode" data-type="text" data-original-title="" class="editable-context editable editable-click">
+					 <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>
+				</a>
+				<a href="#" id="address.addressCountry" data-type="text" data-original-title="" class="editable-context editable editable-click">
+				 	<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?>
+				 </a>
+				<br>
+				Télephone : 
+				<a href="#" id="Tel" data-type="text" data-original-title="" class="editable-context editable editable-click">
 				</a>
 				<br>
-				<a href="#" id="tel" data-type="text" data-original-title="" class="editable-context editable editable-click">
-					<span>Tél : </span>
-				</a>
-				<br>
-				<a href="#" id="mail" data-type="text" data-original-title="" class="editable-context editable editable-click">
-					<span><?php echo (isset($context["email"])) ? $context["email"] : null; ?></span>
+				<a href="#" id="email" data-type="text" data-original-title="" class="editable-context editable editable-click">
+					<?php echo (isset($context["email"])) ? $context["email"] : null; ?>
 				</a>
 				<br>
 				<a href="#" id="url" data-type="text" data-original-title="" class="editable-context editable editable-click">
-					<span> <?php echo (isset($context["url"])) ? $context["url"] : null; ?></span>
+					<?php echo (isset($context["url"])) ? $context["url"] : null; ?>
 				</a>
 			</div>
 		</div>
 		<div class="row">
-			<a href="#" id="description" data-type="textarea" data-original-title="" class="editable-context editable editable-click">
-				<span> <?php echo (isset($context["description"])) ? $context["description"] : null; ?></span>
+			<a href="#" id="description" data-type="wysihtml5" data-original-title="" class="editable-context editable editable-click">
+				<?php echo (isset($context["description"])) ? $context["description"] : null; ?>
 			</a>
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
@@ -67,12 +93,12 @@
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<a href="#" id="typeIntervention" data-type="select2" data-original-title="" class="editable editable-click">
-					<span> <?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?></span>
+					<?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?>
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<a href="#" id="tags" data-type="select2" data-original-title="" class="editable editable-click">
-					<span> <?php echo (isset($context["tags"])) ? implode(",", $context["tags"]) : null; ?></span>
+					<?php echo (isset($context["tags"])) ? implode(",", $context["tags"]) : null; ?>
 				</a>
 			</div>
 		</div>
@@ -109,6 +135,31 @@
 		activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
+
+		$('#avatar').change(function() {
+		  $('#photoAddEdit').submit();
+		});
+
+		$("#photoAddEdit").on('submit',(function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organization/id/"+contextId,
+				type: "POST",
+				data: new FormData(this),
+				contentType: false,
+				cache: false, 
+				processData: false,
+				success: function(data){
+			  		if(data.result)
+			  			toastr.success(data.msg);
+			  			if(typeof(data.imagePath)!="undefined"){
+			  				$("#imgView").attr("src", data.imagePath);
+			  			}
+			  		else
+			  			toastr.error(data.msg);
+			  },
+			});
+		}));
 	});
 
 	function manageModeContext() {
@@ -160,8 +211,12 @@
     function switchMode() {
     	if(mode == "view"){
     		mode = "update";
+    		$("#divImgView").css("display", "none");
+    		$("#divImgEdit").css("display", "block");
     	}else{
     		mode ="view";
+    		$("#divImgView").css("display", "block");
+    		$("#divImgEdit").css("display", "none");
     	}
     	manageModeContext();
     }
