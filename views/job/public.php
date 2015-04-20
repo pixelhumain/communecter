@@ -187,11 +187,6 @@ function manageMode() {
 		$('#startDate').editable('option', 'pk', jobId);
 		$('#tagsJob').editable('option', 'pk', jobId);
 		$('#hiringOrganization').editable('option', 'pk', jobId);
-		// Switch to Editable mode
-		$('.editable-job').editable('toggleDisabled');
-		$('#startDate').editable('toggleDisabled');
-		$('#tagsJob').editable('toggleDisabled');
-		$('#hiringOrganization').editable('toggleDisabled');
 		//Hide the button
 		$('#save-btn').hide();
 		$('#reset-btn').hide();
