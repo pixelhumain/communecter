@@ -128,7 +128,9 @@ class Event {
 					if(isset($value["links"]["organizer"])){
 						foreach ($value["links"]["organizer"] as $keyEv => $valueEv) {
 							if($keyEv==$params["organization"]){
-								if(explode(" ", $value["startDate"])[0] == explode(" ", $params["start"])[0]){
+								$startDate = explode(" ", $value["startDate"]);
+								$start = explode(" ", $params["start"]);
+								if( $startDate[0] == $start[0]){
 									$res = true;
 								}
 							}
@@ -138,7 +140,9 @@ class Event {
 				else if(isset($params["userId"])){
 					foreach ($value["links"]["attendees"] as $keyEv => $valueEv) {
 						if($keyEv==$params["userId"]){
-							if(explode(" ", $value["startDate"])[0] == explode(" ", $params["start"])[0]){
+							$startDate = explode(" ", $value["startDate"]);
+							$start = explode(" ", $params["start"]);
+							if( $startDate[0] == $start[0]){
 								$res = true;
 							}
 						}
