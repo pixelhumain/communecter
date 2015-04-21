@@ -5,6 +5,7 @@
  */
 class CommunecterController extends Controller
 {
+  public $version = "v0.02";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";

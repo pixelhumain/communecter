@@ -21,28 +21,18 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFix
 					{
 						$classNews = ($compteur) ? "blockquote-reverse" : "";
 						$iconNews = ($compteur) ? "pull-right" : "pull-left";
+						$gotoNews = (!$compteur) ? "pull-right" : "pull-left";
+						$gotoNewsIcon = (!$compteur) ? "fa-arrow-circle-right" : "fa-arrow-circle-left";
 					?>
 						<blockquote class=" <?php echo $classNews ?> ">
 							<div class="partition-white border-dark">
-								<div class="timeline_date">
-									<div>
-										<div class="inline-block">
-											<span class="block month text-large text-light"><?php echo date('d F Y H:i', $value["created"]); ?></span>
-										</div>
-									</div>
-								</div>
 								<div class="timeline_title text-blue">
 									<i class="fa fa-rss fa-2x <?php echo $iconNews ?> fa-border"></i>
 									<h4 class="light-text no-margin padding-5">type : News</h4>
+									<span class="block month text-small text-light"><?php echo date('d F Y H:i', $value["created"]); ?></span>
 								</div>
-								<div class="timeline_content">
-									<?php echo $value["text"]; echo "<br/>".date("Y-m-d H:i:s", $value["created"]);?>
-								</div>
-								<div class="readmore">
-									<a href="#" class="btn btn-green">
-										<i class="fa fa-arrow-circle-right"></i>
-									</a>
-								</div>
+								<div class="space10"></div>
+								<?php echo ((strlen($value["text"]) > 250 ) ? substr($value["text"],0,250)."..." : $value["text"]).'<a href="#" class="'.$gotoNews.'"><i class="fa '.$gotoNewsIcon.'"></i></a>';?>
 							</div>
 						</blockquote>
 						<div class="space20"></div>
