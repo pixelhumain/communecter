@@ -510,6 +510,7 @@ formEvent.validate({
 		var startDateSubmit = convertDate($('.form-event .event-range-date').val(), 0);
 		var endDateSubmit = convertDate($('.form-event .event-range-date').val(), 1);
 		newEvent = new Object;
+		newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>",
 		newEvent.title = $(".form-event .event-name ").val(), 
 		newEvent.start = startDateSubmit, 
 		newEvent.end = endDateSubmit,
