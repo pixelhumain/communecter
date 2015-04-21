@@ -142,7 +142,7 @@
 		$("#photoAddEdit").on('submit',(function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organization/id/"+contextId,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organizations/id/"+contextId,
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
