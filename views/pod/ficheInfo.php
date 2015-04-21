@@ -44,7 +44,7 @@
 							<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
 							<div class="user-edit-image-buttons">
 								<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-									<input type="file" name="avatar" id="avatar">
+									<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
 								</span>
 							</div>
 						</div>
@@ -142,7 +142,7 @@
 		$("#photoAddEdit").on('submit',(function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organization/id/"+contextId,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organizations/id/"+contextId,
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
