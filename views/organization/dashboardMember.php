@@ -122,9 +122,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
 </div>
-<?php
-   $this->renderPartial('addMembers', array( "organization" => $organization ));
- ?>
+
 <!-- end: PAGE CONTENT-->
 <script>
 	var contextMap= <?php echo json_encode($contextMap) ?>;
