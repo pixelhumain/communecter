@@ -27,7 +27,7 @@
 </div>
 
 <div class="col-lg-4 col-md-4">
-	<?php $this->renderPartial('about', array("person" => $person, "tags" => $tags )); ?>
+	<?php $this->renderPartial('dashboard/about', array("person" => $person, "tags" => $tags )); ?>
 </div>
 
 <div class="col-lg-4 col-md-4">

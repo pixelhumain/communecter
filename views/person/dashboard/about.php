@@ -1,8 +1,8 @@
 <?php 
 	$cs = Yii::app()->getClientScript();
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
 
 	//X-editable...
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
@@ -23,23 +23,24 @@
 						<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> Remove Dummy People</a>
 				<?php } ?>
         	</li>
+        	<?php 
+			//connected user isn't allready connected with page User
+			if( Yii::app()->session['userId'] != (string)$person["_id"]) 
+			{
+			?>
         	<li>
         		<div class="center" id='btnTools'>
-					<?php 
-					//connected user isn't allready connected with page User
-					if( Yii::app()->session['userId'] != (string)$person["_id"]) 
-					{
+					<?php
 						//if connected user and pageUser are allready connected
 						if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
 							<a href="javascript:;" class="disconnectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
 						<?php } else { ?>
 							<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
 						<?php }
-					}else{ ?>
-						<!--<a href="#panel_edit_account" class="show-tab" id="editBtn"><i class="fa fa-pencil edit-user-info"></i></a>-->
-					<?php } ?>
+					?>
 				</div>
         	</li>
+        	<?php } ?>
 	    </ul>
 	</div>
 	<div class="panel-body ">

@@ -4,37 +4,8 @@
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-			<a href="javascript:;" onclick="openSubView('Invite Someone', '/communecter/person/invite',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Invite Someone</a>
+			<a href="javascript:;" onclick="openSubView('Invite Someone', '/communecter/person/invite',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i></a>
 		<?php } ?>
-
-		<div class="dropdown">
-			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-				<i class="fa fa-cog"></i>
-			</a>
-			<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-				<li>
-					<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-				</li>
-				<li>
-					<a href="#" class="panel-refresh">
-						<i class="fa fa-refresh"></i> <span>Refresh</span>
-					</a>
-				</li>
-				<li>
-					<a data-toggle="modal" href="#panel-config" class="panel-config">
-						<i class="fa fa-wrench"></i> <span>Configurations</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="panel-expand">
-						<i class="fa fa-expand"></i> <span>Fullscreen</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<a href="#" class="btn btn-xs btn-link panel-close">
-			<i class="fa fa-times"></i>
-		</a>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">

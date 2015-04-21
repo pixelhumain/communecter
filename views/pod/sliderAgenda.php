@@ -9,22 +9,17 @@
 	<div id="sliderAgenda">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title">AGENDA PARTAGE </h4>
-        <ul class="panel-heading-tabs border-light">
-        	<li>
-        		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-					<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Add an Event</a>
-				<?php } ?>
-        	</li>
-	        <li class="panel-tools">
-	        </li>
-	    </ul>
+      	<h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
+        <div class="panel-tools">
+    		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+				<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
+			<?php } ?>
+	    </div>
       </div>
        <div class="panel-body no-padding center">
 		  <div class="flexslider">
 			<ul class="slides" id="slidesAgenda">
 				
-	
 			</ul>
 		  </div>
 		</div>
@@ -52,14 +47,22 @@
 				if (typeof(v.imagePath)=="undefined"){
 					v.imagePath = "http://placehold.it/350x180";
 				}
-				var htmlRes = "<li><div><img src='"+v.imagePath+"'></img>";
-				htmlRes +="<div class='row'><div class=\"col-xs-5\" ><h2>"+period+"</h2></div>";
-				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div></div></li>";
+				var htmlRes = "<li><div>"+
+								"<img src='"+v.imagePath+"'></img>";
+				htmlRes +="<div class='row'>"+
+							"<div class='col-xs-5' >"+
+								"<h2>"+period+"</h2></div>";
+				htmlRes += "<div class='col-xs-7' >"+
+								"<h1>"+v.name+"</h1>"+
+								"<div id='infoEventLink'>"+
+									"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
+								"</div></div></div></li>";
 				$("#slidesAgenda").append(htmlRes);
 				n++;
 			}
 		})
-			//showCalendarDashBoard(data);
+		$(".slidesAgendaTitle").html("Shared Calendar");
+		//showCalendarDashBoard(data);
 	}
 
 
