@@ -242,7 +242,7 @@ jQuery(document).ready(function() {
  	$("#profileFormEventSV").on('submit',(function(e) {
 		e.preventDefault();
 		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/event/id/"+$("#newEventId").val(),
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/events/id/"+$("#newEventId").val(),
 			type: "POST",
 			data: new FormData(this),
 			contentType: false,
