@@ -67,8 +67,8 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	var id = "<?php if(isset($userId)) echo $userId; else if(isset($organizationId)) echo $organizationId; ?>";
-	var type= '<?php if(isset($userId)) echo "person"; else if(isset($organizationId)) echo "organization"; ?>';
+	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
+	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
 
 	 jQuery(document).ready(function() {
 		initDashboardPhoto();
@@ -88,6 +88,7 @@
 			processData: false,
 			success: function(data){
 		  		if(data) {
+		  			console.log(data);
 		  			i=0;
 		  			if(data.length == 0){
 		  				var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
@@ -134,6 +135,7 @@
 				cache: false, 
 				processData: false,
 				success: function(data){
+					console.log(data);
 			  		if(data.result)
 			  			toastr.success(data.msg);
 			  			if(typeof(data.imagePath)!="undefined"){
