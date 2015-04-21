@@ -149,7 +149,6 @@ function updateJob(njob, jobId) {
 }
 
 function initTableStyle() {
-	console.log("toto");
 	// function to enable panel scroll with perfectScrollbar (because of ajax loading mode)
 	if($(".panel-scroll").length && $body.hasClass("isMobile") == false) {
 		$('.panel-scroll').perfectScrollbar({
