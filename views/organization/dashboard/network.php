@@ -126,6 +126,10 @@
     </div>
   </div>
 </div>
+
+<?php
+   $this->renderPartial('addMembers', array( "organization" => $organization ));
+ ?>
 <script type="text/javascript">
 
 	var members = <?php echo json_encode($members); ?>;
