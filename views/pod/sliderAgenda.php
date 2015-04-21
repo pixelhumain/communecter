@@ -9,12 +9,16 @@
 	<div id="sliderAgenda">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-      	<h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
-        <div class="panel-tools">
-    		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-				<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
-			<?php } ?>
-	    </div>
+        <h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
+        <?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+	        <ul class="panel-heading-tabs border-light">
+	        	<li>
+	        		<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
+	        	</li>
+		        <li class="panel-tools">
+		        </li>
+		    </ul>
+	    <?php } ?>
       </div>
        <div class="panel-body no-padding center">
 		  <div class="flexslider">
