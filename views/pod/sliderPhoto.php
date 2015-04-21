@@ -59,7 +59,7 @@
 						<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
 							<i class="fa fa-times"></i> Remove
 						</a>
-						<button id='uploadBtn' class="btn fileupload-exists btn-light-blue" type="submit">Upload File</button>
+						<button id='uploadBtn' class="btn fileupload-exists btn-light-blue" type="button">Upload File</button>
 					</div>
 				</div>
 			</form>
@@ -70,13 +70,16 @@
 <script type="text/javascript" charset="utf-8">
 	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
 	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
-
+ 	var isSubmit = false;
 	 jQuery(document).ready(function() {
 		initDashboardPhoto();
 		bindPhotoSubview();
 		$("#flexslider2").flexslider();
 
-
+		$("#uploadBtn").off().on("click",function(){
+			if(isSubmit == false)
+				$("#photoAddSV").submit();
+		})
 	});
 	
 
@@ -128,9 +131,9 @@
 			});
 		});
 		$("#photoAddSV").on('submit',(function(e) {
+			isSubmit = true;
 			$("#uploadBtn").empty();
 			$("#uploadBtn").html("<i class='fa fa-spinner fa-spin'></i> Upload File");
-			
 			e.preventDefault();
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id,
@@ -167,6 +170,10 @@
 
 	//resetForm
 	function hidePhotoSv(){
+		isSubmit =false;
+		$("#uploadBtn").empty();
+		$("#uploadBtn").html("Upload File");
+		$(".fileupload").fileupload("clear");
 		$.hideSubview();
 	}
 </script>

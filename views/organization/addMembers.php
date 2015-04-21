@@ -312,18 +312,6 @@
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').val(email);
-		//$("#addMembers #memberRole").val(listTag)
-		/*if(isAdmin){
-			$("#addMembers #memberIsAdmin").val("true");
-			$("[name='my-checkbox']").bootstrapSwitch('state', true);
-		}else{
-			$("#addMembers #memberIsAdmin").val("false");
-			$("[name='my-checkbox']").bootstrapSwitch('state', false);
-		}
-		$('#memberRole').select2({ text: listTag});
-		console.log(email);
-		
-		console.log(type);*/
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
 			$("#addMembers #btnOrganization").addClass("disabled");
