@@ -9,6 +9,7 @@
 	#addPhoto .thumbnail{
 		border: 1px solid #ddd;
 	}
+	
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light"></div>
@@ -58,7 +59,7 @@
 						<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
 							<i class="fa fa-times"></i> Remove
 						</a>
-						<input class="btn fileupload-exists btn-light-blue" type="submit" value="Upload File" />
+						<button id='uploadBtn' class="btn fileupload-exists btn-light-blue" type="submit">Upload File</button>
 					</div>
 				</div>
 			</form>
@@ -127,6 +128,9 @@
 			});
 		});
 		$("#photoAddSV").on('submit',(function(e) {
+			$("#uploadBtn").empty();
+			$("#uploadBtn").html("<i class='fa fa-spinner fa-spin'></i> Upload File");
+			
 			e.preventDefault();
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id,
@@ -137,23 +141,32 @@
 				processData: false,
 				success: function(data){
 					console.log(data);
-			  		if(data.result)
-			  			toastr.success(data.msg);
-			  			if(typeof(data.imagePath)!="undefined"){
-			  				$('#flexsliderPhoto').removeData("flexslider")
-			  				$('#flexsliderPhoto').empty();
-			  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
-			  				initDashboardPhoto();
-			  				/*$('#flexsliderPhoto').removeData("flexslider");
-			  				var htmlSlide = "<li><img src='"+data.imagePath+"' /></li>";
-							$("#slidesPhoto").append(htmlSlide);
-
-							$("#flexsliderPhoto").flexslider();*/
-			  			}
+			  		if(data.result){
+			  			setTimeout(function(){
+				  			toastr.success(data.msg);
+				  			if(typeof(data.imagePath)!="undefined"){
+				  				$('#flexsliderPhoto').removeData("flexslider")
+				  				$('#flexsliderPhoto').empty();
+				  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
+				  				initDashboardPhoto();
+				  			}
+				  		}, 3000);
+				  		clearTimeout();
+				  		setTimeout(function(){
+				  			hidePhotoSv();
+				  		}, 4000);
+			  		}
 			  		else
-			  			toastr.error(data.msg);
+			  			setTimeout(function(){
+			  				toastr.error(data.msg);
+			  			}, 3000);
 			  },
 			});
 		}));
+	}
+
+	//resetForm
+	function hidePhotoSv(){
+		$.hideSubview();
 	}
 </script>
