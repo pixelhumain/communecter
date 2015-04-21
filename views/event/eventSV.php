@@ -164,20 +164,8 @@
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
-						<textarea class="summernote" placeholder="Write note here..."></textarea>
+						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="Write note here..."></textarea>
 					</div>
-				</div>
-			</div>
-			<div class="pull-right">
-				<div class="btn-group">
-					<a href="#" class="btn btn-info close-subview-button">
-						Close
-					</a>
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-info save-new-event" type="submit">
-						Save
-					</button>
 				</div>
 			</div>
 		</form>
@@ -249,8 +237,10 @@ jQuery(document).ready(function() {
 			cache: false, 
 			processData: false,
 			success: function(data){
-		  		if(data.result)
+		  		if(data.result){
 		  			toastr.success(data.msg);
+		  			$.hideSubview();
+		  		}
 		  		else
 		  			toastr.error(data.msg);
 		  },
@@ -268,13 +258,12 @@ function bindEventSubViewEvents() {
 			onShow : function() {
 				editEvent();
 				initMyOrganization();
-
 			},
 			onHide : function() {
 				hideEditEvent();
 			},
 			onSave: function() {
-				hideEditEvent();
+				$('.form-event').submit();
 			}
 		});
 	});
@@ -516,7 +505,7 @@ formEvent.validate({
 		newEvent.allDay = $(".form-event .all-day").bootstrapSwitch('state'), 
 		newEvent.type = $(".form-event .event-categories option:checked").val(), 
 		newEvent.category = $(".form-event .event-categories option:checked").text(), 
-		newEvent.content = $eventDetail.code();
+		newEvent.content = $(".form-event .eventDetail ").val();
 		
 		$.blockUI({
 			message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -582,7 +571,6 @@ formEvent.validate({
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
-		        	setTimeout(function(){ $.hideSubview(); }, 3000);
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {
@@ -598,7 +586,7 @@ formEvent.validate({
 // on hide event's form destroy summernote and bootstrapSwitch plugins
 function hideEditEvent() {
 	$.hideSubview();
-	$('.form-event .summernote').destroy();
+	//$('.form-event .summernote').destroy();
 	$(".form-event .all-day").bootstrapSwitch('destroy');
 };
 // enables the edit form 
@@ -608,36 +596,12 @@ function editEvent(el) {
 	});
 	$(".form-event .help-block").remove();
 	$(".form-event .form-group").removeClass("has-error").removeClass("has-success");
-	$eventDetail = $('.form-event .summernote');
+	$eventDetail = $('.form-event .eventDetail');
 	
-	$eventDetail.summernote({
-		oninit: function() {
-			if ($eventDetail.code() == "" || $eventDetail.code().replace(/(<([^>]+)>)/ig, "") == "") {
-				$eventDetail.code($eventDetail.attr("placeholder"));
-			}
-		},
-		onfocus: function(e) {
-			if ($eventDetail.code() == $eventDetail.attr("placeholder")) {
-				$eventDetail.code("");
-			}
-		},
-		onblur: function(e) {
-			if ($eventDetail.code() == "" || $eventDetail.code().replace(/(<([^>]+)>)/ig, "") == "") {
-				$eventDetail.code($eventDetail.attr("placeholder"));
-			}
-		},
-		onkeyup: function(e) {
-			$("span[for='detailEditor']").remove();
-		},
-		toolbar: [
-		['style', ['bold', 'italic', 'underline', 'clear']],
-		['color', ['color']],
-		['para', ['ul', 'ol', 'paragraph']],
-		]
-	});
-
 	if ( typeof el == "undefined") {
+		//clearEventForm fields 
 		$(".form-event .event-id").val("");
+		$(".form-event .eventDetail").val("");
 		$(".form-event .event-name").val("");
 		$(".form-event .all-day").bootstrapSwitch('state', false);
 		$('.form-event .all-day-range').hide();
@@ -663,7 +627,6 @@ function editEvent(el) {
 			return ($(this).text() == "Generic");
 		}).prop('selected', true);
 		$('.form-event .event-categories').selectpicker('render');
-		$eventDetail.code($eventDetail.attr("placeholder"));
 
 	} else {
 		
@@ -710,9 +673,9 @@ function editEvent(el) {
 				}).prop('selected', true);
 				$('.form-event .event-categories').selectpicker('render');
 				if ( typeof calendar[i].content !== "undefined" && calendar[i].content !== "") {
-					$eventDetail.code(calendar[i].content);
+					$(".form-event .eventDetail ").val(calendar[i].content);
 				} else {
-					$eventDetail.code($eventDetail.attr("placeholder"));
+					$(".form-event .eventDetail ").val( $eventDetail.attr("placeholder") );
 				}
 			}
 
