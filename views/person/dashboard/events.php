@@ -46,8 +46,14 @@
 			</table>
 		</div>
 		<?php } else{?>
-			<div class ="center" >
-				<p> Create or Attend to Local Events to build up local activity </p>
+			<div class ="center height-250 padding-10" >
+				<blockquote> 
+					Create and Attend 
+					<br/>Local Events
+					<br>build up local activity 
+					<br>help local culture
+					<br>create movement
+				</blockquote>
 			</div>
 		<?php } ?>
 	</div>

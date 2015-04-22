@@ -251,6 +251,7 @@ class PersonController extends CommunecterController {
       
       Yii::app()->session["userId"] = $res["id"];
       Yii::app()->session["userEmail"] = $email;
+      Yii::app()->session["user"] = array("name" => $name);
 
     } catch (CommunecterException $e) {
       $res = array("result" => false, "msg"=>$e->getMessage());
