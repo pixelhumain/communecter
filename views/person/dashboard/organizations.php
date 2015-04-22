@@ -13,10 +13,11 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="panel-scroll height-230 ps-container">
+		<?php if(isset($organizations)  && count($organizations)>0){ ?>
+			<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="organizations">
 				<tbody>
-					<?php if(isset($organizations)){foreach ($organizations as $e) { ?>
+					<?php foreach ($organizations as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="text-dark">
@@ -53,12 +54,17 @@
 
 							</td>
 						</tr>
-					<?php }} else { ?>
-					<h1>AUCUNE ORGANISATIONS</h1>
-					<?php }; ?>
+					<?php
+						}
+					?>
 				</tbody>
 			</table>
 		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+		<?php } else{ ?>
+			<div class ="center" >
+				<p> Create or Connect to an Organization, NGO, Local Business, <br> or Informal Group. Build links in your network, <br> to create a connected local territory </p>
+			</div>
+		<?php } ?>
 	</div>
 </div>
 

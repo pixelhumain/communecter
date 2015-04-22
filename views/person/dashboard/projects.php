@@ -8,11 +8,12 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="panel-scroll height-230 ps-container">
+		<?php if(isset($projects) && count($projects)>0){ ?>
+			<div class="panel-scroll height-230 ps-container">			
 			<table class="table table-striped table-hover" id="projects">
 				<tbody>
 					<?php
-					if(isset($projects)){
+					
 					foreach ($projects as $e) 
 					{
 					?>
@@ -42,10 +43,15 @@
 						</td>
 					</tr>
 					<?php
-					}}
+						}
 					?>
 				</tbody>
 			</table>
 		</div>
+		<?php } else{ ?>
+			<div class ="center" >
+				<p> Create or Contribute to Local <br> or distant projects </p>
+			</div>
+		<?php } ?>
 	</div>
 </div>
