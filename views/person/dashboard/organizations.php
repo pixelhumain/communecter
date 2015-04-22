@@ -8,23 +8,6 @@
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
 		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
 		<?php } ?>
-		<div class="dropdown">
-			<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-				<i class="fa fa-cog"></i>
-			</a>
-			<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-				<li>
-					<a href="#" class="panel-refresh">
-						<i class="fa fa-refresh"></i> <span>Refresh</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="panel-expand">
-						<i class="fa fa-expand"></i> <span>Fullscreen</span>
-					</a>
-				</li>
-			</ul>
-		</div>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">

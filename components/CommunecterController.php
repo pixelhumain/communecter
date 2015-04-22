@@ -6,6 +6,7 @@
 class CommunecterController extends Controller
 {
   public $version = "v0.02";
+  public $version = "21/04/2015";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -107,6 +108,10 @@ class CommunecterController extends Controller
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
 
     ),
+    "datalist"=> array(
+      "getlistbyname"=>array("href"=>"/ph/communecter/datalist/getlistbyname")
+    ),
+
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),

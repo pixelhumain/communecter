@@ -3,6 +3,30 @@ class Organization {
 
 	const COLLECTION = "organizations";
 	
+	private $listFieldName = array(
+	    "name",
+	    "email",
+	    "created",
+	    "creator",
+	    "type",
+	    "shortDescription",
+	    "description",
+	    "address",
+	    "address.streetAddress",
+	    "address.postalCode",
+	    "address.addressLocality",
+	    "address.addressCountry",
+	    "tags",		    
+	    "typeIntervention",
+	    "public"
+	);
+
+  	private static function checkFieldBeforeUpdate($organizationFieldName, $organizationFieldValue) {
+		$res = false;
+		$res = in_array($organizationFieldName, $this->listFieldName);
+		return $res;
+	}
+
 	/**
 	 * insert a new organization in database
 	 * @param array A well format organization 
@@ -51,8 +75,9 @@ class Organization {
 	 * @return 
 	 */
 	public static function checkOrganizationData($organization) {
+		$organizationName = $organization["name"];
 		// Is There a association with the same name ?
-	    $organizationSameName = PHDB::findOne( Organization::COLLECTION,array( "name" => $_POST['organizationName']));      
+	    $organizationSameName = PHDB::findOne( Organization::COLLECTION,array( "name" => $organizationName));      
 	    if($organizationSameName) { 
 	      throw new CommunecterException("An organization with the same name already exist in the plateform");
 	    }
