@@ -9,7 +9,7 @@
  * Date: 15/08/13
  */
 class OrganizationController extends CommunecterController {
-  
+
   protected function beforeAction($action)
   {
     parent::initPage();
@@ -214,22 +214,46 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
-  public function actionSaveFields() {
-    // Minimal data
-    
-    if (! isset($_POST["id"])) 
-      throw new CommunecterException("You must specify an organization Id to update");
-    else 
-      $organizationId = $_POST['id'];
-    
-    $organizationFields = array();
+	public function actionSaveFields() {
+	// Minimal data
 
-    if(isset($_POST['description']))
-      $organizationFields['description'] = $_POST['description'];
+		if (! isset($_POST["id"])) 
+			throw new CommunecterException("You must specify an organization Id to update");
+		else 
+			$organizationId = $_POST['id'];
 
-    //Save the organization
-    echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
-  }
+		$organizationFields = array();
+
+		if(isset($_POST['description']))
+			$organizationFields['description'] = $_POST['description'];
+
+		//Save the organization
+		echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
+	}
+
+	/**
+	  * Update an information field for an organization
+	  */
+	public function actionUpdateField(){
+	  	$organizationId = "";
+	  	
+	  	if (!empty($_POST["pk"])) {
+	  		$organizationId = $_POST["pk"];
+	  	} else if (!empty($_POST["id"])) {
+	  		$organizationId = $_POST["id"];
+	  	}
+
+	  	if ($organizationId != "") {
+  			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
+  				$organizationFieldName = $_POST["name"];
+  				$organizationFieldValue = $_POST["value"];
+				Organization::updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+				$res = Rest::json(array("result"=>true, "error"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue));
+            }
+	  	} else {
+	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue));
+	  	}
+	}
 
   /**
   * Create and return new array with all the mandatory fields
@@ -669,6 +693,8 @@ class OrganizationController extends CommunecterController {
 	    }
 	    $params["members"] = $members;
 	    $params["contextMap"] = $contextMap;
+	    //list
+	    $params["tags"] = Tags::getActiveTags();
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard", $params );
 	 }
@@ -786,24 +812,6 @@ class OrganizationController extends CommunecterController {
 		$listOrganization = Organization::findOrganizationByCriterias($criterias, "name", 10);
 
 		return Rest::json(array("result" => true, "list" => $listOrganization));
-	}
-
-
-
-	/**
-	  * Update an information field for a person
-	  */
-	public function actionUpdateField(){
-	  	if (!empty($_POST["pk"])) {
-	  		$organizationId = $_POST["pk"];
-			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
-				$organizationFieldName = $_POST["name"];
-				$organizationFieldValue = $_POST["value"];
-				Organization::updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
-			}
-	  	}else{
-	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $jobFieldName=>$jobFieldValue));
-	  	}
 	}
 
 }
