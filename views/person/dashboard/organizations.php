@@ -46,7 +46,7 @@
 											<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a></li>
 										<?php */ ?>
 										<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 									<?php /* ?></ul>
 								</div>*/?>
@@ -71,23 +71,19 @@
 		}
 	    temp = nOrganization;
 	    console.log("updateMyOrganization func");
-	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View">';
-	    var unlinkBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> ';
+	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'">';
+	    var unlinkBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> ';
 	    var organizationLine  = 
 	    '<tr id="organization'+organizationId+'">'+
 	                '<td class="center">'+viewBtn+'<i class="fa fa-group fa-2x"></i></a></td>'+
 	                '<td>'+viewBtn+nOrganization.name+'</a></td>'+
 	                '<td>'+nOrganization.type+'</td>'+
 	                '<td class="center">'+
-	                '<div class="btn-group">'+
-						'<a href="#" data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
-						'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'+
-							'<li>'+unlinkBtn+' Stop Following</a> </li>  '+
-						'</ul>'+
-					'</div>'
+	                unlinkBtn+
 	                "</td>"+
 	            "</tr>";
 	    $("#organizations").prepend(organizationLine);
+	    $('.tooltips').tooltip();
 	}
 
 </script>

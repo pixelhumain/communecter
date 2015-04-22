@@ -35,8 +35,8 @@
 						<td class="center">
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-							<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="left" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+							<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 							<?php }; ?>
 						</div>
 						</td>

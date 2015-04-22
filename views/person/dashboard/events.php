@@ -34,7 +34,7 @@
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+								<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 								<?php }; ?>
 							</div>
 						</td>
@@ -73,10 +73,11 @@
 							"</td>" +
 							"<td class='center'>" +
 								"<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-									"<a href='#'' class='btn btn-xs btn-red tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='top' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
+									"<a href='#'' class='btn btn-xs btn-red tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='left' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
 								"</div>" +
 							"</td>" +
 						"</tr>";
 		$("#events").append(htmlEvent);
+		$('.tooltips').tooltip();
 	}
 </script>
