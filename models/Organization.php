@@ -3,27 +3,30 @@ class Organization {
 
 	const COLLECTION = "organizations";
 	
-	private $listFieldName = array(
-	    "name",
-	    "email",
-	    "created",
-	    "creator",
-	    "type",
-	    "shortDescription",
-	    "description",
-	    "address",
-	    "address.streetAddress",
-	    "address.postalCode",
-	    "address.addressLocality",
-	    "address.addressCountry",
-	    "tags",		    
-	    "typeIntervention",
-	    "public"
+	//From Post/Form name to database field name
+	private static $dataBinding = array(
+	    "name" => "name",
+	    "email" => "email",
+	    "created" => "created",
+	    "creator" => "creator",
+	    "type" => "type",
+	    "shortDescription" => "shortDescription",
+	    "description" => "description",
+	    "address" => "address",
+	    "streetAddress" => "address.streetAddress",
+	    "postalCode" => "address.postalCode",
+	    "addressLocality" => "address.addressLocality",
+	    "addressCountry" => "address.addressCountry",
+	    "tags" => "tags",		    
+	    "typeIntervention" => "typeIntervention",
+	    "public" => "public"
 	);
 
-  	private static function checkFieldBeforeUpdate($organizationFieldName, $organizationFieldValue) {
-		$res = false;
-		$res = in_array($organizationFieldName, $this->listFieldName);
+  	private static function getCollectionFieldName($organizationFieldName) {
+		$res = "";
+		if (isset(self::$dataBinding["$organizationFieldName"])) {
+			$res = self::$dataBinding["$organizationFieldName"];
+		}
 		return $res;
 	}
 
@@ -319,7 +322,6 @@ class Organization {
 	  	return $res;
 	 }
 
-
 	 /**
 	 * Update an organization field value
 	 * @param String $organisationId The organization Id to update
@@ -328,17 +330,17 @@ class Organization {
 	 * @param String $userId 
 	 * @return boolean True if the update has been done correctly. Can throw CommunecterException on error.
 	 */
-	 public static function updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, $userId){
+	 public static function updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, $userId){
 	 	if (!Authorisation::isOrganizationAdmin($userId, $organizationId)) {
 			throw new CommunecterException("Can not update this organization : you are not authorized to update that organization !");	
 		}
-
+		$dataFieldName = Organization::getCollectionFieldName($organizationFieldName);
 		//Specific case : tags
-		if ($organizationFieldName == "tags") {
+		if ($dataFieldName == "tags") {
 			$organizationFieldValue = Tags::filterAndSaveNewTags($organizationFieldValue);
 		}
 
-		$organization = array($organizationFieldName => $organizationFieldValue);
+		$organization = array($dataFieldName => $organizationFieldValue);
 		
 		//update the person
 		PHDB::update( Organization::COLLECTION, array("_id" => new MongoId($organizationId)), 
