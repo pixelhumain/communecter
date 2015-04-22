@@ -8,10 +8,11 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
+		<?php if(isset($people)  && count($people)>0){ ?>
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="people">
 				<tbody>
-					<?php if(isset($people)){foreach ($people as $e) { ?>
+					<?php foreach ($people as $e) { ?>
 						<tr id="<?php echo PHType::TYPE_CITOYEN.(string)$e["_id"];?>">
 							<td class="center">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>" class="text-dark">
@@ -37,11 +38,16 @@
 							</div>
 							</td>
 						</tr>
-					<?php }} else { ?>
-					<h1>AUCUNE CONNAISSANCE</h1>
-					<?php }; ?>
+					<?php
+						}
+					?>
 				</tbody>
 			</table>
 		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+		<?php } else{ ?>
+			<div class ="center" >
+				<p> Invite People create links, communicate, interact to build better cities, better Organizations, stronger actions. People are the heart of </p>
+			</div>
+		<?php } ?>
 	</div>
 </div>

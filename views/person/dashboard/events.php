@@ -8,11 +8,11 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
+		<?php if(isset($events) && count($events)>0 ){ ?>
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
-					if(isset($events)){
 					foreach ($events as $e) 
 					{
 					?>
@@ -34,17 +34,24 @@
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+									<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+								<?php }else { ?>
+									<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 						</td>
 					</tr>
 					<?php
-					}}
+						}
 					?>
 				</tbody>
 			</table>
 		</div>
+		<?php } else{?>
+			<div class ="center" >
+				<p> Create or Attend to Local Events to build up local activity </p>
+			</div>
+		<?php } ?>
 	</div>
 </div>
 

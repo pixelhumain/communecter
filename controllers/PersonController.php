@@ -688,6 +688,13 @@ class PersonController extends CommunecterController {
     
     //Get the Events
   	$events = Authorisation::listEventsIamAdminOf($id);
+  	$eventsAttending = Event::listEventAttending($id);
+  	foreach ($eventsAttending as $key => $value) {
+  		$eventId = (string)$value["_id"];
+  		if(!isset($events[$eventId])){
+  			$events[$eventId] = $value;
+  		}
+  	}
   	$tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
     //TODO - SBAR : Pour le dashboard person, affiche t-on les événements des associations dont je suis memebre ?
   	//Get the organization where i am member of;

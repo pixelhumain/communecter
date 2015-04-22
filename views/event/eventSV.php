@@ -90,7 +90,7 @@
                         </a>
                         <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
                         	<?php foreach ($myOrganizationAdmin as $e) { ?>
-	                        	<li><a href="#" class="btn-drop dropOrg" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+	                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 	                       	<?php } ?>
                         </ul>
                     </div>
@@ -220,6 +220,10 @@
 <script type="text/javascript">
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
+var parentOrga = [];
+if(typeof(organization)!="undefined"){
+	parentOrga = organization;
+}
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
@@ -945,5 +949,9 @@ function readEvent(el)
 			$("#labelOrga").text($(this).data("name"));
 			$("#newEventOrga").val($(this).data("id"));
 		})
+
+		if(typeof(parentOrga["_id"])!="undefined"){
+			$("#"+parentOrga["_id"]["$id"]).trigger("click");
+		}
 	}
 </script>

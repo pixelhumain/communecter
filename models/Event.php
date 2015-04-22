@@ -152,5 +152,17 @@ class Event {
 		}
 		return $res;
 	}
+
+
+	/**
+	 * Retrieve the list of events that an user is attending of
+	 * @param String $userId is the id of a citoyen
+	 * @return array list of the events the person
+	 */
+	public static function listEventAttending($userId){
+		$where = array("links.attendees.".$userId => array('$exists' => true));
+		$eventsAttending = PHDB::find(PHType::TYPE_EVENTS, $where);
+        return $eventsAttending;
+	}
 }
 ?>
