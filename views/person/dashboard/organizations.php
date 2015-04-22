@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 <style type="text/css">	
 	.organizationLine{cursor:pointer;}
 </style>
+=======
+
+
+>>>>>>> 9cfbf102f9caa044fd20abc913e4cf73dbc6bdf0
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
@@ -28,6 +33,7 @@
 							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="text-dark"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<td class="center">
+
 								<?php /* ?>
 								<div class="hidden-md visible-lg hidden-sm hidden-xs">
 									<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
@@ -41,12 +47,13 @@
 									<ul class="dropdown-menu pull-right dropdown-dark" role="menu">
 										<li>?>
 											<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a></li>
-										<?php */ 
-										if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-										<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-										<?php }; ?>
+										<?php */ ?>
+										<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; ?>
 									<?php /* ?></ul>
 								</div>*/?>
+
 							</td>
 						</tr>
 					<?php }} else { ?>
@@ -64,22 +71,17 @@
 	function updateMyOrganization(nOrganization, organizationId) {
 	    temp = nOrganization;
 	    console.log("updateMyOrganization func");
-	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i>';
+	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View">';
 	    var unlinkBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> ';
 	    var organizationLine  = 
 	    '<tr id="organization'+organizationId+'">'+
-	                '<td class="center"><i class="fa fa-group fa-2x"></i></td>'+
-	                '<td>'+nOrganization.name+'</td>'+
+	                '<td class="center">'+viewBtn+'<i class="fa fa-group fa-2x"></i></a></td>'+
+	                '<td>'+viewBtn+nOrganization.name+'</a></td>'+
 	                '<td>'+nOrganization.type+'</td>'+
 	                '<td class="center">'+
-	                /*'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-	                    viewBtn+'</a> '+
-						unlinkBtn+'</a> '+
-	                '</div>'+*/
 	                '<div class="btn-group">'+
 						'<a href="#" data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
 						'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'+
-							'<li>'+viewBtn+' View</a> </li>  '+
 							'<li>'+unlinkBtn+' Stop Following</a> </li>  '+
 						'</ul>'+
 					'</div>'

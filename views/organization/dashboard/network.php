@@ -137,6 +137,9 @@
 	var organization = <?php echo json_encode($organization); ?>;
 
 	function updateOrganisation(newOrga,type){
+		if(typeof(contextMap["organizations"])!="undefined"){
+			contextMap["organizations"].push(newOrga);
+		}
 		console.log(newOrga, "type", type);
 		var links ="";
 		var itemId = newOrga["_id"]["$id"];

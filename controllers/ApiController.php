@@ -170,6 +170,9 @@ class ApiController extends Controller {
             //user api
             'login'     =>'application.controllers.user.LoginAction',
             'sendemailpwd' => 'application.controllers.user.SendEmailPwdAction',
+            //open data api
+            'getcountries' => 'application.components.api.controllers.openData.GetCountriesAction',
+            'getcitiesbypostalcode' => 'application.components.api.controllers.openData.GetCitiesByPostalCodeAction',
             //TODO SBAR - cleanup - Is it used ? 
             'saveuser'  =>'application.controllers.user.SaveUserAction',
             'communect' => 'application.controllers.user.CommunectAction',

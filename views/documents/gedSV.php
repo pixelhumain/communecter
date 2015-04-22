@@ -9,7 +9,6 @@ $cssAnsScriptFiles = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
-
 ?>
 <div style="display:none" id="genericGED">
 	
