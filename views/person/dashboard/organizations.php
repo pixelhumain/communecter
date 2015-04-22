@@ -1,11 +1,8 @@
-<<<<<<< HEAD
+
 <style type="text/css">	
 	.organizationLine{cursor:pointer;}
 </style>
-=======
 
-
->>>>>>> 9cfbf102f9caa044fd20abc913e4cf73dbc6bdf0
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
