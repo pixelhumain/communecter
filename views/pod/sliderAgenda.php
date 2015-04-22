@@ -21,7 +21,7 @@
 	    <?php } ?>
       </div>
        <div class="panel-body no-padding center">
-		  <div class="flexslider">
+		  <div class="flexslider" id="flexsliderAgenda">
 			<ul class="slides" id="slidesAgenda">
 				
 			</ul>
@@ -111,6 +111,15 @@
 			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
 		}
 		return strPeriod;
+	}
+
+	function updateSliderAgenda(nEvent){
+		events[nEvent["_id"]["id"]] = nEvent;
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		initDashboardAgenda();
+		$(".flexslider").flexslider();
 	}
 
  </script>

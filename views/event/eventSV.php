@@ -566,9 +566,11 @@ formEvent.validate({
 		    	$.unblockUI();
 		        if (data &&  data.result) {
 
-		        	if(typeof updateEvent != "undefined" && typeof updateEvent == "function")
-		        			updateEvent( data.event); 
-
+		        	if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
+		        			updateSliderAgenda( data.event); 
+		        	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
+		        			updateMyEvents( data.event); 
+		        		
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
