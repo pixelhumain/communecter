@@ -126,6 +126,10 @@
     </div>
   </div>
 </div>
+
+<?php
+   $this->renderPartial('addMembers', array( "organization" => $organization ));
+ ?>
 <script type="text/javascript">
 
 	var members = <?php echo json_encode($members); ?>;
@@ -175,10 +179,10 @@
           							'<td>'+roles+'</td>'+
       								'<td class="center">'+
 										'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-											'<a href="'+links+'" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i> </a>'+
-											'<a  href="" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i> </a>'+
-											'<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-linkType=""  data-type="'+type+'" data-name="'+newOrga.name+'" data-placement="top" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
-										'</div>'+
+											' <a href="'+links+'" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i> </a>'+
+											' <a  href="" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i> </a>'+
+											' <a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-linkType=""  data-type="'+type+'" data-name="'+newOrga.name+'" data-placement="top" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
+										' </div>'+
 									'</td>'+
         						'</tr>';
 

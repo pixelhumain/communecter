@@ -112,5 +112,45 @@ class Event {
 
         return $eventOrganization;
 	}
+
+	/**
+	* @param List of field, of an event (name, organisation, dates ....)
+	* @return true is event existing, false else
+	*/
+	public static function checkExistingEvents($params){
+		$res = false;
+		$events = PHDB::find(PHType::TYPE_EVENTS,array( "name" => $params['title']));
+		if(!$events){
+			$res = false;
+		}else{
+			foreach ($events as $key => $value) {
+				if(isset($params["organization"])){
+					if(isset($value["links"]["organizer"])){
+						foreach ($value["links"]["organizer"] as $keyEv => $valueEv) {
+							if($keyEv==$params["organization"]){
+								$startDate = explode(" ", $value["startDate"]);
+								$start = explode(" ", $params["start"]);
+								if( $startDate[0] == $start[0]){
+									$res = true;
+								}
+							}
+						}
+					}
+				}
+				else if(isset($params["userId"])){
+					foreach ($value["links"]["attendees"] as $keyEv => $valueEv) {
+						if($keyEv==$params["userId"]){
+							$startDate = explode(" ", $value["startDate"]);
+							$start = explode(" ", $params["start"]);
+							if( $startDate[0] == $start[0]){
+								$res = true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return $res;
+	}
 }
 ?>

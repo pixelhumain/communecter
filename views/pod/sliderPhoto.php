@@ -9,16 +9,14 @@
 	#addPhoto .thumbnail{
 		border: 1px solid #ddd;
 	}
+	
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light"></div>
 	<div class="panel-tools">
 		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
-			<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i> Add image</a>
+			<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
 		<?php } ?>	
-		<a href="#" class="btn btn-xs btn-link panel-close">
-			<i class="fa fa-times"></i>
-		</a>
 	</div>
 	<div class="panel-body">
 		<div class="center">
@@ -58,7 +56,7 @@
 						<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
 							<i class="fa fa-times"></i> Remove
 						</a>
-						<input class="btn fileupload-exists btn-light-blue" type="submit" value="Upload File" />
+						<button id='uploadBtn' class="btn fileupload-exists btn-light-blue" type="button">Upload File</button>
 					</div>
 				</div>
 			</form>
@@ -69,13 +67,16 @@
 <script type="text/javascript" charset="utf-8">
 	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
 	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
-
+ 	var isSubmit = false;
 	 jQuery(document).ready(function() {
 		initDashboardPhoto();
 		bindPhotoSubview();
 		$("#flexslider2").flexslider();
 
-
+		$("#uploadBtn").off().on("click",function(){
+			if(isSubmit == false)
+				$("#photoAddSV").submit();
+		})
 	});
 	
 
@@ -127,6 +128,9 @@
 			});
 		});
 		$("#photoAddSV").on('submit',(function(e) {
+			isSubmit = true;
+			$("#uploadBtn").empty();
+			$("#uploadBtn").html("<i class='fa fa-spinner fa-spin'></i> Upload File");
 			e.preventDefault();
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id,
@@ -137,23 +141,36 @@
 				processData: false,
 				success: function(data){
 					console.log(data);
-			  		if(data.result)
-			  			toastr.success(data.msg);
-			  			if(typeof(data.imagePath)!="undefined"){
-			  				$('#flexsliderPhoto').removeData("flexslider")
-			  				$('#flexsliderPhoto').empty();
-			  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
-			  				initDashboardPhoto();
-			  				/*$('#flexsliderPhoto').removeData("flexslider");
-			  				var htmlSlide = "<li><img src='"+data.imagePath+"' /></li>";
-							$("#slidesPhoto").append(htmlSlide);
-
-							$("#flexsliderPhoto").flexslider();*/
-			  			}
+			  		if(data.result){
+			  			setTimeout(function(){
+				  			toastr.success(data.msg);
+				  			if(typeof(data.imagePath)!="undefined"){
+				  				$('#flexsliderPhoto').removeData("flexslider")
+				  				$('#flexsliderPhoto').empty();
+				  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
+				  				initDashboardPhoto();
+				  			}
+				  		}, 3000);
+				  		clearTimeout();
+				  		setTimeout(function(){
+				  			hidePhotoSv();
+				  		}, 4000);
+			  		}
 			  		else
-			  			toastr.error(data.msg);
+			  			setTimeout(function(){
+			  				toastr.error(data.msg);
+			  			}, 3000);
 			  },
 			});
 		}));
+	}
+
+	//resetForm
+	function hidePhotoSv(){
+		isSubmit =false;
+		$("#uploadBtn").empty();
+		$("#uploadBtn").html("Upload File");
+		$(".fileupload").fileupload("clear");
+		$.hideSubview();
 	}
 </script>
