@@ -215,7 +215,10 @@ class PersonController extends CommunecterController {
         Yii::app()->session["userId"] = $user;
         Yii::app()->session["userEmail"] = $account["email"];
         //remove tobeactivated attribute on account
-        Yii::app()->mongodb->citoyens->update(array("_id"=>new MongoId($user)), array('$unset' => array("tobeactivated"=>"")));
+        PHDB::update(PHType::TYPE_CITOYEN,
+                            array("_id"=>new MongoId($user)), 
+                            array('$unset' => array("tobeactivated"=>""))
+                            );
         /*Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_ACTIVATED,
                       "user"=>$account["_id"]));*/
     }
@@ -245,6 +248,10 @@ class PersonController extends CommunecterController {
 
     try {
       $res = Person::insert($newPerson, false);
+      
+      Yii::app()->session["userId"] = $res["id"];
+      Yii::app()->session["userEmail"] = $email;
+
     } catch (CommunecterException $e) {
       $res = array("result" => false, "msg"=>$e->getMessage());
     }

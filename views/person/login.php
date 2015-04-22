@@ -10,7 +10,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		<!-- start: LOGIN BOX -->
 		<div class="box-login">
 			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<h3>Sign in to your account</h3>
+			<h3>Sign in to your account <?php echo Yii::app()->session['userId']?></h3>
 			<p>
 				Please enter your email and password to log in.
 			</p>
@@ -107,7 +107,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" id="name" name="name" placeholder="Nom">
+							<input type="text" class="form-control" id="name" name="name" placeholder="Prénom Nom : John Doe">
 							<i class="fa fa-user"></i> </span>
 					</div>
 					<div class="form-group">
@@ -377,6 +377,12 @@ var Login = function() {
 	var runRegisterValidator = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
+		var createBtn = null;
+		Ladda.bind('.createBtn', {
+	        callback: function (instance) {
+	            createBtn = instance;
+	        }
+	    });
 		form3.validate({
 			rules : {
 				cp : {
@@ -400,12 +406,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
-				var createBtn = null;
-				Ladda.bind('.createBtn', {
-			        callback: function (instance) {
-			            createBtn = instance;
-			        }
-			    });
+				createBtn.start();
 				var params = { 
 				   "name" : $("#name").val(),
 				   "email" : $("#email3").val(),
@@ -422,7 +423,6 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
-		    		  	createBtn.start();
 		        		toastr.success(data.msg);
 		        		window.location.reload();
 		    		  }
