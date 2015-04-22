@@ -118,7 +118,6 @@
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-original-title="" class="editable editable-click">
-					<?php echo (isset($context["typeIntervention"])) ? implode("\r\n", $context["typeIntervention"]) : null; ?>
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
@@ -154,9 +153,10 @@
 	var mode = "view";
 	var newPostalCode = contextData.address.postalCode;
 	
-	//Countries
+	//Select ajax loading
 	var countries = getCountries();
 	var cities = getCitiesByPostalCode();
+	var publics = getPublics();
 	
 
 	jQuery(document).ready(function() {
@@ -250,6 +250,7 @@
 	        mode: 'popup',
 	        //showbuttons: false,
 	        emptytext: emptytext,
+	        value: '<?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?>',
 	        source: function() {
 	        	var result = new Array();
                 $.ajax({
@@ -363,6 +364,24 @@
 				$.each(data, function(i,value) {
 					result.push({"value" : value.value, "text" : value.text});
 				});
+			}
+		});
+		return result;
+    }
+
+    function getPublics() {
+    	var result =new Array();
+		$.ajax({
+			url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/public",
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				console.log("Data list :"+data.list)
+                $.each(data.list, function(i,value) {
+                    result.push({"value" : value, "text" : value}) ;
+                })
 			}
 		});
 		return result;
