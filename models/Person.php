@@ -165,7 +165,7 @@ class Person {
                                    "logo"  => $app->logoUrl )
         ));*/
 
-	    return array("result"=>true, "msg"=>"Une nouvelle personne est communectée.", "id"=>$newpersonId); 
+	    return array("result"=>true, "msg"=>"You are now communnected", "id"=>$newpersonId); 
 	}
 
 	/**

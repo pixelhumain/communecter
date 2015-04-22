@@ -11,6 +11,7 @@
 		
 		
 		/* **************** modifier les parametre en fonction des besoins *******************/
+		if(!isset($sigParams))
 		$sigParams = array(
 				"sigKey" => "DashOrga",
 				"mapHeight" => 450,
@@ -20,6 +21,7 @@
 				"useRightList" => true,
 				"useZoomButton" => true,
 				"useHelpCoordinates" => true,
+				"notClusteredTag" => array("organization"),
 				"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
 												"zoom"		  => 9),
 				);
@@ -121,14 +123,14 @@
 			
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
-			//var mapData = contextMap.members;
+			var mapData = contextMap;
 			//var mapData = ;
+			//alert("liste des différents éléments des données : " + JSON.stringify(contextMap));
 			/**************************************************************************************************************/
 	
-			//alert("organizationMembers");
-			//alert(JSON.stringify(organizationMembers));
+			//alert(JSON.stringify(mapData));
 			//affichage des éléments sur la carte
-			//Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
+			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);

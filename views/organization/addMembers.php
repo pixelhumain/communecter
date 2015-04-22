@@ -187,6 +187,9 @@
 	});
 	
 
+	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
+
+
 	function bindOrganizationSubViewAddMember() {	
 		$(".addMembersBtn").off().on("click", function() {
 			subViewElement = $(this);
@@ -338,10 +341,14 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
+	        	
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
+		 			
 		 				$.each(value, function(i, v){
-		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'>" + v.name + "</a></li>";
+		 					
+			 				console.log(v.type);
+		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'><i class='fa "+mapIcon[key]+"'></i> "+ v.name + "</a></li>";
 		  				});
 		  			}); 
 

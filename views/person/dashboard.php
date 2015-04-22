@@ -65,7 +65,6 @@ $.each(events, function(k, v){
 	contextMap['events'].push(v);
 });
 
-
 jQuery(document).ready(function() {
 	//initDataTable();
 	bindBtnFollow();

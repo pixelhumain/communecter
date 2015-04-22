@@ -29,10 +29,35 @@
 	color:black;
 }
 </style>
+
+
+<!-- end: PAGE CONTENT-->
+<script>
+	var contextMap = { "desc" 	: ["organization", "event"],
+					   "organization" 	: <?php echo json_encode($organization) ?>,
+					   "event" 			: <?php echo json_encode($events) ?>
+					 };
+</script>
+
+
 <div class="row">
 
   <div class="col-xs-12">
     <?php 
+    /* **************** paramètres de la map *******************/
+	$sigParams = array(
+			"sigKey" => "DashOrga",
+			"mapHeight" => 450,
+			"mapTop" => 50,
+			"useFullScreen" => true,
+			"usePanel" => true,
+			"useRightList" => true,
+			"useZoomButton" => true,
+			"useHelpCoordinates" => true,
+			"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
+											"zoom"		  => 9),
+			);
+		/* ******************************************************/
     $this->renderPartial('../organization/dashboard/networkMap',array( "organization" => $organization));
     ?>
   </div>
@@ -46,9 +71,3 @@
 	</div>
   </div>
 </div>
-
-<!-- end: PAGE CONTENT-->
-<script>
-	var contextMap = <?php echo json_encode($organization) ?>;
-	contextMap.events = <?php echo json_encode($events) ?>;
-</script>

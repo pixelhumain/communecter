@@ -13,10 +13,11 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="panel-scroll height-230 ps-container">
+		<?php if(isset($organizations)  && count($organizations)>0){ ?>
+			<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="organizations">
 				<tbody>
-					<?php if(isset($organizations)){foreach ($organizations as $e) { ?>
+					<?php foreach ($organizations as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="text-dark">
@@ -46,19 +47,24 @@
 											<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a></li>
 										<?php */ ?>
 										<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 									<?php /* ?></ul>
 								</div>*/?>
 
 							</td>
 						</tr>
-					<?php }} else { ?>
-					<h1>AUCUNE ORGANISATIONS</h1>
-					<?php }; ?>
+					<?php
+						}
+					?>
 				</tbody>
 			</table>
 		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+		<?php } else{ ?>
+			<div class ="center" >
+				<p> Create or Connect to an Organization, NGO, Local Business, <br> or Informal Group. Build links in your network, <br> to create a connected local territory </p>
+			</div>
+		<?php } ?>
 	</div>
 </div>
 
@@ -66,25 +72,24 @@
 
 	var temp;
 	function updateMyOrganization(nOrganization, organizationId) {
+		if(typeof(contextMap) != "undefined"){
+			contextMap["organizations"].push(nOrganization);
+		}
 	    temp = nOrganization;
 	    console.log("updateMyOrganization func");
-	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View">';
-	    var unlinkBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> ';
+	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'">';
+	    var unlinkBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> ';
 	    var organizationLine  = 
 	    '<tr id="organization'+organizationId+'">'+
 	                '<td class="center">'+viewBtn+'<i class="fa fa-group fa-2x"></i></a></td>'+
 	                '<td>'+viewBtn+nOrganization.name+'</a></td>'+
 	                '<td>'+nOrganization.type+'</td>'+
 	                '<td class="center">'+
-	                '<div class="btn-group">'+
-						'<a href="#" data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
-						'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'+
-							'<li>'+unlinkBtn+' Stop Following</a> </li>  '+
-						'</ul>'+
-					'</div>'
+	                unlinkBtn+
 	                "</td>"+
 	            "</tr>";
 	    $("#organizations").prepend(organizationLine);
+	    $('.tooltips').tooltip();
 	}
 
 </script>
