@@ -49,6 +49,7 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = <?php echo json_encode($organization) ?>;
+	var contextMap = { "desc" : [ "organization", "events " ] };
+	contextMap.organization = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
 </script>

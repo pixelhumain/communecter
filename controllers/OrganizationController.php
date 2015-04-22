@@ -172,10 +172,17 @@ class OrganizationController extends CommunecterController {
       return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
     }
     
-    //Save the organization
+	$sig = new SIG();
+	//fonction générique de SIG, à utiliser pour n'importe quelle entité
+	//si l'entité contient un champs address => postalCode, on trouve la position dans les Cites
+	$newOrganization = $sig->addGeoPositionToEntity($newOrganization);
+	
+ 	//Save the organization
     Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
     
 	}
+  
+	
 
   /**
    * Update an existing organization
@@ -671,7 +678,6 @@ class OrganizationController extends CommunecterController {
     	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
-<<<<<<< HEAD
     
 	
 	public function actionSig($id) {
@@ -695,6 +701,24 @@ class OrganizationController extends CommunecterController {
 	  		}
 	  	}
 
+		//récupère les données de certains type de membres (TODO : à compléter)
+	    if(isset($organization["links"]["members"])){
+	  		foreach ($organization["links"]["members"] as $key => $value) {
+	  				
+	  			if( $value["type"] == 'organizations' ||
+					$value["type"] == 'association'	 ||
+					$value["type"] == 'NGO')			 { $publicData = Organization::getPublicData($key); }
+					
+				if($value["type"] == 'citoyens')		 { $publicData = Person::getPublicData($key); }
+				
+				$addData = array("geo", "name", "description");
+				foreach($addData as $data){
+					if(!empty($publicData[$data]))
+						$organization["links"]["members"][$key][$data] = $publicData[$data];
+				}
+	  		}
+	  	}
+
 	    //Manage random Organization
 	    $organizationMembers = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
         $randomOrganizationId = array_rand($organizationMembers);
@@ -703,8 +727,6 @@ class OrganizationController extends CommunecterController {
 	    $this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
 	
-=======
-
 	/**********************************************************************
 	/* Search Organization
 	/**********************************************************************/
@@ -719,5 +741,4 @@ class OrganizationController extends CommunecterController {
 		return Rest::json(array("result" => true, "list" => $listOrganization));
 	}
 
->>>>>>> b8d13d9fe3fcc82098b429366be07ce9149e60d9
 }

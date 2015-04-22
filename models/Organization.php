@@ -42,7 +42,10 @@ class Organization {
 
 	/* TODO Ajouter la position geo sur l'orga */
 	public static function addGeoPos($organization){
-		
+		/*rechercher position par cp dans collec Cities
+		si on trouve
+		on recopie geo dans geoPos et on créé geo aussi
+		s */
 	}
 	
 	/**
