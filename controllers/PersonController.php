@@ -672,7 +672,7 @@ class PersonController extends CommunecterController {
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
     );
 
-    $this->title = (isset($person["name"])) ? $person["name"] : "";
+    $this->title = ((isset($person["name"])) ? $person["name"] : "")."'s Dashboard";
     $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
     $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
 

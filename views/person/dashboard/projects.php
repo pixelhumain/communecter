@@ -18,16 +18,22 @@
 					?>
 					<tr id="project<?php echo (string)$e["_id"];?>">
 						<td class="center">
-						<?php if ($e && isset($e["imagePath"])){ ?>
-							<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
-						<?php } else { ?>
-							<i class="fa fa-lightbulb-o fa-2x"></i>
-						<?php } ?>
-						<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+							<?php if ($e && isset($e["imagePath"])){ ?>
+								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
+							<?php } else { ?>
+								<i class="fa fa-lightbulb-o fa-2x"></i>
+							<?php } ?>
+						</a>
+						</td>
+						<td>
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+								<?php if(isset($e["name"]))echo $e["name"]?>
+							</a>
+						</td>
 						<td><?php if(isset($e["url"]))echo $e["url"]?></td>
 						<td class="center">
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 							<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>

@@ -14,18 +14,23 @@
 					<?php if(isset($people)){foreach ($people as $e) { ?>
 						<tr id="<?php echo PHType::TYPE_CITOYEN.(string)$e["_id"];?>">
 							<td class="center">
-							<?php if ($e && isset($e["imagePath"])){ ?>
-								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
-							<?php } else { ?>
-								<i class="fa fa-smile-o fa-2x"></i>
-							<?php } ?>
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+								<?php if ($e && isset($e["imagePath"])){ ?>
+									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
+								<?php } else { ?>
+									<i class="fa fa-smile-o fa-2x"></i>
+								<?php } ?>
+								</a>
 							</td>
-							<td><?php if(isset($e["name"]))echo $e["name"]?></td>
+							<td>
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+								<?php if(isset($e["name"]))echo $e["name"]?>
+								</a>
+							</td>
 							<td><?php if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>
 							<td><?php if(isset($e["linkType"]))echo $e["linkType"]?></td>
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
 								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
