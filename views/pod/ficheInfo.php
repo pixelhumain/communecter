@@ -79,7 +79,6 @@
 					</a>
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-original-title="" class="editable editable-click">
-					 	<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?>
 					 </a>
 					<br>
 					<a href="#" id="tel" data-type="text" data-title="Phone" data-original-title="" class="editable-context editable editable-click">
@@ -201,18 +200,18 @@
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
-			$('#tags #typeIntervention #addressCountry').editable('option', 'pk', contextId);
-			/*$('').editable('option', 'pk', contextId);
-			$('').editable('option', 'pk', contextId);
+			$('#postalCode').editable('option', 'pk', contextId);
 			$('#addressLocality').editable('option', 'pk', contextId);
-			$('#ostalCode').editable('option', 'pk', contextId);*/
+			$('#addressCountry').editable('option', 'pk', contextId);
+			$('#tags').editable('option', 'pk', contextId);
+			$('#typeIntervention').editable('option', 'pk', contextId);
 			
-			$('#addressLocality').editable('toggleDisabled');
-			$('#postalCode').editable('toggleDisabled');
 			$('.editable-context').editable('toggleDisabled');
+			$('#postalCode').editable('toggleDisabled');
+			$('#addressLocality').editable('toggleDisabled');
+			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
-			$('#addressCountry').editable('toggleDisabled');
 			$('#editFicheInfo .fa').toggleClass('fa-pencil', false).toggleClass('fa-search', true);
 		}
 	}
@@ -267,7 +266,7 @@
 
     	$('#addressCountry').editable({
         	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: <?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : "''"; ?>,
+        	value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : "''"; ?>',
         	source: baseUrl+'/'+moduleId+"/api/getCountries",
            	emptytext: emptytext,
            	showbuttons: false,
@@ -275,7 +274,7 @@
 
     	$('#addressLocality').editable({
         	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: <?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : "''"; ?>,
+        	value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : "''"; ?>',
         	source: function() {
                 var result;
                 $.ajax({

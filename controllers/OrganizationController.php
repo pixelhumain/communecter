@@ -247,8 +247,8 @@ class OrganizationController extends CommunecterController {
   			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
   				$organizationFieldName = $_POST["name"];
   				$organizationFieldValue = $_POST["value"];
-				Organization::updateorganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
-				$res = Rest::json(array("result"=>true, "error"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue));
+				Organization::updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+				$res = Rest::json(array("result"=>true, "msg"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue));
             }
 	  	} else {
 	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue));
