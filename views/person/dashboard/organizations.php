@@ -1,3 +1,5 @@
+
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
@@ -41,7 +43,7 @@
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="bottom" data-original-title="View"><i class="fa fa-search"></i></a>
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
 								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
@@ -69,9 +71,9 @@
 	                '<td>'+nOrganization.type+'</td>'+
 	                '<td class="center">'+
 	                '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-	                    '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
-						'<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
-	                '</div>'+
+	                    ' <a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
+						' <a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="organization" data-id="'+organizationId+'" data-name="'+nOrganization.name+'" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a> '+
+	                ' </div>'+
 	                "</td>"+
 	            "</tr>";
 	    $("#organizations").prepend(organizationLine);
