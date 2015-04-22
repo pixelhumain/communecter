@@ -122,7 +122,7 @@
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-original-title="" class="editable editable-click">
-					<?php echo (isset($context["tags"])) ? implode("\r\n", $context["tags"]) : null; ?>
+					
 				</a>
 			</div>
 		</div>
@@ -136,7 +136,8 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<span>Tous public</span>
+				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-original-title="" class="editable editable-click">
+				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<a href="#">Plaquette de presentation</a>
@@ -201,6 +202,7 @@
 			$('#addressLocality').editable('toggleDisabled');
 			$('#postalCode').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
+			$('#typeOfPublic').editable('toggleDisabled');
 			$('#editFicheInfo .fa').toggleClass('fa-search', false).toggleClass('fa-pencil', true);
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -210,6 +212,7 @@
 			$('#addressCountry').editable('option', 'pk', contextId);
 			$('#tags').editable('option', 'pk', contextId);
 			$('#typeIntervention').editable('option', 'pk', contextId);
+			$('#typeOfPublic').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#postalCode').editable('toggleDisabled');
@@ -217,6 +220,7 @@
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
+			$('#typeOfPublic').editable('toggleDisabled');
 			$('#editFicheInfo .fa').toggleClass('fa-pencil', false).toggleClass('fa-search', true);
 		}
 	}
@@ -239,10 +243,12 @@
 	        mode: 'popup',
 	        showbuttons: false,
 	        emptytext: emptytext,
+	        value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
 	        select2: {
+	        	width: 200,
 	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 	            tokenSeparators: [",", " "]
-	        },
+	        }
     	});
 
     	$('#typeIntervention').editable({
@@ -250,7 +256,7 @@
 	        mode: 'popup',
 	        //showbuttons: false,
 	        emptytext: emptytext,
-	        value: '<?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?>',
+	        value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
 	        source: function() {
 	        	var result = new Array();
                 $.ajax({
@@ -297,6 +303,15 @@
         		console.log("success update postal Code : "+newValue);
         		newPostalCode = newValue;
     		}
+    	});
+
+    	$('#typeOfPublic').editable({
+        	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+        	value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
+        	source: publics,
+           	emptytext: emptytext,
+           	showbuttons: true,
+           	placement: 'right'
     	});
 
     	//Validation Rules

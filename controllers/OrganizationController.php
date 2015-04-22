@@ -311,8 +311,8 @@ class OrganizationController extends CommunecterController {
     }
     
     //Type of Intervention
-    if (!empty($_POST["public"])) {
-      $newOrganization["public"] = $_POST["public"];
+    if (!empty($_POST["typeOfPublic"])) {
+      $newOrganization["typeOfPublic"] = $_POST["typeOfPublic"];
     }
 
     return $newOrganization;

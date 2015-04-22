@@ -19,13 +19,15 @@ class Organization {
 	    "addressCountry" => "address.addressCountry",
 	    "tags" => "tags",		    
 	    "typeIntervention" => "typeIntervention",
-	    "public" => "public"
+	    "typeOfPublic" => "typeOfPublic"
 	);
 
   	private static function getCollectionFieldName($organizationFieldName) {
 		$res = "";
 		if (isset(self::$dataBinding["$organizationFieldName"])) {
 			$res = self::$dataBinding["$organizationFieldName"];
+		} else {
+			throw new CommunecterException("Unknown field :".$organizationFieldName);
 		}
 		return $res;
 	}
