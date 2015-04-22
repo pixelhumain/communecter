@@ -45,8 +45,14 @@
 			</table>
 		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 		<?php } else{ ?>
-			<div class ="center" >
-				<p> Invite People create links, communicate, interact to build better cities, better Organizations, stronger actions. People are the heart of </p>
+			<div class ="center height-250 padding-10" >
+				<blockquote> 
+					Invite People 
+					<br>create links 
+					<br>communicate & interact
+					<br>better cities & Organizations
+					<br>People are the heart of the system
+				</blockquote>
 			</div>
 		<?php } ?>
 	</div>

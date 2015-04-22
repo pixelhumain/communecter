@@ -49,8 +49,15 @@
 			</table>
 		</div>
 		<?php } else{ ?>
-			<div class ="center" >
-				<p> Create or Contribute to Local <br> or distant projects </p>
+			<div class ="center height-250 padding-10" >
+				<blockquote> 
+					Create or Contribute 
+					<br>Build Things 
+					<br>Find Help 
+					<br>Organize
+					<br>Local or distant
+					<br>Projects
+				</blockquote>
 			</div>
 		<?php } ?>
 	</div>

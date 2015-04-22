@@ -1,7 +1,7 @@
 <?php  
 $cssAnsScriptFiles = array(
-	'/assets/plugins/dropzone/downloads/css/ph.css',
 	//dropzone
+	'/assets/plugins/dropzone/downloads/css/ph.css',
 	'/assets/plugins/dropzone/downloads/dropzone.min.js',
 	//lightbox
 	'/assets/plugins/lightbox2/css/lightbox.css',
@@ -37,7 +37,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 					<div class="panel-body uploadPanel">
 						<?php echo Yii::t("perimeter","Catégories",null,Yii::app()->controller->module->id) ?> : <input type="text" id="genericDocCategory" name="genericDocCategory" type="hidden" style="width: 250px;">
 						<br/><br/>
-						<div class="dz-clickable dropzoneInstance" id="generic-dropzone"></div>
+						<div class="dz-clickable dropzoneInstance center" id="generic-dropzone">
+							<span class="text-bold text-large uploadText"> Click or Drag over</span>
+						</div>
 					</div>
 				</div>
 				<!-- end: DROPZONE PANEL -->
@@ -103,13 +105,21 @@ function initDropZoneData(docs)
 		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/collection/"+folder+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
-		  	$(".loader-subviews").show().css('opacity',1);
+		  	$(".uploadText").hide();
+		  	$.blockUI({
+  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+  	            '<blockquote>'+
+  	              "<p>Rien n'est plus proche du vrai que le faux</p>"+
+  	              '<cite title="Einstein">Einstein</cite>'+
+  	            '</blockquote> '
+  			});
 		  },
 		  complete: function(response) { 
 		  	//console.log(file.name); 
 		  	$(".loader-subviews").hide();
 		  	if(response.xhr)
 		  	{
+			  	$.unblockUI();
 			  	docObj = JSON.parse(response.xhr.responseText);
 			  	console.log(docObj.result); 
 			  	
@@ -143,6 +153,7 @@ function initDropZoneData(docs)
 						genericFilesTable.DataTable().destroy();
 					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
 						genericDropzone.removeAllFiles(true);
+						$(".uploadText").show();
 						resetGenericFilesTable();
 						if(afterDocSave && $.isFunction(afterDocSave))
 							afterDocSave(doc);
