@@ -73,16 +73,21 @@
 			//récupère le nom de l'icon en fonction du type de marker souhaité
 			this.Sig.getIcoMarker = function(thisData)
 			{	
-				if(thisData != undefined) 
-				{
-					var ico 	= thisData['ico'] ? thisData['ico'] : "circle";
-					var color 	= thisData['color'] ? thisData['color'] : "blue";
-				}
-				else{
-					var ico 	= "circle";
-					var color 	= "yellow";
-				}
+				var icoMarkers = { 	"default" 		: { ico : "circle", color : "red" },
+									"NGO" 			: { ico : "circle", color : "green" },
+									"organizations" : { ico : "circle", color : "blue" },
+									"citoyens" 		: { ico : "circle", color : "yellow" },
+								
+								 };
 				
+				var ico 	= "circle";
+				var color 	= "yellow";
+				
+				var type = thisData["type"];
+				if(icoMarkers[type] != null){  
+					ico = icoMarkers[type].ico;  color = icoMarkers[type].color; 
+				}
+				toastr.success("ico : " + ico + " color : " + color);
 				return L.AwesomeMarkers.icon({icon: ico + " fa-" + color, iconColor:color, prefix: 'fa' });	
 			};
 		
@@ -100,7 +105,7 @@
 			};
 			
 			
-			//##
+			//## TODO : UTILISER cette fonction pour gérer le fullScreenMap
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
 			this.Sig.resizeMap = function()
 			{
@@ -117,9 +122,105 @@
 				
 			};
 			
+			this.Sig.showOneElementOnMap = function(thisData, thisMap){
+				
+				var objectId = thisData._id ? thisData._id.$id.toString() : null;//objectId = Math.floor((Math.random() * 10000000)); 
+				if(objectId != null) 
+				{
+					if(thisData['geo'] != null || thisData['geoPosition'] != null){
+								
+						//préparation du contenu de la bulle
+						var content = this.getPopupCitoyen(thisData);
+					
+						//définition du type de marker a afficher
+						var tag;
+						if(thisData['type'] != null) tag = thisData['type'];
+						else tag = "citoyen";
+					
+						//création de l'icon sur la carte
+						var theIcon = this.getIcoMarker(thisData);
+						var properties = { 	id : objectId,
+											icon : theIcon,
+											content: content };
+						var coordinates;
+						if( thisData['geo'].longitude != null ){ coordinates = new Array (thisData['geo'].longitude, thisData['geo'].latitude); } 
+						else { 							  	  	 coordinates = thisData.geoPosition.coordinates; }
+							
+						var marker;
+						//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
+						//on créé un marker simple
+						if($.inArray(tag, this.notClusteredTag) > -1){ 
+							
+							marker = this.getMarkerSingle(thisMap, properties, coordinates);
+					
+							//si l'élément n'est pas déjà dans la liste, on recrée le marker et on l'enregistre
+							if($.inArray(objectId, this.listId) == -1){	
+								this.elementsMap.push(thisData);		
+								this.listId.push(objectId);		
+								
+								//affiche l'éléments dans la liste de droite
+								$("#liste_map_element").append(this.createItemRigthListMap(thisData, marker));
+								//alert(objectId);														
+								//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
+								$("#item_map_list_" + objectId).click(function(){
+									thisMap.panTo(marker.getLatLng(), {"animate" : true });
+									this.checkListElementMap(thisMap);
+									marker.openPopup();
+								});
+							}
+						} 
+						//sinon on crée un nouveau marker pour cluster
+						else{
+							
+							marker = this.getGeoJsonMarker(properties, coordinates);
+							this.geoJsonCollection['features'].push(marker);	
+															
+							//si l'élément n'est pas déjà dans la liste, on l'enregistre
+							if($.inArray(objectId, this.listId) == -1){	
+								
+								this.elementsMap.push(thisData);	
+								this.listId.push(objectId);
+								
+								//affiche l'éléments dans la liste de droite
+								$(this.cssModuleName + " #liste_map_element").append(this.createItemRigthListMap(thisData, marker));							
+							}
+																
+						} 								
+					}
+					//affiche les LINKS et les MEMBERS
+					var thisSig = this;
+					if(thisData.links != null)
+						if(thisData.links.members != null){
+							$.each(thisData.links.members, function(i, thisMember)  { 	
+								thisMember._id = { $id : i };
+								thisSig.showOneElementOnMap(thisMember);
+							});	
+						}
+					
+				
+				}
+			};
+			
+			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
+				
+				var thisSig = this;
+				var dataFilter = data[thisFilter];	
+				if(dataFilter.length > 1){
+					$.each(dataFilter, function(i, thisData)  { 
+						thisSig.showOneElementOnMap(thisData, thisMap);
+					});	
+				}
+				else{
+					thisSig.showOneElementOnMap(dataFilter, thisMap);
+					
+					
+				}	
+			
+					
+			};
+			
 			this.Sig.showMapElements = function(thisMap, data)//, elementsMap)
 			{ 
-				//alert(JSON.stringify(data));
 				//efface les elements de la carte si elle n'est pas vide
 				if(this.markersLayer != "") this.clearMap(thisMap);
 				
@@ -147,95 +248,21 @@
 				
 				$('#ico_reload').addClass("fa-spin");
 				$('#ico_reload').css({"display":"inline-block"});
-				//alert("data : " + JSON.stringify(data));
 				
-				var thisSig = this;				
-				//alert("data : " + JSON.stringify(data));	
-				$.each(data, function(i, thisData) 
-				{ 	
-					//alert("element : " + JSON.stringify(thisData));	
-					if(thisData._id != null)
-					{ 
-						//recupere l'id de l'élément à afficher
-						var objectId = thisData._id.$id.toString();
-						
-						//si on a une position geo						 	
-						if(thisData['geo'] != null || thisData['geoPosition'] != null){
-									
-							//préparation du contenu de la bulle
-							var content = thisSig.getPopupCitoyen(thisData);
-						
-							//définition du type de marker a afficher
-							var tag;
-							if(thisData['type'] != null) tag = thisData['type'];
-							else tag = "citoyen";
-						
-							//création de l'icon sur la carte
-							//alert(JSON.stringify(thisData));
-							var theIcon = thisSig.getIcoMarker(thisData);
-							var properties = { 	id : objectId,
-												icon : theIcon,
-												content: content };
-					
-							var coordinates;
-							if( thisData['geo']['longitude'] != null ){
-								coordinates = new Array (thisData['geo']['longitude'], thisData['geo']['latitude']);
-							}
-							else{
-								coordinates = thisData['geoPosition']['coordinates'];
-							}
-							
-							var marker;
-							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
-							//on créé un marker simple
-							if($.inArray(tag, thisSig.notClusteredTag) > -1){ 
-								
-								marker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
-						
-								//si l'élément n'est pas déjà dans la liste, on recrée le marker et on l'enregistre
-								if($.inArray(objectId, thisSig.listId) == -1){	
-									thisSig.elementsMap.push(thisData);		
-									thisSig.listId.push(objectId);		
-									
-									//affiche l'éléments dans la liste de droite
-									$("#liste_map_element").append(thisSig.createItemRigthListMap(thisData, marker));
-									//alert(objectId);														
-									//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
-									$("#item_map_list_" + objectId).click(function(){
-										thisMap.panTo(marker.getLatLng(), {"animate" : true });
-										this.checkListElementMap(thisMap);
-										marker.openPopup();
-									});
-								}
-							} 
-							//sinon on crée un nouveau marker pour cluster
-							else{
-								
-								marker = thisSig.getGeoJsonMarker(properties, coordinates);
-								thisSig.geoJsonCollection['features'].push(marker);	
-																
-								//si l'élément n'est pas déjà dans la liste, on l'enregistre
-								if($.inArray(objectId, thisSig.listId) == -1){	
-									
-									thisSig.elementsMap.push(thisData);	
-									thisSig.listId.push(objectId);
-									
-									//affiche l'éléments dans la liste de droite
-									$(thisSig.cssModuleName + " #liste_map_element").append(thisSig.createItemRigthListMap(thisData, marker));							
-								}
-																	
-							} 								
-
-						}
-					}	
-					var points = L.geoJson(thisSig.geoJsonCollection, {			//Pour les clusters seulement :
+				//on affiche les data filtre par filtre, en suivant la Desc des datas
+				for(var i=0; i<data.desc.length; i++){
+					this.showFilterOnMap(data, data.desc[i], thisMap);
+				}	
+				
+				var thisSig = this;
+				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	layer.openPopup(); });
 							
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
+								$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1], 
 											  feature.geometry.coordinates[0]], 
 											  13, {"animate" : true });
@@ -246,19 +273,15 @@
 						}
 					});
 					
-					thisSig.markersLayer.addLayer(points); 		// add it to the cluster group
-					thisMap.addLayer(thisSig.markersLayer);		// add it to the map
+					this.markersLayer.addLayer(points); 		// add it to the cluster group
+					thisMap.addLayer(this.markersLayer);		// add it to the map
 					//thisMap.fitBounds(thisSig.markersLayer.getBounds());					
 					//thisMap.panTo(thisSig.markersLayer.getBounds().getCenter());					
-					
 					//$('#spin_loading_map').css({"display":"none"});
 					$('#ico_reload').removeClass("fa-spin");
 					$('#ico_reload').css({"display":"none"});
-			
-					thisSig.checkListElementMap(thisMap);
-				});
 				
-				
+					this.checkListElementMap(thisMap);
 									
 		};
 		

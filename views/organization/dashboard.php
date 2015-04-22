@@ -1,7 +1,8 @@
 <?php
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 ?>
+
 <style type="text/css">
 	.panel-tools{
 		filter: alpha(opacity=1);
@@ -68,8 +69,9 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap= <?php echo json_encode($contextMap) ?>;
-
+	var contextMap = { "desc" : [ "organization", "events " ] };
+	contextMap = <?php echo json_encode($organization) ?>;
+	contextMap.events = <?php echo json_encode($events) ?>;
 
 	
 	jQuery(document).ready(function() {

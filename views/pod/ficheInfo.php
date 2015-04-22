@@ -15,6 +15,7 @@
 #divImgEdit{
 	display: none;
 }
+
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
@@ -75,11 +76,10 @@
 						 <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>
 					</a>
 					<a href="#" id="addressLocality" data-type="select" data-title="Locality" data-original-title="" class="editable editable-click">
-					 	<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-original-title="" class="editable editable-click">
-					 </a>
+					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-original-title="" class="editable editable-click">					
+					</a>
 					<br>
 					<a href="#" id="tel" data-type="text" data-title="Phone" data-original-title="" class="editable-context editable editable-click">
 						<?php echo (isset($context["tel"])) ? $context["tel"] : null; ?>
@@ -118,7 +118,6 @@
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-original-title="" class="editable editable-click">
-					<?php echo (isset($context["typeIntervention"])) ? implode("\r\n", $context["typeIntervention"]) : null; ?>
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
@@ -153,6 +152,12 @@
 	//TODO SBAR - Get the mode from the request ?
 	var mode = "view";
 	var newPostalCode = contextData.address.postalCode;
+	
+	//Select ajax loading
+	var countries = getCountries();
+	var cities = getCitiesByPostalCode();
+	var publics = getPublics();
+	
 
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
@@ -237,7 +242,7 @@
 	        select2: {
 	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 	            tokenSeparators: [",", " "]
-	        }
+	        },
     	});
 
     	$('#typeIntervention').editable({
@@ -245,6 +250,7 @@
 	        mode: 'popup',
 	        //showbuttons: false,
 	        emptytext: emptytext,
+	        value: '<?php echo (isset($context["typeIntervention"])) ? implode(",", $context["typeIntervention"]) : null; ?>',
 	        source: function() {
 	        	var result = new Array();
                 $.ajax({
@@ -266,30 +272,18 @@
 
     	$('#addressCountry').editable({
         	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : "''"; ?>',
-        	source: baseUrl+'/'+moduleId+"/api/getCountries",
+        	value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : ""; ?>',
+        	source: countries,
            	emptytext: emptytext,
            	showbuttons: false,
     	});
 
     	$('#addressLocality').editable({
         	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : "''"; ?>',
+        	value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>',
         	source: function() {
-                var result;
-                $.ajax({
-                    url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
-                    data: {postalCode: newPostalCode},
-                    type: 'post',
-                    global: false,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        result = data;
-                    }
-                });
-                return result;
-            },
+        		return getCitiesByPostalCode()
+        	},
            	emptytext: emptytext,
            	showbuttons: false,
     	});
@@ -337,6 +331,60 @@
     		$("#divImgView").css("display", "block");
     		$("#divImgEdit").css("display", "none");
     	}
+    }
+
+    function getCountries() {
+    	var result = new Array();
+    	$.ajax({
+			url: baseUrl+'/'+moduleId+"/api/getCountries",
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				$.each(data, function(i,value) {
+					result.push({"value":value.value,"text":value.text});	
+				})
+			}
+		});
+		return result;
+    }
+
+
+    function getCitiesByPostalCode() {
+    	var result =new Array();
+		$.ajax({
+			url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
+			data: {postalCode: newPostalCode},
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				$.each(data, function(i,value) {
+					result.push({"value" : value.value, "text" : value.text});
+				});
+			}
+		});
+		return result;
+    }
+
+    function getPublics() {
+    	var result =new Array();
+		$.ajax({
+			url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/public",
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+				console.log("Data list :"+data.list)
+                $.each(data.list, function(i,value) {
+                    result.push({"value" : value, "text" : value}) ;
+                })
+			}
+		});
+		return result;
     }
 
 </script>
