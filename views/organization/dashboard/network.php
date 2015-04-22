@@ -138,7 +138,10 @@
 
 	function updateOrganisation(newOrga,type){
 		if(typeof(contextMap["organizations"])!="undefined"){
-			contextMap["organizations"].push(newOrga);
+			if(type= '<?php echo Person::COLLECTION; ?>')
+				contextMap["people"].push(newOrga);
+			else(type= '<?php echo Organization::COLLECTION; ?>')
+				contextMap["organizations"].push(newOrga);
 		}
 		console.log(newOrga, "type", type);
 		var links ="";

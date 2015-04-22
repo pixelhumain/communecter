@@ -66,6 +66,9 @@
 
 	var temp;
 	function updateMyOrganization(nOrganization, organizationId) {
+		if(typeof(contextMap) != "undefined"){
+			contextMap["organizations"].push(nOrganization);
+		}
 	    temp = nOrganization;
 	    console.log("updateMyOrganization func");
 	    var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="View">';

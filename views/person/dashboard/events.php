@@ -34,7 +34,6 @@
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 								<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 								<?php }; ?>
 							</div>
@@ -48,3 +47,36 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+	function updateMyEvents(nEvent) {
+		if(typeof(contextMap) != "undefined"){
+			contextMap["events"].push(nEvent);
+		}
+		var image = "<i class='fa fa-calendar fa-2x'></i>";
+		if(typeof(nEvent["imagePath"])!="undefined")
+			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
+		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
+							"<td class='center'>" +
+								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" +
+								 	image +
+								 "</a>" +
+							"</td>" +
+							"<td>" +
+								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" + 
+									nEvent["name"] +
+								"</a>" +
+							"</td>" +
+							"<td>" +
+								nEvent["type"] +
+							"</td>" +
+							"<td class='center'>" +
+								"<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+									"<a href='#'' class='btn btn-xs btn-red tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='top' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
+								"</div>" +
+							"</td>" +
+						"</tr>";
+		$("#events").append(htmlEvent);
+	}
+</script>
