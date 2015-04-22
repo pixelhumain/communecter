@@ -65,7 +65,7 @@
 				<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
 				<div class="user-edit-image-buttons">
 					<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-						<input type="file" name="avatar" id="avatar">
+						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
 					</span>
 					<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
 						<i class="fa fa-times"></i> Remove
@@ -90,7 +90,7 @@
                         </a>
                         <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
                         	<?php foreach ($myOrganizationAdmin as $e) { ?>
-	                        	<li><a href="#" class="btn-drop dropOrg" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+	                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 	                       	<?php } ?>
                         </ul>
                     </div>
@@ -164,20 +164,8 @@
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
-						<textarea class="summernote" placeholder="Write note here..."></textarea>
+						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="Write note here..."></textarea>
 					</div>
-				</div>
-			</div>
-			<div class="pull-right">
-				<div class="btn-group">
-					<a href="#" class="btn btn-info close-subview-button">
-						Close
-					</a>
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-info save-new-event" type="submit">
-						Save
-					</button>
 				</div>
 			</div>
 		</form>
@@ -232,6 +220,10 @@
 <script type="text/javascript">
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
+var parentOrga = [];
+if(typeof(organization)!="undefined"){
+	parentOrga = organization;
+}
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
@@ -242,15 +234,17 @@ jQuery(document).ready(function() {
  	$("#profileFormEventSV").on('submit',(function(e) {
 		e.preventDefault();
 		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/event/id/"+$("#newEventId").val(),
+			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/events/id/"+$("#newEventId").val(),
 			type: "POST",
 			data: new FormData(this),
 			contentType: false,
 			cache: false, 
 			processData: false,
 			success: function(data){
-		  		if(data.result)
+		  		if(data.result){
 		  			toastr.success(data.msg);
+		  			$.hideSubview();
+		  		}
 		  		else
 		  			toastr.error(data.msg);
 		  },
@@ -268,13 +262,12 @@ function bindEventSubViewEvents() {
 			onShow : function() {
 				editEvent();
 				initMyOrganization();
-
 			},
 			onHide : function() {
 				hideEditEvent();
 			},
 			onSave: function() {
-				hideEditEvent();
+				$('.form-event').submit();
 			}
 		});
 	});
@@ -510,13 +503,14 @@ formEvent.validate({
 		var startDateSubmit = convertDate($('.form-event .event-range-date').val(), 0);
 		var endDateSubmit = convertDate($('.form-event .event-range-date').val(), 1);
 		newEvent = new Object;
+		newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>",
 		newEvent.title = $(".form-event .event-name ").val(), 
 		newEvent.start = startDateSubmit, 
 		newEvent.end = endDateSubmit,
 		newEvent.allDay = $(".form-event .all-day").bootstrapSwitch('state'), 
 		newEvent.type = $(".form-event .event-categories option:checked").val(), 
 		newEvent.category = $(".form-event .event-categories option:checked").text(), 
-		newEvent.content = $eventDetail.code();
+		newEvent.content = $(".form-event .eventDetail ").val();
 		
 		$.blockUI({
 			message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -576,13 +570,14 @@ formEvent.validate({
 		    	$.unblockUI();
 		        if (data &&  data.result) {
 
-		        	if(typeof updateEvent != "undefined" && typeof updateEvent == "function")
-		        			updateEvent( data.event); 
-
+		        	if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
+		        			updateSliderAgenda( data.event); 
+		        	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
+		        			updateMyEvents( data.event); 
+		        		
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
-		        	setTimeout(function(){ $.hideSubview(); }, 3000);
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {
@@ -598,7 +593,7 @@ formEvent.validate({
 // on hide event's form destroy summernote and bootstrapSwitch plugins
 function hideEditEvent() {
 	$.hideSubview();
-	$('.form-event .summernote').destroy();
+	//$('.form-event .summernote').destroy();
 	$(".form-event .all-day").bootstrapSwitch('destroy');
 };
 // enables the edit form 
@@ -608,36 +603,12 @@ function editEvent(el) {
 	});
 	$(".form-event .help-block").remove();
 	$(".form-event .form-group").removeClass("has-error").removeClass("has-success");
-	$eventDetail = $('.form-event .summernote');
+	$eventDetail = $('.form-event .eventDetail');
 	
-	$eventDetail.summernote({
-		oninit: function() {
-			if ($eventDetail.code() == "" || $eventDetail.code().replace(/(<([^>]+)>)/ig, "") == "") {
-				$eventDetail.code($eventDetail.attr("placeholder"));
-			}
-		},
-		onfocus: function(e) {
-			if ($eventDetail.code() == $eventDetail.attr("placeholder")) {
-				$eventDetail.code("");
-			}
-		},
-		onblur: function(e) {
-			if ($eventDetail.code() == "" || $eventDetail.code().replace(/(<([^>]+)>)/ig, "") == "") {
-				$eventDetail.code($eventDetail.attr("placeholder"));
-			}
-		},
-		onkeyup: function(e) {
-			$("span[for='detailEditor']").remove();
-		},
-		toolbar: [
-		['style', ['bold', 'italic', 'underline', 'clear']],
-		['color', ['color']],
-		['para', ['ul', 'ol', 'paragraph']],
-		]
-	});
-
 	if ( typeof el == "undefined") {
+		//clearEventForm fields 
 		$(".form-event .event-id").val("");
+		$(".form-event .eventDetail").val("");
 		$(".form-event .event-name").val("");
 		$(".form-event .all-day").bootstrapSwitch('state', false);
 		$('.form-event .all-day-range').hide();
@@ -663,7 +634,6 @@ function editEvent(el) {
 			return ($(this).text() == "Generic");
 		}).prop('selected', true);
 		$('.form-event .event-categories').selectpicker('render');
-		$eventDetail.code($eventDetail.attr("placeholder"));
 
 	} else {
 		
@@ -710,9 +680,9 @@ function editEvent(el) {
 				}).prop('selected', true);
 				$('.form-event .event-categories').selectpicker('render');
 				if ( typeof calendar[i].content !== "undefined" && calendar[i].content !== "") {
-					$eventDetail.code(calendar[i].content);
+					$(".form-event .eventDetail ").val(calendar[i].content);
 				} else {
-					$eventDetail.code($eventDetail.attr("placeholder"));
+					$(".form-event .eventDetail ").val( $eventDetail.attr("placeholder") );
 				}
 			}
 
@@ -979,5 +949,9 @@ function readEvent(el)
 			$("#labelOrga").text($(this).data("name"));
 			$("#newEventOrga").val($(this).data("id"));
 		})
+
+		if(typeof(parentOrga["_id"])!="undefined"){
+			$("#"+parentOrga["_id"]["$id"]).trigger("click");
+		}
 	}
 </script>

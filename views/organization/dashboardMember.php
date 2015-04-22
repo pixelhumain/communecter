@@ -122,15 +122,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
 </div>
-<?php
-   $this->renderPartial('addMembers', array( "organization" => $organization ));
- ?>
+
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = {};
-	contextMap["organization"] = <?php echo json_encode($organization) ?>;
+	var contextMap= <?php echo json_encode($contextMap) ?>;
 	contextMap.members = <?php echo json_encode($members) ?>;
-	contextMap.events = <?php echo json_encode($events) ?>;
 
   jQuery(document).ready(function() {
 
@@ -144,7 +140,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
             onHover: false // if true only pulsate if user hovers over the element
         });
     //get News OPod with Ajax
-    getAjax(".newsPod" , baseUrl+"/"+moduleId+"/news/latest" , null , "html");
+    getAjax(".newsPod" , baseUrl+"/"+moduleId+"/news/latest/type/<?php echo Organization::COLLECTION?>/id/<?php echo $_GET["id"] ?> " , function(data,id){
+      if(data == "")
+        $(".newsPod").fadeOut();
+    } , "html");
     
   });
   

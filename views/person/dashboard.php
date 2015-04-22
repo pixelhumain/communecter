@@ -21,19 +21,7 @@
 	padding-top: 10px;
 }
 </style>
-<div class="row">
-<div class ="col-lg-4 col-md-4">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
-</div>
 
-<div class="col-lg-4 col-md-4">
-	<?php $this->renderPartial('about', array("person" => $person, "tags" => $tags )); ?>
-</div>
-
-<div class="col-lg-4 col-md-4">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
-	 </div>
-</div>
 <div class="row">
 	<div class="col-md-3">
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
@@ -50,7 +38,17 @@
 </div>
 
 <div class="row">
-	
+	<div class ="col-lg-4 col-md-4">
+		<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
+	</div>
+
+	<div class="col-lg-4 col-md-4">
+		<?php $this->renderPartial('dashboard/about', array("person" => $person, "tags" => $tags )); ?>
+	</div>
+
+	<div class="col-lg-4 col-md-4">
+	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
+	</div>
 </div>
 
 
@@ -66,7 +64,6 @@ $.each(events, function(k, v){
 	console.log(k, v);
 	contextMap['events'].push(v);
 });
-
 
 jQuery(document).ready(function() {
 	//initDataTable();

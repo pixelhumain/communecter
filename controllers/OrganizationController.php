@@ -9,7 +9,7 @@
  * Date: 15/08/13
  */
 class OrganizationController extends CommunecterController {
-  
+
   protected function beforeAction($action)
   {
     parent::initPage();
@@ -221,22 +221,46 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
-  public function actionSaveFields() {
-    // Minimal data
-    
-    if (! isset($_POST["id"])) 
-      throw new CommunecterException("You must specify an organization Id to update");
-    else 
-      $organizationId = $_POST['id'];
-    
-    $organizationFields = array();
+	public function actionSaveFields() {
+	// Minimal data
 
-    if(isset($_POST['description']))
-      $organizationFields['description'] = $_POST['description'];
+		if (! isset($_POST["id"])) 
+			throw new CommunecterException("You must specify an organization Id to update");
+		else 
+			$organizationId = $_POST['id'];
 
-    //Save the organization
-    echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
-  }
+		$organizationFields = array();
+
+		if(isset($_POST['description']))
+			$organizationFields['description'] = $_POST['description'];
+
+		//Save the organization
+		echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
+	}
+
+	/**
+	  * Update an information field for an organization
+	  */
+	public function actionUpdateField(){
+	  	$organizationId = "";
+	  	
+	  	if (!empty($_POST["pk"])) {
+	  		$organizationId = $_POST["pk"];
+	  	} else if (!empty($_POST["id"])) {
+	  		$organizationId = $_POST["id"];
+	  	}
+
+	  	if ($organizationId != "") {
+  			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
+  				$organizationFieldName = $_POST["name"];
+  				$organizationFieldValue = $_POST["value"];
+				Organization::updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+				$res = Rest::json(array("result"=>true, "msg"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue));
+            }
+	  	} else {
+	  		$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue));
+	  	}
+	}
 
   /**
   * Create and return new array with all the mandatory fields
@@ -514,9 +538,6 @@ class OrganizationController extends CommunecterController {
 	        }
 	    }
 
-      $events = Organization::listEventsPublicAgenda($id);
-      $params["events"] = $events;
-
 		if (count($subOrganizationIds) != 0 ) {
 			$randomOrganizationId = array_rand($subOrganizationIds);
 			$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
@@ -524,6 +545,33 @@ class OrganizationController extends CommunecterController {
 		} 
 		$params["members"] = $members;
     }
+    
+    $events = Organization::listEventsPublicAgenda($id);
+    $params["events"] = $events;
+
+
+
+    $contextMap = array();
+    $contextMap["organization"] = $organization;
+    $contextMap["events"] = array();
+    $contextMap["organizations"] = array();
+    $contextMap["people"] = array();
+    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+    foreach ($organizations as $key => $value) {
+    	$newOrga = Organization::getById($key);
+    	array_push($contextMap["organizations"], $newOrga);
+    }
+
+    foreach ($events as $key => $value) {
+    	$newEvent = Event::getById($key);
+    	array_push($contextMap["events"], $newEvent);
+    }
+    foreach ($people as $key => $value) {
+    	$newCitoyen = Person::getById($key);
+    	array_push($contextMap["people"], $newCitoyen);
+    }
+    $params["contextMap"] = $contextMap;
 
     $this->render( "dashboardMember", $params );
   }
@@ -622,12 +670,40 @@ class OrganizationController extends CommunecterController {
 
 	    $organization = Organization::getPublicData($id);
 	    $events = Organization::listEventsPublicAgenda($id);
-     	
+     	$members = array( 
+          "citoyens"=> array(),
+          "organizations"=>array()
+      	);
 	    $params = array( "organization" => $organization);
 	    $params["events"] = $events;
+	    $contextMap = array();
+	    $contextMap["organization"] = $organization;
+	    $contextMap["events"] = array();
+	    $contextMap["organizations"] = array();
+	    $contextMap["people"] = array();
+	    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+	    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+	    foreach ($organizations as $key => $value) {
+	    	$newOrga = Organization::getById($key);
+	    	array_push($contextMap["organizations"], $newOrga);
+	    	array_push($members["organizations"], $newOrga);
+	    }
 
+	    foreach ($events as $key => $value) {
+	    	$newEvent = Event::getById($key);
+	    	array_push($contextMap["events"], $newEvent);
+	    }
+	    foreach ($people as $key => $value) {
+	    	$newCitoyen = Person::getById($key);
+	    	array_push($contextMap["people"], $newCitoyen);
+	    	array_push($members["citoyens"], $newCitoyen);
+	    }
+	    $params["members"] = $members;
+	    $params["contextMap"] = $contextMap;
+	    //list
+	    $params["tags"] = Tags::getActiveTags();
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-	 	 $this->render( "dashboard", $params );
+	 	$this->render( "dashboard", $params );
 	 }
 
    /* **************************************
@@ -660,6 +736,27 @@ class OrganizationController extends CommunecterController {
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
+		$contextMap = array();
+	    $contextMap["organization"] = $organization;
+	    $contextMap["events"] = array();
+	    $contextMap["organizations"] = array();
+	    $contextMap["people"] = array();
+	    $organizations = Organization::getMembersByOrganizationId($id, Organization::COLLECTION);
+	    $people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
+	    foreach ($organizations as $key => $value) {
+	    	$newOrga = Organization::getById($key);
+	    	array_push($contextMap["organizations"], $newOrga);
+	    }
+
+	    foreach ($events as $key => $value) {
+	    	$newEvent = Event::getById($key);
+	    	array_push($contextMap["events"], $newEvent);
+	    }
+	    foreach ($people as $key => $value) {
+	    	$newCitoyen = Person::getById($key);
+	    	array_push($contextMap["people"], $newCitoyen);
+	    }
+	    $params["contextMap"] = $contextMap;
 	    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
 	 	$this->render( "dashboard1", $params );
 	 }

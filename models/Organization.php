@@ -3,6 +3,33 @@ class Organization {
 
 	const COLLECTION = "organizations";
 	
+	//From Post/Form name to database field name
+	private static $dataBinding = array(
+	    "name" => "name",
+	    "email" => "email",
+	    "created" => "created",
+	    "creator" => "creator",
+	    "type" => "type",
+	    "shortDescription" => "shortDescription",
+	    "description" => "description",
+	    "address" => "address",
+	    "streetAddress" => "address.streetAddress",
+	    "postalCode" => "address.postalCode",
+	    "addressLocality" => "address.addressLocality",
+	    "addressCountry" => "address.addressCountry",
+	    "tags" => "tags",		    
+	    "typeIntervention" => "typeIntervention",
+	    "public" => "public"
+	);
+
+  	private static function getCollectionFieldName($organizationFieldName) {
+		$res = "";
+		if (isset(self::$dataBinding["$organizationFieldName"])) {
+			$res = self::$dataBinding["$organizationFieldName"];
+		}
+		return $res;
+	}
+
 	/**
 	 * insert a new organization in database
 	 * @param array A well format organization 
@@ -54,8 +81,9 @@ class Organization {
 	 * @return 
 	 */
 	public static function checkOrganizationData($organization) {
+		$organizationName = $organization["name"];
 		// Is There a association with the same name ?
-	    $organizationSameName = PHDB::findOne( Organization::COLLECTION,array( "name" => $_POST['organizationName']));      
+	    $organizationSameName = PHDB::findOne( Organization::COLLECTION,array( "name" => $organizationName));      
 	    if($organizationSameName) { 
 	      throw new CommunecterException("An organization with the same name already exist in the plateform");
 	    }
@@ -227,7 +255,7 @@ class Organization {
 
 	/**
 	 * List all the event of an organization and his members
-	 * @param type $organisationId : is the mongoId of the organisation
+	 * @param String $organisationId : is the mongoId of the organisation
 	 * @return all the event link with the organization
 	 */
 	public static function listEventsPublicAgenda($organizationId){
@@ -295,6 +323,33 @@ class Organization {
 	  	$res = PHDB::findAndSort(Organization::COLLECTION, $where, array($sortOnField => 1), $nbResultMax);
 
 	  	return $res;
+	 }
+
+	 /**
+	 * Update an organization field value
+	 * @param String $organisationId The organization Id to update
+	 * @param String $organizationFieldName The name of the field to update
+	 * @param String $organizationFieldValue 
+	 * @param String $userId 
+	 * @return boolean True if the update has been done correctly. Can throw CommunecterException on error.
+	 */
+	 public static function updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, $userId){
+	 	if (!Authorisation::isOrganizationAdmin($userId, $organizationId)) {
+			throw new CommunecterException("Can not update this organization : you are not authorized to update that organization !");	
+		}
+		$dataFieldName = Organization::getCollectionFieldName($organizationFieldName);
+		//Specific case : tags
+		if ($dataFieldName == "tags") {
+			$organizationFieldValue = Tags::filterAndSaveNewTags($organizationFieldValue);
+		}
+
+		$organization = array($dataFieldName => $organizationFieldValue);
+		
+		//update the person
+		PHDB::update( Organization::COLLECTION, array("_id" => new MongoId($organizationId)), 
+		                          array('$set' => $organization));
+	                  
+	    return true;
 	 }
 }
 ?>

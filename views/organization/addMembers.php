@@ -187,6 +187,9 @@
 	});
 	
 
+	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
+
+
 	function bindOrganizationSubViewAddMember() {	
 		$(".addMembersBtn").off().on("click", function() {
 			subViewElement = $(this);
@@ -306,23 +309,12 @@
 		
 	}
 
-	function setMemberInputAddMember(id, name,email, type){
+	function setMemberInputAddMember(id, name,email,type){
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
-		$("#addMembers #memberRole").val(listTag)
-		/*if(isAdmin){
-			$("#addMembers #memberIsAdmin").val("true");
-			$("[name='my-checkbox']").bootstrapSwitch('state', true);
-		}else{
-			$("#addMembers #memberIsAdmin").val("false");
-			$("[name='my-checkbox']").bootstrapSwitch('state', false);
-		}
-		$('#memberRole').select2({ text: listTag});
-		console.log(email);
 		$('#addMembers #memberEmail').val(email);
-		console.log(type);*/
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
 			$("#addMembers #btnOrganization").addClass("disabled");
@@ -349,10 +341,14 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
+	        	
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
+		 			
 		 				$.each(value, function(i, v){
-		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'>" + v.name + "</a></li>";
+		 					
+			 				console.log(v.type);
+		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'><i class='fa "+mapIcon[key]+"'></i> "+ v.name + "</a></li>";
 		  				});
 		  			}); 
 

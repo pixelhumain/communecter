@@ -9,22 +9,21 @@
 	<div id="sliderAgenda">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title">AGENDA PARTAGE </h4>
-        <ul class="panel-heading-tabs border-light">
-        	<li>
-        		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-					<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Add an Event</a>
-				<?php } ?>
-        	</li>
-	        <li class="panel-tools">
-	        </li>
-	    </ul>
+        <h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
+        <?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+	        <ul class="panel-heading-tabs border-light">
+	        	<li>
+	        		<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
+	        	</li>
+		        <li class="panel-tools">
+		        </li>
+		    </ul>
+	    <?php } ?>
       </div>
        <div class="panel-body no-padding center">
-		  <div class="flexslider">
+		  <div class="flexslider" id="flexsliderAgenda">
 			<ul class="slides" id="slidesAgenda">
 				
-	
 			</ul>
 		  </div>
 		</div>
@@ -45,22 +44,42 @@
 	function initDashboardAgenda(){
 		var n = 1;
 		var today = new Date();
-		$.each(events, function(k, v){
-			console.log("events",k, v);
-			var period = getStringPeriodValue(v.startDate, v.endDate);
-			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-			if(n<4 && compareDate(today, date)){
-				if (typeof(v.imagePath)=="undefined"){
-					v.imagePath = "http://placehold.it/350x180";
+		if(events.length>0){
+			$.each(events, function(k, v){
+				var period = getStringPeriodValue(v.startDate, v.endDate);
+				var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
+				if(n<4 && compareDate(today, date)){
+					if (typeof(v.imagePath)=="undefined"){
+						v.imagePath = "http://placehold.it/350x180";
+					}
+					var htmlRes = "<li><div>"+
+									"<img src='"+v.imagePath+"'></img>";
+					htmlRes +="<div class='row'>"+
+								"<div class='col-xs-5' >"+
+									"<h2>"+period+"</h2></div>";
+					htmlRes += "<div class='col-xs-7' >"+
+									"<h1>"+v.name+"</h1>"+
+									"<div id='infoEventLink'>"+
+										"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
+									"</div></div></div></li>";
+					$("#slidesAgenda").append(htmlRes);
+					n++;
 				}
-				var htmlRes = "<li><div><img src='"+v.imagePath+"'></img>";
-				htmlRes +="<div class='row'><div class=\"col-xs-5\" ><h2>"+period+"</h2></div>";
-				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div></div></li>";
-				$("#slidesAgenda").append(htmlRes);
-				n++;
-			}
-		})
-			//showCalendarDashBoard(data);
+			})
+		}else{
+			var htmlRes = "<li>"+
+							"<div>"+
+								"<img src='http://placehold.it/350x180'></img>"+
+								"<div class='row'>"+
+									"<h2>No upcoming events</h2>"+
+								"</div>" +
+							"</div>"+
+						"</li>";
+			$("#slidesAgenda").append(htmlRes);
+		}
+
+		$(".slidesAgendaTitle").html("Shared Calendar");
+		//showCalendarDashBoard(data);
 	}
 
 
@@ -105,6 +124,15 @@
 			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
 		}
 		return strPeriod;
+	}
+
+	function updateSliderAgenda(nEvent){
+		events[nEvent["_id"]["id"]] = nEvent;
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		initDashboardAgenda();
+		$(".flexslider").flexslider();
 	}
 
  </script>

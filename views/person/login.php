@@ -10,7 +10,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		<!-- start: LOGIN BOX -->
 		<div class="box-login">
 			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<h3>Sign in to your account</h3>
+			<h3>Sign in to your account <?php echo Yii::app()->session['userId']?></h3>
 			<p>
 				Please enter your email and password to log in.
 			</p>
@@ -40,8 +40,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
 						</label>
-						<button type="submit" class="btn btn-green pull-right">
-							Login <i class="fa fa-arrow-circle-right"></i>
+						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="loginBtn ladda-button pull-right">
+							<span class="ladda-label">Login <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 					<div class="new-account">
@@ -80,8 +80,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 						<a class="btn btn-light-grey go-back">
 							<i class="fa fa-chevron-circle-left"></i> Log-In
 						</a>
-						<button type="submit" class="btn btn-green pull-right">
-							Submit <i class="fa fa-arrow-circle-right"></i>
+						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="forgotBtn ladda-button pull-right">
+							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>
@@ -107,7 +107,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" id="name" name="name" placeholder="Nom">
+							<input type="text" class="form-control" id="name" name="name" placeholder="Prénom Nom : John Doe">
 							<i class="fa fa-user"></i> </span>
 					</div>
 					<div class="form-group">
@@ -146,8 +146,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 						<a href="#" class="go-back">
 							Log-in
 						</a>
-						<button type="submit" class="btn btn-green pull-right">
-							Submit <i class="fa fa-arrow-circle-right"></i>
+						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="createBtn ladda-button pull-right">
+							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>
@@ -270,8 +270,15 @@ var Login = function() {
 	};
 	var runLoginValidator = function() {
 		var form = $('.form-login');
+		var loginBtn = null;
+		Ladda.bind('.loginBtn', {
+	        callback: function (instance) {
+	            loginBtn = instance;
+	        }
+	    });
 		form.submit(function(e){e.preventDefault() });
 		var errorHandler = $('.errorHandler', form);
+		
 		form.validate({
 			rules : {
 				email : {
@@ -285,6 +292,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler.hide();
+				loginBtn.start();
 				var params = { 
 				   "email" : $("#email").val() , 
                    "pwd" : $("#password").val()
@@ -302,6 +310,7 @@ var Login = function() {
 		    		  else {
 						$('.loginResult').html(data.msg);
 						$('.loginResult').show();
+						loginBtn.stop();
 		    		  }
 		    	  },
 		    	  dataType: "json"
@@ -310,12 +319,19 @@ var Login = function() {
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler.show();
+				loginBtn.stop();
 			}
 		});
 	};
 	var runForgotValidator = function() {
 		var form2 = $('.form-forgot');
 		var errorHandler2 = $('.errorHandler', form2);
+		var forgotBtn = null;
+		Ladda.bind('.forgotBtn', {
+	        callback: function (instance) {
+	            forgotBtn = instance;
+	        }
+	    });
 		form2.validate({
 			rules : {
 				email2 : {
@@ -324,6 +340,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler2.hide();
+				forgotBtn.start();
 				var params = { "email" : $("#email2").val()};
 		        $.ajax({
 		          type: "POST",
@@ -353,12 +370,19 @@ var Login = function() {
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler2.show();
+				forgotBtn.stop();
 			}
 		});
 	};
 	var runRegisterValidator = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
+		var createBtn = null;
+		Ladda.bind('.createBtn', {
+	        callback: function (instance) {
+	            createBtn = instance;
+	        }
+	    });
 		form3.validate({
 			rules : {
 				cp : {
@@ -382,6 +406,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
+				createBtn.start();
 				var params = { 
 				   "name" : $("#name").val(),
 				   "email" : $("#email3").val(),
@@ -398,12 +423,13 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
-		        		alert(data.msg);
+		        		toastr.success(data.msg);
 		        		window.location.reload();
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
 						$('.registerResult').show();
+						createBtn.stop();
 		    		  }
 		    	  },
 		    	  dataType: "json"
@@ -412,6 +438,7 @@ var Login = function() {
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				errorHandler3.show();
+				createBtn.stop();
 			}
 		});
 	};

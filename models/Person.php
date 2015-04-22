@@ -122,7 +122,8 @@ class Person {
 	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
 	  	
 	  	//Add the postal code in adresse section
-	  	$person["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode']);
+	  	if(isset($person["address"]))
+	  		$person["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode']);
 
 	  	return $person;
 	}
@@ -164,7 +165,7 @@ class Person {
                                    "logo"  => $app->logoUrl )
         ));*/
 
-	    return array("result"=>true, "msg"=>"Une nouvelle personne est communectée.", "id"=>$newpersonId); 
+	    return array("result"=>true, "msg"=>"You are now communnected", "id"=>$newpersonId); 
 	}
 
 	/**

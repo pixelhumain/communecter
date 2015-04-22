@@ -1,16 +1,48 @@
 	<?php
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
+<?php
+	$cs = Yii::app()->getClientScript();
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 ?>
+<style type="text/css">
+	.panel-tools{
+		filter: alpha(opacity=1);
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+		opacity: 1;
+	}
+
+</style>
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
 	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null )); ?>
+	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null, "tags" => $tags)); ?>
 	    	</div>
 	    	<div class="col-sm-12 col-xs-12 documentPod">
 	    		<div class="panel panel-white pulsate">
 					<div class="panel-heading border-light ">
 						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Documents Section</h4>
+						<div class="space5"></div>
+					</div>
+				</div>
+	    		
+	    	</div>
+	    	<?php 
+		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
+
+		    ?>
+			<div class="col-sm-12 col-xs-12">
+	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
+	    	</div>
+	    	<?php }; ?>
+	    	
+	    	<div class="col-sm-12 col-xs-12 jobPod">
+	    		<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Jobs Section</h4>
 						<div class="space5"></div>
 					</div>
 				</div>
@@ -31,6 +63,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
+
+
 	 	</div>
 	 </div>
 </div>
@@ -59,28 +93,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		$(".flexslider").flexslider();
 
 		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list",null,"html");
 		
 	});
-
-	
-	function initDashboardAgenda(){
-		var n = 1;
-		var today = new Date();
-		console.log(contextMap.events);
-		$.each(contextMap.events, function(k, v){
-			console.log(k, v);
-			var period = getStringPeriodValue(v.startDate, v.endDate);
-			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-			if(n<4 && compareDate(today, date)){
-				var htmlRes = "<img src=\""+v.imagePath+"\"></img>";
-				htmlRes +="<div class='row'><div class=\"col-xs-5\" ><h2>"+period+"</h2></div>";
-				htmlRes += "<div class=\"col-xs-7\" ><h1>"+v.name+"</h1><div id='infoEventLink'><a href='"+baseUrl + "/" + moduleId + "/event/public/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a></div></div>";
-				$("#slideEv"+n).html(htmlRes);
-				n++;
-			}
-		})
-			//showCalendarDashBoard(data);
-	}
 
 	function compareDate(d, f){
 		var res = false;

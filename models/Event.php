@@ -112,5 +112,57 @@ class Event {
 
         return $eventOrganization;
 	}
+
+	/**
+	* @param List of field, of an event (name, organisation, dates ....)
+	* @return true is event existing, false else
+	*/
+	public static function checkExistingEvents($params){
+		$res = false;
+		$events = PHDB::find(PHType::TYPE_EVENTS,array( "name" => $params['title']));
+		if(!$events){
+			$res = false;
+		}else{
+			foreach ($events as $key => $value) {
+				if(isset($params["organization"])){
+					if(isset($value["links"]["organizer"])){
+						foreach ($value["links"]["organizer"] as $keyEv => $valueEv) {
+							if($keyEv==$params["organization"]){
+								$startDate = explode(" ", $value["startDate"]);
+								$start = explode(" ", $params["start"]);
+								if( $startDate[0] == $start[0]){
+									$res = true;
+								}
+							}
+						}
+					}
+				}
+				else if(isset($params["userId"])){
+					foreach ($value["links"]["attendees"] as $keyEv => $valueEv) {
+						if($keyEv==$params["userId"]){
+							$startDate = explode(" ", $value["startDate"]);
+							$start = explode(" ", $params["start"]);
+							if( $startDate[0] == $start[0]){
+								$res = true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return $res;
+	}
+
+
+	/**
+	 * Retrieve the list of events that an user is attending of
+	 * @param String $userId is the id of a citoyen
+	 * @return array list of the events the person
+	 */
+	public static function listEventAttending($userId){
+		$where = array("links.attendees.".$userId => array('$exists' => true));
+		$eventsAttending = PHDB::find(PHType::TYPE_EVENTS, $where);
+        return $eventsAttending;
+	}
 }
 ?>

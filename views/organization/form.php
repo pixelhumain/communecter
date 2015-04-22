@@ -6,6 +6,17 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/sel
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jquery.autosize.min.js' , CClientScript::POS_END);
 ?>
 
+<style>
+	#dropdown_search{
+		padding: 0px 15px; 
+		margin-left:2%; 
+		width:96%;
+	};
+	.select2-input {
+		width:100%;
+	}
+</style>
+
 <div style="display:none" id="addOrganization" >
 	<!-- start: PAGE CONTENT -->
 	<div class="noteWrap col-md-8 col-md-offset-2">
@@ -35,7 +46,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 							<div class="col-md-1">	
 				           		<i class="fa fa-search fa-2x"></i> 	
 				           	</div>
-				           	<div class="col-md-11">
+				           	<div class="col-md-6">
 				           		<span class="input-icon input-icon-right">
 						           	<input class="organization-search form-control" placeholder="Search by name or email" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
@@ -105,7 +116,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 								<label class="control-label">
 									Code postal <span class="symbol required"></span>
 								</label>
-								<input class="form-control" placeholder="12345" type="text" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+								<input class="form-control" placeholder="12345" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 							</div>
 
 							<div class="form-group">
@@ -113,7 +124,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 									Centres d'interet 
 								</label>
 								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;">
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%;">
 			        		    
 							</div>
 

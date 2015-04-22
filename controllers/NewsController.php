@@ -18,25 +18,36 @@ class NewsController extends CommunecterController {
   	public function actionNewsstream() { 
   		$this->renderPartial("newsstream"); 		
   	} 
-  	public function actionIndex() { 
+  	public function actionIndex($type=null, $id= null) { 
   		
+  		//mongo search cmd : db.news.find({created:{'$exists':1}})	
         $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
-		$news = News::getWhere( $where );
+        if(isset($type))
+        	$where["type"] = $type;
+        if(isset($id))
+        	$where["id"] = $id;
+		$news = News::getWhereSortLimit( $where, array("created"=>-1) ,15);
 
 		if(Yii::app()->request->isAjaxRequest)
 	        echo $this->renderPartial("index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
 	    else
   			$this->render( "index" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
   	} 
-  	public function actionLatest() { 
+  	public function actionLatest($type=null, $id= null) { 
   		
+  		//mongo search cmd : db.news.find({created:{'$exists':1}})	
         $where = array("created"=>array('$exists'=>1),"text"=>array('$exists'=>1) ) ;
-		$news = News::getWhere( $where );
+        if(isset($type))
+        	$where["type"] = $type;
+        if(isset($id))
+        	$where["id"] = $id;
+		$news = News::getWhereSortLimit( $where, array("created"=>-1) ,2);
 
-		if(Yii::app()->request->isAjaxRequest)
-	        echo $this->renderPartial("one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
-	    else
-  			$this->render( "one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ) ); 		
+		if(Yii::app()->request->isAjaxRequest){
+	        if(!empty($news))
+	        	echo $this->renderPartial("one" , array( "news"=>$news, "userCP"=>Yii::app()->session['userCP'] ),true);
+	    } else
+  			$this->render( "one" , array( "news"=>$news ) ); 		
   	} 
   	
   	

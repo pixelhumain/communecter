@@ -102,16 +102,11 @@ class EventController extends CommunecterController {
       if( isset($_POST['title']) && !empty($_POST['title']))
       {
         //TODO check by key
-            $event = PHDB::findOne(PHType::TYPE_EVENTS,array( "name" => $_POST['title']));
-            if(!$event)
+           
+            if(!Event::checkExistingEvents($_POST))
             { 
-               //validate isEmail
-               $email = (isset($_POST['email'])) ? $_POST['email'] : Yii::app()->session["userEmail"];
-               if(preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$email)) { 
-                    $res = Event::saveEvent($_POST);
-                    echo json_encode($res);
-               } else
-                   echo json_encode(array("result"=>false, "msg"=>"Vous devez remplir un email valide."));
+                $res = Event::saveEvent($_POST);
+                echo json_encode($res);
             } else
                    echo json_encode(array("result"=>false, "msg"=>"Cette Evenement existe déjà."));
     } else

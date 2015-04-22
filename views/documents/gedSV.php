@@ -1,17 +1,14 @@
 <?php  
-if(Yii::app()->request->isAjaxRequest){
-	echo CHtml::cssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/ph.css');
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/dropzone.min.js');
-	echo CHtml::cssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js');
-}else{
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/css/ph.css');
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/dropzone/downloads/dropzone.min.js' , CClientScript::POS_END);
+$cssAnsScriptFiles = array(
+	'/assets/plugins/dropzone/downloads/css/ph.css',
+	//dropzone
+	'/assets/plugins/dropzone/downloads/dropzone.min.js',
+	//lightbox
+	'/assets/plugins/lightbox2/css/lightbox.css',
+	'/assets/plugins/lightbox2/js/lightbox.min.js'
+);
 
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
-}
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 ?>
 <div style="display:none" id="genericGED">
 	
