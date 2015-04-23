@@ -131,13 +131,17 @@
    $this->renderPartial('addMembers', array( "organization" => $organization ));
  ?>
 <script type="text/javascript">
-
 	var members = <?php echo json_encode($members); ?>;
-
 	var organization = <?php echo json_encode($organization); ?>;
 
-	function updateOrganisation(newOrga,type){
-		if(typeof(contextMap["organizations"])!="undefined"){
+	jQuery(document).ready(function() {
+		bindBtnNetwork();
+	});
+
+	function updateOrganisation(newOrga,type)
+	{
+		if(typeof(contextMap["organizations"])!="undefined")
+		{
 			if(type= '<?php echo Person::COLLECTION; ?>')
 				contextMap["people"].push(newOrga);
 			else(type= '<?php echo Organization::COLLECTION; ?>')
@@ -196,9 +200,7 @@
         tabObject.append(organizationLine);
 	}
 
-	jQuery(document).ready(function() {
-		bindBtnNetwork();
-	});
+	
 	
 	function bindBtnNetwork(){
 

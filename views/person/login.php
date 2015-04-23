@@ -423,6 +423,13 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
+		    		  	$.blockUI({
+    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+    		  	            '<blockquote>'+
+    		  	              '<p>You will receive an email to validate your account.</p>'+
+    		  	              '<cite>Welcome to the Pixel Humain</cite>'+
+    		  	            '</blockquote> '
+    		  			});
 		        		toastr.success(data.msg);
 		        		window.location.reload();
 		    		  }

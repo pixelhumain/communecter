@@ -823,9 +823,16 @@ function readEvent(el)
 		var eventsSelected = [];
 		$.each(events, function(k,v){
 			console.log("eventsSelected", eventsSelected, "v", v);
-			var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-			if(today<=date){
-				var date = new Date(v.startDate.split("/")[2].split(" ")[0], parseInt(v.startDate.split("/")[1])-1, v.startDate.split("/")[0]);
+			
+			var date = null;
+			if("undefined" != typeof v.endDate && v.endDate.split("/")[2]){
+				var endSplit = v.endDate.split("/");
+				date = new Date( endSplit[2].split(" ")[0], parseInt(endSplit[1])-1, endSplit[0]);
+			}
+			if(today<=date)
+			{
+				var startSplit = v.startDate.split("/");
+				var date = new Date(startSplit[2].split(" ")[0], parseInt(startSplit[1])-1, startSplit[0]);
 				if(eventsSelected.length>=3){
 					for(var i = 0; i<eventsSelected.length;i++){
 						console.log("for", eventsSelected);
@@ -857,22 +864,6 @@ function readEvent(el)
 					}else{
 						eventsSelected.push(v);
 					}
-					/*for(var i = 0; i<eventsSelected.length;i++){
-						var date2 = new Date(eventsSelected[i].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[i].startDate.split("/")[1])-1, eventsSelected[i].startDate.split("/")[0]);
-						console.log(date, date2);
-						while(date2>=date && i>0){
-							i--;
-							var date2 = new Date(eventsSelected[i].startDate.split("/")[2].split(" ")[0], parseInt(eventsSelected[i].startDate.split("/")[1])-1, eventsSelected[i].startDate.split("/")[0]);
-						}
-						if(date2>= date){
-							eventsSelected.splice(i, 0, v);
-							addEvent = true;
-							i=eventsSelected.length;	
-						}
-					}
-					if(addEvent == false){
-						eventsSelected.push(v);
-					}*/
 				}
 			}
 		})
