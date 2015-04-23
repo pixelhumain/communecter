@@ -107,7 +107,7 @@ class Link {
         //3. Send Notifications
         //TODO - Send email to the member
 
-        return array("result"=>true, "msg"=>"The member has been added with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
+        return array("result"=>true, "msg"=>"The member has been removed with success", "memberOfid"=>$memberOfId, "memberid"=>$memberId);
     }
 
     private static function checkIdAndType($id, $type) {

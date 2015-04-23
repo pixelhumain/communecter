@@ -44,24 +44,6 @@ class OrganizationController extends CommunecterController {
 
     $this->render("index",array("organizations"=>$organizations));
   }
-	
-	/**********************************************************************
-  /* Still used ?
-  /**********************************************************************/
-  public function actionTags($type=null)
-  {
-    if($type){
-      $params =  array("type"=>$type);
-      //$this->subTitle = Yii::t("organisation","Découvrez les <b>$type</b> locales");
-      $this->subTitle = Yii::t("organisation","Discover local Organisations",null,$this->module->id);
-    } 
-    $params = array();
-    if($type)
-     $params =  array("tags"=>$type);
-    
-    $organizations = PHDB::find( Organization::COLLECTION,$params);
-    $this->render("index",array("organizations"=>$organizations));
-  }
     
   /**********************************************************************
   /* Sall we keep edit action : Replaced by the dashboard ?
@@ -368,6 +350,7 @@ class OrganizationController extends CommunecterController {
   }
 
   //TODO SBAR => part of controls done has been done on the Link model. 
+  //TODO SBAR => remove the search of members on email.
   public function actionSaveMember(){
 	 $res = array( "result" => false , "msg" => "Something went wrong" );
 	 if(Yii::app()->request->isAjaxRequest && isset( $_POST["parentOrganisation"]) )
@@ -457,18 +440,9 @@ class OrganizationController extends CommunecterController {
 					Link::addMember($_POST["parentOrganisation"], Organization::COLLECTION, $member["_id"], $memberType, Yii::app()->session["userId"], $isAdmin, $roles );
 					$member = PHDB::findOne( $memberType , array("email"=>$memberEmail));
 					$res = array("result"=>true,"msg"=>"Vos données ont bien été enregistré.","reload"=>true, "member" => $member);
-					 //TODO : background send email
-					 //send validation mail
-					 //TODO : make emails as cron jobs
-					 /*$message = new YiiMailMessage;
-					 $message>view = 'invitation';
-					 $name = (isset($sponsor["name"])) ? "par ".$sponsor["name"] : "par ".$sponsor["email"];
-					 $message>setSubject('Invitation au projet Pixel Humain '.$name);
-					 $message>setBody(array("user"=>$member["_id"],
-					 "sponsorName"=>$name), 'text/html');
-					 $message>addTo("oceatoon@gmail.com");//$_POST['inviteEmail']
-					 $message>from = Yii::app()>params['adminEmail'];
-					Yii::app()>mail>send($message);*/
+					
+          //TODO : background send email
+					//send validation mail
 
 					 //TODO : add an admin notification
 					 Notification::saveNotification(array("type"=>NotificationType::NOTIFICATION_INVITATION,
