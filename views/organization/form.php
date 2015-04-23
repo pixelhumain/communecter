@@ -250,7 +250,7 @@ jQuery(document).ready(function() {
 				"memberIsAdmin" : false,
 				"memberRoles" : ""
 			};
-			console.log("Data saveMember : "+formData);
+			console.table(formData);
 			$.ajax({
 				type: "POST",
 				url: baseUrl+"/"+moduleId+"/organization/saveMember",
@@ -258,17 +258,17 @@ jQuery(document).ready(function() {
 				dataType: "json",
 				success: function(data) {
 					if(data.result){
-						toastr.success(data.content);
-						organization = {"id" : formData.parentOrganization, 
+						organization = {"id" : $("#addOrganization #organizationId").val(),
 										"name": $("#addOrganization #organizationName").val(),
 										"type" : $("#addOrganization #type").val(),
 									}
+						toastr.success("You are now member of the organization : "+organization.name);
 						if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
 		        				updateMyOrganization(organization, organization.id);
 						$.hideSubview();
 					}
 					else
-						toastr.error(data.content);
+						toastr.error(data.msg);
 				},
 			});               
 		});	
