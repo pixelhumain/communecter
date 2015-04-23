@@ -16,10 +16,11 @@
 </style>
 
 	<div class ="center" id="fileuploadContainer">
-		<form  method="post" id="photoAdd" enctype="multipart/form-data">
+		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		<div class="fileupload fileupload-new" data-provides="fileupload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail">
+					<img src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
 				</div>
 				<div class="fileupload-preview fileupload-exists thumbnail"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
@@ -27,10 +28,10 @@
 					<span class="btn btn-azure btn-file btn-sm"><span class="fileupload-new"><i class="fa fa-pencil"></i></span><span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
 					</span>
-					<a href="#" class="btn fileupload-exists btn-red btn-sm" data-dismiss="fileupload">
+					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php echo $contentId ?>_photoRemove" data-dismiss="fileupload">
 						<i class="fa fa-times"></i>
 					</a>
-					<button id='uploadBtn' class="btn fileupload-exists btn-yellow btn-sm" type="button">
+					<button id='<?php echo $contentId ?>_uploadBtn' class="btn fileupload-exists btn-yellow btn-sm" type="button">
 						<i class="fa fa-upload"></i>
 					</button>
 				</div>
@@ -42,15 +43,17 @@
 
 
 <script type="text/javascript">
-	var id = "<?php echo $itemId ?>";
-	var type = "<?php echo $type ?>";
-	var contentKey = "<?php echo $contentKey?>";
-	var isSubmit = false;
+	
+	
+	
 	jQuery(document).ready(function() {
-
-
-		$("#photoAdd").on('submit',(function(e) {
-			isSubmit = true;
+		var id = "<?php echo $itemId ?>";
+		var type = "<?php echo $type ?>";
+		var contentId = "<?php echo $contentId ?>";
+		var contentKey = "<?php echo $contentKey?>";
+		var isSubmit = contentId+"_false";
+		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
+			isSubmit = contentId+"_true";
 			e.preventDefault();
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey,
@@ -70,10 +73,14 @@
 			});
 		}));
 		
-		$("#uploadBtn").on("click",function(){
+		$("#"+contentId+"_uploadBtn").on("click",function(){
 			
-			if(isSubmit == false)
-				$("#photoAdd").submit();
+			if(isSubmit == contentId+"_false")
+				$("#"+contentId+"_photoAdd").submit();
+		})
+
+		$("#"+contentId+"_photoRemove").on("click",function(){
+			 isSubmit = contentId+"_false";
 		})
 
 	});

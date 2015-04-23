@@ -4,7 +4,11 @@
 	</div>
 	<div class="panel-body border-light">
 		<div class="row center">
-			<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"], "type" => Organization::COLLECTION, "contentKey" => Organization::COLLECTION.".dashboard.photoVideo", "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
+			<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+																  "type" => Organization::COLLECTION,
+																  "contentKey" => Organization::COLLECTION.".dashboard.photoVideo",
+																  "contentId" =>"photoVideo",
+																  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
 			 <a href="#">Lien Video</a>
 		</div>
 		<div class="row">
