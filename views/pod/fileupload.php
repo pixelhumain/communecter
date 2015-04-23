@@ -66,6 +66,8 @@
 					console.log(data);
 			  		if(data.result){
 				  		toastr.success(data.msg);
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
+		        			updateSlider( data.imagePath);
 			  		}
 			  		else
 			  			toastr.error(data.msg);

@@ -123,6 +123,15 @@
 		});
 	}
 
+	function updateSlider(){
+		$("#flexsliderPhoto").removeData("flexslider");
+		$("#flexsliderPhoto").empty();
+		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
+		$("#flexsliderPhoto").flexslider();
+		initDashboardPhoto()
+
+	}
+
 	//resetForm
 	function hidePhotoSv(){
 		isSubmit =false;
