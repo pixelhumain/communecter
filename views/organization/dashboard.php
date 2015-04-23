@@ -16,7 +16,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
-	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null, "tags" => $tags)); ?>
+	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null, "tags" => $tags, "images" => $images)); ?>
 	    	</div>
 	    	<div class="col-sm-12 col-xs-12 documentPod">
 	    		<div class="panel panel-white pulsate">
@@ -51,7 +51,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	 <div class="col-sm-4 col-xs-12">
 	 	<div class="row">
 	 		<div class="col-sm-12 col-xs-12">
-	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null )); ?>
+	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null, "images" => $images )); ?>
 	 		</div>
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>

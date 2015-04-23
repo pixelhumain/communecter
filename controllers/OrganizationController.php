@@ -674,7 +674,11 @@ class OrganizationController extends CommunecterController {
           "citoyens"=> array(),
           "organizations"=>array()
       	);
+      	$images = Document::getListImagesByKey($id, Organization::COLLECTION.".dashboard");
+
+      	
 	    $params = array( "organization" => $organization);
+	    $params["images"] = $images;
 	    $params["events"] = $events;
 	    $contextMap = array();
 	    $contextMap["organization"] = $organization;

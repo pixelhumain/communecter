@@ -7,7 +7,7 @@
 		padding: 10px;
 		width: 100%;
 	}
-	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail{
+	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img{
 		width: 100%;
 		min-height: 150px;
 		max-width: 100%;
