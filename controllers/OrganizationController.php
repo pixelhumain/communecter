@@ -203,23 +203,6 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
-	public function actionSaveFields() {
-	// Minimal data
-
-		if (! isset($_POST["id"])) 
-			throw new CommunecterException("You must specify an organization Id to update");
-		else 
-			$organizationId = $_POST['id'];
-
-		$organizationFields = array();
-
-		if(isset($_POST['description']))
-			$organizationFields['description'] = $_POST['description'];
-
-		//Save the organization
-		echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
-	}
-
 	/**
 	  * Update an information field for an organization
 	  */

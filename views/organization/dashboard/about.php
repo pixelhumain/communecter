@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
 						params.id = '<?php echo (string)$organization["_id"] ?>';
 						$.ajax({
 				    	  type: "POST",
-				    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/saveFields",
+				    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/updateField",
 				    	  data: params,
 				    	  dataType: "json"
 				    	}).done( function(data){
