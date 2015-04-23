@@ -1,9 +1,16 @@
 <?php 
-$cs = Yii::app()->getClientScript();
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.css');
-//$cs->registerScriptFile(Yii::app()->request->baseUrl. '/js/bootstrap/bootstrap-typeahead.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jquery.autosize.min.js' , CClientScript::POS_END);
+$cssAnsScriptFiles = array(
+	//Select2
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
+	//autosize
+	'/assets/plugins/autosize/jquery.autosize.min.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
+//Data helper
+echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 ?>
 
 <style>
@@ -98,18 +105,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/autosize/jq
 								<label class="control-label">
 									Pays <span class="symbol required"></span>
 								</label>
-								<select name="organizationCountry" id="organizationCountry" class="form-control">
-									<option></option>
-									<?php 
-									foreach (OpenData::$phCountries as $key => $value) 
-									{
-									?>
-									<option value="<?php echo $key?>" <?php if(($organization["address"] && isset($organization["address"]['addressCountry']) && $key == $organization["address"]['addressCountry']) ) echo "selected"; else if ($key == "Réunion") echo "selected"; ?> ><?php echo $key?></option>
-									<?php 
-									}
-									?>
-								</select>
-								
+								<input name="organizationCountry" id="organizationCountry" class="form-control"></input>								
 							</div>
 
 							<div class="form-group">
@@ -211,10 +207,13 @@ var formValidator = function() {
 jQuery(document).ready(function() {
 	var timeout;
 	var organizationList;
-	
+	var countries = getCountries("select2");
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+	$('#organizationCountry').select2({
+		data : countries
+	});
 
 	$("textarea.autosize").autosize();
 
@@ -329,6 +328,7 @@ jQuery(document).ready(function() {
 		);
 		//cas particulier du select2
 		$("#addOrganization #tagsOrganization").select2('val', "");
+		$("#addOrganization #organizationCountry").select2('val', "");
 	}
 
 	function initAddMeAsMemberOrganizationForm(organizationId) {
