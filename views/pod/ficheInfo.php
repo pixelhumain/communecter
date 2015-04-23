@@ -50,24 +50,13 @@
 	<div class="panel-body border-light">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<div id="divImgView">
-					<img id="imgView" src="<?php echo (isset($context["imagePath"])) ? $context["imagePath"] : 'http://placehold.it/300x300'; ?>" />
-				</div>
-				<div id="divImgEdit">
-					<form  method="post" id="photoAddEdit" enctype="multipart/form-data">
-						<div class="fileupload fileupload-new" data-provides="fileupload">
-							<div class="fileupload-new thumbnail">
-								<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
-							</div>
-							<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
-							<div class="user-edit-image-buttons">
-								<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-									<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
-								</span>
-							</div>
-						</div>
-					</form>
-				</div>
+				<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+																	  "type" => Organization::COLLECTION,
+																	  "contentKey" => Organization::COLLECTION.".dashboard.banniere",
+																	  "contentId" =>"banniere",
+																	  "imagePath" => "",
+																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
+
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
