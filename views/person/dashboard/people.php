@@ -4,7 +4,7 @@
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-			<a href="javascript:;" onclick="openSubView('Invite Someone', '/communecter/person/invite',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i></a>
+			<a href="#newInvite" class="btn btn-xs new-invite btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">

@@ -218,7 +218,6 @@
 </div>
 
 <script type="text/javascript">
-var DEFAULT_IMAGE_EVENT = "http://placehold.it/350x180";
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 var parentOrga = [];
@@ -244,7 +243,6 @@ jQuery(document).ready(function() {
 			success: function(data){
 		  		if(data.result){
 		  			toastr.success(data.msg);
-		  			
 		  			$.hideSubview();
 		  		}
 		  		else
@@ -576,12 +574,11 @@ formEvent.validate({
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	$("#profileFormEventSV").submit();
-
+		        	
 		        	if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
 		        			updateSliderAgenda( data.event); 
 		        	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
 		        			updateMyEvents( data.event); 
-		        		
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {
@@ -875,22 +872,19 @@ function readEvent(el)
 	}
 
 	function initLastsEvents(){
+		console.log("OK initLastsEvents");
 		if(typeof(contextMap.events)!= "undefined"){
 			console.log("OK initLastsEvents");
 			var tabEvents = getLastsEvent(contextMap.events);
+			//console.log("tabEvents", tabEvents);
 			var htmlRes = "";
 
 			for(var i=0; i<tabEvents.length; i++ ){
-				var currentEvent = tabEvents[i];
-				var imagePath = "";
-				var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
-				if (currentEvent.imagePath == undefined) {
-					imagePath = DEFAULT_IMAGE_EVENT;
-				}
+				var period = getStringPeriodValue(tabEvents[i].startDate, tabEvents[i].endDate);
 				htmlRes +='<div class="panel panel-white lastEventPadding">'+
 	       						'<div class="panel-body no-padding center">'+
-	       							'<div class="imgEvent"><img src="'+imagePath+'"></img></div>'+
-									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+currentEvent.name+'</div>'+
+	       							'<div class="imgEvent"><img src="'+tabEvents[i].imagePath+'"></img></div>'+
+									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+tabEvents[i].name+'</div>'+
 								'</div>'+
 								'<div class="panel-footer">'+
 									'<div><p>En savoir + ></p></div>'+

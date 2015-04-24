@@ -46,8 +46,13 @@
 		<?php $this->renderPartial('dashboard/about', array("person" => $person, "tags" => $tags )); ?>
 	</div>
 
-	<div class="col-lg-4 col-md-4">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
+	<div class="col-lg-4 col-md-4 shareAgendaPod">
+		<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -68,7 +73,10 @@ $.each(events, function(k, v){
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
+	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo person::COLLECTION ?>", null, "html");
 });
+
+
 
 var bindBtnFollow = function(){
 
@@ -119,4 +127,5 @@ var bindBtnFollow = function(){
 	});
 }
 
+	
 </script>
