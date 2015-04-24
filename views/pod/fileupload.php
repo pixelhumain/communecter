@@ -1,31 +1,64 @@
-<form  method="post" id="photoAddSV" enctype="multipart/form-data">
-	<div class="fileupload fileupload-new" data-provides="fileupload">
-		<div class="fileupload-new thumbnail">
-			<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
+<style>
+	
+	#fileuploadContainer{
+		position: relative;
+		padding: 10px;
+		width: 100%;
+	}
+	.fileupload-new .thumbnail{
+		height: 100%;
+	}
+	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
+		width: 100%;
+		min-height: 150px;
+		max-width: 100%;
+		max-height: 100%;
+		
+	}
+</style>
+
+	<div class ="center" id="fileuploadContainer">
+		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
+		<div class="fileupload fileupload-new" data-provides="fileupload">
+			<div class="user-image">
+				<div class="fileupload-new thumbnail">
+					<img src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
+				</div>
+				<div class="fileupload-preview fileupload-exists thumbnail"></div>
+				<?php if(isset($editMode) && $editMode){ ?>
+				<div class="user-image-buttons">
+					<span class="btn btn-azure btn-file btn-sm"><span class="fileupload-new"><i class="fa fa-pencil"></i></span><span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
+						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
+					</span>
+					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php echo $contentId ?>_photoRemove" data-dismiss="fileupload">
+						<i class="fa fa-times"></i>
+					</a>
+					<button id='<?php echo $contentId ?>_uploadBtn' class="btn fileupload-exists btn-yellow btn-sm" type="button">
+						<i class="fa fa-upload"></i>
+					</button>
+				</div>
+				<?php }; ?>
+			</div>
 		</div>
-		<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
-		<div class="user-edit-image-buttons">
-			<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-				<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
-			</span>
-			<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-				<i class="fa fa-times"></i> Remove
-			</a>
-			<button id='uploadBtn' class="btn fileupload-exists btn-light-blue" type="button">Upload File</button>
-		</div>
+		</form>
 	</div>
-</form>
+
 
 <script type="text/javascript">
+	
+	
+	
 	jQuery(document).ready(function() {
-		
-		$("#photoAddSV").on('submit',(function(e) {
-			isSubmit = true;
-			$("#uploadBtn").empty();
-			$("#uploadBtn").html("<i class='fa fa-spinner fa-spin'></i> Upload File");
+		var id = "<?php echo $itemId ?>";
+		var type = "<?php echo $type ?>";
+		var contentId = "<?php echo $contentId ?>";
+		var contentKey = "<?php echo $contentKey?>";
+		var isSubmit = contentId+"_false";
+		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
+			isSubmit = contentId+"_true";
 			e.preventDefault();
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey,
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -34,31 +67,24 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
-			  			setTimeout(function(){
-				  			toastr.success(data.msg);
-				  			if(typeof(data.imagePath)!="undefined"){
-				  				$('#flexsliderPhoto').removeData("flexslider")
-				  				$('#flexsliderPhoto').empty();
-				  				$('#flexsliderPhoto').append('<ul class="slides" id="slidesPhoto">');
-				  				initDashboardPhoto();
-				  			}
-				  		}, 3000);
-				  		clearTimeout();
-				  		setTimeout(function(){
-				  			hidePhotoSv();
-				  		}, 4000);
+				  		toastr.success(data.msg);
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
+		        			updateSlider( data.imagePath);
 			  		}
 			  		else
-			  			setTimeout(function(){
-			  				toastr.error(data.msg);
-			  			}, 3000);
+			  			toastr.error(data.msg);
 			  },
 			});
 		}));
 		
-		$("#uploadBtn").off().on("click",function(){
-			if(isSubmit == false)
-				$("#photoAddSV").submit();
+		$("#"+contentId+"_uploadBtn").on("click",function(){
+			
+			if(isSubmit == contentId+"_false")
+				$("#"+contentId+"_photoAdd").submit();
+		})
+
+		$("#"+contentId+"_photoRemove").on("click",function(){
+			 isSubmit = contentId+"_false";
 		})
 
 	});

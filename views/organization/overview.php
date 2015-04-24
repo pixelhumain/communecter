@@ -16,6 +16,9 @@
 								<a href="#" class="btn fileupload-exists btn-red btn-sm" data-dismiss="fileupload">
 									<i class="fa fa-times"></i>
 								</a>
+								<a href="#" class="btn fileupload-exists btn-yellow btn-sm" data-dismiss="fileupload">
+									<i class="fa fa-upload"></i>
+								</a>
 							</div>
 						</div>
 					</div>

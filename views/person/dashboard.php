@@ -46,8 +46,13 @@
 		<?php $this->renderPartial('dashboard/about', array("person" => $person, "tags" => $tags )); ?>
 	</div>
 
-	<div class="col-lg-4 col-md-4">
-	   <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "userId" => (string)$person["_id"])); ?>
+	<div class="col-lg-4 col-md-4 shareAgendaPod">
+		<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -59,6 +64,7 @@ contextMap['person'] = <?php echo json_encode($person) ?>;
 contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
 contextMap['events'] = [];
 contextMap['projects'] = <?php echo json_encode($projects) ?>;
+
 var events = <?php echo json_encode($events) ?>;
 $.each(events, function(k, v){
 	console.log(k, v);
@@ -66,10 +72,11 @@ $.each(events, function(k, v){
 });
 
 jQuery(document).ready(function() {
-	//initDataTable();
 	bindBtnFollow();
-	
+	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo person::COLLECTION ?>", null, "html");
 });
+
+
 
 var bindBtnFollow = function(){
 
@@ -118,96 +125,7 @@ var bindBtnFollow = function(){
 	    });
         
 	});
-
 }
 
-
-var initDataTable = function() {
-	oTableOrganization = $('#organizations').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		/*"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],*/
-		// set the initial value
-		"iDisplayLength" : 10,
-		"scrollY":        "230px",
-		"scrollCollapse": true,
-        "paging":         false
-	});
-
-
-	oTableEvent = $('#events').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-
-	oTablePeople= $('#people').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-
-	oTableProject = $('#projects').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-};
-
- function updateEvent(newEvent){
-
-	if(typeof updateEventPod != "undefined" && typeof updateEventPod == "function")
-			updateEvent(newEvent);
-
- }
+	
 </script>

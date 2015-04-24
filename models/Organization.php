@@ -313,17 +313,19 @@ class Organization {
 
 	  	//Add the criterias 
 	  	foreach ($criterias as $field => $value) {
-	  		$query[$field] = new MongoRegex("/".$value."/i");
+	  		$aCriteria = array();
+	  		$aCriteria[$field] = new MongoRegex("/$value/i");
+	  		array_push($query, $aCriteria);
 	  	}
 
 	  	if (count($criterias) > 1) {
-	  		$where = array($seprator => array($query));
+	  		$where = array($seprator => $query);
 	  	} else {
 	  		$where = $query;
 	  	}
 
-	  	$res = PHDB::findAndSort(Organization::COLLECTION, $where, array($sortOnField => 1), $nbResultMax);
-
+	  	//$res = PHDB::findAndSort(Organization::COLLECTION, $where, array($sortOnField => 1), $nbResultMax);
+	  	$res = PHDB::find(Organization::COLLECTION, $where);
 	  	return $res;
 	 }
 

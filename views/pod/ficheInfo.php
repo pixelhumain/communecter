@@ -10,6 +10,9 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
+
+	//Data helper
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
 ?>
 <style>
 #divImgEdit{
@@ -22,7 +25,7 @@
 		<h4 class="panel-title"> <?php echo (isset($context)) ? $context["name"] : null; ?></h4>
 		<div class="panel-tools">
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
-        		 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
+				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
 			<?php } ?>
 			<div class="dropdown">
@@ -47,24 +50,17 @@
 	<div class="panel-body border-light">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<div id="divImgView">
-					<img id="imgView" src="<?php echo (isset($context["imagePath"])) ? $context["imagePath"] : 'http://placehold.it/300x300'; ?>" />
-				</div>
-				<div id="divImgEdit">
-					<form  method="post" id="photoAddEdit" enctype="multipart/form-data">
-						<div class="fileupload fileupload-new" data-provides="fileupload">
-							<div class="fileupload-new thumbnail">
-								<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
-							</div>
-							<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
-							<div class="user-edit-image-buttons">
-								<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-									<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
-								</span>
-							</div>
-						</div>
-					</form>
-				</div>
+				<?php 
+					if(!isset($images["banniere"])){
+						$images["banniere"] = "";
+					}
+					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+																	  "type" => Organization::COLLECTION,
+																	  "contentKey" => Organization::COLLECTION.".dashboard.banniere",
+																	  "contentId" =>"banniere",
+																	  "imagePath" => $images["banniere"],
+																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
+
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
@@ -154,13 +150,16 @@
 	var mode = "view";
 	var newPostalCode = contextData.address.postalCode;
 	
-	//Select ajax loading
-	var countries = getCountries();
-	var cities = getCitiesByPostalCode();
-	var publics = getPublics();
-	
+	var countries;
+	var cities;
+	var publics;
 
 	jQuery(document).ready(function() {
+		//Select ajax loading
+		countries = getCountries("select");
+		cities = getCitiesByPostalCode(newPostalCode, "select");
+		publics = getPublics("select");
+
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		})
@@ -182,13 +181,13 @@
 				cache: false, 
 				processData: false,
 				success: function(data){
-			  		if(data.result)
-			  			toastr.success(data.msg);
-			  			if(typeof(data.imagePath)!="undefined"){
-			  				$("#imgView").attr("src", data.imagePath);
-			  			}
-			  		else
-			  			toastr.error(data.msg);
+					if(data.result)
+						toastr.success(data.msg);
+						if(typeof(data.imagePath)!="undefined"){
+							$("#imgView").attr("src", data.imagePath);
+						}
+					else
+						toastr.error(data.msg);
 			  },
 			});
 		}));
@@ -203,7 +202,7 @@
 			$('#postalCode').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$('#editFicheInfo .fa').toggleClass('fa-search', false).toggleClass('fa-pencil', true);
+			$("#editFicheInfo").removeClass("fa-search").addClass("fa-pencil");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
@@ -221,7 +220,7 @@
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$('#editFicheInfo .fa').toggleClass('fa-pencil', false).toggleClass('fa-search', true);
+			$("#editFicheInfo").removeClass("fa-pencil").addClass("fa-search");
 		}
 	}
 
@@ -230,176 +229,124 @@
 		$.fn.editable.defaults.mode = 'popup';
 
 		$('.editable-context').editable({
-	    	url: baseUrl+"/"+moduleId+"/organization/updatefield",
-	    	emptytext : emptytext,
-	    	title : $(this).data("title"),
-	    	onblur: 'submit',
-	    	showbuttons: false
+			url: baseUrl+"/"+moduleId+"/organization/updatefield",
+			emptytext : emptytext,
+			title : $(this).data("title"),
+			onblur: 'submit',
+			showbuttons: false
 		});
-	    
+		
 		//Select2 tags
-	    $('#tags').editable({
-	        url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-	        mode: 'popup',
-	        showbuttons: false,
-	        emptytext: emptytext,
-	        value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
-	        select2: {
-	        	width: 200,
-	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-	            tokenSeparators: [",", " "]
-	        }
-    	});
+		$('#tags').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			mode: 'popup',
+			showbuttons: false,
+			emptytext: emptytext,
+			value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
+			select2: {
+				width: 200,
+				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+				tokenSeparators: [",", " "]
+			}
+		});
 
-    	$('#typeIntervention').editable({
-	        url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-	        mode: 'popup',
-	        //showbuttons: false,
-	        emptytext: emptytext,
-	        value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
-	        source: function() {
-	        	var result = new Array();
-                $.ajax({
-                    url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/typeIntervention",
-                    type: 'post',
-                    global: false,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log("Data list :"+data.list)
-                        $.each(data.list, function(i,value) {
-                        	result.push({"value" : value, "text" : value}) ;
-                        })
-                    }
-                });
-                return result;
-	        },
-    	});
+		$('#typeIntervention').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			mode: 'popup',
+			//showbuttons: false,
+			emptytext: emptytext,
+			value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
+			source: function() {
+				var result = new Array();
+				$.ajax({
+					url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/typeIntervention",
+					type: 'post',
+					global: false,
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						console.log("Data list :"+data.list)
+						$.each(data.list, function(i,value) {
+							result.push({"value" : value, "text" : value}) ;
+						})
+					}
+				});
+				return result;
+			},
+		});
 
-    	$('#addressCountry').editable({
-        	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : ""; ?>',
-        	source: countries,
-           	emptytext: emptytext,
-           	showbuttons: false,
-    	});
+		$('#addressCountry').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : ""; ?>',
+			source: function() {
+				return getCountries("select");
+			},
+			emptytext: emptytext,
+			showbuttons: false,
+		});
 
-    	$('#addressLocality').editable({
-        	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>',
-        	source: function() {
-        		return getCitiesByPostalCode()
-        	},
-           	emptytext: emptytext,
-           	showbuttons: false,
-    	});
+		$('#addressLocality').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>',
+			source: function() {
+				return getCitiesByPostalCode(newPostalCode, "select");
+			},
+			emptytext: emptytext,
+			showbuttons: false,
+		});
 
-    	$('#postalCode').editable({
-        	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-	        mode: 'popup',
-	        showbuttons: false,
-	        emptytext: emptytext,
-        	success: function(response, newValue) {
-        		console.log("success update postal Code : "+newValue);
-        		newPostalCode = newValue;
-    		}
-    	});
+		$('#postalCode').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			mode: 'popup',
+			showbuttons: false,
+			emptytext: emptytext,
+			success: function(response, newValue) {
+				console.log("success update postal Code : "+newValue);
+				newPostalCode = newValue;
+			}
+		});
 
-    	$('#typeOfPublic').editable({
-        	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-        	value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
-        	source: publics,
-           	emptytext: emptytext,
-           	showbuttons: true,
-           	placement: 'right'
-    	});
+		$('#typeOfPublic').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
+			source: publics,
+			emptytext: emptytext,
+			showbuttons: true,
+			placement: 'right'
+		});
 
-    	//Validation Rules
+		//Validation Rules
 		//Mandotory field
 		$('#streetAddress #addressCountry #addressLocality').editable('option', 'validate', function(v) {
-	    	var intRegex = /^\d+$/;
-	    	if (!v)
-	    		return 'Field is required !';
+			var intRegex = /^\d+$/;
+			if (!v)
+				return 'Field is required !';
 		});
 		//Postal Code must filled, be numeric and 5 characters length 
 		$('#postalCode').editable('option', 'validate', function(v) {
-	    	var intRegex = /^\d+$/;
-	    	if (!v)
-	    		return 'Postal code is required !';
-	    	if (!intRegex.test(v) || v.length != 5) 
-	    		return 'Postal code must be numeric!';
-	    	if (v.length != 5) 
-	    		return 'Postal code must be 5c length!';
+			var intRegex = /^\d+$/;
+			if (!v)
+				return 'Postal code is required !';
+			if (!intRegex.test(v) || v.length != 5) 
+				return 'Postal code must be numeric!';
+			if (v.length != 5) 
+				return 'Postal code must be 5c length!';
 		});
 
-    } 
+	} 
 
-    function switchMode() {
-    	if(mode == "view"){
-    		mode = "update";
-    		manageModeContext();
-    		$("#divImgView").css("display", "none");
-    		$("#divImgEdit").css("display", "block");
-    	}else{
-    		mode ="view";
-    		manageModeContext();
-    		$("#divImgView").css("display", "block");
-    		$("#divImgEdit").css("display", "none");
-    	}
-    }
-
-    function getCountries() {
-    	var result = new Array();
-    	$.ajax({
-			url: baseUrl+'/'+moduleId+"/api/getCountries",
-			type: 'post',
-			global: false,
-			async: false,
-			dataType: 'json',
-			success: function(data) {
-				$.each(data, function(i,value) {
-					result.push({"value":value.value,"text":value.text});	
-				})
-			}
-		});
-		return result;
-    }
-
-
-    function getCitiesByPostalCode() {
-    	var result =new Array();
-		$.ajax({
-			url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
-			data: {postalCode: newPostalCode},
-			type: 'post',
-			global: false,
-			async: false,
-			dataType: 'json',
-			success: function(data) {
-				$.each(data, function(i,value) {
-					result.push({"value" : value.value, "text" : value.text});
-				});
-			}
-		});
-		return result;
-    }
-
-    function getPublics() {
-    	var result =new Array();
-		$.ajax({
-			url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/public",
-			type: 'post',
-			global: false,
-			async: false,
-			dataType: 'json',
-			success: function(data) {
-				console.log("Data list :"+data.list)
-                $.each(data.list, function(i,value) {
-                    result.push({"value" : value, "text" : value}) ;
-                })
-			}
-		});
-		return result;
-    }
+	function switchMode() {
+		if(mode == "view"){
+			mode = "update";
+			manageModeContext();
+			$("#divImgView").css("display", "none");
+			$("#divImgEdit").css("display", "block");
+		}else{
+			mode ="view";
+			manageModeContext();
+			$("#divImgView").css("display", "block");
+			$("#divImgEdit").css("display", "none");
+		}
+	}
 
 </script>
