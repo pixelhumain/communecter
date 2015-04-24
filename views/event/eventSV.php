@@ -244,6 +244,7 @@ jQuery(document).ready(function() {
 			success: function(data){
 		  		if(data.result){
 		  			toastr.success(data.msg);
+		  			
 		  			$.hideSubview();
 		  		}
 		  		else
@@ -571,14 +572,16 @@ formEvent.validate({
 		    	$.unblockUI();
 		        if (data &&  data.result) {
 
+		        	
+		        	toastr.success('Event Created success');
+		        	$("#newEventId").val(data.id["$id"]);
+		        	$("#profileFormEventSV").submit();
+
 		        	if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
 		        			updateSliderAgenda( data.event); 
 		        	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
 		        			updateMyEvents( data.event); 
 		        		
-		        	toastr.success('Event Created success');
-		        	$("#newEventId").val(data.id["$id"]);
-		        	$("#profileFormEventSV").submit();
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {

@@ -12,7 +12,7 @@
         <h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
      </div>
      <div class="panel-tools">
-        <?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+        <?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
 		   <a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
 	    <?php } ?>
       </div>
@@ -30,9 +30,10 @@
     </div>
 
  <script type="text/javascript">
+var events = <?php echo json_encode($events) ?>;
 
- var events = <?php echo json_encode($events) ?>;
  jQuery(document).ready(function() {
+ 	 	
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
 	});
@@ -40,11 +41,14 @@
 	function initDashboardAgenda(){
 		var n = 1;
 		var today = new Date();
-		if(events.length>0){
+		var notEmptySlide = false;
+		
+		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
 				var period = getStringPeriodValue(v.startDate, v.endDate);
 				var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 				if(n<4 && compareDate(today, date)){
+					notEmptySlide = true;
 					if (typeof(v.imagePath)=="undefined"){
 						v.imagePath = "http://placehold.it/350x180";
 					}
@@ -61,8 +65,9 @@
 					$("#slidesAgenda").append(htmlRes);
 					n++;
 				}
-			})
-		}else{
+			})	
+		}
+		if(!notEmptySlide){
 			var htmlRes = "<li>"+
 							"<div>"+
 								"<img src='http://placehold.it/350x180'></img>"+
@@ -123,6 +128,7 @@
 	}
 
 	function updateSliderAgenda(nEvent){
+		console.log("nEvent", nEvent);
 		events[nEvent["_id"]["id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();

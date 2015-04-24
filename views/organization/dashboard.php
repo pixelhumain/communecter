@@ -53,8 +53,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null, "images" => $images )); ?>
 	 		</div>
-	 		<div class="col-sm-12 col-xs-12">
-	 			<?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
+	 		<div class="col-sm-12 col-xs-12 shareAgendaPod">
+	 			<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+						<div class="space5"></div>
+					</div>
+				</div>
 	 		</div>
 
 	 		<div class="col-sm-12 col-xs-12">
@@ -86,100 +91,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
             onHover: false // if true only pulsate if user hovers over the element
         });
 
-		initDashboardAgenda();
-		$(".flexslider").flexslider();
-
 		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list",null,"html");
+		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", null, "html");
 		
 	});
 
-	function compareDate(d, f){
-		var res = false;
-		console.log(d, f, d<= f)
-		if(d <= f){
-			res= true;
-		}
-		return res;
-	}
-
-	function getStringPeriodValue(d, f){
-		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MARS", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
-		var strPeriod = "";
-		var dTab = [];
-		var fTab = [];
-		var dHour = d.split(" ")[1];
-		var dDay = d.split(" ")[0].split("/");
-		
-		for(var i=0; i<dDay.length; i++){
-			dTab.push(dDay[i]);
-		}
-
-		var fHour = f.split(" ")[1];
-		var fDay = f.split(" ")[0].split("/");
-		for(var i=0; i<fDay.length; i++){
-			fTab.push(fDay[i]);
-		}
-		
-		if(dTab[2] == fTab[2]){
-			if(dTab[1] == fTab[1]){
-				if(dTab[0]== fTab[0]){
-					strPeriod += parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2]+" de "+dHour+" à "+fHour;
-				}else{
-					strPeriod += parseInt(dTab[0])+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
-				}
-			}else{
-				strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
-			}
-		}else{
-			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
-		}
-		return strPeriod;
-	}
-
-
-	/*function showCalendarDashBoard(data) {
-
-	console.info("addTasks2Calendar",data);//,taskCalendar);
-	
-	calendar = [];
-	if(data){
-		$.each(data,function(eventId,eventObj)
-		{
-			eventCal = buildCalObj(eventObj);
-			if(eventCal)
-				calendar.push( eventCal );
-		});
-	}
-
-	dateToShow = new Date();
-	$('.mini-calendar').fullCalendar({
-		header : {
-			left : 'prev,next today',
-			center : 'title',
-			right : 'month,agendaWeek,agendaDay'
-		},
-		year : dateToShow.getFullYear(),
-		month : dateToShow.getMonth(),
-		date : dateToShow.getDate(),
-		editable : true,
-		events : calendar,
-		eventClick : function(calEvent, jsEvent, view) {
-			//show event in subview
-			dateToShow = calEvent.start;
-			$.subview({
-				content : "#readEvent",
-				startFrom : "right",
-				onShow : function() {
-					readEvent(calEvent._id);
-				}
-			});
-		}
-	});
-	dateToShow = new Date();
-};
-//destroy fullCalendar
-function destroyCalendarDashBoard() {
-	$('#mini-calendar').fullCalendar('destroy');
-};*/
 </script>
