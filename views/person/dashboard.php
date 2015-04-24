@@ -59,6 +59,7 @@ contextMap['person'] = <?php echo json_encode($person) ?>;
 contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
 contextMap['events'] = [];
 contextMap['projects'] = <?php echo json_encode($projects) ?>;
+
 var events = <?php echo json_encode($events) ?>;
 $.each(events, function(k, v){
 	console.log(k, v);
@@ -66,9 +67,7 @@ $.each(events, function(k, v){
 });
 
 jQuery(document).ready(function() {
-	//initDataTable();
 	bindBtnFollow();
-	
 });
 
 var bindBtnFollow = function(){
@@ -118,96 +117,6 @@ var bindBtnFollow = function(){
 	    });
         
 	});
-
 }
 
-
-var initDataTable = function() {
-	oTableOrganization = $('#organizations').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		/*"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],*/
-		// set the initial value
-		"iDisplayLength" : 10,
-		"scrollY":        "230px",
-		"scrollCollapse": true,
-        "paging":         false
-	});
-
-
-	oTableEvent = $('#events').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-
-	oTablePeople= $('#people').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-
-	oTableProject = $('#projects').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		"oLanguage" : {
-			"sLengthMenu" : "Show _MENU_ Rows",
-			"sSearch" : "",
-			"oPaginate" : {
-				"sPrevious" : "",
-				"sNext" : ""
-			}
-		},
-		"aaSorting" : [[1, 'asc']],
-		"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
-		],
-		// set the initial value
-		"iDisplayLength" : 10,
-	});
-};
-
- function updateEvent(newEvent){
-
-	if(typeof updateEventPod != "undefined" && typeof updateEventPod == "function")
-			updateEvent(newEvent);
-
- }
 </script>
