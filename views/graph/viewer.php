@@ -208,7 +208,7 @@
 
 						newNodeChild = createDataNode(obj2, 3);
 						newNodeChild["link"] = getLink(id,datafile, varname);
-						newNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+						newNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/dashboard/id/"+id;
 						newNodeChildren.push(newNodeChild);
 					}
 					
@@ -228,7 +228,7 @@
 							typeNodeChild['parent'] = parent;
 							typeNodeChild['type'] = key2;
 							typeNodeChild['link'] = getLink(id, datafile, varname);
-							typeNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/public/id/"+id;
+							typeNodeChild["url"] = baseUrl+"/<?php echo $this->module->id?>/"+parent+"/dashboard/id/"+id;
 							typeArrayChildren.push(typeNodeChild);
 						})
 						typeNode["children"] = typeArrayChildren;
