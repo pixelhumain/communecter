@@ -197,6 +197,11 @@ class CommunecterController extends Controller
       "delete"=>array("href"=>"/ph/communecter/job/delete"),
       "list"=>array("href"=>"/ph/communecter/job/list"),
     ),
+
+
+    "pod" => array(
+    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    ),
     
   );
 
