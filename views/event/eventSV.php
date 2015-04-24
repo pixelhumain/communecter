@@ -218,6 +218,7 @@
 </div>
 
 <script type="text/javascript">
+var DEFAULT_IMAGE_EVENT = "http://placehold.it/350x180";
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 var parentOrga = [];
@@ -871,19 +872,22 @@ function readEvent(el)
 	}
 
 	function initLastsEvents(){
-		console.log("OK initLastsEvents");
 		if(typeof(contextMap.events)!= "undefined"){
 			console.log("OK initLastsEvents");
 			var tabEvents = getLastsEvent(contextMap.events);
-			//console.log("tabEvents", tabEvents);
 			var htmlRes = "";
 
 			for(var i=0; i<tabEvents.length; i++ ){
-				var period = getStringPeriodValue(tabEvents[i].startDate, tabEvents[i].endDate);
+				var currentEvent = tabEvents[i];
+				var imagePath = "";
+				var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
+				if (currentEvent.imagePath == undefined) {
+					imagePath = DEFAULT_IMAGE_EVENT;
+				}
 				htmlRes +='<div class="panel panel-white lastEventPadding">'+
 	       						'<div class="panel-body no-padding center">'+
-	       							'<div class="imgEvent"><img src="'+tabEvents[i].imagePath+'"></img></div>'+
-									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+tabEvents[i].name+'</div>'+
+	       							'<div class="imgEvent"><img src="'+imagePath+'"></img></div>'+
+									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+currentEvent.name+'</div>'+
 								'</div>'+
 								'<div class="panel-footer">'+
 									'<div><p>En savoir + ></p></div>'+
