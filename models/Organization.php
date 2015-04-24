@@ -58,7 +58,7 @@ class Organization {
 	    }
 		
 		//Add the creator as the first member and admin of the organization
-	    Link::addMember($newOrganizationId, Organization::COLLECTION, $userId, PHType::TYPE_CITOYEN, $userId, "true");
+	    Link::addMember($newOrganizationId, Organization::COLLECTION, $userId, PHType::TYPE_CITOYEN, $userId, true);
 
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",
