@@ -50,11 +50,15 @@
 	<div class="panel-body border-light">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+				<?php 
+					if(!isset($images["banniere"])){
+						$images["banniere"] = "";
+					}
+					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
 																	  "type" => Organization::COLLECTION,
 																	  "contentKey" => Organization::COLLECTION.".dashboard.banniere",
 																	  "contentId" =>"banniere",
-																	  "imagePath" => "",
+																	  "imagePath" => $images["banniere"],
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
 
 			</div>

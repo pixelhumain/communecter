@@ -1,17 +1,19 @@
 <style>
-	.user-image .user-image-buttons{
-		display: block;
-	}
+	
 	#fileuploadContainer{
 		position: relative;
 		padding: 10px;
 		width: 100%;
 	}
-	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail{
+	.fileupload-new .thumbnail{
+		height: 100%;
+	}
+	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
 		width: 100%;
 		min-height: 150px;
 		max-width: 100%;
 		max-height: 100%;
+		
 	}
 </style>
 
@@ -66,6 +68,8 @@
 					console.log(data);
 			  		if(data.result){
 				  		toastr.success(data.msg);
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
+		        			updateSlider( data.imagePath);
 			  		}
 			  		else
 			  			toastr.error(data.msg);

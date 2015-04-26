@@ -16,6 +16,16 @@ class OrganizationController extends CommunecterController {
     return parent::beforeAction($action);
   }
 
+  public function actions()
+  {
+   return array(
+    // captcha action renders the CAPTCHA image displayed on the contact page
+    'captcha'=>array(
+     'class'=>'CCaptchaAction',
+     'backColor'=>0xFFFFFF,
+    ),
+   );
+  }
 
   public function actionGetById($id=null)
   {
@@ -198,23 +208,6 @@ class OrganizationController extends CommunecterController {
     echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
   }
 
-	public function actionSaveFields() {
-	// Minimal data
-
-		if (! isset($_POST["id"])) 
-			throw new CommunecterException("You must specify an organization Id to update");
-		else 
-			$organizationId = $_POST['id'];
-
-		$organizationFields = array();
-
-		if(isset($_POST['description']))
-			$organizationFields['description'] = $_POST['description'];
-
-		//Save the organization
-		echo Organization::update($organizationId, $organizationFields , Yii::app()->session["userId"] );
-	}
-
 	/**
 	  * Update an information field for an organization
 	  */
@@ -275,9 +268,9 @@ class OrganizationController extends CommunecterController {
       $newOrganization["description"] = $_POST['description'];
                   
     //Tags
-    if (gettype($_POST['tagsOrganization']) == "array") {
+    if ( gettype($_POST['tagsOrganization']) == "array" ) {
       $tags = $_POST['tagsOrganization'];
-    } else if (gettype($_POST['tagsOrganization']) == "string") {
+    } else if ( gettype($_POST['tagsOrganization']) == "string" ) {
       $tags = explode(",", $_POST['tagsOrganization']);
     }
     $newOrganization["tags"] = $tags;
@@ -558,12 +551,15 @@ class OrganizationController extends CommunecterController {
     
     $params["parentOrganization"] = Organization::getPublicData($id);
     
-    $types = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-    $params["types"] = $types["list"];
-    $listTypeIntervention = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"typeIntervention"), array('list'));
-    $params["listTypeIntervention"] = $listTypeIntervention["list"];
-    $listPublic = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"public"), array('list'));
-    $params["listPublic"] = $listPublic["list"];
+    $lists = Lists::get(array("organisationTypes","typeIntervention","public"));
+
+    if ( !isset($lists["organisationTypes"]) || !isset($lists["typeIntervention"]) || !isset($lists["public"]) ) {
+      throw new CommunecterException("Missing List data in 'lists' collection, must have organisationTypes, typeIntervention, public");
+    }
+
+    $params["types"] = $lists["organisationTypes"];
+    $params["listTypeIntervention"] = $lists["typeIntervention"];
+    $params["listPublic"] = $lists["public"];
     
     $params["tags"] = Tags::getActiveTags();
 
@@ -572,22 +568,29 @@ class OrganizationController extends CommunecterController {
   }
 
   public function actionAddNewOrganizationAsMember() {
-    //Get the person data
-    $newPerson = array(
-           'name'=>$_POST['personName'],
-           'email'=>$_POST['personEmail'],
-           'postalCode'=>$_POST['postalCode'],
-           'pwd'=>$_POST['password']);
+    Yii::import('recaptcha.ReCaptcha', true);
+    //validate Captcha 
+    $captcha = false;
 
-    // Retrieve data from form
-    try {
-      $newOrganization = $this->populateNewOrganizationFromPost();
-      $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
-    } catch (CommunecterException $e) {
-      return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
-    }
+    if($captcha){
+      //Get the person data
+      $newPerson = array(
+             'name'=>$_POST['personName'],
+             'email'=>$_POST['personEmail'],
+             'postalCode'=>$_POST['postalCode'],
+             'pwd'=>$_POST['password']);
 
-    return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+      // Retrieve data from form
+      try {
+        $newOrganization = $this->populateNewOrganizationFromPost();
+        $res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
+      } catch (CommunecterException $e) {
+        return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+      }
+
+      return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
+    } else 
+      return Rest::json(array("result"=>false, "msg"=>"invalid Captcha Test"));
   }
 
 /* **************************************
@@ -643,7 +646,11 @@ class OrganizationController extends CommunecterController {
           "citoyens"=> array(),
           "organizations"=>array()
       	);
+      	$images = Document::getListImagesByKey($id, Organization::COLLECTION.".dashboard");
+
+      	
 	    $params = array( "organization" => $organization);
+	    $params["images"] = $images;
 	    $params["events"] = $events;
 	    $contextMap = array();
 	    $contextMap["organization"] = $organization;

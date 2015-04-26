@@ -106,7 +106,6 @@ class CommunecterController extends Controller
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
-
     ),
     "datalist"=> array(
       "getlistbyname"=>array("href"=>"/ph/communecter/datalist/getlistbyname")
@@ -151,29 +150,26 @@ class CommunecterController extends Controller
       "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
       "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
-      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
-      "public"=>array("href"=>"/ph/communecter/organization/public"),
-      "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
-      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "public"=>array("href"=>"/ph/communecter/organization/public"),     
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),  
-      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),  
-      "savefields"=>array("href"=>"/ph/communecter/organization/savefields"),
       "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
-
-      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
-      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
-
       "documents"=>array("href"=>"/ph/communecter/organization/documents"),
-      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
       "news"=>array("href"=>"/ph/communecter/organization/news"),
-      "removemember"=>array("href"=>"/ph/communecter/organization/removemember"),
-      
-      
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
       "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
-
+      //Links
+      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
+      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
+      "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
+      "removemember"=>array("href"=>"/ph/communecter/organization/removemember"),
+      //Dashboards
+      "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
+      "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
+      "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
+      //Calendar => Same ????
+      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),
+      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
     ),
     
     "event"=> array(
@@ -200,16 +196,22 @@ class CommunecterController extends Controller
       "delete"=>array("href"=>"/ph/communecter/job/delete"),
       "list"=>array("href"=>"/ph/communecter/job/list"),
     ),
+
+
+    "pod" => array(
+    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    ),
     
   );
 
   function initPage(){
     
-    /*
     //managed public and private sections through a url manager 
-    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" && !Yii::app()->session["user"] )
+    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && !Yii::app()->session["userId"] )
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-      */
+      
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
