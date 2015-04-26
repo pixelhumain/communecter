@@ -5,8 +5,9 @@
 	
 	<?php if($sigParams['usePanel']){ ?>
 		<div class="panel_map">
-			<p class="item_panel_map hidden-xs">
-			</p>
+			<button class='item_panel_map' id='item_panel_map_all'>
+				<i class='fa fa-star'></i> Tous
+			</button>
 		</div>
 	<?php } ?>
 	

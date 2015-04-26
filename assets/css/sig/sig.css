@@ -224,20 +224,24 @@
  .panel_map{
  	position:relative;
  	max-width:250px;
- 	min-width:60px;
+ 	min-width:150px;
  	left:0px;
  	background-color:rgba(82, 103, 119, 0.78);
  	padding:15px 0px;
  }
  .item_panel_map{
 	text-align:left !important;
-	padding-left:15px;
+	padding-left:10px;
+	right:10px;
 	padding-bottom:3px;
 	padding-top:3px;
  	color:white !important;
  	max-width:250px;
  	min-width:60px;
- 	
+ 	background:rgba(0,0,0,0.1);
+ 	border:0px;
+ 	border-bottom:1;
+ 	width:100%;
  } 
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
@@ -294,6 +298,7 @@
  .fa-green{ color:#60CF27 !important; }
  .fa-purple{ color:#7C2ED1 !important; }
  .fa-pink{ color:#DB31D3 !important; }
+ .fa-white{ color:#FFF !important; }
  
   .awesome-marker{
   	background:url("");
@@ -305,9 +310,10 @@
   }
   
   .item_map_list i{
-	padding:1px 8px; 
+	padding:1px 6px; 
 	float:left;
-	font-size:1.5em;
+	font-size:1em;
+	margin-top:2px;
   }
   
   #lbl-chk-scope{

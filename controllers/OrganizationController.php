@@ -154,12 +154,7 @@ class OrganizationController extends CommunecterController {
       return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
     }
     
-	$sig = new SIG();
-	//fonction générique de SIG, à utiliser pour n'importe quelle entité
-	//si l'entité contient un champs address => postalCode, on trouve la position dans les Cites
-	$newOrganization = $sig->addGeoPositionToEntity($newOrganization);
-	
- 	//Save the organization
+	//Save the organization
     Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
     
 	}
@@ -777,12 +772,13 @@ class OrganizationController extends CommunecterController {
 	  		foreach ($organization["links"]["members"] as $key => $value) {
 	  				
 	  			if( $value["type"] == 'organizations' ||
+					$value["type"] == 'organization' ||
 					$value["type"] == 'association'	 ||
 					$value["type"] == 'NGO')			 { $publicData = Organization::getPublicData($key); }
 					
 				if($value["type"] == 'citoyens')		 { $publicData = Person::getPublicData($key); }
 				
-				$addData = array("geo", "name", "description");
+				$addData = array("geo", "tags", "name", "description");
 				foreach($addData as $data){
 					if(!empty($publicData[$data]))
 						$organization["links"]["members"][$key][$data] = $publicData[$data];

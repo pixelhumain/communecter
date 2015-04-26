@@ -33,7 +33,7 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = { "desc" 	: ["organization", "event"],
+	var contextMap = {// "desc" 	: ["organization", "event"],
 					   "organization" 	: <?php echo json_encode($organization) ?>,
 					   "event" 			: <?php echo json_encode($events) ?>
 					 };

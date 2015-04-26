@@ -43,10 +43,12 @@
 					
 		};
 		
+		
 		//***
 		//renvoi un item (html) pour la liste de droite
 		Sig.createItemRigthListMap = function(element, marker){
 			
+			var thisSig = this;
 			//rassemble le nom de la ville au CP
 			var place = "";
 			if(element['city'] != null) place += element['city'];
@@ -57,14 +59,28 @@
 			var name = (element['name'] != null) ? element['name'] : "Anonyme";
 			
 			//récupère l'url de l'icon a afficher
-			var iconUrl = this.getIcoMarker(element['type']).options.iconUrl;
+			//var iconUrl = this.getIcoMarker(element['type']).options.iconUrl;
 			
+			var ico = thisSig.getIcoNameByType(element["type"]);
+			var color = thisSig.getIcoColorByType(element["type"]);
+				
+			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
+			
+			if("undefined" != typeof element["tags"]){
+				$.each(element["tags"], function(){
+					ico = thisSig.getIcoNameByTag(this);
+					color = thisSig.getIcoColorByTag(this);
+					
+					icons += '<i class="fa fa-'+ ico + ' fa-'+ color +' pull-right"></i>';
+				});
+			}
 			//return l'élément html
-			return '<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
-							+ '<i class="fa fa-'+ element.ico + ' fa-'+ element.color+'"></i>' 
-							+  '<div class="pseudo_item_map_list">' +	name + "</div>"	
-							+  '<div class="city_item_map_list">' +	place + "</div>"	+
-				   '</button>';	
+				return '<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
+								+ icons
+								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	
+								+  ' <div class="city_item_map_list">' +	place + "</div>"	+
+					   '</button>';	
+			
 		};	
 		
 		return Sig;
