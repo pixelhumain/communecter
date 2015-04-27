@@ -105,9 +105,14 @@ var bindBtnFollow = function(){
 
 	$(".connectBtn").off().on("click",function () {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		var idConnect = "<?php echo (string)$person['_id'] ?>";
+		if(typeof($("#inviteId"))!="undefined" && $("#inviteId").val()!= ""){
+			idConnect = $("#inviteId").val();
+		}
+
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)
