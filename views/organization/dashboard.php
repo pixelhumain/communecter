@@ -96,7 +96,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list",null,"html");
-		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", null, "html");
+		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){
+			initAddEventBtn ();
+		}, "html");
 		
 	});
 
