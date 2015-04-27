@@ -218,7 +218,8 @@ var dataBindOrganization = {
     "#personEmail" : "personEmail",
     "#personPostalCode" : "personPostalCode",
     "#password1" : "password",
-    "#password2" : "password"
+    "#password2" : "password",
+    "#g-recaptcha-response" : "g-recaptcha-response",
 };
 
 jQuery(document).ready(function() {
@@ -279,6 +280,7 @@ jQuery(document).ready(function() {
 	    		if(data.result) {
 	    			console.log("Resultat", data);
 	    			toastr.info(data.msg);
+	    			$("#form-join").html("<a href='"+baseUrl+"/<?php echo $this->module->id?>/organization/dashboardMember/id/<?php echo $_GET['id'] ?>'>retourner voir Granddir</a>");
 	    		} else {
 	    			$.unblockUI();
 					$('.errorHandler').html(data.msg);
