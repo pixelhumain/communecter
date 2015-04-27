@@ -15,27 +15,39 @@
 		max-height: 100%;
 		
 	}
+
+	.photoUploading{
+		position: absolute;
+		width: 100%;
+		display: none;
+		top:40%;
+		left: 0%;
+		opacity: 0.4;
+    	filter: alpha(opacity=40); /* For IE8 and earlier */
+	}
 </style>
 
 	<div class ="center" id="fileuploadContainer">
 		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
-		<div class="fileupload fileupload-new" data-provides="fileupload">
+		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php echo $contentId ?>_fileUpload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail" id="<?php echo $contentId ?>_imgPreview">
-					<img src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
+					<img class="img-responsive" src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
 				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail"></div>
+				<div class="fileupload-preview fileupload-exists thumbnail" id="<?php echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-azure btn-file btn-sm"><span class="fileupload-new"><i class="fa fa-pencil"></i></span><span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
-						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
+					<span class="btn btn-azure btn-file btn-sm" id="<?php echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span><span class="fileupload-exists"><i class="fa fa-plus"></i></span>
+						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php echo $contentId ?>_avatar">
 					</span>
 					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php echo $contentId ?>_photoRemove" data-dismiss="fileupload">
 						<i class="fa fa-times"></i>
 					</a>
-					<button id='<?php echo $contentId ?>_uploadBtn' class="btn fileupload-exists btn-yellow btn-sm" type="button">
-						<i class="fa fa-upload"></i>
-					</button>
+				</div>
+				<div class="photoUploading" id="<?php echo $contentId ?>_photoUploading">
+					<div class="center">
+						<i class="fa fa-spinner fa-spin fa-5x"></i>
+					</div>
 				</div>
 				<?php }; ?>
 			</div>
@@ -67,8 +79,16 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
-				  		toastr.success(data.msg);
-				  		if(typeof updateSlider != "undefined" && typeof updateSlider == "function")
+			  			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+						$("#"+contentId+"_photoUploading").css("display", "block");
+			  			setTimeout(function(){
+			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
+							$("#"+contentId+"_photoUploading").css("display", "none");
+			  				toastr.success(data.msg);
+			  			}, 1000) 
+			  			
+				  		
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
 		        			updateSlider( data.imagePath);
 			  		}
 			  		else
@@ -77,17 +97,14 @@
 			});
 		}));
 		
-		$("#"+contentId+"_uploadBtn").on("click",function(){
-			
-			if(isSubmit == contentId+"_false")
-				$("#"+contentId+"_photoAdd").submit();
-		})
-
-		$("#"+contentId+"_photoRemove").on("click",function(){
-			 isSubmit = contentId+"_false";
-		})
-
-	});
 	
 
+		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
+		    $("#"+contentId+"_photoAdd").submit();
+		});
+
+		$("#"+contentId+"_photoRemove").on("click", function(){
+			
+		});
+	});
 </script>
