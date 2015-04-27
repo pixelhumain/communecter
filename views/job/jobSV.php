@@ -17,6 +17,11 @@ $cssAnsScriptFiles = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 ?>
+<style type="text/css">
+	.select2-input {
+		width:100%;
+	}
+</style>
 
 <div class="row">
 	<div class="col-sm-12">
@@ -250,6 +255,7 @@ function activateEditable() {
         mode: 'inline',
         showbuttons: false,
         select2: {
+        	width: '200px',
             tags: <?php echo $tags?>,
             tokenSeparators: [",", " "]
         }
@@ -294,7 +300,7 @@ function activateEditable() {
     
     //Button Save
     $('#save-btn').click(function() {
-	   	$('.editable').editable('submit', {
+	   	$('.editable-job').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response
