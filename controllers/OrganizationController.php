@@ -579,15 +579,14 @@ class OrganizationController extends CommunecterController {
 
     //validate Captcha 
     $captcha = false;
-    if( isset($_POST['g-recaptcha-response']) )
+    if( isset($_POST['g-recaptcha-response']) && isset( Yii::app()->params["captcha"] ) )
     {
-      $recaptcha = new \ReCaptcha\ReCaptcha("6LdiygUTAAAAAEsbbK7LvMjJRt9PLP9lO-6QSM8K");
+      $recaptcha = new \ReCaptcha\ReCaptcha( Yii::app()->params["captcha"] );
       $resp = $recaptcha->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );  
+      if ($resp && $resp->isSuccess())
+        $captcha = true;
     }
     
-    if ($resp->isSuccess())
-      $captcha = true;
-
     if($captcha){
       //Get the person data
       $newPerson = array(
