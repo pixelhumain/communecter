@@ -555,8 +555,8 @@ class PersonController extends CommunecterController {
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
 	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
-	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email", "links"));
-		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links"));
+	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email", "links", "imagePath"));
+		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links", "imagePath"));
 		$all = array(
 			"citoyens" => $allCitoyens,
 			"organizations" => $allOrganization,
@@ -609,6 +609,7 @@ class PersonController extends CommunecterController {
 					 );
 					Person::createAndInvite($member);
 					 //add the member into the organization map
+					$member = PHDB::findOne( Person::COLLECTION , array("email"=>$memberEmail));
 					PHDB::update( $type, 
 							array("_id" => new MongoId($_POST["parentId"])) ,
 							array('$set' => array( "links.knows.".(string)$member["_id"].".type" => $type ) ));

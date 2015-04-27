@@ -21,7 +21,7 @@
 		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		<div class="fileupload fileupload-new" data-provides="fileupload">
 			<div class="user-image">
-				<div class="fileupload-new thumbnail">
+				<div class="fileupload-new thumbnail" id="<?php echo $contentId ?>_imgPreview">
 					<img src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
 				</div>
 				<div class="fileupload-preview fileupload-exists thumbnail"></div>
