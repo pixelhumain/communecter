@@ -567,10 +567,26 @@ class OrganizationController extends CommunecterController {
     $this->render("join", $params);
   }
 
-  public function actionAddNewOrganizationAsMember() {
+  public function actionAddNewOrganizationAsMember() 
+  {
     Yii::import('recaptcha.ReCaptcha', true);
+    Yii::import('recaptcha.RequestMethod', true);
+    Yii::import('recaptcha.RequestParameters', true);
+    Yii::import('recaptcha.Response', true);
+    Yii::import('recaptcha.RequestMethod.Post', true);
+    Yii::import('recaptcha.RequestMethod.Socket', true);
+    Yii::import('recaptcha.RequestMethod.SocketPost', true);
+
     //validate Captcha 
     $captcha = false;
+    if( isset($_POST['g-recaptcha-response']) )
+    {
+      $recaptcha = new \ReCaptcha\ReCaptcha("6LdiygUTAAAAAEsbbK7LvMjJRt9PLP9lO-6QSM8K");
+      $resp = $recaptcha->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );  
+    }
+    
+    if ($resp->isSuccess())
+      $captcha = true;
 
     if($captcha){
       //Get the person data
