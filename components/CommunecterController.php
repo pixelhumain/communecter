@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.020";
-  public $versionDate = "21/04/2015";
+  public $version = "v0.021";
+  public $versionDate = "27/04/2015";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -106,7 +106,6 @@ class CommunecterController extends Controller
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
-
     ),
     "datalist"=> array(
       "getlistbyname"=>array("href"=>"/ph/communecter/datalist/getlistbyname")
@@ -207,11 +206,12 @@ class CommunecterController extends Controller
 
   function initPage(){
     
-    /*
     //managed public and private sections through a url manager 
-    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" && !Yii::app()->session["user"] )
+    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && !Yii::app()->session["userId"] )
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-      */
+      
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),

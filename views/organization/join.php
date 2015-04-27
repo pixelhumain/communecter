@@ -4,6 +4,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/datepicker/css/datepicker.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
 ?>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 		<div class="logo">
@@ -179,6 +181,10 @@ var formDefinition = {
 						"equalTo" : "#password1"
 					}
 	            },
+	            "captcha" : {
+	                "inputType" : "recaptcha",
+	                "key":"6LdiygUTAAAAAKZxZ0c9-G43Xqp9ZiedhWswto1s"
+	            }
 	        }
 	    },
 	};

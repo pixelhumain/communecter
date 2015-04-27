@@ -48,6 +48,11 @@ class Organization {
 		//Add the user creator of the organization in the system
 		$organization["creator"] = $userId;
 
+		//fonction générique de SIG, à utiliser pour n'importe quelle entité
+		//si l'entité contient un champs address => postalCode, on trouve la position dans les Cites
+		$organization = SIG::addGeoPositionToEntity($organization);
+	
+ 	
 		//Insert the organization
 	    PHDB::insert( Organization::COLLECTION, $organization);
 		
@@ -58,7 +63,7 @@ class Organization {
 	    }
 		
 		//Add the creator as the first member and admin of the organization
-	    Link::addMember($newOrganizationId, Organization::COLLECTION, $userId, PHType::TYPE_CITOYEN, $userId, "true");
+	    Link::addMember($newOrganizationId, Organization::COLLECTION, $userId, PHType::TYPE_CITOYEN, $userId, true);
 
 	    //TODO ???? : add an admin notification
 	    Notification::saveNotification(array("type"=>"Created",

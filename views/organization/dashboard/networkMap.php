@@ -22,7 +22,7 @@
 				"useZoomButton" => true,
 				"useHelpCoordinates" => true,
 				"notClusteredTag" => array("organization"),
-				"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
+				"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
 												"zoom"		  => 9),
 				);
 		/* ***********************************************************************************/
@@ -129,6 +129,7 @@
 			/**************************************************************************************************************/
 	
 			//alert(JSON.stringify(mapData));
+			//console.dir(mapData);
 			//affichage des éléments sur la carte
 			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 

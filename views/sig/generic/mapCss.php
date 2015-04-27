@@ -18,7 +18,6 @@
 	.panel_map{
 		position:absolute !important;
 		height:<?php echo $mapHeight; ?>px; 
-		padding-right:10px;
 		top:<?php echo $mapTop; ?>px;
 	}
 	

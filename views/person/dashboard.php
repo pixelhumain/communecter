@@ -23,16 +23,16 @@
 </style>
 
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
 	</div>
-	<div class="col-lg-3 col-md-3">
+	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
 	</div>
 </div>

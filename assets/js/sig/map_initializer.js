@@ -23,6 +23,22 @@
 			//initialise la position de la carte
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 		
+			//TODO : définir les icons et couleurs de chaque type disponoble
+			thisSig.icoMarkersTypes = { 	"default" 		: { ico : "circle", color : "yellow" 	},
+											"NGO" 			: { ico : "circle", color : "green" 	},
+											"organizations" : { ico : "circle", color : "blue" 		},
+											"citoyens" 		: { ico : "circle", color : "yellow" 	},
+											"events" 		: { ico : "circle", color : "yellow" 	},
+											
+									  };
+			
+			//TODO : définir les icons et couleurs de chaque tag
+			thisSig.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "yellow" } };/*,
+											"citoyens" 		: { ico : "square", color : "green" },
+											"organization"  : { ico : "square", color : "blue" },
+											"citoyen" 		: { ico : "square", color : "yellow" },
+										
+									  };*/
 			
 			if(params.useRightList){
 				//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
@@ -47,11 +63,42 @@
 				}); 
 			}
 			
+			if(params.usePanel){
+				this.currentFilter = "all";
+				$(this.cssModuleName + ' #item_panel_map_all').click(function(){ 
+					thisSig.changeFilter('all', thisMap);
+				});
+			}
 			//quand on veut une map full screen, il est nécessaire de la resizer "à la main"
 			if(params.useFullScreen){
 				thisSig.resizeMap();		
 			}
 		};
+		
+		Sig.getIcoNameByType = function (type){ 
+			if(this.icoMarkersTypes[type] != null){   
+					return this.icoMarkersTypes[type].ico; 
+			}else{  return this.icoMarkersTypes['default'].ico; }
+		};
+		
+		Sig.getIcoColorByType = function (type){ 
+			if(this.icoMarkersTypes[type] != null){   
+					return this.icoMarkersTypes[type].color; 
+			}else{  return this.icoMarkersTypes['default'].color; }
+		};
+		
+		Sig.getIcoNameByTag = function (tag){ 
+			if(this.icoMarkersTags[tag] != null){   
+					return this.icoMarkersTags[tag].ico; 
+			}else{  return this.icoMarkersTags['default'].ico; }
+		};
+		
+		Sig.getIcoColorByTag = function (tag){ 
+			if(this.icoMarkersTags[tag] != null){   
+					return this.icoMarkersTags[tag].color; 
+			}else{  return this.icoMarkersTags['default'].color; }
+		};
+		
 		
 		//***
 		//afficher / masquer l'icone de chargement
