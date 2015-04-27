@@ -764,7 +764,7 @@ class OrganizationController extends CommunecterController {
 
 
     public function actionRemoveMember($organizationId, $id, $type){
-    	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
+    	$res = Link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
     
