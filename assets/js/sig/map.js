@@ -190,9 +190,6 @@
 								}
 							} 
 							//sinon on crée un nouveau marker pour cluster
-							else{
-								marker = this.getGeoJsonMarker(properties, coordinates);
-								this.geoJsonCollection['features'].push(marker);	
 							else
 							{
 								
