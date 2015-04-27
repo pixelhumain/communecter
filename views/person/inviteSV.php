@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="row" id="step2">
-				<div class="col-md-8 col-md-offset-2">
+				<div class="col-md-8">
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-5">
 							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
@@ -40,7 +40,14 @@
 																	  "imagePath" => "",
 																	  "editMode" => false)); ?>
 						</div>
-						<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this member</a>
+						<div class="col-md-7">
+							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this invite</a>
+							<br>
+							<label for="ficheName">
+								Nom :
+							</label>
+							<p id="ficheName" name="ficheName"></p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -66,6 +73,7 @@
 </div>
 
 <script type="text/javascript">
+var userId = "<?php echo Yii::app()->session["userId"]; ?>";
 jQuery(document).ready(function() {
  	bindinviteSubViewinvites();
  	runinviteFormValidation();
@@ -266,28 +274,37 @@ function autoCompleteInviteSearch(email){
  			$.each(data["citoyens"], function(k, v) { 
  				console.log(k, v);
  				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
- 				if(typeof(v.imagePath)!="undefined"){
- 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
- 				}
-  				str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInput(\""+ v._id["$id"] +"\", \""+v.name+"\", \""+v.imagePath+"\")'>"+htmlIco+" "+v.name + "</a></li>";
+ 				if(v._id["$id"]!= userId){
+	 				if(typeof(v.imagePath)!="undefined"){
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
+	 				}
+	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput(\""+ v._id["$id"] +"\", \""+v.name+"\", \""+v.imagePath+"\")'>"+htmlIco+" "+v.name + "</a></li>";
+	  			}
   			}); 
   			$("#newInvite #dropdown_searchInvite").html(str);
   			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
 		});	
 	}
 
-function setMemberInput(id, name, imagePath){
+function setInviteInput(id, name, imagePath){
 	$('#newInvite #inviteName').val(name);
 	$('#newInvite #inviteId').val(id);
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "block"});
+	$("#newInvite #ficheName").text(name);
 	$("#invitePhoto_imgPreview").empty();
 	$("#invitePhoto_imgPreview").html("<img src='"+imagePath+"' />");
 }
 function newInvitation(){
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "block"});
+	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	if(emailReg.test( $("#newInvite #inviteSearch").val() )){
+		$('#newInvite #inviteEmail').val( $("#newInvite #inviteSearch").val());
+	}else{
+		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
+	}
 }
 
 function clearEditEvent(){
