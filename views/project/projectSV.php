@@ -243,7 +243,7 @@ formProject.validate({
 		        	toastr.success('Project Created success');
 		        	$.hideSubview();
 		        	console.log("updateProject");
-		        	if(updateProject != undefined && typeof updateProject == "function"){
+		        	if( typeof updateProject != "undefined" && typeof updateProject == "function" ){
 		        		//updateProject( newProject, data.id );
 		        	}	
 		        } else {

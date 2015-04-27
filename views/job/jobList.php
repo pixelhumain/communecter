@@ -7,23 +7,6 @@
 	</div>
 	<div class="panel-tools">
 		<a href="#new-job" class="new-job btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Create a job Offer"><i class="fa fa-plus"></i></a>
-		<div class="dropdown">
-			<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-				<i class="fa fa-cog"></i>
-			</a>
-			<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-				<li>
-					<a class="panel-refresh" href="#">
-						<i class="fa fa-refresh"></i> <span>Refresh</span>
-					</a>
-				</li>
-				<li>
-					<a class="panel-expand" href="#">
-						<i class="fa fa-expand"></i> <span>Fullscreen</span>
-					</a>
-				</li>
-			</ul>
-		</div>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">

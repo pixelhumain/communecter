@@ -73,7 +73,7 @@ $.each(events, function(k, v){
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo person::COLLECTION ?>", null, "html");
+	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo person::COLLECTION ?>", null, "html");
 });
 
 
@@ -105,9 +105,14 @@ var bindBtnFollow = function(){
 
 	$(".connectBtn").off().on("click",function () {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		var idConnect = "<?php echo (string)$person['_id'] ?>";
+		if(typeof($("#inviteId"))!="undefined" && $("#inviteId").val()!= ""){
+			idConnect = $("#inviteId").val();
+		}
+
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)

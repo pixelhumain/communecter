@@ -144,10 +144,10 @@ class OrganizationController extends CommunecterController {
 
       if($isMobile) {
     	  $this->layout = "//layouts/mainSimple";
-    	  $this->render( "formMobile" , $params );
+    	  $this->render( "addOrganizationMobile" , $params );
       }
       else {
-	       $this->renderPartial( "form" , $params );
+	       $this->renderPartial( "addOrganizationSV" , $params );
       }
 	
   }
@@ -567,11 +567,26 @@ class OrganizationController extends CommunecterController {
     $this->render("join", $params);
   }
 
-  public function actionAddNewOrganizationAsMember() {
+  public function actionAddNewOrganizationAsMember() 
+  {
     Yii::import('recaptcha.ReCaptcha', true);
+    Yii::import('recaptcha.RequestMethod', true);
+    Yii::import('recaptcha.RequestParameters', true);
+    Yii::import('recaptcha.Response', true);
+    Yii::import('recaptcha.RequestMethod.Post', true);
+    Yii::import('recaptcha.RequestMethod.Socket', true);
+    Yii::import('recaptcha.RequestMethod.SocketPost', true);
+
     //validate Captcha 
     $captcha = false;
-
+    if( isset($_POST['g-recaptcha-response']) && isset( Yii::app()->params["captcha"] ) )
+    {
+      $recaptcha = new \ReCaptcha\ReCaptcha( Yii::app()->params["captcha"] );
+      $resp = $recaptcha->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );  
+      if ($resp && $resp->isSuccess())
+        $captcha = true;
+    }
+    
     if($captcha){
       //Get the person data
       $newPerson = array(
@@ -748,7 +763,7 @@ class OrganizationController extends CommunecterController {
 
 
     public function actionRemoveMember($organizationId, $id, $type){
-    	$res = link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
+    	$res = Link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
     	return Rest::json($res);
     }
     

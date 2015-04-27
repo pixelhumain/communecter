@@ -179,7 +179,14 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
-			$("#organizationForm").modal('hide');
+			$.blockUI({
+				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+	            '<blockquote>'+
+	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu..</p>"+
+	              '<cite title="Einstein">Einstein</cite>'+
+	            '</blockquote> '
+			});
+
 	        $.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
@@ -189,9 +196,10 @@ var formValidator = function() {
 	                        toastr.error(data.msg);
 	                    else { 
 	                        toastr.success(data.msg);
-	                        if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
+	                        if( "undefined" != typeof updateMyOrganization )
 		        				updateMyOrganization(data.newOrganization, data.id);
-							$.hideSubview()
+							$.hideSubview();
+							$.unblockUI();
 	                    }
 		    	  },
 		    	  dataType: "json"
@@ -262,7 +270,7 @@ jQuery(document).ready(function() {
 										"type" : $("#addOrganization #type").val(),
 									}
 						toastr.success("You are now member of the organization : "+organization.name);
-						if(updateMyOrganization != undefined && typeof updateMyOrganization == "function")
+						if( "undefined" != typeof updateMyOrganization )
 		        				updateMyOrganization(organization, organization.id);
 						$.hideSubview();
 					}

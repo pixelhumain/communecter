@@ -277,7 +277,7 @@ function bindDocsEvents()
 {
 	$(".removeFileLine").off().on( "click", function()
 	{
-		if( delDoc != undefined && typeof delDoc == "function" )
+		if( "undefined" != typeof delDoc )
 			delDoc($(this).data("pos"));
 	  	else
 	  		toastr.error('no delete method available!');

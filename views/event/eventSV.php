@@ -221,6 +221,7 @@
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 var parentOrga = [];
+var newEventData;
 if(typeof(organization)!="undefined"){
 	parentOrga = organization;
 }
@@ -244,6 +245,9 @@ jQuery(document).ready(function() {
 		  		if(data.result){
 		  			toastr.success(data.msg);
 		  			$.hideSubview();
+		  			newEventData.imagePath = data.imagePath;
+		  			console.log("newEventData", newEventData);
+		  			updateAll(newEventData);
 		  		}
 		  		else
 		  			toastr.error(data.msg);
@@ -573,12 +577,10 @@ formEvent.validate({
 		        	
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
+		        	newEventData = data.event;
 		        	$("#profileFormEventSV").submit();
 		        	
-		        	if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
-		        			updateSliderAgenda( data.event); 
-		        	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
-		        			updateMyEvents( data.event); 
+		        	
 		        	//$.hideSubview();
 		        	//console.log("updateEvent");
 		        } else {
@@ -945,5 +947,12 @@ function readEvent(el)
 		if(typeof(parentOrga["_id"])!="undefined"){
 			$("#"+parentOrga["_id"]["$id"]).trigger("click");
 		}
+	}
+
+	function updateAll(data){
+		if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
+    			updateSliderAgenda( data); 
+    	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
+    			updateMyEvents( data); 
 	}
 </script>

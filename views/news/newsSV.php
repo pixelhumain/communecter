@@ -121,7 +121,7 @@ jQuery(document).ready(function() {
 				    	}).done( function(data){
 				    		if(data.result)
 				    		{
-				    			if( typeof updateNews == "function" )
+				    			if( typeof updateNews == "undefined" && typeof updateNews == "function" )
 		                    		updateNews(data.object);
 								console.dir(data);
 								$.unblockUI();
