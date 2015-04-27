@@ -159,8 +159,8 @@
 							var marker;
 							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 							//on créé un marker simple
-					
-							if($.inArray(tag, this.notClusteredTag) > -1){ 
+							//TODO : refactor notClusteredTag > notClusteredType
+							if($.inArray(thisData['type'], this.notClusteredTag) > -1){ 
 
 								
 								marker = this.getMarkerSingle(thisMap, properties, coordinates);
@@ -183,10 +183,8 @@
 							} 
 							//sinon on crée un nouveau marker pour cluster
 							else{
-								
-							marker = this.getGeoJsonMarker(properties, coordinates);
-							this.geoJsonCollection['features'].push(marker);	
-																
+								marker = this.getGeoJsonMarker(properties, coordinates);
+								this.geoJsonCollection['features'].push(marker);	
 							}
 						
 							//si l'élément n'est pas déjà dans la liste, on l'enregistre
