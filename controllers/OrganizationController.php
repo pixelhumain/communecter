@@ -144,10 +144,10 @@ class OrganizationController extends CommunecterController {
 
       if($isMobile) {
     	  $this->layout = "//layouts/mainSimple";
-    	  $this->render( "formMobile" , $params );
+    	  $this->render( "addOrganizationMobile" , $params );
       }
       else {
-	       $this->renderPartial( "form" , $params );
+	       $this->renderPartial( "addOrganizationSV" , $params );
       }
 	
   }

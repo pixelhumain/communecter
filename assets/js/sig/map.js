@@ -142,8 +142,8 @@
 				if(objectId != null) 
 				{
 					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']){
-						if(this.verifyPanelFilter(thisData)){
-								
+						if(this.verifyPanelFilter(thisData))
+						{
 							//préparation du contenu de la bulle
 							var content = this.getPopupCitoyen(thisData);
 						
@@ -152,29 +152,35 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												content: content };
+
 							var coordinates;
-							if( thisData['geo'].longitude != null ){ coordinates = new Array (thisData['geo'].longitude, thisData['geo'].latitude); } 
-							else { 							  	  	 coordinates = thisData.geoPosition.coordinates; }
+							if( thisData['geo'].longitude != null ){
+								coordinates = new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
+							} 
+							else 
+							{ 							  	  	 
+								coordinates = thisData.geoPosition.coordinates; 
+							}
 								
 							var marker;
 							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 							//on créé un marker simple
-					
-							if($.inArray(tag, this.notClusteredTag) > -1){ 
-
-								
+							if($.inArray( tag, this.notClusteredTag ) > -1)
+							{ 
 								marker = this.getMarkerSingle(thisMap, properties, coordinates);
 						
 								//si l'élément n'est pas déjà dans la liste, on recrée le marker et on l'enregistre
-								if($.inArray(objectId, this.listId) == -1){	
-									this.elementsMap.push(thisData);		
-									this.listId.push(objectId);	
-									this.populatePanel(tag, objectId);	
+								if($.inArray(objectId, this.listId) == -1)
+								{	
+									this.elementsMap.push(thisData);
+									this.listId.push(objectId);
+									this.populatePanel( tag, objectId );
 									
 									//affiche l'éléments dans la liste de droite
 									$("#liste_map_element").append(this.createItemRigthListMap(thisData, marker));
 									//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
-									$("#item_map_list_" + objectId).click(function(){
+									$("#item_map_list_" + objectId).click(function()
+									{
 										thisMap.panTo(marker.getLatLng(), {"animate" : true });
 										this.checkListElementMap(thisMap);
 										marker.openPopup();
@@ -182,23 +188,23 @@
 								}
 							} 
 							//sinon on crée un nouveau marker pour cluster
-							else{
+							else
+							{
 								
-							marker = this.getGeoJsonMarker(properties, coordinates);
-							this.geoJsonCollection['features'].push(marker);	
+								marker = this.getGeoJsonMarker(properties, coordinates);
+								this.geoJsonCollection['features'].push(marker);	
 																
 							}
 						
 							//si l'élément n'est pas déjà dans la liste, on l'enregistre
-							if($.inArray(objectId, this.listId) == -1){	
-								
+							if($.inArray(objectId, this.listId) == -1)
+							{	
 								this.elementsMap.push(thisData);	
 								this.listId.push(objectId);
 								this.populatePanel(thisData["tags"], objectId);	
 								//affiche l'éléments dans la liste de droite
 								$(this.cssModuleName + " #liste_map_element").append(this.createItemRigthListMap(thisData, marker));							
 							}	
-						
 						} 
 													
 					}

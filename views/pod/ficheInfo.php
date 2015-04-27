@@ -148,7 +148,7 @@
 	//By default : view mode
 	//TODO SBAR - Get the mode from the request ?
 	var mode = "view";
-	var newPostalCode = contextData.address.postalCode;
+	var newPostalCode = (contextData.address && contextData.address.postalCode) ? contextData.address.postalCode : "";
 	
 	var countries;
 	var cities;

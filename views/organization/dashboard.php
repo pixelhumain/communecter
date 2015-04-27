@@ -81,7 +81,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 	
 	jQuery(document).ready(function() {
-
+		if($(".tooltips").length) {
+     		$('.tooltips').tooltip();
+   		}
 		$('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
             reach: 10, // how far the pulse goes in px

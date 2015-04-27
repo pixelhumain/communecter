@@ -243,7 +243,7 @@
 	            		toastr.error(data.msg);
 	            	}else{
 	            		toastr.success("Member added successfully ");
-	            		if(updateOrganisation != undefined && typeof updateOrganisation == "function")
+	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();
 		               if($("#addMembers #memberRole").val() != ""){
