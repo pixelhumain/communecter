@@ -60,8 +60,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 	 <div class="col-sm-4 col-xs-12">
 	 	<div class="row">
-	 		<div class="col-sm-12 col-xs-12">
-	 			<?php $this->renderPartial('../pod/photoVideo',array( "context" => (isset($organization)) ? $organization : null, "images" => $images )); ?>
+	 		<div class="col-sm-12 col-xs-12 photoVideoPod">
+	 			<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Media Section</h4>
+						<div class="space5"></div>
+					</div>
+				</div>
+	 			
 	 		</div>
 	 		<div class="col-sm-12 col-xs-12 shareAgendaPod">
 	 			<div class="panel panel-white pulsate">
@@ -106,6 +112,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list",null,"html");
+
+		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", null, "html");
 		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){
 			initAddEventBtn ();
 		}, "html");
