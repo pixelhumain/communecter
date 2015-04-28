@@ -58,7 +58,7 @@ class CommunecterController extends Controller
           ),
     array('label' => "Organisation", "key"=>"organization",
             "children"=> array(
-              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/form',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/addorganizationform',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "News", "key"=>"note",
@@ -145,20 +145,17 @@ class CommunecterController extends Controller
     ),
 
     "organization"=> array(
-      "index"=> array("href" =>"ph/communecter/organization", "title" => "Person"),
-      "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
-      "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
+      "addorganizationform"=>array("href"=>"/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
+      "savenew"=>array("href"=>"/ph/communecter/organization/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "save"=>array("href"=>"/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
-      "public"=>array("href"=>"/ph/communecter/organization/public"),     
+      "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
-      "news"=>array("href"=>"/ph/communecter/organization/news"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
-      "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
-      //Links
+      //Move to Document controller
+      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
+      //Links // create a Link controller ?
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
@@ -167,9 +164,6 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
-      //Calendar => Same ????
-      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),
-      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
     ),
     
     "event"=> array(
