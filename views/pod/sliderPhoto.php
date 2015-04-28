@@ -10,6 +10,9 @@
 		border: 1px solid #ddd;
 	}
 	
+	.flexslider .slides img {
+	    height: 250px;
+	}
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light"></div>
@@ -24,7 +27,7 @@
 				<ul class="slides" id="slidesPhoto">
 					
 				</ul>
-			  </div>
+			</div>
 			
 		</div>
 
