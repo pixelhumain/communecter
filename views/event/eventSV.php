@@ -256,9 +256,7 @@ jQuery(document).ready(function() {
 		});
 	}));
 });
-
-function bindEventSubViewEvents() {
-		
+function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
 		subViewElement = $(this);
 		subViewContent = subViewElement.attr('href');
@@ -276,6 +274,11 @@ function bindEventSubViewEvents() {
 			}
 		});
 	});
+ }
+function bindEventSubViewEvents() {
+		
+	initAddEventBtn ();
+	
 	$(".show-calendar").off().on("click", function() {
 		$.subview({
 			content : "#showCalendar",

@@ -547,7 +547,10 @@ class OrganizationController extends CommunecterController {
    ***************************************** */
    //TODO SBAR - Move to document controller
     public function actionDocuments($id) {
-      $documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
+      $documents = Document::getWhere( array( "type" => Organization::COLLECTION , 
+                                              "id" => $id ,
+                                              "contentKey" => array( '$exists' => false)
+                                              ) );
       if(Yii::app()->request->isAjaxRequest)
         echo $this->renderPartial("../documents/documents",array("documents"=>$documents),true);
       else
