@@ -5,7 +5,7 @@
 		padding: 10px;
 		width: 100%;
 	}
-	.fileupload-new .thumbnail{
+	.fileupload-new .thumbnail, .fileupload-exists .thumbnail{
 		height: 100%;
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
@@ -31,10 +31,10 @@
 		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php echo $contentId ?>_fileUpload">
 			<div class="user-image">
-				<div class="fileupload-new thumbnail" id="<?php echo $contentId ?>_imgPreview">
+				<div class="fileupload-new thumbnail container-fluid" id="<?php echo $contentId ?>_imgPreview">
 					<img class="img-responsive" src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
 				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail" id="<?php echo $contentId ?>_imgNewPreview"></div>
+				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
 					<span class="btn btn-azure btn-file btn-sm" id="<?php echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span><span class="fileupload-exists"><i class="fa fa-plus"></i></span>
@@ -65,7 +65,11 @@
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php echo $contentId ?>";
 		var contentKey = "<?php echo $contentKey?>";
-		var isSubmit = contentId+"_false";
+		var imagePath = "<?php echo $imagePath?>"
+		var isSubmit = contentId+"_true";
+		var imageName= "";
+		var imageId= "";
+
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
 			e.preventDefault();
@@ -85,8 +89,9 @@
 			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
 							$("#"+contentId+"_photoUploading").css("display", "none");
 			  				toastr.success(data.msg);
-			  			}, 1000) 
-			  			
+			  			}, 2000) 
+			  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
+			  			imageId = data.id['$id'];
 				  		
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
 		        			updateSlider( data.imagePath);
@@ -100,11 +105,52 @@
 	
 
 		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
-		    $("#"+contentId+"_photoAdd").submit();
+			if(isSubmit==contentId+"_true"){
+
+				setTimeout(function(){$("#"+contentId+"_photoAdd").submit();}, 1000);
+			}else{
+				isSubmit = contentId+"_true";
+			}
+		   
 		});
 
-		$("#"+contentId+"_photoRemove").on("click", function(){
-			
+		$("#"+contentId+"_photoRemove").on("click", function(e){		
+			isSubmit = contentId+"_false";
+			e.preventDefault();
+			$.ajax({
+				url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+type,
+				type: "POST",
+				dataType : "json",
+				data: {"name": id+"/"+imageName},
+				success: function(data){
+					console.log(data);
+			  		if(data.result){
+			  			dataImage = {};
+			  			dataImage["imagePath"] = imagePath;
+			  			dataImage["type"] = type;
+			  			dataImage["id"] = id;
+			  			dataImage["contentKey"] = contentKey;
+			  			dataImage["_id"] = imageId;
+			  			$.ajax({
+			  				url: baseUrl+"/"+moduleId+"/document/removeandbacktract",
+			  				type: "POST",
+			  				dataType: "json",
+			  				data: dataImage,
+			  				success: function(data){
+			  					if(data.result){
+			  						toastr.success(data.msg);
+			  						$('#'+contentId+'_avatar').val('');
+			  						$('#'+contentId+"_fileUpload").fileupload("reset");
+			  					}
+			  					else
+			  						toastr.error(data.msg);
+			  				}
+			  			})
+			  		}
+			  		else
+			  			toastr.error(data.msg);
+			  	},
+			});
 		});
 	});
 </script>
