@@ -78,7 +78,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($tags as $tag) {
-							echo "\"".$tag."\" : \"".$tag."\",";
+							echo json_encode($tag)." : ".json_encode($tag).",";
 						}
 						?>
 	            	}
@@ -92,7 +92,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($listTypeIntervention as $typeIntervention) {
-							echo "\"".$typeIntervention."\" : \"".$typeIntervention."\",";
+							echo json_encode($typeIntervention)." : ".json_encode($typeIntervention).",";
 						}
 						?>
 	            	}
@@ -106,7 +106,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($listPublic as $public) {
-							echo "\"".$public."\" : \"".$public."\",";
+							echo json_encode($public)." : ".json_encode($public).",";
 						}
 						?>
 	            	}

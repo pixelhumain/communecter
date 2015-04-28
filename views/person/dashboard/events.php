@@ -62,11 +62,11 @@
 <script type="text/javascript">
 
 	function updateMyEvents(nEvent) {
-		if(typeof(contextMap) != "undefined"){
+		if('undefined' != typeof contextMap){
 			contextMap["events"].push(nEvent);
 		}
 		var image = "<i class='fa fa-calendar fa-2x'></i>";
-		if(typeof(nEvent["imagePath"])!="undefined")
+		if('undefined' != typeof(nEvent["imagePath"]))
 			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
 		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
 							"<td class='center'>" +

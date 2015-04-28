@@ -363,9 +363,9 @@ jQuery(document).ready(function() {
 		$("#addOrganization #organizationEmail").val(organization.email);
 		$("#addOrganization #tagsOrganization").select2('val', organization.tags);
 		$("#addOrganization #description").val(organization.description);
-		if (organization.adress != undefined) {
-			if (organization.adress.country != undefined) $('#addOrganization #organizationCountry').val(organization.adress.country);
-			if (organization.adress.postalCode != undefined) $("#addOrganization #postalCode").val(organization.adress.postalCode);
+		if ('undefined' != organization.adress) {
+			if ('undefined' != organization.adress.country) $('#addOrganization #organizationCountry').val(organization.adress.country);
+			if ('undefined' != organization.adress.postalCode) $("#addOrganization #postalCode").val(organization.adress.postalCode);
 		}
 	}
 

@@ -233,7 +233,7 @@ function editinvite(el) {
 	$(".form-invite .form-group").removeClass("has-error").removeClass("has-success");
 	
 
-	if ( typeof el == "undefined") {
+	if ( 'undefined' == typeof el) {
 		$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
 		$(".form-invite .invite-id").val("");
 		$(".form-invite .invite-name").val("");
@@ -275,7 +275,7 @@ function autoCompleteInviteSearch(email){
  				console.log(k, v);
  				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
  				if(v._id["$id"]!= userId){
-	 				if(typeof(v.imagePath)!="undefined"){
+	 				if('undefined' != typeof v.imagePath){
 	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
 	 				}
 	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput(\""+ v._id["$id"] +"\", \""+v.name+"\", \""+v.imagePath+"\")'>"+htmlIco+" "+v.name + "</a></li>";

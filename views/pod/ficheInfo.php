@@ -183,7 +183,7 @@
 				success: function(data){
 					if(data.result)
 						toastr.success(data.msg);
-						if(typeof(data.imagePath)!="undefined"){
+						if('undefined' != typeof data.imagePath){
 							$("#imgView").attr("src", data.imagePath);
 						}
 					else
