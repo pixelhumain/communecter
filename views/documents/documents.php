@@ -52,7 +52,7 @@ $this->renderPartial('../documents/gedSV');
 			$(this).removeClass("animated bounceIn");
 		});*/
 		docType = "<?php echo Organization::COLLECTION?>";
-		folder = "<?php echo Organization::COLLECTION.'_'.$_GET['id'] ?>";
+		folder = "<?php echo Organization::COLLECTION ?>";
 		ownerId = "<?php echo $_GET['id'] ?>";
 
 		if($(".tooltips").length) {
@@ -85,7 +85,7 @@ $this->renderPartial('../documents/gedSV');
 		$(".docsList").prepend(lineHTML);
 	}
 
-	function delDoc (pos) 
+	/*function delDoc (pos) 
 	{ 
 		console.log("delDoc",pos);
 		if(docType.indexOf("tasks") == 0 && tasks[editTaskId].documents[pos])
@@ -132,5 +132,5 @@ $this->renderPartial('../documents/gedSV');
 		} 
 		else
 			toastr.error('<?php echo Yii::t("project","No document at this position.",null,Yii::app()->controller->module->id); ?>');
-	}
+	}*/
 </script>
