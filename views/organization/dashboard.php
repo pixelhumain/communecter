@@ -16,7 +16,17 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
-	    		<?php $this->renderPartial('../pod/ficheInfo',array( "context" => (isset($organization)) ? $organization : null, "tags" => $tags, "images" => $images)); ?>
+	    		<?php 
+	    			$params = array(
+	    				"context" => $organization,
+						"tags" => $tags, 
+						"images" => $images, 
+						"countries" => $countries,
+						"typeIntervention" => $typeIntervention,
+	    				"publics" => $public
+	    			);
+	    			$this->renderPartial('../pod/ficheInfo',$params); 
+	    		?>
 	    	</div>
 	    	<div class="col-sm-12 col-xs-12 documentPod">
 	    		<div class="panel panel-white pulsate">
