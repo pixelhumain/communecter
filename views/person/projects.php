@@ -1,7 +1,7 @@
 <div id="panel_projects" class="tab-pane fade">
 	<div class="row">
 		<div class="col-md-12 padding-20 ">
-			<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/form',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Project</a>
+			<a href="javascript:;" onclick="openSubView('Add an Organisation', '/communecter/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Project</a>
 			
 		</div>	
 	</div>

@@ -46,12 +46,12 @@ var events = <?php echo json_encode($events) ?>;
 		
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
-				if(typeof v.startDate != "undefined" && typeof v.endDate !="undefined"){
+				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate){
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 					if(n<4 && compareDate(today, date)){
 						notEmptySlide = true;
-						if (typeof(v.imagePath)=="undefined"){
+						if ('undefined' == typeof v.imagePath){
 							v.imagePath = "http://placehold.it/350x180";
 						}
 						var htmlRes = "<li><div>"+

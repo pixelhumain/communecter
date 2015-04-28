@@ -12,7 +12,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/react-0.13.0/build/JSXTra
 <div id='content'></div>
 <div id ="organization">
 	<h1>Organization</h1>
-	<a href="javascript:openSubView('Add an Organisation', '/communecter/organization/form',null)"  class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
+	<a href="javascript:openSubView('Add an Organisation', '/communecter/organization/addorganizationform',null)"  class="btn btn-xs btn-light-blue tooltips pull-right" data-placement="top" data-original-title="Edit"><i class="fa fa-plus"></i> Add an Organization</a>
 	<button onclick="javascript:getData()">ShowData</button>
 	
 </div>

@@ -316,7 +316,7 @@ function activateEditable() {
 	               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
 	               $('#save-btn').hide(); 
 	               console.log("data.job => "+data.job);
-	               if(typeof updateJob != "undefined" && typeof updateJob == "function")
+	               if('undefined' != typeof updateJob && typeof updateJob == "function")
 		        			updateJob( data.job,  data.id);
 	               $.hideSubview();
 	           } else if(data && data.errors){ 

@@ -9,7 +9,7 @@
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
@@ -103,7 +103,7 @@
 
 	var temp;
 	function updateMyOrganization(nOrganization, organizationId) {
-		if(typeof(contextMap) != "undefined"){
+		if('undefined' != typeof contextMap){
 			contextMap["organizations"].push(nOrganization);
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'">';

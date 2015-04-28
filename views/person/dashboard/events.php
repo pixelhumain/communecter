@@ -34,7 +34,7 @@
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 						</td>
@@ -62,11 +62,11 @@
 <script type="text/javascript">
 
 	function updateMyEvents(nEvent) {
-		if(typeof(contextMap) != "undefined"){
+		if('undefined' != typeof contextMap){
 			contextMap["events"].push(nEvent);
 		}
 		var image = "<i class='fa fa-calendar fa-2x'></i>";
-		if(typeof(nEvent["imagePath"])!="undefined")
+		if('undefined' != typeof(nEvent["imagePath"]))
 			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
 		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
 							"<td class='center'>" +
