@@ -115,7 +115,7 @@
 
 	function updateOrganisation(newOrga,type)
 	{
-		if(typeof(contextMap["organizations"])!="undefined")
+		if('undefined' != typeof contextMap["organizations"])
 		{
 			if(type= '<?php echo Person::COLLECTION; ?>')
 				contextMap["people"].push(newOrga);
@@ -140,11 +140,11 @@
 			imgHtml = '<i class="fa fa-group fa-2x"></i>'
 			type = newOrga.type;
 		}
-		if(typeof(newOrga["imagePath"])!="undefined" && newOrga["imagePath"]!=""){
+		if('undefined' != typeof newOrga["imagePath"] && newOrga["imagePath"]!=""){
 			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newOrga["imagePath"]+'">'
 		}
 		console.log(newOrga["links"]["memberOf"][parentId]["roles"]);
-		if(typeof(newOrga["links"]["memberOf"][parentId]["roles"])!="undefined"){
+		if('undefined' != typeof newOrga["links"]["memberOf"][parentId]["roles"]){
 			var rolesTab = newOrga["links"]["memberOf"][parentId]["roles"];
 			for(var i = 0; i<rolesTab.length; i++){
 				if(i==0){

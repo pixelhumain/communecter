@@ -106,7 +106,7 @@ var bindBtnFollow = function(){
 	$(".connectBtn").off().on("click",function () {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		var idConnect = "<?php echo (string)$person['_id'] ?>";
-		if(typeof($("#inviteId"))!="undefined" && $("#inviteId").val()!= ""){
+		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
 		}
 

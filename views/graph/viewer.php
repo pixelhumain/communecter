@@ -128,18 +128,18 @@
 	function getDataFile(){
 		console.log("getDataFile");
 		var map = null;
-		if(typeof(contextMap)!="undefined"){
+		if("undefined" != typeofcontextMap){
 			map=contextMap;
-			if(typeof(contextMap.person) != "undefined"){
+			if("undefined" != typeofcontextMap.person){
 				contextId = contextMap.person["_id"]["$id"];
 				type = 'person';
-			}else if(typeof(contextMap.organization) != "undefined"){
+			}else if("undefined" != typeof contextMap.organization){
 				contextId = contextMap.organization["_id"]["$id"];
 				type = 'organization';
-			}else if(typeof(contextMap.event) != "undefined"){
+			}else if("undefined" != typeof contextMap.event){
 				contextId = contextMap.event["_id"]["$id"];
 				type = "event";
-			}else if(typeof(contextMap.project) != "undefined"){
+			}else if("undefined" != typeof contextMap.project){
 				contextId = contextMap.project["_id"]["$id"];
 				type ="project";
 			}
@@ -196,8 +196,8 @@
 				$.each(obj, function(key2, obj2){
 					var newNodeChild;
 					var id = obj2["_id"]["$id"];
-					if(typeof(obj2.type)!='undefined'){
-						if(typeof(typeObject[obj2.type])!='undefined'){
+					if('undefined' != typeof obj2.type ){
+						if('undefined' != typeof typeObject[obj2.type]){
 							typeObject[obj2.type].push(obj2);
 						}else{
 							typeObject[obj2.type] = [];
@@ -251,7 +251,7 @@ function getLink(id, map, varname){
 	$.each(map, function(key, obj){
 		if(key == varname){
 			console.log(obj)
-			if(typeof(obj.links)!= 'undefined'){
+			if('undefined' != typeof(obj.links)){
 				$.each(obj.links, function(key2, obj2){
 					if($.inArray(key2, tabLinks)==-1){
 						tabLinks.push(key2);
@@ -808,7 +808,7 @@ function getNewData(data){
 			return hslToRgb(h, 0.5, 0.60);
 	}
   function clearViewer(){
-		if(typeof(force) != "undefined"){
+		if('undefined' != typeof force){
 			force.stop();
 		};
 		$("#svgNodes").empty();

@@ -243,7 +243,7 @@ formProject.validate({
 		        	toastr.success('Project Created success');
 		        	$.hideSubview();
 		        	console.log("updateProject");
-		        	if( typeof updateProject != "undefined" && typeof updateProject == "function" ){
+		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
 		        		//updateProject( newProject, data.id );
 		        	}	
 		        } else {
@@ -268,7 +268,7 @@ function editProject(el) {
 	$(".form-project .help-block").remove();
 	$(".form-project .form-group").removeClass("has-error").removeClass("has-success");
 
-	if ( typeof el == "undefined") {
+	if ( "undefined" == typeof el) {
 		$(".form-project .project-id").val("");
 		$(".form-project .project-name").val("");
 		$(".form-project .project-url").val("");

@@ -223,13 +223,13 @@ var DEFAULT_IMAGE_EVENT = "http://placehold.it/350x180";
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 var parentOrga = [];
 var newEventData;
-if(typeof(organization)!="undefined"){
+if("undefined" != typeof organization){
 	parentOrga = organization;
 }
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
- 	if(typeof(contextMap)!="undefined")
+ 	if("undefined" != typeof contextMap )
  		initLastsEvents();
 
 
@@ -650,7 +650,7 @@ function editEvent(el) {
 				$(".form-event .all-day").bootstrapSwitch('state', calendar[i].allDay);
 				$(".form-event .event-start-date").val(moment(calendar[i].start));
 				$(".form-event .event-end-date").val(moment(calendar[i].end));
-						if(typeof $('.form-event .no-all-day-range .event-range-date').data('daterangepicker') == "undefined"){
+						if("undefined" == typeof $('.form-event .no-all-day-range .event-range-date').data('daterangepicker')){
 			$('.form-event .no-all-day-range .event-range-date').val(moment(calendar[i].start).format('DD/MM/YYYY h:mm A') + ' - ' + moment(calendar[i].end).format('DD/MM/YYYY h:mm A'))
 				.daterangepicker({  
 					startDate:moment(moment(calendar[i].start)),
@@ -674,7 +674,7 @@ function editEvent(el) {
 			$('.form-event .all-day-range .event-range-date').data('daterangepicker').setEndDate(calendar[i].end);
 		}
 				
-				if (calendar[i].category == "" || typeof calendar[i].category == "undefined") {
+				if ("undefined" == typeof calendar[i].category || calendar[i].category == "") {
 					eventCategory = "Generic";
 				} else {
 					eventCategory = calendar[i].category;
@@ -683,7 +683,7 @@ function editEvent(el) {
 					return ($(this).text() == eventCategory);
 				}).prop('selected', true);
 				$('.form-event .event-categories').selectpicker('render');
-				if ( typeof calendar[i].content !== "undefined" && calendar[i].content !== "") {
+				if ("undefined" !== typeof calendar[i].content && calendar[i].content !== "") {
 					$(".form-event .eventDetail ").val(calendar[i].content);
 				} else {
 					$(".form-event .eventDetail ").val( $eventDetail.attr("placeholder") );
@@ -757,12 +757,12 @@ function readEvent(el)
 			$("#readEvent .event-end").empty().hide();
 
 			$("#readEvent .event-title").empty().text(calendar[i].title);
-			if (calendar[i].className == "" || typeof calendar[i].className == "undefined") {
+			if ("undefined" == typeof calendar[i].className || calendar[i].className == ""  ) {
 				eventClass = "event";
 			} else {
 				eventClass = calendar[i].className;
 			}
-			if (calendar[i].category == "" || typeof calendar[i].category == "undefined") {
+			if ("undefined" == typeof calendar[i].category || calendar[i].category == "") {
 				eventCategory = "Event";
 			} else {
 				eventCategory = calendar[i].category;
@@ -875,7 +875,7 @@ function readEvent(el)
 	}
 
 	function initLastsEvents(){
-		if(typeof(contextMap.events)!= "undefined"){
+		if("undefined" != typeof contextMap.events ){
 			console.log("OK initLastsEvents");
 			var tabEvents = getLastsEvent(contextMap.events);
 			var htmlRes = "";
@@ -950,15 +950,15 @@ function readEvent(el)
 			$("#newEventOrga").val($(this).data("id"));
 		})
 
-		if(typeof(parentOrga["_id"])!="undefined"){
+		if("undefined" != typeof(parentOrga["_id"])){
 			$("#"+parentOrga["_id"]["$id"]).trigger("click");
 		}
 	}
 
 	function updateAll(data){
-		if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
+		if("undefined" != typeof updateSliderAgenda  && typeof updateSliderAgenda == "function")
     			updateSliderAgenda( data); 
-    	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
+    	if("undefined" != typeof updateMyEvents && typeof updateMyEvents == "function")
     			updateMyEvents( data); 
 	}
 </script>
