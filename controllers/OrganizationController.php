@@ -32,95 +32,8 @@ class OrganizationController extends CommunecterController {
   	$organizations = Organization::getById($id);
   	Rest::json($organizations);
   }
-  public function actionIndex($type=null)
-  {
-    $this->title = "Organization";
-    if($type){
-      $params =  array("type"=>$type);
-      $this->subTitle = "Découvrez les <b>$type</b> locales";
-    } else
-      $this->subTitle = "Découvrez les organization locales";
-    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
-    $params = array();
-    if($type)
-     $params =  array("type"=>$type);
     
-    $organizations = PHDB::find( Organization::COLLECTION,$params);
-    
-    $detect = new Mobile_Detect;
-    $isMobile = $detect->isMobile();
-    if($isMobile) 
-	$this->layout = "//layouts/mainSimple";
-
-    $this->render("index",array("organizations"=>$organizations));
-  }
-    
-  /**********************************************************************
-  /* Sall we keep edit action : Replaced by the dashboard ?
-  /**********************************************************************/
-  public function actionEdit($id) 
-  {
-    $organization = Organization::getById($id);
-    $members = array();
-    $followers = array();
-    $memberOf = array();
-
-    //Load members
-    $organizationMembers = Organization::getMembersByOrganizationId($id);
-    $i = 0;
-    if (isset($organizationMembers)) {
-      foreach ($organizationMembers as $id => $e) {
-      		$i = $i + 1;
-          if ($e["type"] == PHType::TYPE_CITOYEN) {
-            $member = Person::getById($id);
-          } else if ($e["type"] == Organization::COLLECTION) {
-            $member = Organization::getById($id);
-          }
-          if (!empty($member)) array_push($members, $member);
-        }
-        //$members = array_push($members, $i);
-    }
-
-    //Load followers
-    if (isset($organization["links"]) && !empty($organization["links"]["knows"])) {
-    	foreach ($organization["links"]["knows"] as $id => $e) {
-      		if($e["type"] == PHType::TYPE_CITOYEN){
-              $follower = Person::getById($id);
-            } else if($e["type"] == Organization::COLLECTION) {
-              $follower = Organization::getById($id);
-            }
-            if (!empty($follower)) array_push($followers, $follower);
-      	}	
-    }
-
-    //Load memberOf
-    if (isset($organization["links"]) && !empty($organization["links"]["memberOf"])) {
-      foreach ($organization["links"]["memberOf"] as $id => $e) {
-          if($e["type"] == PHType::TYPE_CITOYEN){
-              $aMemberOf = Person::getById($id);
-            } else if($e["type"] == Organization::COLLECTION) {
-              $aMemberOf = Organization::getById($id);
-            }
-            if (!empty($aMemberOf)) array_push($memberOf, $aMemberOf);
-        } 
-    }
-    
-    $this->title = $organization["name"];
-    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : ( (isset($organization["type"])) ? "Type ".$organization["type"] : "");
-    $this->pageTitle = "Organization : Association, Entreprises, Groupes locales";
-
-    $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-    
-    $tags = Tags::getActiveTags();
-
-    $this->render("edit",
-      array('organization'=>$organization, 'members'=>$members,
-            'followers' => $followers, 'memberOf' => $memberOf,
-            'types'=>$types['list'],'tags'=>json_encode($tags)));
-
-	}
-
-  public function actionForm($type=null,$id=null) 
+  public function actionAddOrganizationForm($type=null,$id=null) 
   {
       $organization = null;
       if(isset($id)){
@@ -168,8 +81,6 @@ class OrganizationController extends CommunecterController {
     Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
     
 	}
-  
-	
 
   /**
    * Update an existing organization
@@ -288,14 +199,6 @@ class OrganizationController extends CommunecterController {
     return $newOrganization;
   }
 
-  public function actionGetNames() 
-    {
-       $assos = array();
-       foreach( PHDB::find( Organization::COLLECTION, array("name" => new MongoRegex("/".$_GET["typed"]."/i") ),array("name","cp") )  as $a=>$v)
-           $assos[] = array("name"=>$v["name"],"cp"=>$v["cp"],"id"=>$a);
-       header('Content-Type: application/json');
-       echo json_encode( array( "names"=>$assos ) ) ;
-	}
 	/**
 	 * Delete an entry from the organization table using the id
 	 */
@@ -319,22 +222,6 @@ class OrganizationController extends CommunecterController {
           }
 	  }
     echo Rest::json($result);
-  }
-
-  public function actionPublic($id){
-    //get The organization Id
-    if (empty($id)) {
-      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
-    }
-
-    $organization = Organization::getPublicData($id);
-    
-    $this->title = (isset($organization["name"])) ? $organization["name"] : "";
-    $this->subTitle = (isset($organization["description"])) ? $organization["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("organization" => $organization));
   }
 
   //TODO SBAR => part of controls done has been done on the Link model. 
@@ -608,48 +495,6 @@ class OrganizationController extends CommunecterController {
       return Rest::json(array("result"=>false, "msg"=>"invalid Captcha Test"));
   }
 
-/* **************************************
-   *  CALENDAR
-   ***************************************** */
-
- //Get the events for create the calendar
-  public function actionGetCalendar($id){
-  	$events = array();
-  	$organization = Organization::getPublicData($id);
-  	if(isset($organization["links"]["events"])){
-  		foreach ($organization["links"]["events"] as $key => $value) {
-  			$event = Event::getPublicData($key);
-  			$events[$key] = $event;
-  		}
-  	}
-  	foreach ($organization["links"]["members"] as $newId => $e) {
-  		if($e["type"] == Organization::COLLECTION){
-  			$member = Organization::getPublicData($newId);
-  		}else{
-  			$member = Person::getPublicData($newId);
-  		}
-  		if(isset($member["links"]["events"])){
-  			foreach ($member["links"]["events"] as $key => $value) {
-  				$event = Event::getPublicData($key);
-  				$events[$key] = $event;	
-  			}
-  			
-  		}
-  	}
-  	Rest::json($events);
-  }
-
-
-	 public function actionCalendar($id){
-	  	 if (empty($id)) {
-		      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
-		}
-
-		$organization = Organization::getPublicData($id);
-		$params = array( "organization" => $organization);
-	 }
-
-
 	 public function actionDashboard($id){
 	 	if (empty($id)) {
 	      throw new CommunecterException("The organization id is mandatory to retrieve the organization !");
@@ -700,9 +545,8 @@ class OrganizationController extends CommunecterController {
    /* **************************************
    *  DOCUMENTS
    ***************************************** */
-
-    public function actionDocuments($id) 
-    {
+   //TODO SBAR - Move to document controller
+    public function actionDocuments($id) {
       $documents = Document::getWhere( array( "type" => Organization::COLLECTION , 
                                               "id" => $id ,
                                               "contentKey" => array( '$exists' => false)
