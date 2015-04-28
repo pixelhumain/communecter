@@ -1,6 +1,7 @@
 <style type="text/css">
 	.flexslider{
 		margin : 0px 0px 0px;
+		height: 220px;
 	}
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
@@ -45,25 +46,27 @@ var events = <?php echo json_encode($events) ?>;
 		
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
-				var period = getStringPeriodValue(v.startDate, v.endDate);
-				var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-				if(n<4 && compareDate(today, date)){
-					notEmptySlide = true;
-					if (typeof(v.imagePath)=="undefined"){
-						v.imagePath = "http://placehold.it/350x180";
+				if(typeof v.startDate != "undefined" && typeof v.endDate !="undefined"){
+					var period = getStringPeriodValue(v.startDate, v.endDate);
+					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
+					if(n<4 && compareDate(today, date)){
+						notEmptySlide = true;
+						if (typeof(v.imagePath)=="undefined"){
+							v.imagePath = "http://placehold.it/350x180";
+						}
+						var htmlRes = "<li><div>"+
+										"<img src='"+v.imagePath+"'></img>";
+						htmlRes +="<div class='row'>"+
+									"<div class='col-xs-5' >"+
+										"<h2>"+period+"</h2></div>";
+						htmlRes += "<div class='col-xs-7' >"+
+										"<h1>"+v.name+"</h1>"+
+										"<div id='infoEventLink'>"+
+											"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
+										"</div></div></div></li>";
+						$("#slidesAgenda").append(htmlRes);
+						n++;
 					}
-					var htmlRes = "<li><div>"+
-									"<img src='"+v.imagePath+"'></img>";
-					htmlRes +="<div class='row'>"+
-								"<div class='col-xs-5' >"+
-									"<h2>"+period+"</h2></div>";
-					htmlRes += "<div class='col-xs-7' >"+
-									"<h1>"+v.name+"</h1>"+
-									"<div id='infoEventLink'>"+
-										"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
-									"</div></div></div></li>";
-					$("#slidesAgenda").append(htmlRes);
-					n++;
 				}
 			})	
 		}
