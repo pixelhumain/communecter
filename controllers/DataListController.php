@@ -9,7 +9,7 @@ class DataListController extends CommunecterController {
 
 	public function actionGetListByName($name) {
 		if ($name) {
-			$list = DataList::getListByName($name);
+			$list = Lists::getListByName($name);
 		}
 		Rest::json(array("result"=>true, "list"=>$list));
 	}

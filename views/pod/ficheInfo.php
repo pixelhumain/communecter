@@ -150,16 +150,12 @@
 	var mode = "view";
 	var newPostalCode = (contextData.address && contextData.address.postalCode) ? contextData.address.postalCode : "";
 	
-	var countries;
+	var countries = <?php echo json_encode($countries) ?>;
 	var cities;
-	var publics;
+	var publics = <?php echo json_encode($publics) ?>;
+	var typeInterventionList = <?php echo json_encode($typeIntervention) ?>;
 
 	jQuery(document).ready(function() {
-		//Select ajax loading
-		countries = getCountries("select");
-		cities = getCitiesByPostalCode(newPostalCode, "select");
-		publics = getPublics("select");
-
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		})
@@ -258,19 +254,9 @@
 			value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
-				$.ajax({
-					url: baseUrl+'/'+moduleId+"/datalist/getlistbyname/name/typeIntervention",
-					type: 'post',
-					global: false,
-					async: false,
-					dataType: 'json',
-					success: function(data) {
-						console.log("Data list :"+data.list)
-						$.each(data.list, function(i,value) {
-							result.push({"value" : value, "text" : value}) ;
-						})
-					}
-				});
+				$.each(typeInterventionList, function(i,value) {
+					result.push({"value" : value, "text" : value}) ;
+				})
 				return result;
 			},
 		});
@@ -279,7 +265,7 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : ""; ?>',
 			source: function() {
-				return getCountries("select");
+				return countries;
 			},
 			emptytext: emptytext,
 			showbuttons: false,

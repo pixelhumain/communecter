@@ -194,6 +194,7 @@ class CommunecterController extends Controller
 
     "pod" => array(
     	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    	"photovideo" => array("href" => "ph/communecter/pod/photovideo"),
     ),
     
   );
