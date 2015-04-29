@@ -91,7 +91,7 @@
 					if(where == "photoVideo"){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
-						var htmlSlide2 = "<div class='col-md-3 sliderPreview'><img src='"+path+"' /></div>";
+						var htmlSlide2 = "<div class='col-md-2 sliderPreview'><img src='"+path+"' /></div>";
 						$("#showAllSlides").append(htmlSlide2);
 						$("#slidesPhoto").append(htmlSlide);
 						j++;

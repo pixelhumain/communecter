@@ -486,7 +486,10 @@ class OrganizationController extends CommunecterController {
 		
 		$params = array( "organization" => $organization);
 		$params["events"] = $events;
-
+		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+		$params["contentKeyBase"] = $contentKeyBase;
+		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+		$params["images"] = $images;
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
@@ -559,10 +562,13 @@ public function actionDashboardMember($id)
 		} 
 		$params["members"] = $members;
 	}
+	$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+	$params["contentKeyBase"] = $contentKeyBase;
+	$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
 	
 	$events = Organization::listEventsPublicAgenda($id);
 	$params["events"] = $events;
-
+	$params["images"] = $images;
 
 
 	$contextMap = array();
