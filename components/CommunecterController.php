@@ -137,7 +137,7 @@ class CommunecterController extends Controller
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
       "mydata" => array("href" => "/person/mydata"),
-      "register" => array("href" => "/person/register"),
+      "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "gallery"=>array("href@"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
       "about" =>array("href"=>"/person/about"),
@@ -203,6 +203,7 @@ class CommunecterController extends Controller
     
     //managed public and private sections through a url manager 
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
       && !Yii::app()->session["userId"] )
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
