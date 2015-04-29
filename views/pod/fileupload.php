@@ -68,7 +68,10 @@
 		var imageName= "";
 		var imageId= "";
 		var imagePath = 'http://placehold.it/350x180';
-		var contentKey = contentKeyBase+"."+contentId;
+		if("undefined" != typeof(contentKeyBase))
+			var contentKey = contentKeyBase+"."+contentId;
+		else
+			contentKey = "";
 		initFileUpload();
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
@@ -94,7 +97,7 @@
 			  			imageId = data.id['$id'];
 				  		
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
-		        			updateSlider( data.imagePath);
+		        			updateSlider(data.image, data.id["$id"]);
 			  		}
 			  		else
 			  			toastr.error(data.msg);

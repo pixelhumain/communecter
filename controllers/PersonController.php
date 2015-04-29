@@ -675,8 +675,11 @@ class PersonController extends CommunecterController {
     }
 
     $person = Person::getPublicData($id);
+    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+ 	$images =  Document::listMyDocumentByType($id, Person::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
     $params = array( "person" => $person);
-
+    $params['images'] = $images;
+    $params["contentKeyBase"] = $contentKeyBase;
     $this->sidebar1 = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
     );

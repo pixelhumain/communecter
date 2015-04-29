@@ -8,6 +8,10 @@
 	#showAllSlides img{
 		width: 75%;
 	}
+
+	.sliderPreview img{
+		height: 175px;
+	}
 </style>
 
 <div id="photoVideo">
@@ -75,26 +79,41 @@
 			var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
 			$("#slidesPhoto").append(htmlSlide);
 		}else{
+			var imagesTab = [];
 			$.each(images, function(k,v){
-				var contentTab = v.contentKey.split(".");
+				imagesTab.push(v);
+			})
+			j=0
+			for(i=imagesTab.length-1; i>=0; i--){
+				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
-				if(i<5 && v.doctype=="image"){
+				if(j<5 && imagesTab[i].doctype=="image"){
 					if(where == "photoVideo"){
-						path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
-						var htmlSlide2 = "<div class='col-md-3'><img src='"+path+"' /></div>";
+						var htmlSlide2 = "<div class='col-md-3 sliderPreview'><img src='"+path+"' /></div>";
 						$("#showAllSlides").append(htmlSlide2);
 						$("#slidesPhoto").append(htmlSlide);
-						i++;
+						j++;
 					}
 				}
-				
-			})
+			}			
 		}
 		$("#flexsliderPhotoVideo").flexslider();
 		$(".podPhotoVideoTitle").html("Media");
 	}
 
+
+	function updateSlider(image, id){
+		images[id] = image;
+		$("#flexsliderPhotoVideo").removeData("flexslider");
+		$("#flexsliderPhotoVideo").empty();
+		$("#showAllSlides").empty();
+		$("#flexsliderPhotoVideo").html('<ul class="slides" id="slidesPhoto">');
+		$("#flexsliderPhotoVideo").flexslider();
+		initPhotoVideo()
+
+	}
 
 	function bindPhotoSubview(){
 		$( "#drag1" ).draggable();

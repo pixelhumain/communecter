@@ -53,9 +53,7 @@
 				}
 			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																	  "type" => $type,
-																	  "contentKey" => "",
 																	  "contentId" =>"sliderPhoto",
-																	  "imagePath" => "",
 																	  "editMode" => true)); ?>
 		</div>
 	</div>
@@ -65,6 +63,7 @@
 	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
 	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
  	var isSubmit = false;
+ 	var imagesTab = [];
 	 jQuery(document).ready(function() {
 		initDashboardPhoto();
 		bindPhotoSubview();
@@ -78,35 +77,32 @@
 	
 
 	function initDashboardPhoto(){
-		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/getUserImages/type/"+type+"/id/"+id,
-			type: "POST",
-			contentType: false,
-			cache: false, 
-			processData: false,
-			success: function(data){
-		  		if(data) {
-		  			console.log(data);
-		  			i=0;
-		  			if(data.length == 0){
-		  				var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
+		i=0;
+		if(images.length == 0){
+			var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
+			$("#slidesPhoto").append(htmlSlide);
+		}else{
+			
+			$.each(images, function(k,v){
+				imagesTab.push(v)
+			})
+			j=0;
+			for(i=imagesTab.length-1; i>0; i--){
+				var contentTab = imagesTab[i].contentKey.split(".");
+				var where = contentTab[contentTab.length-1];
+				if(j<5 && imagesTab[i].doctype=="image"){
+					if(where == "sliderPhoto"){
+						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
+						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
-		  			}
-		  			$.each(data, function(k,v){
-		  				if(i<5){
-		  					var htmlSlide = "<li><img src='"+v+"' /></li>";
-							$("#slidesPhoto").append(htmlSlide);
-							i++;
-		  				}
-		  				
-		  			})
-					$("#flexsliderPhoto").flexslider();
+						j++;
+					}
 				}
-		  		else
-		  			toastr.error(data.msg);
-		  },
-		});
-		
+			}
+			
+		}
+		$("#flexsliderPhoto").flexslider();
+		$(".podPhotoVideoTitle").html("Media");
 	}
 
 	function bindPhotoSubview(){
@@ -126,11 +122,11 @@
 		});
 	}
 
-	function updateSlider(){
+	function updateSlider(image, id){
+		images[id]=image;
 		$("#flexsliderPhoto").removeData("flexslider");
 		$("#flexsliderPhoto").empty();
 		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
-		$("#flexsliderPhoto").flexslider();
 		initDashboardPhoto()
 
 	}
