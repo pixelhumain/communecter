@@ -73,6 +73,10 @@
 			if(isSubmit == false)
 				$("#photoAddSV").submit();
 		})
+
+		$(".gallery-photo").on("click", function(){
+			location.href = baseUrl+"/"+moduleId+"/gallery/index/id/"+id+"/type/"+type;
+		})
 	});
 	
 

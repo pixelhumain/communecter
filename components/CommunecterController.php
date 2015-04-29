@@ -139,7 +139,7 @@ class CommunecterController extends Controller
       "mydata" => array("href" => "/person/mydata"),
       "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
-      "gallery"=>array("href@"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "gallery"=>array("href"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
       "about" =>array("href"=>"/person/about"),
       "updatefield" =>array("href"=>"/person/updatefield"),
     ),
@@ -195,6 +195,11 @@ class CommunecterController extends Controller
     "pod" => array(
     	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
     	"photovideo" => array("href" => "ph/communecter/pod/photovideo"),
+    ),
+    "gallery" => array(
+    	"index" => array("href" => "ph/communecter/gallery/index"),
+    	"getlistbyid" => array("href"=>"ph/communecter/gallery/getlistbyid"),
+    	"removebyid" => array("href"=>"ph/communecter/gallery/removebyid"),
     ),
     
   );

@@ -33,12 +33,12 @@
 				<div class="col-md-8">
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-5">
-							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
+							<?php /*$this->renderPartial('../pod/fileupload', array("itemId" => "",
 																	  "type" => "",
 																	  "contentKey" => "",
 																	  "contentId" =>"invitePhoto",
 																	  "imagePath" => "",
-																	  "editMode" => false)); ?>
+																	  "editMode" => false)); */?>
 						</div>
 						<div class="col-md-7">
 							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this invite</a>
