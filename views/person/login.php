@@ -122,16 +122,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
+							<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="Password again">
+							<i class="fa fa-lock"></i> </span>
+					</div>
+					<div class="form-group">
+						<span class="input-icon">
 							<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
 							<i class="fa fa-home"></i></span>
 					</div>
-					<?php /*
-					<div class="form-group">
-						<span class="input-icon">
-							<input id="tags" type="hidden"  class="form-control" placeholder="Tags about you, or Organization you're member of">
-							<i class="fa fa-tag"></i></span>
-					</div>
-					*/?>
 					<div class="form-group">
 						<div>
 							<label for="agree" class="checkbox-inline">
@@ -386,23 +384,30 @@ var Login = function() {
 		form3.validate({
 			rules : {
 				cp : {
-					maxlength : 5,
-					required : true
+					required : true,
+					rangelength : [5, 5]
 				},
 				name : {
 					required : true
 				},
 				email3 : {
-					required : true
+					required : true,
+					email : true
 				},
 				password3 : {
 					minlength : 4,
 					required : true
 				},
+				passwordAgain : {
+					equalTo : "#password3"
+				},
 				agree : {
 					minlength : 1,
 					required : true
 				}
+			},
+			messages: {
+				agree: "You must validate the CGU to sign up.",
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
@@ -412,7 +417,6 @@ var Login = function() {
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
-                   //"tags" : $("#tags").val(),
                    "app" : "<?php echo $this->module->id?>"
                 };
 			      
