@@ -169,11 +169,16 @@ class OrganizationController extends CommunecterController {
 	$newOrganization["type"] = $_POST['type'];
 				  
 	if(!empty($_POST['postalCode'])) {
+	   $insee = "";
+	   if (!empty($_POST['city'])) {
+	   		$insee = $_POST['city'];
+	   }
 	   $newOrganization["address"] = array(
 		 "postalCode"=> $_POST['postalCode'],
-		 "addressCountry"=> $_POST['organizationCountry']
+		 "addressCountry"=> $_POST['organizationCountry'],
+		 "codeInsee" => $insee,
 	   );
-	} 
+	}
 				  
 	if (!empty($_POST['description']))
 	  $newOrganization["description"] = $_POST['description'];
@@ -400,7 +405,8 @@ class OrganizationController extends CommunecterController {
 			 'name'=>$_POST['personName'],
 			 'email'=>$_POST['personEmail'],
 			 'postalCode'=>$_POST['postalCode'],
-			 'pwd'=>$_POST['password']);
+			 'pwd'=>$_POST['password'],
+			 'city'=>$_POST['city']);
 
 	  // Retrieve data from form
 	  try {
