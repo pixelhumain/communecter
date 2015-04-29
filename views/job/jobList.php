@@ -1,6 +1,3 @@
-<?php
-	// echo CHtml::scriptFile(Yii::app()->theme->baseUrl."/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js");
-?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">List of Jobs Posting </h4>
@@ -19,12 +16,11 @@
 							$jobId = $jobValue["_id"];
 					?>
 					<tr id="job<?php echo $jobId;?>">
-						<td><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></td>
+						<td><a href="#" class="viewButton" data-id="<?php echo $jobId;?>" data-original-title="View"><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></a></td>
 						<td><?php if(isset($jobValue["employmentType"])) echo $jobValue["employmentType"] ?></td>
 						<td><?php if(isset($jobValue["hiringOrganization"]) && isset($jobValue["hiringOrganization"]["name"])) echo $jobValue["hiringOrganization"]["name"] ?></td>
 						<td class="center">
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
-							<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips viewButton" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a>
 							<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $jobId;?>" data-name="<?php echo (string)$jobValue["title"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 						</div>
@@ -115,8 +111,10 @@ function openJobSV(mode, id) {
 
 function updateJob(njob, jobId) {
     console.log("updateJob func");
+    console.table(njob);
+    var jobLink = '<a href="#" class="viewButton" data-id="'+jobId+'" data-original-title="View">'+njob.title+'</a>';
     var jobLine  = '<tr id="job'+jobId+'">'+
-                '<td>'+njob.title+'</td>'+
+                '<td>'+jobLink+'</td>'+
                 '<td>'+njob.employmentType+'</td>'+
                 '<td>'+njob.hiringOrganization.name+'</td>'+
                 '<td class="center">'+
