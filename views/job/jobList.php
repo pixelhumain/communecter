@@ -22,7 +22,7 @@
 						<td class="center">
 						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-							<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $jobId;?>" data-name="<?php echo (string)$jobValue["title"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+							<a href="#" class="btn btn-red tooltips delButton" data-id="<?php echo $jobId;?>" data-name="<?php echo isset($jobValue["title"]) ? $jobValue["title"] : "";?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 						</div>
 						</td>
 					</tr>

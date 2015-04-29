@@ -73,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-4" class="col-sm-3 control-label">Hiring organization</label>
 											<div class="col-sm-9">
-												<a href="#" id="hiringOrganization" data-type="select2" data-original-title="Enter Job Town" class="editable editable-click">
+												<a href="#" id="hiringOrganization" data-type="select2" data-original-title="Enter Hiring organization" class="editable editable-click">
 													<?php echo (isset($job["hiringOrganization"]) && isset($job["hiringOrganization"]["name"]))  ? $job["hiringOrganization"]["name"] : "" ?>
 												</a>
 											</div>
@@ -300,7 +300,7 @@ function activateEditable() {
     
     //Button Save
     $('#save-btn').click(function() {
-	   	$('.editable-job').editable('submit', {
+	   	$('.editable-job, #hiringOrganization').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response
