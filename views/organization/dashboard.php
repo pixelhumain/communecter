@@ -94,6 +94,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	contextMap = <?php echo json_encode($organization) ?>;
 	contextMap.events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
+	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 
 	
 	jQuery(document).ready(function() {

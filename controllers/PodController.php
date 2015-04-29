@@ -35,9 +35,7 @@
 		}
 
 		public function actionPhotoVideo($id, $type){
-			$imagesList = Document::getListImagesByKey($id, $type.".dashboard");
 			$params = array();
-			$params["images"] = $imagesList;
 			$params["type"] = $type;
 			$params["itemId"] = $id;
 			if(Yii::app()->request->isAjaxRequest)
