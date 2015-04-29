@@ -93,13 +93,14 @@ class Person {
 	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
 	 * @param boolean $minimal : true : a person can be created using only name and email. 
-	 * Else : postalCode and pwd are also requiered
+	 * Else : postalCode, city and pwd are also requiered
 	 * @return the new person with the business rules applied
 	 */
 	public static function checkPersonData($person, $minimal) {
 		$dataPersonMinimal = array("name", "email");
+		$newPerson = array();
 		if (! $minimal) {
-			array_push($dataPersonMinimal, "postalCode", "pwd");
+			array_push($dataPersonMinimal, "postalCode", "city", "pwd");
 		}
 		//Check the minimal data
 	  	foreach ($dataPersonMinimal as $data) {
@@ -107,8 +108,12 @@ class Person {
 	  			throw new CommunecterException("Problem inserting the new person : ".$data." is missing");
 	  	}
 	  	
+	  	$newPerson["name"] = $person["name"];
+
 	  	if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
 	  		throw new CommunecterException("Problem inserting the new person : email is not well formated");
+        } else {
+        	$newPerson["email"] = $person["email"];
         }
 
 		//Check if the email of the person is already in the database
@@ -116,16 +121,29 @@ class Person {
 	  	if ($account) {
 	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
 	  	}
-
-	  	//Encode the password
-	  	if(isset($person["pwd"]))
-	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
 	  	
-	  	//Add the postal code in adresse section
-	  	if(isset($person["address"]))
-	  		$person["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode']);
+	  	if (! $minimal) {
+		  	//Encode the password
+		  	$newPerson["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+		  	
+		  	//Manage the adress : postalCode / adressLocality / codeInsee
+		  	//Get Locality label
+		  	try {
+		  		$city = SIG::getCityByCodeInsee($person["city"]);
+		  	} catch (CTKException $e) {
+		  		throw new CommunecterException("Problem inserting the new person : unknown city");
+		  	}
 
-	  	return $person;
+		  	//Format adress 
+		  	$adressLocality = $city["name"];
+		  	$geo = array("@type" => "GeoCoordinates",
+						"longitude" => $city["geo"]["coordinates"]["0"],
+						"latitude" => $city["geo"]["coordinates"]["1"],);
+
+			$newPerson["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode'], 
+				"addressLocality" => $adressLocality, "codeInsee" => $person["city"], "geo" => $geo);
+		}
+	  	return $newPerson;
 	}
 
 	/**
@@ -135,15 +153,15 @@ class Person {
 	 * @return array result, msg and id
 	 */
 	public static function insert($person, $minimal = false) {
+	  	//Check Person data + business rules
+	  	$person = Person::checkPersonData($person, $minimal);
+
 	  	$person["@context"] = array("@vocab"=>"http://schema.org",
             "ph"=>"http://pixelhumain.com/ph/ontology/");
 
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
-	  	
-	  	//Check Person data + business rules
-	  	$person = Person::checkPersonData($person, $minimal);
 	  	
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
