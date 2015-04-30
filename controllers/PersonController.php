@@ -554,7 +554,7 @@ class PersonController extends CommunecterController {
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
 	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
-	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email", "links", "imagePath"));
+	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query);
 		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links", "imagePath"));
 		$all = array(
 			"citoyens" => $allCitoyens,
