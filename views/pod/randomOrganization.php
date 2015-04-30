@@ -30,7 +30,7 @@
       </div>
       </div>
     <div class="panel-footer "  >
-      <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.(string)$randomOrganization['_id'])?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
+      <a href="<?php echo (isset($randomOrganization['_id']) ? $Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.(string)$randomOrganization['_id']) : '#')?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
     </div>
   </div>
 

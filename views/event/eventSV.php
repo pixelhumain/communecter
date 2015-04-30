@@ -56,26 +56,7 @@
 	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3>Add new event</h3>
 		<div class="row">
-		<div class="col-md-3">
-		<form  method="post" id="profileFormEventSV" enctype="multipart/form-data">
-			<div class="fileupload fileupload-new" data-provides="fileupload">
-				<div class="fileupload-new thumbnail">
-					<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
-				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
-				<div class="user-edit-image-buttons">
-					<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
-					</span>
-					<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-						<i class="fa fa-times"></i> Remove
-					</a>
-				</div>
-			</div>
-		</form>
-		</div>
-		
-		<div class="col-md-7">
+		<div class="col-md-10">
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 					if(!empty($myOrganizationAdmin)) {
@@ -231,30 +212,6 @@ jQuery(document).ready(function() {
  	runEventFormValidation();
  	if("undefined" != typeof contextMap )
  		initLastsEvents();
-
-
- 	$("#profileFormEventSV").on('submit',(function(e) {
-		e.preventDefault();
-		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/events/id/"+$("#newEventId").val(),
-			type: "POST",
-			data: new FormData(this),
-			contentType: false,
-			cache: false, 
-			processData: false,
-			success: function(data){
-		  		if(data.result){
-		  			toastr.success(data.msg);
-		  			$.hideSubview();
-		  			newEventData.imagePath = data.imagePath;
-		  			console.log("newEventData", newEventData);
-		  			updateAll(newEventData);
-		  		}
-		  		else
-		  			toastr.error(data.msg);
-		  },
-		});
-	}));
 });
 function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
@@ -296,6 +253,11 @@ function bindEventSubViewEvents() {
 		$(".close-subviews").trigger("click");
 		e.preventDefault();
 	});
+
+	$(".show-calendar").on("blur", function(e) {
+		e.preventDefault();
+		$(".applyBtn ").trigger("click");
+	})
 };
 
 var dateToShow, calendar, $eventDetail, eventClass, eventCategory;
@@ -582,11 +544,8 @@ formEvent.validate({
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	newEventData = data.event;
-		        	$("#profileFormEventSV").submit();
-		        	
-		        	
-		        	//$.hideSubview();
-		        	//console.log("updateEvent");
+		        	$.hideSubview();
+		        	location.href= baseUrl+"/"+moduleId+"/event/dashboard/id/"+data.id["$id"];
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }

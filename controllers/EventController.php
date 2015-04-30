@@ -243,7 +243,8 @@ class EventController extends CommunecterController {
     $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
     $this->pageTitle = "Communecter - Informations sur l'evenement ".$this->title;
 
-
+    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+	$images = Document::listMyDocumentByType($id, Event::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
   	$organizations = array();
   	$people = array();
   	//$admins = array();
@@ -265,6 +266,8 @@ class EventController extends CommunecterController {
   			}
   		}
   	}
+  	$params["images"] = $images;
+  	$params["contentKeyBase"] = $contentKeyBase;
   	$params["attending"] = $attending;
   	$params["event"] = $event;
   	$params["organizations"] = $organizations;
