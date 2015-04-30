@@ -10,32 +10,44 @@
 		border: 1px solid #ddd;
 	}
 	
-	.flexslider .slides img {
-	    height: 250px;
+	#sliderPhotoPod .flexslider .slides li {
+	    height: 250px;   
+	}
+	#sliderPhotoPod .flexslider .slides img {
+	    position: relative;
+	    height: 100%;
+	    width: auto;
+	    margin-left: auto;
+	    margin-right: auto;
+	}
+	#sliderPhotoPod .flexslider {
+		height: 260px;
 	}
 </style>
-<div class="panel panel-white">
-	<div class="panel-heading border-light"></div>
-	<div class="panel-tools">
-		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
-			<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
-		<?php } ?>	
-	</div>
-	<div class="panel-body">
-		<div class="center">
-			<div class="flexslider" id="flexsliderPhoto">
-				<ul class="slides" id="slidesPhoto">
-					
-				</ul>
-			</div>
-			
+<div id="sliderPhotoPod">
+	<div class="panel panel-white">
+		<div class="panel-heading border-light"></div>
+		<div class="panel-tools">
+			<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
+				<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
+			<?php } ?>	
 		</div>
+		<div class="panel-body">
+			<div class="center">
+				<div class="flexslider" id="flexsliderPhoto">
+					<ul class="slides" id="slidesPhoto">
+						
+					</ul>
+				</div>
+				
+			</div>
 
-		</hr>
+			</hr>
 
-		<div class="row center" id="menuPhoto">
-			<a href="#galleryPhoto" class="gallery-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt="Show gallery"><i class="fa fa-camera"></i> Show gallery</a>
+			<div class="row center" id="menuPhoto">
+				<a href="#galleryPhoto" class="gallery-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt="Show gallery"><i class="fa fa-camera"></i> Show gallery</a>
 
+			</div>
 		</div>
 	</div>
 </div>

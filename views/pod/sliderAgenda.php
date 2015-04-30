@@ -1,10 +1,13 @@
 <style type="text/css">
-	.flexslider{
+	#sliderAgenda .flexslider{
 		margin : 0px 0px 0px;
 		height: 220px;
 	}
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
+	}
+	#sliderAgenda .flexslider .slides img{
+		height: 250px;
 	}
 </style>
 	<div id="sliderAgenda">

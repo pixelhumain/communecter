@@ -2,16 +2,23 @@
 	#editSliderPhotoVideo{
 		display:none;
 	}
-	.flexslider .slides img {
-	    height: 250px;
+	#photoVideo .flexslider .slides li {
+	    height: 250px;   
+	}
+	#photoVideo .flexslider .slides img {
+	    position: relative;
+	    height: 100%;
+	    width: auto;
+	    margin-left: auto;
+	    margin-right: auto;
+	}
+	#photoVideo .flexslider {
+		height: 260px;
 	}
 	#showAllSlides img{
 		width: 75%;
 	}
-
-	.sliderPreview img{
-		height: 175px;
-	}
+	
 </style>
 
 <div id="photoVideo">
@@ -71,7 +78,9 @@
 <script type="text/javascript">
  	jQuery(document).ready(function() {
  		initPhotoVideo();
-		$("#flexsliderPhotoVideo").flexslider();
+		$("#flexsliderPhotoVideo").flexslider({
+			controlNav : false,
+		});
 	});
 
 	function initPhotoVideo(){

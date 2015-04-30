@@ -4,6 +4,30 @@ class Person {
 	const COLLECTION = "citoyens";
 
 	/**
+	 * used to save any user session data 
+	 * good practise shouldn't be to heavy
+	 * user = array("name"=>$username)
+	 */
+	public static function saveUserSessionData($id,$email,$user)
+    {
+      Yii::app()->session["userId"] = $id;
+      Yii::app()->session["userEmail"] = $email;
+      Yii::app()->session["user"] = $user;
+      Yii::app()->session['logguedIntoApp'] = (isset(Yii::app()->controller->module->id)) ? Yii::app()->controller->module->id : "pixelhumain";
+    }
+
+    /**
+	 * used to clear all user's data from session
+	 */
+    public static function clearUserSessionData()
+    {
+      Yii::app()->session["userId"] = null;
+      Yii::app()->session["userEmail"] = null; 
+      Yii::app()->session["user"] = null; 
+      Yii::app()->session['logguedIntoApp'] = null;
+    }
+
+	/**
 	 * get a Person By Id
 	 * @param type $id : is the mongoId of the person
 	 * @return type

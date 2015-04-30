@@ -90,6 +90,8 @@ var images;
 var tabButton = [];
 var itemId = "<?php echo $itemId; ?>"
 var itemType = "<?php echo $itemType; ?>"
+var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $itemType, $itemId)) echo 'true' ; else echo 'false'; ?>"; 
+
 jQuery(document).ready(function() {
 	initGrid();
 	
@@ -110,6 +112,14 @@ function initGrid(){
 					type = "profil";
 				if(v.doctype == "image"){
 					var path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+					var htmlBtn = "";
+					if(authorizationToEdit=="true"){
+						htmlBtn= ' <div class="tools tools-bottom">' +
+									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'" >' +
+										' <i class="fa fa-trash-o"></i>'+
+									' </a>'+
+								' </div>'
+						}
 					var htmlThumbail = '<li class="col-md-3 col-sm-6 col-xs-12 mix '+type+' gallery-img" data-cat="1" id="'+v["_id"]["$id"]+'">'+
 								' <div class="portfolio-item">'+
 									' <a class="thumb-info" href="'+path+'" data-title="Website">'+
@@ -117,11 +127,7 @@ function initGrid(){
 										' <span class="thumb-info-title">'+v.contentKey.split(".")[1]+'</span>' +
 									' </a>' +
 									' <div class="chkbox"></div>' +
-									' <div class="tools tools-bottom">' +
-										' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'" >' +
-											' <i class="fa fa-trash-o"></i>'+
-										' </a>'+
-									' </div>' +
+									htmlBtn +
 								' </div>' +
 							'</li>' ;
 					$("#Grid").append(htmlThumbail);

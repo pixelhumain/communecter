@@ -212,7 +212,10 @@ class CommunecterController extends Controller
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
       && !Yii::app()->session["userId"] )
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-      
+
+    /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
+      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
+
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
