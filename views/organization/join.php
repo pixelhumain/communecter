@@ -244,7 +244,6 @@ var dataBindOrganization = {
     "#g-recaptcha-response" : "g-recaptcha-response",
 };
 
-var timeout;
 jQuery(document).ready(function() {
 	<?php $contextMap = array("types"=>$types, "parentOrganization"=>$parentOrganization, "tags"=>$tags); ?>
 
@@ -340,23 +339,28 @@ function runShowCity(searchValue, idSelect, classDiv) {
 }
 
 function bindPostalCodeAction(postalCodeId, idSelect, classDiv) {
-	var searchValue = $(postalCodeId).val();
-	if (searchValue.length == 5) {
-		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 500); 
-	}
-	
+	searchCity(postalCodeId, idSelect, classDiv);
 	$(postalCodeId).keyup(function(e){
-		searchValue = $(postalCodeId).val();
-		if(searchValue.length == 5) {
-			clearTimeout(timeout);
-			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-			clearTimeout(timeout);
-			timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 500); 
-		} else {
-			$(classDiv).slideUp("medium");
-			$(idSelect).empty();
-		}
-	})
+		searchCity(postalCodeId, idSelect, classDiv);
+	});
+	$(postalCodeId).change(function(e){
+		searchCity(postalCodeId, idSelect, classDiv);
+	});
+}
+
+function searchCity(postalCodeId, idSelect, classDiv) {
+	var searchValue = $(postalCodeId).val();
+	var timeout;
+	if(searchValue.length == 5) {
+		$(idSelect).empty();
+		clearTimeout(timeout);
+		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+		clearTimeout(timeout);
+		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 100); 
+	} else {
+		$(classDiv).slideUp("medium");
+		$(idSelect).empty();
+	}
 }
 
 </script>
