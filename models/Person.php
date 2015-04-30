@@ -129,19 +129,13 @@ class Person {
 		  	//Manage the adress : postalCode / adressLocality / codeInsee
 		  	//Get Locality label
 		  	try {
-		  		$city = SIG::getCityByCodeInsee($person["city"]);
+		  		//Format adress 
+		  		$newPerson["address"] = SIG::getAdressSchemaLikeByCodeInsee($person["city"]);
 		  	} catch (CTKException $e) {
 		  		throw new CommunecterException("Problem inserting the new person : unknown city");
 		  	}
 
-		  	//Format adress 
-		  	$adressLocality = $city["name"];
-		  	$geo = array("@type" => "GeoCoordinates",
-						"longitude" => $city["geo"]["coordinates"]["0"],
-						"latitude" => $city["geo"]["coordinates"]["1"],);
-
-			$newPerson["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode'], 
-				"addressLocality" => $adressLocality, "codeInsee" => $person["city"], "geo" => $geo);
+		  	
 		}
 	  	return $newPerson;
 	}
