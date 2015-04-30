@@ -505,18 +505,26 @@ function runShowCity(searchValue) {
 }
 
 function bindPostalCodeAction() {
-	$('.form-register #cp').keyup(function(e){
-		var searchValue = $('.form-register #cp').val();
-		if(searchValue.length == 5) {
-			clearTimeout(timeout);
-			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-			clearTimeout(timeout);
-			timeout = setTimeout('runShowCity("'+searchValue+'")', 500); 
-		} else {
-			$("#cityDiv").slideUp("medium");
-			$("#city").empty();
-		}
+	$('.form-register #cp').change(function(e){
+		searchCity();
 	})
+	$('.form-register #cp').keyup(function(e){
+		searchCity();
+	})
+}
+
+function searchCity() {
+	var searchValue = $('.form-register #cp').val();
+	if(searchValue.length == 5) {
+		$("#city").empty();
+		clearTimeout(timeout);
+		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+		clearTimeout(timeout);
+		timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+	} else {
+		$("#cityDiv").slideUp("medium");
+		$("#city").empty();
+	}
 }
 
 </script>
