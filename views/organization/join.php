@@ -216,7 +216,6 @@ var organizationInitData = {
 	"type": "Association",
 	"tagsOrganization" : "Rugby",
 	"postalCode": "97426",
-	//"city" : "",
 	"organizationEmail": "toto@toto.fr",
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
@@ -322,20 +321,32 @@ jQuery(document).ready(function() {
 
 function runShowCity(searchValue, idSelect, classDiv) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	var oneValue = "";
 	console.table(citiesByPostalCode);
 	$.each(citiesByPostalCode,function(i, value) {
     	$(idSelect).append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
 	});
+
+	if (citiesByPostalCode.length == 1) {
+		$(idSelect).select2('val', oneValue);
+	}
+
 	if (citiesByPostalCode.length >0) {
-        $(classDiv).slideDown("medium");
-      } else {
-        $(classDiv).slideUp("medium");
-      }
+		$(classDiv).slideDown("medium");
+    } else {
+		$(classDiv).slideUp("medium");
+	}
 }
 
 function bindPostalCodeAction(postalCodeId, idSelect, classDiv) {
+	var searchValue = $(postalCodeId).val();
+	if (searchValue.length == 5) {
+		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 500); 
+	}
+	
 	$(postalCodeId).keyup(function(e){
-		var searchValue = $(postalCodeId).val();
+		searchValue = $(postalCodeId).val();
 		if(searchValue.length == 5) {
 			clearTimeout(timeout);
 			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);

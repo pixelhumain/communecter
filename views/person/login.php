@@ -486,10 +486,17 @@ var Login = function() {
 
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	var oneValue = "";
 	console.table(citiesByPostalCode);
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
 	});
+	
+	if (citiesByPostalCode.length == 1) {
+		$("#city").val(oneValue);
+	}
+
 	if (citiesByPostalCode.length >0) {
         $("#cityDiv").slideDown("medium");
       } else {

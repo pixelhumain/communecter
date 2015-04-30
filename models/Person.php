@@ -120,7 +120,7 @@ class Person {
 	 * Else : postalCode, city and pwd are also requiered
 	 * @return the new person with the business rules applied
 	 */
-	public static function checkPersonData($person, $minimal) {
+	public static function getAndcheckPersonData($person, $minimal) {
 		$dataPersonMinimal = array("name", "email");
 		$newPerson = array();
 		if (! $minimal) {
@@ -158,8 +158,6 @@ class Person {
 		  	} catch (CTKException $e) {
 		  		throw new CommunecterException("Problem inserting the new person : unknown city");
 		  	}
-
-		  	
 		}
 	  	return $newPerson;
 	}
@@ -172,7 +170,7 @@ class Person {
 	 */
 	public static function insert($person, $minimal = false) {
 	  	//Check Person data + business rules
-	  	$person = Person::checkPersonData($person, $minimal);
+	  	$person = Person::getAndcheckPersonData($person, $minimal);
 
 	  	$person["@context"] = array("@vocab"=>"http://schema.org",
             "ph"=>"http://pixelhumain.com/ph/ontology/");
