@@ -429,7 +429,7 @@ class OrganizationController extends CommunecterController {
 		  "citoyens"=> array(),
 		  "organizations"=>array()
 		);
-		$images = Document::getListImagesByKey($id, Organization::COLLECTION.".dashboard");
+		$pageContents = Document::listMyDocumentByType($id,Organization::COLLECTION, Yii::app()->controller->id.".".Yii::app()->controller->action->id);
 
 		
 		$params = array( "organization" => $organization);

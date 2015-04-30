@@ -160,7 +160,7 @@ class PersonController extends CommunecterController {
 
   public function actionLogout() 
   {
-    Yii::app()->session["userId"] = null;
+    Person::clearUserSessionData();
     $this->redirect(Yii::app()->homeUrl);
   }
 
@@ -212,8 +212,7 @@ class PersonController extends CommunecterController {
     $account = Person::getById($user);
     //TODO : move code below to the model Person
     if($account){
-        Yii::app()->session["userId"] = $user;
-        Yii::app()->session["userEmail"] = $account["email"];
+        Person::saveUserSessionData( $user, $account["email"],array("name"=>$account["name"]));
         //remove tobeactivated attribute on account
         PHDB::update(PHType::TYPE_CITOYEN,
                             array("_id"=>new MongoId($user)), 
@@ -249,9 +248,7 @@ class PersonController extends CommunecterController {
     try {
       $res = Person::insert($newPerson, false);
       
-      Yii::app()->session["userId"] = $res["id"];
-      Yii::app()->session["userEmail"] = $email;
-      Yii::app()->session["user"] = array("name" => $name);
+      Person::saveUserSessionData($res["id"],$email,array("name"=>$name));
 
     } catch (CommunecterException $e) {
       $res = array("result" => false, "msg"=>$e->getMessage());
