@@ -115,6 +115,13 @@ echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 								<input class="form-control" placeholder="12345" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 							</div>
 
+							<div class="form-group" id="cityDiv" style="display: none;">
+								<span class="input-icon">
+								<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+								</select>
+								</span>	
+							</div>
+
 							<div class="form-group">
 								<label class="control-label">
 									Centres d'interet 
@@ -174,7 +181,7 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				minlength : 5,
+				rangelength : [5, 5],
 				required : true
 			}
 		},
@@ -228,7 +235,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	showSearch();
-
+	bindPostalCodeAction();
  });  
 
 	function initForm() {
@@ -369,5 +376,39 @@ jQuery(document).ready(function() {
 		}
 	}
 
+	function runShowCity(searchValue) {
+		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		var oneValue = "";
+		console.table(citiesByPostalCode);
+		$.each(citiesByPostalCode,function(i, value) {
+	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+	    	oneValue = value.value;
+		});
+		
+		if (citiesByPostalCode.length == 1) {
+			$("#city").val(oneValue);
+		}
+
+		if (citiesByPostalCode.length >0) {
+	        $("#cityDiv").slideDown("medium");
+	      } else {
+	        $("#cityDiv").slideUp("medium");
+	      }
+	}
+
+	function bindPostalCodeAction() {
+		$('#organizationForm #postalCode').keyup(function(e){
+			var searchValue = $('#organizationForm #postalCode').val();
+			if(searchValue.length == 5) {
+				clearTimeout(timeout);
+				timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
+				clearTimeout(timeout);
+				timeout = setTimeout('runShowCity("'+searchValue+'")', 500); 
+			} else {
+				$("#cityDiv").slideUp("medium");
+				$("#city").empty();
+			}
+		})
+	}
 </script>	
 

@@ -71,7 +71,7 @@ class OrganizationController extends CommunecterController {
 	*/
 	public function actionSaveNew() {
 		// Retrieve data from form
-		$newOrganization = Organisation::newOrganizationFromPost($_POST);
+		$newOrganization = Organization::newOrganizationFromPost($_POST);
 		try {
 			//Save the organization
 			Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
@@ -86,7 +86,7 @@ class OrganizationController extends CommunecterController {
    */
   public function actionSave() {
 	// Minimal data
-	$organization = Organisation::newOrganizationFromPost($_POST);
+	$organization = Organization::newOrganizationFromPost($_POST);
 
 	if (! isset($_POST["organizationId"])) 
 	  throw new CTKException("You must specify an organization Id to update");
