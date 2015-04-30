@@ -237,13 +237,15 @@ class PersonController extends CommunecterController {
     $email = (!empty($_POST['email'])) ? $_POST['email'] : "";
     $postalCode = (!empty($_POST['cp'])) ? $_POST['cp'] : "";
     $pwd = (!empty($_POST['pwd'])) ? $_POST['pwd'] : "";
+    $city = (!empty($_POST['city'])) ? $_POST['city'] : "";
 
     //Get the person data
     $newPerson = array(
        'name'=> $name,
        'email'=>$email,
        'postalCode'=> $postalCode,
-       'pwd'=>$pwd);
+       'pwd'=>$pwd,
+       'city'=>$city);
 
     try {
       $res = Person::insert($newPerson, false);
@@ -672,8 +674,11 @@ class PersonController extends CommunecterController {
     }
 
     $person = Person::getPublicData($id);
+    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+ 	$images =  Document::listMyDocumentByType($id, Person::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
     $params = array( "person" => $person);
-
+    $params['images'] = $images;
+    $params["contentKeyBase"] = $contentKeyBase;
     $this->sidebar1 = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
     );

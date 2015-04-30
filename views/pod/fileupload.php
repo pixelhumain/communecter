@@ -32,7 +32,7 @@
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php echo $contentId ?>_fileUpload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php echo $contentId ?>_imgPreview">
-					<img class="img-responsive" src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
+					
 				</div>
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
@@ -64,12 +64,15 @@
 		var id = "<?php echo $itemId ?>";
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php echo $contentId ?>";
-		var contentKey = "<?php echo $contentKey?>";
-		var imagePath = "<?php echo $imagePath?>"
 		var isSubmit = contentId+"_true";
 		var imageName= "";
 		var imageId= "";
-
+		var imagePath = 'http://placehold.it/350x180';
+		if("undefined" != typeof(contentKeyBase))
+			var contentKey = contentKeyBase+"."+contentId;
+		else
+			contentKey = "";
+		initFileUpload();
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
 			e.preventDefault();
@@ -94,7 +97,7 @@
 			  			imageId = data.id['$id'];
 				  		
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
-		        			updateSlider( data.imagePath);
+		        			updateSlider(data.image, data.id["$id"]);
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -152,5 +155,24 @@
 			  	},
 			});
 		});
+		function initFileUpload(){
+			if("undefined" == typeof(images)){
+				imagePath ='http://placehold.it/350x180';
+			}
+			$.each(images, function(k,v){
+				if(v.doctype=="image"){
+					if(v.contentKey == contentKey){
+						console.log("initFileUpload2", images, imagePath);
+						imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+					}
+				}		
+			})
+			console.log("initFileUpload", images, imagePath);
+			$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');
+		}
+		
 	});
+
+	
+
 </script>

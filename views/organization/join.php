@@ -3,6 +3,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/datepicker/css/datepicker.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
+
+//Data helper
+$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+
 ?>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -120,6 +124,14 @@ var formDefinition = {
 						"rangelength" : [5, 5]
 					}
 	            },
+	            "city" : {
+	            	"inputType" : "select",
+					"rules" : {
+						"required" : true,
+						"minlength" : 1
+					},
+					"options" : {"" : ""}
+				},
 	            "organizationCountry" : {
 	                "inputType" : "hidden",
 	                "value" : "Reunion",
@@ -162,6 +174,14 @@ var formDefinition = {
 						"rangelength" : [5, 5]
 					}
 	            },
+	            "personCity" : {
+	            	"inputType" : "select",
+					"rules" : {
+						"required" : true,
+						"minlength" : 1
+					},
+					"options" : {"" : ""}
+				},
 	            "password1" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-map-marker",
@@ -196,6 +216,7 @@ var organizationInitData = {
 	"type": "Association",
 	"tagsOrganization" : "Rugby",
 	"postalCode": "97426",
+	//"city" : "",
 	"organizationEmail": "toto@toto.fr",
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
@@ -212,16 +233,19 @@ var dataBindOrganization = {
 	"#public" : "public",
 	"#theme" : "tagsOrganization",
 	"#postalCode" : "postalCode",
+	"#city" : "city",
 	"#organizationEmail" : "organizationEmail" , 
     "#organizationCountry" : "organizationCountry",
     "#personName" : "personName",
     "#personEmail" : "personEmail",
     "#personPostalCode" : "personPostalCode",
+    "#personCity" : "personCity",
     "#password1" : "password",
     "#password2" : "password",
     "#g-recaptcha-response" : "g-recaptcha-response",
 };
 
+var timeout;
 jQuery(document).ready(function() {
 	<?php $contextMap = array("types"=>$types, "parentOrganization"=>$parentOrganization, "tags"=>$tags); ?>
 
@@ -289,7 +313,39 @@ jQuery(document).ready(function() {
 	    	});
 		}
 	});
+	$(".cityselect").hide();
+	$(".personCityselect").hide();
+	bindPostalCodeAction("#postalCode", "#city", ".cityselect");
+	bindPostalCodeAction("#personPostalCode", "#personCity", ".personCityselect");
 	console.dir(form);
 });
+
+function runShowCity(searchValue, idSelect, classDiv) {
+	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	console.table(citiesByPostalCode);
+	$.each(citiesByPostalCode,function(i, value) {
+    	$(idSelect).append('<option value=' + value.value + '>' + value.text + '</option>');
+	});
+	if (citiesByPostalCode.length >0) {
+        $(classDiv).slideDown("medium");
+      } else {
+        $(classDiv).slideUp("medium");
+      }
+}
+
+function bindPostalCodeAction(postalCodeId, idSelect, classDiv) {
+	$(postalCodeId).keyup(function(e){
+		var searchValue = $(postalCodeId).val();
+		if(searchValue.length == 5) {
+			clearTimeout(timeout);
+			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
+			clearTimeout(timeout);
+			timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 500); 
+		} else {
+			$(classDiv).slideUp("medium");
+			$(idSelect).empty();
+		}
+	})
+}
 
 </script>

@@ -169,11 +169,16 @@ class OrganizationController extends CommunecterController {
 	$newOrganization["type"] = $_POST['type'];
 				  
 	if(!empty($_POST['postalCode'])) {
+	   $insee = "";
+	   if (!empty($_POST['city'])) {
+	   		$insee = $_POST['city'];
+	   }
 	   $newOrganization["address"] = array(
 		 "postalCode"=> $_POST['postalCode'],
-		 "addressCountry"=> $_POST['organizationCountry']
+		 "addressCountry"=> $_POST['organizationCountry'],
+		 "codeInsee" => $insee,
 	   );
-	} 
+	}
 				  
 	if (!empty($_POST['description']))
 	  $newOrganization["description"] = $_POST['description'];
@@ -400,7 +405,8 @@ class OrganizationController extends CommunecterController {
 			 'name'=>$_POST['personName'],
 			 'email'=>$_POST['personEmail'],
 			 'postalCode'=>$_POST['postalCode'],
-			 'pwd'=>$_POST['password']);
+			 'pwd'=>$_POST['password'],
+			 'city'=>$_POST['city']);
 
 	  // Retrieve data from form
 	  try {
@@ -429,10 +435,14 @@ class OrganizationController extends CommunecterController {
 		  "citoyens"=> array(),
 		  "organizations"=>array()
 		);
-		$pageContents = Document::listMyDocumentByType($id,Organization::COLLECTION, Yii::app()->controller->id.".".Yii::app()->controller->action->id);
+
+		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+
 
 		
 		$params = array( "organization" => $organization);
+		$params["contentKeyBase"] = $contentKeyBase;
 		$params["images"] = $images;
 		$params["events"] = $events;
 		$contextMap = array();
@@ -484,7 +494,10 @@ class OrganizationController extends CommunecterController {
 		
 		$params = array( "organization" => $organization);
 		$params["events"] = $events;
-
+		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+		$params["contentKeyBase"] = $contentKeyBase;
+		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+		$params["images"] = $images;
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
@@ -557,10 +570,13 @@ public function actionDashboardMember($id)
 		} 
 		$params["members"] = $members;
 	}
+	$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+	$params["contentKeyBase"] = $contentKeyBase;
+	$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
 	
 	$events = Organization::listEventsPublicAgenda($id);
 	$params["events"] = $events;
-
+	$params["images"] = $images;
 
 
 	$contextMap = array();

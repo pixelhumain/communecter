@@ -33,7 +33,7 @@
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody id='tPerson'>
-              	<?php if(isset($members[Person::COLLECTION])) {
+              	<?php if(isset($members[Person::COLLECTION]) && count($members[Person::COLLECTION])>0) {
               		foreach ($members[Person::COLLECTION] as $e) { 
               			$id = (String) $organization["_id"]; 
               	?>
@@ -59,7 +59,17 @@
 							</div>
 							</td>
 						</tr>
-					<?php }} ?>
+					<?php }}else{ ?>
+						<div class ="center height-250 padding-10" >
+							<blockquote> 
+								Invite People 
+								<br>create links 
+								<br>communicate and interact
+								<br>better cities and Organizations
+								<br>People are the heart of the system
+							</blockquote>
+						</div>
+					<?php }; ?>
               </tbody>
             </table>
           </div>
@@ -68,7 +78,7 @@
           <div class="panel-scroll height-230">
             <table class="table table-striped table-hover">
               <tbody id='tOrga'>
-                <?php if(isset($members[Organization::COLLECTION])){
+                <?php if(isset($members[Organization::COLLECTION]) && count($members[Organization::COLLECTION])>0){
                 	foreach ($members[Organization::COLLECTION] as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine">
@@ -92,7 +102,17 @@
 							</div>
 							</td>
 						</tr>
-					<?php }} ?>
+					<?php }}else{ ?>
+						<div class ="height-250 padding-10" >
+							<blockquote> 
+								Create or Connect 
+								<br>an Organization, NGO,  
+								<br>Local Business, Informal Group. 
+								<br>Build links in your network, 
+								<br>to create a connected local directory 
+							</blockquote>
+						</div>
+					<?php }; ?>
               </tbody>
             </table>
           </div>

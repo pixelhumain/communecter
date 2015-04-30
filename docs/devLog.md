@@ -14,15 +14,25 @@ bla bla
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+
+//SBA : 30/04/2015 :
+How to Load cities collection
+Download the ville de france file on git : https://raw.githubusercontent.com/pixelhumain/Villes-de-France/master/cities.js
+Drop or rename any existing "cities" collection
+Load the new collection
+mongoimport --db pixelhumain --collection cities PATH_TO_MY_FILE\cities.js --jsonArray
+
+----------------------------------------------------
+
 //TKA : 28/04/2015  : 
-execute composer update to install CAptcha libs
+execute composer update to install Captcha libs
 and add the secret key to you main
 ----------------------------------------------------
 //TKA : 28/04/2015  : mettre a jour les cp dans cities
 
 db.cities.find().forEach(function(doc){
     if(doc.cp.length == 4){ 
-        print(counter+" : "+doc.name+" cp "+doc.cp.length+": "+doc.cp);
+        print(doc.name+" cp "+doc.cp.length+": "+doc.cp);
         db.cities.update({"_id":doc._id},{'$set':{'cp':"0"+doc.cp}})
     }
 });

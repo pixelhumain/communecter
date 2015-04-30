@@ -56,11 +56,11 @@ function getCitiesByPostalCode(postalCode, selectType) {
 		async: false,
 		dataType: 'json',
 		success: function(data) {
-			$.each(data, function(i,value) {
+			$.each(data, function(key,value) {
 				if (selectType == "select2") {
-					result.push({"id" : value.value, "text" :value.text});
+					result.push({"id" : value.insee, "text" :value.name});
 				} else {
-					result.push({"value" : value.value, "text" :value.text});
+					result.push({"value" : value.insee, "text" :value.name});
 				}
 			});
 		}
