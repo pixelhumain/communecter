@@ -158,15 +158,16 @@
 		function initFileUpload(){
 			if("undefined" == typeof(images)){
 				imagePath ='http://placehold.it/350x180';
+			}else{
+				$.each(images, function(k,v){
+					if(v.doctype=="image"){
+						if(v.contentKey == contentKey){
+							console.log("initFileUpload2", images, imagePath);
+							imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+						}
+					}		
+				})
 			}
-			$.each(images, function(k,v){
-				if(v.doctype=="image"){
-					if(v.contentKey == contentKey){
-						console.log("initFileUpload2", images, imagePath);
-						imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
-					}
-				}		
-			})
 			console.log("initFileUpload", images, imagePath);
 			$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');
 		}
