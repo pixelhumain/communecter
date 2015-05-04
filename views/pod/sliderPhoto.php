@@ -104,7 +104,7 @@
 				imagesTab.push(v)
 			})
 			j=0;
-			for(i=imagesTab.length-1; i>0; i--){
+			for(i=imagesTab.length-1; i>=0; i--){
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
