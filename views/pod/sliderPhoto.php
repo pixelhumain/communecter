@@ -91,7 +91,12 @@
 	function initDashboardPhoto(){
 		i=0;
 		if(images.length == 0){
-			var htmlSlide = "<li><img src='http://placehold.it/350x180' /></li>";
+			var htmlSlide = "<li>" +
+								"<blockquote>"+
+									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+								"</blockquote>"+
+							"</li>";
 			$("#slidesPhoto").append(htmlSlide);
 		}else{
 			
