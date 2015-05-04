@@ -8,14 +8,12 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<?php if(isset($projects) && count($projects)>0){ ?>
-			<div class="panel-scroll height-230 ps-container">			
+		<div class="panel-scroll height-230 ps-container">			
 			<table class="table table-striped table-hover" id="projects">
 				<tbody>
 					<?php
-					
-					foreach ($projects as $e) 
-					{
+					if(isset($projects) && count($projects)>0){
+					foreach ($projects as $e) {
 					?>
 					<tr id="project<?php echo (string)$e["_id"];?>">
 						<td class="center">
@@ -43,13 +41,13 @@
 						</td>
 					</tr>
 					<?php
-						}
+						};}
 					?>
 				</tbody>
 			</table>
-		</div>
-		<?php } else{ ?>
-			<div class ="center height-250 padding-10" >
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+		<?php if(isset($projects) && count($projects) == 0) {?>
+			<div id="info" class="padding-10">
 				<blockquote> 
 					Create or Contribute 
 					<br>Build Things 
@@ -60,5 +58,6 @@
 				</blockquote>
 			</div>
 		<?php } ?>
+		</div>
 	</div>
 </div>
