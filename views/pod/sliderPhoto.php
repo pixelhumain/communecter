@@ -10,9 +10,6 @@
 		border: 1px solid #ddd;
 	}
 	
-	#sliderPhotoPod .flexslider .slides li {
-	    height: 250px;   
-	}
 	#sliderPhotoPod .flexslider .slides img {
 	    position: relative;
 	    height: 100%;
@@ -20,11 +17,9 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	}
-	#sliderPhotoPod .flexslider {
-		height: 260px;
-	}
+	
 </style>
-<div id="sliderPhotoPod">
+<div id="sliderPhotoPod" onresize="javascript:resizeSlider()">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light"></div>
 		<div class="panel-tools">
@@ -72,10 +67,11 @@
 	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
  	var isSubmit = false;
  	var imagesTab = [];
+ 	var widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 	 jQuery(document).ready(function() {
+	 	$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
 		initDashboardPhoto();
 		bindPhotoSubview();
-		$("#flexslider2").flexslider();
 
 		$("#uploadBtn").off().on("click",function(){
 			if(isSubmit == false)
@@ -84,6 +80,10 @@
 
 		$(".gallery-photo").on("click", function(){
 			location.href = baseUrl+"/"+moduleId+"/gallery/index/id/"+id+"/type/"+type;
+		})
+
+		$( window ).resize(function() {
+			resizeSlider();
 		})
 	});
 	
@@ -115,6 +115,9 @@
 		}
 		$("#flexsliderPhoto").flexslider();
 		$(".podPhotoVideoTitle").html("Media");
+		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
+		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
+		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px")
 	}
 
 	function bindPhotoSubview(){
@@ -136,9 +139,7 @@
 
 	function updateSlider(image, id){
 		images[id]=image;
-		$("#flexsliderPhoto").removeData("flexslider");
-		$("#flexsliderPhoto").empty();
-		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
+		removeSlider();
 		initDashboardPhoto()
 
 	}
@@ -150,5 +151,16 @@
 		$("#uploadBtn").html("Upload File");
 		$(".fileupload").fileupload("clear");
 		$.hideSubview();
+	}
+
+	function resizeSlider(){
+		removeSlider();
+		initDashboardPhoto()
+	}
+
+	function removeSlider(){
+		$("#flexsliderPhoto").removeData("flexslider");
+		$("#flexsliderPhoto").empty();
+		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
 	}
 </script>
