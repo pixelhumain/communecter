@@ -77,6 +77,9 @@
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
 			e.preventDefault();
+			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			$("#"+contentId+"_photoUploading").css("display", "block");
+			$(".btn").addClass("disabled");
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey,
 				type: "POST",
@@ -87,18 +90,22 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
-			  			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
-						$("#"+contentId+"_photoUploading").css("display", "block");
+			  			
 			  			setTimeout(function(){
 			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
 							$("#"+contentId+"_photoUploading").css("display", "none");
+							$(".btn").removeClass("disabled");
 			  				toastr.success(data.msg);
+
 			  			}, 2000) 
+			  			
 			  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
 			  			imageId = data.id['$id'];
 				  		
-				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
+				 
 		        			updateSlider(data.image, data.id["$id"]);
+				  		}
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -189,6 +196,5 @@
 		
 	});
 
-	
 
 </script>
