@@ -102,7 +102,7 @@
 	<p></p>
 </center></center></div>  
 <script type="text/javascript">
-   
+
    	var force;
    	var data;
 	var dataTab;
@@ -128,9 +128,9 @@
 	function getDataFile(){
 		console.log("getDataFile");
 		var map = null;
-		if("undefined" != typeofcontextMap){
+		if("undefined" != typeof contextMap){
 			map=contextMap;
-			if("undefined" != typeofcontextMap.person){
+			if("undefined" != typeof contextMap.person){
 				contextId = contextMap.person["_id"]["$id"];
 				type = 'person';
 			}else if("undefined" != typeof contextMap.organization){
@@ -845,8 +845,20 @@ function getNewData(data){
 				} , 200);
 		});
 
-		datafile = getDataFile();
+		/*
+		var itemId = "<?php //if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>";
+		var itemType = "<?php //if(isset($person["_id"])) echo Person::COLLECTION; else if(isset($organization["_id"])) echo Organization::COLLECTION; ?>";
 
+
+		$.ajax({
+			url: baseUrl+"/graph/getData/id/"+itemId+"/type/"+itemType,
+			type: "POST",
+			dataType : "json",
+			success: function(data){
+				contextMap=data;
+			}
+		})*/
+		datafile = getDataFile();
 		initViewer();
 	});
 </script>

@@ -1,10 +1,13 @@
 <style type="text/css">
-	.flexslider{
+	#sliderAgenda .flexslider{
 		margin : 0px 0px 0px;
 		height: 220px;
 	}
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
+	}
+	#sliderAgenda .flexslider .slides img{
+		height: 210px;
 	}
 </style>
 	<div id="sliderAgenda">
@@ -52,7 +55,7 @@ var events = <?php echo json_encode($events) ?>;
 					if(n<4 && compareDate(today, date)){
 						notEmptySlide = true;
 						if ('undefined' == typeof v.imagePath){
-							v.imagePath = "http://placehold.it/350x180";
+							v.imagePath = "";
 						}
 						var htmlRes = "<li><div>"+
 										"<img src='"+v.imagePath+"'></img>";
@@ -71,14 +74,13 @@ var events = <?php echo json_encode($events) ?>;
 			})	
 		}
 		if(!notEmptySlide){
-			var htmlRes = "<li>"+
-							"<div>"+
-								"<img src='http://placehold.it/350x180'></img>"+
-								"<div class='row'>"+
-									"<h2>No upcoming events</h2>"+
-								"</div>" +
-							"</div>"+
-						"</li>";
+			var htmlRes = 	"<li>"+
+								"<blockquote>"+
+									" <i class='fa fa-calendar fa-5x text-red'></i>"+
+									" <br> No upcoming events" +
+									" <br> Click on <i class='fa fa-plus'></i> to add a new event"+
+								"</blockquote>"+
+							"</li>";
 			$("#slidesAgenda").append(htmlRes);
 		}
 

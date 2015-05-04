@@ -1,6 +1,10 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+
+//Data helper
+$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+
 ?>
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
@@ -122,16 +126,21 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
+							<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="Password again">
+							<i class="fa fa-lock"></i> </span>
+					</div>
+					<div class="form-group">
+						<span class="input-icon">
 							<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
 							<i class="fa fa-home"></i></span>
 					</div>
-					<?php /*
-					<div class="form-group">
+					<div class="form-group" id="cityDiv" style="display: none;">
 						<span class="input-icon">
-							<input id="tags" type="hidden"  class="form-control" placeholder="Tags about you, or Organization you're member of">
-							<i class="fa fa-tag"></i></span>
+							<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+							</select>
+						</span>
+								
 					</div>
-					*/?>
 					<div class="form-group">
 						<div>
 							<label for="agree" class="checkbox-inline">
@@ -171,6 +180,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 		});
 	});
 
+var timeout;
 var Login = function() {
 	"use strict";
 	var runBoxToShow = function() {
@@ -386,23 +396,34 @@ var Login = function() {
 		form3.validate({
 			rules : {
 				cp : {
-					maxlength : 5,
-					required : true
+					required : true,
+					rangelength : [5, 5]
+				},
+				city : {
+					required : true,
+					minlength : 1
 				},
 				name : {
 					required : true
 				},
 				email3 : {
-					required : true
+					required : true,
+					email : true
 				},
 				password3 : {
-					minlength : 4,
+					minlength : 8,
 					required : true
+				},
+				passwordAgain : {
+					equalTo : "#password3"
 				},
 				agree : {
 					minlength : 1,
 					required : true
 				}
+			},
+			messages: {
+				agree: "You must validate the CGU to sign up.",
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
@@ -412,8 +433,8 @@ var Login = function() {
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
-                   //"tags" : $("#tags").val(),
-                   "app" : "<?php echo $this->module->id?>"
+                   "app" : "<?php echo $this->module->id?>",
+                   "city" : $("#city").val()
                 };
 			      
 		    	$.ajax({
@@ -458,8 +479,52 @@ var Login = function() {
 			runLoginValidator();
 			runForgotValidator();
 			runRegisterValidator();
+			bindPostalCodeAction();
 		}
 	};
 }();
+
+function runShowCity(searchValue) {
+	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	var oneValue = "";
+	console.table(citiesByPostalCode);
+	$.each(citiesByPostalCode,function(i, value) {
+    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
+	});
+	
+	if (citiesByPostalCode.length == 1) {
+		$("#city").val(oneValue);
+	}
+
+	if (citiesByPostalCode.length >0) {
+        $("#cityDiv").slideDown("medium");
+      } else {
+        $("#cityDiv").slideUp("medium");
+      }
+}
+
+function bindPostalCodeAction() {
+	$('.form-register #cp').change(function(e){
+		searchCity();
+	});
+	$('.form-register #cp').keyup(function(e){
+		searchCity();
+	});
+}
+
+function searchCity() {
+	var searchValue = $('.form-register #cp').val();
+	if(searchValue.length == 5) {
+		$("#city").empty();
+		clearTimeout(timeout);
+		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+		clearTimeout(timeout);
+		timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+	} else {
+		$("#cityDiv").slideUp("medium");
+		$("#city").empty();
+	}
+}
 
 </script>

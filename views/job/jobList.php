@@ -16,15 +16,25 @@
 							$jobId = $jobValue["_id"];
 					?>
 					<tr id="job<?php echo $jobId;?>">
+						<td class="center">
+							<a href="#" class="viewButton" data-id="<?php echo $jobId;?>" data-original-title="View">
+								<?php if ($jobValue && isset($jobValue["imagePath"])){ ?>
+									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $jobValue["imagePath"]; ?>">
+								<?php } else { ?>
+									<i class="fa fa-briefcase fa-2x"></i>
+								<?php } ?>
+							</a>
+						</td>
 						<td><a href="#" class="viewButton" data-id="<?php echo $jobId;?>" data-original-title="View"><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></a></td>
 						<td><?php if(isset($jobValue["employmentType"])) echo $jobValue["employmentType"] ?></td>
 						<td><?php if(isset($jobValue["hiringOrganization"]) && isset($jobValue["hiringOrganization"]["name"])) echo $jobValue["hiringOrganization"]["name"] ?></td>
+						<?php if (Authorisation::isJobAdmin($jobId, Yii::app()->session["userId"])) {?>
 						<td class="center">
-						<div class="visible-md visible-lg hidden-sm hidden-xs">
-							<a href="#" data-id="<?php echo $jobId;?>" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-							<a href="#" class="btn btn-red tooltips delBtn" data-id="<?php echo $jobId;?>" data-name="<?php echo (string)$jobValue["title"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-						</div>
+							<div class="visible-md visible-lg hidden-sm hidden-xs">
+								<a href="#" class="btn btn-red tooltips delButton" data-id="<?php echo $jobId;?>" data-name="<?php echo isset($jobValue["title"]) ? $jobValue["title"] : "";?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times"></i></a>
+							</div>
 						</td>
+						<?php }?>
 					</tr>
 					<?php
 							}
@@ -63,14 +73,29 @@ function bindJobEvents() {
 		openJobSV("view", $(this).data('id'));
 	});
 
-	$(".editButton").off().on("click", function() {
-		console.log($(this).data('id'));
-		openJobSV("update", $(this).data('id'));
-	});
-
 	$(".delButton").off().on("click", function() {
-		console.log($(this).data('id'));
-		openJobSV("update", $(this).data('id'));
+		console.log("Delete the jobId : "+$(this).data('id'));
+		var id = $(this).data('id');
+		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> Job Offer ?", 
+			function(result) {
+				if (result) {
+					$.ajax({
+				            type: "POST",
+				            url: baseUrl+"/"+moduleId+"/job/delete/id/"+id,
+				            dataType: "json"
+				        })
+				    	.done(function (data) {
+				            if (data && data.result) {               
+				                toastr.success("The job offer has been removed successfully!!");
+								console.log("Remove the line "+"#job"+id);
+								$("#job"+id).remove();
+				            } else {
+				              toastr.error((data.msg) ? data.msg : "bug happened");
+				            }
+				        });
+				}
+			}
+		)
 	});
 }
 
@@ -111,7 +136,6 @@ function openJobSV(mode, id) {
 
 function updateJob(njob, jobId) {
     console.log("updateJob func");
-    console.table(njob);
     var jobLink = '<a href="#" class="viewButton" data-id="'+jobId+'" data-original-title="View">'+njob.title+'</a>';
     var jobLine  = '<tr id="job'+jobId+'">'+
                 '<td>'+jobLink+'</td>'+
@@ -138,16 +162,6 @@ function initTableStyle() {
 			suppressScrollX: true
 		});
 	}
-	/*tableJob = $('#jobList').dataTable({
-		"aoColumnDefs" : [{
-			"aTargets" : [0]
-		}],
-		// set the initial value
-		"iDisplayLength" : 10,
-		"scrollY":        "230px",
-		"scrollCollapse": true,
-	    "paging":         false
-	});*/
 }
 
 </script>

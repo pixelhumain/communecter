@@ -8,15 +8,15 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<?php if(isset($events) && count($events)>0 ){ ?>
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
+					if(isset($events) && count($events)>0 ){ 
 					foreach ($events as $e) 
 					{
 					?>
-					<tr id="event<?php echo (string)$e["_id"];?>">
+					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 						<td class="center">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
@@ -40,13 +40,13 @@
 						</td>
 					</tr>
 					<?php
-						}
+						};}
 					?>
 				</tbody>
 			</table>
-		</div>
-		<?php } else{?>
-			<div class ="center height-250 padding-10" >
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+		<?php if(isset($events) && count($events) == 0 ) { ?>
+			<div id="info" class="padding-10" >
 				<blockquote> 
 					Create and Attend 
 					<br/>Local Events
@@ -56,6 +56,7 @@
 				</blockquote>
 			</div>
 		<?php } ?>
+		</div>
 	</div>
 </div>
 
@@ -90,5 +91,6 @@
 						"</tr>";
 		$("#events").append(htmlEvent);
 		$('.tooltips').tooltip();
+		$('#info').hide();
 	}
 </script>

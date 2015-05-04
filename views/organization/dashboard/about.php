@@ -36,7 +36,16 @@
     </div>
   </div>
   <div class="panel-body no-padding center orgaDescription">
-    <?php if(isset($organization["description"])) echo $organization["description"]; ?>
+    <div class="row">
+    	<div class="col-md-12">
+    	<?php 
+			$this->renderPartial('../pod/fileupload', array("itemId" => (string)$organization["_id"],
+															  "type" => Organization::COLLECTION,
+															  "contentId" =>"profil",
+															  "show" => "true",
+															  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session['userId'], $organization["_id"]))); ?>
+ 		</div>   
+    </div>	
   </div>
 </div>
 

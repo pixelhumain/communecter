@@ -65,21 +65,19 @@ class OrganizationController extends CommunecterController {
 	
   }
 
-  /**
-   * Save a new organization with the minimal information
-   * @return an array with result and message json encoded
-   */
-  public function actionSaveNew() {
-	// Retrieve data from form
-	try {
-	  $newOrganization = $this->populateNewOrganizationFromPost();
-	} catch (CommunecterException $e) {
-	  return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
-	}
-	
-	//Save the organization
-	Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
-	
+	/**
+	* Save a new organization with the minimal information
+	* @return an array with result and message json encoded
+	*/
+	public function actionSaveNew() {
+		// Retrieve data from form
+		$newOrganization = Organization::newOrganizationFromPost($_POST);
+		try {
+			//Save the organization
+			Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
+		} catch (CTKException $e) {
+			return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+		}
 	}
 
   /**
@@ -88,14 +86,10 @@ class OrganizationController extends CommunecterController {
    */
   public function actionSave() {
 	// Minimal data
-	try {
-	  $organization = $this->populateNewOrganizationFromPost();
-	} catch (CommunecterException $e) {
-	  return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
-	}
+	$organization = Organization::newOrganizationFromPost($_POST);
 
 	if (! isset($_POST["organizationId"])) 
-	  throw new CommunecterException("You must specify an organization Id to update");
+	  throw new CTKException("You must specify an organization Id to update");
 	else 
 	  $organizationId = $_POST['organizationId'];
 	
@@ -115,8 +109,14 @@ class OrganizationController extends CommunecterController {
 	if (isset($_POST["skypeAccount"])) $socialNetwork["skypeAccount"] = $_POST["skypeAccount"];
 	$organization["socialNetwork"] = $socialNetwork;
 
-	//Save the organization
-	echo Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
+	try {
+	  //Save the organization
+	  $res = Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
+	} catch (CTKException $e) {
+	  $res = array("result"=>false, "msg"=>$e->getMessage());
+	}
+
+	Rest::json($res);
   }
 
 	/**
@@ -143,62 +143,6 @@ class OrganizationController extends CommunecterController {
 		}
 	}
 
-  /**
-  * Create and return new array with all the mandatory fields
-  * TODO SBAR - May be moved that function to model
-  * @return array as organization
-  */
-  private function populateNewOrganizationFromPost() {
-	//email : mandotory 
-	if(Yii::app()->request->isAjaxRequest && empty($_POST['organizationEmail'])) {
-	  throw new CommunecterException("Vous devez remplir un email.");
-	} else {
-	  //validate Email
-	  $email = $_POST['organizationEmail'];
-	  if (! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$email)) { 
-		throw new CommunecterException("Vous devez remplir un email valide.");
-	  }
-	}
-	   
-	$newOrganization = array(
-	  'email'=>$email,
-	  "name" => $_POST['organizationName'],
-	  'created' => time()
-	);
-
-	$newOrganization["type"] = $_POST['type'];
-				  
-	if(!empty($_POST['postalCode'])) {
-	   $newOrganization["address"] = array(
-		 "postalCode"=> $_POST['postalCode'],
-		 "addressCountry"=> $_POST['organizationCountry']
-	   );
-	} 
-				  
-	if (!empty($_POST['description']))
-	  $newOrganization["description"] = $_POST['description'];
-				  
-	//Tags
-	if ( gettype($_POST['tagsOrganization']) == "array" ) {
-	  $tags = $_POST['tagsOrganization'];
-	} else if ( gettype($_POST['tagsOrganization']) == "string" ) {
-	  $tags = explode(",", $_POST['tagsOrganization']);
-	}
-	$newOrganization["tags"] = $tags;
-
-	//Type of Intervention
-	if (!empty($_POST["typeIntervention"])) {
-	  $newOrganization["typeIntervention"] = $_POST["typeIntervention"];
-	}
-	
-	//Type of Intervention
-	if (!empty($_POST["typeOfPublic"])) {
-	  $newOrganization["typeOfPublic"] = $_POST["typeOfPublic"];
-	}
-
-	return $newOrganization;
-  }
-
 	/**
 	 * Delete an entry from the organization table using the id
 	 */
@@ -221,7 +165,7 @@ class OrganizationController extends CommunecterController {
 
 		  }
 	  }
-	echo Rest::json($result);
+	Rest::json($result);
   }
 
   //TODO SBAR => part of controls done has been done on the Link model. 
@@ -353,7 +297,7 @@ class OrganizationController extends CommunecterController {
 	$params = array();
 	//get The organization Id
 	if (empty($id)) {
-	  throw new CommunecterException("The Parent organization doesn't exist !");
+	  throw new CTKException("The Parent organization doesn't exist !");
 	}
 	
 	$params["parentOrganization"] = Organization::getPublicData($id);
@@ -361,7 +305,7 @@ class OrganizationController extends CommunecterController {
 	$lists = Lists::get(array("organisationTypes","typeIntervention","public"));
 
 	if ( !isset($lists["organisationTypes"]) || !isset($lists["typeIntervention"]) || !isset($lists["public"]) ) {
-	  throw new CommunecterException("Missing List data in 'lists' collection, must have organisationTypes, typeIntervention, public");
+	  throw new CTKException("Missing List data in 'lists' collection, must have organisationTypes, typeIntervention, public");
 	}
 
 	$params["types"] = $lists["organisationTypes"];
@@ -399,17 +343,19 @@ class OrganizationController extends CommunecterController {
 	  $newPerson = array(
 			 'name'=>$_POST['personName'],
 			 'email'=>$_POST['personEmail'],
-			 'postalCode'=>$_POST['postalCode'],
-			 'pwd'=>$_POST['password']);
+			 'postalCode'=>$_POST['personPostalCode'],
+			 'pwd'=>$_POST['password'],
+			 'city'=>$_POST['personCity']);
 
 	  // Retrieve data from form
 	  try {
-		$newOrganization = $this->populateNewOrganizationFromPost();
+		$newOrganization = Organization::newOrganizationFromPost($_POST);
 		$res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
-	  } catch (CommunecterException $e) {
+	  } catch (CTKException $e) {
 		return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
+	  } catch (CommunecterException $e) {
+	  	return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
 	  }
-
 	  return Rest::json(array("result"=>true, "msg"=>"Your organization has been added with success. Check your mail box : you will recieive soon a mail from us."));
 	} else 
 	  return Rest::json(array("result"=>false, "msg"=>"invalid Captcha Test"));
@@ -429,10 +375,14 @@ class OrganizationController extends CommunecterController {
 		  "citoyens"=> array(),
 		  "organizations"=>array()
 		);
-		$images = Document::getListImagesByKey($id, Organization::COLLECTION.".dashboard");
+
+		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+
 
 		
 		$params = array( "organization" => $organization);
+		$params["contentKeyBase"] = $contentKeyBase;
 		$params["images"] = $images;
 		$params["events"] = $events;
 		$contextMap = array();
@@ -484,7 +434,10 @@ class OrganizationController extends CommunecterController {
 		
 		$params = array( "organization" => $organization);
 		$params["events"] = $events;
-
+		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+		$params["contentKeyBase"] = $contentKeyBase;
+		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+		$params["images"] = $images;
 
 		$documents = Document::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 		$params["documents"] = $documents;
@@ -557,10 +510,13 @@ public function actionDashboardMember($id)
 		} 
 		$params["members"] = $members;
 	}
+	$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+	$params["contentKeyBase"] = $contentKeyBase;
+	$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
 	
 	$events = Organization::listEventsPublicAgenda($id);
 	$params["events"] = $events;
-
+	$params["images"] = $images;
 
 
 	$contextMap = array();

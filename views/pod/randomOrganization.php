@@ -12,14 +12,14 @@
     <div class="panel-body no-padding"  >
       <div class="row">
         <div class="col-xs-6">
-          <img class="img-responsive center-block" style="height:250px" src="http://placehold.it/350x180"/>
+          <img class="img-responsive center-block" style="height:250px" src="<?php echo (isset($randomOrganization['imagePath'])) ? $randomOrganization['imagePath'] : 'http://placehold.it/50x50' ?>"/>
         </div>
         <div class="col-xs-6">
           <div class="row center">
             <?php echo (isset($randomOrganization['name'])) ? $randomOrganization['name'] : $randomOrganization['_id'] ?>
           </div>
           <div class="row" >
-            <img class="img-circle pull-left" src="<?php echo (isset($randomOrganization['image'])) ? $randomOrganization['image'] : 'http://placehold.it/50x50' ?>"/>
+            <img class="img-circle pull-left" width="50px" height="50px" src="<?php echo (isset($randomOrganization['imagePath'])) ? $randomOrganization['imagePath'] : 'http://placehold.it/50x50' ?>"/>
           </div>
           <hr>
           <div class="row">
@@ -30,6 +30,10 @@
       </div>
       </div>
     <div class="panel-footer "  >
-      <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.$randomOrganization['publicURL'])?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
+      <a href="<?php echo (isset($randomOrganization['_id']) ? Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.(string)$randomOrganization['_id']) : '#')?>">En savoir+ <i class="fa fa-angle-right"></i> </a>
     </div>
   </div>
+
+  <script type="text/javascript">
+  	var randomOrganization = <?php echo json_encode($randomOrganization) ?>;
+  </script>

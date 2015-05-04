@@ -23,7 +23,7 @@ class Project {
 		//TODO SBAR = filter data to retrieve only publi data	
 		$project = Project::getById($id);
 		if (empty($project)) {
-			throw new CommunecterException("The project id is unknown ! Check your URL");
+			//throw new CommunecterException("The project id is unknown ! Check your URL");
 		}
 
 		return $project;

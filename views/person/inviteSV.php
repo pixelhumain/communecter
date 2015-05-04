@@ -12,63 +12,75 @@
 
 </style>
 <div id="newInvite">
-	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h1>Invite Someone</h1>
-	    <p>  local or that might be interested by the platform</p>
-		<form class="form-invite" autocomplete="off">
-			<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
-			<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
-			<div class="row" id="step1">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="form-group">
-						<input class="invite-search form-control" placeholder="Search Here" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
-			        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
-								<li class="li-dropdown-scope">-</li>
-							</ul>
-						</input>
+	<div class="col-md-6 col-md-offset-3">  
+       	<div class="panel panel-white">
+        	<div class="panel-heading border-light">
+				<h1>Invite Someone</h1>
+			    <p>  local or that might be interested by the platform</p>
+			</div>
+		<div class="panel-body">
+			<form class="form-invite" autocomplete="off">
+				<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
+				<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
+				<div class="row" id="step1">
+					<div class="col-md-1">	
+		           		<i class="fa fa-search fa-2x"></i> 
+		           	</div>
+					<div class="col-md-10">
+						<div class="form-group">
+							<input class="invite-search form-control" placeholder="Search Here" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
+				        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
+									<li class="li-dropdown-scope">-</li>
+								</ul>
+							</input>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row" id="step2">
-				<div class="col-md-8">
+				<div class="row" id="step2">
+		
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-5">
 							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
 																	  "type" => "",
-																	  "contentKey" => "",
 																	  "contentId" =>"invitePhoto",
-																	  "imagePath" => "",
 																	  "editMode" => false)); ?>
 						</div>
 						<div class="col-md-7">
-							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this invite</a>
-							<br>
-							<label for="ficheName">
-								Nom :
-							</label>
-							<p id="ficheName" name="ficheName"></p>
+							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
+							<hr>
+							Nom : <p id="ficheName" name="ficheName"></p><br>
+							Date de naissance : <p id="birth" name="birth" ></p><br>
+							Tags : <p id="tags" name="tags" ></p><br>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row" id="step3">
-				<div class="col-md-8 col-md-offset-2">
+				<div class="row" id="step3">
 					<div class="row">
-						<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
+						<div class="col-md-1 col-md-offset-1" id="iconUser">	
+				           	<i class="fa fa-user fa-2x"></i>
+				       	</div>
+				       	<div class="col-md-9">
+							<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
+						</div>
 					</div>
 					<div class="row">
-						<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
+						<div class="col-md-1 col-md-offset-1">	
+			           		<i class="fa fa-envelope-o fa-2x"></i>
+			           	</div>
+	    	        	<div class="col-md-9">
+							<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
+						</div>
 					</div>
 					<div class="row">
-						<div class="form-group">
-							<div class="row pull-left">
-				    	        <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
-				    	    </div>
-				    	</div>
+						<div class="col-md-2 col-md-offset-1">
+							<div class="form-group">
+					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+					    	</div>
+					    </div>
 				    </div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -124,7 +136,7 @@ var dateToShow, calendar, $inviteDetail, inviteClass, inviteCategory;
 var oTable, contributors;
 var subViewElement, subViewContent, subViewIndex;
 var timeout;
-
+var tabObject = [];
 
 //validate new invite form
 function runinviteFormValidation(el) {
@@ -271,14 +283,18 @@ function autoCompleteInviteSearch(email){
 		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/GetUserAutoComplete', data,
 		function (data){
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Aucun résultat satisfaisant? Cliquez ici</li>";
+			var compt = 0;
+
  			$.each(data["citoyens"], function(k, v) { 
  				console.log(k, v);
  				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
  				if(v._id["$id"]!= userId){
+ 					tabObject.push(v);
 	 				if('undefined' != typeof v.imagePath){
 	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
 	 				}
-	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput(\""+ v._id["$id"] +"\", \""+v.name+"\", \""+v.imagePath+"\")'>"+htmlIco+" "+v.name + "</a></li>";
+	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
+	  				compt++;
 	  			}
   			}); 
   			$("#newInvite #dropdown_searchInvite").html(str);
@@ -286,15 +302,23 @@ function autoCompleteInviteSearch(email){
 		});	
 	}
 
-function setInviteInput(id, name, imagePath){
-	$('#newInvite #inviteName').val(name);
-	$('#newInvite #inviteId').val(id);
+function setInviteInput(num){
+	var array = tabObject[num];
+	$('#newInvite #inviteName').val(array["name"]);
+	$('#newInvite #inviteId').val(array["_id"]["$id"]);
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "block"});
-	$("#newInvite #ficheName").text(name);
+	$("#newInvite #ficheName").text(array["name"]);
+	$("#newInvite #birth").text(array["birth"]);
+	var tags = array["tags"];
+	var tagsStr = "";
+	for(var i= 0; i<tags.length; i++){
+		tagsStr +=tags[i]+ " ";
+	}
+	$("#newInvite #tags").text(tagsStr);
 	$("#invitePhoto_imgPreview").empty();
-	$("#invitePhoto_imgPreview").html("<img src='"+imagePath+"' />");
+	$("#invitePhoto_imgPreview").html("<img src='"+array["imagePath"]+"' />");
 }
 function newInvitation(){
 	$("#newInvite #step1").css({"display" : "none"});

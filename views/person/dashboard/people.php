@@ -8,12 +8,15 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<?php if(isset($people)  && count($people)>0){ ?>
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="people">
 				<tbody>
-					<?php foreach ($people as $e) { ?>
-						<tr id="<?php echo PHType::TYPE_CITOYEN.(string)$e["_id"];?>">
+					<?php 
+					$memberType = Person::COLLECTION;
+					if(isset($people)  && count($people)>0) {
+						foreach ($people as $e) { 
+					?>
+						<tr id="<?php echo $memberType.(string)$e["_id"];?>">
 							<td class="center">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 								<?php if ($e && isset($e["imagePath"])){ ?>
@@ -33,27 +36,28 @@
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo $memberType ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 							</td>
 						</tr>
 					<?php
-						}
+						}}
 					?>
 				</tbody>
 			</table>
-		<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
-		<?php } else{ ?>
-			<div class ="center height-250 padding-10" >
-				<blockquote> 
-					Invite People 
-					<br>create links 
-					<br>communicate & interact
-					<br>better cities & Organizations
-					<br>People are the heart of the system
-				</blockquote>
-			</div>
-		<?php } ?>
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<?php if (isset($people) && count($people) == 0) { ?>
+				<div id="info" class="padding-10">
+					<blockquote> 
+						Invite People 
+						<br>create links 
+						<br>communicate & interact
+						<br>better cities & Organizations
+						<br>People are the heart of the system
+					</blockquote>
+				</div>
+			<?php } ?>
+		</div>
 	</div>
 </div>

@@ -243,8 +243,10 @@ class EventController extends CommunecterController {
     $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
     $this->pageTitle = "Communecter - Informations sur l'evenement ".$this->title;
 
+    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+	$images = Document::listMyDocumentByType($id, Event::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
+  	$organizer = array();
 
-  	$organizations = array();
   	$people = array();
   	//$admins = array();
   	$attending =array();
@@ -263,11 +265,28 @@ class EventController extends CommunecterController {
   					array_push($admins, $e);
   				}*/
   			}
+  			if(isset($event["links"]["organizer"])){
+  				foreach ($event["links"]["organizer"] as $id => $e) {
+  					$organization = Organization::getBYId($id);
+  					$organizer["id"] = $id;
+  					$organizer["type"] = "organization";
+  					$organizer["name"] = $organization["name"];
+  				}
+  			}else if(isset($event["links"]["creator"])){
+  				foreach ($event["links"]["creator"] as $id => $e) {
+  					$citoyen = Person::getBYId($id);
+  					$organizer["id"] = $id;
+  					$organizer["type"] = "person";
+  					$organizer["name"] = $citoyen["name"];
+  				}
+  			}
   		}
   	}
+  	$params["images"] = $images;
+  	$params["contentKeyBase"] = $contentKeyBase;
   	$params["attending"] = $attending;
   	$params["event"] = $event;
-  	$params["organizations"] = $organizations;
+  	$params["organizer"] = $organizer;
   	$params["people"] = $people;
   	//$params["admins"] = $admins;
   	$this->render( "dashboard", $params );

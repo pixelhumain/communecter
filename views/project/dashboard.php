@@ -29,4 +29,5 @@
 	contextMap["project"] = <?php echo json_encode($project)?>;
 	contextMap["people"] = <?php echo json_encode($people) ?>;
 	contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
+	
 </script>

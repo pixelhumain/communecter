@@ -32,7 +32,7 @@
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php echo $contentId ?>_fileUpload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php echo $contentId ?>_imgPreview">
-					<img class="img-responsive" src="<?php if(isset($imagePath)&& $imagePath !='') echo $imagePath; else echo 'http://placehold.it/350x180'; ?> " />
+					
 				</div>
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
@@ -59,17 +59,21 @@
 <script type="text/javascript">
 	
 	
-	
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php echo $contentId ?>";
-		var contentKey = "<?php echo $contentKey?>";
-		var imagePath = "<?php echo $imagePath?>"
 		var isSubmit = contentId+"_true";
+		
 		var imageName= "";
 		var imageId= "";
-
+		var showImage = '<?php if(isset($show)) echo $show; else echo "false"; ?>';
+ 		var imagePath = 'http://placehold.it/350x180';
+		if("undefined" != typeof(contentKeyBase))
+			var contentKey = contentKeyBase+"."+contentId;
+		else
+			contentKey = "";
+		initFileUpload();
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
 			e.preventDefault();
@@ -94,7 +98,7 @@
 			  			imageId = data.id['$id'];
 				  		
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
-		        			updateSlider( data.imagePath);
+		        			updateSlider(data.image, data.id["$id"]);
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -152,5 +156,39 @@
 			  	},
 			});
 		});
+		function initFileUpload(){
+			var j = 0;
+			if("undefined" != typeof(images) && showImage == "true"){
+				$.each(images, function(k,v){
+					if(v.doctype=="image"){
+						console.log("contentKey", contentKey);
+						if(v.contentKey == contentKey){
+							console.log(v.contentKey, "v.cont");
+							console.log("initFileUpload2", images, imagePath);
+							imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+							j= j+1;
+						}
+					}		
+				})
+				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');	
+			}
+			//console.log("initFileUpload", images, imagePath);
+			
+			if(j == 0){
+				var textBlock =  "<br>Click on <i class='fa fa-plus text-green'></i> for share your pictures";
+				
+				var defautText = "<li>" +
+									"<blockquote>"+
+										"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+										textBlock+
+									"</blockquote>"+
+								"</li>";
+				$("#"+contentId+"_imgPreview").html(defautText);
+			}
+		}
+		
 	});
+
+	
+
 </script>
