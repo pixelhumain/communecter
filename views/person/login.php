@@ -507,10 +507,10 @@ function runShowCity(searchValue) {
 function bindPostalCodeAction() {
 	$('.form-register #cp').change(function(e){
 		searchCity();
-	})
+	});
 	$('.form-register #cp').keyup(function(e){
 		searchCity();
-	})
+	});
 }
 
 function searchCity() {

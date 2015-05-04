@@ -370,9 +370,9 @@ jQuery(document).ready(function() {
 		$("#addOrganization #organizationEmail").val(organization.email);
 		$("#addOrganization #tagsOrganization").select2('val', organization.tags);
 		$("#addOrganization #description").val(organization.description);
-		if ('undefined' != organization.adress) {
-			if ('undefined' != organization.adress.country) $('#addOrganization #organizationCountry').val(organization.adress.country);
-			if ('undefined' != organization.adress.postalCode) $("#addOrganization #postalCode").val(organization.adress.postalCode);
+		if ('undefined' != typeof organization.address) {
+			if ('undefined' != typeof organization.address.country) $('#addOrganization #organizationCountry').val(organization.address.country);
+			if ('undefined' != typeof organization.address.postalCode) $("#addOrganization #postalCode").val(organization.address.postalCode);
 		}
 	}
 
@@ -399,11 +399,11 @@ jQuery(document).ready(function() {
 	function bindPostalCodeAction() {
 		$('#organizationForm #postalCode').keyup(function(e){
 			searchCity();
-		})
+		});
 
 		$('#organizationForm #postalCode').change(function(e){
 			searchCity();
-		})
+		});
 	}
 
 	function searchCity() {
