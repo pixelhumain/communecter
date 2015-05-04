@@ -28,7 +28,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 		<div id="#panel_public" class="panel panel-white">
 			<div class="panel-heading">
 				<h4 class="panel-title">Offer a <span class="text-bold">Job</span></h4>
-				<?php if (Authorisation::isJobAdmin($job["_id"], Yii::app()->session["userId"])) {?>
+				<?php if ($mode != "insert" && Authorisation::isJobAdmin($job["_id"], Yii::app()->session["userId"])) {?>
 				<button id="edit-btn" class="btn pull-right btn-primary">Edit</button>
 				<?php } ?>
 			</div>

@@ -28,23 +28,6 @@
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
 			<?php } ?>
-			<div class="dropdown">
-				<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-					<i class="fa fa-cog"></i>
-				</a>
-				<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-					<li>
-						<a class="panel-refresh" href="#">
-							<i class="fa fa-refresh"></i> <span>Refresh</span>
-						</a>
-					</li>
-					<li>
-						<a class="panel-expand" href="#">
-							<i class="fa fa-expand"></i> <span>Fullscreen</span>
-						</a>
-					</li>
-				</ul>
-			</div>
 		</div>
 	</div>
 	<div class="panel-body border-light">
@@ -61,33 +44,33 @@
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
-					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-original-title="" class="editable-context editable editable-click">
+					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-context editable editable-click">
 						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="postalCode" data-type="text" data-title="Postal Code" data-original-title="" class=" editable editable-click">
+					<a href="#" id="postalCode" data-type="text" data-title="Postal Code" data-emptytext="Postal Code" class=" editable editable-click">
 						 <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>
 					</a>
-					<a href="#" id="addressLocality" data-type="select" data-title="Locality" data-original-title="" class="editable editable-click">
+					<a href="#" id="addressLocality" data-type="select" data-title="Locality" data-emptytext="City" data-original-title="" class="editable editable-click">
 					</a>
 					<br>
-					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-original-title="" class="editable editable-click">					
+					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
-					<a href="#" id="tel" data-type="text" data-title="Phone" data-original-title="" class="editable-context editable editable-click">
+					<a href="#" id="tel" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-context editable editable-click">
 						<?php echo (isset($context["tel"])) ? $context["tel"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="email" data-type="text" data-title="Email" data-original-title="" class="editable-context editable editable-click">
+					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click">
 						<?php echo (isset($context["email"])) ? $context["email"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="url" data-type="text" data-title="Web Site URL" data-original-title="" class="editable-context editable editable-click">
+					<a href="#" id="url" data-type="text" data-title="Web Site URL" data-emptytext="Website URL" class="editable-context editable editable-click">
 						<?php echo (isset($context["url"])) ? $context["url"] : null; ?>
 					</a>
 				</div>
 				<div class="row height-155 padding-20" style="background-color:#E6E6E6">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-title="Short Description" data-original-title="" class="editable-context editable editable-click">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
 						<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
 					</a>
 				</div>
@@ -95,7 +78,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 padding-20">
-				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-original-title="" class="editable-context editable editable-click">
+				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable-context editable editable-click">
 					<?php echo (isset($context["description"])) ? $context["description"] : null; ?>
 				</a>
 			</div>
@@ -110,11 +93,11 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-original-title="" class="editable editable-click">
+				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-emptytext="Type d'intervention" class="editable editable-click">
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="tags" data-type="select2" data-type="Tags" data-original-title="" class="editable editable-click">
+				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
 					
 				</a>
 			</div>
@@ -129,7 +112,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
-				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-original-title="" class="editable editable-click">
+				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
 			</div>
 			<div class="col-sm-6 col-xs-6">
@@ -218,12 +201,10 @@
 	}
 
 	function activateEditableContext() {
-		var emptytext = "Editez";
 		$.fn.editable.defaults.mode = 'popup';
 
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
-			emptytext : emptytext,
 			title : $(this).data("title"),
 			onblur: 'submit',
 			showbuttons: false
@@ -234,7 +215,6 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
 			showbuttons: false,
-			emptytext: emptytext,
 			value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
 			select2: {
 				width: 200,
@@ -246,8 +226,6 @@
 		$('#typeIntervention').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			//showbuttons: false,
-			emptytext: emptytext,
 			value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
@@ -264,17 +242,15 @@
 			source: function() {
 				return countries;
 			},
-			emptytext: emptytext,
 			showbuttons: false,
 		});
 
 		$('#addressLocality').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>',
+			value: '<?php echo (isset( $context["address"]["codeInsee"])) ? $context["address"]["codeInsee"] : ""; ?>',
 			source: function() {
 				return getCitiesByPostalCode(newPostalCode, "select");
 			},
-			emptytext: emptytext,
 			showbuttons: false,
 		});
 
@@ -282,7 +258,6 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
 			showbuttons: false,
-			emptytext: emptytext,
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
 				newPostalCode = newValue;
@@ -293,7 +268,6 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
 			source: publics,
-			emptytext: emptytext,
 			showbuttons: true,
 			placement: 'right'
 		});
