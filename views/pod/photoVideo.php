@@ -2,18 +2,13 @@
 	#editSliderPhotoVideo{
 		display:none;
 	}
-	#photoVideo .flexslider .slides li {
-	    height: 250px;   
-	}
+	
 	#photoVideo .flexslider .slides img {
 	    position: relative;
 	    height: 100%;
 	    width: auto;
 	    margin-left: auto;
 	    margin-right: auto;
-	}
-	#photoVideo .flexslider {
-		height: 260px;
 	}
 	#showAllSlides img{
 		width: 75%;
@@ -76,11 +71,15 @@
 </div>
 
 <script type="text/javascript">
+
+	var widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
  	jQuery(document).ready(function() {
+ 		$("#sliderPhotoVideo .flexslider").css("height", parseInt(widthSliderPhotoVideo)*45/100+"px");
  		initPhotoVideo();
-		$("#flexsliderPhotoVideo").flexslider({
-			controlNav : false,
-		});
+
+		$( window ).resize(function() {
+			resizeSliderPhotoVideo();
+		})
 	});
 
 	function initPhotoVideo(){
@@ -109,18 +108,22 @@
 				}
 			}			
 		}
-		$("#flexsliderPhotoVideo").flexslider();
+
+
+		$("#flexsliderPhotoVideo").flexslider({
+			controlNav : false,
+		});
 		$(".podPhotoVideoTitle").html("Media");
+
+		widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
+		$("#sliderPhotoVideo .flexslider").css("height", parseInt(widthSliderPhotoVideo)*45/100+"px");
+		$("#sliderPhotoVideo .flexslider .slides li").css("height", parseInt(widthSliderPhotoVideo)*45/100-10+"px")
 	}
 
 
 	function updateSlider(image, id){
 		images[id] = image;
-		$("#flexsliderPhotoVideo").removeData("flexslider");
-		$("#flexsliderPhotoVideo").empty();
-		$("#showAllSlides").empty();
-		$("#flexsliderPhotoVideo").html('<ul class="slides" id="slidesPhoto">');
-		$("#flexsliderPhotoVideo").flexslider();
+		removeSliderPhotoVideo()
 		initPhotoVideo()
 
 	}
@@ -142,5 +145,18 @@
 				}
 			});
 		});
+	}
+
+	function removeSliderPhotoVideo(){
+		$("#flexsliderPhotoVideo").removeData("flexslider");
+		$("#flexsliderPhotoVideo").empty();
+		$("#showAllSlides").empty();
+		$("#flexsliderPhotoVideo").html('<ul class="slides" id="slidesPhoto">');
+		$("#flexsliderPhotoVideo").flexslider();
+	}
+
+	function resizeSliderPhotoVideo(){
+		removeSliderPhotoVideo();
+		initPhotoVideo();
 	}
 </script>
