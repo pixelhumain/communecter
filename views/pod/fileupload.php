@@ -59,15 +59,16 @@
 <script type="text/javascript">
 	
 	
-	
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php echo $contentId ?>";
 		var isSubmit = contentId+"_true";
+		
 		var imageName= "";
 		var imageId= "";
-		var imagePath = 'http://placehold.it/350x180';
+		var showImage = '<?php if(isset($show)) echo $show; else echo "false"; ?>';
+ 		var imagePath = 'http://placehold.it/350x180';
 		if("undefined" != typeof(contentKeyBase))
 			var contentKey = contentKeyBase+"."+contentId;
 		else
@@ -156,8 +157,17 @@
 			});
 		});
 		function initFileUpload(){
-			if("undefined" == typeof(images)){
-				imagePath ='http://placehold.it/350x180';
+			if("undefined" == typeof(images) || showImage != "true" || images.length==0){
+				
+				var textBlock =  "<br>Click on <i class='fa fa-plus text-green'></i> for share your pictures";
+				
+				var defautText = "<li>" +
+									"<blockquote>"+
+										"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+										textBlock+
+									"</blockquote>"+
+								"</li>";
+				$("#"+contentId+"_imgPreview").html(defautText);
 			}else{
 				$.each(images, function(k,v){
 					if(v.doctype=="image"){
@@ -167,9 +177,11 @@
 						}
 					}		
 				})
+				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');	
 			}
-			console.log("initFileUpload", images, imagePath);
-			$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');
+			//console.log("initFileUpload", images, imagePath);
+			
+
 		}
 		
 	});
