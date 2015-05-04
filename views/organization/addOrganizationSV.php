@@ -302,7 +302,7 @@ jQuery(document).ready(function() {
 					organizationList = data.list;
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data.list, function(key, value) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'>" + value.name + "</a></li>";
+		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
 		  			}); 
 		  			$("#addOrganization #dropdown_search").html(str);
 		  			$("#addOrganization #dropdown_search").css({"display" : "inline" });

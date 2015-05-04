@@ -19,6 +19,12 @@
 					<td>Intitulé</td>
 					<td><a href="#"><?php if(isset($event["name"]))echo $event["name"];?></a></td>
 				</tr>
+				<?php if(!empty($organizer)) {?>
+					<tr>
+						<td>Organisateur</td>
+						<td><a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>"><?php echo $organizer["name"]; ?></a></td>
+					</tr>
+				<?php } ?>
 				<tr>
 					<td>Début</td>
 					<td><?php if(isset($event["startDate"]))echo $event["startDate"]; ?></td>
@@ -31,6 +37,7 @@
 					<td>Type</td>
 					<td><?php if(isset($event["type"])) echo $event["type"]; ?></td>
 				</tr>
+				
 			</tbody>
 		</table>
 	</div>

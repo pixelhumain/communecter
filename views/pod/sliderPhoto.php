@@ -89,21 +89,13 @@
 	
 
 	function initDashboardPhoto(){
-		i=0;
-		if(images.length == 0){
-			var htmlSlide = "<li>" +
-								"<blockquote>"+
-									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</blockquote>"+
-							"</li>";
-			$("#slidesPhoto").append(htmlSlide);
-		}else{
-			
+		j=0;
+
+		if(images.length != 0){
 			$.each(images, function(k,v){
 				imagesTab.push(v)
 			})
-			j=0;
+			
 			for(i=imagesTab.length-1; i>=0; i--){
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
@@ -116,14 +108,24 @@
 					}
 				}
 			}
-			
+		}
+		if(j == 0){
+			var htmlSlide = "<li>" +
+								"<blockquote>"+
+									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+								"</blockquote>"+
+							"</li>";
+			$("#slidesPhoto").append(htmlSlide);
 		}
 		$("#flexsliderPhoto").flexslider();
 		$(".podPhotoVideoTitle").html("Media");
 		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
-		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px")
+		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px");
+
 	}
+
 
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})

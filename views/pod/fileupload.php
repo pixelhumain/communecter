@@ -157,8 +157,24 @@
 			});
 		});
 		function initFileUpload(){
-			if("undefined" == typeof(images) || showImage != "true" || images.length==0){
-				
+			var j = 0;
+			if("undefined" != typeof(images) && showImage == "true"){
+				$.each(images, function(k,v){
+					if(v.doctype=="image"){
+						console.log("contentKey", contentKey);
+						if(v.contentKey == contentKey){
+							console.log(v.contentKey, "v.cont");
+							console.log("initFileUpload2", images, imagePath);
+							imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+							j= j+1;
+						}
+					}		
+				})
+				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');	
+			}
+			//console.log("initFileUpload", images, imagePath);
+			
+			if(j == 0){
 				var textBlock =  "<br>Click on <i class='fa fa-plus text-green'></i> for share your pictures";
 				
 				var defautText = "<li>" +
@@ -168,20 +184,7 @@
 									"</blockquote>"+
 								"</li>";
 				$("#"+contentId+"_imgPreview").html(defautText);
-			}else{
-				$.each(images, function(k,v){
-					if(v.doctype=="image"){
-						if(v.contentKey == contentKey){
-							console.log("initFileUpload2", images, imagePath);
-							imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
-						}
-					}		
-				})
-				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');	
 			}
-			//console.log("initFileUpload", images, imagePath);
-			
-
 		}
 		
 	});
