@@ -83,25 +83,34 @@ var bindBtnFollow = function(){
 
 	$(".disconnectBtn").off().on("click",function () {
         
-        $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
-	        dataType : "json"
-	    })
-	    .done(function (data) 
-	    {
-	        if ( data && data.result ) {               
-	        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-	        	$(".disconnectBtn").fadeOut();
-	        	$("#btnTools").empty();
-	        	$("#btnTools").html('<a href="javascript:;" class="connectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link"></i></a>')
-	        	bindBtnFollow();
-	        } else {
-	           toastr.info("something went wrong!! please try again.");
-	           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-	        }
-	    });
+        $(this).empty();
+        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+        var idToDisconnect = $(this).data("id");
+        var typeToDisconnect = $(this).data("type");
+        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
+        	function(result) {
+					if (!result) {
+					$(this).empty();
+			        $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+					return;
+				}
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
+			        dataType : "json"
+			    })
+			    .done(function (data) 
+			    {
+			        if ( data && data.result ) {               
+			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+			        	$("#"+typeToDisconnect+idToDisconnect).remove();
+			        } else {
+			           toastr.info("something went wrong!! please try again.");
+			           $(this).empty();
+			           $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+			        }
+			    });
+		});
 	});
 
 	$(".connectBtn").off().on("click",function () {

@@ -16,7 +16,7 @@
 					foreach ($events as $e) 
 					{
 					?>
-					<tr id="event<?php echo (string)$e["_id"];?>">
+					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 						<td class="center">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
