@@ -1,14 +1,14 @@
 <?php  
 $cssAnsScriptFiles = array(
 	//dropzone
-	'/assets/plugins/dropzone/downloads/css/ph.css',
-	'/assets/plugins/dropzone/downloads/dropzone.min.js',
+	'/plugins/dropzone/downloads/css/ph.css',
+	'/plugins/dropzone/downloads/dropzone.min.js',
 	//lightbox
-	'/assets/plugins/lightbox2/css/lightbox.css',
-	'/assets/plugins/lightbox2/js/lightbox.min.js'
+	'/plugins/lightbox2/css/lightbox.css',
+	'/plugins/lightbox2/js/lightbox.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <div style="display:none" id="genericGED">
 	
@@ -32,13 +32,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 				<!-- start: DROPZONE PANEL -->
 				<div class="panel panel-white">
 					<div class="panel-heading">
-						<h4 class="panel-title">Add <span class="text-bold">Files</span> (max. 2.0Mb))</h4>
+						<h4 class="panel-title">Add <span class="text-bold">Files</span></h4>
 					</div>
 					<div class="panel-body uploadPanel">
 						<?php echo Yii::t("perimeter","Catégories",null,Yii::app()->controller->module->id) ?> : <input type="text" id="genericDocCategory" name="genericDocCategory" type="hidden" style="width: 250px;">
 						<br/><br/>
 						<div class="dz-clickable dropzoneInstance center" id="generic-dropzone">
-							<span class="text-bold text-large uploadText"> Click or Drag over</span>
+							<span class="text-bold text-large uploadText"> 
+								<br/>Click or Drag over
+								<br/>max. 2.0Mb
+								<span class="text-small">
+									<br/>jpg, jpeg, png, gif 
+									<br/>pdf, xls, xlsx, doc, docx, ppt, pptx
+								</span>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -101,7 +108,8 @@ function initDropZoneData(docs)
 	if(!genericDropzone){
 		genericDropzone = new Dropzone("#generic-dropzone", {
 		  acceptedFiles: "image/*,"+
-		  				 "application/pdf",
+		  				 "application/pdf,"+
+		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
 		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
@@ -149,7 +157,8 @@ function initDropZoneData(docs)
 			  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 					saveDoc(doc);
 			  	else */
-			  		genericSaveDoc(doc , function(){
+			  		genericSaveDoc(doc , function(data){
+			  			doc._id = data.id;
 						genericFilesTable.DataTable().destroy();
 					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
 						genericDropzone.removeAllFiles(true);
@@ -297,7 +306,7 @@ function genericSaveDoc(doc, callback)
         
         	if(data.result){
 		        toastr.success(data.msg);
-			callback();
+			callback(data);
 		} else
 			toastr.error(data.msg);
 
