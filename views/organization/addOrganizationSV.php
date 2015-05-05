@@ -1,5 +1,5 @@
 <?php 
-$cssAnsScriptFiles = array(
+$cssAnsScriptFilesTheme = array(
 	//Select2
 	'/assets/plugins/select2/select2.css',
 	'/assets/plugins/select2/select2.min.js',
@@ -7,10 +7,13 @@ $cssAnsScriptFiles = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
-//Data helper
-echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <style>
