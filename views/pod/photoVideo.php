@@ -151,7 +151,7 @@
 					//openGallery();
 				},
 				onHide : function() {
-					//hideGallery();
+					hideMediaSubview();
 				}
 			});
 		});
@@ -168,5 +168,11 @@
 	function resizeSliderPhotoVideo(){
 		removeSliderPhotoVideo();
 		initPhotoVideo();
+	}
+
+	function hideMediaSubview(){
+		$('#Media_avatar').val('');
+		$('#Media_fileUpload').fileupload("clear");
+		$.hideSubview();
 	}
 </script>
