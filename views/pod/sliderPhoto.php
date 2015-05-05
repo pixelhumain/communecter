@@ -180,8 +180,8 @@
 	}
 
 	function hideFileuploadSubview(){
-		$('#sliderPhoto_avatar').val('');
-		$('#sliderPhoto_fileUpload').fileupload("reset");
+		$('#Slider_avatar').val('');
+		$('#Slider_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
 </script>
