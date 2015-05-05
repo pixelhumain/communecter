@@ -55,21 +55,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 								Show All
 							</a>
 						</li>
-						<li class="filter" data-filter=".pageContent">
-							<a href="#">
-								Page Content
-							</a>
-						</li>
-						<li class="filter" data-filter=".banniere">
-							<a href="#">
-								Banniere
-							</a>
-						</li>
-						<li class="filter" data-filter=".profil">
-							<a href="#">
-								Profil
-							</a>
-						</li>
 					</ul>
 				</div>
 				<hr/>
@@ -93,9 +78,7 @@ var itemType = "<?php echo $itemType; ?>"
 var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $itemType, $itemId)) echo 'true' ; else echo 'false'; ?>"; 
 
 jQuery(document).ready(function() {
-	initGrid();
-	
-	
+	initGrid();	
 });
 
 function initGrid(){
@@ -105,24 +88,27 @@ function initGrid(){
 		dataType : "json",
 		success: function(data){
 			$.each(data, function(k, v){
-				var type = "pageContent";
-				if(v.contentKey.split(".")[2]=="banniere")
-					type= "banniere";
-				else if(v.contentKey.split(".")[2] == "profil")
-					type = "profil";
 				if(v.doctype == "image"){
 					var path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+					var type = v.contentKey.split(".")[2];
+					if($.inArray(type, tabButton)==-1){
+						tabButton.push(type);
+						var liHtml = '<li class="filter" data-filter=".'+type+'">'+
+										'<a href="#">' + type + '</a>'+
+									 '</li>';
+						$(".nav-pills").append(liHtml);
+					}
 					var htmlBtn = "";
 					if(authorizationToEdit=="true"){
 						htmlBtn= ' <div class="tools tools-bottom">' +
-									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'" >' +
+									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'"  >' +
 										' <i class="fa fa-trash-o"></i>'+
 									' </a>'+
 								' </div>'
 						}
 					var htmlThumbail = '<li class="col-md-3 col-sm-6 col-xs-12 mix '+type+' gallery-img" data-cat="1" id="'+v["_id"]["$id"]+'">'+
 								' <div class="portfolio-item">'+
-									' <a class="thumb-info" href="'+path+'" data-title="Website">'+
+									' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="'+v.contentKey+'">'+
 										' <img src="'+path+'" class="img-responsive" alt="">'+
 										' <span class="thumb-info-title">'+v.contentKey.split(".")[1]+'</span>' +
 									' </a>' +

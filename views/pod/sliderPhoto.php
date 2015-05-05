@@ -17,6 +17,7 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	}
+
 	
 </style>
 <div id="sliderPhotoPod" onresize="javascript:resizeSlider()">
@@ -56,7 +57,7 @@
 				}
 			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																	  "type" => $type,
-																	  "contentId" =>"sliderPhoto",
+																	  "contentId" =>"Slider",
 																	  "editMode" => true)); ?>
 		</div>
 	</div>
@@ -70,6 +71,7 @@
  	var widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 	 jQuery(document).ready(function() {
 	 	$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
+	 	$("#sliderPhotoPod .flexslider .slides li").css("max-width", parseInt(widthSlider)+"px");
 		initDashboardPhoto();
 		bindPhotoSubview();
 
@@ -100,7 +102,7 @@
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == "sliderPhoto"){
+					if(where == "Slider"){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
@@ -111,10 +113,10 @@
 		}
 		if(j == 0){
 			var htmlSlide = "<li>" +
-								"<blockquote>"+
+								"<div class='center'>"+
 									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
 									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</blockquote>"+
+								"</div>"+
 							"</li>";
 			$("#slidesPhoto").append(htmlSlide);
 		}
@@ -123,6 +125,7 @@
 		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
 		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px");
+		imagesTab = [];
 
 	}
 
@@ -138,14 +141,19 @@
 					//openGallery();
 				},
 				onHide : function() {
-					//hideGallery();
+					hideFileuploadSubview();
 				}
 			});
 		});
 	}
 
 	function updateSlider(image, id){
-		images[id]=image;
+		console.log(images, images.length);
+		if("undefined" != typeof images.length){
+			images = {};
+		}
+		images[id] = image;
+		//console.log(images);
 		removeSlider();
 		initDashboardPhoto()
 
@@ -169,5 +177,11 @@
 		$("#flexsliderPhoto").removeData("flexslider");
 		$("#flexsliderPhoto").empty();
 		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
+	}
+
+	function hideFileuploadSubview(){
+		$('#Slider_avatar').val('');
+		$('#Slider_fileUpload').fileupload("clear");
+		$.hideSubview();
 	}
 </script>

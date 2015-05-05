@@ -6,7 +6,7 @@
 		width: 100%;
 	}
 	.fileupload-new .thumbnail, .fileupload-exists .thumbnail{
-		height: 100%;
+		height: auto;
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
 		width: 100%;
@@ -77,8 +77,11 @@
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
 			isSubmit = contentId+"_true";
 			e.preventDefault();
+			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			$("#"+contentId+"_photoUploading").css("display", "block");
+			$(".btn").addClass("disabled");
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -87,18 +90,21 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
-			  			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
-						$("#"+contentId+"_photoUploading").css("display", "block");
+			  			
 			  			setTimeout(function(){
 			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
 							$("#"+contentId+"_photoUploading").css("display", "none");
+							$(".btn").removeClass("disabled");
 			  				toastr.success(data.msg);
+
 			  			}, 2000) 
+			  			
 			  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
 			  			imageId = data.id['$id'];
 				  		
-				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function")
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 		        			updateSlider(data.image, data.id["$id"]);
+				  		}
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -189,6 +195,5 @@
 		
 	});
 
-	
 
 </script>

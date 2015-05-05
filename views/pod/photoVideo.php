@@ -60,7 +60,7 @@
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																  "type" => $type,
-																  "contentId" =>"photoVideo",
+																  "contentId" =>"Media",
 																  "editMode" => true)); ?>														  						
 		</div>
 	</div>
@@ -94,7 +94,7 @@
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == "photoVideo"){
+					if(where == "Media"){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						var htmlSlide2 = "<div class='col-md-2 sliderPreview'><img src='"+path+"' /></div>";
@@ -129,6 +129,9 @@
 
 
 	function updateSlider(image, id){
+		if("undefined" != typeof images.length){
+			images = {};
+		}
 		images[id] = image;
 		removeSliderPhotoVideo()
 		initPhotoVideo()
@@ -148,7 +151,7 @@
 					//openGallery();
 				},
 				onHide : function() {
-					//hideGallery();
+					hideMediaSubview();
 				}
 			});
 		});
@@ -165,5 +168,11 @@
 	function resizeSliderPhotoVideo(){
 		removeSliderPhotoVideo();
 		initPhotoVideo();
+	}
+
+	function hideMediaSubview(){
+		$('#Media_avatar').val('');
+		$('#Media_fileUpload').fileupload("clear");
+		$.hideSubview();
 	}
 </script>

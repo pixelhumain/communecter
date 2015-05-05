@@ -13,6 +13,8 @@
 
 	//Data helper
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
+	//X-Editable postal Code
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
 ?>
 <style>
 #divImgEdit{
@@ -30,17 +32,16 @@
 			<?php } ?>
 		</div>
 	</div>
-	<div class="panel-body border-light">
+	<div class="panel-body border-light" id="organizationDetail">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<?php 
-					
 					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
 																	  "type" => Organization::COLLECTION,
-																	  "contentId" =>"banniere",
+																	  "contentId" =>"Banniere",
 																	  "show" => "true",
-																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
-
+																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); 
+				?>
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
@@ -48,10 +49,7 @@
 						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="postalCode" data-type="text" data-title="Postal Code" data-emptytext="Postal Code" class=" editable editable-click">
-						 <?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>
-					</a>
-					<a href="#" id="addressLocality" data-type="select" data-title="Locality" data-emptytext="City" data-original-title="" class="editable editable-click">
+					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="right">
 					</a>
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
@@ -126,9 +124,7 @@
 	var contextData = <?php echo json_encode($context)?>;
 	var contextId = "<?php echo isset($context["_id"]) ? $context["_id"] : ""; ?>";
 	//By default : view mode
-	//TODO SBAR - Get the mode from the request ?
 	var mode = "view";
-	var newPostalCode = (contextData.address && contextData.address.postalCode) ? contextData.address.postalCode : "";
 	
 	var countries = <?php echo json_encode($countries) ?>;
 	var cities;
@@ -174,24 +170,21 @@
 			$('.editable-context').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
-			$('#addressLocality').editable('toggleDisabled');
-			$('#postalCode').editable('toggleDisabled');
+			$('#address').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
 			$("#editFicheInfo").removeClass("fa-search").addClass("fa-pencil");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
-			$('#postalCode').editable('option', 'pk', contextId);
-			$('#addressLocality').editable('option', 'pk', contextId);
+			$('#address').editable('option', 'pk', contextId);
 			$('#addressCountry').editable('option', 'pk', contextId);
 			$('#tags').editable('option', 'pk', contextId);
 			$('#typeIntervention').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
-			$('#postalCode').editable('toggleDisabled');
-			$('#addressLocality').editable('toggleDisabled');
+			$('#address').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
@@ -245,23 +238,18 @@
 			showbuttons: false,
 		});
 
-		$('#addressLocality').editable({
-			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: '<?php echo (isset( $context["address"]["codeInsee"])) ? $context["address"]["codeInsee"] : ""; ?>',
-			source: function() {
-				return getCitiesByPostalCode(newPostalCode, "select");
-			},
-			showbuttons: false,
-		});
-
-		$('#postalCode').editable({
-			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+		$('#address').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
-			showbuttons: false,
+			showbuttons: true,
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
-				newPostalCode = newValue;
-			}
+			},
+			value : {
+            	postalCode: '<?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>',
+            	codeInsee: '<?php echo (isset( $context["address"]["codeInsee"])) ? $context["address"]["codeInsee"] : ""; ?>',
+            	addressLocality : '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>'
+        	}
 		});
 
 		$('#typeOfPublic').editable({
@@ -280,7 +268,7 @@
 				return 'Field is required !';
 		});
 		//Postal Code must filled, be numeric and 5 characters length 
-		$('#postalCode').editable('option', 'validate', function(v) {
+		/*$('#postalCode').editable('option', 'validate', function(v) {
 			var intRegex = /^\d+$/;
 			if (!v)
 				return 'Postal code is required !';
@@ -288,7 +276,7 @@
 				return 'Postal code must be numeric!';
 			if (v.length != 5) 
 				return 'Postal code must be 5c length!';
-		});
+		});*/
 
 	} 
 
