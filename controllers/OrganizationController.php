@@ -84,6 +84,7 @@ class OrganizationController extends CommunecterController {
    * Update an existing organization
    * @return an array with result and message json encoded
    */
+  //TODO SBAR => deprecated and not used
   public function actionSave() {
 	// Minimal data
 	$organization = Organization::newOrganizationFromPost($_POST);
