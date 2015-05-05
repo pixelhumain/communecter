@@ -37,7 +37,7 @@ $this->renderPartial('../documents/gedSV');
 			                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
 			                <td  class="center hidden-xs"><?php echo $category ?> </td>
 			                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
-			                <td class="hidden-xs"> 
+			                <td> 
 			                	<a class="btn btn-xs delDocBtn tooltips" data-id="<?php echo (string)$doc['_id'] ?>" href="javascript:;" data-placement="top" data-original-title="Delete this File">
     								<i class="fa fa-times text-red"></i>
     							</a>
@@ -96,13 +96,14 @@ jQuery(document).ready(function() {
 			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 
 		category = (doc.category) ? '<span class="label label-danger">'+doc.category+'</span>' : "";
-		lineHTML = '<tr class="file'+doc._id+'">'+
+		docId = (doc._id['$id']) ? doc._id['$id'] : doc._id; 
+		lineHTML = '<tr class="file'+docId+'">'+
 						'<td class="center">'+link+'</td>'+
 						'<td class="center">'+doc.name+'</td>'+
 						'<td class="center hidden-xs">'+category+'</td>'+
 						'<td class="hidden-xs">'+doc.size+'</td>'+
-						'<td class="hidden-xs">'+
-							'<a class="btn btn-xs delDocBtn" data-id="'+doc._id+'" href="javascript:;" >'+
+						'<td>'+
+							'<a class="btn btn-xs delDocBtn" data-id="'+docId+'" href="javascript:;" >'+
     								'<i class="fa fa-times text-red"></i>'+
     							'</a>'+
 						'</td>'+
@@ -112,6 +113,7 @@ jQuery(document).ready(function() {
 			$(".emptyDocsInfo").remove();
 
 		$(".docsList").prepend(lineHTML);
+		documents[docId] = doc;
 		bindDocsEvents ();
 	}
 
