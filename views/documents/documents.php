@@ -33,7 +33,7 @@ $this->renderPartial('../documents/gedSV');
 											'<i class="fa fa-file fa-3x icon-big"></i></a>';	
 								?>
 			                </td>
-			                <td class="center"><span class="text-large"><?php echo $doc['name'] ?> </span></td>
+			                <td class="center"><?php echo $doc['name'] ?></td>
 			                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
 			                <td  class="center hidden-xs"><?php echo $category ?> </td>
 			                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
