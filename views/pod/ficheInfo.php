@@ -38,7 +38,7 @@
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
 																	  "type" => Organization::COLLECTION,
-																	  "contentId" =>"banniere",
+																	  "contentId" =>"Banniere",
 																	  "show" => "true",
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); 
 				?>

@@ -545,7 +545,6 @@ formEvent.validate({
 		        	$("#newEventId").val(data.id["$id"]);
 		        	newEventData = data.event;
 		        	$.hideSubview();
-		        	location.href= baseUrl+"/"+moduleId+"/event/dashboard/id/"+data.id["$id"];
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }

@@ -60,7 +60,7 @@
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																  "type" => $type,
-																  "contentId" =>"photoVideo",
+																  "contentId" =>"Media",
 																  "editMode" => true)); ?>														  						
 		</div>
 	</div>
@@ -129,6 +129,9 @@
 
 
 	function updateSlider(image, id){
+		if("undefined" != typeof images.length){
+			images = {};
+		}
 		images[id] = image;
 		removeSliderPhotoVideo()
 		initPhotoVideo()

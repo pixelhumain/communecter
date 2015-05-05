@@ -56,7 +56,7 @@
 				}
 			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																	  "type" => $type,
-																	  "contentId" =>"sliderPhoto",
+																	  "contentId" =>"Slider",
 																	  "editMode" => true)); ?>
 		</div>
 	</div>
@@ -70,6 +70,7 @@
  	var widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 	 jQuery(document).ready(function() {
 	 	$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
+	 	$("#sliderPhotoPod .flexslider .slides li").css("max-width", parseInt(widthSlider)+"px");
 		initDashboardPhoto();
 		bindPhotoSubview();
 
@@ -123,6 +124,7 @@
 		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
 		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px");
+		imagesTab = [];
 
 	}
 
@@ -138,14 +140,19 @@
 					//openGallery();
 				},
 				onHide : function() {
-					//hideGallery();
+					hideFileuploadSubview();
 				}
 			});
 		});
 	}
 
 	function updateSlider(image, id){
-		images[id]=image;
+		console.log(images, images.length);
+		if("undefined" != typeof images.length){
+			images = {};
+		}
+		images[id] = image;
+		//console.log(images);
 		removeSlider();
 		initDashboardPhoto()
 
@@ -169,5 +176,11 @@
 		$("#flexsliderPhoto").removeData("flexslider");
 		$("#flexsliderPhoto").empty();
 		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
+	}
+
+	function hideFileuploadSubview(){
+		$('#sliderPhoto_avatar').val('');
+		$('#sliderPhoto_fileUpload').fileupload("reset");
+		$.hideSubview();
 	}
 </script>
