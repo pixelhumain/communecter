@@ -124,7 +124,7 @@
 		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
 		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px");
-		imageTab = [];
+		imagesTab = [];
 
 	}
 
@@ -147,9 +147,12 @@
 	}
 
 	function updateSlider(image, id){
-
-		images[id]=image;
-		
+		console.log(images, images.length);
+		if("undefined" != typeof images.length){
+			images = {};
+		}
+		images[id] = image;
+		//console.log(images);
 		removeSlider();
 		initDashboardPhoto()
 

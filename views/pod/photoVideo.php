@@ -129,6 +129,9 @@
 
 
 	function updateSlider(image, id){
+		if("undefined" != typeof images.length){
+			images = {};
+		}
 		images[id] = image;
 		removeSliderPhotoVideo()
 		initPhotoVideo()
