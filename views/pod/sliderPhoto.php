@@ -56,7 +56,7 @@
 				}
 			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																	  "type" => $type,
-																	  "contentId" =>"sliderPhoto",
+																	  "contentId" =>"Slider",
 																	  "editMode" => true)); ?>
 		</div>
 	</div>

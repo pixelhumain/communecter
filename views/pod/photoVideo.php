@@ -60,7 +60,7 @@
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																  "type" => $type,
-																  "contentId" =>"photoVideo",
+																  "contentId" =>"Media",
 																  "editMode" => true)); ?>														  						
 		</div>
 	</div>

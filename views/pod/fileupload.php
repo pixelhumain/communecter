@@ -6,7 +6,7 @@
 		width: 100%;
 	}
 	.fileupload-new .thumbnail, .fileupload-exists .thumbnail{
-		height: 100%;
+		height: auto;
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
 		width: 100%;
@@ -81,7 +81,7 @@
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -103,7 +103,6 @@
 			  			imageId = data.id['$id'];
 				  		
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
-				 
 		        			updateSlider(data.image, data.id["$id"]);
 				  		}
 			  		}

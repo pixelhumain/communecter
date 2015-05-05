@@ -18,6 +18,8 @@ class GalleryController extends CommunecterController {
 		$params = array();
 		$params["itemId"] = $id;
 		$params['itemType'] = $type;
+		$this->title = "My Gallery";
+		$this->subTitle = "";
 		$this->render("gallery", $params);
 	}
 	public function actionGetListById($id, $type){
