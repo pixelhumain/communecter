@@ -25,6 +25,9 @@
 		opacity: 0.4;
     	filter: alpha(opacity=40); /* For IE8 and earlier */
 	}
+	.fileupload-preview img{
+		max-height:100%; 
+	}
 </style>
 
 	<div class ="center" id="fileuploadContainer">
@@ -90,7 +93,7 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
-			  			
+			  			$(".fileupload-preview img").css("max-height", "100%");
 			  			setTimeout(function(){
 			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
 							$("#"+contentId+"_photoUploading").css("display", "none");

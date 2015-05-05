@@ -16,6 +16,7 @@
 	    width: auto;
 	    margin-left: auto;
 	    margin-right: auto;
+	    max-width: 100%;
 	}
 
 	
@@ -184,4 +185,5 @@
 		$('#Slider_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
+
 </script>

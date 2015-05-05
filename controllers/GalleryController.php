@@ -15,10 +15,11 @@ class GalleryController extends CommunecterController {
 		}
 
 	public function actionIndex($id, $type){
+		$item = Person::getItemInfoById($id, $type);
 		$params = array();
 		$params["itemId"] = $id;
 		$params['itemType'] = $type;
-		$this->title = "My Gallery";
+		$this->title = $item["name"]."'s Gallery";
 		$this->subTitle = "";
 		$this->render("gallery", $params);
 	}

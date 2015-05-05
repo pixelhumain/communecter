@@ -87,8 +87,12 @@ function initGrid(){
 		type: "POST",
 		dataType : "json",
 		success: function(data){
+			console.log(data);
+			j = 0;
 			$.each(data, function(k, v){
 				if(v.doctype == "image"){
+
+					j++;
 					var path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
 					var type = v.contentKey.split(".")[2];
 					if($.inArray(type, tabButton)==-1){
@@ -119,15 +123,24 @@ function initGrid(){
 					$("#Grid").append(htmlThumbail);
 				}
 			})
-			bindBtnGallery();
-			$('#Grid').mixItUp();
-			$('.portfolio-item .chkbox').bind('click', function () {
-		        if ($(this).parent().hasClass('selected')) {
-		            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');
-		        } else {
-		            $(this).parent().addClass('selected').children('a').children('img').addClass('selected');
-		        }
-		    });
+			if(j>0){
+				bindBtnGallery();
+				$('#Grid').mixItUp();
+				$('.portfolio-item .chkbox').bind('click', function () {
+			        if ($(this).parent().hasClass('selected')) {
+			            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');
+			        } else {
+			            $(this).parent().addClass('selected').children('a').children('img').addClass('selected');
+			        }
+			    });
+			}else{
+				var htmlDefault = "<div class='center'>"+
+									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+								"</div>";
+				$('#Grid').append(htmlDefault);
+			}
+			
 		}
 	})
 
@@ -138,20 +151,13 @@ function bindBtnGallery(){
 		var imageName= $(this).data("name");
 		e.preventDefault();
 		$.ajax({
-			url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType,
+			url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 			type: "POST",
 			dataType : "json",
-			data: {"name": itemId+"/"+imageName},
+			data: {"name": imageName, "parentId": itemId, "docId":imageId},
 			success: function(data){
-				$.ajax({
-					url:  baseUrl+"/"+moduleId+"/gallery/removeById/id/"+imageId,
-					type: "POST",
-					dataType : "json",
-					success: function(data){
-						$("#"+imageId).remove();
-						toastr.success("Image supprimé");
-					}
-				})
+				$("#"+imageId).remove();
+				toastr.success("Image supprimé");
 			}
 		})
 	})
