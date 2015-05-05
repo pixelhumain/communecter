@@ -8,28 +8,34 @@
  */
 class DocumentController extends CommunecterController {
   
+	public function actions()
+	{
+	    return array(
+	        'resized' => array(
+	            'class'   => 'ext.resizer.ResizerAction',
+	            'options' => array(
+	                // Tmp dir to store cached resized images 
+	                'cache_dir'   => Yii::getPathOfAlias('webroot') . '/assets/',
+	 
+	                // Web root dir to search images from
+	                'base_dir'    => Yii::getPathOfAlias('webroot') . '/',
+	            )
+	        ),
+	    );
+	}
 
-	/**
-	 * opens on a country
-	 * @param string $type : pays || region || commune
-	 * @param $id : france || code postale
-	 */
+
 	public function actionSave() {
 	      return Rest::json( Document::save($_POST) );
 	}
 
 	/**
 	* delete a document
-	* @param $id id of the document that we went to delete
+	* @param $id id of the document that we want to delete
 	*/
 	public function actionDeleteDocumentById($id){
 		return Rest::json( Document::removeDocumentById($id));
 	}
-
-	/**
-	*
-	*
-	*/
 
 	public function actionRemoveAndBacktract(){
 		$result = array("result"=>false,"msg"=>"Vos données n'ont pas pu être modifier");
