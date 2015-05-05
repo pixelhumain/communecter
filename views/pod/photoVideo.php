@@ -9,6 +9,7 @@
 	    width: auto;
 	    margin-left: auto;
 	    margin-right: auto;
+	    max-width: 100%;
 	}
 	#showAllSlides img{
 		width: 75%;

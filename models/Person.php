@@ -302,5 +302,11 @@ class Person {
 	                  
 	    return true;
 	}
+
+
+	public static function getItemInfoById($id, $context){
+		$item = PHDB::findOne( $context ,array("_id"=>new MongoId($id)));
+		return $item;
+	}
 }
 ?>
