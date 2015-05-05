@@ -100,26 +100,27 @@ echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 							</div>
 						</div>
 						<div class="col-md-6 col-sd-6 ">
-							
 							<div class="form-group">
 								<label class="control-label">
 									Pays <span class="symbol required"></span>
 								</label>
-								<input name="organizationCountry" id="organizationCountry" class="form-control"></input>								
+								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
 
-							<div class="form-group">
-								<label class="control-label">
-									Code postal <span class="symbol required"></span>
-								</label>
-								<input class="form-control" placeholder="12345" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
-							</div>
-
-							<div class="form-group" id="cityDiv" style="display: none;">
-								<span class="input-icon">
-								<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
-								</select>
-								</span>	
+							<div class="row">
+								<div class="col-md-4 form-group">
+									<label for="postalCode">
+										Code postal <span class="symbol required"></span>
+									</label>
+									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+								</div>
+								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
+									<label for="city">
+										Ville <span class="symbol required"></span>
+									</label>
+									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+									</select>
+								</div>
 							</div>
 
 							<div class="form-group">
@@ -127,13 +128,12 @@ echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 									Centres d'interet 
 								</label>
 								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%;">
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
 			        		    
 							</div>
-
 						</div>
 						<div class="col-md-12">
-						<div class="form-group">
+							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
