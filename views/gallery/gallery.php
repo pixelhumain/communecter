@@ -78,9 +78,7 @@ var itemType = "<?php echo $itemType; ?>"
 var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $itemType, $itemId)) echo 'true' ; else echo 'false'; ?>"; 
 
 jQuery(document).ready(function() {
-	initGrid();
-	
-	
+	initGrid();	
 });
 
 function initGrid(){

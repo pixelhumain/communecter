@@ -17,6 +17,7 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	}
+
 	
 </style>
 <div id="sliderPhotoPod" onresize="javascript:resizeSlider()">
@@ -101,7 +102,7 @@
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == "sliderPhoto"){
+					if(where == "Slider"){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
@@ -112,10 +113,10 @@
 		}
 		if(j == 0){
 			var htmlSlide = "<li>" +
-								"<blockquote>"+
+								"<div class='center'>"+
 									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
 									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</blockquote>"+
+								"</div>"+
 							"</li>";
 			$("#slidesPhoto").append(htmlSlide);
 		}
