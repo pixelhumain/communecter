@@ -6,9 +6,6 @@
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
 	}
-	#sliderAgenda .flexslider .slides img{
-		height: 210px;
-	}
 </style>
 	<div id="sliderAgenda">
     <div class="panel panel-white">
@@ -46,19 +43,22 @@ var events = <?php echo json_encode($events) ?>;
 		var n = 1;
 		var today = new Date();
 		var notEmptySlide = false;
-		
+		var width =  parseInt($("#sliderAgenda .flexslider").css("width"));
+		var height = width*45/100;
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
 				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate){
+					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 					if(n<4 && compareDate(today, date)){
 						notEmptySlide = true;
-						if ('undefined' == typeof v.imagePath){
-							v.imagePath = "";
+						var imageUrl = ""
+						if ('undefined' != typeof v.imagePath){
+							imageUrl = baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath;
 						}
 						var htmlRes = "<li><div>"+
-										"<img src='"+v.imagePath+"'></img>";
+										"<img src='"+imageUrl+"'></img>";
 						htmlRes +="<div class='row'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";
@@ -75,11 +75,11 @@ var events = <?php echo json_encode($events) ?>;
 		}
 		if(!notEmptySlide){
 			var htmlRes = 	"<li>"+
-								"<blockquote>"+
+								"<div class='center'>"+
 									" <i class='fa fa-calendar fa-5x text-red'></i>"+
 									" <br> No upcoming events" +
 									" <br> Click on <i class='fa fa-plus'></i> to add a new event"+
-								"</blockquote>"+
+								"</div>"+
 							"</li>";
 			$("#slidesAgenda").append(htmlRes);
 		}
