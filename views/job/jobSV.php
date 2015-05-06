@@ -271,6 +271,7 @@ function activateEditable() {
 	$('#startDate').editable({
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: "popup",
+		placement: "bottom",
         format: 'dd/mm/yyyy',    
         viewformat: 'dd/mm/yyyy',
         showbuttons: false,    
@@ -306,7 +307,7 @@ function activateEditable() {
     
     //Button Save
     $('#save-btn').click(function() {
-	   	$('.editable-job, #hiringOrganization #startDate #tagsJob').editable('submit', {
+	   	$('.editable-job, #hiringOrganization, #startDate, #tagsJob').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response

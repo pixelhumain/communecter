@@ -153,16 +153,18 @@ function bindBtnGallery(){
 		e.preventDefault();
 		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> ?", 
 			function(result) {
-				$.ajax({
-					url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
-					type: "POST",
-					dataType : "json",
-					data: {"name": imageName, "parentId": itemId, "docId":imageId},
-					success: function(data){
-						$("#"+imageId).remove();
-						toastr.success("Image supprimé");
-					}
-				})
+				if(result){
+					$.ajax({
+						url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
+						type: "POST",
+						dataType : "json",
+						data: {"name": imageName, "parentId": itemId, "docId":imageId},
+						success: function(data){
+							$("#"+imageId).remove();
+							toastr.success("Image supprimée");
+						}
+					})
+				}
 			})
 	})
 }
