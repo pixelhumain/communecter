@@ -19,6 +19,7 @@
 
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_initializer.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_panel.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_popupContent.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_rightList.js' , CClientScript::POS_END);
 	

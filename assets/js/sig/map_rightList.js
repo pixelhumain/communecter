@@ -46,9 +46,10 @@
 		
 		//***
 		//renvoi un item (html) pour la liste de droite
-		Sig.createItemRigthListMap = function(element, marker){
+		Sig.createItemRigthListMap = function(element, thisMarker, thisMap){
 			
 			var thisSig = this;
+			var objectId = element._id ? element._id.$id.toString() : null;
 			//rassemble le nom de la ville au CP
 			var place = "";
 			if(element['city'] != null) place += element['city'];
@@ -75,12 +76,16 @@
 				});
 			}
 			//return l'élément html
-				return '<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
+		    var button = '<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
 								+ icons
 								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	
 								+  ' <div class="city_item_map_list">' +	place + "</div>"	+
 					   '</button>';	
 			
+			$(this.cssModuleName + " #liste_map_element").append(button);
+			
+			
+			//toastr.success(JSON.stringify(name + " " + markerPosition));			
 		};	
 		
 		return Sig;

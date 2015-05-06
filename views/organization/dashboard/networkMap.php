@@ -21,7 +21,7 @@
 				"useRightList" => true,
 				"useZoomButton" => true,
 				"useHelpCoordinates" => true,
-				"notClusteredTag" => array("organization"),
+				"notClusteredTag" => array("citoyens"),
 				"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
 												"zoom"		  => 9),
 				);
