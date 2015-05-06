@@ -33,8 +33,7 @@
  <script type="text/javascript">
 var events = <?php echo json_encode($events) ?>;
 
- jQuery(document).ready(function() {
- 	 	
+ jQuery(document).ready(function() {	 	
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
 	});
@@ -53,12 +52,11 @@ var events = <?php echo json_encode($events) ?>;
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
 					if(n<4 && compareDate(today, date)){
 						notEmptySlide = true;
-						var imageUrl = ""
+						var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
 						if ('undefined' != typeof v.imagePath){
-							imageUrl = baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath;
+							imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath+"'></img>";
 						}
-						var htmlRes = "<li><div>"+
-										"<img src='"+imageUrl+"'></img>";
+						var htmlRes = "<li><div class='center'>"+imageUrl;
 						htmlRes +="<div class='row'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";

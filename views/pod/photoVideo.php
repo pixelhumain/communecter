@@ -1,6 +1,28 @@
+<?php 
+$cssAnsScriptFilesTheme = array(
+	//X-editable...
+	'/assets/plugins/x-editable/js/bootstrap-editable.js',
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	//wysihtml5
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/assets/plugins/wysihtml5/wysihtml5.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
+?>
+
 <style type="text/css">
 	#editSliderPhotoVideo{
 		display:none;
+		max-width: 100%;
+	}
+
+	#editSliderPhotoVideo .fileupload .thumbail{
+		width: 100%;
 	}
 	
 	#photoVideo .flexslider .slides img {
@@ -14,6 +36,10 @@
 	#showAllSlides img{
 		width: 75%;
 	}
+
+	#video iframe{
+		width: 100%;
+	}
 	
 </style>
 
@@ -24,7 +50,7 @@
 	    </div>
 	    <div class="panel-tools">
 		   	<?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
-			   <a href="#editSliderPhotoVideo" class="add-photoSlider btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an image" alt="Add an image"><i class="fa fa-plus"></i></a>
+			   <a href="#" class="add-photoSlider btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an image" alt="Add an image"><i class="fa fa-plus"></i></a>
 		    <?php } ?>
 		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$itemId.'/type/'.Organization::COLLECTION);?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
 	    </div>
@@ -37,39 +63,50 @@
 					</ul>
 				</div>
 			</div>
+			<div id="editSliderPhotoVideo">
+				<div class="row">
+					<?php 
+						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
+																		  "type" => $type,
+																		  "resize" => "true",
+																		  "contentId" =>Document::IMG_MEDIA,
+																		  "editMode" => true)); ?>
+				</div>
+				<div class="row center">
+					<a href="#" class="btn btn-light-blue validateSlider">Terminer </a>
+				</div>
+			</div>
 			<hr>
 			<div class="row">
 				<div class="center">
-					<div class="flexslider" id="flexslider2">
-						<ul class="slides" id="slidesPhoto">
-							<li>
-								<img src="http://placehold.it/350x180" style="height:250px" class="img-responsive center-block"/>
-							</li>
-						</ul>
-				  	</div>
+					<div class="col-sm-12 col-xs-12 padding-20" style="min-height: 250px">
+						<a href="#" id="video" data-title="video" data-type="wysihtml5" data-emptytext="Video" class="editable editable-click">
+						</a>
+					</div>
 				 </div>
-				 <a href="#">Voir la gallerie Photo</a>
 			</div>
 		</div>
 	</div>
 </div>
 
 
-<div id="editSliderPhotoVideo" >
+<!--<div id="editSliderPhotoVideo" >
 	<div class="row center">
 		<div class="col-md-6 col-md-offset-3">
 			<?php 
-				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
+				/*$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																  "type" => $type,
 																  "contentId" =>Document::IMG_MEDIA,
-																  "editMode" => true)); ?>														  						
+																  "editMode" => true)); */?>														  						
 		</div>
 	</div>
 	<hr>
 	<div class="row center" id="showAllSlides">
 		
 	</div>
-</div>
+</div> -->
+
+
 
 <script type="text/javascript">
 
@@ -82,6 +119,17 @@
 		$( window ).resize(function() {
 			resizeSliderPhotoVideo();
 		})
+		$(".validateSlider").off().on("click", function() {
+			clearFileupload();
+		})
+		$(".add-photoSlider").off().on("click", function() {
+			$("#sliderPhotoVideo").css("display", "none");
+			$("#editSliderPhotoVideo").css("display", "block");
+			$('#'+constImgKey+'_avatar').trigger("click");
+		});
+
+		activateVideoEditor();
+
 	});
 
 	function initPhotoVideo(){
@@ -129,14 +177,22 @@
 		$("#sliderPhotoVideo .flexslider .slides li").css("height", parseInt(widthSliderPhotoVideo)*45/100-10+"px")
 	}
 
+	function clearFileupload(){
+		$("#editSliderPhotoVideo").css("display", "none");
+		$("#sliderPhotoVideo").css("display", "block");
+		$('#'+constImgKey+'_avatar').val('');
+		$('#'+constImgKey+'_fileUpload').fileupload("clear");
+		removeSliderPhotoVideo()
+		initPhotoVideo()
+	}
 
 	function updateSlider(image, id){
+		
 		if("undefined" != typeof images.length){
 			images = {};
 		}
 		images[id] = image;
-		removeSliderPhotoVideo()
-		initPhotoVideo()
+		
 
 	}
 
@@ -144,7 +200,7 @@
 		$( "#drag1" ).draggable();
 		$( "#drag2" ).draggable();
 		
-		$(".add-photoSlider").off().on("click", function() {
+		/*$(".add-photoSlider").off().on("click", function() {
 			subViewElement = $(this);
 			subViewContent = subViewElement.attr('href');
 			$.subview({
@@ -156,7 +212,7 @@
 					hideMediaSubview();
 				}
 			});
-		});
+		});*/
 	}
 
 	function removeSliderPhotoVideo(){
@@ -176,5 +232,34 @@
 		$('#'+constImgKey+'_avatar').val('');
 		$('#'+constImgKey+'_fileUpload').fileupload("clear");
 		$.hideSubview();
+	}
+
+	function activateVideoEditor() {
+		$.fn.editable.defaults.mode = 'popup';
+
+		$('#video').editable({
+			pk: <?php echo json_encode($itemId) ?>,
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			onblur: 'submit',
+			value: contextMap.video,
+			placement: 'left',
+			wysihtml5: {
+				"font-styles":  false, //Font styling, e.g. h1, h2, etc
+    			"color":        false, //Button to change color of font
+    			"emphasis":     false, //Italics, bold, etc
+    			"textAlign":    false, //Text align (left, right, center, justify)
+    			"lists":        false, //(Un)ordered lists, e.g. Bullets, Numbers
+    			"blockquote":   false, //Button to insert quote
+    			"link":         false, //Button to insert a link
+    			"table":        false, //Button to insert a table
+    			"image":        false, //Button to insert an image
+    			"video":        true, //Button to insert YouTube video
+    			"html":         true //Button which allows you to edit the generated HTML
+			}
+		});
+	}
+
+	function removeSliderImage(imageId){
+		delete images[imageId];
 	}
 </script>
