@@ -1,3 +1,20 @@
+<?php 
+$cssAnsScriptFilesTheme = array(
+	//X-editable...
+	'/assets/plugins/x-editable/js/bootstrap-editable.js',
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	//wysihtml5
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/assets/plugins/wysihtml5/wysihtml5.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
+?>
+
 <style type="text/css">
 	#editSliderPhotoVideo{
 		display:none;
@@ -13,6 +30,10 @@
 	}
 	#showAllSlides img{
 		width: 75%;
+	}
+
+	#video iframe{
+		width: 100%;
 	}
 	
 </style>
@@ -40,15 +61,11 @@
 			<hr>
 			<div class="row">
 				<div class="center">
-					<div class="flexslider" id="flexslider2">
-						<ul class="slides" id="slidesPhoto">
-							<li>
-								<img src="http://placehold.it/350x180" style="height:250px" class="img-responsive center-block"/>
-							</li>
-						</ul>
-				  	</div>
+					<div class="col-sm-12 col-xs-12 padding-20" style="min-height: 250px">
+						<a href="#" id="video" data-title="video" data-type="wysihtml5" data-emptytext="Video" class="editable editable-click">
+						</a>
+					</div>
 				 </div>
-				 <a href="#">Voir la gallerie Photo</a>
 			</div>
 		</div>
 	</div>
@@ -82,6 +99,7 @@
 		$( window ).resize(function() {
 			resizeSliderPhotoVideo();
 		})
+		activateVideoEditor();
 	});
 
 	function initPhotoVideo(){
@@ -177,4 +195,30 @@
 		$('#'+constImgKey+'_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
+
+	function activateVideoEditor() {
+		$.fn.editable.defaults.mode = 'popup';
+
+		$('#video').editable({
+			pk: <?php echo json_encode($itemId) ?>,
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			onblur: 'submit',
+			value: contextMap.video,
+			placement: 'left',
+			wysihtml5: {
+				"font-styles":  false, //Font styling, e.g. h1, h2, etc
+    			"color":        false, //Button to change color of font
+    			"emphasis":     false, //Italics, bold, etc
+    			"textAlign":    false, //Text align (left, right, center, justify)
+    			"lists":        false, //(Un)ordered lists, e.g. Bullets, Numbers
+    			"blockquote":   false, //Button to insert quote
+    			"link":         false, //Button to insert a link
+    			"table":        false, //Button to insert a table
+    			"image":        false, //Button to insert an image
+    			"video":        true, //Button to insert YouTube video
+    			"html":         true //Button which allows you to edit the generated HTML
+			}
+		});
+	}
+
 </script>
