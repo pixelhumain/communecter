@@ -64,8 +64,6 @@
 				marker.on('click', function(e) { 
 						marker.openPopup(); 
 				});
-				
-				
 				return marker;
 			};
 			
@@ -136,6 +134,24 @@
 				else{ return false; }
 			};
 			
+			this.Sig.getCoordinates = function(thisData, type){
+				if( thisData['geo'].longitude != null ){
+					if(type == "markerSingle")
+						return new Array (thisData['geo'].latitude, thisData['geo'].longitude); 
+					else if(type == "markerGeoJson")
+						return new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
+				} 
+				else{ 	
+					if(type == "markerSingle"){
+						var lat = thisData.geoPosition.coordinates[1];
+						var lng = thisData.geoPosition.coordinates[0];
+						return new Array (lat, lng); 
+					} else { if(type == "markerGeoJson")
+						return thisData.geoPosition.coordinates; 			
+					}
+				}
+			};
+			
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
 				
 				var objectId = thisData._id ? thisData._id.$id.toString() : null;
@@ -153,47 +169,23 @@
 												icon : theIcon,
 												content: content };
 
-							var coordinates;
-							if( thisData['geo'].longitude != null ){
-								coordinates = new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
-							} 
-							else 
-							{ 							  	  	 
-								coordinates = thisData.geoPosition.coordinates; 
-							}
-								
+							
+							
 							var marker;
+							var coordinates;
+							
 							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 							//on créé un marker simple
-							if($.inArray( tag, this.notClusteredTag ) > -1)
-							{ 
+							//TODO : refactor notClusteredTag > notClusteredType
+							if($.inArray(thisData['type'], this.notClusteredTag) > -1){ 
+								coordinates = this.getCoordinates(thisData, "markerSingle");
 								marker = this.getMarkerSingle(thisMap, properties, coordinates);
-						
-								//si l'élément n'est pas déjà dans la liste, on recrée le marker et on l'enregistre
-								if($.inArray(objectId, this.listId) == -1)
-								{	
-									this.elementsMap.push(thisData);
-									this.listId.push(objectId);
-									this.populatePanel( tag, objectId );
-									
-									//affiche l'éléments dans la liste de droite
-									$("#liste_map_element").append(this.createItemRigthListMap(thisData, marker));
-									//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
-									$("#item_map_list_" + objectId).click(function()
-									{
-										thisMap.panTo(marker.getLatLng(), {"animate" : true });
-										this.checkListElementMap(thisMap);
-										marker.openPopup();
-									});
-								}
 							} 
 							//sinon on crée un nouveau marker pour cluster
-							else
-							{
-								
+							else {					
 								marker = this.getGeoJsonMarker(properties, coordinates);
+								coordinates = this.getCoordinates(thisData, "markerGeoJson");
 								this.geoJsonCollection['features'].push(marker);	
-																
 							}
 						
 							//si l'élément n'est pas déjà dans la liste, on l'enregistre
@@ -202,21 +194,30 @@
 								this.elementsMap.push(thisData);	
 								this.listId.push(objectId);
 								this.populatePanel(thisData["tags"], objectId);	
-								//affiche l'éléments dans la liste de droite
-								$(this.cssModuleName + " #liste_map_element").append(this.createItemRigthListMap(thisData, marker));							
+								this.createItemRigthListMap(thisData, marker, thisMap);		
 							}	
+							
+							
+							//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
+							//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
+							if($.inArray(thisData['type'], this.notClusteredTag) > -1)
+							$(this.cssModuleName + " #item_map_list_" + objectId).click(function()
+							{	thisMap.panTo(coordinates, {"animate" : true });
+								thisSig.checkListElementMap(thisMap);
+								marker.openPopup();
+							});
+								
 						} 
 													
 					}
-					
-					
+									
 					//affiche les LINKS et les MEMBERS
 					var thisSig = this;
 					if(thisData.links != null)
 						if(thisData.links.members != null){
 							$.each(thisData.links.members, function(i, thisMember)  { 	
 								thisMember._id = { $id : i };
-								thisSig.showOneElementOnMap(thisMember);
+								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});	
 						}
 					
@@ -240,6 +241,7 @@
 				}	
 			
 					
+							
 			};
 			
 			
@@ -267,7 +269,7 @@
 				$.each(data, function (key, value){
 					thisSig.showFilterOnMap(data, key, thisMap);
 				});
-				
+				//alert("fin");
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
@@ -388,6 +390,7 @@
 
 		//alert((this.Sig));
 		this.Sig = this.getSigInitializer(this.Sig);
+		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
 			
