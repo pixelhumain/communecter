@@ -280,7 +280,7 @@
 
 		$('#description').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: <?php echo (isset($context["description"])) ? json_encode($context["description"]) : null; ?>,
+			value: <?php echo (isset($context["description"])) ? json_encode($context["description"]) : "''"; ?>,
 			placement: 'top',
 			wysihtml5: {
 				html: true,
