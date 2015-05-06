@@ -138,15 +138,14 @@ function openJobSV(mode, id) {
 
 function updateJob(njob, jobId) {
     console.log("updateJob func");
-    var jobLink = '<a href="#" class="viewButton" data-id="'+jobId+'" data-original-title="View">'+njob.title+'</a>';
+    var jobLink = '<a href="#" class="viewButton" data-id="'+jobId+'" data-original-title="View">';
     var jobLine  = '<tr id="job'+jobId+'">'+
-                '<td>'+jobLink+'</td>'+
+                '<td class="center">'+jobLink+'<i class="fa fa-briefcase fa-2x"></i></a></td>'+
+                '<td>'+jobLink+njob.title+'</a></td>'+
                 '<td>'+njob.employmentType+'</td>'+
                 '<td>'+njob.hiringOrganization.name+'</td>'+
                 '<td class="center">'+
                 '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-                    '<a href="#" data-id="'+jobId+'" class="btn btn-light-blue tooltips viewButton" data-placement="top" data-original-title="View"><i class="fa fa-search"></i></a> '+
-                    '<a href="#" data-id="'+jobId+'" class="btn btn-light-blue tooltips editButton" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a> '+
                     '<a href="#" class="btn btn-red tooltips delButton" data-id="'+jobId+'" data-name="'+njob.title+'" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
                 '</div>'+
                 "</td>"+
