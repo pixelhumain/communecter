@@ -110,10 +110,10 @@
 
 		if(j==0){
 			var htmlSlide = "<li>" +
-								"<blockquote>"+
+								"<div class='center'>"+
 									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
 									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</blockquote>"+
+								"</div>"+
 							"</li>";
 			$("#slidesPhoto").append(htmlSlide);
 		}
