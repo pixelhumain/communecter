@@ -24,7 +24,11 @@
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"> <?php echo (isset($context)) ? $context["name"] : null; ?></h4>
+		<h4 class="panel-title"> 
+			<a href="#" id="name" data-type="text" data-title="Name" data-emptytext="Name" class="editable-context editable editable-click">
+				<?php echo (isset($context)) ? $context["name"] : null; ?>
+			</a>
+		</h4>
 		<div class="panel-tools">
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
@@ -55,8 +59,8 @@
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
-					<a href="#" id="tel" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-context editable editable-click">
-						<?php echo (isset($context["tel"])) ? $context["tel"] : null; ?>
+					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-context editable editable-click">
+						<?php echo (isset($context["telephone"])) ? $context["telephone"] : null; ?>
 					</a>
 					<br>
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click">
@@ -67,7 +71,7 @@
 						<?php echo (isset($context["url"])) ? $context["url"] : null; ?>
 					</a>
 				</div>
-				<div class="row height-155 padding-20" style="background-color:#E6E6E6">
+				<div class="row padding-20" style="background-color:#E6E6E6; min-height:155px;">
 					<a href="#" id="shortDescription" data-type="wysihtml5" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
 						<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
 					</a>
@@ -267,17 +271,6 @@
 			if (!v)
 				return 'Field is required !';
 		});
-		//Postal Code must filled, be numeric and 5 characters length 
-		/*$('#postalCode').editable('option', 'validate', function(v) {
-			var intRegex = /^\d+$/;
-			if (!v)
-				return 'Postal code is required !';
-			if (!intRegex.test(v) || v.length != 5) 
-				return 'Postal code must be numeric!';
-			if (v.length != 5) 
-				return 'Postal code must be 5c length!';
-		});*/
-
 	} 
 
 	function switchMode() {
