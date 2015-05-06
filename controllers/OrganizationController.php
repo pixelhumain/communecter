@@ -559,9 +559,9 @@ public function actionDashboardMember($id)
 											  "contentKey" => array( '$exists' => false)
 											  ) );
 	  if(Yii::app()->request->isAjaxRequest)
-		echo $this->renderPartial("../documents/documents",array("documents"=>$documents),true);
+		echo $this->renderPartial("../documents/documents",array("documents"=>$documents, "id" => $id),true);
 	  else
-		$this->render("../documents/documents",array("documents"=>$documents));
+		$this->render("../documents/documents",array("documents"=>$documents, "id" => $id));
 	}
 
 	
