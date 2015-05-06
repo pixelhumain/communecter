@@ -134,7 +134,8 @@
 				else{ return false; }
 			};
 			
-			this.Sig.getCoordinates = function(thisData, type){
+			
+			this.Sig.getCoordinates = function(thisData, type){ 
 				if( thisData['geo'].longitude != null ){
 					if(type == "markerSingle")
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude); 
@@ -151,6 +152,7 @@
 					}
 				}
 			};
+			
 			
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
 				
@@ -183,8 +185,8 @@
 							} 
 							//sinon on crée un nouveau marker pour cluster
 							else {					
-								marker = this.getGeoJsonMarker(properties, coordinates);
 								coordinates = this.getCoordinates(thisData, "markerGeoJson");
+								marker = this.getGeoJsonMarker(properties, coordinates);
 								this.geoJsonCollection['features'].push(marker);	
 							}
 						
@@ -275,7 +277,6 @@
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseclick', function(e) {	layer.openPopup(); });
-							
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1], 
