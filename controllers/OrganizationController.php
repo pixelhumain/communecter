@@ -125,7 +125,7 @@ class OrganizationController extends CommunecterController {
 	  */
 	public function actionUpdateField(){
 		$organizationId = "";
-		
+		$res = array("result"=>false, "msg"=>"Something went wrong");
 		if (!empty($_POST["pk"])) {
 			$organizationId = $_POST["pk"];
 		} else if (!empty($_POST["id"])) {
@@ -143,9 +143,7 @@ class OrganizationController extends CommunecterController {
 					$res = array("result"=>false, "msg"=>$e->getMessage(), $organizationFieldName=>$organizationFieldValue);
 				}
 			}
-		} else {
-			$res = array("result"=>false, "msg"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue);
-		}
+		} 
 		Rest::json($res);
 	}
 

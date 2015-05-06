@@ -1,14 +1,14 @@
 <?php 
 	$cs = Yii::app()->getClientScript();
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '//assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css');
 
 	//X-editable...
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
 
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js' , CClientScript::POS_END, array(), 2);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
 
 	//Data helper
@@ -83,8 +83,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 padding-20">
-				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable-context editable editable-click">
-					<?php echo (isset($context["description"])) ? $context["description"] : null; ?>
+				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 				</a>
 			</div>
 		</div>
@@ -176,6 +175,7 @@
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
+			$('#description').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
@@ -185,6 +185,7 @@
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
+			$('#description').editable('option', 'pk', contextId);
 			$('#type').editable('option', 'pk', contextId);
 			$('#address').editable('option', 'pk', contextId);
 			$('#addressCountry').editable('option', 'pk', contextId);
@@ -194,6 +195,7 @@
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
+			$('#description').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
@@ -274,6 +276,16 @@
 			value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
 			source: publics,
 			placement: 'right'
+		});
+
+		$('#description').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			value: <?php echo (isset($context["description"])) ? json_encode($context["description"]) : null; ?>,
+			placement: 'top',
+			wysihtml5: {
+				html: true,
+				video: false
+			}
 		});
 
 		//Validation Rules
