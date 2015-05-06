@@ -73,6 +73,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 
 var images;
 var tabButton = [];
+var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere"};
 var itemId = "<?php echo $itemId; ?>"
 var itemType = "<?php echo $itemType; ?>"
 var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $itemType, $itemId)) echo 'true' ; else echo 'false'; ?>"; 
@@ -98,7 +99,7 @@ function initGrid(){
 					if($.inArray(type, tabButton)==-1){
 						tabButton.push(type);
 						var liHtml = '<li class="filter" data-filter=".'+type+'">'+
-										'<a href="#">' + type + '</a>'+
+										'<a href="#">' + mapButton[type] + '</a>'+
 									 '</li>';
 						$(".nav-pills").append(liHtml);
 					}
@@ -135,8 +136,8 @@ function initGrid(){
 			    });
 			}else{
 				var htmlDefault = "<div class='center'>"+
-									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+									"<i class='fa fa-picture-o fa-5x text-blue'></i>"+
+									"<br>No picture to show"+
 								"</div>";
 				$('#Grid').append(htmlDefault);
 			}
