@@ -9,54 +9,58 @@
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/form',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<?php 
-		$memberId = Yii::app()->session["userId"];
-		$memberType = Person::COLLECTION;
-		if(isset($organizations)  && count($organizations)>0){ ?>
-			<div class="panel-scroll height-230 ps-container">
-				<table class="table table-striped table-hover" id="organizations">
-					<tbody>
-						<?php foreach ($organizations as $e) { ?>
-							<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
-								<td class="center organizationLine">
-									<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
-										<?php if ($e && isset($e["imagePath"])){ ?>
-											<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
-										<?php } else { ?>
-											<i class="fa fa-group fa-2x"></i>
-										<?php } ?>
-									</a>
-								</td>
-								<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-								<td><?php if(isset($e["type"]))echo $e["type"]?></td>
-								<td class="center">
-									<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-										<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-									<?php }; ?>
-								</td>
-							</tr>
-						<?php
-							}
-						?>
-					</tbody>
-				</table>
-				<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
-			</div>
-		<?php } else { ?>
-			<div class ="height-250 padding-10" >
-				<blockquote> 
-					Create or Connect 
-					<br>an Organization, NGO,  
-					<br>Local Business, Informal Group. 
-					<br>Build links in your network, 
-					<br>to create a connected local directory 
-				</blockquote>
-			</div>
-		<?php } ?>
+		<div class="panel-scroll height-230 ps-container">	
+			<table class="table table-striped table-hover" id="organizations">
+				<tbody>
+					<?php 
+					$memberId = Yii::app()->session["userId"];
+					$memberType = Person::COLLECTION;
+					if(isset($organizations)) { 
+					foreach ($organizations as $e) { ?>
+						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
+							<td class="center organizationLine">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+									<?php if ($e && isset($e["imagePath"])){ ?>
+										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
+									<?php } else { ?>
+										<i class="fa fa-group fa-2x"></i>
+									<?php } ?>
+								</a>
+							</td>
+							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+							<td class="center">
+								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; ?>
+							</td>
+						</tr>
+					<?php
+						};}
+					?>
+				</tbody>
+			</table>
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<?php 
+				if (isset($organizations) && count($organizations) == 0) {
+			?>
+				<div id="info" class="padding-10">
+					<blockquote> 
+						Create or Connect 
+						<br>an Organization, NGO,  
+						<br>Local Business, Informal Group. 
+						<br>Build links in your network, 
+						<br>to create a connected local directory 
+					</blockquote>
+				</div>
+			<?php 
+				};
+			?>
+		</div>
 	</div>
 </div>
 
@@ -90,6 +94,9 @@
 						if ( data && data.result ) {               
 							toastr.info("LINK DIVORCED SUCCESFULLY!!");
 							$("#organizations"+idMemberOf).remove();
+							if ($("#organizations tr").length == 0) {
+								$("#info").show();
+							}
 						} else {
 						   toastr.info("something went wrong!! please try again.");
 						}
@@ -101,9 +108,8 @@
 		});
 	}
 
-	var temp;
 	function updateMyOrganization(nOrganization, organizationId) {
-		if(typeof(contextMap) != "undefined"){
+		if('undefined' != typeof contextMap){
 			contextMap["organizations"].push(nOrganization);
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'">';
@@ -119,6 +125,7 @@
 				"</tr>";
 		$("#organizations").prepend(organizationLine);
 		$('.tooltips').tooltip();
+		$('#info').hide();
 		bindBtnRemoveMember();
 	}
 </script>

@@ -8,15 +8,15 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<?php if(isset($events) && count($events)>0 ){ ?>
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
+					if(isset($events) && count($events)>0 ){ 
 					foreach ($events as $e) 
 					{
 					?>
-					<tr id="event<?php echo (string)$e["_id"];?>">
+					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 						<td class="center">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
@@ -34,19 +34,19 @@
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 						</td>
 					</tr>
 					<?php
-						}
+						};}
 					?>
 				</tbody>
 			</table>
-		</div>
-		<?php } else{?>
-			<div class ="center height-250 padding-10" >
+			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+		<?php if(isset($events) && count($events) == 0 ) { ?>
+			<div id="info" class="padding-10" >
 				<blockquote> 
 					Create and Attend 
 					<br/>Local Events
@@ -56,17 +56,18 @@
 				</blockquote>
 			</div>
 		<?php } ?>
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
 
 	function updateMyEvents(nEvent) {
-		if(typeof(contextMap) != "undefined"){
+		if('undefined' != typeof contextMap){
 			contextMap["events"].push(nEvent);
 		}
 		var image = "<i class='fa fa-calendar fa-2x'></i>";
-		if(typeof(nEvent["imagePath"])!="undefined")
+		if('undefined' != typeof(nEvent["imagePath"]))
 			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
 		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
 							"<td class='center'>" +
@@ -90,5 +91,6 @@
 						"</tr>";
 		$("#events").append(htmlEvent);
 		$('.tooltips').tooltip();
+		$('#info').hide();
 	}
 </script>

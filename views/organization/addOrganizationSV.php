@@ -1,5 +1,5 @@
 <?php 
-$cssAnsScriptFiles = array(
+$cssAnsScriptFilesTheme = array(
 	//Select2
 	'/assets/plugins/select2/select2.css',
 	'/assets/plugins/select2/select2.min.js',
@@ -7,10 +7,13 @@ $cssAnsScriptFiles = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
-//Data helper
-echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <style>
@@ -100,19 +103,27 @@ echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 							</div>
 						</div>
 						<div class="col-md-6 col-sd-6 ">
-							
 							<div class="form-group">
 								<label class="control-label">
 									Pays <span class="symbol required"></span>
 								</label>
-								<input name="organizationCountry" id="organizationCountry" class="form-control"></input>								
+								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
 
-							<div class="form-group">
-								<label class="control-label">
-									Code postal <span class="symbol required"></span>
-								</label>
-								<input class="form-control" placeholder="12345" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+							<div class="row">
+								<div class="col-md-4 form-group">
+									<label for="postalCode">
+										Code postal <span class="symbol required"></span>
+									</label>
+									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+								</div>
+								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
+									<label for="city">
+										Ville <span class="symbol required"></span>
+									</label>
+									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+									</select>
+								</div>
 							</div>
 
 							<div class="form-group">
@@ -120,13 +131,12 @@ echo CHtml::scriptFile($this->module->assetsUrl.'/js/dataHelpers.js');
 									Centres d'interet 
 								</label>
 								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%;">
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
 			        		    
 							</div>
-
 						</div>
 						<div class="col-md-12">
-						<div class="form-group">
+							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
@@ -174,7 +184,7 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				minlength : 5,
+				rangelength : [5, 5],
 				required : true
 			}
 		},
@@ -228,7 +238,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	showSearch();
-
+	bindPostalCodeAction();
  });  
 
 	function initForm() {
@@ -295,7 +305,7 @@ jQuery(document).ready(function() {
 					organizationList = data.list;
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data.list, function(key, value) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'>" + value.name + "</a></li>";
+		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
 		  			}); 
 		  			$("#addOrganization #dropdown_search").html(str);
 		  			$("#addOrganization #dropdown_search").css({"display" : "inline" });
@@ -363,11 +373,54 @@ jQuery(document).ready(function() {
 		$("#addOrganization #organizationEmail").val(organization.email);
 		$("#addOrganization #tagsOrganization").select2('val', organization.tags);
 		$("#addOrganization #description").val(organization.description);
-		if (organization.adress != undefined) {
-			if (organization.adress.country != undefined) $('#addOrganization #organizationCountry').val(organization.adress.country);
-			if (organization.adress.postalCode != undefined) $("#addOrganization #postalCode").val(organization.adress.postalCode);
+		if ('undefined' != typeof organization.address) {
+			if ('undefined' != typeof organization.address.country) $('#addOrganization #organizationCountry').val(organization.address.country);
+			if ('undefined' != typeof organization.address.postalCode) $("#addOrganization #postalCode").val(organization.address.postalCode);
 		}
 	}
 
+	function runShowCity(searchValue) {
+		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		var oneValue = "";
+		console.table(citiesByPostalCode);
+		$.each(citiesByPostalCode,function(i, value) {
+	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+	    	oneValue = value.value;
+		});
+		
+		if (citiesByPostalCode.length == 1) {
+			$("#city").val(oneValue);
+		}
+
+		if (citiesByPostalCode.length >0) {
+	        $("#cityDiv").slideDown("medium");
+	      } else {
+	        $("#cityDiv").slideUp("medium");
+	      }
+	}
+
+	function bindPostalCodeAction() {
+		$('#organizationForm #postalCode').keyup(function(e){
+			searchCity();
+		});
+
+		$('#organizationForm #postalCode').change(function(e){
+			searchCity();
+		});
+	}
+
+	function searchCity() {
+		var searchValue = $('#organizationForm #postalCode').val();
+		if(searchValue.length == 5) {
+			$("#city").empty();
+			clearTimeout(timeout);
+			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+			clearTimeout(timeout);
+			timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+		} else {
+			$("#cityDiv").slideUp("medium");
+			$("#city").empty();
+		}
+	}
 </script>	
 

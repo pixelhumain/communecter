@@ -16,27 +16,35 @@ $this->renderPartial('../documents/gedSV');
         <div class="panel-scroll height-230">
           <table class="table table-striped table-hover">
             <tbody class="docsList">
-            	<?php foreach ($documents as $doc) { ?>
-              <tr>
-                <td class="center">
-                	<?php
-                	if(strrpos($doc['name'], ".pdf") != false)
-						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
-								'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-					else if( strrpos( $doc['name'], ".jpg" ) != false || strrpos($doc['name'], ".jpeg") != false || strrpos($doc['name'], ".gif")  != false || strrpos($doc['name'], ".png")  != false  )
-						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" data-lightbox="docs">'.
-								'<img width="50" class="" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'"/></a>';	
-					else
-						echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
-								'<i class="fa fa-file fa-3x icon-big"></i></a>';	
-					?>
-                </td>
-                <td class="center"><span class="text-large"><?php echo $doc['name'] ?> </span></td>
-                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
-                <td  class="center hidden-xs"><?php echo $category ?> </td>
-                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
-               </tr>
-              <?php } ?>
+            	<?php 
+            	if(!empty($documents)){
+	            	foreach ($documents as $doc) { ?>
+	              	<tr>
+			                <td class="center">
+			                	<?php
+			                	if(strrpos($doc['name'], ".pdf") != false)
+									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
+											'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
+								else if( strrpos( $doc['name'], ".jpg" ) != false || strrpos($doc['name'], ".jpeg") != false || strrpos($doc['name'], ".gif")  != false || strrpos($doc['name'], ".png")  != false  )
+									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" data-lightbox="docs">'.
+											'<img width="50" class="" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'"/></a>';	
+								else
+									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
+											'<i class="fa fa-file fa-3x icon-big"></i></a>';	
+								?>
+			                </td>
+			                <td class="center"><span class="text-large"><?php echo $doc['name'] ?> </span></td>
+			                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
+			                <td  class="center hidden-xs"><?php echo $category ?> </td>
+			                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
+		               </tr>
+	              <?php
+		              } 
+		          } else {?>
+			          <blockquote class="padding-10 emptyDocsInfo">
+			          	Share your Organizations Documents Simply
+			          </blockquote>
+		          <?php } ?>
             </tbody>
           </table>
         </div>
@@ -52,7 +60,7 @@ $this->renderPartial('../documents/gedSV');
 			$(this).removeClass("animated bounceIn");
 		});*/
 		docType = "<?php echo Organization::COLLECTION?>";
-		folder = "<?php echo Organization::COLLECTION.'_'.$_GET['id'] ?>";
+		folder = "<?php echo Organization::COLLECTION ?>";
 		ownerId = "<?php echo $_GET['id'] ?>";
 
 		if($(".tooltips").length) {
@@ -61,18 +69,18 @@ $this->renderPartial('../documents/gedSV');
 	});
 
 	function afterDocSave(doc){
-
-		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folder+'/'+doc.name); 
+		folderPath = folder+"/"+ownerId;
+		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
 		console.log("addFileLine",doc); 
 		date = new Date(doc.date);
 		if(doc.name && doc.name.indexOf(".pdf") >= 0)
-			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
+			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
 		else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
-			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" data-lightbox="docs">'+
-						'<img width="50" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'"/>'+
+			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
+						'<img width="50" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'"/>'+
 					'</a>';	
 		else
-			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
+			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 
 		category = (doc.category) ? '<span class="label label-danger">'+doc.category+'</span>' : "";
 		lineHTML = '<tr>'+
@@ -82,10 +90,13 @@ $this->renderPartial('../documents/gedSV');
 						'<td class="hidden-xs">'+doc.size+'</td>'+
 					'</tr>';
 
+		if( $(".docsList tr").length == 0 )
+			$(".emptyDocsInfo").remove();
+
 		$(".docsList").prepend(lineHTML);
 	}
 
-	function delDoc (pos) 
+	/*function delDoc (pos) 
 	{ 
 		console.log("delDoc",pos);
 		if(docType.indexOf("tasks") == 0 && tasks[editTaskId].documents[pos])
@@ -132,5 +143,5 @@ $this->renderPartial('../documents/gedSV');
 		} 
 		else
 			toastr.error('<?php echo Yii::t("project","No document at this position.",null,Yii::app()->controller->module->id); ?>');
-	}
+	}*/
 </script>

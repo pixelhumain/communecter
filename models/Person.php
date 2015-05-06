@@ -4,6 +4,30 @@ class Person {
 	const COLLECTION = "citoyens";
 
 	/**
+	 * used to save any user session data 
+	 * good practise shouldn't be to heavy
+	 * user = array("name"=>$username)
+	 */
+	public static function saveUserSessionData($id,$email,$user)
+    {
+      Yii::app()->session["userId"] = $id;
+      Yii::app()->session["userEmail"] = $email;
+      Yii::app()->session["user"] = $user;
+      Yii::app()->session['logguedIntoApp'] = (isset(Yii::app()->controller->module->id)) ? Yii::app()->controller->module->id : "pixelhumain";
+    }
+
+    /**
+	 * used to clear all user's data from session
+	 */
+    public static function clearUserSessionData()
+    {
+      Yii::app()->session["userId"] = null;
+      Yii::app()->session["userEmail"] = null; 
+      Yii::app()->session["user"] = null; 
+      Yii::app()->session['logguedIntoApp'] = null;
+    }
+
+	/**
 	 * get a Person By Id
 	 * @param type $id : is the mongoId of the person
 	 * @return type
@@ -93,13 +117,14 @@ class Person {
 	 * Throws CommunecterException on error
 	 * @param array $person : array with the data of the person to check
 	 * @param boolean $minimal : true : a person can be created using only name and email. 
-	 * Else : postalCode and pwd are also requiered
+	 * Else : postalCode, city and pwd are also requiered
 	 * @return the new person with the business rules applied
 	 */
-	public static function checkPersonData($person, $minimal) {
+	public static function getAndcheckPersonData($person, $minimal) {
 		$dataPersonMinimal = array("name", "email");
+		$newPerson = array();
 		if (! $minimal) {
-			array_push($dataPersonMinimal, "postalCode", "pwd");
+			array_push($dataPersonMinimal, "postalCode", "city", "pwd");
 		}
 		//Check the minimal data
 	  	foreach ($dataPersonMinimal as $data) {
@@ -107,8 +132,12 @@ class Person {
 	  			throw new CommunecterException("Problem inserting the new person : ".$data." is missing");
 	  	}
 	  	
+	  	$newPerson["name"] = $person["name"];
+
 	  	if(! preg_match('#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#',$person["email"])) { 
 	  		throw new CommunecterException("Problem inserting the new person : email is not well formated");
+        } else {
+        	$newPerson["email"] = $person["email"];
         }
 
 		//Check if the email of the person is already in the database
@@ -116,16 +145,21 @@ class Person {
 	  	if ($account) {
 	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
 	  	}
-
-	  	//Encode the password
-	  	if(isset($person["pwd"]))
-	  		$person["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
 	  	
-	  	//Add the postal code in adresse section
-	  	if(isset($person["address"]))
-	  		$person["address"] = array("@type"=>"PostalAddress", "postalCode"=> $person['postalCode']);
-
-	  	return $person;
+	  	if (! $minimal) {
+		  	//Encode the password
+		  	$newPerson["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
+		  	
+		  	//Manage the adress : postalCode / adressLocality / codeInsee
+		  	//Get Locality label
+		  	try {
+		  		//Format adress 
+		  		$newPerson["address"] = SIG::getAdressSchemaLikeByCodeInsee($person["city"]);
+		  	} catch (CTKException $e) {
+		  		throw new CommunecterException("Problem inserting the new person : unknown city");
+		  	}
+		}
+	  	return $newPerson;
 	}
 
 	/**
@@ -135,15 +169,15 @@ class Person {
 	 * @return array result, msg and id
 	 */
 	public static function insert($person, $minimal = false) {
+	  	//Check Person data + business rules
+	  	$person = Person::getAndcheckPersonData($person, $minimal);
+
 	  	$person["@context"] = array("@vocab"=>"http://schema.org",
             "ph"=>"http://pixelhumain.com/ph/ontology/");
 
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
-	  	
-	  	//Check Person data + business rules
-	  	$person = Person::checkPersonData($person, $minimal);
 	  	
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
@@ -267,6 +301,12 @@ class Person {
 		                          array('$set' => $person));
 	                  
 	    return true;
+	}
+
+
+	public static function getItemInfoById($id, $context){
+		$item = PHDB::findOne( $context ,array("_id"=>new MongoId($id)));
+		return $item;
 	}
 }
 ?>

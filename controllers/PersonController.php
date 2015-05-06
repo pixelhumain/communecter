@@ -160,7 +160,7 @@ class PersonController extends CommunecterController {
 
   public function actionLogout() 
   {
-    Yii::app()->session["userId"] = null;
+    Person::clearUserSessionData();
     $this->redirect(Yii::app()->homeUrl);
   }
 
@@ -212,8 +212,7 @@ class PersonController extends CommunecterController {
     $account = Person::getById($user);
     //TODO : move code below to the model Person
     if($account){
-        Yii::app()->session["userId"] = $user;
-        Yii::app()->session["userEmail"] = $account["email"];
+        Person::saveUserSessionData( $user, $account["email"],array("name"=>$account["name"]));
         //remove tobeactivated attribute on account
         PHDB::update(PHType::TYPE_CITOYEN,
                             array("_id"=>new MongoId($user)), 
@@ -238,20 +237,20 @@ class PersonController extends CommunecterController {
     $email = (!empty($_POST['email'])) ? $_POST['email'] : "";
     $postalCode = (!empty($_POST['cp'])) ? $_POST['cp'] : "";
     $pwd = (!empty($_POST['pwd'])) ? $_POST['pwd'] : "";
+    $city = (!empty($_POST['city'])) ? $_POST['city'] : "";
 
     //Get the person data
     $newPerson = array(
        'name'=> $name,
        'email'=>$email,
        'postalCode'=> $postalCode,
-       'pwd'=>$pwd);
+       'pwd'=>$pwd,
+       'city'=>$city);
 
     try {
       $res = Person::insert($newPerson, false);
       
-      Yii::app()->session["userId"] = $res["id"];
-      Yii::app()->session["userEmail"] = $email;
-      Yii::app()->session["user"] = array("name" => $name);
+      Person::saveUserSessionData($res["id"],$email,array("name"=>$name));
 
     } catch (CommunecterException $e) {
       $res = array("result" => false, "msg"=>$e->getMessage());
@@ -555,7 +554,7 @@ class PersonController extends CommunecterController {
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
 	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
-	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query,array("_id", "name", "address","email", "links", "imagePath"));
+	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query);
 		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links", "imagePath"));
 		$all = array(
 			"citoyens" => $allCitoyens,
@@ -675,8 +674,11 @@ class PersonController extends CommunecterController {
     }
 
     $person = Person::getPublicData($id);
+    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
+ 	$images =  Document::listMyDocumentByType($id, Person::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
     $params = array( "person" => $person);
-
+    $params['images'] = $images;
+    $params["contentKeyBase"] = $contentKeyBase;
     $this->sidebar1 = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
     );

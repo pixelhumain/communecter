@@ -64,7 +64,8 @@ contextMap['person'] = <?php echo json_encode($person) ?>;
 contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
 contextMap['events'] = [];
 contextMap['projects'] = <?php echo json_encode($projects) ?>;
-
+var images = <?php echo json_encode($images) ?>;
+var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
 $.each(events, function(k, v){
 	console.log(k, v);
@@ -73,7 +74,9 @@ $.each(events, function(k, v){
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo person::COLLECTION ?>", null, "html");
+	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo person::COLLECTION ?>", function(){
+			initAddEventBtn ();
+		}, "html");
 });
 
 
@@ -82,31 +85,40 @@ var bindBtnFollow = function(){
 
 	$(".disconnectBtn").off().on("click",function () {
         
-        $(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/disconnect/id/<?php echo (string)$person['_id'] ?>/type/<?php echo PHType::TYPE_CITOYEN ?>",
-	        dataType : "json"
-	    })
-	    .done(function (data) 
-	    {
-	        if ( data && data.result ) {               
-	        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-	        	$(".disconnectBtn").fadeOut();
-	        	$("#btnTools").empty();
-	        	$("#btnTools").html('<a href="javascript:;" class="connectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link"></i></a>')
-	        	bindBtnFollow();
-	        } else {
-	           toastr.info("something went wrong!! please try again.");
-	           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-	        }
-	    });
+        $(this).empty();
+        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+        var idToDisconnect = $(this).data("id");
+        var typeToDisconnect = $(this).data("type");
+        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
+        	function(result) {
+					if (!result) {
+					$(this).empty();
+			        $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+					return;
+				}
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
+			        dataType : "json"
+			    })
+			    .done(function (data) 
+			    {
+			        if ( data && data.result ) {               
+			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+			        	$("#"+typeToDisconnect+idToDisconnect).remove();
+			        } else {
+			           toastr.info("something went wrong!! please try again.");
+			           $(this).empty();
+			           $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+			        }
+			    });
+		});
 	});
 
 	$(".connectBtn").off().on("click",function () {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		var idConnect = "<?php echo (string)$person['_id'] ?>";
-		if(typeof($("#inviteId"))!="undefined" && $("#inviteId").val()!= ""){
+		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
 		}
 

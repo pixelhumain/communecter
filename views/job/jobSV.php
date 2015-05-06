@@ -28,6 +28,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 		<div id="#panel_public" class="panel panel-white">
 			<div class="panel-heading">
 				<h4 class="panel-title">Offer a <span class="text-bold">Job</span></h4>
+				<?php if ($mode != "insert" && Authorisation::isJobAdmin($job["_id"], Yii::app()->session["userId"])) {?>
+				<button id="edit-btn" class="btn pull-right btn-primary">Edit</button>
+				<?php } ?>
 			</div>
 			<div class="panel-body" style="display: block;">				
 				<form class="form-horizontal" role="form">
@@ -73,7 +76,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-4" class="col-sm-3 control-label">Hiring organization</label>
 											<div class="col-sm-9">
-												<a href="#" id="hiringOrganization" data-type="select2" data-original-title="Enter Job Town" class="editable editable-click">
+												<a href="#" id="hiringOrganization" data-type="select2" data-original-title="Enter Hiring organization" class="editable editable-click">
 													<?php echo (isset($job["hiringOrganization"]) && isset($job["hiringOrganization"]["name"]))  ? $job["hiringOrganization"]["name"] : "" ?>
 												</a>
 											</div>
@@ -187,8 +190,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 var jobData = <?php echo json_encode($job)?>;
 var jobId = "<?php echo isset($job["_id"]) ? $job["_id"] : ""; ?>";
 
-//By default : view mode
-//TODO SBAR - Get the mode from the request ?
 var mode = "<?php echo $mode ?>";
 
 jQuery(document).ready(function() {
@@ -196,14 +197,31 @@ jQuery(document).ready(function() {
 	activateEditable();
 	manageMode();
 	debugMap.push(jobData);
+
+	//Button Edit
+	$('#edit-btn').click(function() {
+	    if (mode == "view") {
+	    	toogleMode();
+	    	mode = "update";
+	    	$(this).text("View");
+	    } else {
+	    	mode = "view";
+	    	$(this).text("Edit");
+	    }
+	    manageMode();
+	});	
 });
+
+function toogleMode() {
+	$('.editable-job').editable('toggleDisabled');
+	$('#startDate').editable('toggleDisabled');
+	$('#tagsJob').editable('toggleDisabled');
+	$('#hiringOrganization').editable('toggleDisabled');
+}
 
 function manageMode() {
 	if (mode == "view") {
-		$('.editable-job').editable('toggleDisabled');
-		$('#startDate').editable('toggleDisabled');
-		$('#tagsJob').editable('toggleDisabled');
-		$('#hiringOrganization').editable('toggleDisabled');
+		toogleMode();
 		$('#save-btn').hide();
 		$('#reset-btn').hide();
 	} else if (mode == "update") {
@@ -218,24 +236,12 @@ function manageMode() {
 	} else if (mode == "insert") {
 		$('#save-btn').show();
 		$('#reset-btn').show();
+		$('#edit-btn').show();
 	}
 }
 
 function activateEditable() {
 	$.fn.editable.defaults.mode = 'inline';
-
-	//enable / disable
-	$('.editJobBtn').click(function() {
-		if ($('.editJobBtn').text() == "Edit Job") {
-			mode = "updateMode";
-			console.log("update Mode");
-			manageMode();
-		} else {
-			mode = "viewMode";
-			console.log("View Mode");
-			manageMode();
-		}
-	});  
 
 	$('.editable-job').editable({
     	url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new job, it is only for update
@@ -300,7 +306,7 @@ function activateEditable() {
     
     //Button Save
     $('#save-btn').click(function() {
-	   	$('.editable-job').editable('submit', {
+	   	$('.editable-job, #hiringOrganization #startDate #tagsJob').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response
@@ -316,7 +322,7 @@ function activateEditable() {
 	               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
 	               $('#save-btn').hide(); 
 	               console.log("data.job => "+data.job);
-	               if(typeof updateJob != "undefined" && typeof updateJob == "function")
+	               if('undefined' != typeof updateJob && typeof updateJob == "function")
 		        			updateJob( data.job,  data.id);
 	               $.hideSubview();
 	           } else if(data && data.errors){ 

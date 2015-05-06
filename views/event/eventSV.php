@@ -56,26 +56,7 @@
 	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3>Add new event</h3>
 		<div class="row">
-		<div class="col-md-3">
-		<form  method="post" id="profileFormEventSV" enctype="multipart/form-data">
-			<div class="fileupload fileupload-new" data-provides="fileupload">
-				<div class="fileupload-new thumbnail">
-					<img src="<?php //if ($person && isset($person["imagePath"])) echo $person["imagePath"]; else echo Yii::app()->theme->baseUrl.'/assets/images/avatar-1-xl.jpg'; ?>" alt="">	
-				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail"></div><br>
-				<div class="user-edit-image-buttons">
-					<span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> Select image</span><span class="fileupload-exists"><i class="fa fa-picture"></i> Change</span>
-						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="avatar">
-					</span>
-					<a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-						<i class="fa fa-times"></i> Remove
-					</a>
-				</div>
-			</div>
-		</form>
-		</div>
-		
-		<div class="col-md-7">
+		<div class="col-md-10">
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 					if(!empty($myOrganizationAdmin)) {
@@ -218,46 +199,21 @@
 </div>
 
 <script type="text/javascript">
+var DEFAULT_IMAGE_EVENT = "http://placehold.it/350x180";
 
 var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 var parentOrga = [];
 var newEventData;
-if(typeof(organization)!="undefined"){
+if("undefined" != typeof organization){
 	parentOrga = organization;
 }
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
- 	if(typeof(contextMap)!="undefined")
+ 	if("undefined" != typeof contextMap )
  		initLastsEvents();
-
-
- 	$("#profileFormEventSV").on('submit',(function(e) {
-		e.preventDefault();
-		$.ajax({
-			url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/events/id/"+$("#newEventId").val(),
-			type: "POST",
-			data: new FormData(this),
-			contentType: false,
-			cache: false, 
-			processData: false,
-			success: function(data){
-		  		if(data.result){
-		  			toastr.success(data.msg);
-		  			$.hideSubview();
-		  			newEventData.imagePath = data.imagePath;
-		  			console.log("newEventData", newEventData);
-		  			updateAll(newEventData);
-		  		}
-		  		else
-		  			toastr.error(data.msg);
-		  },
-		});
-	}));
 });
-
-function bindEventSubViewEvents() {
-		
+function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
 		subViewElement = $(this);
 		subViewContent = subViewElement.attr('href');
@@ -275,6 +231,11 @@ function bindEventSubViewEvents() {
 			}
 		});
 	});
+ }
+function bindEventSubViewEvents() {
+		
+	initAddEventBtn ();
+	
 	$(".show-calendar").off().on("click", function() {
 		$.subview({
 			content : "#showCalendar",
@@ -292,6 +253,11 @@ function bindEventSubViewEvents() {
 		$(".close-subviews").trigger("click");
 		e.preventDefault();
 	});
+
+	$(".show-calendar").on("blur", function(e) {
+		e.preventDefault();
+		$(".applyBtn ").trigger("click");
+	})
 };
 
 var dateToShow, calendar, $eventDetail, eventClass, eventCategory;
@@ -578,11 +544,8 @@ formEvent.validate({
 		        	toastr.success('Event Created success');
 		        	$("#newEventId").val(data.id["$id"]);
 		        	newEventData = data.event;
-		        	$("#profileFormEventSV").submit();
-		        	
-		        	
-		        	//$.hideSubview();
-		        	//console.log("updateEvent");
+		        	updateAll(newEventData);
+		        	$.hideSubview();
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }
@@ -649,7 +612,7 @@ function editEvent(el) {
 				$(".form-event .all-day").bootstrapSwitch('state', calendar[i].allDay);
 				$(".form-event .event-start-date").val(moment(calendar[i].start));
 				$(".form-event .event-end-date").val(moment(calendar[i].end));
-						if(typeof $('.form-event .no-all-day-range .event-range-date').data('daterangepicker') == "undefined"){
+						if("undefined" == typeof $('.form-event .no-all-day-range .event-range-date').data('daterangepicker')){
 			$('.form-event .no-all-day-range .event-range-date').val(moment(calendar[i].start).format('DD/MM/YYYY h:mm A') + ' - ' + moment(calendar[i].end).format('DD/MM/YYYY h:mm A'))
 				.daterangepicker({  
 					startDate:moment(moment(calendar[i].start)),
@@ -673,7 +636,7 @@ function editEvent(el) {
 			$('.form-event .all-day-range .event-range-date').data('daterangepicker').setEndDate(calendar[i].end);
 		}
 				
-				if (calendar[i].category == "" || typeof calendar[i].category == "undefined") {
+				if ("undefined" == typeof calendar[i].category || calendar[i].category == "") {
 					eventCategory = "Generic";
 				} else {
 					eventCategory = calendar[i].category;
@@ -682,7 +645,7 @@ function editEvent(el) {
 					return ($(this).text() == eventCategory);
 				}).prop('selected', true);
 				$('.form-event .event-categories').selectpicker('render');
-				if ( typeof calendar[i].content !== "undefined" && calendar[i].content !== "") {
+				if ("undefined" !== typeof calendar[i].content && calendar[i].content !== "") {
 					$(".form-event .eventDetail ").val(calendar[i].content);
 				} else {
 					$(".form-event .eventDetail ").val( $eventDetail.attr("placeholder") );
@@ -756,12 +719,12 @@ function readEvent(el)
 			$("#readEvent .event-end").empty().hide();
 
 			$("#readEvent .event-title").empty().text(calendar[i].title);
-			if (calendar[i].className == "" || typeof calendar[i].className == "undefined") {
+			if ("undefined" == typeof calendar[i].className || calendar[i].className == ""  ) {
 				eventClass = "event";
 			} else {
 				eventClass = calendar[i].className;
 			}
-			if (calendar[i].category == "" || typeof calendar[i].category == "undefined") {
+			if ("undefined" == typeof calendar[i].category || calendar[i].category == "") {
 				eventCategory = "Event";
 			} else {
 				eventCategory = calendar[i].category;
@@ -874,19 +837,24 @@ function readEvent(el)
 	}
 
 	function initLastsEvents(){
-		console.log("OK initLastsEvents");
-		if(typeof(contextMap.events)!= "undefined"){
+		if("undefined" != typeof contextMap.events ){
 			console.log("OK initLastsEvents");
 			var tabEvents = getLastsEvent(contextMap.events);
-			//console.log("tabEvents", tabEvents);
 			var htmlRes = "";
 
 			for(var i=0; i<tabEvents.length; i++ ){
-				var period = getStringPeriodValue(tabEvents[i].startDate, tabEvents[i].endDate);
+				var currentEvent = tabEvents[i];
+				var imagePath = "";
+				var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
+				if ("undefined" == typeof currentEvent.imagePath) {
+					imagePath = DEFAULT_IMAGE_EVENT;
+				} else {
+					imagePath = currentEvent.imagePath;
+				}
 				htmlRes +='<div class="panel panel-white lastEventPadding">'+
 	       						'<div class="panel-body no-padding center">'+
-	       							'<div class="imgEvent"><img src="'+tabEvents[i].imagePath+'"></img></div>'+
-									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+tabEvents[i].name+'</div>'+
+	       							'<div class="imgEvent"><img src="'+imagePath+'"></img></div>'+
+									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+currentEvent.name+'</div>'+
 								'</div>'+
 								'<div class="panel-footer">'+
 									'<div><p>En savoir + ></p></div>'+
@@ -944,15 +912,15 @@ function readEvent(el)
 			$("#newEventOrga").val($(this).data("id"));
 		})
 
-		if(typeof(parentOrga["_id"])!="undefined"){
+		if("undefined" != typeof(parentOrga["_id"])){
 			$("#"+parentOrga["_id"]["$id"]).trigger("click");
 		}
 	}
 
 	function updateAll(data){
-		if(typeof updateSliderAgenda != "undefined" && typeof updateSliderAgenda == "function")
+		if("undefined" != typeof updateSliderAgenda  && typeof updateSliderAgenda == "function")
     			updateSliderAgenda( data); 
-    	if(typeof updateMyEvents != "undefined" && typeof updateMyEvents == "function")
+    	if("undefined" != typeof updateMyEvents && typeof updateMyEvents == "function")
     			updateMyEvents( data); 
 	}
 </script>

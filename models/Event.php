@@ -1,6 +1,6 @@
 <?php 
 class Event {
-
+	const COLLECTION = "events";
 	/**
 	 * get an event By Id
 	 * @param type $id : is the mongoId of the event

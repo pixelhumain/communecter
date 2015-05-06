@@ -127,7 +127,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <script>
 	var contextMap= <?php echo json_encode($contextMap) ?>;
 	contextMap.members = <?php echo json_encode($members) ?>;
-
+	var images =  <?php echo json_encode($images) ?>;
+	var contentKeyBase = "<?php echo $contentKeyBase ?>"
   jQuery(document).ready(function() {
 
     $('.pulsate').pulsate({

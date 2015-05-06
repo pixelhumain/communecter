@@ -68,7 +68,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 <script type="text/javascript">
 var genericDropzone = null;
 var docType = "<?php echo PHType::TYPE_CITOYEN?>";
-var folder = "<?php echo PHType::TYPE_CITOYEN.'_'.Yii::app()->session["userId"] ?>";
+var folder = "<?php echo PHType::TYPE_CITOYEN ?>";
 var ownerId = '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>';
 var destinationFolder = moduleId;
 jQuery(document).ready(function() 
@@ -102,7 +102,7 @@ function initDropZoneData(docs)
 		genericDropzone = new Dropzone("#generic-dropzone", {
 		  acceptedFiles: "image/*,"+
 		  				 "application/pdf",
-		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/collection/"+folder+"/input/file",
+		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
 		  	$(".uploadText").hide();
@@ -126,7 +126,7 @@ function initDropZoneData(docs)
 			  	var doc = { 
 			  		"id":ownerId,
 			  		"type":docType,
-			  		"folder":folder,
+			  		"folder":folder+"/"+ownerId,
 			  		"moduleId":destinationFolder,
 			  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
 			  		"name" : docObj.name , 
@@ -248,17 +248,18 @@ function resetGenericFilesTable()
 
 function addFileLine(id,doc,pos)
 {
-	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folder+'/'+doc.name); 
+	folderPath = folder+"/"+ownerId;
+	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
 	console.log("addFileLine",doc); 
 	date = new Date(doc.date);
 	if(doc.name && doc.name.indexOf(".pdf") >= 0)
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
 	else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" data-lightbox="docs">'+
-					'<img width="150" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'"/>'+
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
+					'<img width="150" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'"/>'+
 				'</a>';	
 	else
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folder+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 	category = (doc.category) ? doc.category : "Unknown";
 	lineHTML = '<tr class="file'+pos+'">'+
 					'<td class="center">'+link+'</td>'+

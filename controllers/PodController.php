@@ -32,6 +32,16 @@
 		        echo $this->renderPartial("sliderAgenda", $params,true);
 		    else
 		        $this->render("sliderAgenda",$params);
-			}
+		}
+
+		public function actionPhotoVideo($id, $type){
+			$params = array();
+			$params["type"] = $type;
+			$params["itemId"] = $id;
+			if(Yii::app()->request->isAjaxRequest)
+		        echo $this->renderPartial("photoVideo", $params,true);
+		    else
+		        $this->render("photoVideo",$params);
+		}
 	}
 ?>

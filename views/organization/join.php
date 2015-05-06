@@ -3,6 +3,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/datepicker/css/datepicker.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
+
+//Data helper
+$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+
 ?>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -78,7 +82,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($tags as $tag) {
-							echo "\"".$tag."\" : \"".$tag."\",";
+							echo json_encode($tag)." : ".json_encode($tag).",";
 						}
 						?>
 	            	}
@@ -92,7 +96,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($listTypeIntervention as $typeIntervention) {
-							echo "\"".$typeIntervention."\" : \"".$typeIntervention."\",";
+							echo json_encode($typeIntervention)." : ".json_encode($typeIntervention).",";
 						}
 						?>
 	            	}
@@ -106,7 +110,7 @@ var formDefinition = {
 	            	"options" : {
 	            		<?php
 						foreach ($listPublic as $public) {
-							echo "\"".$public."\" : \"".$public."\",";
+							echo json_encode($public)." : ".json_encode($public).",";
 						}
 						?>
 	            	}
@@ -120,6 +124,14 @@ var formDefinition = {
 						"rangelength" : [5, 5]
 					}
 	            },
+	            "city" : {
+	            	"inputType" : "select",
+					"rules" : {
+						"required" : true,
+						"minlength" : 1
+					},
+					"options" : {"" : ""}
+				},
 	            "organizationCountry" : {
 	                "inputType" : "hidden",
 	                "value" : "Reunion",
@@ -162,6 +174,14 @@ var formDefinition = {
 						"rangelength" : [5, 5]
 					}
 	            },
+	            "personCity" : {
+	            	"inputType" : "select",
+					"rules" : {
+						"required" : true,
+						"minlength" : 1
+					},
+					"options" : {"" : ""}
+				},
 	            "password1" : {
 	                "inputType" : "text",
 	                "icon" : "fa fa-map-marker",
@@ -212,11 +232,13 @@ var dataBindOrganization = {
 	"#public" : "public",
 	"#theme" : "tagsOrganization",
 	"#postalCode" : "postalCode",
+	"#city" : "city",
 	"#organizationEmail" : "organizationEmail" , 
     "#organizationCountry" : "organizationCountry",
     "#personName" : "personName",
     "#personEmail" : "personEmail",
     "#personPostalCode" : "personPostalCode",
+    "#personCity" : "personCity",
     "#password1" : "password",
     "#password2" : "password",
     "#g-recaptcha-response" : "g-recaptcha-response",
@@ -289,7 +311,56 @@ jQuery(document).ready(function() {
 	    	});
 		}
 	});
+	$(".cityselect").hide();
+	$(".personCityselect").hide();
+	bindPostalCodeAction("#postalCode", "#city", ".cityselect");
+	bindPostalCodeAction("#personPostalCode", "#personCity", ".personCityselect");
 	console.dir(form);
 });
+
+function runShowCity(searchValue, idSelect, classDiv) {
+	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	var oneValue = "";
+	console.table(citiesByPostalCode);
+	$.each(citiesByPostalCode,function(i, value) {
+    	$(idSelect).append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
+	});
+
+	if (citiesByPostalCode.length == 1) {
+		$(idSelect).select2('val', oneValue);
+	}
+
+	if (citiesByPostalCode.length >0) {
+		$(classDiv).slideDown("medium");
+    } else {
+		$(classDiv).slideUp("medium");
+	}
+}
+
+function bindPostalCodeAction(postalCodeId, idSelect, classDiv) {
+	searchCity(postalCodeId, idSelect, classDiv);
+	$(postalCodeId).keyup(function(e){
+		searchCity(postalCodeId, idSelect, classDiv);
+	});
+	$(postalCodeId).change(function(e){
+		searchCity(postalCodeId, idSelect, classDiv);
+	});
+}
+
+function searchCity(postalCodeId, idSelect, classDiv) {
+	var searchValue = $(postalCodeId).val();
+	var timeout;
+	if(searchValue.length == 5) {
+		$(idSelect).empty();
+		clearTimeout(timeout);
+		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+		clearTimeout(timeout);
+		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 100); 
+	} else {
+		$(classDiv).slideUp("medium");
+		$(idSelect).empty();
+	}
+}
 
 </script>

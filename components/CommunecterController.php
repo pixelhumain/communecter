@@ -58,7 +58,7 @@ class CommunecterController extends Controller
           ),
     array('label' => "Organisation", "key"=>"organization",
             "children"=> array(
-              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/form',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/addorganizationform',null)", "iconStack"=>array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "News", "key"=>"note",
@@ -137,28 +137,25 @@ class CommunecterController extends Controller
       "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
       'getnotification' => array("href" => "/person/GetNotification"),
       "mydata" => array("href" => "/person/mydata"),
-      "register" => array("href" => "/person/register"),
+      "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
-      "gallery"=>array("href@"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "gallery"=>array("href"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
       "about" =>array("href"=>"/person/about"),
       "updatefield" =>array("href"=>"/person/updatefield"),
     ),
 
     "organization"=> array(
-      "index"=> array("href" =>"ph/communecter/organization", "title" => "Person"),
-      "edit"=>array("href@"=>"/ph/communecter/edit",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "form"=>array("href"=>"/ph/communecter/form",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
-      "savenew"=>array("href"=>"/ph/communecter/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "save"=>array("href"=>"/ph/communecter/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
+      "addorganizationform"=>array("href"=>"/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
+      "savenew"=>array("href"=>"/ph/communecter/organization/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "save"=>array("href"=>"/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
-      "public"=>array("href"=>"/ph/communecter/organization/public"),     
+      "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
-      "news"=>array("href"=>"/ph/communecter/organization/news"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
-      "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
-      //Links
+      //Move to Document controller
+      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
+      //Links // create a Link controller ?
       "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
       "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
@@ -167,9 +164,6 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"=>array("href"=>"/ph/communecter/organization/dashboard1"),
-      //Calendar => Same ????
-      "getcalendar" => array("href" => "/ph/communecter/organization/getcalendar"),
-      "calendar"=>array("href"=>"/ph/communecter/organization/calendar"),
     ),
     
     "event"=> array(
@@ -200,6 +194,12 @@ class CommunecterController extends Controller
 
     "pod" => array(
     	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    	"photovideo" => array("href" => "ph/communecter/pod/photovideo"),
+    ),
+    "gallery" => array(
+    	"index" => array("href" => "ph/communecter/gallery/index"),
+    	"getlistbyid" => array("href"=>"ph/communecter/gallery/getlistbyid"),
+    	"removebyid" => array("href"=>"ph/communecter/gallery/removebyid"),
     ),
     
   );
@@ -208,17 +208,21 @@ class CommunecterController extends Controller
     
     //managed public and private sections through a url manager 
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
       && !Yii::app()->session["userId"] )
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-      
+
+    /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
+      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
+
     $id = "54eed95ea1aa143e020041c8";
     $grandirMenu = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
       array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
       array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"/ph/communecter/organization/sig/id/".$id),
       array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-group","href"=>"/ph/communecter/job/list"),
+      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-briefcase","href"=>"/ph/communecter/job/list"),
       array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"/ph/communecter/organization/documents/id/".$id),
       array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
       //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
