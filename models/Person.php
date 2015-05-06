@@ -58,7 +58,7 @@ class Person {
 	 * @return person document as in db
 	 */
 	public static function getOrganizationsById($id){
-		$person = Person::getById($id);
+		$person = self::getById($id);
 	    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
 	    $organizations = array();
 	    
@@ -84,7 +84,7 @@ class Person {
 	 */
 	public static function getPersonMemberOfByPersonId($id) {
 	  	$res = array();
-	  	$person = Person::getById($id);
+	  	$person = self::getById($id);
 	  	
 	  	if (empty($person)) {
             throw new CommunecterException("The person id is unkown : contact your admin");
@@ -105,7 +105,7 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	Person::insert($param, true);
+	  	self::insert($param, true);
 
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
@@ -170,7 +170,7 @@ class Person {
 	 */
 	public static function insert($person, $minimal = false) {
 	  	//Check Person data + business rules
-	  	$person = Person::getAndcheckPersonData($person, $minimal);
+	  	$person = self::getAndcheckPersonData($person, $minimal);
 
 	  	$person["@context"] = array("@vocab"=>"http://schema.org",
             "ph"=>"http://pixelhumain.com/ph/ontology/");
@@ -220,7 +220,7 @@ class Person {
 		);
 		
 		//TODO SBAR = filter data to retrieve only publi data	
-		$person = Person::getById($id);
+		$person = self::getById($id);
 		if (empty($person)) {
 			throw new CommunecterException("The person id is unknown ! Check your URL");
 		}
@@ -234,7 +234,7 @@ class Person {
 		 * @return person document as in db
 	*/
 	public static function getEventsByPersonId($id){
-		$person = Person::getById($id);
+		$person = self::getById($id);
 	    $events = array();
 	    
 	    //Load events
@@ -260,9 +260,9 @@ class Person {
 		* @return a map with : Person's informations, his organizations, events,projects
 	*/
 	public static function getPersonMap($id){
-		$person = Person::getById($id);
-		$organizations = Person::getOrganizationsById($id);
-		$events = Person::getEventsByPersonId($id);
+		$person = self::getById($id);
+		$organizations = self::getOrganizationsById($id);
+		$events = self::getEventsByPersonId($id);
 		$personMap = array(
 							"person" => $person,
 							"organizations" => $organizations,
@@ -297,13 +297,13 @@ class Person {
 		$person = array($personFieldName => $personFieldValue);
 		
 		//update the person
-		PHDB::update( Person::COLLECTION, array("_id" => new MongoId($personId)), 
+		PHDB::update( self::COLLECTION, array("_id" => new MongoId($personId)), 
 		                          array('$set' => $person));
 	                  
 	    return true;
 	}
 
-
+	//TODO - Cette méthode n'a rien à faire là
 	public static function getItemInfoById($id, $context){
 		$item = PHDB::findOne( $context ,array("_id"=>new MongoId($id)));
 		return $item;
