@@ -8,7 +8,7 @@
 				<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																		  "type" => $type,
-																		  "contentId" =>"Profil",
+																		  "contentId" =>Document::IMG_PROFIL,
 																		  "show" => "true" ,
 																		  "editMode" => true)); ?>
 			</div>

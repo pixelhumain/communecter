@@ -61,7 +61,7 @@
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																  "type" => $type,
-																  "contentId" =>"Media",
+																  "contentId" =>Document::IMG_MEDIA,
 																  "editMode" => true)); ?>														  						
 		</div>
 	</div>
@@ -74,6 +74,7 @@
 <script type="text/javascript">
 
 	var widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
+	var constImgKey = '<?php echo Document::IMG_MEDIA; ?>';
  	jQuery(document).ready(function() {
  		$("#sliderPhotoVideo .flexslider").css("height", parseInt(widthSliderPhotoVideo)*45/100+"px");
  		initPhotoVideo();
@@ -95,7 +96,7 @@
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == "Media"){
+					if(where == constImgKey){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						var htmlSlide2 = "<div class='col-md-2 sliderPreview'><img src='"+path+"' /></div>";
@@ -172,8 +173,8 @@
 	}
 
 	function hideMediaSubview(){
-		$('#Media_avatar').val('');
-		$('#Media_fileUpload').fileupload("clear");
+		$('#'+constImgKey+'_avatar').val('');
+		$('#'+constImgKey+'_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
 </script>
