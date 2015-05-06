@@ -853,7 +853,7 @@ function readEvent(el)
 				}
 				htmlRes +='<div class="panel panel-white lastEventPadding">'+
 	       						'<div class="panel-body no-padding center">'+
-	       							'<div class="imgEvent"><img src="'+imagePath+'"></img></div>'+
+	       							'<div class="imgEvent"><img src="'+baseUrl+imagePath+'"></img></div>'+
 									'<div class="nextEventInfo"><h1>'+period+'</h1><br>'+currentEvent.name+'</div>'+
 								'</div>'+
 								'<div class="panel-footer">'+

@@ -58,7 +58,7 @@
 				}
 			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																	  "type" => $type,
-																	  "contentId" =>"Slider",
+																	  "contentId" =>Document::IMG_SLIDER,
 																	  "editMode" => true)); ?>
 		</div>
 	</div>
@@ -68,6 +68,7 @@
 	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
 	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
  	var isSubmit = false;
+ 	var constImgName = "<?php echo Document::IMG_SLIDER ; ?>";
  	var imagesTab = [];
  	var widthSlider = $("#sliderPhotoPod .flexslider").css("width");
 	 jQuery(document).ready(function() {
@@ -103,7 +104,7 @@
 				var contentTab = imagesTab[i].contentKey.split(".");
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == "Slider"){
+					if(where == constImgName){
 						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
@@ -181,8 +182,8 @@
 	}
 
 	function hideFileuploadSubview(){
-		$('#Slider_avatar').val('');
-		$('#Slider_fileUpload').fileupload("clear");
+		$('#'+constImgName+'_avatar').val('');
+		$('#'+constImgName+'_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
 

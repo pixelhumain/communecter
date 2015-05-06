@@ -71,7 +71,7 @@
 		var imageName= "";
 		var imageId= "";
 		var showImage = '<?php if(isset($show)) echo $show; else echo "false"; ?>';
- 		var imagePath = 'http://placehold.it/350x180';
+		var imagesPath = [];
 		if("undefined" != typeof(contentKeyBase))
 			var contentKey = contentKeyBase+"."+contentId;
 		else
@@ -93,6 +93,8 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
+			  			imagesPath.push(baseUrl+data.imagePath);
+			  			console.log(imagesPath);
 			  			$(".fileupload-preview img").css("max-height", "100%");
 			  			setTimeout(function(){
 			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
@@ -119,8 +121,8 @@
 
 		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
 			if(isSubmit==contentId+"_true"){
+				setTimeout(function(){$("#"+contentId+"_photoAdd").submit();}, 500);
 
-				setTimeout(function(){$("#"+contentId+"_photoAdd").submit();}, 1000);
 			}else{
 				isSubmit = contentId+"_true";
 			}
@@ -130,16 +132,19 @@
 		$("#"+contentId+"_photoRemove").on("click", function(e){		
 			isSubmit = contentId+"_false";
 			e.preventDefault();
+			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			$("#"+contentId+"_photoUploading").css("display", "block");
+			$(".btn").addClass("disabled");
 			$.ajax({
 				url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+type,
 				type: "POST",
 				dataType : "json",
-				data: {"name": id+"/"+imageName},
+				data: {"name":imageName, "parentId":id, "docId":imageId},
 				success: function(data){
 					console.log(data);
 			  		if(data.result){
 			  			dataImage = {};
-			  			dataImage["imagePath"] = imagePath;
+			  			dataImage["imagePath"] = imagesPath[imagesPath.length-1];
 			  			dataImage["type"] = type;
 			  			dataImage["id"] = id;
 			  			dataImage["contentKey"] = contentKey;
@@ -151,9 +156,16 @@
 			  				data: dataImage,
 			  				success: function(data){
 			  					if(data.result){
-			  						toastr.success(data.msg);
 			  						$('#'+contentId+'_avatar').val('');
-			  						$('#'+contentId+"_fileUpload").fileupload("reset");
+			  						imagesPath.shift();
+			  						setTimeout(function(){
+						  				$("#"+contentId+"_fileUpload").css("opacity", "1");
+										$("#"+contentId+"_photoUploading").css("display", "none");
+										$(".btn").removeClass("disabled");
+
+						  				toastr.success(data.msg);
+						  			}, 2000) 
+			  						//$('#'+contentId+"_fileUpload").fileupload("reset");
 			  					}
 			  					else
 			  						toastr.error(data.msg);
@@ -172,25 +184,23 @@
 					if(v.doctype=="image"){
 						console.log("contentKey", contentKey);
 						if(v.contentKey == contentKey){
-							console.log(v.contentKey, "v.cont");
-							console.log("initFileUpload2", images, imagePath);
-							imagePath = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
+							imagesPath.push(baseUrl+"/upload/"+v.moduleId+v.folder+v.name);
 							j= j+1;
 						}
 					}		
 				})
-				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagePath+'" />');	
+				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagesPath[imagesPath.length-1]+'" />');	
 			}
-			//console.log("initFileUpload", images, imagePath);
+			//console.log("initFileUpload", images, imagesPath);
 			
 			if(j == 0){
 				var textBlock =  "<br>Click on <i class='fa fa-plus text-green'></i> for share your pictures";
 				
 				var defautText = "<li>" +
-									"<blockquote>"+
+									"<div class='center'>"+
 										"<i class='fa fa-picture-o fa-5x text-green'></i>"+
 										textBlock+
-									"</blockquote>"+
+									"</div>"+
 								"</li>";
 				$("#"+contentId+"_imgPreview").html(defautText);
 			}
