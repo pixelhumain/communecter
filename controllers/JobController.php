@@ -72,9 +72,9 @@ class JobController extends CommunecterController {
 	$jobList = Job::getJobsList($organizationId);
   
 	if(Yii::app()->request->isAjaxRequest){
-		$this->renderPartial("jobList", array("jobList" => $jobList));
+		$this->renderPartial("jobList", array("jobList" => $jobList, "id" => $organizationId));
 	} else {
-		$this->render("jobList", array("jobList" => $jobList));
+		$this->render("jobList", array("jobList" => $jobList, "id" => $organizationId));
 	}
   }
 
