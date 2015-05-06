@@ -136,12 +136,17 @@ class OrganizationController extends CommunecterController {
 			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
 				$organizationFieldName = $_POST["name"];
 				$organizationFieldValue = $_POST["value"];
-				Organization::updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
-				$res = Rest::json(array("result"=>true, "msg"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue));
+				try {
+					Organization::updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
+					$res = array("result"=>true, "msg"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue);
+				} catch (CTKException $e) {
+					$res = array("result"=>false, "msg"=>$e->getMessage(), $organizationFieldName=>$organizationFieldValue);
+				}
 			}
 		} else {
-			$res = Rest::json(array("result"=>false, "error"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue));
+			$res = array("result"=>false, "msg"=>"Something went wrong", $organizationFieldName=>$organizationFieldValue);
 		}
+		Rest::json($res);
 	}
 
 	/**
@@ -412,8 +417,9 @@ class OrganizationController extends CommunecterController {
 		$params["contextMap"] = $contextMap;
 		//list
 		$params["tags"] = Tags::getActiveTags();
-		$lists = Lists::get(array("public", "typeIntervention"));
+		$lists = Lists::get(array("public", "typeIntervention", "organisationTypes"));
 		$params["public"] = $lists["public"];
+		$params["organizationTypes"] = $lists["organisationTypes"];
 		$params["typeIntervention"] = $lists["typeIntervention"];
 		$params["countries"] = OpenData::getCountriesList();
 

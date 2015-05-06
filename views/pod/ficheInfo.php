@@ -25,7 +25,10 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"> 
-			<a href="#" id="name" data-type="text" data-title="Name" data-emptytext="Name" class="editable-context editable editable-click">
+			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
+			</a>
+			<span> - </span>
+			<a href="#" id="name" data-type="text" data-title="Name" data-emptytext="Name" class="editable-context editable editable-click required">
 				<?php echo (isset($context)) ? $context["name"] : null; ?>
 			</a>
 		</h4>
@@ -63,7 +66,7 @@
 						<?php echo (isset($context["telephone"])) ? $context["telephone"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click">
+					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 						<?php echo (isset($context["email"])) ? $context["email"] : null; ?>
 					</a>
 					<br>
@@ -72,7 +75,7 @@
 					</a>
 				</div>
 				<div class="row padding-20" style="background-color:#E6E6E6; min-height:155px;">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
 						<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
 					</a>
 				</div>
@@ -130,8 +133,8 @@
 	//By default : view mode
 	var mode = "view";
 	
+	var types = <?php echo json_encode($organizationTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
-	var cities;
 	var publics = <?php echo json_encode($publics) ?>;
 	var typeInterventionList = <?php echo json_encode($typeIntervention) ?>;
 
@@ -172,6 +175,7 @@
 	function manageModeContext() {
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
+			$('#type').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
@@ -181,6 +185,7 @@
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
+			$('#type').editable('option', 'pk', contextId);
 			$('#address').editable('option', 'pk', contextId);
 			$('#addressCountry').editable('option', 'pk', contextId);
 			$('#tags').editable('option', 'pk', contextId);
@@ -188,6 +193,7 @@
 			$('#typeOfPublic').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
+			$('#type').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
@@ -204,14 +210,23 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),
 			onblur: 'submit',
-			showbuttons: false
+			success: function(response, newValue) {
+        		if(! response.result) return response.msg; //msg will be shown in editable form
+    		}
 		});
 		
+		//Type Organization
+		$('#type').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			value: '<?php echo (isset($context)) ? $context["type"] : ""; ?>',
+			source: function() {
+				return types;
+			},
+		});
 		//Select2 tags
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			showbuttons: false,
 			value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
 			select2: {
 				width: 200,
@@ -239,13 +254,11 @@
 			source: function() {
 				return countries;
 			},
-			showbuttons: false,
 		});
 
 		$('#address').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
-			showbuttons: true,
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
 			},
@@ -260,13 +273,12 @@
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
 			source: publics,
-			showbuttons: true,
 			placement: 'right'
 		});
 
 		//Validation Rules
 		//Mandotory field
-		$('#streetAddress #addressCountry #addressLocality').editable('option', 'validate', function(v) {
+		$('.required').editable('option', 'validate', function(v) {
 			var intRegex = /^\d+$/;
 			if (!v)
 				return 'Field is required !';
