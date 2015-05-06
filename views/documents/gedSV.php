@@ -58,7 +58,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->b
 
 			<thead>
 				<tr>
-					<th><?php echo Yii::t("perimeter","Nom",null,Yii::app()->controller->module->id) ?></th>
+					<th>Doc</th>
 					<th class="hidden-xs center">Date</th>
 					<th class="hidden-xs"><?php echo Yii::t("perimeter","Taille",null,Yii::app()->controller->module->id) ?></th>
 					<th><?php echo Yii::t("perimeter","Categories",null,Yii::app()->controller->module->id) ?></th>
@@ -127,47 +127,51 @@ function initDropZoneData(docs)
 		  	$(".loader-subviews").hide();
 		  	if(response.xhr)
 		  	{
-			  	$.unblockUI();
-			  	docObj = JSON.parse(response.xhr.responseText);
-			  	console.log(docObj.result); 
-			  	
-			  	var doc = { 
-			  		"id":ownerId,
-			  		"type":docType,
-			  		"folder":folder+"/"+ownerId,
-			  		"moduleId":destinationFolder,
-			  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
-			  		"name" : docObj.name , 
-			  		"date" : new Date() , 
-			  		"size" : docObj.size ,
-			  		"category" : $("#genericDocCategory").val()
-			  	};
-			  	console.dir(doc); 
-			  	if($.inArray( $("#genericDocCategory").val() , genericDocCategoryIndex ) < 0){
-			  		genericDocCategoryIndex.push($("#genericDocCategory").val());
-					genericDocCategoryData.push( { id:$("#genericDocCategory").val() , text:$("#genericDocCategory").val() } );
-					$('#genericDocCategory').select2({
-					    createSearchChoice : function(term, data) { 
-					    	return {id:term, text:term};
-					    },
-					    data : genericDocCategoryData
-					});
-				}
+		  		docObj = JSON.parse(response.xhr.responseText);
+		  		if( docObj.result ){
+				  	$.unblockUI();
+				  	console.log(docObj.result); 
+				  	
+				  	var doc = { 
+				  		"id":ownerId,
+				  		"type":docType,
+				  		"folder":folder+"/"+ownerId,
+				  		"moduleId":destinationFolder,
+				  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
+				  		"name" : docObj.name , 
+				  		"date" : new Date() , 
+				  		"size" : docObj.size ,
+				  		"category" : $("#genericDocCategory").val()
+				  	};
+				  	console.dir(doc); 
+				  	if($.inArray( $("#genericDocCategory").val() , genericDocCategoryIndex ) < 0){
+				  		genericDocCategoryIndex.push($("#genericDocCategory").val());
+						genericDocCategoryData.push( { id:$("#genericDocCategory").val() , text:$("#genericDocCategory").val() } );
+						$('#genericDocCategory').select2({
+						    createSearchChoice : function(term, data) { 
+						    	return {id:term, text:term};
+						    },
+						    data : genericDocCategoryData
+						});
+					}
 
-			  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
-					saveDoc(doc);
-			  	else */
-			  		genericSaveDoc(doc , function(data){
-			  			doc._id = data.id;
-						genericFilesTable.DataTable().destroy();
-					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
-						genericDropzone.removeAllFiles(true);
-						$(".uploadText").show();
-						resetGenericFilesTable();
-						if(afterDocSave && $.isFunction(afterDocSave))
-							afterDocSave(doc);
-					});
-			  	
+				  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
+						saveDoc(doc);
+				  	else */
+				  		genericSaveDoc(doc , function(data){
+				  			doc._id = data.id;
+							genericFilesTable.DataTable().destroy();
+						  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
+							genericDropzone.removeAllFiles(true);
+							$(".uploadText").show();
+							resetGenericFilesTable();
+							if(afterDocSave && $.isFunction(afterDocSave))
+								afterDocSave(doc);
+						});
+			  	} else {
+			  		toastr.error('Something went wrong!');
+			  		$.unblockUI();
+			  	}
 				
 			}
 		  },

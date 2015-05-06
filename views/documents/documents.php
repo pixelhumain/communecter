@@ -86,10 +86,13 @@ jQuery(document).ready(function() {
 		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
 		console.log("addFileLine",doc); 
 		date = new Date(doc.date);
-		if(doc.name && doc.name.indexOf(".pdf") >= 0)
+
+		name = doc.name.toLowerCase();
+		console.log("name",name); 
+		if(doc.name && name.indexOf(".pdf") >= 0)
 			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-		else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
-			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
+		else if( doc.name && ( name.indexOf(".jpg") >= 0 || name.indexOf(".jpeg") >= 0 || name.indexOf(".gif") >= 0 || name.indexOf(".png") >= 0  ))
+			link =  '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
 						'<img width="50" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'"/>'+
 					'</a>';	
 		else
