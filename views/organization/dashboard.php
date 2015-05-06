@@ -20,7 +20,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	    			$params = array(
 	    				"context" => $organization,
 						"tags" => $tags, 
-						"images" => $images, 
+						"images" => $images,
+						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
 	    				"publics" => $public

@@ -4,6 +4,8 @@
 		$moduleName = "sigModule".$sigParams['sigKey'];
 		$mapHeight = $sigParams["mapHeight"];
 		$mapTop 	= $sigParams["mapTop"];
+		
+		$panelTop 	= 20;
 ?>
 
 <style>
@@ -12,6 +14,13 @@
 	.mapCanvas{
 		height:<?php echo $mapHeight; ?>px;
 		width:75%;
+	}
+	
+	.<?php echo $moduleName; ?> 
+	.btn-open-panel_map{
+		position:absolute !important;
+		top:<?php echo $panelTop; ?>px;
+		left:<?php echo $panelTop; ?>px;
 	}
 	
 	.<?php echo $moduleName; ?> 
