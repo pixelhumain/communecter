@@ -55,7 +55,7 @@
 				//si l'item n'existe pas deja
 				if(!$(thisSig.cssModuleName + ' #item_panel_map_' + valueId).length){ //on le rajoute...
 					var newItem = "<button class='item_panel_map' id='item_panel_map_" + valueId + "'>" +
-								     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value +
+								     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value + //hidden-xs
 								  "</button>";
 								   
 					$('.panel_map').append(newItem);
