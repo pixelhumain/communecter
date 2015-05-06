@@ -67,7 +67,7 @@
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php echo $contentId ?>";
 		var isSubmit = contentId+"_true";
-		
+		var resize = "<?php if(isset($resize)) echo $resize; else echo false; ?>";
 		var imageName= "";
 		var imageId= "";
 		var showImage = '<?php if(isset($show)) echo $show; else echo "false"; ?>';
@@ -77,12 +77,34 @@
 		else
 			contentKey = "";
 		initFileUpload();
+
+
+
+		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
+
+			if(isSubmit==contentId+"_true"){
+				setTimeout(function(){
+					if(resize){
+						$(".fileupload-preview img").css("height", parseInt($("#"+contentId+"_fileUpload").css("width"))*45/100+"px");
+						$(".fileupload-preview img").css("width", "auto");
+					}
+					$("#"+contentId+"_photoAdd").submit();}, 200);
+
+			}else{
+				isSubmit = contentId+"_true";
+			}
+		   
+		});
+
+
 		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
+			
 			isSubmit = contentId+"_true";
 			e.preventDefault();
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
+
 			$.ajax({
 				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				type: "POST",
@@ -102,14 +124,16 @@
 							$(".btn").removeClass("disabled");
 			  				toastr.success(data.msg);
 
+				  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
+				  			imageId = data.id['$id'];
+					  		
+					  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
+			        			updateSlider(data.image, data.id["$id"]);
+					  		}
+
+
 			  			}, 2000) 
 			  			
-			  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
-			  			imageId = data.id['$id'];
-				  		
-				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
-		        			updateSlider(data.image, data.id["$id"]);
-				  		}
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -119,22 +143,15 @@
 		
 	
 
-		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
-			if(isSubmit==contentId+"_true"){
-				setTimeout(function(){$("#"+contentId+"_photoAdd").submit();}, 500);
-
-			}else{
-				isSubmit = contentId+"_true";
-			}
-		   
-		});
 
 		$("#"+contentId+"_photoRemove").on("click", function(e){		
 			isSubmit = contentId+"_false";
 			e.preventDefault();
+
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
+
 			$.ajax({
 				url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+type,
 				type: "POST",
@@ -163,6 +180,9 @@
 										$("#"+contentId+"_photoUploading").css("display", "none");
 										$(".btn").removeClass("disabled");
 
+								  		if(typeof(removeSliderImage) != "undefined" && typeof (removeSliderImage) == "function"){
+						        			removeSliderImage(imageId);
+								  		}
 						  				toastr.success(data.msg);
 						  			}, 2000) 
 			  						//$('#'+contentId+"_fileUpload").fileupload("reset");
