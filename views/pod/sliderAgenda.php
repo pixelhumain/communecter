@@ -17,6 +17,11 @@
     }
     #agendaNewPicture{
     	display: none;
+    	height: 260px;
+    }
+    #infoSlider{
+    	padding-top: 50px;
+    	position: relative;
     }
 </style>
 	<div id="sliderAgenda">
@@ -36,14 +41,15 @@
 				
 				</ul>
 		  	</div>
-
-		  	<div class="row" id="agendaNewPicture">
-		  		
-		  	</div>
+		  	<div id="agendaNewPicture">
+			  	<div class="agendaNewPicture" >
+			  		
+			  	</div>
+			  	<div class="row center">
+					<a href="#" class="btn btn-light-blue validateSliderAgenda">Terminer </a>
+				</div>
+			</div>
 		</div>
-      <!--<div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>-->
     </div>
     </div>
 
@@ -54,13 +60,17 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
 
+		$(".validateSliderAgenda").off().on("click", function() {
+			clearFileUploadAgenda();
+		})
 
 		$('.addImgButton').off().on("click", function(){
 			
 			$("#flexsliderAgenda").flexslider("clear");
+			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
 			$("#flexsliderAgenda").css("display", "none");
 			$("#agendaNewPicture").css("display", "block");
-			getAjax("#agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
+			
 		})
 	});
 
@@ -68,7 +78,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		var n = 1;
 		var today = new Date();
 		var notEmptySlide = false;
-		var width =  parseInt($("#sliderAgenda .flexslider").css("width"));
+		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = width*45/100;
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
@@ -87,7 +97,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 													imageUrl+
 													'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
 												"</div>"
-						htmlRes +="<div class='row'>"+
+						htmlRes +="<div class='row' id='infoSlider'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";
 						htmlRes += "<div class='col-xs-7' >"+
@@ -170,4 +180,19 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		$(".flexslider").flexslider();
 	}
 
+	function updateSliderImage(id, imagePath){
+		events[id]["imagePath"] = imagePath;
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		initDashboardAgenda();
+		$(".flexslider").flexslider();
+	}
+
+
+	function clearFileUploadAgenda(){
+		$("#agendaNewPicture").css("display", "none");
+		$("#flexsliderAgenda").css("display", "block");
+		initDashboardAgenda();
+	}
  </script>
