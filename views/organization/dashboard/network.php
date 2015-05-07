@@ -123,7 +123,7 @@
 </div>
 
 <?php
-   $this->renderPartial('addMembers', array( "organization" => $organization ));
+   $this->renderPartial('addMembers', array( "organization" => $organization, "organizationTypes" => $organizationTypes ));
  ?>
 <script type="text/javascript">
 	var members = <?php echo json_encode($members); ?>;
@@ -133,18 +133,18 @@
 		bindBtnNetwork();
 	});
 
-	function updateOrganisation(newOrga,type)
+	function updateOrganisation(newMember,type)
 	{
 		if('undefined' != typeof contextMap["organizations"])
 		{
-			if(type= '<?php echo Person::COLLECTION; ?>')
-				contextMap["people"].push(newOrga);
-			else(type= '<?php echo Organization::COLLECTION; ?>')
-				contextMap["organizations"].push(newOrga);
+			if(type == '<?php echo Person::COLLECTION; ?>')
+				contextMap["people"].push(newMember);
+			else if (type == '<?php echo Organization::COLLECTION; ?>')
+				contextMap["organizations"].push(newMember);
 		}
-		console.log(newOrga, "type", type);
+		console.log(newMember, "type", type);
 		var links ="";
-		var itemId = newOrga["_id"]["$id"];
+		var itemId = newMember["_id"]["$id"];
 		var imgHtml="";
 		var roles ="";
 		var parentId = organization["_id"]["$id"];
@@ -158,14 +158,14 @@
 			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
 			tabObject = $("#tOrga");
 			imgHtml = '<i class="fa fa-group fa-2x"></i>'
-			type = newOrga.type;
+			type = newMember.type;
 		}
-		if('undefined' != typeof newOrga["imagePath"] && newOrga["imagePath"]!=""){
-			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newOrga["imagePath"]+'">'
+		if('undefined' != typeof newMember["imagePath"] && newMember["imagePath"]!=""){
+			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newMember["imagePath"]+'">'
 		}
-		console.log(newOrga["links"]["memberOf"][parentId]["roles"]);
-		if('undefined' != typeof newOrga["links"]["memberOf"][parentId]["roles"]){
-			var rolesTab = newOrga["links"]["memberOf"][parentId]["roles"];
+		
+		if('undefined' != typeof newMember["links"]["memberOf"][parentId]["roles"]){
+			var rolesTab = newMember["links"]["memberOf"][parentId]["roles"];
 			for(var i = 0; i<rolesTab.length; i++){
 				if(i==0){
 					roles = rolesTab[i];
@@ -182,13 +182,13 @@
           							'</a>' +
           							'</td>'+
           							'<td> <a href="'+links+'">'+
-          								newOrga.name+
+          								newMember.name+
 									'</a> </td>'+
           							'<td>'+type+'</td>'+
           							'<td>'+roles+'</td>'+
       								'<td class="center">'+
 										'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-											' <a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType=""  data-type="'+type+'" data-name="'+newOrga.name+'" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
+											' <a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType=""  data-type="'+type+'" data-name="'+newMember.name+'" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
 										' </div>'+
 									'</td>'+
         						'</tr>';

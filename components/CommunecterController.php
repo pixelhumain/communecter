@@ -191,7 +191,6 @@ class CommunecterController extends Controller
       "list"=>array("href"=>"/ph/communecter/job/list"),
     ),
 
-
     "pod" => array(
     	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
     	"photovideo" => array("href" => "ph/communecter/pod/photovideo"),
@@ -200,6 +199,10 @@ class CommunecterController extends Controller
     	"index" => array("href" => "ph/communecter/gallery/index"),
     	"getlistbyid" => array("href"=>"ph/communecter/gallery/getlistbyid"),
     	"removebyid" => array("href"=>"ph/communecter/gallery/removebyid"),
+    ),
+
+    "link" => array(
+      "savemember" => array("href" => "/ph/communecter/link/savemember")
     ),
     
   );

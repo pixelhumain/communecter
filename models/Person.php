@@ -105,11 +105,15 @@ class Person {
 	 * @return type
 	 */
 	public static function createAndInvite($param) {
-	  	self::insert($param, true);
-
+	  	try {
+	  		$res = self::insert($param, true);
+	  	} catch (CommunecterException $e) {
+	  		$res = array("result"=>false, "msg"=> $e->getMessage());
+	  	}
         //TODO TIB : mail Notification 
         //for the organisation owner to subscribe to the network 
         //and complete the Organisation Profile
+        return $res;
 	}
 
 	/**
@@ -146,6 +150,10 @@ class Person {
 	  		throw new CommunecterException("Problem inserting the new person : a person with this email already exists in the plateform");
 	  	}
 	  	
+	  	if (!empty($person["invitedBy"])) {
+	  		$newPerson["invitedBy"] = $person["invitedBy"];
+	  	}
+
 	  	if (! $minimal) {
 		  	//Encode the password
 		  	$newPerson["pwd"] = hash('sha256', $person["email"].$person["pwd"]);
@@ -178,7 +186,7 @@ class Person {
 	  	//Add aditional information
 	  	$person["tobeactivated"] = true;
 	  	$person["created"] = time();
-	  	
+
 	  	PHDB::insert( PHType::TYPE_CITOYEN , $person);
  
         if (isset($person["_id"])) {

@@ -40,7 +40,7 @@ class Link {
             $setArrayMembers["links.members.".$memberId.".toBeValidated"] = true;
             $setArrayMemberOf["links.memberOf.".$memberOfId.".toBeValidated"] = true;
         }
-
+ 
         if ($userAdmin) {
             // Add an admin flag 
             $setArrayMembers["links.members.".$memberId.".isAdmin"] = $userAdmin;
@@ -86,7 +86,7 @@ class Link {
         //0. Check if the $memberOfId and the $memberId exists
         $memberOf = Link::checkIdAndType($memberOfId, $memberOfType);
         $member = Link::checkIdAndType($memberId, $memberType);
-
+        
         //1.1 the $userId can manage the $memberOf (admin)
         // Or the user can remove himself from a member list of an organization
         if (!Authorisation::isOrganizationAdmin($userId, $memberOfId)) {

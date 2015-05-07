@@ -77,6 +77,19 @@
 			    	        		<input class="form-control" placeholder="Name" id="memberName" name="memberName" value=""/>
 								</div>		    	        
 			    	        </div>
+			    	        <div class="row" id="divOrganizationType">
+			    	        	<div class="col-md-1">
+			    	        		<i class="fa fa-crosshairs fa-2x"></i>
+					           	</div>
+					           	<div class="col-md-10">
+			    	        		<select class="form-control" placeholder="Organization Type" id="organizationType" name="organizationType">
+									<option value=""></option>
+									<?php foreach ($organizationTypes as $key => $value) { ?>
+										<option value="<?php echo $key ?>"><?php echo $value?></option>
+									<?php }	?>
+								</select>
+								</div>		    	        
+			    	        </div>
 			    	        <div class ="row">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-envelope-o fa-2x"></i>
@@ -106,7 +119,7 @@
 											Administrateur :
 										</label>
 										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+										<input type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
 									</div>
 								</div>
 							</div>
@@ -228,14 +241,15 @@
 	    		"memberId" : $("#addMembers #memberId").val(),
 				"memberName" : $("#addMembers #memberName").val(),
 				"memberEmail" : $("#addMembers #memberEmail").val(),
-				"memberType" : $("#addMembers #memberType").val(), 
+				"memberType" : $("#addMembers #memberType").val(),
+				"organizationType" : $("#addMembers #organizationType").val(),
 				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
 				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
 				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
 	    	$.ajax({
 	            type: "POST",
-	            url: baseUrl+"/communecter/organization/savemember/id/<?php echo (string)$organization['_id']; ?>",
+	            url: baseUrl+"/communecter/link/savemember",
 	            data: params,
 	            dataType: "json",
 	            success: function(data){
@@ -396,12 +410,14 @@
 		if(str=="citoyens"){
 			$("#addMembers #divAdmin").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
+			$("#addMembers #divOrganizationType").css("display", "none");
 			$("#addMembers #btnCitoyen").removeClass("btn-green");
 			$("#addMembers #btnCitoyen").addClass("btn-dark-green");
 			$("#addMembers #btnOrganization").removeClass("btn-dark-green");
 			$("#addMembers #btnOrganization").addClass("btn-green");
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
+			$("#addMembers #divOrganizationType").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
 			$("#addMembers #btnOrganization").removeClass("btn-green");
 			$("#addMembers #btnOrganization").addClass("btn-dark-green");

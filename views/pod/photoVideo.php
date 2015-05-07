@@ -69,7 +69,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																		  "type" => $type,
 																		  "resize" => "true",
-																		  "contentId" =>Document::IMG_MEDIA,
+																		  "contentId" => Document::IMG_MEDIA,
 																		  "editMode" => true)); ?>
 				</div>
 				<div class="row center">
