@@ -89,6 +89,14 @@ var userId = "<?php echo Yii::app()->session["userId"]; ?>";
 jQuery(document).ready(function() {
  	bindinviteSubViewinvites();
  	runinviteFormValidation();
+ 	//disable submit in enter
+	 $(window).keydown(function(event){
+	    if(event.keyCode == 13) {
+	      event.preventDefault();
+	      return false;
+	    }
+	  });
+	 
  	$('#inviteSearch').keyup(function(e){
 	    var search = $('#inviteSearch').val();
 	    if(search.length>2){
