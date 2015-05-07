@@ -75,7 +75,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 	});
 
 	function initDashboardAgenda(){
-		var n = 1;
+		var n = 0;
 		var today = new Date();
 		var notEmptySlide = false;
 		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
@@ -86,7 +86,8 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-					if(n<4 && compareDate(today, date)){
+					if(compareDate(today, date)){
+
 						notEmptySlide = true;
 						var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
 						if ('undefined' != typeof v.imagePath){
@@ -171,7 +172,6 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 	}
 
 	function updateSliderAgenda(nEvent){
-		console.log("nEvent", nEvent);
 		events[nEvent["_id"]["id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
