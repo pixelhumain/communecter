@@ -52,7 +52,7 @@
 			  $params["contentId"] = $contentId;
 			  $params["editMode"] = $edit;
 			  if(Yii::app()->request->isAjaxRequest)
-				$this->renderPartial('fileupload', $params, true);
+				echo $this->renderPartial('fileupload', $params, true);
 			  else
 				$this->render("fileupload",$params);
 			}

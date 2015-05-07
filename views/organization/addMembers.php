@@ -36,7 +36,7 @@
         		<p>An Organization can have People as members or Organizations</p>
         	</div>
         	<div class="panel-body">
-		    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off">
+		    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off" submit='false'>
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		    	    <div class="form-group" id="searchMemberSection">
@@ -195,7 +195,12 @@
 	var timeout;
 	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
-		
+		 $(window).keydown(function(event){
+		    if(event.keyCode == 13) {
+		      event.preventDefault();
+		      return false;
+		    }
+		  });
 		bindOrganizationSubViewAddMember();
 	});
 	
@@ -463,6 +468,7 @@
         if($(".newMembersAddedTable").hasClass("hide"))
             $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
+
 </script>
 	
 

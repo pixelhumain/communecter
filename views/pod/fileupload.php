@@ -130,6 +130,9 @@
 					  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 			        			updateSlider(data.image, data.id["$id"]);
 					  		}
+					  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function"){
+					  			updateSliderImage(id, data.imagePath);
+					  		}
 
 
 			  			}, 2000) 

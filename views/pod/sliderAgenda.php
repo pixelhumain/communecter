@@ -17,6 +17,11 @@
     }
     #agendaNewPicture{
     	display: none;
+    	height: 260px;
+    }
+    #infoSlider{
+    	padding-top: 50px;
+    	position: relative;
     }
 </style>
 	<div id="sliderAgenda">
@@ -36,14 +41,15 @@
 				
 				</ul>
 		  	</div>
-
-		  	<div class="row" id="agendaNewPicture">
-		  		
-		  	</div>
+		  	<div id="agendaNewPicture">
+			  	<div class="agendaNewPicture" >
+			  		
+			  	</div>
+			  	<div class="row center">
+					<a href="#" class="btn btn-light-blue validateSliderAgenda">Terminer </a>
+				</div>
+			</div>
 		</div>
-      <!--<div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>-->
     </div>
     </div>
 
@@ -54,21 +60,25 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
 
+		$(".validateSliderAgenda").off().on("click", function() {
+			clearFileUploadAgenda();
+		})
 
 		$('.addImgButton').off().on("click", function(){
 			
 			$("#flexsliderAgenda").flexslider("clear");
+			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
 			$("#flexsliderAgenda").css("display", "none");
 			$("#agendaNewPicture").css("display", "block");
-			getAjax("#agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
+			
 		})
 	});
 
 	function initDashboardAgenda(){
-		var n = 1;
+		var n = 0;
 		var today = new Date();
 		var notEmptySlide = false;
-		var width =  parseInt($("#sliderAgenda .flexslider").css("width"));
+		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = width*45/100;
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
@@ -76,7 +86,8 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-					if(n<4 && compareDate(today, date)){
+					if(compareDate(today, date)){
+
 						notEmptySlide = true;
 						var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
 						if ('undefined' != typeof v.imagePath){
@@ -87,7 +98,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 													imageUrl+
 													'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
 												"</div>"
-						htmlRes +="<div class='row'>"+
+						htmlRes +="<div class='row' id='infoSlider'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";
 						htmlRes += "<div class='col-xs-7' >"+
@@ -161,7 +172,6 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 	}
 
 	function updateSliderAgenda(nEvent){
-		console.log("nEvent", nEvent);
 		events[nEvent["_id"]["id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
@@ -170,4 +180,19 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		$(".flexslider").flexslider();
 	}
 
+	function updateSliderImage(id, imagePath){
+		events[id]["imagePath"] = imagePath;
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		initDashboardAgenda();
+		$(".flexslider").flexslider();
+	}
+
+
+	function clearFileUploadAgenda(){
+		$("#agendaNewPicture").css("display", "none");
+		$("#flexsliderAgenda").css("display", "block");
+		initDashboardAgenda();
+	}
  </script>
