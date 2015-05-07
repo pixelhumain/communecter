@@ -77,7 +77,7 @@ jQuery(document).ready(function() {
 						here you can load anythnig into your form fields 
 						it is called after creation
 						*/
-						$.each( dataBind, function(field,fieldObj){
+						/*$.each( dataBind, function(field,fieldObj){
 							if(field != ""){
 								var val = fieldObj.value;
 								if(val) {
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
 									console.log("field key",field);
 								}
 							}
-						});
+						});*/
 						
 					},
 					onSave : function(){

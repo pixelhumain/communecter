@@ -6,6 +6,18 @@
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
 	}
+
+	.banniereSlider{
+		position: relative;
+	}
+	.addImgButton{
+		position: absolute;
+		right: 0;
+    	top: 0;
+    }
+    #agendaNewPicture{
+    	display: none;
+    }
 </style>
 	<div id="sliderAgenda">
     <div class="panel panel-white">
@@ -18,11 +30,16 @@
 	    <?php } ?>
       </div>
        <div class="panel-body no-padding center">
-		  <div class="flexslider" id="flexsliderAgenda">
-			<ul class="slides" id="slidesAgenda">
+
+		  	<div class="flexslider" id="flexsliderAgenda">
+				<ul class="slides" id="slidesAgenda">
 				
-			</ul>
-		  </div>
+				</ul>
+		  	</div>
+
+		  	<div class="row" id="agendaNewPicture">
+		  		
+		  	</div>
 		</div>
       <!--<div class="panel-footer "  >
         <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
@@ -32,10 +49,19 @@
 
  <script type="text/javascript">
 var events = <?php echo json_encode($events) ?>;
-
+var contentId = "<?php echo Document::IMG_PROFIL; ?>";
  jQuery(document).ready(function() {	 	
 		initDashboardAgenda();
 		$(".flexslider").flexslider();
+
+
+		$('.addImgButton').off().on("click", function(){
+			
+			$("#flexsliderAgenda").flexslider("clear");
+			$("#flexsliderAgenda").css("display", "none");
+			$("#agendaNewPicture").css("display", "block");
+			getAjax("#agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
+		})
 	});
 
 	function initDashboardAgenda(){
@@ -56,7 +82,11 @@ var events = <?php echo json_encode($events) ?>;
 						if ('undefined' != typeof v.imagePath){
 							imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath+"'></img>";
 						}
-						var htmlRes = "<li><div class='center'>"+imageUrl;
+						var htmlRes = "<li><div class='center'>"+
+												"<div class='banniereSlider'>"+
+													imageUrl+
+													'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
+												"</div>"
 						htmlRes +="<div class='row'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";

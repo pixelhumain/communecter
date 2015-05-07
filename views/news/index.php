@@ -78,9 +78,10 @@ function buildTimeLine()
 	countEntries = 0;
 	$.each( news , function(key,newsObj)
 	{
-		if(newsObj.text && newsObj.created)
+		if(newsObj.text && newsObj.created && newsObj.name)
 		{
 			var date = new Date( parseInt(newsObj.created)*1000 );
+			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
@@ -124,10 +125,11 @@ function buildLineHTML(newsObj)
 	url = 'href="javascript:;" onclick="'+url+'"';	
 	iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
 	var title = newsObj.name;
+	var text = newsObj.text;
 	var tags = "";
-	if( "undefined" != typeof newsObj.tags)
+	if( "undefined" != typeof newsObj.tags && newsObj.tags)
 	{
-		$.each(newsObj.tags,function(i,tag){
+		$.each( newsObj.tags , function(i,tag){
 			tags += "<span class='label label-inverse'>"+tag+"</span> ";
 		});
 		tags = '<div class="pull-right"><i class="fa fa-tags"></i> '+tags+'</div>';
@@ -145,18 +147,19 @@ function buildLineHTML(newsObj)
 						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
 					'</div>'+
 					'<div class="space10"></div>'+
-					newsObj.text+	
+					text+	
 					'<div class="space10"></div>'+
 					
 					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
 					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='newsAddComment'  data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-comment'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj["_id"]['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
+					"<a href='javascript:;' class='newsAddComment'  data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-comment'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
 					"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 					"</div>"+
 				'</div></li>';
+
 	return newsTLLine;
 }
 
