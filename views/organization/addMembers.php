@@ -233,7 +233,13 @@
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			$("#addMembers #memberIsAdmin").val(""+state);
+			console.log("state = "+state );
+			if (state == true) {
+				$("#addMembers #memberIsAdmin").val(1);
+			} else {
+				$("#addMembers #memberIsAdmin").val(0);
+			}
+			
 		}); 
 		$("#addMemberForm").off().on("submit",function(event){
 	    	event.preventDefault();
@@ -431,11 +437,11 @@
 		var admin= "";
 		var type="";
 		if($("#addMembers #memberType").val()=="citoyens"){
-			type= "Personne";
+			type = "Personne";
 		}else{
 			type = "Organisation"
 		}
-		if($("#addMembers #memberIsAdmin").val()=="true"){
+		if($("#addMembers #memberIsAdmin").val()=="1"){
 			admin="Oui";
 		}else{
 			admin = "Non";

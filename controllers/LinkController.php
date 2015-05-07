@@ -35,7 +35,12 @@ class LinkController extends CommunecterController {
 			//create an entry in the right type collection
 			if($memberType == Person::COLLECTION) {
 				$class = "Person";
-				$isAdmin = (bool)(isset($_POST["memberIsAdmin"])) ? $_POST["memberIsAdmin"] : false;
+				$isAdmin = (isset($_POST["memberIsAdmin"])) ? $_POST["memberIsAdmin"] : false;
+				if ($isAdmin == "1") {
+					$isAdmin = true;
+				} else {
+					$isAdmin = false;
+				}
 			} else if ($memberType == Organization::COLLECTION) { 
 				$class = "Organization";
 				$isAdmin = false;
