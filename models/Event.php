@@ -10,6 +10,10 @@ class Event {
 	  	return PHDB::findOne( PHType::TYPE_EVENTS,array("_id"=>new MongoId($id)));
 	}
 
+	public static function getWhere($params) {
+	  	return PHDB::findAndSort( self::COLLECTION,$params);
+	}
+
 	/**
 	 * Get an event from an id and return filter data in order to return only public data
 	 * @param type $id 

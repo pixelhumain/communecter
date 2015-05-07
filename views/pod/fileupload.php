@@ -75,7 +75,7 @@
 		if("undefined" != typeof(contentKeyBase))
 			var contentKey = contentKeyBase+"."+contentId;
 		else
-			contentKey = "";
+			contentKey = contentId;
 		initFileUpload();
 
 

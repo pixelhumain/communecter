@@ -203,22 +203,26 @@ class OrganizationController extends CommunecterController {
 
   public function actionAddNewOrganizationAsMember() 
   {
-	Yii::import('recaptcha.ReCaptcha', true);
-	Yii::import('recaptcha.RequestMethod', true);
-	Yii::import('recaptcha.RequestParameters', true);
-	Yii::import('recaptcha.Response', true);
-	Yii::import('recaptcha.RequestMethod.Post', true);
-	Yii::import('recaptcha.RequestMethod.Socket', true);
-	Yii::import('recaptcha.RequestMethod.SocketPost', true);
-
 	//validate Captcha 
+	//no need to check Captcha twice
+	//$captcha = ( isset( Yii::app()->session["checkCaptcha"] ) && Yii::app()->session["checkCaptcha"] ) ? true : false;
 	$captcha = false;
 	if( isset($_POST['g-recaptcha-response']) && isset( Yii::app()->params["captcha"] ) )
 	{
-	  $recaptcha = new \ReCaptcha\ReCaptcha( Yii::app()->params["captcha"] );
-	  $resp = $recaptcha->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );  
-	  if ($resp && $resp->isSuccess())
-		$captcha = true;
+	    Yii::import('recaptcha.ReCaptcha', true);
+		Yii::import('recaptcha.RequestMethod', true);
+		Yii::import('recaptcha.RequestParameters', true);
+		Yii::import('recaptcha.Response', true);
+		Yii::import('recaptcha.RequestMethod.Post', true);
+		Yii::import('recaptcha.RequestMethod.Socket', true);
+		Yii::import('recaptcha.RequestMethod.SocketPost', true);
+	    $recaptcha = new \ReCaptcha\ReCaptcha( Yii::app()->params["captcha"] );
+	    $resp = $recaptcha->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );  
+	    if ($resp && $resp->isSuccess())
+	    {
+			$captcha = true;
+			//Yii::app()->session["checkCaptcha"] = true;;
+		}
 	}
 	
 	if($captcha){
@@ -234,6 +238,7 @@ class OrganizationController extends CommunecterController {
 	  try {
 		$newOrganization = Organization::newOrganizationFromPost($_POST);
 		$res = Organization::createPersonOrganizationAndAddMember($newPerson, $newOrganization, $_POST['parentOrganization']);
+		unset(Yii::app()->session["checkCaptcha"]);
 	  } catch (CTKException $e) {
 		return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
 	  } catch (CommunecterException $e) {

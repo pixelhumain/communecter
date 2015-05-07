@@ -67,20 +67,41 @@
 				
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 			
-			if("undefined" != typeof element["tags"]){
+			var dropDown  = '';
+			if("undefined" != typeof element["tags"])
+			{
+				dropDown  = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey pull-right" data-toggle="dropdown"><i class="fa fa-tag"></i> <i class="fa fa-angle-down"></i> </a>';
+				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
+					
 				$.each(element["tags"], function(){
 					ico = thisSig.getIcoNameByTag(this);
 					color = thisSig.getIcoColorByTag(this);
 					
-					icons += '<i class="fa fa-'+ ico + ' fa-'+ color +' pull-right"></i>';
+					dropDown += '<li><a href="#" class="panel-refresh"> <i class="fa fa-'+ ico + ' fa-'+ color +'"></i> <span>'+element["tags"]+'</span> </a></li>';
+					//dropDown += '<i class="fa fa-'+ ico + ' fa-'+ color +' pull-right"></i>';
 				});
+			
+				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
 			}
+			
+		/*	var dropDown = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown"><i class="fa fa-cog"></i> </a>
+				            <ul role="menu" class="dropdown-menu dropdown-light pull-right">
+				              <li><a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a></li>
+				              <li><a href="#" class="panel-refresh"> <i class="fa fa-refresh"></i> <span>Refresh</span> </a></li>
+				              <li><a data-toggle="modal" href="#panel-config" class="panel-config"> <i class="fa fa-wrench"></i> <span>Configurations</span></a></li>
+				              <li><a href="#" class="panel-expand"> <i class="fa fa-expand"></i> <span>Fullscreen</span></a></li>                   
+				            </ul>';
+		*/
+			
 			//return l'élément html
-		    var button = '<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
+		    var button = '<div style="width:100%; display:inline-block;">' +
+		    				'<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
 								+ icons
-								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	
-								+  ' <div class="city_item_map_list">' +	place + "</div>"	+
-					   '</button>';	
+								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	+
+								//+  ' <div class="city_item_map_list">' +	place + "</div>"	+
+						   '</button>' +
+						   dropDown + 
+						 '<div>';	
 			
 			$(this.cssModuleName + " #liste_map_element").append(button);
 			

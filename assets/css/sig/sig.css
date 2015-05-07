@@ -1,9 +1,10 @@
-.mapCanvas{
- 	width:100%;
- 	background-color:#2A3945;
- 	color:black;
- }
- 
+	
+	.mapCanvas{
+	 	width:100%;
+	 	/*background-color:#2A3945;*/
+	 	color:black;
+	 }
+	 
 /*   ############# leaflet ################## */
   
   .leaflet-popup-content-wrapper{
@@ -146,7 +147,7 @@
 }
 .item_map_list{
 	float:left;
-	width:100%;
+	width:75%;
 	padding-top:6px;
 	padding-bottom:4px;
 	margin-top:0px;
@@ -184,6 +185,14 @@
 		float: right;
 		color: grey;
 }
+
+#liste_map_element a.btn.dropdown-toggle{
+	margin-right:5%;
+	margin-top:5px;
+	left:5%;
+	width:20%;
+}
+
 .btn_right_barre_tool_map{
 	float:left;
 	padding-top:5px;
@@ -214,7 +223,7 @@
 	font-size:22px !important;
 }
 .btn-map:hover{
-	background-color:#5896AB;
+	background-color:#5896AB !important;
 }
 
 

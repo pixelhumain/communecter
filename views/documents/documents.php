@@ -21,13 +21,14 @@ $this->renderPartial('../documents/gedSV');
             	<?php 
             	if(!empty($documents)){
 	            	foreach ($documents as $doc) { ?>
-	              	<tr>
+	              	<tr class="file<?php echo $doc['_id'] ?>">
 			                <td class="center">
 			                	<?php
-			                	if(strrpos($doc['name'], ".pdf") != false)
+			                	$name = strtolower($doc['name']);
+			                	if(strrpos($name, ".pdf") != false)
 									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
 											'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-								else if( strrpos( $doc['name'], ".jpg" ) != false || strrpos($doc['name'], ".jpeg") != false || strrpos($doc['name'], ".gif")  != false || strrpos($doc['name'], ".png")  != false  )
+								else if( strrpos( $name, ".jpg" ) != false || strrpos($name, ".jpeg") != false || strrpos($name, ".gif")  != false || strrpos($name, ".png")  != false  )
 									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" data-lightbox="docs">'.
 											'<img width="50" class="" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'"/></a>';	
 								else
@@ -35,10 +36,15 @@ $this->renderPartial('../documents/gedSV');
 											'<i class="fa fa-file fa-3x icon-big"></i></a>';	
 								?>
 			                </td>
-			                <td class="center"><span class="text-large"><?php echo $doc['name'] ?> </span></td>
+			                <td class="center hidden-xs"><?php echo $doc['name'] ?></td>
 			                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
 			                <td  class="center hidden-xs"><?php echo $category ?> </td>
 			                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
+			                <td> 
+			                	<a class="btn btn-xs delDocBtn tooltips" data-id="<?php echo (string)$doc['_id'] ?>" href="javascript:;" data-placement="top" data-original-title="Delete this File">
+    								<i class="fa fa-times text-red"></i>
+    							</a>
+    						</td>
 		               </tr>
 	              <?php
 		              } 
@@ -57,85 +63,97 @@ $this->renderPartial('../documents/gedSV');
 </div>
 
 <script type="text/javascript">
-	jQuery(document).ready(function() {
-		/*$(".docsPanel").removeClass('hide').addClass("animated bounceIn").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).removeClass("animated bounceIn");
-		});*/
-		docType = "<?php echo Organization::COLLECTION?>";
-		folder = "<?php echo Organization::COLLECTION ?>";
-		ownerId = "<?php echo $_GET['id'] ?>";
 
+var documents = <?php echo (!empty($documents)) ? json_encode($documents) : "{}" ?>;
+jQuery(document).ready(function() {
+	/*$(".docsPanel").removeClass('hide').addClass("animated bounceIn").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		$(this).removeClass("animated bounceIn");
+	});*/
+	docType = "<?php echo Organization::COLLECTION?>";
+	folder = "<?php echo Organization::COLLECTION ?>";
+	ownerId = "<?php echo $_GET['id'] ?>";
+	bindDocsEvents ();
+	
+});
+
+	function bindDocsEvents () { 
 		if($(".tooltips").length) {
-     		$('.tooltips').tooltip();
-     	}
-	});
-
+	 		$('.tooltips').tooltip();
+	 	}
+	 	$(".delDocBtn").off().on("click",function() { 
+	 		delDoc( $(this).data('id') );
+	 	});
+	}
 	function afterDocSave(doc){
 		folderPath = folder+"/"+ownerId;
 		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
 		console.log("addFileLine",doc); 
 		date = new Date(doc.date);
-		if(doc.name && doc.name.indexOf(".pdf") >= 0)
+
+		name = doc.name.toLowerCase();
+		console.log("name",name); 
+		if(doc.name && name.indexOf(".pdf") >= 0)
 			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-		else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
-			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
+		else if( doc.name && ( name.indexOf(".jpg") >= 0 || name.indexOf(".jpeg") >= 0 || name.indexOf(".gif") >= 0 || name.indexOf(".png") >= 0  ))
+			link =  '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
 						'<img width="50" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'"/>'+
 					'</a>';	
 		else
 			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 
 		category = (doc.category) ? '<span class="label label-danger">'+doc.category+'</span>' : "";
-		lineHTML = '<tr>'+
+		docId = (doc._id['$id']) ? doc._id['$id'] : doc._id; 
+		lineHTML = '<tr class="file'+docId+'">'+
 						'<td class="center">'+link+'</td>'+
-						'<td class="center">'+doc.name+'</td>'+
+						'<td class="center hidden-xs">'+doc.name+'</td>'+
 						'<td class="center hidden-xs">'+category+'</td>'+
 						'<td class="hidden-xs">'+doc.size+'</td>'+
+						'<td>'+
+							'<a class="btn btn-xs delDocBtn" data-id="'+docId+'" href="javascript:;" >'+
+    								'<i class="fa fa-times text-red"></i>'+
+    							'</a>'+
+						'</td>'+
 					'</tr>';
 
 		if( $(".docsList tr").length == 0 )
 			$(".emptyDocsInfo").remove();
 
 		$(".docsList").prepend(lineHTML);
+		documents[docId] = doc;
+		bindDocsEvents ();
 	}
 
-	/*function delDoc (pos) 
+	function delDoc (docId) 
 	{ 
-		console.log("delDoc",pos);
-		if(docType.indexOf("tasks") == 0 && tasks[editTaskId].documents[pos])
+		console.log("delDoc",docId);
+		if(documents[docId])
 		{
-			if( isListPage && editProjectId )
-				tasks =  projectTasks[ editProjectId ];
-			var delname = tasks[editTaskId].documents[pos].name;
+			var delname = documents[docId].name;
 			bootbox.confirm("<?php echo Yii::t('project','Are you sure to delete',null,Yii::app()->controller->module->id) ?> : <span class='text-red text-bold'>"+delname+"</span>? ", function(result) {
 				if(result)
 				{
-					console.log("removing doc ", pos, delname);
-					taskFilesTable.DataTable().destroy();
-					$(".file"+pos).css("background-color","#FF3700").fadeOut(400, function(){
-			            $(".file"+pos).remove();
-			            //decrement all higher file positions in the documents array 
-			            $.each($(".taskFiles tr td:nth-child(6) a"),function(i,val) { 
-						  	if( parseInt( $(this).data('pos')) > pos ){
-							 	newPos = parseInt($(this).data('pos'))-1;
-							 	$(this).parent().parent().removeClass("file"+$(this).data('pos')).addClass("file"+newPos);
-							 	$(this).data('pos', newPos); 
-							}
-						});
-			            tasks[editTaskId].documents.splice(pos,1);
-				        saveTask(tasks[editTaskId],false);
-				        resetTaskFilesTable();
+					console.log("removing doc ", docId, delname);
+					$(".file"+docId).css("background-color","#FF3700").fadeOut(400, function(){
+			            $(".file"+docId).remove();
+			            delete documents[docId];
+			            if(!Object.keys(documents).length)
+			            	 $(".docsList").prepend('<blockquote class="padding-10 emptyDocsInfo">Share your Organizations Documents Simply</blockquote>');
 			        });
-			        
 
 			       $.ajax({
 				        url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+docType,
-				        data:{"name":delname},
+				        data:{
+				        	"name":delname,
+				        	"parentId" : ownerId,
+				        	"docId" : docId,
+				        },
 					    type:"POST",
-					    dataType:"json",
-				    })
+					    dataType:"json"})
 				    .done(function (data) {
 				        if (data.result) {               
-				        	console.info("deleted file");
+				        	console.info("deleted file success!!");
+				        	if( "undefined" != typeof resetGenericFilesTable )
+								resetGenericFilesTable();
 				        } else {
 				            console.error("deleted file fail");
 				        }
@@ -145,5 +163,5 @@ $this->renderPartial('../documents/gedSV');
 		} 
 		else
 			toastr.error('<?php echo Yii::t("project","No document at this position.",null,Yii::app()->controller->module->id); ?>');
-	}*/
+	}
 </script>

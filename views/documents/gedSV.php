@@ -1,14 +1,14 @@
 <?php  
 $cssAnsScriptFiles = array(
 	//dropzone
-	'/assets/plugins/dropzone/downloads/css/ph.css',
-	'/assets/plugins/dropzone/downloads/dropzone.min.js',
+	'/plugins/dropzone/downloads/css/ph.css',
+	'/plugins/dropzone/downloads/dropzone.min.js',
 	//lightbox
-	'/assets/plugins/lightbox2/css/lightbox.css',
-	'/assets/plugins/lightbox2/js/lightbox.min.js'
+	'/plugins/lightbox2/css/lightbox.css',
+	'/plugins/lightbox2/js/lightbox.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <div style="display:none" id="genericGED">
 	
@@ -32,13 +32,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 				<!-- start: DROPZONE PANEL -->
 				<div class="panel panel-white">
 					<div class="panel-heading">
-						<h4 class="panel-title">Add <span class="text-bold">Files</span> (max. 2.0Mb))</h4>
+						<h4 class="panel-title">Add <span class="text-bold">Files</span></h4>
 					</div>
 					<div class="panel-body uploadPanel">
 						<?php echo Yii::t("perimeter","Catégories",null,Yii::app()->controller->module->id) ?> : <input type="text" id="genericDocCategory" name="genericDocCategory" type="hidden" style="width: 250px;">
 						<br/><br/>
 						<div class="dz-clickable dropzoneInstance center" id="generic-dropzone">
-							<span class="text-bold text-large uploadText"> Click or Drag over</span>
+							<span class="text-bold text-large uploadText"> 
+								<br/>Click or Drag over
+								<br/>max. 2.0Mb
+								<span class="text-small">
+									<br/>jpg, jpeg, png, gif 
+									<br/>pdf, xls, xlsx, doc, docx, ppt, pptx
+								</span>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -51,7 +58,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
 			<thead>
 				<tr>
-					<th><?php echo Yii::t("perimeter","Nom",null,Yii::app()->controller->module->id) ?></th>
+					<th>Doc</th>
 					<th class="hidden-xs center">Date</th>
 					<th class="hidden-xs"><?php echo Yii::t("perimeter","Taille",null,Yii::app()->controller->module->id) ?></th>
 					<th><?php echo Yii::t("perimeter","Categories",null,Yii::app()->controller->module->id) ?></th>
@@ -101,7 +108,8 @@ function initDropZoneData(docs)
 	if(!genericDropzone){
 		genericDropzone = new Dropzone("#generic-dropzone", {
 		  acceptedFiles: "image/*,"+
-		  				 "application/pdf",
+		  				 "application/pdf,"+
+		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
 		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
@@ -119,47 +127,51 @@ function initDropZoneData(docs)
 		  	$(".loader-subviews").hide();
 		  	if(response.xhr)
 		  	{
-			  	$.unblockUI();
-			  	docObj = JSON.parse(response.xhr.responseText);
-			  	console.log(docObj.result); 
-			  	
-			  	var doc = { 
-			  		"id":ownerId,
-			  		"type":docType,
-			  		"folder":folder+"/"+ownerId,
-			  		"moduleId":destinationFolder,
-			  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
-			  		"name" : docObj.name , 
-			  		"date" : new Date() , 
-			  		"size" : docObj.size ,
-			  		"category" : $("#genericDocCategory").val()
-			  	};
-			  	console.dir(doc); 
-			  	if($.inArray( $("#genericDocCategory").val() , genericDocCategoryIndex ) < 0){
-			  		genericDocCategoryIndex.push($("#genericDocCategory").val());
-					genericDocCategoryData.push( { id:$("#genericDocCategory").val() , text:$("#genericDocCategory").val() } );
-					$('#genericDocCategory').select2({
-					    createSearchChoice : function(term, data) { 
-					    	return {id:term, text:term};
-					    },
-					    data : genericDocCategoryData
-					});
-				}
+		  		docObj = JSON.parse(response.xhr.responseText);
+		  		if( docObj.result ){
+				  	$.unblockUI();
+				  	console.log(docObj.result); 
+				  	
+				  	var doc = { 
+				  		"id":ownerId,
+				  		"type":docType,
+				  		"folder":folder+"/"+ownerId,
+				  		"moduleId":destinationFolder,
+				  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
+				  		"name" : docObj.name , 
+				  		"date" : new Date() , 
+				  		"size" : docObj.size ,
+				  		"category" : $("#genericDocCategory").val()
+				  	};
+				  	console.dir(doc); 
+				  	if($.inArray( $("#genericDocCategory").val() , genericDocCategoryIndex ) < 0){
+				  		genericDocCategoryIndex.push($("#genericDocCategory").val());
+						genericDocCategoryData.push( { id:$("#genericDocCategory").val() , text:$("#genericDocCategory").val() } );
+						$('#genericDocCategory').select2({
+						    createSearchChoice : function(term, data) { 
+						    	return {id:term, text:term};
+						    },
+						    data : genericDocCategoryData
+						});
+					}
 
-			  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
-					saveDoc(doc);
-			  	else */
-			  		genericSaveDoc(doc , function(){
-						genericFilesTable.DataTable().destroy();
-					  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
-						genericDropzone.removeAllFiles(true);
-						$(".uploadText").show();
-						resetGenericFilesTable();
-						if(afterDocSave && $.isFunction(afterDocSave))
-							afterDocSave(doc);
-					});
-			  	
-				
+				  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
+						saveDoc(doc);
+				  	else */
+				  		genericSaveDoc(doc , function(data){
+				  			doc._id = data.id;
+							genericFilesTable.DataTable().destroy();
+						  	addFileLine(".genericFiles",doc,data.id['$id']);
+							genericDropzone.removeAllFiles(true);
+							$(".uploadText").show();
+							resetGenericFilesTable();
+							if(afterDocSave && $.isFunction(afterDocSave))
+								afterDocSave(doc);
+						});
+			  	} else {
+			  		toastr.error('Something went wrong!');
+			  		$.unblockUI();
+			  	}
 			}
 		  },
 		  error: function(response) 
@@ -173,14 +185,16 @@ function initDropZoneData(docs)
 		genericDocCategoryData = [];
 		$.each( docs ,function(i,docObj)
 		{
-			addFileLine(".genericFiles",docObj,i);
+			addFileLine(".genericFiles",docObj,docObj._id['$id']);
 			if($.inArray( docObj.category , genericDocCategoryIndex ) < 0){
 				genericDocCategoryData.push( { id:docObj.category , text:docObj.category } );
 				genericDocCategoryIndex.push( docObj.category );
 			}
 		});
 	}
-resetGenericFilesTable();
+
+	resetGenericFilesTable();
+
 	if( !$('.genericFilesTable').hasClass("genericFilesTable") ){
 		genericFilesTable = $('.genericFilesTable').dataTable({
 				"aoColumnDefs" : [{
@@ -246,7 +260,7 @@ function resetGenericFilesTable()
 	}
 }
 
-function addFileLine(id,doc,pos)
+function addFileLine(id,doc,docId)
 {
 	folderPath = folder+"/"+ownerId;
 	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
@@ -261,25 +275,22 @@ function addFileLine(id,doc,pos)
 	else
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 	category = (doc.category) ? doc.category : "Unknown";
-	lineHTML = '<tr class="file'+pos+'">'+
+	lineHTML = '<tr class="file'+docId+'">'+
 					'<td class="center">'+link+'</td>'+
-					'<td>'+date.getDay()+"/"+(parseInt(date.getMonth())+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+'</td>'+
+					'<td class="hidden-xs">'+date.getDay()+"/"+(parseInt(date.getMonth())+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+'</td>'+
 					'<td class="hidden-xs">'+doc.size+'</td>'+
 					'<td class="center hidden-xs"><span class="label label-danger">'+category+'</span></td>'+
-					'<td class="center">'+
-						'<a href="#" class="btn btn-xs btn-red removeFileLine" data-pos="'+pos+'" ><i class="fa fa-times fa fa-white"></i></a>'+
+					'<td class="center ">'+
+						'<a href="#" class="btn btn-xs btn-red removeFileLine" data-pos="'+docId+'" ><i class="fa fa-times fa fa-white"></i></a>'+
 					'</td>'+
 				'</tr>';
 	$(id).prepend(lineHTML);
-	bindDocsEvents();
-}
 
-function bindDocsEvents()
-{
 	$(".removeFileLine").off().on( "click", function()
 	{
-		if( "undefined" != typeof delDoc )
+		if( "undefined" != typeof delDoc ){
 			delDoc($(this).data("pos"));
+		}
 	  	else
 	  		toastr.error('no delete method available!');
 	});
@@ -297,10 +308,11 @@ function genericSaveDoc(doc, callback)
         
         	if(data.result){
 		        toastr.success(data.msg);
-			callback();
+			callback(data);
 		} else
 			toastr.error(data.msg);
 
 	});
 }
+
 </script>

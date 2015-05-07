@@ -46,4 +46,6 @@ class DocumentController extends CommunecterController {
 		}
 		return Rest::json($result);
 	}
+
+	
 }

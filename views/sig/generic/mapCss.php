@@ -1,11 +1,17 @@
 
 
 <?php 
-		$moduleName = "sigModule".$sigParams['sigKey'];
-		$mapHeight = $sigParams["mapHeight"];
-		$mapTop 	= $sigParams["mapTop"];
+		$moduleName  = "sigModule".$sigParams['sigKey'];
 		
-		$panelTop 	= 20;
+		$mapHeight   = $sigParams["mapHeight"]   ? $sigParams["mapHeight"]   : 400;
+		$mapColor    = $sigParams["mapColor"]    ? $sigParams["mapColor"]    : '';
+		$mapTop 	 = $sigParams["mapTop"]      ? $sigParams["mapTop"]      : 0;
+		
+		$mapBtnBgColor       = $sigParams["mapBtnBgColor"] 			? $sigParams["mapBtnBgColor"] 			: '#E6D414';
+		$mapBtnColor 	     = $sigParams["mapBtnColor"]   			? $sigParams["mapBtnColor"]   			: '#213042';
+		$mapBtnBgColor_hover = $sigParams["mapBtnBgColor_hover"]   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
+		
+		$panelTop = 20;
 ?>
 
 <style>
@@ -14,6 +20,7 @@
 	.mapCanvas{
 		height:<?php echo $mapHeight; ?>px;
 		width:75%;
+		background-color:<?php echo $mapColor; ?>;
 	}
 	
 	.<?php echo $moduleName; ?> 
@@ -53,6 +60,15 @@
 		right:25%;
 		left:auto;
 		top:<?php echo $mapTop+10; ?>px;
+	}
+	
+	.<?php echo $moduleName; ?> 
+	.btn-map{
+		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+		color:<?php echo $mapBtnColor." !important"; ?>; /*#213042 */
+	}
+	.btn-map:hover{
+		background-color:<?php echo $mapBtnBgColor_hover." !important"; ?>; /*#E6D414#5896AB !important;*/
 	}
 	
 	/* XS */
