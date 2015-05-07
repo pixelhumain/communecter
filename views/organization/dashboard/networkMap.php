@@ -12,19 +12,44 @@
 		
 		/* **************** modifier les parametre en fonction des besoins *******************/
 		if(!isset($sigParams))
-		$sigParams = array(
-				"sigKey" => "DashOrga",
-				"mapHeight" => 450,
-				"mapTop" => 50,
-				"useFullScreen" => true,
-				"usePanel" => true,
-				"useRightList" => true,
-				"useZoomButton" => true,
-				"useHelpCoordinates" => false,
-				"notClusteredTag" => array("citoyens"),
-				"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
-												"zoom"		  => 9),
-				);
+		
+			$sigParams = array(
+			
+					"sigKey" => "DashOrga",
+					
+					/* MAP */
+					"mapHeight" => 450,
+					"mapTop" => 50,
+					"mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
+					"mapOpacity" => 1, //ex : 0.4
+					
+					/* *
+					 * Provider de fond de carte  
+					 * http://leaflet-extras.github.io/leaflet-providers/preview/index.html 
+					 * */
+					 
+					/* MAP LAYERS (FOND DE CARTE) */
+					"mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+					"mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+					
+					 
+					/* MAP BUTTONS */			
+					"mapBtnBgColor" => '#E6D414', 
+					"mapBtnColor" => '#213042', 
+					"mapBtnBgColor_hover" => '#5896AB',
+					 
+					/* USE */
+					"useFullScreen" => true,
+					"usePanel" => true,
+					"useRightList" => true,
+					"useZoomButton" => true,
+					"useHelpCoordinates" => false,
+					
+					"notClusteredTag" => array("citoyens"),
+					
+					"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
+													"zoom"		  => 9),
+					);
 		/* ***********************************************************************************/
 	   	
 	   	
@@ -116,11 +141,7 @@
 			var initParams =  <?php echo json_encode($sigParams); ?>;
 			
 			//chargement la carte
-			mapDashboardOrga = Sig.loadMap("mapCanvas" + initParams.sigKey);
-			
-			//initialisation de l'interface
-			Sig.initEnvironnement(mapDashboardOrga, initParams);
-			
+			mapDashboardOrga = Sig.loadMap("mapCanvas", initParams);
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;

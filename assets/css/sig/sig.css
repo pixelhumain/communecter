@@ -1,9 +1,10 @@
-.mapCanvas{
- 	width:100%;
- 	background-color:#2A3945;
- 	color:black;
- }
- 
+	
+	.mapCanvas{
+	 	width:100%;
+	 	/*background-color:#2A3945;*/
+	 	color:black;
+	 }
+	 
 /*   ############# leaflet ################## */
   
   .leaflet-popup-content-wrapper{
@@ -222,7 +223,7 @@
 	font-size:22px !important;
 }
 .btn-map:hover{
-	background-color:#5896AB;
+	background-color:#5896AB !important;
 }
 
 

@@ -16,7 +16,10 @@
 	    	
 	    	//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.cssModuleName = ".sigModule" + params.sigKey;
-	
+			
+			//mémorise le nom (identifiant css classe) utilisé pour cette instance
+	    	thisSig.mapColor = params.mapColor;
+			
 			//mémorise la liste des éléments non clusturisés
 			thisSig.notClusteredTag = params.notClusteredTag;		
 			

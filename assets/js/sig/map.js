@@ -363,10 +363,12 @@
 		
 		//##
 		//chargement de la carte 
-	 	this.Sig.loadMap = function(canvasId)
+	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{ 
+	 		canvasId += initParams.sigKey;
+	 		
 			$("#"+canvasId).html("");
-			$("#"+canvasId).css({"background-color": "#456074"});
+			$("#"+canvasId).css({"background-color": this.mapColor});
 
 			//initialisation des variables de départ de la carte
 			var map = L.map(canvasId, { "zoomControl" : false, 
@@ -375,14 +377,20 @@
 										"zoom" : 4,
 										"worldCopyJump" : false });
 	
-			var tileLayer = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				subdomains: 'abcd',
 				minZoom: 0,
 				maxZoom: 20
-			}).setOpacity(0.4).addTo(map);
-						
+			});
+			
+			
+			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			
+			//initialisation de l'interface
+			Sig.initEnvironnement(map, initParams);
+					
 			return map;
 		};	
 		
