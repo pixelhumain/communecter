@@ -326,8 +326,9 @@ class OrganizationController extends CommunecterController {
   {
 	//validate Captcha 
 	//no need to check Captcha twice
-	$captcha = ( isset( Yii::app()->session["checkCaptcha"] ) && Yii::app()->session["checkCaptcha"] ) ? true : false;
-	if( !$captcha && isset($_POST['g-recaptcha-response']) && isset( Yii::app()->params["captcha"] ) )
+	//$captcha = ( isset( Yii::app()->session["checkCaptcha"] ) && Yii::app()->session["checkCaptcha"] ) ? true : false;
+	$captcha = false;
+	if( isset($_POST['g-recaptcha-response']) && isset( Yii::app()->params["captcha"] ) )
 	{
 	    Yii::import('recaptcha.ReCaptcha', true);
 		Yii::import('recaptcha.RequestMethod', true);
@@ -341,7 +342,7 @@ class OrganizationController extends CommunecterController {
 	    if ($resp && $resp->isSuccess())
 	    {
 			$captcha = true;
-			Yii::app()->session["checkCaptcha"] = true;;
+			//Yii::app()->session["checkCaptcha"] = true;;
 		}
 	}
 	

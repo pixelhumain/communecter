@@ -19,7 +19,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		<!-- start: JOIN BOX -->
 		<div class="box-join panel-white padding-20">
 			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<span class="text-extra-large text-bold">Inivtation to join the network of <?php echo $parentOrganization['name'] ?></span> 
+			<span class="text-extra-large text-bold">Invitation to join the network of <?php echo $parentOrganization['name'] ?></span> 
 			<br>
 			Your organization has been invited by <?php echo $parentOrganization['name'] ?>
 			<br>Please fill out this simple form bellow
@@ -32,9 +32,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		<!-- end: JOIN BOX -->
 	</div>
 </div>
-<style type="text/css">
-	label.error{color:red; font-size:10px;}
-</style>
+
 <script type="text/javascript">
 
 var formDefinition = {
@@ -211,7 +209,7 @@ var formDefinition = {
 
 var organizationInitData = {
 	"parentOrganization" : "<?php echo $_GET['id'] ?>",
-	"organizationName": "Libertalia",
+	/*"organizationName": "Libertalia",
 	"description": "Le rugby sur la plage : c'est trop bon",
 	"type": "Association",
 	"tagsOrganization" : "Rugby",
@@ -219,7 +217,7 @@ var organizationInitData = {
 	"organizationEmail": "toto@toto.fr",
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
-	"personPostalCode": "97426",
+	"personPostalCode": "97426",*/
 	"password": "password"
 };
 
@@ -273,6 +271,15 @@ jQuery(document).ready(function() {
 			
 		},
 		onSave : function(){
+
+			$.blockUI({
+				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+	            '<blockquote>'+
+	              "<p>Notre technologie a dépassé notre humanité.</p>"+
+	              '<cite title="Einstein">Einstein</cite>'+
+	            '</blockquote> '
+			});
+
 			console.log("saving Organization!!");
 			var params = {};
 			$.each(dataBindOrganization,function(field,path){
@@ -292,7 +299,6 @@ jQuery(document).ready(function() {
 				
 			});
 			console.dir(params);
-			$.unblockUI();
 	    	$.ajax({
 	    	  type: "POST",
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/addNewOrganizationAsMember",
@@ -302,11 +308,17 @@ jQuery(document).ready(function() {
 	    		if(data.result) {
 	    			console.log("Resultat", data);
 	    			toastr.info(data.msg);
+	    			$.unblockUI();
 	    			$("#form-join").html("<a href='"+baseUrl+"/<?php echo $this->module->id?>/organization/dashboardMember/id/<?php echo $_GET['id'] ?>'>retourner voir Granddir</a>");
 	    		} else {
 	    			$.unblockUI();
+	    			var recaptchaframe = $('.g-recaptcha iframe');
+			        var recaptchaSoure = recaptchaframe[0].src;
+			        recaptchaframe[0].src = '';
+			        setInterval(function () { recaptchaframe[0].src = recaptchaSoure; }, 500);
 					$('.errorHandler').html(data.msg);
 					$('.errorHandler').show();
+					toastr.error('please check for Errors!');
 	    		}
 	    	});
 		}
