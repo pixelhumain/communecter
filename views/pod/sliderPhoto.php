@@ -5,11 +5,13 @@
 	}
 	#addPhoto{
 		display: none;
+		max-width: 100%;
 	}
 	#addPhoto .thumbnail{
 		border: 1px solid #ddd;
+		width: 100%;
 	}
-	
+
 	#sliderPhotoPod .flexslider .slides img {
 	    position: relative;
 	    height: 100%;
@@ -26,7 +28,7 @@
 		<div class="panel-heading border-light"></div>
 		<div class="panel-tools">
 			<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
-				<a href="#addPhoto" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
+				<a href="#" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
 			<?php } ?>
 			<a href="#galleryPhoto" class="gallery-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt="Show gallery"><i class="fa fa-camera"></i> Show gallery</a>
 		</div>
@@ -40,29 +42,30 @@
 				
 			</div>
 
+			<div id="addPhoto">
+				<div class="row">
+					<?php 
+						if(isset($userId)){
+								$itemId = $userId;
+								$type = Person::COLLECTION;
+							}
+						$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
+																				  "type" => $type,
+																				  "resize" => "true",
+																				  "contentId" =>Document::IMG_SLIDER,
+																				  "editMode" => true)); ?>
+				</div>
+				<div class="row center">
+					<a href="#" class="btn btn-light-blue validateSlider">Terminer </a>
+				</div>
+			</div>
+
 			</hr>
 		</div>
 	</div>
 </div>
 
 
-<div id="addPhoto">
-	<div class="noteWrap col-md-8 col-md-offset-2">
-		
-		<div class="row center">
-			<h1>Add a photo</h1>
-			<?php 
-			if(isset($userId)){
-					$itemId = $userId;
-					$type = Person::COLLECTION;
-				}
-			$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
-																	  "type" => $type,
-																	  "contentId" =>Document::IMG_SLIDER,
-																	  "editMode" => true)); ?>
-		</div>
-	</div>
-</div>
 
 <script type="text/javascript" charset="utf-8">
 	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
@@ -77,11 +80,6 @@
 		initDashboardPhoto();
 		bindPhotoSubview();
 
-		$("#uploadBtn").off().on("click",function(){
-			if(isSubmit == false)
-				$("#photoAddSV").submit();
-		})
-
 		$(".gallery-photo").on("click", function(){
 			location.href = baseUrl+"/"+moduleId+"/gallery/index/id/"+id+"/type/"+type;
 		})
@@ -89,6 +87,16 @@
 		$( window ).resize(function() {
 			resizeSlider();
 		})
+
+		$(".validateSlider").off().on("click", function() {
+			clearFileupload();
+		})
+		$(".add-photo").off().on("click", function() {
+			$("#flexsliderPhoto").css("display", "none");
+			$("#addPhoto").css("display", "block");
+			$('#'+constImgName+'_avatar').trigger("click");
+		});
+
 	});
 	
 
@@ -134,7 +142,7 @@
 
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})
-		$(".add-photo").off().on("click", function() {
+		/*$(".add-photo").off().on("click", function() {
 			subViewElement = $(this);
 			subViewContent = subViewElement.attr('href');
 			$.subview({
@@ -146,7 +154,7 @@
 					hideFileuploadSubview();
 				}
 			});
-		});
+		});*/
 	}
 
 	function updateSlider(image, id){
@@ -187,4 +195,12 @@
 		$.hideSubview();
 	}
 
+	function clearFileupload(){
+		$("#addPhoto").css("display", "none");
+		$("#flexsliderPhoto").css("display", "block");
+		$('#'+constImgName+'_avatar').val('');
+		$('#'+constImgName+'_fileUpload').fileupload("clear");
+		removeSlider()
+		initDashboardPhoto()
+	}
 </script>

@@ -43,5 +43,18 @@
 		    else
 		        $this->render("photoVideo",$params);
 		}
+
+		public function actionFileUpload($itemId, $type, $resize = false, $edit=false, $contentId) {
+			  $params = array();
+			  $params["type"] = $type;
+			  $params["itemId"] = $itemId;
+			  $params["resize"] = $resize;
+			  $params["contentId"] = $contentId;
+			  $params["editMode"] = $edit;
+			  if(Yii::app()->request->isAjaxRequest)
+				$this->renderPartial('fileupload', $params, true);
+			  else
+				$this->render("fileupload",$params);
+			}
 	}
 ?>

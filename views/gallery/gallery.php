@@ -113,7 +113,7 @@ function initGrid(){
 						}
 					var htmlThumbail = '<li class="col-md-3 col-sm-6 col-xs-12 mix '+type+' gallery-img" data-cat="1" id="'+v["_id"]["$id"]+'">'+
 								' <div class="portfolio-item">'+
-									' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="'+v.contentKey+'">'+
+									' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="all">'+
 										' <img src="'+path+'" class="img-responsive" alt="">'+
 										' <span class="thumb-info-title">'+v.contentKey.split(".")[1]+'</span>' +
 									' </a>' +
