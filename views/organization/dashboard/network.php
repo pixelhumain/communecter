@@ -212,7 +212,7 @@
 					if (result) {
 						$.ajax({
 					        type: "POST",
-					        url: baseUrl+"/"+moduleId+"/organization/removemember/organizationId/<?php echo (string)$organization['_id'] ?>/id/"+idMember+"/type/"+typeMember,
+					        url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/<?php echo (string)$organization['_id'] ?>/memberOfType/<?php echo Organization::COLLECTION ?>",
 					       	dataType: "json",
 				        	success: function(data){
 					        	if ( data && data.result ) {               

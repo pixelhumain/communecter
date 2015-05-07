@@ -192,11 +192,6 @@ class PersonController extends CommunecterController {
       Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
 
-  public function actionRemoveMemberOf($id, $type){
-    Rest::json( 
-      Link::removeMember($id, $type, Yii::app()->session['userId'], PHType::TYPE_CITOYEN,Yii::app()->session['userId'] ));
-  }
-
   /**
    * Point d'entrée pour gérer son compte 
    */
@@ -555,7 +550,7 @@ class PersonController extends CommunecterController {
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
 	  					array( "name" => new MongoRegex("/".$_POST['search']."/i"))));
 	  	$allCitoyens = PHDB::find ( PHType::TYPE_CITOYEN , $query);
-		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "address", "email", "links", "imagePath"));
+		$allOrganization = PHDB::find( Organization::COLLECTION, $query, array("_id", "name", "type", "address", "email", "links", "imagePath"));
 		$all = array(
 			"citoyens" => $allCitoyens,
 			"organizations" => $allOrganization,

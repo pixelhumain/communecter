@@ -1,11 +1,5 @@
 <?php
 class Link {
-
-    const person2person = "links.knows";
-    const person2organization = "links.memberOf";
-    const organization2person = "links.members";
-    const person2events = "links.events";
-    const person2projects = "links.projects";
 	
 	/**
 	 * Add a member to an organization
@@ -285,7 +279,7 @@ class Link {
 
 
     /**
-     * Connect 2 actors : Event, Person, Organization or Projecy
+     * Connect 2 actors : Event, Person, Organization or Project
 	 * Create a link between the 2 actors. The link will be typed as knows, attendee, event, project or contributor
 	 * 1 entry will be added for example :
 	 * - $origin.links.knows["$target"]
@@ -305,13 +299,13 @@ class Link {
 
         //2. Create the links
         PHDB::update( $originType, 
-                       array("_id" => $origin["_id"]) , 
+                       array("_id" => $originId) , 
                        array('$unset' => array("links.".$connectType.".".$targetId => "") ));
 
         //3. Send Notifications
         //TODO - Send email to the member
 
-        return array("result"=>true, "msg"=>"The link knows has been removed with success", "originId"=>$originId, "targetId"=>$targetId);
+        return array("result"=>true, "msg"=>"The link ".$connectType." has been added with success", "originId"=>$originId, "targetId"=>$targetId);
     }
 } 
 ?>

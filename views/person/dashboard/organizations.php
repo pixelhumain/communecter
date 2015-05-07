@@ -88,7 +88,7 @@
 				console.log(idMember);
 				$.ajax({
 					type: "POST",
-					url: baseUrl+"/"+moduleId+"/organization/removemember/organizationId/"+idMemberOf+"/id/"+idMember+"/type/"+typeMember,
+					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
 					dataType: "json",
 					success: function(data){
 						if ( data && data.result ) {               

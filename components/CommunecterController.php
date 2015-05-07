@@ -130,7 +130,6 @@ class CommunecterController extends Controller
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
       "connect"=>array("href"=>"/ph/communecter/person/connect"),
-      "removememberof"=>array("href"=>"/ph/communecter/person/removememberOf"),
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
@@ -156,10 +155,7 @@ class CommunecterController extends Controller
       //Move to Document controller
       "documents"=>array("href"=>"/ph/communecter/organization/documents"),
       //Links // create a Link controller ?
-      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
-      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
-      "removemember"=>array("href"=>"/ph/communecter/organization/removemember"),
       //Dashboards
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
@@ -203,7 +199,8 @@ class CommunecterController extends Controller
     ),
 
     "link" => array(
-      "savemember" => array("href" => "/ph/communecter/link/savemember")
+      "savemember" => array("href" => "/ph/communecter/link/savemember"),
+      "removemember" => array("href" => "/ph/communecter/link/removemember")
     ),
     
   );

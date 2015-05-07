@@ -458,12 +458,6 @@ public function actionDashboardMember($id)
 	  $news = News2::getWhere( array( "type" => Organization::COLLECTION , "id" => $id) );
 	  $this->render("news",array("news"=>$news));
 	}
-
-
-	public function actionRemoveMember($organizationId, $id, $type){
-		$res = Link::removeMember($organizationId, Organization::COLLECTION, $id, $type, Yii::app()->session['userId']);
-		return Rest::json($res);
-	}
 	
 	
 	public function actionSig($id) {

@@ -98,6 +98,17 @@
 			               			<input class="member-email form-control" placeholder="Email" autocomplete = "off" id="memberEmail" name="memberEmail" value=""/>
 			               		</div>
 			               	</div>
+			               	<div class="row">
+								<div class="col-md-5">
+									<div id="divAdmin" class="form-group">
+						    	    	<label class="control-label">
+											Administrateur :
+										</label>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+										<input type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+									</div>
+								</div>
+							</div>
 			               	<div class ="row">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-tags fa-2x"></i>
@@ -112,17 +123,6 @@
 								</div>
 							</div>
 							
-							<div class="row">
-								<div class="col-md-5">
-									<div id="divAdmin" class="form-group">
-						    	    	<label class="control-label">
-											Administrateur :
-										</label>
-										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
-									</div>
-								</div>
-							</div>
 							<div class="form-group">
 								<div class="row">
 					    	        <button class="btn btn-primary" >Enregistrer</button>
@@ -288,6 +288,7 @@
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
 		                $("#addMembers #memberRole").val("");
+		                $('#addMembers #organizationType').val("");
 						$("#addMembers #memberIsAdmin").val("false");
 						$("#memberRole").select2("val", "");
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
@@ -329,20 +330,25 @@
 		
 	}
 
-	function setMemberInputAddMember(id, name,email,type){
+	function setMemberInputAddMember(id, name, email, type, organizationType){
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').val(email);
+		
+		$('#addMembers #memberEmail').attr("disabled", 'disabled');
+		$("#addMembers #memberName").attr("disabled", 'disabled');
+
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
 			$("#addMembers #btnOrganization").addClass("disabled");
 		}else{
 			$("#addMembers #btnOrganization").trigger("click");
 			$("#addMembers #btnCitoyen").addClass("disabled");
+			$('#addMembers #organizationType').val(organizationType);
+			$('#addMembers #organizationType').attr("disabled", 'disabled');
 		}
-		
 		$("#addMembers #dropdown_search").css({"display" : "none" });
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");
@@ -354,7 +360,7 @@
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/person/GetUserAutoComplete",
+	        url: baseUrl+"/communecter/person/getUserAutoComplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
@@ -366,9 +372,7 @@
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-		 					
-			 				console.log(v.type);
-		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'><i class='fa "+mapIcon[key]+"'></i> "+ v.name + "</a></li>";
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddMember(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+mapIcon[key]+'"></i>'+v.name +'</a></li>';
 		  				});
 		  			}); 
 
@@ -382,10 +386,13 @@
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");
 		$("#addMembers #memberName").val("");
+		$("#addMembers #memberName").removeAttr("disabled");
 		$("#addMembers #memberId").val("");
 		$('#addMembers #memberEmail').val("");
+		$('#addMembers #memberEmail').removeAttr("disabled");
+		$('#addMembers #organizationType').removeAttr("disabled");
 		$("#addMembers #memberRole").val("");
-		$("#addMembers #memberIsAdmin").val("false");
+		$("#addMembers #memberIsAdmin").val("0");
 		$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   		if(emailReg.test( $("#addMembers #memberSearch").val() )){
