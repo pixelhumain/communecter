@@ -24,10 +24,11 @@ $this->renderPartial('../documents/gedSV');
 	              	<tr class="file<?php echo $doc['_id'] ?>">
 			                <td class="center">
 			                	<?php
-			                	if(strrpos($doc['name'], ".pdf") != false)
+			                	$name = strtolower($doc['name']);
+			                	if(strrpos($name, ".pdf") != false)
 									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
 											'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-								else if( strrpos( $doc['name'], ".jpg" ) != false || strrpos($doc['name'], ".jpeg") != false || strrpos($doc['name'], ".gif")  != false || strrpos($doc['name'], ".png")  != false  )
+								else if( strrpos( $name, ".jpg" ) != false || strrpos($name, ".jpeg") != false || strrpos($name, ".gif")  != false || strrpos($name, ".png")  != false  )
 									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" data-lightbox="docs">'.
 											'<img width="50" class="" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'"/></a>';	
 								else
@@ -35,7 +36,7 @@ $this->renderPartial('../documents/gedSV');
 											'<i class="fa fa-file fa-3x icon-big"></i></a>';	
 								?>
 			                </td>
-			                <td class="center"><?php echo $doc['name'] ?></td>
+			                <td class="center hidden-xs"><?php echo $doc['name'] ?></td>
 			                <?php $category = ( !empty ( $doc['category'] ) ) ? '<span class="label label-danger">'.$doc['category'].'</span>' : ''; ?>
 			                <td  class="center hidden-xs"><?php echo $category ?> </td>
 			                <td class="hidden-xs"><?php echo $doc['size'] ?> </td>
@@ -104,7 +105,7 @@ jQuery(document).ready(function() {
 		docId = (doc._id['$id']) ? doc._id['$id'] : doc._id; 
 		lineHTML = '<tr class="file'+docId+'">'+
 						'<td class="center">'+link+'</td>'+
-						'<td class="center">'+doc.name+'</td>'+
+						'<td class="center hidden-xs">'+doc.name+'</td>'+
 						'<td class="center hidden-xs">'+category+'</td>'+
 						'<td class="hidden-xs">'+doc.size+'</td>'+
 						'<td>'+
@@ -150,7 +151,9 @@ jQuery(document).ready(function() {
 					    dataType:"json"})
 				    .done(function (data) {
 				        if (data.result) {               
-				        	console.info("deleted file");
+				        	console.info("deleted file success!!");
+				        	if( "undefined" != typeof resetGenericFilesTable )
+								resetGenericFilesTable();
 				        } else {
 				            console.error("deleted file fail");
 				        }

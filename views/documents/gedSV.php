@@ -161,7 +161,7 @@ function initDropZoneData(docs)
 				  		genericSaveDoc(doc , function(data){
 				  			doc._id = data.id;
 							genericFilesTable.DataTable().destroy();
-						  	addFileLine(".genericFiles",doc,$(".genericFiles").children('tr').length);
+						  	addFileLine(".genericFiles",doc,data.id['$id']);
 							genericDropzone.removeAllFiles(true);
 							$(".uploadText").show();
 							resetGenericFilesTable();
@@ -172,7 +172,6 @@ function initDropZoneData(docs)
 			  		toastr.error('Something went wrong!');
 			  		$.unblockUI();
 			  	}
-				
 			}
 		  },
 		  error: function(response) 
@@ -186,14 +185,16 @@ function initDropZoneData(docs)
 		genericDocCategoryData = [];
 		$.each( docs ,function(i,docObj)
 		{
-			addFileLine(".genericFiles",docObj,i);
+			addFileLine(".genericFiles",docObj,docObj._id['$id']);
 			if($.inArray( docObj.category , genericDocCategoryIndex ) < 0){
 				genericDocCategoryData.push( { id:docObj.category , text:docObj.category } );
 				genericDocCategoryIndex.push( docObj.category );
 			}
 		});
 	}
-resetGenericFilesTable();
+
+	resetGenericFilesTable();
+
 	if( !$('.genericFilesTable').hasClass("genericFilesTable") ){
 		genericFilesTable = $('.genericFilesTable').dataTable({
 				"aoColumnDefs" : [{
@@ -259,7 +260,7 @@ function resetGenericFilesTable()
 	}
 }
 
-function addFileLine(id,doc,pos)
+function addFileLine(id,doc,docId)
 {
 	folderPath = folder+"/"+ownerId;
 	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
@@ -274,25 +275,22 @@ function addFileLine(id,doc,pos)
 	else
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
 	category = (doc.category) ? doc.category : "Unknown";
-	lineHTML = '<tr class="file'+pos+'">'+
+	lineHTML = '<tr class="file'+docId+'">'+
 					'<td class="center">'+link+'</td>'+
-					'<td>'+date.getDay()+"/"+(parseInt(date.getMonth())+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+'</td>'+
+					'<td class="hidden-xs">'+date.getDay()+"/"+(parseInt(date.getMonth())+1)+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+'</td>'+
 					'<td class="hidden-xs">'+doc.size+'</td>'+
 					'<td class="center hidden-xs"><span class="label label-danger">'+category+'</span></td>'+
-					'<td class="center">'+
-						'<a href="#" class="btn btn-xs btn-red removeFileLine" data-pos="'+pos+'" ><i class="fa fa-times fa fa-white"></i></a>'+
+					'<td class="center ">'+
+						'<a href="#" class="btn btn-xs btn-red removeFileLine" data-pos="'+docId+'" ><i class="fa fa-times fa fa-white"></i></a>'+
 					'</td>'+
 				'</tr>';
 	$(id).prepend(lineHTML);
-	bindDocsEvents();
-}
 
-function bindDocsEvents()
-{
 	$(".removeFileLine").off().on( "click", function()
 	{
-		if( "undefined" != typeof delDoc )
+		if( "undefined" != typeof delDoc ){
 			delDoc($(this).data("pos"));
+		}
 	  	else
 	  		toastr.error('no delete method available!');
 	});
@@ -316,4 +314,5 @@ function genericSaveDoc(doc, callback)
 
 	});
 }
+
 </script>
