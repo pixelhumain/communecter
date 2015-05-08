@@ -126,6 +126,7 @@ class CommunecterController extends Controller
       "public"=>array("href" =>"/ph/communecter/person/public"),
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
+      "initmydata"=>array("href" =>"'/ph/communecter/person/initmydata'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
