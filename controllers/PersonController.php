@@ -515,8 +515,6 @@ class PersonController extends CommunecterController {
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
-    public function actionViewer() { $this->renderPartial("viewer"); }
-
     // To move and refractor
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
@@ -530,7 +528,6 @@ class PersonController extends CommunecterController {
 		Rest::json( $all );
 		Yii::app()->end(); 
 	 }
-
 
 
   public function actionInvitation(){
