@@ -48,7 +48,7 @@
 			<?php 
 				if (isset($organizations) && count($organizations) == 0) {
 			?>
-				<div id="info" class="padding-10">
+				<div id="infoPodOrga" class="padding-10">
 					<blockquote> 
 						Create or Connect 
 						<br>an Organization, NGO,  
@@ -125,7 +125,7 @@
 				"</tr>";
 		$("#organizations").prepend(organizationLine);
 		$('.tooltips').tooltip();
-		$('#info').hide();
+		$('#infoPodOrga').hide();
 		bindBtnRemoveMember();
 	}
 </script>

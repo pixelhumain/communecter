@@ -176,11 +176,26 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-md-12">
 					<div>
 						Required Fields
 						<hr>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div>
+						<?php
+						//if connected user and pageUser are allready connected
+						$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+	    				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+						{  ?>
+							<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+						<?php } ?>
+						<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 					</div>
 				</div>
 			</div>
@@ -202,7 +217,7 @@
 		
 
 	jQuery(document).ready(function() {
-		activateEditablePerson();
+		bindAboutPodEvents();
 		manageModePerson();
 		debugMap.push(personData);
 	});
@@ -220,27 +235,61 @@
 	}
 
 
-	function activateEditablePerson() {
-	$.fn.editable.defaults.mode = 'inline';
-	$('.editable-person').editable({
-    	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
-    	onblur: 'submit',
-    	showbuttons: false
-	});
-    //make jobTitle required
-	$('#name').editable('option', 'validate', function(v) {
-    	if(!v) return 'Required field!';
-	});
+	function bindAboutPodEvents() {
+		$.fn.editable.defaults.mode = 'inline';
+		$('.editable-person').editable({
+	    	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
+	    	onblur: 'submit',
+	    	showbuttons: false
+		});
+	    //make jobTitle required
+		$('#name').editable('option', 'validate', function(v) {
+	    	if(!v) return 'Required field!';
+		});
 
-	//Select2 tags
-    $('#tags').editable({
-        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
-        mode: 'inline',
-        showbuttons: false,
-        select2: {
-            tags: <?php echo json_encode($tags)?>,
-            tokenSeparators: [",", " "]
-        }
-    }); 
-}
+		//Select2 tags
+	    $('#tags').editable({
+	        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode: 'inline',
+	        showbuttons: false,
+	        select2: {
+	            tags: <?php echo json_encode($tags)?>,
+	            tokenSeparators: [",", " "]
+	        }
+	    });
+	    $('.exportMyDataBtn').off().on("click",function () { 
+	    	console.log("exportMyDataBtn");
+	    	$.ajax({
+    	        type: "GET",
+    	        url: baseUrl+"/data/exportinitdata/id/".Yii::app()->session["userId"]."/module/communecter"
+    	        //dataType : "json"
+    	        //data: params
+    	    })
+    	    .done(function (data) 
+    	    {
+    	        if (data.result) {               
+    	        	toastr.success('Export successfull');
+    	        } else {
+    	           toastr.error('Something Went Wrong');
+    	        }
+    	    });
+	    });
+	    $('.importMyDataBtn').off().on("click",function () { 
+	    	console.log("importMyDataBtn");
+	    	$.ajax({
+    	        type: "GET",
+    	        url: baseUrl+"/"+moduleId+"/person/importmydata"
+    	        //dataType : "json"
+    	        //data: params
+    	    })
+    	    .done(function (data) 
+    	    {
+    	        if (data.result) {               
+    	        	toastr.success('Import successfull');
+    	        } else {
+    	           toastr.error('Something Went Wrong');
+    	        }
+    	    });
+	    });    
+	}
 </script>

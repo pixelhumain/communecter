@@ -115,9 +115,11 @@ class CommunecterController extends Controller
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),
     ),
+    
     "search"=>array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
+
     "person"=> array(
       "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
@@ -126,7 +128,7 @@ class CommunecterController extends Controller
       "public"=>array("href" =>"/ph/communecter/person/public"),
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "initmydata"=>array("href" =>"'/ph/communecter/person/initmydata'"),
+      "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),

@@ -393,10 +393,10 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionInitMyData()
+  public function actionImportMyData()
   {
     $base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
-    if( file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+    if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
     {
       //inject Data brute d'une liste de Person avec Id
       $res = array("result"=>true, "msg"=>"import success");//Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
