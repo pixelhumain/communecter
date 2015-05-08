@@ -23,12 +23,8 @@ class JobController extends CommunecterController {
 		//insert a new job
 		if (empty($_POST["pk"])) {
 			foreach ($_POST as $fieldName => $fieldValue) {
-				if ($fieldName == "postalCode") 
-					$job["jobLocation.address.postalCode"] = $fieldValue;
-				else if ($fieldName == "jobLoc") 
-					$job["jobLocation.description"] = $fieldValue;
-				else
-					$job[$fieldName] = $fieldValue;
+				$collectionName = $this->getCollectionFieldName($fieldName);
+				$job[$collectionName] = $fieldValue;
 			}
 			$res = Job::insertJob($job);
 			if ($res["result"]) {
@@ -41,17 +37,26 @@ class JobController extends CommunecterController {
 			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
 				$jobFieldName = $_POST["name"];
 				$jobFieldValue = $_POST["value"];
-			
-				//specific case for tagsJob
-				if ($jobFieldName == "tagsJob") $jobFieldName = "tags";
-
-				Job::updateJobField($jobId, $jobFieldName, $jobFieldValue, Yii::app()->session["userId"] );
+				$collectionName = $this->getCollectionFieldName($jobFieldName);
+				Job::updateJobField($jobId, $collectionName, $jobFieldValue, Yii::app()->session["userId"] );
 		  	} else {
 				return Rest::json(array("result"=>false,"msg"=>"Uncorrect request"));  
 		  	}	
 		}
 	  	
 	  	return Rest::json(array("result"=>true, "msg"=>"Votre Offre d'emploi a été modifiée avec succès.", $jobFieldName=>$jobFieldValue));
+	}
+
+	private function getCollectionFieldName($fieldName) {
+		if ($fieldName == "address") 
+			return "jobLocation.address";
+		else if ($fieldName == "jobLoc") 
+			return "jobLocation.description";
+		//specific case for tagsJob
+		else if ($fieldName == "tagsJob") 
+			return "tags";
+		else
+			return $fieldName;
 	}
 
 	/**

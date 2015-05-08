@@ -16,6 +16,15 @@ $cssAnsScriptFiles = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js',
+	//X-Editable postal Code
+	'/js/postalCode.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
 ?>
 <style type="text/css">
 	.select2-input {
@@ -32,7 +41,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 				<button id="edit-btn" class="btn pull-right btn-primary">Edit</button>
 				<?php } ?>
 			</div>
-			<div class="panel-body" style="display: block;">				
+			<div class="panel-body" style="display: block;" id="jobSV">				
 				<form class="form-horizontal" role="form">
 					<div id="msg" class="alert alert-error" style="display: block;"></div>
 					<div class="row">
@@ -43,7 +52,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-1" class="col-sm-3 control-label">Job Title</label>
 											<div class="col-sm-9">
-												<a href="#" id="title" data-type="text" data-original-title="Enter Job Title" class="editable-job editable editable-click">
+												<a href="#" id="title" data-type="text" data-emptytext="Enter Job Title" class="editable-job editable editable-click">
 													<?php echo isset($job["title"]) ? $job["title"] : "" ?>
 												</a>
 											</div>
@@ -51,22 +60,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-2" class="col-sm-3 control-label">Postal Code</label>
 											<div class="col-sm-9">
-												<a href="#" id="postalCode" data-type="text" data-original-title="Enter Job Postal Code" class="editable-job editable editable-click">
-													<?php 
-														if (isset($job["jobLocation"]) && isset($job["jobLocation"]["address"]) 
-															&& isset($job["jobLocation"]["address"]["postalCode"])) {
-															echo $job["jobLocation"]["address"]["postalCode"];
-														} else {
-															echo "";
-														}
-													?>
+												<a href="#" id="address" data-type="postalCode" data-original-title="Job Postal Code" data-emptytext="Enter Job Postal Code" class="editable editable-click">
 												</a>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="form-field-3" class="col-sm-3 control-label">Start Date</label>
 											<div class="col-sm-9">
-												<a href="#" id="startDate" data-type="date" data-title="Enter Start Date" class="editable editable-click">
+												<a href="#" id="startDate" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click">
 													<?php echo isset($job["startDate"]) ? $job["startDate"] : "Enter Start Date" ?>
 												</a>
 											</div>
@@ -76,7 +77,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-4" class="col-sm-3 control-label">Hiring organization</label>
 											<div class="col-sm-9">
-												<a href="#" id="hiringOrganization" data-type="select2" data-original-title="Enter Hiring organization" class="editable editable-click">
+												<a href="#" id="hiringOrganization" data-type="select2" data-emptytext="Enter Hiring organization" class="editable editable-click">
 													<?php echo (isset($job["hiringOrganization"]) && isset($job["hiringOrganization"]["name"]))  ? $job["hiringOrganization"]["name"] : "" ?>
 												</a>
 											</div>
@@ -94,13 +95,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-5" class="col-md-2 control-label">Responsibilities</label>
 											<div class="col-md-4">
-												<a href="#" id="responsibilities" data-type="textarea" data-original-title="Enter Job Responsibilities" class="editable-job editable editable-click">
+												<a href="#" id="responsibilities" data-type="textarea" data-emptytext="Enter Job Responsibilities" class="editable-job editable editable-click">
 													<?php echo isset($job["responsibilities"]) ? $job["responsibilities"] : "" ?>
 												</a>
 											</div>
 											<label for="form-field-6" class="col-md-2 control-label">Education Requirements</label>
 											<div class="col-md-4">
-												<a href="#" id="educationRequirements" data-type="textarea" data-original-title="Enter Job Education Requirements" class="editable-job editable editable-click">
+												<a href="#" id="educationRequirements" data-type="textarea" data-emptytext="Enter Job Education Requirements" class="editable-job editable editable-click">
 													<?php echo isset($job["educationRequirements"]) ? $job["educationRequirements"] : "" ?>
 												</a>
 											</div>
@@ -108,13 +109,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-7" class="col-md-2 control-label">Job Location details</label>
 											<div class="col-md-4">
-												<a href="#" id="jobLoc" data-type="text" data-original-title="Enter Job Location" class="editable-job editable editable-click">
+												<a href="#" id="jobLoc" data-type="text" data-emptytext="Enter Job Location" class="editable-job editable editable-click">
 													<?php echo (isset($job["jobLocation"]) && isset($job["jobLocation"]["description"]))  ? $job["jobLocation"]["description"] : "" ?>
 												</a>
 											</div>
 											<label for="form-field-8" class="col-md-2 control-label">Work Hours</label>
 											<div class="col-md-4">
-												<a href="#" id="workHours" data-type="text" data-original-title="Enter Work Hour" class="editable-job editable editable-click">
+												<a href="#" id="workHours" data-type="text" data-emptytext="Enter Work Hour" class="editable-job editable editable-click">
 													<?php echo isset($job["workHours"]) ? $job["workHours"] : "" ?>
 												</a>
 											</div>
@@ -122,13 +123,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-9" class="col-md-2 control-label">Employment Type</label>
 											<div class="col-md-4">
-												<a href="#" id="employmentType" data-type="text" data-original-title="Enter Employment Type" class="editable-job editable editable-click">
+												<a href="#" id="employmentType" data-type="text" data-emptytext="Enter Employment Type" class="editable-job editable editable-click">
 													<?php echo isset($job["employmentType"]) ? $job["employmentType"] : "" ?>
 												</a>
 											</div>
 											<label for="form-field-10" class="col-md-2 control-label">Base Salary</label>
 											<div class="col-md-4">
-												<a href="#" id="baseSalary" data-type="text" data-original-title="Enter Base Salary" class="editable-job editable editable-click">
+												<a href="#" id="baseSalary" data-type="text" data-emptytext="Enter Base Salary" class="editable-job editable editable-click">
 													<?php echo isset($job["baseSalary"]) ? $job["baseSalary"] : "" ?>
 												</a>
 											</div>
@@ -136,7 +137,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-9" class="col-md-2 control-label">Tags</label>
 											<div class="col-md-4">
-												<a href="#" id="tagsJob" name="tagsJob" data-type="select2" data-original-title="Enter Tags" class="editable editable-click">
+												<a href="#" id="tagsJob" name="tagsJob" data-type="select2" data-emptytext="Enter Tags" class="editable editable-click">
 													<?php echo isset($job["tags"]) ? implode(",", $job['tags']) : "" ?>
 												</a>
 											</div>
@@ -156,7 +157,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-11" class="col-md-2 control-label">Description</label>
 											<div class="col-md-10">
-												<a href="#" id="description" data-type="wysihtml5" data-original-title="Enter Job Description" class="editable-job editable editable-click">
+												<a href="#" id="description" data-type="wysihtml5" data-emptytext="Enter Job Description" class="editable-job editable editable-click">
 													<?php echo isset($job["description"]) ? $job["description"] : "" ?>
 												</a>
 											</div>
@@ -164,7 +165,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 										<div class="form-group">
 											<label for="form-field-11" class="col-md-2 control-label">Qualifications</label>
 											<div class="col-md-10">
-												<a href="#" id="qualifications" data-type="wysihtml5" data-original-title="Enter Job Qualifications" class="editable-job editable editable-click">
+												<a href="#" id="qualifications" data-type="wysihtml5" data-emptytext="Enter Job Qualifications" class="editable-job editable editable-click">
 													<?php echo isset($job["qualifications"]) ? $job["qualifications"] : "" ?>
 												</a>
 											</div>
@@ -214,9 +215,10 @@ jQuery(document).ready(function() {
 
 function toogleMode() {
 	$('.editable-job').editable('toggleDisabled');
-	$('#startDate').editable('toggleDisabled');
-	$('#tagsJob').editable('toggleDisabled');
-	$('#hiringOrganization').editable('toggleDisabled');
+	$('#jobSV #startDate').editable('toggleDisabled');
+	$('#jobSV #tagsJob').editable('toggleDisabled');
+	$('#jobSV #hiringOrganization').editable('toggleDisabled');
+	$('#jobSV #address').editable('toggleDisabled');
 }
 
 function manageMode() {
@@ -227,9 +229,10 @@ function manageMode() {
 	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-job').editable('option', 'pk', jobId);
-		$('#startDate').editable('option', 'pk', jobId);
-		$('#tagsJob').editable('option', 'pk', jobId);
-		$('#hiringOrganization').editable('option', 'pk', jobId);
+		$('#jobSV #startDate').editable('option', 'pk', jobId);
+		$('#jobSV #tagsJob').editable('option', 'pk', jobId);
+		$('#jobSV #hiringOrganization').editable('option', 'pk', jobId);
+		$('#jobSV #address').editable('option', 'pk', jobId);
 		//Hide the button
 		$('#save-btn').hide();
 		$('#reset-btn').hide();
@@ -250,13 +253,13 @@ function activateEditable() {
 	});
 
     //make jobTitle required
-	$('#title').editable('option', 'validate', function(v) {
+	$('#jobSV #title').editable('option', 'validate', function(v) {
     	console.log("Title Mandatory");
     	if(!v) return 'Required field!';
 	});
 
 	//Select2 tags
-    $('#tagsJob').editable({
+    $('#jobSV #tagsJob').editable({
         url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
         mode: 'inline',
         showbuttons: false,
@@ -265,10 +268,23 @@ function activateEditable() {
             tags: <?php echo $tags?>,
             tokenSeparators: [",", " "]
         }
-    }); 
+    });
+
+    $('#jobSV #address').editable({
+		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
+		mode: 'popup',
+		success: function(response, newValue) {
+			console.log("success update postal Code : "+newValue);
+		},
+		value : {
+        	postalCode: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["postalCode"])) ? $job["jobLocation"]["address"]["postalCode"] : null; ?>',
+        	codeInsee: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["codeInsee"])) ? $job["jobLocation"]["address"]["codeInsee"] : ""; ?>',
+        	addressLocality : '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["addressLocality"])) ? $job["jobLocation"]["address"]["addressLocality"] : ""; ?>'
+    	}
+	}); 
 
 	//Pb with datepicker on inline mode : declare a differente X-editable form on popup mode.
-	$('#startDate').editable({
+	$('#jobSV #startDate').editable({
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: "popup",
 		placement: "bottom",
@@ -276,7 +292,7 @@ function activateEditable() {
         viewformat: 'dd/mm/yyyy',
         showbuttons: false,    
         datepicker: {
-                weekStart: 1
+            weekStart: 1
            }
         }
     );
@@ -291,7 +307,7 @@ function activateEditable() {
     }, function(k, v) {
         organizations.push({id: k, text: v});
     }); 
-    $('#hiringOrganization').editable({
+    $('#jobSV #hiringOrganization').editable({
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: "inline",
 		showbuttons: false,
@@ -301,13 +317,13 @@ function activateEditable() {
         } 
     });
     //make jobTitle required
-	$('#hiringOrganization').editable('option', 'validate', function(v) {
+	$('#jobSV #hiringOrganization').editable('option', 'validate', function(v) {
     	if(!v) return 'Required field!';
 	});
     
     //Button Save
-    $('#save-btn').click(function() {
-	   	$('.editable-job, #hiringOrganization, #startDate, #tagsJob').editable('submit', {
+    $('#jobSV #save-btn').click(function() {
+	   	$('.editable-job, #jobSV #hiringOrganization, #jobSV #startDate, #jobSV #tagsJob, #jobSV #address').editable('submit', {
 	       url: baseUrl+"/"+moduleId+"/job/save", 
 	       ajaxOptions: {
 	           dataType: 'json' //assuming json response
@@ -346,7 +362,7 @@ function activateEditable() {
 	});
 
 	//Button Reset
-	$('#reset-btn').click(function() {
+	$('#jobSV #reset-btn').click(function() {
 	    $('.editable-job').editable('setValue', null)  //clear values
 	        .editable('option', 'pk', null)          //clear pk
 	        .removeClass('editable-unsaved');        //remove bold css

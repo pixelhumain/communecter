@@ -29,6 +29,7 @@ class PersonController extends CommunecterController {
     return parent::beforeAction($action);
 	}
 
+  //Still use ?
   public function actionIndex() 
   {
     //Redirect to the dashboard of the user
@@ -124,18 +125,19 @@ class PersonController extends CommunecterController {
   /**
    * @return [json Map] list
    */
+  //Use for react proto ? Keep it ?
   public function actionUpdateName($name=null, $id=null){
   	Person::setNameById($name, $id);
   	$people = Person::getById($id);
 	  Rest::json($people);
   }
-
+  //Use for react proto ? Keep it ?
   public function actionGetById($id=null)
 	{
 	  $people = Person::getById($id);
 	  Rest::json($people);
 	}
-
+  //Use for react proto ? Keep it ?
 	public function actionGetOrganization($id=null){
 	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
@@ -164,19 +166,6 @@ class PersonController extends CommunecterController {
     $this->redirect(Yii::app()->homeUrl);
   }
 
-  
-
-  /**
-     * Listing de tout les citoyen locaux filtrable et cherchable
-     * par thématique
-     */
-  public function actionList() {
-      $this->render("list");
-  }
-
-  public function actionGallery() {
-      $this->render("gallery");
-  }
   /**
      * connect 2 people together 
      */
@@ -192,12 +181,6 @@ class PersonController extends CommunecterController {
       Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
 
-  /**
-   * Point d'entrée pour gérer son compte 
-   */
-  public function actionMoi() {
-      $this->render("compte");
-  }
   /**
    * upon Registration a email is send to the new user's email 
    * he must click it to activate his account
@@ -322,18 +305,7 @@ class PersonController extends CommunecterController {
     
     exit;
   }
-  public function actionSave(){
-      echo Rest::json(array("msg"=>"test  ok "));
-  }
   
-  public function actionFind($email){
-      $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$email));
-        if($account){
-            echo json_encode($account);
-        }
-        else
-             echo "Compte inconnu.";
-  }
   public function actionInvite(){
       $this->renderPartial("invite");
   }
