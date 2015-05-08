@@ -372,7 +372,8 @@ class PersonController extends CommunecterController {
     exit;
   }*/
 
-  public function actionInitDataPeople(){
+  public function actionInitDataPeople()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initModuleData( $this->module->id, "personNetworking", PHType::TYPE_CITOYEN,true );
     $import = Admin::initModuleData($this->module->id, "organizationNetworking", Organization::COLLECTION);
@@ -381,7 +382,9 @@ class PersonController extends CommunecterController {
     Rest::json( $import );
     Yii::app()->end();
   }
-  public function actionInitDataPeopleAll(){
+
+  public function actionInitDataPeopleAll()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
 
@@ -390,7 +393,23 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionClearInitDataPeopleAll(){
+  public function actionInitMyData()
+  {
+    $base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+    if( file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+    {
+      //inject Data brute d'une liste de Person avec Id
+      $res = array("result"=>true, "msg"=>"import success");//Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
+      //$res["result"] = ( isset($res["errors"]) && $res["errors"] > 0 ) ? false : true;
+    } else 
+      $res = array("result"=>false, "msg"=>"no Data to Import");
+
+    Rest::json( $res );
+    Yii::app()->end();
+  }
+
+  public function actionClearInitDataPeopleAll()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true,true,true );
 
@@ -398,7 +417,8 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionPublic($id){
+  public function actionPublic($id)
+  {
     //get The person Id
     if (empty($id)) {
       throw new CommunecterException("The person id is mandatory to retrieve the person !");
@@ -414,7 +434,8 @@ class PersonController extends CommunecterController {
     $this->render("public", array("person" => $person));
   }
 
-  public function actionReact() { 
+  public function actionReact() 
+  { 
     $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
