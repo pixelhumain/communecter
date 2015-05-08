@@ -121,14 +121,12 @@ class CommunecterController extends Controller
     ),
 
     "person"=> array(
+
       "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
-      "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
-      "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),
@@ -138,7 +136,9 @@ class CommunecterController extends Controller
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "mydata" => array("href" => "/person/mydata"),
+      "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
+
+
       //Link and invitation (move to link controller)
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
@@ -156,6 +156,7 @@ class CommunecterController extends Controller
       "public"=>array("href" =>"/ph/communecter/person/public"),
       'getnotification' => array("href" => "/person/getNotification"),
       "about" =>array("href"=>"/person/about"),
+      "mydata" => array("href" => "/person/mydata"),
     ),
 
     "organization"=> array(

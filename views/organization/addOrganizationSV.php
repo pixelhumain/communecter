@@ -116,6 +116,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 										Code postal <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+									
+								</div>
+								<div class="col-md-8 form-group" id="postalCodeError" style="display:none">
+									<span>Unknown postal Code</span>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
@@ -164,6 +168,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <script type="text/javascript">
 
 var formValidator = function() {
+	addCustomValidators();
 	var form = $('#organizationForm');
 	var errorHandler = $('.errorHandler');
 	form.validate({
@@ -185,7 +190,8 @@ var formValidator = function() {
 			},
 			postalCode : {
 				rangelength : [5, 5],
-				required : true
+				required : true,
+				validPostalCode : true
 			}
 		},
 		submitHandler : function(form) {
