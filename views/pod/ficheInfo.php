@@ -96,11 +96,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-emptytext="Type d'intervention" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
 					
 				</a>
@@ -115,12 +115,17 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
-				<a href="#">Plaquette de presentation</a>
+			<div class="col-sm-6 col-xs-6 padding-20">
+				<?php 
+					if (isset($plaquette) && $plaquette) {
+	                	echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
+					} else { ?>
+						<a href="#">N/A</a>
+				<?php } ?>
 			</div>
 		</div>
 	</div>

@@ -267,8 +267,6 @@ class OrganizationController extends CommunecterController {
 		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
 		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
 
-
-		
 		$params = array( "organization" => $organization);
 		$params["contentKeyBase"] = $contentKeyBase;
 		$params["images"] = $images;
@@ -305,6 +303,9 @@ class OrganizationController extends CommunecterController {
 		$params["typeIntervention"] = $lists["typeIntervention"];
 		$params["countries"] = OpenData::getCountriesList();
 
+		//Plaquette de présentation
+		$listPlaquette = Document::listDocumentByCategory($id, Organization::COLLECTION, Document::CATEGORY_PLAQUETTE, array( 'created' => 1 ));
+		$params["plaquette"] = reset($listPlaquette);
 		$this->title = (isset($organization["name"])) ? $organization["name"] : "";
 		$this->render( "dashboard", $params );
 	}
