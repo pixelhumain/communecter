@@ -351,6 +351,10 @@ class OrganizationController extends CommunecterController {
 			array_push($contextMap["people"], $newCitoyen);
 		}
 		$params["contextMap"] = $contextMap;
+		
+		$lists = Lists::get(array("organisationTypes"));
+		$params["organizationTypes"] = $lists["organisationTypes"];
+
 		$this->title = (isset($organization["name"])) ? $organization["name"] : "";
 		$this->render( "dashboard1", $params );
 	 }
@@ -407,7 +411,9 @@ public function actionDashboardMember($id)
 	$params["events"] = $events;
 	$params["images"] = $images;
 
-
+	$lists = Lists::get(array("organisationTypes"));
+	$params["organizationTypes"] = $lists["organisationTypes"];
+	
 	$contextMap = array();
 	$contextMap["organization"] = $organization;
 	$contextMap["events"] = array();
