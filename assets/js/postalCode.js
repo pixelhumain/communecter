@@ -42,7 +42,7 @@ $(function(){
     var runShowCity = function() {
       var citiesByPostalCode = getCitiesByPostalCode(searchValue);
       
-      if (citiesByPostalCode.lenght == 0 ){
+      if (citiesByPostalCode.length == 0 ){
         $("#postalCodeError").show();
         return;
       } else {
@@ -180,13 +180,21 @@ $(function(){
        **/          
        input2value: function() { 
            var selectCity = document.getElementById("city");
-           var cityLabel = selectCity.options[selectCity.selectedIndex].text;
-           var codeInsee = selectCity.options[selectCity.selectedIndex].value;
-           return {
-              postalCode: this.$input.filter('[name="postalCode"]').val(), 
-              codeInsee: codeInsee,
-              addressLocality : cityLabel
-           };
+           if (selectCity.options.length > 0) {
+              var cityLabel = selectCity.options[selectCity.selectedIndex].text;
+              var codeInsee = selectCity.options[selectCity.selectedIndex].value;
+              return {
+                postalCode: this.$input.filter('[name="postalCode"]').val(), 
+                codeInsee: codeInsee,
+                addressLocality : cityLabel
+              };
+            } else {
+              return {
+                postalCode: "", 
+                codeInsee: "",
+                addressLocality : ""
+              };
+            }
        },        
        
         /**
