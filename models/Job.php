@@ -34,7 +34,6 @@ class Job {
 		//Insert the job
 		$result = PHDB::updateWithOptions( Job::COLLECTION, array("_id" => new MongoId()), 
                           array('$set' => $job), array("upsert" => true));
-		var_dump($result);
 	    //Trick for windows : the upserted does not have the same return value
 	    if (isset($result["upserted"])) {
 	    	if (is_array($result["upserted"])) {

@@ -104,39 +104,32 @@
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
-
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
+				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
+				url : baseUrl+"/templates/upload/dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
 				cache: false, 
 				processData: false,
+				dataType: "json",
 				success: function(data){
 					console.log(data);
-			  		if(data.result){
-			  			imagesPath.push(baseUrl+data.imagePath);
-			  			console.log(imagesPath);
-			  			$(".fileupload-preview img").css("max-height", "100%");
-			  			setTimeout(function(){
-			  				$("#"+contentId+"_fileUpload").css("opacity", "1");
-							$("#"+contentId+"_photoUploading").css("display", "none");
-							$(".btn").removeClass("disabled");
-			  				toastr.success(data.msg);
-
-				  			imageName = data.imagePath.split("/")[data.imagePath.split("/").length-1]
-				  			imageId = data.id['$id'];
-					  		
-					  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
-			        			updateSlider(data.image, data.id["$id"]);
-					  		}
-					  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function"){
-					  			updateSliderImage(id, data.imagePath);
-					  		}
-
-
-			  			}, 2000) 
+			  		if(data.success){
+			  			var doc = { 
+						  		"id":id,
+						  		"type":type,
+						  		"folder":type+"/"+id,
+						  		"moduleId":moduleId,
+						  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
+						  		"name" : data.name , 
+						  		"date" : new Date() , 
+						  		"size" : data.size ,
+						  		"doctype" : "image",
+						  		"contentKey" : contentKey
+						  	};
 			  			
+			  			saveImage(doc, data.dir);
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -207,7 +200,7 @@
 					if(v.doctype=="image"){
 						console.log("contentKey", contentKey);
 						if(v.contentKey == contentKey){
-							imagesPath.push(baseUrl+"/upload/"+v.moduleId+v.folder+v.name);
+							imagesPath.push(baseUrl+"/upload/"+v.moduleId+"/"+v.folder+"/"+v.name);
 							j= j+1;
 						}
 					}		
@@ -228,8 +221,38 @@
 				$("#"+contentId+"_imgPreview").html(defautText);
 			}
 		}
+
+		function saveImage(doc, path){
+
+			$.ajax({
+			  	type: "POST",
+			  	url: baseUrl+"/"+moduleId+"/document/save",
+			  	data: doc,
+		      	dataType: "json"
+			}).done( function(data){
+		        if(data.result){
+		        	imagesPath.push(baseUrl+path);
+					$(".fileupload-preview img").css("max-height", "100%");
+					setTimeout(function(){
+						$("#"+contentId+"_fileUpload").css("opacity", "1");
+						$("#"+contentId+"_photoUploading").css("display", "none");
+						$(".btn").removeClass("disabled");
+				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
+							updateSlider(doc, data.id["$id"]);
+				  		}
+				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function"){
+				  			updateSliderImage(id, path);
+				  		}
+					}, 2000) 
+				    toastr.success(data.msg);
+				} else
+					toastr.error(data.msg);
+
+			});
+		}
 		
 	});
 
 
+	
 </script>
