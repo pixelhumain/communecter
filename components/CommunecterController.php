@@ -143,11 +143,8 @@ class CommunecterController extends Controller
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
 
       //To clean ?
-      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
-      "public"=>array("href" =>"/ph/communecter/person/public"),
       'getnotification' => array("href" => "/person/getNotification"),
       "about" =>array("href"=>"/person/about"),
-      "mydata" => array("href" => "/person/mydata"),
     ),
 
     "organization"=> array(

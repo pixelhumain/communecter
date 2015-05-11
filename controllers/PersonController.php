@@ -29,99 +29,6 @@ class PersonController extends CommunecterController {
     return parent::beforeAction($action);
 	}
 
-  //Still use ?
-  public function actionIndex() 
-  {
-    //Redirect to the dashboard of the user
-    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
-
-    $person = Person::getById(Yii::app()->session["userId"]);
-    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
-    $organizations = array();
-    
-    //Load organizations person is memberOf
-    if (isset($person["links"]) && !empty($person["links"]["memberOf"])) 
-    {
-      foreach ($person["links"]["memberOf"] as $id => $e) 
-      {
-        $organization = Organization::getById($id);
-        if (!empty($organization)) {
-          $organization["linkType"] = "memberOf";
-          array_push($organizations, $organization);
-        } else {
-         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-
-    $people = array();
-    //Load people or organization I know
-    if (isset($person["links"]) && !empty($person["links"]["knows"])) {
-      foreach ($person["links"]["knows"] as $id => $e ) {
-        if ($e["type"] == PHType::TYPE_CITOYEN) {
-          $someoneIKnow = Person::getById($id);
-          if (!empty($someoneIKnow)) {
-            array_push($people, $someoneIKnow);
-          } else {
-          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-          }
-        } else if ($e["type"] == Organization::COLLECTION) {
-            $someoneIKnow = Organization::getById($id);
-            if (!empty($someoneIKnow)) {
-              $someoneIKnow['linkType'] = "knows";
-              array_push($organizations, $someoneIKnow);
-            } else {
-              //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-            }
-        }
-      }
-    }
-
-    $events= array();
-    
-
-    //Load people I know
-    if (isset($person["links"]) && !empty($person["links"]["events"])) 
-    {
-      foreach ($person["links"]["events"]  as $id => $e ) 
-      {
-        $event = Event::getById($id);
-        if (!empty($event)) {
-          array_push($events, $event);
-        } else {
-         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-
-    $projects = array();
-    //Load people I know
-    if (isset($person["links"]) && !empty($person["links"]["projects"])) 
-    {
-      foreach ($person["links"]["projects"] as $id => $e) 
-      {
-        $project = Project::getById($id);
-        if (!empty($project)) {
-          array_push($projects, $project);
-        } else {
-         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-    
-    $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
-
-    if(!Yii::app()->session["userId"])
-      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-    else 
-      $this->render( "index" , array( "person"=>$person,
-                                      "people"=>$people, 
-                                      "organizations"=>$organizations, 
-                                      "events"=>$events, 
-                                      "projects"=>$projects, 
-                                      'tags'=>json_encode($tags['list'] )) );
-  }
-  
   /**
    * @return [json Map] list
    */
@@ -415,23 +322,6 @@ class PersonController extends CommunecterController {
 
     Rest::json( $import );
     Yii::app()->end();
-  }
-
-  public function actionPublic($id)
-  {
-    //get The person Id
-    if (empty($id)) {
-      throw new CommunecterException("The person id is mandatory to retrieve the person !");
-    }
-
-    $person = Person::getPublicData($id);
-    
-    $this->title = (isset($person["name"])) ? $person["name"] : "";
-    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("person" => $person));
   }
 
   public function actionReact() 
@@ -742,47 +632,6 @@ class PersonController extends CommunecterController {
 	 public function actionGetNotification(){
 
 	 }
-
-   /**
-   * Delete an entry from the data table using the id
-   */
-    public function actionMyData() {
-      if( isset(Yii::app()->session["userId"]) )
-      {
-              $account = Person::getById(Yii::app()->session["userId"]);
-              if( $account  )
-              {
-                  $account["_id"] = array('$oid'=>(string)$account["_id"]);
-                  unset( $account["_id"]['$id'] );
-                  $account["dummyData"] = "myData.".Yii::app()->session["userId"];
-                  /* **************************************
-                  * CITOYENS MAP
-                  ***************************************** */
-                  $exportInitData = array( 
-                    PHType::TYPE_CITOYEN=>array($account) 
-                  );
-
-                  /* **************************************
-                  * ORGANIZATIONS MAP
-                  ***************************************** */
-                  $exportInitData[Organization::COLLECTION] = Data::getByAttributeForExport(Organization::COLLECTION,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  /* **************************************
-                  * EVENTS MAP
-                  ***************************************** */
-                  $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  /* **************************************
-                  * ProjectS MAP
-                  ***************************************** */
-                  $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  echo Rest::json($exportInitData);
-              } else 
-                    echo Rest::json(array("result"=>false,"msg"=>"Cette requete ne peut aboutir."));
-      } else
-          echo Rest::json(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
-  }
 
   public function actionAbout(){
 
