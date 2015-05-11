@@ -119,12 +119,14 @@ class CommunecterController extends Controller
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
     "person"=> array(
+      "index"=>array("href"=>"/ph/communecter/person",'title' => "My Dashboard"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "updatefield" =>array("href"=>"/person/updatefield"),
       "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
+      
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),

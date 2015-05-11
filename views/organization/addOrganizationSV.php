@@ -118,9 +118,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									
 								</div>
-								<div class="col-md-8 form-group" id="postalCodeError" style="display:none">
-									<span>Unknown postal Code</span>
-								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
 										Ville <span class="symbol required"></span>

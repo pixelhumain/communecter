@@ -67,6 +67,12 @@ class PersonController extends CommunecterController {
       }
   }
 
+  public function actionIndex() 
+  {
+    //Redirect to the dashboard of the user
+    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+  }
+  
   public function actionLogout() 
   {
     Person::clearUserSessionData();

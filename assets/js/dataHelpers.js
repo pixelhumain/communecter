@@ -83,7 +83,7 @@ function addCustomValidators() {
 			    response = data;
 			}
 		});
-	    if (response.length > 0) {
+	    if (Object.keys(response).length > 0) {
 	    	return true;
 	    } else {
 	    	return false;
