@@ -119,7 +119,8 @@ var formDefinition = {
 	                "placeholder":"Postal Code",
 	                "rules" : {
 						"required" : true,
-						"rangelength" : [5, 5]
+						"rangelength" : [5, 5],
+						"validPostalCode" : true
 					}
 	            },
 	            "city" : {
@@ -169,7 +170,8 @@ var formDefinition = {
 	                "placeholder":"Postal Code",
 	                "rules" : {
 						"required" : true,
-						"rangelength" : [5, 5]
+						"rangelength" : [5, 5],
+						"validPostalCode" : true
 					}
 	            },
 	            "personCity" : {
@@ -247,7 +249,7 @@ jQuery(document).ready(function() {
 
  	var contextMap = <?php echo json_encode($contextMap)?>;
  	console.log(contextMap);
-
+	addCustomValidators();
 	$('.box-join').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});

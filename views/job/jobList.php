@@ -19,7 +19,7 @@
 					?>
 					<tr id="job<?php echo $jobId;?>">
 						<td class="center">
-							<a href="#" class="viewButton" data-id="<?php echo $jobId;?>" data-original-title="View">
+							<a href="#" class="viewJobButton" data-id="<?php echo $jobId;?>" data-original-title="View">
 								<?php if ($jobValue && isset($jobValue["imagePath"])){ ?>
 									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $jobValue["imagePath"]; ?>">
 								<?php } else { ?>
@@ -27,13 +27,13 @@
 								<?php } ?>
 							</a>
 						</td>
-						<td><a href="#" class="viewButton" data-id="<?php echo $jobId;?>" data-original-title="View"><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></a></td>
+						<td><a href="#" class="viewJobButton" data-id="<?php echo $jobId;?>" data-original-title="View"><?php if(isset($jobValue["title"])) echo $jobValue["title"]?></a></td>
 						<td><?php if(isset($jobValue["employmentType"])) echo $jobValue["employmentType"] ?></td>
 						<td><?php if(isset($jobValue["hiringOrganization"]) && isset($jobValue["hiringOrganization"]["name"])) echo $jobValue["hiringOrganization"]["name"] ?></td>
 						<?php if (Authorisation::isJobAdmin($jobId, Yii::app()->session["userId"])) {?>
 						<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
-								<a href="#" class="btn btn-red tooltips delButton" data-id="<?php echo $jobId;?>" data-name="<?php echo isset($jobValue["title"]) ? $jobValue["title"] : "";?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times"></i></a>
+								<a href="#" class="btn btn-red tooltips delJobButton" data-id="<?php echo $jobId;?>" data-name="<?php echo isset($jobValue["title"]) ? $jobValue["title"] : "";?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times"></i></a>
 							</div>
 						</td>
 						<?php }?>
@@ -70,12 +70,12 @@ function bindJobEvents() {
 		openJobSV("insert", "newJobId");
 	});
 
-	$(".viewButton").off().on("click", function() {
+	$(".viewJobButton").off().on("click", function() {
 		console.log($(this).data('id'));
 		openJobSV("view", $(this).data('id'));
 	});
 
-	$(".delButton").off().on("click", function() {
+	$(".delJobButton").off().on("click", function() {
 		console.log("Delete the jobId : "+$(this).data('id'));
 		var id = $(this).data('id');
 		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> Job Offer ?", 
@@ -138,7 +138,7 @@ function openJobSV(mode, id) {
 
 function updateJob(njob, jobId) {
     console.log("updateJob func");
-    var jobLink = '<a href="#" class="viewButton" data-id="'+jobId+'" data-original-title="View">';
+    var jobLink = '<a href="#" class="viewJobButton" data-id="'+jobId+'" data-original-title="View">';
     var jobLine  = '<tr id="job'+jobId+'">'+
                 '<td class="center">'+jobLink+'<i class="fa fa-briefcase fa-2x"></i></a></td>'+
                 '<td>'+jobLink+njob.title+'</a></td>'+
@@ -146,7 +146,7 @@ function updateJob(njob, jobId) {
                 '<td>'+njob.hiringOrganization.name+'</td>'+
                 '<td class="center">'+
                 '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-                    '<a href="#" class="btn btn-red tooltips delButton" data-id="'+jobId+'" data-name="'+njob.title+'" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
+                    '<a href="#" class="btn btn-red tooltips delJobButton" data-id="'+jobId+'" data-name="'+njob.title+'" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
                 '</div>'+
                 "</td>"+
             "</tr>";

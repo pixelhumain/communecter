@@ -29,6 +29,7 @@ class PersonController extends CommunecterController {
     return parent::beforeAction($action);
 	}
 
+  //Still use ?
   public function actionIndex() 
   {
     //Redirect to the dashboard of the user
@@ -124,18 +125,19 @@ class PersonController extends CommunecterController {
   /**
    * @return [json Map] list
    */
+  //Use for react proto ? Keep it ?
   public function actionUpdateName($name=null, $id=null){
   	Person::setNameById($name, $id);
   	$people = Person::getById($id);
 	  Rest::json($people);
   }
-
+  //Use for react proto ? Keep it ?
   public function actionGetById($id=null)
 	{
 	  $people = Person::getById($id);
 	  Rest::json($people);
 	}
-
+  //Use for react proto ? Keep it ?
 	public function actionGetOrganization($id=null){
 	  	$organizations = Person::getOrganizationsById($id);
 	    Rest::json($organizations);
@@ -164,19 +166,6 @@ class PersonController extends CommunecterController {
     $this->redirect(Yii::app()->homeUrl);
   }
 
-  
-
-  /**
-     * Listing de tout les citoyen locaux filtrable et cherchable
-     * par thématique
-     */
-  public function actionList() {
-      $this->render("list");
-  }
-
-  public function actionGallery() {
-      $this->render("gallery");
-  }
   /**
      * connect 2 people together 
      */
@@ -192,12 +181,6 @@ class PersonController extends CommunecterController {
       Rest::json( Link::disconnect(Yii::app()->session['userId'], PHType::TYPE_CITOYEN, $id, $type,Yii::app()->session['userId'], "knows" ));
   }
 
-  /**
-   * Point d'entrée pour gérer son compte 
-   */
-  public function actionMoi() {
-      $this->render("compte");
-  }
   /**
    * upon Registration a email is send to the new user's email 
    * he must click it to activate his account
@@ -322,18 +305,7 @@ class PersonController extends CommunecterController {
     
     exit;
   }
-  public function actionSave(){
-      echo Rest::json(array("msg"=>"test  ok "));
-  }
   
-  public function actionFind($email){
-      $account = Yii::app()->mongodb->citoyens->findOne(array("email"=>$email));
-        if($account){
-            echo json_encode($account);
-        }
-        else
-             echo "Compte inconnu.";
-  }
   public function actionInvite(){
       $this->renderPartial("invite");
   }
@@ -400,7 +372,8 @@ class PersonController extends CommunecterController {
     exit;
   }*/
 
-  public function actionInitDataPeople(){
+  public function actionInitDataPeople()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initModuleData( $this->module->id, "personNetworking", PHType::TYPE_CITOYEN,true );
     $import = Admin::initModuleData($this->module->id, "organizationNetworking", Organization::COLLECTION);
@@ -409,7 +382,9 @@ class PersonController extends CommunecterController {
     Rest::json( $import );
     Yii::app()->end();
   }
-  public function actionInitDataPeopleAll(){
+
+  public function actionInitDataPeopleAll()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
 
@@ -418,7 +393,23 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionClearInitDataPeopleAll(){
+  public function actionInitMyData()
+  {
+    $base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+    if( file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+    {
+      //inject Data brute d'une liste de Person avec Id
+      $res = array("result"=>true, "msg"=>"import success");//Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
+      //$res["result"] = ( isset($res["errors"]) && $res["errors"] > 0 ) ? false : true;
+    } else 
+      $res = array("result"=>false, "msg"=>"no Data to Import");
+
+    Rest::json( $res );
+    Yii::app()->end();
+  }
+
+  public function actionClearInitDataPeopleAll()
+  {
     //inject Data brute d'une liste de Person avec Id
     $import = Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true,true,true );
 
@@ -426,7 +417,8 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionPublic($id){
+  public function actionPublic($id)
+  {
     //get The person Id
     if (empty($id)) {
       throw new CommunecterException("The person id is mandatory to retrieve the person !");
@@ -442,7 +434,8 @@ class PersonController extends CommunecterController {
     $this->render("public", array("person" => $person));
   }
 
-  public function actionReact() { 
+  public function actionReact() 
+  { 
     $person = Person::getById(Yii::app()->session["userId"]);
     //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
     $organizations = array();
@@ -543,8 +536,6 @@ class PersonController extends CommunecterController {
                                       'tags'=>json_encode($tags['list'] )) );
   }
 
-    public function actionViewer() { $this->renderPartial("viewer"); }
-
     // To move and refractor
     public function actionGetUserAutoComplete(){
 	  	$query = array( '$or' => array( array("email" => new MongoRegex("/".$_POST['search']."/i")),
@@ -558,7 +549,6 @@ class PersonController extends CommunecterController {
 		Rest::json( $all );
 		Yii::app()->end(); 
 	 }
-
 
 
   public function actionInvitation(){

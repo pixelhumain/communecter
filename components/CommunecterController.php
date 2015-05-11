@@ -119,28 +119,35 @@ class CommunecterController extends Controller
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
     "person"=> array(
-      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
-      "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
-      "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
-      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
-      "public"=>array("href" =>"/ph/communecter/person/public"),
-      "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
-      "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
+      "register" => array("href" => "/ph/communecter/person/register"),
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+      "updatefield" =>array("href"=>"/person/updatefield"),
+      "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
+      //Init Data
+      "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
+      "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
+      "initmydata"=>array("href" =>"'/ph/communecter/person/initmydata'"),
+
+      //Link and invitation (move to link controller)
+      "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
       "connect"=>array("href"=>"/ph/communecter/person/connect"),
       "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
-      "invite"=>array("href"=>"/ph/communecter/person/invite"),
+
+      //React ?
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
-      "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
-      'getnotification' => array("href" => "/person/GetNotification"),
-      "mydata" => array("href" => "/person/mydata"),
-      "register" => array("href" => "/ph/communecter/person/register"),
-      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
-      "gallery"=>array("href"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
+      "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
+      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
+
+      //To clean ?
+      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+      "public"=>array("href" =>"/ph/communecter/person/public"),
+      'getnotification' => array("href" => "/person/getNotification"),
       "about" =>array("href"=>"/person/about"),
-      "updatefield" =>array("href"=>"/person/updatefield"),
+      "mydata" => array("href" => "/person/mydata"),
     ),
 
     "organization"=> array(
@@ -167,14 +174,14 @@ class CommunecterController extends Controller
       "public"=>array("href"=>"/ph/communecter/event/public"),
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
-      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+      "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
     ),
 
     "project"=> array(
       "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
       "save"=>array("href"=>"/ph/communecter/project/save"),
-      "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
+      "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 
     ),

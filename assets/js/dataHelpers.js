@@ -67,3 +67,26 @@ function getCitiesByPostalCode(postalCode, selectType) {
 	});
 	return result;
 }
+
+function addCustomValidators() {
+	//Validate a postalCode
+	jQuery.validator.addMethod("validPostalCode", function(value, element) {
+	    var response;
+	    $.ajax({
+			url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
+			data: {postalCode: value},
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+			    response = data;
+			}
+		});
+	    if (response.length > 0) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	}, "Unknown Postal Code");
+}
