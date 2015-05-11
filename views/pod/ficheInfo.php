@@ -56,7 +56,7 @@
 						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="right">
+					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
@@ -181,7 +181,6 @@
 			$('#address').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-search").addClass("fa-pencil");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
@@ -201,7 +200,6 @@
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-pencil").addClass("fa-search");
 		}
 	}
 
