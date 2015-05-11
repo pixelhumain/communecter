@@ -40,7 +40,7 @@
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-azure btn-file btn-sm" id="<?php echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span><span class="fileupload-exists"><i class="fa fa-plus"></i></span>
+					<span class="btn btn-azure btn-file fileupload-new btn-sm" id="<?php echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php echo $contentId ?>_avatar">
 					</span>
 					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php echo $contentId ?>_photoRemove" data-dismiss="fileupload">
@@ -161,6 +161,7 @@
 				dataType : "json",
 				data: {"name":imageName, "parentId":id, "docId":imageId},
 				success: function(data){
+					imagesPath.pop();
 					console.log(data);
 			  		if(data.result){
 			  			dataImage = {};
@@ -176,13 +177,12 @@
 			  				data: dataImage,
 			  				success: function(data){
 			  					if(data.result){
-			  						$('#'+contentId+'_avatar').val('');
-			  						imagesPath.shift();
 			  						setTimeout(function(){
+			  							$('#'+contentId+"_fileUpload").fileupload("clear");
 						  				$("#"+contentId+"_fileUpload").css("opacity", "1");
 										$("#"+contentId+"_photoUploading").css("display", "none");
 										$(".btn").removeClass("disabled");
-
+										$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagesPath[imagesPath.length-1]+'" />');
 								  		if(typeof(removeSliderImage) != "undefined" && typeof (removeSliderImage) == "function"){
 						        			removeSliderImage(imageId);
 								  		}
