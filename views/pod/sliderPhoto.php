@@ -113,7 +113,7 @@
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
 					if(where == constImgName){
-						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
+						path = baseUrl+"/upload/"+imagesTab[i].moduleId+"/"+imagesTab[i].folder+"/"+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						$("#slidesPhoto").append(htmlSlide);
 						j++;
