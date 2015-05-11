@@ -34,7 +34,7 @@ class Job {
 		//Insert the job
 		$result = PHDB::updateWithOptions( Job::COLLECTION, array("_id" => new MongoId()), 
                           array('$set' => $job), array("upsert" => true));
-		
+		var_dump($result);
 	    if (isset($result["upserted"])) {
 	    	$newJobId = (String) $result["upserted"];
 	    	$job = Job::getById($newJobId);
