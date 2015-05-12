@@ -266,7 +266,7 @@ class OrganizationController extends CommunecterController {
 
 		$contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
 		$images = Document::listMyDocumentByType($id, Organization::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
-
+		
 		$params = array( "organization" => $organization);
 		$params["contentKeyBase"] = $contentKeyBase;
 		$params["images"] = $images;
@@ -280,8 +280,11 @@ class OrganizationController extends CommunecterController {
 		$people = Organization::getMembersByOrganizationId($id, Person::COLLECTION);
 		foreach ($organizations as $key => $value) {
 			$newOrga = Organization::getById($key);
+			$profil = Document::getLastImageByKey($key, Organization::COLLECTION, Document::IMG_PROFIL);
+			$newOrga["imagePath"]= $profil;
 			array_push($contextMap["organizations"], $newOrga);
 			array_push($members["organizations"], $newOrga);
+
 		}
 
 		foreach ($events as $key => $value) {
