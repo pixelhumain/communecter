@@ -31,23 +31,25 @@
 </style>
 
 	<div class ="center" id="fileuploadContainer">
-		<form  method="post" id="<?php echo $contentId ?>_photoAdd" enctype="multipart/form-data">
-		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php echo $contentId ?>_fileUpload">
+		<form  method="post" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAdd" enctype="multipart/form-data">
+		
+		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_fileUpload">
 			<div class="user-image">
-				<div class="fileupload-new thumbnail container-fluid" id="<?php echo $contentId ?>_imgPreview">
+				<div class="fileupload-new thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgPreview">
 					
 				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php echo $contentId ?>_imgNewPreview"></div>
+				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-azure btn-file fileupload-new btn-sm" id="<?php echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span>
-						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php echo $contentId ?>_avatar">
+					<span class="btn btn-azure btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span>
+						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
+						<input class="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_isSubmit hidden" value="true"/>
 					</span>
-					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php echo $contentId ?>_photoRemove" data-dismiss="fileupload">
+					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoRemove" data-dismiss="fileupload">
 						<i class="fa fa-times"></i>
 					</a>
 				</div>
-				<div class="photoUploading" id="<?php echo $contentId ?>_photoUploading">
+				<div class="photoUploading" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoUploading">
 					<div class="center">
 						<i class="fa fa-spinner fa-spin fa-5x"></i>
 					</div>
@@ -65,24 +67,24 @@
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
 		var type = "<?php echo $type ?>";
-		var contentId = "<?php echo $contentId ?>";
-		var isSubmit = contentId+"_true";
+		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
+		var contentIdtoSend = "<?php echo $contentId ?>";
 		var resize = "<?php if(isset($resize)) echo $resize; else echo false; ?>";
 		var imageName= "";
 		var imageId= "";
 		var showImage = '<?php if(isset($show)) echo $show; else echo "false"; ?>';
 		var imagesPath = [];
 		if("undefined" != typeof(contentKeyBase))
-			var contentKey = contentKeyBase+"."+contentId;
+			var contentKey = contentKeyBase+"."+contentIdtoSend;
 		else
-			contentKey = contentId;
+			contentKey = contentIdtoSend;
 		initFileUpload();
 
 
 
-		$('#'+contentId+'_avatar').on('change.bs.fileinput', function () {
+		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
 
-			if(isSubmit==contentId+"_true"){
+			if($("."+contentId+"_isSubmit").val()== "true"){
 				setTimeout(function(){
 					if(resize){
 						$(".fileupload-preview img").css("height", parseInt($("#"+contentId+"_fileUpload").css("width"))*45/100+"px");
@@ -91,15 +93,15 @@
 					$("#"+contentId+"_photoAdd").submit();}, 200);
 
 			}else{
-				isSubmit = contentId+"_true";
+				$("."+contentId+"_isSubmit").val("true");
 			}
 		   
 		});
 
 
-		$("#"+contentId+"_photoAdd").on('submit',(function(e) {
+		$("#"+contentId+"_photoAdd").off().on('submit',(function(e) {
 			
-			isSubmit = contentId+"_true";
+			$("."+contentId+"_isSubmit").val("true");
 			e.preventDefault();
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
@@ -129,7 +131,7 @@
 						  		"contentKey" : contentKey
 						  	};
 			  			
-			  			saveImage(doc, data.dir);
+			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else
 			  			toastr.error(data.msg);
@@ -140,8 +142,8 @@
 	
 
 
-		$("#"+contentId+"_photoRemove").on("click", function(e){		
-			isSubmit = contentId+"_false";
+		$("#"+contentId+"_photoRemove").off().on("click", function(e){		
+			$("."+contentId+"_isSubmit").val("false");
 			e.preventDefault();
 
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
@@ -240,7 +242,7 @@
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 							updateSlider(doc, data.id["$id"]);
 				  		}
-				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function"){
+				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
 				  			updateSliderImage(id, path);
 				  		}
 					}, 2000) 
