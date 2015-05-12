@@ -14,61 +14,20 @@ class EventController extends CommunecterController {
     parent::initPage();
     return parent::beforeAction($action);
   }
-
-  public function actionEdit($id) {
-      //menu sidebar
-      /*array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
-      array_push( $this->sidebar1, array( "label"=>"Modifier", "iconClass"=>"icon-pencil-neg","onclick"=>"openModal('eventForm','group','$id','dynamicallyBuild')" ) );
-      array_push( $this->sidebar1, array( "label"=>"Participant", "iconClass"=>"icon-users","onclick"=>"openModal('eventParticipantForm','group','$id','dynamicallyBuild')" ) );
-      */ 
-      $event = Event::getById($id);
-      $citoyens = array();
-      $organizations = array();
-       if (isset($event["links"]["attendees"]) && !empty($event["links"]["attendees"])) 
-	    {
-	      foreach ($event["links"]["attendees"] as $id => $e) 
-	      {
-	      	
-	      	if (!empty($event)) {
-	      		if($e["type"] == "citoyens"){
-	      			$citoyen = PHDB::findOne( PHType::TYPE_CITOYEN, array( "_id" => new MongoId($id)));
-	      			array_push($citoyens, $citoyen);
-	      		}else if($e["type"] == "organizations"){
-	          		$organization = PHDB::findOne( Organization::COLLECTION, array( "_id" => new MongoId($id)));
-	          		array_push($organizations, $organization);
-	      		}
-	        } else {
-	         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-	        }  	
-	      }
-	    }         
-      if(isset($event["key"]) )
-          $this->redirect(Yii::app()->createUrl('evenement/key/id/'.$event["key"]));
-      else
-        $this->render("edit",array('event'=>$event, 'organizations'=>$organizations, 'citoyens'=>$citoyens));
+  public function actions()
+  {
+      return array(
+          'edit'         => 'citizenToolKit.controllers.person.EditAction',
+          'dashboard'    => 'citizenToolKit.controllers.person.DashboardAction',
+      );
   }
-  
-  public function actionPublic($id){
-    //get The event Id
-    if (empty($id)) {
-      throw new CommunecterException("The event id is mandatory to retrieve the event !");
-    }
 
-    $event = Event::getPublicData($id);
-    
-    $this->title = (isset($event["name"])) ? $event["name"] : "";
-    $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("event" => $event));
-  }
+ 
 
   //**********
   // Old - Still used ?
   //**********
   public function actionIndex() {
-      //array_push( $this->sidebar1, array("href"=>Yii::app()->createUrl('evenement/creer'), "iconClass"=>"icon-plus", "label"=>"Ajouter"));
       $this->render("index");
   }
 
@@ -231,66 +190,6 @@ class EventController extends CommunecterController {
 	 Rest::json( $res );
   }
 
-
-  public function actionDashboard($id){
-  	$event = Event::getPublicData($id);
-
-  	$this->sidebar1 = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/event/dashboard/id/".$id),
-    );
-
-    $this->title = (isset($event["name"])) ? $event["name"] : "";
-    $this->subTitle = (isset($event["description"])) ? $event["description"] : "";
-    $this->pageTitle = "Communecter - Informations sur l'evenement ".$this->title;
-
-    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
-	$images = Document::listMyDocumentByType($id, Event::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
-  	$organizer = array();
-
-  	$people = array();
-  	//$admins = array();
-  	$attending =array();
-  	if(!empty($event)){
-  		$params = array();
-  		if(isset($event["links"])){
-  			foreach ($event["links"]["attendees"] as $id => $e) {
-
-  				$citoyen = Person::getPublicData($id);
-  				if(!empty($citoyen)){
-  					array_push($people, $citoyen);
-  					array_push($attending, $citoyen);
-  				}
-
-  				/*if(isset($e["isAdmin"]) && $e["isAdmin"]==true){
-  					array_push($admins, $e);
-  				}*/
-  			}
-  			if(isset($event["links"]["organizer"])){
-  				foreach ($event["links"]["organizer"] as $id => $e) {
-  					$organization = Organization::getBYId($id);
-  					$organizer["id"] = $id;
-  					$organizer["type"] = "organization";
-  					$organizer["name"] = $organization["name"];
-  				}
-  			}else if(isset($event["links"]["creator"])){
-  				foreach ($event["links"]["creator"] as $id => $e) {
-  					$citoyen = Person::getBYId($id);
-  					$organizer["id"] = $id;
-  					$organizer["type"] = "person";
-  					$organizer["name"] = $citoyen["name"];
-  				}
-  			}
-  		}
-  	}
-  	$params["images"] = $images;
-  	$params["contentKeyBase"] = $contentKeyBase;
-  	$params["attending"] = $attending;
-  	$params["event"] = $event;
-  	$params["organizer"] = $organizer;
-  	$params["people"] = $people;
-  	//$params["admins"] = $admins;
-  	$this->render( "dashboard", $params );
-  }
 
   /* **************************************
    *  CALENDAR

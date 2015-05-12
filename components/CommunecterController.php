@@ -132,13 +132,12 @@ class CommunecterController extends Controller
       'getnotification' => array("href" => "/person/getNotification"),
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
       "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
-      
+      "updatefield" =>array("href"=>"/person/updatefield"),
+      "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
+
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
-      
-      "updatefield" =>array("href"=>"/person/updatefield"),
-      "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
       
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),

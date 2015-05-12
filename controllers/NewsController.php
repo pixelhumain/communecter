@@ -11,7 +11,25 @@ class NewsController extends CommunecterController {
     protected function beforeAction($action) {
     	return parent::beforeAction($action);
   	}
-  	
+  	/*public function actions()
+	{
+	    return array(
+	        'index'       	=> 'citizenToolKit.controllers.person.IndexAction',
+	        'login'     	=> 'citizenToolKit.controllers.person.LoginAction',
+	        'logout'     	=> 'citizenToolKit.controllers.person.LogoutAction',
+	        'authenticate'  => 'citizenToolKit.controllers.person.AuthenticateAction',
+	        'dashboard'  	=> 'citizenToolKit.controllers.person.DashboardAction',
+	        'connect'  		=> 'citizenToolKit.controllers.person.ConnectAction',
+	        'disconnect'  	=> 'citizenToolKit.controllers.person.DisonnectAction',
+	        'activate'  	=> 'citizenToolKit.controllers.person.ActivateAction',
+	        'register'  	=> 'citizenToolKit.controllers.person.RegisterAction',
+	        'getnotification'  	=> 'citizenToolKit.controllers.person.GetNotificationAction',
+	        'invite'  		=> 'citizenToolKit.controllers.person.InviteAction',
+	        'invitation'  	=> 'citizenToolKit.controllers.person.InvitationAction',
+	        'updatefield'	=> 'citizenToolKit.controllers.person.UpdateFieldAction',
+	        'getuserautocomplete'	=> 'citizenToolKit.controllers.person.GetUserAutoCompleteAction',
+	    );
+	}*/
     public function actionFormCreateNews() { 
     	$this->renderPartial("formCreateNews"); 		
     } 

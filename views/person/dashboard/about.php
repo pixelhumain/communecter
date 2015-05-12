@@ -223,7 +223,7 @@ jQuery(document).ready(function()
     	console.log("exportMyDataBtn");
     	$.ajax({
 	        type: "GET",
-	        url: baseUrl+"/data/exportinitdata/id/".Yii::app()->session["userId"]."/module/communecter"
+	        url: baseUrl+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
 	        //dataType : "json"
 	        //data: params
 	    })
