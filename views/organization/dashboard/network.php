@@ -39,7 +39,7 @@
               	?>
 						<tr id="<?php echo Person::COLLECTION.(string)$e["_id"];?>">
 							<td class="center">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>">
 								<?php if ($e && isset($e["imagePath"])){ ?>
 									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']); ?>">
 								<?php } else { ?>

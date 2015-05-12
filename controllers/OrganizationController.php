@@ -281,7 +281,8 @@ class OrganizationController extends CommunecterController {
 		foreach ($organizations as $key => $value) {
 			$newOrga = Organization::getById($key);
 			$profil = Document::getLastImageByKey($key, Organization::COLLECTION, Document::IMG_PROFIL);
-			$newOrga["imagePath"]= $profil;
+			if($profil !="")
+				$newOrga["imagePath"]= $profil;
 			array_push($contextMap["organizations"], $newOrga);
 			array_push($members["organizations"], $newOrga);
 
@@ -293,6 +294,9 @@ class OrganizationController extends CommunecterController {
 		}
 		foreach ($people as $key => $value) {
 			$newCitoyen = Person::getById($key);
+			$profil = Document::getLastImageByKey($key, Person::COLLECTION, Document::IMG_PROFIL);
+			if($profil !="")
+				$newCitoyen["imagePath"] = $profil;
 			array_push($contextMap["people"], $newCitoyen);
 			array_push($members["citoyens"], $newCitoyen);
 		}
@@ -324,6 +328,7 @@ class OrganizationController extends CommunecterController {
 
 		$organization = Organization::getPublicData($id);
 		$events = Organization::listEventsPublicAgenda($id);
+		
 		
 		$params = array( "organization" => $organization);
 		$params["events"] = $events;
