@@ -5,7 +5,7 @@
 function getCountries(selectType) {
 	var result = new Array();
 	$.ajax({
-		url: baseUrl+'/'+moduleId+"/api/getCountries",
+		url: baseUrl+'/'+moduleId+"/opendata/getcountries",
 		type: 'post',
 		global: false,
 		async: false,
@@ -49,7 +49,7 @@ function getPublics(selectType) {
 function getCitiesByPostalCode(postalCode, selectType) {
 	var result =new Array();
 	$.ajax({
-		url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
+		url: baseUrl+'/'+moduleId+"/opendata/getcitiesbypostalcode/",
 		data: {postalCode: postalCode},
 		type: 'post',
 		global: false,
@@ -73,7 +73,7 @@ function addCustomValidators() {
 	jQuery.validator.addMethod("validPostalCode", function(value, element) {
 	    var response;
 	    $.ajax({
-			url: baseUrl+'/'+moduleId+"/api/getcitiesbypostalcode/",
+			url: baseUrl+'/'+moduleId+"/opendata/getcitiesbypostalcode/",
 			data: {postalCode: value},
 			type: 'post',
 			global: false,
