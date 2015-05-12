@@ -221,6 +221,7 @@ class CommunecterController extends Controller
     ),
 
     "document" => array(
+      "resized"=>array("href"=>"/ph/communecter/document/resized"),
       "documents"=>array("href"=>"/ph/communecter/document/documents"),
       "save"=>array("href"=>"/ph/communecter/document/save"),
       "deleteDocumentById"=>array("href"=>"/ph/communecter/document/deleteDocumentById"),
