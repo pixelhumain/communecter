@@ -171,8 +171,6 @@ class CommunecterController extends Controller
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
-      //Move to Document controller
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
       //Links // create a Link controller ?
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
       //Dashboards
@@ -221,6 +219,13 @@ class CommunecterController extends Controller
       "savemember" => array("href" => "/ph/communecter/link/savemember"),
       "removemember" => array("href" => "/ph/communecter/link/removemember")
     ),
+
+    "document" => array(
+      "documents"=>array("href"=>"/ph/communecter/document/documents"),
+      "save"=>array("href"=>"/ph/communecter/document/save"),
+      "deleteDocumentById"=>array("href"=>"/ph/communecter/document/deleteDocumentById"),
+      "removeAndBacktract"=>array("href"=>"/ph/communecter/document/removeAndBacktract"),
+    )
     
   );
 
