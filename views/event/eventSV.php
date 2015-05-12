@@ -207,11 +207,17 @@ var newEventData;
 if("undefined" != typeof organization){
 	parentOrga = organization;
 }
+
+$(".daterangepicker").on("hide.daterangepicker", function(){
+ 		console.log("ok");
+ 	})
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
  	if("undefined" != typeof contextMap )
  		initLastsEvents();
+
+ 	
 });
 function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
