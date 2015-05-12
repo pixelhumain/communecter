@@ -97,7 +97,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	contextMap.events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
-	profil = <?php echo json_encode($profil) ?>;
 	
 	jQuery(document).ready(function() {
 		if($(".tooltips").length) {
