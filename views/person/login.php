@@ -311,7 +311,7 @@ var Login = function() {
 			      
 		    	$.ajax({
 		    	  type: "POST",
-		    	  url: baseUrl+"/<?php echo $this->module->id?>/api/login",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/authenticate",
 		    	  data: params,
 		    	  success: function(data){
 		    		  if(data.result)
@@ -355,7 +355,7 @@ var Login = function() {
 				var params = { "email" : $("#email2").val()};
 		        $.ajax({
 		          type: "POST",
-		          url: baseUrl+"/<?php echo $this->module->id?>/api/sendemailpwd",
+		          url: baseUrl+"/<?php echo $this->module->id?>/person/sendemailpwd",
 		          data: params,
 		          success: function(data){
 					if (data.result) {

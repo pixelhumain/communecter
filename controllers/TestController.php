@@ -57,6 +57,13 @@ class TestController extends CommunecterController {
   	var_dump($listjob);
   }
 
+  public function actionPlaquette() {
+  	$listPlaquette = Document::listDocumentByCategory("55509e082336f27ade0041aa", Organization::COLLECTION, Document::CATEGORY_PLAQUETTE, array( 'created' => 1 ));
+  	var_dump(reset($listPlaquette));
+  	$listCategory = Document::getAvailableCategories("55509e082336f27ade0041aa",Organization::COLLECTION);
+  	var_dump($listCategory);
+  }
+
   public function actionHelper() {
   	$cssAnsScriptFiles = array(
 		//dropzone

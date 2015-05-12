@@ -1,5 +1,5 @@
 <?php 
-$this->renderPartial('../documents/gedSV');
+$this->renderPartial('gedSV', array("categories" => $categories));
 ?>
 <div class="row">
 

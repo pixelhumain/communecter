@@ -8,6 +8,11 @@
  */
 class DocumentController extends CommunecterController {
   
+	protected function beforeAction($action) {
+		parent::initPage();
+		return parent::beforeAction($action);
+  	}
+
 	public function actions()
 	{
 	    return array(
@@ -25,19 +30,37 @@ class DocumentController extends CommunecterController {
 	}
 
 
+   /* **************************************
+   *  DOCUMENTS
+   ***************************************** */
+	public function actionDocuments($id, $type) {
+		
+		$documents = Document::getWhere( array( "type" => $type, 
+												"id" => $id ,
+												"contentKey" => array( '$exists' => false)
+		));
+		
+		$categories = Document::getAvailableCategories($id, $type);
+
+		if(Yii::app()->request->isAjaxRequest)
+			echo $this->renderPartial("documents",array("documents"=>$documents, "id" => $id, "categories" => $categories),true);
+		else
+			$this->render("documents",array("documents"=>$documents, "id" => $id, "categories" => $categories));
+	}
+
 	public function actionSave() {
-	      return Rest::json( Document::save($_POST) );
+	      return Rest::json( Document::save($_POST));
 	}
 
 	/**
 	* delete a document
 	* @param $id id of the document that we want to delete
 	*/
-	public function actionDeleteDocumentById($id){
+	public function actionDeleteDocumentById($id) {
 		return Rest::json( Document::removeDocumentById($id));
 	}
 
-	public function actionRemoveAndBacktract(){
+	public function actionRemoveAndBacktract() {
 		$result = array("result"=>false,"msg"=>"Vos données n'ont pas pu être modifiées");
 		if(isset($_POST["_id"])){
 			Document::removeDocumentById($_POST["_id"]);

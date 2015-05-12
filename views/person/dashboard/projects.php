@@ -47,7 +47,7 @@
 			</table>
 			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
 		<?php if(isset($projects) && count($projects) == 0) {?>
-			<div id="info" class="padding-10">
+			<div id="infoPodProject" class="padding-10">
 				<blockquote> 
 					Create or Contribute 
 					<br>Build Things 

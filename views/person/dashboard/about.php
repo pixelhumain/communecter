@@ -176,6 +176,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-md-12">
 					<div>
@@ -184,43 +185,97 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div>
+						<?php
+						//if connected user and pageUser are allready connected
+						$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+	    				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+						{  ?>
+							<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+						<?php } ?>
+						<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 </div>
 
 <script type="text/javascript">
-	var personData = <?php echo json_encode($person)?>;
-	var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
-	var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
+var personData = <?php echo json_encode($person)?>;
+var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
+var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 
-	//By default : view mode
-	//TODO SBAR - Get the mode from the request ?
-	if(personId == personConnectId )
-		var mode = "update";
-	else
-		var mode = "view";
-		
+//By default : view mode
+//TODO SBAR - Get the mode from the request ?
+if(personId == personConnectId )
+	var mode = "update";
+else
+	var mode = "view";
+	
 
-	jQuery(document).ready(function() {
-		activateEditablePerson();
-		manageModePerson();
-		debugMap.push(personData);
-	});
+jQuery(document).ready(function() 
+{
+	
+	$('.exportMyDataBtn').off().on("click",function () { 
+    	console.log("exportMyDataBtn");
+    	$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/data/exportinitdata/id/".Yii::app()->session["userId"]."/module/communecter"
+	        //dataType : "json"
+	        //data: params
+	    })
+	    .done(function (data) 
+	    {
+	        if (data.result) {               
+	        	toastr.success('Export successfull');
+	        } else {
+	           toastr.error('Something Went Wrong');
+	        }
+	    });
+    });
 
-	function manageModePerson() {
-		if (mode == "view") {
-			$('.editable-person').editable('toggleDisabled');
-			$('#tags').editable('toggleDisabled');
-		} else if (mode == "update") {
-			// Add a pk to make the update process available on X-Editable
-			$('.editable-person').editable('option', 'pk', personId);
-			$('#tags').editable('option', 'pk', personId);
+    $('.importMyDataBtn').off().on("click",function () { 
+    	console.log("importMyDataBtn");
+    	$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/"+moduleId+"/person/importmydata"
+	        //dataType : "json"
+	        //data: params
+	    })
+	    .done(function (data) 
+	    {
+	        if (data.result) {               
+	        	toastr.success('Import successfull');
+	        } else {
+	           toastr.error('Something Went Wrong');
+	        }
+	    });
+    });
 
-		}
+    bindAboutPodEvents();
+	manageModePerson();
+	debugMap.push(personData);
+
+});
+
+function manageModePerson() 
+{
+	if (mode == "view") {
+		$('.editable-person').editable('toggleDisabled');
+		$('#tags').editable('toggleDisabled');
+	} else if (mode == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('.editable-person').editable('option', 'pk', personId);
+		$('#tags').editable('option', 'pk', personId);
+
 	}
+}
 
 
-	function activateEditablePerson() {
+function bindAboutPodEvents() {
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-person').editable({
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
@@ -241,6 +296,8 @@
             tags: <?php echo json_encode($tags)?>,
             tokenSeparators: [",", " "]
         }
-    }); 
+    });
+
+        
 }
 </script>

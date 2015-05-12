@@ -102,7 +102,7 @@ class CommunecterController extends Controller
   public $pages = array(
 
     "default"=> array(
-      "index"=>array("href"=>"/ph/communecter"),
+      "index"=>array("href"=>"/ph/communecter","api"=>""),
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
@@ -115,12 +115,24 @@ class CommunecterController extends Controller
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),
     ),
+    
     "search"=>array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
+
     "person"=> array(
-      "index"=>array("href"=>"/ph/communecter/person",'title' => "My Dashboard"),
+
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+      "authenticate"=>array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
+
+      
+      "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
+      "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
+      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
+      "public"=>array("href" =>"/ph/communecter/person/public"),
+
+      
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
@@ -130,7 +142,8 @@ class CommunecterController extends Controller
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "initmydata"=>array("href" =>"'/ph/communecter/person/initmydata'"),
+      "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
+
 
       //Link and invitation (move to link controller)
       "invite"=>array("href"=>"/ph/communecter/person/invite"),
@@ -158,8 +171,6 @@ class CommunecterController extends Controller
       "join"=>array("href"=>"/ph/communecter/organization/join"),
       "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
-      //Move to Document controller
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
       //Links // create a Link controller ?
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
       //Dashboards
@@ -208,6 +219,13 @@ class CommunecterController extends Controller
       "savemember" => array("href" => "/ph/communecter/link/savemember"),
       "removemember" => array("href" => "/ph/communecter/link/removemember")
     ),
+
+    "document" => array(
+      "documents"=>array("href"=>"/ph/communecter/document/documents"),
+      "save"=>array("href"=>"/ph/communecter/document/save"),
+      "deleteDocumentById"=>array("href"=>"/ph/communecter/document/deleteDocumentById"),
+      "removeAndBacktract"=>array("href"=>"/ph/communecter/document/removeAndBacktract"),
+    )
     
   );
 

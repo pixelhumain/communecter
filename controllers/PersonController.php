@@ -23,13 +23,23 @@ class PersonController extends CommunecterController {
       array('deny'),
     );
   }
-  
-  protected function beforeAction($action) {
-    parent::initPage();
-    return parent::beforeAction($action);
+
+	protected function beforeAction($action) {
+	    parent::initPage();
+	    return parent::beforeAction($action);
 	}
 
-  /**
+	public function actions()
+	{
+	    return array(
+	        'index'       	=> 'citizenToolKit.controllers.person.IndexAction',
+	        'login'     	=> 'citizenToolKit.controllers.person.LoginAction',
+	        'authenticate'  => 'citizenToolKit.controllers.person.AuthenticateAction',
+	        'dashboard'  	=> 'citizenToolKit.controllers.person.DashboardAction',
+	    );
+	}
+  
+    /**
    * @return [json Map] list
    */
   //Use for react proto ? Keep it ?
@@ -50,29 +60,6 @@ class PersonController extends CommunecterController {
 	    Rest::json($organizations);
 	 }
 
-	public function actionLogin() 
-	{
-    $this->layout = "//layouts/mainSimple";
-    if(Yii::app()->session["userId"]) 
-      $this->redirect(Yii::app()->homeUrl);
-    else
-      $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) {
-	       $this->render( "loginMobile" );
-      }
-      else {
-	       $this->render( "login" );
-      }
-  }
-
-  public function actionIndex() 
-  {
-    //Redirect to the dashboard of the user
-    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
-  }
-  
   public function actionLogout() 
   {
     Person::clearUserSessionData();
@@ -306,10 +293,10 @@ class PersonController extends CommunecterController {
     Yii::app()->end();
   }
 
-  public function actionInitMyData()
+  public function actionImportMyData()
   {
     $base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
-    if( file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+    if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
     {
       //inject Data brute d'une liste de Person avec Id
       $res = array("result"=>true, "msg"=>"import success");//Admin::initMultipleModuleData( $this->module->id, "personNetworkingAll", true );
@@ -537,104 +524,8 @@ class PersonController extends CommunecterController {
 	 Rest::json( $res );
  }
 
- /**
-  * Display the dashboard of the person
-  * @param String $id Not mandatory : if specify, look for the person with this Id. 
-  * Else will get the id of the person logged
-  * @return type
-  */
- public function actionDashboard($id = null)
-  {
-    //get The person Id
-    if (empty($id)) {
-        if (empty(Yii::app()->session["userId"])) {
-            $this->redirect(Yii::app()->homeUrl);
-        } else {
-            $id = Yii::app()->session["userId"];
-        }
-    }
 
-    $person = Person::getPublicData($id);
-    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
- 	$images =  Document::listMyDocumentByType($id, Person::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
-    $params = array( "person" => $person);
-    $params['images'] = $images;
-    $params["contentKeyBase"] = $contentKeyBase;
-    $this->sidebar1 = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
-    );
 
-    $this->title = ((isset($person["name"])) ? $person["name"] : "")."'s Dashboard";
-    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-    //Get Projects
-    $projects = array();
-    if(isset($person["links"]["projects"])){
-    	foreach ($person["links"]["projects"] as $key => $value) {
-  			$project = Project::getPublicData($key);
-  			array_push($projects, $project);
-  		}
-    }
-
-    
-    //Get the Events
-  	$events = Authorisation::listEventsIamAdminOf($id);
-  	$eventsAttending = Event::listEventAttending($id);
-  	foreach ($eventsAttending as $key => $value) {
-  		$eventId = (string)$value["_id"];
-  		if(!isset($events[$eventId])){
-  			$events[$eventId] = $value;
-  		}
-  	}
-  	$tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
-    //TODO - SBAR : Pour le dashboard person, affiche t-on les événements des associations dont je suis memebre ?
-  	//Get the organization where i am member of;
-  	$organizations = array();
-    if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
-    	
-        foreach ($person["links"]["memberOf"] as $key => $member) {
-            $organization;
-            if( $member['type'] == Organization::COLLECTION )
-            {
-                $organization = Organization::getPublicData( $key );
-                array_push($organizations, $organization );
-            }
-       
-         	if(isset($organization["links"]["events"])){
-	  			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
-	  				$event = Event::getPublicData($keyEv);
-	  				$events[$keyEv] = $event;	
-	  			}
-	  			
-	  		}
-        }        
-        //$randomOrganizationId = array_rand($subOrganizationIds);
-        //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-        //$params["randomOrganization"] = $randomOrganization;
-        
-    }
-    $people = array();
-    if( isset($person["links"]) && isset($person["links"]["knows"])) {
-    	foreach ($person["links"]["knows"] as $key => $member) {
-    		$citoyen;
-            if( $member['type'] == PHType::TYPE_CITOYEN )
-            {
-            	$citoyen = Person::getPublicData( $key );
-            	array_push($people, $citoyen);
-            }
-    	}
-    	
-    }
-
-   	$params["tags"] = $tags;
-    $params["organizations"] = $organizations;
-    $params["projects"] = $projects;
-    $params["events"] = $events;
-    $params["people"] = $people;
-
-    $this->render( "dashboard", $params );
-  }
 	 public function actionGetNotification(){
 
 	 }
