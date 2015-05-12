@@ -70,26 +70,31 @@
 
  	jQuery(document).ready(function() {	 
 
-		initDashboardAgenda();
-		
-		// Close fileupload div anc clear slider
+		initDashboardAgenda();	
+
+	});
+
+
+ 	function bindBtnSliderAgenda(){
+ 		// Close fileupload div anc clear slider
 		$(".validateSliderAgenda").off().on("click", function() {
 			clearFileUploadAgenda();
 		})
 
 		// Open fileupload div 
 		$('.addImgButton').off().on("click", function(){
-			
 			$("#flexsliderAgenda").flexslider("clear");
-			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
+			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId+"/podId/sliderAgenda",null,"html");
 			$("#flexsliderAgenda").css("display", "none");
 			$("#agendaNewPicture").css("display", "block");
+			setTimeout(function(){
+				$('#sliderAgenda_'+contentId+'_avatar').trigger("click");
+			}, 500);
+			
+
 			
 		})
-
-	});
-
-
+ 	}
  	/*
  		Init the flexSlider with the next events or with default empty message
  	*/
@@ -152,6 +157,7 @@
 		// reload Slider
 		$("#flexsliderAgenda").flexslider();
 		$(".slidesAgendaTitle").html("Shared Calendar");
+		bindBtnSliderAgenda();
 		//showCalendarDashBoard(data);
 	}
 
@@ -223,7 +229,6 @@
 	function clearFileUploadAgenda(){
 		$("#agendaNewPicture").css("display", "none");
 		$("#flexsliderAgenda").css("display", "block");
-		initDashboardAgenda();
 	}
 
  </script>
