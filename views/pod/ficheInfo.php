@@ -122,7 +122,10 @@
 			<div class="col-sm-6 col-xs-6 padding-20">
 				<?php 
 					if (isset($plaquette) && $plaquette) {
-	                	echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
+	                	$this->widget('ext.widgets.documentLink.DocumentLinkWidget', array(
+	                		"document" => $plaquette,
+	                		"text" => "Plaquette de presentation"));
+	                	//echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
 					} else { ?>
 						<a href="#">N/A</a>
 				<?php } ?>
