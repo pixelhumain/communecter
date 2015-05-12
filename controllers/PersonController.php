@@ -24,115 +24,22 @@ class PersonController extends CommunecterController {
     );
   }
 
-  public function actions()
-  {
-      return array(
-          'index'     =>'ctk.controllers.person.actionIndex',
-      );
-  }
-  
-  protected function beforeAction($action) {
-    parent::initPage();
-    return parent::beforeAction($action);
+	protected function beforeAction($action) {
+	    parent::initPage();
+	    return parent::beforeAction($action);
 	}
 
-<<<<<<< HEAD
-  //Still use ?
-  public function actionIndex() 
-  {
-    //Redirect to the dashboard of the user
-    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
-
-    $person = Person::getById(Yii::app()->session["userId"]);
-    //$person["tags"] = Tags::filterAndSaveNewTags($person["tags"]);
-    $organizations = array();
-    
-    //Load organizations person is memberOf
-    if (isset($person["links"]) && !empty($person["links"]["memberOf"])) 
-    {
-      foreach ($person["links"]["memberOf"] as $id => $e) 
-      {
-        $organization = Organization::getById($id);
-        if (!empty($organization)) {
-          $organization["linkType"] = "memberOf";
-          array_push($organizations, $organization);
-        } else {
-         // throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-
-    $people = array();
-    //Load people or organization I know
-    if (isset($person["links"]) && !empty($person["links"]["knows"])) {
-      foreach ($person["links"]["knows"] as $id => $e ) {
-        if ( $e["type"] == PHType::TYPE_CITOYEN ) {
-          $someoneIKnow = Person::getById($id);
-          if (!empty($someoneIKnow)) {
-            array_push($people, $someoneIKnow);
-          } else {
-          //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-          }
-        } else if ($e["type"] == Organization::COLLECTION) {
-            $someoneIKnow = Organization::getById($id);
-            if (!empty($someoneIKnow)) {
-              $someoneIKnow['linkType'] = "knows";
-              array_push($organizations, $someoneIKnow);
-            } else {
-              //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-            }
-        }
-      }
-    }
-
-    $events= array();
-    
-
-    //Load people I know
-    if (isset($person["links"]) && !empty($person["links"]["events"])) 
-    {
-      foreach ($person["links"]["events"]  as $id => $e ) 
-      {
-        $event = Event::getById($id);
-        if (!empty($event)) {
-          array_push($events, $event);
-        } else {
-         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-
-    $projects = array();
-    //Load people I know
-    if (isset($person["links"]) && !empty($person["links"]["projects"])) 
-    {
-      foreach ($person["links"]["projects"] as $id => $e) 
-      {
-        $project = Project::getById($id);
-        if (!empty($project)) {
-          array_push($projects, $project);
-        } else {
-         //throw new CommunecterException("Données inconsistentes pour le citoyen : ".Yii::app()->session["userId"]);
-        }
-      }
-    }
-    
-    $tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
-
-    if(!Yii::app()->session["userId"])
-      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-    else 
-      $this->render( "index" , array( "person"=>$person,
-                                      "people"=>$people, 
-                                      "organizations"=>$organizations, 
-                                      "events"=>$events, 
-                                      "projects"=>$projects, 
-                                      'tags'=>json_encode($tags['list'] )) );
-  }
+	public function actions()
+	{
+	    return array(
+	        'index'       	=> 'citizenToolKit.controllers.person.IndexAction',
+	        'login'     	=> 'citizenToolKit.controllers.person.LoginAction',
+	        'authenticate'  => 'citizenToolKit.controllers.person.AuthenticateAction',
+	        'dashboard'  	=> 'citizenToolKit.controllers.person.DashboardAction',
+	    );
+	}
   
-=======
->>>>>>> 27f63b1e2fc03e8b8eafc123d7e20d9cbf9e18e1
-  /**
+    /**
    * @return [json Map] list
    */
   //Use for react proto ? Keep it ?
@@ -153,30 +60,6 @@ class PersonController extends CommunecterController {
 	    Rest::json($organizations);
 	 }
 
-	public function actionLogin() 
-	{
-    $this->layout = "//layouts/mainSimple";
-    if(Yii::app()->session["userId"]) 
-      $this->redirect(Yii::app()->homeUrl);
-    else
-      $detect = new Mobile_Detect;
-    
-    $isMobile = $detect->isMobile();
-    
-    if($isMobile) {
-       $this->render( "loginMobile" );
-    }
-    else {
-       $this->render( "login" );
-    }
-  }
-
-  public function actionIndex() 
-  {
-    //Redirect to the dashboard of the user
-    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
-  }
-  
   public function actionLogout() 
   {
     Person::clearUserSessionData();
@@ -641,104 +524,8 @@ class PersonController extends CommunecterController {
 	 Rest::json( $res );
  }
 
- /**
-  * Display the dashboard of the person
-  * @param String $id Not mandatory : if specify, look for the person with this Id. 
-  * Else will get the id of the person logged
-  * @return type
-  */
- public function actionDashboard($id = null)
-  {
-    //get The person Id
-    if (empty($id)) {
-        if (empty(Yii::app()->session["userId"])) {
-            $this->redirect(Yii::app()->homeUrl);
-        } else {
-            $id = Yii::app()->session["userId"];
-        }
-    }
 
-    $person = Person::getPublicData($id);
-    $contentKeyBase = Yii::app()->controller->id.".".Yii::app()->controller->action->id;
- 	$images =  Document::listMyDocumentByType($id, Person::COLLECTION, $contentKeyBase , array( 'created' => 1 ));
-    $params = array( "person" => $person);
-    $params['images'] = $images;
-    $params["contentKeyBase"] = $contentKeyBase;
-    $this->sidebar1 = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"communecter/person/dashboard/id/".$id),
-    );
 
-    $this->title = ((isset($person["name"])) ? $person["name"] : "")."'s Dashboard";
-    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-    //Get Projects
-    $projects = array();
-    if(isset($person["links"]["projects"])){
-    	foreach ($person["links"]["projects"] as $key => $value) {
-  			$project = Project::getPublicData($key);
-  			array_push($projects, $project);
-  		}
-    }
-
-    
-    //Get the Events
-  	$events = Authorisation::listEventsIamAdminOf($id);
-  	$eventsAttending = Event::listEventAttending($id);
-  	foreach ($eventsAttending as $key => $value) {
-  		$eventId = (string)$value["_id"];
-  		if(!isset($events[$eventId])){
-  			$events[$eventId] = $value;
-  		}
-  	}
-  	$tags = PHDB::findOne( PHType::TYPE_LISTS,array("name"=>"tags"), array('list'));
-    //TODO - SBAR : Pour le dashboard person, affiche t-on les événements des associations dont je suis memebre ?
-  	//Get the organization where i am member of;
-  	$organizations = array();
-    if( isset($person["links"]) && isset($person["links"]["memberOf"])) {
-    	
-        foreach ($person["links"]["memberOf"] as $key => $member) {
-            $organization;
-            if( $member['type'] == Organization::COLLECTION )
-            {
-                $organization = Organization::getPublicData( $key );
-                array_push($organizations, $organization );
-            }
-       
-         	if(isset($organization["links"]["events"])){
-	  			foreach ($organization["links"]["events"] as $keyEv => $valueEv) {
-	  				$event = Event::getPublicData($keyEv);
-	  				$events[$keyEv] = $event;	
-	  			}
-	  			
-	  		}
-        }        
-        //$randomOrganizationId = array_rand($subOrganizationIds);
-        //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
-        //$params["randomOrganization"] = $randomOrganization;
-        
-    }
-    $people = array();
-    if( isset($person["links"]) && isset($person["links"]["knows"])) {
-    	foreach ($person["links"]["knows"] as $key => $member) {
-    		$citoyen;
-            if( $member['type'] == PHType::TYPE_CITOYEN )
-            {
-            	$citoyen = Person::getPublicData( $key );
-            	array_push($people, $citoyen);
-            }
-    	}
-    	
-    }
-
-   	$params["tags"] = $tags;
-    $params["organizations"] = $organizations;
-    $params["projects"] = $projects;
-    $params["events"] = $events;
-    $params["people"] = $people;
-
-    $this->render( "dashboard", $params );
-  }
 	 public function actionGetNotification(){
 
 	 }

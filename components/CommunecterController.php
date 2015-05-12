@@ -122,13 +122,17 @@ class CommunecterController extends Controller
 
     "person"=> array(
 
+      "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+      "authenticate"=>array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
+
+      
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
 
-      "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+      
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
