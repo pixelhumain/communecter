@@ -113,7 +113,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
             onHover: false // if true only pulsate if user hovers over the element
         });
 
-		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".documentPod",baseUrl+"/"+moduleId+"/document/documents/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION?>",null,"html");
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list/organizationId/<?php echo $_GET["id"]?>",null,"html");
 
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
