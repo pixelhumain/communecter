@@ -168,25 +168,25 @@ class ApiController extends Controller {
     {
         return array(
             //user api
-            'login'     =>'application.controllers.user.LoginAction',
-            'sendemailpwd' => 'application.controllers.user.SendEmailPwdAction',
+            'login'     =>'ctk.controllers.user.LoginAction',
+            'sendemailpwd' => 'ctk.controllers.user.SendEmailPwdAction',
             //open data api
-            'getcountries' => 'application.components.api.controllers.openData.GetCountriesAction',
-            'getcitiesbypostalcode' => 'application.components.api.controllers.openData.GetCitiesByPostalCodeAction',
+            'getcountries' => 'ctk.controllers.openData.GetCountriesAction',
+            'getcitiesbypostalcode' => 'ctk.controllers.openData.GetCitiesByPostalCodeAction',
             //TODO SBAR - cleanup - Is it used ? 
-            'saveuser'  =>'application.controllers.user.SaveUserAction',
-            'communect' => 'application.controllers.user.CommunectAction',
-            'getuser'   => 'application.controllers.user.GetUserAction',
-            'getpeopleby'   => 'application.controllers.user.GetPeopleByAction',
-            'inviteuser'   => 'application.controllers.user.InviteUserAction',
-            'getnodeby'   => 'application.controllers.user.GetNodeByAction',
-            'saveuserimages' => 'application.controllers.user.SaveUserImagesAction',
-            'index'     => 'application.components.api.controllers.IndexAction',
+            'saveuser'  =>'ctk.controllers.user.SaveUserAction',
+            'communect' => 'ctk.controllers.user.CommunectAction',
+            'getuser'   => 'ctk.controllers.user.GetUserAction',
+            'getpeopleby'   => 'ctk.controllers.user.GetPeopleByAction',
+            'inviteuser'   => 'ctk.controllers.user.InviteUserAction',
+            'getnodeby'   => 'ctk.controllers.user.GetNodeByAction',
+            'saveuserimages' => 'ctk.controllers.user.SaveUserImagesAction',
+            'index'     => 'ctk.controllers.IndexAction',
             //Not used anymore ? The groups has been replaced by organization
-            'savegroup'   => 'application.controllers.groups.SaveGroupAction',  
-            'getgroupsby'   => 'application.controllers.groups.GetGroupsByAction',  
-            'getuserimages' => 'application.controllers.user.getUserImagesAction',
-            'sendmessage'   => 'application.controllers.messages.SendMessageAction',  
+            'savegroup'   => 'ctk.controllers.groups.SaveGroupAction',  
+            'getgroupsby'   => 'ctk.controllers.groups.GetGroupsByAction',  
+            'getuserimages' => 'ctk.controllers.user.getUserImagesAction',
+            'sendmessage'   => 'ctk.controllers.messages.SendMessageAction',  
         );
     }
 }

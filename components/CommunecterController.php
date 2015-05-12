@@ -102,7 +102,7 @@ class CommunecterController extends Controller
   public $pages = array(
 
     "default"=> array(
-      "index"=>array("href"=>"/ph/communecter"),
+      "index"=>array("href"=>"/ph/communecter","api"=>""),
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),

@@ -23,6 +23,13 @@ class PersonController extends CommunecterController {
       array('deny'),
     );
   }
+
+  public function actions()
+  {
+      return array(
+          'index'     =>'ctk.controllers.person.actionIndex',
+      );
+  }
   
   protected function beforeAction($action) {
     parent::initPage();
@@ -58,7 +65,7 @@ class PersonController extends CommunecterController {
     //Load people or organization I know
     if (isset($person["links"]) && !empty($person["links"]["knows"])) {
       foreach ($person["links"]["knows"] as $id => $e ) {
-        if ($e["type"] == PHType::TYPE_CITOYEN) {
+        if ( $e["type"] == PHType::TYPE_CITOYEN ) {
           $someoneIKnow = Person::getById($id);
           if (!empty($someoneIKnow)) {
             array_push($people, $someoneIKnow);
@@ -150,14 +157,15 @@ class PersonController extends CommunecterController {
       $this->redirect(Yii::app()->homeUrl);
     else
       $detect = new Mobile_Detect;
-      $isMobile = $detect->isMobile();
-      
-      if($isMobile) {
-	       $this->render( "loginMobile" );
-      }
-      else {
-	       $this->render( "login" );
-      }
+    
+    $isMobile = $detect->isMobile();
+    
+    if($isMobile) {
+       $this->render( "loginMobile" );
+    }
+    else {
+       $this->render( "login" );
+    }
   }
 
   public function actionLogout() 

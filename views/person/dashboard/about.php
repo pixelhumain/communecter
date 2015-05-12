@@ -204,92 +204,100 @@
 </div>
 
 <script type="text/javascript">
-	var personData = <?php echo json_encode($person)?>;
-	var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
-	var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
+var personData = <?php echo json_encode($person)?>;
+var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
+var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 
-	//By default : view mode
-	//TODO SBAR - Get the mode from the request ?
-	if(personId == personConnectId )
-		var mode = "update";
-	else
-		var mode = "view";
-		
+//By default : view mode
+//TODO SBAR - Get the mode from the request ?
+if(personId == personConnectId )
+	var mode = "update";
+else
+	var mode = "view";
+	
 
-	jQuery(document).ready(function() {
-		bindAboutPodEvents();
-		manageModePerson();
-		debugMap.push(personData);
-	});
-
-	function manageModePerson() {
-		if (mode == "view") {
-			$('.editable-person').editable('toggleDisabled');
-			$('#tags').editable('toggleDisabled');
-		} else if (mode == "update") {
-			// Add a pk to make the update process available on X-Editable
-			$('.editable-person').editable('option', 'pk', personId);
-			$('#tags').editable('option', 'pk', personId);
-
-		}
-	}
-
-
-	function bindAboutPodEvents() {
-		$.fn.editable.defaults.mode = 'inline';
-		$('.editable-person').editable({
-	    	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
-	    	onblur: 'submit',
-	    	showbuttons: false
-		});
-	    //make jobTitle required
-		$('#name').editable('option', 'validate', function(v) {
-	    	if(!v) return 'Required field!';
-		});
-
-		//Select2 tags
-	    $('#tags').editable({
-	        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
-	        mode: 'inline',
-	        showbuttons: false,
-	        select2: {
-	            tags: <?php echo json_encode($tags)?>,
-	            tokenSeparators: [",", " "]
+jQuery(document).ready(function() 
+{
+	
+	$('.exportMyDataBtn').off().on("click",function () { 
+    	console.log("exportMyDataBtn");
+    	$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/data/exportinitdata/id/".Yii::app()->session["userId"]."/module/communecter"
+	        //dataType : "json"
+	        //data: params
+	    })
+	    .done(function (data) 
+	    {
+	        if (data.result) {               
+	        	toastr.success('Export successfull');
+	        } else {
+	           toastr.error('Something Went Wrong');
 	        }
 	    });
-	    $('.exportMyDataBtn').off().on("click",function () { 
-	    	console.log("exportMyDataBtn");
-	    	$.ajax({
-    	        type: "GET",
-    	        url: baseUrl+"/data/exportinitdata/id/".Yii::app()->session["userId"]."/module/communecter"
-    	        //dataType : "json"
-    	        //data: params
-    	    })
-    	    .done(function (data) 
-    	    {
-    	        if (data.result) {               
-    	        	toastr.success('Export successfull');
-    	        } else {
-    	           toastr.error('Something Went Wrong');
-    	        }
-    	    });
+    });
+
+    $('.importMyDataBtn').off().on("click",function () { 
+    	console.log("importMyDataBtn");
+    	$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/"+moduleId+"/person/importmydata"
+	        //dataType : "json"
+	        //data: params
+	    })
+	    .done(function (data) 
+	    {
+	        if (data.result) {               
+	        	toastr.success('Import successfull');
+	        } else {
+	           toastr.error('Something Went Wrong');
+	        }
 	    });
-	    $('.importMyDataBtn').off().on("click",function () { 
-	    	console.log("importMyDataBtn");
-	    	$.ajax({
-    	        type: "GET",
-    	        url: baseUrl+"/"+moduleId+"/person/importmydata"
-    	        //dataType : "json"
-    	        //data: params
-    	    })
-    	    .done(function (data) 
-    	    {
-    	        if (data.result) {               
-    	        	toastr.success('Import successfull');
-    	        } else {
-    	           toastr.error('Something Went Wrong');
-    	        }
-    	    });
-	    });    
+    });
+
+    bindAboutPodEvents();
+	manageModePerson();
+	debugMap.push(personData);
+
+});
+
+function manageModePerson() 
+{
+	if (mode == "view") {
+		$('.editable-person').editable('toggleDisabled');
+		$('#tags').editable('toggleDisabled');
+	} else if (mode == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('.editable-person').editable('option', 'pk', personId);
+		$('#tags').editable('option', 'pk', personId);
+
 	}
+}
+
+
+function bindAboutPodEvents() {
+	$.fn.editable.defaults.mode = 'inline';
+	$('.editable-person').editable({
+    	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
+    	onblur: 'submit',
+    	showbuttons: false
+	});
+    //make jobTitle required
+	$('#name').editable('option', 'validate', function(v) {
+    	if(!v) return 'Required field!';
+	});
+
+	//Select2 tags
+    $('#tags').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode: 'inline',
+        showbuttons: false,
+        select2: {
+            tags: <?php echo json_encode($tags)?>,
+            tokenSeparators: [",", " "]
+        }
+    });
+
+        
+}
 </script>
