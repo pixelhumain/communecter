@@ -121,21 +121,22 @@ class CommunecterController extends Controller
     ),
 
     "person"=> array(
-
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "authenticate"=>array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
-
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+      "connect"=>array("href"=>"/ph/communecter/person/connect"),
+      "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
+      "register" => array("href" => "/ph/communecter/person/register"),
+      "logout"=>array("href"=>"/ph/communecter/person/logout"),
+      'getnotification' => array("href" => "/person/getNotification"),
+      "invite"=>array("href"=>"/ph/communecter/person/invite"),
+      "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
       
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
-      "public"=>array("href" =>"/ph/communecter/person/public"),
-
       
-      "logout"=>array("href"=>"/ph/communecter/person/logout"),
-      "register" => array("href" => "/ph/communecter/person/register"),
-      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "updatefield" =>array("href"=>"/person/updatefield"),
       "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
       
@@ -144,13 +145,6 @@ class CommunecterController extends Controller
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
 
-
-      //Link and invitation (move to link controller)
-      "invite"=>array("href"=>"/ph/communecter/person/invite"),
-      "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
-      "connect"=>array("href"=>"/ph/communecter/person/connect"),
-      "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
-
       //React ?
       "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
@@ -158,7 +152,7 @@ class CommunecterController extends Controller
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
 
       //To clean ?
-      'getnotification' => array("href" => "/person/getNotification"),
+      
       "about" =>array("href"=>"/person/about"),
     ),
 
