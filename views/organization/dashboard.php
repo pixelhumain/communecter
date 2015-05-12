@@ -21,6 +21,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	    				"context" => $organization,
 						"tags" => $tags, 
 						"images" => $images,
+						"plaquette" => $plaquette,
 						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,

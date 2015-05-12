@@ -171,6 +171,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	jQuery(document).ready(function() {
 		Main.init();
 		Login.init();
+		addCustomValidators();
 		//Bootbox
 		$('.bootbox-spp').on('click', function() {
 			bootbox.dialog({
@@ -397,7 +398,8 @@ var Login = function() {
 			rules : {
 				cp : {
 					required : true,
-					rangelength : [5, 5]
+					rangelength : [5, 5],
+					validPostalCode : true
 				},
 				city : {
 					required : true,
@@ -523,6 +525,7 @@ function searchCity() {
 		timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
 	} else {
 		$("#cityDiv").slideUp("medium");
+		$("#city").val("");
 		$("#city").empty();
 	}
 }

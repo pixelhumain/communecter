@@ -91,11 +91,11 @@ function initGrid(){
 			console.log(data);
 			j = 0;
 			$.each(data, function(k, v){
-				if(v.doctype == "image"){
+				if(v.doctype == "image" && "undefined" != typeof v.contentKey){
 
 					j++;
 					var path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
-					var type = v.contentKey.split(".")[2];
+					var type = v.contentKey.split(".")[v.contentKey.split(".").length-1];
 					if($.inArray(type, tabButton)==-1){
 						tabButton.push(type);
 						var liHtml = '<li class="filter" data-filter=".'+type+'">'+
@@ -106,7 +106,7 @@ function initGrid(){
 					var htmlBtn = "";
 					if(authorizationToEdit=="true"){
 						htmlBtn= ' <div class="tools tools-bottom">' +
-									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'"  >' +
+									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'" data-key="'+v.contentKey+'" >' +
 										' <i class="fa fa-trash-o"></i>'+
 									' </a>'+
 								' </div>'
@@ -150,6 +150,7 @@ function bindBtnGallery(){
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");
 		var imageName= $(this).data("name");
+		var key = $(this).data("key")
 		e.preventDefault();
 		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> ?", 
 			function(result) {
@@ -158,7 +159,7 @@ function bindBtnGallery(){
 						url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId},
+						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},
 						success: function(data){
 							$("#"+imageId).remove();
 							toastr.success("Image supprimée");

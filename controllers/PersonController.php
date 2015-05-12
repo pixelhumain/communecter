@@ -36,6 +36,7 @@ class PersonController extends CommunecterController {
     return parent::beforeAction($action);
 	}
 
+<<<<<<< HEAD
   //Still use ?
   public function actionIndex() 
   {
@@ -129,6 +130,8 @@ class PersonController extends CommunecterController {
                                       'tags'=>json_encode($tags['list'] )) );
   }
   
+=======
+>>>>>>> 27f63b1e2fc03e8b8eafc123d7e20d9cbf9e18e1
   /**
    * @return [json Map] list
    */
@@ -168,6 +171,12 @@ class PersonController extends CommunecterController {
     }
   }
 
+  public function actionIndex() 
+  {
+    //Redirect to the dashboard of the user
+    $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+  }
+  
   public function actionLogout() 
   {
     Person::clearUserSessionData();
@@ -423,23 +432,6 @@ class PersonController extends CommunecterController {
 
     Rest::json( $import );
     Yii::app()->end();
-  }
-
-  public function actionPublic($id)
-  {
-    //get The person Id
-    if (empty($id)) {
-      throw new CommunecterException("The person id is mandatory to retrieve the person !");
-    }
-
-    $person = Person::getPublicData($id);
-    
-    $this->title = (isset($person["name"])) ? $person["name"] : "";
-    $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
-    $this->pageTitle = "Communecter - Informations publiques de ".$this->title;
-
-
-    $this->render("public", array("person" => $person));
   }
 
   public function actionReact() 
@@ -750,47 +742,6 @@ class PersonController extends CommunecterController {
 	 public function actionGetNotification(){
 
 	 }
-
-   /**
-   * Delete an entry from the data table using the id
-   */
-    public function actionMyData() {
-      if( isset(Yii::app()->session["userId"]) )
-      {
-              $account = Person::getById(Yii::app()->session["userId"]);
-              if( $account  )
-              {
-                  $account["_id"] = array('$oid'=>(string)$account["_id"]);
-                  unset( $account["_id"]['$id'] );
-                  $account["dummyData"] = "myData.".Yii::app()->session["userId"];
-                  /* **************************************
-                  * CITOYENS MAP
-                  ***************************************** */
-                  $exportInitData = array( 
-                    PHType::TYPE_CITOYEN=>array($account) 
-                  );
-
-                  /* **************************************
-                  * ORGANIZATIONS MAP
-                  ***************************************** */
-                  $exportInitData[Organization::COLLECTION] = Data::getByAttributeForExport(Organization::COLLECTION,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  /* **************************************
-                  * EVENTS MAP
-                  ***************************************** */
-                  $exportInitData[PHType::TYPE_EVENTS] = Data::getByAttributeForExport(PHType::TYPE_EVENTS,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  /* **************************************
-                  * ProjectS MAP
-                  ***************************************** */
-                  $exportInitData[PHType::TYPE_PROJECTS] = Data::getByAttributeForExport(PHType::TYPE_PROJECTS,array("creator"=>(string)Yii::app()->session["userId"]));
-
-                  echo Rest::json($exportInitData);
-              } else 
-                    echo Rest::json(array("result"=>false,"msg"=>"Cette requete ne peut aboutir."));
-      } else
-          echo Rest::json(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
-  }
 
   public function actionAbout(){
 

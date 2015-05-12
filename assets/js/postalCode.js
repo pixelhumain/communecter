@@ -41,6 +41,14 @@ $(function(){
 
     var runShowCity = function() {
       var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+      
+      if (citiesByPostalCode.length == 0 ){
+        $("#postalCodeError").show();
+        return;
+      } else {
+        $("#postalCodeError").hide();
+      }
+
       var oneValue = "";
       console.table(citiesByPostalCode);
       $.each(citiesByPostalCode,function(i, value) {
@@ -172,13 +180,21 @@ $(function(){
        **/          
        input2value: function() { 
            var selectCity = document.getElementById("city");
-           var cityLabel = selectCity.options[selectCity.selectedIndex].text;
-           var codeInsee = selectCity.options[selectCity.selectedIndex].value;
-           return {
-              postalCode: this.$input.filter('[name="postalCode"]').val(), 
-              codeInsee: codeInsee,
-              addressLocality : cityLabel
-           };
+           if (selectCity.options.length > 0) {
+              var cityLabel = selectCity.options[selectCity.selectedIndex].text;
+              var codeInsee = selectCity.options[selectCity.selectedIndex].value;
+              return {
+                postalCode: this.$input.filter('[name="postalCode"]').val(), 
+                codeInsee: codeInsee,
+                addressLocality : cityLabel
+              };
+            } else {
+              return {
+                postalCode: "", 
+                codeInsee: "",
+                addressLocality : ""
+              };
+            }
        },        
        
         /**
@@ -207,6 +223,7 @@ $(function(){
 
     PostalCode.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
         tpl: '<div class="editable-address"><label><span>PostalCode : </span><input type="text" name="postalCode" class="input-small" id="postalCode"></label></div>'+
+              '<div id="postalCodeError" style="display: none;"><span class="error">Unknown Postal Code</span></div>'+
              '<div class="editable-address" id="cityDiv" style="display: none"><label><span>City : </span><select name="city" class="input-small" id="city"><option></option></label></div>',
         inputclass: ''
     });

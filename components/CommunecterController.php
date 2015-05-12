@@ -127,12 +127,14 @@ class CommunecterController extends Controller
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
       "public"=>array("href" =>"/ph/communecter/person/public"),
+
       "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "logout"=>array("href"=>"/ph/communecter/person/logout"),
       "register" => array("href" => "/ph/communecter/person/register"),
       "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
       "updatefield" =>array("href"=>"/person/updatefield"),
       "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
+      
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
@@ -152,11 +154,8 @@ class CommunecterController extends Controller
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
 
       //To clean ?
-      "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
-      "public"=>array("href" =>"/ph/communecter/person/public"),
       'getnotification' => array("href" => "/person/getNotification"),
       "about" =>array("href"=>"/person/about"),
-      "mydata" => array("href" => "/person/mydata"),
     ),
 
     "organization"=> array(

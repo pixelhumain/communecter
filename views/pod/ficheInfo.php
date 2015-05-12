@@ -56,7 +56,7 @@
 						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="right">
+					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
@@ -96,11 +96,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-emptytext="Type d'intervention" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
 					
 				</a>
@@ -115,12 +115,17 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
-				<a href="#">Plaquette de presentation</a>
+			<div class="col-sm-6 col-xs-6 padding-20">
+				<?php 
+					if (isset($plaquette) && $plaquette) {
+	                	echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
+					} else { ?>
+						<a href="#">N/A</a>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -181,7 +186,6 @@
 			$('#address').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-search").addClass("fa-pencil");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
@@ -201,7 +205,6 @@
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-pencil").addClass("fa-search");
 		}
 	}
 

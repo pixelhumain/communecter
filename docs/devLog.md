@@ -15,7 +15,7 @@ bla bla
 ----------------------------------------------------
 //SBA : 30/04/2015
 Update your config/main.php
-Now all the parameters link to your environment are stored in 
+Now all the parameters link to your environment are stored in paramsconfig.php
 
 ----------------------------------------------------
 
@@ -27,10 +27,9 @@ Load the new collection
 mongoimport --db pixelhumain --collection cities PATH_TO_MY_FILE\cities.js --jsonArray
 
 ----------------------------------------------------
-
 //TKA : 28/04/2015  : 
 execute composer update to install Captcha libs
-and add the secret key to you main
+and add the secret key to your paramsconfig.php
 ----------------------------------------------------
 //TKA : 28/04/2015  : mettre a jour les cp dans cities
 

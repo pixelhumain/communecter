@@ -333,6 +333,7 @@ jQuery(document).ready(function() {
 });
 
 function runShowCity(searchValue, idSelect, classDiv) {
+	$(idSelect).empty();
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	var oneValue = "";
 	console.table(citiesByPostalCode);
@@ -345,7 +346,7 @@ function runShowCity(searchValue, idSelect, classDiv) {
 		$(idSelect).select2('val', oneValue);
 	}
 
-	if (citiesByPostalCode.length >0) {
+	if (citiesByPostalCode.length > 0) {
 		$(classDiv).slideDown("medium");
     } else {
 		$(classDiv).slideUp("medium");
@@ -373,6 +374,7 @@ function searchCity(postalCodeId, idSelect, classDiv) {
 		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 100); 
 	} else {
 		$(classDiv).slideUp("medium");
+		$(idSelect).select2('val', "");
 		$(idSelect).empty();
 	}
 }
