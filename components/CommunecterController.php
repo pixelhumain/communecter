@@ -143,15 +143,6 @@ class CommunecterController extends Controller
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
-
-      //React ?
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
-      "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
-      "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
-      "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
-
-      //To clean ?
-      
       "about" =>array("href"=>"/person/about"),
     ),
 
@@ -173,8 +164,6 @@ class CommunecterController extends Controller
     ),
     
     "event"=> array(
-      "edit"=>array("href"=>"/ph/communecter/event/edit"),
-      "public"=>array("href"=>"/ph/communecter/event/public"),
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
       "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
