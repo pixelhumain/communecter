@@ -20,7 +20,9 @@
 #dropBtn{
 	display: none;
 }
-
+#orgaDrop a, #orgaDrop ul{
+	width: 100%;
+}
 </style>
 
 
@@ -63,10 +65,13 @@
 				?>
 			<div class="row">
 				
-				<div class="col-md-5">
-					
-					<div class="btn-group">
-                        <a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+				<div class="col-md-2 center">
+					<label class="pull-left" for="orgaDrop"><h3>Organisation: </h3></label>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group" id="orgaDrop" name="orgaDrop">
+						
+                        <a class="btn btn-transparent-grey dropdown-toggle " data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga">Organisation</span><span class="caret"></span>
                         </a>
                         <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">

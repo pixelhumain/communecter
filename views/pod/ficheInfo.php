@@ -36,6 +36,15 @@
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+			<?php } 
+
+				if(isset($context["_id"]) && isset(Yii::app()->session["userId"])
+					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
+
+			?>
+					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="members" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>
+			<?php } else{ ?>
+					<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
 			<?php } ?>
 		</div>
 	</div>
