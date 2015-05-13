@@ -307,5 +307,18 @@ class Link {
 
         return array("result"=>true, "msg"=>"The link ".$connectType." has been added with success", "originId"=>$originId, "targetId"=>$targetId);
     }
+
+    public static function isLinked($itemId, $itemType, $userId){
+    	$res = false;
+    	$item = PHDB::findOne( $itemType ,array("_id"=>new MongoId($itemId)));
+    	if(isset($item["links"])){
+    		foreach ($item["links"] as $key => $value) {
+    			if(isset($value[$userId])){
+    				$res= true;
+    			}
+    		}
+    	}
+    	return $res;
+    }
 } 
 ?>

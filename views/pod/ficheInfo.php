@@ -36,6 +36,15 @@
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+			<?php } 
+
+				if(isset($context["_id"]) && isset(Yii::app()->session["userId"])
+					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
+
+			?>
+					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>
+			<?php } else{ ?>
+					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
 			<?php } ?>
 		</div>
 	</div>
@@ -177,8 +186,48 @@
 			  },
 			});
 		}));
+
+		bindFicheInfoBtn();
 	});
 
+
+	function bindFicheInfoBtn(){
+
+		$(".removeMemberBtn").off().on("click",function () {
+			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+			
+			var idMemberOf = $(this).data("memberof-id");
+			var idMember = $(this).data("member-id");
+			var typeMember = $(this).data("member-type");
+			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+				function(result) {
+					if (!result) {
+					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					return;
+				}
+
+				console.log(idMember);
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
+					dataType: "json",
+					success: function(data){
+						if ( data && data.result ) {               
+							toastr.info("LINK DIVORCED SUCCESFULLY!!");
+							$("#organizations"+idMemberOf).remove();
+							if ($("#organizations tr").length == 0) {
+								$("#info").show();
+							}
+						} else {
+						   toastr.info("something went wrong!! please try again.");
+						}
+					}
+				});
+			});
+
+			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+		});
+	}
 	function manageModeContext() {
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');

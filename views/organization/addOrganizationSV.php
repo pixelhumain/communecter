@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
 			console.table(formData);
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+"/organization/saveMember",
+				url: baseUrl+"/"+moduleId+"/link/saveMember",
 				data: formData,
 				dataType: "json",
 				success: function(data) {

@@ -111,7 +111,7 @@
 
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
-				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate){
+				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate && v.endDate.split("/").length==3){
 					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);

@@ -16,6 +16,12 @@ class DocumentController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
+	        //CTK actions
+	        'list'					=> 'citizenToolKit.controllers.document.ListAction',
+	        'save'					=> 'citizenToolKit.controllers.document.SaveAction',
+	        'deletedocumentbytid'	=> 'citizenToolKit.controllers.document.DeleteDocumentByIdAction',
+	        'removebacktrack'		=> 'citizenToolKit.controllers.document.RemoveAndBacktractAction',
+
 	        'resized' => array(
 	            'class'   => 'ext.resizer.ResizerAction',
 	            'options' => array(
@@ -26,49 +32,7 @@ class DocumentController extends CommunecterController {
 	                'base_dir'    => Yii::getPathOfAlias('webroot') . '/',
 	            )
 	        ),
+
 	    );
 	}
-
-
-   /* **************************************
-   *  DOCUMENTS
-   ***************************************** */
-	public function actionDocuments($id, $type) {
-		
-		$documents = Document::getWhere( array( "type" => $type, 
-												"id" => $id ,
-												"contentKey" => array( '$exists' => false)
-		));
-		
-		$categories = Document::getAvailableCategories($id, $type);
-
-		if(Yii::app()->request->isAjaxRequest)
-			echo $this->renderPartial("documents",array("documents"=>$documents, "id" => $id, "categories" => $categories),true);
-		else
-			$this->render("documents",array("documents"=>$documents, "id" => $id, "categories" => $categories));
-	}
-
-	public function actionSave() {
-	      return Rest::json( Document::save($_POST));
-	}
-
-	/**
-	* delete a document
-	* @param $id id of the document that we want to delete
-	*/
-	public function actionDeleteDocumentById($id) {
-		return Rest::json( Document::removeDocumentById($id));
-	}
-
-	public function actionRemoveAndBacktract() {
-		$result = array("result"=>false,"msg"=>"Vos données n'ont pas pu être modifiées");
-		if(isset($_POST["_id"])){
-			Document::removeDocumentById($_POST["_id"]);
-			Document::setImagePath($_POST["id"], $_POST["type"], $_POST["imagePath"], $_POST["contentKey"]);
-			$result = array("result"=>true,"msg"=>"Vos données ont bien été modifiées");
-		}
-		return Rest::json($result);
-	}
-
-	
 }
