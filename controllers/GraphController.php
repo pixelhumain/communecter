@@ -13,10 +13,12 @@ class GraphController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
-  	public function actionViewer() { $this->renderPartial("viewer");} 
-
-  	public function actionGetData($id, $type) {
-  		$item = PHDB::findOne( $type ,array("_id"=>new MongoId($id)));
-  		echo Rest::json($item);
-  	}
+  	public function actions()
+	{	
+		$path = 
+	    return array(
+	        'getdata'  => 'citizenToolKit.controllers.graph.GetDataAction',
+	        'viewer'   => 'citizenToolKit.controllers.graph.ViewerAction'
+	    );
+	}
 }
