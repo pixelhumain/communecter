@@ -44,7 +44,7 @@
 			?>
 					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>
 			<?php } else{ ?>
-					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
+					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
 			<?php } ?>
 		</div>
 	</div>
@@ -227,6 +227,35 @@
 
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 		});
+
+
+		//Add Me as member Of Button
+		$('#addMeAsMemberInfo').click(function(e) {
+			e.preventDefault();
+			var formData = {
+	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
+				"memberName" : "",
+				"memberEmail" : "",
+				"memberType" : '<?php echo PHType::TYPE_CITOYEN ?>', 
+				"parentOrganisation" : contextId,
+				"memberIsAdmin" : false,
+				"memberRoles" : ""
+			};
+			console.table(formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/saveMember",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						toastr.success("You are now member of the organization : "+contextData.name);
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});               
+		});	
 	}
 	function manageModeContext() {
 		if (mode == "view") {
