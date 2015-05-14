@@ -32,12 +32,15 @@
 				<?php echo (isset($context)) ? $context["name"] : null; ?>
 			</a>
 		</h4>
+		
 		<div class="panel-tools">
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
-			<?php } 
-
+			
+			<?php } ?>
+			<div id="linkBtns">
+			<?php 
 				if(isset($context["_id"]) && isset(Yii::app()->session["userId"])
 					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
 
@@ -46,6 +49,7 @@
 			<?php } else{ ?>
 					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
 			<?php } ?>
+			</div>
 		</div>
 	</div>
 	<div class="panel-body border-light" id="organizationDetail">
@@ -212,7 +216,11 @@
 					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
 					dataType: "json",
 					success: function(data){
-						if ( data && data.result ) {               
+						if ( data && data.result ) {
+
+							$("#linkBtns").empty()
+							$("#linkBtns").html('<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I\'m member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I\'m member of this</a>')           
+							bindFicheInfoBtn();
 							toastr.info("LINK DIVORCED SUCCESFULLY!!");
 							$("#organizations"+idMemberOf).remove();
 							if ($("#organizations tr").length == 0) {
@@ -230,7 +238,7 @@
 
 
 		//Add Me as member Of Button
-		$('#addMeAsMemberInfo').click(function(e) {
+		$('#addMeAsMemberInfo').off().on("click", function(e) {
 			e.preventDefault();
 			var formData = {
 	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
@@ -241,20 +249,30 @@
 				"memberIsAdmin" : false,
 				"memberRoles" : ""
 			};
-			console.table(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/saveMember",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						toastr.success("You are now member of the organization : "+contextData.name);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});               
+			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+				function(result) {
+					if (!result) {
+						$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+						return;
+				}
+			
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/link/saveMember",
+					data: formData,
+					dataType: "json",
+					success: function(data) {
+						if(data.result){
+							$("#linkBtns").empty();
+							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="'+contextData.name+'" data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>');
+							bindFicheInfoBtn();
+							toastr.success("You are now member of the organization : "+contextData.name);
+						}
+						else
+							toastr.error(data.msg);
+					},
+				});  
+			});             
 		});	
 	}
 	function manageModeContext() {
