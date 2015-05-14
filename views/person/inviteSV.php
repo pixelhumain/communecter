@@ -42,7 +42,7 @@
 						<div class="col-md-5">
 							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
 																	  "type" => "",
-																	  "contentId" =>"invitePhoto",
+																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => false)); ?>
 						</div>
 						<div class="col-md-7">
@@ -299,7 +299,7 @@ function autoCompleteInviteSearch(email){
  				if(v._id["$id"]!= userId){
  					tabObject.push(v);
 	 				if('undefined' != typeof v.imagePath){
-	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.imagePath+"'/>"
 	 				}
 	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
 	  				compt++;
