@@ -16,189 +16,22 @@ class OrganizationController extends CommunecterController {
 	return parent::beforeAction($action);
   }
 
-  public function actions()
-  {
-   return array(
-	// captcha action renders the CAPTCHA image displayed on the contact page
-	'captcha'=>array(
-	 'class'=>'CCaptchaAction',
-	 'backColor'=>0xFFFFFF,
-	),
-   );
-  }
+	public function actions()
+	{
+		return array(
+		// captcha action renders the CAPTCHA image displayed on the contact page
+		'captcha'=>array(
+		 	'class'=>'CCaptchaAction',
+		 	'backColor'=>0xFFFFFF,
+		),
+		'getbyid'       				=> 'citizenToolKit.controllers.organization.GetByIdAction',
+		'addorganizationform'			=> 'citizenToolKit.controllers.organization.AddOrganizationFormAction',
+		'savenew'						=> 'citizenToolKit.controllers.organization.SaveNewAction',
+		'updatefield'					=> 'citizenToolKit.controllers.organization.UpdateFieldAction',
+		'delete'						=> 'citizenToolKit.controllers.organization.DeleteAction',
+		'join'							=> 'citizenToolKit.controllers.organization.JoinAction',
+		);
 
-  public function actionGetById($id=null)
-  {
-	$organizations = Organization::getById($id);
-	Rest::json($organizations);
-  }
-	
-  public function actionAddOrganizationForm($type=null,$id=null) 
-  {
-	  $organization = null;
-	  if(isset($id)){
-		$organization = Organization::getById($id);
-		//make sure conected user is the owner
-		if( $organization["email"] != Yii::app()->session["userEmail"] || ( isset($organization["ph:owner"]) && $organization["ph:owner"] != Yii::app()->session["userEmail"] ) ) {
-		  $organization = null;
-		}
-		  
-	  }
-	  $types = PHDB::findOne ( PHType::TYPE_LISTS,array("name"=>"organisationTypes"), array('list'));
-	  $tags = Tags::getActiveTags();
-	  
-	  $detect = new Mobile_Detect;
-	  $isMobile = $detect->isMobile();
-	  
-	  $params = array( 
-		"organization" => $organization,'type'=>$type,
-		'types'=>$types['list'],
-		'tags'=>json_encode($tags));
-
-	  if($isMobile) {
-		  $this->layout = "//layouts/mainSimple";
-		  $this->render( "addOrganizationMobile" , $params );
-	  }
-	  else {
-		   $this->renderPartial( "addOrganizationSV" , $params );
-	  }
-	
-  }
-
-	/**
-	* Save a new organization with the minimal information
-	* @return an array with result and message json encoded
-	*/
-	public function actionSaveNew() {
-		// Retrieve data from form
-		$newOrganization = Organization::newOrganizationFromPost($_POST);
-		try {
-			//Save the organization
-			Rest::json(Organization::insert($newOrganization, Yii::app()->session["userId"]));
-		} catch (CTKException $e) {
-			return Rest::json(array("result"=>false, "msg"=>$e->getMessage()));
-		}
-	}
-
-  /**
-   * Update an existing organization
-   * @return an array with result and message json encoded
-   */
-  //TODO SBAR => deprecated and not used
-  public function actionSave() {
-	// Minimal data
-	$organization = Organization::newOrganizationFromPost($_POST);
-
-	if (! isset($_POST["organizationId"])) 
-	  throw new CTKException("You must specify an organization Id to update");
-	else 
-	  $organizationId = $_POST['organizationId'];
-	
-	//Complementary Data
-	if (isset($_POST["shortName"])) $organization["shortName"] = $_POST["shortName"];
-	if (isset($_POST["phone"])) $organization["phone"] = $_POST["phone"];
-	if (isset($_POST["creationDate"])) $organization["creationDate"] = $_POST["creationDate"];
-	if (isset($_POST["city"])) $organization["address"]["addressLocality"] = $_POST["city"];
-
-	//Social Network info
-	$socialNetwork = array();
-	if (isset($_POST["twitterAccount"])) $socialNetwork["twitterAccount"] = $_POST["twitterAccount"];
-	if (isset($_POST["facebookAccount"])) $socialNetwork["facebookAccount"] = $_POST["facebookAccount"];
-	if (isset($_POST["gplusAccount"])) $socialNetwork["gplusAccount"] = $_POST["gplusAccount"];
-	if (isset($_POST["gitHubAccount"])) $socialNetwork["gitHubAccount"] = $_POST["gitHubAccount"];
-	if (isset($_POST["linkedInAccount"])) $socialNetwork["linkedInAccount"] = $_POST["linkedInAccount"];
-	if (isset($_POST["skypeAccount"])) $socialNetwork["skypeAccount"] = $_POST["skypeAccount"];
-	$organization["socialNetwork"] = $socialNetwork;
-
-	try {
-	  //Save the organization
-	  $res = Organization::update($organizationId, $organization, Yii::app()->session["userId"] );
-	} catch (CTKException $e) {
-	  $res = array("result"=>false, "msg"=>$e->getMessage());
-	}
-
-	Rest::json($res);
-  }
-
-	/**
-	  * Update an information field for an organization
-	  */
-	public function actionUpdateField(){
-		$organizationId = "";
-		$res = array("result"=>false, "msg"=>"Something went wrong");
-		if (!empty($_POST["pk"])) {
-			$organizationId = $_POST["pk"];
-		} else if (!empty($_POST["id"])) {
-			$organizationId = $_POST["id"];
-		}
-
-		if ($organizationId != "") {
-			if (! empty($_POST["name"]) && ! empty($_POST["value"])) {
-				$organizationFieldName = $_POST["name"];
-				$organizationFieldValue = $_POST["value"];
-				try {
-					Organization::updateOrganizationField($organizationId, $organizationFieldName, $organizationFieldValue, Yii::app()->session["userId"] );
-					$res = array("result"=>true, "msg"=>"The organization has been updated", $organizationFieldName=>$organizationFieldValue);
-				} catch (CTKException $e) {
-					$res = array("result"=>false, "msg"=>$e->getMessage(), $organizationFieldName=>$organizationFieldValue);
-				}
-			}
-		} 
-		Rest::json($res);
-	}
-
-	/**
-	 * Delete an entry from the organization table using the id
-	 */
-  public function actionDelete() 
-  {
-	$result = array("result"=>false, "msg"=>"Cette requete ne peut aboutir.");
-	  if(Yii::app()->session["userId"])
-		{
-	
-		  $account = Organization::getById($_POST["id"]);
-		  if( $account && Yii::app()->session["userEmail"] == $account['ph:owner'])
-		  {
-			
-			PHDB::remove( Organization::COLLECTION,array("_id"=>new MongoId($_POST["id"])));
-			//temporary for dev
-			//TODO : Remove the association from all Ci accounts
-			PHDB::update( PHType::TYPE_CITOYEN,array( "_id" => new MongoId(Yii::app()->session["userId"]) ) , array('$pull' => array("associations"=>new MongoId( $_POST["id"]))));
-			
-			$result = array("result"=>true,"msg"=>"Donnée enregistrée.");
-
-		  }
-	  }
-	Rest::json($result);
-  }
-
-  /* **************************************
-   *  MEMBERS
-   ***************************************** */
-  public function actionJoin($id)
-  {
-	$params = array();
-	//get The organization Id
-	if (empty($id)) {
-	  throw new CTKException("The Parent organization doesn't exist !");
-	}
-	
-	$params["parentOrganization"] = Organization::getPublicData($id);
-	
-	$lists = Lists::get(array("organisationTypes","typeIntervention","public"));
-
-	if ( !isset($lists["organisationTypes"]) || !isset($lists["typeIntervention"]) || !isset($lists["public"]) ) {
-	  throw new CTKException("Missing List data in 'lists' collection, must have organisationTypes, typeIntervention, public");
-	}
-
-	$params["types"] = $lists["organisationTypes"];
-	$params["listTypeIntervention"] = $lists["typeIntervention"];
-	$params["listPublic"] = $lists["public"];
-	
-	$params["tags"] = Tags::getActiveTags();
-
-	$this->layout = "//layouts/mainSimple";
-	$this->render("join", $params);
   }
 
   public function actionAddNewOrganizationAsMember() 
