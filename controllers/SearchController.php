@@ -15,7 +15,8 @@ class SearchController extends CommunecterController {
     public function actions()
   {
       return array(
-          'getmemberautocomplete'      => 'citizenToolKit.controllers.search.GetMemberAutocompleteAction'
+          'globalautocomplete'      	=> 'citizenToolKit.controllers.search.GlobalAutoCompleteAction',
+          'searchmemberautocomplete'	=> 'citizenToolKit.controllers.search.SearchMembersAutoCompleteAction'
       );
   }
   

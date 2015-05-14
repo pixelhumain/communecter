@@ -45,7 +45,6 @@ class PersonController extends CommunecterController {
 	        'invite'  		=> 'citizenToolKit.controllers.person.InviteAction',
 	        'invitation'  	=> 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	=> 'citizenToolKit.controllers.person.UpdateFieldAction',
-	        'getuserautocomplete'	=> 'citizenToolKit.controllers.person.GetUserAutoCompleteAction',
 	    );
 	}
 
