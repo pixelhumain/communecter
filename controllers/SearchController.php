@@ -9,10 +9,11 @@
  */
 class SearchController extends CommunecterController {
 
-    protected function beforeAction($action) {
+  protected function beforeAction($action) {
 		  return parent::beforeAction($action);
-  	}
-    public function actions()
+  }
+
+  public function actions()
   {
       return array(
           'globalautocomplete'      	=> 'citizenToolKit.controllers.search.GlobalAutoCompleteAction',

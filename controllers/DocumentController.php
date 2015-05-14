@@ -24,6 +24,7 @@ class DocumentController extends CommunecterController {
             'delete'                => 'citizenToolKit.controllers.document.DeleteAction',
             'upload'                => 'citizenToolKit.controllers.document.UploadAction',
             'uploads'               => 'citizenToolKit.controllers.document.UploadsAction',
+            'getlistbyid'           => 'citizenToolKit.controllers.document.GetListByIdAction',
 
 	        'resized' => array (
 	            'class'   => 'ext.resizer.ResizerAction',
