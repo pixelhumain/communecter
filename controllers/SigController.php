@@ -13,6 +13,24 @@ class SigController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
+  	public function actions()
+  	{
+      return array(
+          'network'      	=> 'citizenToolKit.controllers.sig.NetworkAction',
+          'companies'      	=> 'citizenToolKit.controllers.sig.CompaniesAction',
+          'state'      		=> 'citizenToolKit.controllers.sig.StateAction',
+          'events'      	=> 'citizenToolKit.controllers.sig.EventsAction',
+          'geopositionbycp'	=> 'citizenToolKit.controllers.sig.GeoPositionByCpAction',
+          'getmyposition'      	=> 'citizenToolKit.controllers.sig.GetMyPositionAction',
+          'sowmynetwork'      	=> 'citizenToolKit.controllers.sig.ShowMyNetworkAction',
+          'ShowNetworkMapping'  => 'citizenToolKit.controllers.sig.ShowNetworkMappingAction',
+          'ShowLocalCompanies'  => 'citizenToolKit.controllers.sig.ShowLocalCompaniesAction',
+          'ShowLocalState'     	=> 'citizenToolKit.controllers.sig.ShowLocalStateAction',
+          'ShowLocalEvents'		=> 'citizenToolKit.controllers.sig.ShowLocalEventsAction',
+
+      );
+  	}
+
     public function actionNetwork()  	{ $this->renderPartial("network"); 		} 
   	public function actionCompanies() 	{ $this->renderPartial("companies"); 	} 
   	public function actionState() 		{ $this->renderPartial("state"); 		}  

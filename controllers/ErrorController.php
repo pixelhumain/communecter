@@ -14,20 +14,10 @@ class ErrorController extends CommunecterController {
 	  return parent::beforeAction($action);
 	}
 
-  /**
-   * 
-   * @return [json Map] list
-   */
-	public function actionIndex() 
-	{
-    $this->pageTitle = "ERREUR";
-    if($error=Yii::app()->errorHandler->error)
-    {
-      if(Yii::app()->request->isAjaxRequest)
-        echo $error['message'];
-      else
-        $this->render('error', array("error"=>$error));
-    }else 
-      $this->render( "index");
-	}
+  public function actions() {
+      return array(
+      'index'     => 'citizenToolKit.controllers.error.IndexAction'
+      );
+  }
+
 }
