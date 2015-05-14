@@ -166,7 +166,7 @@
 			<div class="col-md-12">
 				<h2 class="event-title">Event Title</h2>
 				<div class="btn-group options-toggle pull-right">
-					<a href="#" class="removeEventBtn"><i class="fa fa-minus fa-2x text red"></i></a>
+					<a href="#" class="removeEventBtn btn btn-red"><i class="fa fa-minus fa-2x text red"></i> Remove</a>
 				</div>
 			</div>
 			<div class="col-md-6">

@@ -108,7 +108,7 @@
 			$(".btn").addClass("disabled");
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
-				url : baseUrl+"/templates/upload/dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
+				url : baseUrl+"/document/upload/dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,

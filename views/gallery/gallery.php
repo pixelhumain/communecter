@@ -70,7 +70,7 @@ jQuery(document).ready(function() {
 
 function initGrid(){
 	$.ajax({
-		url: baseUrl+"/"+moduleId+"/document/getlistbyid/id/"+itemId+"/type/"+itemType,
+		url: baseUrl+"/"+moduleId+"/gallery/getlistbyid/id/"+itemId+"/type/"+itemType,
 		type: "POST",
 		dataType : "json",
 		success: function(data){
@@ -142,7 +142,7 @@ function bindBtnGallery(){
 			function(result) {
 				if(result){
 					$.ajax({
-						url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
+						url: baseUrl+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
 						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},

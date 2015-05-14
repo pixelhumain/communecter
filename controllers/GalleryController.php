@@ -15,7 +15,7 @@ class GalleryController extends CommunecterController {
 		}
 
 	public function actionIndex($id, $type){
-		$item = Person::getItemInfoById($id, $type);
+		$item = PHDB::findOneById($type, $id);
 		$params = array();
 		$params["itemId"] = $id;
 		$params['itemType'] = $type;
