@@ -365,7 +365,7 @@
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/person/getUserAutoComplete",
+	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){

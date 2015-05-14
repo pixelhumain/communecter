@@ -153,7 +153,6 @@ class CommunecterController extends Controller
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
       //Links // create a Link controller ?
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),

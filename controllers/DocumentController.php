@@ -21,6 +21,9 @@ class DocumentController extends CommunecterController {
 	        'save'					=> 'citizenToolKit.controllers.document.SaveAction',
 	        'deletedocumentbytid'	=> 'citizenToolKit.controllers.document.DeleteDocumentByIdAction',
 	        'removebacktrack'		=> 'citizenToolKit.controllers.document.RemoveAndBacktractAction',
+            'delete'                => 'citizenToolKit.controllers.document.DeleteAction',
+            'upload'                => 'citizenToolKit.controllers.document.UploadAction',
+            'uploads'               => 'citizenToolKit.controllers.document.UploadsAction',
 
 	        'resized' => array (
 	            'class'   => 'ext.resizer.ResizerAction',
@@ -34,4 +37,13 @@ class DocumentController extends CommunecterController {
 	        )
 	    );
 	}
+
+    //Not use ???
+    function clean($string) {
+       $string = preg_replace('/  */', '-', $string);
+       $string = strtr($string,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'); // Replaces all spaces with hyphens.
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+    
+
 }
