@@ -107,9 +107,6 @@ class CommunecterController extends Controller
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
-    "datalist"=> array(
-      "getlistbyname"=>array("href"=>"/ph/communecter/datalist/getlistbyname")
-    ),
 
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
