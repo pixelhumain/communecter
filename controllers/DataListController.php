@@ -7,12 +7,9 @@ class DataListController extends CommunecterController {
 		return parent::beforeAction($action);
 	}
 
-	public function actionGetListByName($name) {
-		if ($name) {
-			$list = Lists::getListByName($name);
-		}
-		Rest::json(array("result"=>true, "list"=>$list));
+	public function actions() {
+	    return array(
+			'getlistbyname'			=> 'citizenToolKit.controllers.datalist.GetListByNameAction'
+	    );
 	}
-
-
 }
