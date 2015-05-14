@@ -505,19 +505,5 @@ public function actionDashboardMember($id)
 
 		$this->render( "sig", array("randomOrganization" => $randomOrganization, "organization" => $organization, "events" => $events));
 	  }
-	
-	/**********************************************************************
-	/* Search Organization
-	/**********************************************************************/
-	public function actionSearchOrganizationByCriteria() {
-		$criterias = array();
-		foreach ($_POST as $key => $value) {
-			$criterias[$key] = $value;
-		}
-
-		$listOrganization = Organization::findOrganizationByCriterias($criterias, "name", 10);
-
-		return Rest::json(array("result" => true, "list" => $listOrganization));
-	}
 
 }

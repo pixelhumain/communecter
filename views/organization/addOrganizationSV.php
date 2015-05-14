@@ -307,7 +307,7 @@ jQuery(document).ready(function() {
 		var data = {"name" : searchValue, "email" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/organization/searchOrganizationByCriteria",
+	        url: baseUrl+"/communecter/search/searchbycriteria/type/<?php echo Organization::COLLECTION ?>",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
