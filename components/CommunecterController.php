@@ -189,7 +189,6 @@ class CommunecterController extends Controller
     ),
     "gallery" => array(
     	"index" => array("href" => "ph/communecter/gallery/index"),
-    	"getlistbyid" => array("href"=>"ph/communecter/gallery/getlistbyid"),
     	"removebyid" => array("href"=>"ph/communecter/gallery/removebyid"),
     ),
 
@@ -204,6 +203,7 @@ class CommunecterController extends Controller
       "save"=>array("href"=>"/ph/communecter/document/save"),
       "deleteDocumentById"=>array("href"=>"/ph/communecter/document/deleteDocumentById"),
       "removeAndBacktract"=>array("href"=>"/ph/communecter/document/removeAndBacktract"),
+      "getlistbyid" => array("href"=>"ph/communecter/document/getlistbyid"),
     )
     
   );

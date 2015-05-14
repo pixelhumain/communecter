@@ -166,22 +166,7 @@
 			<div class="col-md-12">
 				<h2 class="event-title">Event Title</h2>
 				<div class="btn-group options-toggle pull-right">
-					<button class="btn dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-						<i class="fa fa-cog"></i>
-						<span class="caret"></span>
-					</button>
-					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-						<li>
-							<a href="#newEvent" class="edit-event">
-								<i class="fa fa-pencil"></i> Edit
-							</a>
-						</li>
-						<li>
-							<a href="#" class="delete-event">
-								<i class="fa fa-times"></i> Delete
-							</a>
-						</li>
-					</ul>
+					<a href="#" class="removeEventBtn"><i class="fa fa-minus fa-2x text red"></i></a>
 				</div>
 			</div>
 			<div class="col-md-6">

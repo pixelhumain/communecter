@@ -70,7 +70,7 @@ jQuery(document).ready(function() {
 
 function initGrid(){
 	$.ajax({
-		url: baseUrl+"/"+moduleId+"/gallery/getlistbyid/id/"+itemId+"/type/"+itemType,
+		url: baseUrl+"/"+moduleId+"/document/getlistbyid/id/"+itemId+"/type/"+itemType,
 		type: "POST",
 		dataType : "json",
 		success: function(data){

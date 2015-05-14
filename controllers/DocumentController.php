@@ -24,8 +24,9 @@ class DocumentController extends CommunecterController {
             'delete'                => 'citizenToolKit.controllers.document.DeleteAction',
             'upload'                => 'citizenToolKit.controllers.document.UploadAction',
             'uploads'               => 'citizenToolKit.controllers.document.UploadsAction',
+            'getlistbyid'           => 'citizenToolKit.controllers.document.GetListByIdAction',
 
-	        'resized' => array(
+	        'resized' => array (
 	            'class'   => 'ext.resizer.ResizerAction',
 	            'options' => array(
 	                // Tmp dir to store cached resized images 
@@ -34,8 +35,7 @@ class DocumentController extends CommunecterController {
 	                // Web root dir to search images from
 	                'base_dir'    => Yii::getPathOfAlias('webroot') . '/',
 	            )
-	        ),
-
+	        )
 	    );
 	}
 
