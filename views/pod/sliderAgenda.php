@@ -208,7 +208,10 @@
 
 	//update the shared agenda
 	function updateSliderAgenda(nEvent){
-		events[nEvent["_id"]["id"]] = nEvent;
+		if("undefined" != typeof events.length){
+			events = {};
+		}
+		events[nEvent["_id"]["$id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');

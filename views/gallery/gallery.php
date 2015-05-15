@@ -12,6 +12,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 		width: 100%;
 		height: 175px;
 	}
+
+	.panel-tools{
+		filter: alpha(opacity=1);
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+		opacity: 1;
+	}
 </style>
 <div class="row">
 	<div class="col-md-12">
