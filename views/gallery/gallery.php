@@ -44,7 +44,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 				<hr/>
 				<!-- GRID -->
 				<ul id="Grid" class="list-unstyled">
-					<li class="gap"></li>
 					<!-- "gap" elements fill in the gaps in justified grid -->
 				</ul>
 			</div>
