@@ -35,11 +35,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div class="row">
 	<div class="col-sm-12">
 		<div id="#panel_public" class="panel panel-white">
-			<div class="panel-heading">
+			<div class="panel-heading" id="jobButtons">
 				<h4 class="panel-title">Offer a <span class="text-bold">Job</span></h4>
 				<?php if ($mode != "insert" && Authorisation::isJobAdmin($job["_id"], Yii::app()->session["userId"])) {?>
 				<button id="edit-btn" class="btn pull-right btn-primary">Edit</button>
 				<?php } ?>
+				<button id="reset-btn" class="btn pull-right btn-primary">Reset</button>
 			</div>
 			<div class="panel-body" style="display: block;" id="jobSV">				
 				<form class="form-horizontal" role="form">
@@ -68,7 +69,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 											<label for="form-field-3" class="col-sm-3 control-label">Start Date</label>
 											<div class="col-sm-9">
 												<a href="#" id="startDate" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click">
-													<?php echo isset($job["startDate"]) ? $job["startDate"] : "Enter Start Date" ?>
+													<?php echo isset($job["startDate"]) ? $job["startDate"] : "" ?>
 												</a>
 											</div>
 										</div>
@@ -175,13 +176,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="panel panel-white">	
-	    					<button id="save-btn" class="btn btn-primary" style="display: inline-block;">Save new job!</button>
-	    					<button id="reset-btn" class="btn pull-right">Reset</button>
-	    				</div>
-	    			</div>
-    			</form>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -201,15 +196,15 @@ jQuery(document).ready(function() {
 
 	//Button Edit
 	$('#edit-btn').click(function() {
-	    if (mode == "view") {
-	    	toogleMode();
-	    	mode = "update";
-	    	$(this).text("View");
-	    } else {
-	    	mode = "view";
-	    	$(this).text("Edit");
-	    }
-	    manageMode();
+		if (mode == "view") {
+			toogleMode();
+			mode = "update";
+			$(this).text("View");
+		} else {
+			mode = "view";
+			$(this).text("Edit");
+		}
+		manageMode();
 	});	
 });
 
@@ -223,10 +218,11 @@ function toogleMode() {
 
 function manageMode() {
 	if (mode == "view") {
+		$('.save-subviews').hide();
 		toogleMode();
-		$('#save-btn').hide();
 		$('#reset-btn').hide();
 	} else if (mode == "update") {
+		$('.save-subviews').hide();
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-job').editable('option', 'pk', jobId);
 		$('#jobSV #startDate').editable('option', 'pk', jobId);
@@ -234,53 +230,90 @@ function manageMode() {
 		$('#jobSV #hiringOrganization').editable('option', 'pk', jobId);
 		$('#jobSV #address').editable('option', 'pk', jobId);
 		//Hide the button
-		$('#save-btn').hide();
 		$('#reset-btn').hide();
 	} else if (mode == "insert") {
-		$('#save-btn').show();
 		$('#reset-btn').show();
-		$('#edit-btn').show();
+		$('#edit-btn').hide();
 	}
+}
+
+function saveJob() {
+	$('.editable-job, #jobSV #hiringOrganization, #jobSV #startDate, #jobSV #tagsJob, #jobSV #address').editable('submit', {
+		url: baseUrl+"/"+moduleId+"/job/save", 
+		ajaxOptions: {
+		dataType: 'json' //assuming json response
+		},
+		success: function(data, config) {
+			if(data && data.id) {  //record created, response like {"id": 2}
+			   //set pk
+			   $(this).editable('option', 'pk', data.id);
+			   //remove unsaved class
+			   $(this).removeClass('editable-unsaved');
+			   //show messages
+			   var msg = 'New job created!';
+			   $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
+			   $('#save-btn').hide(); 
+			   console.log("data.job => "+data.job);
+			   if('undefined' != typeof updateJob && typeof updateJob == "function")
+						updateJob( data.job,  data.id);
+			   $.hideSubview();
+		   } else if(data && data.errors){ 
+			   //server-side validation error, response like {"errors": {"username": "username already exist"} }
+			   config.error.call(this, data.errors);
+			}               
+		},
+		error: function(errors) {
+			console.log("Bing y a une erreur !");
+			var msg = '';
+			if(errors && errors.responseText) { //ajax error, errors = xhr object
+				msg = errors.responseText;
+			} else { //validation error (client-side or server-side)
+				$.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
+			} 
+			$('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
+			console.log("Le msg : "+msg);
+		}
+	});
 }
 
 function activateEditable() {
 	$.fn.editable.defaults.mode = 'inline';
 
 	$('.editable-job').editable({
-    	url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new job, it is only for update
-    	onblur: 'submit',
-    	showbuttons: false
+		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new job, it is only for update
+		onblur: 'submit',
+		showbuttons: false
 	});
 
-    //make jobTitle required
+	//make jobTitle required
 	$('#jobSV #title').editable('option', 'validate', function(v) {
-    	console.log("Title Mandatory");
-    	if(!v) return 'Required field!';
+		console.log("Title Mandatory");
+		if(!v) return 'Required field!';
 	});
 
 	//Select2 tags
-    $('#jobSV #tagsJob').editable({
-        url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
-        mode: 'inline',
-        showbuttons: false,
-        select2: {
-        	width: '200px',
-            tags: <?php echo $tags?>,
-            tokenSeparators: [",", " "]
-        }
-    });
+	$('#jobSV #tagsJob').editable({
+		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
+		mode: 'inline',
+		showbuttons: false,
+		select2: {
+			width: '200px',
+			tags: <?php echo $tags?>,
+			tokenSeparators: [",", " "]
+		}
+	});
 
-    $('#jobSV #address').editable({
+	$('#jobSV #address').editable({
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: 'popup',
 		success: function(response, newValue) {
 			console.log("success update postal Code : "+newValue);
 		},
 		value : {
-        	postalCode: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["postalCode"])) ? $job["jobLocation"]["address"]["postalCode"] : null; ?>',
-        	codeInsee: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["codeInsee"])) ? $job["jobLocation"]["address"]["codeInsee"] : ""; ?>',
-        	addressLocality : '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["addressLocality"])) ? $job["jobLocation"]["address"]["addressLocality"] : ""; ?>'
-    	}
+			postalCode: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["postalCode"])) ? $job["jobLocation"]["address"]["postalCode"] : null; ?>',
+			codeInsee: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["codeInsee"])) ? $job["jobLocation"]["address"]["codeInsee"] : ""; ?>',
+			addressLocality : '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["addressLocality"])) ? $job["jobLocation"]["address"]["addressLocality"] : ""; ?>'
+		}
 	}); 
 
 	//Pb with datepicker on inline mode : declare a differente X-editable form on popup mode.
@@ -288,87 +321,47 @@ function activateEditable() {
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: "popup",
 		placement: "bottom",
-        format: 'dd/mm/yyyy',    
-        viewformat: 'dd/mm/yyyy',
-        showbuttons: false,    
-        datepicker: {
-            weekStart: 1
-           }
-        }
-    );
+		format: 'dd/mm/yyyy',    
+		viewformat: 'dd/mm/yyyy',
+		showbuttons: false,    
+		datepicker: {
+			weekStart: 1
+		   }
+		}
+	);
 
-    var organizations = [];
-    $.each({
-    	<?php 
-    		foreach ($organizations as $keyOrganization => $valueOrganization) {
-    			echo "'".$keyOrganization."' : '".$valueOrganization["name"]."', ";
-    		}
-    	?>
-    }, function(k, v) {
-        organizations.push({id: k, text: v});
-    }); 
-    $('#jobSV #hiringOrganization').editable({
+	var organizations = [];
+	$.each({
+		<?php 
+			foreach ($organizations as $keyOrganization => $valueOrganization) {
+				echo "'".$keyOrganization."' : '".$valueOrganization["name"]."', ";
+			}
+		?>
+	}, function(k, v) {
+		organizations.push({id: k, text: v});
+	}); 
+	$('#jobSV #hiringOrganization').editable({
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: "inline",
 		showbuttons: false,
 		source: organizations,
-        select2: {
-            width: 200
-        } 
-    });
-    //make jobTitle required
-	$('#jobSV #hiringOrganization').editable('option', 'validate', function(v) {
-    	if(!v) return 'Required field!';
+		select2: {
+			width: 200
+		} 
 	});
-    
-    //Button Save
-    $('#jobSV #save-btn').click(function() {
-	   	$('.editable-job, #jobSV #hiringOrganization, #jobSV #startDate, #jobSV #tagsJob, #jobSV #address').editable('submit', {
-	       url: baseUrl+"/"+moduleId+"/job/save", 
-	       ajaxOptions: {
-	           dataType: 'json' //assuming json response
-	       },           
-	       success: function(data, config) {
-	           if(data && data.id) {  //record created, response like {"id": 2}
-	               //set pk
-	               $(this).editable('option', 'pk', data.id);
-	               //remove unsaved class
-	               $(this).removeClass('editable-unsaved');
-	               //show messages
-	               var msg = 'New job created!';
-	               $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
-	               $('#save-btn').hide(); 
-	               console.log("data.job => "+data.job);
-	               if('undefined' != typeof updateJob && typeof updateJob == "function")
-		        			updateJob( data.job,  data.id);
-	               $.hideSubview();
-	           } else if(data && data.errors){ 
-	               //server-side validation error, response like {"errors": {"username": "username already exist"} }
-	               config.error.call(this, data.errors);
-	           }               
-	       },
-	       error: function(errors) {
-	           console.log("Bing y a une erreur !");
-	           var msg = '';
-	           if(errors && errors.responseText) { //ajax error, errors = xhr object
-	               msg = errors.responseText;
-	           } else { //validation error (client-side or server-side)
-	               $.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
-	           } 
-	           $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
-	           console.log("Le msg : "+msg);
-	       }
-	   });
+	//make jobTitle required
+	$('#jobSV #hiringOrganization').editable('option', 'validate', function(v) {
+		if(!v) return 'Required field!';
 	});
 
 	//Button Reset
-	$('#jobSV #reset-btn').click(function() {
-	    $('.editable-job').editable('setValue', null)  //clear values
-	        .editable('option', 'pk', null)          //clear pk
-	        .removeClass('editable-unsaved');        //remove bold css
-	                   
-	    $('#save-btn').show();
-	    $('#msg').hide();                
+	$('#jobButtons #reset-btn').click(function() {
+		$('.editable-job, #jobSV #hiringOrganization, #jobSV #startDate, #jobSV #tagsJob, #jobSV #address').editable('setValue', null)  //clear values
+			.editable('option', 'pk', null)          //clear pk
+			.removeClass('editable-unsaved');        //remove bold css
+					   
+		$('#save-btn').show();
+		$('#msg').empty();               
 	});	
 }
 
