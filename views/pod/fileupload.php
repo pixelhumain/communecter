@@ -151,7 +151,7 @@
 			$(".btn").addClass("disabled");
 
 			$.ajax({
-				url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+type,
+				url: baseUrl+"/document/delete/dir/"+moduleId+"/type/"+type,
 				type: "POST",
 				dataType : "json",
 				data: {"name":imageName, "parentId":id, "docId":imageId},

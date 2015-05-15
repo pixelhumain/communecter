@@ -163,6 +163,7 @@ class CommunecterController extends Controller
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
       "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
+      "delete" => array("href" => "ph/communecter/event/delete"),
     ),
 
     "project"=> array(
@@ -198,12 +199,14 @@ class CommunecterController extends Controller
     ),
 
     "document" => array(
-      "resized"=>array("href"=>"/ph/communecter/document/resized"),
-      "list"=>array("href"=>"/ph/communecter/document/list"),
-      "save"=>array("href"=>"/ph/communecter/document/save"),
-      "deleteDocumentById"=>array("href"=>"/ph/communecter/document/deleteDocumentById"),
-      "removeAndBacktract"=>array("href"=>"/ph/communecter/document/removeAndBacktract"),
-      "getlistbyid" => array("href"=>"ph/communecter/document/getlistbyid"),
+      "resized"=>array("href"=> "/ph/communecter/document/resized"),
+      "list"=>array("href"=> "/ph/communecter/document/list"),
+      "save"=>array("href"=> "/ph/communecter/document/save"),
+      "deleteDocumentById"=>array("href"=> "/ph/communecter/document/deleteDocumentById"),
+      "removeAndBacktract"=>array("href"=> "/ph/communecter/document/removeAndBacktract"),
+      "getlistbyid" => array("href"=> "ph/communecter/document/getlistbyid"),
+      "upload" => array("href"=> "ph/communecter/document/upload"),
+      "delete" => array("href"=> "ph/communecter/document/delete")
     )
     
   );

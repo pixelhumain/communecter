@@ -21,6 +21,7 @@ class EventController extends CommunecterController {
           'saveattendees' => 'citizenToolKit.controllers.event.DashboardAction',
           'save'          => 'citizenToolKit.controllers.event.SaveAction',
           'getcalendar'   => 'citizenToolKit.controllers.event.GetCalendarAction',
+          'delete' => 'citizenToolKit.controllers.event.DeleteAction',
       );
   }
 }

@@ -166,7 +166,7 @@
 			<div class="col-md-12">
 				<h2 class="event-title">Event Title</h2>
 				<div class="btn-group options-toggle pull-right">
-					<a href="#" class="removeEventBtn btn btn-red"><i class="fa fa-minus fa-2x text red"></i> Remove</a>
+					<a href="#" class="removeEventBtn btn btn-red">Remove</a>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -254,6 +254,8 @@ function bindEventSubViewEvents() {
 		e.preventDefault();
 		$(".applyBtn ").trigger("click");
 	})
+
+
 };
 
 var dateToShow, calendar, $eventDetail, eventClass, eventCategory;
@@ -707,6 +709,26 @@ function readEvent(el)
 			}
 		});
 	});
+
+	$(".removeEventBtn").off().on("click", function(e){
+		bootbox.confirm("Are you sure you want to delete this event ?", function(result) {
+			if (!result) {
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/event/delete/eventId/"+el,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {               
+						toastr.info("EVENT REMOVE SUCCESFULLY!!");
+					}else{
+						toastr.error("Something went wrong");
+					}
+				}
+			})
+		})
+	})
 	for ( var i = 0; i < calendar.length; i++) {
 
 		if (calendar[i]._id == el) {
