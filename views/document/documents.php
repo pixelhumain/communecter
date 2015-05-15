@@ -134,7 +134,7 @@ jQuery(document).ready(function() {
 			        });
 
 			       $.ajax({
-				        url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+docType,
+				        url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+docType,
 				        data:{
 				        	"name":delname,
 				        	"parentId" : ownerId,

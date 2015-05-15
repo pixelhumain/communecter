@@ -110,7 +110,7 @@ function initDropZoneData(docs)
 		  acceptedFiles: "image/*,"+
 		  				 "application/pdf,"+
 		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
-		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
+		  url : baseUrl+"/"+moduleId+"/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
 		  	$(".uploadText").hide();

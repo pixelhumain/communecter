@@ -108,7 +108,7 @@
 			$(".btn").addClass("disabled");
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
-				url : baseUrl+"/document/upload/dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
+				url : baseUrl+"/"+moduleId+"/document/upload/dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -151,7 +151,7 @@
 			$(".btn").addClass("disabled");
 
 			$.ajax({
-				url: baseUrl+"/document/delete/dir/"+moduleId+"/type/"+type,
+				url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+type,
 				type: "POST",
 				dataType : "json",
 				data: {"name":imageName, "parentId":id, "docId":imageId},

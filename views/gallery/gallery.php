@@ -142,13 +142,17 @@ function bindBtnGallery(){
 			function(result) {
 				if(result){
 					$.ajax({
-						url: baseUrl+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
+						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
 						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},
 						success: function(data){
-							$("#"+imageId).remove();
-							toastr.success("Image supprimée");
+							if(data.result){
+								$("#"+imageId).remove();
+								toastr.success(data.msg);
+							}else{
+								toastr.error(data.error)
+							}
 						}
 					})
 				}
