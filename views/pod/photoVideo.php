@@ -42,14 +42,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	}
 	
 </style>
-
+<?php $canEdit = ((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  
+				|| (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId)))?>
 <div id="photoVideo">
     <div class="panel panel-white">
 	    <div class="panel-heading border-light">
 	        <h4 class="panel-title podPhotoVideoTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Media</h4>
 	    </div>
 	    <div class="panel-tools">
-		   	<?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
+		   	<?php if ($canEdit) { ?>
 			   <a href="#" class="add-photoSlider btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an image" alt="Add an image"><i class="fa fa-plus"></i></a>
 		    <?php } ?>
 		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$itemId.'/type/'.Organization::COLLECTION);?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
@@ -69,7 +70,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																		  "type" => $type,
 																		  "resize" => "true",
-																		  "contentId" =>Document::IMG_MEDIA,
+																		  "contentId" => Document::IMG_MEDIA,
 																		  "editMode" => true)); ?>
 				</div>
 				<div class="row center">
@@ -105,11 +106,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		
 	</div>
 </div> -->
-
-
-
 <script type="text/javascript">
-
+	var canEdit = <?php echo $canEdit ? $canEdit : "false" ?>;
 	var widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
 	var constImgKey = '<?php echo Document::IMG_MEDIA; ?>';
  	jQuery(document).ready(function() {
@@ -128,7 +126,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$('#'+constImgKey+'_avatar').trigger("click");
 		});
 
-		activateVideoEditor();
+		if (canEdit) {
+			activateVideoEditor();
+		}
 
 	});
 
@@ -145,7 +145,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				var where = contentTab[contentTab.length-1];
 				if(j<5 && imagesTab[i].doctype=="image"){
 					if(where == constImgKey){
-						path = baseUrl+"/upload/"+imagesTab[i].moduleId+imagesTab[i].folder+imagesTab[i].name;
+						path = baseUrl+"/upload/"+imagesTab[i].moduleId+"/"+imagesTab[i].folder+"/"+imagesTab[i].name;
 						var htmlSlide = "<li><img src='"+path+"' /></li>";
 						var htmlSlide2 = "<div class='col-md-2 sliderPreview'><img src='"+path+"' /></div>";
 						$("#showAllSlides").append(htmlSlide2);

@@ -17,66 +17,106 @@
     }
     #agendaNewPicture{
     	display: none;
+    	height: 260px;
+    }
+    #infoSlider{
+    	padding-top: 50px;
+    	position: relative;
     }
 </style>
-	<div id="sliderAgenda">
+
+
+<div id="sliderAgenda">
     <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
-     </div>
-     <div class="panel-tools">
-        <?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
-		   <a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
-	    <?php } ?>
-      </div>
-       <div class="panel-body no-padding center">
 
+    	<div class="panel-heading border-light">
+        	<h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
+     	</div>
+
+     	<div class="panel-tools">
+	        <?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
+			   <a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
+		    <?php } ?>
+      	</div>
+
+       	<div class="panel-body no-padding center">
+
+       		<!-- Slider -->
 		  	<div class="flexslider" id="flexsliderAgenda">
-				<ul class="slides" id="slidesAgenda">
-				
-				</ul>
+				<ul class="slides" id="slidesAgenda"></ul>
 		  	</div>
 
-		  	<div class="row" id="agendaNewPicture">
-		  		
-		  	</div>
+		  	<!--FileUploader -->
+		  	<div id="agendaNewPicture">
+			  	<div class="agendaNewPicture" ></div>
+			  	<div class="row center">
+					<a href="#" class="btn btn-light-blue validateSliderAgenda">Terminer </a>
+				</div>
+			</div>
+
 		</div>
-      <!--<div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>-->
     </div>
-    </div>
+</div>
 
- <script type="text/javascript">
-var events = <?php echo json_encode($events) ?>;
-var contentId = "<?php echo Document::IMG_PROFIL; ?>";
- jQuery(document).ready(function() {	 	
-		initDashboardAgenda();
-		$(".flexslider").flexslider();
+<script type="text/javascript">
+
+	/* PHP Variable
+		events : list of the context users events
+		contentID : type of the picture
+	*/
+	var events = <?php echo json_encode($events) ?>;
+	var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 
 
-		$('.addImgButton').off().on("click", function(){
-			
-			$("#flexsliderAgenda").flexslider("clear");
-			$("#flexsliderAgenda").css("display", "none");
-			$("#agendaNewPicture").css("display", "block");
-			getAjax("#agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId,null,"html");
-		})
+ 	jQuery(document).ready(function() {	 
+
+		initDashboardAgenda();	
+
 	});
 
+
+ 	function bindBtnSliderAgenda(){
+ 		// Close fileupload div anc clear slider
+		$(".validateSliderAgenda").off().on("click", function() {
+			clearFileUploadAgenda();
+		})
+
+		// Open fileupload div 
+		$('.addImgButton').off().on("click", function(){
+			$("#flexsliderAgenda").flexslider("clear");
+			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId+"/podId/sliderAgenda",null,"html");
+			$("#flexsliderAgenda").css("display", "none");
+			$("#agendaNewPicture").css("display", "block");
+			setTimeout(function(){
+				$('#sliderAgenda_'+contentId+'_avatar').trigger("click");
+			}, 500);
+			
+
+			
+		})
+ 	}
+ 	/*
+ 		Init the flexSlider with the next events or with default empty message
+ 	*/
 	function initDashboardAgenda(){
-		var n = 1;
+		var n = 0;
 		var today = new Date();
+
+		// if false init slider with empty message
 		var notEmptySlide = false;
-		var width =  parseInt($("#sliderAgenda .flexslider").css("width"));
+
+		// dynamic width and height for the slides images
+		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = width*45/100;
+
 		if(Object.keys(events).length>0){
 			$.each(events, function(k, v){
-				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate){
+				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate && v.endDate.split("/").length==3){
 					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
 					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-					if(n<4 && compareDate(today, date)){
+					if(compareDate(today, date)){
+
 						notEmptySlide = true;
 						var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
 						if ('undefined' != typeof v.imagePath){
@@ -87,7 +127,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 													imageUrl+
 													'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
 												"</div>"
-						htmlRes +="<div class='row'>"+
+						htmlRes +="<div class='row' id='infoSlider'>"+
 									"<div class='col-xs-5' >"+
 										"<h2>"+period+"</h2></div>";
 						htmlRes += "<div class='col-xs-7' >"+
@@ -101,6 +141,8 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 				}
 			})	
 		}
+
+
 		if(!notEmptySlide){
 			var htmlRes = 	"<li>"+
 								"<div class='center'>"+
@@ -112,11 +154,14 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 			$("#slidesAgenda").append(htmlRes);
 		}
 
+		// reload Slider
+		$("#flexsliderAgenda").flexslider();
 		$(".slidesAgendaTitle").html("Shared Calendar");
+		bindBtnSliderAgenda();
 		//showCalendarDashBoard(data);
 	}
 
-
+	//Return true if the date d < date f
 	function compareDate(d, f){
 		var res = false;
 		console.log(d, f, d<= f)
@@ -126,6 +171,7 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		return res;
 	}
 
+	//convert a period to a string
 	function getStringPeriodValue(d, f){
 		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MARS", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
 		var strPeriod = "";
@@ -160,14 +206,29 @@ var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 		return strPeriod;
 	}
 
+	//update the shared agenda
 	function updateSliderAgenda(nEvent){
-		console.log("nEvent", nEvent);
 		events[nEvent["_id"]["id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
 		initDashboardAgenda();
-		$(".flexslider").flexslider();
+	}
+
+	//Update the picture of an events
+	function updateSliderImage(id, imagePath){
+		events[id]["imagePath"] = imagePath;
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		initDashboardAgenda();
+	}
+
+
+	//Close fileUpload and reset slider
+	function clearFileUploadAgenda(){
+		$("#agendaNewPicture").css("display", "none");
+		$("#flexsliderAgenda").css("display", "block");
 	}
 
  </script>

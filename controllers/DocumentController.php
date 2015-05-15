@@ -8,10 +8,25 @@
  */
 class DocumentController extends CommunecterController {
   
+	protected function beforeAction($action) {
+		parent::initPage();
+		return parent::beforeAction($action);
+  	}
+
 	public function actions()
 	{
 	    return array(
-	        'resized' => array(
+	        //CTK actions
+	        'list'					=> 'citizenToolKit.controllers.document.ListAction',
+	        'save'					=> 'citizenToolKit.controllers.document.SaveAction',
+	        'deletedocumentbytid'	=> 'citizenToolKit.controllers.document.DeleteDocumentByIdAction',
+	        'removebacktrack'		=> 'citizenToolKit.controllers.document.RemoveAndBacktractAction',
+            'delete'                => 'citizenToolKit.controllers.document.DeleteAction',
+            'upload'                => 'citizenToolKit.controllers.document.UploadAction',
+            'uploads'               => 'citizenToolKit.controllers.document.UploadsAction',
+            'getlistbyid'           => 'citizenToolKit.controllers.document.GetListByIdAction',
+
+	        'resized' => array (
 	            'class'   => 'ext.resizer.ResizerAction',
 	            'options' => array(
 	                // Tmp dir to store cached resized images 
@@ -20,32 +35,16 @@ class DocumentController extends CommunecterController {
 	                // Web root dir to search images from
 	                'base_dir'    => Yii::getPathOfAlias('webroot') . '/',
 	            )
-	        ),
+	        )
 	    );
 	}
 
+    //Not use ???
+    function clean($string) {
+       $string = preg_replace('/  */', '-', $string);
+       $string = strtr($string,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'); // Replaces all spaces with hyphens.
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+    
 
-	public function actionSave() {
-	      return Rest::json( Document::save($_POST) );
-	}
-
-	/**
-	* delete a document
-	* @param $id id of the document that we want to delete
-	*/
-	public function actionDeleteDocumentById($id){
-		return Rest::json( Document::removeDocumentById($id));
-	}
-
-	public function actionRemoveAndBacktract(){
-		$result = array("result"=>false,"msg"=>"Vos données n'ont pas pu être modifiées");
-		if(isset($_POST["_id"])){
-			Document::removeDocumentById($_POST["_id"]);
-			Document::setImagePath($_POST["id"], $_POST["type"], $_POST["imagePath"], $_POST["contentKey"]);
-			$result = array("result"=>true,"msg"=>"Vos données ont bien été modifiées");
-		}
-		return Rest::json($result);
-	}
-
-	
 }

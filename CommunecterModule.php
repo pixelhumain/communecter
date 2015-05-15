@@ -25,6 +25,7 @@ class CommunecterModule extends CWebModule
 		Yii::app()->language = 'en';
 		// import the module-level models and components
 		$this->setImport(array(
+			'citizenToolKit.models.*',
 			$this->id.'.models.*',
 			$this->id.'.components.*',
 			$this->id.'.messages.*',

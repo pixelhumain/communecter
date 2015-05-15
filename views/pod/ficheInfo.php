@@ -32,11 +32,24 @@
 				<?php echo (isset($context)) ? $context["name"] : null; ?>
 			</a>
 		</h4>
+		
 		<div class="panel-tools">
 			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+			
 			<?php } ?>
+			<div id="linkBtns">
+			<?php 
+				if(isset($context["_id"]) && isset(Yii::app()->session["userId"])
+					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
+
+			?>
+					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>
+			<?php } else{ ?>
+					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
+			<?php } ?>
+			</div>
 		</div>
 	</div>
 	<div class="panel-body border-light" id="organizationDetail">
@@ -56,7 +69,7 @@
 						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="right">
+					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
@@ -96,11 +109,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-emptytext="Type d'intervention" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
 					
 				</a>
@@ -115,12 +128,20 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-xs-6 padding-20">
 				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
 			</div>
-			<div class="col-sm-6 col-xs-6">
-				<a href="#">Plaquette de presentation</a>
+			<div class="col-sm-6 col-xs-6 padding-20">
+				<?php 
+					if (isset($plaquette) && $plaquette) {
+	                	$this->widget('ext.widgets.documentLink.DocumentLinkWidget', array(
+	                		"document" => $plaquette,
+	                		"text" => "Plaquette de presentation"));
+	                	//echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
+					} else { ?>
+						<a href="#">N/A</a>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -169,8 +190,91 @@
 			  },
 			});
 		}));
+
+		bindFicheInfoBtn();
 	});
 
+
+	function bindFicheInfoBtn(){
+
+		$(".removeMemberBtn").off().on("click",function () {
+			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+			
+			var idMemberOf = $(this).data("memberof-id");
+			var idMember = $(this).data("member-id");
+			var typeMember = $(this).data("member-type");
+			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+				function(result) {
+					if (!result) {
+					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					return;
+				}
+
+				console.log(idMember);
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
+					dataType: "json",
+					success: function(data){
+						if ( data && data.result ) {
+
+							$("#linkBtns").empty()
+							$("#linkBtns").html('<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I\'m member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I\'m member of this</a>')           
+							bindFicheInfoBtn();
+							toastr.info("LINK DIVORCED SUCCESFULLY!!");
+							$("#organizations"+idMemberOf).remove();
+							if ($("#organizations tr").length == 0) {
+								$("#info").show();
+							}
+						} else {
+						   toastr.info("something went wrong!! please try again.");
+						}
+					}
+				});
+			});
+
+			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+		});
+
+
+		//Add Me as member Of Button
+		$('#addMeAsMemberInfo').off().on("click", function(e) {
+			e.preventDefault();
+			var formData = {
+	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
+				"memberName" : "",
+				"memberEmail" : "",
+				"memberType" : '<?php echo PHType::TYPE_CITOYEN ?>', 
+				"parentOrganisation" : contextId,
+				"memberIsAdmin" : false,
+				"memberRoles" : ""
+			};
+			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+				function(result) {
+					if (!result) {
+						$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+						return;
+				}
+			
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/link/saveMember",
+					data: formData,
+					dataType: "json",
+					success: function(data) {
+						if(data.result){
+							$("#linkBtns").empty();
+							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="'+contextData.name+'" data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>');
+							bindFicheInfoBtn();
+							toastr.success("You are now member of the organization : "+contextData.name);
+						}
+						else
+							toastr.error(data.msg);
+					},
+				});  
+			});             
+		});	
+	}
 	function manageModeContext() {
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
@@ -181,7 +285,6 @@
 			$('#address').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-search").addClass("fa-pencil");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
@@ -201,7 +304,6 @@
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$("#editFicheInfo").removeClass("fa-pencil").addClass("fa-search");
 		}
 	}
 

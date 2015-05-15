@@ -19,31 +19,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 			<div class="panel-heading">
 				<h4 class="panel-title">Gallery</h4>
 				<div class="panel-tools">
-					<div class="dropdown">
-						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-							<i class="fa fa-cog"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-							<li>
-								<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-							</li>
-							<li>
-								<a class="panel-refresh" href="#">
-									<i class="fa fa-refresh"></i> <span>Refresh</span>
-								</a>
-							</li>
-							<li>
-								<a class="panel-config" href="#panel-config" data-toggle="modal">
-									<i class="fa fa-wrench"></i> <span>Configurations</span>
-								</a>
-							</li>
-							<li>
-								<a class="panel-expand" href="#">
-									<i class="fa fa-expand"></i> <span>Fullscreen</span>
-								</a>
-							</li>
-						</ul>
-					</div>
+					<a href="javascript:;" id="backToDashboardBtn" class="btn btn-xs btn-blue">Back</a>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -72,6 +48,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 <script type="text/javascript">
 
 var images;
+var typePage = "person";
 var tabButton = [];
 var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere"};
 var itemId = "<?php echo $itemId; ?>"
@@ -80,22 +57,31 @@ var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Auth
 
 jQuery(document).ready(function() {
 	initGrid();	
+
+	$("#backToDashboardBtn").off().on("click", function(){
+		if(itemType == "organizations"){
+			typePage = "organization";
+		}else if(itemType == "events"){
+			typePage = "event";
+		}
+		document.location.href=baseUrl+"/"+moduleId+"/"+typePage+"/dashboard/id/"+itemId;
+	})
 });
 
 function initGrid(){
 	$.ajax({
-		url: baseUrl+"/"+moduleId+"/gallery/getlistbyid/id/"+itemId+"/type/"+itemType,
+		url: baseUrl+"/"+moduleId+"/document/getlistbyid/id/"+itemId+"/type/"+itemType,
 		type: "POST",
 		dataType : "json",
 		success: function(data){
 			console.log(data);
 			j = 0;
 			$.each(data, function(k, v){
-				if(v.doctype == "image"){
+				if(v.doctype == "image" && "undefined" != typeof v.contentKey){
 
 					j++;
-					var path = baseUrl+"/upload/"+v.moduleId+v.folder+v.name;
-					var type = v.contentKey.split(".")[2];
+					var path = baseUrl+"/upload/"+v.moduleId+"/"+v.folder+"/"+v.name;
+					var type = v.contentKey.split(".")[v.contentKey.split(".").length-1];
 					if($.inArray(type, tabButton)==-1){
 						tabButton.push(type);
 						var liHtml = '<li class="filter" data-filter=".'+type+'">'+
@@ -106,7 +92,7 @@ function initGrid(){
 					var htmlBtn = "";
 					if(authorizationToEdit=="true"){
 						htmlBtn= ' <div class="tools tools-bottom">' +
-									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'"  >' +
+									' <a href="#" class="btnRemove" data-id="'+v["_id"]["$id"]+'" data-name="'+v.name+'" data-key="'+v.contentKey+'" >' +
 										' <i class="fa fa-trash-o"></i>'+
 									' </a>'+
 								' </div>'
@@ -150,18 +136,23 @@ function bindBtnGallery(){
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");
 		var imageName= $(this).data("name");
+		var key = $(this).data("key")
 		e.preventDefault();
 		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> ?", 
 			function(result) {
 				if(result){
 					$.ajax({
-						url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
+						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId},
+						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},
 						success: function(data){
-							$("#"+imageId).remove();
-							toastr.success("Image supprimée");
+							if(data.result){
+								$("#"+imageId).remove();
+								toastr.success(data.msg);
+							}else{
+								toastr.error(data.error)
+							}
 						}
 					})
 				}

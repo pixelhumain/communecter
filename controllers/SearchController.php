@@ -9,21 +9,17 @@
  */
 class SearchController extends CommunecterController {
 
-    protected function beforeAction($action) {
+  protected function beforeAction($action) {
 		  return parent::beforeAction($action);
-  	}
+  }
 
-  	public function actionGetMemberAutocomplete()  	{
-  		$query = array( "name" => new MongoRegex("/".$_POST['name']."/i"));
-  		$allCitoyen = PHDB::find ( PHType::TYPE_CITOYEN ,$query ,array("name"));
-  		$allOrganizations = PHDB::find ( Organization::COLLECTION ,$query ,array("name", "type"));
-  		$allEvents = PHDB::find(PHType::TYPE_EVENTS, $query, array("name"));
-  		$res= array("citoyen" => $allCitoyen,
-  					"organization" => $allOrganizations,
-  					"event" => $allEvents,
-  					);
-
-  		Rest::json($res);
-		Yii::app()->end(); 
-  	}
+  public function actions()
+  {
+      return array(
+          'globalautocomplete'      	=> 'citizenToolKit.controllers.search.GlobalAutoCompleteAction',
+          'searchmemberautocomplete'	=> 'citizenToolKit.controllers.search.SearchMembersAutoCompleteAction',
+          'searchbycriteria'          => 'citizenToolKit.controllers.search.SearchByCriteriaAction',
+      );
+  }
+  
 }

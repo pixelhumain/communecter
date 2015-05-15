@@ -1,6 +1,7 @@
 <?php 
 class Project {
 
+	const COLLECTION = projects;
 	/**
 	 * get an project By Id
 	 * @param type $id : is the mongoId of the project

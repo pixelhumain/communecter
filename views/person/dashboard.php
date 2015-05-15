@@ -87,13 +87,14 @@ var bindBtnFollow = function(){
         
         $(this).empty();
         $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+        var btnClick = $(this);
         var idToDisconnect = $(this).data("id");
         var typeToDisconnect = $(this).data("type");
         bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
         	function(result) {
-					if (!result) {
-					$(this).empty();
-			        $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+				if (!result) {
+					btnClick.empty();
+			        btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
 					return;
 				}
 				$.ajax({
@@ -108,8 +109,8 @@ var bindBtnFollow = function(){
 			        	$("#"+typeToDisconnect+idToDisconnect).remove();
 			        } else {
 			           toastr.info("something went wrong!! please try again.");
-			           $(this).empty();
-			           $(this).html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+			           btnClick.empty();
+			           btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
 			        }
 			    });
 		});

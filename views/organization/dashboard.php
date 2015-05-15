@@ -21,6 +21,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	    				"context" => $organization,
 						"tags" => $tags, 
 						"images" => $images,
+						"plaquette" => $plaquette,
 						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
@@ -43,7 +44,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 		    ?>
 			<div class="col-sm-12 col-xs-12">
-	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members)); ?>
+	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
 	    	</div>
 	    	<?php }; ?>
 	    	
@@ -96,7 +97,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	contextMap.events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
-
 	
 	jQuery(document).ready(function() {
 		if($(".tooltips").length) {
@@ -112,7 +112,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
             onHover: false // if true only pulsate if user hovers over the element
         });
 
-		getAjax(".documentPod",baseUrl+"/"+moduleId+"/organization/documents/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".documentPod",baseUrl+"/"+moduleId+"/document/list/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION?>",null,"html");
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list/organizationId/<?php echo $_GET["id"]?>",null,"html");
 
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){bindPhotoSubview();}, "html");

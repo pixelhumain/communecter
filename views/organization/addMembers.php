@@ -36,7 +36,7 @@
         		<p>An Organization can have People as members or Organizations</p>
         	</div>
         	<div class="panel-body">
-		    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off">
+		    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off" submit='false'>
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		    	    <div class="form-group" id="searchMemberSection">
@@ -77,6 +77,19 @@
 			    	        		<input class="form-control" placeholder="Name" id="memberName" name="memberName" value=""/>
 								</div>		    	        
 			    	        </div>
+			    	        <div class="row" id="divOrganizationType">
+			    	        	<div class="col-md-1">
+			    	        		<i class="fa fa-crosshairs fa-2x"></i>
+					           	</div>
+					           	<div class="col-md-10">
+			    	        		<select class="form-control" placeholder="Organization Type" id="organizationType" name="organizationType">
+									<option value=""></option>
+									<?php foreach ($organizationTypes as $key => $value) { ?>
+										<option value="<?php echo $key ?>"><?php echo $value?></option>
+									<?php }	?>
+								</select>
+								</div>		    	        
+			    	        </div>
 			    	        <div class ="row">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-envelope-o fa-2x"></i>
@@ -85,6 +98,17 @@
 			               			<input class="member-email form-control" placeholder="Email" autocomplete = "off" id="memberEmail" name="memberEmail" value=""/>
 			               		</div>
 			               	</div>
+			               	<div class="row">
+								<div class="col-md-5">
+									<div id="divAdmin" class="form-group">
+						    	    	<label class="control-label">
+											Administrateur :
+										</label>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
+										<input type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+									</div>
+								</div>
+							</div>
 			               	<div class ="row">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-tags fa-2x"></i>
@@ -99,17 +123,6 @@
 								</div>
 							</div>
 							
-							<div class="row">
-								<div class="col-md-5">
-									<div id="divAdmin" class="form-group">
-						    	    	<label class="control-label">
-											Administrateur :
-										</label>
-										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input  type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
-									</div>
-								</div>
-							</div>
 							<div class="form-group">
 								<div class="row">
 					    	        <button class="btn btn-primary" >Enregistrer</button>
@@ -182,7 +195,12 @@
 	var timeout;
 	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
-		
+		 $(window).keydown(function(event){
+		    if(event.keyCode == 13) {
+		      event.preventDefault();
+		      return false;
+		    }
+		  });
 		bindOrganizationSubViewAddMember();
 	});
 	
@@ -220,7 +238,13 @@
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			$("#addMembers #memberIsAdmin").val(""+state);
+			console.log("state = "+state );
+			if (state == true) {
+				$("#addMembers #memberIsAdmin").val(1);
+			} else {
+				$("#addMembers #memberIsAdmin").val(0);
+			}
+			
 		}); 
 		$("#addMemberForm").off().on("submit",function(event){
 	    	event.preventDefault();
@@ -228,14 +252,15 @@
 	    		"memberId" : $("#addMembers #memberId").val(),
 				"memberName" : $("#addMembers #memberName").val(),
 				"memberEmail" : $("#addMembers #memberEmail").val(),
-				"memberType" : $("#addMembers #memberType").val(), 
+				"memberType" : $("#addMembers #memberType").val(),
+				"organizationType" : $("#addMembers #organizationType").val(),
 				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
 				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
 				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
 	    	$.ajax({
 	            type: "POST",
-	            url: baseUrl+"/communecter/organization/savemember/id/<?php echo (string)$organization['_id']; ?>",
+	            url: baseUrl+"/communecter/link/savemember",
 	            data: params,
 	            dataType: "json",
 	            success: function(data){
@@ -268,6 +293,7 @@
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
 		                $("#addMembers #memberRole").val("");
+		                $('#addMembers #organizationType').val("");
 						$("#addMembers #memberIsAdmin").val("false");
 						$("#memberRole").select2("val", "");
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
@@ -309,20 +335,25 @@
 		
 	}
 
-	function setMemberInputAddMember(id, name,email,type){
+	function setMemberInputAddMember(id, name, email, type, organizationType){
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#addMembers #memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').val(email);
+		
+		$('#addMembers #memberEmail').attr("disabled", 'disabled');
+		$("#addMembers #memberName").attr("disabled", 'disabled');
+
 		if(type=="citoyens"){
 			$("#addMembers #btnCitoyen").trigger("click");
 			$("#addMembers #btnOrganization").addClass("disabled");
 		}else{
 			$("#addMembers #btnOrganization").trigger("click");
 			$("#addMembers #btnCitoyen").addClass("disabled");
+			$('#addMembers #organizationType').val(organizationType);
+			$('#addMembers #organizationType').attr("disabled", 'disabled');
 		}
-		
 		$("#addMembers #dropdown_search").css({"display" : "none" });
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");
@@ -334,7 +365,7 @@
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/person/GetUserAutoComplete",
+	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
@@ -346,9 +377,7 @@
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-		 					
-			 				console.log(v.type);
-		  					str += "<li class='li-dropdown-scope'><a href='javascript:setMemberInputAddMember(\""+ v._id["$id"] +"\", \""+v.name+"\",\""+v.email+"\", \""+key+"\")'><i class='fa "+mapIcon[key]+"'></i> "+ v.name + "</a></li>";
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddMember(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+mapIcon[key]+'"></i>'+v.name +'</a></li>';
 		  				});
 		  			}); 
 
@@ -362,10 +391,13 @@
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");
 		$("#addMembers #memberName").val("");
+		$("#addMembers #memberName").removeAttr("disabled");
 		$("#addMembers #memberId").val("");
 		$('#addMembers #memberEmail').val("");
+		$('#addMembers #memberEmail').removeAttr("disabled");
+		$('#addMembers #organizationType').removeAttr("disabled");
 		$("#addMembers #memberRole").val("");
-		$("#addMembers #memberIsAdmin").val("false");
+		$("#addMembers #memberIsAdmin").val("0");
 		$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
   		if(emailReg.test( $("#addMembers #memberSearch").val() )){
@@ -396,12 +428,14 @@
 		if(str=="citoyens"){
 			$("#addMembers #divAdmin").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
+			$("#addMembers #divOrganizationType").css("display", "none");
 			$("#addMembers #btnCitoyen").removeClass("btn-green");
 			$("#addMembers #btnCitoyen").addClass("btn-dark-green");
 			$("#addMembers #btnOrganization").removeClass("btn-dark-green");
 			$("#addMembers #btnOrganization").addClass("btn-green");
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
+			$("#addMembers #divOrganizationType").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
 			$("#addMembers #btnOrganization").removeClass("btn-green");
 			$("#addMembers #btnOrganization").addClass("btn-dark-green");
@@ -415,11 +449,11 @@
 		var admin= "";
 		var type="";
 		if($("#addMembers #memberType").val()=="citoyens"){
-			type= "Personne";
+			type = "Personne";
 		}else{
 			type = "Organisation"
 		}
-		if($("#addMembers #memberIsAdmin").val()=="true"){
+		if($("#addMembers #memberIsAdmin").val()=="1"){
 			admin="Oui";
 		}else{
 			admin = "Non";
@@ -434,6 +468,7 @@
         if($(".newMembersAddedTable").hasClass("hide"))
             $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
+
 </script>
 	
 

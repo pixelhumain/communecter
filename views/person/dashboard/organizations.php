@@ -48,7 +48,7 @@
 			<?php 
 				if (isset($organizations) && count($organizations) == 0) {
 			?>
-				<div id="info" class="padding-10">
+				<div id="infoPodOrga" class="padding-10">
 					<blockquote> 
 						Create or Connect 
 						<br>an Organization, NGO,  
@@ -88,7 +88,7 @@
 				console.log(idMember);
 				$.ajax({
 					type: "POST",
-					url: baseUrl+"/"+moduleId+"/organization/removemember/organizationId/"+idMemberOf+"/id/"+idMember+"/type/"+typeMember,
+					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
 					dataType: "json",
 					success: function(data){
 						if ( data && data.result ) {               
@@ -125,7 +125,7 @@
 				"</tr>";
 		$("#organizations").prepend(organizationLine);
 		$('.tooltips').tooltip();
-		$('#info').hide();
+		$('#infoPodOrga').hide();
 		bindBtnRemoveMember();
 	}
 </script>

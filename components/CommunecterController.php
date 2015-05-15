@@ -102,46 +102,45 @@ class CommunecterController extends Controller
   public $pages = array(
 
     "default"=> array(
-      "index"=>array("href"=>"/ph/communecter"),
+      "index"=>array("href"=>"/ph/communecter","api"=>""),
       "about"=>array("href"=>"/ph/communecter/default/about"),
       "help"=>array("href"=>"/ph/communecter/default/help"),
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
-    ),
-    "datalist"=> array(
-      "getlistbyname"=>array("href"=>"/ph/communecter/datalist/getlistbyname")
     ),
 
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),
     ),
+    
     "search"=>array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
+
     "person"=> array(
+      "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
       "index"=>array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+      "authenticate"=>array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
+      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+      "connect"=>array("href"=>"/ph/communecter/person/connect"),
+      "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
+      "register" => array("href" => "/ph/communecter/person/register"),
+      "logout"=>array("href"=>"/ph/communecter/person/logout"),
+      'getnotification' => array("href" => "/person/getNotification"),
+      "invite"=>array("href"=>"/ph/communecter/person/invite"),
+      "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
+      "updatefield" =>array("href"=>"/person/updatefield"),
+      "getuserautocomplete"=> array('href' => "/person/getUserAutoComplete"),
+
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
-      "public"=>array("href" =>"/ph/communecter/person/public"),
+      
+      //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "login"=>array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
-      "logout"=>array("href"=>"/ph/communecter/person/logout"),
-      "invitation"=>array("href"=>"/ph/communecter/person/invitation"),
-      "connect"=>array("href"=>"/ph/communecter/person/connect"),
-      "removememberof"=>array("href"=>"/ph/communecter/person/removememberOf"),
-      "disconnect"=>array("href"=>"/ph/communecter/person/disconnect"),
-      "invite"=>array("href"=>"/ph/communecter/person/invite"),
-      "react"=>array("href"=>"/ph/communecter/person/react", 'title' => "ReactTest"),
-      "getuserautocomplete"=> array('href' => "/person/GetUserAutoComplete"),
-      'getnotification' => array("href" => "/person/GetNotification"),
-      "mydata" => array("href" => "/person/mydata"),
-      "register" => array("href" => "/ph/communecter/person/register"),
-      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
-      "gallery"=>array("href"=>"/ph/communecter/gallery",'title' => "My Gallery", "subTitle"=>"Life is full images","pageTitle"=>"My Gallery"),
+      "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
       "about" =>array("href"=>"/person/about"),
-      "updatefield" =>array("href"=>"/person/updatefield"),
     ),
 
     "organization"=> array(
@@ -151,15 +150,9 @@ class CommunecterController extends Controller
       "getbyid"=>array("href"=>"/ph/communecter/organization/getbyid"),
       "updatefield" =>array("href"=>"/ph/communecter/organization/updatefield"),
       "join"=>array("href"=>"/ph/communecter/organization/join"),
-      "searchorganizationbycriteria"=>array("href"=>"/ph/communecter/organization/searchOrganizationByCriteria"),
       "sig"=>array("href"=>"/ph/communecter/organization/sig"),
-      //Move to Document controller
-      "documents"=>array("href"=>"/ph/communecter/organization/documents"),
       //Links // create a Link controller ?
-      "addmembers"=>array("href"=>"/ph/communecter/organization/addmembers"),
-      "savemember"=>array("href"=>"/ph/communecter/organization/savemember"),
       "addneworganizationasmember"=>array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
-      "removemember"=>array("href"=>"/ph/communecter/organization/removemember"),
       //Dashboards
       "dashboard"=>array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"=>array("href"=>"/ph/communecter/organization/dashboardMember"),
@@ -167,18 +160,17 @@ class CommunecterController extends Controller
     ),
     
     "event"=> array(
-      "edit"=>array("href"=>"/ph/communecter/event/edit"),
-      "public"=>array("href"=>"/ph/communecter/event/public"),
       "save"=>array("href"=>"/ph/communecter/event/save"),
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
-      "dashboard"=>array("href"=>"/ph/communecter/person/dashboard"),
+      "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
+      "delete" => array("href" => "ph/communecter/event/delete"),
     ),
 
     "project"=> array(
       "edit"=>array("href"=>"/ph/communecter/project/edit"),
       "public"=>array("href"=>"/ph/communecter/project/public"),
       "save"=>array("href"=>"/ph/communecter/project/save"),
-      "savecontributor"=>array("href"=>"/ph/communecter/event/savecontributor"),
+      "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 
     ),
@@ -191,7 +183,6 @@ class CommunecterController extends Controller
       "list"=>array("href"=>"/ph/communecter/job/list"),
     ),
 
-
     "pod" => array(
     	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
     	"photovideo" => array("href" => "ph/communecter/pod/photovideo"),
@@ -199,9 +190,24 @@ class CommunecterController extends Controller
     ),
     "gallery" => array(
     	"index" => array("href" => "ph/communecter/gallery/index"),
-    	"getlistbyid" => array("href"=>"ph/communecter/gallery/getlistbyid"),
     	"removebyid" => array("href"=>"ph/communecter/gallery/removebyid"),
     ),
+
+    "link" => array(
+      "savemember" => array("href" => "/ph/communecter/link/savemember"),
+      "removemember" => array("href" => "/ph/communecter/link/removemember")
+    ),
+
+    "document" => array(
+      "resized"=>array("href"=> "/ph/communecter/document/resized"),
+      "list"=>array("href"=> "/ph/communecter/document/list"),
+      "save"=>array("href"=> "/ph/communecter/document/save"),
+      "deleteDocumentById"=>array("href"=> "/ph/communecter/document/deleteDocumentById"),
+      "removeAndBacktract"=>array("href"=> "/ph/communecter/document/removeAndBacktract"),
+      "getlistbyid" => array("href"=> "ph/communecter/document/getlistbyid"),
+      "upload" => array("href"=> "ph/communecter/document/upload"),
+      "delete" => array("href"=> "ph/communecter/document/delete")
+    )
     
   );
 

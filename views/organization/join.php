@@ -119,7 +119,8 @@ var formDefinition = {
 	                "placeholder":"Postal Code",
 	                "rules" : {
 						"required" : true,
-						"rangelength" : [5, 5]
+						"rangelength" : [5, 5],
+						"validPostalCode" : true
 					}
 	            },
 	            "city" : {
@@ -169,7 +170,8 @@ var formDefinition = {
 	                "placeholder":"Postal Code",
 	                "rules" : {
 						"required" : true,
-						"rangelength" : [5, 5]
+						"rangelength" : [5, 5],
+						"validPostalCode" : true
 					}
 	            },
 	            "personCity" : {
@@ -247,7 +249,7 @@ jQuery(document).ready(function() {
 
  	var contextMap = <?php echo json_encode($contextMap)?>;
  	console.log(contextMap);
-
+	addCustomValidators();
 	$('.box-join').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});
@@ -331,6 +333,7 @@ jQuery(document).ready(function() {
 });
 
 function runShowCity(searchValue, idSelect, classDiv) {
+	$(idSelect).empty();
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	var oneValue = "";
 	console.table(citiesByPostalCode);
@@ -343,7 +346,7 @@ function runShowCity(searchValue, idSelect, classDiv) {
 		$(idSelect).select2('val', oneValue);
 	}
 
-	if (citiesByPostalCode.length >0) {
+	if (citiesByPostalCode.length > 0) {
 		$(classDiv).slideDown("medium");
     } else {
 		$(classDiv).slideUp("medium");
@@ -371,6 +374,7 @@ function searchCity(postalCodeId, idSelect, classDiv) {
 		timeout = setTimeout('runShowCity("'+searchValue+'","'+idSelect+'","'+classDiv+'")', 100); 
 	} else {
 		$(classDiv).slideUp("medium");
+		$(idSelect).select2('val', "");
 		$(idSelect).empty();
 	}
 }

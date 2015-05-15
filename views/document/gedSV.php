@@ -97,8 +97,8 @@ jQuery(document).ready(function()
 	});
 });
 
-var genericDocCategoryData = [];
-var genericDocCategoryIndex = [];
+var genericDocCategoryData = <?php echo isset($categories) ? json_encode($categories) : '""' ?>;
+genericDocCategoryData = genericDocCategoryData.sort();
 
 function initDropZoneData(docs)
 {
@@ -110,7 +110,7 @@ function initDropZoneData(docs)
 		  acceptedFiles: "image/*,"+
 		  				 "application/pdf,"+
 		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
-		  url : baseUrl+"/templates/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
+		  url : baseUrl+"/"+moduleId+"/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() { 
 		  	$(".uploadText").hide();
@@ -125,6 +125,7 @@ function initDropZoneData(docs)
 		  complete: function(response) { 
 		  	//console.log(file.name); 
 		  	$(".loader-subviews").hide();
+		  	var category = $("#genericDocCategory").val();
 		  	if(response.xhr)
 		  	{
 		  		docObj = JSON.parse(response.xhr.responseText);
@@ -141,24 +142,17 @@ function initDropZoneData(docs)
 				  		"name" : docObj.name , 
 				  		"date" : new Date() , 
 				  		"size" : docObj.size ,
-				  		"category" : $("#genericDocCategory").val()
+				  		"category" : category
 				  	};
 				  	console.dir(doc); 
-				  	if($.inArray( $("#genericDocCategory").val() , genericDocCategoryIndex ) < 0){
-				  		genericDocCategoryIndex.push($("#genericDocCategory").val());
-						genericDocCategoryData.push( { id:$("#genericDocCategory").val() , text:$("#genericDocCategory").val() } );
-						$('#genericDocCategory').select2({
-						    createSearchChoice : function(term, data) { 
-						    	return {id:term, text:term};
-						    },
-						    data : genericDocCategoryData
-						});
-					}
 
 				  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 						saveDoc(doc);
 				  	else */
 				  		genericSaveDoc(doc , function(data){
+				  			if (genericDocCategoryData.indexOf(category) < 0) {
+				  				genericDocCategoryData.push(category);
+				  			}
 				  			doc._id = data.id;
 							genericFilesTable.DataTable().destroy();
 						  	addFileLine(".genericFiles",doc,data.id['$id']);
@@ -178,18 +172,6 @@ function initDropZoneData(docs)
 		  { 
 		  	toastr.error("Something went wrong!!"); 
 		  }
-		});
-	}
-	if(docs && typeof docs == "object" && docs.length > 0)
-	{
-		genericDocCategoryData = [];
-		$.each( docs ,function(i,docObj)
-		{
-			addFileLine(".genericFiles",docObj,docObj._id['$id']);
-			if($.inArray( docObj.category , genericDocCategoryIndex ) < 0){
-				genericDocCategoryData.push( { id:docObj.category , text:docObj.category } );
-				genericDocCategoryIndex.push( docObj.category );
-			}
 		});
 	}
 
@@ -218,12 +200,11 @@ function initDropZoneData(docs)
 	} else
 		genericFilesTable.DataTable().draw();
 
+	//Init Select2 of Categories
 	$('#genericDocCategory').select2({
-	    createSearchChoice : function(term, data) { 
-	    	return {id:term, text:term};
-	    },
-	    data : genericDocCategoryData
-	});
+		tags : genericDocCategoryData,
+		maximumSelectionSize: 1});
+	$('#genericDocCategory').select2("val","");
 }
 
 function resetGenericFilesTable() 
@@ -305,7 +286,6 @@ function genericSaveDoc(doc, callback)
 	  data: doc,
       dataType: "json"
 	}).done( function(data){
-        
         	if(data.result){
 		        toastr.success(data.msg);
 			callback(data);

@@ -20,7 +20,9 @@
 #dropBtn{
 	display: none;
 }
-
+#orgaDrop a, #orgaDrop ul{
+	width: 100%;
+}
 </style>
 
 
@@ -63,10 +65,13 @@
 				?>
 			<div class="row">
 				
-				<div class="col-md-5">
-					
-					<div class="btn-group">
-                        <a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+				<div class="col-md-2 center">
+					<label class="pull-left" for="orgaDrop"><h3>Organisation: </h3></label>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group" id="orgaDrop" name="orgaDrop">
+						
+                        <a class="btn btn-transparent-grey dropdown-toggle " data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga">Organisation</span><span class="caret"></span>
                         </a>
                         <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
@@ -161,22 +166,7 @@
 			<div class="col-md-12">
 				<h2 class="event-title">Event Title</h2>
 				<div class="btn-group options-toggle pull-right">
-					<button class="btn dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-						<i class="fa fa-cog"></i>
-						<span class="caret"></span>
-					</button>
-					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-						<li>
-							<a href="#newEvent" class="edit-event">
-								<i class="fa fa-pencil"></i> Edit
-							</a>
-						</li>
-						<li>
-							<a href="#" class="delete-event">
-								<i class="fa fa-times"></i> Delete
-							</a>
-						</li>
-					</ul>
+					<a href="#" class="removeEventBtn btn btn-red">Remove</a>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -207,11 +197,17 @@ var newEventData;
 if("undefined" != typeof organization){
 	parentOrga = organization;
 }
+
+$(".daterangepicker").on("hide.daterangepicker", function(){
+ 		console.log("ok");
+ 	})
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
  	if("undefined" != typeof contextMap )
  		initLastsEvents();
+
+ 	
 });
 function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
@@ -258,6 +254,8 @@ function bindEventSubViewEvents() {
 		e.preventDefault();
 		$(".applyBtn ").trigger("click");
 	})
+
+
 };
 
 var dateToShow, calendar, $eventDetail, eventClass, eventCategory;
@@ -711,6 +709,26 @@ function readEvent(el)
 			}
 		});
 	});
+
+	$(".removeEventBtn").off().on("click", function(e){
+		bootbox.confirm("Are you sure you want to delete this event ?", function(result) {
+			if (!result) {
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/event/delete/eventId/"+el,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {               
+						toastr.info("EVENT REMOVE SUCCESFULLY!!");
+					}else{
+						toastr.error("Something went wrong");
+					}
+				}
+			})
+		})
+	})
 	for ( var i = 0; i < calendar.length; i++) {
 
 		if (calendar[i]._id == el) {

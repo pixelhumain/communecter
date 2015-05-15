@@ -42,7 +42,7 @@
 						<div class="col-md-5">
 							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
 																	  "type" => "",
-																	  "contentId" =>"invitePhoto",
+																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => false)); ?>
 						</div>
 						<div class="col-md-7">
@@ -89,6 +89,14 @@ var userId = "<?php echo Yii::app()->session["userId"]; ?>";
 jQuery(document).ready(function() {
  	bindinviteSubViewinvites();
  	runinviteFormValidation();
+ 	//disable submit in enter
+	 $(window).keydown(function(event){
+	    if(event.keyCode == 13) {
+	      event.preventDefault();
+	      return false;
+	    }
+	  });
+	 
  	$('#inviteSearch').keyup(function(e){
 	    var search = $('#inviteSearch').val();
 	    if(search.length>2){
@@ -280,7 +288,7 @@ function readinvite(el)
 	
 function autoCompleteInviteSearch(email){
 		var data = { "search" : email};
-		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/person/GetUserAutoComplete', data,
+		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
 		function (data){
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Aucun résultat satisfaisant? Cliquez ici</li>";
 			var compt = 0;
@@ -291,7 +299,7 @@ function autoCompleteInviteSearch(email){
  				if(v._id["$id"]!= userId){
  					tabObject.push(v);
 	 				if('undefined' != typeof v.imagePath){
-	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+v.imagePath+"'/>"
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.imagePath+"'/>"
 	 				}
 	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
 	  				compt++;

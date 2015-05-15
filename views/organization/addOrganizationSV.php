@@ -116,6 +116,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 										Code postal <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+									
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
@@ -164,6 +165,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <script type="text/javascript">
 
 var formValidator = function() {
+	addCustomValidators();
 	var form = $('#organizationForm');
 	var errorHandler = $('.errorHandler');
 	form.validate({
@@ -185,7 +187,8 @@ var formValidator = function() {
 			},
 			postalCode : {
 				rangelength : [5, 5],
-				required : true
+				required : true,
+				validPostalCode : true
 			}
 		},
 		submitHandler : function(form) {
@@ -239,6 +242,15 @@ jQuery(document).ready(function() {
 	initForm();
 	showSearch();
 	bindPostalCodeAction();
+
+
+	//disable submit in enter
+	 $(window).keydown(function(event){
+	    if(event.keyCode == 13) {
+	      event.preventDefault();
+	      return false;
+	    }
+	  });
  });  
 
 	function initForm() {
@@ -270,7 +282,7 @@ jQuery(document).ready(function() {
 			console.table(formData);
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+"/organization/saveMember",
+				url: baseUrl+"/"+moduleId+"/link/saveMember",
 				data: formData,
 				dataType: "json",
 				success: function(data) {
@@ -295,7 +307,7 @@ jQuery(document).ready(function() {
 		var data = {"name" : searchValue, "email" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/organization/searchOrganizationByCriteria",
+	        url: baseUrl+"/communecter/search/searchbycriteria/type/<?php echo Organization::COLLECTION ?>",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){

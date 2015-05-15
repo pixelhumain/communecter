@@ -1,5 +1,5 @@
 <?php 
-$this->renderPartial('../documents/gedSV');
+$this->renderPartial('gedSV', array("categories" => $categories));
 ?>
 <div class="row">
 
@@ -24,16 +24,9 @@ $this->renderPartial('../documents/gedSV');
 	              	<tr class="file<?php echo $doc['_id'] ?>">
 			                <td class="center">
 			                	<?php
-			                	$name = strtolower($doc['name']);
-			                	if(strrpos($name, ".pdf") != false)
-									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
-											'<i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
-								else if( strrpos( $name, ".jpg" ) != false || strrpos($name, ".jpeg") != false || strrpos($name, ".gif")  != false || strrpos($name, ".png")  != false  )
-									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" data-lightbox="docs">'.
-											'<img width="50" class="" src="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'"/></a>';	
-								else
-									echo '<a href="'.Yii::app()->request->baseUrl."/upload/".$this->module->id."/".$doc['folder']."/".$doc['name'].'" target="_blank">'.
-											'<i class="fa fa-file fa-3x icon-big"></i></a>';	
+			                	$this->widget('ext.widgets.documentLink.DocumentLinkWidget', array(
+	                							"document" => $doc,
+	                							"text" => ""));
 								?>
 			                </td>
 			                <td class="center hidden-xs"><?php echo $doc['name'] ?></td>
@@ -141,7 +134,7 @@ jQuery(document).ready(function() {
 			        });
 
 			       $.ajax({
-				        url: baseUrl+"/templates/delete/dir/"+moduleId+"/type/"+docType,
+				        url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+docType,
 				        data:{
 				        	"name":delname,
 				        	"parentId" : ownerId,
