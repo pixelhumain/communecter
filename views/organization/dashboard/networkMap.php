@@ -39,11 +39,12 @@
 					"mapBtnBgColor_hover" => '#5896AB',
 					 
 					/* USE */
-					"useFullScreen" => true,
 					"usePanel" => true,
+					"titlePanel" => 'Thèmes',
 					"useRightList" => true,
 					"useZoomButton" => true,
 					"useHelpCoordinates" => false,
+					"useFullScreen" => false,
 					
 					"notClusteredTag" => array("citoyens"),
 					
@@ -64,40 +65,35 @@
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
 <style>
 
-	.<?php echo $moduleName; ?> .mapCanvas{
+	.<?php echo $moduleName; ?> .mapCanvas			{}
+	.<?php echo $moduleName; ?> .panel_map			{
+		background-color:rgba(255, 255, 255, 0.83) !important;
+	}
+	.<?php echo $moduleName; ?> .item_panel_map			{
+		background-color:rgba(0, 0, 0, 0) !important;
+		color:#7A7A7A !important;
+	}
+	.<?php echo $moduleName; ?> .item_panel_map:hover	{
+		background-color:rgba(0, 0, 0, 0.04) !important;
 	}
 	
-	.<?php echo $moduleName; ?> .panel_map{
-	}
+	.<?php echo $moduleName; ?> #right_tool_map		{}
+	.<?php echo $moduleName; ?> #liste_map_element	{}
 	
-	.<?php echo $moduleName; ?> #right_tool_map{
-	}
-	
-	.<?php echo $moduleName; ?> #lbl-chk-scope{
-	}
-	
-	.<?php echo $moduleName; ?> #liste_map_element{
-	}
-	
-	.<?php echo $moduleName; ?> .btn-group-map{
-	}
+	.<?php echo $moduleName; ?> #lbl-chk-scope		{}
+
+	.<?php echo $moduleName; ?> .btn-group-map		{}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {
-		
-		.<?php echo $moduleName; ?> .mapCanvas{
-		}
-		
-		.<?php echo $moduleName; ?> .btn-group-map{
-		}
+		.<?php echo $moduleName; ?> .mapCanvas{}
+		.<?php echo $moduleName; ?> .btn-group-map{}
 	}
-	
 </style>
 <?php /* ********************** HTML ********************/?>
 
 
 
-<div class="<?php echo $moduleName; ?>">	
 	<div class="panel panel-white">
 	  <div class="panel-heading border-light">
 	    <h4 class="panel-title">Annuaire Cartographique</h4>
@@ -115,7 +111,6 @@
 	   		
 	  </div>
 	</div>
-</div>
 
 <script type="text/javascript">
 	

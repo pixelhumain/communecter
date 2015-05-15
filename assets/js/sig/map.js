@@ -99,19 +99,20 @@
 			
 			//## TODO : UTILISER cette fonction pour gérer le fullScreenMap
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
-			this.Sig.resizeMap = function()
+			this.Sig.setFullScreen = function()
 			{
-				return;
+				//alert("hehe");
+				//return;
 				//full screen map
-				var mapHeight = $("body").height() - $(".topbar").height() - $(".toolbar").height() - $("footer").height() - 1;
-				$("#mapCanvas").css({"height":mapHeight});
-				$("#mapCanvas").css({"margin-bottom":mapHeight*(-1)});
-				$("#right_tool_map").css({"height":mapHeight});
-				$("#liste_map_element").css({"height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ - $("#chk-scope").height() - 33 });
-				$("#liste_map_element").css({"max-height":mapHeight - $("#map_pseudo_filters").height() - 8*2 /*padding*/ });
-				$("#right_tool_map").css({"left":$("#carto").width() - $("#right_tool_map").width()});
-				$(".btn-group-map").css({"margin-top":$(".panel_map").height()*(-1) - 20});
-				
+				var mapHeight = $(".subviews.subviews-top").height();// - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
+				//alert(mapHeight);
+				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
+				$(this.cssModuleName + " #right_tool_map").css({"height":mapHeight});
+				$(this.cssModuleName + " .panel_map").css({"height":mapHeight});
+				$(this.cssModuleName + " #liste_map_element").css({"height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
+				$(this.cssModuleName + " #liste_map_element").css({"max-height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
+				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width()});// - $(this.cssModuleName + " #right_tool_map").width()});
 			};
 			
 			this.Sig.verifyPanelFilter = function (thisData){

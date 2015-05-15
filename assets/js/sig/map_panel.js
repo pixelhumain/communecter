@@ -58,7 +58,7 @@
 								     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value + //hidden-xs
 								  "</button>";
 								   
-					$('.panel_map').append(newItem);
+					$(thisSig.cssModuleName + ' .panel_map').append(newItem);
 					
 					$(thisSig.cssModuleName + ' #item_panel_map_' + valueId).click(function(){ 
 						thisSig.changeFilter(value, thisMap);

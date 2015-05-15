@@ -57,7 +57,7 @@
 		$moduleName = "sigModule".$sigParams['sigKey'];
 		
 		/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
-	   	//chargement du style css avec les paramètres d'initialisation
+	   	//chargement de toutes les librairies css et js indispensable pour la carto 
     	$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
 		
 ?>
@@ -107,7 +107,7 @@
 	
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script vvvv)
-	var mapSV;
+	var mapExemple;
 	/**************************************************************************************************************/
 	
 	//mémorise l'url des assets (si besoin)
@@ -123,17 +123,17 @@
 			//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
 			var initParams =  <?php echo json_encode($sigParams); ?>;
 			//chargement la carte
-			mapSV = Sig.loadMap("mapCanvas", initParams);
+			mapExemple = Sig.loadMap("mapCanvas", initParams);
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			/**************************************************************************************************************/
 	
 			//affichage des éléments sur la carte
-			Sig.showMapElements(mapSV, mapData);//, elementsMap);
+			Sig.showMapElements(mapExemple, mapData);//, elementsMap);
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
 				
 	});
 	
-</script>
+</script>SS

@@ -145,6 +145,11 @@
 	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
 }
+.element-right-list{
+	width:100%; 
+	display:inline-block; 
+	height:35px;
+}
 .item_map_list{
 	float:left;
 	width:75%;
@@ -192,7 +197,11 @@
 	left:5%;
 	width:20%;
 }
-
+.dropdown-item-right-list{
+	position: relative !important;
+	right:10px !important;
+	top:8px !important;
+}
 .btn_right_barre_tool_map{
 	float:left;
 	padding-top:5px;
@@ -225,7 +234,9 @@
 .btn-map:hover{
 	background-color:#5896AB !important;
 }
-
+.btn-full-screen{
+	margin-right:150px;
+}
 
 
  /* legende / panel */
@@ -255,6 +266,9 @@
  } 
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
+ }
+ h3#title_panel{
+ 	margin: 0px 0px 5px 10px;
  }
  .item_panel_map.selected{
  	background-color:rgba(194, 203, 222, 0.6);

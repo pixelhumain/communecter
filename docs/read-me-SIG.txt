@@ -1,0 +1,257 @@
+
+-------------------------------------------------------------------------------------
+*
+*	**	READ-ME *********************
+*	**  UTILISATION DU MODULE SIG ***
+*	*********************************
+*
+-------------------------------------------------------------------------------------
+	
+
+**** Fichier type : ****
+*    mapViewExemple.php (/ph/communecter/docs/mapViewExemple.html)
+*    Vous pouvez copier/coller ce fichier où vous voulez pour créer une nouvelle carte.
+************************
+
+
+
+**** Configuration d'une nouvelle carte : 3 ETAPES ****
+-------------------------------------------------------
+
+
+	-------------------------------------------------------------------------------------
+	*** 1 - PATH
+	-------------------------------------------------------------------------------------
+	*** 2 - PARAMETRES GLOBAUX
+	-------------------------------------------------------------------------------------
+	*** 3 - CSS
+	-------------------------------------------------------------------------------------
+	*** 4 - JS
+	-------------------------------------------------------------------------------------
+	
+	
+	
+	-------------------------------------------------------------------------------------
+	*** 1 - PATH
+	-------------------------------------------------------------------------------------
+	
+		*    mapViewExemple.php (/ph/communecter/docs/mapViewExemple.html)
+		*	 l.4: $relativePath = "./";
+ 
+		Il est important de vérifier que $relativePath contient un chemin relatif correct vers le répertoire /communecter/view/sig/generic.
+		$relativePath est utilisé pour charger les fichier mapLibs.php, mapCss.php, et mapView.php
+				
+				  //chargement de toutes les librairies css et js indispensable pour la carto 
+    	*	 l.8: $this->renderPartial($relativePath.'generic/mapLibs'); 
+    		 
+				   //chargement du style css avec les paramètres d'initialisation
+		*	 l.61: $this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams)); 
+			 
+		  		    //chargement du html avec les paramètres d'initialisation
+		*	 l.100: $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams));
+			
+	
+	
+	-------------------------------------------------------------------------------------
+	*** 2 - PARAMETRES GLOBAUX
+	-------------------------------------------------------------------------------------
+	
+		*    mapViewExemple.php
+		*	 l.14 : $sigParams = array()
+ 
+ 		********************************************
+ 		
+ 		 $sigParams :
+ 		
+		 Contient tous les paramètres de configuration de la carte
+		 Pour modifier l’apparence et le comportement de la carte que vous souhaitez afficher, 
+		 il suffit de renseigner ces paramètres en PHP avant de charger la carte en JS.
+		
+		********************************************
+		
+		
+		"sigKey" => "SV" 	//clé unique qui sert d'identifiant pour cette carte, permet d'afficher plusieurs carte sur une même page
+
+		"mapHeight" => 450	//hauteur de la carte
+		"mapTop" => 0		//position top de la carte
+		"mapColor" => ''    //teinte coloré de la carte 	ex : '#456074' ou rgba(69, 116, 88, 0.49)
+		"mapOpacity" => 1   //opacité de la carte 			ex : 0.4
+
+		*
+		*** MAP TILES LAYERS ***
+		*
+		* Provider de fond de carte :
+		* http://leaflet-extras.github.io/leaflet-providers/preview/index.html 
+		* Liste de fond de carte gratuits que l’on peut utiliser pour nos cartes OSM. 
+		*
+		* Pour changer le fond de carte : 
+		* 	Choisir une carte du provider et récupérer les valeurs des paramètres "mapTileLayer" et "mapAttributions"
+		*
+		***
+		
+			"mapTileLayer"   => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
+				//changer l’url pour changer le fond de carte ex : 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+		
+			"mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>'
+				//changer l’url pour afficher le nom du créateur de la carte en bas à droite
+		
+		*
+		*** BUTTONS ***
+		*
+		* Pour changer l’apparence des boutons qui se trouvent sur la carte (btn zoom)
+		*
+		***
+		
+			"mapBtnBgColor" 		=> '#E6D414' //couleur background
+			"mapBtnColor" 			=> '#213042' //couleur font
+			"mapBtnBgColor_hover" 	=> '#5896AB' //couleur background hover
+
+		*
+		*** USE ***
+		*
+		* Pour activer / désactiver des fonctionnalités
+		*
+		***
+		
+			"usePanel" 		=> true, 		//utiliser le panel de gauche (Tags), true or false
+			"titlePanel" 	=> 'THÈMES 		//le titre du panel (ignorer si usePanel = false)
+			
+			"useRightList" 	=> true			//utiliser la liste de droite (éléments de la carte), true or false
+			
+			"useZoomButton" => true 		// afficher les boutons zoomIn / zoomOut, true or false
+		
+			"useHelpCoordinates" => false 	// afficher sous la carte un espace qui affiche les coordonnées d’un click souris sur la carte 
+											//(pratique pour initialiser le centre de la carte quand on créé une nouvelle carte)
+		
+			"useFullScreen" => true 		// indique si la carte se trouve dans une subview, true or false. 
+											//Si c’est le cas, la map s’affiche en « plein écran » selon la taille de la subview
+		
+		*
+		***  TYPE NON CLUSTERISÉ ***
+		*
+		* liste des Types de données à ne pas inclure dans les clusters sur la carte
+		* lorsqu'un marker n'est pas clusterisé, il est toujours visible sur la carte et n'est jamais inclu dans un cluster
+		*
+		***
+		
+			"notClusteredTag" => array("citoyens")
+
+	
+		*
+		***  COORDONNÉES DE DÉPART
+		*
+		* position géographique de la carte au chargement) && zoom de départ
+		*
+		***
+		
+			"firstView"	  => array(  "coordinates" => array(-21.13318, 55.5314),
+									 "zoom"	  => 9 );
+								 
+								 
+								 
+								 
+	-------------------------------------------------------------------------------------
+	*** 3 - CSS
+	-------------------------------------------------------------------------------------
+	
+		*    mapViewExemple.php 
+		*	 l.65: CHANGER LE STYLE CSS SI BESOIN
+ 
+	
+		********************************************
+		Pour surcharger le style css d'une carte, il faut respecter la syntaxe suivante,
+		cad : ajouter .<?php echo $moduleName; ?> avant chaque nom de class ou identifiant,
+		afin de ne pas surcharger le style toutes les cartes qui pourraient être chargées en même temps.
+		ex : une carte + une carte en subview
+		
+		Le paramètre $moduleName est automatiquement créé à la ligne 57 
+		à partir du paramètre sigKey que vous indiquez dans sigParams :
+		
+			l.57 : $moduleName = "sigModule".$sigParams['sigKey'];
+		
+		De cette façon, il est possible de charger autant de carte qu'on le souhaite sur la même page,
+		et de personnaliser chaque carte différemment.
+		********************************************
+		
+				 
+		.<?php echo $moduleName; ?> .mapCanvas			{}
+		.<?php echo $moduleName; ?> .panel_map			{
+			background-color:rgba(255, 255, 255, 0.83) !important;
+		}
+		.<?php echo $moduleName; ?> .item_panel_map			{
+			background-color:rgba(0, 0, 0, 0) !important;
+			color:#7A7A7A !important;
+		}
+		.<?php echo $moduleName; ?> .item_panel_map:hover	{
+			background-color:rgba(0, 0, 0, 0.04) !important;
+		}
+	
+		/* XS */
+		@media screen and (max-width: 768px) {
+			.<?php echo $moduleName; ?> .mapCanvas{}
+			.<?php echo $moduleName; ?> .btn-group-map{}
+		}							 
+								 
+								 
+								 
+	-------------------------------------------------------------------------------------
+	*** 4 - JS
+	-------------------------------------------------------------------------------------
+			
+		*    mapViewExemple.php 
+		
+		********************************************
+		Le code javascript doit être légèrement modifié dans chaque view afin d'éviter les conflits entre les cartes.
+		La seule modification à effectuer est de renommer la variable mapExemple, qui représente la carte affichée.
+		********************************************
+							 
+								 
+				//DONNER UN NOM DIFFERENT POUR CHAQUE CARTE
+		l.110	var mapExemple;
+	
+		l.126 	//MODIFIER LE NOM DE LA VARIABLE 'mapExemple'
+				mapExemple = Sig.loadMap("mapCanvas", initParams);
+	
+		l.133 	//MODIFIER LE NOM DE LA VARIABLE 'mapExemple'
+				Sig.showMapElements(mapExemple, mapData);	
+		
+		
+		
+		********************************************
+		Par défaut, les données JSON chargées sur la carte sont les données contenues dans la variable 'contextMap'.
+		Si aucune variable 'contextMap' n'est définit, aucune donnée ne sera chargée.
+		********************************************
+		
+		Pour modifier la source des données JSON : changer le nom de 'contextMap' l.126 par le nom de variable qui contient les données 
+		
+		 		/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
+		l.126	var mapData = contextMap;
+				/**************************************************************************************************************/
+			
+		
+		
+	-------------------------------------------------------------------------------------
+	*** 5 - CONCLUSION
+	-------------------------------------------------------------------------------------
+			
+		- Tout le code nécessaire pour afficher une carte est disponible dans mapViewExemple.php
+		
+		- Pour afficher une nouvelle carte, copier/coller le code (ou le fichier) à l'endroit souhaité
+		et configurez les paramètres selon le context.
+		
+		
+		-----------
+		Important :
+		-----------
+		Les fichiers PHP génériques se trouvent dans : 	communecter/views/sig/generic
+		Les fichiers JS se trouvent dans :				communecter/assets/js/sig
+		Les fichiers CSS se trouvent dans : 			communecter/assets/js/sig
+		
+		Pour afficher des cartes dans un autre module que communecter, il faut avoir ces lib aux mêmes endroits
+		
+		
+		
+		
+							 
+								 
+								 

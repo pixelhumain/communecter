@@ -17,6 +17,9 @@
 	    	//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.cssModuleName = ".sigModule" + params.sigKey;
 			
+			//mémorise la clé utilisé pour cette instance
+	    	thisSig.sigKey = params.sigKey;
+			
 			//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.mapColor = params.mapColor;
 			
@@ -58,6 +61,16 @@
 				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
 			}
 			
+			if(params.useFullScreen){
+				//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
+				$( window ).resize(function() {
+				  thisSig.setFullScreen();
+				});
+				thisSig.setFullScreen();
+			}
+			
+			
+			
 			//affiche les coordonnées d'un click , dans une zone sous la carte (utile pour récupérer des coordonnées rapidement)				
 			if(params.useHelpCoordinates){
 				thisMap.on('click', function(e) {
@@ -72,10 +85,7 @@
 					thisSig.changeFilter('all', thisMap);
 				});
 			}
-			//quand on veut une map full screen, il est nécessaire de la resizer "à la main"
-			if(params.useFullScreen){
-				thisSig.resizeMap();		
-			}
+			
 		};
 		
 		Sig.getIcoNameByType = function (type){ 

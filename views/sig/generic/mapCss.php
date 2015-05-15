@@ -16,10 +16,14 @@
 
 <style>
 
+	<?php   $mapWidth = "100%";
+			if($sigParams['useRightList']) $mapWidth = "75%"; 
+	?> 
+
 	.<?php echo $moduleName; ?> 
 	.mapCanvas{
 		height:<?php echo $mapHeight; ?>px;
-		width:75%;
+		width:<?php echo $mapWidth ?> !important;
 		background-color:<?php echo $mapColor; ?>;
 	}
 	
@@ -54,10 +58,13 @@
 		height:<?php echo $mapHeight-100; ?>px;
 	}
 	
+	<?php   $right = "0px";
+			if($sigParams['useRightList']) $right = "25%";
+	?>
 	.<?php echo $moduleName; ?> 
 	.btn-group-map{
 		position:absolute !important;
-		right:25%;
+		right:<?php echo $right; ?>;
 		left:auto;
 		top:<?php echo $mapTop+10; ?>px;
 	}
