@@ -164,6 +164,7 @@ class CommunecterController extends Controller
       "saveattendees"=>array("href"=>"/ph/communecter/event/saveattendees"),
       "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
       "delete" => array("href" => "ph/communecter/event/delete"),
+      "updatefield" => array("href" => "ph/communecter/event/updatefield"),
     ),
 
     "project"=> array(
