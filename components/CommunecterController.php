@@ -173,7 +173,7 @@ class CommunecterController extends Controller
       "save"=>array("href"=>"/ph/communecter/project/save"),
       "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
-
+	  "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
     ),
 
     "job"=> array(

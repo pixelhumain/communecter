@@ -17,9 +17,10 @@
 					<div class="form-group">
 						<input class="project-id hide" type="text">
 						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
-						<input class="project-url form-control" name="projectName" type="text" placeholder="Project url...">
-						<input class="project-version form-control" name="projectName" type="text" placeholder="Project version...">
-						<input class="project-licence form-control" name="projectName" type="text" placeholder="Project licence...">
+						<input class="project-creator form-control" name="projectCreator" type="text" placeholder="Project creator...">
+						<input class="project-url form-control" name="projectUrl" type="text" placeholder="Project url...">
+						<input class="project-version form-control" name="projectVersion" type="text" placeholder="Project version...">
+						<input class="project-licence form-control" name="projectLicence" type="text" placeholder="Project licence...">
 
 					</div>
 				</div>
@@ -85,7 +86,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
  	bindProjectSubViewProjects();
- 	runProjectFormValidation()
+ 	runProjectFormValidation();
 });
 
 function bindProjectSubViewProjects() {
@@ -238,13 +239,15 @@ formProject.validate({
 		    })
 		    .done(function (data) 
 		    {
-		    	$.unblockUI();
+
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
-		        	$.hideSubview();
-		        	console.log("updateProject");
+		        	//console.log("updateProject");
 		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
-		        		//updateProject( newProject, data.id );
+			        	alert("dedans");
+		        		updateProject( newProject, data.id );
+						$.unblockUI();
+						$.hideSubview();
 		        	}	
 		        } else {
 		           toastr.error('Something Went Wrong');

@@ -48,5 +48,15 @@ class Project {
 	    Link::connect($id, $type, $new["_id"], PHType::TYPE_PROJECTS, $id, "projects" );
 	    return array("result"=>true, "msg"=>"Votre projet est communecté.", "id"=>$new["_id"]);	
 	}
+	public static function removeProject($projectId) {
+		$id = Yii::app()->session["userId"];
+	    $type = PHType::TYPE_CITOYEN;
+	    //0. Remove the links
+        Link::disconnect($id, $type, $projectId, PHType::TYPE_PROJECTS, $id, "projects" );
+        //1. Remove project's sheet corresponding to $projectId _id
+        PHDB::remove(PHType::TYPE_PROJECTS,array("_id" => new MongoId($projectId)));
+        return array("result"=>true, "msg"=>"The project has been removed with success", "projectid"=>$projectId);
+    }
+
 }
 ?>
