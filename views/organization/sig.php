@@ -50,10 +50,10 @@
 			"mapHeight" => 450,
 			"mapTop" => 50,
 			"useFullScreen" => true,
-			"usePanel" => true,
-			"useRightList" => true,
+			"usePanel" => false,
+			"useRightList" => false,
 			"useZoomButton" => true,
-			"useHelpCoordinates" => true,
+			"useHelpCoordinates" => false,
 			"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
 											"zoom"		  => 9),
 			);

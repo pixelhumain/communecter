@@ -3,7 +3,12 @@
 	<div class="panel-body border-light">
 		<div class="row">
 			<div class="colFiche col-sm-8 col-xs-8">
-				<img width="100%" src="<?php echo (isset($context["imagePath"])) ? $context["imagePath"] : 'http://placehold.it/350x180'; ?>" />
+				<?php 
+					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+																			  "type" => Organization::COLLECTION,
+																			  "contentId" =>Document::IMG_BANNIERE,
+																			  "show" => "true" ,
+																			  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); ?>
 			</div>
 			<div class="colFiche col-sm-4 col-xs-4">
 				<div class="row">

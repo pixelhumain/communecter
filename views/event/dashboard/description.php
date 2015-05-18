@@ -1,12 +1,35 @@
+<?php 
+	$cs = Yii::app()->getClientScript();
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
+
+	//X-editable...
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
+
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
+?>
+<style type="text/css">
+	.selectEv{
+		min-width: 200px;
+	}
+</style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i>   Informations</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Informations</span></h4>
+		<ul class="panel-heading-tabs border-light">
+        	<li>
+        		<a href="#" class="removeEventBtn btn btn-red">Remove</a>
+        	</li>
+        </ul>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="row center">
 			<div class="col-md-6 col-md-offset-3">
 				<?php 
-				$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
+					$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																		  "type" => $type,
 																		  "contentId" =>Document::IMG_PROFIL,
 																		  "show" => "true" ,
@@ -17,28 +40,104 @@
 			<tbody>
 				<tr>
 					<td>Intitulé</td>
-					<td><a href="#"><?php if(isset($event["name"]))echo $event["name"];?></a></td>
+					<td><a href="#" id="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" ><?php if(isset($event["name"]))echo $event["name"];?></a></td>
 				</tr>
 				<?php if(!empty($organizer)) {?>
 					<tr>
 						<td>Organisateur</td>
-						<td><a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>"><?php echo $organizer["name"]; ?></a></td>
+						<td><a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a></td>
 					</tr>
 				<?php } ?>
 				<tr>
 					<td>Début</td>
-					<td><?php if(isset($event["startDate"]))echo $event["startDate"]; ?></td>
+					<td><a href="#" id="startD" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click" ><?php if(isset($event["startDate"]))echo $event["startDate"]; ?></a></td>
 				</tr>
 				<tr>
 					<td>Fin</td>
-					<td><?php if(isset($event["endDate"]))echo $event["endDate"]; ?></td>
+					<td><a href="#" id="endD" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click"><?php if(isset($event["endDate"]))echo $event["endDate"]; ?></a></td>
 				</tr>
 				<tr>
 					<td>Type</td>
-					<td><?php if(isset($event["type"])) echo $event["type"]; ?></td>
+					<td><a href="#" id="selectEvent" data-type="select" data-inputclass="selectEv" class="editable editable-click" ><?php if(isset($event["type"])) echo $event["type"]; ?></a></td>
 				</tr>
 				
 			</tbody>
 		</table>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var itemId = "<?php echo $itemId ?>";
+	jQuery(document).ready(function() {
+
+		activateEditable();
+
+		$(".removeEventBtn").off().on("click", function(e){
+			bootbox.confirm("Are you sure you want to delete this event ?", function(result) {
+				if (!result) {
+					return;
+				}
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/event/delete/eventId/"+itemId,
+					dataType: "json",
+					success: function(data){
+						if ( data && data.result ) {               
+							toastr.info("EVENT REMOVE SUCCESFULLY!!");
+							document.location.href= baseUrl+"/"+moduleId+"/person";
+						}else{
+							toastr.error("Something went wrong");
+						}
+					}
+				})
+			})
+		})
+	})
+
+	function activateEditable() {
+		$.fn.editable.defaults.mode = 'inline';
+
+		$('.editable-event').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield", //this url will not be used for creating new job, it is only for update
+			onblur: 'submit',
+			showbuttons: false
+		});
+
+		$('#startD').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield", //this url will not be used for creating new user, it is only for update
+			mode: "popup",
+			placement: "bottom",
+			format: 'dd/mm/yyyy hh:mm',    
+			viewformat: 'dd/mm/yyyy',
+			showbuttons: false,    
+			datetimepicker: {
+				weekStart: 1
+			   }
+			}
+		);
+
+		$('#endD').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield", //this url will not be used for creating new user, it is only for update
+			mode: "popup",
+			placement: "bottom",
+			format: 'dd/mm/yyyy hh:mm',    
+			viewformat: 'dd/mm/yyyy',
+			showbuttons: false,    
+			datetimepicker: {
+				weekStart: 1
+			   }
+			}
+		);
+
+		$('#selectEvent').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield",
+			source: ["event", "meeting", "discussion"]
+			}
+		);
+
+		$('.editable-event').editable('option', 'pk', itemId);
+		$('#startD').editable('option', 'pk', itemId);
+		$('#endD').editable('option', 'pk', itemId);
+		$('#selectEvent').editable('option', 'pk', itemId);
+	}
+</script>

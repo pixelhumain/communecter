@@ -11,10 +11,10 @@
 	    	
 	    	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() { 
-				$("#item_map_list_" + this._id.$id.toString()).css({ "display" : "none" });				
+				$(this.cssModuleName + " #item_map_list_" + this._id.$id.toString()).css({ "display" : "none" });				
 			});
 			
-			var showElementOutOfMapView = !$("#chk-scope").is(':checked');
+			var showElementOutOfMapView = !$(this.cssModuleName + " #chk-scope").is(':checked');
 			var thisSig = this;		
 			//rend visible tous les éléments qui se trouve dans le bound visible de la carte
 			$.each(thisSig.elementsMap, 
@@ -27,15 +27,15 @@
 						|| showElementOutOfMapView)
 						{	
 							//si le champ de recherche par userName est rempli (n'est pas vide)
-							if(this.name != null && $('#input_name_filter').val() != "") {
+							if(this.name != null && $(this.cssModuleName + ' #input_name_filter').val() != "") {
 								//on affiche l'élément seulement s'il correspond à la recherche
-								if(this.name.search(new RegExp($('#input_name_filter').val(), "i")) >= 0){
-									$("#item_map_list_" + this._id.$id.toString()).css({ "display" : "inline" });	
+								if(this.name.search(new RegExp($(this.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
+									$(this.cssModuleName + " #item_map_list_" + this._id.$id.toString()).css({ "display" : "inline" });	
 								}	
 							}
 							else //si le champs de recherche est vide, on affiche l'élément
 							{
-								$("#item_map_list_" + this._id.$id.toString()).css({"display" : "inline" });	
+								$(this.cssModuleName + " #item_map_list_" + this._id.$id.toString()).css({"display" : "inline" });	
 						 	}
 						 }
 					}
@@ -71,17 +71,17 @@
 			if("undefined" != typeof element["tags"])
 			{
 				dropDown  = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey pull-right" data-toggle="dropdown"><i class="fa fa-tag"></i> <i class="fa fa-angle-down"></i> </a>';
-				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
+				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right dropdown-item-right-list">';
 					
 				$.each(element["tags"], function(){
 					ico = thisSig.getIcoNameByTag(this);
 					color = thisSig.getIcoColorByTag(this);
 					
-					dropDown += '<li><a href="#" class="panel-refresh"> <i class="fa fa-'+ ico + ' fa-'+ color +'"></i> <span>'+element["tags"]+'</span> </a></li>';
+					dropDown += '<li><a href="#"> <i class="fa fa-'+ ico + ' fa-'+ color +'"></i> <span>'+element["tags"]+'</span> </a></li>';
 					//dropDown += '<i class="fa fa-'+ ico + ' fa-'+ color +' pull-right"></i>';
 				});
 			
-				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
+				dropDown += '</ul>';
 			}
 			
 		/*	var dropDown = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown"><i class="fa fa-cog"></i> </a>
@@ -94,12 +94,12 @@
 		*/
 			
 			//return l'élément html
-		    var button = '<div style="width:100%; display:inline-block;">' +
+		    var button = '<div class="element-right-list" id="element-right-list-"'+element._id.$id.toString()+'">' +
 		    				'<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
 								+ icons
 								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	+
 								//+  ' <div class="city_item_map_list">' +	place + "</div>"	+
-						   '</button>' +
+						    '</button>' +
 						   dropDown + 
 						 '<div>';	
 			

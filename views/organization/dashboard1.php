@@ -5,7 +5,15 @@
 <div class="row">
 	<div class="col-sm-8 col-xs-12">
 		<div class="row">
-			<?php $this->renderPartial('../documents/documents',array( "documents" => (isset($documents)) ? $documents : null ) ); ?>
+			<div class="col-sm-12 col-xs-12 documentPod">
+	    		<div class="panel panel-white pulsate">
+					<div class="panel-heading border-light ">
+						<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Documents Section</h4>
+						<div class="space5"></div>
+					</div>
+				</div>
+	    		
+	    	</div>
 		</div>
 		<div class="row">
 			<div class="panel panel-white">
@@ -54,7 +62,7 @@
             repeat: 10, // will repeat forever if true, if given a number will repeat for that many times
             onHover: false // if true only pulsate if user hovers over the element
         });
-
+		getAjax(".documentPod",baseUrl+"/"+moduleId+"/document/list/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION?>",null,"html");
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
 	});
 </script>
