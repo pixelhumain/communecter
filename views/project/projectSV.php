@@ -242,9 +242,7 @@ formProject.validate({
 
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
-		        	//console.log("updateProject");
 		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
-			        	alert("dedans");
 		        		updateProject( newProject, data.id );
 						$.unblockUI();
 						$.hideSubview();
