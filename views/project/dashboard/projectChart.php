@@ -1,9 +1,9 @@
 <?php 
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
-	'1.0.2/Chart.min.js',
+	'/assets/plugins/Chart.js/chart.min.js',
 	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/');//$this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
@@ -139,7 +139,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,'https://cdnjs.c
 	    onAnimationComplete: function(){}
 }
 var data = {
-    labels: ["Gouvernance", "Solidaire", "Local", "Avancement", "Partenaire", "Partage"],
+    labels: [<?php 
+	    		foreach ($properties as $id=>$e){
+	    				echo "\"".$id."\",";
+	    			}?>
+    ],
     datasets: [
         {
             label: "My First dataset",
@@ -149,7 +153,10 @@ var data = {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 90, 81, 56, 55]
+            data: [<?php foreach ($properties as $id=>$e){
+	    				echo "\"".$e."\",";
+	    			}?>
+			]
         },
     ]
 };

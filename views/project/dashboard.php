@@ -23,7 +23,7 @@
 	 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors)); ?>
 </div>
 <div class ="col-lg-4 col-md-12">
-	 <?php $this->renderPartial('dashboard/projectChart',array( "charte" => "")); ?>
+	 <?php $this->renderPartial('dashboard/projectChart',array( "properties" => $properties)); ?>
 </div>
 </div>
 <script type="text/javascript">
