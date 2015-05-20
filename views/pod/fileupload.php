@@ -66,9 +66,11 @@
 	
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
+		
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
 		var contentIdtoSend = "<?php echo $contentId ?>";
+		console.log("id", contentId+"_"+id);
 		var resize = "<?php if(isset($resize)) echo $resize; else echo false; ?>";
 		var imageName= "";
 		var imageId= "";
@@ -83,7 +85,7 @@
 
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
-
+			
 			if($("."+contentId+"_isSubmit").val()== "true"){
 				setTimeout(function(){
 					if(resize){
@@ -93,6 +95,13 @@
 					$("#"+contentId+"_photoAdd").submit();}, 200);
 
 			}else{
+				setTimeout(function(){
+					if(resize){
+						$(".fileupload-preview img").css("height", parseInt($("#"+contentId+"_fileUpload").css("width"))*45/100+"px");
+						$(".fileupload-preview img").css("width", "auto");
+					}
+				}, 200);
+
 				$("."+contentId+"_isSubmit").val("true");
 			}
 		   
@@ -100,7 +109,7 @@
 
 
 		$("#"+contentId+"_photoAdd").off().on('submit',(function(e) {
-			
+			console.log("id2", id);
 			$("."+contentId+"_isSubmit").val("true");
 			e.preventDefault();
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
@@ -118,6 +127,7 @@
 				success: function(data){
 					console.log(data);
 			  		if(data.success){
+			  			imageName = data.name;
 			  			var doc = { 
 						  		"id":id,
 						  		"type":type,
@@ -127,7 +137,7 @@
 						  		"name" : data.name , 
 						  		"date" : new Date() , 
 						  		"size" : data.size ,
-						  		"doctype" : "image",
+						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
 						  		"contentKey" : contentKey
 						  	};
 			  			
@@ -142,7 +152,8 @@
 	
 
 
-		$("#"+contentId+"_photoRemove").off().on("click", function(e){		
+		$("#"+contentId+"_photoRemove").off().on("click", function(e){	
+			
 			$("."+contentId+"_isSubmit").val("false");
 			e.preventDefault();
 
@@ -151,63 +162,39 @@
 			$(".btn").addClass("disabled");
 
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+type,
+				
+				url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+type+"/parentId/"+id,
 				type: "POST",
 				dataType : "json",
-				data: {"name":imageName, "parentId":id, "docId":imageId},
+				data: {"name": imageName, "parentId": id, "parentType": type, "path" : "", "docId" : imageId},
 				success: function(data){
-					imagesPath.pop();
-					console.log(data);
-			  		if(data.result){
-			  			dataImage = {};
-			  			dataImage["imagePath"] = imagesPath[imagesPath.length-1];
-			  			dataImage["type"] = type;
-			  			dataImage["id"] = id;
-			  			dataImage["contentKey"] = contentKey;
-			  			dataImage["_id"] = imageId;
-			  			$.ajax({
-			  				url: baseUrl+"/"+moduleId+"/document/removeandbacktract",
-			  				type: "POST",
-			  				dataType: "json",
-			  				data: dataImage,
-			  				success: function(data){
-			  					if(data.result){
-			  						setTimeout(function(){
-			  							$('#'+contentId+"_fileUpload").fileupload("clear");
-						  				$("#"+contentId+"_fileUpload").css("opacity", "1");
-										$("#"+contentId+"_photoUploading").css("display", "none");
-										$(".btn").removeClass("disabled");
-										$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagesPath[imagesPath.length-1]+'" />');
-								  		if(typeof(removeSliderImage) != "undefined" && typeof (removeSliderImage) == "function"){
-						        			removeSliderImage(imageId);
-								  		}
-						  				toastr.success(data.msg);
-						  			}, 2000) 
-			  						//$('#'+contentId+"_fileUpload").fileupload("reset");
-			  					}
-			  					else
-			  						toastr.error(data.msg);
-			  				}
-			  			})
-			  		}
-			  		else
-			  			toastr.error(data.msg);
-			  	},
+					if(data.result){
+						
+						setTimeout(function(){
+							
+							$("#"+contentId+"_fileUpload").css("opacity", "1");
+							$("#"+contentId+"_photoUploading").css("display", "none");
+							$(".btn").removeClass("disabled");
+							toastr.success(data.msg);
+							if("undefined" != typeof updateShiftSlider && "function" == typeof updateShiftSlider){
+								updateShiftSlider();
+							}
+						}, 2000);
+
+					}else{
+						toastr.error(data.error)
+					}
+				}
 			});
 		});
+
+
 		function initFileUpload(){
 			var j = 0;
-			if("undefined" != typeof(images) && showImage == "true"){
-				$.each(images, function(k,v){
-					if(v.doctype=="image"){
-						console.log("contentKey", contentKey);
-						if(v.contentKey == contentKey){
-							imagesPath.push(baseUrl+"/upload/"+v.moduleId+"/"+v.folder+"/"+v.name);
-							j= j+1;
-						}
-					}		
-				})
-				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imagesPath[imagesPath.length-1]+'" />');	
+			if("undefined" != typeof(images[contentId.toLowerCase()]) && images[contentId.toLowerCase()].length>0 ){
+				imageUrl = baseUrl+images[contentId.toLowerCase()][0];
+				j= j+1;
+				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}
 			//console.log("initFileUpload", images, imagesPath);
 			
@@ -235,12 +222,13 @@
 		        if(data.result){
 		        	imagesPath.push(baseUrl+path);
 					$(".fileupload-preview img").css("max-height", "100%");
+					imageId = data.id["$id"];
 					setTimeout(function(){
 						$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
 						$(".btn").removeClass("disabled");
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
-							updateSlider(doc, data.id["$id"]);
+							updateSlider(path, data.id["$id"]);
 				  		}
 				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
 				  			updateSliderImage(id, path);
@@ -254,7 +242,5 @@
 		}
 		
 	});
-
-
 	
 </script>

@@ -22,7 +22,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	}
 
 	#editSliderPhotoVideo .fileupload .thumbail{
-		width: 100%;
+		max-width: 100%;
 	}
 	
 	#photoVideo .flexslider .slides img {
@@ -32,9 +32,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	    margin-left: auto;
 	    margin-right: auto;
 	    max-width: 100%;
-	}
-	#showAllSlides img{
-		width: 75%;
 	}
 
 	#video iframe{
@@ -53,16 +50,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		   	<?php if ($canEdit) { ?>
 			   <a href="#" class="add-photoSlider btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an image" alt="Add an image"><i class="fa fa-plus"></i></a>
 		    <?php } ?>
-		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$itemId.'/type/'.Organization::COLLECTION.'/controllerId/'.$this->getController());?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
+		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$itemId.'/type/'.$type);?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
 	    </div>
 		<div class="panel-body border-light">
 			
-			<div class="row center" id="sliderPhotoVideo">
+			<!--<div class="row center" id="sliderPhotoVideo">
 				<div class="flexslider" id="flexsliderPhotoVideo">
 					<ul class="slides" id="slidesPhoto">
 						
 					</ul>
-				</div>
+				</div> -->
+			<div class="row center" id="sliderPhotoVideo">
+				<?php 
+					$this->renderPartial('../pod/flexSlider', array("userId" => (string)$itemId,
+																	  "type" => $type,
+																	  "containerSlider" => "sliderPhotoVideo")); ?>
+
 			</div>
 			<div id="editSliderPhotoVideo">
 				<div class="row">
@@ -70,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
 																		  "type" => $type,
 																		  "resize" => "true",
-																		  "contentId" => Document::IMG_MEDIA,
+																		  "contentId" => Document::IMG_SLIDER,
 																		  "editMode" => true)); ?>
 				</div>
 				<div class="row center">
@@ -90,32 +93,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 </div>
 
-
-<!--<div id="editSliderPhotoVideo" >
-	<div class="row center">
-		<div class="col-md-6 col-md-offset-3">
-			<?php 
-				/*$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
-																  "type" => $type,
-																  "contentId" =>Document::IMG_MEDIA,
-																  "editMode" => true)); */?>														  						
-		</div>
-	</div>
-	<hr>
-	<div class="row center" id="showAllSlides">
-		
-	</div>
-</div> -->
 <script type="text/javascript">
 	var canEdit = <?php echo $canEdit ? $canEdit : "false" ?>;
-	var widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
-	var constImgKey = '<?php echo Document::IMG_MEDIA; ?>';
+	
  	jQuery(document).ready(function() {
- 		$("#sliderPhotoVideo .flexslider").css("height", parseInt(widthSliderPhotoVideo)*45/100+"px");
- 		initPhotoVideo();
+ 		
 
 		$( window ).resize(function() {
-			resizeSliderPhotoVideo();
+			resizeSlider();
 		})
 		$(".validateSlider").off().on("click", function() {
 			clearFileupload();
@@ -132,69 +117,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 	});
 
-	function initPhotoVideo(){
-		j=0
-		if(images.length != 0){
-			var imagesTab = [];
-			$.each(images, function(k,v){
-				imagesTab.push(v);
-			})
-			
-			for(i=imagesTab.length-1; i>=0; i--){
-				var contentTab = imagesTab[i].contentKey.split(".");
-				var where = contentTab[contentTab.length-1];
-				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == constImgKey){
-						path = baseUrl+"/upload/"+imagesTab[i].moduleId+"/"+imagesTab[i].folder+"/"+imagesTab[i].name;
-						var htmlSlide = "<li><img src='"+path+"' /></li>";
-						var htmlSlide2 = "<div class='col-md-2 sliderPreview'><img src='"+path+"' /></div>";
-						$("#showAllSlides").append(htmlSlide2);
-						$("#slidesPhoto").append(htmlSlide);
-						j++;
-					}
-				}
-			}			
-		}
-
-		if(j==0){
-			var htmlSlide = "<li>" +
-								"<div class='center'>"+
-									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</div>"+
-							"</li>";
-			$("#slidesPhoto").append(htmlSlide);
-		}
-
-
-		$("#flexsliderPhotoVideo").flexslider({
-			controlNav : false,
-		});
-		$(".podPhotoVideoTitle").html("Media");
-
-		widthSliderPhotoVideo = $("#sliderPhotoVideo .flexslider").css("width");
-		$("#sliderPhotoVideo .flexslider").css("height", parseInt(widthSliderPhotoVideo)*45/100+"px");
-		$("#sliderPhotoVideo .flexslider .slides li").css("height", parseInt(widthSliderPhotoVideo)*45/100-10+"px")
-	}
-
+	
 	function clearFileupload(){
 		$("#editSliderPhotoVideo").css("display", "none");
 		$("#sliderPhotoVideo").css("display", "block");
 		$('#'+constImgKey+'_avatar').val('');
 		$('#'+constImgKey+'_fileUpload').fileupload("clear");
-		removeSliderPhotoVideo()
-		initPhotoVideo()
+		removeSlider()
+		initDashboardPhoto()
 	}
 
-	function updateSlider(image, id){
-		
-		if("undefined" != typeof images.length){
-			images = {};
-		}
-		images[id] = image;
-		
-
-	}
+	
 
 	function bindPhotoSubview(){
 		$( "#drag1" ).draggable();
@@ -213,19 +146,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				}
 			});
 		});*/
-	}
-
-	function removeSliderPhotoVideo(){
-		$("#flexsliderPhotoVideo").removeData("flexslider");
-		$("#flexsliderPhotoVideo").empty();
-		$("#showAllSlides").empty();
-		$("#flexsliderPhotoVideo").html('<ul class="slides" id="slidesPhoto">');
-		$("#flexsliderPhotoVideo").flexslider();
-	}
-
-	function resizeSliderPhotoVideo(){
-		removeSliderPhotoVideo();
-		initPhotoVideo();
 	}
 
 	function hideMediaSubview(){

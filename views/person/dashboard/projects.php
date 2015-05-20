@@ -62,7 +62,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	alert ("oui");
+	//alert ("oui");
 		//jQuery(document).ready(function() {});
 	jQuery(document).ready(function() {
 		bindBtnRemoveProject();
