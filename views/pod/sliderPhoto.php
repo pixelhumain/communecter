@@ -100,9 +100,6 @@
 	});
 	
 
-	
-
-
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})
 	}

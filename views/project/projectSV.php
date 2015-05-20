@@ -1,3 +1,26 @@
+
+<?php 
+	//valeur correspondant 
+
+$cs = Yii::app()->getClientScript();
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css');
+//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/slider/css/slider.css');
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQRangeSlider/css/classic-min.css');
+
+	$cssAnsScriptFilesTheme = array(
+	//Select2
+//	'/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
+//	'/assets/plugins/jQRangeSlider/jQAllRangeSliders-min.js',
+//	'/assets/plugins/modernizr/modernizr.js',
+//	'/assets/plugins/slider/js/bootstrap-slider.js',
+	//autosize
+	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
+	//'/assets/js/ui-sliders.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+//<script src="assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+?>
 <style>
 
 #newProject{
@@ -21,8 +44,16 @@
 						<input class="project-url form-control" name="projectUrl" type="text" placeholder="Project url...">
 						<input class="project-version form-control" name="projectVersion" type="text" placeholder="Project version...">
 						<input class="project-licence form-control" name="projectLicence" type="text" placeholder="Project licence...">
-
+						
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div style="display: inline; width: 200px; height: 200px;">
+<canvas width="200" height="200"></canvas>
+<input class="knob" value="35" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="width: 104px; height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">
+</div>
 				</div>
 			</div>
 			<div class="row">
@@ -64,9 +95,7 @@
 						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
 					</div>
 				</div>
-				<?php } ?>
-				
-				
+				<?php } ?>	
 			<div class="pull-right">
 				<div class="btn-group">
 					<a href="#" class="btn btn-info close-subview-button">
@@ -87,6 +116,44 @@
 jQuery(document).ready(function() {
  	bindProjectSubViewProjects();
  	runProjectFormValidation();
+ 	//initialisation des sliders 
+ 	$(".knob").knob({
+            draw: function () {
+                // "tron" case
+                if (this.$.data('skin') == 'tron') {
+                    var a = this.angle(this.cv) // Angle
+                        ,
+                        sa = this.startAngle // Previous start angle
+                        ,
+                        sat = this.startAngle // Start angle
+                        ,
+                        ea // Previous end angle
+                        , eat = sat + a // End angle
+                        ,
+                        r = true;
+                    this.g.lineWidth = this.lineWidth;
+                    this.o.cursor && (sat = eat - 0.3) && (eat = eat + 0.3);
+                    if (this.o.displayPrevious) {
+                        ea = this.startAngle + this.angle(this.value);
+                        this.o.cursor && (sa = ea - 0.3) && (ea = ea + 0.3);
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.previousColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                        this.g.stroke();
+                    }
+                    this.g.beginPath();
+                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+                    this.g.stroke();
+                    this.g.lineWidth = 2;
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.o.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                    this.g.stroke();
+                    return false;
+                }
+            }
+     });
 });
 
 function bindProjectSubViewProjects() {
