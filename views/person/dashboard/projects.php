@@ -62,14 +62,11 @@
 	</div>
 </div>
 <script type="text/javascript">
-	alert ("oui");
-		//jQuery(document).ready(function() {});
 	jQuery(document).ready(function() {
 		bindBtnRemoveProject();
 	});
 
 	function bindBtnRemoveProject() {
-
 		$(".removeProjectbtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			
@@ -105,18 +102,18 @@
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 		});
 	}
-function updateProject( nProject, projectId ){
-		console.log(nProject);
+	function updateProject( nProject, projectId ){
+		console.log(projectId);
 		if('undefined' != typeof contextMap){
 			contextMap["projects"].push(nProject);
 		}
-		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId+'">';
+		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
 							'<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips " data-placement="left" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>'+
-							'<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="'+projectId+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
+							'<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.title+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
 						'</div>';
 		var projectLine  = 
-		'<tr id="project'+projectId+'">'+
+		'<tr id="project'+projectId.$id+'">'+
 					'<td class="center">'+viewBtn+'<i class="fa fa-lightbulb-o fa-2x"></i></a></td>'+
 					'<td>'+nProject.title+'</a></td>'+
 					'<td>'+nProject.url+'</td>'+

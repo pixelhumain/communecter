@@ -1,3 +1,35 @@
+
+<?php 
+	//valeur correspondant 
+
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css');
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/slider/css/slider.css');
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQRangeSlider/css/classic-min.css');
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js');
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQRangeSlider/jQAllRangeSliders-min.js');
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/modernizr/modernizr.js');
+////$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/slider/js/bootstrap-slider.js');
+//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Knob/js/jquery.knob.js');
+//$cs->registerJsFile(Yii::app()->theme->baseUrl. 'assets/js/ui-sliders.js' , CClientScript::POS_END);
+	$cssAnsScriptFilesTheme = array(
+	//Select2
+	//'/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css',
+	//'/assets/plugins/slider/css/slider.css',
+	//'/assets/plugins/jQRangeSlider/css/classic-min.css',
+	'/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
+
+	'/assets/plugins/jQRangeSlider/jQAllRangeSliders-min.js',
+	'/assets/plugins/modernizr/modernizr.js',
+	'/assets/plugins/slider/js/bootstrap-slider.js',
+	//autosize
+	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
+	'/assets/js/ui-sliders.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+//<script src="assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+?>
 <style>
 
 #newProject{
@@ -21,8 +53,84 @@
 						<input class="project-url form-control" name="projectUrl" type="text" placeholder="Project url...">
 						<input class="project-version form-control" name="projectVersion" type="text" placeholder="Project version...">
 						<input class="project-licence form-control" name="projectLicence" type="text" placeholder="Project licence...">
-
+						
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<!-- start: CIRCLE DIALS PANEL -->
+					<div class="panel panel-white">
+						<div class="panel-heading">
+							<h4 class="panel-title">Circle <span class="text-bold">Dials</span></h4>
+							<div class="panel-tools">
+								<div class="dropdown">
+									<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
+										<i class="fa fa-cog"></i>
+									</a>
+									<ul class="dropdown-menu dropdown-light pull-right" role="menu">
+										<li>
+											<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+										</li>
+										<li>
+											<a class="panel-refresh" href="#">
+												<i class="fa fa-refresh"></i> <span>Refresh</span>
+											</a>
+										</li>
+										<li>
+											<a class="panel-config" href="#panel-config" data-toggle="modal">
+												<i class="fa fa-wrench"></i> <span>Configurations</span>
+											</a>
+										</li>
+										<li>
+											<a class="panel-expand" href="#">
+												<i class="fa fa-expand"></i> <span>Fullscreen</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<a class="btn btn-xs btn-link panel-close" href="#">
+									<i class="fa fa-times"></i>
+								</a>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<p>
+										Nice, downward compatible, touchable, jQuery dial
+									</p>
+								</div>
+								<div class="col-md-4 text-center">
+									<h4>&#215; Disable display input</h4>
+									<input class="knob" data-width="100" data-displayInput=false value="35">
+								</div>
+								<div class="col-md-4 text-center">
+									<h4>&#215; 'cursor' mode</h4>
+									<input class="knob" data-width="150" data-cursor=true data-fgColor="#222222" data-thickness=.3 value="29">
+								</div>
+								<div class="col-md-4 text-center">
+									<h4>&#215; Display previous value</h4>
+									<input class="knob" data-width="200" data-min="-100" data-displayPrevious=true value="44">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4 text-center">
+									<h4>&#215; Angle offset</h4>
+									<input class="knob" data-angleOffset=90 data-linecap=round value="35">
+								</div>
+								<div class="col-md-4 text-center">
+									<h4>&#215; Angle offset and arc</h4>
+									<input class="knob" data-angleOffset=-125 data-angleArc=250 data-fgColor="#66EE66" value="35">
+								</div>
+								<div class="col-md-4 text-center">
+									<h4>&#215; 5-digit values, step 1000</h4>
+									<input class="knob" data-min="-15000" data-displayPrevious=true data-max="15000" data-step="1000" value="-11000">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end: CIRCLE DIALS PANEL -->
 				</div>
 			</div>
 			<div class="row">
@@ -64,9 +172,7 @@
 						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
 					</div>
 				</div>
-				<?php } ?>
-				
-				
+				<?php } ?>	
 			<div class="pull-right">
 				<div class="btn-group">
 					<a href="#" class="btn btn-info close-subview-button">
@@ -87,6 +193,10 @@
 jQuery(document).ready(function() {
  	bindProjectSubViewProjects();
  	runProjectFormValidation();
+ 	//initialisation des sliders 
+ 	Main.init();
+	SVExamples.init();
+	UISliders.init();
 });
 
 function bindProjectSubViewProjects() {

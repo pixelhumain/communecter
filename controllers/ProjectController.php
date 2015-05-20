@@ -2,16 +2,59 @@
 /**
  * ActionLocaleController.php
  *
- * tous ce que propose le PH en terme de projet
+ * tous ce que propose le PH pour les associations
  * comment agir localeement
  *
  * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 15/08/13
  */
 class ProjectController extends CommunecterController {
-    const moduleTitle = "Projet";
+  	const moduleTitle = "Projet";
+  	protected function beforeAction($action)
+  	{
+		parent::initPage();
+		return parent::beforeAction($action);
+  	}
+  	public function actionIndex() 
+    {
+	    $this->render("index");
+	}
+	public function actions()
+	{
+		return array(
+		// captcha action renders the CAPTCHA image displayed on the contact page
+		'captcha'=>array(
+		 	'class'=>'CCaptchaAction',
+		 	'backColor'=>0xFFFFFF,
+		),
+		'edit'       				=> 'citizenToolKit.controllers.project.EditAction',
+		'removeproject'				=> 'citizenToolKit.controllers.project.RemoveProjectAction',
+		'save'						=> 'citizenToolKit.controllers.project.SaveAction',
+		'dashboard'					=> 'citizenToolKit.controllers.project.DashboardAction',
+		/*'delete'						=> 'citizenToolKit.controllers.organization.DeleteAction',
+		'join'							=> 'citizenToolKit.controllers.organization.JoinAction',
+		'addneworganizationasmember'	=> 'citizenToolKit.controllers.organization.AddNewOrganizationAsMemberAction',
+		'dashboard'						=> 'citizenToolKit.controllers.organization.DashboardAction',
+		'dashboard1'					=> 'citizenToolKit.controllers.organization.Dashboard1Action',
+		'dashboardmember'				=> 'citizenToolKit.controllers.organization.DashboardMemberAction',
+		'news'							=> 'citizenToolKit.controllers.organization.NewsAction',
+		'sig'							=> 'citizenToolKit.controllers.organization.SigAction',*/
+		);
+	}	
+//}
+/**
+ * ActionLocaleController.php
+ *
+ * tous ce que propose le PH en terme de projet
+ * comment agir localeement
+ *
+ * @author: Tibor Katelbach <tibor@pixelhumain.com>
+ * Date: 15/08/13
+ */
+//class ProjectController extends CommunecterController {
+  //  const moduleTitle = "Projet";
     
-    protected function beforeAction($action) {
+   /* protected function beforeAction($action) {
     	parent::initPage();
     	return parent::beforeAction($action);
   	}
@@ -19,9 +62,9 @@ class ProjectController extends CommunecterController {
     public function actionIndex() 
     {
 	    $this->render("index");
-	}
+	}*/
 
-    public function actionEdit($id) 
+  /*  public function actionEdit($id) 
     {
         $project = Project::getById($id);
         $citoyens = array();
@@ -45,8 +88,8 @@ class ProjectController extends CommunecterController {
 		  }
 		}
         $this->render("edit",array('project'=>$project, 'organizations'=>$organizations, 'citoyens'=>$citoyens));
-	}
-
+	}*/
+	// A voir si utile
 	public function actionPublic($id){
 	    //get The project Id
 	    if (empty($id)) {
@@ -66,7 +109,7 @@ class ProjectController extends CommunecterController {
     //**********
 	// Old - Still used ?
 	//**********
-    public function actionList($ownerId) 
+   /* public function actionList($ownerId) 
     {
 	    $list = Yii::app()->mongodb->groups->find(array("type" => "projet", "owner" => new MongoId($ownerId) ));
 	    $owner = Yii::app()->mongodb->groups->findOne(array("_id"=>new MongoId($ownerId)));
@@ -85,10 +128,10 @@ class ProjectController extends CommunecterController {
     public function actionCreer() 
     {
 	    $this->render("new");
-	}
+	}*/
 
-	public function actionSave(){
-		if( isset($_POST['title']) && !empty($_POST['title']))
+	/*public function actionSave(){
+	if( isset($_POST['title']) && !empty($_POST['title']))
       {
         //TODO check by key
             $project = PHDB::findOne(PHType::TYPE_PROJECTS ,array( "name" => $_POST['title']));
@@ -102,8 +145,8 @@ class ProjectController extends CommunecterController {
     } else
         echo json_encode(array("result"=>false, "msg"=>"Cette requete ne peut aboutir."));
     exit;
-	}
-	public function actionRemoveProject($projectId) {
+	}*/
+	/*public function actionRemoveProject($projectId) {
 		//Reprendre ici
 		//echo $projectId;
 		$project=Project::getById($projectId);
@@ -122,7 +165,7 @@ class ProjectController extends CommunecterController {
 		}
 		return Rest::json($res);
 		
-	}
+	}*/
 
   public function actionSaveContributor(){
   	$res = array( "result" => false , "content" => "Something went wrong" );
@@ -202,7 +245,7 @@ class ProjectController extends CommunecterController {
 	 Rest::json( $res );
   }
 
-   public function actionDashboard($id){
+   /*public function actionDashboard($id){
   	$project = Project::getPublicData($id);
 
   	$this->sidebar1 = array(
@@ -236,9 +279,9 @@ class ProjectController extends CommunecterController {
   					}
   				}
 
-  				/*if(isset($e["isAdmin"]) && $e["isAdmin"]==true){
-  					array_push($admins, $e);
-  				}*/
+  				//if(isset($e["isAdmin"]) && $e["isAdmin"]==true){
+  					//array_push($admins, $e);
+  				//}
   			}
   		}
   	}
@@ -248,5 +291,5 @@ class ProjectController extends CommunecterController {
   	$params["people"] = $people;
   	//$params["admins"] = $admins;
   	$this->render( "dashboard", $params );
-  }
+  }*/
 }
