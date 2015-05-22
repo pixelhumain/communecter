@@ -44,7 +44,7 @@
 						$itemId = $userId;
 						$type = Person::COLLECTION;
 					}
-					$this->renderPartial('../pod/flexSlider', array("userId" => $userId,
+					$this->renderPartial('../pod/flexSlider', array("itemId" => $itemId,
 																	  "type" => $type,
 																	  "containerSlider" => "sliderPhotoPod")); ?>
 				
