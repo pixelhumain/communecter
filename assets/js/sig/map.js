@@ -38,6 +38,7 @@
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/) 
 			{
+				console.warn("--------------- getGeoJsonMarker ---------------------");
 				properties.visible = false;
 				//alert(JSON.stringify(properties));
 				return { "type": 'Feature',
@@ -51,6 +52,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{ 
+				console.warn("--------------- getMarkerSingle ---------------------");
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window"; 
 		
@@ -70,7 +72,8 @@
 			//##
 			//récupère le nom de l'icon en fonction du type de marker souhaité
 			this.Sig.getIcoMarker = function(thisData)
-			{	
+			{
+				console.warn("--------------- getIcoMarker ---------------------");	
 				var type = thisData["type"];
 				var ico = this.getIcoNameByType(type);
 				var color = this.getIcoColorByType(type);
@@ -83,6 +86,7 @@
 			//supprime tous les marker de la carte
 			this.Sig.clearMap = function(thisMap)
 			{
+				console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 				
@@ -101,6 +105,7 @@
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
 			this.Sig.setFullScreen = function()
 			{
+				console.warn("--------------- setFullScreen ---------------------");
 				//alert("hehe");
 				//return;
 				//full screen map
@@ -116,7 +121,7 @@
 			};
 			
 			this.Sig.verifyPanelFilter = function (thisData){
-				
+				console.warn("--------------- verifyPanelFilter ---------------------");
 				if(this.usePanel == false) return true;
 				
 				//si thisData n'a pas de tags
@@ -136,12 +141,14 @@
 			};
 			
 			
-			this.Sig.getCoordinates = function(thisData, type){ 
-				if( thisData['geo'].longitude != null ){
+			this.Sig.getCoordinates = function(thisData, type)
+			{ 
+				console.warn("--------------- getCoordinates ---------------------");
+				if( thisData['address']['geo'].longitude != null ){
 					if(type == "markerSingle")
-						return new Array (thisData['geo'].latitude, thisData['geo'].longitude); 
+						return new Array (thisData['address']['geo'].latitude, thisData['address']['geo'].longitude); 
 					else if(type == "markerGeoJson")
-						return new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
+						return new Array (thisData['address']['geo'].longitude, thisData['address']['geo'].latitude); 
 				} 
 				else{ 	
 					if(type == "markerSingle"){
@@ -156,11 +163,12 @@
 			
 			
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				
+				console.warn("--------------- showOneElementOnMap ---------------------");
 				var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				if(objectId != null) 
 				{
-					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']){
+					if(("undefined" != typeof thisData['address'] && "undefined" != typeof thisData['address']['geo']) 
+						|| "undefined" != typeof thisData['geoPosition']){
 						if(this.verifyPanelFilter(thisData))
 						{
 							//préparation du contenu de la bulle
@@ -230,7 +238,7 @@
 			};
 			
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				
+				console.warn("--------------- showFilterOnMap ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	
 				if(dataFilter.length > 1){
@@ -249,7 +257,9 @@
 			
 			
 			this.Sig.showMapElements = function(thisMap, data)
-			{ 
+			{
+				console.warn("--------------- showMapElements ---------------------"); 
+				console.dir(data);
 				var filterPanelValue = "citoyens";
 				//enregistre les dernières données dans une variable locale
 				this.dataMap = data;
@@ -310,7 +320,8 @@
 		//##
 		
 		this.Sig.changeFilter = function (val, thisMap)
-		{ 	
+		{
+			console.warn("--------------- changeFilter ---------------------"); 	
 			if(this.panelFilter != "")
 				$(this.cssModuleName + '#item_panel_map_' + this.panelFilter).removeClass("selected");	
 			
@@ -321,6 +332,7 @@
 		
 		
 		this.Sig.populatePanel = function(tags, objectId){  
+			console.warn("--------------- populatePanel ---------------------");
 			var thisSig = this;
 			if("undefined" == typeof tags) tags = new Array("all");
 			//alert("tags : " + tags);
@@ -332,6 +344,7 @@
 		
 		
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
+			console.warn("--------------- updatePanel ---------------------");
 			var thisSig = this;
 			$.each(this.listPanel, function(key, value){
 				//si l'item n'existe pas encore
@@ -366,6 +379,7 @@
 		//chargement de la carte 
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{ 
+	 		console.warn("--------------- loadMap ---------------------");
 	 		canvasId += initParams.sigKey;
 	 		
 			$("#"+canvasId).html("");

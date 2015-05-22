@@ -139,7 +139,8 @@
 			
 			//chargement la carte
 			mapDashboardOrga = Sig.loadMap("mapCanvas", initParams);
-			
+			console.log("contextMap");
+			console.dir(contextMap);
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			//var mapData = ;

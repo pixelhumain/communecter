@@ -22,8 +22,8 @@
 					var bounds = thisMap.getBounds();
 					thisSig.currentFilter = "all";
 					if( this.type == thisSig.currentFilter || thisSig.currentFilter == "all"){								
-					if( (this.geo.longitude > bounds.getSouthWest().lng && this.geo.longitude < bounds.getNorthEast().lng && 
-						this.geo.latitude > bounds.getSouthWest().lat && this.geo.latitude < bounds.getNorthEast().lat) 
+					if( (this.address.geo.longitude > bounds.getSouthWest().lng && this.address.geo.longitude < bounds.getNorthEast().lng && 
+						this.address.geo.latitude > bounds.getSouthWest().lat && this.address.geo.latitude < bounds.getNorthEast().lat) 
 						|| showElementOutOfMapView)
 						{	
 							//si le champ de recherche par userName est rempli (n'est pas vide)
