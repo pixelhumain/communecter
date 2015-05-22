@@ -17,9 +17,6 @@
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
 ?>
 <style>
-#divImgEdit{
-	display: none;
-}
 
 </style>
 <div class="panel panel-white">
@@ -45,9 +42,9 @@
 					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
 
 			?>
-					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>
+					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 			<?php } else{ ?>
-					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I'm member of this</a>
+					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i></a>
 			<?php } ?>
 			</div>
 		</div>
@@ -403,13 +400,9 @@
 		if(mode == "view"){
 			mode = "update";
 			manageModeContext();
-			$("#divImgView").css("display", "none");
-			$("#divImgEdit").css("display", "block");
 		}else{
 			mode ="view";
 			manageModeContext();
-			$("#divImgView").css("display", "block");
-			$("#divImgEdit").css("display", "none");
 		}
 	}
 

@@ -34,11 +34,19 @@
 		</div>
 		<div class="panel-body">
 			<div class="center">
-				<div class="flexslider" id="flexsliderPhoto">
+				<!--<div class="flexslider" id="flexsliderPhoto">
 					<ul class="slides" id="slidesPhoto">
 						
 					</ul>
-				</div>
+				</div> -->
+				<?php 
+					if(isset($userId)){
+						$itemId = $userId;
+						$type = Person::COLLECTION;
+					}
+					$this->renderPartial('../pod/flexSlider', array("userId" => $userId,
+																	  "type" => $type,
+																	  "containerSlider" => "sliderPhotoPod")); ?>
 				
 			</div>
 
@@ -59,8 +67,6 @@
 					<a href="#" class="btn btn-light-blue validateSlider">Terminer </a>
 				</div>
 			</div>
-
-			</hr>
 		</div>
 	</div>
 </div>
@@ -68,138 +74,59 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var id = "<?php if(isset($userId)) echo $userId; else if(isset($itemId)) echo $itemId; ?>";
-	var type = '<?php if(isset($userId)) echo Person::COLLECTION; else if(isset($type)) echo $type; ?> '
- 	var isSubmit = false;
- 	var constImgName = "<?php echo Document::IMG_SLIDER ; ?>";
- 	var imagesTab = [];
- 	var widthSlider = $("#sliderPhotoPod .flexslider").css("width");
+	
+ 	
+ 	var constImgKey = "<?php echo Document::IMG_SLIDER ; ?>";
+ 	
 	 jQuery(document).ready(function() {
-	 	$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
-	 	$("#sliderPhotoPod .flexslider .slides li").css("max-width", parseInt(widthSlider)+"px");
-		initDashboardPhoto();
+	 
 		bindPhotoSubview();
 
 		$(".gallery-photo").on("click", function(){
 			location.href = baseUrl+"/"+moduleId+"/gallery/index/id/"+id+"/type/"+type;
 		})
 
-		$( window ).resize(function() {
-			resizeSlider();
-		})
-
+		
 		$(".validateSlider").off().on("click", function() {
 			clearFileupload();
 		})
+
 		$(".add-photo").off().on("click", function() {
-			$("#flexsliderPhoto").css("display", "none");
+			$("#sliderPhotoPod .flexslider").css("display", "none");
 			$("#addPhoto").css("display", "block");
-			$('#'+constImgName+'_avatar').trigger("click");
+			$('#'+constImgKey+'_avatar').trigger("click");
 		});
 
 	});
 	
 
-	function initDashboardPhoto(){
-		j=0;
-
-		if(images.length != 0){
-			$.each(images, function(k,v){
-				imagesTab.push(v)
-			})
-			
-			for(i=imagesTab.length-1; i>=0; i--){
-				var contentTab = imagesTab[i].contentKey.split(".");
-				var where = contentTab[contentTab.length-1];
-				if(j<5 && imagesTab[i].doctype=="image"){
-					if(where == constImgName){
-						path = baseUrl+"/upload/"+imagesTab[i].moduleId+"/"+imagesTab[i].folder+"/"+imagesTab[i].name;
-						var htmlSlide = "<li><img src='"+path+"' /></li>";
-						$("#slidesPhoto").append(htmlSlide);
-						j++;
-					}
-				}
-			}
-		}
-		if(j == 0){
-			var htmlSlide = "<li>" +
-								"<div class='center'>"+
-									"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-									"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
-								"</div>"+
-							"</li>";
-			$("#slidesPhoto").append(htmlSlide);
-		}
-		$("#flexsliderPhoto").flexslider();
-		$(".podPhotoVideoTitle").html("Media");
-		widthSlider = $("#sliderPhotoPod .flexslider").css("width");
-		$("#sliderPhotoPod .flexslider").css("height", parseInt(widthSlider)*45/100+"px");
-		$("#sliderPhotoPod .flexslider .slides li").css("height", parseInt(widthSlider)*45/100-10+"px");
-		imagesTab = [];
-
-	}
-
-
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})
-		/*$(".add-photo").off().on("click", function() {
-			subViewElement = $(this);
-			subViewContent = subViewElement.attr('href');
-			$.subview({
-				content : subViewContent,
-				onShow : function() {
-					//openGallery();
-				},
-				onHide : function() {
-					hideFileuploadSubview();
-				}
-			});
-		});*/
 	}
 
-	function updateSlider(image, id){
-		console.log(images, images.length);
-		if("undefined" != typeof images.length){
-			images = {};
-		}
-		images[id] = image;
-		//console.log(images);
-		removeSlider();
-		initDashboardPhoto()
-
-	}
 
 	//resetForm
 	function hidePhotoSv(){
-		isSubmit =false;
+		
 		$("#uploadBtn").empty();
 		$("#uploadBtn").html("Upload File");
 		$(".fileupload").fileupload("clear");
 		$.hideSubview();
 	}
 
-	function resizeSlider(){
-		removeSlider();
-		initDashboardPhoto()
-	}
 
-	function removeSlider(){
-		$("#flexsliderPhoto").removeData("flexslider");
-		$("#flexsliderPhoto").empty();
-		$("#flexsliderPhoto").html('<ul class="slides" id="slidesPhoto">');
-	}
 
 	function hideFileuploadSubview(){
-		$('#'+constImgName+'_avatar').val('');
-		$('#'+constImgName+'_fileUpload').fileupload("clear");
+		$('#'+constImgKey+'_avatar').val('');
+		$('#'+constImgKey+'_fileUpload').fileupload("clear");
 		$.hideSubview();
 	}
 
 	function clearFileupload(){
 		$("#addPhoto").css("display", "none");
-		$("#flexsliderPhoto").css("display", "block");
-		$('#'+constImgName+'_avatar').val('');
-		$('#'+constImgName+'_fileUpload').fileupload("clear");
+		$("#sliderPhotoPod .flexslider").css("display", "block");
+		$('#'+constImgKey+'_avatar').val('');
+		$('#'+constImgKey+'_fileUpload').fileupload("clear");
 		removeSlider()
 		initDashboardPhoto()
 	}

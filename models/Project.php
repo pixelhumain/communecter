@@ -36,12 +36,23 @@ class Project {
 	    $new = array(
 			"name" => $params['title'],
 			'url' => $params['url'],
-			'version' => $params['version'],
+			//'version' => $params['version'],
 			'licence' => $params['licence'],
+			'description' => $params['description'],
+			//'startDate' => $params['start'],
+			//'endDate' => $params['end'],
 			'created' => time(),
 			"links" => array( 
 				"contributors" => array( (string)$id =>array("type" => $type)), 
 				"organizer" => array((string)$id =>array("type" => $type)),  
+			),
+			"properties" => array (
+							"gouvernance" => $params["gouvernance"],
+							"local" => $params["local"],	
+							"partenaire" => $params["partenaire"],
+							"partage" => $params["partage"],
+							"solidaire" => $params["solidaire"],
+							"avancement" => $params["avancement"],
 			),
 	    );
 	    PHDB::insert(PHType::TYPE_PROJECTS,$new);

@@ -117,9 +117,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
 		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){
-			initAddEventBtn ();
+			
 		}, "html");
-		
 	});
 
 </script>
