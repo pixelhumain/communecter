@@ -5,12 +5,17 @@
 		<div class="panel-body">
 			<div class="center">
 
-				<div class="fileupload fileupload-new" data-provides="fileupload">
-					<div class="fileupload-new thumbnail">
-						<img src="<?php if ($project && isset($project["imagePath"])) echo $project["imagePath"]; ?>" alt="">	
-					</div>
-					<div class="fileupload-preview fileupload-exists thumbnail"></div>
-				</div>
+				
+				<?php 
+					/*if(isset($userId)){
+						$itemId = $userId;
+						$type = Project::COLLECTION;
+					}
+					$this->renderPartial('../pod/flexSlider', array("userId" => $itemId,
+																	  "type" => $type,
+																	  "containerSlider" => "sliderPhotoPod")); */?>	
+					
+				
 			</div>
 		</div>
 	</div>
