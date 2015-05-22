@@ -3,17 +3,16 @@
 <?php 
 		$moduleName  = "sigModule".$sigParams['sigKey'];
 		
-		$mapHeight   = $sigParams["mapHeight"]   ? $sigParams["mapHeight"]   : 400;
-		$mapColor    = $sigParams["mapColor"]    ? $sigParams["mapColor"]    : '';
-		$mapTop 	 = $sigParams["mapTop"]      ? $sigParams["mapTop"]      : 0;
+		$mapHeight   = ( isset( $sigParams["mapHeight"]))   ? $sigParams["mapHeight"]   : 400;
+		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
+		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      : 0;
 		
-		$mapBtnBgColor       = $sigParams["mapBtnBgColor"] 			? $sigParams["mapBtnBgColor"] 			: '#E6D414';
-		$mapBtnColor 	     = $sigParams["mapBtnColor"]   			? $sigParams["mapBtnColor"]   			: '#213042';
-		$mapBtnBgColor_hover = $sigParams["mapBtnBgColor_hover"]   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
+		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#E6D414';
+		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#213042';
+		$mapBtnBgColor_hover = ( isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
 		
 		$panelTop = 20;
 ?>
-
 <style>
 
 	<?php   $mapWidth = "100%";

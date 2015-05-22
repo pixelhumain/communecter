@@ -18,10 +18,10 @@
 					"sigKey" => "DashOrga",
 					
 					/* MAP */
-					"mapHeight" => 450,
-					"mapTop" => 50,
-					"mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
-					"mapOpacity" => 1, //ex : 0.4
+					"mapHeight" => ( isset($sigParams) && isset($sigParams["mapHeight"]) ) ? $sigParams["mapHeight"] : 450,
+					"mapTop" => ( isset($sigParams) && isset($sigParams["mapTop"]) ) ? $sigParams["mapTop"] : 0,
+					"mapColor" => ( isset($sigParams) && isset($sigParams["mapColor"]) ) ? $sigParams["mapColor"] :'',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
+					"mapOpacity" => ( isset($sigParams) && isset($sigParams["mapOpacity"]) ) ? $sigParams["mapOpacity"] : 1 , //ex : 0.4
 					
 					/* *
 					 * Provider de fond de carte  
@@ -29,27 +29,29 @@
 					 * */
 					 
 					/* MAP LAYERS (FOND DE CARTE) */
-					"mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
-					"mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+					"mapTileLayer" 	  => ( isset($sigParams) && isset($sigParams["mapTileLayer"]) ) ? $sigParams["mapTileLayer"] : 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+					"mapAttributions" => ( isset($sigParams) && isset($sigParams["mapAttributions"]) ) ? $sigParams["mapAttributions"] : '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 					
-					 
-					/* MAP BUTTONS */			
-					"mapBtnBgColor" => '#E6D414', 
-					"mapBtnColor" => '#213042', 
-					"mapBtnBgColor_hover" => '#5896AB',
+					/* MAP BUTTONS */		
+					"mapBtnBgColor" => ( isset($sigParams) && isset($sigParams["mapBtnBgColor"]) ) ? $sigParams["mapBtnBgColor"] :'#E6D414', 
+					"mapBtnColor" => ( isset($sigParams) && isset($sigParams["mapBtnColor"]) ) ? $sigParams["mapBtnColor"] :'#213042', 
+					"mapBtnBgColor_hover" => ( isset($sigParams) && isset($sigParams["mapBtnBgColor_hover"]) ) ? $sigParams["mapBtnBgColor_hover"] :'#5896AB',
 					 
 					/* USE */
-					"usePanel" => true,
-					"titlePanel" => 'Thèmes',
-					"useRightList" => true,
-					"useZoomButton" => true,
-					"useHelpCoordinates" => false,
-					"useFullScreen" => false,
+					"usePanel" => ( isset($sigParams) && isset($sigParams["usePanel"]) ) ? $sigParams["usePanel"] :false,
+					"titlePanel" => ( isset($sigParams) && isset($sigParams["titlePanel"]) ) ? $sigParams["titlePanel"] :'Thèmes',
+					"useRightList" => ( isset($sigParams) && isset($sigParams["useRightList"]) ) ? $sigParams["useRightList"] :false,
+					"useZoomButton" => ( isset($sigParams) && isset($sigParams["useZoomButton"]) ) ? $sigParams["useZoomButton"] :true,
+					"useHomeButton" => ( isset($sigParams) && isset($sigParams["useHomeButton"]) ) ? $sigParams["useHomeButton"] :true,
+					"useHelpCoordinates" => ( isset($sigParams) && isset($sigParams["useHelpCoordinates"]) ) ? $sigParams["useHelpCoordinates"] :false,
+					"useFullScreen" => ( isset($sigParams) && isset($sigParams["useFullScreen"]) ) ? $sigParams["useFullScreen"] :false,
+					"useExternalRightList" => ( isset($sigParams) && isset($sigParams["useExternalRightList"]) ) ? $sigParams["useExternalRightList"] :false,
 					
-					"notClusteredTag" => array("citoyens"),
+					"notClusteredTag" => ( isset($sigParams) && isset($sigParams["notClusteredTag"]) ) ? $sigParams["notClusteredTag"] : array("citoyens"),
 					
-					"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
-													"zoom"		  => 9),
+					"firstView"		  => ( isset($sigParams) && isset($sigParams["firstView"]) ) ? $sigParams["firstView"] :array(  "coordinates" => array(-21.13318, 55.5314),
+																															  "zoom"		  => 9),
+					"mapPoints"		  => ( isset($sigParams) && isset($sigParams["mapPoints"]) ) ? $sigParams["mapPoints"] :null,
 					);
 		/* ***********************************************************************************/
 	   	
