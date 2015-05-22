@@ -39,11 +39,11 @@
 				<div class="row" id="step2">
 		
 					<div class="form-group" id="ficheUser">
-						<div class="col-md-5">
-							<?php $this->renderPartial('../pod/fileupload', array("itemId" => "",
+						<div class="col-md-5" class="photoInvite">
+							<?php /*$this->renderPartial('../pod/fileupload', array("itemId" => "",
 																	  "type" => "",
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => false)); ?>
+																	  "editMode" => false)); */?>
 						</div>
 						<div class="col-md-7">
 							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
@@ -86,6 +86,7 @@
 
 <script type="text/javascript">
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
+var tags;
 jQuery(document).ready(function() {
  	bindinviteSubViewinvites();
  	runinviteFormValidation();
@@ -124,6 +125,8 @@ function bindinviteSubViewinvites() {
 			content : subViewContent,
 			onShow : function() {
 				editinvite();
+				getAjax(".photoInvite",baseUrl+"/"+moduleId+"/pod/fileupload/itemId//type//resize/false/edit/false/contentId/<?php //echo Document::IMG_PROFIL ?>/podId/invite",null,"html");
+
 			},
 			onHide : function() {
 				hideEditinvite();
@@ -319,9 +322,9 @@ function setInviteInput(num){
 	$("#newInvite #step2").css({"display" : "block"});
 	$("#newInvite #ficheName").text(array["name"]);
 	$("#newInvite #birth").text(array["birth"]);
-	var tags = array["tags"];
+	tags = array["tags"];
 	var tagsStr = "";
-	for(var i= 0; i<tags.length; i++){
+	for(var i= 0; i<Object.keys(tags).length; i++){
 		tagsStr +=tags[i]+ " ";
 	}
 	$("#newInvite #tags").text(tagsStr);

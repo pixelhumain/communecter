@@ -31,6 +31,7 @@
 </style>
 
 	<div class ="center" id="fileuploadContainer">
+		toto <?php echo $itemId;  ?>
 		<form  method="post" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_fileUpload">
@@ -66,9 +67,11 @@
 	
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
+		
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
 		var contentIdtoSend = "<?php echo $contentId ?>";
+		console.log("id", contentId+"_"+id);
 		var resize = "<?php if(isset($resize)) echo $resize; else echo false; ?>";
 		var imageName= "";
 		var imageId= "";
@@ -100,7 +103,7 @@
 
 
 		$("#"+contentId+"_photoAdd").off().on('submit',(function(e) {
-			
+			console.log("id2", id);
 			$("."+contentId+"_isSubmit").val("true");
 			e.preventDefault();
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");

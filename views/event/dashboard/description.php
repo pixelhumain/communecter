@@ -3,6 +3,7 @@
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css');
 
 	//X-editable...
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
@@ -10,6 +11,7 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , CClientScript::POS_END, array(), 2);
 ?>
 <style type="text/css">
 	.selectEv{
@@ -40,7 +42,7 @@
 			<tbody>
 				<tr>
 					<td>Intitulé</td>
-					<td><a href="#" id="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" ><?php if(isset($event["name"]))echo $event["name"];?></a></td>
+					<td><a href="#" id="name" name="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" ><?php if(isset($event["name"]))echo $event["name"];?></a></td>
 				</tr>
 				<?php if(!empty($organizer)) {?>
 					<tr>
@@ -50,15 +52,15 @@
 				<?php } ?>
 				<tr>
 					<td>Début</td>
-					<td><a href="#" id="startD" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click" ><?php if(isset($event["startDate"]))echo $event["startDate"]; ?></a></td>
+					<td><a href="#" id="startDate" data-type="datetime" data-emptytext="Enter Start Date" class="editable editable-click" ><?php if(isset($event["startDate"]))echo $event["startDate"]; ?></a></td>
 				</tr>
 				<tr>
 					<td>Fin</td>
-					<td><a href="#" id="endD" data-type="date" data-emptytext="Enter Start Date" class="editable editable-click"><?php if(isset($event["endDate"]))echo $event["endDate"]; ?></a></td>
+					<td><a href="#" id="endDate" data-type="datetime" data-emptytext="Enter End Date" class="editable editable-click"><?php if(isset($event["endDate"]))echo $event["endDate"]; ?></a></td>
 				</tr>
 				<tr>
 					<td>Type</td>
-					<td><a href="#" id="selectEvent" data-type="select" data-inputclass="selectEv" class="editable editable-click" ><?php if(isset($event["type"])) echo $event["type"]; ?></a></td>
+					<td><a href="#" id="type" name="type" data-type="select" data-inputclass="selectEv" class="editable editable-click" ><?php if(isset($event["type"])) echo $event["type"]; ?></a></td>
 				</tr>
 				
 			</tbody>
@@ -103,41 +105,43 @@
 			showbuttons: false
 		});
 
-		$('#startD').editable({
+		$('#startDate').editable({
 			url: baseUrl+"/"+moduleId+"/event/updatefield", //this url will not be used for creating new user, it is only for update
 			mode: "popup",
 			placement: "bottom",
-			format: 'dd/mm/yyyy hh:mm',    
-			viewformat: 'dd/mm/yyyy',
+			format: 'dd/mm/yyyy hh:ii',    
+			viewformat: 'dd/mm/yyyy hh:ii',
 			showbuttons: false,    
 			datetimepicker: {
-				weekStart: 1
+				weekStart: 1,
+				format: 'yyyy-mm-dd hh:ii'
 			   }
 			}
 		);
 
-		$('#endD').editable({
+		$('#endDate').editable({
 			url: baseUrl+"/"+moduleId+"/event/updatefield", //this url will not be used for creating new user, it is only for update
 			mode: "popup",
 			placement: "bottom",
-			format: 'dd/mm/yyyy hh:mm',    
-			viewformat: 'dd/mm/yyyy',
+			format: 'dd/mm/yyyy hh:ii',    
+			viewformat: 'dd/mm/yyyy hh:ii',
 			showbuttons: false,    
 			datetimepicker: {
-				weekStart: 1
+				weekStart: 1,
+				format: 'yyyy-mm-dd hh:ii'
 			   }
 			}
 		);
 
-		$('#selectEvent').editable({
+		$('#type').editable({
 			url: baseUrl+"/"+moduleId+"/event/updatefield",
 			source: ["event", "meeting", "discussion"]
 			}
 		);
 
 		$('.editable-event').editable('option', 'pk', itemId);
-		$('#startD').editable('option', 'pk', itemId);
-		$('#endD').editable('option', 'pk', itemId);
-		$('#selectEvent').editable('option', 'pk', itemId);
+		$('#startDate').editable('option', 'pk', itemId);
+		$('#endDate').editable('option', 'pk', itemId);
+		$('#type').editable('option', 'pk', itemId);
 	}
 </script>

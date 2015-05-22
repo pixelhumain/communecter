@@ -56,7 +56,7 @@
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<?php 
-					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$_GET["id"],
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => "false",
 																	  "contentId" => Document::IMG_PROFIL,
