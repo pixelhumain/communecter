@@ -76,7 +76,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-12 col-xs-12">
-    <?php $this->renderPartial('dashboard/sigDashboardMember',array( "organization" => $organization,"members"=>$members)); ?>
+    <?php $this->renderPartial('dashboard/networkMap',array( "organization" => $organization,"members"=>$members)); ?>
   </div>
 
   <div class="col-sm-4 col-xs-4 newsPod">

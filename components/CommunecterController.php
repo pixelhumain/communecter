@@ -223,11 +223,15 @@ class CommunecterController extends Controller
 
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
-
-    $id = "54eed95ea1aa143e020041c8";
+    
+    //Granddir
+    //$id = "54eed95ea1aa143e020041c8";
+    //Larges
+    $id = "555c8de4c12f63403e0041a9";
+    
     $grandirMenu = array(
       array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
-      array('label' => "GRANDDIR ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
+      array('label' => "LARGES ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
       array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"/ph/communecter/organization/sig/id/".$id),
       array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
       array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-briefcase","href"=>"/ph/communecter/job/list"),
