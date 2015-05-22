@@ -61,10 +61,10 @@
 <script type="text/javascript">
 
 	/* PHP Variable
-		events : list of the context users events
+		eventsAgenda : list of the context users eventsAgenda
 		contentID : type of the picture
 	*/
-	var events = <?php echo json_encode($events) ?>;
+	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
 	var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 
 
@@ -109,8 +109,8 @@
 		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = width*45/100;
 
-		if(Object.keys(events).length>0){
-			$.each(events, function(k, v){
+		if(Object.keys(eventsAgenda).length>0){
+			$.each(eventsAgenda, function(k, v){
 				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate && v.endDate.split("/").length==3){
 					console.log("evenAgenda", v.imagePath);
 					var period = getStringPeriodValue(v.startDate, v.endDate);
@@ -208,10 +208,10 @@
 
 	//update the shared agenda
 	function updateSliderAgenda(nEvent){
-		if("undefined" != typeof events.length){
-			events = {};
+		if("undefined" != typeof eventsAgenda.length){
+			eventsAgenda = {};
 		}
-		events[nEvent["_id"]["$id"]] = nEvent;
+		eventsAgenda[nEvent["_id"]["$id"]] = nEvent;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
@@ -220,7 +220,7 @@
 
 	//Update the picture of an events
 	function updateSliderImage(id, imagePath){
-		events[id]["imagePath"] = imagePath;
+		eventsAgenda[id]["imagePath"] = imagePath;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
