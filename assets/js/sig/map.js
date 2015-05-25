@@ -144,11 +144,11 @@
 			this.Sig.getCoordinates = function(thisData, type)
 			{ 
 				console.warn("--------------- getCoordinates ---------------------");
-				if( thisData['address']['geo'].longitude != null ){
+				if( thisData['geo'].longitude != null ){
 					if(type == "markerSingle")
-						return new Array (thisData['address']['geo'].latitude, thisData['address']['geo'].longitude); 
+						return new Array (thisData['geo'].latitude, thisData['geo'].longitude); 
 					else if(type == "markerGeoJson")
-						return new Array (thisData['address']['geo'].longitude, thisData['address']['geo'].latitude); 
+						return new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
 				} 
 				else{ 	
 					if(type == "markerSingle"){
@@ -167,8 +167,7 @@
 				var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				if(objectId != null) 
 				{
-					if(("undefined" != typeof thisData['address'] && "undefined" != typeof thisData['address']['geo']) 
-						|| "undefined" != typeof thisData['geoPosition']){
+					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
 						if(this.verifyPanelFilter(thisData))
 						{
 							//préparation du contenu de la bulle
