@@ -15,7 +15,6 @@ class GraphController extends CommunecterController {
 
   	public function actions()
 	{	
-		$path = 
 	    return array(
 	        'getdata'  => 'citizenToolKit.controllers.graph.GetDataAction',
 	        'viewer'   => 'citizenToolKit.controllers.graph.ViewerAction'

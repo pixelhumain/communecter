@@ -124,7 +124,8 @@
 			var initParams =  <?php echo json_encode($sigParams); ?>;
 			//chargement la carte
 			mapSV = Sig.loadMap("mapCanvas", initParams);
-			
+			console.log("contextMap");
+			console.dir(contextMap);
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			/**************************************************************************************************************/
