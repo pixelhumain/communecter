@@ -479,14 +479,14 @@ formProject.validate({
 		errorHandler2.hide();
 		startDateSubmitProj = convertDate2($('.form-project .project-range-date').val(), 0);
 		endDateSubmitProj = convertDate2($('.form-project .project-range-date').val(), 1);
-		//alert(endDateSubmit);
+		//alert(startDateSubmitProj);
 		newProject = new Object;
 		newProject.title = $(".form-project .project-name ").val(), 
 		newProject.url = $('.form-project .project-url').val(), 
 		//newProject.version = $(".form-project .project-version").val(), 
 		newProject.licence = $(".form-project .project-licence").val(),
-		//newProject.start="2015-10-10",
-		//newProject.end="2015-10-10",
+		newProject.start=startDateSubmitProj,
+		newProject.end=endDateSubmitProj,
 		newProject.description=$(".form-project .project-description").val(),
 		newProject.avancement=$(".form-project .project-avancement").val(),
 		newProject.gouvernance=$(".form-project .project-gouvernance").val(),
@@ -538,7 +538,6 @@ formProject.validate({
 		});
 
 		} else {
-		alert("save");
 			$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/project/save',
@@ -548,7 +547,6 @@ formProject.validate({
 		    })
 		    .done(function (data) 
 		    {
-			alert('');
 			alert (newProject.description);
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
@@ -582,7 +580,6 @@ function editProjectForm(el) {
 		$(".form-project .project-id").val("");
 		$(".form-project .project-name").val("");
 		$(".form-project .project-url").val("");
-		$(".form-project .project-version").val("");
 		$(".form-project .project-licence").val("");
 		//A supprimer
 		$(".form-project .all-day").bootstrapSwitch('state', false);
@@ -590,16 +587,16 @@ function editProjectForm(el) {
 		$(".form-project .project-start-date").val(moment());
 		$(".form-project .project-end-date").val(moment().add('days', 1));
 		
-		$('.form-project .no-all-day-range .project-range-date').val(moment().format('DD/MM/YYYY') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY'))
+		$('.form-project .no-all-day-range .project-range-date').val(moment().format('DD/MM/YYYY h:mm A') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY h:mm A'))
 		.daterangepicker({  
 			startDate: moment(),
 			endDate: moment().add('days', 1),
 			timePicker: true, 
 			timePickerIncrement: 30, 
-			format: 'DD/MM/YYYY' 
+			format: 'DD/MM/YYYY h:mm A' 
 		});
 		
-		$('.form-project .all-day-range .project-range-date').val(moment().format('DD/MM/YYYY') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY'))
+		$('.form-project .all-day-range .project-range-date').val(moment().format('DD/MM/YYYY h:mm A') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY h:mm A'))
 		.daterangepicker({  
 			startDate: moment(),
 			endDate: moment().add('days', 1)
@@ -667,23 +664,23 @@ function bindPostalCodeAction() {
 }
 function convertDate2(date, num){
 	var dateTab = date.split("-");
-	//console.log(dateTab, dateTab[num]);
-	var hour = dateTab[num].split(" ")[1+num];
-	var hourRes ="";
-	var hourUnit = dateTab[num].split(" ")[2+num];
-	//console.log(hourUnit);
-	if(hourUnit = "PM"){
-		hours = hour.split(":");
-		var newhour = parseInt(hours[0])+12;
-		if(newhour==24){
-			newhour = 00;
+		//console.log(dateTab, dateTab[num]);
+		var hour = dateTab[num].split(" ")[1+num];
+		var hourRes ="";
+		var hourUnit = dateTab[num].split(" ")[2+num];
+		//console.log(hourUnit);
+		if(hourUnit = "PM"){
+			hours = hour.split(":");
+			var newhour = parseInt(hours[0])+12;
+			if(newhour==24){
+				newhour = 00;
+			}
+			hourRes = newhour+":"+hours[1];
+		}else{
+			hourRes = hour;
 		}
-		hourRes = newhour+":"+hours[1];
-	}else{
-		hourRes = hour;
-	}
-	//console.log(hourRes);
-	return dateTab[num].split(" ")[0+num];
+		//console.log(hourRes);
+		return dateTab[num].split(" ")[0+num]+" "+hourRes;
 }
 function searchCity() {
 	var searchValue = $('.form-project #postalCode').val();

@@ -10,7 +10,7 @@ class Project {
 	public static function getById($id) {
 	  	return PHDB::findOne( PHType::TYPE_PROJECTS,array("_id"=>new MongoId($id)));
 	}
-
+	
 	/**
 	 * Get an project from an id and return filter data in order to return only public data
 	 * @param type $id 
@@ -39,11 +39,11 @@ class Project {
 			//'version' => $params['version'],
 			'licence' => $params['licence'],
 			'description' => $params['description'],
-			//'startDate' => $params['start'],
-			//'endDate' => $params['end'],
+			'startDate' => $params['start'],
+			'endDate' => $params['end'],
 			'created' => time(),
 			"links" => array( 
-				"contributors" => array( (string)$id =>array("type" => $type)), 
+				"contributors" => array( (string)$id =>array("type" => $type,"isAdmin" => true)), 
 				"organizer" => array((string)$id =>array("type" => $type)),  
 			),
 			"properties" => array (
