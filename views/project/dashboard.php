@@ -5,10 +5,11 @@
 		?>
 	</div>	
 	<div class="col-lg-4 col-md-12">
-		<?php $this->renderPartial('dashboard/description',array( "project" => $project)); ?>
+		<?php 
+			$this->renderPartial('dashboard/description',array( "project" => $project)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">
-		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors)); ?>
+		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">
 		 <?php $this->renderPartial('dashboard/projectChart',array( "properties" => $properties)); ?>

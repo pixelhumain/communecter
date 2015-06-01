@@ -187,6 +187,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</div>
 							</div>
 						</div>
+						<div class="col-md-12">
+							<label for="properties">
+								Briques du projet			
+							</label>
+							<div class="col-md-12">
+								<textarea class="project-modules form-control" name="modules[]"></textarea>
+							</div>
+						</div>
 				</div>
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
 				<div class="col-md-12">

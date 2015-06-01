@@ -1,3 +1,4 @@
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i>   Informations</span></h4>

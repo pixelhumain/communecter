@@ -1,15 +1,21 @@
-
+	<?php
+		$isProjectAdmin= false;
+    	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])) {
+    		$isProjectAdmin =  Authorisation::isProjectAdmin((String) $project["_id"],Yii::app()->session["userId"]);
+		}
+	?>
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> Contributors</h4>
 			<div class="panel-tools">
+				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>
 				<div class="dropdown">
 					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 						<i class="fa fa-cog"></i>
 					</a>
 					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
 						<li>
-							<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+							<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> 								<span>Collapse</span> </a>
 						</li>
 						<li>
 							<a href="#" class="panel-refresh">
@@ -48,16 +54,25 @@
 					<div class="tab-pane padding-bottom-5 active" id="users_tab_attending">
 						<div class="panel-scroll height-230 ps-container">
 							<table class="table table-striped table-hover">
-								<tbody>
+								<tbody id="tContributor">
 									<?php foreach ($contributors as $member) { ?>
-									<tr>
+									<tr id="contributor<?php echo $member["_id"]; ?>">
 										<td class="center">
 										<?php if($member && isset($member["imagePath"])) { ?>
 											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo $member["imagePath"]; ?>"></td>
-										<?php } else{ ?>
-											<i class="fa fa-smile-o fa-2x"></i></td>
-										<?php } ?>
+										<?php } else{ 
+												if ($member["type"]=="citoyen"){?>
+													<i class="fa fa-smile-o fa-2x"></i></td>
+												<?php }else{ ?>
+													<i class="fa fa-group fa-2x"></i></td>
+										<?php	} 
+											} ?>
 										<td><span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
+										<?php if ( $isProjectAdmin ){ ?>
+											<td>
+												<a href="javascript:;" class="disconnectBtnContributor btn btn-xs btn-red tooltips " data-placement="left"  data-type="<?php if ($member["type"]=="citoyen") echo PHType::TYPE_CITOYEN; else echo  Organization::COLLECTION; ?>" data-id="<?php echo $member['_id'];?>" data-name="<?php echo $member["name"]; ?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+											</td>
+										<?php } ?>
 									</tr>
 									<?php } ?>
 								</tbody>
@@ -68,3 +83,82 @@
 			</div>
 		</div>
 	</div>
+<?php
+   $this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
+ ?>
+ <script type="text/javascript">
+	jQuery(document).ready(function() {
+		bindBtnContributor();
+	});
+
+	function updateContributor(newContributor,type)
+	{
+		console.log(newContributor, "type", type);
+		var links ="";
+		var itemId = newContributor["id"];
+		var imgHtml="";
+		var roles ="";
+		//var parentId = organization["_id"]["id"];
+
+		if(type=="citoyens"){
+			links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
+			type = "";
+			imgHtml = '<i class="fa fa-user fa-2x"></i>';
+			//tabObject= $("#tPerson");
+		}else{
+			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
+			//tabObject = $("#tOrga");
+			imgHtml = '<i class="fa fa-group fa-2x"></i>'
+			type = newContributor.type;
+		}
+		if('undefined' != typeof newContributor["imagePath"] && newContributor["imagePath"]!=""){
+			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newContributor["imagePath"]+'">'
+		}
+		var contributorLine = '<tr>'+
+								'<td class="center">'+
+									imgHtml+
+								'</td>'+
+								'<td>'+
+									'<span class="text-large">'+
+										newContributor.name+
+									'</span>'+
+									'<a href="'+links+'" class="btn"><i class="fa fa-chevron-circle-right"></i></a>'+
+								'</td>'+
+							'</tr>';
+        console.log(contributorLine);
+        $("#tContributor").append(contributorLine);
+    	}
+
+	
+	
+	function bindBtnContributor(){
+
+		$(".disconnectBtnContributor").off().on("click",function () {
+	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	        var idContributor = $(this).data("id");
+	        var typeContributor = $(this).data("type");
+	        console.log(idContributor);
+	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your members ?", 
+				function(result) {
+					if (result) {
+						$.ajax({
+					        type: "POST",
+					        url: baseUrl+"/"+moduleId+"/link/removecontributor/contributorId/"+idContributor+"/contributorType/"+typeContributor+"/projectId/<?php echo (string)$project["_id"]; ?>",
+					       	dataType: "json",
+				        	success: function(data){
+					        	if ( data && data.result ) {               
+						       	 	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+						        	$("#contributor"+idContributor).remove();
+						        } else {
+						           toastr.info("something went wrong!! please try again.");
+						           $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+						        }
+						    }
+						});
+					}
+				}
+			)
+		});
+	}
+
+</script>
