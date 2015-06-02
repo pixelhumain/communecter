@@ -23,6 +23,10 @@
     	padding-top: 50px;
     	position: relative;
     }
+
+    #sliderAgenda{
+    	min-height: 230px;
+    }
 </style>
 
 
@@ -120,8 +124,8 @@
 					var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
 					notEmptySlide = true;
 					var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
-					if ('undefined' != typeof v.imagePath){
-						imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath+"'></img>";
+					if ('undefined' != typeof v.imageUrl){
+						imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imageUrl+"'></img>";
 					}
 					var htmlRes = "<li><div class='center'>"+
 											"<div class='banniereSlider'>"+
@@ -137,7 +141,7 @@
 										"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
 									"</div></div></div></li>";
 					$("#slidesAgenda").append(htmlRes);
-					n++
+
 				}
 			})	
 
