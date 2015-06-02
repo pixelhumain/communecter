@@ -76,7 +76,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-12 col-xs-12">
-    <?php $this->renderPartial('dashboard/sigDashboardMember',array( "organization" => $organization,"members"=>$members)); ?>
+    <?php $this->renderPartial('dashboard/networkMap',array( "organization" => $organization,"members"=>$members)); ?>
   </div>
 
   <div class="col-sm-4 col-xs-4 newsPod">
@@ -104,7 +104,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
             <br/>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, earum, debitis. Consectetur inventore quaerat aperiam nihil minima, vitae laudantium, ut animi illum blanditiis cum earum, fugiat nisi ipsam dolore possimus.
             <br/>
-            <a href="" id="btn-newsletter-archive" class="btn btn-success">DERNIER N°</a> <a href="" class="btn btn-success">JE M'INSCRIS</a>
+            <a href="" class="btn btn-success">DERNIER N°</a> <a href="" class="btn btn-success">JE M'INSCRIS</a>
           </div>
       </div>
     </div>

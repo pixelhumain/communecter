@@ -29,7 +29,7 @@
 					 * */
 					 
 					/* MAP LAYERS (FOND DE CARTE) */
-					"mapTileLayer" 	  => ( isset($sigParams) && isset($sigParams["mapTileLayer"]) ) ? $sigParams["mapTileLayer"] : 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+					"mapTileLayer" 	  => ( isset($sigParams) && isset($sigParams["mapTileLayer"]) ) ? $sigParams["mapTileLayer"] : 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
 					"mapAttributions" => ( isset($sigParams) && isset($sigParams["mapAttributions"]) ) ? $sigParams["mapAttributions"] : '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 					
 					/* MAP BUTTONS */		
@@ -139,7 +139,8 @@
 			
 			//chargement la carte
 			mapDashboardOrga = Sig.loadMap("mapCanvas", initParams);
-			
+			console.log("contextMap");
+			console.dir(contextMap);
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			//var mapData = ;

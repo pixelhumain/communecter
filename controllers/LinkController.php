@@ -17,7 +17,9 @@ class LinkController extends CommunecterController {
 	{
 	    return array(
 	        'savemember'       	=> 'citizenToolKit.controllers.link.SaveMemberAction',
-	        'removemember'     	=> 'citizenToolKit.controllers.link.RemoveMemberAction'
+	        'removemember'     	=> 'citizenToolKit.controllers.link.RemoveMemberAction',
+	        "removerole"		=> 'citizenToolKit.controllers.link.RemoveRoleAction',
+			'removecontributor' => 'citizenToolKit.controllers.link.RemoveContributorAction',
 	    );
 	}
 

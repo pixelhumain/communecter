@@ -69,7 +69,7 @@ var formDefinition = {
 
 var dataBind = {
 	"#description": {
-		"value" : "<?php if(isset($organization["description"])) echo $organization["description"]; ?>",
+		"value" : <?php if(isset($organization["description"])) echo json_encode($organization["description"]); else echo "''"; ?>,
 		"saveTo": "description",
 		"updateElement" : ".orgaDescription"
 	},

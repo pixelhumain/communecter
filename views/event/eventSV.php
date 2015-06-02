@@ -200,7 +200,7 @@ if("undefined" != typeof organization){
 
 $(".daterangepicker").on("hide.daterangepicker", function(){
  		console.log("ok");
- 	})
+ })
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();

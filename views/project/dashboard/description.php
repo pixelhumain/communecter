@@ -1,3 +1,4 @@
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i>   Informations</span></h4>
@@ -48,12 +49,16 @@
 					<td><?php if(isset($project["endDate"]))echo $project["endDate"]; ?></td>
 				</tr>
 				<tr>
-					<td>Version</td>
-					<td><?php if(isset($project["version"])) echo $project["version"]; ?></td>
+					<td>Licence</td>
+					<td><?php if(isset($project["licence"])) echo $project["licence"]; ?></td>
 				</tr>
 				<tr>
 					<td>URL</td>
 					<td><a href="<?php if(isset($project["url"])) echo $project["url"]; ?>"><?php if(isset($project["url"])) echo $project["url"]; ?></a></td>
+				</tr>
+				<tr>
+					<td>Description</td>
+					<td><?php if(isset($project["description"])) echo $project["description"]; ?></a></td>
 				</tr>
 			</tbody>
 		</table>

@@ -75,7 +75,7 @@
           </div>
         </div>
         <div id="users_tab_example3" class="tab-pane padding-bottom-5 <?php if ($nbPerson <= $nbOrganization) echo "active" ?>">
-          <div class="panel-scroll height-230">
+          <div class="panel-scroll height-230 organizationNetwork">
             <table class="table table-striped table-hover">
               <tbody id='tOrga'>
                 <?php if(isset($members[Organization::COLLECTION]) && count($members[Organization::COLLECTION])>0){
@@ -103,7 +103,7 @@
 							</td>
 						</tr>
 					<?php }}else{ ?>
-						<div class ="height-250 padding-10" >
+						<div class ="height-250 padding-30 emptyOrganizationNetwork" >
 							<blockquote> 
 								Create or Connect 
 								<br>an Organization, NGO,  
@@ -196,6 +196,9 @@
         console.log(networkLine);
         tabObject.append(networkLine);
         bindBtnNetwork();
+
+        if( $(".organizationNetwork tr").length > 0 )
+			$(".emptyOrganizationNetwork").remove();
 	}
 
 	
