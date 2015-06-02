@@ -122,7 +122,6 @@
 					console.log("evenAgenda", v.imagePath);
 					var period = formatPeriodValue(startDate, endDate);
 					var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
-					notEmptySlide = true;
 					var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
 					if ('undefined' != typeof v.imageUrl){
 						imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imageUrl+"'></img>";
@@ -146,7 +145,7 @@
 			})	
 
 
-		if(!notEmptySlide){
+		if(!emptySlide){
 			var htmlRes = 	"<li>"+
 								"<div class='center'>"+
 									" <i class='fa fa-calendar fa-5x text-red'></i>"+
