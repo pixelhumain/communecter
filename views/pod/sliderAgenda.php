@@ -65,6 +65,7 @@
 		contentID : type of the picture
 	*/
 	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
+	console.log(eventsAgenda);
 	var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 
 
@@ -99,48 +100,46 @@
  		Init the flexSlider with the next events or with default empty message
  	*/
 	function initDashboardAgenda(){
-		var n = 0;
 		var today = new Date();
 
 		// if false init slider with empty message
-		var notEmptySlide = false;
+		var emptySlide = true;
 
 		// dynamic width and height for the slides images
 		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
-		var height = width*45/100;
+		var height = parseInt($("#sliderAgenda").css("min-height"))*80/100;
 
-		if(Object.keys(eventsAgenda).length>0){
-			$.each(eventsAgenda, function(k, v){
-				if('undefined' != typeof v.startDate && 'undefined' != typeof v.endDate && v.endDate.split("/").length==3){
+		$.each(eventsAgenda, function(k, v){
+			emptySlide = false;
+			var endDate = v.endDate;
+			var startDate = v.startDate;
+			console.log(startDate,endDate);
+			if('undefined' != typeof startDate && 'undefined' != typeof endDate){
 					console.log("evenAgenda", v.imagePath);
-					var period = getStringPeriodValue(v.startDate, v.endDate);
-					var date = new Date(v.endDate.split("/")[2].split(" ")[0], parseInt(v.endDate.split("/")[1])-1, v.endDate.split("/")[0]);
-					if(compareDate(today, date)){
-
-						notEmptySlide = true;
-						var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
-						if ('undefined' != typeof v.imagePath){
-							imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath+"'></img>";
-						}
-						var htmlRes = "<li><div class='center'>"+
-												"<div class='banniereSlider'>"+
-													imageUrl+
-													'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
-												"</div>"
-						htmlRes +="<div class='row' id='infoSlider'>"+
-									"<div class='col-xs-5' >"+
-										"<h2>"+period+"</h2></div>";
-						htmlRes += "<div class='col-xs-7' >"+
-										"<h1>"+v.name+"</h1>"+
-										"<div id='infoEventLink'>"+
-											"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
-										"</div></div></div></li>";
-						$("#slidesAgenda").append(htmlRes);
-						n++;
+					var period = formatPeriodValue(startDate, endDate);
+					var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
+					notEmptySlide = true;
+					var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
+					if ('undefined' != typeof v.imagePath){
+						imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imagePath+"'></img>";
 					}
+					var htmlRes = "<li><div class='center'>"+
+											"<div class='banniereSlider'>"+
+												imageUrl+
+												'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
+											"</div>"
+					htmlRes +="<div class='row' id='infoSlider'>"+
+								"<div class='col-xs-5' >"+
+									"<h2>"+period+"</h2></div>";
+					htmlRes += "<div class='col-xs-7' >"+
+									"<h1>"+v.name+"</h1>"+
+									"<div id='infoEventLink'>"+
+										"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
+									"</div></div></div></li>";
+					$("#slidesAgenda").append(htmlRes);
+					n++
 				}
 			})	
-		}
 
 
 		if(!notEmptySlide){
@@ -172,37 +171,43 @@
 	}
 
 	//convert a period to a string
-	function getStringPeriodValue(d, f){
-		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MARS", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
-		var strPeriod = "";
+	function formatPeriodValue(d, f){
+		console.log("getStringPeriodValue : ",d,f);
+		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MAI", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
+		var strPeriod = [];
 		var dTab = [];
 		var fTab = [];
+
 		var dHour = d.split(" ")[1];
-		var dDay = d.split(" ")[0].split("/");
-		
+		var dDay = d.split(" ")[0].split("-");
 		for(var i=0; i<dDay.length; i++){
 			dTab.push(dDay[i]);
 		}
 
 		var fHour = f.split(" ")[1];
-		var fDay = f.split(" ")[0].split("/");
+		var fDay = f.split(" ")[0].split("-");
 		for(var i=0; i<fDay.length; i++){
 			fTab.push(fDay[i]);
 		}
 		
-		if(dTab[2] == fTab[2]){
+		if(dTab[0] == fTab[0]){
 			if(dTab[1] == fTab[1]){
-				if(dTab[0]== fTab[0]){
-					strPeriod += parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2]+" de "+dHour+" à "+fHour;
+				if(dTab[2]== fTab[2]){
+					strPeriod[0] = parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[1];
+					strPeriod[1] = " de "+dHour+" à "+fHour;
 				}else{
-					strPeriod += parseInt(dTab[0])+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+					strPeriod[0] = parseInt(dTab[2])+" au "+ parseInt(fTab[2]);
+					strPeriod[1] = mapMonth[fTab[1]]+" "+fTab[0];
 				}
 			}else{
-				strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+				strPeriod[0] = parseInt(dTab[2])+" "+mapMonth[dTab[1]];
+				strPeriod[1] = " au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
 			}
 		}else{
-			strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+			strPeriod[0] = parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" "+dTab[0]+" au ";
+			strPeriod[1] = parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[2];
 		}
+//		console.table(strPeriod);
 		return strPeriod;
 	}
 

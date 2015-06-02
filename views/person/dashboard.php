@@ -75,7 +75,7 @@ $.each(events, function(k, v){
 jQuery(document).ready(function() {
 	bindBtnFollow();
 	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo person::COLLECTION ?>", function(){
-			initAddEventBtn ();
+			//initAddEventBtn ();
 		}, "html");
 });
 
