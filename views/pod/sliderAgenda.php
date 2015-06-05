@@ -1,12 +1,15 @@
 <style type="text/css">
 	#sliderAgenda .flexslider{
 		margin : 0px 0px 0px;
-		height: 220px;
 	}
 	#sliderAgenda .flex-control-nav{
 		opacity: 0;
 	}
-
+	#sliderAgenda{
+		min-height: 230px;
+		max-height: 350px;
+		overflow: none;
+	}
 	.banniereSlider{
 		position: relative;
 	}
@@ -15,6 +18,7 @@
 		right: 0;
     	top: 0;
     }
+
     #agendaNewPicture{
     	display: none;
     	height: 260px;
@@ -24,9 +28,13 @@
     	position: relative;
     }
 
-    #sliderAgenda{
-    	min-height: 230px;
-    }
+    .banniereSlider img, .banniereSlider .defaultImage {
+	  left: 0;
+	  position: absolute;
+	  vertical-align: middle;
+	  width: 100%;
+	}
+
 </style>
 
 
@@ -34,44 +42,73 @@
     <div class="panel panel-white">
 
     	<div class="panel-heading border-light">
-        	<h4 class="panel-title slidesAgendaTitle"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Calendar</h4>
+        	<h4 class="panel-title slidesAgendaTitle text-center"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> <?php echo Yii::t("sliderAgenda","Loading Shared Calendar Section",null,Yii::app()->controller->module->id) ?>/h4>
      	</div>
-
+	
      	<div class="panel-tools">
-	        <?php if((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))) { ?>
-			   <a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i></a>
+
+	        <?php if(isset($canEdit) && $canEdit){ ?>
+			   <a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="<?php echo Yii::t("sliderAgenda","Add an event",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>
 		    <?php } ?>
       	</div>
 
-       	<div class="panel-body no-padding center">
+       	<div class="panel-body panel-portfolio radius-bottomRightLeft no-padding">
 
        		<!-- Slider -->
 		  	<div class="flexslider" id="flexsliderAgenda">
-				<ul class="slides" id="slidesAgenda"></ul>
+				<ul class="slides" id="slidesAgenda"></ul>	
 		  	</div>
 
 		  	<!--FileUploader -->
-		  	<div id="agendaNewPicture">
+		  	<!--<div id="agendaNewPicture">
 			  	<div class="agendaNewPicture" ></div>
 			  	<div class="row center">
 					<a href="#" class="btn btn-light-blue validateSliderAgenda">Terminer </a>
 				</div>
-			</div>
+			</div> -->
 
 		</div>
     </div>
 </div>
 
 <script type="text/javascript">
- 
-	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
-	//console.log(eventsAgenda);
-	var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 
+	/* PHP Variable
+		events : list of the context users events
+		contentID : type of the picture
+	*/
+	var canEditAgenda = "<?php if(isset($canEdit)){ echo $canEdit;}else{ echo false;} ?>";
+	var editAgenda = "<?php if(isset($canEdit)) echo $canEdit; else echo false; ?>"
+	var eventTest = <?php echo (isset($eventTest)) ? json_encode($eventTest) : "{}" ?>;
+	var controllerId = "<?php echo Yii::app()->controller->id; ?>"
+
+	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
 
  	jQuery(document).ready(function() {	 
-
+ 		
 		initDashboardAgenda();	
+
+		$('.init-event').off().on("click", function(){
+			$.subview({
+				content : "#ajaxSV",
+				onShow : function() {
+					var url = "";
+					if("undefined" != typeof organization){
+						url = baseUrl+"/"+moduleId+"/event/eventsv/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>";
+					}else{
+						url = baseUrl+"/"+moduleId+"/event/eventsv/id/<?php echo $_GET["id"]?>/type/<?php echo Person::COLLECTION ?>";
+					}
+					getAjax("#ajaxSV", url, function(){bindEventSubViewEvents(); $(".new-event").trigger("click");}, "html");
+				},
+				onSave : function() {
+					$('.form-event').submit();
+				},
+				onHide : function() {
+					$.hideSubview();
+				}
+			});
+			
+		})
 
 	});
 
@@ -82,19 +119,20 @@
 			clearFileUploadAgenda();
 		})
 
-		// Open fileupload div 
-		$('.addImgButton').off().on("click", function(){
-			$("#flexsliderAgenda").flexslider("clear");
-			getAjax(".agendaNewPicture",baseUrl+"/"+moduleId+"/pod/fileupload/itemId/"+$(this).data("id")+"/type/<?php echo Event::COLLECTION; ?>/resize/true/edit/true/contentId/"+contentId+"/podId/sliderAgenda",null,"html");
-			$("#flexsliderAgenda").css("display", "none");
-			$("#agendaNewPicture").css("display", "block");
-			setTimeout(function(){
-				$('#sliderAgenda_'+contentId+'_avatar').trigger("click");
-			}, 500);
-			
 
-			
+		$(".owl-prev").off().on("click", function(){
+			$('#flexsliderAgenda').flexslider("prev");
 		})
+
+
+		$(".owl-next").off().on("click", function(){
+			$('#flexsliderAgenda').flexslider("next");
+		})			
+
+		$(window).on('resize', function(){
+			resizeSliderAgenda();
+		});
+
  	}
  	/*
  		Init the flexSlider with the next events or with default empty message
@@ -109,53 +147,77 @@
 		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = parseInt($("#sliderAgenda").css("min-height"))*80/100;
 
-		$("#slidesAgenda").empty();
 		$.each(eventsAgenda, function(k, v){
 			emptySlide = false;
 			var endDate = v.endDate;
 			var startDate = v.startDate;
 			console.log(startDate,endDate);
-			if('undefined' != typeof startDate && 'undefined' != typeof endDate){
-					console.log("evenAgenda", v.imagePath);
-					var period = formatPeriodValue(startDate, endDate);
-					var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
-					var imageUrl = "<i class='fa fa-calendar fa-5x text-red'></i><br> No picture for this event";
-					if ('undefined' != typeof v.imageUrl){
-						imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imageUrl+"'></img>";
-					}
-					var htmlRes = "<li><div class='center'>"+
-											"<div class='banniereSlider'>"+
-												imageUrl+
-												'<span class="btn btn-azure btn-file btn-sm addImgButton" data-id="'+k+'" ><i class="fa fa-plus"></i></span>';
-											"</div>"
-					htmlRes +="<div class='row' id='infoSlider'>"+
-								"<div class='col-xs-5' >"+
-									"<h2>"+period+"</h2></div>";
-					htmlRes += "<div class='col-xs-7' >"+
-									"<h1>"+v.name+"</h1>"+
-									"<div id='infoEventLink'>"+
-										"<a href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"''>En savoir+ <i class='fa fa-angle-right'></i> </a>"+
-									"</div></div></div></li>";
-					$("#slidesAgenda").append(htmlRes);
-
+			if('undefined' != typeof startDate && 'undefined' != typeof endDate){	
+				console.log("evenAgenda", v.imageUrl);
+				console.log("date", startDate, endDate);
+				var period = formatPeriodValue(startDate, endDate);
+				var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
+				notEmptySlide = true;
+				var imageUrl = "<div class='defaultImage' ></br><i class='fa fa-calendar fa-5x text-red'></i><br> <?php echo Yii::t('sliderAgenda','No picture for this event',null,Yii::app()->controller->module->id) ?> </div>";
+				if ('undefined' != typeof v.imageUrl){
+					imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imageUrl+"'></img>";
 				}
-			})	
-
-
+				var htmlRes = "<li>"+
+									"<div class='center' >"+
+										"<div class='banniereSlider col-md-12'>"+
+											imageUrl+
+										"</div>"+
+									"</div>"+
+									"<div class='center' >"+
+										"<div class=' globLeftPartWhiteBlockAgendaPartage'>"+
+											"<span class='jourAgenda' class='text-right'>"+period[0]+"</span><br/>"+
+											"<span class='moisAgenda' class='text-right'>"+period[1]+"</span>"+
+										"</div>'"+
+										"<div class=' radius-bottomLeftRight_Mobile pull-bottom globRightPartWhiteBlockAgendaPartage'>"+
+											"<div class='globTitlePostAgenda'>"+
+												"<span class='titlePostAgenda font_Helvetica'>"+v.name+"</span>"+
+											"</div>"+
+											"<a class='identButton btn btn-green btn-block text-left radius-bottomRight addItalic' href='"+baseUrl + "/" + moduleId + "/event/dashboard/id/"+v["_id"]["$id"]+"'>"+
+												"En savoir + <i class='fa fa-chevron-right'></i>"
+											"</a>"+
+										"</div>"+
+									"</div>"+
+								"</li>";
+									
+				$("#slidesAgenda").append(htmlRes);
+			}
+		})	
+		
+		
 		if(emptySlide){
+			var message ="<br><?php echo Yii::t('sliderAgenda','No upcoming events',null,Yii::app()->controller->module->id) ?>"
+			if(canEditAgenda)
+				message+= "<br><?php echo Yii::t('fileUpload','Click on',null,Yii::app()->controller->module->id) ?> <i class='fa fa-plus'></i> <?php echo Yii::t('sliderAgenda','to add a new event',null,Yii::app()->controller->module->id) ?>";
 			var htmlRes = 	"<li>"+
-								"<div class='center'>"+
-									" <i class='fa fa-calendar fa-5x text-red'></i>"+
-									" <br> No upcoming events" +
-									" <br> Click on <i class='fa fa-plus'></i> to add a new event"+
+								"<div class='banniereSlider center' >"+
+									" </br><i class='fa fa-calendar fa-5x text-red'></i>"+message+
 								"</div>"+
 							"</li>";
 			$("#slidesAgenda").append(htmlRes);
+
+			
+
 		}
 
+		
 		// reload Slider
-		$("#flexsliderAgenda").flexslider();
-		$(".slidesAgendaTitle").html("Shared Calendar");
+		$("#flexsliderAgenda").flexslider({
+			animationLoop: true,
+			animation : "slide",
+			slideshow: true,
+		});
+
+
+
+		$(".slidesAgendaTitle").html("<?php echo Yii::t('sliderAgenda','SHARED CALENDAR',null,Yii::app()->controller->module->id) ?>");
+		$(".banniereSlider").css("height", height);
+		$(".defaultImage").css("height", height);
+		
 		bindBtnSliderAgenda();
 		//showCalendarDashBoard(data);
 	}
@@ -220,15 +282,25 @@
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		/*$('#flexsliderAgenda').append('<div class="navigator padding-0" id="globWhiteBlockAgendaPartage">'+
+      										'<a href="javascript:;" class="circle-50 partition-grey owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>'+
+                    						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
+            						'</div>');
+        */
 		initDashboardAgenda();
 	}
 
 	//Update the picture of an events
-	function updateSliderImage(id, imagePath){
-		eventsAgenda[id]["imagePath"] = imagePath;
+	function updateSliderImage(id, imageUrl){
+		eventsAgenda[id]["imageUrl"] = imageUrl;
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
 		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		/*$('#flexsliderAgenda').append('<div class="navigator padding-0" id="globWhiteBlockAgendaPartage">'+
+      										'<a href="javascript:;" class="circle-50 partition-grey owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>'+
+                    						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
+            						'</div>');
+         */
 		initDashboardAgenda();
 	}
 
@@ -237,6 +309,18 @@
 	function clearFileUploadAgenda(){
 		$("#agendaNewPicture").css("display", "none");
 		$("#flexsliderAgenda").css("display", "block");
+	}
+
+	function resizeSliderAgenda(){
+		$('#flexsliderAgenda').removeData("flexslider")
+		$('#flexsliderAgenda').empty();
+		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
+		/*$('#flexsliderAgenda').append('<div class="navigator padding-0" id="globWhiteBlockAgendaPartage">'+
+      										'<a href="javascript:;" class="circle-50 partition-grey owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>'+
+                    						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
+            						'</div>');
+        */
+		initDashboardAgenda();
 	}
 
  </script>

@@ -4,7 +4,7 @@
 	</div>
 	<div class="panel-tools">
 		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
-		<a href="#newEvent" class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
+		<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
@@ -61,6 +61,32 @@
 </div>
 
 <script type="text/javascript">
+	
+	jQuery(document).ready(function() {	 
+
+		var itemId = contextMap["_id"]["$id"];
+		$('.init-event').off().on("click", function(){
+			$.subview({
+				content : "#ajaxSV",
+				onShow : function() {
+					var url = "";
+					if("undefined" != typeof organization){
+						url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo Organization::COLLECTION ?>";
+					}else{
+						url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo Person::COLLECTION ?>";
+					}
+					getAjax("#ajaxSV", url, function(){bindEventSubViewEvents(); $(".new-event").trigger("click");}, "html");
+				},
+				onSave : function() {
+					$('.form-event').submit();
+				},
+				onHide : function() {
+					$.hideSubview();
+				}
+			});
+			
+		})
+	})
 
 	function updateMyEvents(nEvent) {
 		if('undefined' != typeof contextMap){

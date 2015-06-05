@@ -13,7 +13,7 @@
 }
 
 #newEvent{
-	display: none;
+	display: block;
 }
 
 .no-padding-left {
@@ -141,7 +141,7 @@
 
 <script type="text/javascript">
 
-	var organizationId = "<?php //echo $organizationId;?>";
+	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
 	var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 	var parentOrga = [];
 	var defaultHours;
@@ -163,7 +163,6 @@
 	 	bindEventSubViewEvents();
 	 	bindPostalCodeAction();
 	 	editEvent();
-	 	initAddEventBtn();
 		initMyOrganization();
 	 	runEventFormValidation();
 
@@ -187,25 +186,6 @@
 	        $("#cityDiv").slideUp("medium");
 	      }
 	}
-	function initAddEventBtn () { 
-		$(".new-event").off().on("click", function() {
-			subViewElement = $(this);
-			subViewContent = subViewElement.attr('href');
-			$.subview({
-				content : subViewContent,
-				onShow : function() {
-					editEvent();
-					initMyOrganization();
-				},
-				onHide : function() {
-					hideEditEvent();
-				},
-				onSave: function() {
-					$('.form-event').submit();
-				}
-			});
-		});
-	 }
 
 	function bindPostalCodeAction() {
 		$('.form-event #postalCode').change(function(e){
