@@ -77,6 +77,7 @@ jQuery(document).ready(function() {
 
 var bindBtnFollow = function(){
 
+
 	$(".disconnectBtn").off().on("click",function () {
         
         $(this).empty();

@@ -23,6 +23,8 @@ class EventController extends CommunecterController {
           'getcalendar'   => 'citizenToolKit.controllers.event.GetCalendarAction',
           'delete' => 'citizenToolKit.controllers.event.DeleteAction',
           'updatefield' => 'citizenToolKit.controllers.event.updatefieldAction',
+          'eventsv' => 'citizenToolKit.controllers.event.EventSVAction',
+          'calendarview'				=> 'citizenToolKit.controllers.event.CalendarViewAction',
       );
   }
 }
