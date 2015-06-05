@@ -63,13 +63,9 @@
 </div>
 
 <script type="text/javascript">
-
-	/* PHP Variable
-		eventsAgenda : list of the context users eventsAgenda
-		contentID : type of the picture
-	*/
+ 
 	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
-	console.log(eventsAgenda);
+	//console.log(eventsAgenda);
 	var contentId = "<?php echo Document::IMG_PROFIL; ?>";
 
 
@@ -113,6 +109,7 @@
 		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
 		var height = parseInt($("#sliderAgenda").css("min-height"))*80/100;
 
+		$("#slidesAgenda").empty();
 		$.each(eventsAgenda, function(k, v){
 			emptySlide = false;
 			var endDate = v.endDate;
@@ -145,7 +142,7 @@
 			})	
 
 
-		if(!emptySlide){
+		if(emptySlide){
 			var htmlRes = 	"<li>"+
 								"<div class='center'>"+
 									" <i class='fa fa-calendar fa-5x text-red'></i>"+

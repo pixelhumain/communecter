@@ -204,10 +204,8 @@ $(".daterangepicker").on("hide.daterangepicker", function(){
 jQuery(document).ready(function() {
  	bindEventSubViewEvents();
  	runEventFormValidation();
- 	if("undefined" != typeof contextMap )
- 		initLastsEvents();
-
- 	
+ 	//if("undefined" != typeof contextMap )
+ 		//initLastsEvents();	
 });
 function initAddEventBtn () { 
 	$(".new-event").off().on("click", function() {
@@ -237,10 +235,10 @@ function bindEventSubViewEvents() {
 			content : "#showCalendar",
 			startFrom : "right",
 			onShow : function() {
-				showCalendar();
+				//showCalendar();
 			},
 			onHide : function() {
-				destroyCalendar();
+				//destroyCalendar();
 			}
 		});
 	});

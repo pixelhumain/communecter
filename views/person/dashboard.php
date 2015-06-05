@@ -60,22 +60,16 @@
 <script>
 
 var contextMap = {};
-contextMap['person'] = <?php echo json_encode($person) ?>;
-contextMap['organizations'] = <?php echo json_encode($organizations) ?>;
-contextMap['events'] = [];
-contextMap['projects'] = <?php echo json_encode($projects) ?>;
+contextMap = <?php echo json_encode($person) ?>;
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
-$.each(events, function(k, v){
-	console.log(k, v);
-	contextMap['events'].push(v);
-});
+
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
 	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo person::COLLECTION ?>", function(){
-			//initAddEventBtn ();
+			initAddEventBtn ();
 		}, "html");
 });
 

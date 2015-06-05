@@ -83,7 +83,7 @@ class CommunecterController extends Controller
   );
   
   public $subviews = array(
-   // "event.eventSV",
+    "event.eventSV",
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
