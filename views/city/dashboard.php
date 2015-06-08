@@ -12,21 +12,40 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">LOCAL ACTORS </h4>
+		<div class="panel-tools">
+        	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
+        </div>
       </div>
       <div class="panel-body no-padding center">
 
         <ul class="list-group">
           <li class="list-group-item">
-            <span class="badge">14</span>
-            ASSOCIATION
+            <span class="badge  badge-danger">400</span><span class="badge"> / </span><span class="badge">20</span>
+            ASSOCIATIONS
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-danger">800</span><span class="badge"> / </span><span class="badge">10</span>
+            ENTREPRISES
+          </li>
+          <li class="list-group-item">
+            <span class="badge">10</span>
+            GROUPES
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-danger">40</span><span class="badge"> / </span><span class="badge">5</span>
+            COLLECTIVITÉ
+          </li>
+          <li class="list-group-item">
+            <span class="badge badge-danger">35000</span><span class="badge"> / </span><span class="badge">500</span>
+            LOCAL CONNECTED CITIZENS
+          </li>
+          <li class="list-group-item">
+            <span class="badge">50</span>
+            LOCAL EVENTS
           </li>
           <li class="list-group-item">
             <span class="badge">20</span>
-            COMPANIES
-          </li>
-          <li class="list-group-item">
-            <span class="badge">250</span>
-            LOCAL CONNECTED CITIZENS
+            LOCAL PROJECTS
           </li>
         </ul>
        
@@ -34,15 +53,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
     </div>
   </div>
 
-  <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">HAPPENING TODAY  </h4>
-      </div>
-      <div class="panel-body no-padding center">
-        <img class="img-responsive center-block"style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
-    </div>
+  <div class="col-sm-4 col-xs-12 shareAgendaPod">
+		<div class="panel panel-white pulsate">
+		<div class="panel-heading border-light ">
+			<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+			<div class="space5"></div>
+		</div>
+	</div>
   </div>
 
   <div class="col-sm-4 col-xs-12">
@@ -63,58 +80,32 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 
 <div class="row">
 
-  <div class="col-sm-7 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">PHOTOS & VIDEOS </h4>
-      </div>
-      <div class="panel-body no-padding center">
-        <img class="img-responsive center-block"style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
-      <div class="panel-footer center"   >
-        <a href="">TROUVER PAR THEME</a>
-      </div>
-    </div>
-  </div>
+	<div class="col-sm-7 col-xs-12">
+		<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
+	</div>
 
-  <div class="col-sm-5 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">DISCOVER (RANDOM LOCATION) </h4>
-      </div>
-      <div class="panel-body no-padding"  >
-        <div class="row">
-          <div class="col-xs-6">
-            <img class="img-responsive center-block" style="height:250px" src="http://placehold.it/350x180"/>
-          </div>
-          <div class="col-xs-6">
-            <div class="row center">
-              ASSOCIATION 1
-            </div>
-            <div class="row" >
-              <img class="img-circle pull-left" src="http://placehold.it/50x50"/>
-            </div>
-            <hr>
-            <div class="row">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde iste voluptates magni, doloribus officia aperiam provident nihil repudiandae perspiciatis in expedita cumque et, qui perferendis ex facilis eveniet quae laudantium.
-            </div>
-            
-          </div>  
-        </div>
-        
-      </div>
-      <div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>
+    <div class="col-sm-5 col-xs-12">
+        <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
-  </div>
 
+</div>
+
+<div class="row">
+	<div class="col-sm-4  col-xs-12">
+		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+	</div>
+	<div class="col-sm-4 col-xs-12">
+		<?php $this->renderPartial('../person/dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+	</div>
+	<div class="col-sm-4 col-xs-12">
+		<?php $this->renderPartial('../person/dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
+	</div>
 </div>
 
 <div class="row">
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
         <div class="panel-heading">
           <h4 class="panel-title">ASK, DISCUSS, EXCHANGE</h4>
           <div class="panel-tools">                   
@@ -201,7 +192,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">COVOITURAGE  </h4>
       </div>
@@ -212,7 +203,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">PETITES ANNONCES </h4>
       </div>
@@ -261,7 +252,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">PARTICPATE </h4>
       </div>
@@ -272,7 +263,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">SURVEYS  </h4>
       </div>
@@ -283,7 +274,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   </div>
 
   <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">OPENDATA </h4>
       </div>
@@ -301,7 +292,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="row">
 
   <div class="col-sm-10 col-xs-12">
-    <div class="panel panel-white">
+    <div class="panel panel-blue">
       <div class="panel-heading border-light">
         <h4 class="panel-title">LOCAL NEWSLETTER </h4>
       </div>
@@ -334,8 +325,101 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 <!-- end: PAGE CONTENT-->
 <script>
-  jQuery(document).ready(function() {
-   
-  });
 
+var contextMap = {};
+contextMap = <?php echo json_encode($person) ?>;
+var images = <?php echo json_encode($images) ?>;
+var contentKeyBase = "<?php echo $contentKeyBase ?>";
+var events = <?php echo json_encode($events) ?>;
+
+
+jQuery(document).ready(function() {
+	bindBtnFollow();
+
+	$('.pulsate').pulsate({
+            color: '#2A3945', // set the color of the pulse
+            reach: 10, // how far the pulse goes in px
+            speed: 1000, // how long one pulse takes in ms
+            pause: 200, // how long the pause between pulses is in ms
+            glow: false, // if the glow should be shown too
+            repeat: 10, // will repeat forever if true, if given a number will repeat for that many times
+            onHover: false // if true only pulsate if user hovers over the element
+        });
+		
+		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){
+			//initAddEventBtn ();
+		}, "html");
+
+		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
+		
+});
+
+
+
+var bindBtnFollow = function(){
+
+
+	$(".disconnectBtn").off().on("click",function () {
+        
+        $(this).empty();
+        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+        var btnClick = $(this);
+        var idToDisconnect = $(this).data("id");
+        var typeToDisconnect = $(this).data("type");
+        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
+        	function(result) {
+				if (!result) {
+					btnClick.empty();
+			        btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+					return;
+				}
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
+			        dataType : "json"
+			    })
+			    .done(function (data) 
+			    {
+			        if ( data && data.result ) {               
+			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+			        	$("#"+typeToDisconnect+idToDisconnect).remove();
+			        } else {
+			           toastr.info("something went wrong!! please try again.");
+			           btnClick.empty();
+			           btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+			        }
+			    });
+		});
+	});
+
+	$(".connectBtn").off().on("click",function () {
+		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		var idConnect = "<?php echo (string)$person['_id'] ?>";
+		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
+			idConnect = $("#inviteId").val();
+		}
+
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        dataType : "json"
+	    })
+	    .done(function (data)
+	    {
+	        if ( data && data.result ) {               
+	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
+	        	$(".connectBtn").fadeOut();
+	        	$("#btnTools").empty();
+	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>')
+	        	bindBtnFollow();
+	        } else {
+	           toastr.info("something went wrong!! please try again.");
+	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
+	        }
+	    });
+        
+	});
+}
+
+	
 </script>

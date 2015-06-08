@@ -108,6 +108,10 @@ class CommunecterController extends Controller
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
 
+    "city"=>array(
+    	"index" => array("href" => "/ph/communecter/city/index"),
+    	"directory" => array("href" => "/ph/communecter/city/directory"),
+    ),
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),
@@ -230,20 +234,8 @@ class CommunecterController extends Controller
     //Granddir
     //$id = "54eed95ea1aa143e020041c8";
     //Larges
-    $id = "555c8de4c12f63403e0041a9";
     
-    $grandirMenu = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
-      array('label' => "LARGES ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"/ph/communecter/organization/sig/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"/ph/communecter/event/calendarview"),
-      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-briefcase","href"=>"/ph/communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"/ph/communecter/organization/documents/id/".$id),
-      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
-      //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-      //array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-    );
-    $this->sidebar1 = array_merge( Menu::menuItems(), $grandirMenu, $this->sidebar1 );
+    $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
