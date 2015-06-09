@@ -27,7 +27,7 @@ class CommunecterController extends Controller
   const theme = "ph-dori";
   public $person = null;
   public $themeStyle = "theme-style11";//3,4,5,7,9
-
+  public $notifications = array();
 	//TODO - Faire le tri des liens
   //TODO - Les children ne s'affichent pas dans le menu
   public $sidebar1 = array(
@@ -243,6 +243,8 @@ class CommunecterController extends Controller
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+
+    $this->notifications = ActivityStream::getNotifications(array("notify.id"=>Yii::app()->session["userId"]));
 
     CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
   }
