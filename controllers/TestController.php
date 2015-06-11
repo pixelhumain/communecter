@@ -51,11 +51,11 @@ class TestController extends CommunecterController {
 
     //Send Classic Email 
     Mail::send(array("tpl"=>'validation',
-         "subject" => 'Confirmer votre compte  pour le site ',
+         "subject" => 'Confirmer votre compte pour le site ',
          "from"=>Yii::app()->params['adminEmail'],
          "to" => Yii::app()->session['userEmail'],
          "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
-                               "title" => "TEst" ,
+                               "title" => "Test" ,
                                "logo"  => $this->module->assetsUrl."/images/logo.png" )
     ));
 
