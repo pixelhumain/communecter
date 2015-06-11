@@ -39,6 +39,10 @@ class TestController extends CommunecterController {
 
   }
 
+  public function actionAddCron() {
+
+  }
+  
   public function actionMail() {
 	//send validation mail
 	echo "from : ".Yii::app()->params['adminEmail'];
