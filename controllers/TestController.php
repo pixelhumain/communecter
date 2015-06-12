@@ -40,7 +40,34 @@ class TestController extends CommunecterController {
   }
 
   public function actionAddCron() {
+  	$params = array(
+  		"type" => Cron::TYPE_MAIL,
+  		"tpl"=>'validation',
+        "subject" => 'TEST Confirmer votre compte pour le site ',
+        "from"=>Yii::app()->params['adminEmail'],
+        "to" => "oceatoon@gmail.com",
+        "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
+                               "title" => "Test" ,
+	                           "logo"  => $this->module->assetsUrl."/images/logo.png" )
+        );
+  	Cron::save($params);
 
+  	$params = array(
+  		"type" => Cron::TYPE_MAIL,
+  		"tpl"=>'newOrganization',
+        "subject" => 'TEST Nouvelle Organization de créer ',
+        "from"=>Yii::app()->params['adminEmail'],
+        "to" => "oceatoon@gmail.com",
+        "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
+                               "title" => "Test" ,
+                               "creatorName" => "Tib Kat",
+	                           "url"  => $this->module->assetsUrl."/organization/" )
+        );
+  	Cron::save($params);
+  }
+
+   public function actionDoCron() {
+  	Cron::processCron();
   }
   
   public function actionMail() {
@@ -48,16 +75,20 @@ class TestController extends CommunecterController {
 	echo "from : ".Yii::app()->params['adminEmail'];
 	echo "<br/>";
 	echo "to : ".Yii::app()->session['userEmail'];
+	echo "<br/>";
+	echo "img : ".$this->module->assetsUrl."/images/logo.png";
 
     //Send Classic Email 
-    Mail::send(array("tpl"=>'validation',
-         "subject" => 'Confirmer votre compte pour le site ',
+    $res = Mail::send(array("tpl"=>'validation',
+         "subject" => 'TEST Confirmer votre compte pour le site ',
          "from"=>Yii::app()->params['adminEmail'],
          "to" => Yii::app()->session['userEmail'],
          "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
                                "title" => "Test" ,
-                               "logo"  => $this->module->assetsUrl."/images/logo.png" )
-    ));
+                               "logo"  => $this->module->assetsUrl."/images/logo.png" )) , true);
+    
+	echo "<br/>";
+    echo "result: ".$res; 
 
 	}
 	
