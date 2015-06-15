@@ -82,10 +82,12 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<select class="form-control selectpicker event-categories">
-							<option data-content="<span class='event-category event-home'>Discussion</span>" value="discussion">Discussion</option>
-							<option data-content="<span class='event-category event-overtime'>Meeting</span>" value="meeting">Meeting</option>
-							<option data-content="<span class='event-category event-generic'>Event</span>" value="event" selected="selected">Event</option>
-							<option data-content="<span class='event-category event-job'>Cultural</span>" value="cultural">Cultural</option>
+							<?php if(isset($lists)){
+								foreach ($lists["eventTypes"] as $key => $value) { ?>
+									<option data-content="<span class='event-category event-home'><?php echo $value ?></span>" value="<?php echo $key; ?>"><?php echo $value ?></option>
+							<?php }
+								}
+							?>
 						</select>
 					</div>
 				</div>
@@ -145,7 +147,7 @@
 	var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 	var parentOrga = [];
 	var defaultHours;
-
+	var list = <?php echo json_encode($lists) ?>;
 
 	if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;

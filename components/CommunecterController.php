@@ -23,6 +23,7 @@ class CommunecterController extends Controller
       array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
       array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
+  
 
   const theme = "ph-dori";
   public $person = null;

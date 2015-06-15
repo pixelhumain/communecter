@@ -17,6 +17,7 @@
 							<br>
 							<span><?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>  <?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : null; ?> <?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?></span>
 							<br>
+							
 							<span>Tél : <?php echo (isset($context["tel"])) ? $context["tel"] : null; ?> </span>
 							<br>
 							<span><?php echo (isset($context["email"])) ? $context["email"] : null; ?></span>
