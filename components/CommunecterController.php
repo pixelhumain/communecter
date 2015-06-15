@@ -87,7 +87,7 @@ class CommunecterController extends Controller
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    //"project.addContributorSV",
+    //"project.addChartSV",
     //"sig.networkSV",
   );
 
@@ -180,6 +180,7 @@ class CommunecterController extends Controller
       "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 	  "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
+	  "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
     ),
 
     "job"=> array(
