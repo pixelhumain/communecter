@@ -39,6 +39,207 @@ class TestController extends CommunecterController {
 
   }
 
+  public function actionAddCron() {
+  	$params = array(
+  		"type" => Cron::TYPE_MAIL,
+  		"tpl"=>'validation',
+        "subject" => 'TEST Confirmer votre compte pour le site ',
+        "from"=>Yii::app()->params['adminEmail'],
+        "to" => "oceatoon@gmail.com",
+        "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
+                               "title" => "Test" ,
+	                           "logo"  => "/images/logo.png" )
+        );
+  	
+    Mail::scheedule($params);
+
+  	$params = array(
+  		"type" => Cron::TYPE_MAIL,
+  		"tpl"=>'newOrganization',
+        "subject" => 'TEST Nouvelle Organization de créer ',
+        "from"=>Yii::app()->params['adminEmail'],
+        "to" => "oceatoon@gmail.com",
+        "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
+                               "title" => "Test" ,
+                               "creatorName" => "Tib Kat",
+	                           "url"  => "/organization/" )
+        );
+    Mail::scheedule($params);
+  }
+
+   public function actionDoCron() {
+  	Cron::processCron();
+  }
+  
+  public function actionMail() {
+	//send validation mail
+	echo "from : ".Yii::app()->params['adminEmail'];
+	echo "<br/>";
+	echo "to : ".Yii::app()->session['userEmail'];
+	echo "<br/>";
+	echo "img : ".$this->module->assetsUrl."/images/logo.png";
+
+    //Send Classic Email 
+    $res = Mail::send(array("tpl"=>'validation',
+         "subject" => 'TEST Confirmer votre compte pour le site ',
+         "from"=>Yii::app()->params['adminEmail'],
+         "to" => Yii::app()->session['userEmail'],
+         "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
+                               "title" => "Test" ,
+                               "logo"  => $this->module->assetsUrl."/images/logo.png" )) , true);
+    
+	echo "<br/>";
+    echo "result: ".$res; 
+
+	}
+	
+	public function actionNotif() 
+	{
+		echo "Push a notication <br/>";
+		//push an activity Stream Notification 
+		/* **********************************
+        Activity Stream and Notifications
+        */
+        //$type,$perimetre,$verb,$label,$id
+        $asParam = array("type" => ActStr::TEST, 
+                        "codeInsee" => "97400",
+                        "verb" => "add",
+                        "actorType"=>"persons",
+                        "objectType"=>"test",
+                        "label" => "Testing Notification Push",
+                        "id" => Yii::app()->session['userId']
+                    );
+        $action = ActStr::buildEntry($asParam);
+
+        //LOGGING WHO TO NOTIFY
+        $action["notify"] = ActivityStream::addNotification( array( 
+                                                            "persons" => array( Yii::app()->session['userId'] ),
+                                                             "label" => "Something Changed" , 
+                                                             "icon"=> ActStr::ICON_QUESTION ,
+                                                             "url" => 'javascript:alert(  "testing notifications"  );' 
+                                                        ));
+        ActivityStream::addEntry($action);
+	}
+
+	public function actionMandrill() {
+	//test Mandrill async mailing system
+	Yii::import('mandrill.Mandrill', true);
+	
+	try {
+    $mandrill = new Mandrill(Yii::app()->params['mandrill']);
+
+    /*$mandrill = new Mandrill(Yii::app()->params['mandrill']);
+    $name = 'Example Template';
+    $from_email = Yii::app()->params['adminEmail'];
+    $from_name = 'Association Granddir',
+    $subject = 'example subject Granddir',y
+    $code = '<div>example code</div>';
+    $text = 'Example text content';
+    $publish = false;
+    $labels = array('example-label');
+    $result = $mandrill->templates->add($name, $from_email, $from_name, $subject, $code, $text, $publish, $labels);
+    print_r($result);
+*/
+    //https://mandrillapp.com/
+    //https://mandrillapp.com/api/docs/templates.php.html
+    $message = array(
+        'html' => '<p>Example HTML content</p>',
+        'text' => 'Example text content',
+        'subject' => 'example subject Granddir',
+        'from_email' => Yii::app()->params['adminEmail'],
+        'from_name' => 'Association Granddir',
+        'to' => array(
+            array(
+                'email' => "oceatoon@gmail.com",
+                'name' => 'Destinataire XXX',
+                'type' => 'to'
+            )
+        ),
+        'headers' => array('Reply-To' => 'message.reply@granddir.re'),
+        'important' => false,
+        'track_opens' => null,
+        'track_clicks' => null,
+        'auto_text' => null,
+        'auto_html' => null,
+        'inline_css' => null,
+        'url_strip_qs' => null,
+        'preserve_recipients' => null,
+        'view_content_link' => null,
+        'bcc_address' => 'pixelhumain@gmail.com',
+        'tracking_domain' => null,
+        'signing_domain' => null,
+        'return_path_domain' => null,
+        'merge' => true,
+        'merge_language' => 'mailchimp',
+        'global_merge_vars' => array(
+            array(
+                'name' => 'merge1',
+                'content' => 'merge1 content'
+            )
+        ),
+        'merge_vars' => array(
+            array(
+                'rcpt' => 'recipient.email@granddir.re',
+                'vars' => array(
+                    array(
+                        'name' => 'merge2',
+                        'content' => 'merge2 content'
+                    )
+                )
+            )
+        ),
+        'tags' => array('newOrganization'),
+        /*'subaccount' => 'oceatoon',
+        'google_analytics_domains' => array('granddir.re'),
+        'google_analytics_campaign' => 'contact@granddir.re',
+        'metadata' => array('website' => 'www.granddir.re'),
+        'recipient_metadata' => array(
+            array(
+                'rcpt' => 'recipient.email@granddir.re',
+                'values' => array('user_id' => 123456)
+            )
+        ),*/
+        /*'attachments' => array(
+            array(
+                'type' => 'text/plain',
+                'name' => 'myfile.txt',
+                'content' => 'ZXhhbXBsZSBmaWxl'
+            )
+        ),
+        'images' => array(
+            array(
+                'type' => 'image/png',
+                'name' => 'IMAGECID',
+                'content' => 'ZXhhbXBsZSBmaWxl'
+            )
+        )*/
+    );
+    $async = false;
+    $ip_pool = 'Main Pool';
+    $send_at = "";
+    $result = $mandrill->messages->send($message, $async, $ip_pool, $send_at);
+    print_r($result);
+	    /*
+	    Array
+	    (
+	        [0] => Array
+	            (
+	                [email] => recipient.email@example.com
+	                [status] => sent
+	                [reject_reason] => hard-bounce
+	                [_id] => abc123abc123abc123abc123abc123
+	            )
+	    
+	    )
+	    */
+	} catch(Mandrill_Error $e) {
+	    // Mandrill errors are thrown as exceptions
+	    echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
+	    // A mandrill error occurred: Mandrill_Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+	    throw $e;
+	}
+  }
+
   public function actionSearchOrganization() {
 	$criterias = array("name" => "O.R", "email" => "O.R");
 	var_dump(Organization::findOrganizationByCriterias($criterias, 10));

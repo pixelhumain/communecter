@@ -56,12 +56,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 
 var images;
 var tabButton = [];
-var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere"};
+var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
 var itemId = "<?php echo $itemId; ?>"
 var itemType = "<?php echo $itemType; ?>"
 var controllerId = "<?php echo $controllerId; ?>"
 
-var authorizationToEdit = "<?php if(isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $itemType, $itemId)) echo 'true' ; else echo 'false'; ?>"; 
+var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = <?php echo json_encode($images); ?>;
 
 jQuery(document).ready(function() {
@@ -90,7 +90,7 @@ function initGrid(){
 		//$.each(v, function(docId, document) {
 		for(var i = 0; i<v.length; i++){
 			var htmlBtn = "";
-			if(authorizationToEdit=="true"){
+			if(authorizationToEdit){
 				htmlBtn= ' <div class="tools tools-bottom">' +
 								' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
 									' <i class="fa fa-trash-o"></i>'+

@@ -12,10 +12,7 @@
 
 </div>
 <script type="text/javascript">
-	var contextMap = {};
-	contextMap["event"] = <?php echo json_encode($event)?>;
-	contextMap["people"] = <?php echo json_encode($people) ?>;
-	contextMap["organizer"] = <?php echo json_encode($organizer) ?>;
+	contextMap= <?php echo json_encode($event)?>;
 	var images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 </script>

@@ -1,4 +1,4 @@
-
+ 
 
 <style>
 				
@@ -123,24 +123,24 @@
 	var type;
 	var contextId;
 	var mapIconOrga = {"NGO":" fa-building-o", "LocalBusiness":"fa-home", "GovernmentOrganization":"fa-institution", "Group":"fa-group", "":"fa-dollar"};
-
+	var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>
 
 	function getDataFile(){
 		console.log("getDataFile");
 		var map = null;
-		if("undefined" != typeof contextMap){
-			map=contextMap;
-			if("undefined" != typeof contextMap.person){
-				contextId = contextMap.person["_id"]["$id"];
+		if("undefined" != typeof viewerMap){
+			map=viewerMap;
+			if("undefined" != typeof viewerMap.person){
+				contextId = viewerMap.person["_id"]["$id"];
 				type = 'person';
-			}else if("undefined" != typeof contextMap.organization){
-				contextId = contextMap.organization["_id"]["$id"];
+			}else if("undefined" != typeof viewerMap.organization){
+				contextId = viewerMap.organization["_id"]["$id"];
 				type = 'organization';
-			}else if("undefined" != typeof contextMap.event){
-				contextId = contextMap.event["_id"]["$id"];
+			}else if("undefined" != typeof viewerMap.event){
+				contextId = viewerMap.event["_id"]["$id"];
 				type = "event";
-			}else if("undefined" != typeof contextMap.project){
-				contextId = contextMap.project["_id"]["$id"];
+			}else if("undefined" != typeof viewerMap.project){
+				contextId = viewerMap.project["_id"]["$id"];
 				type ="project";
 			}
 			
@@ -855,7 +855,7 @@ function getNewData(data){
 			type: "POST",
 			dataType : "json",
 			success: function(data){
-				contextMap=data;
+				viewerMap=data;
 			}
 		})*/
 		datafile = getDataFile();

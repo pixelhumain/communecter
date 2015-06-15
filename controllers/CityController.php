@@ -9,15 +9,17 @@
 class CityController extends CommunecterController {
   
 
-	/**
-	 * opens on a country
-	 * @param string $type : pays || region || commune
-	 * @param $id : france || code postale
-	 */
-	public function actionIndex($cp) {
-	    $this->render('dashboard');
+	protected function beforeAction($action) {
+	    parent::initPage();
+	    return parent::beforeAction($action);
 	}
-	public function actionPublic($cp) {
-	    $this->render('dashboard');
+
+	public function actions()
+	{
+	    return array(
+	        'index'       	=> 'citizenToolKit.controllers.city.IndexAction',
+	        'directory'     => 'citizenToolKit.controllers.city.DirectoryAction',
+	        'calendar'      => 'citizenToolKit.controllers.city.CalendarAction',
+	    );
 	}
 }

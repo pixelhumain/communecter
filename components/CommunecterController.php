@@ -23,11 +23,12 @@ class CommunecterController extends Controller
       array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
       array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
+  
 
   const theme = "ph-dori";
   public $person = null;
   public $themeStyle = "theme-style11";//3,4,5,7,9
-
+  public $notifications = array();
 	//TODO - Faire le tri des liens
   //TODO - Les children ne s'affichent pas dans le menu
   public $sidebar1 = array(
@@ -72,7 +73,7 @@ class CommunecterController extends Controller
      array('label' => "Event", "key"=>"event",
                 "children"=> array(
                   "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
-                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"#showCalendar", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"/ph/communecter/event/calendarview", "iconStack"=>array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
      array('label' => "Projects", "key"=>"projects",
@@ -83,11 +84,11 @@ class CommunecterController extends Controller
   );
   
   public $subviews = array(
-    "event.eventSV",
+    //"event.eventSV",
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
-    "project.addContributorSV",
+    //"project.addContributorSV",
     //"sig.networkSV",
   );
 
@@ -108,6 +109,10 @@ class CommunecterController extends Controller
       "contact"=>array("href"=>"/ph/communecter/default/contact"),
     ),
 
+    "city"=>array(
+    	"index" => array("href" => "/ph/communecter/city/index"),
+    	"directory" => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
+    ),
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "save" => array( "href" => "/ph/communecter/news/save"),
@@ -165,6 +170,8 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
       "delete" => array("href" => "ph/communecter/event/delete"),
       "updatefield" => array("href" => "ph/communecter/event/updatefield"),
+      "calendarview" => array("href" => "ph/granddir/event/calendarview"),
+      "eventsv" => array("href" => "ph/communecter/event/eventsv"),
     ),
 
     "project"=> array(
@@ -196,7 +203,8 @@ class CommunecterController extends Controller
 
     "link" => array(
       "savemember" => array("href" => "/ph/communecter/link/savemember"),
-      "removemember" => array("href" => "/ph/communecter/link/removemember")
+      "removemember" => array("href" => "/ph/communecter/link/removemember"),
+      "removecontributor" => array("href" => "/ph/communecter/link/removecontributor")
     ),
 
     "document" => array(
@@ -227,20 +235,8 @@ class CommunecterController extends Controller
     //Granddir
     //$id = "54eed95ea1aa143e020041c8";
     //Larges
-    $id = "555c8de4c12f63403e0041a9";
     
-    $grandirMenu = array(
-      array('label' => "ACCUEIL", "key"=>"home","iconClass"=>"fa fa-home","href"=>"/ph/communecter/organization/dashboardMember/id/".$id),
-      array('label' => "LARGES ? KISA SA ?", "key"=>"temporary","iconClass"=>"fa fa-question-circle","href"=>"/ph/communecter/organization/dashboard1/id/".$id),
-      array('label' => "ANNUAIRE DU RESEAU", "key"=>"contact","iconClass"=>"fa fa-map-marker","href"=>"/ph/communecter/organization/sig/id/".$id),
-      array('label' => "AGENDA PARTAGE", "key"=>"about","iconClass"=>"fa fa-calendar", "class"=>"show-calendar", "href" =>"#showCalendar"),
-      array('label' => "EMPLOIS & FORMATION", "key"=>"temporary","iconClass"=>"fa fa-briefcase","href"=>"/ph/communecter/job/list"),
-      array('label' => "RESSOURCES", "key"=>"contact", "iconClass"=>"fa fa-folder-o","href"=>"/ph/communecter/organization/documents/id/".$id),
-      array('label' => "LETTRE D'INFORMATION", "key"=>"about","iconClass"=>"fa fa-file-text-o "),
-      //array('label' => "ADHERER", "key" => "temporary","iconClass"=>"fa fa-check-circle-o ","href"=>"communecter/organization/join/id/".$id),
-      //array('label' => "CONTACTEZ NOUS", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/organization/contact/id/".$id)
-    );
-    $this->sidebar1 = array_merge( Menu::menuItems(), $grandirMenu, $this->sidebar1 );
+    $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
@@ -248,6 +244,8 @@ class CommunecterController extends Controller
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+
+    $this->notifications = ActivityStream::getNotifications(array("notify.id"=>Yii::app()->session["userId"]));
 
     CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
   }

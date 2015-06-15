@@ -17,12 +17,14 @@ class EventController extends CommunecterController {
   public function actions()
   {
       return array(
-          'saveattendees'          => 'citizenToolKit.controllers.event.SaveAttendees',
-          'dashboard' => 'citizenToolKit.controllers.event.DashboardAction',
-          'save'          => 'citizenToolKit.controllers.event.SaveAction',
-          'getcalendar'   => 'citizenToolKit.controllers.event.GetCalendarAction',
-          'delete' => 'citizenToolKit.controllers.event.DeleteAction',
-          'updatefield' => 'citizenToolKit.controllers.event.updatefieldAction',
+          'saveattendees'          		=> 'citizenToolKit.controllers.event.SaveAttendees',
+          'dashboard' 					=> 'citizenToolKit.controllers.event.DashboardAction',
+          'save'          				=> 'citizenToolKit.controllers.event.SaveAction',
+          'getcalendar'   				=> 'citizenToolKit.controllers.event.GetCalendarAction',
+          'delete' 						=> 'citizenToolKit.controllers.event.DeleteAction',
+          'updatefield' 				=> 'citizenToolKit.controllers.event.updatefieldAction',
+          'eventsv' 					=> 'citizenToolKit.controllers.event.EventSVAction',
+          'calendarview'				=> 'citizenToolKit.controllers.event.CalendarViewAction',
       );
   }
 }
