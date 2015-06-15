@@ -366,6 +366,7 @@
 		//chargement de la carte 
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{ 
+	 		//alert("loadMap");
 	 		canvasId += initParams.sigKey;
 	 		
 			$("#"+canvasId).html("");
