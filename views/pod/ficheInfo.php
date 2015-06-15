@@ -332,7 +332,7 @@
 			select2: {
 				width: 200,
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-				tokenSeparators: [",", " "]
+				tokenSeparators: [","]
 			}
 		});
 
