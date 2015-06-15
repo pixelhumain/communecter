@@ -48,9 +48,10 @@ class TestController extends CommunecterController {
         "to" => "oceatoon@gmail.com",
         "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
                                "title" => "Test" ,
-	                           "logo"  => $this->module->assetsUrl."/images/logo.png" )
+	                           "logo"  => "/images/logo.png" )
         );
-  	Cron::save($params);
+  	
+    Mail::scheedule($params);
 
   	$params = array(
   		"type" => Cron::TYPE_MAIL,
@@ -61,9 +62,9 @@ class TestController extends CommunecterController {
         "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
                                "title" => "Test" ,
                                "creatorName" => "Tib Kat",
-	                           "url"  => $this->module->assetsUrl."/organization/" )
+	                           "url"  => "/organization/" )
         );
-  	Cron::save($params);
+    Mail::scheedule($params);
   }
 
    public function actionDoCron() {
