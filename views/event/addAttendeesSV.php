@@ -6,49 +6,79 @@
 
 </style>
 <div id="newAttendees">
-	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h1>Add attendees</h1>
-		<form class="form-attendees" autocomplete="off">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<input class="attendees-id hide"  id="eventID" name="eventID" type="text">
-						<select class="attendees-type" id="attendeesType" name="attendeesType">
-		                    <option value="persons">People</option>
-		                    <option value="organizations">Organisation</option>
-		                </select>
-						<input class="attendees-name form-control" name="attendeesName" type="text" placeholder="name">
-						<input class="attendees-email form-control" placeholder="Email" autocomplete = "off" id="attendeesEmail" name="attendeesEmail" value="">
-			        		<ul class="dropdown-menu" id="dropdown_email" style="">
-								<li class="li-dropdown-scope">-</li>
-							</ul>
-						</input>
+	<div class="col-md-6 col-md-offset-3">  
+       	<div class="panel panel-white">
+        	<div class="panel-heading border-light">
+				<h1>Add an attendee</h1>
+			</div>
+		<div class="panel-body">
+			<form class="form-attendees" autocomplete="off">
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" type="text"/>
+				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" type="text"/>
+				<div class="row" id="step1">
+					<div class="col-md-1">	
+		           		<i class="fa fa-search fa-2x"></i> 
+		           	</div>
+					<div class="col-md-10">
+						<div class="form-group">
+							<input class="attendees-search form-control" placeholder="Search Here" autocomplete = "off" id="attendeesSearch" name="attendeesSearch" value="">
+				        		<ul class="dropdown-menu" id="dropdown_search" style="">
+									<li class="li-dropdown-scope">-</li>
+								</ul>
+							</input>
+						</div>
 					</div>
 				</div>
-			<div class="pull-right">
-				<div class="btn-group">
-					<a href="#" class="btn btn-info close-subview-button">
-						Close
-					</a>
+				<div class="row" id="step2">
+		
+					<div class="form-group" id="ficheUser">
+						<div class="col-md-7">
+							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
+							<hr>
+							Nom : <p id="ficheName" name="ficheName"></p><br>
+							Date de naissance : <p id="birth" name="birth" ></p><br>
+							Tags : <p id="tags" name="tags" ></p><br>
+						</div>
+					</div>
 				</div>
-				<div class="btn-group">
-					<button class="btn btn-info save-new-attendees" type="submit">
-						Save
-					</button>
+				<div class="row" id="step3">
+					<div class="row">
+						<div class="col-md-1 col-md-offset-1" id="iconUser">	
+				           	<i class="fa fa-user fa-2x"></i>
+				       	</div>
+				       	<div class="col-md-9">
+							<input class="attendees-name form-control" placeholder="Name" id="attendeesName" name="attendeesName" value="" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-1 col-md-offset-1">	
+			           		<i class="fa fa-envelope-o fa-2x"></i>
+			           	</div>
+	    	        	<div class="col-md-9">
+							<input class="attendees-email form-control" placeholder="Email" id="attendeesEmail" name="attendeesEmail" value="" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2 col-md-offset-1">
+							<div class="form-group">
+					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+					    	</div>
+					    </div>
+				    </div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
-	 	$('#attendeesEmail').keyup(function(e){
-		    var email = $('#attendeesEmail').val();
-		    clearTimeout(timeout);
-		    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
+	 	$('#attendeesSearch').keyup(function(e){
+		    var email = $('#attendeesSearch').val();
+		    setTimeout(function(){
+		    	autoCompleteEmailAddAttendees(email)
+		    }, 500);		
 		});
 		$('#attendeesEmail').focusout(function(e){
 			//$(".new-attendees #dropdown_city").css({"display" : "none" });
@@ -76,7 +106,7 @@
 
 		$(".close-subview-button").off().on("click", function(e) {
 			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
+			e.prattendeesDefault();
 		});
 	};
 
@@ -207,4 +237,60 @@
 		$(".form-attendees .help-block").remove();
 		$(".form-attendees .form-group").removeClass("has-error").removeClass("has-success");
 	};
+
+
+	function autoCompleteEmailAddAttendees(searchValue){
+		console.log("autoCompleteEmailAddAttendees");
+		var data = {"search" : searchValue};
+		$.ajax({
+			type: "POST",
+	        url: baseUrl+"/granddir/search/searchmemberautocomplete",
+	        data: data,
+	        dataType: "json",
+	        success: function(data){
+	        	if(!data){
+	        		toastr.error(data.content);
+	        	}else{
+	        	
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewAttendeeForm()'>Non trouvé ? Cliquez ici.</a></li>";
+		 			$.each(data, function(key, value) {
+		 				
+		 				$.each(value, function(i, v){
+		 					var imageSearch = '<i class="fa fa-users fa-2x"></i>';
+		 					var logoSearch = "";
+		 					if("undefined" != typeof v.logo){
+		 						var logoSearch = '<div class="pull-right"><img alt="image" class="img-circle" src="'+baseUrl+"/"+moduleId+'/document/resized/40x40'+v.logo+'" /></div>'
+		 					}
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddAttendees(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')">'+imageSearch+' '+v.name +'</a></li>';
+		  				});
+		  			}); 
+
+		  			$("#newAttendees #dropdown_search").html(str);
+		  			$("#newAttendees #dropdown_search").css({"display" : "inline" });
+	  			}
+			}	
+		})
+	}
+
+
+	function openNewAttendeeForm(){
+		$("#newAttendees #step3").css("display", "block");
+		$("#newAttendees #step1").css("display", "none");
+		$("#newAttendees #attendeesName").val("");
+		$("#newAttendees #attendeesName").removeAttr("disabled");
+		$('#newAttendees #attendeesEmail').val("");
+		$('#newAttendees #attendeesEmail').removeAttr("disabled");
+		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  		if(emailReg.test( $("#newAttendees #attendeesSearch").val() )){
+  			$('#newAttendees #attendeesEmail').val( $("#newAttendees #attendeesSearch").val());
+  		}else{
+  			$("#newAttendees #attendeesName").val($("#newAttendees #attendeesSearch").val());
+  		}
+	}
+
+
+	function setMemberInputAddAttendees(){
+		$("#newAttendees #step2").css("display", "block");
+		$("#newAttendees #step1").css("display", "none");
+	}
 </script>
