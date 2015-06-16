@@ -1,5 +1,4 @@
 <?php 
-	echo Yii::getPathOfAlias($this->id.'.assets');
 	//valeur correspondant 
 $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/jquery-sortable-lists/stylesheets/github-dark.css',

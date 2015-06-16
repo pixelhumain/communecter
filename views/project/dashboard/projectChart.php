@@ -1,7 +1,7 @@
 <?php 
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/Chart.js/chart.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js',
 	);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
 ?>
