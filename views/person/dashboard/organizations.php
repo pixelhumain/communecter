@@ -3,6 +3,7 @@
 	.organizationLine{cursor:pointer;}
 </style>
 
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>

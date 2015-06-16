@@ -22,6 +22,8 @@
 }
 </style>
 
+<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
+
 <div class="row">
 	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>

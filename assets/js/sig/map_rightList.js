@@ -8,10 +8,11 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){ 	
-	    	
+	    	var thisSig = this;
 	    	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() { 
-				$(this.cssModuleName + " #item_map_list_" + this._id.$id.toString()).css({ "display" : "none" });				
+				var objectId = thisSig.getObjectId(this);
+				$(this.cssModuleName + " #item_map_list_" + objectId).css({ "display" : "none" });				
 			});
 			
 			var showElementOutOfMapView = !$(this.cssModuleName + " #chk-scope").is(':checked');
@@ -35,7 +36,7 @@
 							}
 							else //si le champs de recherche est vide, on affiche l'élément
 							{
-								$(this.cssModuleName + " #item_map_list_" + this._id.$id.toString()).css({"display" : "inline" });	
+								$(this.cssModuleName + " #item_map_list_" + thisSig.getObjectId(this)).css({"display" : "inline" });	
 						 	}
 						 }
 					}
@@ -49,7 +50,7 @@
 		Sig.createItemRigthListMap = function(element, thisMarker, thisMap){
 			
 			var thisSig = this;
-			var objectId = element._id ? element._id.$id.toString() : null;
+			var objectId = thisSig.getObjectId(this);
 			//rassemble le nom de la ville au CP
 			var place = "";
 			if(element['city'] != null) place += element['city'];
@@ -94,8 +95,8 @@
 		*/
 			
 			//return l'élément html
-		    var button = '<div class="element-right-list" id="element-right-list-"'+element._id.$id.toString()+'">' +
-		    				'<button id="item_map_list_'+ element._id.$id.toString() +'" class="item_map_list">' 
+		    var button = '<div class="element-right-list" id="element-right-list-"'+thisSig.getObjectId(element)+'">' +
+		    				'<button id="item_map_list_'+ thisSig.getObjectId(element) +'" class="item_map_list">' 
 								+ icons
 								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	+
 								//+  ' <div class="city_item_map_list">' +	place + "</div>"	+
