@@ -103,7 +103,7 @@
 		if(type=="citoyens"){
 			links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
 			type = "";
-			imgHtml = '<i class="fa fa-user fa-2x"></i>';
+			imgHtml = '<i class="fa fa-smile-o fa-2x"></i>';
 			//tabObject= $("#tPerson");
 		}else{
 			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
@@ -114,7 +114,7 @@
 		if('undefined' != typeof newContributor["imagePath"] && newContributor["imagePath"]!=""){
 			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newContributor["imagePath"]+'">'
 		}
-		var contributorLine = '<tr>'+
+		var contributorLine = '<tr id="contributor'+itemId+'">'+
 								'<td class="center">'+
 									imgHtml+
 								'</td>'+
@@ -124,9 +124,20 @@
 									'</span>'+
 									'<a href="'+links+'" class="btn"><i class="fa fa-chevron-circle-right"></i></a>'+
 								'</td>'+
+								'<td>'+
+									'<a href="javascript:;" class="disconnectBtnContributor btn btn-xs btn-red tooltips " data-placement="left"  data-type="';
+									if (newContributor.type="citoyen"){
+										contributorLine += "citoyens";
+									} else{
+										contributorLine += "organizations";
+									} 
+									contributorLine+= '" data-id="'+itemId+'" data-name="'+newContributor.name+'" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i>'+
+									'</a>'+
+								'</td>'+
 							'</tr>';
         console.log(contributorLine);
         $("#tContributor").append(contributorLine);
+        bindBtnContributor();
     	}
 
 	
@@ -137,8 +148,8 @@
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	        var idContributor = $(this).data("id");
 	        var typeContributor = $(this).data("type");
-	        console.log(idContributor);
-	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your members ?", 
+	        console.log(typeContributor);
+	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your contributors ?", 
 				function(result) {
 					if (result) {
 						$.ajax({
