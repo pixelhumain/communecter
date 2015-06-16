@@ -205,8 +205,10 @@ var formValidator = function() {
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
 		    	  data: $("#organizationForm").serialize(),
 		    	  success: function(data){
-		    			if(!data.result)
+		    			if(!data.result){
 	                        toastr.error(data.msg);
+	                   		$.unblockUI();
+	                   	}
 	                    else { 
 	                        toastr.success(data.msg);
 	                        if( "undefined" != typeof updateMyOrganization )

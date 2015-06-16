@@ -33,7 +33,7 @@
 		
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-7">
-							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
+							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i>  Add me as attendee </a>
 							<hr>
 							Nom : <p id="ficheName" name="ficheName"></p><br>
 							Date de naissance : <p id="birth" name="birth" ></p><br>
@@ -108,6 +108,21 @@
 			$(".close-subviews").trigger("click");
 			e.prattendeesDefault();
 		});
+
+
+		$(".connectAttendeesBtn").off().on("click", function(){
+			var idToconnect= $(this).data("id");
+			var eventId = $(".form-attendees .attendees-id").val();
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+'/event/saveAttendees',
+				data: data,
+				dataType: "json",
+	       		success: function(data){
+	       		}
+			})
+		});
+
 	};
 
 	var subViewElement, subViewContent, subViewIndex;
@@ -212,11 +227,11 @@
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {               
-				        	toastr.success('Invatation to event success');
+				        	toastr.success('Invitation to event success');
 				        	$.hideSubview();
 				        		
 				        } else {
-				           toastr.error('Something Went Wrong');
+				           toastr.error('Something Went Wrong!');
 				        }
 				    });
 
