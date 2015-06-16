@@ -64,8 +64,8 @@ class CommunecterController extends Controller
           ),
     array('label' => "News", "key"=>"note",
                 "children"=> array(
-                  "createNews" 	=> array( "label"=>"Create news",	"key"=>"new-news", 	 "class"=>"new-news", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
-                  "newsStream" 	=> array( "label"=>"News stream",	"key"=>"newsstream", "class"=>"ajaxSV", "onclick"=>"openSubView('News stream', '/communecter/news/newsstream', null)", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
+                  "createNews" 	=> array( "label"=>"Create news",	"key"=>"new-news", 	 "class"=>"new-news", "iconStack"=>array("fa fa-bullhorn fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  //"newsStream" 	=> array( "label"=>"News stream",	"key"=>"newsstream", "class"=>"ajaxSV", "onclick"=>"openSubView('News stream', '/communecter/news/newsstream', null)", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
                   //"newNote"		=> array( "label"=>"Add new note",	"class"=>"new-note",	  "key"=>"newNote",  "href"=>"#newNote",  "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                  // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=>array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
@@ -84,7 +84,7 @@ class CommunecterController extends Controller
   );
   
   public $subviews = array(
-    //"event.eventSV",
+    "news.newsSV",
     "person.inviteSV",
     "project.projectSV",
     "event.addAttendeesSV",
@@ -146,6 +146,7 @@ class CommunecterController extends Controller
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
       "about" =>array("href"=>"/person/about"),
+      "directory" => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
     "organization"=> array(
