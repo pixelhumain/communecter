@@ -162,11 +162,15 @@
 			};
 			
 			
-			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				console.warn("--------------- showOneElementOnMap ---------------------");
-				var objectId = thisData._id ? thisData._id.$id.toString() : null;
+			this.Sig.showOneElementOnMap = function(thisData, thisMap){ 
+				console.warn("--------------- showOneElementOnMap ---------------------"); 
+				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
+				var objectId = this.getObjectId(thisData);
+				
+				//alert(JSON.stringify(thisData));
+
 				if(objectId != null) 
-				{
+				{ 
 					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
 						if(this.verifyPanelFilter(thisData))
 						{
@@ -179,8 +183,6 @@
 												icon : theIcon,
 												content: content };
 
-							
-							
 							var marker;
 							var coordinates;
 							
@@ -232,6 +234,9 @@
 						}
 					
 					
+				}else {
+					console.warn("--------------- PAS D'ID ---------------------");
+					return false;
 				}
 				
 			};
@@ -239,7 +244,7 @@
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
 				console.warn("--------------- showFilterOnMap ---------------------");
 				var thisSig = this;
-				var dataFilter = data[thisFilter];	
+				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
 				if(dataFilter.length > 1){
 					$.each(dataFilter, function(i, thisData)  { 
 						
@@ -277,10 +282,16 @@
 				
 				//on affiche les data filtre par filtre, en suivant la Desc des datas
 				var thisSig = this;
+				//var array = new Array();
 				
-				$.each(data, function (key, value){
-					thisSig.showFilterOnMap(data, key, thisMap);
-				});
+				//alert(data.length);
+				if(data.length > 1){
+					$.each(data, function (key, value){ alert(JSON.stringify(key));
+						thisSig.showFilterOnMap(data, key, thisMap); 
+					});
+				}else{
+					thisSig.showOneElementOnMap(data, thisMap);
+				}
 				//alert("fin");
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker

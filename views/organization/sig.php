@@ -47,6 +47,7 @@
     /* **************** paramètres de la map *******************/
 	$sigParams = array(
 			"sigKey" => "DashOrga",
+			"mapTileLayer" => 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
 			"mapHeight" => 450,
 			"mapTop" => 50,
 			"useFullScreen" => true,

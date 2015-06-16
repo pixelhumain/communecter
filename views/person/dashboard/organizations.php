@@ -2,6 +2,7 @@
 <style type="text/css">	
 	.organizationLine{cursor:pointer;}
 </style>
+<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">

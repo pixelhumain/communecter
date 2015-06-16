@@ -111,6 +111,11 @@
 					return this.icoMarkersTags[tag].color; 
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
+		Sig.getObjectId = function (object){ //alert('object : ' + JSON.stringify(object)); alert(object.$id);
+			if("undefined" != typeof object._id) 	return object._id.$id.toString();
+			if("undefined" != typeof object.$id) 	return object.$id;
+			return null;		
+		};
 		
 		
 		//***
