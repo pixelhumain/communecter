@@ -124,7 +124,6 @@
 		    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
 		});
 		$('#contributorEmail').focusout(function(e){
-			//$(".new-contributor #dropdown_city").css({"display" : "none" });
 		});
 	});
 	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
@@ -181,7 +180,7 @@
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
 			console.log("state = "+state );
 			if (state == true) {
-				$("#newContributors #contributorIsAdmin").val(1);
+				$("#newContributors <#contribu></#contribu>torIsAdmin").val(1);
 			} else {
 				$("#newContributors #contributorIsAdmin").val(0);
 			}

@@ -12,8 +12,12 @@
 		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">
-		 <?php $this->renderPartial('dashboard/projectChart',array( "properties" => $properties)); ?>
+		 <?php $this->renderPartial('dashboard/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties)); ?>
 	</div>
+	<div class ="col-lg-4 col-md-12">
+		 <?php $this->renderPartial('dashboard/list',array()); ?>
+	</div>
+
 </div>
 <script type="text/javascript">
 	var contextMap = {};

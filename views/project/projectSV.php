@@ -2,17 +2,11 @@
 <?php 
 	//valeur correspondant 
 
-//$cs = Yii::app()->getClientScript();
-//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css');
-//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/slider/css/slider.css');
-//$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQRangeSlider/css/classic-min.css');
 
-	$cssAnsScriptFilesTheme = array(
-	//Select2
-//	'/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js',
-//	'/assets/plugins/jQRangeSlider/jQAllRangeSliders-min.js',
-//	'/assets/plugins/modernizr/modernizr.js',
-//	'/assets/plugins/slider/js/bootstrap-slider.js',
+
+/*$cssAnsScriptFilesTheme = array(
+//Select2
+
 	//autosize
 	//Select2
 	'/assets/plugins/select2/select2.css',
@@ -24,7 +18,7 @@
 	//'/assets/js/ui-sliders.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);*/
 
 $cssAnsScriptFilesModule = array(
 	//Data helper
@@ -56,15 +50,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</div>
 				</div>
 				<div class="col-md-12">
-					
 						<input class="project-id hide" type="text">
-						<!--<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
-						<input class="project-creator form-control" name="projectCreator" type="text" placeholder="Project creator...">
-						<input class="project-url form-control" name="projectUrl" type="text" placeholder="Project url...">
-						<input class="project-licence form-control" name="projectLicence" type="text" placeholder="Project licence...">
-						-->
-				
-
 						<div class="col-md-6 col-sd-6" >
 							<input class="project-id hide" type="text">
 							<div class="form-group">
@@ -232,7 +218,7 @@ jQuery(document).ready(function() {
 	});
 	$("textarea.autosize").autosize();
  	 	//initialisation des sliders 
- 	$(".knob").knob({
+ 	/*$(".knob").knob({
             draw: function () {
                 // "tron" case
                 if (this.$.data('skin') == 'tron') {
@@ -268,8 +254,8 @@ jQuery(document).ready(function() {
                     return false;
                 }
             }
-     });
-     $(".daterangepicker").on("hide.daterangepicker", function(){
+    });*/
+    $(".daterangepicker").on("hide.daterangepicker", function(){
  		console.log("ok");
  	});
 });
@@ -322,109 +308,6 @@ function bindProjectSubViewProjects() {
 var subViewElement, subViewContent, subViewIndex;
 //var dateToShow, calendar;
 // creates an array of projects to display in the calendar
-
-//creates fullCalendar
-/*function buildCalObj(eventObj)
-{
-	//console.log("addTasks2CAlendar","task",taskId,eventObj);
-	//entries for the calendar
-	var taskCal = null;
-	var prioClass = 'event-job';
-	switch( eventObj.priority ){
-		case "urgent" : prioClass = 'event-todo'; break;
-		case "high" : prioClass = 'event-offsite'; break;
-		case "normal" : prioClass = ''; break;
-		case "low" : prioClass = 'event-generic'; break;
-		default : prioClass = 'event-job'; 
-	}
-	if(eventObj.startDate && eventObj.startDate != "")
-	{
-		//console.log("eventObj", eventObj, eventObj.startDate);
-		var sd = eventObj.startDate.split(" ")[0];
-		var sh = eventObj.startDate.split(" ")[1];
-		var sdv = sd.split("/");
-		var shv = sh.split(":");
-	 	var startDate = new Date(sdv[2],parseInt(sdv[1])-1,sdv[0], shv[0], shv[1]);
-	 	var endDate = null;
-	 	if(eventObj.endDate && eventObj.endDate != "" )
-	 	{
-		 	var ed = eventObj.endDate.split(" ")[0];
-		 	var eh = eventObj.endDate.split(" ")[1];
-		 	var edv = ed.split("/");
-		 	var ehv = eh.split(":");
-		 	endDate = new Date(edv[2],parseInt(edv[1])-1,edv[0], ehv[0], ehv[1]);
-		 }
-		 //console.log("taskCalObj",eventObj['_id']['$id']);
-		taskCal = {
-			"title" : eventObj.name,
-			"id" : eventObj['_id']['$id'],
-			"content" : (eventObj.description && eventObj.description != "" ) ? new Date(eventObj.description) : "",
-				"start" : startDate,
-				"end" : ( endDate ) ? endDate : startDate,
-				"startDate" : eventObj.startDate,
-				"endDate" : eventObj.endDate,
-				"className": prioClass,
-	        "category": eventObj.type,
-				"allDay" : false,
-		}
-		//console.log(taskCal);
-	}
-	return taskCal;
-}*/
-
-/*function showCalendar() {
-
-	console.info("addTasks2Calendar",contextMap.events);//,taskCalendar);
-	
-	calendar = [];
-	if(contextMap.events){
-		$.each(contextMap.events,function(eventId,eventObj)
-		{
-			eventCal = buildCalObj(eventObj);
-			if(eventCal)
-				calendar.push( eventCal );
-		});
-	}
-	if(contextMap.projects){
-		$.each(contextMap.projects, function(taskId, taskObj){
-			taskCal = buildCalObj(taskObj);
-			if(taskCal)
-				calendar.push( taskCal );
-		})
-	}
-	
-
-	dateToShow = new Date();
-	$('#calendar').fullCalendar({
-		header : {
-			left : 'prev,next today',
-			center : 'title',
-			right : 'month,agendaWeek,agendaDay'
-		},
-		year : dateToShow.getFullYear(),
-		month : dateToShow.getMonth(),
-		date : dateToShow.getDate(),
-		editable : true,
-		events : calendar,
-
-		eventClick : function(calEvent, jsEvent, view) {
-			//show event in subview
-			dateToShow = calEvent.start;
-			$.subview({
-				content : "#readEvent",
-				startFrom : "right",
-				onShow : function() {
-					readEvent(calEvent._id);
-				}
-			});
-		}
-	});
-	dateToShow = new Date();
-};
-//destroy fullCalendar
-function destroyCalendar() {
-	$('#calendar').fullCalendar('destroy');
-};*/
 //validate new project form
 function runProjectFormValidationTest(el) {
 var formProject = $('.form-project');
@@ -495,6 +378,8 @@ formProject.validate({
 		newProject.licence = $(".form-project .project-licence").val(),
 		newProject.start=startDateSubmitProj,
 		newProject.end=endDateSubmitProj,
+		newProject.city=$(".form-project #city").val(),
+		newProject.postalCode=$(".form-project #postalCode").val(),
 		newProject.description=$(".form-project .project-description").val(),
 		newProject.avancement=$(".form-project .project-avancement").val(),
 		newProject.gouvernance=$(".form-project .project-gouvernance").val(),
@@ -555,7 +440,7 @@ formProject.validate({
 		    })
 		    .done(function (data) 
 		    {
-			alert (newProject.description);
+				//alert (newProject.description);
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
 		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
