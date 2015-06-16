@@ -1,7 +1,7 @@
 <?php 
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/Chart.js/chart.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js',
 	);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
 ?>
@@ -10,6 +10,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Charte du projet</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
+				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer les propriétés"><i class="fa fa-pencil"></i>
+				</a>
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>
@@ -40,12 +42,30 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 		</div>
 	</div>
 	<div class="panel-body no-padding">
-		<canvas id="myChart" width="400" height="400"></canvas>
+		<canvas id="myChart" width="" height=""></canvas>
 	</div>
 </div>
+<?php
+   $this->renderPartial('addChartSV', array( "properties" => $properties, "itemId" => $itemId));
+?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		Chart.defaults.global = {
+		chartInit();
+
+});
+function updateChart(data){
+	console.log(myNewChart);
+	console.log(data);
+	myNewChart.datasets[0].points[0].value = data.gouvernance;
+	myNewChart.datasets[0].points[1].value = data.local;
+	myNewChart.datasets[0].points[2].value = data.partenaire;
+	myNewChart.datasets[0].points[3].value = data.partage;
+	myNewChart.datasets[0].points[4].value = data.solidaire;
+	myNewChart.datasets[0].points[5].value = data.avancement;
+	myNewChart.update();
+}
+function chartInit(){
+	Chart.defaults.global = {
 		// Boolean - Whether to animate the chart
 		animation: true,
 	    // Number - Number of animation steps
@@ -164,6 +184,6 @@ var data = {
 var options;
 var ctx = $("#myChart").get(0).getContext("2d");
 // This will get the first returned node in the jQuery collection.
-var myNewChart = new Chart(ctx).Radar(data, options);
-});
+myNewChart = new Chart(ctx).Radar(data, options);
+}
 </script>

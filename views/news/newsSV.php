@@ -38,6 +38,14 @@ var formDefinition = {
                     	"Urbanisme",
 	            	]
 	            },
+	        /*"latitude" :{
+            	"inputType" : "hidden",
+            	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
+            },
+            "longitude" :{
+            	"inputType" : "hidden",
+            	"value" : "<?php echo (isset($_GET['lon'])) ? $_GET['lon'] : '' ?>"
+            },*/
         }
     },
     "collection" : "organization",
@@ -49,12 +57,9 @@ var dataBind = {
    "#name" : "name",
    "#tags" : "tags",
    "#id" : "typeId",
-   "#type" : "type"
-   /*{
-   		field : "tags",
-   		format : "string2array",
-   		seperator : ","
-   	}*/
+   "#type" : "type",
+  /* "#latitude" : "from.latitude",
+   "#longitude" : "from.longitude"*/
 };
 
 jQuery(document).ready(function() {
@@ -62,7 +67,7 @@ jQuery(document).ready(function() {
 	$(".new-news").off().on("click",function() { 
 		$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 							"<div class='space20'></div>"+
-							"<h1>Edit About Information</h1>"+
+							"<h1>Share a thought, an idea, </h1>"+
 							"<form id='ajaxForm'></form>"+
 						  "</div>");
 		$.subview({

@@ -121,10 +121,9 @@
 	 	$('#contributorEmail').keyup(function(e){
 		    var email = $('#contributorEmail').val();
 		    clearTimeout(timeout);
-		    timeout = setTimeout('autoCompleteEmail("'+email+'")', 500);		
+		    timeout = setTimeout('autoCompleteEmailAddContributor("'+email+'")', 500);		
 		});
 		$('#contributorEmail').focusout(function(e){
-			//$(".new-contributor #dropdown_city").css({"display" : "none" });
 		});
 	});
 	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
@@ -259,7 +258,6 @@
 				console.log(newProject);
 				if ($(".form-contributor .contributor-id").val() !== "") {
 					el = $(".form-contributor .contributor-id").val();
-
 					//mockjax simulates an ajax call
 					$.mockjax({
 						url : '/contributor/edit/webservice',
@@ -272,7 +270,7 @@
 								
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/project/saveContributor',
+				        url: baseUrl+"/"+moduleId+'/project/savecontributor',
 				        dataType : "json",
 				        data:newProject,
 						type:"POST",
@@ -320,7 +318,7 @@
 
 	}
 	function autoCompleteEmailAddContributor(searchValue){
-		console.log("autoCompleteEmailAddMember");
+		//console.log("autoCompleteEmailAddMember");
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",

@@ -12,6 +12,7 @@
 			<table class="table table-striped table-hover" id="projects">
 				<tbody>
 					<?php
+						//print_r($projects);
 					if(isset($projects) && count($projects)>0){
 					foreach ($projects as $e) {
 					?>
@@ -116,7 +117,7 @@
 		var projectLine  = 
 		'<tr id="project'+projectId.$id+'">'+
 					'<td class="center">'+viewBtn+'<i class="fa fa-lightbulb-o fa-2x"></i></a></td>'+
-					'<td>'+nProject.title+'</a></td>'+
+					'<td>'+viewBtn+nProject.title+'</a></td>'+
 					'<td>'+nProject.url+'</td>'+
 					'<td class="center">'+
 					unlinkBtn+

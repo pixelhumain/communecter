@@ -123,7 +123,8 @@
 	var type;
 	var contextId;
 	var mapIconOrga = {"NGO":" fa-building-o", "LocalBusiness":"fa-home", "GovernmentOrganization":"fa-institution", "Group":"fa-group", "":"fa-dollar"};
-	var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>
+	var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>;
+	var mapText ;
 
 	function getDataFile(){
 		console.log("getDataFile");
@@ -242,6 +243,7 @@
 		});
 		firstNode['children']=firstNodeChildren;
 		console.log("firstNode", firstNode);
+		mapText = firstNode;
 		return firstNode;
 	}
 
