@@ -3,6 +3,9 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.pulsate/jquery.pulsate.min.js' , CClientScript::POS_END);
 ?>
 
+
+<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
+
 <style type="text/css">
 	.panel-tools{
 		filter: alpha(opacity=1);
