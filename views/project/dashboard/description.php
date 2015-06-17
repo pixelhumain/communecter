@@ -104,16 +104,6 @@ function bindAboutPodProjects() {
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
-    	success: function(response, newValue) {
-	    	console.log(response);
-	    	console.log(newValue);
-	    	// userModel.set('username', newValue);
-	    	return newValue;
-        if(response.status == 'error') return newValue; //msg will be shown in editable form
-    },
-    display: function(value) {
-      $(this).text(value + '$');
-    } 
 	});
     //make jobTitle required
 	$('#name').editable('option', 'validate', function(v) {
