@@ -6,6 +6,7 @@
 			
 			this.Sig = new Array();
 			
+			this.Sig.map = null;
 			this.Sig.markersLayer = "";
 			
 			this.Sig.geoJsonCollection = "";
@@ -58,8 +59,9 @@
 		
 				var markerOptions = { icon : options.icon };
 		
-				var marker = L.marker(coordinates, markerOptions).addTo(thisMap)
-																 .bindPopup(contentString);
+				var marker = L.marker(coordinates, markerOptions)
+								.addTo(thisMap)
+								.bindPopup(contentString);
 				
 				this.markerSingleList.push(marker);
 				
@@ -427,6 +429,7 @@
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
+		this.Sig = this.getSigFindPlace(this.Sig);
 			
 		return this.Sig;	
 	};

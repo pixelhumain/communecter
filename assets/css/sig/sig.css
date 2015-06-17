@@ -237,8 +237,28 @@
 .btn-full-screen{
 	margin-right:150px;
 }
-
-
+.btn-map-separator{
+	padding:1px !important;
+	background: transparent !important;
+}
+input.input-search-place-in-map{
+	float: left;
+    padding: 16px !important;
+    margin: 0px 2px !important;
+    margin-left:1px !important;
+    width:220px !important;
+}
+#dropdown-find-place{
+	width: 90% !important;
+	margin-top: -2px;
+	border: 0px none;
+	border-radius: 0px;
+	margin-left: 2px;
+	float:right !important;
+}
+#list-dropdown-find-place{
+	border-radius:0px;
+}
  /* legende / panel */
  
  .panel_map{

@@ -1,6 +1,6 @@
 	
 	/**
-	***		RIGHT LIST MAP ELEMENT
+	***		INITIALIZER
 	***/
 		
 	SigLoader.getSigInitializer = function (Sig){ 
@@ -14,6 +14,9 @@
 	    	//memorise les paramètres dans une variable globale de l'instance SIG
 	    	thisSig.initParmerters = params;
 	    	
+	    	//memorise la carte
+	    	thisSig.map = thisMap;
+
 	    	//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.cssModuleName = ".sigModule" + params.sigKey;
 			
@@ -35,6 +38,8 @@
 											"organizations" : { ico : "circle", color : "blue" 		},
 											"citoyens" 		: { ico : "circle", color : "yellow" 	},
 											"events" 		: { ico : "circle", color : "yellow" 	},
+											
+											"markerPlace" 	: { ico : "map-marker", color : "red" 	},
 											
 									  };
 			
@@ -63,9 +68,9 @@
 			
 			if(params.useFullScreen){
 				//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
-				$( window ).resize(function() {
-				  thisSig.setFullScreen();
-				});
+				//$( window ).resize(function() {
+				  //thisSig.setFullScreen();
+				//});
 				thisSig.setFullScreen();
 			}
 			
@@ -85,6 +90,8 @@
 					thisSig.changeFilter('all', thisMap);
 				});
 			}
+
+			this.initFindPlace();
 			
 		};
 		
@@ -126,6 +133,8 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 	 	
+	 	
+
 		return Sig;
 	};
 		

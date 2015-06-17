@@ -38,12 +38,25 @@
 		</div>
 	<?php } ?>
 	
-	<?php if($sigParams['useZoomButton']){ ?>
 		<div class="btn-group btn-group-lg btn-group-map">
-			<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
-			<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+			<button type="button" class="btn btn-map-separator"></button>
+			<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
+			<button type="button" class="btn btn-map-separator"></button>
+			<?php if($sigParams['useZoomButton']){ ?>
+				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
+				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+			<?php } ?>
+			<button type="button" class="btn btn-map-separator"></button>
+			<button type="button" class="btn btn-map" id="btn-find-place"><i class="fa fa-map-marker"></i></button>
+			<input type="text" class="input-search-place-in-map" id="txt-find-place" placeholder="rechercher une ville">
+			<br/>
+			<div class="dropdown pull-left" id="dropdown-find-place">
+                 <a href="#" id="btn-dropdown-find-place" data-toggle="dropdown" class="dropdown-toggle"></a>
+                 <ul id="list-dropdown-find-place" class="dropdown-menu" style=" width:100%;" role="menu" aria-labelledby="dropdown-find-place">
+                 </ul>
+            </div>
+			
 		</div>
-	<?php } ?>
 	
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">
