@@ -63,6 +63,10 @@
 
 var contextMap = {};
 contextMap = <?php echo json_encode($person) ?>;
+contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
+contextMap["events"] = <?php echo json_encode($events) ?>;
+contextMap["projects"] = <?php echo json_encode($projects) ?>;
+contextMap["people"] = <?php echo json_encode($people) ?>;
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;

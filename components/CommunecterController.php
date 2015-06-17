@@ -183,6 +183,7 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
 	  "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
 	  "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
+	  "updatefield"=>array("href"=>"/ph/communecter/project/updatefield"),
     ),
 
     "job"=> array(
