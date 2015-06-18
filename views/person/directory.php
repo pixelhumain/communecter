@@ -1,10 +1,10 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> My <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="btn btn-xs btn-default">Organizations</a> 
-																				<a href="javascript:;" onclick="applyStateFilter('person')" class="btn btn-xs btn-default">People</a>  
-																				<a href="javascript:;" onclick="applyStateFilter('event')" class="btn btn-xs btn-default">Events</a> 
-																				<a href="javascript:;" onclick="applyStateFilter('project')" class="btn btn-xs btn-default">Projects</a>
-																				<a href="javascript:;" onclick="applyStateFilter('')" class="btn btn-xs btn-default">All</a></h4>
+		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> My <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count($organizations) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('person')" class="btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count($people) ?></span></a>  
+																				<a href="javascript:;" onclick="applyStateFilter('event')" class="btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count($events) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('project')" class="btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count($projects) ?></span></a>
+																				<a href="javascript:;" onclick="applyStateFilter('')" class="btn btn-xs btn-default"> All</a></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( Yii::app()->session["userId"] ) { ?>
@@ -32,7 +32,7 @@
 					<?php 
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
-					
+
 					/* **************************************
 					*	ORGANIZATIONS
 					***************************************** */
@@ -41,7 +41,7 @@
 						foreach ($organizations as $e) 
 						{ ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="<?php echo Organization::COLLECTION;?>Line">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
@@ -76,7 +76,7 @@
 						foreach ($people as $e) 
 						{ ?>
 						<tr id="<?php echo Person::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="<?php echo Person::COLLECTION;?>Line">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
@@ -100,7 +100,7 @@
 							</td>
 						</tr>
 					<?php
-						};
+						}
 					}
 
 					/* **************************************
@@ -111,7 +111,7 @@
 						foreach ($events as $e) 
 						{ ?>
 						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="<?php echo Event::COLLECTION;?>Line">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
@@ -135,18 +135,18 @@
 							</td>
 						</tr>
 					<?php
-						};
+						}
 					}
 	
 					/* **************************************
 					*	PROJECTS
 					***************************************** */
-					if(isset($projects)) 
+					if( isset($projects) ) 
 					{ 
 						foreach ($projects as $e) 
 						{ ?>
-						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+						<tr id="<?php echo Project::COLLECTION.(string)$e["_id"];?>">
+							<td class="<?php echo Project::COLLECTION;?>Line">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
@@ -155,8 +155,8 @@
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<td ><?php 
+							<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td><?php 
 								if(isset($e["tags"])){
 									foreach ($e["tags"] as $key => $value) {
 										echo ' <span class="label label-inverse">'.$value.'</span>';
@@ -170,7 +170,7 @@
 							</td>
 						</tr>
 					<?php
-						};
+						}
 					}
 					?>
 
