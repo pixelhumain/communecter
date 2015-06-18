@@ -171,7 +171,7 @@ class CommunecterController extends Controller
       "dashboard"=>array("href"=>"/ph/communecter/event/dashboard"),
       "delete" => array("href" => "ph/communecter/event/delete"),
       "updatefield" => array("href" => "ph/communecter/event/updatefield"),
-      "calendarview" => array("href" => "ph/granddir/event/calendarview"),
+      "calendarview" => array("href" => "ph/communecter/event/calendarview"),
       "eventsv" => array("href" => "ph/communecter/event/eventsv"),
     ),
 
