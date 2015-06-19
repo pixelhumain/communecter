@@ -62,104 +62,101 @@
 	    </ul>
 	</div>
 	<div class="panel-body" style="padding-top: 0px">
-		<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
-			<?php 
-				$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
-																  "type" => Person::COLLECTION,
-																  "resize" => "false",
-																  "contentId" => Document::IMG_PROFIL,
-																  "show" => true,
-																  "editMode" => $canEdit )); 
-			?>
-		</div>
-		<form action="#" role="form" id="personForm" enctype="multipart/form-data">
-			<div class="row" style="height: 190px">
-				
-				<div class="col-sm-7 col-xs-7">
-					<div class="padding-10">
-						<h2>
-							<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-								<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
-							</a>
-						</h2>
-						<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable-person editable editable-click required">
-							<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>
-						</a>
-						<br>
-						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
-							<?php echo (isset($person["email"])) ? $person["email"] : null; ?>
-						</a>
-						<br>
-						<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
-							<?php echo (isset( $person["address"]["streetAddress"])) ? $person["address"]["streetAddress"] : null; ?>
-						</a>
-						<br>
-						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
-						</a>
-						<br>
-						<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
-						</a>
-						<br>
-						<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
-							<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
-						</a>
-						<br>
-					</div>
-				</div>
+		<div class="row" style="height: 190px">
+			<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
+				<?php 
+					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
+																	  "type" => Person::COLLECTION,
+																	  "resize" => "false",
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "show" => true,
+																	  "editMode" => $canEdit )); 
+				?>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<a href="#" id="facebookAccount" data-type="text" data-original-title="" class="editable editable-click socialIcon">
-						<?php if (isset($person["socialNetwork"]["facebookAccount"])) echo $person["socialNetwork"]["facebookAccount"]; else echo ""; ?>
-					<i class="fa fa-facebook fa-2x"></i></a>
-					<a href="#" id="twitterAccount" data-type="text" data-original-title="" class="editable-person editable editable-click socialIcon">
-						<?php if (isset($person["socialNetwork"]["twitterAccount"])) echo $person["socialNetwork"]["twitterAccount"]; else echo ""; ?>
-					<i class="fa fa-twitter fa-2x"></i></a>
-					<a href="#" id="gpplusAccount" data-type="text" data-original-title="" class="editable-person editable editable-click socialIcon">
-						<?php if (isset($person["socialNetwork"]["gpplusAccount"])) echo $person["socialNetwork"]["gpplusAccount"]; else echo ""; ?>
-					<i class="fa fa-google-plus fa-2x"></i> </a>
-					<a href="#" id="gitHubAccount" data-type="text" data-original-title="" class="editable-person editable editable-click socialIcon">
-						<?php if (isset($person["socialNetwork"]["gitHubAccount"])) echo $person["socialNetwork"]["gitHubAccount"]; else echo ""; ?>
-					<i class="fa fa-github fa-2x"></i></a>
-					<a href="#" id="skypeAccount" data-type="text" data-original-title="" class="editable-person editable editable-click socialIcon">
-						<?php if (isset($person["socialNetwork"]["skypeAccount"])) echo $person["socialNetwork"]["skypeAccount"]; else echo ""; ?>
-					<i class="fa fa-skype fa-2x"></i></a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 border-light" style="border-width: 1px">
-					Description
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-						<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
+			<div class="col-sm-7 col-xs-7">
+				<div class="padding-10">
+					<h2>
+						<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
+							<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
+						</a>
+					</h2>
+					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="control-label">
-							Tags : 
-						</label>
-						
-						<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
-							<?php if(isset($person["tags"]))echo implode(",", $person["tags"]); else echo "";?>
-						</a>
-					</div>	
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div>
-						<?php
-						//if connected user and pageUser are allready connected
-						$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
-	    				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
-						{  ?>
-							<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
-						<?php } ?>
-						<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
-					</div>
+					<br>
+					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
+						<?php echo (isset($person["email"])) ? $person["email"] : null; ?>
+					</a>
+					<br>
+					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
+						<?php echo (isset( $person["address"]["streetAddress"])) ? $person["address"]["streetAddress"] : null; ?>
+					</a>
+					<br>
+					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
+					</a>
+					<br>
+					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
+					</a>
+					<br>
+					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
+						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
+					</a>
+					<br>
 				</div>
 			</div>
-		</form>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				Socials
+				<a href="#" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+					<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
+				</a>
+				<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+					<?php if (isset($person["socialNetwork"]["skype"])) echo $person["socialNetwork"]["skype"]; else echo ""; ?>
+				</a>
+				<a href="#" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+					<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo ""; ?>
+				</a>
+				<a href="#" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+					<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo ""; ?>
+				</a>
+				<a href="#" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+					<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 border-light" style="border-width: 1px">
+				Description
+				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
+					<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
+				</a>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="control-label">
+						Tags : 
+					</label>
+					
+					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
+						<?php if(isset($person["tags"]))echo implode(",", $person["tags"]); else echo "";?>
+					</a>
+				</div>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div>
+					<?php
+					//if connected user and pageUser are allready connected
+					$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+    				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+					{  ?>
+						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+					<?php } ?>
+					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -168,7 +165,8 @@ var personData = <?php echo json_encode($person)?>;
 var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
 var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 var countries = <?php echo json_encode($countries) ?>;
-
+var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
+var temp;
 //By default : view mode
 var mode = "view";
 
@@ -235,8 +233,9 @@ function initXEditable() {
 	$('.socialIcon').editable({
 		display: function(value) {
 			manageSocialNetwork($(this), value);
-			$(this).empty();
-		}
+		},
+		url: baseUrl+"/"+moduleId+"/person/updatefield",
+		mode: 'popup'
 	})
 
     //make jobTitle required
@@ -256,12 +255,26 @@ function initXEditable() {
     }); 
 
     $('#addressCountry').editable({
-			url: baseUrl+"/"+moduleId+"/person/updatefield", 
-			value: '<?php echo (isset( $person["address"]["addressCountry"])) ? $person["address"]["addressCountry"] : ""; ?>',
-			source: function() {
-				return countries;
-			},
-		});
+		url: baseUrl+"/"+moduleId+"/person/updatefield",
+		showbuttons: false, 
+		value: '<?php echo (isset( $person["address"]["addressCountry"])) ? $person["address"]["addressCountry"] : ""; ?>',
+		source: function() {
+			return countries;
+		},
+	});
+
+	$('#birthDate').editable({
+		url: baseUrl+"/"+moduleId+"/person/updatefield", 
+		mode: 'popup',
+		placement: "right",
+		format: 'yyyy-mm-dd',   
+    	viewformat: 'dd/mm/yyyy',
+    	datepicker: {
+            weekStart: 1,
+        },
+        showbuttons: true
+	});
+	$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
 
 	$('#address').editable({
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
@@ -278,7 +291,8 @@ function initXEditable() {
 }
 
 function manageModeContext() {
-	listXeditables = ['#description', '#tags', '#address', '#addressCountry', '#facebookAccount'];
+	listXeditables = [	'#birthDate', '#description', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+						'#gpplusAccount', '#gitHubAccount', '#skypeAccount'];
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -307,7 +321,17 @@ function switchMode() {
 }
 
 function manageSocialNetwork(iconObject, value) {
-	console.log("value :"+value);
+	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
+			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype"}
+
+	var fa = tabId2Icon[iconObject.attr("id")];
+	console.log(value);
+	iconObject.empty();
+	if (value != "") {
+		iconObject.tooltip({title: value, placement: "top"});
+		iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+	} 
+	console.log(iconObject);
 }
 
 </script>
