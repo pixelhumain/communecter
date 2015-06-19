@@ -1,34 +1,163 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 
 ?>
+
+<div class="pull-right" style="padding:20px;">
+	<a href="#" onclick="showMenu()">
+		<i class="menuBtn fa fa-bars fa-3x text-white "></i>
+	</a>
+</div>
+<script type="text/javascript">
+	var  activePanel = "box-login";
+	var  bgcolorClass = "bgblack";
+	function showMenu(box){
+		if($(".menuBtn").hasClass("fa-times"))
+		{
+			$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
+			if(box == "box-login" || box == "box-forget" || box == "box-register" ){
+				$(".byPHRight").fadeIn();
+				$("body.login").removeClass("bgblack").addClass("bgCity");
+			}
+			else{
+				bgcolorClass = "bgblack";
+				if(box == "box-whatisit" || box == "box-when" )
+					bgcolorClass = "bgred";
+				else if(box == "box-why" || box == "box-how" )
+					bgcolorClass = "bggreen";
+				else if(box == "box-4who" || box == "box-where" )
+					bgcolorClass = "bgblue";
+					
+				$("body.login").removeClass("bgCity").addClass(bgcolorClass);
+			}
+
+			if(!box)
+				box = "box-login";
+			$('.box-menu').slideUp();
+			$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).show().removeClass("animated bounceInRight");
+			});
+			activePanel = box;
+		}
+		else 
+		{
+			$("body.login").removeClass(bgcolorClass).addClass("bgCity");
+			$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
+			$('.'+activePanel).hide();
+			$('.box-menu').slideDown();
+			$(".byPHRight").fadeOut();
+		}
+	}
+	function showVideo(id) { 
+		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
+		$('.box-menu').slideUp();
+		$.okvideo({ source: id,
+                    volume: 100,
+                    loop: false,
+                    //hd:true,
+                    //adproof: true,
+                    //annotations: false,
+                    onFinished: function() { showMenu("box-login") },
+                    /*unstarted: function() { console.log('unstarted') },
+                    onReady: function() { console.log('onready') },
+                    onPlay: function() { console.log('onplay') },
+                    onPause: function() { console.log('pause') },
+                    buffering: function() { console.log('buffering') },
+                    cued: function() { console.log('cued') },*/
+                 });
+	}
+</script>
+
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-		<div class="logo">
-			<img height="30" src="<?php echo $this->module->assetsUrl?>/images/COMMUNECTION.png"/>
-		</div>
+	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 168px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
-		<div class="box-login">
-			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<h3>Sign in to your account <?php echo Yii::app()->session['userId']?></h3>
-			<p>
-				Please enter your email and password to log in.
-			</p>
+
+		<div class="box-menu box">
+			<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
+				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('Mg165w7-bik')"><img  style="height:49px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
+				<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT IS IT</a></li>
+				<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
+				<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">FOR WHO</a></li>
+				<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how')">HOW</a></li>
+				<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when')">WHEN</a></li>
+				<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where')">WHERE</a></li>
+				<li style="margin-left:50px"><i class="fa fa-globe"></i> <a href="#" style="color:white" onclick="showMenu('box-login')">CONNECT</a></li>
+				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 70px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+			</ul>
+		</div>
+
+		<div class="box-whatisit box">
+			<h1><i class="fa fa-share-alt"></i> WHAT IS IT</h1>
+			<section>
+				a new way to live in society
+				<br/> together to make it better
+				<br/> It's sociatel network
+			</section>
+		</div>
+
+		<div class="box-why box">
+			<h1><i class="fa fa-heart"></i> WHY</h1>
+			<section>
+				Because We Love you
+			</section>
+		</div>
+
+		<div class="box-4who box">
+
+			<h1><i class="fa fa-group"></i> FOR WHO</h1>
+			<section>
+				For the people 
+				<br/> by the people 
+			</section>
+			<h1><i class="fa fa-group"></i> BY WHO</h1>
+			<section>
+				by builders , architects, thinkers, artists
+				connecters, inventors, travellers, makers
+			</section>
+		</div>
+
+		<div class="box-how box">
+			<h1><i class="fa fa-laptop"></i> HOW</h1>
+			<section>
+				Computer and people 
+				<br/>make a good mix 
+				<br/> Build Great Things
+			</section>
+		</div>
+
+		<div class="box-when box">
+			<h1><i class="fa fa-calendar"></i> WHEN</h1>
+			
+			<section>
+				If it's not 
+				<br/>now it's never
+			</section>
+		</div>
+
+		<div class="box-where box">
+			<h1><i class="fa fa-map-marker"></i> WHERE</h1>
+			<section>
+				Every where there are people 
+				<br/> with ideas
+				<br/> motivation to change
+			</section>
+		</div>
+
+		<div class="box-login box radius-20">
 			<form class="form-login" action="" method="POST">
-				<div class="errorHandler alert alert-danger no-display">
-					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-				</div>
-				<div class="errorHandler alert alert-danger no-display loginResult">
-					<i class="fa fa-remove-sign"></i> Please verify your entries.
-				</div>
-				<fieldset>
+				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+				<br/>
+				<fieldset style="padding-left:70px;padding-right:70px;">
 					<div class="form-group">
 						<span class="input-icon">		
-							<input type="text" class="form-control" name="email" id="email" placeholder="Email">
+							<input type="text" class="form-control radius-10" name="email" id="email" placeholder="Email" >
 							<i class="fa fa-user"></i> </span>
 					</div>
 					<div class="form-group form-actions">
@@ -40,11 +169,17 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 							</a> </span>
 					</div>
 					<div class="form-actions">
+						<div class="errorHandler alert alert-danger no-display">
+							<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+						</div>
+						<div class="errorHandler alert alert-danger no-display loginResult">
+							<i class="fa fa-remove-sign"></i> Please verify your entries.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
 						</label>
-						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="loginBtn ladda-button pull-right">
+						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button pull-right">
 							<span class="ladda-label">Login <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
@@ -56,59 +191,42 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 					</div>
 				</fieldset>
 			</form>
-			<!-- start: COPYRIGHT -->
-			<div class="copyright">
-				2014-2015  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
-			</div>
-			<!-- end: COPYRIGHT -->
 		</div>
 		<!-- end: LOGIN BOX -->
 		<!-- start: FORGOT BOX -->
-		<div class="box-forgot">
-			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<h3>Forget Password?</h3>
-			<p>
-				Enter your e-mail address below to get your password by email.
-			</p>
+		<div class="box-forgot box">
 			<form class="form-forgot">
-				<div class="errorHandler alert alert-danger no-display">
-					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-				</div>
-				<fieldset>
+				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+				<br/>
+				<fieldset style="padding-left:70px;padding-right:70px;">
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="email" class="form-control" id="email2" placeholder="Email">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
 					<div class="form-actions">
+						<div class="errorHandler alert alert-danger no-display">
+							<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+						</div>
 						<a class="btn btn-light-grey go-back">
 							<i class="fa fa-chevron-circle-left"></i> Log-In
 						</a>
-						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="forgotBtn ladda-button pull-right">
+						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="forgotBtn ladda-button pull-right">
 							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>
 			</form>
-			<!-- start: COPYRIGHT -->
-			<div class="copyright">
-				2014-2015  <?php echo (isset($this->projectImage)) ? '<img height="30" src="'.$this->module->assetsUrl.$this->projectImage.'"/>' : "<i class='fa fa-close'>/i>";?>
-			</div>
-			<!-- end: COPYRIGHT -->
 		</div>
 		<!-- end: FORGOT BOX -->
 		<!-- start: REGISTER BOX -->
-		<div class="box-register">
-			<img height="80" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logo.png"/>
-			<h3>Sign Up</h3>
-			<p>
-				Enter your personal details below:
-			</p>
+		<div class="box-register box">
+			
 			<form class="form-register">
-				<div class="errorHandler alert alert-danger no-display registerResult">
-					<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-				</div>
-				<fieldset>
+				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+				<br/>
+				
+				<fieldset style="padding-left:70px;padding-right:70px;">
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="text" class="form-control" id="name" name="name" placeholder="Prénom Nom : John Doe">
@@ -155,7 +273,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<a href="#" class="go-back">
 							Log-in
 						</a>
-						<button type="submit"  data-size="s" data-style="expand-right" data-color="blue" class="createBtn ladda-button pull-right">
+						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="createBtn ladda-button pull-right">
 							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
@@ -170,15 +288,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 	jQuery(document).ready(function() {
 		Main.init();
-		Login.init();
-		addCustomValidators();
-		//Bootbox
-		$('.bootbox-spp').on('click', function() {
-			bootbox.dialog({
-	             title: "Coming soon...",
-	             message: "A click here should show the Service and Privacy Policy",
-	         });
-		});
+		Login.init();		
 	});
 
 var timeout;
@@ -211,8 +321,8 @@ var Login = function() {
 			});
 			$('.box-forgot').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				$(this).show().removeClass("animated bounceInLeft");
-
 			});
+			activePanel = "box-forgot";
 		});
 		$('.register').on('click', function() {
 			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -223,13 +333,16 @@ var Login = function() {
 				$(this).show().removeClass("animated bounceInLeft");
 
 			});
+			activePanel = "box-register";
 		});
 		$('.go-back').click(function() {
 			var boxToShow;
 			if ($('.box-register').is(":visible")) {
 				boxToShow = $('.box-register');
+				activePanel = "box-register";
 			} else {
 				boxToShow = $('.box-forgot');
+				activePanel = "box-forgot";
 			}
 			boxToShow.addClass("animated bounceOutLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				boxToShow.hide().removeClass("animated bounceOutLeft");

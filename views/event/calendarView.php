@@ -1,3 +1,18 @@
+<?php
+
+  $cssAnsScriptFilesModule = array(
+	
+    //Full calendar
+    '/assets/plugins/moment/min/moment.min.js',
+    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+    '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
+    );
+
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+?>
+
 <style>
 
   #calendar{
@@ -58,6 +73,19 @@
   #sectionNextEvent{
   	clear:none;
   }
+
+  .fc-popover .fc-content{
+  	color:#ccc;
+  }
+
+  .fc-content{
+  	cursor: pointer;
+  }
+
+  .fc button{
+	height: 3em;
+}
+
 </style>
 
 
@@ -105,59 +133,19 @@
       showCalendar();
       initLastsEvents();
 
-      $(window).on('resize', function(){
+      	$(window).on('resize', function(){
 			$('#calendar').fullCalendar('destroy');
 			showCalendar();
 			initLastsEvents();
+			
 		});
-      $(".fc-button").on("click", function(e){
+      	$(".fc-button").on("click", function(e){
       		setCategoryColor(tabOrganiser);
-      })
+     
+     	})
+      
   })
 
-
-  // creates an array of events to display in the calendar
-var setCalendarEvents = function() {
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-  calendar = [
-    {
-      title : 'Networking',
-      start : new Date(y, m, d, 20, 0),
-      end : new Date(y, m, d, 21, 0),
-      className: 'event-job',
-            category: 'Job',
-      allDay : false,
-      content : 'Out to design conference'
-    }, 
-    {
-        title: 'Bootstrap Seminar',
-        start: new Date(y, m, d - 5),
-        end: new Date(y, m, d - 2),
-        className: 'event-offsite',
-        category: 'Off-site work',
-        allDay: true
-    }, 
-    {
-        title: 'Lunch with Nicole',
-        start: new Date(y, m, d - 3, 12, 0),
-        end: new Date(y, m, d - 3, 12, 30),
-        className: 'event-generic',
-        category: 'Generic',
-        allDay: false
-    }, 
-    {
-        title: 'Corporate Website Redesign',
-        start: new Date(y, m, d + 5),
-        end: new Date(y, m, d + 10),
-        className: 'event-todo',
-        category: 'To Do',
-        allDay: true
-    }];
-
-};
 //creates fullCalendar
 function buildCalObj(eventObj)
 {
@@ -240,20 +228,21 @@ function showCalendar() {
     });
   }
  
-  
-
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
 		left : 'prev,next',
 		center : 'title',
-		right : 'today, month,agendaWeek,agendaDay'
+		right : 'today, month, agendaWeek, agendaDay'
     },
+    lang : 'fr',
     year : dateToShow.getFullYear(),
     month : dateToShow.getMonth(),
     date : dateToShow.getDate(),
-    editable : true,
+    editable : false,
     events : calendar,
+    eventLimit: true,
+
 
     eventClick : function(calEvent, jsEvent, view) {
       //show event in subview
@@ -266,32 +255,11 @@ function showCalendar() {
   dateToShow = new Date();
 };
 
-function convertDate(date, num){
-  var dateTab = date.split("-");
-  //console.log(dateTab, dateTab[num]);
-  var hour = dateTab[num].split(" ")[1+num];
-  var hourRes ="";
-  var hourUnit = dateTab[num].split(" ")[2+num];
-  //console.log(hourUnit);
-  if(hourUnit = "PM"){
-    hours = hour.split(":");
-    var newhour = parseInt(hours[0])+12;
-    if(newhour==24){
-      newhour = 00;
-    }
-    hourRes = newhour+":"+hours[1];
-  }else{
-    hourRes = hour;
-  }
-  //console.log(hourRes);
-  return dateTab[num].split(" ")[0+num]+" "+hourRes;
-}
-
   function getLastsEvent(events){
     var today = new Date();
     var eventsSelected = [];
     $.each(events, function(k,v){
-      console.log("eventsSelected", eventsSelected, "v", v);
+      console.log("current event : ", v);
       
       var date = null;
       if("undefined" != typeof v.endDate && v.endDate.split("-")[2]){
@@ -380,7 +348,6 @@ function convertDate(date, num){
     $("#lastEvent").html(htmlRes);
   }
   
-
   function getStringPeriodValue(d, f){
     var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MAI", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
     var strPeriod = "";
@@ -399,33 +366,32 @@ function convertDate(date, num){
       fTab.push(fDay[i]);
     }
     
-    if(dTab[2] == fTab[2]){
+    if(dTab[0] == fTab[0]){
       if(dTab[1] == fTab[1]){
-        if(dTab[0]== fTab[0]){
-          strPeriod += parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2]+"<br><h4> de "+dHour+" à "+fHour+"</h4>";
+        if(dTab[2]== fTab[2]){
+          strPeriod += parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0]+"<br><h4> de "+dHour+" à "+fHour+"</h4>";
         }else{
-          strPeriod += parseInt(dTab[0])+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+          strPeriod += parseInt(dTab[2])+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
         }
       }else{
-        strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+        strPeriod += parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
       }
     }else{
-      strPeriod += parseInt(dTab[0])+" "+mapMonth[dTab[1]]+" "+dTab[2]+" au "+ parseInt(fTab[0])+" "+mapMonth[fTab[1]]+" "+fTab[2];
+      strPeriod += parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" "+dTab[0]+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
     }
     return strPeriod;
   }
 
 
 	function setCategoryColor(tab){
-		$(".fc-event-inner").css("color", "white");
-	  	$(".fc-event-inner").css("background-color", "black");
+		$(".fc-content").css("color", "white");
+	  	$(".fc-content").css("background-color", "black");
 	  	for(var i =0; i<tab.length; i++){
-	  		$("."+tab[i]+" .fc-event-inner").css("color", "white");
-	  		$("."+tab[i]+" .fc-event-inner").css("background-color", templateColor[i]);
+	  		$("."+tab[i]+" .fc-content").css("color", "white");
+	  		$("."+tab[i]+" .fc-content").css("background-color", templateColor[i]);
 
 	  	}
 	}
-
 
 	function getRandomColor() {
 	    var letters = '0123456789ABCDEF'.split('');

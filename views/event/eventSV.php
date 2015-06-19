@@ -82,7 +82,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<select class="form-control selectpicker event-categories">
-							<?php if(isset($lists)){
+							<?php if(isset($lists) && isset($lists["eventTypes"])) {
 								foreach ($lists["eventTypes"] as $key => $value) { ?>
 									<option data-content="<span class='event-category event-home'><?php echo $value ?></span>" value="<?php echo $key; ?>"><?php echo $value ?></option>
 							<?php }
@@ -147,7 +147,7 @@
 	var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
 	var parentOrga = [];
 	var defaultHours;
-	var list = <?php echo json_encode($lists) ?>;
+
 
 	if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
@@ -206,11 +206,6 @@
 	   			$("#iconeChargement").css("visibility", "visible");
 	   			runShowCity(searchValue);
 	   		}, 100);
-	   		
-			/*clearTimeout(timeout);
-			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
-			clearTimeout(timeout);
-			timeout = setTimeout('runShowCity("'+searchValue+'")', 100); */
 		} else {
 			$("#cityDiv").slideUp("medium");
 			$("#city").val("");
@@ -296,8 +291,8 @@
 				successHandler2.show();
 				errorHandler2.hide();
 
-				var startDateSubmit = new Date($(".form-event .event-start-date").val()).toLocaleFormat('%Y/%m/%d %H:%M');
-				var endDateSubmit = new Date($(".form-event .event-end-date").val()).toLocaleFormat('%Y/%m/%d %H:%M');
+				var startDateSubmit = moment($(".form-event .event-start-date").val()).format('YYYY/MM/DD HH:mm');
+				var endDateSubmit = moment($(".form-event .event-end-date").val()).format('YYYY/MM/DD HH:mm');
 
 				newEvent = new Object;
 				newEvent.allDay = $(".form-event .all-day").bootstrapSwitch('state');
@@ -382,7 +377,6 @@
 				format: 'DD/MM/YYYY HH:mm'
 			},
 			function(start, end, label) {
-    			alert("A new date range was chosen: " + start.toString() + ' to ' + end.toString());
     			$(".form-event .event-start-date").val(start);
 				$(".form-event .event-end-date").val(end);
 			}
@@ -395,7 +389,6 @@
 				format: 'DD/MM/YYYY'
 			},
 			function(start, end, label) {
-    			alert("A new date range was chosen: " + start.toString() + ' to ' + end.toString());
     			$(".form-event .event-start-date").val(start);
 				$(".form-event .event-end-date").val(end);
 			}
@@ -413,21 +406,19 @@
 
 		$('.form-event .all-day').on('switchChange.bootstrapSwitch', function(event, state) {
 			$(".daterangepicker").hide();
-			var startDate = new Date($("#newEvent").find(".event-start-date").val());
-			var endDate = new Date($("#newEvent").find(".event-end-date").val());
+			var startDate = moment($("#newEvent").find(".event-start-date").val());
+			var endDate = moment($("#newEvent").find(".event-end-date").val());
 			console.log(startDate, endDate);
 			if (state) {
-				console.log("ici");
 				$("#newEvent").find(".no-all-day-range").hide();
 				$("#newEvent").find(".all-day-range").show();
-				$("#newEvent").find('.all-day-range .event-range-date').val(startDate.toLocaleFormat('%d/%m/%Y') + ' - ' + endDate.toLocaleFormat('%d/%m/%Y'));
+				$("#newEvent").find('.all-day-range .event-range-date').val(startDate.format('DD/MM/YYYY') + ' - ' + endDate.format('DD/MM/YYYY'));
 				$("#newEvent").find('.all-day-range .event-range-date').data('daterangepicker').setStartDate(startDate);
 				$("#newEvent").find('.all-day-range .event-range-date').data('daterangepicker').setEndDate(endDate);
 			} else {
-				console.log("la");
 				$("#newEvent").find(".no-all-day-range").show();
 				$("#newEvent").find(".all-day-range").hide();
-				$("#newEvent").find('.no-all-day-range .event-range-date').val(startDate.toLocaleFormat('%d/%m/%Y %H:%M') + ' - ' + endDate.toLocaleFormat('%d/%m/%Y %H:%M'));
+				$("#newEvent").find('.no-all-day-range .event-range-date').val(startDate.format('DD/MM/YYYY HH:mm') + ' - ' + endDate.format('DD/MM/YYYY HH:mm'));
 				$("#newEvent").find('.no-all-day-range .event-range-date').data('daterangepicker').setStartDate(startDate);			
 				$("#newEvent").find('.no-all-day-range .event-range-date').data('daterangepicker').setEndDate(endDate);	
 			}
