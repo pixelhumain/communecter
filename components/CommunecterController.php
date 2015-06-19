@@ -146,6 +146,7 @@ class CommunecterController extends Controller
       "initdatapeopleall"=>array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "importmydata"=>array("href" =>"'/ph/communecter/person/importmydata'"),
       "about" =>array("href"=>"/person/about"),
+      "tags" =>array("href"=>"/person/tags"),
       "directory" => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
