@@ -86,7 +86,7 @@
 
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
-			
+
 			if($("."+contentId+"_isSubmit").val()== "true"){
 				setTimeout(function(){
 					if(resize){

@@ -62,17 +62,19 @@
 	    </ul>
 	</div>
 	<div class="panel-body" style="padding-top: 0px">
+		<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
+			<?php 
+				$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
+																  "type" => Person::COLLECTION,
+																  "resize" => "false",
+																  "contentId" => Document::IMG_PROFIL,
+																  "show" => true,
+																  "editMode" => $canEdit )); 
+			?>
+		</div>
 		<form action="#" role="form" id="personForm" enctype="multipart/form-data">
 			<div class="row" style="height: 190px">
-				<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
-					<?php 
-						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
-																		  "type" => Person::COLLECTION,
-																		  "resize" => "false",
-																		  "contentId" => Document::IMG_PROFIL,
-																		  "editMode" => $canEdit )); 
-					?>
-				</div>
+				
 				<div class="col-sm-7 col-xs-7">
 					<div class="padding-10">
 						<h2>
