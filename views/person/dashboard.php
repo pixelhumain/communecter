@@ -45,7 +45,7 @@
 	</div>
 
 	<div class="col-lg-4 col-md-4">
-		<?php $this->renderPartial('dashboard/about', array("person" => $person, "tags" => $tags )); ?>
+		<?php $this->renderPartial('dashboard/profil', array("person" => $person, "tags" => $tags, "countries" => $countries )); ?>
 	</div>
 
 	<div class="col-lg-4 col-md-4 shareAgendaPod">
