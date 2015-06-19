@@ -58,7 +58,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
 		$('.box-menu').slideUp();
 		$.okvideo({ source: id,
-                    volume: 100,
+                    volume: 0,
                     loop: false,
                     //hd:true,
                     //adproof: true,
