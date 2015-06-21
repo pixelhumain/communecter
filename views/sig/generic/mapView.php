@@ -48,13 +48,22 @@
 			<?php } ?>
 			<button type="button" class="btn btn-map-separator"></button>
 			<button type="button" class="btn btn-map" id="btn-find-place"><i class="fa fa-map-marker"></i></button>
-			<input type="text" class="input-search-place-in-map" id="txt-find-place" placeholder="rechercher une ville">
-			<br/>
-			<div class="dropdown pull-left" id="dropdown-find-place">
-                 <a href="#" id="btn-dropdown-find-place" data-toggle="dropdown" class="dropdown-toggle"></a>
-                 <ul id="list-dropdown-find-place" class="dropdown-menu" style=" width:100%;" role="menu" aria-labelledby="dropdown-find-place">
-                 </ul>
-            </div>
+				<br/>
+			<div class="dropdown-input-search-place" class="pull-right">
+				<!-- 91 Rue Maurice Herzog
+						Noumea 98800
+						Nouvelle-Calédonie -->
+			    <input value="91" type="text" class="input-search-place-in-map input-2s" 				 id="txt-num-place" 	placeholder="n°" 	style="margin-top:2px;">
+				<input value="Rue Maurice Herzog" type="text" class="input-search-place-in-map input-2s" 				 id="txt-street-place" 	placeholder="rue" 	style="margin-top:2px;"><br/>
+				<input value="Noumea" type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-city-place" 	placeholder="ville">
+				<input value="98800" type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-cp-place" 		placeholder="code postal"><br/>
+				<input value="Nouvelle-Calédonie" type="text" class="input-search-place-in-map txt-find-place" 		 id="txt-state-place" 	placeholder="pays"><br/>
+				<div class="dropdown pull-left" id="dropdown-find-place">
+	                 <a href="#" id="btn-dropdown-find-place" data-toggle="dropdown" class="dropdown-toggle"></a>
+	                 <ul id="list-dropdown-find-place" class="dropdown-menu" style=" width:100%;" role="menu" aria-labelledby="dropdown-find-place">
+	                 </ul>
+	            </div>
+	        </div>
 			
 		</div>
 	

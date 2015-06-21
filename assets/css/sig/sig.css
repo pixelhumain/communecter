@@ -241,22 +241,42 @@
 	padding:1px !important;
 	background: transparent !important;
 }
-input.input-search-place-in-map{
-	float: left;
-    padding: 16px !important;
-    margin: 0px 2px !important;
-    margin-left:1px !important;
-    width:220px !important;
+
+
+.dropdown-input-search-place{
+	width: 215px;
+	margin-left:2px;
 }
-#dropdown-find-place{
-	width: 90% !important;
+.dropdown-input-search-place input.input-search-place-in-map{
+	float: left;
+	padding: 13px !important;
+	width: 214px;
+	border-color: rgba(255, 255, 255, 0.07) !important;
+	margin: 0px !important;
+	border-width: 2px;
+	border-style: solid;
+	background-color: rgba(31, 29, 39, 0.69) !important;
+	color: #FCFF70;
+}
+.dropdown-input-search-place input.input-search-place-in-map.input-2s{
+	width: 107px !important;
+}
+.dropdown-input-search-place input:focus{
+	background-color: rgba(31, 29, 39, 0.69) !important;
+    background-image: none;
+    background: rgba(31, 29, 39, 0.69) !important;
+	color: #000 !important;
+}
+
+.dropdown-input-search-place #dropdown-find-place{
+	width: 300px !important;
 	margin-top: -2px;
 	border: 0px none;
 	border-radius: 0px;
 	margin-left: 2px;
 	float:right !important;
 }
-#list-dropdown-find-place{
+.dropdown-input-search-place #list-dropdown-find-place{
 	border-radius:0px;
 }
  /* legende / panel */
