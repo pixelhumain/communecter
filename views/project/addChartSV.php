@@ -1,5 +1,19 @@
 <?php 
+$cssAnsScriptFilesTheme = array(
+//Select2
 
+	//autosize
+	//Select2
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
+	//autosize
+	'/assets/plugins/autosize/jquery.autosize.min.js',
+
+	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
+	//'/assets/js/ui-sliders.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <style>
 #editProjectChart{
@@ -17,33 +31,33 @@
 						Degré d'ouverture du projet (0% = très fermé, 100% = très ouvert)			
 					</label>
 					<div class="col-md-12">
-								<div class="col-md-4">
-										<h4 style="text-align:center;width:200px;">Gouvernance</h4>
-										<input class="knob project-gouvernance" name="gouvernancePropertiesProject" value="35" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-								<div class="col-md-4">
-									<h4 style="text-align:center;width:200px;">Partage</h4>
-									<input class="knob project-partage" value="35" name="partagePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-								<div class="col-md-4">
-									<h4 style="text-align:center;width:200px;">Solidaire</h4>
-									<input class="knob project-solidaire" value="35" name="solidairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-								<div class="col-md-4">
-									<h4 style="text-align:center;width:200px;">Local</h4>
-									<input class="knob project-local" value="35" name="localPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-								<div class="col-md-4">
-									<h4 style="text-align:center;width:200px;">Avancement</h4>
-									<input class="knob project-avancement" value="35" name="avancementPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-								<div class="col-md-4">
-									<h4 style="text-align:center;width:200px;">Partenaire</h4>
-									<input class="knob project-partenaire" value="35" name="partenairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								</div>
-							</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Gouvernance</h4>
+							<input class="knob project-gouvernance" name="gouvernancePropertiesProject" value="<?php if (!empty($properties["gouvernance"])) echo $properties["gouvernance"]; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Partage</h4>
+							<input class="knob project-partage" value="<?php if (!empty($properties["partage"])) echo $properties["partage"]; else echo 0;?>" name="partagePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Solidaire</h4>
+							<input class="knob project-solidaire" value="<?php if (!empty($properties["solidaire"])) echo $properties["solidaire"]; else echo 0;?>" name="solidairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Local</h4>
+							<input class="knob project-local" value="<?php if (!empty($properties["local"])) echo $properties["local"]; else echo 0;?>" name="localPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Avancement</h4>
+							<input class="knob project-avancement" value="<?php if (!empty($properties["avancement"])) echo $properties["avancement"]; else echo 0;?>" name="avancementPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;">Partenaire</h4>
+							<input class="knob project-partenaire" value="<?php if (!empty($properties["partenaire"])) echo $properties["partenaire"]; else echo 0;?>" name="partenairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+						</div>
+					</div>
 				</div>
-				<div class="form-group">
+				<div class="">
 					<div class="row">
 		    	        <button class="btn btn-primary" >Enregistrer</button>
 					</div>

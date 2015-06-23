@@ -17,6 +17,9 @@
 	<div class ="col-lg-4 col-md-12">
 		 <?php $this->renderPartial('dashboard/list',array()); ?>
 	</div>
+	<div class ="col-lg-12 col-md-12">
+		 <?php $this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"])); ?>
+	</div>
 
 </div>
 <script type="text/javascript">
