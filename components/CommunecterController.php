@@ -48,7 +48,7 @@ class CommunecterController extends Controller
     array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),*/
   );
 
-
+  public $toolbarMBZ = null;
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
