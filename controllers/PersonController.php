@@ -32,21 +32,21 @@ class PersonController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'index'       	=> 'citizenToolKit.controllers.person.IndexAction',
+	        'index'       => 'citizenToolKit.controllers.person.IndexAction',
 	        'login'     	=> 'citizenToolKit.controllers.person.LoginAction',
 	        'logout'     	=> 'citizenToolKit.controllers.person.LogoutAction',
-	        'authenticate'  => 'citizenToolKit.controllers.person.AuthenticateAction',
+	        'authenticate'=> 'citizenToolKit.controllers.person.AuthenticateAction',
 	        'dashboard'  	=> 'citizenToolKit.controllers.person.DashboardAction',
 	        'connect'  		=> 'citizenToolKit.controllers.person.ConnectAction',
-	        'disconnect'  	=> 'citizenToolKit.controllers.person.DisonnectAction',
+	        'disconnect'  => 'citizenToolKit.controllers.person.DisonnectAction',
 	        'activate'  	=> 'citizenToolKit.controllers.person.ActivateAction',
 	        'register'  	=> 'citizenToolKit.controllers.person.RegisterAction',
-	        'getnotification'  	=> 'citizenToolKit.controllers.person.GetNotificationAction',
+	        'getnotification' => 'citizenToolKit.controllers.person.GetNotificationAction',
 	        'invite'  		=> 'citizenToolKit.controllers.person.InviteAction',
-	        'invitation'  	=> 'citizenToolKit.controllers.person.InvitationAction',
+	        'invitation'  => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	=> 'citizenToolKit.controllers.person.UpdateFieldAction',
-          'directory'     => 'citizenToolKit.controllers.person.DirectoryAction',
-          'tags'     => 'citizenToolKit.controllers.person.TagsAction',
+          'directory'   => 'citizenToolKit.controllers.person.DirectoryAction',
+          'data'        => 'citizenToolKit.controllers.person.DataAction'
 	    );
 	}
 
