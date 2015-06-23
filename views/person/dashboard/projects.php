@@ -78,7 +78,7 @@
 					getAjax("#ajaxSV", url, 
 							function(){
 								console.log('toto');
-								editProjectForm();
+								initProjectForm();
 							}, 
 							"html");
 				},

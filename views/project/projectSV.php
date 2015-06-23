@@ -80,35 +80,25 @@
 								</select>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="col-md-4 text-center">
-								<label for="postalCode">
-									Durée du projet</span>
-								</label>
-							</div>
-							<div class="all-day-range">
-								<div class="col-md-8">
-									<div class="form-group">
-										<div class="form-group">
-											<span class="input-icon">
-												<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
-												<i class="fa fa-calendar"></i> </span>
-										</div>
-									</div>
-								</div>
-							</div>
+						<div class="form-group">
+							<label for="projectRangeDate">
+								<span>Durée du projet</span>
+							</label>
+							<span class="input-icon">
+								<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
+								<i class="fa fa-calendar"></i> 
+							</span>
 							<div class="hide">
 								<input type="text" class="project-start-date" value="" name="projectStartDate"/>
 								<input type="text" class="project-end-date" value="" name="projectEndDate"/>
 							</div>
 						</div>
 					</div>
+
 					<div class="col-md-12">
 						<div class="form-group">
 							<div>
-								<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
+								<label for="form-field-24" class="control-label"> Description </label>
 								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
 							</div>
 						</div>
@@ -128,10 +118,13 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	initProjectForm();
 	bindProjectSubViewEvents();
  	bindPostalCodeAction();
  	runProjectFormValidationTest();
-	var countries = <?php echo json_encode($countries) ?>;
+	//var countries = <?php echo json_encode($countries) ?>;
+	var countries = getCountries("select2");
+
 	$('#projectCountry').select2({
 		data : countries
 	});
@@ -164,7 +157,6 @@ function runProjectFormValidationTest(el) {
 			if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
 				error.insertAfter($(element).closest('.form-group').children('div').children().last());
 			} else if (element.parent().hasClass("input-icon")) {
-
 				error.insertAfter($(element).parent());
 			} else {
 				error.insertAfter(element);
@@ -184,10 +176,15 @@ function runProjectFormValidationTest(el) {
 			projectEndDate : {
 				required : true,
 				date : true
+			},
+			postalCode : {
+				rangelength : [5, 5],
+				required : true,
+				validPostalCode : true
 			}
 		},
 		messages : {
-			projectName : "* Please specify your first name"
+			projectName : "* Please specify the project name"
 
 		},
 		invalidHandler : function(project, validator) {//display error alert on form submit
@@ -212,8 +209,10 @@ function runProjectFormValidationTest(el) {
 		submitHandler : function(form) {
 			successHandler2.show();
 			errorHandler2.hide();
-			startDateSubmitProj = convertDate2($('.form-project .project-range-date').val(), 0);
-			endDateSubmitProj = convertDate2($('.form-project .project-range-date').val(), 1);
+			
+			startDateSubmitProj = moment($(".form-project .project-start-date").val()).format('YYYY/MM/DD HH:mm');
+			endDateSubmitProj = moment($(".form-project .project-start-date").val()).format('YYYY/MM/DD HH:mm');
+			
 			//alert(startDateSubmitProj);
 			newProject = new Object;
 			newProject.title = $(".form-project .project-name ").val(), 
@@ -225,12 +224,7 @@ function runProjectFormValidationTest(el) {
 			newProject.city=$(".form-project #city").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
-			newProject.avancement=$(".form-project .project-avancement").val(),
-			newProject.gouvernance=$(".form-project .project-gouvernance").val(),
-			newProject.local=$(".form-project .project-local").val(),
-			newProject.partenaire=$(".form-project .project-partenaire").val(),
-			newProject.solidaire=$(".form-project .project-solidaire").val(),
-			newProject.partage=$(".form-project .project-partage").val();
+			
 			console.log(newProject);
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -239,134 +233,80 @@ function runProjectFormValidationTest(el) {
 	              '<cite title="Hegel">Hegel</cite>'+
 	            '</blockquote> '
 			});
-			
-			if ($(".form-project .project-id").val() !== "") {
-				el = $(".form-project .project-id").val();
-
-				for ( var i = 0; i < calendar.length; i++) {
-
-					if (calendar[i]._id == el) {
-						newProject._id = el;
-						var projectIndex = i;
-					}
-
-				}
-				//mockjax simulates an ajax call
-				$.mockjax({
-				url : '/project/edit/webservice',
-				dataType : 'json',
-				responseTime : 1000,
-				responseText : {
-					say : 'ok'
-				}
-			});
 
 			$.ajax({
-				url : '/project/edit/webservice',
-				dataType : 'json',
-				success : function(json) {
-					$.unblockUI();
-					if (json.say == "ok") {
-						calendar[projectIndex] = newProject;
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+'/project/save',
+		        dataType: "json",
+		        data: newProject,
+				type: "POST",
+		    })
+		    .done(function (data) {
+		        if (data &&  data.result) {               
+		        	toastr.success('Project Created success');
+		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
+		        		updateProject( newProject, data.id );
+						$.unblockUI();
 						$.hideSubview();
-						toastr.success('The project has been successfully modified!');
-					}
-				}
-			});
-
-			} else {
-				$.ajax({
-			        type: "POST",
-			        url: baseUrl+"/"+moduleId+'/project/save',
-			        dataType : "json",
-			        data:newProject,
-					type:"POST",
-			    })
-			    .done(function (data) 
-			    {
-					//alert (newProject.description);
-			        if (data &&  data.result) {               
-			        	toastr.success('Project Created success');
-			        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
-			        		updateProject( newProject, data.id );
-							$.unblockUI();
-							$.hideSubview();
-			        	}	
-			        } else {
-			           toastr.error('Something Went Wrong');
-			        }
-			    });
-
-			}
+		        	}	
+		        } else {
+		           $.unblockUI();
+		           toastr.error('Something Went Wrong');
+		        }
+		    });
 		}
 	});
 };
 
 // enables the edit form 
-function editProjectForm(el) {
+function initProjectForm(el) {
 	$(".close-new-project").off().on("click", function() {
 		$(".back-subviews").trigger("click");
 	});
 	$(".form-project .help-block").remove();
 	$(".form-project .form-group").removeClass("has-error").removeClass("has-success");
-	if ( "undefined" == typeof el) {
-		$(".form-project .project-id").val("");
-		$(".form-project .project-name").val("");
-		$(".form-project .project-url").val("");
-		$(".form-project .project-licence").val("");
-		//A supprimer
-		$(".form-project .all-day").bootstrapSwitch('state', false);
-		$('.form-project .all-day-range').hide();
-		$(".form-project .project-start-date").val(moment());
-		$(".form-project .project-end-date").val(moment().add('days', 1));
-		
-		$('.form-project .no-all-day-range .project-range-date').val(moment().format('DD/MM/YYYY h:mm A') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY h:mm A'))
-		.daterangepicker({  
-			startDate: moment(),
-			endDate: moment().add('days', 1),
-			timePicker: true, 
-			timePickerIncrement: 30, 
-			format: 'DD/MM/YYYY h:mm A' 
-		});
-		
-		$('.form-project .all-day-range .project-range-date').val(moment().format('DD/MM/YYYY h:mm A') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY h:mm A'))
-		.daterangepicker({  
-			startDate: moment(),
-			endDate: moment().add('days', 1)
-		});
-		//Fin de suppresion
-	} else {
-		$(".form-project .project-id").val(el);
-	}
-	$('.form-project .all-day').bootstrapSwitch();
-	$('.form-project .all-day').on('switchChange.bootstrapSwitch', function(event, state) {
-		$(".daterangepicker").hide();
-		var startDate = moment($("#newProject").find(".project-start-date").val());
-		var endDate = moment($("#newProject").find(".project-end-date").val());
-		if (state) {
-			$("#newProject").find(".no-all-day-range").hide();
-			$("#newProject").find(".all-day-range").show();
-			$("#newProject").find('.all-day-range .project-range-date').val(startDate.format('DD/MM/YYYY') + ' - ' + endDate.format('DD/MM/YYYY')).data('daterangepicker').setStartDate(startDate);
-			$("#newProject").find('.all-day-range .project-range-date').data('daterangepicker').setEndDate(endDate);
-		} else {
-			$("#newProject").find(".no-all-day-range").show();
-			$("#newProject").find(".all-day-range").hide();
-			$("#newProject").find('.no-all-day-range .project-range-date').val(startDate.format('DD/MM/YYYY h:mm A') + ' - ' + endDate.format('DD/MM/YYYY h:mm A')).data('daterangepicker').setStartDate(startDate);
-			$("#newProject").find('.no-all-day-range .project-range-date').data('daterangepicker').setEndDate(endDate);			
-		}
+	
+	$(".form-project .project-id").val("");
+	$(".form-project .project-name").val("");
+	$(".form-project .project-url").val("");
+	$(".form-project .project-licence").val("");
 
-	});
+	$('.form-project .all-day-range').hide();
+	$(".form-project .project-start-date").val(moment());
+	$(".form-project .project-end-date").val(moment().add('days', 1));
+	
+	$('.form-project .project-range-date').val(moment().format('DD/MM/YYYY') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY'))
+			.daterangepicker({  
+				startDate: moment(),
+				endDate: moment().add('days', 1),
+				format: 'DD/MM/YYYY'
+			},
+			function(start, end, label) {
+    			$(".form-project .project-start-date").val(start);
+				$(".form-project .project-end-date").val(end);
+			}
+		);
+	
+	$('.form-project .all-day').bootstrapSwitch();
+
 	$('.form-project .project-range-date').on('apply.daterangepicker', function(ev, picker) {
 		$(".form-project .project-start-date").val(picker.startDate);
 		$(".form-project .project-end-date").val(picker.endDate);
 	});
+
+	var startDate = moment($(".form-project").find("project-start-date").val());
+	var endDate = moment($(".form-project").find("project-end-date").val());
+
+	$('.form-project .project-range-date').data('daterangepicker').setStartDate(startDate);
+	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
 };
 
+
+	//*************** Postal Code Management ****************************/
 	function runShowCity(searchValue) {
 		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
 		var oneValue = "";
-//		if(debug)console.table(citiesByPostalCode);
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
 	    	oneValue = value.value;
