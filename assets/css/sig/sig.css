@@ -74,6 +74,9 @@
  	font-size:13px !important;
  	color:#2aa0bd !important;
  }
+ .popup-result-find-place{
+ 	font-size:16px;
+ }
  .modal-lg {
     width: 90%;
   }
