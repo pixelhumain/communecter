@@ -17,13 +17,19 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 <script type="text/javascript">
 	var  activePanel = "box-login";
 	var  bgcolorClass = "bgblack";
+
 	function showMenu(box){
+		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		if($(".menuBtn").hasClass("fa-times"))
 		{
 			$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-			if(box == "box-login" || box == "box-forget" || box == "box-register" ){
+			console.log("showMenu",box, bgcolorClass );
+
+			$("body.login").removeClass("bgred bggreen bgblack bgblue");
+			if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
 				$(".byPHRight").fadeIn();
-				$("body.login").removeClass("bgblack").addClass("bgCity");
+				$("body.login").addClass("bgCity");
+				bgcolorClass = "bgCity";
 			}
 			else{
 				bgcolorClass = "bgblack";
@@ -47,15 +53,22 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		}
 		else 
 		{
-			$("body.login").removeClass(bgcolorClass).addClass("bgCity");
+			//$("body.login").removeClass(bgcolorClass).addClass("bgCity");
+			console.log("open showMenu",box, bgcolorClass );
+
+			$("body.login").removeClass("bgred bggreen bgblack bgblue");
+
+			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
 			$('.'+activePanel).hide();
 			$('.box-menu').slideDown();
 			$(".byPHRight").fadeOut();
 		}
 	}
+
 	function showVideo(id) { 
 		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
+		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		$('.box-menu').slideUp();
 		$.okvideo({ source: id,
                     volume: 0,
@@ -81,7 +94,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 
 		<div class="box-menu box">
 			<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('Mg165w7-bik')"><img  style="height:49px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
+				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><img  style="height:47px;margin-bottom: 7px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
 				<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT IS IT</a></li>
 				<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
 				<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">FOR WHO</a></li>
@@ -94,6 +107,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		</div>
 
 		<div class="box-whatisit box">
+			<a href="<?php echo Yii::app()->createUrl( $this->module->id.'/login' ) ?> "><img  src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a>
 			<h1><i class="fa fa-share-alt"></i> WHAT IS IT</h1>
 			<section>
 				a new way to live in society
@@ -180,7 +194,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 							Keep me signed in
 						</label>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button pull-right">
-							<span class="ladda-label">Login <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
+							<span class="ladda-label">Login</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 					<div class="new-account">
@@ -212,7 +226,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 							<i class="fa fa-chevron-circle-left"></i> Log-In
 						</a>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="forgotBtn ladda-button pull-right">
-							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
+							<span class="ladda-label">Submit</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>
@@ -274,7 +288,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 							Log-in
 						</a>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="createBtn ladda-button pull-right">
-							<span class="ladda-label">Submit <i class="fa fa-arrow-circle-right"></i></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
+							<span class="ladda-label">Submit</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>

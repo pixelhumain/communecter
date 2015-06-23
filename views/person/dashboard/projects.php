@@ -65,8 +65,33 @@
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
+		bindBtnAddProject();
 		bindBtnRemoveProject();
 	});
+
+	function bindBtnAddProject() {
+		$('.new-project').off().on("click", function(){
+			$.subview({
+				content : "#ajaxSV",
+				onShow : function() {
+					var url = baseUrl+"/"+moduleId+"/project/projectsv";
+					getAjax("#ajaxSV", url, 
+							function(){
+								console.log('toto');
+								initProjectForm();
+							}, 
+							"html");
+				},
+				onSave : function() {
+					$('.form-project').submit();
+				},
+				onHide : function() {
+					$.hideSubview();
+				}
+			});
+			
+		});
+	}
 
 	function bindBtnRemoveProject() {
 		$(".removeProjectbtn").off().on("click",function () {
