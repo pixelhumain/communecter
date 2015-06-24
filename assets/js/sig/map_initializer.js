@@ -119,6 +119,7 @@
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
 		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
+			if(object === null) return null;
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			return null;		

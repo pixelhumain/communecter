@@ -72,6 +72,8 @@ var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
 
+console.warn("contextMap");
+console.dir(contextMap);
 
 jQuery(document).ready(function() {
 	bindBtnFollow();

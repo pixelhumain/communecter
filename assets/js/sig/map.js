@@ -152,7 +152,7 @@
 					else if(type == "markerGeoJson")
 						return new Array (thisData['geo'].longitude, thisData['geo'].latitude); 
 				} 
-				else{ 	
+				else if(typeof thisData.geoPosition != "undefined"){ 	
 					if(type == "markerSingle"){
 						var lat = thisData.geoPosition.coordinates[1];
 						var lng = thisData.geoPosition.coordinates[0];
@@ -160,6 +160,8 @@
 					} else { if(type == "markerGeoJson")
 						return thisData.geoPosition.coordinates; 			
 					}
+				}else{
+					return null;
 				}
 			};
 			
@@ -298,6 +300,7 @@
 				}else{
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
+
 				//alert("fin");
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
@@ -313,9 +316,12 @@
 								thisSig.checkListElementMap(thisMap); //alert("check");
 								layer.openPopup();
 							});
+							console.warn("--------------- showMapElements click OK  ---------------------"); 
+							
 						}
 					});
-					
+					console.warn("--------------- showMapElements  onEachFeature OK ---------------------"); 
+				
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
 					
@@ -326,65 +332,12 @@
 						this.updatePanel(thisMap);
 					
 					this.checkListElementMap(thisMap);
+					thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 					this.showIcoLoading(false);
 				
 		};
 		
-			
-		//##
-		//##	PANEL FILTER	##
-		//##
 		
-		this.Sig.changeFilter = function (val, thisMap)
-		{
-			console.warn("--------------- changeFilter ---------------------"); 	
-			if(this.panelFilter != "")
-				$(this.cssModuleName + '#item_panel_map_' + this.panelFilter).removeClass("selected");	
-			
-			this.panelFilter = val;	
-			$(this.cssModuleName + '#item_panel_map_' + this.panelFilter).addClass("selected");	
-			this.showMapElements(thisMap, this.dataMap);	
-		};	
-		
-		
-		this.Sig.populatePanel = function(tags, objectId){  
-			console.warn("--------------- populatePanel ---------------------");
-			var thisSig = this;
-			if("undefined" == typeof tags) tags = new Array("all");
-			//alert("tags : " + tags);
-			$.each(tags, function(){
-				thisSig.listPanel.push(this); //new Array(objectId);
-			});
-			
-		};
-		
-		
-		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
-			console.warn("--------------- updatePanel ---------------------");
-			var thisSig = this;
-			$.each(this.listPanel, function(key, value){
-				//si l'item n'existe pas encore
-				//alert("value : " + this);
-				var valueId = value.replace(/\s/g,"");
-				
-				var ico = thisSig.getIcoNameByTag(value);
-				var color = thisSig.getIcoColorByTag(value);
-				
-				//var itemName = this;
-				if(!$(thisSig.cssModuleName + ' #item_panel_map_' + valueId).length){ //on le rajoute...
-					var newItem = "<button class='item_panel_map' id='item_panel_map_" + valueId + "'>" +
-								     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value +
-								   "</button>";
-					$('.panel_map').append(newItem);
-					$(thisSig.cssModuleName + ' #item_panel_map_' + valueId).click(function(){ 
-						thisSig.changeFilter(value, thisMap);
-					});
-					//alert('len : ' + $('#item_panel_map_' + item).length);
-					//alert(newItem);
-				}
-				
-			});
-		};
 			
 		
 		//##
