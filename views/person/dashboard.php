@@ -72,6 +72,8 @@ var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
 
+console.warn("contextMap");
+console.dir(contextMap);
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
@@ -108,13 +110,17 @@ var bindBtnFollow = function(){
 			        if ( data && data.result ) {               
 			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 			        	$("#"+typeToDisconnect+idToDisconnect).remove();
+			        	$("#linkBtns").empty();
+	        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addKnowsRelation' data-placement='top' data-original-title='I know this person' ><i class=' connectBtnIcon fa fa-link '></i>FOLLOW</a></li>");
+	        			bindBtnFollow();
 			        } else {
 			           toastr.info("something went wrong!! please try again.");
-			           btnClick.empty();
-			           btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
+			          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
 			        }
 			    });
+
 		});
+		
 	});
 
 	$(".connectBtn").off().on("click",function () {
@@ -134,8 +140,8 @@ var bindBtnFollow = function(){
 	        if ( data && data.result ) {               
 	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
-	        	$("#btnTools").empty();
-	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>')
+	        	$("#linkBtns").empty();
+	        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["person"]["name"]+" 'data-id='"+personId+"' data-type='<?php echo Person::COLLECTION; ?>' data-placement='top' data-original-title='Remove from my contact' ><i class='disconnectBtnIcon fa fa-unlink'></i>UNFOLLOW</a>")
 	        	bindBtnFollow();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");

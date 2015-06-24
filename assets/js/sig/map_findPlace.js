@@ -17,7 +17,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		//##
 		//BTN FIND PLACE
-		$(thisSig.cssModuleName + " #btn-find-place").click(function (){ //alert("find place");
+		$(thisSig.cssModuleName + " .btn-find-place").click(function (){ //alert("find place");
 			var address = $(thisSig.cssModuleName + " #txt-find-place").val();
 			thisSig.findPlace(1);
 		});
@@ -39,17 +39,17 @@ SigLoader.getSigFindPlace = function (Sig){
 		//lance un timeout de 1 seconde si le txt de recherche fait plus de 3 caractères
 		//après 1 seconde sans nouvelle lettre, on lance la recherche
 		var timeoutFindPlace;
-		$(thisSig.cssModuleName + ' #txt-find-place').keyup(function(event) {
-			var length = $(thisSig.cssModuleName + " #txt-find-place").val().length;
-			if(length == 0){
+		$(thisSig.cssModuleName + ' .txt-find-place').keyup(function(event) {
+			//var length = $(thisSig.cssModuleName + " #txt-find-place").val().length;
+			//if(length == 0){
+			//	clearTimeout(timeoutFindPlace);
+			//	$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});	
+			//}
+			//if(length >= 3){
 				clearTimeout(timeoutFindPlace);
-				$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});	
-			}
-			if(length >= 3){
-				clearTimeout(timeoutFindPlace);
-				var action = "Sig.findPlace('')";//"+$(thisSig.cssModuleName + " #txt-find-place").val()+"')";
+				var action = "Sig.findPlace(1)";//"+$(thisSig.cssModuleName + " #txt-find-place").val()+"')";
 				timeoutFindPlace = setTimeout(action, 1000);
-			}
+			//}
 		});
 
 		//##
