@@ -47,7 +47,7 @@
 				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
 			<?php } ?>
 			<button type="button" class="btn btn-map-separator"></button>
-			<button type="button" class="btn btn-map" id="btn-find-place"><i class="fa fa-map-marker"></i></button>
+			<button type="button" class="btn btn-map btn-find-place"><i class="fa fa-map-marker"></i></button>
 				<br/>
 			<div class="dropdown-input-search-place" class="pull-right">
 				<!-- 91 Rue Maurice Herzog
@@ -61,6 +61,7 @@
 				<div class="dropdown pull-left" id="dropdown-find-place">
 	                 <a href="#" id="btn-dropdown-find-place" data-toggle="dropdown" class="dropdown-toggle"></a>
 	                 <ul id="list-dropdown-find-place" class="dropdown-menu" style=" width:100%;" role="menu" aria-labelledby="dropdown-find-place">
+	                 	<li style="width:100%;"><a href="#" class="btn-find-place"><i class="fa fa-magic"></i> lancer la recherche ...</a></li>
 	                 </ul>
 	            </div>
 	        </div>

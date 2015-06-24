@@ -10,39 +10,26 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
+
+	//Data helper
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
+	//X-Editable postal Code
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i>   Informations</span></h4>
-		<div class="panel-tools">
-			<div class="dropdown">
-				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-					<i class="fa fa-cog"></i>
-				</a>
-				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-					<li>
-						<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-					</li>
-					<li>
-						<a href="#" class="panel-refresh">
-							<i class="fa fa-refresh"></i> <span>Refresh</span>
-						</a>
-					</li>
-					<li>
-						<a data-toggle="modal" href="#panel-config" class="panel-config">
-							<i class="fa fa-wrench"></i> <span>Configurations</span>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="panel-expand">
-							<i class="fa fa-expand"></i> <span>Fullscreen</span>
-						</a>
-					</li>
-				</ul>
+		<div class="navigator padding-0 text-right">
+			<div class="panel-tools">
+				<?php 
+					$edit = false;
+					if(isset(Yii::app()->session["userId"]) && isset($project["_id"]))
+						$edit = Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION, (string)$project["_id"]);
+					if($edit){
+				?>
+				<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i></a>
+        		<?php } ?>
 			</div>
-			<a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a>
 		</div>
 	</div>
 	<div class="panel-body no-padding">
@@ -53,12 +40,28 @@
 						<td><a href="#" id="name" data-type="text" data-original-title="Enter the project's name" class="editable-project editable editable-click"><?php if(isset($project["name"]))echo $project["name"];?></a></td>
 					</tr>
 					<tr>
+						<td>Description</td>
+						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the project's description" class="editable editable-click"></a></td>
+					</tr>
+					<tr>
 						<td>Début</td>
-						<td><a href="#" id="startDate" data-type="datetime" data-original-title="Enter the project's start" class="editable editable-click"><?php if(isset($project["startDate"]))echo $project["startDate"]; ?></a></td>
+						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the project's start" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
 						<td>Fin</td>
-						<td><a href="#" id="endDate" data-type="datetime" data-original-title="Enter the project's end" class="editable editable-click"><?php if(isset($project["endDate"]))echo $project["endDate"]; ?></a></td>
+						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the project's end" class="editable editable-click"></a></td>
+					</tr>
+					<tr>
+						<td>Tags</td>
+						<td><a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click"></td>
+					</tr>
+					<tr>
+						<td>Code Postal</td>
+						<td><a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a></td>
+					</tr>
+					<tr>
+						<td>Pays</td>
+						<td><a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
 						<td>Licence</td>
@@ -66,12 +69,9 @@
 					</tr>
 					<tr>
 						<td>URL</td>
-						<td><a href="<?php if(isset($project["url"])) echo $project["url"]; else echo "#"; ?>" id="url" data-type="text" data-original-title="Enter the project's url" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a></td>
+						<td><a href="#" id="url" data-type="text" data-original-title="Enter the project's url" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a></td>
 					</tr>
-					<tr>
-						<td>Description</td>
-						<td><a href="#" id="description" data-type="text" data-original-title="Enter the project's description" class="editable-project editable editable-click"><?php if(isset($project["description"])) echo $project["description"];?></a></td>
-					</tr>
+					
 				</tbody>
 			</table>
 	</div>
@@ -79,26 +79,28 @@
 <script type="text/javascript">
 var projectData = <?php echo json_encode($project)?>;
 var mode = "update";
-var projectId= "<?php echo (string)$project["_id"]; ?>";
+var projectId= "<?php echo (string) $project["_id"]; ?>";
+var startDate = '<?php echo $project["startDate"]; ?>';
+var endDate = '<?php echo $project["endDate"]; ?>';
+var countries = <?php echo json_encode($countries) ?>;
+
 jQuery(document).ready(function() 
 {
     bindAboutPodProjects();
-	//manageModeProject();
+	initXEditable();
+	manageModeContext();
 	debugMap.push(projectData);
 });
-/*function manageModeProject() 
-{
-	if (mode == "view") {
-		$('.editable-project').editable('toggleDisabled');
-	} else if (mode == "update") {
-		// Add a pk to make the update process available on X-Editable
-		//$('.editable-project').editable('option', 'pk', projectId);
 
-	}
-}*/
 
 
 function bindAboutPodProjects() {
+	$("#editProjectDetail").on("click", function(){
+		switchMode();
+	})
+}
+
+function initXEditable() {
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-project').editable({
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
@@ -109,35 +111,127 @@ function bindAboutPodProjects() {
 	$('#name').editable('option', 'validate', function(v) {
     	if(!v) return 'Required field!';
 	});
+
+	$('#description').editable({
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		value: <?php echo (isset($project["description"])) ? json_encode($project["description"]) : "''"; ?>,
+		placement: 'right',
+		mode: 'popup',
+		wysihtml5: {
+			html: true,
+			video: false,
+			image: false
+		},
+		success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else
+	        	toastr.error(data.msg);  
+	    },
+	});
+
 	$('#startDate').editable({
-		url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new user, it is only for update
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		type: "date",
 		mode: "popup",
 		placement: "bottom",
-		format: 'dd/mm/yyyy',    
+		format: 'yyyy-mm-dd',
 		viewformat: 'dd/mm/yyyy',
-		showbuttons: false,    
 		datepicker: {
 			weekStart: 1,
-			format: 'yyyy-mm-dd'
-		   }
-		}
-	);
+		},
+		success : function(data) {
+			if(data.result) 
+				toastr.success(data.msg);
+			else 
+				return data.msg;
+	    }
+	});
 
 	$('#endDate').editable({
-		url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new user, it is only for update
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		type: "date",
 		mode: "popup",
 		placement: "bottom",
-		format: 'dd/mm/yyyy',    
-		viewformat: 'dd/mm/yyyy',
-		showbuttons: false,    
-		datetimepicker: {
-			weekStart: 1,
-			format: 'dd/mm/yyyy',
-		   }
+		format: 'yyyy-mm-dd',   
+    	viewformat: 'dd/mm/yyyy',
+    	datepicker: {
+            weekStart: 1,
+       },
+       success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else 
+				return data.msg;
+	    }
+    });
+    var formatDate = "YYYY-MM-DD";
+    $('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
+	$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
+
+
+    //Select2 tags
+	$('#tags').editable({
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		mode: 'popup',
+		value: <?php echo (isset($project["tags"])) ? json_encode(implode(",", $project["tags"])) : "''"; ?>,
+		select2: {
+			width: 200,
+			tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+			tokenSeparators: [","]
 		}
-	);
-	$('.editable-project').editable('option', 'pk', projectId);
-	$('#startDate').editable('option', 'pk', projectId);
-	$('#endDate').editable('option', 'pk', projectId);
+	});
+
+	$('#address').editable({
+		url: baseUrl+"/"+moduleId+"/project/updatefield",
+		mode: 'popup',
+		success: function(response, newValue) {
+			console.log("success update postal Code : "+newValue);
+		},
+		value : {
+        	postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
+        	codeInsee: '<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>',
+        	addressLocality : '<?php echo (isset( $project["address"]["addressLocality"])) ? $project["address"]["addressLocality"] : ""; ?>'
+    	}
+	});
+
+	$('#addressCountry').editable({
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		value: '<?php echo (isset( $project["address"]["addressCountry"])) ? $project["address"]["addressCountry"] : ""; ?>',
+		source: function() {
+			return countries;
+		},
+	});
+
 }
+
+function switchMode() {
+	if(mode == "view"){
+		mode = "update";
+		manageModeContext();
+	} else {
+		mode ="view";
+		manageModeContext();
+	}
+}
+
+function manageModeContext() {
+	listXeditables = ['#description', '#startDate', '#endDate', '#tags', '#address', '#addressCountry'];
+	if (mode == "view") {
+		$('.editable-project').editable('toggleDisabled');
+		$.each(listXeditables, function(i,value) {
+			$(value).editable('toggleDisabled');
+		})
+	} else if (mode == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('.editable-project').editable('option', 'pk', projectId);
+		$('.editable-project').editable('toggleDisabled');
+		$.each(listXeditables, function(i,value) {
+			//add primary key to the x-editable field
+			$(value).editable('option', 'pk', projectId);
+			$(value).editable('toggleDisabled');
+		})
+	}
+}
+
 </script>

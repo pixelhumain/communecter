@@ -197,7 +197,11 @@ class CommunecterController extends Controller
       "getlistbyid" => array("href"=> "ph/communecter/document/getlistbyid"),
       "upload" => array("href"=> "ph/communecter/document/upload"),
       "delete" => array("href"=> "ph/communecter/document/delete")
-    )
+    ),
+
+    "discuss"=>array(
+      "index" => array( "href" => "/ph/communecter/discuss/index"),
+    ),
     
   );
 
