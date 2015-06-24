@@ -118,6 +118,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	addCustomValidators();
 	initProjectForm();
 	bindProjectSubViewEvents();
  	bindPostalCodeAction();
@@ -215,12 +216,12 @@ function runProjectFormValidationTest(el) {
 			
 			//alert(startDateSubmitProj);
 			newProject = new Object;
-			newProject.title = $(".form-project .project-name ").val(), 
+			newProject.name = $(".form-project .project-name ").val(), 
 			newProject.url = $('.form-project .project-url').val(), 
 			//newProject.version = $(".form-project .project-version").val(), 
 			newProject.licence = $(".form-project .project-licence").val(),
-			newProject.start=startDateSubmitProj,
-			newProject.end=endDateSubmitProj,
+			newProject.startDate=startDateSubmitProj,
+			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
@@ -251,7 +252,7 @@ function runProjectFormValidationTest(el) {
 		        	}	
 		        } else {
 		           $.unblockUI();
-		           toastr.error('Something Went Wrong');
+		           toastr.error(data.msg);
 		        }
 		    });
 		}

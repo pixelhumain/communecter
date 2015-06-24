@@ -74,9 +74,14 @@
  	font-size:13px !important;
  	color:#2aa0bd !important;
  }
+<<<<<<< HEAD
+ /*
+creer des conflits : regle pas assez specfique
+=======
  .popup-result-find-place{
  	font-size:16px;
  }
+>>>>>>> 9c019be1e3c79d7476d9334fcb1dd9f5e46a5cc0
  .modal-lg {
     width: 90%;
   }
@@ -88,7 +93,7 @@
  }
  .modal-body{
  	height: 95%;
- }
+ }*/
  .leaflet-top, .leaflet-bottom{
  	z-index:0;
  }
