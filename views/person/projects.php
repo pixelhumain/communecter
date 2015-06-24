@@ -7,7 +7,7 @@
 			<a href="#newProject"  class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
-	<div class="panel-body no-padding">
+	<!--div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">			
 			<table class="table table-striped table-hover" id="projects">
 				<tbody>
@@ -59,7 +59,7 @@
 			</div>
 		<?php } ?>
 		</div>
-	</div>
+	</div>-->
 </div>
 <script type="text/javascript">
 	//alert ("oui");
