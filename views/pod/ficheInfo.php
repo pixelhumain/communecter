@@ -26,27 +26,16 @@
 			</a>
 			<span> - </span>
 			<a href="#" id="name" data-type="text" data-title="Name" data-emptytext="Name" class="editable-context editable editable-click required">
-				<?php echo (isset($context)) ? $context["name"] : null; ?>
+				<?php echo (isset($organization)) ? $organization["name"] : null; ?>
 			</a>
 		</h4>
 		
 		<div class="panel-tools">
-			<?php if (isset($context["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $context["_id"])) { ?>
+			<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { ?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
 			
 			<?php } ?>
-			<div id="linkBtns">
-			<?php 
-				if(isset($context["_id"]) && isset(Yii::app()->session["userId"])
-					&& Link::isLinked((string)$context["_id"], Organization::COLLECTION , Yii::app()->session["userId"])){
-
-			?>
-					<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $context["name"]?>" data-memberof-id="<?php echo $context["_id"]?>" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="top" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-			<?php } else{ ?>
-					<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I'm member of this organization" ><i class=" connectBtnIcon fa fa-link "></i></a>
-			<?php } ?>
-			</div>
 		</div>
 	</div>
 	<div class="panel-body border-light" id="organizationDetail">
@@ -57,13 +46,13 @@
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => "false",
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $context["_id"]))); 
+																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
 				?>
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-context editable editable-click">
-						<?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?>
+						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
 					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
@@ -73,20 +62,20 @@
 					</a>
 					<br>
 					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-context editable editable-click">
-						<?php echo (isset($context["telephone"])) ? $context["telephone"] : null; ?>
+						<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
 					</a>
 					<br>
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-						<?php echo (isset($context["email"])) ? $context["email"] : null; ?>
+						<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 					</a>
 					<br>
 					<a href="#" id="url" data-type="text" data-title="Web Site URL" data-emptytext="Website URL" class="editable-context editable editable-click">
-						<?php echo (isset($context["url"])) ? $context["url"] : null; ?>
+						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 					</a>
 				</div>
 				<div class="row padding-20" style="background-color:#E6E6E6; min-height:155px;">
 					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
-						<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
+						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 					</a>
 				</div>
 			</div>
@@ -145,8 +134,8 @@
 </div>
 
 <script type="text/javascript">
-	var contextData = <?php echo json_encode($context)?>;
-	var contextId = "<?php echo isset($context["_id"]) ? $context["_id"] : ""; ?>";
+	var contextData = <?php echo json_encode($organization)?>;
+	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	//By default : view mode
 	var mode = "view";
 	
@@ -214,9 +203,7 @@
 					dataType: "json",
 					success: function(data){
 						if ( data && data.result ) {
-
-							$("#linkBtns").empty()
-							$("#linkBtns").html('<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I\'m member of this organization" ><i class=" connectBtnIcon fa fa-link "></i>  I\'m member of this</a>')           
+							$("#linkBtns").html('<a href="javascript:;" class="connectBtn tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I\'m member of this organization" ><i class=" connectBtnIcon fa fa-link "></i> LINK</a>')           
 							bindFicheInfoBtn();
 							toastr.info("LINK DIVORCED SUCCESFULLY!!");
 							$("#organizations"+idMemberOf).remove();
@@ -260,8 +247,7 @@
 					dataType: "json",
 					success: function(data) {
 						if(data.result){
-							$("#linkBtns").empty();
-							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="'+contextData.name+'" data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"> Unlink to this organization</i></a>');
+							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'" data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i>UNFOLLOW</a>');
 							bindFicheInfoBtn();
 							toastr.success("You are now member of the organization : "+contextData.name);
 						}
@@ -319,7 +305,7 @@
 		//Type Organization
 		$('#type').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: '<?php echo (isset($context)) ? $context["type"] : ""; ?>',
+			value: '<?php echo (isset($organization)) ? $organization["type"] : ""; ?>',
 			source: function() {
 				return types;
 			},
@@ -328,7 +314,7 @@
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			value: <?php echo (isset($context["tags"])) ? json_encode(implode(",", $context["tags"])) : "''"; ?>,
+			value: <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>,
 			select2: {
 				width: 200,
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
@@ -339,7 +325,7 @@
 		$('#typeIntervention').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			value: <?php echo (isset($context["typeIntervention"])) ? json_encode(implode(",", $context["typeIntervention"])) : "''"; ?>,
+			value: <?php echo (isset($organization["typeIntervention"])) ? json_encode(implode(",", $organization["typeIntervention"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
 				$.each(typeInterventionList, function(i,value) {
@@ -351,7 +337,7 @@
 
 		$('#addressCountry').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: '<?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : ""; ?>',
+			value: '<?php echo (isset( $organization["address"]["addressCountry"])) ? $organization["address"]["addressCountry"] : ""; ?>',
 			source: function() {
 				return countries;
 			},
@@ -364,22 +350,22 @@
 				console.log("success update postal Code : "+newValue);
 			},
 			value : {
-            	postalCode: '<?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>',
-            	codeInsee: '<?php echo (isset( $context["address"]["codeInsee"])) ? $context["address"]["codeInsee"] : ""; ?>',
-            	addressLocality : '<?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : ""; ?>'
+            	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
+            	codeInsee: '<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>',
+            	addressLocality : '<?php echo (isset( $organization["address"]["addressLocality"])) ? $organization["address"]["addressLocality"] : ""; ?>'
         	}
 		});
 
 		$('#typeOfPublic').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: <?php echo (isset($context["typeOfPublic"])) ? json_encode(implode(",", $context["typeOfPublic"])) : "''"; ?>,
+			value: <?php echo (isset($organization["typeOfPublic"])) ? json_encode(implode(",", $organization["typeOfPublic"])) : "''"; ?>,
 			source: publics,
 			placement: 'right'
 		});
 
 		$('#description').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: <?php echo (isset($context["description"])) ? json_encode($context["description"]) : "''"; ?>,
+			value: <?php echo (isset($organization["description"])) ? json_encode($organization["description"]) : "''"; ?>,
 			placement: 'top',
 			wysihtml5: {
 				html: true,

@@ -31,24 +31,7 @@ class CommunecterController extends Controller
   public $notifications = array();
 	//TODO - Faire le tri des liens
   //TODO - Les children ne s'affichent pas dans le menu
-  public $sidebar1 = array(
-    /*array('label' => "Temporaire", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
-                "children"=> array(
-                  "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login"),
-                  "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
-                  "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person/profile"),
-                  "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
-                  "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
-                  "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
-                  "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
-                )
-          ),
-    array('label' => "About", "key"=>"about","iconClass"=>"fa fa-book","href"=>"communecter/default/about"),
-   	array('label' => "Help Us", "key"=>"temporary","iconClass"=>"fa fa-money","href"=>"communecter/default/help"),
-    array('label' => "Contact Us", "key"=>"contact","iconClass"=>"fa fa-envelope-o","href"=>"communecter/default/contact"),*/
-  );
-
-  public $toolbarMBZ = null;
+ 
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
@@ -87,18 +70,8 @@ class CommunecterController extends Controller
     "news.newsSV",
     "person.inviteSV",
     "project.projectSV",
-    "event.addAttendeesSV",
-    //"project.addChartSV",
-    //"sig.networkSV",
+    "event.addAttendeesSV"
   );
-
-  public $toolbarMenuMaps = array(
-      array('label' => "Your Network", 		'desc' => "People, Organisation, Events, Projects ", 		"key"=>"yourNetwork", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Your Network', 	 	'/communecter/sig/network', null)", 	'extra' => "around You",  "iconClass"=>"fa-sitemap text-dark-green"),
-    /*  array('label' => "Local Companies", 	'desc' => "Discover Companies around you", 					"key"=>"localCompanies", "class"=>"ajaxSV", "onclick"=>"openSubView('Local Companies', 	'/communecter/sig/companies', null)", 	'extra' => "around You",  "iconClass"=>"fa-building text-dark-danger"),
-      array('label' => "Local State", 		'desc' => "All the city hall public services",				"key"=>"localStates", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Local States', 	 	'/communecter/sig/state', null)", 		'extra' => "around You",  "iconClass"=>"fa-university text-orange"),
-      array('label' => "Calendar", 		'desc' => "Discover All sorts of local events around you", 		"key"=>"localEvents", 	"class"=>"ajaxSV", "onclick"=>"openSubView('Calendar', 	 			'/communecter/sig/events', null)",  	'extra' => "around You",  "iconClass"=>"fa-calendar text-purple"),
-      array('label' => "Network Viewer",    'desc' => "Visualize your network", "key" =>"networkViewer", "class"=>"ajaxSV", "onclick"=>"openSubView('Network Viewer', '/communecter/graph/viewer', null,null,function(){clearViewer();})",    'extra' => "arround You",  "iconClass"=>"fa-share-alt text-yellow"),
-  */);
 
   public $pages = array(
 

@@ -74,6 +74,8 @@
  	font-size:13px !important;
  	color:#2aa0bd !important;
  }
+ /*
+creer des conflits : regle pas assez specfique
  .modal-lg {
     width: 90%;
   }
@@ -85,7 +87,7 @@
  }
  .modal-body{
  	height: 95%;
- }
+ }*/
  .leaflet-top, .leaflet-bottom{
  	z-index:0;
  }
