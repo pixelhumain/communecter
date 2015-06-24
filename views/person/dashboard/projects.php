@@ -1,3 +1,20 @@
+<?php 
+$cssAnsScriptFilesTheme = array(
+//Select2
+
+	//autosize
+	//Select2
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
+	//autosize
+	'/assets/plugins/autosize/jquery.autosize.min.js',
+
+	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
+	//'/assets/js/ui-sliders.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-lightbulb-o fa-2x text-blue"></i> Mes projets</h4>
