@@ -21,7 +21,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 			<div class="col-sm-12 col-xs-12">
 	    		<?php 
 	    			$params = array(
-	    				"context" => $organization,
+	    				"organization" => $organization,
 						"tags" => $tags, 
 						"images" => $images,
 						"plaquette" => $plaquette,
@@ -44,8 +44,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	    	</div>
 	    	<?php 
 		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
-
-		    ?>
+			?>
 			<div class="col-sm-12 col-xs-12">
 	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
 	    	</div>
@@ -96,7 +95,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 <!-- end: PAGE CONTENT-->
 <script>
 	var contextMap = { "desc" : [ "organization", "events " ] };
-	contextMap = <?php echo json_encode($organization) ?>;
+	contextMap = <?php echo json_encode($contextMap) ?>;
 	events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";

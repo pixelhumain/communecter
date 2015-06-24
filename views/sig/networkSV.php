@@ -126,7 +126,7 @@
 			mapSV = Sig.loadMap("mapCanvas", initParams);
 			console.log("contextMap");
 			console.dir(contextMap);
-			//alert(JSON.stringify(contextMap));
+			//alert(JSON.stringify(contextMap.organizations));
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			/**************************************************************************************************************/
