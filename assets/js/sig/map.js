@@ -228,7 +228,7 @@
 					//affiche les LINKS et les MEMBERS
 					var thisSig = this;
 					if(thisData.links != null)
-						if(thisData.links.members != null){
+						if(thisData.links.members != null){ 
 							$.each(thisData.links.members, function(i, thisMember)  { 	
 								thisMember._id = { $id : i };
 								thisSig.showOneElementOnMap(thisMember, thisMap);
@@ -238,6 +238,7 @@
 					
 				}else {
 					console.warn("--------------- PAS D'ID ---------------------");
+					//console.log(thisData);
 					return false;
 				}
 				
@@ -247,7 +248,7 @@
 				console.warn("--------------- showFilterOnMap ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
-				if(dataFilter.length > 1){
+				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  { 
 						
 						thisSig.showOneElementOnMap(thisData, thisMap);
@@ -265,7 +266,7 @@
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				console.warn("--------------- showMapElements ---------------------"); 
-				console.dir(data);
+				
 				var filterPanelValue = "citoyens";
 				//enregistre les dernières données dans une variable locale
 				this.dataMap = data;
@@ -286,9 +287,12 @@
 				var thisSig = this;
 				//var array = new Array();
 				
-				//alert(data.length);
-				if(data.length > 1){
-					$.each(data, function (key, value){ alert(JSON.stringify(key));
+				var len = 0;
+				$.each(data, function (key, value){ len++; });//alert("len : " + len);
+				if(len > 1){
+					$.each(data, function (key, value){ 
+						//console.warn("key");
+						//console.log(key);
 						thisSig.showFilterOnMap(data, key, thisMap); 
 					});
 				}else{

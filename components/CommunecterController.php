@@ -69,8 +69,11 @@ class CommunecterController extends Controller
   public $subviews = array(
     "news.newsSV",
     "person.inviteSV",
-    "project.projectSV",
-    "event.addAttendeesSV"
+
+    //"project.projectSV",
+    "event.addAttendeesSV",
+    //"project.addChartSV",
+    //"sig.networkSV",
   );
 
   public $pages = array(
@@ -155,9 +158,10 @@ class CommunecterController extends Controller
       "save"=>array("href"=>"/ph/communecter/project/save"),
       "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
-	  "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
-	  "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
-	  "updatefield"=>array("href"=>"/ph/communecter/project/updatefield"),
+	    "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
+	    "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
+	    "updatefield"=>array("href"=>"/ph/communecter/project/updatefield"),
+      "projectsv"=>array("href"=>"/ph/communecter/project/projectsv"),
     ),
 
     "job"=> array(
