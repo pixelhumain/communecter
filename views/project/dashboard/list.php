@@ -19,7 +19,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Charte du projet</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Tâches du projet</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">

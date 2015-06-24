@@ -184,6 +184,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			var cp 		= $(this.cssModuleName + " #txt-cp-place").val();//.replace(" ", "+");
 			var state 	= $(this.cssModuleName + " #txt-state-place").val();//.replace(" ", "+");
 
+			itemDropbox = concat(itemDropbox, thisResult.address.house_number);
 			itemDropbox = concat(itemDropbox, thisResult.address.road);
 			if(city.toLowerCase() == thisResult.address.city.toLowerCase()) 	itemDropbox = concat(itemDropbox, thisResult.address.city);
 			if(cp.toLowerCase() == thisResult.address.postcode.toLowerCase()) 	itemDropbox = concat(itemDropbox, thisResult.address.postcode);
@@ -230,7 +231,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		var options = {  id : 0,
 						 icon : this.getIcoMarker({'type' : 'markerPlace'}),
-						 content : $(thisSig.cssModuleName + ' #btn-show-place-'+id).html() }; //,
+						 content : "<span class='popup-result-find-place'>"+$(thisSig.cssModuleName + ' #btn-show-place-'+id).html()+"</span>" }; //,
 						//"lat" : this.currentResultResearch[id].lat , 
 						//"lng" : this.currentResultResearch[id].lon };
 

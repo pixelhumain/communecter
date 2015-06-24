@@ -1,49 +1,87 @@
+<?php
+$cssAnsScriptFilesTheme = array(
+//Select2
+
+	//autosize
+	//Select2
+	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css',
+	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js',
+	//'/assets/js/ui-sliders.js',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+$cssAnsScriptFilesModule = array(
+		//Data helper
+		'/js/dataHelpers.js'
+		);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+?>
 <style>
 #editProjectTimesheet{
 	display: none;
 }
 </style>
 <div id="editProjectTimesheet">
-	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h3>Add project's task</h3>
-		<form class="form-chart">
-			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
-			<div class="row">
-				<div class="col-md-12 projectTask">
-					<div class="form-group">
-						<label class="control-label">
-							Nom de la tâche <span class="symbol required"></span>
-						</label>
-						<input type="text" class="project-name form-control" name="" value=""/>
-					</div>
-					<div class="form-group">
-						<label class="control-label">
-							Durée de la tâche <span class="symbol required"></span>
-						</label>
-						<div class="all-day-range">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-white">
+	    	<div class="panel-heading border-light">
+	    		<h1>Add a Member ( Person, Organization )</h1>
+	    		<p>An Organization can have People as members or Organizations</p>
+	    	</div>
+	    	<div class="panel-body">
+				<form class="form-timesheet">
+					<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
+					<div class="row">
+						<div class="col-md-12 projectTask">
 							<div class="">
-								<div class="form-group">
-									<div class="form-group">
-										<span class="input-icon">
-											<input type="text" class="project-range-date form-control" name="" placeholder="Range date"/>
-											<i class="fa fa-calendar"></i> </span>
+								<label class="control-label">
+									Nom de la tâche <span class="symbol required"></span>
+								</label>
+								<input type="text" class="task-name form-control" name="" value=""/>
+							</div>
+							<div>
+								<label class="control-label">
+									Durée de la tâche <span class="symbol required"></span>
+								</label>
+								<div class="all-day-range">
+									<div class="">
+										<div class="">
+											<div class="">
+												<span class="input-icon">
+													<input type="text" class="task-range-date form-control" name="" placeholder="Range date"/>
+													<i class="fa fa-calendar"></i> </span>
+											</div>
+										</div>
 									</div>
 								</div>
+								<div class="hide">
+									<input type="text" class="task-start-date" value="" name="taskStartDate"/>
+									<input type="text" class="task-end-date" value="" name="taskEndDate"/>
+								</div>
+							</div>
+							<div>
+								<label class="control-label">
+									Couleur de la tâche <span class="symbol required"></span>
+								</label>
+								<select name="colorpicker">
+								  <option value="#9ACA27">Vert</option>
+								  <option value="#3CB6E3">Bleu</option>
+								  <option value="#FC464A">Rouge</option>
+								  <option value="#F4CF30">Jaune</option>
+								  <option value="lorem">Jaune</option>
+								</select>
 							</div>
 						</div>
-						<div class="hide">
-							<input type="text" class="project-start-date" value="" name="taskStartDate"/>
-							<input type="text" class="project-end-date" value="" name="taskEndDate"/>
+						<div>
+							<div class="row center">
+				    	        <button class="btn btn-primary" >Enregistrer</button>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="row">
-		    	        <button class="btn btn-primary" >Enregistrer</button>
-					</div>
-				</div>
-			</div>
-		</form>
+				</form>
+	    	</div>
+		</div>
 	</div>
 </div>
 
@@ -51,11 +89,102 @@
 jQuery(document).ready(function() {
 	bindprojectSubViewTimesheet();
 	//runChartFormValidation();
-	$(".daterangepicker").on("hide.daterangepicker", function(){
- 		console.log("ok");
- 	});
-
+	
+	initFormAddTask();
+	$('select[name="colorpicker"]').simplecolorpicker().on('change', function() {
+		alert($('select[name="colorpicker"]').val());
+	});;
+	
 });
+function initFormAddTask(){
+	$(".task-start-date").val(moment());
+	$(".task-end-date").val(moment().add('days', 1));
+	
+	$('.task-range-date').val(moment().format('DD/MM/YYYY') + ' - ' + moment().add('days', 1).format('DD/MM/YYYY'))
+			.daterangepicker({  
+				startDate: moment(),
+				endDate: moment().add('days', 1),
+				format: 'DD/MM/YYYY'
+			},
+			function(start, end, label) {
+    			$(".task-start-date").val(start);
+				$(".task-end-date").val(end);
+			}
+		);
+
+	$('.task-range-date').on('apply.daterangepicker', function(ev, picker) {
+		$(".task-start-date").val(picker.startDate);
+		$(".task-end-date").val(picker.endDate);
+	});
+
+	var startDate = moment($("task-start-date").val());
+	var endDate = moment($("task-end-date").val());
+
+	$('.task-range-date').data('daterangepicker').setStartDate(startDate);
+	$('.task-range-date').data('daterangepicker').setEndDate(endDate);
+	$(".form-timesheet").off().on("submit",function(){
+		
+	    	//event.preventDefault();
+	    	startDateSubmitTask = moment($(".task-start-date").val()).format('MM/YYYY');
+			endDateSubmitTask = moment($(".task-end-date").val()).format('MM/YYYY');
+	    	var params = { 
+	    		//"projectId" : $("#editProjectTimesheet #").val(),
+				"taskName" : $("#editProjectTimesheet .task-name").val(),
+				"taskColor" : $("#editProjectTimesheet select[name='colorpicker']").val(),
+				"taskStart" : startDateSubmitTask,
+				"taskEnd" : endDateSubmitTask,
+			};
+			console.log(params);
+			alert();
+	    	/*$.ajax({
+	            type: "POST",
+	            url: baseUrl+"/communecter/link/savemember",
+	            data: params,
+	            dataType: "json",
+	            success: function(data){
+	            	if(!data.result){
+	            		toastr.error(data.msg);
+	            	}else{
+	            		toastr.success("Member added successfully ");
+	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
+		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
+		               	setValidationTable();
+		               if($("#addMembers #memberRole").val() != ""){
+			               	if(typeof(organization["roles"])!="undefined"){
+			               		var tabStrRole = $("#addMembers #memberRole").val().split(",");
+			               		for(var i = 0; i<tabStrRole.length; i++){
+			               			if($.inArray(tabStrRole[i], organization["roles"])==-1){
+			               				organization["roles"].push(tabStrRole[i]);
+			               			}
+			               		}
+			               		
+								$('#memberRole').select2({ tags: organization["roles"]});
+								//$('#memberRole').select2({ tags: organization["roles"]});
+							}else{
+								var tabStrRole = $("#addMembers #memberRole").val().split(",");
+								$('#memberRole').select2({ tags: tabStrRole});
+							}
+		               }
+		               
+		                $("#addMembers #memberType").val("");
+		                $("#addMembers #memberName").val("");
+		                $("#addMembers #memberEmail").val("");
+		                $("#addMembers #memberIsAdmin").val("");
+		                $("#addMembers #memberRole").val("");
+		                $('#addMembers #organizationType').val("");
+						$("#addMembers #memberIsAdmin").val("false");
+						$("#memberRole").select2("val", "");
+						$("[name='my-checkbox']").bootstrapSwitch('state', false);
+		                showSearch();
+	            	}
+	            	console.log(data.result);   
+	            },
+	            error:function (xhr, ajaxOptions, thrownError){
+	              toastr.error( thrownError );
+	            } 
+	    	});*/
+	    });
+}
 /*function runChartFormValidation() {
 	var formProject = $('.form-chart');
 	var errorHandler2 = $('.errorHandler', formProject);
@@ -152,28 +281,28 @@ function bindprojectSubViewTimesheet() {
 			onShow : function() {
 				editTimesheet();
 			},
-			onHide : function() {
+			/*onHide : function() {
 				//hideEditTimesheet();
 			},
 			onSave: function() {
 				//hideEditTimesheet();
-			}
+			}*/
 		});
 	});
-	$(".close-subview-button").off().on("click", function(e) {
+	/*$(".close-subview-button").off().on("click", function(e) {
 		$(".close-subviews").trigger("click");
 		e.prinviteDefault();
-	});
+	});*/
 };
 
 var subViewElement, subViewContent, subViewIndex;
 function hideEditTimesheet() {
-	$.hideEditTimesheet();
+//	$.hideEditTimesheet();
 };
 // enables the edit form 
 function editTimesheet() {
-	$(".close-timesheet-edit").off().on("click", function() {
+	/*$(".close-timesheet-edit").off().on("click", function() {
 		$(".back-subviews").trigger("click");
-	});
+	});*/
 };
 </script>

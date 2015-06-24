@@ -82,16 +82,39 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
+		bindBtnAddProject();
 		bindBtnRemoveProject();
 	});
+
+	function bindBtnAddProject() {
+		$('.new-project').off().on("click", function(){
+			$.subview({
+				content : "#ajaxSV",
+				onShow : function() {
+					var url = baseUrl+"/"+moduleId+"/project/projectsv";
+					getAjax("#ajaxSV", url, 
+							function(){
+								console.log('toto');
+								initProjectForm();
+							}, 
+							"html");
+				},
+				onSave : function() {
+					$('.form-project').submit();
+				},
+				onHide : function() {
+					$.hideSubview();
+				}
+			});
+			
+		});
+	}
 
 	function bindBtnRemoveProject() {
 		$(".removeProjectbtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			
 			var idProject = $(this).data("id");
-			//var idMember = $(this).data("member-id");
-			//var typeMember = $(this).data("member-type");
 			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> project ?", 
 				function(result) {
 					if (!result) {
@@ -112,8 +135,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								$("#info").show();
 							}
 						} else {
-						   toastr.info("something went wrong!! please try again.");
+						   toastr.error(data.msg);
 						}
+					},
+					error: function(data) {
+						toastr.error("Something went wrong!! Contact your administrator");
 					}
 				});
 			});
@@ -129,12 +155,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
 							'<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips " data-placement="left" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>'+
-							'<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.title+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
+							'<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
 						'</div>';
 		var projectLine  = 
 		'<tr id="project'+projectId.$id+'">'+
 					'<td class="center">'+viewBtn+'<i class="fa fa-lightbulb-o fa-2x"></i></a></td>'+
-					'<td>'+viewBtn+nProject.title+'</a></td>'+
+					'<td>'+viewBtn+nProject.name+'</a></td>'+
 					'<td>'+nProject.url+'</td>'+
 					'<td class="center">'+
 					unlinkBtn+

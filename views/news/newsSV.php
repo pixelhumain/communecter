@@ -21,6 +21,10 @@ var formDefinition = {
 						"required" : true
 					}
             },
+            "date" :{
+            	"inputType" : "date",
+            	"placeholder" : "When was this or will it be",
+            },
             "text" :{
             	"inputType" : "textarea",
             	"placeholder" : "Describe your Organization",

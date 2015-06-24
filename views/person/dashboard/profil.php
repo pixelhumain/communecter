@@ -166,7 +166,7 @@ var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
 var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 var countries = <?php echo json_encode($countries) ?>;
 var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
-var temp;
+var tags = <?php echo json_encode($tags)?>;
 //By default : view mode
 var mode = "view";
 
@@ -248,8 +248,9 @@ function initXEditable() {
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode: 'inline',
         showbuttons: false,
+        mode : 'popup',
         select2: {
-            tags: <?php echo json_encode($tags)?>,
+            tags: tags,
             tokenSeparators: [","]
         }
     }); 
