@@ -4,7 +4,7 @@
     <!-- start: INBOX PANEL -->
     <div class="panel panel-white">
       <div class="panel-heading">
-        <h4 class="panel-title">Inbox</h4>
+        <h4 class="panel-title">Bientôt ici un espace de discussion</h4>
         <div class="panel-tools">
           <div class="dropdown">
             <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
