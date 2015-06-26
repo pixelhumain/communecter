@@ -69,11 +69,7 @@ class CommunecterController extends Controller
   public $subviews = array(
     "news.newsSV",
     "person.inviteSV",
-
-    //"project.projectSV",
     "event.addAttendeesSV",
-    //"project.addChartSV",
-    //"sig.networkSV",
   );
 
   public $pages = array(
@@ -202,6 +198,18 @@ class CommunecterController extends Controller
       "delete" => array("href"=> "ph/communecter/document/delete")
     ),
 
+    "vote" => array(
+      "index" => array("href" => "/ph/communecter/vote/index"),
+      "entries" => array("href" => "/ph/communecter/vote/entries"),
+      "savesession" => array("href" => "/ph/communecter/vote/savesession"),
+      "delete" => array("href" => "/ph/communecter/vote/delete"),
+      "moderate" => array("href" => "/ph/communecter/vote/moderate"),
+      "entry" => array("href" => "/ph/communecter/vote/entry"),
+      "graph" => array("href" => "/ph/communecter/vote/graph"),
+      "textarea" => array("href" => "/ph/communecter/vote/textarea"),
+      "editlist" => array("href" => "/ph/communecter/vote/editList"),
+      "multiadd" => array("href" => "/ph/communecter/vote/multiadd"),
+    ),
     "discuss"=>array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
     ),
