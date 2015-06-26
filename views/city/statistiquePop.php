@@ -32,14 +32,19 @@
 							<a href="#" class="btn-drop typeBtn" data-name="population">Population</a>
 						</li>
 						<li>
-							<a href="#" class="btn-drop typeBtn" data-name="homme/femme">Homme/Femme</a>
+							<a href="#" class="btn-drop typeBtn" data-name="institution">Intistution</a>
 						</li>
-						<li>
-							<a href="#" class="btn-drop typeBtn" data-name="hommes">Hommes</a>
-						</li>
-						<li>
-							<a href="#" class="btn-drop typeBtn" data-name="femmes">Femmes</a>
-						</li>
+						
+					</ul>
+				</div>
+			</li>
+			<li>
+				<label class = "label_dropdown" for="typeGraph">Option : </label>
+				<div class="btn-group">
+					<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+						<span id="label-Pop"> A generer </span><span class="caret"></span>
+					</a>
+					<ul role="menu" class="dropdown-menu" id="filterGraph">		
 					</ul>
 				</div>
 			</li>
