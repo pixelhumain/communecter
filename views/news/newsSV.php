@@ -62,6 +62,7 @@ var dataBind = {
    "#tags" : "tags",
    "#id" : "typeId",
    "#type" : "type",
+   "#date" : "date",
   /* "#latitude" : "from.latitude",
    "#longitude" : "from.longitude"*/
 };
