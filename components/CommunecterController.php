@@ -207,6 +207,9 @@ class CommunecterController extends Controller
       "editlist" => array("href" => "/ph/communecter/vote/editList"),
       "multiadd" => array("href" => "/ph/communecter/vote/multiadd"),
     ),
+    "discuss"=>array(
+      "index" => array( "href" => "/ph/communecter/discuss/index"),
+    ),
     
   );
 

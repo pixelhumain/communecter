@@ -5,9 +5,17 @@ $cssAnsScriptFilesModule = array(
 	);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
 ?>
+
+<style>
+#myChart {
+	padding: 10px 10px 10px 10px;
+}
+
+</style>
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Charte du projet</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> Charte du projet</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
 				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer les propriétés"><i class="fa fa-pencil"></i>
@@ -15,26 +23,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>
-				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-					<li>
-						<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-					</li>
-					<li>
-						<a href="#" class="panel-refresh">
-							<i class="fa fa-refresh"></i> <span>Refresh</span>
-						</a>
-					</li>
-					<li>
-						<a data-toggle="modal" href="#panel-config" class="panel-config">
-							<i class="fa fa-wrench"></i> <span>Configurations</span>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="panel-expand">
-							<i class="fa fa-expand"></i> <span>Fullscreen</span>
-						</a>
-					</li>
-				</ul>
 			</div>
 			<a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
