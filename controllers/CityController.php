@@ -17,9 +17,11 @@ class CityController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'index'       	=> 'citizenToolKit.controllers.city.IndexAction',
-	        'directory'     => 'citizenToolKit.controllers.city.DirectoryAction',
-	        'calendar'      => 'citizenToolKit.controllers.city.CalendarAction',
+	        'index'       			=> 'citizenToolKit.controllers.city.IndexAction',
+	        'directory'    		 	=> 'citizenToolKit.controllers.city.DirectoryAction',
+	        'calendar'      		=> 'citizenToolKit.controllers.city.CalendarAction',
+	        'statisticpopulation' 	=> 'citizenToolKit.controllers.city.StatisticPopulationAction',
+	        'getcitydata'     		=> 'citizenToolKit.controllers.city.GetCityDataAction',
 	    );
 	}
 }
