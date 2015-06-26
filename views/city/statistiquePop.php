@@ -9,8 +9,12 @@
 
 ?>
 <style>
-	svg{
-		height: 600px;
+	#chart{
+		width: 100%;
+	}
+	#chart svg{
+		width: 100%;
+		height: 300px;
 	}
 </style>
 <div class='panel panel-white'>
@@ -79,8 +83,8 @@
 
 	mapValue2[0]["values"]=valuesTest;
 	jQuery(document).ready(function() {
-		mapData = buildDataSet(map, "population");
-		buildDataGraph();
+		
+		getMultiBarChart(map);
 		bindBtnAction();
 	})
 
@@ -114,7 +118,7 @@
 
 		$(".typeBtn").click(function(){
 			mapData = buildDataSet(map, $(this).data("name"));
-				console.log(mapData);
+				//console.log(mapData);
 				d3.select('#chart svg')
 				    .datum(mapData)
 				    .call(chart);
@@ -122,7 +126,7 @@
 				bindBtnAction();
 		})
 
-		$( ".locBtn" ).click(function() {
+		$( ".locBtn" ).off().on("click", function() {
 			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee;
 			if("undefined" != $(this).data("name")){
 				urlToSend += "/type/"+ $(this).data("name");
@@ -133,54 +137,94 @@
 				url: urlToSend,
 				dataType: "json",
 				success: function(data){
-					console.log(data);
-					mapData = buildDataSet(map, "population");
-					d3.select('#chart svg')
-					    .datum(mapData)
-					    .call(chart);
-					chart.update();
-					bindBtnAction();
+					console.log("data", data);
+					getMultiBarChart(data);
+		
 				}
 			})
 		})
 
 	}
 
-	function buildDataSet(map, value){
+	function buildDataSet(map, str){
 		var mapData= [{"key": "<?php echo $title; ?>","values": [ ]}]
-		var obj = getMapObject(map, value);
-		console.log("obj", obj);
+		var obj = getMapObject(map, str);
+		//console.log("obj", obj);
 		if(obj != ""){
 			$.each(obj, function(k, v){
 				var val = {};
 				val["label"] = k;
 				val["value"] = v["total"];
-				console.log('val', val);
+				//console.log('val', val);
 				mapData[0].values.push(val);
 			})
 		}
 		return mapData;
 	}
 
-	function buildDataSetHF(map){
-
+	function buildDataSetMulti(map, str){
+		var mapData= [];
+		
+		$.each(map, function(key,values){
+			var itemMap = {"key":key,"values": [ ]};
+			console.log("-------------------newValue--------------------", values)
+			var obj = getMapObject(values, str);
+			//console.log("v", values,  "obj", obj);
+			if(obj != ""){
+				
+				$.each(obj, function(k, v){
+					var val = {};
+					val["x"] = k;
+					val["y"] = parseInt(v["total"]);
+					//console.log('val', val);
+					itemMap.values.push(val);
+					
+				})
+				mapData.push(itemMap);
+			}
+		})
+		//console.log("mapData1", mapData);
+		return mapData;
 	}
 
-	function getMapObject(map, value){
+	function getMultiBarChart(map){
+		var mapData = buildDataSetMulti(map, "population");
+		console.log(mapData);
+		nv.addGraph(function() {
+		    var chart = nv.models.multiBarChart()
+		      .transitionDuration(350)
+		      .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
+		      .rotateLabels(0)      //Angle to rotate x-axis labels.
+		      .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+		      .groupSpacing(0.1)    //Distance between each group of bars.
+		    ;
+
+			d3.selectAll("svg > *").remove();
+			d3.select('#chart svg')
+			    .datum(mapData)
+			    .call(chart);
+
+			nv.utils.windowResize(chart.update);
+			
+			return chart;
+		})
+	}
+
+	function getMapObject(map, str){
 		
 		$.each(map, function(k, v){
-			console.log(k, v, value);
-			if(k!=value){
-				console.log(typeof(v))
+			console.log(k, v, str);
+			if(k!=str){
+				//console.log(typeof(v))
 				if("object" == typeof(v)){
-					res= getMapObject(v, value);
+					res= getMapObject(v, str);
 				}
 			}else{
-				console.log(v);
+				//console.log(v);
 				res= v;
 			}
 		})
-		console.log("resultat", res);
+		//console.log("resultat", res);
 		return res;
 	}
 </script>
