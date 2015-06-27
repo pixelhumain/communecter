@@ -69,11 +69,7 @@ class CommunecterController extends Controller
   public $subviews = array(
     "news.newsSV",
     "person.inviteSV",
-
-    //"project.projectSV",
     "event.addAttendeesSV",
-    //"project.addChartSV",
-    //"sig.networkSV",
   );
 
   public $pages = array(
@@ -88,6 +84,9 @@ class CommunecterController extends Controller
     "city"=>array(
     	"index" => array("href" => "/ph/communecter/city/index"),
     	"directory" => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
+    	'statisticpopulation' 	=> array("href" => "/ph/communecter/city/statisticpopulation"),
+    	'getcitydata' => array("href" => "/ph/communecter/city/getcitydata"),
+
     ),
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -197,7 +196,23 @@ class CommunecterController extends Controller
       "getlistbyid" => array("href"=> "ph/communecter/document/getlistbyid"),
       "upload" => array("href"=> "ph/communecter/document/upload"),
       "delete" => array("href"=> "ph/communecter/document/delete")
-    )
+    ),
+
+    "vote" => array(
+      "index" => array("href" => "/ph/communecter/vote/index"),
+      "entries" => array("href" => "/ph/communecter/vote/entries"),
+      "savesession" => array("href" => "/ph/communecter/vote/savesession"),
+      "delete" => array("href" => "/ph/communecter/vote/delete"),
+      "moderate" => array("href" => "/ph/communecter/vote/moderate"),
+      "entry" => array("href" => "/ph/communecter/vote/entry"),
+      "graph" => array("href" => "/ph/communecter/vote/graph"),
+      "textarea" => array("href" => "/ph/communecter/vote/textarea"),
+      "editlist" => array("href" => "/ph/communecter/vote/editList"),
+      "multiadd" => array("href" => "/ph/communecter/vote/multiadd"),
+    ),
+    "discuss"=>array(
+      "index" => array( "href" => "/ph/communecter/discuss/index"),
+    ),
     
   );
 

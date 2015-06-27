@@ -9,6 +9,7 @@
 class NewsController extends CommunecterController {
 
     protected function beforeAction($action) {
+    	parent::initPage();
     	return parent::beforeAction($action);
   	}
   	public function actions()
