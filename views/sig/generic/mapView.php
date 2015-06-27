@@ -1,9 +1,9 @@
 
 <div class="sigModule<?php echo $sigParams['sigKey']; ?>">
-	<div class="mapCanvas" id="mapCanvas<?php echo $sigParams['sigKey']; ?>"> 
+	<div class="mapCanvas" id="mapCanvas<?php echo $sigParams['sigKey']; ?>">
 		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
     </div>
-	
+
 	<?php if($sigParams['usePanel']){ ?>
 		<div class="panel_map">
 			<?php if(isset($sigParams['titlePanel'])) { ?>
@@ -14,30 +14,30 @@
 			</button>
 		</div>
 	<?php } ?>
-	
+
 	<?php if($sigParams['useRightList']){ ?>
 		<div id="right_tool_map" class="hidden-xs">
-			
-			<!-- 	PSEUDO SEARCH -->	
+
+			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
-				
+
 				<div class="input-group">
 						<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 						<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="recherche par nom">
 				</div>
 			</div>
-			<!-- 	PSEUDO SEARCH -->	
-			
-			<!-- 	LIST ELEMENT -->	
+			<!-- 	PSEUDO SEARCH -->
+
+			<!-- 	LIST ELEMENT -->
 			<div id="liste_map_element">
 			</div>
-			
+
 			<label id="lbl-chk-scope">
 				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
 			</label>
 		</div>
 	<?php } ?>
-	
+
 		<div class="btn-group btn-group-lg btn-group-map">
 			<button type="button" class="btn btn-map-separator"></button>
 			<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
@@ -50,14 +50,11 @@
 			<button type="button" class="btn btn-map btn-find-place"><i class="fa fa-map-marker"></i></button>
 				<br/>
 			<div class="dropdown-input-search-place" class="pull-right">
-				<!-- 91 Rue Maurice Herzog
-						Noumea 98800
-						Nouvelle-Calédonie -->
-			    <input value="13" type="text" class="input-search-place-in-map input-2s" 				 id="txt-num-place" 	placeholder="n°" 	style="margin-top:2px;">
-				<input value="rue de mézières" type="text" class="input-search-place-in-map input-2s" 				 id="txt-street-place" 	placeholder="rue" 	style="margin-top:2px;"><br/>
-				<input value="Paris" type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-city-place" 	placeholder="ville">
-				<input value="75006" type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-cp-place" 		placeholder="code postal"><br/>
-				<input value="France" type="text" class="input-search-place-in-map txt-find-place" 		 id="txt-state-place" 	placeholder="pays"><br/>
+			  <input type="text" class="input-search-place-in-map input-2s" 							 id="txt-num-place" 		placeholder="n°" 		style="margin-top:2px;">
+				<input type="text" class="input-search-place-in-map input-2s" 				 			 id="txt-street-place" 	placeholder="rue" 	style="margin-top:2px;"><br/>
+				<input type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-city-place" 		placeholder="ville">
+				<input type="text" class="input-search-place-in-map input-2s txt-find-place" id="txt-cp-place" 			placeholder="code postal"><br/>
+				<input type="text" class="input-search-place-in-map txt-find-place" 		 		 id="txt-state-place" 	placeholder="pays"><br/>
 				<div class="dropdown pull-left" id="dropdown-find-place">
 	                 <a href="#" id="btn-dropdown-find-place" data-toggle="dropdown" class="dropdown-toggle"></a>
 	                 <ul id="list-dropdown-find-place" class="dropdown-menu" style=" width:100%;" role="menu" aria-labelledby="dropdown-find-place">
@@ -65,20 +62,20 @@
 	                 </ul>
 	            </div>
 	        </div>
-			
+
 		</div>
-	
+
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">
 			<button type="button" class="btn btn-map " id="btn-full-screen"><i class="fa fa-expand"></i></button>
 		</div>-->
 	<?php } ?>
-	
+
 	<div class="btn-group btn-group-lg btn-group-map" style="left:390px">
 		<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
 	</div>
-  
+
     <?php if($sigParams['useHelpCoordinates']){ ?>
 		<div id="help-coordinates">0,000</div>
 	<?php } ?>
-</div>	
+</div>

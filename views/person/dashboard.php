@@ -87,7 +87,7 @@ var bindBtnFollow = function(){
 
 
 	$(".disconnectBtn").off().on("click",function () {
-        
+
         $(this).empty();
         $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
         var btnClick = $(this);
@@ -105,9 +105,9 @@ var bindBtnFollow = function(){
 			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
 			        dataType : "json"
 			    })
-			    .done(function (data) 
+			    .done(function (data)
 			    {
-			        if ( data && data.result ) {               
+			        if ( data && data.result ) {
 			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 			        	$("#"+typeToDisconnect+idToDisconnect).remove();
 			        	$("#linkBtns").empty();
@@ -120,7 +120,7 @@ var bindBtnFollow = function(){
 			    });
 
 		});
-		
+
 	});
 
 	$(".connectBtn").off().on("click",function () {
@@ -137,7 +137,7 @@ var bindBtnFollow = function(){
 	    })
 	    .done(function (data)
 	    {
-	        if ( data && data.result ) {               
+	        if ( data && data.result ) {
 	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
 	        	$("#linkBtns").empty();
@@ -148,9 +148,9 @@ var bindBtnFollow = function(){
 	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 	        }
 	    });
-        
+
 	});
 }
 
-	
+
 </script>
