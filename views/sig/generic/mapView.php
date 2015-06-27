@@ -40,8 +40,10 @@
 
 		<div class="btn-group btn-group-lg btn-group-map">
 			<button type="button" class="btn btn-map-separator"></button>
-			<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
-			<button type="button" class="btn btn-map-separator"></button>
+			<?php if($sigParams['useHomeButton']){ ?>
+				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
+				<button type="button" class="btn btn-map-separator"></button>
+			<?php } ?>
 			<?php if($sigParams['useZoomButton']){ ?>
 				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
 				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>

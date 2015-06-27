@@ -328,11 +328,11 @@
 								thisSig.checkListElementMap(thisMap); //alert("check");
 								layer.openPopup();
 							});
-							console.warn("--------------- showMapElements click OK  ---------------------");
+							//console.warn("--------------- showMapElements click OK  ---------------------");
 
 						}
 					});
-					console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
+					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
@@ -345,6 +345,9 @@
 
 					this.checkListElementMap(thisMap);
 					thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
+
+					this.initHomeBtn();
+
 					this.showIcoLoading(false);
 
 		};

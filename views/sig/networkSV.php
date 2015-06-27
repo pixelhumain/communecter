@@ -42,6 +42,7 @@
 					"titlePanel" => 'Thèmes',
 					"useRightList" => true,
 					"useZoomButton" => true,
+					"useHomeButton" => true,
 					"useHelpCoordinates" => false,
 					"useFullScreen" => true,
 
