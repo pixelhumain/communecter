@@ -108,10 +108,8 @@
 			this.Sig.setFullScreen = function()
 			{
 				console.warn("--------------- setFullScreen ---------------------");
-				//alert("hehe");
-				//return;
 				//full screen map
-				var mapHeight = $(".subviews.subviews-top").height();// - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
