@@ -46,6 +46,13 @@
  	border-color:yellow;
  	border-style:solid;
  }
+.popup-info-profil-thumb.organization, .popup-info-profil-thumb.NGO{
+	border-color:#60CF27;
+}
+.popup-info-profil-thumb.meeting, .popup-info-profil-thumb.event{
+	padding:15px;
+	border-color:#F03737;
+}
  .popup-info-profil-username{
  	width:100%;
  	text-transform:capitalize;
@@ -53,6 +60,15 @@
  	font-size:25px;
  	color:yellow;
  }
+.popup-info-profil-username a{
+	color:yellow;
+}
+.popup-info-profil-username a.meeting, .popup-info-profil-username a.event{
+	color:#F03737;
+}
+.popup-info-profil-username a.organization, .popup-info-profil-username a.NGO{
+	color:#60CF27;
+}
  .popup-info-profil-usertype{
  	width:100%;
  	text-align:center;

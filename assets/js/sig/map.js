@@ -188,7 +188,7 @@
 						if(this.verifyPanelFilter(thisData))
 						{
 							//préparation du contenu de la bulle
-							var content = this.getPopupCitoyen(thisData);
+							var content = this.getPopup(thisData);
 
 							//création de l'icon sur la carte
 							var theIcon = this.getIcoMarker(thisData);

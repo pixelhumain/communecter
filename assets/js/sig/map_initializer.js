@@ -35,7 +35,7 @@
 				//TODO : définir les icons et couleurs de chaque type disponoble
 				thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
-																		  "citoyens" 			: { ico : "smile-o", color : "yellow" 	},
+																		  "citoyen" 			: { ico : "smile-o", color : "yellow" 	},
 
 																			"NGO" 					: { ico : "group", color : "green" 	},
 																			"organizations" : { ico : "group", color : "green" 	},
