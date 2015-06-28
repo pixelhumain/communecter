@@ -202,6 +202,7 @@ class CommunecterController extends Controller
       "index" => array("href" => "/ph/communecter/survey/index"),
       "entries" => array("href" => "/ph/communecter/survey/entries"),
       "savesession" => array("href" => "/ph/communecter/survey/savesession"),
+      "savesurvey" => array("href" => "/ph/communecter/survey/savesurvey"),
       "delete" => array("href" => "/ph/communecter/survey/delete"),
       "addaction" => array("href" => "/ph/communecter/survey/addaction"),
       "moderate" => array("href" => "/ph/communecter/survey/moderate"),
