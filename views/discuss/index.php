@@ -56,8 +56,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 	</div>
 </div>
 <style type="text/css">
-div.commentline .columns > li:nth-child(2n+2) {margin-top: 10px;}
-.commentline_element {padding: 10px;}
 
 </style>
 <!-- end: PAGE CONTENT-->
@@ -80,34 +78,55 @@ function buildTimeLine()
 	
 	currentMonth = null;
 	countEntries = 0;
-	$.each( comments , function(key,commentsObj)
+	
+	$('.commentsTL').append(buildComments(comments, 0));
+	//if(!countEntries)
+	//	$(".commentsTL").html("<div class='center text-extra-large'>Sorry, no comments available</div>");
+	bindEvent();
+}
+
+function buildComments(commentsLevel, level) {
+	console.log(level);
+	if (level == 0) {
+		var commentsHTML = '<ul class="tree">';
+	} else {
+		var commentsHTML = '<ul class="level">';	
+	}
+	
+	$.each( commentsLevel , function(key,commentsObj)
 	{
 		if(commentsObj.text && commentsObj.created)
 		{
 			var date = new Date( parseInt(commentsObj.created)*1000 );
 			//console.dir(newsObj);
 			var commentsTLLine = buildLineHTML(commentsObj);
-			$(".commentsTL"+date.getMonth()).append(commentsTLLine);
-			countEntries++;
+			commentsHTML += (commentsTLLine);
+			
+			console.log(commentsObj.replies, commentsObj.replies.length);
+			if (commentsObj.replies.length != 0) {
+				nextLevel = level + 1;
+				var commentsTLLineDown = buildComments(commentsObj.replies, nextLevel);
+				commentsHTML += commentsTLLineDown;
+			}
 		}
 	});
-	if(!countEntries)
-		$(".commentsTL").html("<div class='center text-extra-large'>Sorry, no comments available</div>");
-	bindEvent();
+	commentsHTML += "</ul>";
+	return commentsHTML;
 }
 
 var currentMonth = null;
 function buildLineHTML(commentsObj)
 {
+	var id = commentsObj["_id"]["$id"];
 	var date = new Date( parseInt(commentsObj.created)*1000 );
-	var year = date.getFullYear();
+	var year = '2015'//date.commentsTLLinegetFullYear();
 	var month = months[date.getMonth()];
 	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
 	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	console.log("date",dateStr);
-	if( currentMonth != date.getMonth() )
+	/*if( currentMonth != date.getMonth() )
 	{
 		currentMonth = date.getMonth();
 		linkHTML =  '<li class="">'+
@@ -120,14 +139,18 @@ function buildLineHTML(commentsObj)
 					'</div>'+
 					'<ul class="columns commentsTL'+date.getMonth()+'"></ul>';
 		$(".commentsTL").append(titleHTML);
-	}
+	}*/
+	/*var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
+	url = 'href="javascript:;" onclick="'+url+'"';	
+	var objectDetail = (commentsObj.object && commentsObj.object.displayName) ? '<div>Name : '+commentsObj.object.displayName+'</div>'	 : "";
+	*/
+	
+	iconStr = '<i class=" fa fa-user_circled fa-2x pull-left fa-border"></i>';
+	var objectLink = (commentsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 
 	var color = "white";
 	var icon = "fa-user";
-	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
-	url = 'href="javascript:;" onclick="'+url+'"';	
-	iconStr = '<i class=" fa fa-user_circled fa-2x pull-left fa-border"></i>';
 	var title = commentsObj.author.name;
 	var text = commentsObj.text;
 	var tags = "";
@@ -138,13 +161,13 @@ function buildLineHTML(commentsObj)
 		});
 		tags = '<div class="pull-right"><i class="fa fa-tags"></i> '+tags+'</div>';
 	}
-	var objectDetail = (commentsObj.object && commentsObj.object.displayName) ? '<div>Name : '+commentsObj.object.displayName+'</div>'	 : "";
-	var objectLink = (commentsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
+	
 	
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
-	
-	commentsTLLine = '<li><div class="commentline_element partition-'+color+'">'+
+	var commentsTLLine;
+
+	commentsTLLine = '<li><div id="comment'+ id + '" class="commentline_element partition-'+color+'">'+
 					tags+
 					'<div class="commentline_title">'+
 						objectLink+
