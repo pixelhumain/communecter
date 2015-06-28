@@ -301,6 +301,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
+
 		Main.init();
 		Login.init();		
 	});
@@ -602,6 +603,7 @@ var Login = function() {
 	return {
 		//main function to initiate template pages
 		init : function() {
+			addCustomValidators();
 			runBoxToShow();
 			runLoginButtons();
 			runSetDefaultValidation();
