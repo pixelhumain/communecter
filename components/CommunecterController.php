@@ -84,6 +84,9 @@ class CommunecterController extends Controller
     "city"=>array(
     	"index" => array("href" => "/ph/communecter/city/index"),
     	"directory" => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
+    	'statisticpopulation' 	=> array("href" => "/ph/communecter/city/statisticpopulation"),
+    	'getcitydata' => array("href" => "/ph/communecter/city/getcitydata"),
+
     ),
     "news"=>array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
