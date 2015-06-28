@@ -195,17 +195,18 @@ class CommunecterController extends Controller
       "delete" => array("href"=> "ph/communecter/document/delete")
     ),
 
-    "vote" => array(
-      "index" => array("href" => "/ph/communecter/vote/index"),
-      "entries" => array("href" => "/ph/communecter/vote/entries"),
-      "savesession" => array("href" => "/ph/communecter/vote/savesession"),
-      "delete" => array("href" => "/ph/communecter/vote/delete"),
-      "moderate" => array("href" => "/ph/communecter/vote/moderate"),
-      "entry" => array("href" => "/ph/communecter/vote/entry"),
-      "graph" => array("href" => "/ph/communecter/vote/graph"),
-      "textarea" => array("href" => "/ph/communecter/vote/textarea"),
-      "editlist" => array("href" => "/ph/communecter/vote/editList"),
-      "multiadd" => array("href" => "/ph/communecter/vote/multiadd"),
+    "survey" => array(
+      "index" => array("href" => "/ph/communecter/survey/index"),
+      "entries" => array("href" => "/ph/communecter/survey/entries"),
+      "savesession" => array("href" => "/ph/communecter/survey/savesession"),
+      "delete" => array("href" => "/ph/communecter/survey/delete"),
+      "addaction" => array("href" => "/ph/communecter/survey/addaction"),
+      "moderate" => array("href" => "/ph/communecter/survey/moderate"),
+      "entry" => array("href" => "/ph/communecter/survey/entry"),
+      "graph" => array("href" => "/ph/communecter/survey/graph"),
+      "textarea" => array("href" => "/ph/communecter/survey/textarea"),
+      "editlist" => array("href" => "/ph/communecter/survey/editList"),
+      "multiadd" => array("href" => "/ph/communecter/survey/multiadd"),
     ),
     "discuss"=>array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),

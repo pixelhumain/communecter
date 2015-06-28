@@ -1,6 +1,4 @@
-
 <script type="text/javascript">
-
 var proposalFormDefinition = {
     "jsonSchema" : {
         "title" : "News Form",
@@ -42,18 +40,15 @@ var proposalFormDefinition = {
                       "Urbanisme",
                 ]
               },
-          
         }
-    },
-    "collection" : "organization",
-    "key" : "ajaxForm",
+    }
 };
 
 var dataBind = {
    "#message" : "message",
    "#name" : "name",
    "#tags" : "tags",
-   "#id" : "typeId",
+   "#id"   : "typeId",
    "#type" : "type",
 };
 
@@ -120,15 +115,14 @@ function editEntrySV (proposalObj) {
              console.dir(params);
              $.ajax({
                 type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/vote/saveSession")?>',
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSession")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
-                      window.location.reload();
+                      //window.location.reload();
                   }
                   else {
-                        $("#flashInfo .modal-body").html(data.msg);
-                        $("#flashInfo").modal('show');
+                    toastr.error(data.msg);
                   }
                   $.unblockUI();
                 },

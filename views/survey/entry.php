@@ -15,9 +15,9 @@ echo preg_replace_callback($regex, function ($matches) {
 <?php 
 if(isset( Yii::app()->session["userId"])){
 	if(Yii::app()->session["userEmail"] != $survey["email"]){
-	if(!(isset($survey[ActionType::ACTION_FOLLOW]) 
-	    && is_array($survey[ActionType::ACTION_FOLLOW]) 
-	    && in_array(Yii::app()->session["userId"], $survey[ActionType::ACTION_FOLLOW]))) {
+	if(!(isset($survey[Action::ACTION_FOLLOW]) 
+	    && is_array($survey[Action::ACTION_FOLLOW]) 
+	    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) {
 	    	/*?>
 	<br/><a class="btn" href="javascript:addaction('<?php echo (string)$survey["_id"]?>','<?php echo ActionType::ACTION_FOLLOW ?>')"><i class='fa fa-rss' ></i> Suivre cette loi</a>
 	<?php } else {?>
@@ -25,7 +25,7 @@ if(isset( Yii::app()->session["userId"])){
 	<?php */} 
 } else {?>
 	<br/>Vous etes a l'origine de cette loi.
-	<br/><a class="btn" onclick="entryDetail('<?php echo Yii::app()->createUrl("/pppm/default/entry/surveyId/".(string)$survey["_id"])?>','edit')" href="javascript:;"><i class='fa fa-pencil' ></i> Editer votre loi</a>
+	<br/><a class="btn" onclick="entryDetail('<?php echo Yii::app()->createUrl("/pppm/default/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;"><i class='fa fa-pencil' ></i> Editer votre loi</a>
 
 <?php }} ?>
 
