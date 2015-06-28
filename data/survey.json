@@ -1,0 +1,68 @@
+Collection Vote :
+{
+    "_id" : ObjectId("5392efb3f6b95c0c07006e8b"),
+    "who" : "survey6@survey.com",
+    "actionType" : "voteDown",
+    "collection" : "surveys",
+    "ojectId" : "5392b85252b2a1111dcf6b8e",
+    "created" : 1.40214e+09
+}
+
+Collection Survey
+{
+    "_id" : ObjectId("5392b5cd52b2a1111dcf6b8b"),
+    "cp" : "97500",
+    "created" : 1.40212e+09,
+    "email" : "survey6@survey.com",
+    "follow" : [ 
+        "5391b05df6b95c400c0054de"
+    ],
+    "followCount" : 1,
+    "message" : "saveEntryForm saveEntryForm",
+    "name" : "saveEntryForm",
+    "survey" : "5390592ffaf81397a0c26289",
+    "tags" : [ 
+        ""
+    ],
+    "type" : "entry",
+    "voteAbstain" : [ 
+        "539f4576f6b95c6c270037e5"
+    ],
+    "voteAbstainCount" : 1,
+    "voteDown" : [ 
+        "538da6eef6b95c742a003106"
+    ],
+    "voteDownCount" : 1,
+    "voteMoreInfo" : [ 
+        "5391b05df6b95c400c0054de"
+    ],
+    "voteMoreInfoCount" : 1,
+    "voteUnclear" : [ 
+        "539eb518f6b95cc823005d2b"
+    ],
+    "voteUnclearCount" : 1,
+    "voteUp" : [ 
+        "53919b9ef6b95cd418000029", 
+        "520931e2f6b95c5cd3003d6c"
+    ],
+    "voteUpCount" : 2
+}
+
+Collection News
+{
+    "_id" : ObjectId("558cfe5d2336f285060041aa"),
+    "name" : "Pas d'accord : Ubber c'est l'avenir !",
+    "text" : "Pourquoi interdir qqch qui simplifie la vie des citoyens et fait bouger un peu le monde ! Trop de conservateurs en France !",
+    "author" : "5577e2efa1aa14f08f0041ca",
+    "created" : NumberLong(1435303517),
+    "tags" : [ 
+        "Culture"
+    ],
+    "id" : "5577e2efa1aa14f08f0041ca",
+    "type" : "citoyens",
+    "from" : {
+        "@type" : "GeoCoordinates",
+        "latitude" : "-21.10592900",
+        "longitude" : "55.29517400"
+    }
+}

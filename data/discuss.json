@@ -1,0 +1,54 @@
+Collection Discuss
+{
+	"_id" : ObjectId("558cfe5d2336f285060042aa"),
+    "author" : "5577e2efa1aa14f08f0041ca",
+    "created" : NumberLong(1435303517),
+    "tags" : [ 
+        "Culture"
+    ],
+    "parentId" : "5577e2efa1aa14f08f0041ca",
+    "parentType" : "news",
+    "geo" : {
+        "@type" : "GeoCoordinates",
+        "latitude" : "-21.10592900",
+        "longitude" : "55.29517400"
+    }
+}
+
+
+Collection Comment
+{
+	"_id" : ObjectId("558cfe5d2339f285060041aa"),
+    "text" : "ça c'est bien vrai !",
+    "author" : "5577e2efa1aa14f08f0041ca",
+    "created" : NumberLong(1435303517),
+    "tags" : [ 
+        "Culture"
+    ],
+    "parentId" : "558cfe5d2336f285060042aa",
+    "parentType" : "discuss"
+}
+
+{
+	"_id" : ObjectId("558cfe5d2339f285060042bb"),
+    "text" : "Arrête avec tes généralités !",
+    "author" : "5577e2efa1aa14f08f0041ca",
+    "created" : NumberLong(1435303517),
+    "tags" : [ 
+        "Culture"
+    ],
+    "parentId" : "558cfe5d2339f285060041aa",
+    "parentType" : "comment"
+}
+
+{
+	"_id" : ObjectId("558cfe5d2339f285060042cc"),
+    "text" : "Oui mais tu as pensais aux pauvres chauffeurs de taxi qui ont payé une licence à 20K€ ?",
+    "author" : "5577e2efa1aa14f08f0041ca",
+    "created" : NumberLong(1435303517),
+    "tags" : [ 
+        "Culture"
+    ],
+    "parentId" : "558cfe5d2336f285060042aa",
+    "parentType" : "discuss"
+}
