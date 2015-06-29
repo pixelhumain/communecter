@@ -18,8 +18,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> Charte du projet</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
+				<?php if ($admin){ ?>
 				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer les propriétés"><i class="fa fa-pencil"></i>
 				</a>
+				<?php } ?>
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>

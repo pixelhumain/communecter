@@ -158,10 +158,12 @@ class CommunecterController extends Controller
       "save"=>array("href"=>"/ph/communecter/project/save"),
       "savecontributor"=>array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"=>array("href"=>"/ph/communecter/project/dashboard"),
-	    "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
-	    "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
-	    "updatefield"=>array("href"=>"/ph/communecter/project/updatefield"),
+	  "removeproject"=>array("href"=>"/ph/communecter/project/removeproject"),
+	  "editchart"=>array("href"=>"/ph/communecter/project/editchart"),
+	  "updatefield"=>array("href"=>"/ph/communecter/project/updatefield"),
       "projectsv"=>array("href"=>"/ph/communecter/project/projectsv"),
+      "savetask"=>array("href"=>"/ph/communecter/project/savetask"),
+       "removetask"=>array("href"=>"/ph/communecter/project/removetask"),
     ),
 
     "job"=> array(
