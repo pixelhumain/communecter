@@ -4,10 +4,16 @@
 </div>
 
 <div class="col-lg-4 col-md-12">
-	<?php $this->renderPartial('dashboard/description',array( "event" => $event, "organizer" =>$organizer, "itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)); ?>
+	<?php $this->renderPartial('dashboard/description',array( 
+							"event" => $event, 
+							"organizer" =>$organizer, 
+							"itemId" => (string)$event["_id"], 
+							"eventTypes" => $eventTypes,
+							"type" => PHType::TYPE_EVENTS,
+							"countries" => $countries)); ?>
 </div>
 <div class ="col-lg-4 col-md-12">
-	 <?php $this->renderPartial('dashboard/attendees',array( "attending" => $attending)); ?>
+	 <?php $this->renderPartial('dashboard/attendees',array( "event" => $event, "attending" => $attending)); ?>
 </div>
 
 </div>
@@ -21,8 +27,6 @@
 
 
 	var bindBtnFollow = function(){
-
-
 		$(".disconnectBtn").off().on("click",function () {
 	        
 	        $(this).empty();
