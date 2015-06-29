@@ -119,14 +119,9 @@ function buildComments(commentsLevel, level) {
 function buildLineHTML(commentsObj)
 {
 	var id = commentsObj["_id"]["$id"];
-	var date = new Date( parseInt(commentsObj.created)*1000 );
-	var year = '2015'//date.commentsTLLinegetFullYear();
-	var month = months[date.getMonth()];
-	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
-	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
-	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
-	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	console.log("date",dateStr);
+	var date = moment(commentsObj.created * 1000);
+	var dateStr = date.format('D MMM YYYY hh:mm');
+	console.log("date",commentsObj.created, dateStr);
 	/*if( currentMonth != date.getMonth() )
 	{
 		currentMonth = date.getMonth();
@@ -228,14 +223,9 @@ function replyComment(parentCommentId) {
 	toastr.info('Reply to comment '+parentCommentId);
 	
 	var id = 'newcomment';
-	var date = new Date();
-	var year = '2015'//date.commentsTLLinegetFullYear();
-	var month = months[date.getMonth()];
-	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
-	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
-	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
-	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	console.log("date",dateStr);
+	var date = moment();
+	var dateStr = date.format('D MMM YYYY hh:mm');//day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	console.log("date", dateStr);
 	
 	iconStr = '<i class=" fa fa-user_circled fa-2x pull-left fa-border"></i>';
 	var objectLink = iconStr;
