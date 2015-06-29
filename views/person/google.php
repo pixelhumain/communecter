@@ -34,11 +34,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 						data-calltoactionurl="http://www.pixelhumain.com"
 						data-cookiepolicy="single_host_origin"
 						data-prefilltext="Viens nous rejoindre!!!">
-						Partager PixelHumain sur Google+
+						Partagez PixelHumain sur Google+
 					</button>
 					<button id="contacts"
 						class="btn btn-primary col-md-3 col-md-offset-1">
-						Récupère tes contacts Gmail
+						Récupérez vos contacts Gmail
 					</button>
 				</div>
 				<div class="row">&nbsp;

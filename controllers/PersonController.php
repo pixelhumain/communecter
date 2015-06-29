@@ -111,15 +111,19 @@ public function actionInitDataPeople()
   {
     foreach ($_POST['mails'] as $value) 
     {
-      $message = new YiiMailMessage;
-      $message->setSubject("Communecte toi");
-      $message->setBody($_POST['textmail']."<br/><a href='http://pixelhumain.com'>PixelHumain</a>", 'text/html');
-      $message->addTo($value);
-      $message->from = Yii::app()->params['adminEmail'];
+      if (filter_var($value, FILTER_VALIDATE_EMAIL)) 
+      {
+        $message = new YiiMailMessage;
+        $message->setSubject("Communecte toi");
+        $message->setBody($_POST['textmail']."<br/><a href='http://pixelhumain.com'>PixelHumain</a>", 'text/html');
+        $message->addTo($value);
+        $message->from = Yii::app()->params['adminEmail'];
 
-      Yii::app()->mail->send($message);
-     
-      Yii::app()->session["mailsend"] = true;
+        Yii::app()->mail->send($message);
+       
+        Yii::app()->session["mailsend"] = true;
+
+      }
     
     }
     return Rest::json(array('result'=> true));
