@@ -85,13 +85,75 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
                     cued: function() { console.log('cued') },*/
                  });
 	}
+	var titleMapIndex = 1;
+	var titleMap = [
+		{titleRed:"CO",titleWhite:"MMU",titleWhite2:"NECTER",subTitle:"Se connecter à sa commune"},
+		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Se connecter à sa commune"},
+		{titleRed:"CO",titleWhite:"MMUNECTER",subTitle:"Coopérer et Collaborer"},
+		{titleRed:"COMM",titleWhite:"UNECTER",subTitle:"Communiquons mieux localement"},
+		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Une communauté qui travail ensemble"},
+		{titleRed:"COMMUN",titleWhite:"ECTER",subTitle:"Pour le bien commun"},
+		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Pour améliorer la ville 2.2.main"}
+		
+	];
+	function titleAnim () 
+	{ 
+		setTimeout(function()
+		{
+			console.log("titleAnim",titleMapIndex);
+			var map = titleMap[titleMapIndex];
+			$(".titleRed").html(map.titleRed);
+			$(".titleWhite").html(map.titleWhite);
+			if(map.titleWhite2){
+				$(".titleWhite2").html(map.titleWhite2);
+				//toggleTitle ();
+			}
+			else
+				$(".titleWhite2").html("");
+			$(".subTitle").html(map.subTitle);
+			$('.loaderDots').html("");
+			titleMapIndex = ( titleMapIndex == titleMap.length-1 ) ? 0 : titleMapIndex+1;
+			titleAnim ();
+		},3000);
+	}
+	function loaderPoints () { 
+		/*setTimeout(function(){
+			$('.loaderDots').html($('.loaderDots').html()+".");	
+			loaderPoints ();
+		},800)*/
+	}
+	/*var toggleTitleState = -1;
+	function  toggleTitle (state) {
+
+		console.log("toggleTitle",toggleTitleState); 
+		setTimeout(function(){
+
+			if(state>0)
+			{
+				$(".titleRed").html("COMMUNE");
+				$(".titleWhite").html("CTER");
+				$(".titleWhite2").html("");
+			}
+			else
+			{
+				$(".titleRed").html("CO");
+				$(".titleWhite").html("MMU");
+				$(".titleWhite2").html("NECTER");
+			}
+			toggleTitleState = -toggleTitleState; 
+		},500);
+	}*/
 </script>
 
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 168px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
+	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
-
+		<div class="text-white text-extra-large text-bold center">
+			<span class="titleRed text-red homestead" style="font-size:40px">CO</span><span  style="font-size:40px" class="titleWhite homestead">MMU</span><span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span><span style="font-size:40px" class="titleWhite homestead loaderDots"></span>
+			
+			<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
+		</div>
 		<div class="box-menu box">
 			<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
 				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><img  style="height:47px;margin-bottom: 7px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
@@ -118,7 +180,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 
 		<div class="box-why box">
 			<h1><i class="fa fa-heart"></i> WHY</h1>
-			<section>
+			<section class="homestead">
 				Because We Love you
 			</section>
 		</div>
@@ -165,9 +227,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		</div>
 
 		<div class="box-login box radius-20">
+
 			<form class="form-login" action="" method="POST">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
+				<?php //echo Yii::app()->session["requestedUrl"]." - ".Yii::app()->request->url; ?>
 				<fieldset style="padding-left:70px;padding-right:70px;">
 					<div class="form-group">
 						<span class="input-icon">		
@@ -283,6 +347,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 					</div>
 
 					<div class="form-actions">
+						<div class="errorHandler alert alert-danger no-display registerResult">
+							<i class="fa fa-remove-sign"></i> Please verify your entries.
+						</div>
 						Already have an account?
 						<a href="#" class="go-back">
 							Log-in
@@ -303,7 +370,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 	jQuery(document).ready(function() {
 
 		Main.init();
-		Login.init();		
+		Login.init();	
+		titleAnim ();	
+		loaderPoints ();
 	});
 
 var timeout;
@@ -444,7 +513,11 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
-		        		window.location.reload();
+		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
+		    		  	if(url)
+		    		  		window.location.href = url;
+		        		else
+		        			window.location.reload();
 		    		  }
 		    		  else {
 						$('.loginResult').html(data.msg);

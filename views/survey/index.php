@@ -199,17 +199,34 @@ $commentActive = true;
       $rightLinks = (  isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
       $rightLinks = ($value["type"]==Survey::TYPE_ENTRY) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
       $ordre = $voteUpCount+$voteDownCount;
-      $created = (isset($value["created"])) ? $value["created"] : ""; 
+      $created = (isset($value["created"])) ? date("d/m/Y h:i",$value["created"]) : ""; 
+      $byInfo = "";
+      if ( isset($value["parentType"]) && isset($value["parentId"]) ) 
+      {
+        if($value["parentType"] == Organization::COLLECTION){
+            $parentCtrler = Organization::CONTROLLER;
+            $parentIcon = "group";
+        }
+        else if($value["parentType"] == Person::COLLECTION){
+            $parentCtrler = Person::CONTROLLER;
+            $parentIcon = "user";
+        }
+        //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
+        $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
+      }
+
+      $createdInfo =  (!empty( $created )) ? "<br/>created : ".$created : "";
       $blocks .= ' <div class="mix '.$avoter.' '.
                     $meslois.' '.
                     $followingEntry.' '.
                     $tags.' '.
-                    //$cpList.'" 
+                    $cpList.'"'.
                     'data-vote="'.$ordre.'"  data-time="'.
                     $created.'" style="display:inline-blocks"">'.
                     $link.'<br/>'.
                     $info.
-                    "created : ".$created.
+                    $byInfo.
+                    $createdInfo.
                     //$tags.
                     //$content.
                     '<br/>'.
