@@ -116,6 +116,12 @@ class CommunecterController extends Controller
       "getbyid"=>array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" =>array("href"=>"/ph/communecter/person/getorganization"),
       "updatename"=>array("href"=>"/ph/communecter/person/updatename"),
+
+      "network"=> array('href' => "/ph/communecter/person/network"),
+      "google"=> array('href' => "/ph/communecter/person/google"),
+      "sendmail"=> array('href' => "/ph/communecter/person/sendmail"),
+      "importfile"=> array('href' => "/ph/communecter/person/importfile"),
+      "saisir"=> array('href' => "/ph/communecter/person/saisir"),
       
       //Init Data
       "clearinitdatapeopleall"=>array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),

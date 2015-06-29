@@ -46,7 +46,11 @@ class PersonController extends CommunecterController {
 	        'invitation'  => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	=> 'citizenToolKit.controllers.person.UpdateFieldAction',
           'directory'   => 'citizenToolKit.controllers.person.DirectoryAction',
-          'data'        => 'citizenToolKit.controllers.person.DataAction'
+          'data'        => 'citizenToolKit.controllers.person.DataAction',
+          'network' => 'citizenToolKit.controllers.person.NetworkAction',
+          'google' => 'citizenToolKit.controllers.person.GoogleAction',
+          'importfile' => 'citizenToolKit.controllers.person.ImportFileAction',
+          'saisir' => 'citizenToolKit.controllers.person.SaisirAction'
 	    );
 	}
 
@@ -103,5 +107,22 @@ public function actionInitDataPeople()
     Yii::app()->end();
   }
  
+ public function actionSendMail()
+  {
+    foreach ($_POST['mails'] as $value) 
+    {
+      $message = new YiiMailMessage;
+      $message->setSubject("Communecte toi");
+      $message->setBody($_POST['textmail']."<br/><a href='http://pixelhumain.com'>PixelHumain</a>", 'text/html');
+      $message->addTo($value);
+      $message->from = Yii::app()->params['adminEmail'];
+
+      Yii::app()->mail->send($message);
+     
+      Yii::app()->session["mailsend"] = true;
+    
+    }
+    return Rest::json(array('result'=> true));
+  }
 
 }
