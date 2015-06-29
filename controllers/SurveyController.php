@@ -18,11 +18,12 @@ class SurveyController extends CommunecterController {
     public function actions()
   {
       return array(
-          'index'  => 'citizenToolKit.controllers.survey.IndexAction',
-          'entries'  => 'citizenToolKit.controllers.survey.EntriesAction',
-          'entry'  => 'citizenToolKit.controllers.survey.EntryAction',
-          'graph'  => 'citizenToolKit.controllers.survey.GraphAction',
+          'index'        => 'citizenToolKit.controllers.survey.IndexAction',
+          'entries'      => 'citizenToolKit.controllers.survey.EntriesAction',
+          'entry'        => 'citizenToolKit.controllers.survey.EntryAction',
+          'graph'        => 'citizenToolKit.controllers.survey.GraphAction',
           'savesession'  => 'citizenToolKit.controllers.survey.SaveSessionAction',
+          'savesurvey'   => 'citizenToolKit.controllers.survey.SaveSurveyAction',
           'moderate'     => 'citizenToolKit.controllers.survey.ModerateAction',
           'delete'       => 'citizenToolKit.controllers.survey.DeleteAction',
           'addaction'    => 'citizenToolKit.controllers.action.AddActionAction'

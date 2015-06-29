@@ -54,21 +54,24 @@ $commentActive = true;
       $cpList = (isset($value["cp"])) ? $value["cp"] : "";
       if( !isset($_GET["cp"]) && $value["type"] == Survey::TYPE_SURVEY )
       {
-        if(is_array($value["cp"]))
+        if(isset($value["cp"]))
         {
-          $cpList = "";
-          foreach ($value["cp"] as $cp) {
-            if(!in_array($cp, $cps)){
-              $cpBlock .= ' <button class="filter " data-filter=".'.$cp.'">'.$cp.'</button>';
-              array_push($cps, $cp);
+          if(is_array($value["cp"]))
+          {
+            $cpList = "";
+            foreach ($value["cp"] as $cp) {
+              if(!in_array($cp, $cps)){
+                $cpBlock .= ' <button class="filter " data-filter=".'.$cp.'">'.$cp.'</button>';
+                array_push($cps, $cp);
+              }
+              $cpList .= $cp." ";
             }
-            $cpList .= $cp." ";
+          } 
+          else if(!in_array($value["cp"], $cps))
+          {
+            $cpBlock .= ' <button class="filter " data-filter=".'.$value["cp"].'">'.$value["cp"].'</button>';
+            array_push($cps, $value["cp"]);
           }
-        } 
-        else if(!in_array($value["cp"], $cps))
-        {
-          $cpBlock .= ' <button class="filter " data-filter=".'.$value["cp"].'">'.$value["cp"].'</button>';
-          array_push($cps, $value["cp"]);
         }
       }
 
@@ -248,8 +251,9 @@ $commentActive = true;
 </div>
 
 <div id="mixcontainer" class="mixcontainer">
-  <?php echo  $blocks; 
-                            ?>
+  <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
+                                          '<a href="#" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
+                                         '</div>'; ?>
 </div>
 
 </div>
@@ -402,7 +406,8 @@ if($where["type"]==Survey::TYPE_ENTRY){
   $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.cgu');
   if($commentActive)
     $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.comments');
-}
+} else
+  $this->renderPartial('editSurveySV');
 ?>
 
 

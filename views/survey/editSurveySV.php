@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var proposalFormDefinition = {
+var surveyFormDefinition = {
     "jsonSchema" : {
         "title" : "News Form",
         "type" : "object",
@@ -19,17 +19,6 @@ var proposalFormDefinition = {
                 "required" : true
               }
             },
-            "message" :{
-              "inputType" : "textarea",
-              "placeholder" : "Texte de la proposition",
-              "rules" : {
-                "required" : true
-              }
-            },
-            "urls" : {
-                  "inputType" : "array",
-                  "placeholder" : "url",
-            },
             "tags" :{
                 "inputType" : "tags",
                 "placeholder" : "Tags",
@@ -48,29 +37,26 @@ var dataBind = {
    "#message" : "message",
    "#name" : "name",
    "#tags" : "tags",
-   "#id"   : "typeId",
-   "#type" : "type",
+   "#id"   : "parentId",
+   "#type" : "parentType",
 };
 
 jQuery(document).ready(function() {
-  
-  $(".newVoteProposal").off().on("click",function() { 
-    editEntrySV ();
+  console.warn("--------------- newSurvey ---------------------");
+  $(".newSurvey").off().on("click",function() { 
+    console.warn("--------------- newSurvey CLIK---------------------");
+    editSurveySV ();
   });
 });
 
-function editEntrySV (proposalObj) { 
+function editSurveySV (surveyObj) { 
   console.warn("--------------- editEntrySV ---------------------");
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
+              "<h1 id='proposerloiFormLabel' >New Survey</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-                "<div class='clear'>Les propositions sont modérées avant publication sur le site afin d'éviter tous propos contraires à la loi ou susceptible de troubler l`ordre public."+
-                "Nous nous réservons donc la possibilité de modifier, reformuler, compléter, différer ou ne pas publier tout ou partie d`une proposition. Dans cette éventualité, nous pouvons être amener à vous contacter par mail."+
-                "<br/>Selon le nombre de propositions reçues, le délai de mise en ligne peut être variable. En cas d`urgence, merci le signaler des le début de votre proposition."+
-                "Votre proposition sera publiée par l`administrateur du sondage. <br/>Ni votre adresse email ni votre nom n`apparaitront sur le site public."+
-                "Vous pouvez aussi nous faire part de toute remarque constructive, nous permettant d`améliorer ce site à votre service</div>"+ 
+                "<div class='clear'>Surveys contain subject to vote on, brainstorm sessoins, discussions...</div>"+ 
               "</div>");
     $.subview({
       content : "#ajaxSV",
@@ -78,13 +64,10 @@ function editEntrySV (proposalObj) {
       {
         var form = $.dynForm({
           formId : "#ajaxForm",
-          formObj : proposalFormDefinition,
+          formObj : surveyFormDefinition,
           onLoad : function  () {
-            if( proposalObj ){
-              $("#proposerloiFormLabel").html(data.title);
+            if( surveyObj ){
               $("#name").val(data.title);
-              $("#message").val(data.contentBrut);
-              AutoGrowTextArea($("message"));
             }
           },
           onSave : function(){
@@ -102,22 +85,22 @@ function editEntrySV (proposalObj) {
                           '</blockquote> '
                   });
               var params = { 
-                 "survey" : "<?php echo (string)$survey['_id']?>", 
-                 "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
+                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#name").val() , 
                  "tags" : $("#tags").val().split(","),
-                 "message" : $("#message").val(),
                  <?php  
                  //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                  ?>
-                 "type" : "<?php echo Survey::TYPE_ENTRY?>",
-                 "urls" : getUrls(),
-                 "app" : "<?php echo $this->module->id?>"
+                 "type" : "<?php echo Survey::TYPE_SURVEY?>"
               };
+              if( $("#type").val() != "")
+                params.parentType = $("#type").val();
+              if( $("#id").val() != "")
+                params.parentId = $("#id").val();
              console.dir(params);
              $.ajax({
                 type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSession")?>',
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSurvey")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
