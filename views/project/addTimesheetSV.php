@@ -6,9 +6,7 @@ $cssAnsScriptFilesTheme = array(
 	//Select2
 	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css',
 	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js',
-	'/assets/plugins/DataTables/media/css/jquery.dataTables.css',
-	'/assets/plugins/DataTables/media/js/jquery.dataTables.min.js',
-	//'/assets/js/ui-sliders.js',
+		//'/assets/js/ui-sliders.js',
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -86,7 +84,7 @@ $cssAnsScriptFilesModule = array(
 	</div>
 	<div class="row ">
 	 	<div class="col-md-8 col-md-offset-2">
-	        <table class="table table-striped table-bordered table-hover dataTable newTasksAddedTable hide">
+	        <table class="table table-striped table-bordered table-hover newTasksAddedTable hide">
 	            <thead>
 	                <tr>
 	                    <th>Name</th>
@@ -316,7 +314,7 @@ function nameTimesheetClass(color){
 }
 function resetGenericFilesTable() 
 {
-	console.log("resetGenericFilesTable");
+	/*console.log("resetGenericFilesTable");
 	if( !$('.newTasksAddedTable').hasClass("dataTable") ){
 		genericFilesTable = $('.newTasksAddedTable').dataTable({
 			"aoColumnDefs" : [{
@@ -344,6 +342,6 @@ function resetGenericFilesTable()
 			console.log(" projectFilesTable fnClearTable");
 			$(".newTaskAdded").dataTable().fnClearTable();
 		}
-	}
+	}*/
 }
 </script>
