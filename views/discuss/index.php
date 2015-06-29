@@ -63,11 +63,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 var discuss = <?php echo json_encode($discuss)?>;
 var comments = <?php echo json_encode($discuss["comments"])?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
+var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 
 jQuery(document).ready(function() 
 {
 	buildTimeLine();
-	
 });
 
 function buildTimeLine()
@@ -98,15 +98,17 @@ function buildComments(commentsLevel, level) {
 		if(commentsObj.text && commentsObj.created)
 		{
 			var date = new Date( parseInt(commentsObj.created)*1000 );
-			//console.dir(newsObj);
 			var commentsTLLine = buildLineHTML(commentsObj);
-			commentsHTML += (commentsTLLine);
+			
+			commentsHTML += commentsTLLine;
 			
 			console.log(commentsObj.replies, commentsObj.replies.length);
 			if (commentsObj.replies.length != 0) {
 				nextLevel = level + 1;
 				var commentsTLLineDown = buildComments(commentsObj.replies, nextLevel);
 				commentsHTML += commentsTLLineDown;
+			} else {
+				commentsHTML += "</li>";
 			}
 		}
 	});
@@ -114,18 +116,12 @@ function buildComments(commentsLevel, level) {
 	return commentsHTML;
 }
 
-var currentMonth = null;
 function buildLineHTML(commentsObj)
 {
 	var id = commentsObj["_id"]["$id"];
-	var date = new Date( parseInt(commentsObj.created)*1000 );
-	var year = '2015'//date.commentsTLLinegetFullYear();
-	var month = months[date.getMonth()];
-	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
-	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
-	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
-	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	console.log("date",dateStr);
+	var date = moment(commentsObj.created * 1000);
+	var dateStr = date.format('D MMM YYYY hh:mm');
+	console.log("date",commentsObj.created, dateStr);
 	/*if( currentMonth != date.getMonth() )
 	{
 		currentMonth = date.getMonth();
@@ -162,12 +158,11 @@ function buildLineHTML(commentsObj)
 		tags = '<div class="pull-right"><i class="fa fa-tags"></i> '+tags+'</div>';
 	}
 	
-	
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
 
-	commentsTLLine = '<li><div id="comment'+ id + '" class="commentline_element partition-'+color+'">'+
+	commentsTLLine = '<li id="comment'+id+'"><div class="commentline_element partition-'+color+'">'+
 					tags+
 					'<div class="commentline_title">'+
 						objectLink+
@@ -183,7 +178,7 @@ function buildLineHTML(commentsObj)
 					"<a href='javascript:;' class='commentVoteUp' data-count='10' data-id='"+commentsObj._id['$id']+"'><span class='label label-green'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
 					"<a href='javascript:;' class='commentVoteDown' data-count='10' data-id='"+commentsObj._id['$id']+"'><span class='label label-orange'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
 					"</div>"+
-				'</div></li>';
+				'</div>';
 
 	return commentsTLLine;
 }
@@ -206,8 +201,7 @@ function bindEvent(){
 		$('.commentline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.commentReply').off().on("click",function(){
-		toastr.info('TODO : Reply to this comment');
-		console.log("commentReply",$(this).data("id"));
+		replyComment($(this).data("id"));
 	});
 	$('.commentVoteUp').off().on("click",function(){
 		toastr.info('TODO : VOTE UP this news Entry');
@@ -225,11 +219,110 @@ function bindEvent(){
 	});
 }
 
-function updateNews(newsObj)
-{
-	var date = new Date( parseInt(commentObj.created)*1000 );
-	var commentTLLine = buildLineHTML(newsObj);
-	$(".commentsTL"+date.getMonth()).prepend(newsTLLine);
+function replyComment(parentCommentId) {
+	toastr.info('Reply to comment '+parentCommentId);
+	
+	var id = 'newcomment';
+	var date = moment();
+	var dateStr = date.format('D MMM YYYY hh:mm');//day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	console.log("date", dateStr);
+	
+	iconStr = '<i class=" fa fa-user_circled fa-2x pull-left fa-border"></i>';
+	var objectLink = iconStr;
+
+	var color = "white";
+	var icon = "fa-user";
+	
+	var title = currentUser.name;
+	var text = '<textarea id="newComment" rows="2" style="width: 100%"></textarea>';
+	var tags = "";
+	commentsTLLine = 
+				'<li id="comment'+id+'"><div class="commentline_element partition-'+color+'">'+
+					tags+
+					'<div class="commentline_title">'+
+						objectLink+
+						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
+					'</div>'+
+					'<div class="space10"></div>'+
+					text+	
+					'<div class="space10"></div>'+
+					
+					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
+					"<div class='bar_tools_post'>"+
+					"<a href='javascript:;' class='validateComment' data-parentid='"+parentCommentId+"'><span class='label label-info'>Reply</span></a> "+
+					"</div>"+
+				'</div></li>';
+
+	//add a new line under the comment
+	var ulChildren = $('#comment'+parentCommentId).children('ul');
+	console.log(ulChildren);
+	
+	if (ulChildren.length == 0) {
+		console.log("pas de children");
+		//add new ul entry
+		commentsTLLine = '<ul class="level">'+commentsTLLine+'</ul>';
+		ulChildren = $('#comment'+parentCommentId);
+		ulChildren.append(commentsTLLine);
+	} else {
+		ulChildren.prepend(commentsTLLine);	
+	}
+
+	$('.validateComment').off().on("click",function(){
+		validateComment($(this).data("parentid"));
+	});
 }
 
+function validateComment(parentCommentId) {
+	$.mockjax({
+       url : baseUrl+'/'+moduleId+"/discuss/addComment/",
+       dataType : 'json',
+       responseTime : 2000,
+       responseText : {
+         result : true,
+         msg: 'Bravo votre commentaire a été mocké',
+         newComment : {
+				"_id" : {'$id' : "558cfe5d2339f285060041aa"},
+				"text" : $('#newComment').val(),
+			    "author" : {"name" : currentUser.name},
+			    "created" : new Date(),
+			    "tags" : {}
+         	}
+       	}
+    });
+
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/discuss/addComment/",
+		data: {
+			parentCommentId: parentCommentId,
+			content : $('#newComment').val()
+		},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: 
+			function(data) {
+    			if(!data.result){
+                    toastr.error(data.msg);
+               	}
+                else { 
+                    toastr.success(data.msg);
+                    switchComment(data.newComment, parentCommentId);
+                }
+            }
+	});
+
+	//return newCommentId;
+}
+
+//Switch from Edditing comment view to view comment
+function switchComment(comment, parentCommentId) {
+	console.log(comment, parentCommentId);
+	$('#commentnewcomment').remove();
+	var commentsTLLine = buildLineHTML(comment);
+	var ulChildren = $('#comment'+parentCommentId).children('ul');
+	console.log(ulChildren);
+	ulChildren.prepend(commentsTLLine);
+	bindEvent();
+}
 </script>
