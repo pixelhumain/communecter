@@ -93,6 +93,13 @@ var bindBtnFollow = function(){
         var btnClick = $(this);
         var idToDisconnect = $(this).data("id");
         var typeToDisconnect = $(this).data("type");
+        var ownerLink = $(this).data("ownerlink");
+        var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/"+ownerLink;
+        if("undefined" != typeof $(this).data("targetlink")){
+        	var targetLink = $(this).data("targetlink");
+        	urlToSend += "/targetLink/"+targetLink;
+        }
+
         bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
         	function(result) {
 				if (!result) {
@@ -102,7 +109,7 @@ var bindBtnFollow = function(){
 				}
 				$.ajax({
 			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
+			        url: urlToSend,
 			        dataType : "json"
 			    })
 			    .done(function (data) 
@@ -111,7 +118,7 @@ var bindBtnFollow = function(){
 			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 			        	$("#"+typeToDisconnect+idToDisconnect).remove();
 			        	$("#linkBtns").empty();
-	        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addKnowsRelation' data-placement='top' data-original-title='I know this person' ><i class=' connectBtnIcon fa fa-link '></i>FOLLOW</a></li>");
+	        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addKnowsRelation' data-placement='top' data-ownerlink='"+ownerLink+"' data-original-title='I know this person' ><i class=' connectBtnIcon fa fa-link '></i>FOLLOW</a></li>");
 	        			bindBtnFollow();
 			        } else {
 			           toastr.info("something went wrong!! please try again.");
@@ -126,13 +133,21 @@ var bindBtnFollow = function(){
 	$(".connectBtn").off().on("click",function () {
 		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 		var idConnect = "<?php echo (string)$person['_id'] ?>";
+		var ownerLink = $(this).data("ownerlink");
+        var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>/ownerLink/"+ownerLink;
+        if("undefined" != typeof $(this).data("targetlink")){
+        	var targetLink = $(this).data("targetlink");
+        	urlToSend += "/targetLink/"+targetLink;
+        }
+
+		
 		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
 		}
 
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        url: urlToSend,
 	        dataType : "json"
 	    })
 	    .done(function (data)
@@ -141,14 +156,13 @@ var bindBtnFollow = function(){
 	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
 	        	$("#linkBtns").empty();
-	        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["person"]["name"]+" 'data-id='"+personId+"' data-type='<?php echo Person::COLLECTION; ?>' data-placement='top' data-original-title='Remove from my contact' ><i class='disconnectBtnIcon fa fa-unlink'></i>UNFOLLOW</a>")
+	        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["person"]["name"]+" 'data-id='"+personId+"' data-type='<?php echo PHType::TYPE_CITOYEN ?>' data-ownerlink='"+ownerLink+"' data-placement='top' data-original-title='Remove from my contact' ><i class='disconnectBtnIcon fa fa-unlink'></i>UNFOLLOW</a>")
 	        	bindBtnFollow();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
 	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 	        }
-	    });
-        
+	    });       
 	});
 }
 

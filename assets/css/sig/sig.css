@@ -1,19 +1,19 @@
-	
+
 	.mapCanvas{
 	 	width:100%;
 	 	/*background-color:#2A3945;*/
 	 	color:black;
 	 }
-	 
+
 /*   ############# leaflet ################## */
-  
+
   .leaflet-popup-content-wrapper{
  	background-color:rgba(39, 52, 65, 0.69);
  	border-radius:10px;
  	color:white;
  	font-family: "Open Sans";
  }
- 
+
  .leaflet-popup-tip{
  	background-color:rgba(53, 61, 68, 0.7);
  }
@@ -46,6 +46,13 @@
  	border-color:yellow;
  	border-style:solid;
  }
+.popup-info-profil-thumb.organization, .popup-info-profil-thumb.NGO{
+	border-color:#60CF27;
+}
+.popup-info-profil-thumb.meeting, .popup-info-profil-thumb.event{
+	padding:15px;
+	border-color:#F03737;
+}
  .popup-info-profil-username{
  	width:100%;
  	text-transform:capitalize;
@@ -53,6 +60,15 @@
  	font-size:25px;
  	color:yellow;
  }
+.popup-info-profil-username a{
+	color:yellow;
+}
+.popup-info-profil-username a.meeting, .popup-info-profil-username a.event{
+	color:#F03737;
+}
+.popup-info-profil-username a.organization, .popup-info-profil-username a.NGO{
+	color:#60CF27;
+}
  .popup-info-profil-usertype{
  	width:100%;
  	text-align:center;
@@ -112,7 +128,7 @@ creer des conflits : regle pas assez specfique
 #map_pseudo_filters{
 	width:100%;
 	float:left;
-	background-color:white;	
+	background-color:white;
 	padding:8px;
 }
 #input_txt_pseudo_filter{
@@ -154,8 +170,8 @@ creer des conflits : regle pas assez specfique
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
 }
 .element-right-list{
-	width:100%; 
-	display:inline-block; 
+	width:100%;
+	display:inline-block;
 	height:35px;
 }
 .item_map_list{
@@ -228,7 +244,7 @@ creer des conflits : regle pas assez specfique
 }
 
 /* boutons */
- 
+
 .btn-group-map{
 	float:right;
  	top:10px;
@@ -288,7 +304,7 @@ creer des conflits : regle pas assez specfique
 	border-radius:0px;
 }
  /* legende / panel */
- 
+
  .panel_map{
  	position:relative;
  	max-width:200px;
@@ -311,15 +327,20 @@ creer des conflits : regle pas assez specfique
  	border-bottom:1;
  	width:100%;
  	font-size:0.9em;
- } 
+ }
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
  }
  h3#title_panel{
  	margin: 0px 0px 5px 10px;
  }
- .item_panel_map.selected{
- 	background-color:rgba(194, 203, 222, 0.6);
+.item_panel_map.selected{
+ 	background-color:rgba(23, 58, 75, 0.51) !important;
+	color:#FFF !important;
+ }
+.item_panel_map.selected:hover{
+ 	background-color:rgba(23, 58, 75, 0.51) !important;
+	color:#FFF !important;
  }
  .item_panel_map.selected a{
  	text-decoration:none !important;
@@ -337,7 +358,7 @@ creer des conflits : regle pas assez specfique
 }
 
 /* boutons */
- 
+
 .btn-group-map{
 	float:left;
  	top:0px;
@@ -359,10 +380,10 @@ creer des conflits : regle pas assez specfique
 	float:left;
 	border-radius:5px;
 }
- 
+
  .panel_map i.fa { padding:5px; }
- 
- 
+
+
  .fa-blue{ color:#00C9FF !important; }
  .fa-yellow{ color:#E6D414 !important; }
  .fa-red{ color:#F03737 !important; }
@@ -371,23 +392,23 @@ creer des conflits : regle pas assez specfique
  .fa-purple{ color:#7C2ED1 !important; }
  .fa-pink{ color:#DB31D3 !important; }
  .fa-white{ color:#FFF !important; }
- 
+
   .awesome-marker{
   	background:url("");
   }
-  
+
   .awesome-marker i{
   	font-size:25px;
   	margin-top:18px;
   }
-  
+
   .item_map_list i{
-	padding:1px 6px; 
+	padding:1px 6px;
 	float:left;
 	font-size:1em;
 	margin-top:2px;
   }
-  
+
   #lbl-chk-scope{
 	height:42px;
 	padding-left:4% !important;
@@ -410,12 +431,12 @@ creer des conflits : regle pas assez specfique
 		max-width:150px;
 		background: none repeat scroll 0% 0% rgba(103, 128, 141, 0.32);
 	}
-	
+
 	.item_panel_map{
 		font-size:0.9em;
 		/*color:rgb(230, 212, 20) !important;*/
-	 } 
-	 
-	 
-	 
+	 }
+
+
+
 }

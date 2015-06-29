@@ -34,6 +34,13 @@ and add the secret key to your paramsconfig.php
 //TKA : 28/04/2015  : mettre a jour les cp dans cities
 
 db.cities.find().forEach(function(doc){
+    if(doc.insee.length == 4){ 
+        print(doc.name+" cp "+doc.insee.length+": "+doc.insee);
+        db.cities.update({"_id":doc._id},{'$set':{'insee':"0"+doc.insee}})
+    }
+});
+
+db.cities.find().forEach(function(doc){
     if(doc.cp.length == 4){ 
         print(doc.name+" cp "+doc.cp.length+": "+doc.cp);
         db.cities.update({"_id":doc._id},{'$set':{'cp':"0"+doc.cp}})

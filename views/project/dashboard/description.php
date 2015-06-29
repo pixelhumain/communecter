@@ -107,6 +107,12 @@ function initXEditable() {
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
+    	success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else
+	        	toastr.error(data.msg);  
+	    }
 	});
     //make jobTitle required
 	$('#name').editable('option', 'validate', function(v) {
