@@ -77,7 +77,7 @@ $commentActive = true;
                         && in_array(Yii::app()->session["userId"], $value[Action::ACTION_FOLLOW])) ? "myentries":"";
       
       if ( $value["type"] == Survey::TYPE_SURVEY )
-        $link = '<a class="titleMix '.$meslois.'" href="'.Yii::app()->createUrl("/".$this->module->id."/survey/entries/id/".(string)$value["_id"]).'?tpl=indexPod">'.$name.' ('.$count.')</a>' ;
+        $link = '<a class="titleMix '.$meslois.'" href="'.Yii::app()->createUrl("/".$this->module->id."/survey/entries/id/".(string)$value["_id"]).'">'.$name.' ('.$count.')</a>' ;
       else if ( $value["type"] == "entry" )
         $link = '<a class="titleMix '.$meslois.'" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\')" href="javascript:;">'.$name.'</a>' ;
       
@@ -182,6 +182,9 @@ $commentActive = true;
         else if($value["parentType"] == Person::COLLECTION){
             $parentCtrler = Person::CONTROLLER;
             $parentIcon = "user";
+        }else if($value["parentType"] == City::COLLECTION){
+            $parentCtrler = City::CONTROLLER;
+            $parentIcon = "university";
         }
         //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
         $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
@@ -194,70 +197,44 @@ $commentActive = true;
                     $tags.'" >'.
                     '<td>'.$link.'</td>'.
                     ( ( $value["type"] == Survey::TYPE_ENTRY ) ? '<td>'.$info.'</td>' : '').
-                    '<td>'.$byInfo.'</td>'.
+                    ( ( $value["type"] == Survey::TYPE_ENTRY ) ?'<td>'.$byInfo.'</td>' : '').
                     '<td>'.$createdInfo.'</td>'.
                     ( ( $value["type"] == Survey::TYPE_ENTRY ) ? '<td>'.$leftLinks.'</td>' : '').
                     ( ( $value["type"] == Survey::TYPE_ENTRY ) ? '<td>'.$rightLinks.'</td>' : '').
                     '</tr>';
     }
     ?>
-<div class="controls" style="border-radius: 8px;">
-  <button class="filter btn fr" data-filter="all">Tout</button>
-  
-  <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
-  <label>Participation : </label>
-  <button class="sort " data-sort="vote:asc">Asc</button>
-  <button class="sort " data-sort="vote:desc">Desc</button>
-  <?php } ?>
-  <label>Chronologique : </label>
-  <button class="sort " data-sort="time:asc">Asc</button>
-  <button class="sort " data-sort="time:desc">Desc</button>
-  <label>Affichage:</label>
-  <button id="ChangeLayout"><i class="fa fa-reorder"></i></button>
-  <br/>
 
-  <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
-  <label>Géographique : </label>
-  <?php echo $cpBlock; 
-  }?>
-  <br/>
-
-  <label>Filtre:</label>
-  <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-  <a class="filter btn btn-orange" data-filter=".avoter">A voter</a>
-  <a class="filter btn btn-orange" data-filter=".mesvotes">Mes votes</a>
-  <a class="filter btn btn-orange" data-filter=".myentries">Mes propositions</a>
-  <?php } ?>
-  
-  <?php echo $tagBlock?>
-
-</div>
 
 <div class="panel panel-white">
     <div class="panel-heading border-light">
-        <h4 class="panel-title"><i class="fa fa-legal fa-2x text-green"></i> </h4>
+        <div class="pull-right">
+            <a href="<?php echo Yii::app()->createUrl( $this->module->id."/survey/index/type/".$type."/id/".$id) ?>" class="btn btn-xs btn-orange">All Surveys <i class="fa fa-legal"></i></a>
+        </div>
+        <h4 class="panel-title"> Vote en cours</h4>
     </div>
+
     <div class="panel-body">
+          
+
         <div>
             <table class="table table-striped table-bordered table-hover surveyTable">
                 <thead>
                   <tr>
-                    <th>Link</th>
-                    <?php if( $value["type"] == Survey::TYPE_ENTRY ){ ?>
+                    <th>Title</th>
+                    <?php if( $where["type"] == Survey::TYPE_ENTRY ){ ?>
                     <th>Info</th>
-                    <?php } ?>
                     <th>by</th>
+                    <?php } ?>
                     <th>Date</th>
-                    <?php if( $value["type"] == Survey::TYPE_ENTRY ){ ?>
+                    <?php if( $where["type"] == Survey::TYPE_ENTRY ){ ?>
                     <th>action</th>
                     <th></th>
                     <?php } ?>
                   </tr>
                 </thead>
                 <tbody class="directoryLines">
-          <?php echo (count($list)) ? $blocks : '<div>aucun sondage'.
-                                                  '<a href="#" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
-                                                 '</div>'; ?>
+                    <?php echo $blocks; ?>
                 </tbody>
             </table>
         </div>

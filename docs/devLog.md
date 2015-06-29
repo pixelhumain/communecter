@@ -3,8 +3,6 @@
 // according to the new development
 // Add a datetime or better a commit id linked to the modification
 
-//XXX - 01/01/01 - commitId fb11716e5a92340ef4f47c58c241716a3575a623
-bla bla
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------

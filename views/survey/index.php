@@ -210,6 +210,9 @@ $commentActive = true;
         else if($value["parentType"] == Person::COLLECTION){
             $parentCtrler = Person::CONTROLLER;
             $parentIcon = "user";
+        }else if($value["parentType"] == City::COLLECTION){
+            $parentCtrler = City::CONTROLLER;
+            $parentIcon = "university";
         }
         //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
         $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
