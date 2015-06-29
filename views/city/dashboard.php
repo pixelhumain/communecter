@@ -91,6 +91,16 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 
 <div class="row">
+	 <div class="col-sm-12 col-xs-12 statisticPop">
+		 <div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+				<div class="space5"></div>
+			</div>
+		 </div>
+	</div>
+</div>
+<div class="row">
 	<div class="col-sm-4  col-xs-12">
 		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
@@ -351,6 +361,8 @@ jQuery(document).ready(function() {
 		}, "html");
 
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
+
+		getAjax(".statisticPop", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>", function(){bindBtnAction();}, "html")
 		
 });
 
