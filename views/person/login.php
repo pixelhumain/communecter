@@ -91,7 +91,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Se connecter à sa commune"},
 		{titleRed:"CO",titleWhite:"MMUNECTER",subTitle:"Coopérer et Collaborer"},
 		{titleRed:"COMM",titleWhite:"UNECTER",subTitle:"Communiquons mieux localement"},
-		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Une communauté qui travail ensemble"},
+		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Communautés qui travail ensemble"},
 		{titleRed:"COMMUN",titleWhite:"ECTER",subTitle:"Pour le bien commun"},
 		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Pour améliorer la ville 2.2.main"}
 		
@@ -149,83 +149,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
 	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
-		<div class="text-white text-extra-large text-bold center">
-			<span class="titleRed text-red homestead" style="font-size:40px">CO</span><span  style="font-size:40px" class="titleWhite homestead">MMU</span><span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span><span style="font-size:40px" class="titleWhite homestead loaderDots"></span>
-			
-			<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
-		</div>
-		<div class="box-menu box">
-			<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><img  style="height:47px;margin-bottom: 7px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
-				<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT IS IT</a></li>
-				<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
-				<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">FOR WHO</a></li>
-				<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how')">HOW</a></li>
-				<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when')">WHEN</a></li>
-				<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where')">WHERE</a></li>
-				<li style="margin-left:50px"><i class="fa fa-globe"></i> <a href="#" style="color:white" onclick="showMenu('box-login')">CONNECT</a></li>
-				<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 70px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
-			</ul>
-		</div>
-
-		<div class="box-whatisit box">
-			<a href="<?php echo Yii::app()->createUrl( $this->module->id.'/login' ) ?> "><img  src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a>
-			<h1><i class="fa fa-share-alt"></i> WHAT IS IT</h1>
-			<section>
-				a new way to live in society
-				<br/> together to make it better
-				<br/> It's sociatel network
-			</section>
-		</div>
-
-		<div class="box-why box">
-			<h1><i class="fa fa-heart"></i> WHY</h1>
-			<section class="homestead">
-				Because We Love you
-			</section>
-		</div>
-
-		<div class="box-4who box">
-
-			<h1><i class="fa fa-group"></i> FOR WHO</h1>
-			<section>
-				For the people 
-				<br/> by the people 
-			</section>
-			<h1><i class="fa fa-group"></i> BY WHO</h1>
-			<section>
-				by builders , architects, thinkers, artists
-				connecters, inventors, travellers, makers
-			</section>
-		</div>
-
-		<div class="box-how box">
-			<h1><i class="fa fa-laptop"></i> HOW</h1>
-			<section>
-				Computer and people 
-				<br/>make a good mix 
-				<br/> Build Great Things
-			</section>
-		</div>
-
-		<div class="box-when box">
-			<h1><i class="fa fa-calendar"></i> WHEN</h1>
-			
-			<section>
-				If it's not 
-				<br/>now it's never
-			</section>
-		</div>
-
-		<div class="box-where box">
-			<h1><i class="fa fa-map-marker"></i> WHERE</h1>
-			<section>
-				Every where there are people 
-				<br/> with ideas
-				<br/> motivation to change
-			</section>
-		</div>
-
+		<?php 
+		$this->renderPartial('menuTitle');
+		?>
+		
 		<div class="box-login box radius-20">
 
 			<form class="form-login" action="" method="POST">
