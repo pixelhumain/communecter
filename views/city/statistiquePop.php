@@ -243,7 +243,6 @@
               .margin({
 					bottom : 100,
 				})
-              .reduceXTicks(true)
 		    ;
 
 
