@@ -217,7 +217,7 @@
 					//console.log('val', val);
 					$.each(mapData, function(cle, valeur){
 						console.log(cle, valeur);
-						if(valeur.key == k && valeur.values.length<20){ //limitation a 20 entrer pour le moment
+						if(valeur.key == k && valeur.values.length<30){ //limitation a 20 entrer pour le moment
 							valeur.values.push(val);
 						}
 					})
