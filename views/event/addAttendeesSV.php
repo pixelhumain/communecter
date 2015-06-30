@@ -86,24 +86,6 @@
 	});
 
 	function bindeventSubViewattendees() {	
-		$(".new-attendees").off().on("click", function() {
-			subViewElement = $(this);
-			$(".form-attendees .attendees-id").val($(this).data("id"));
-			subViewContent = subViewElement.attr('href');
-			$.subview({
-				content : subViewContent,
-				onShow : function() {
-					editProject();
-				},
-				onHide : function() {
-					hideEditProject();
-				},
-				onSave: function() {
-					hideEditProject();
-				}
-			});
-		});
-
 		$(".close-subview-button").off().on("click", function(e) {
 			$(".close-subviews").trigger("click");
 			e.prattendeesDefault();

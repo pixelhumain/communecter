@@ -1,14 +1,16 @@
 	<?php
-		$isProjectAdmin= false;
+		/*$isProjectAdmin= false;
     	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])) {
     		$isProjectAdmin =  Authorisation::isProjectAdmin((String) $project["_id"],Yii::app()->session["userId"]);
-		}
+		}*/
 	?>
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> Contributors</h4>
 			<div class="panel-tools">
+				<?php if ($admin){ ?>
 				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>
+				<?php } ?>
 				<div class="dropdown">
 					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 						<i class="fa fa-cog"></i>
@@ -68,7 +70,7 @@
 										<?php	} 
 											} ?>
 										<td><span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
-										<?php if ( $isProjectAdmin ){ ?>
+										<?php if ( $admin ){ ?>
 											<td>
 												<a href="javascript:;" class="disconnectBtnContributor btn btn-xs btn-red tooltips " data-placement="left"  data-type="<?php if ($member["type"]=="citoyen") echo PHType::TYPE_CITOYEN; else echo  Organization::COLLECTION; ?>" data-id="<?php echo $member['_id'];?>" data-name="<?php echo $member["name"]; ?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 											</td>

@@ -1,35 +1,17 @@
-<?php 
-$cssAnsScriptFilesTheme = array(
-//Select2
-
-	//autosize
-	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
-	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
-
-	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	//'/assets/js/ui-sliders.js',
-);
-
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-lightbulb-o fa-2x text-blue"></i> Mes projets</h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
+			<a href="#newProject"  class="new-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
-	<div class="panel-body no-padding">
+	<!--div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">			
 			<table class="table table-striped table-hover" id="projects">
 				<tbody>
 					<?php
-						//print_r($projects);
 					if(isset($projects) && count($projects)>0){
 					foreach ($projects as $e) {
 					?>
@@ -48,9 +30,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
 						</td>
+						<td><?php if(isset($e["url"]))echo $e["url"]?></td>
 						<td class="center">
-						<div class="visible-md visible-lg hidden-sm hidden-xs" >
+						<div class="visible-md visible-lg hidden-sm hidden-xs">
 							<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
+							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/edit/id/'.$e["_id"]);?>" class="btn btn-xs btn-light-blue tooltips " data-placement="left" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 							<?php }; ?>
 						</div>
@@ -75,44 +59,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			</div>
 		<?php } ?>
 		</div>
-	</div>
+	</div>-->
 </div>
 <script type="text/javascript">
-
-	jQuery(document).ready(function() {
-		bindBtnAddProject();
+	//alert ("oui");
+		//jQuery(document).ready(function() {});
+		jQuery(document).ready(function() {
 		bindBtnRemoveProject();
 	});
 
-	function bindBtnAddProject() {
-		$('.new-project').off().on("click", function(){
-			$.subview({
-				content : "#ajaxSV",
-				onShow : function() {
-					var url = baseUrl+"/"+moduleId+"/project/projectsv";
-					getAjax("#ajaxSV", url, 
-							function(){
-								console.log('toto');
-								initProjectForm();
-							}, 
-							"html");
-				},
-				onSave : function() {
-					$('.form-project').submit();
-				},
-				onHide : function() {
-					$.hideSubview();
-				}
-			});
-			
-		});
-	}
-
 	function bindBtnRemoveProject() {
+
 		$(".removeProjectbtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			
 			var idProject = $(this).data("id");
+			//var idMember = $(this).data("member-id");
+			//var typeMember = $(this).data("member-type");
 			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> project ?", 
 				function(result) {
 					if (!result) {
@@ -133,11 +96,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								$("#info").show();
 							}
 						} else {
-						   toastr.error(data.msg);
+						   toastr.info("something went wrong!! please try again.");
 						}
-					},
-					error: function(data) {
-						toastr.error("Something went wrong!! Contact your administrator");
 					}
 				});
 			});
@@ -145,19 +105,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 		});
 	}
-	function updateProject( nProject, projectId ){
-		console.log(projectId);
+function updateProject( nProject, projectId ){
+		console.log(nProject);
 		if('undefined' != typeof contextMap){
 			contextMap["projects"].push(nProject);
 		}
-		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
+		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId+'">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-							'<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
+							'<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips " data-placement="left" data-original-title="Edit"><i class="fa fa-pencil-square-o"></i></a>'+
+							'<a href="#" class="btn btn-xs btn-red tooltips delBtn" data-id="'+projectId+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
 						'</div>';
 		var projectLine  = 
-		'<tr id="project'+projectId.$id+'">'+
+		'<tr id="project'+projectId+'">'+
 					'<td class="center">'+viewBtn+'<i class="fa fa-lightbulb-o fa-2x"></i></a></td>'+
-					'<td>'+viewBtn+nProject.name+'</a></td>'+
+					'<td>'+nProject.title+'</a></td>'+
+					'<td>'+nProject.url+'</td>'+
 					'<td class="center">'+
 					unlinkBtn+
 					"</td>"+

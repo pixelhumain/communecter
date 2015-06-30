@@ -87,6 +87,7 @@ class CommunecterController extends Controller
     	"directory"           => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
     	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation"),
     	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata"),
+      'globalstats' => array("href" => "/ph/communecter/city/globalstats"),
 
     ),
     "news"=> array(
@@ -108,14 +109,21 @@ class CommunecterController extends Controller
       "register"        => array("href" => "/ph/communecter/person/register"),
       "logout"          => array("href"=>"/ph/communecter/person/logout"),
       'getnotification' => array("href" => "/person/getNotification"),
+
       "invite"          => array("href"=>"/ph/communecter/person/invite"),
       "invitation"      => array("href"=>"/ph/communecter/person/invitation"),
       "updatefield"     => array("href"=>"/person/updatefield"),
       "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
 
-      "getbyid"=> array("href"=>"/ph/communecter/person/getbyid"),
+      "getbyid"         => array("href"=>"/ph/communecter/person/getbyid"),
       "getorganization" => array("href"=>"/ph/communecter/person/getorganization"),
-      "updatename"=> array("href"=>"/ph/communecter/person/updatename"),
+      "updatename"      => array("href"=>"/ph/communecter/person/updatename"),
+
+      "network"=> array('href'    => "/ph/communecter/person/network"),
+      "google"=> array('href'     => "/ph/communecter/person/google"),
+      "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
+      "importfile"=> array('href' => "/ph/communecter/person/importfile"),
+      "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
       
       //Init Data
       "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
@@ -158,10 +166,12 @@ class CommunecterController extends Controller
       "save"            => array("href"=>"/ph/communecter/project/save"),
       "savecontributor" => array("href"=>"/ph/communecter/project/savecontributor"),
       "dashboard"       => array("href"=>"/ph/communecter/project/dashboard"),
-	  "removeproject"   => array("href"=>"/ph/communecter/project/removeproject"),
-	  "editchart"       => array("href"=>"/ph/communecter/project/editchart"),
-	  "updatefield"     => array("href"=>"/ph/communecter/project/updatefield"),
+  	  "removeproject"   => array("href"=>"/ph/communecter/project/removeproject"),
+  	  "editchart"       => array("href"=>"/ph/communecter/project/editchart"),
+  	  "updatefield"     => array("href"=>"/ph/communecter/project/updatefield"),
       "projectsv"       => array("href"=>"/ph/communecter/project/projectsv"),
+      "savetask"        => array("href"=>"/ph/communecter/project/savetask"),
+      "removetask"      => array("href"=>"/ph/communecter/project/removetask"),
     ),
 
     "job"=> array(

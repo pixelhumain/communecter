@@ -10,7 +10,6 @@ $commentActive = true;
 ?>
 
 <style type="text/css">
-  body {background: url("'?>") repeat;}
   .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
   button.filter,button.sort{color:#000;}
   a.btn{margin:3px;}
