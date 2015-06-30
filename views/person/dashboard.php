@@ -63,6 +63,7 @@
 
 var contextMap = {};
 contextMap = <?php echo json_encode($person) ?>;
+var idToSend = contextMap["_id"]["$id"];
 contextMap["person"] = <?php echo json_encode($person) ?>;
 contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
 contextMap["events"] = <?php echo json_encode($events) ?>;

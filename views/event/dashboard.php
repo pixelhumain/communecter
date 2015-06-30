@@ -19,6 +19,7 @@
 </div>
 <script type="text/javascript">
 	contextMap= <?php echo json_encode($event)?>;
+	idToSend = contextMap["_id"]["$id"];
 	var images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 	jQuery(document).ready(function() {
