@@ -211,9 +211,12 @@
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}else{
-				imageUrl = "";
+				imageUrl = "<div class='center'>"+
+								"<i class='fa fa-picture-o fa-5x text-green'></i>"+
+								"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+							"</div>";
 				j= j+1;
-				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');
+				$("#"+contentId+"_imgPreview").html(imageUrl);
 
 			}
 			//if(debug)console.log("initFileUpload", images, imagesPath);
