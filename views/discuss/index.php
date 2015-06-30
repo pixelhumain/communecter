@@ -61,7 +61,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var discuss = <?php echo json_encode($discuss)?>;
-var comments = <?php echo json_encode($discuss["comments"])?>;
+var comments = <?php echo isset($discuss["comments"]) ? json_encode(@$discuss["comments"]) : '{}'; ?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 
@@ -74,14 +74,16 @@ function buildTimeLine()
 {
 	$(".commentsTL").html('<div class="spine"></div>');
 	$(".commentsTLmonthsList").html('');
-	console.log("buildTimeLine",Object.keys(comments).length);
 	
 	currentMonth = null;
 	countEntries = 0;
 	
 	$('.commentsTL').append(buildComments(comments, 0));
-	//if(!countEntries)
-	//	$(".commentsTL").html("<div class='center text-extra-large'>Sorry, no comments available</div>");
+	$('.commentsTL').append()
+	
+	/*if($('.commentsTL').children('li').length == 0)
+		$(".commentsTL").html("<div class='center text-extra-large'>Sorry, no comments available</div>");
+	*/
 	bindEvent();
 }
 
@@ -92,7 +94,7 @@ function buildComments(commentsLevel, level) {
 	} else {
 		var commentsHTML = '<ul class="level">';	
 	}
-	
+
 	$.each( commentsLevel , function(key,commentsObj)
 	{
 		if(commentsObj.text && commentsObj.created)

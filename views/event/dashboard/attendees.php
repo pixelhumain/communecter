@@ -2,10 +2,11 @@
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> Participants</h4>
-				<a href="#newAttendees" class="new-attendees btn btn-xs btn-blue pull-right">
-					Add Attendees
-				</a>
-			</div>
+		</div>
+		<div class="panel-tools">
+			<?php if( Authorisation::isEventAdmin((string)$event['_id'], @Yii::app()->session["userId"])) { ?>
+				<a href="#newAttendees" class="new-attendees btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add attendees" alt="Add attendees"><i class="fa fa-plus"></i> </a>
+			<?php } ?>
 		</div>
 		<div class="panel-body no-padding">
 			<div class="tabbable no-margin no-padding partition-dark">
@@ -41,3 +42,25 @@
 				</div>
 			</div>
 		</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		$(".new-attendees").off().on("click", function() {
+			subViewElement = $(this);
+			$(".form-attendees .attendees-id").val($(this).data("id"));
+			subViewContent = subViewElement.attr('href');
+			$.subview({
+				content : subViewContent,
+				onShow : function() {
+					editProject();
+				},
+				onHide : function() {
+					hideEditProject();
+				},
+				onSave: function() {
+					hideEditProject();
+				}
+			});
+		});
+	});
+</script>
