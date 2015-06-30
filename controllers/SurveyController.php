@@ -19,6 +19,7 @@ class SurveyController extends CommunecterController {
   {
       return array(
           'index'        => 'citizenToolKit.controllers.survey.IndexAction',
+          'indexPod'     => 'citizenToolKit.controllers.survey.IndexAction',
           'entries'      => 'citizenToolKit.controllers.survey.EntriesAction',
           'entry'        => 'citizenToolKit.controllers.survey.EntryAction',
           'graph'        => 'citizenToolKit.controllers.survey.GraphAction',
