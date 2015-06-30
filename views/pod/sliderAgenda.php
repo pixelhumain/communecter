@@ -107,9 +107,7 @@
 					$.hideSubview();
 				}
 			});
-			
 		})
-
 	});
 
 
@@ -119,11 +117,9 @@
 			clearFileUploadAgenda();
 		})
 
-
 		$(".owl-prev").off().on("click", function(){
 			$('#flexsliderAgenda').flexslider("prev");
 		})
-
 
 		$(".owl-next").off().on("click", function(){
 			$('#flexsliderAgenda').flexslider("next");
@@ -132,7 +128,6 @@
 		$(window).on('resize', function(){
 			resizeSliderAgenda();
 		});
-
  	}
  	/*
  		Init the flexSlider with the next events or with default empty message
@@ -172,8 +167,8 @@
 										"<div class=' globLeftPartWhiteBlockAgendaPartage'>"+
 											"<span class='jourAgenda' class='text-right'>"+period[0]+"</span><br/>"+
 											"<span class='moisAgenda' class='text-right'>"+period[1]+"</span>"+
-										"</div>'"+
-										"<div class=' radius-bottomLeftRight_Mobile pull-bottom globRightPartWhiteBlockAgendaPartage'>"+
+										"</div><br>"+
+										"<div class='radius-bottomLeftRight_Mobile pull-bottom globRightPartWhiteBlockAgendaPartage'>"+
 											"<div class='globTitlePostAgenda'>"+
 												"<span class='titlePostAgenda font_Helvetica'>"+v.name+"</span>"+
 											"</div>"+
@@ -188,7 +183,6 @@
 			}
 		})	
 		
-		
 		if(emptySlide){
 			var message ="<br><?php echo Yii::t('sliderAgenda','No upcoming events',null,Yii::app()->controller->module->id) ?>"
 			if(canEditAgenda)
@@ -199,20 +193,14 @@
 								"</div>"+
 							"</li>";
 			$("#slidesAgenda").append(htmlRes);
-
-			
-
 		}
 
-		
 		// reload Slider
 		$("#flexsliderAgenda").flexslider({
 			animationLoop: true,
 			animation : "slide",
 			slideshow: true,
 		});
-
-
 
 		$(".slidesAgendaTitle").html("<?php echo Yii::t('sliderAgenda','SHARED CALENDAR',null,Yii::app()->controller->module->id) ?>");
 		$(".banniereSlider").css("height", height);
