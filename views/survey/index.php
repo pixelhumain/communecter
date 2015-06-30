@@ -10,7 +10,6 @@ $commentActive = true;
 ?>
 
 <style type="text/css">
-  body {background: url("'?>") repeat;}
   .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
   button.filter,button.sort{color:#000;}
   a.btn{margin:3px;}
@@ -199,17 +198,37 @@ $commentActive = true;
       $rightLinks = (  isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
       $rightLinks = ($value["type"]==Survey::TYPE_ENTRY) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
       $ordre = $voteUpCount+$voteDownCount;
-      $created = (isset($value["created"])) ? $value["created"] : ""; 
+      $created = (isset($value["created"])) ? date("d/m/Y h:i",$value["created"]) : ""; 
+      $byInfo = "";
+      if ( isset($value["parentType"]) && isset($value["parentId"]) ) 
+      {
+        if($value["parentType"] == Organization::COLLECTION){
+            $parentCtrler = Organization::CONTROLLER;
+            $parentIcon = "group";
+        }
+        else if($value["parentType"] == Person::COLLECTION){
+            $parentCtrler = Person::CONTROLLER;
+            $parentIcon = "user";
+        }else if($value["parentType"] == City::COLLECTION){
+            $parentCtrler = City::CONTROLLER;
+            $parentIcon = "university";
+        }
+        //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
+        $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
+      }
+
+      $createdInfo =  (!empty( $created )) ? "<br/>created : ".$created : "";
       $blocks .= ' <div class="mix '.$avoter.' '.
                     $meslois.' '.
                     $followingEntry.' '.
                     $tags.' '.
-                    //$cpList.'" 
+                    $cpList.'"'.
                     'data-vote="'.$ordre.'"  data-time="'.
                     $created.'" style="display:inline-blocks"">'.
                     $link.'<br/>'.
                     $info.
-                    "created : ".$created.
+                    $byInfo.
+                    $createdInfo.
                     //$tags.
                     //$content.
                     '<br/>'.

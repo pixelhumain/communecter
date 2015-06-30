@@ -62,20 +62,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 	</div>
   </div>
 
-  <div class="col-sm-4 col-xs-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">ACTIVITY STREAM </h4>
-      </div>
-      <div class="panel-body no-padding center"  >
-        <img class="img-responsive center-block" style="height:250px" src="http://placehold.it/350x150"/>
-      </div>
-      <div class="panel-footer "  >
-        <a href="">En savoir+ <i class="fa fa-angle-right"></i> </a>
-      </div>
+<div class="col-sm-4 col-xs-12 votingPod">
+    <div class="panel panel-white pulsate">
+    <div class="panel-heading border-light ">
+      <h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Voting Section</h4>
+      <div class="space5"></div>
     </div>
   </div>
-
+  </div>
 </div>
 
 <div class="row">
@@ -359,6 +353,9 @@ jQuery(document).ready(function() {
 		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){
 			//initAddEventBtn ();
 		}, "html");
+    getAjax(".votingPod", baseUrl+"/"+moduleId+"/survey/index/type/<?php echo City::COLLECTION ?>/id/<?php echo $_GET["insee"]?>?tpl=indexPod", function(){
+      //initAddEventBtn ();
+    }, "html");
 
 		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/insee/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
 

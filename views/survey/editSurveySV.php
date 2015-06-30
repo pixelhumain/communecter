@@ -150,7 +150,7 @@ function readEntrySV(data,type) {
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+
-              '<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
+              //'<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
               "</div>");
   $.subview({
         content : "#ajaxSV",

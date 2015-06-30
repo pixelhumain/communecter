@@ -39,8 +39,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	}
 	
 </style>
-<?php $canEdit = ((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  
-				|| (isset($itemId) && isset(Yii::app()->session["userId"] ) && strcmp($type, Organization::COLLECTION)==0 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))
+<?php $canEdit = ((isset($photoVidId) && isset(Yii::app()->session["userId"]) && $photoVidId == Yii::app()->session["userId"])  
+				|| (isset($photoVidId) && isset(Yii::app()->session["userId"] ) && strcmp($type, Organization::COLLECTION)==0 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $photoVidId))
 				|| (isset($insee)))?>
 <div id="photoVideo">
     <div class="panel panel-white">
@@ -51,7 +51,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		   	<?php if ($canEdit) { ?>
 			   <a href="#" class="add-photoSlider btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an image" alt="Add an image"><i class="fa fa-plus"></i></a>
 		    <?php } ?>
-		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$itemId.'/type/'.$type);?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
+		    <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/gallery/index/id/'.$photoVidId.'/type/'.$type);?>" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt=""><i class="fa fa-camera-retro"></i></a>
 	    </div>
 		<div class="panel-body border-light">
 			
@@ -63,7 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</div> -->
 			<div class="row center" id="sliderPhotoVideo">
 				<?php 
-					$this->renderPartial('../pod/flexSlider', array("userId" => (string)$itemId,
+					$this->renderPartial('../pod/flexSlider', array("userId" => (string)$photoVidId,
 																	  "type" => $type,
 																	  "containerSlider" => "sliderPhotoVideo")); ?>
 
@@ -71,7 +71,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<div id="editSliderPhotoVideo">
 				<div class="row">
 					<?php 
-						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$itemId,
+						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$photoVidId,
 																		  "type" => $type,
 																		  "resize" => "true",
 																		  "contentId" => Document::IMG_SLIDER,
@@ -96,7 +96,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 <script type="text/javascript">
 	var canEdit = <?php echo $canEdit ? $canEdit : "false" ?>;
-	
  	jQuery(document).ready(function() {
  		
 
@@ -159,7 +158,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		$.fn.editable.defaults.mode = 'popup';
 
 		$('#video').editable({
-			pk: <?php echo json_encode($itemId) ?>,
+			pk: <?php echo json_encode($photoVidId) ?>,
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			onblur: 'submit',
 			value: contextMap.video,
