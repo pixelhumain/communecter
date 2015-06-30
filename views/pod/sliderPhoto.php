@@ -59,7 +59,7 @@
 							}
 						$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
 																				  "type" => $type,
-																				  "resize" => "true",
+																				  "resize" => true,
 																				  "contentId" =>Document::IMG_SLIDER,
 																				  "editMode" => true)); ?>
 				</div>
