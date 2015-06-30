@@ -3,11 +3,14 @@
 	<?php $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)) ?>
 </div>
 
+
+<?php //$this->renderPartial('/sig/generic/mapLibs'); ?>
+
 <div class="col-lg-4 col-md-12">
-	<?php $this->renderPartial('dashboard/description',array( 
-							"event" => $event, 
-							"organizer" =>$organizer, 
-							"itemId" => (string)$event["_id"], 
+	<?php $this->renderPartial('dashboard/description',array(
+							"event" => $event,
+							"organizer" =>$organizer,
+							"itemId" => (string)$event["_id"],
 							"eventTypes" => $eventTypes,
 							"type" => PHType::TYPE_EVENTS,
 							"countries" => $countries)); ?>
@@ -29,7 +32,7 @@
 
 	var bindBtnFollow = function(){
 		$(".disconnectBtn").off().on("click",function () {
-	        
+
 	        $(this).empty();
 	        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
@@ -54,9 +57,9 @@
 				        url: urlToSend,
 				        dataType : "json"
 				    })
-				    .done(function (data) 
+				    .done(function (data)
 				    {
-				        if ( data && data.result ) {               
+				        if ( data && data.result ) {
 				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 				        	$("#"+typeToDisconnect+idToDisconnect).remove();
 				        	$("#linkBtns").empty();
@@ -69,7 +72,7 @@
 				    });
 
 			});
-			
+
 		});
 
 		$(".connectBtn").off().on("click",function () {
@@ -89,7 +92,7 @@
 		    })
 		    .done(function (data)
 		    {
-		        if ( data && data.result ) {               
+		        if ( data && data.result ) {
 		        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 		        	$(".connectBtn").fadeOut();
 		        	$("#linkBtns").empty();
@@ -99,7 +102,7 @@
 		           toastr.info("something went wrong!! please try again.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 		        }
-		    });       
+		    });
 		});
 	}
 </script>

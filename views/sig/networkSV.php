@@ -1,66 +1,42 @@
-
-<?php
+LOL
+<?php return;
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
 		$relativePath = "/sig/";
 		/* ***********************************************************************************/
 
 	   	//chargement de toutes les librairies css et js indispensable pour la carto
-    	$this->renderPartial($relativePath.'generic/mapLibs');
+    	//$this->renderPartial($relativePath.'generic/mapLibs');
+			//echo $this->renderPartial($relativePath.'generic/mapLibs', 0);
+
+			$cssAndScriptFiles = array(
+
+				//css
+				'/css/sig/leaflet/leaflet.css',
+				'/css/sig/leaflet/leaflet.draw.css',
+				'/css/sig/leaflet/leaflet.draw.ie.css',
+				'/css/sig/leaflet/MarkerCluster.css',
+				'/css/sig/leaflet/MarkerCluster.Default.css',
+				'/css/sig/leaflet/leaflet.awesome-markers.css',
+				'/css/sig/leaflet/sig.css',
+
+				//js
+				'/js/sig/leaflet/leaflet.js',
+				'/js/sig/leaflet/leaflet.draw-src.js',
+				'/js/sig/leaflet/leaflet.draw.js',
+				'/js/sig/leaflet/leaflet.markercluster-src.js',
+				'/js/sig/leaflet/leaflet.awesome-markers.js',
+
+				'/js/sig/leaflet/map.js',
+				'/js/sig/leaflet/map_initializer.js',
+				'/js/sig/leaflet/map_panel.js',
+				'/js/sig/leaflet/map_popupContent.js',
+				'/js/sig/leaflet/map_rightList.js',
+				'/js/sig/leaflet/map_findPlace.js',
 
 
-		/* **************** modifier les parametre en fonction des besoins *******************/
-		if(!isset($sigParams))
-
-			$sigParams = array(
-
-					/* CLÉ UNIQUE QUI SERT D'IDENTIFIANT POUR CETTE CARTE */
-					"sigKey" => "SV",
-
-					/* MAP */
-					"mapHeight" => 450,
-					"mapTop" => 0,
-					"mapColor" => '#456074',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
-					"mapOpacity" => 0.4, //ex : 0.4
-
-					/* *
-					 * Provider de fond de carte
-					 * http://leaflet-extras.github.io/leaflet-providers/preview/index.html
-					 * */
-
-					/* MAP LAYERS (FOND DE CARTE) */
-					"mapTileLayer" 	  => 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', //http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
-					"mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
-
-
-					/* MAP BUTTONS */
-					"mapBtnBgColor" => '#E6D414',
-					"mapBtnColor" => '#213042',
-					"mapBtnBgColor_hover" => '#5896AB',
-
-					/* USE */
-					"usePanel" => true,
-					"titlePanel" => 'Thèmes',
-					"useRightList" => true,
-					"useZoomButton" => true,
-					"useHomeButton" => true,
-					"useHelpCoordinates" => false,
-					"useFullScreen" => true,
-
-					/* TYPE NON CLUSTERISÉ (liste des types de données à ne pas inclure dans les clusters sur la carte (marker seul))*/
-					//"notClusteredTag" => array("citoyens"),
-
-					/* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
-					"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
-												 "zoom"		  => 9),
-					);
-		/* ***********************************************************************************/
-
-		$moduleName = "sigModule".$sigParams['sigKey'];
-
-		/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
-	   	//chargement du style css avec les paramètres d'initialisation
-    	$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
-
+			);
+			//echo $this->module->assetsUrl; die();
+			HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
 ?>
 
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>

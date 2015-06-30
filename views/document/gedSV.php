@@ -1,5 +1,5 @@
-<?php  
-$cssAnsScriptFiles = array(
+<?php
+$cssAndScriptFiles = array(
 	//dropzone
 	'/plugins/dropzone/downloads/css/ph.css',
 	'/plugins/dropzone/downloads/dropzone.min.js',
@@ -8,13 +8,13 @@ $cssAnsScriptFiles = array(
 	'/plugins/lightbox2/js/lightbox.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <div style="display:none" id="genericGED">
-	
+
 	<div class="space20"></div>
 	<div class="col-sm-10 col-sm-offset-1">
-		
+
 		<div class="space20"></div>
 
 		<h3><?php echo Yii::t("misc","Manage Documents",null,Yii::app()->controller->module->id) ?></h3>
@@ -38,11 +38,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->b
 						<?php echo Yii::t("perimeter","Catégories",null,Yii::app()->controller->module->id) ?> : <input type="text" id="genericDocCategory" name="genericDocCategory" type="hidden" style="width: 250px;">
 						<br/><br/>
 						<div class="dz-clickable dropzoneInstance center" id="generic-dropzone">
-							<span class="text-bold text-large uploadText"> 
+							<span class="text-bold text-large uploadText">
 								<br/>Click or Drag over
 								<br/>max. 2.0Mb
 								<span class="text-small">
-									<br/>jpg, jpeg, png, gif 
+									<br/>jpg, jpeg, png, gif
 									<br/>pdf, xls, xlsx, doc, docx, ppt, pptx
 								</span>
 							</span>
@@ -53,7 +53,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->b
 			</div>
 		</div>
 		<div class="space5"></div>
-	
+
 		<table class="table table-striped table-bordered table-hover genericFilesTable">
 
 			<thead>
@@ -71,20 +71,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFiles ,Yii::app()->theme->b
 
 	</div>
 
-</div>	
+</div>
 <script type="text/javascript">
 var genericDropzone = null;
 var docType = "<?php echo PHType::TYPE_CITOYEN?>";
 var folder = "<?php echo PHType::TYPE_CITOYEN ?>";
 var ownerId = '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>';
 var destinationFolder = moduleId;
-jQuery(document).ready(function() 
+jQuery(document).ready(function()
 {
-	
+
 	$(".showDropZone").off().on( "click", function()
 	{
 		$(this).addClass("hide");
-		$(".uploaderDiv").removeClass('hide').addClass('animated bounceIn');	
+		$(".uploaderDiv").removeClass('hide').addClass('animated bounceIn');
 	});
 	$(".new-file").unbind("click").click(function()
 	{
@@ -102,7 +102,7 @@ genericDocCategoryData = genericDocCategoryData.sort();
 
 function initDropZoneData(docs)
 {
-	console.log("initDropZoneData"); 
+	console.log("initDropZoneData");
 	$(".genericFiles").html("");
 
 	if(!genericDropzone){
@@ -112,7 +112,7 @@ function initDropZoneData(docs)
 		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
 		  url : baseUrl+"/"+moduleId+"/document/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
-		  sending: function() { 
+		  sending: function() {
 		  	$(".uploadText").hide();
 		  	$.blockUI({
   				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -122,8 +122,8 @@ function initDropZoneData(docs)
   	            '</blockquote> '
   			});
 		  },
-		  complete: function(response) { 
-		  	//console.log(file.name); 
+		  complete: function(response) {
+		  	//console.log(file.name);
 		  	$(".loader-subviews").hide();
 		  	var category = $("#genericDocCategory").val();
 		  	if(response.xhr)
@@ -131,20 +131,20 @@ function initDropZoneData(docs)
 		  		docObj = JSON.parse(response.xhr.responseText);
 		  		if( docObj.result ){
 				  	$.unblockUI();
-				  	console.log(docObj.result); 
-				  	
-				  	var doc = { 
+				  	console.log(docObj.result);
+
+				  	var doc = {
 				  		"id":ownerId,
 				  		"type":docType,
 				  		"folder":folder+"/"+ownerId,
 				  		"moduleId":destinationFolder,
-				  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  , 
-				  		"name" : docObj.name , 
-				  		"date" : new Date() , 
+				  		"author" : '<?php echo (isset(Yii::app()->session["userId"])) ? Yii::app()->session["userId"] : "unknown"?>'  ,
+				  		"name" : docObj.name ,
+				  		"date" : new Date() ,
 				  		"size" : docObj.size ,
 				  		"category" : category
 				  	};
-				  	console.dir(doc); 
+				  	console.dir(doc);
 
 				  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 						saveDoc(doc);
@@ -168,9 +168,9 @@ function initDropZoneData(docs)
 			  	}
 			}
 		  },
-		  error: function(response) 
-		  { 
-		  	toastr.error("Something went wrong!!"); 
+		  error: function(response)
+		  {
+		  	toastr.error("Something went wrong!!");
 		  }
 		});
 	}
@@ -207,8 +207,8 @@ function initDropZoneData(docs)
 	$('#genericDocCategory').select2("val","");
 }
 
-function resetGenericFilesTable() 
-{ 
+function resetGenericFilesTable()
+{
 	console.log("resetGenericFilesTable");
 
 	if( !$('.genericFilesTable').hasClass("dataTable") ){
@@ -244,17 +244,17 @@ function resetGenericFilesTable()
 function addFileLine(id,doc,docId)
 {
 	folderPath = folder+"/"+ownerId;
-	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
-	console.log("addFileLine",doc); 
+	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name);
+	console.log("addFileLine",doc);
 	date = new Date(doc.date);
 	if(doc.name && doc.name.indexOf(".pdf") >= 0)
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';
 	else if((doc.name && (doc.name.indexOf(".jpg") >= 0 || doc.name.indexOf(".jpeg") >= 0 || doc.name.indexOf(".gif") >= 0 || doc.name.indexOf(".png") >= 0  )))
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" data-lightbox="docs">'+
 					'<img width="150" class="img-responsive" src="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'"/>'+
-				'</a>';	
+				'</a>';
 	else
-		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';	
+		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file fa-3x icon-big"></i></a>';
 	category = (doc.category) ? doc.category : "Unknown";
 	lineHTML = '<tr class="file'+docId+'">'+
 					'<td class="center">'+link+'</td>'+
@@ -278,7 +278,7 @@ function addFileLine(id,doc,docId)
 }
 
 function genericSaveDoc(doc, callback)
-{ 
+{
 	console.log("genericSaveDoc",doc);
 	$.ajax({
 	  type: "POST",

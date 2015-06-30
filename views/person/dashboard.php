@@ -22,7 +22,7 @@
 }
 </style>
 
-<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
+<?php //$this->renderPartial('/sig/generic/mapLibs'); ?>
 
 <div class="row">
 	<div class="col-md-3 col-sm-6  col-xs-12">
@@ -88,7 +88,7 @@ var bindBtnFollow = function(){
 
 
 	$(".disconnectBtn").off().on("click",function () {
-        
+
         $(this).empty();
         $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
         var btnClick = $(this);
@@ -113,9 +113,9 @@ var bindBtnFollow = function(){
 			        url: urlToSend,
 			        dataType : "json"
 			    })
-			    .done(function (data) 
+			    .done(function (data)
 			    {
-			        if ( data && data.result ) {               
+			        if ( data && data.result ) {
 			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
 			        	$("#"+typeToDisconnect+idToDisconnect).remove();
 			        	$("#linkBtns").empty();
@@ -128,7 +128,7 @@ var bindBtnFollow = function(){
 			    });
 
 		});
-		
+
 	});
 
 	$(".connectBtn").off().on("click",function () {
@@ -141,7 +141,7 @@ var bindBtnFollow = function(){
         	urlToSend += "/targetLink/"+targetLink;
         }
 
-		
+
 		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
 		}
@@ -153,7 +153,7 @@ var bindBtnFollow = function(){
 	    })
 	    .done(function (data)
 	    {
-	        if ( data && data.result ) {               
+	        if ( data && data.result ) {
 	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
 	        	$("#linkBtns").empty();
@@ -163,9 +163,9 @@ var bindBtnFollow = function(){
 	           toastr.info("something went wrong!! please try again.");
 	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 	        }
-	    });       
+	    });
 	});
 }
 
-	
+
 </script>

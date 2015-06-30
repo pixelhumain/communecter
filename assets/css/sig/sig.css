@@ -1,4 +1,7 @@
-
+svg{
+	height:auto;
+	width:auto;
+}
 	.mapCanvas{
 	 	width:100%;
 	 	/*background-color:#2A3945;*/
