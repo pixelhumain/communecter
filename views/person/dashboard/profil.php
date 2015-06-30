@@ -28,40 +28,21 @@
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>  Account info</h4>
-		<ul class="panel-heading-tabs border-light">
-        	<li>
-        		<?php 
-					if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
-						<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> InitData : Dummy People</a>
-					<?php } else { ?>
-						<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> Remove Dummy People</a>
-				<?php } ?>
-        	</li>
-        	<?php 
-			
-			if ( ! $canEdit ) {
-			?>
-        	<li>
-        		<div class="center" id='btnTools'>
-					<?php
-						//if connected user and pageUser are allready connected
-						if( Link::isConnected( Yii::app()->session['userId'] , PHType::TYPE_CITOYEN , (string)$person["_id"] , PHType::TYPE_CITOYEN ) ){  ?>
-							<a href="javascript:;" class="disconnectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink "></i></a>
-						<?php } else { ?>
-							<a href="javascript:;" class="connectBtn btn btn-xs btn-light-blue tooltips " data-placement="top" data-original-title="Connect to this person as a relation" ><i class=" connectBtnIcon fa fa-link "></i></a>
-						<?php }
-					?>
-				</div>
-        	</li>
-        	<?php } else { ?>
-			<li>	
-				<a href="#" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
-			</li>
-			<?php } ?>
-	    </ul>
-	</div>
-	<div class="panel-body" style="padding-top: 0px">
+        <h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>   Account info</h4>
+    </div>
+	
+ 	<div class="panel-tools">
+        <?php 
+				if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
+					<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> InitData : Dummy People</a>
+		<?php } else { ?>
+					<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> Remove Dummy People</a>
+		<?php } 
+				if ( $canEdit ) { ?>
+					<a href="#" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+		<?php } ?>
+  	</div>
+  	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="height: 190px">
 			<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
 				<?php 
