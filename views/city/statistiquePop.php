@@ -99,6 +99,7 @@
 			    .transitionDuration(350)
 
 
+
 			chart.yAxis
 				.tickFormat(d3.format(',.0f'))
 
@@ -233,11 +234,25 @@
 		nv.addGraph(function() {
 		    var chart = nv.models.multiBarChart()
 		      .transitionDuration(350)
-		      .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
+		      .reduceXTicks(false)   //If 'false', every single x-axis tick label will be rendered.
 		      .rotateLabels(0)      //Angle to rotate x-axis labels.
 		      .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
-		      .groupSpacing(0.1)    //Distance between each group of bars.
+		      .groupSpacing(0.1)
+		      .showYAxis(true) 
+              .showXAxis(true)
+              .margin({
+					bottom : 100,
+				})
+              .reduceXTicks(true)
 		    ;
+
+
+		    chart.xAxis
+			    .rotateLabels(-45)
+			    .tickFormat(function (d) {
+			        return  d;
+			    });
+
 
 			d3.selectAll("svg > *").remove();
 			d3.select('#chart svg')

@@ -40,7 +40,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	
 </style>
 <?php $canEdit = ((isset($itemId) && isset(Yii::app()->session["userId"]) && $itemId == Yii::app()->session["userId"])  
-				|| (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId)))?>
+				|| (isset($itemId) && isset(Yii::app()->session["userId"] ) && strcmp($type, Organization::COLLECTION)==0 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $itemId))
+				|| (isset($insee)))?>
 <div id="photoVideo">
     <div class="panel panel-white">
 	    <div class="panel-heading border-light">
