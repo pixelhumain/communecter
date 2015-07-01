@@ -45,9 +45,35 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 			</div>
 			<div class="panel-body panel-white">
 				<ul class="commentline-scrubber inner-element commentsTLmonthsList"></ul>
-				<div id="commentline">
-					<div class="commentline commentsTL">
-											
+				<div class='row'>
+					<div id="commentline">
+						<div class="commentline commentsTL col-md-6">
+												
+						</div>
+						<div id="discussInfo" class="pull-right col-md-6">
+							<div class="summary col-md-4" id="summary ">
+								<div class="panel panel-white">
+									<div class="panel-heading border-light">
+										<h4 class="panel-title">Discuss Summary</h4>				
+									</div>
+									<div class="panel-body panel-white">
+										Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. <br>
+										Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. 
+									</div>
+								</div>
+							</div>
+							<div class="moderationInfo col-md-4" id="moderationInfo">
+								<div class="panel panel-white">
+									<div class="panel-heading border-light">
+										<h4 class="panel-title">Moderation</h4>				
+									</div>
+									<div class="panel-body panel-white">
+										Administrateur : Toto<br>
+										Modérateur : N/A
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
