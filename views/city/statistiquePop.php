@@ -10,11 +10,11 @@
 ?>
 <style>
 	#chart{
-		width: 100%;
+		height: 400px;
 	}
 	#chart svg{
 		width: 100%;
-		height: 300px;
+		height: 100%;
 	}
 </style>
 <div class='panel panel-white'>
@@ -94,14 +94,13 @@
 			    .x(function(d) { return d.label })   
 			    .y(function(d) { return d.value })
 			    .staggerLabels(true)   
-			    .tooltips(true)        
+			    .tooltips(function (key, x, y, e, graph){
+			    	return '<p><strong>' + key + '</strong></p>' +
+			    	 '<p>' + y + ' ' + x + '</p>';
+			    })        
 			    .showValues(true)     
 			    .transitionDuration(350)
 
-
-
-			chart.yAxis
-				.tickFormat(d3.format(',.0f'))
 
 			d3.select('#chart svg')
 			    .datum(mapData)
@@ -233,17 +232,23 @@
 		console.log(mapData);
 		nv.addGraph(function() {
 		    var chart = nv.models.multiBarChart()
-		      .transitionDuration(350)
-		      .reduceXTicks(false)   //If 'false', every single x-axis tick label will be rendered.
-		      .rotateLabels(0)      //Angle to rotate x-axis labels.
-		      .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
-		      .groupSpacing(0.1)
-		      .showYAxis(true) 
-              .showXAxis(true)
-              .margin({
+		    	.stacked(false)
+		    	.showControls(false)
+		      	.transitionDuration(350)
+		      	.reduceXTicks(false)   //If 'false', every single x-axis tick label will be rendered.
+		      	.rotateLabels(0)      //Angle to rotate x-axis labels.
+		     	.showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+		      	.groupSpacing(0.1)
+		      	.showYAxis(true) 
+              	.showXAxis(true)
+              	.margin({
 					bottom : 100,
 				})
-		    ;
+              	.tooltip(function(key, x, y, e, graph) {
+              		console.log("e", e);
+				    return '<h3>' + key + '</h3>' +
+				           '<p>' +  y + ' on ' + x + '</p>';
+				});
 
 
 		    chart.xAxis
