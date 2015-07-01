@@ -27,6 +27,7 @@
 <script type="text/javascript">
 	var contextMap = {};
 	contextMap["project"] = <?php echo json_encode($project)?>;
+	var idToSend = contextMap["project"]["_id"]["$id"]
 	contextMap["people"] = <?php echo json_encode($people) ?>;
 	contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
 	var images = <?php echo json_encode($images) ?>;

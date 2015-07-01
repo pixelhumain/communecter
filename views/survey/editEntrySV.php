@@ -148,6 +148,7 @@ function editEntrySV (proposalObj) {
       }
     });
 }
+
 function getUrls(){
     var urls = [];
     $.each($('.addmultifield'), function() {

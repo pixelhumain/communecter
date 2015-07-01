@@ -73,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					<?php 
 						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$photoVidId,
 																		  "type" => $type,
-																		  "resize" => "true",
+																		  "resize" => true,
 																		  "contentId" => Document::IMG_SLIDER,
 																		  "editMode" => true)); ?>
 				</div>
