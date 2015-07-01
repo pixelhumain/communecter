@@ -1,5 +1,5 @@
 <?php
-/*		$cs = Yii::app()->getClientScript();
+		$cs = Yii::app()->getClientScript();
 
 		//$cs->registerCssFile("http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
 		$cs->registerCssFile($this->module->assetsUrl. '/css/sig/leaflet/leaflet.css');
@@ -25,8 +25,8 @@
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_popupContent.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_rightList.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_findPlace.js' , CClientScript::POS_END);
-*/
-		$cssAndScriptFiles = array(
+
+/*		$cssAndScriptFiles = array(
 
 			//css
 			'/css/sig/leaflet/leaflet.css',
@@ -54,6 +54,6 @@
 
 		);
 		//echo $this->module->assetsUrl; die();
-		HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl."");
+		HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl."");*/
 
 ?>

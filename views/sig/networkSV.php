@@ -1,14 +1,14 @@
-LOL
-<?php return;
+
+<?php
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
 		$relativePath = "/sig/";
 		/* ***********************************************************************************/
 
 	   	//chargement de toutes les librairies css et js indispensable pour la carto
     	//$this->renderPartial($relativePath.'generic/mapLibs');
-			//echo $this->renderPartial($relativePath.'generic/mapLibs', 0);
+			//$this->renderPartial($relativePath.'generic/mapLibs');
 
-			$cssAndScriptFiles = array(
+	/*		$cssAndScriptFiles = array(
 
 				//css
 				'/css/sig/leaflet/leaflet.css',
@@ -36,12 +36,22 @@ LOL
 
 			);
 			//echo $this->module->assetsUrl; die();
-			HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
+			HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);*/
 ?>
+
+
+<?php
+	$moduleName  = "sigModule".$sigParams['sigKey'];
+	$this->renderPartial($relativePath.'generic/mapCss', array( "sigParams" => $sigParams));
+?>
+
 
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
 <style>
-
+svg{
+	height:auto;
+	width:auto;
+}
 	.<?php echo $moduleName; ?> .mapCanvas			{}
 	.<?php echo $moduleName; ?> .panel_map			{
 		background-color:rgba(255, 255, 255, 0.83) !important;
@@ -58,12 +68,12 @@ LOL
 		background-color:rgba(0, 0, 0, 0.04);
 	}
 
-	.<?php echo $moduleName; ?> #right_tool_map		{}
+	.<?php echo $moduleName; ?> #right_tool_map			{}
 	.<?php echo $moduleName; ?> #liste_map_element	{}
 
-	.<?php echo $moduleName; ?> #lbl-chk-scope		{}
+	.<?php echo $moduleName; ?> #lbl-chk-scope			{}
 
-	.<?php echo $moduleName; ?> .btn-group-map		{}
+	.<?php echo $moduleName; ?> .btn-group-map			{}
 
 	/* XS */
 	@media screen and (max-width: 768px) {
