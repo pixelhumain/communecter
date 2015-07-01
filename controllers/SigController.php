@@ -16,16 +16,16 @@ class SigController extends CommunecterController {
   	public function actions()
   	{
       return array(
-          'network'      	=> 'citizenToolKit.controllers.sig.NetworkAction',
-          'companies'      	=> 'citizenToolKit.controllers.sig.CompaniesAction',
-          'state'      		=> 'citizenToolKit.controllers.sig.StateAction',
-          'events'      	=> 'citizenToolKit.controllers.sig.EventsAction',
-          'getmyposition'      	=> 'citizenToolKit.controllers.sig.GetMyPositionAction',
-          'showmynetwork'      	=> 'citizenToolKit.controllers.sig.ShowMyNetworkAction',
-          'ShowNetworkMapping'  => 'citizenToolKit.controllers.sig.ShowNetworkMappingAction',
-          'ShowLocalCompanies'  => 'citizenToolKit.controllers.sig.ShowLocalCompaniesAction',
-          'ShowLocalState'     	=> 'citizenToolKit.controllers.sig.ShowLocalStateAction',
-          'ShowLocalEvents'		=> 'citizenToolKit.controllers.sig.ShowLocalEventsAction',
+          'network'          	 => 'citizenToolKit.controllers.sig.NetworkAction',
+          'companies'          => 'citizenToolKit.controllers.sig.CompaniesAction',
+          'state'      		     => 'citizenToolKit.controllers.sig.StateAction',
+          'events'      	     => 'citizenToolKit.controllers.sig.EventsAction',
+          'getmyposition'      => 'citizenToolKit.controllers.sig.GetMyPositionAction',
+          'showmynetwork'      => 'citizenToolKit.controllers.sig.ShowMyNetworkAction',
+          'ShowNetworkMapping' => 'citizenToolKit.controllers.sig.ShowNetworkMappingAction',
+          'ShowLocalCompanies' => 'citizenToolKit.controllers.sig.ShowLocalCompaniesAction',
+          'ShowLocalState'     => 'citizenToolKit.controllers.sig.ShowLocalStateAction',
+          'ShowLocalEvents'		 => 'citizenToolKit.controllers.sig.ShowLocalEventsAction',
           'initDatanetworkmapping' => 'citizenToolKit.controllers.sig.InitDataNetworkMappingAction',
 
       );

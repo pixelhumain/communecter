@@ -51,7 +51,7 @@ class TestController extends CommunecterController {
 	                           "logo"  => "/images/logo.png" )
         );
   	
-    Mail::scheedule($params);
+    Mail::schedule($params);
 
   	$params = array(
   		"type" => Cron::TYPE_MAIL,
@@ -64,7 +64,7 @@ class TestController extends CommunecterController {
                                "creatorName" => "Tib Kat",
 	                           "url"  => "/organization/" )
         );
-    Mail::scheedule($params);
+    Mail::schedule($params);
   }
 
    public function actionDoCron() {

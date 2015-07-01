@@ -14,6 +14,7 @@ $commentActive = true;
   button.filter,button.sort{color:#000;}
   a.btn{margin:3px;}
   .mix{border-radius: 8px;}
+  
 
   /*.infolink{border-top:1px solid #fff}*/
   .leftlinks{float: left}
@@ -126,11 +127,12 @@ $commentActive = true;
 
       $leftLinks = $voteLinksAndInfos["links"];
       $graphLink = ($totalVote) ?' <a class="btn btn-orange" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i></a> ' : '';
-      $moderatelink = (  $where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$value["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$value["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
-      $rightLinks = (  isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
-      $rightLinks = ($value["type"]==Survey::TYPE_ENTRY) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
+      $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$value["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$value["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
+      $rightLinks = (  @$value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
+      $rightLinks = ( $value["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
       $ordre = $voteLinksAndInfos["ordre"];
-      $created = (isset($value["created"])) ? date("d/m/Y h:i",$value["created"]) : ""; 
+      $created = ( @$value["created"] ) ? date("d/m/Y h:i",$value["created"]) : ""; 
+      $views = ( @$value["viewCount"] ) ? ", views : ".$value["viewCount"] : ""; 
       $byInfo = "";
       if ( isset($value["parentType"]) && isset($value["parentId"]) ) 
       {
@@ -149,24 +151,25 @@ $commentActive = true;
         $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
       }
 
-      $createdInfo =  (!empty( $created )) ? "<br/>created : ".$created : "";
-      $blocks .= ' <div class="mix '.$avoter.' '.
+      $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
+      $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
+      $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
+      $blocks .= ' <div class="mix '.$boxColor.' '.$avoter.' '.
                     $meslois.' '.
                     $followingEntry.' '.
                     $tags.' '.
-                    ( ($where["type"]==Survey::TYPE_SURVEY) ? $cpList : "").
-                    '"'.
+                    $cpList.'"'.
+                    
                     'data-vote="'.$ordre.'"  data-time="'.
                     $created.'" style="display:inline-blocks"">'.
-                    $link.'<br/>'.
                     
+                    $link.'<br/>'.
                     $info.
                     //$tags.
                     //$content.
                     '<br/>'.$leftLinks.$rightLinks.
-                    '<br/>'.
-                    $byInfo.
-                    $createdInfo.
+                    '<div class="space1"></div>'.
+                    $byInfo.$createdInfo.$views.
                     '</div>';
     }
     ?>
