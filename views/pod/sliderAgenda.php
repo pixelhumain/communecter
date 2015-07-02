@@ -12,6 +12,7 @@
 	}
 	.banniereSlider{
 		position: relative;
+		overflow: hidden;
 	}
 	.addImgButton{
 		position: absolute;
@@ -33,6 +34,7 @@
 	  position: absolute;
 	  vertical-align: middle;
 	  width: 100%;
+
 	}
 
 </style>
@@ -77,16 +79,17 @@
 		events : list of the context users events
 		contentID : type of the picture
 	*/
+
 	var canEditAgenda = "<?php if(isset($canEdit)){ echo $canEdit;}else{ echo false;} ?>";
 	var editAgenda = "<?php if(isset($canEdit)) echo $canEdit; else echo false; ?>"
 	var eventTest = <?php echo (isset($eventTest)) ? json_encode($eventTest) : "{}" ?>;
 	var controllerId = "<?php echo Yii::app()->controller->id; ?>"
 
 	var eventsAgenda = <?php echo (isset($eventsAgenda)) ? json_encode($eventsAgenda) : "{}" ?>;
-
+	var tabSlide = [];
  	jQuery(document).ready(function() {	 
- 		
-		initDashboardAgenda();	
+ 		initSlides();
+		initDashboardAgenda(tabSlide);	
 
 		$('.init-event').off().on("click", function(){
 			$.subview({
@@ -129,19 +132,15 @@
 			resizeSliderAgenda();
 		});
  	}
- 	/*
- 		Init the flexSlider with the next events or with default empty message
- 	*/
-	function initDashboardAgenda(){
-		var today = new Date();
+
+ 	function initSlides(){
+ 		var today = new Date();
 
 		// if false init slider with empty message
 		var emptySlide = true;
 
 		// dynamic width and height for the slides images
-		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
-		var height = parseInt($("#sliderAgenda").css("min-height"))*80/100;
-
+		
 		$.each(eventsAgenda, function(k, v){
 			emptySlide = false;
 			var endDate = v.endDate;
@@ -179,7 +178,7 @@
 									"</div>"+
 								"</li>";
 									
-				$("#slidesAgenda").append(htmlRes);
+				tabSlide.push(htmlRes);
 			}
 		})	
 		
@@ -192,9 +191,22 @@
 									" </br><i class='fa fa-calendar fa-5x text-red'></i>"+message+
 								"</div>"+
 							"</li>";
-			$("#slidesAgenda").append(htmlRes);
+			tabSlide.push(htmlRes);
+			//$("#slidesAgenda").append(htmlRes);
 		}
+ 	}
+ 	/*
+ 		Init the flexSlider with the next events or with default empty message
+ 	*/
 
+	function initDashboardAgenda(tab){
+		
+		var width =  parseInt($("#sliderAgenda .panel-body").css("width"));
+		var height = parseInt($("#sliderAgenda").css("min-height"))*80/100;
+
+		for(var i=0; i<tab.length; i++){
+			$("#slidesAgenda").append(tab[i]);
+		}
 		// reload Slider
 		$("#flexsliderAgenda").flexslider({
 			animationLoop: true,
@@ -261,44 +273,7 @@
 		return strPeriod;
 	}
 
-	//update the shared agenda
-	function updateSliderAgenda(nEvent){
-		if("undefined" != typeof eventsAgenda.length){
-			eventsAgenda = {};
-		}
-		eventsAgenda[nEvent["_id"]["$id"]] = nEvent;
-		$('#flexsliderAgenda').removeData("flexslider")
-		$('#flexsliderAgenda').empty();
-		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
-		/*$('#flexsliderAgenda').append('<div class="navigator padding-0" id="globWhiteBlockAgendaPartage">'+
-      										'<a href="javascript:;" class="circle-50 partition-grey owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>'+
-                    						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
-            						'</div>');
-        */
-		initDashboardAgenda();
-	}
-
-	//Update the picture of an events
-	function updateSliderImage(id, imageUrl){
-		eventsAgenda[id]["imageUrl"] = imageUrl;
-		$('#flexsliderAgenda').removeData("flexslider")
-		$('#flexsliderAgenda').empty();
-		$('#flexsliderAgenda').append('<ul class="slides" id="slidesAgenda">');
-		/*$('#flexsliderAgenda').append('<div class="navigator padding-0" id="globWhiteBlockAgendaPartage">'+
-      										'<a href="javascript:;" class="circle-50 partition-grey owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>'+
-                    						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
-            						'</div>');
-         */
-		initDashboardAgenda();
-	}
-
-
-	//Close fileUpload and reset slider
-	function clearFileUploadAgenda(){
-		$("#agendaNewPicture").css("display", "none");
-		$("#flexsliderAgenda").css("display", "block");
-	}
-
+	
 	function resizeSliderAgenda(){
 		$('#flexsliderAgenda').removeData("flexslider")
 		$('#flexsliderAgenda').empty();
@@ -308,7 +283,7 @@
                     						'<a href="javascript:;" class="circle-50 partition-grey owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>'+
             						'</div>');
         */
-		initDashboardAgenda();
+		initDashboardAgenda(tabSlide);
 	}
 
  </script>
