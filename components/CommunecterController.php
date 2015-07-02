@@ -227,6 +227,11 @@ class CommunecterController extends Controller
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
     ),
+
+    "comment"=> array(
+      "index" => array( "href" => "/ph/communecter/comment/index"),
+      "save" => array( "href" => "/ph/communecter/comment/save")
+    ),
     
   );
 
