@@ -155,7 +155,7 @@
 				notEmptySlide = true;
 				var imageUrl = "<div class='defaultImage' ></br><i class='fa fa-calendar fa-5x text-red'></i><br> <?php echo Yii::t('sliderAgenda','No picture for this event',null,Yii::app()->controller->module->id) ?> </div>";
 				if ('undefined' != typeof v.imageUrl && v.imageUrl != ""){
-					imageUrl = "<img src='"+baseUrl + "/" + moduleId +"/document/resized/"+width+"x"+height+v.imageUrl+"'></img>";
+					imageUrl =  "<img src='"+baseUrl +"/" + moduleId +"/document/resized/750x338"+ v.imageUrl+"'></img>";
 				}
 				var htmlRes = "<li>"+
 									"<div class='center' >"+

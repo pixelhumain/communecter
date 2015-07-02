@@ -22,6 +22,7 @@ class CityController extends CommunecterController {
 	        'calendar'      		=> 'citizenToolKit.controllers.city.CalendarAction',
 	        'statisticpopulation' 	=> 'citizenToolKit.controllers.city.StatisticPopulationAction',
 	        'getcitydata'     		=> 'citizenToolKit.controllers.city.GetCityDataAction',
+	        'statisticcity'			=> 'citizenToolKit.controllers.city.statisticCityAction'
 	    );
 	}
 }
