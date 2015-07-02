@@ -79,6 +79,7 @@ class CommunecterController extends Controller
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
+      "view" => array("href"=>"/ph/communecter/default/view"),
     ),
 
     "city"=> array(
@@ -226,6 +227,11 @@ class CommunecterController extends Controller
     
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
+    ),
+
+    "comment"=> array(
+      "index" => array( "href" => "/ph/communecter/comment/index"),
+      "save" => array( "href" => "/ph/communecter/comment/save")
     ),
     
   );
