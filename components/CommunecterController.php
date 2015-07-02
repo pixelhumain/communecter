@@ -79,6 +79,7 @@ class CommunecterController extends Controller
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
+      "view" => array("href"=>"/ph/communecter/default/view"),
     ),
 
     "city"=> array(
