@@ -1,4 +1,4 @@
-<div class="panel-heading border-light ">
+<div class="panel-heading border-light center ">
 	<span class="panel-title homestead"> <i class='fa fa-compass faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">ROADMAP</span></span>
 </div>
 <div class="keywordList"></div>

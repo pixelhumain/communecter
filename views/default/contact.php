@@ -1,3 +1,6 @@
+<div class="panel-heading border-light center">
+	<span class="panel-title homestead"> <i class='fa fa-envelope-o faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">CONTACT</span></span>
+</div>
 <div class="space20"></div>
 <div class="keywordList"></div>
 
@@ -33,30 +36,37 @@ var keywords = [
 	},
 	{
 		"icon" : "fa-github",
+		"size":"col-md-4 ",
 		"title":" <a href='https://github.com/pixelhumain' target='_blank'>ON GITHUB</a>"
 	},
 	{
 		"icon" : "fa-bookmark-o",
+		"size":"col-md-4 ",
 		"title":" <a href='https://groups.diigo.com/group/pixelhumain' target='_blank'>BY DIIGO</a> "
 	},
 	{
 		"icon" : "fa-google-plus",
+		"size":"col-md-4",
 		"title":" <a href='https://plus.google.com/u/0/communities/111483652487023091469' target='_blank'>BY GOOGLE+ </a> "
 	},
 	{
 		"icon" : "fa-facebook-square",
+		"size":"col-md-4",
 		"title":"<a href='https://www.facebook.com/groups/pixelhumain/' target='_blank'>BY FACEBOOK </a> "
 	},
 	{
 		"icon" : "fa-twitter",
+		"size":"col-md-4 ",
 		"title":"<a href='https://www.twitter.com/pixelhumain/' target='_blank'>BY TWITTER</a> "
 	},
 	{
 		"icon" : "fa-bookmark-o",
+		"size":"col-md-4",
 		"title":"<a href='https://groups.diigo.com/group/pixelhumain' target='_blank'>BY DIIGO</a> "
 	},
 	{
 		"icon" : "fa-smile-o",
+		"size":"col-md-4 ",
 		"title":"<a href='https://ello.co/pixelhumain' target='_blank'>BY ELLO</a> "
 	},
 ];
@@ -68,7 +78,8 @@ jQuery(document).ready(function()
 		var icon = (obj.icon) ? obj.icon : "fa-tag" ;
 		var color = (obj.color) ? obj.color : "#E33551" ;
 		var body = (obj.body) ? obj.body : null ;
-		var str = '<div class="panel panel-white">'+
+		var size = (obj.size) ? obj.size : null ;
+		var str = '<div class="'+size+' col-sm-12"><div class="panel panel-white ">'+
 			'<div class="panel-heading border-light ">'+
 				'<span class="panel-title homestead"> <i class="fa '+icon+'  fa-2x"></i> <span style="font-size: 35px; color:'+color+';"> '+obj.title+'</span></span>'+
 			'</div>';
@@ -78,7 +89,7 @@ jQuery(document).ready(function()
 					body+
 				 "</blockquote>"+
 			"</div>"+
-		"</div>";
+		"</div></div>";
 		$(".keywordList").append(str);
 	 });
 });
