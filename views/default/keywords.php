@@ -1,4 +1,7 @@
-<div class="space20"></div>
+<div class="panel-heading border-light ">
+	<span class="panel-title homestead"> <i class='fa fa-cube  faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">KEY CONCEPTS</span></span>
+</div>
+
 <div class="keywordList"></div>
 
 <script type="text/javascript">
@@ -107,7 +110,7 @@ jQuery(document).ready(function()
 		$(".keywordList").append(
 		'<div class="panel panel-white">'+
 			'<div class="panel-heading border-light ">'+
-				'<span class="panel-title homestead"> <i class="fa '+icon+'  fa-2x"></i> <span style="font-size: 35px; color:'+color+';"> '+obj.title.toUpperCase()+'</span></span>'+
+				'<span class="panel-title homestead"> <i class="fa '+icon+' faa-pulse animated-hover fa-2x"></i> <span style="font-size: 35px; color:'+color+';"> '+obj.title.toUpperCase()+'</span></span>'+
 			'</div>'+
 			'<div class="panel-body">'+
 				'<blockquote class="space20">'+

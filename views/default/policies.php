@@ -1,8 +1,7 @@
 <div class="panel-heading border-light ">
-	<span class="panel-title homestead"> <i class='fa fa-legal  fa-3x  '></i> <span style="font-size: 48px">HERE WE ARE :  </span></span>
+	<span class="panel-title homestead"> <i class='fa fa-legal   fa-3x  '></i> <span style="font-size: 48px">WE ARE :  </span></span>
 </div>
 
-<div class="space20"></div>
 <div class="keywordList"></div>
 
 <script type="text/javascript">
