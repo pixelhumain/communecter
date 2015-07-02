@@ -51,7 +51,6 @@ button + label{
   margin-left: 1em;
 }
 
-
 .mixcontainer .mix {
     display: none;
     border: 1px solid #3399FF;
@@ -62,6 +61,10 @@ button + label{
     color: white;
     z-index: 1;
 }
+
+.mixcontainer .boxColor1 { background-color: #333}
+.mixcontainer .boxColor2 { background-color: #182129}
+
 
 .mixcontainer .mix a,.mixcontainer .mix span{
     background-color: #3399FF;

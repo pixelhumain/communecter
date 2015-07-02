@@ -11,6 +11,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 <style type="text/css">
 
   a.btn{margin:3px;}
+  a:hover.btn {background-color: pink;border solid #666;}
 
   /*.infolink{border-top:1px solid #fff}*/
   .leftlinks a.btn{color:black;background-color: yellow;border: 1px solid yellow;}
@@ -31,7 +32,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
 			$this->renderPartial('../person/menuTitle',array( "actionTitle" => "VOTE", 
@@ -42,76 +42,32 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 
 			<span class="text-extra-large text-bold"> INVITATION TO VOTE </span> 
 			<p> Invited by --- <?php //echo $parentOrganization['name'] ?> </p>
-			<blockquote style="border-left: 5px solid #E33551;">
-				<span class="text-extra-large text-bold">
-				<?php
-				echo $survey["name"]; 
-				echo "</span><p>";
-				$regex = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
-				echo preg_replace_callback($regex, function ($matches) {
-				    return "<a target='_blank' href='{$matches[0]}'>{$matches[0]}</a>";
-				}, $survey["message"]);
-				?>
-				</p>
-			</blockquote>
-			<div class="center margin-10">
-				<?php 
-					$logguedAndValid = Person::logguedAndValid();
-					$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
-      				$leftLinks = $voteLinksAndInfos["links"];
-      				
-      				if( $voteLinksAndInfos["hasVoted"] )
-      					echo "Thank you for your."; 
-      				else
-      					echo "Feel Free to vote.";
-      				echo "<div>".$leftLinks."</div>";
-      				if( $voteLinksAndInfos["totalVote"] )
-      					echo "<br/>".$voteLinksAndInfos["totalVote"]." people voted."; 
-				 ?>
-			</div>
-
-			<br/>
-			<?php if(isset( $survey["urls"])){
-				echo "Url(s) de référence(s) : <br/>";
-				foreach ($survey["urls"] as $u) {
-					echo "<a href='".$u."' target='_blank'>".$u."</a><br/>";
-			 }} ?>
-			<br/>
+			
+			
 			<?php 
-			if(isset( Yii::app()->session["userId"])){
-				if(Yii::app()->session["userEmail"] != $survey["email"]){
-				if(!(isset($survey[Action::ACTION_FOLLOW]) 
-				    && is_array($survey[Action::ACTION_FOLLOW]) 
-				    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) {
-				    	?>
-				<br/><a class="btn" href="javascript:addaction('<?php echo (string)$survey["_id"]?>','<?php echo Action::ACTION_FOLLOW ?>')"><i class='fa fa-rss' ></i> Follow this vote</a>
-				<?php } else {?>
-				<br/>You are Following this vote. <i class='fa fa-rss' ></i>
-				<?php } 
-			} else {?>
-				<br/>You started this vote.
-				<br/><a class="btn" onclick="entryDetail('<?php echo Yii::app()->createUrl("/pppm/default/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;"><i class='fa fa-pencil' ></i> Edit this Entry</a>
-
-			<?php }} ?>
-
+			$this->renderPartial('entry',array( "survey" => $survey, 
+												"position" => "center",
+												"showName" => true ));
+			?>
 		</div>
 		<!-- end: LOGIN BOX -->
 	</div>
 </div>
 <script type="text/javascript">
 
-	jQuery(document).ready(function() {
+jQuery(document).ready(function() {
 
-		
-		$(".titleRed").html("VOTER");
-		$(".titleWhite").html("");
-		$(".titleWhite2").html("");
-		$(".subTitle").html("C'est un bien commun.");
+	$(".titleRed").html("VOTER");
+	$(".titleWhite").html("");
+	$(".titleWhite2").html("");
+	$(".subTitle").html("C'est un bien commun.");
 
-		$('.box-login').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).removeClass("animated flipInX");
-		});
+	$('.box-login').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		$(this).removeClass("animated flipInX");
 	});
+
+});
+
 function addaction(id,action){
     console.warn("--------------- addaction ---------------------");
     if(confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){

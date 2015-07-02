@@ -81,10 +81,9 @@ function editEntrySV (proposalObj) {
           formObj : proposalFormDefinition,
           onLoad : function  () {
             if( proposalObj ){
-              $("#proposerloiFormLabel").html(data.title);
-              $("#name").val(data.title);
+              /*$("#name").val(data.title);
               $("#message").val(data.contentBrut);
-              AutoGrowTextArea($("message"));
+              AutoGrowTextArea($("message"));*/
             }
           },
           onSave : function(){

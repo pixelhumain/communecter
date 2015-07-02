@@ -21,7 +21,7 @@ class CommunecterController extends Controller
       array("img"=>"/images/logo_region_reunion.png","url"=>"http://www.regionreunion.com"),
       array("img"=>"/images/technopole.jpg","url"=>"http://technopole-reunion.com"),
       array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
-      array("img"=>'/images/blog-github.png',"url"=>"https://github.com/pixelhumain/pixelhumain"),
+      array("img"=>'/images/blog-github.png',"url"=>"https://github.com/orgs/pixelhumain/dashboard"),
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
   
 
@@ -223,6 +223,7 @@ class CommunecterController extends Controller
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
     ),
+    
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
     ),

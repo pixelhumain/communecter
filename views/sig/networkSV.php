@@ -1,5 +1,4 @@
-LOL
-<?php return;
+<?php 
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
 		$relativePath = "/sig/";
 		/* ***********************************************************************************/
