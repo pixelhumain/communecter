@@ -153,6 +153,9 @@ function buildLineHTML(newsObj)
 	
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
+	var commentCount = 0;
+	if ("undefined" != typeof newsObj.commentCount) 
+		commentCount = newsObj.commentCount;
 	
 	newsTLLine = '<li><div class="timeline_element partition-'+color+'">'+
 					tags+
@@ -166,7 +169,7 @@ function buildLineHTML(newsObj)
 					
 					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
 					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='newsAddComment'  data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-comment'></i></span></a> "+
+					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
 					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
 					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
 					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
@@ -195,7 +198,7 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function(){
-		window.location.href = baseUrl+"/<?php echo $this->module->id?>/discuss/index/type/news/id/"+$(this).data("id");
+		window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
 		/*toastr.info('TODO : COMMENT this news Entry');
 		console.log("newsAddComment",$(this).data("id"));
 		count = parseInt($(this).data("count"));

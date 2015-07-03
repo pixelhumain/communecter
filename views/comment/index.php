@@ -131,7 +131,7 @@ function buildLineHTML(commentObj)
 {
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
-	var dateStr = date.format('D MMM YYYY hh:mm');
+	var dateStr = date.format('D MMM YYYY HH:mm');
 	console.log("date",commentObj.created, dateStr);
 	
 	var iconStr = getProfilImageUrl(commentObj.author.profilImageUrl);
@@ -243,7 +243,7 @@ function replyComment(parentCommentId) {
 function buildNewCommentLine(parentCommentId) {
 	var id = 'newcomment'+Math.floor((Math.random() * 100) + 1);
 	var date = moment();
-	var dateStr = date.format('D MMM YYYY hh:mm');//day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	var dateStr = date.format('D MMM YYYY HH:mm');//day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	console.log("date", dateStr);
 	
 	var iconStr = getProfilImageUrl(currentUser.profilImageUrl);
@@ -268,7 +268,7 @@ function buildNewCommentLine(parentCommentId) {
 					
 					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
 					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Reply</span></a> "+
+					"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Submit</span></a> "+
 					"<a href='javascript:;' class='cancelComment' data-id='"+id+"'><span class='label label-info'>Cancel</span></a> "+
 					"</div>"+
 				'</div></li>';
@@ -322,10 +322,12 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 	if (parentCommentId == "" || "undefined" == typeof parentCommentId) {
 		var ulChildren = $('.tree');
 		ulChildren.prepend(commentsTLLine);
+		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 		addEmptyCommentOnTop();
 	} else {
 		var ulChildren = $('#comment'+parentCommentId).children('ul');
 		ulChildren.prepend(commentsTLLine);
+		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
 	
 	console.log(ulChildren);
