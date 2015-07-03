@@ -7,6 +7,11 @@
 
 var keywords = [
 	{
+		"icon" : "fa-calendar",
+		"title":"MILESTONE 0.1",
+		"body":"september"
+	},
+	{
 		"icon" : "fa-university",
 		"title":"MY CITY",
 		"body":"COMING SOON"

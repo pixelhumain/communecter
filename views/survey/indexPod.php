@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
     console.warn("--------------- addaction ---------------------");
     if(confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){
       params = { 
-           "email" : '<?php echo Yii::app()->session["userEmail"]?>' , 
+           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
            "id" : id ,
            "collection":"surveys",
            "action" : action 

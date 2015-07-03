@@ -14,7 +14,7 @@ class Menu {
                   "graphics" => array( "label"=>"Graphics","key"=>"graphics", "onclick"=>"loadPage('/communecter/default/view/page/graphics')",),
                   //"videos" => array( "label"=>"Videos","key"=>"videos", "onclick"=>"loadPage('/communecter/default/view/page/videos')",),
                    /* )),*/
-                  
+                  "test" => array( "label"=>"Test","key"=>"test", "onclick"=>"loadPage('/communecter/default/view/page/test')",),
                   );
 
 	public static $sectionMenu = array(
