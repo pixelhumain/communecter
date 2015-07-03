@@ -151,6 +151,8 @@ $commentActive = true;
         $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
       }
 
+      $contextType = ( $value["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
+      $commentBtn = "<a href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i></a>";
       $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
       $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
       $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
@@ -169,6 +171,7 @@ $commentActive = true;
                     //$content.
                     '<br/>'.$leftLinks.$rightLinks.
                     '<div class="space1"></div>'.
+                    $commentBtn.
                     $byInfo.$createdInfo.$views.
                     '</div>';
     }
