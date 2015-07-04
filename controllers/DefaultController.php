@@ -9,6 +9,7 @@
  */
 class DefaultController extends CommunecterController {
 
+    
     protected function beforeAction($action)
   	{
 
@@ -39,22 +40,10 @@ class DefaultController extends CommunecterController {
     public function actionAbout() 
     {
         $this->title = "About";
-        $this->subTitle = "se connecter à sa commune";
+        $this->subTitle = "Building commons for the people by the people";
         $this->pageTitle = "Communecter, se connecter à sa commune";
           
-        $this->sidebar2 = array(
-            array('label' => "Direct Links", "key"=>"temporary","iconClass"=>"fa fa-life-bouy",
-                    "children"=> array(
-                      "login" => array( "label"=>"Login","key"=>"login", "href"=>"/communecter/person/login",),
-                      "register" => array( "label"=>"REgister","key"=>"register", "href"=>"/communecter/person/login?box=register"),
-                      "profile" => array( "label"=>"Profile","key"=>"profile", "href"=>"/communecter/person"),
-                      "group" => array( "label"=>"Group","key"=>"group", "href"=>"/communecter/default/group"),
-                      "asso" => array( "label"=>"Asso","key"=>"asso", "href"=>"/communecter/default/asso"),
-                      "company" => array( "label"=>"Company","key"=>"company", "href"=>"/communecter/default/company"),
-                      "listing" => array( "label"=>"Listing","key"=>"listing", "href"=>"/communecter/default/listing"),
-                    )
-            )
-        );
+        $this->sidebar2 = Menu::$infoMenu;
 
         $detect = new Mobile_Detect;
         $isMobile = $detect->isMobile();
@@ -82,6 +71,18 @@ class DefaultController extends CommunecterController {
       }
       
     }
+    public function actionView($page) 
+    {
+      if(Yii::app()->request->isAjaxRequest){
+        $this->layout = "//layouts/empty";
+        echo $this->renderPartial($page, null,true);
+      }
+      else {
+        $this->sidebar2 = Menu::$infoMenu;
+        $this->render($page);
+      }
+      
+    }
   public function actionContact() 
     {
       $this->title = "Contact us";
@@ -95,6 +96,7 @@ class DefaultController extends CommunecterController {
         $this->render("contactusMob");
       }
       else {
+
         $this->render("contact");
       }
       

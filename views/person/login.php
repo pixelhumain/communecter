@@ -2,10 +2,8 @@
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
-
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 
 ?>
 
@@ -14,136 +12,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 		<i class="menuBtn fa fa-bars fa-3x text-white "></i>
 	</a>
 </div>
-<script type="text/javascript">
-	var  activePanel = "box-login";
-	var  bgcolorClass = "bgblack";
 
-	function showMenu(box){
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		if($(".menuBtn").hasClass("fa-times"))
-		{
-			$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-			console.log("showMenu",box, bgcolorClass );
-
-			$("body.login").removeClass("bgred bggreen bgblack bgblue");
-			if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
-				$(".byPHRight").fadeIn();
-				$("body.login").addClass("bgCity");
-				bgcolorClass = "bgCity";
-			}
-			else{
-				bgcolorClass = "bgblack";
-				if(box == "box-whatisit" || box == "box-when" )
-					bgcolorClass = "bgred";
-				else if(box == "box-why" || box == "box-how" )
-					bgcolorClass = "bggreen";
-				else if(box == "box-4who" || box == "box-where" )
-					bgcolorClass = "bgblue";
-					
-				$("body.login").removeClass("bgCity").addClass(bgcolorClass);
-			}
-
-			if(!box)
-				box = "box-login";
-			$('.box-menu').slideUp();
-			$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInRight");
-			});
-			activePanel = box;
-		}
-		else 
-		{
-			//$("body.login").removeClass(bgcolorClass).addClass("bgCity");
-			console.log("open showMenu",box, bgcolorClass );
-
-			$("body.login").removeClass("bgred bggreen bgblack bgblue");
-
-			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
-			$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
-			$('.'+activePanel).hide();
-			$('.box-menu').slideDown();
-			$(".byPHRight").fadeOut();
-		}
-	}
-
-	function showVideo(id) { 
-		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		$('.box-menu').slideUp();
-		$.okvideo({ source: id,
-                    volume: 0,
-                    loop: false,
-                    //hd:true,
-                    //adproof: true,
-                    //annotations: false,
-                    onFinished: function() { showMenu("box-login") },
-                    /*unstarted: function() { console.log('unstarted') },
-                    onReady: function() { console.log('onready') },
-                    onPlay: function() { console.log('onplay') },
-                    onPause: function() { console.log('pause') },
-                    buffering: function() { console.log('buffering') },
-                    cued: function() { console.log('cued') },*/
-                 });
-	}
-	var titleMapIndex = 1;
-	var titleMap = [
-		{titleRed:"CO",titleWhite:"MMU",titleWhite2:"NECTER",subTitle:"Se connecter à sa commune"},
-		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Se connecter à sa commune"},
-		{titleRed:"CO",titleWhite:"MMUNECTER",subTitle:"Coopérer et Collaborer"},
-		{titleRed:"COMM",titleWhite:"UNECTER",subTitle:"Communiquons mieux localement"},
-		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Communautés qui travail ensemble"},
-		{titleRed:"COMMUN",titleWhite:"ECTER",subTitle:"Pour le bien commun"},
-		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Pour améliorer la ville 2.2.main"}
-		
-	];
-	function titleAnim () 
-	{ 
-		setTimeout(function()
-		{
-			console.log("titleAnim",titleMapIndex);
-			var map = titleMap[titleMapIndex];
-			$(".titleRed").html(map.titleRed);
-			$(".titleWhite").html(map.titleWhite);
-			if(map.titleWhite2){
-				$(".titleWhite2").html(map.titleWhite2);
-				//toggleTitle ();
-			}
-			else
-				$(".titleWhite2").html("");
-			$(".subTitle").html(map.subTitle);
-			$('.loaderDots').html("");
-			titleMapIndex = ( titleMapIndex == titleMap.length-1 ) ? 0 : titleMapIndex+1;
-			titleAnim ();
-		},3000);
-	}
-	function loaderPoints () { 
-		/*setTimeout(function(){
-			$('.loaderDots').html($('.loaderDots').html()+".");	
-			loaderPoints ();
-		},800)*/
-	}
-	/*var toggleTitleState = -1;
-	function  toggleTitle (state) {
-
-		console.log("toggleTitle",toggleTitleState); 
-		setTimeout(function(){
-
-			if(state>0)
-			{
-				$(".titleRed").html("COMMUNE");
-				$(".titleWhite").html("CTER");
-				$(".titleWhite2").html("");
-			}
-			else
-			{
-				$(".titleRed").html("CO");
-				$(".titleWhite").html("MMU");
-				$(".titleWhite2").html("NECTER");
-			}
-			toggleTitleState = -toggleTitleState; 
-		},500);
-	}*/
-</script>
 
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">

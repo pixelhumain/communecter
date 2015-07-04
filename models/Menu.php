@@ -1,5 +1,22 @@
 <?php
 class Menu {
+
+    public static $infoMenu = array(
+                  "about" => array( "label"=>"About","key"=>"about", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/about')"),
+                  "help" => array( "label"=>"Help","key"=>"help", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/help')",),
+                  "policies" => array( "label"=>"Policies","key"=>"policies", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/policies')",),
+                  "contact" => array( "label"=>"Contact","key"=>"contact", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/contact')",),
+                  /*"resources" => array( "label"=>"Resources","key"=>"resources", "onclick"=>"loadPage('/communecter/default/view/page/resources')",
+                    "children"=>array(*/
+                  "keywords" => array( "label"=>"Keywords","key"=>"keywords", "onclick"=>"loadPage('/communecter/default/view/page/keywords')"),
+                  "philosophy" => array( "label"=>"Philosopĥy","key"=>"philosophy", "onclick"=>"loadPage('/communecter/default/view/page/philosophy')"),
+                  "roadmap" => array( "label"=>"Roadmap","key"=>"roadmap", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/roadmap')",),
+                  "graphics" => array( "label"=>"Graphics","key"=>"graphics", "onclick"=>"loadPage('/communecter/default/view/page/graphics')",),
+                  //"videos" => array( "label"=>"Videos","key"=>"videos", "onclick"=>"loadPage('/communecter/default/view/page/videos')",),
+                   /* )),*/
+                  "test" => array( "label"=>"Test","key"=>"test", "onclick"=>"loadPage('/communecter/default/view/page/test')",),
+                  );
+
 	public static $sectionMenu = array(
         
     );

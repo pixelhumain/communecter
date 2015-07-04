@@ -79,15 +79,16 @@ class CommunecterController extends Controller
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
+      "view" => array("href"=>"/ph/communecter/default/view"),
     ),
 
     "city"=> array(
     	"index"               => array("href" => "/ph/communecter/city/index"),
-      "dashboard"           => array("href" => "/ph/communecter/city/dashboard"),
+      	"dashboard"           => array("href" => "/ph/communecter/city/dashboard"),
     	"directory"           => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
     	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation"),
     	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata"),
-      'globalstats' => array("href" => "/ph/communecter/city/globalstats"),
+      	'statisticcity' => array("href" => "/ph/communecter/city/statisticcity"),
 
     ),
     "news"=> array(
@@ -226,6 +227,11 @@ class CommunecterController extends Controller
     
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
+    ),
+
+    "comment"=> array(
+      "index" => array( "href" => "/ph/communecter/comment/index"),
+      "save" => array( "href" => "/ph/communecter/comment/save")
     ),
     
   );
