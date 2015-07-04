@@ -12,7 +12,7 @@
 	    	var thisSig = this;
 
 	    	//memorise les paramètres dans une variable globale de l'instance SIG
-	    	thisSig.initParmerters = params;
+	    	thisSig.initParameters = params;
 
 	    	//memorise la carte
 	    	thisSig.map = thisMap;
@@ -35,17 +35,17 @@
 				//TODO : définir les icons et couleurs de chaque type disponoble
 				thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
-																		  "citoyen" 			: { ico : "smile-o", color : "yellow" 	},
+											  	"citoyen" 			: { ico : "smile-o", color : "yellow" 	},
 
-																			"NGO" 					: { ico : "group", color : "green" 	},
-																			"organizations" : { ico : "group", color : "green" 	},
+												"NGO" 				: { ico : "group", color : "green" 		},
+												"organizations" 	: { ico : "group", color : "green" 		},
 
-																			"events" 				: { ico : "circle", color : "red" 		},
-																			"meeting" 			: { ico : "calendar", color : "red" 	},
+												"events" 			: { ico : "circle", color : "red" 		},
+												"meeting" 			: { ico : "calendar", color : "red" 	},
 
-																			"project" 			: { ico : "lightbulb-o", color : "blue" 	},
+												"project" 			: { ico : "lightbulb-o", color : "blue" },
 
-																			"markerPlace" 	: { ico : "map-marker", color : "red" 	},
+												"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 
 										  };
 
@@ -73,13 +73,13 @@
 				}
 
 
-				if(params.useFullScreen){
-					$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
+				//if(params.useFullScreen){
+					//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
 					$( window ).resize(function() {
-					  thisSig.setFullScreen();
+					  thisSig.constructUI();
 					});
-					thisSig.setFullScreen();
-				}
+					thisSig.constructUI();
+				//}
 
 
 
@@ -105,7 +105,7 @@
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home
 			var thisSig = this;
-			if(this.initParmerters.useHomeButton){
+			if(this.initParameters.useHomeButton){
 				var center = this.getCoordinates(this.dataMap, "markerSingle");
 				if(center != null)
 				$( this.cssModuleName + " #btn-home" )	 .click(function (){ thisSig.map.panTo(center); });

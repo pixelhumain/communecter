@@ -24,6 +24,7 @@
 	<?php } ?>
 	</div>
 </div>
+<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 <script type="text/javascript">
 	var contextMap = {};
 	contextMap["project"] = <?php echo json_encode($project)?>;

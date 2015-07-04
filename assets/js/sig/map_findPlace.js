@@ -7,6 +7,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 	Sig.currentResultResearch = "";
 	Sig.nbMaxTentative = 4;
+	Sig.fullTextResearch = true;
 
 	//***
 	//initialisation de l'interface et des événements (click, etc)
@@ -36,20 +37,30 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		//##
 		//ON KEY UP TXT FIND PLACE
-		//lance un timeout de 1 seconde si le txt de recherche fait plus de 3 caractères
+		//lance un timeout de 1 seconde
 		//après 1 seconde sans nouvelle lettre, on lance la recherche
 		var timeoutFindPlace;
 		$(thisSig.cssModuleName + ' .txt-find-place').keyup(function(event) {
-			//var length = $(thisSig.cssModuleName + " #txt-find-place").val().length;
-			//if(length == 0){
-			//	clearTimeout(timeoutFindPlace);
-			//	$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});
-			//}
-			//if(length >= 3){
 				clearTimeout(timeoutFindPlace);
 				var action = "Sig.findPlace(1)";//"+$(thisSig.cssModuleName + " #txt-find-place").val()+"')";
 				timeoutFindPlace = setTimeout(action, 1000);
 			//}
+		});
+
+		$(thisSig.cssModuleName + ' #btn-find-more').click(function(event) {
+			//console.warn("--------------- findMORE ---------------------");
+			if($(thisSig.cssModuleName + ' #full-research').hasClass("hidden")){
+				$(thisSig.cssModuleName + ' #full-research').removeClass("hidden");
+				$(thisSig.cssModuleName + ' #txt-find-place').addClass("hidden");
+				this.fullTextResearch = false;
+			}
+			else{
+				$(thisSig.cssModuleName + ' #full-research').addClass("hidden");
+				$(thisSig.cssModuleName + ' #txt-find-place').removeClass("hidden");
+				this.fullTextResearch = true;
+			}
+			console.log(this.fullTextResearch);
+			//$(thisSig.cssModuleName + ' #full-research').toggle();
 		});
 
 		//##
@@ -125,6 +136,10 @@ SigLoader.getSigFindPlace = function (Sig){
 
 	Sig.getNominatimRequest = function(nbTentative){
 
+		if(this.fullTextResearch == true){
+			return "?q=" + $(this.cssModuleName + " #txt-find-place").val();
+		}
+
 		function transform(str){ //alert(newValue);
 			var res = "";
 			for(var i = 0; i<str.length; i++){
@@ -188,19 +203,25 @@ SigLoader.getSigFindPlace = function (Sig){
 			itemDropbox = concat(itemDropbox, thisResult.address.road);
 
 			//ajoute la ville si elle existe
-			if("undefined" != typeof thisResult.address.city)
-				if(city.toLowerCase() == thisResult.address.city.toLowerCase())
+			//if("undefined" != typeof thisResult.address.city)
+				//if(city.toLowerCase() == thisResult.address.city.toLowerCase())
 					itemDropbox = concat(itemDropbox, thisResult.address.city);
 
 			//ajoute le code postal s'il existe
-			if("undefined" != typeof thisResult.address.postcode)
-				if(cp.toLowerCase() == thisResult.address.postcode.toLowerCase())
+			//if("undefined" != typeof thisResult.address.postcode)
+				//if(cp.toLowerCase() == thisResult.address.postcode.toLowerCase())
 				 	itemDropbox = concat(itemDropbox, thisResult.address.postcode);
 
 			//ajoute le pays s'il existe
-			if("undefined" != typeof thisResult.address.state)
-				if(state.toLowerCase() == thisResult.address.state.toLowerCase())
+			if("undefined" != typeof thisResult.address.state){
+				//if(state.toLowerCase() == thisResult.address.state.toLowerCase())
 				 	itemDropbox = concat(itemDropbox, thisResult.address.state);
+			}else{
+				if("undefined" != typeof thisResult.address.country){
+					//if(state.toLowerCase() == thisResult.address.country.toLowerCase())
+				 		itemDropbox = concat(itemDropbox, thisResult.address.country);
+				 }
+			}
 		}
 		return itemDropbox;
 	}

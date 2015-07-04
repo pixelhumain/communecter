@@ -43,32 +43,28 @@
 <div class="row">
 
   <div class="col-xs-12">
-    <?php 
+  <?php
     /* **************** paramètres de la map *******************/
 	$sigParams = array(
-			"sigKey" => "DashOrga",
-			"mapTileLayer" => 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
-			"mapHeight" => 450,
-			"mapTop" => 50,
-			"useFullScreen" => true,
-			"usePanel" => false,
-			"useRightList" => false,
-			"useZoomButton" => true,
-			"useHelpCoordinates" => false,
-			"firstView"			 => array(  "coordinates" => array(-21.13318, 55.5314),
-											"zoom"		  => 9),
+    "sigKey" => "OrgaSig",
+    //"mapTileLayer" => 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png',
+    "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',//http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+    "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+    "mapHeight" => 450,
+    "mapTop" => 50,
+    "useFullScreen" => false,
+    "usePanel" => true,
+    "useRightList" => true,
+    "useExternalRightList" => false,
+    "useZoomButton" => true,
+    "useHomeButton" => false,
+    "useHelpCoordinates" => false,
+    "useResearchTools" => true,
+    "firstView"		  => array(  "coordinates" => array(-21.261220997023237, 55.5029296875),
+                               "zoom"		     => 9),
 			);
 		/* ******************************************************/
-    $this->renderPartial('../organization/dashboard/networkMap',array( "organization" => $organization));
+    $this->renderPartial('../organization/dashboard/networkMap',array( "organization" => $organization, "sigParams" => $sigParams));
     ?>
-  </div>
-</div>
-<div class="row">
-  	<div class="col-sm-5 col-xs-12">
-	    <?php $this->renderPartial('../pod/sliderAgenda', array("events" => $events)); ?>
-	</div>
-	<div class="col-sm-5 col-xs-12">
-	    <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
-	</div>
   </div>
 </div>
