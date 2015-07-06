@@ -38,9 +38,7 @@
 		bindBtnFollow();
 	})
 
-
 	var bindBtnFollow = function(){
-
 
 		$(".disconnectBtn").off().on("click",function () {
 	        

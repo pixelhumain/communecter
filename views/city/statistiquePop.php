@@ -156,7 +156,6 @@
 				success: function(data){
 					console.log("data", data);
 					getMultiBarChart(data);
-		
 				}
 			})		
 		})
