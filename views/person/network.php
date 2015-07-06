@@ -26,9 +26,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 		<div class="panel panel-white">
 			<div class="panel-heading">
 				<h4 class="panel-title">Invite tes amis</h4>
-				<div class="panel-tools">
-					<a href="javascript:;" id="backToDashboardBtn" class="btn btn-xs btn-blue">Back</a>
-				</div>
 			</div>
 			<div class="panel-body">
 					<!-- <a href=<?php //echo '"'.$login_url_FB . '"' ;?> 

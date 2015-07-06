@@ -73,8 +73,14 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 
+</script>
+<script type="text/javascript">
  jQuery(document).ready(function() 
 { 
+
+
+	
+
 	$("#shareForm").hide();
 	$("#contacts").off().on('click', function()
 	{
@@ -140,7 +146,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
     }
   });
 
-
+  	$("#backToDashboardBtn").off().on("click", function(){
+  		document.location.href=baseUrl+"/communecter/person/network";
+    })
 });
+
+
+
+
 
 </script>

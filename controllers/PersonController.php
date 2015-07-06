@@ -113,7 +113,22 @@ public function actionInitDataPeople()
     {
       if (filter_var($value, FILTER_VALIDATE_EMAIL)) 
       {
-        $message = new YiiMailMessage;
+
+        $params = array(
+        "type" => Cron::TYPE_MAIL,
+        "tpl"=>'sharePH',
+          "subject" => 'Rejoint-nous sur PixelHumain',
+          "from"=>Yii::app()->params['adminEmail'],
+          "to" => $value,
+          "tplParams" => array( "message"=>$_POST['textmail'],
+                                "personne"=>Yii::app()->session['userId'])
+          );
+      
+        Mail::schedule($params);
+
+
+
+        /*$message = new YiiMailMessage;
         $message->setSubject("Communecte toi");
         $message->setBody($_POST['textmail']."<br/><a href='http://pixelhumain.com'>PixelHumain</a>", 'text/html');
         $message->addTo($value);
@@ -121,7 +136,7 @@ public function actionInitDataPeople()
 
         Yii::app()->mail->send($message);
        
-        Yii::app()->session["mailsend"] = true;
+        Yii::app()->session["mailsend"] = true;*/
 
       }
     

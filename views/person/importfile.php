@@ -143,6 +143,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 	      	});
   		}
   	});
+
+
+  	$("#backToDashboardBtn").off().on("click", function(){
+  		document.location.href=baseUrl+"/communecter/person/network";
+    })
 });
 
 </script>
