@@ -108,6 +108,7 @@ class CommunecterController extends Controller
 
     "person"=> array(
       "login"           => array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+      "sendemailpwd"    => array("href"=>"/ph/communecter/person/sendemailpwd"),
       "index"           => array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "authenticate"    => array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
       "dashboard"       => array("href"=>"/ph/communecter/person/dashboard"),
@@ -247,6 +248,7 @@ class CommunecterController extends Controller
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;

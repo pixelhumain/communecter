@@ -32,8 +32,9 @@ class PersonController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'index'       => 'citizenToolKit.controllers.person.IndexAction',
-	        'login'     	=> 'citizenToolKit.controllers.person.LoginAction',
+	        'index'              => 'citizenToolKit.controllers.person.IndexAction',
+	        'login'     	       => 'citizenToolKit.controllers.person.LoginAction',
+          'sendemailpwd'       => 'citizenToolKit.controllers.person.SendEmailPwdAction',
 	        'logout'     	=> 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'=> 'citizenToolKit.controllers.person.AuthenticateAction',
 	        'dashboard'  	=> 'citizenToolKit.controllers.person.DashboardAction',
