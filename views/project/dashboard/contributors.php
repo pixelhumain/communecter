@@ -6,7 +6,7 @@
 	?>
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> Contributors</h4>
+			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> CONTRIBUTORS</h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
 				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>

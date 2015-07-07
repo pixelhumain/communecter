@@ -74,12 +74,13 @@ class CommunecterController extends Controller
 
   public $pages = array(
 
-    "default"=> array(
+    "default" => array(
       "index"   => array("href"=>"/ph/communecter","api"=>""),
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
-      "view" => array("href"=>"/ph/communecter/default/view"),
+      "view"    => array("href"=>"/ph/communecter/default/view"),
+      "directory" => array("href"=>"/ph/communecter/default/directory"),
     ),
 
     "city"=> array(
@@ -98,6 +99,11 @@ class CommunecterController extends Controller
     
     "search"=> array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
+    ),
+
+    "rooms"=> array(
+      "index" => array("href" => "/ph/communecter/rooms/index"),
+      "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
     ),
 
     "person"=> array(
