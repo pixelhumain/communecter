@@ -107,7 +107,7 @@
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
 			this.Sig.setFullScreen = function()
 			{
-				console.warn("--------------- setFullScreen ---------------------");
+				//console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
@@ -118,8 +118,20 @@
 				$(this.cssModuleName + " #liste_map_element").css({"height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
 				$(this.cssModuleName + " #liste_map_element").css({"max-height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
 				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width()});// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
+
+				//alert($(this.cssModuleName + " .panel_map").width());
 			};
 
+			this.Sig.constructUI = function()
+			{
+				if(this.initParameters.useFullScreen){
+					this.setFullScreen();
+				}
+				else{
+					$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
+				}
+			}
 			this.Sig.verifyPanelFilter = function (thisData){
 				console.warn("--------------- verifyPanelFilter ---------------------");
 				if(this.usePanel == false) return true;
@@ -150,7 +162,7 @@
 
 				if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
 
-				if( thisData['geo'].longitude != null ){
+				if( thisData['geo'] != null && thisData['geo'].longitude != null ){
 					if(type == "markerSingle")
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
 					else if(type == "markerGeoJson")
@@ -338,13 +350,15 @@
 					$('#ico_reload').removeClass("fa-spin");
 					$('#ico_reload').css({"display":"none"});
 
-					if(this.initParmerters.usePanel)
+					if(this.initParameters.usePanel)
 						this.updatePanel(thisMap);
 
 					this.checkListElementMap(thisMap);
 					thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 
 					this.initHomeBtn();
+
+					thisSig.constructUI();
 
 					this.showIcoLoading(false);
 
@@ -361,8 +375,9 @@
 		//chargement de la carte
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
-	 		console.warn("--------------- loadMap ---------------------");
-	 		canvasId += initParams.sigKey;
+			console.warn("--------------- loadMap ---------------------");
+			console.dir(initParams);
+			canvasId += initParams.sigKey;
 
 			$("#"+canvasId).html("");
 			$("#"+canvasId).css({"background-color": this.mapColor});

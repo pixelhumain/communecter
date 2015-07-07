@@ -4,7 +4,7 @@
 </div>
 
 
-<?php //$this->renderPartial('/sig/generic/mapLibs'); ?>
+<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 
 <div class="col-lg-4 col-md-12">
 	<?php $this->renderPartial('dashboard/description',array(
@@ -22,6 +22,7 @@
 </div>
 <script type="text/javascript">
 	contextMap= <?php echo json_encode($event)?>;
+	contextMap["event"] = contextMap;
 	idToSend = contextMap["_id"]["$id"];
 	var images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";

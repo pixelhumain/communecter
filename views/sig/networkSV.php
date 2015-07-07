@@ -1,41 +1,14 @@
-<?php 
+<?php
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
 		$relativePath = "/sig/";
 		/* ***********************************************************************************/
 
 	   	//chargement de toutes les librairies css et js indispensable pour la carto
-    	//$this->renderPartial($relativePath.'generic/mapLibs');
-			//echo $this->renderPartial($relativePath.'generic/mapLibs', 0);
-
-			$cssAndScriptFiles = array(
-
-				//css
-				'/css/sig/leaflet/leaflet.css',
-				'/css/sig/leaflet/leaflet.draw.css',
-				'/css/sig/leaflet/leaflet.draw.ie.css',
-				'/css/sig/leaflet/MarkerCluster.css',
-				'/css/sig/leaflet/MarkerCluster.Default.css',
-				'/css/sig/leaflet/leaflet.awesome-markers.css',
-				'/css/sig/leaflet/sig.css',
-
-				//js
-				'/js/sig/leaflet/leaflet.js',
-				'/js/sig/leaflet/leaflet.draw-src.js',
-				'/js/sig/leaflet/leaflet.draw.js',
-				'/js/sig/leaflet/leaflet.markercluster-src.js',
-				'/js/sig/leaflet/leaflet.awesome-markers.js',
-
-				'/js/sig/leaflet/map.js',
-				'/js/sig/leaflet/map_initializer.js',
-				'/js/sig/leaflet/map_panel.js',
-				'/js/sig/leaflet/map_popupContent.js',
-				'/js/sig/leaflet/map_rightList.js',
-				'/js/sig/leaflet/map_findPlace.js',
-
-
-			);
-			//echo $this->module->assetsUrl; die();
-			HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
+    	//HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
+			$this->renderPartial($relativePath.'generic/mapLibs');
+			$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+			//var_dump($sigParams); //die();
+			$moduleName = "sigModule".$sigParams['sigKey'];
 ?>
 
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>

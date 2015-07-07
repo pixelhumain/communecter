@@ -270,42 +270,57 @@ creer des conflits : regle pas assez specfique
 }
 
 
-.dropdown-input-search-place{
-	width: 215px;
+.input-search-place{
 	margin-left:2px;
+	left:210px;
+	max-width:270px !important;
 }
-.dropdown-input-search-place input.input-search-place-in-map{
+.input-search-place input.input-search-place-in-map{
 	float: left;
-	padding: 13px !important;
-	width: 214px;
-	border-color: rgba(255, 255, 255, 0.07) !important;
+	padding: 16px !important;
+	width: 218px;
+	border-color: rgba(98, 151, 162, 0.18) !important;
 	margin: 0px !important;
 	border-width: 2px;
 	border-style: solid;
-	background-color: rgba(31, 29, 39, 0.69) !important;
-	color: #FCFF70;
+	background-color: rgba(255, 255, 255, 0.69) !important;
+	color: #000;
+	font-weight: 800;
 }
-.dropdown-input-search-place input.input-search-place-in-map.input-2s{
-	width: 107px !important;
+.input-search-place input.input-search-place-in-map.input-2s{
+	width: 109px !important;
 }
-.dropdown-input-search-place input:focus{
+.input-search-place input.input-search-place-in-map.input-3s{
+	width: 134px !important;
+}
+.input-search-place input.input-search-place-in-map.input-4s{
+	width: 270px !important;
+}
+.input-search-place input:focus{
 	background-color: rgba(31, 29, 39, 0.69) !important;
     background-image: none;
     background: rgba(31, 29, 39, 0.69) !important;
 	color: #000 !important;
 }
 
-.dropdown-input-search-place #dropdown-find-place{
-	width: 300px !important;
+.input-search-place #dropdown-find-place{
+	width: 270px !important;
 	margin-top: -2px;
 	border: 0px none;
 	border-radius: 0px;
 	margin-left: 2px;
 	float:right !important;
 }
-.dropdown-input-search-place #list-dropdown-find-place{
+.input-search-place #list-dropdown-find-place{
 	border-radius:0px;
 }
+
+#list-dropdown-find-place.dropdown-menu > li > a {
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	width: 270px;
+}
+
  /* legende / panel */
 
  .panel_map{

@@ -74,6 +74,7 @@
 			<svg ></svg>
 		</div>
 	</div>
+
 </div>
 <script type="text/javascript">
 	var map = <?php echo json_encode($cityData) ?>;
@@ -88,6 +89,7 @@
 	})
 
 	function buildDataGraph(){
+		console.warn("----------------- buildDataGraph -----------------");
 		$("svg").empty();
 		nv.addGraph(function() {
 			chart = nv.models.discreteBarChart()
@@ -114,7 +116,7 @@
 
 
 	function bindBtnAction(){
-
+		console.warn("----------------- bindBtnAction -----------------");
 		$(".typeBtn").click(function(){
 			mapData = buildDataSet(map, $(this).data("name"));
 				//console.log(mapData);
@@ -126,6 +128,13 @@
 		})
 
 		$( ".locBtn" ).off().on("click", function() {
+			$.blockUI({
+			message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+	  	            '<blockquote>'+
+	  	              "<p>Rien n'est plus proche du vrai que le faux</p>"+
+	  	              '<cite title="Einstein">Einstein</cite>'+
+	  	            '</blockquote> '
+			});
 			$("#label-zone").text($(this).text());
 			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
 			if("undefined" != $(this).data("name")){
@@ -139,7 +148,7 @@
 				success: function(data){
 					console.log("data", data);
 					getMultiBarChart(data);
-		
+					$.unblockUI();
 				}
 			})
 		})
@@ -156,7 +165,6 @@
 				success: function(data){
 					console.log("data", data);
 					getMultiBarChart(data);
-		
 				}
 			})		
 		})
@@ -164,6 +172,7 @@
 	}
 
 	function buildDataSet(map, str){
+		console.warn("----------------- buildDataSet -----------------",map, str);
 		var mapData= [{"key": "<?php echo $title; ?>","values": [ ]}]
 		var obj = getMapObject(map, str);
 		//console.log("obj", obj);
@@ -180,6 +189,7 @@
 	}
 
 	function buildDataSetMulti(map, str){
+		console.warn("----------------- buildDataSetMulti -----------------",map, str);
 		var mapData= [];
 		var tabYear = [];
 		$.each(map, function(key,values){
@@ -202,7 +212,6 @@
 			var obj = getMapObject(values, str);
 			console.log("obj", obj, key, values);
 			if(obj != ""){
-				
 				$.each(obj, function(k, v){
 					console.log("kv", k, v);
 					if($.inArray(k, tabYear) == -1){
@@ -228,6 +237,7 @@
 	}
 
 	function getMultiBarChart(map){
+		console.warn("----------------- getMultiBarChart -----------------",map);
 		var mapData = buildDataSetMulti(map, typeOfItem);
 		console.log(mapData);
 		nv.addGraph(function() {
@@ -270,6 +280,7 @@
 	}
 
 	function getMapObject(map, str){
+		console.warn("----------------- getMapObject -----------------",map, str);
 		var notOk = true;
 		var res = "";
 		$.each(map, function(k, v){
@@ -297,5 +308,4 @@
 	function createBtnOption(map){
 
 	}
-
 </script>
