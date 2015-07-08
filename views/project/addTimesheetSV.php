@@ -176,8 +176,8 @@ function initFormAddTask(){
 	$('.task-range-date').data('daterangepicker').setEndDate(endDate);
 	$(".form-timesheet").off().on("submit",function(task){
 	    	task.preventDefault();
-	    	startDateSubmitTask = moment($(".task-start-date").val()).format('MM/YYYY');
-			endDateSubmitTask = moment($(".task-end-date").val()).format('MM/YYYY');
+	    	startDateSubmitTask = moment($(".task-start-date").val()).format('YYYY-MM-DD');
+			endDateSubmitTask = moment($(".task-end-date").val()).format('YYYY-MM-DD');
 			colorClass=nameTimesheetClass($("#editProjectTimesheet select[name='colorpicker']").val());
 	    	var params = { 
 	    		"projectId" : $("#editProjectTimesheet .projectId").val(),
@@ -276,8 +276,8 @@ function initValidationTaskTable(){
 function setValidationTaskTable(id){	
 	strHTML = "<tr class='task"+id.$id+"'><td>"
         +$("#editProjectTimesheet .task-name").val()+"</td><td>"
-        +startDateSubmitTask+"</td><td>"
-		+endDateSubmitTask+"</td><td style='background-color:"+$("#editProjectTimesheet select[name='colorpicker']").val()+";'>"
+        +startDateSubmitTask.format('DD/MM/YYYY')+"</td><td>"
+		+endDateSubmitTask.format('DD/MM/YYYY')+"</td><td style='background-color:"+$("#editProjectTimesheet select[name='colorpicker']").val()+";'>"
 		+"</td><td>"+
 		"<span class='label label-info'>added</span>"+
 		"<div class='label'>"

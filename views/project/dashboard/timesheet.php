@@ -1,11 +1,25 @@
 <?php 
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/timesheet.js/dist/timesheet.js',
-	'/assets/plugins/timesheet.js/dist/timesheet.css',
+	//'/assets/plugins/timesheet.js/dist/timesheet.js',
+	//'/assets/plugins/timesheet.js/dist/timesheet.css',
+	'/assets/css/timesheet.css/timesheet.css',
 	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+//$cs = Yii::app()->getClientScript();
+//$cs->registerCssFile(Yii::app()->baseUrl. '/protected/extensions/timesheetphp/sources/css/timesheet.css');
+//$this->module->assetsUrl);
+//echo Yii::app()->baseUrl. 'protected/extensions/timesheetphp/sou';
+//Yii::import('recaptcha.ReCaptcha', true);
+//require_once(Yii::app()->theme->baseUrl.'/assets/plugins/timesheetphp/sources/timesheet.php');
+//'assets.plugins.timesheet.php.sources.class.timesheet', true);;
+ Yii::import('ext.timesheetphp.sources.timesheet', true); 
 ?>
+<style>
+	.lightgray{
+		background-color: #e2e2e2;
+	}
+</style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> Timeline du projet</span></h4>
@@ -44,8 +58,83 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 			</a>
 		</div>
 	</div>
-	<div class="panel-body no-padding">
-		<div id="timesheet"></div>
+	<div class="panel-body no-padding partition-dark">
+		<ul id="timesheetTab" class="nav nav-tabs">
+			<li class="active">
+				<a href="#users_tab_attending" data-toggle="tab">
+					<span>
+						Yearly
+					</span>
+				</a>
+			</li>
+			<li class="zoomTimesheet hide">
+				<a href="#users_tab_attending" data-toggle="tab">
+					<span>
+					</span>
+				</a>
+			</li>
+		</ul>
+		<?php
+		//***** GENERATE TIMESHEET MODULE *****//
+		// firstYear & endYear represent the beginning and the end of project => $alpha
+		//$alpha = array('Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec');
+		$alpha =[];
+		$data=[];
+		$firstYear="";
+		$endYear="";
+		$nbYear=0;
+		foreach ($tasks as $val){
+			//if ($val["startDate"])
+			if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
+				$firstYear = date('Y',strtotime($val["startDate"]));
+			else
+				$firstYear = date('Y',strtotime($val["startDate"]));
+			if ($endYear < date('Y',strtotime($val["endDate"])))
+				$endYear = date('Y',strtotime($val["endDate"]));
+			$array= array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
+			$data[$val["name"]]=$array ;
+		}
+		/**MAKE THE SCALE OF TIMESHEET**/
+		for ($date = $firstYear; $date <= $endYear; $date++) {
+			array_push($alpha,$date);
+			$nbYear++;
+		}
+	//print_r($data);
+	/*$data = array(
+       		 'Prun' => array(
+                    array('color'=> 'sit','start' => '2010-01-15','end' => '2011-02-20'),
+                    ),
+			'Orange' => array(
+                    array('color'=> 'sit','start' => '2012-02-01','end' => '2013-06-30'),
+                    ),
+			'Kiwi' => array(
+                    array('color'=> 'default','start' => '08-30','end' => '10-20'),
+                    ),
+                    'jack' => array(
+                    array('color'=> 'lorem','start' => '02-01','end' => '06-30'),
+                    ),
+			'start' => array(
+                    array('color'=> 'dolor','start' => '08-12','end' => '09-10'),
+                    ),
+        );*/
+		
+		$args = array(
+        	'id' => 'year',            /* CSS #ID of the timesheet */
+			'theme' =>'white',           /* Theme white (or null for dark) */
+			'alpha_first' => $firstYear,          /* The number of the first month is one (Janv) */
+			'omega_base' => 12,          /* 31 days in 1 month (for simplify) */
+			/*'line' => date('m-d'), */      /* Today in format 'm-d' */
+			/*'line_text' => "Aujourd'hui",  */  /* Text to display for the line */
+			'format'=> array(
+							"segment_des" => 'du %s au %s',
+							"timesheet_format" => 'Y-m-d',
+							"date_format" => 'd M Y',
+				)
+        );
+
+$fruits = new timesheet($alpha, $args, $data );
+	$fruits->display();?>
+
 	</div>
 </div>
 <?php
@@ -53,10 +142,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 ?>
 
 <script type="text/javascript">
-var task=<?php echo json_encode($tasks); ?>;
-console.log(task);
+//var task=<?php echo json_encode($tasks); ?>;
+//console.log(task);
 jQuery(document).ready(function() {
-	timesheet=new Timesheet('timesheet',2014, 2025, [<?php foreach ($tasks as $data){
+	$('.scale .hoverScale').mouseover(function(){
+		$(this).find("section").addClass("lightgray");
+	}).mouseout(function(){
+		$(this).find("section").removeClass("lightgray");
+	});
+	toggleMonthYear();		/*timesheet=new Timesheet('timesheet',2014, 2025, [<?php foreach ($tasks as $data){
 		echo "['".$data["startDate"]."','".$data["endDate"]."','".$data["name"]."','".$data["color"]."'],";
 	} ?>
 	]);
@@ -74,8 +168,24 @@ $monthTab=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','S
 		}
 		else
 			$(this).replaceWith(writeMonth(startEndDate));
-	});
+	});*/
 });
+function toggleMonthYear(){
+	$('.scale section div').click(function(){
+		year=$(this).html();
+		$("#year").slideUp();
+		active=$("#timesheetTab").find(".active");
+		active.find("span").html("Back");
+		active.removeClass("active").addClass("backYearly");
+		$("#timesheetTab").find(".zoomTimesheet").removeClass("hide");
+		$("#timesheetTab").find(".zoomTimesheet").addClass("active").find("a span").html(year);
+		$('.backYearly').click(function(){
+			$("#year").slideDown();
+			$(this).removeClass("backYearly").addClass("active").find("span").html("Yearly");
+			$("#timesheetTab").find(".zoomTimesheet").removeClass("active").addClass("hide");
+		});
+	});
+}
 function writeMonth(date){
 	dateTab=date.split('/');
 	if (dateTab.length == 2){

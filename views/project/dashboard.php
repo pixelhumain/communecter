@@ -25,7 +25,7 @@
 		<?php } ?>
 	</div>
 	<div class="row" id="timesheetphp">
-	<?php echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
+	<?php //echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
 	</div>
 </div>
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
