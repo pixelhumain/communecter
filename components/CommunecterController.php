@@ -74,12 +74,13 @@ class CommunecterController extends Controller
 
   public $pages = array(
 
-    "default"=> array(
+    "default" => array(
       "index"   => array("href"=>"/ph/communecter","api"=>""),
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
-      "view" => array("href"=>"/ph/communecter/default/view"),
+      "view"    => array("href"=>"/ph/communecter/default/view"),
+      "directory" => array("href"=>"/ph/communecter/default/directory"),
     ),
 
     "city"=> array(
@@ -100,8 +101,14 @@ class CommunecterController extends Controller
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
 
+    "rooms"=> array(
+      "index" => array("href" => "/ph/communecter/rooms/index"),
+      "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
+    ),
+
     "person"=> array(
       "login"           => array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+      "sendemailpwd"    => array("href"=>"/ph/communecter/person/sendemailpwd"),
       "index"           => array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "authenticate"    => array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
       "dashboard"       => array("href"=>"/ph/communecter/person/dashboard"),
@@ -241,6 +248,7 @@ class CommunecterController extends Controller
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;

@@ -119,7 +119,11 @@
 					</label>
 					
 					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
-						<?php if(isset($person["tags"]))echo implode(",", $person["tags"]); else echo "";?>
+						<?php if(isset($person["tags"])){
+							foreach ($person["tags"] as $tag) {
+								echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+							}
+						}?>
 					</a>
 				</div>	
 			</div>

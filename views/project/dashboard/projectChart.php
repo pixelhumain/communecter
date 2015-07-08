@@ -15,7 +15,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> Charte du projet</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> CHART</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
 				<?php if ($admin){ ?>

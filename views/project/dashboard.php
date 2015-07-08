@@ -12,20 +12,34 @@
 	<div class ="col-lg-4 col-md-12">
 		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
 	</div>
-	<div class="row">
-		<?php if (!empty($tasks) OR $admin==true){ ?>
-		<div class ="col-lg-8 col-md-8">
-			 <?php $this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
-		</div>
-		<?php } 
-		 if (!empty($properties) OR $admin==true){ ?>
-		<div class ="col-lg-4 col-md-12">
-			 <?php $this->renderPartial('dashboard/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin)); ?>
-		</div>
-		<?php } ?>
+	<?php if (!empty($tasks) OR $admin==true){ ?>
+	<div class ="col-lg-8 col-md-8">
+		 <?php $this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
 	</div>
+	<?php } 
+	 if (!empty($properties) OR $admin==true){ ?>
+	<div class ="col-lg-4 col-md-12">
+		 <?php $this->renderPartial('dashboard/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin)); ?>
+	</div>
+	<?php } ?>
 	<div class="row" id="timesheetphp">
 	<?php //echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
+	</div>
+	<div class="col-sm-6 col-xs-12 roomsPod">
+			<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Rooms Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-xs-12 whatPod">
+			<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Something Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
 	</div>
 </div>
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
@@ -40,6 +54,7 @@
 
 	jQuery(document).ready(function() {
 		bindBtnFollow();
+		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 	})
 
 	var bindBtnFollow = function(){

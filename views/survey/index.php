@@ -362,10 +362,11 @@ if($where["type"]==Survey::TYPE_ENTRY){
   $this->renderPartial('editEntrySV',array("survey"=>$where[Survey::TYPE_SURVEY]));
   $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.voterloiDesc');
   $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.cgu');
-  if($commentActive)
+  if($commentActive){
     $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.comments');
+  }
 } else
-  $this->renderPartial('editSurveySV');
+    $this->renderPartial('../rooms/editRoomSV');
 ?>
 
 
