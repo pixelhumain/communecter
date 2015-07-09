@@ -2,8 +2,11 @@
 {{PERSON}}
 {{PROJECTS}}
 {{CITY}}
+<<<<<<< HEAD
 {{THINK TANK}}
 {{OPEN PEOPLE}}
+=======
+>>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
 
 * IN PROGRESS
 	** YANNICK
@@ -49,6 +52,8 @@
 		[ ] inter operable Granddir
 	** TRISTAN
 		[ ] Carto Statistics (Barchart + Pie Chart)
+
+
 
 * COMMUNECTER  [0/36]
 	** GENERIC 
@@ -109,6 +114,7 @@
 	** CITY
 		--- TEST GRAPHS ---
 			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
+
 			[ ] [[http://bl.ocks.org/chrisrzhou/raw/d5bdd8546f64ca0e4366/]]
 	** ACTION ROOMS
 		[ ] connect discussions to the topbar menu

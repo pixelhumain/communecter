@@ -194,6 +194,7 @@
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
 
+				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
 					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
@@ -291,6 +292,8 @@
 			{
 				console.warn("--------------- showMapElements ---------------------");
 
+				if(data == null) return;
+
 				var filterPanelValue = "citoyens";
 				//enregistre les dernières données dans une variable locale
 				this.dataMap = data;
@@ -307,7 +310,7 @@
 
 				this.showIcoLoading(true);
 
-				//on affiche les data filtre par filtre, en suivant la Desc des datas
+				//on affiche les data filtre par filtre
 				var thisSig = this;
 				//var array = new Array();
 
@@ -317,6 +320,8 @@
 					$.each(data, function (key, value){
 						console.warn("key");
 						console.log(key);
+						//console.log(value);
+
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 				}else{

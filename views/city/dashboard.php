@@ -8,6 +8,12 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <!-- start: PAGE CONTENT -->
 <div class="row">
 
+  <div class="col-md-12">
+     <?php $this->renderPartial('geoStatistic', array("organizations" => $organizations, 
+                                                      "events" => $events, 
+                                                      "projects" => $projects)); ?>
+  </div>
+
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
