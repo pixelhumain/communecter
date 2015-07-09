@@ -1,104 +1,152 @@
+{{SIG}}
+{{PERSON}}
+{{PROJECTS}}
+{{CITY}}
+
 * IN PROGRESS
-	*** YANNICK
-	*** CLEMENT
-	*** JOHNSON
-	*** RAPHAEL 
-	*** SYLVAIN
-	*** TIBOR 
-	*** TRISTAN
+	** YANNICK
+	** CLEMENT
+	  [X] integration timesheet.php sur project
+	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
+	** JOHNSON + RAPHAEL
+		[ ] Zone info sur graphe
+		[ ] ordonnée par les 30 max
+		[ ] drop down liste des communes
+		[ ] toujours afficher 
+		[ ] changer le graph en tarte
+		[ ] proposer d'autre source
+	** RAPHAEL
+		[X] decouper en block  le fichier source
+		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
+		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
+		[ ] ajouter un bouton modification pour chaque  ligne du mapping
+		[ ] ré-importer l'ensemble des données
+			[ ] population
+			[ ] entreprise
+			[ ] sport et loisir
+			[ ] enseignement
+				[ ] 1er degres
+				[ ] 2er degres
+				[ ] superieur
+			[ ] autre...
+	** SYLVAIN
+	** TIBOR
+		[X] made editRoomSV loaded as ajax
+		[X] added listRoomTypes
+		[ ] filter by tags
+		[ ] filter by scope
+	** TRISTAN
+		[ ] Carto Statistics (Barchart + Pie Chart)
+
+
 
 * COMMUNECTER  [0/36]
 	** GENERIC
 		- count down before opening 15th september
 		- real time people connected count on every page
 		* FILTERING
-			[ ] tags
+			[ ] personnal tags 
+				- can be anything and are not shared accross users
+				- are saved in [[tags]] collection 
+			[ ] categories
+				- are generic and shared tags
+				- are saved in [[lists::tags]] collection and document
 			[ ] territory
-		** MOTION
-			* ressource 
-				9 assos
-				11 citoyens
-				7 entreprises
-				photo + logo
-					danse marmaille
-					ekopratik
-					riviere auto moto 
-				photo 
-					rue pietone
-					5 images evennement pour calendrier
-			* todo
-				- dynamiser l'arbre  
-				- delaunay au communectage
-				- foret scene de fin
-				- mots clefs a la fin (voir dernier slide)
-				- effet add to my events
-		** PERSON
-			-> profil > click tag => show directory with similar content
-			-> inviteSomeone => after search keyboard navigate down 
-			--- Bizare ---
-				person/dash > Authorisation::listEventsIamAdminOf($id);
-		** PROJECTS
-			[ ] project directory
-			[ ] room pod > add room
-			[ ] project rooms toolbar show rooms count
-			[ ] ajaxified pods
-			--- BUGS ---
-				[ ] add contributor : Alias "citizenToolKit.controllers.project.SaveContributorAction" is invalid.
-				[ ] module Viewer :var id = obj2["_id"]["$id"];
-				[ ] change start date impossible , start date must be before end date mais end date is empty
-		** ACTION ROOMS
-			[ ] on a project dash create a room (voting, brainstorm, discuss...)
-			[ ] Types
-				- discussions
-				- votes 
-				- brainstorms
-				- external rooms like Gitter or Slack with url 
-		** VOTER
-			[ ] vote & comment on anything 
-			[ ] mutualiser function addaction
-			[ ] Nombres de votants inscrit : 7
-			[ ] show both my created votes , my followed votes
-			[ ] closing a vote session, sending result
-		** page login 
-			Association, Entreprise , Projet ou evennement locale
-			construisons ensemble un territoire connecté pour le bien communs
-		** NEXT
-			[ ] Generic Directory 
-			[ ] Back Office PH
-			[ ] Back Office City
-			[ ] Gamification 
-			[ ] Badging
-				Seed 
-				Germ
-				small tree
-				tree
-			[ ] recherche par thematique : Environnement 
-					scope geographique
-					directory search
-			[ ] Person > dash
-				podcarto 
-				pod mes interets
-			[ ] Opendata 
-					Public / Privé
-					webId
-			[ ] Data convert 
-				[ ] schema.org
-				[ ] ACtivity Stream 
-			[ ] not logged issue when calling ajax
-			[ ] generic viewcount system on anything
-			[ ] clean up loaded libraries in main.php
-			[ ] load proverbs into localStorage and get radomly for blockUI 
-			[ ] make moduleMenu fixed when scroll
-			[ ] keep me loggued in
-			[ ] crypté par default
-		** TEST
-			[ ] France Connect [[https://doc.integ01.dev-franceconnect.fr/]]
-			[ ] Indie Auth [[https://indieauth.com/setup]]
-			[ ] Distributed Comments [[https://www.famust.com/fr/contact]]
-		** Project Timelines
+				- can be anything and are not shared accross users
+				- are saved in [[tags]] collection 
+	** MOTION
+		* ressource 
+			9 assos
+			11 citoyens
+			7 entreprises
+			photo + logo
+				danse marmaille
+				ekopratik
+				riviere auto moto 
+			photo 
+				rue pietone
+				5 images evennement pour calendrier
+		* todo
+			- dynamiser l'arbre  
+			- delaunay au communectage
+			- foret scene de fin
+			- mots clefs a la fin (voir dernier slide)
+			- effet add to my events
+	** SIG 
+		[ ] geo localiser les action Rooms ou les discussions
+
+	** PERSON
+		-> profil > click tag => show directory with similar content
+		-> inviteSomeone => after search keyboard navigate down 
+		--- Bizare ---
+			person/dash > Authorisation::listEventsIamAdminOf($id);
+	** PROJECTS
+		[ ] project directory
+		[ ] room pod > add room
+		[ ] project rooms toolbar show rooms count
+		[ ] ajaxified pods
+		--- BUGS ---
+			[ ] add contributor : Alias "citizenToolKit.controllers.project.SaveContributorAction" is invalid.
+			[ ] module Viewer :var id = obj2["_id"]["$id"];
+			[ ] change start date impossible , start date must be before end date mais end date is empty
+		--- TEST LIBS ---
 			[ ] [[http://madvic.net/timesheet/]]
 			[ ] [[http://www.simile-widgets.org/timeline/examples/index.html]]
-		** Vocabs and conversions
-			[ ] [[https://github.com/openvocab/ovn]]
-			[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
+	** CITY
+		--- TEST GRAPHS ---
+			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
+	** ACTION ROOMS
+		[ ] on a project dash create a room (voting, brainstorm, discuss...)
+		[ ] Types
+			- discussions
+			- votes 
+			- brainstorms
+			- external rooms like Gitter or Slack with url 
+	** VOTER
+		[ ] vote & comment on anything 
+		[ ] mutualiser function addaction
+		[ ] Nombres de votants inscrit : 7
+		[ ] show both my created votes , my followed votes
+		[ ] closing a vote session, sending result
+	** page login 
+		Association, Entreprise , Projet ou evennement locale
+		construisons ensemble un territoire connecté pour le bien communs
+	** NEXT
+		[ ] Generic Directory 
+		[ ] Back Office PH
+		[ ] Back Office City
+		[ ] Gamification 
+		[ ] Badging
+			Seed 
+			Germ
+			small tree
+			tree
+		[ ] recherche par thematique : Environnement 
+				scope geographique
+				directory search
+		[ ] Person > dash
+			podcarto 
+			pod mes interets
+		[ ] Opendata 
+				Public / Privé
+				webId
+		[ ] Data convert 
+			[ ] schema.org
+			[ ] ACtivity Stream 
+		[ ] not logged issue when calling ajax
+		[ ] generic viewcount system on anything
+		[ ] clean up loaded libraries in main.php
+		[ ] load proverbs into localStorage and get radomly for blockUI 
+		[ ] make moduleMenu fixed when scroll
+		[ ] keep me loggued in
+		[ ] crypté par default
+	** TEST
+		[ ] France Connect [[https://doc.integ01.dev-franceconnect.fr/]]
+		[ ] Indie Auth [[https://indieauth.com/setup]]
+		[ ] Distributed Comments [[https://www.famust.com/fr/contact]]
+	** Vocabs and conversions
+		[ ] [[https://github.com/openvocab/ovn]]
+		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
 	** OPEN PEOPLE
+	** THINK TANK
+		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
