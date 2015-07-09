@@ -1,4 +1,6 @@
 <script type="text/javascript">
+var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;
+var tagsList = <?php echo json_encode($tagsList)?>;
 var roomFormDefinition = {
     "jsonSchema" : {
         "title" : "News Form",
@@ -15,11 +17,7 @@ var roomFormDefinition = {
             "roomType" :{
                 "inputType" : "select",
                 "placeholder" : "Type of Room",
-                "options" : {
-                  "survey":"Survey",
-                  "discuss":"Discussion",
-                  "brainstorm":"Brainstorm"
-                }
+                "options" : listRoomTypes
               },
             "name" :{
               "inputType" : "text",
@@ -31,12 +29,7 @@ var roomFormDefinition = {
             "tags" :{
                 "inputType" : "tags",
                 "placeholder" : "Tags",
-                "values" : [
-                  "Sport",
-                      "Agricutlture",
-                      "Culture",
-                      "Urbanisme",
-                ]
+                "values" : tagsList
               },
         }
     }
@@ -54,7 +47,7 @@ jQuery(document).ready(function() {
   console.warn("--------------- newRoom ---------------------");
   $(".newRoom").off().on("click",function() { 
     console.warn("--------------- newRoom CLIK---------------------");
-    editRoomSV ();
+    openSubView('Add a Room', '/communecter/rooms/editRoom',null,function(){editRoomSV ();});
   });
 });
 
@@ -62,7 +55,7 @@ function editRoomSV (roomObj) {
   console.warn("--------------- editEntrySV ---------------------");
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >New Survey</h1>"+
+              "<h1 id='proposerloiFormLabel' >New Room</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
                 "<div class='clear'>Surveys contain subject to vote on, brainstorm sessoins, discussions...</div>"+ 
