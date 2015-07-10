@@ -85,9 +85,6 @@
 		</div>
 	</div>
 </div>
-<?php 
-$this->renderPartial('../rooms/editRoomSV');
- ?>
 
 
 <script type="text/javascript">

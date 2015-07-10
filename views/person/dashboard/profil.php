@@ -130,6 +130,37 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<?php 
+				if ( $canEdit ) { ?>
+				<div class="dropdown">
+					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown">Backgrounds</a>	
+					<div class="dropdown-menu" style="display: none;">
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgblack');">Black</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgblue');">Blue</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bggreen');">Green</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgred');">Red</a>
+						
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcity');">City</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgwave');">Wave</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgseasky');">Sea Sky</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bggreenImg');">Leaf Drops</a>
+
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcloud');">Cloud</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcrowd');">Crowd</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcrowd2');">Crowd</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgfaces');">Faces</a>
+
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgwater');">Water</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgeau');">Water</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgfrings');">Frings</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgtree');">Tree</a>
+						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgtree1');">Tree</a>
+
+						
+					</div>
+				</div>
+				<br/>
+				<?php } ?>
 				<div>
 					<?php
 					//if connected user and pageUser are allready connected
@@ -139,7 +170,9 @@
 						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
 					<?php } ?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -164,7 +197,25 @@ jQuery(document).ready(function()
 
 });
 
-
+function setBg(bg) { 
+		existingClasses = "bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
+		$(".main-container").removeClass(existingClasses).addClass(bg);
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatefield",
+	        dataType : "json",
+	        data: {
+	        	name : "bgClass",
+				pk : "<?php echo Yii::app()->session['userId']?>",
+				value : bg
+	        }
+	    })
+	    .done(function (data) 
+	    {
+	    	if(! data.result) 
+	    		toastr.error(data.msg); 
+	    });
+	}
 function bindAboutPodEvents() {
 	$("#editProfil").on("click", function(){
 		switchMode();

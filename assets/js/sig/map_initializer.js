@@ -40,6 +40,7 @@
 												"NGO" 				: { ico : "group", color : "green" 		},
 												"organizations" 	: { ico : "group", color : "green" 		},
 
+												"event" 			: { ico : "circle", color : "red" 		},
 												"events" 			: { ico : "circle", color : "red" 		},
 												"meeting" 			: { ico : "calendar", color : "red" 	},
 
@@ -136,7 +137,7 @@
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
 		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
-			if(object === null) return null;
+			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			return null;

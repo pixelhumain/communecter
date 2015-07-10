@@ -64,6 +64,7 @@
 	
 		<div class="btn-group btn-group-lg btn-group-map">
 		
+			<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
 			<button type="button" class="btn btn-map-separator"></button>
 			<?php if($sigParams['useHomeButton']){ ?>
 				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
@@ -73,7 +74,6 @@
 				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
 				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
 			<?php } ?>
-				<br/>
 			
 		</div>
 
@@ -82,10 +82,6 @@
 			<button type="button" class="btn btn-map " id="btn-full-screen"><i class="fa fa-expand"></i></button>
 		</div>-->
 	<?php } ?>
-
-	<div class="btn-group btn-group-lg btn-group-map" style="left:390px">
-		<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
-	</div>
 
     <?php if($sigParams['useHelpCoordinates']){ ?>
 		<div id="help-coordinates">0,000</div>

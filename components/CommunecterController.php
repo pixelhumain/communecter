@@ -63,13 +63,18 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=> array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
+          ),
+     array('label' => "Rooms", "key"=>"rooms",
+                "children"=> array(
+                  "newRoom" => array( "label"=>"Add new Room","key"=>"newRoom", "class"=>"ajaxSV", "onclick"=>"openSubView('Add a Room', '/communecter/rooms/editroom',null,function(){editRoomSV ();})", "iconStack"=> array("fa fa-comments fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  )
           )
   );
   
   public $subviews = array(
     "news.newsSV",
     "person.inviteSV",
-    "event.addAttendeesSV",
+    "event.addAttendeesSV"
   );
 
   public $pages = array(
@@ -104,6 +109,7 @@ class CommunecterController extends Controller
     "rooms"=> array(
       "index" => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
+      "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
     ),
     "gantt"=> array(
       "index" => array("href" => "/ph/communecter/gantt/index"),

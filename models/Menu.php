@@ -10,6 +10,7 @@ class Menu {
                     "children"=>array(*/
                   "keywords" => array( "label"=>"Keywords","key"=>"keywords", "onclick"=>"loadPage('/communecter/default/view/page/keywords')"),
                   "philosophy" => array( "label"=>"Philosopĥy","key"=>"philosophy", "onclick"=>"loadPage('/communecter/default/view/page/philosophy')"),
+                  "history" => array( "label"=>"History","key"=>"history", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/history')",),
                   "roadmap" => array( "label"=>"Roadmap","key"=>"roadmap", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/roadmap')",),
                   "graphics" => array( "label"=>"Graphics","key"=>"graphics", "onclick"=>"loadPage('/communecter/default/view/page/graphics')",),
                   //"videos" => array( "label"=>"Videos","key"=>"videos", "onclick"=>"loadPage('/communecter/default/view/page/videos')",),
