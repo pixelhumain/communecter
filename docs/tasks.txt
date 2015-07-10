@@ -2,6 +2,11 @@
 {{PERSON}}
 {{PROJECTS}}
 {{CITY}}
+<<<<<<< HEAD
+{{THINK TANK}}
+{{OPEN PEOPLE}}
+=======
+>>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
 
 * IN PROGRESS
 	** YANNICK
@@ -15,6 +20,7 @@
 		[ ] toujours afficher 
 		[ ] changer le graph en tarte
 		[ ] proposer d'autre source
+		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
 	** RAPHAEL
 		[X] decouper en block  le fichier source
 		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
@@ -30,18 +36,27 @@
 				[ ] superieur
 			[ ] autre...
 	** SYLVAIN
+		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
+		-> install ::: SublimeTExt MongoExec Package
 		[X] made editRoomSV loaded as ajax
 		[X] added listRoomTypes
+		* bgClasses
+			[X] adding bg image globally 
+			[ ] bug : chart not showing on votes 
+		[ ] created person personnal settings and preferences
+		[ ] finish generic table/list view
 		[ ] filter by tags
 		[ ] filter by scope
+		[ ] voir avec Sylvain pour prepaSud
+		[ ] inter operable Granddir
 	** TRISTAN
 		[ ] Carto Statistics (Barchart + Pie Chart)
 
 
 
 * COMMUNECTER  [0/36]
-	** GENERIC
+	** GENERIC 
 		- count down before opening 15th september
 		- real time people connected count on every page
 		* FILTERING
@@ -72,6 +87,10 @@
 			- foret scene de fin
 			- mots clefs a la fin (voir dernier slide)
 			- effet add to my events
+		* idea
+			- sur la vue apres l'intro faire apparaitre un maximum de point et de lien 
+			pour montrer la capacité a un territoire a creer du lien 
+
 	** SIG 
 		[ ] geo localiser les action Rooms ou les discussions
 
@@ -81,7 +100,7 @@
 		--- Bizare ---
 			person/dash > Authorisation::listEventsIamAdminOf($id);
 	** PROJECTS
-		[ ] project directory
+		[ ] sexy projects directory
 		[ ] room pod > add room
 		[ ] project rooms toolbar show rooms count
 		[ ] ajaxified pods
@@ -95,19 +114,21 @@
 	** CITY
 		--- TEST GRAPHS ---
 			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
+
+			[ ] [[http://bl.ocks.org/chrisrzhou/raw/d5bdd8546f64ca0e4366/]]
 	** ACTION ROOMS
-		[ ] on a project dash create a room (voting, brainstorm, discuss...)
+		[ ] connect discussions to the topbar menu
 		[ ] Types
 			- discussions
 			- votes 
 			- brainstorms
 			- external rooms like Gitter or Slack with url 
-	** VOTER
-		[ ] vote & comment on anything 
-		[ ] mutualiser function addaction
-		[ ] Nombres de votants inscrit : 7
-		[ ] show both my created votes , my followed votes
-		[ ] closing a vote session, sending result
+		*** VOTER
+			[ ] vote & comment on anything 
+			[ ] mutualiser function addaction
+			[ ] Nombres de votants inscrit : 7
+			[ ] show both my created votes , my followed votes
+			[ ] closing a vote session, sending result
 	** page login 
 		Association, Entreprise , Projet ou evennement locale
 		construisons ensemble un territoire connecté pour le bien communs
@@ -148,5 +169,7 @@
 		[ ] [[https://github.com/openvocab/ovn]]
 		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
 	** OPEN PEOPLE
+		* TO CONTACT 
+			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 

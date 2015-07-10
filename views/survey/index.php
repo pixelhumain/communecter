@@ -365,8 +365,7 @@ if($where["type"]==Survey::TYPE_ENTRY){
   if($commentActive){
     $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.comments');
   }
-} else
-    $this->renderPartial('../rooms/editRoomSV');
+} 
 ?>
 
 
