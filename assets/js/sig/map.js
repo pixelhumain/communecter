@@ -420,6 +420,7 @@
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
 		this.Sig = this.getSigFindPlace(this.Sig);
+		this.Sig = this.getSigCharts(this.Sig);
 
 		return this.Sig;
 	};

@@ -6,10 +6,7 @@
 		$relativePath = "../sig/";
 		/* ***********************************************************************************/
 
-	   	//chargement de toutes les librairies css et js indispensable pour la carto
-    	$this->renderPartial($relativePath.'generic/mapLibs');
-
-		/* **************** modifier les parametre en fonction des besoins *******************/
+	   	/* **************** modifier les parametre en fonction des besoins *******************/
 		$sigParams = array(
 	        "sigKey" => "SV",
 
@@ -37,17 +34,61 @@
 	        "useHelpCoordinates" => false,
 	        "useFullScreen" => false,
 	        "useResearchTools" => true,
-
 	        /* TYPE NON CLUSTERISÉ (liste des types de données à ne pas inclure dans les clusters sur la carte (marker seul))*/
 	        "notClusteredTag" => array("citoyens"),
 
 	        /* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
 	        "firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
 	                       				 "zoom"		   => 9),
+
+	    	/* CHARTS */
+	        "useChartsMarkers" => true,
+
+	       /* FeatureCollection = 
+			{ 	"type": "FeatureCollection", 
+				"features":  [
+					{"type": "Feature", "id": 1, "ensoleillement": 80, "précipitations": 20,  "nuages": 20,  "vent": 10,  "température": 30, "geometry": {"type": "Point", "coordinates": [55.43976, -20.90244]}}, 
+					{"type": "Feature", "id": 2, "ensoleillement": 10, "précipitations": 340, "nuages": 100, "vent": 100, "température": 20, "geometry": {"type": "Point", "coordinates": [55.6279,  -20.95503]}}, 
+					{"type": "Feature", "id": 3, "ensoleillement": 10, "précipitations": 130, "nuages": 80,  "vent": 130, "température": 15, "geometry": {"type": "Point", "coordinates": [55.37521, -21.09475]}}, 
+					{"type": "Feature", "id": 4, "ensoleillement": 45, "précipitations": 25,  "nuages": 55,  "vent": 60,  "température": 20, "geometry": {"type": "Point", "coordinates": [55.69794, -21.34183]}}, 
+					{"type": "Feature", "id": 5, "ensoleillement": 35, "précipitations": 45,  "nuages": 65,  "vent": 30,  "température": 30, "geometry": {"type": "Point", "coordinates": [55.44113, -21.28298]}} 	]
+			};*/
+
+			"chartOptions" 	  => array("Options" => array(  "type" 		=> "BarChartMarker",
+															"radius" 	=> 25,
+															"maxHeight" => 120 //seulement pour BarChartMarker
+														)),
+
+	        "charts"		  => array(  "type" => "FeatureCollection",
+	        							 "features" => 
+	        							 array(   array(  "type" => "Feature", 
+							 							   "id" => 1, 
+		 												   "ensoleillement" => 10, 
+		 												   "précipitations" => 20, 
+		 												   "geometry" => array( "type" => "Point", 
+		 												   						"coordinates" => array(55.43976, -20.90244) )),
+							 
+	           			  							array("type" => "Feature", 
+							 							   "id" => 2, 
+		 												   "ensoleillement" => 30, 
+		 												   "précipitations" => 60, 
+		 												   "geometry" => array( "type" => "Point", 
+		 												   						"coordinates" => array(55.6279, -20.95503) )),
+							 
+	           			  							array("type" => "Feature", 
+							 							   "id" => 3, 
+		 												   "ensoleillement" => 80, 
+		 												   "précipitations" => 30, 
+		 												   "geometry" => array( "type" => "Point", 
+		 												   						"coordinates" => array(55.37521, -20.34183) )),
+		                       			  	)	
+		        						),
 	    );
 	 
 		/* ***********************************************************************************/
 
+		//chargement de toutes les librairies css et js indispensable pour la carto
+    	$this->renderPartial($relativePath.'generic/mapLibs', array("sigParams" => $sigParams));
 
 		$moduleName = "sigModule".$sigParams['sigKey'];
 
