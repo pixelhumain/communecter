@@ -13,8 +13,8 @@
 		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
 	</div>
 	<?php if (!empty($tasks) OR $admin==true){ ?>
-	<div class ="col-lg-8 col-md-8">
-		 <?php $this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
+	<div class ="col-lg-8 col-md-8 timesheetphp">
+		 <?php //$this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
 	</div>
 	<?php } 
 	 if (!empty($properties) OR $admin==true){ ?>
@@ -23,7 +23,7 @@
 	</div>
 	<?php } ?>
 	<div class="row" id="timesheetphp">
-	<?php echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
+	<?php //echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
 	</div>
 	<div class="col-sm-6 col-xs-12 roomsPod">
 			<div class="panel panel-white pulsate">
@@ -55,6 +55,7 @@
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 	})
 
 	var bindBtnFollow = function(){

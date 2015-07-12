@@ -111,6 +111,12 @@ class CommunecterController extends Controller
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
     ),
+    "gantt"=> array(
+      "index" => array("href" => "/ph/communecter/gantt/index"),
+      "savetask" => array("href" => "/ph/communecter/gantt/savetask"),
+      "removetask"      => array("href"=>"/ph/communecter/gantt/removetask"),
+      "generatetimeline"      => array("href"=>"/ph/communecter/gantt/generatetimeline"),
+    ),
 
     "person"=> array(
       "login"           => array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
@@ -184,8 +190,6 @@ class CommunecterController extends Controller
   	  "editchart"       => array("href"=>"/ph/communecter/project/editchart"),
   	  "updatefield"     => array("href"=>"/ph/communecter/project/updatefield"),
       "projectsv"       => array("href"=>"/ph/communecter/project/projectsv"),
-      "savetask"        => array("href"=>"/ph/communecter/project/savetask"),
-      "removetask"      => array("href"=>"/ph/communecter/project/removetask"),
     ),
 
     "job"=> array(
