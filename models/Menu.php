@@ -2,20 +2,22 @@
 class Menu {
 
     public static $infoMenu = array(
-                  "about" => array( "label"=>"About","key"=>"about", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/about')"),
-                  "help" => array( "label"=>"Help","key"=>"help", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/help')",),
-                  "policies" => array( "label"=>"Policies","key"=>"policies", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/policies')",),
-                  "contact" => array( "label"=>"Contact","key"=>"contact", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/contact')",),
+                  "about" => array( "label"=>"About","key"=>"about", "class"=>"text-bold homestead text-extra-large text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/about')"),
+                  "help" => array( "label"=>"Help","key"=>"help", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/help')",),
+                  "policies" => array( "label"=>"Policies","key"=>"policies", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/policies')",),
+                  "contact" => array( "label"=>"Contact","key"=>"contact", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/contact')",),
                   /*"resources" => array( "label"=>"Resources","key"=>"resources", "onclick"=>"loadPage('/communecter/default/view/page/resources')",
                     "children"=>array(*/
-                  "keywords" => array( "label"=>"Keywords","key"=>"keywords", "onclick"=>"loadPage('/communecter/default/view/page/keywords')"),
-                  "philosophy" => array( "label"=>"Philosopĥy","key"=>"philosophy", "onclick"=>"loadPage('/communecter/default/view/page/philosophy')"),
-                  "history" => array( "label"=>"History","key"=>"history", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/history')",),
-                  "roadmap" => array( "label"=>"Roadmap","key"=>"roadmap", "class"=>"text-bold", "onclick"=>"loadPage('/communecter/default/view/page/roadmap')",),
-                  "graphics" => array( "label"=>"Graphics","key"=>"graphics", "onclick"=>"loadPage('/communecter/default/view/page/graphics')",),
+                  "keywords" => array( "label"=>"Keywords","key"=>"keywords", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/keywords')"),
+                  "philosophy" => array( "label"=>"Philosopĥy","key"=>"philosophy", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/philosophy')"),
+                  "history" => array( "label"=>"History","key"=>"history", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/history')",),
+                  "roadmap" => array( "label"=>"Roadmap","key"=>"roadmap", "class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/roadmap')",),
+                  "graphics" => array( "label"=>"Graphics","key"=>"graphics","class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/graphics')",),
+                  
+                  "partners" => array( "label"=>"Partners","key"=>"partners","class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/partners')",),
                   //"videos" => array( "label"=>"Videos","key"=>"videos", "onclick"=>"loadPage('/communecter/default/view/page/videos')",),
                    /* )),*/
-                  "test" => array( "label"=>"Test","key"=>"test", "onclick"=>"loadPage('/communecter/default/view/page/test')",),
+                  "test" => array( "label"=>"Test","key"=>"test","class"=>"text-bold homestead text-extra-large", "onclick"=>"loadPage('/communecter/default/view/page/test')",),
                   );
 
 	public static $sectionMenu = array(
@@ -69,6 +71,41 @@ class Menu {
             }
         }
         return $menu;
+    }
+
+    public static function buildLi2( $item )
+    {
+      $modal = ( @$item["isModal"]) ? 'role="button" data-toggle="modal"' : "";
+      $onclick = ( @$item["onclick"]) ? 'onclick="'.$item["onclick"].'"' 
+                                           : ( ( @$item["key"] && false) ? 'onclick="scrollTo(\'#block'.$item["key"].'\')"' 
+                                                                      : "" );
+      $href = ( @$item["href"]) ? (stripos($item["href"], "http") === false) ? Yii::app()->createUrl($item["href"]) : $item["href"] : "javascript:;";
+      $class = ( @$item["class"]) ? 'class="'.$item["class"].'"' : "";
+      $class .= " homestead text-extra-large";
+      $icon = ( @$item["iconClass"]) ? '<i class="'.$item["iconClass"].'"></i>' : '';
+      $isActive = ( isset( Menu::$sectionMenu[ @$item["key"] ] ) && in_array( Yii::app()->controller->action->id, Menu::$sectionMenu[ $item["key"] ] ) ) ? true : false;
+      
+      $active = ( $isActive || ( @$item["active"] && $item["active"] ) ) ? "open active" : "";
+      
+
+      //This menu can have 2 levels
+      if( isset($item["children"]) ){
+            echo '<li><a href="javascript:;">'.
+                  '<span class="status">'.
+                    '<i class="fa fa-caret-down"></i>'.
+                    '<span class="badge">'.count($item["children"]).'</span>'.
+                  '</span>'.
+                  $item["label"].
+                  '</a>';
+            echo "<ul class='sub-menu'>";
+              foreach( $item["children"] as $item2 )
+              {
+                  buildLi22($item2);
+              }
+            echo "</ul></li>";
+          }
+      else
+        echo '<li><a href="'.$href.'" '.$modal.' '.$class.' '.$onclick.' >'.@$item["label"].'</a></li>';
     }
 
 } 

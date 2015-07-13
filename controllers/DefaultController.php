@@ -43,7 +43,7 @@ class DefaultController extends CommunecterController {
         $this->subTitle = "Building commons for the people by the people";
         $this->pageTitle = "Communecter, se connecter à sa commune";
           
-        $this->sidebar2 = Menu::$infoMenu;
+        //$this->sidebar2 = Menu::$infoMenu;
 
         $detect = new Mobile_Detect;
         $isMobile = $detect->isMobile();
@@ -52,7 +52,6 @@ class DefaultController extends CommunecterController {
             $this->render("aboutMob");
         else 
             $this->render("about");
-      
     }
     public function actionHelp() 
     {
@@ -78,7 +77,7 @@ class DefaultController extends CommunecterController {
         echo $this->renderPartial($page, null,true);
       }
       else {
-        $this->sidebar2 = Menu::$infoMenu;
+        //$this->sidebar2 = Menu::$infoMenu;
         $this->render($page);
       }
       

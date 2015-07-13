@@ -2,11 +2,8 @@
 {{PERSON}}
 {{PROJECTS}}
 {{CITY}}
-<<<<<<< HEAD
 {{THINK TANK}}
 {{OPEN PEOPLE}}
-=======
->>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
 
 * IN PROGRESS
 	** YANNICK
@@ -14,13 +11,13 @@
 	  [X] integration timesheet.php sur project
 	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
 	** JOHNSON + RAPHAEL
-		[ ] Zone info sur graphe
+		[X] Zone info sur graphedh dfgh df dfg dffg hdg hd ddfg
 		[ ] ordonnée par les 30 max
 		[ ] drop down liste des communes
 		[ ] toujours afficher 
 		[ ] changer le graph en tarte
 		[ ] proposer d'autre source
-		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
+		[ ] Bug : photo de profile ne persiste pas
 	** RAPHAEL
 		[X] decouper en block  le fichier source
 		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
@@ -39,17 +36,20 @@
 		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
 		-> install ::: SublimeTExt MongoExec Package
-		[X] made editRoomSV loaded as ajax
-		[X] added listRoomTypes
 		* bgClasses
 			[X] adding bg image globally 
-			[ ] bug : chart not showing on votes 
-		[ ] created person personnal settings and preferences
+		[ ] bug : chart not showing on votes 
+		[ ] bug : create Organisation
+		[X] created person personnal settings and preferences
 		[ ] finish generic table/list view
 		[ ] filter by tags
-		[ ] filter by scope
+		[ ] filter by scope (pub priv) & territories
 		[ ] voir avec Sylvain pour prepaSud
 		[ ] inter operable Granddir
+		[ ] login accoutn validation & alpha limitation
+		[ ] static page partners, financers, friends, contributors, developpers
+		[ ] réseau Systémique , reseau des reseaux, massarchie/crowdarchie
+		[ ] data converter 
 	** TRISTAN
 		[ ] Carto Statistics (Barchart + Pie Chart)
 
@@ -59,6 +59,8 @@
 	** GENERIC 
 		- count down before opening 15th september
 		- real time people connected count on every page
+		* SEARCH 
+			[ ] @JOhnSON autocomplete keyboard nav
 		* FILTERING
 			[ ] personnal tags 
 				- can be anything and are not shared accross users
@@ -69,6 +71,7 @@
 			[ ] territory
 				- can be anything and are not shared accross users
 				- are saved in [[tags]] collection 
+			[ ] Timeline RSS feed
 	** MOTION
 		* ressource 
 			9 assos
@@ -87,13 +90,8 @@
 			- foret scene de fin
 			- mots clefs a la fin (voir dernier slide)
 			- effet add to my events
-		* idea
-			- sur la vue apres l'intro faire apparaitre un maximum de point et de lien 
-			pour montrer la capacité a un territoire a creer du lien 
-
 	** SIG 
 		[ ] geo localiser les action Rooms ou les discussions
-
 	** PERSON
 		-> profil > click tag => show directory with similar content
 		-> inviteSomeone => after search keyboard navigate down 
@@ -173,3 +171,7 @@
 			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
+		
+		
+	
+	

@@ -10,6 +10,17 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+//TKA : new document in list collection 
+{
+    "_id" : ObjectId("559cbd2f2581e3491c77bbbc"),
+    "list" : {
+        "survey" : "Survey",
+        "vote" : "Vote",
+        "discuss" : "Discussion",
+        "proposals" : "Brainstorm / Proposals / Ideas"
+    },
+    "name" : "listRoomTypes"
+}
 ----------------------------------------------------
 //SBA : 30/04/2015
 Update your config/main.php

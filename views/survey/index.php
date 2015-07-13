@@ -169,7 +169,7 @@ $commentActive = true;
                     $info.
                     //$tags.
                     //$content.
-                    '<br/>'.$leftLinks.$rightLinks.
+                    '<br/>'.$leftLinks.$rightLinks.$graphLink.$infoslink.
                     '<div class="space1"></div>'.
                     $commentBtn.
                     $byInfo.$createdInfo.$views.
