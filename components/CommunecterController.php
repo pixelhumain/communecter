@@ -89,6 +89,7 @@ class CommunecterController extends Controller
     	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation"),
     	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata"),
       	'statisticcity' => array("href" => "/ph/communecter/city/statisticcity"),
+      'getcitiesdata'         => array("href" => "/ph/communecter/city/getcitiesdata"),
 
     ),
     "news"=> array(
