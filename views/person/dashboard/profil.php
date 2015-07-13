@@ -48,7 +48,7 @@
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
-																	  "resize" => "false",
+																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "show" => true,
 																	  "editMode" => $canEdit )); 
