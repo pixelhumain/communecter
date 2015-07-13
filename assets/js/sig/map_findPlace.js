@@ -203,14 +203,10 @@ SigLoader.getSigFindPlace = function (Sig){
 			itemDropbox = concat(itemDropbox, thisResult.address.road);
 
 			//ajoute la ville si elle existe
-			//if("undefined" != typeof thisResult.address.city)
-				//if(city.toLowerCase() == thisResult.address.city.toLowerCase())
-					itemDropbox = concat(itemDropbox, thisResult.address.city);
+			itemDropbox = concat(itemDropbox, thisResult.address.city);
 
 			//ajoute le code postal s'il existe
-			//if("undefined" != typeof thisResult.address.postcode)
-				//if(cp.toLowerCase() == thisResult.address.postcode.toLowerCase())
-				 	itemDropbox = concat(itemDropbox, thisResult.address.postcode);
+			itemDropbox = concat(itemDropbox, thisResult.address.postcode);
 
 			//ajoute le pays s'il existe
 			if("undefined" != typeof thisResult.address.state){

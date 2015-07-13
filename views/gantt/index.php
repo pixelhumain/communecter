@@ -17,18 +17,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 ?>
 <style>
 	.lightgray{
-		background-color: #e2e2e2;
+		background-color: rgba(0, 0, 0, 0.15);
 	}
 </style>
+<div class="parentTimeline">
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> PROJECT TASKS</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
-				<?php if ($admin) { ?>
-				<a href="#editProjectTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer la timeline"><i class="fa fa-pencil"></i>
+				<?php //if ($admin) { ?>
+				<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer la timeline"><i class="fa fa-pencil"></i>
 				</a>
-				<?php } ?>
+				<?php //} 
+				?>
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>
@@ -60,6 +62,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	</div>
 	<div class="panel-body no-padding partition-dark">
 		<ul id="timesheetTab" class="nav nav-tabs">
+			<?php if($period=="Yearly"){ ?>
 			<li class="active">
 				<a href="#users_tab_attending" data-toggle="tab">
 					<span>
@@ -67,112 +70,109 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 					</span>
 				</a>
 			</li>
-			<li class="zoomTimesheet hide">
+			<? }else { ?>
+			<li class="back">
 				<a href="#users_tab_attending" data-toggle="tab">
 					<span>
+						Back
 					</span>
 				</a>
 			</li>
+			<li class="active">
+				<a href="#users_tab_attending" data-toggle="tab">
+					<span>
+						<?php echo $period; ?>
+					</span>
+				</a>
+			</li>
+			<?php } ?>
 		</ul>
 		<?php
 		//***** GENERATE TIMESHEET MODULE *****//
-		// firstYear & endYear represent the beginning and the end of project => $alpha
-		//$alpha = array('Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec');
 		$alpha =[];
 		$data=[];
 		$firstYear="";
 		$endYear="";
 		$nbYear=0;
 		foreach ($tasks as $val){
-			//if ($val["startDate"])
-			if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
-				$firstYear = date('Y',strtotime($val["startDate"]));
-			else
-				$firstYear = date('Y',strtotime($val["startDate"]));
-			if ($endYear < date('Y',strtotime($val["endDate"])))
-				$endYear = date('Y',strtotime($val["endDate"]));
-			$array= array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
+			if ($period=="Yearly"){
+				if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
+					$firstYear = date('Y',strtotime($val["startDate"]));
+				else
+					$firstYear = date('Y',strtotime($val["startDate"]));
+				if ($endYear < date('Y',strtotime($val["endDate"])))
+					$endYear = date('Y',strtotime($val["endDate"]));
+			}
+			if($period != "Yearly"){
+				$startDate=date("m-d",strtotime($val["startDate"]));
+				$endDate=date("m-d",strtotime($val["endDate"]));
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
+			}else
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
 			$data[$val["name"]]=$array ;
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/
-		for ($date = $firstYear; $date <= $endYear; $date++) {
-			array_push($alpha,$date);
-			$nbYear++;
+		if ($period=="Yearly"){
+			for ($date = $firstYear; $date <= $endYear; $date++) {
+				array_push($alpha,$date);
+				$nbYear++;
+			}	
+			$alpha_first=$firstYear;
+			$omega_base=12;
+			$date_format='d M Y';
+			$timesheet_format='Y-m-d';
 		}
-	//print_r($data);
-	/*$data = array(
-       		 'Prun' => array(
-                    array('color'=> 'sit','start' => '2010-01-15','end' => '2011-02-20'),
-                    ),
-			'Orange' => array(
-                    array('color'=> 'sit','start' => '2012-02-01','end' => '2013-06-30'),
-                    ),
-			'Kiwi' => array(
-                    array('color'=> 'default','start' => '08-30','end' => '10-20'),
-                    ),
-                    'jack' => array(
-                    array('color'=> 'lorem','start' => '02-01','end' => '06-30'),
-                    ),
-			'start' => array(
-                    array('color'=> 'dolor','start' => '08-12','end' => '09-10'),
-                    ),
-        );*/
-		
+		else{
+			$alpha = array('Janv', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec');	
+			$alpha_first=1;
+			$omega_base=31;
+			$date_format='d M';
+			$timesheet_format='m-d';
+		}
 		$args = array(
         	'id' => 'year',            /* CSS #ID of the timesheet */
 			'theme' =>'white',           /* Theme white (or null for dark) */
-			'alpha_first' => $firstYear,          /* The number of the first month is one (Janv) */
-			'omega_base' => 12,          /* 31 days in 1 month (for simplify) */
+			'alpha_first' => $alpha_first,          /* The number of the first month is one (Janv) */
+			'omega_base' => $omega_base,          /* 31 days in 1 month (for simplify) */
 			/*'line' => date('m-d'), */      /* Today in format 'm-d' */
 			/*'line_text' => "Aujourd'hui",  */  /* Text to display for the line */
 			'format'=> array(
 							"segment_des" => 'du %s au %s',
-							"timesheet_format" => 'Y-m-d',
-							"date_format" => 'd M Y',
+							"timesheet_format" => $timesheet_format,
+							"date_format" => $date_format,
 				)
         );
-
-$fruits = new timesheet($alpha, $args, $data );
-	$fruits->display();?>
-
+		$timeline = new timesheet($alpha, $args, $data );
+		$timeline -> display();?>
 	</div>
 </div>
+</div>
 <?php
-   $this->renderPartial('addTimesheetSV', array("itemId" => $itemId, "tasks"=>$tasks));
+if (!isset($_GET["noInit"]))
+	$init=true;
+else
+	$init=false;
+
+  $this->renderPartial('addTimesheetSV', array("tasks"=>$tasks,"init" => $init));
 ?>
 
 <script type="text/javascript">
-//var task=<?php echo json_encode($tasks); ?>;
-//console.log(task);
 jQuery(document).ready(function() {
-	$('.scale .hoverScale').mouseover(function(){
-		$(this).find("section").addClass("lightgray");
+	$('.scale section').mouseover(function(){
+		$(this).addClass("lightgray");
 	}).mouseout(function(){
-		$(this).find("section").removeClass("lightgray");
+		$(this).removeClass("lightgray");
 	});
-	toggleMonthYear();		/*timesheet=new Timesheet('timesheet',2014, 2025, [<?php foreach ($tasks as $data){
-		echo "['".$data["startDate"]."','".$data["endDate"]."','".$data["name"]."','".$data["color"]."'],";
-	} ?>
-	]);
-	//console.log(timesheet);
-	//timesheet.data.push({start:'01/2008',end:'05/20012',label:'Test push',type:'lorem'});
-	//timesheet.prototype.timesheet('timesheet',2002, 2013, [['01/2008', '05/20012', 'Test push', 'lorem']]);
-$monthTab=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-	$('.date').each(function(){
-		startEndDate=$(this).html();
-		startEndArray=startEndDate.split('-');
-		if (startEndArray.length==2){
-			dateStart=writeMonth(startEndArray[0]);
-			dateEnd=writeMonth(startEndArray[1]);	
-			$(this).replaceWith(dateStart+"-"+dateEnd);
-		}
-		else
-			$(this).replaceWith(writeMonth(startEndDate));
-	});*/
+	toggleMonthYear();		
+	$(".back").click(function(){
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>",null,"html");
+	});
 });
 function toggleMonthYear(){
 	$('.scale section div').click(function(){
 		year=$(this).html();
+		//tasksYear=tasksInYear(year);
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");
 		$("#year").slideUp();
 		active=$("#timesheetTab").find(".active");
 		active.find("span").html("Back");
@@ -185,17 +185,5 @@ function toggleMonthYear(){
 			$("#timesheetTab").find(".zoomTimesheet").removeClass("active").addClass("hide");
 		});
 	});
-}
-function writeMonth(date){
-	dateTab=date.split('/');
-	if (dateTab.length == 2){
-		dateMonth=parseInt(dateTab[0]);
-		dateYear=dateTab[1];
-		date=$monthTab[dateMonth-1]+" "+dateYear;
-	}
-	else {
-		date=date;
-	}
-	return date;
 }
 </script>

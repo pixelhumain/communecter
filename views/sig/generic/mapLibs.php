@@ -18,6 +18,20 @@
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/leaflet/leaflet.markercluster-src.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/leaflet/leaflet.awesome-markers.min.js' , CClientScript::POS_END);
 
+		if(isset($sigParams))
+			if($sigParams["useChartsMarkers"] == true){
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.chartmarkers.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.controls.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.datalayer.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.experimental.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.linearfunctions.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.lines.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.markers.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.palettes.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.regularpolygon.js' , CClientScript::POS_END);
+				$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/dvf/leaflet.dvf.utils.js' , CClientScript::POS_END);
+			}
+
 
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_initializer.js' , CClientScript::POS_END);
@@ -25,6 +39,8 @@
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_popupContent.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_rightList.js' , CClientScript::POS_END);
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_findPlace.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_findPlace.js' , CClientScript::POS_END);
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sig/map_charts.js' , CClientScript::POS_END);
 
 /*		$cssAndScriptFiles = array(
 

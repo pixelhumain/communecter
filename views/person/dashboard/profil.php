@@ -48,7 +48,7 @@
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
-																	  "resize" => "false",
+																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "show" => true,
 																	  "editMode" => $canEdit )); 
@@ -119,13 +119,25 @@
 					</label>
 					
 					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
-						<?php if(isset($person["tags"]))echo implode(",", $person["tags"]); else echo "";?>
+						<?php if(isset($person["tags"])){
+							foreach ($person["tags"] as $tag) {
+								echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+							}
+						}?>
 					</a>
 				</div>	
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<?php 
+				if ( $canEdit ) { ?>
+				<div class="dropdown">
+					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown" onclick="buildBgClassesList()">Backgrounds</a>	
+					<div class="dropdown-menu bgClassesContainer" style="display: none;"></div>
+				</div>
+				<br/>
+				<?php } ?>
 				<div>
 					<?php
 					//if connected user and pageUser are allready connected
@@ -135,7 +147,9 @@
 						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
 					<?php } ?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -161,7 +175,71 @@ jQuery(document).ready(function()
 });
 
 
-function bindAboutPodEvents() {
+var bgClasses = [
+	{key : 'bggrey', name : "Grey"},
+	{key : 'bgdark', name : "Dark"},
+	{key : 'bgblack', name : "Black"},
+	{key : 'bgblue', name : "Blue"},
+	{key : 'bggreen', name : "Green"},
+	{key : 'bgred', name : "Red"},
+
+	{key : 'bgcity', name : "City"},
+	{key : 'bgwave', name : "Wave"},
+	{key : 'bgseasky', name : "Sea Sky"},
+	{key : 'bggreenImg', name : "Leaf Drops"},
+
+	{key : 'bgcloud', name : "Cloud"},
+	{key : 'bgcrowd', name : "Crowd"},
+	{key : 'bgcrowd2', name : "Crowd"},
+	{key : 'bgfaces', name : "Faces"},
+
+	{key : 'bgwater', name : "Water"},
+	{key : 'bgeau', name : "Water"},
+	{key : 'bgfrings', name : "Frings"},
+	{key : 'bgtree', name : "Tree"},
+	{key : 'bgtree1', name : "Tree"},
+	//{key : 'bgCustom', name : "From my Gallery"},
+];
+var existingClasses = "bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
+function buildBgClassesList() 
+{ 
+	if( $(".bgClassesContainer").html() == "" )
+	{
+		$.each(bgClasses,function(i,v) { 
+			$(".bgClassesContainer").append('<a class="btn btn-xs btn-default bgChangeBtn" href="javascript:;" data-class="'+v.key+'" >'+v.name+'</a>');
+		});
+		$(".bgChangeBtn").off().on("click", function(){
+			setBg( $(this).data("class") );
+		});
+	}
+}
+
+function setBg( bg, url ) 
+{
+	if( !url )
+		$(".main-container").attr("style","");
+	$(".main-container").removeClass(existingClasses).addClass(bg);
+	
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/person/updatefield",
+        dataType : "json",
+        data: {
+        	"name" : "bgClass",
+			"pk" : "<?php echo Yii::app()->session['userId']?>",
+			"value" : bg,
+			"url" : url
+        }
+    })
+    .done(function (data) 
+    {
+    	if(! data.result) 
+    		toastr.error(data.msg); 
+    });
+}
+
+function bindAboutPodEvents() 
+{
 	$("#editProfil").on("click", function(){
 		switchMode();
 	})

@@ -1,0 +1,11 @@
+* toolbar 
+  -> Timeline
+  -> Discuss or Action Rooms 
+* dashboard
+	[[http://127.0.0.1/ph/communecter/project/dashboard/id/556767a5f6ca4723538b4569]]
+	* pods
+		-> dashboard/description
+	    -> ../pod/sliderPhoto
+	    -> dashboard/contributors
+	    -> dashboard/timesheet
+	    -> dashboard/projectChart

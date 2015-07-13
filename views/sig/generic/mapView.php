@@ -39,8 +39,8 @@
 	<?php } ?>
 
 
-	<?php if($sigParams['useResearchTools']){ ?>
 		<div class="btn-group btn-group-lg btn-group-map input-search-place">
+		<?php if($sigParams['useResearchTools']){ ?>
 			<input type="text" class="pull-left input-search-place-in-map txt-find-place" id="txt-find-place" placeholder="rechercher un lieu" style="margin-top:2px;">
 			<button type="button" class="btn btn-map pull-right" id="btn-find-more"><i class="fa fa-ellipsis-h"></i></button>
 				
@@ -59,12 +59,18 @@
 	                 </ul>
 	            </div>
 	        </div>
+		<?php } ?>
+			<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
 		</div>
-	<?php } ?>
 	
+		<?php if($sigParams['useChartsMarkers']){ ?>
+			<div class="btn-group-vertical btn-group-lg btn-group-charts" id="btn-group-charts-map">
+			
+			</div>
+		<?php } ?>
+
 		<div class="btn-group btn-group-lg btn-group-map">
 		
-			<button type="button" class="btn btn-map-separator"></button>
 			<?php if($sigParams['useHomeButton']){ ?>
 				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
 				<button type="button" class="btn btn-map-separator"></button>
@@ -73,19 +79,13 @@
 				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
 				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
 			<?php } ?>
-				<br/>
 			
 		</div>
-
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">
 			<button type="button" class="btn btn-map " id="btn-full-screen"><i class="fa fa-expand"></i></button>
 		</div>-->
 	<?php } ?>
-
-	<div class="btn-group btn-group-lg btn-group-map" style="left:390px">
-		<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
-	</div>
 
     <?php if($sigParams['useHelpCoordinates']){ ?>
 		<div id="help-coordinates">0,000</div>

@@ -63,23 +63,29 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=> array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
+          ),
+     array('label' => "Rooms", "key"=>"rooms",
+                "children"=> array(
+                  "newRoom" => array( "label"=>"Add new Room","key"=>"newRoom", "class"=>"ajaxSV", "onclick"=>"openSubView('Add a Room', '/communecter/rooms/editroom',null,function(){editRoomSV ();})", "iconStack"=> array("fa fa-comments fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  )
           )
   );
   
   public $subviews = array(
     "news.newsSV",
     "person.inviteSV",
-    "event.addAttendeesSV",
+    "event.addAttendeesSV"
   );
 
   public $pages = array(
 
-    "default"=> array(
+    "default" => array(
       "index"   => array("href"=>"/ph/communecter","api"=>""),
       "about"   => array("href"=>"/ph/communecter/default/about"),
       "help"    => array("href"=>"/ph/communecter/default/help"),
       "contact" => array("href"=>"/ph/communecter/default/contact"),
-      "view" => array("href"=>"/ph/communecter/default/view"),
+      "view"    => array("href"=>"/ph/communecter/default/view"),
+      "directory" => array("href"=>"/ph/communecter/default/directory"),
     ),
 
     "city"=> array(
@@ -101,8 +107,21 @@ class CommunecterController extends Controller
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
 
+    "rooms"=> array(
+      "index" => array("href" => "/ph/communecter/rooms/index"),
+      "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
+      "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
+    ),
+    "gantt"=> array(
+      "index" => array("href" => "/ph/communecter/gantt/index"),
+      "savetask" => array("href" => "/ph/communecter/gantt/savetask"),
+      "removetask"      => array("href"=>"/ph/communecter/gantt/removetask"),
+      "generatetimeline"      => array("href"=>"/ph/communecter/gantt/generatetimeline"),
+    ),
+
     "person"=> array(
       "login"           => array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
+      "sendemailpwd"    => array("href"=>"/ph/communecter/person/sendemailpwd"),
       "index"           => array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "authenticate"    => array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
       "dashboard"       => array("href"=>"/ph/communecter/person/dashboard"),
@@ -172,8 +191,6 @@ class CommunecterController extends Controller
   	  "editchart"       => array("href"=>"/ph/communecter/project/editchart"),
   	  "updatefield"     => array("href"=>"/ph/communecter/project/updatefield"),
       "projectsv"       => array("href"=>"/ph/communecter/project/projectsv"),
-      "savetask"        => array("href"=>"/ph/communecter/project/savetask"),
-      "removetask"      => array("href"=>"/ph/communecter/project/removetask"),
     ),
 
     "job"=> array(
@@ -242,6 +259,7 @@ class CommunecterController extends Controller
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;

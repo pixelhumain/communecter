@@ -259,10 +259,9 @@
 				success: function(data){
 					console.log("data", data);
 					if($("#label-graph").text() == "PieChart")
-							getPieChart(data);
-						else
-							getMultiBarChart(data);
-		
+						getPieChart(data);
+					else
+						getMultiBarChart(data);
 				}
 			});		
 		});

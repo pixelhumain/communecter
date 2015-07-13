@@ -84,7 +84,7 @@
 	{ 
 		setTimeout(function()
 		{
-			console.log("titleAnim",titleMapIndex);
+			//console.log("titleAnim",titleMapIndex);
 			var map = titleMap[titleMapIndex];
 			$(".titleRed").html(map.titleRed);
 			$(".titleWhite").html(map.titleWhite);

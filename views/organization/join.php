@@ -220,7 +220,7 @@ var organizationInitData = {
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
 	"personPostalCode": "97426",*/
-	"password": "password"
+	//"password": "password"
 };
 
 var dataBindOrganization = {

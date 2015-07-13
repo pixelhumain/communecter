@@ -1,6 +1,7 @@
-<div class="panel-heading border-light center ">
-	<span class="panel-title homestead"> <i class='fa fa-compass faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">ROADMAP</span></span>
+<div class="panel-heading border-light center  text-dark partition-white radius-10">
+	<span class="panel-title homestead"> <i class='fa fa-compass faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">WHERE WE'RE GOING</span></span>
 </div>
+<div class="space20"></div>
 <div class="keywordList"></div>
 
 <script type="text/javascript">
@@ -9,7 +10,7 @@ var keywords = [
 	{
 		"icon" : "fa-calendar",
 		"title":"MILESTONE 0.1",
-		"body":"september"
+		"body":"september 2015"
 	},
 	{
 		"icon" : "fa-university",
@@ -41,6 +42,11 @@ var keywords = [
 		"title":"VOTING",
 		"body":"COMING SOON"
 	},
+	{
+		"icon" : "fa-comments",
+		"title":"DISCUSSING",
+		"body":"COMING SOON"
+	},
 	
 ];
 	
@@ -51,7 +57,7 @@ jQuery(document).ready(function()
 		icon = (obj.icon) ? obj.icon : "fa-tag" ;
 		color = (obj.color) ? obj.color : "#E33551" ;
 		$(".keywordList").append(
-		'<div class="panel panel-white">'+
+		'<div class="col-md-6 col-sm-12"><div class="panel panel-white">'+
 			'<div class="panel-heading border-light ">'+
 				'<span class="panel-title homestead"> <i class="fa '+icon+' faa-pulse animated-hover fa-2x"></i> <span style="font-size: 35px; color:'+color+';"> '+obj.title.toUpperCase()+'</span></span>'+
 			'</div>'+
@@ -60,7 +66,7 @@ jQuery(document).ready(function()
 					obj.body+
 				 "</blockquote>"+
 			"</div>"+
-		"</div>");
+		"</div></div>");
 	 });
 });
 

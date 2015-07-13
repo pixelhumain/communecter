@@ -129,7 +129,8 @@
 					this.setFullScreen();
 				}
 				else{
-					$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
+					var left = $(this.cssModuleName + " .panel_map").width() + 10;
+					$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
 				}
 			}
 			this.Sig.verifyPanelFilter = function (thisData){
@@ -194,6 +195,7 @@
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
 
+				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
 					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
@@ -245,7 +247,6 @@
 							});
 
 						}
-
 					}
 
 					//affiche les MEMBERS
@@ -257,14 +258,18 @@
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-
-
 				}else {
+					if(thisData == null) return false;
+
 					console.warn("--------------- PAS D'ID ---------------------");
 					console.log(thisData);
+
+					if("undefined" != typeof thisData["chartOptions"] != null){
+						console.warn("--------------- LOAD CHART ---------------------");
+						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
+					}
 					return false;
 				}
-
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
@@ -275,21 +280,23 @@
 
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
+						//console.warn("--------------- show each thisData ---------------------");
+						//console.dir(thisData);
+
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}
 				else{
 					thisSig.showOneElementOnMap(dataFilter, thisMap);
 				}
-
-
-
 			};
 
 
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				console.warn("--------------- showMapElements ---------------------");
+
+				if(data == null) return;
 
 				var filterPanelValue = "citoyens";
 				//enregistre les dernières données dans une variable locale
@@ -307,7 +314,7 @@
 
 				this.showIcoLoading(true);
 
-				//on affiche les data filtre par filtre, en suivant la Desc des datas
+				//on affiche les data filtre par filtre
 				var thisSig = this;
 				//var array = new Array();
 
@@ -317,6 +324,8 @@
 					$.each(data, function (key, value){
 						console.warn("key");
 						console.log(key);
+						//console.log(value);
+
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 				}else{
@@ -415,6 +424,7 @@
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
 		this.Sig = this.getSigFindPlace(this.Sig);
+		this.Sig = this.getSigCharts(this.Sig);
 
 		return this.Sig;
 	};

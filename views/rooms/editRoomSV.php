@@ -1,5 +1,7 @@
 <script type="text/javascript">
-var surveyFormDefinition = {
+var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;
+var tagsList = <?php echo json_encode($tagsList)?>;
+var roomFormDefinition = {
     "jsonSchema" : {
         "title" : "News Form",
         "type" : "object",
@@ -12,6 +14,11 @@ var surveyFormDefinition = {
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
+            "roomType" :{
+                "inputType" : "select",
+                "placeholder" : "Type of Room",
+                "options" : listRoomTypes
+              },
             "name" :{
               "inputType" : "text",
               "placeholder" : "Titre de la proposition",
@@ -22,12 +29,7 @@ var surveyFormDefinition = {
             "tags" :{
                 "inputType" : "tags",
                 "placeholder" : "Tags",
-                "values" : [
-                  "Sport",
-                      "Agricutlture",
-                      "Culture",
-                      "Urbanisme",
-                ]
+                "values" : tagsList
               },
         }
     }
@@ -42,18 +44,18 @@ var dataBind = {
 };
 
 jQuery(document).ready(function() {
-  console.warn("--------------- newSurvey ---------------------");
-  $(".newSurvey").off().on("click",function() { 
-    console.warn("--------------- newSurvey CLIK---------------------");
-    editSurveySV ();
+  console.warn("--------------- newRoom ---------------------");
+  $(".newRoom").off().on("click",function() { 
+    console.warn("--------------- newRoom CLIK---------------------");
+    openSubView('Add a Room', '/communecter/rooms/editRoom',null,function(){editRoomSV ();});
   });
 });
 
-function editSurveySV (surveyObj) { 
+function editRoomSV (roomObj) { 
   console.warn("--------------- editEntrySV ---------------------");
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >New Survey</h1>"+
+              "<h1 id='proposerloiFormLabel' >New Room</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
                 "<div class='clear'>Surveys contain subject to vote on, brainstorm sessoins, discussions...</div>"+ 
@@ -64,14 +66,14 @@ function editSurveySV (surveyObj) {
       {
         var form = $.dynForm({
           formId : "#ajaxForm",
-          formObj : surveyFormDefinition,
+          formObj : roomFormDefinition,
           onLoad : function  () {
-            if( surveyObj ){
+            if( roomObj ){
               $("#name").val(data.title);
             }
           },
           onSave : function(){
-            console.log("saving Organization!!");
+            console.log("saving Room!!");
             one = getRandomInt(0,10);
             two = getRandomInt(0,10);
             if( prompt("combien font "+one+"+"+two+" ?") == one+two )
@@ -85,13 +87,13 @@ function editSurveySV (surveyObj) {
                           '</blockquote> '
                   });
               var params = { 
-                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
+                 "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#name").val() , 
                  "tags" : $("#tags").val().split(","),
                  <?php  
                  //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                  ?>
-                 "type" : "<?php echo Survey::TYPE_SURVEY?>"
+                 "type" : $("#roomType").select2("val"), 
               };
               if( $("#type").val() != "")
                 params.parentType = $("#type").val();
@@ -100,7 +102,7 @@ function editSurveySV (surveyObj) {
              console.dir(params);
              $.ajax({
                 type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSurvey")?>',
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
