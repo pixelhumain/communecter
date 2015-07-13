@@ -45,6 +45,13 @@ db.cities.find().forEach(function(doc){
     }
 });
 
+
+db.cityData.find().forEach(function(doc){
+    if(doc.population['2011'].total){ 
+        print(doc.population['2011'].total+" - "+doc._id );
+        db.cityData.update({"_id":doc._id},{'$set':{'population.2011.total':parseInt(doc.population['2011'].total)}});
+    }
+});
 ----------------------------------------------------
 //TKA - 24/2/15
 db.organizations.update({type:"entreprise"},{"$set":{type:"LocalBusiness"}},{"multi":1})
