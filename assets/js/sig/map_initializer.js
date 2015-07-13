@@ -9,6 +9,9 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
+			console.log("initParams");
+			console.dir(params);
+
 	    	var thisSig = this;
 
 	    	//memorise les paramètres dans une variable globale de l'instance SIG
@@ -26,80 +29,80 @@
 				//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.mapColor = params.mapColor;
 
-				//mémorise la liste des éléments non clusturisés
-				thisSig.notClusteredTag = params.notClusteredTag;
+			//mémorise la liste des éléments non clusturisés
+			thisSig.notClusteredTag = params.notClusteredTag;
 
-				//initialise la position de la carte
-				thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
+			//initialise la position de la carte
+			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 
-				//TODO : définir les icons et couleurs de chaque type disponoble
-				thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
+			//TODO : définir les icons et couleurs de chaque type disponoble
+			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
-											  	"citoyen" 			: { ico : "smile-o", color : "yellow" 	},
+										  	"citoyen" 			: { ico : "smile-o", color : "yellow" 	},
 
-												"NGO" 				: { ico : "group", color : "green" 		},
-												"organizations" 	: { ico : "group", color : "green" 		},
+											"NGO" 				: { ico : "group", color : "green" 		},
+											"organizations" 	: { ico : "group", color : "green" 		},
 
-												"event" 			: { ico : "circle", color : "red" 		},
-												"events" 			: { ico : "circle", color : "red" 		},
-												"meeting" 			: { ico : "calendar", color : "red" 	},
+											"event" 			: { ico : "circle", color : "red" 		},
+											"events" 			: { ico : "circle", color : "red" 		},
+											"meeting" 			: { ico : "calendar", color : "red" 	},
 
-												"project" 			: { ico : "lightbulb-o", color : "blue" },
+											"project" 			: { ico : "lightbulb-o", color : "blue" },
 
-												"markerPlace" 		: { ico : "map-marker", color : "red" 	},
+											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 
-										  };
+									  };
 
-				//TODO : définir les icons et couleurs de chaque tag
-				thisSig.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "grey" } };/*,
-												"citoyens" 		: { ico : "square", color : "green" },
-												"organization"  : { ico : "square", color : "blue" },
-												"citoyen" 		: { ico : "square", color : "yellow" },
+			//TODO : définir les icons et couleurs de chaque tag
+			thisSig.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "grey" } };/*,
+											"citoyens" 		: { ico : "square", color : "green" },
+											"organization"  : { ico : "square", color : "blue" },
+											"citoyen" 		: { ico : "square", color : "yellow" },
 
-										  };*/
+									  };*/
 
-				if(params.useRightList){
-					//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
-					thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
-					//losque on effectue une recherche dans le champs de texte
-					$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ thisSig.checkListElementMap(thisMap); });
-					//lorsqu'on active/désactive le filtre par zone
-					$(this.cssModuleName + " #chk-scope").click(function (){ thisSig.checkListElementMap(thisMap); });
-				}
+			if(params.useRightList){
+				//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
+				thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
+				//losque on effectue une recherche dans le champs de texte
+				$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ thisSig.checkListElementMap(thisMap); });
+				//lorsqu'on active/désactive le filtre par zone
+				$(this.cssModuleName + " #chk-scope").click(function (){ thisSig.checkListElementMap(thisMap); });
+			}
 
-				//initialise les boutons zoom-in et zoom-out
-				if(params.useZoomButton){
-					$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ thisMap.zoomIn(); });
-					$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
-				}
-
-
-				//if(params.useFullScreen){
-					//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
-					$( window ).resize(function() {
-					  thisSig.constructUI();
-					});
-					thisSig.constructUI();
-				//}
+			//initialise les boutons zoom-in et zoom-out
+			if(params.useZoomButton){
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ thisMap.zoomIn(); });
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
+			}
 
 
+			//if(params.useFullScreen){
+				//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
+				$( window ).resize(function() {
+				  thisSig.constructUI();
+				});
+				thisSig.constructUI();
+			//}
 
-				//affiche les coordonnées d'un click , dans une zone sous la carte (utile pour récupérer des coordonnées rapidement)
-				if(params.useHelpCoordinates){
-					thisMap.on('click', function(e) {
-							var pos = e.latlng;
-							$("#help-coordinates").html('lat lng : ' + pos.lat + ", " + pos.lng);
-					});
-				}
 
-				if(params.usePanel){
-					this.currentFilter = "all";
-					$(this.cssModuleName + ' #item_panel_map_all').click(function(){
-						thisSig.changeFilter('all', thisMap);
-					});
-				}
 
-				this.initFindPlace();
+			//affiche les coordonnées d'un click , dans une zone sous la carte (utile pour récupérer des coordonnées rapidement)
+			if(params.useHelpCoordinates){
+				thisMap.on('click', function(e) {
+						var pos = e.latlng;
+						$("#help-coordinates").html('lat lng : ' + pos.lat + ", " + pos.lng);
+				});
+			}
+
+			if(params.usePanel){
+				this.currentFilter = "all";
+				$(this.cssModuleName + ' #item_panel_map_all').click(function(){
+					thisSig.changeFilter('all', thisMap);
+				});
+			}
+
+			this.initFindPlace();
 
 		};
 
