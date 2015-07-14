@@ -10,11 +10,11 @@
       	<p> 
 
 <style type="text/css">
-a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
-a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
-a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
-a.btn.voteAbstain{background-color: white;border: 1px solid white;}
-a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
+a.btn.voteUp{background-color: #93C22C;border: 1px solid green; color:black;}
+a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow; color:black;}
+a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289; color:black;}
+a.btn.voteAbstain{background-color: white;border: 1px solid white; color:black;}
+a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e; color:black;}
 </style>
 
 Pour chaque proposition, vous disposez d'un vote unique et définitif.<br/>
@@ -26,10 +26,10 @@ Si vous êtes d'accord avec la proposition.<br/>
 <a class="btn voteUnclear" href="javascript:;"><i class='fa fa-pencil'></i></a> Amender : 
 Si vous souhaiter amender la proposition ou la reformuler pour l'améliorer.<br/>
 <br/>
-<a class="btn voteMoreInfo" href="javascript:;"><i class='fa fa-circle'></i></a> Blanc : 
+<a class="btn voteAbstain" href="javascript:;"><i class='fa fa-circle'></i></a> Blanc : 
 Si vous souhaitez vous souhaitez voter blanc. Votre votre est comptabilisé dans les résultat.<br/>
 <br/>
-<a class="btn voteAbstain" href="javascript:;"><i class='fa fa-question-circle'></i></a> Plus d'informations :
+<a class="btn voteMoreInfo" href="javascript:;"><i class='fa fa-question-circle'></i></a> Plus d'informations :
 S'il vous faut plus d'informations sur la proposition pour décider.<br/>
 <br/>
 <a class="btn voteDown" href="javascript:;"><i class='fa fa-thumbs-down'></i></a> Contre : 

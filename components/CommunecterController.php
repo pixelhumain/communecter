@@ -168,6 +168,7 @@ class CommunecterController extends Controller
       "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
+      "directory"          => array("href"=>"/ph/communecter/organization/directory"),
     ),
     
     "event"=> array(
@@ -178,6 +179,7 @@ class CommunecterController extends Controller
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
       "eventsv"         => array("href" => "ph/communecter/event/eventsv"),
+      "directory"       => array("href"=>"/ph/communecter/event/directory"),
     ),
 
     "project"=> array(
