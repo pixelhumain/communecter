@@ -23,7 +23,8 @@ class CityController extends CommunecterController {
 	        'statisticpopulation' 	=> 'citizenToolKit.controllers.city.StatisticPopulationAction',
 	        'getcitydata'     		=> 'citizenToolKit.controllers.city.GetCityDataAction',
 	        'getcitiesdata'     	=> 'citizenToolKit.controllers.city.GetCitiesDataAction',
-	        'statisticcity'			=> 'citizenToolKit.controllers.city.statisticCityAction'
+	        'statisticcity'			=> 'citizenToolKit.controllers.city.statisticCityAction',
+	        'opendata'			=> 'citizenToolKit.controllers.city.OpenDataAction'
 	    );
 	}
 }

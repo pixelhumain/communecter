@@ -18,8 +18,8 @@
 </style>
 <div class='panel panel-white'>
 	<div class="panel-heading border-light">
-		<span class="text-large"> Statistique Population </span>
-		<ul  class="panel-heading-tabs border-light">
+		<span id="titleGraph" class="text-large"> Statistique Population </span>
+		<ul  class="panel-heading-tabs border-light ulline">
 			<li>
 				<label class = "label_dropdown" for="typeGraph">Département : <?php echo $nbCitiesDepartement; ?> communes </label>
 			</li>
@@ -55,13 +55,13 @@
 			</li>			
 		</ul>
 	</div>
-	<div class="panel-heading border-light">
-		<ul  class="panel-heading-tabs border-light">
+	<div class="panel-heading border-light divline">
+		<ul  class="panel-heading-tabs border-light ulline">
 			<li>
 				<label class = "label_dropdown" for="typeGraph">Type graph : </label>
 				<div class="btn-group">
 					<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown"  aria-expanded="true">
-						<span id="label-graph"> Multi-Bar </span><span class="caret"></span>
+						<span id="label-graph">Multi-Bar</span><span class="caret"></span>
 					</a>
 					<ul role="menu" class="dropdown-menu" id="typeGraph" >
 						<li>
@@ -93,27 +93,37 @@
 				</div>
 			</li>
 			<li id="filtreByCommune">
-				<div class="btn-group">
+				<div class="btn-group col-xs-4">
 					<select id="listCommune" class="js-example-basic-multiple" multiple="multiple">  	
 					</select>
 				</div>
 			</li>
 		</ul>
 	</div>
-	<div class='panel-body panel-white no-padding'>
+	<div class='panel-body panel-white'>
 		<div id="chart">
 			<svg ></svg>
 		</div>
 	</div>
+	<div class="space20"></div>
+	<?php
+		if(isset($_GET['typeData']))
+			echo '<input type="hidden" id="typeOfItem" value="'.$_GET['typeData'].'"> ';
+		else
+			echo '<input type="hidden" id="typeOfItem" value="population"> ';
+	?>
 
 </div>
+
 <script type="text/javascript">
 	var map = <?php echo json_encode($cityData) ?>;
+	
 	var insee = "<?php echo $_GET['insee']; ?>";
-	var typeOfItem = "population";
+	var typeOfItem = $("#typeOfItem").val();
 	var res ="";
 
 	jQuery(document).ready(function() {
+
 		createBtnOption(map);
 		if($("#label-graph").text() == "PieChart")
 			getPieChart(map);
@@ -127,7 +137,7 @@
 	})
 
 	function buildDataGraph(){
-		//console.warn("----------------- buildDataGraph -----------------");
+		console.warn("----------------- buildDataGraph -----------------");
 		$("svg").empty();
 		nv.addGraph(function() {
 			chart = nv.models.discreteBarChart()
@@ -154,7 +164,7 @@
 
 
 	function bindBtnAction(){
-		//console.warn("----------------- bindBtnAction -----------------");
+		console.warn("----------------- bindBtnAction -----------------");
 		
 		$(".typeBtn").click(function(){
 			mapData = buildDataSet(map, $(this).data("name"));
@@ -249,7 +259,9 @@
 
 		$(".typeBtn").off().on("click", function(){
 			$("#label-zone").text("Zone");
-			typeOfItem = $("this").data("name");
+			//typeOfItem = $("this").data("name");
+			typeOfItem = $("this").text();
+			alert(typeOfItem);
 			$("#label-type").text($(this).text());
 			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
 			$.ajax({
@@ -340,7 +352,7 @@
 	}
 
 	function buildDataSet(map, str){
-		//console.warn("----------------- buildDataSet -----------------",map, str);
+		console.warn("----------------- buildDataSet -----------------",map, str);
 		var mapData= [{"key": "<?php echo $title; ?>","values": [ ]}]
 		var obj = getMapObject(map, str);
 		//console.log("obj", obj);
@@ -357,7 +369,7 @@
 	}
 
 	function buildDataSetMulti(map, str){
-		//console.warn("----------------- buildDataSetMulti -----------------",map, str);
+		console.warn("----------------- buildDataSetMulti -----------------",map, str);
 		var mapData= [];
 		var tabYear = [];
 		$.each(map, function(key,values){
@@ -378,7 +390,7 @@
 				mapData.push(itemMap);
 			}*/
 			var obj = getMapObject(values, str);
-			//console.log("obj", obj, key, values);
+			console.log("obj", obj, key, values);
 			if(obj != ""){
 				$.each(obj, function(k, v){
 					//console.log("kv", k, v);
@@ -390,7 +402,7 @@
 					var val = {};
 					val["x"] = key;
 					val["y"] = parseInt(v["total"]);
-					//console.log('val', val);
+					console.log('val', val);
 					$.each(mapData, function(cle, valeur){
 						//console.log(cle, valeur);
 						if(valeur.key == k && valeur.values.length<30){ //limitation a 20 entrer pour le moment
@@ -405,7 +417,7 @@
 	}
 
 	function getMultiBarChart(map){
-		//console.warn("----------------- getMultiBarChart -----------------",map);
+		console.warn("----------------- getMultiBarChart -----------------",map);
 		var mapData = buildDataSetMulti(map, typeOfItem);
 		console.log(mapData);
 		nv.addGraph(function() {
@@ -488,7 +500,7 @@
 
 
 	function buildDataSetPie(map, str){
-		//console.warn("----------------- buildDataSetMulti -----------------",map, str);
+		console.warn("----------------- buildDataSetMulti -----------------",map, str);
 		//console.log("map",map);
 		//console.log("str",str);
 		var mapData= [];
@@ -517,7 +529,7 @@
 	}
 
 	function getMapObject(map, str){
-		//console.warn("----------------- getMapObject -----------------",map, str);
+		console.warn("----------------- getMapObject -----------------",map, str);
 		var notOk = true;
 		var res = "";
 		$.each(map, function(k, v){
@@ -527,17 +539,18 @@
 					$.each(v , function(key, val){
 						k= key;
 						v = val;
+						//console.log("ici", key, str);
 						if(key == str){
 							res = val;
 							notOk = false;
 						}
-					})
+					});
 				}
 			}else{
-				console.log("Result---------------", v);
+				//console.log("Result---------------", v);
 				res= v;
 			}
-		})
+		});
 		//console.log("resultat", res);
 		return res;
 	}
