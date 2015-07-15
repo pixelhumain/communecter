@@ -53,11 +53,7 @@ jQuery(document).ready(function() {
 			/*$(".ulline").hide();
 			$(".divline").hide();
 			$("#titleGraph").html('Entreprise de la commune');*/
-		}, "html");
-
-	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){
-			//initAddEventBtn ();
-		}, "html");
+		}, "html");;
 		
 });
 

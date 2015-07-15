@@ -125,8 +125,12 @@
 		var res ="";
 		var map = <?php echo json_encode($cityData) ?>;
 		var typeOfItem ='<?php if(isset($_GET["typeData"])) echo $_GET["typeData"]; else echo "population"; ?>';
+		var typeData ='<?php if(isset($_GET["typeData"])) echo $_GET["typeData"]; else echo "population"; ?>';
+		var typeGraph ='<?php if(isset($_GET["typeGraph"])) echo $_GET["typeGraph"]; else echo "multibar"; ?>';
+		var typeZone ='<?php if(isset($_GET["typeZone"])) echo $_GET["typeZone"]; else echo "undefined"; ?>';
+		
 		createBtnOption(map);
-		if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
+		if(typeGraph == "piechart")
 			getPieChart(map);
 		else
 			getMultiBarChart(map);
@@ -136,7 +140,7 @@
 		$("#"+typeOfItem+"_panel #listCommune").select2();
 
 
-		function buildDataGraph(){
+		/*function buildDataGraph(){
 			console.warn("----------------- buildDataGraph -----------------");
 			$("svg").empty();
 			nv.addGraph(function() {
@@ -152,7 +156,7 @@
 				    .transitionDuration(350)
 
 
-				d3.select('#chart svg')
+				d3.select('"#"+typeOfItem+"_panel #chart svg')
 				    .datum(mapData)
 				    .call(chart);
 
@@ -160,24 +164,12 @@
 				
 				return chart;
 			})
-		}
+		}*/
 
 
 		function bindBtnAction(){
 			console.warn("----------------- bindBtnAction -----------------");
-			
-			$("#"+typeOfItem+"_panel .typeBtn").click(function(){
-				mapData = buildDataSet(map, $(this).data("name"));
-					//console.log(mapData);
-					d3.select('#chart svg')
-					    .datum(mapData)
-					    .call(chart);
-					chart.update();
-					bindBtnAction();
-			});
-
-
-			$( "#"+typeOfItem+"_panel .locBtn" ).off().on("click", function() {
+			$("#"+typeOfItem+"_panel .locBtn" ).off().on("click", function() {
 				$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		  	            '<blockquote>'+
@@ -186,9 +178,10 @@
 		  	            '</blockquote> '
 				});
 				$("#label-zone").text($(this).text());
-				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
-				if("undefined" != $(this).data("name")){
-					urlToSend += "/type/"+ $(this).data("name");
+				typeZone = $(this).data("name");
+				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
+				if("undefined" != typeZone){
+					urlToSend += "/type/"+ typeZone;
 				}
 				var zoneGraph = $(this).data("name");
 				$.ajax({
@@ -197,45 +190,7 @@
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
-						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
-							getPieChart(data);
-						else
-							getMultiBarChart(data);
-						$("#"+typeOfItem+"_panel #filtreByCommune").show();
-						$("#"+typeOfItem+"_panel#listCommune").html('');
-						var ind = 1 ;
-						$.each(data, function( index, value )
-						{
-							$.each(value, function( keyInsee, info)
-							{
-								codeInsee = keyInsee;
-							});
-							$("#"+typeOfItem+"_panel #listCommune").append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
-						});
-
-						
-						$.unblockUI();
-					}
-				});
-			});
-
-
-			$("#"+typeOfItem+"_panel .graphBtn" ).off().on("click", function() {
-				
-				$("#"+typeOfItem+"_panel #label-graph").text($(this).text());
-				//typeOfItem = $("#label-type").text();
-				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
-				/*if("undefined" != $("#label-zone").text()){
-					urlToSend += "/type/"+ $(this).text();
-				}*/
-				
-				$.ajax({
-					type: "POST",
-					url: urlToSend,
-					dataType: "json",
-					success: function(data){
-						console.log("data", data);
-						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
+						if(typeGraph == "piechart")
 							getPieChart(data);
 						else
 							getMultiBarChart(data);
@@ -257,27 +212,68 @@
 				});
 			});
 
-			$("#"+typeOfItem+"_panel.typeBtn").off().on("click", function(){
-				$("#label-zone").text("Zone");
-				//typeOfItem = $("this").data("name");
-				typeOfItem = $("this").text();
-				alert(typeOfItem);
-				$("#"+typeOfItem+"_panel #label-type").text($(this).text());
-				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
+
+			$("#"+typeOfItem+"_panel .graphBtn" ).off().on("click", function() {
+				
+				$("#"+typeOfItem+"_panel #label-graph").text($(this).text());
+				typeGraph = $(this).data("name");
+				
+				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
+				if("undefined" != typeZone){
+					urlToSend += "/type/"+ typeZone;
+				}
+				
 				$.ajax({
 					type: "POST",
 					url: urlToSend,
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
-						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
+						if(typeGraph == "piechart")
+							getPieChart(data);
+						else
+							getMultiBarChart(data);
+						$("#"+typeOfItem+"_panel #filtreByCommune").show();
+						$("#"+typeOfItem+"_panel #listCommune").html('');
+						var ind = 1 ;
+						$.each(data, function( index, value )
+						{
+							$.each(value, function( keyInsee, info)
+							{
+								codeInsee = keyInsee;
+							});
+							$("#"+typeOfItem+"_panel #listCommune").append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
+						});
+
+						
+						$.unblockUI();
+					}
+				});
+			});
+
+			$("#"+typeOfItem+"_panel .typeBtn").off().on("click", function(){
+				
+				typeData = $(this).data("name");
+		
+				$("#"+typeOfItem+"_panel #label-type").text($(this).text());
+				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
+				if("undefined" != typeZone){
+					urlToSend += "/type/"+ typeZone;
+				}
+
+				$.ajax({
+					type: "POST",
+					url: urlToSend,
+					dataType: "json",
+					success: function(data){
+						console.log("data", data);
+						if(typeGraph == "piechart")
 							getPieChart(data);
 						else
 							getMultiBarChart(data);
 					}
 				});		
 			});
-			$("#"+typeOfItem+"_panel #label-zone").text("Zone");
 
 			$("#"+typeOfItem+"_panel #listCommune").click(function(){
 				mapData = buildDataSet(map, $(this).data("name"));
@@ -302,12 +298,11 @@
 				if(i > 0)
 				{
 					//typeOfItem = $(this).data("name");
-					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitiesdata/insee/"+insee+"/typeData/"+typeOfItem;
-					if("undefined" != $("#"+typeOfItem+"_panel label-zone").data("name")){
-						urlToSend += "/type/"+ $("#"+typeOfItem+"_panel label-zone").data("name");
+					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitiesdata/insee/"+insee+"/typeData/"+typeData;
+					if("undefined" != typeZone){
+						urlToSend += "/type/"+ typeZone;
 					}
-
-					var zoneGraph = $(this).data("name");
+					
 					$.ajax({
 						type: "POST",
 						url: urlToSend,
@@ -315,7 +310,7 @@
 						dataType: "json",
 						success: function(data){
 							console.log("data", data);
-							if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
+							if(typeGraph == "piechart")
 								getPieChart(data);
 							else
 								getMultiBarChart(data);
@@ -326,10 +321,9 @@
 				}
 				else
 				{
-					//typeOfItem = $(this).data("name");
-					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
-					if("undefined" != $("#"+typeOfItem+"_panel label-zone").data("name")){
-						urlToSend += "/type/"+ $("#"+typeOfItem+"_panel label-zone").data("name");
+					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
+					if("undefined" != typeZone){
+						urlToSend += "/type/"+ typeZone;
 					}
 					$.ajax({
 						type: "POST",
@@ -337,7 +331,7 @@
 						dataType: "json",
 						success: function(data){
 							console.log("data", data);
-							if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
+							if(typeGraph == "piechart")
 								getPieChart(data);
 							else
 								getMultiBarChart(data);
@@ -373,27 +367,11 @@
 			var mapData= [];
 			var tabYear = [];
 			$.each(map, function(key,values){
-				/*var itemMap = {"key":key,"values": [ ]};
-				console.log("-------------------newValue--------------------", values)
-				var obj = getMapObject(values, str);
-				//console.log("v", values,  "obj", obj);
-				if(obj != ""){
-					
-					$.each(obj, function(k, v){
-						var val = {};
-						val["x"] = k;
-						val["y"] = parseInt(v["total"]);
-						//console.log('val', val);
-						itemMap.values.push(val);
-						
-					})
-					mapData.push(itemMap);
-				}*/
 				var obj = getMapObject(values, str);
 				console.log("obj", obj, key, values);
 				if(obj != ""){
 					$.each(obj, function(k, v){
-						//console.log("kv", k, v);
+						console.log("kv", k, v);
 						if($.inArray(k, tabYear) == -1){
 							tabYear.push(k);
 							var itemMap = {"key": k, "values": []};
@@ -404,7 +382,7 @@
 						val["y"] = parseInt(v["total"]);
 						console.log('val', val);
 						$.each(mapData, function(cle, valeur){
-							//console.log(cle, valeur);
+							console.log(cle, valeur);
 							if(valeur.key == k && valeur.values.length<30){ //limitation a 20 entrer pour le moment
 								valeur.values.push(val);
 							}
@@ -418,7 +396,7 @@
 
 		function getMultiBarChart(map){
 			console.warn("----------------- getMultiBarChart -----------------",map);
-			var mapData = buildDataSetMulti(map, typeOfItem);
+			var mapData = buildDataSetMulti(map, typeData);
 			console.log(mapData);
 			nv.addGraph(function() {
 			    var chart = nv.models.multiBarChart()
@@ -461,23 +439,9 @@
 
 
 		function getPieChart(map){
+			console.warn("----------------- getPieChart -----------------",map);
+			var mapData = buildDataSetPie(map, typeData);
 			
-			var mapData = buildDataSetPie(map, typeOfItem);
-			/*console.log(mapData);
-			nv.addGraph(function() {
-			  var chart = nv.models.pieChart()
-			      .x(function(d) { return d.label })
-			      .y(function(d) { return d.value })
-			      .showLabels(true);
-
-			    d3.selectAll("svg > *").remove();
-			    d3.select('#chart svg')
-				    .datum(mapData)
-				    .call(chart);
-
-			  return chart;
-			});*/
-
 			nv.addGraph(function() {
 			  var chart = nv.models.pieChart()
 			      .x(function(d) { return d.label })
@@ -500,7 +464,7 @@
 
 
 		function buildDataSetPie(map, str){
-			console.warn("----------------- buildDataSetMulti -----------------",map, str);
+			console.warn("----------------- buildDataSetPie -----------------",map, str);
 			//console.log("map",map);
 			//console.log("str",str);
 			var mapData= [];
@@ -533,27 +497,24 @@
 			var notOk = true;
 			var res = "";
 			$.each(map, function(k, v){
-				console.log(k, v, str);
+				//console.log(k, v, str);
 				if(k!=str){
 					while(k!= str && "object" == typeof v && notOk){
 						$.each(v , function(key, val){
 							k= key;
 							v = val;
-							console.log("ici", key, str, val);
 							if(key == str){
-								console.log("ici", key, str, val);
 								res = val;
-								console.log("res", res);
 								notOk = false;
 							}
 						});
 					}
 				}else{
-					console.log("Result---------------", v);
+					//console.log("Result---------------", v);
 					res= v;
 				}
 			});
-			console.log("resultat", res);
+			//console.log("resultat", res);
 			return res;
 		}
 
