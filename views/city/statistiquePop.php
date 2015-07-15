@@ -71,10 +71,10 @@
 					</a>
 					<ul role="menu" class="dropdown-menu" id="typeGraph" >
 						<li>
-							<a class="btn-drop graphBtn">Multi-Bar</a>
+							<a class="btn-drop graphBtn" data-name="multibart">Multi-Bar</a>
 						</li>
 						<li>
-							<a  class="btn-drop graphBtn" data-name="departement">PieChart</a>
+							<a  class="btn-drop graphBtn" data-name="piechart">PieChart</a>
 						</li>
 					</ul>
 				</div>
@@ -111,21 +111,13 @@
 			<svg ></svg>
 		</div>
 	</div>
-	<div class="space20"></div>
-	<?php
-		if(isset($_GET['typeData']))
-			echo '<input type="hidden" id="typeOfItem" value="'.$_GET['typeData'].'"> ';
-		else
-			echo '<input type="hidden" id="typeOfItem" value="population"> ';
-	?>
-
+	<div class="space20"></div>	
 </div>
 
 <script type="text/javascript">
 	var map = <?php echo json_encode($cityData) ?>;
-	
 	var insee = "<?php echo $_GET['insee']; ?>";
-	var typeOfItem = $("#typeOfItem").val();
+	var typeOfItem ='<?php if(isset($_GET["typeData"])) echo $_GET["typeData"]; else echo "population"; ?>';
 	var res ="";
 
 	jQuery(document).ready(function() {
@@ -539,25 +531,27 @@
 		var notOk = true;
 		var res = "";
 		$.each(map, function(k, v){
-			//console.log(k, v, str);
+			console.log(k, v, str);
 			if(k!=str){
 				while(k!= str && "object" == typeof v && notOk){
 					$.each(v , function(key, val){
 						k= key;
 						v = val;
-						//console.log("ici", key, str);
+						console.log("ici", key, str, val);
 						if(key == str){
+							console.log("ici", key, str, val);
 							res = val;
+							console.log("res", res);
 							notOk = false;
 						}
 					});
 				}
 			}else{
-				//console.log("Result---------------", v);
+				console.log("Result---------------", v);
 				res= v;
 			}
 		});
-		//console.log("resultat", res);
+		console.log("resultat", res);
 		return res;
 	}
 
