@@ -70,7 +70,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 					</span>
 				</a>
 			</li>
-			<? }else { ?>
+			<?php }else { ?>
 			<li class="back">
 				<a href="#users_tab_attending" data-toggle="tab">
 					<span>

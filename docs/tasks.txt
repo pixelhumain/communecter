@@ -10,18 +10,14 @@
 	** CLEMENT
 	  [ ] revenir sur les properties pour ne pas limiter le nombres 
 	  [ ] mettre  des propriété a valuer fixe exemple gouvernance 
+	  [ ] when empty put message
 	** JOHNSON + RAPHAEL
-		[ ] ordonnée par les 30 max
+		[X] ordonnée par les 30 max
 		[ ] drop down liste des communes
 		[ ] toujours afficher 
-		[ ] changer le graph en tarte
+		[X] changer le graph en tarte
 		[ ] proposer d'autre source
-		[ ] Bug : photo de profile ne persiste pas
 	** RAPHAEL
-		[X] decouper en block  le fichier source
-		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
-		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
-		[ ] ajouter un bouton modification pour chaque  ligne du mapping
 		[ ] ré-importer l'ensemble des données
 			[ ] population
 			[ ] entreprise
@@ -32,22 +28,27 @@
 				[ ] superieur
 			[ ] autre...
 	** SYLVAIN
+	[ ] fincheInfo change pwd
 	** TIBOR
 		*** where used ?? $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
-		[X] finish generic table/list view
+		[ ] finish generic table/list view
+			[ ] added organization directory
 			[X] shared views/default/directory accross all directories 
 				[X] person
 				[X] event
 				[X] city
 				[X] organization
 		[ ] data converter 
-		[ ] filter by tags
+		[X] filter by tags on directory page
 		[ ] filter by scope (pub priv) & territories
-		[ ] login accoutn validation & alpha limitation
+		[ ] set up https
+		[ ] login account validation & alpha limitation
 		[ ] inter operable Granddir
 		[ ] voir avec {{@Sylvain}} pour prepa-Sud
 	** TRISTAN
 		[ ] Carto Statistics (Barchart + Pie Chart)
+		[ ] SIG pod city map , centré et zoomer sur la commune active
+		[ ] mettre les liens Graphs dans la liste a droite
 
 * COMMUNECTER  [0/36]
 	** GENERIC 
@@ -84,6 +85,8 @@
 			- foret scene de fin
 			- mots clefs a la fin (voir dernier slide)
 			- effet add to my events
+			- communecter.org
+			- pas d'image juste les icones a la fin 
 	** SIG 
 		[ ] geo localiser les action Rooms ou les discussions
 
