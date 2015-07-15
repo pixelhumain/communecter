@@ -1,15 +1,30 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> </h4>
+		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> My <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('person')" class="btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
+																				<a href="javascript:;" onclick="applyStateFilter('event')" class="btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count(@$events) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('project')" class="btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count(@$projects) ?></span></a>
+																				<a href="javascript:;" onclick="applyStateFilter('')" class="btn btn-xs btn-default"> All</a></h4>
+	</div>
+	<div class="panel-tools">
+		<?php if( Yii::app()->session["userId"] ) { ?>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i> <i class="fa fa-group"></i> </a>
+
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/events/addeventform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar"></i></a>
+
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/person/inviteSomeone',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone "><i class="fa fa-plus"></i> <i class="fa fa-user"></i></a>
+		<?php } ?>
+
 	</div>
 	<div class="panel-body">
 		<div>	
-
+			<?php //var_dump($projects) ?>
 			<table class="table table-striped table-bordered table-hover  directoryTable">
 				<thead>
 					<tr>
 						<th>Type</th>
 						<th>Name</th>
+						<th>Tags</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -17,7 +32,7 @@
 					<?php 
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
-					
+
 					/* **************************************
 					*	ORGANIZATIONS
 					***************************************** */
@@ -26,7 +41,7 @@
 						foreach ($organizations as $e) 
 						{ ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="<?php echo Organization::COLLECTION;?>Line">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
@@ -36,6 +51,13 @@
 								</a>
 							</td>
 							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><?php 
+								if(isset($e["tags"])){
+									foreach ($e["tags"] as $key => $value) {
+										echo ' <span class="label label-inverse">'.$value.'</span>';
+									}
+								}
+							?></td>
 							<td class="center">
 								<?php /*if(Yii::app()->session["userId"] ) { ?>
 									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
@@ -54,16 +76,23 @@
 						foreach ($people as $e) 
 						{ ?>
 						<tr id="<?php echo Person::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+							<td class="<?php echo Person::COLLECTION;?>Line">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
 									<?php } else { ?>
 										<i class="fa fa-user fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?>
-									<?php } ?>
+									<?php } ?> Person
 								</a>
 							</td>
-							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><?php 
+								if(isset($e["tags"])){
+									foreach ($e["tags"] as $key => $value) {
+										echo ' <span class="label label-inverse">'.$value.'</span>';
+									}
+								}
+							?></td>
 							<td class="center">
 								<?php /*if(Yii::app()->session["userId"] ) { ?>
 									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
@@ -71,7 +100,7 @@
 							</td>
 						</tr>
 					<?php
-						};
+						}
 					}
 
 					/* **************************************
@@ -82,8 +111,8 @@
 						foreach ($events as $e) 
 						{ ?>
 						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+							<td class="<?php echo Event::COLLECTION;?>Line">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
 									<?php } else { ?>
@@ -91,12 +120,57 @@
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><?php 
+								if(isset($e["tags"])){
+									foreach ($e["tags"] as $key => $value) {
+										echo ' <span class="label label-inverse">'.$value.'</span>';
+									}
+								}
+							?></td>
 							<td class="center">
+								<?php /*if(Yii::app()->session["userId"] ) { ?>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; */?>
 							</td>
 						</tr>
 					<?php
-						};
+						}
+					}
+	
+					/* **************************************
+					*	PROJECTS
+					***************************************** */
+					if( count($projects) ) 
+					{ 
+						foreach ($projects as $e) 
+						{ ?>
+						<tr id="<?php echo Project::COLLECTION.(string)$e["_id"];?>">
+							<td class="<?php echo Project::COLLECTION;?>Line">
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>">
+									<?php if ($e && isset($e["imagePath"])){ ?>
+										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
+									<?php } else { ?>
+										<i class="fa fa-lightbulb-o fa-2x"></i> project
+									<?php } ?>
+								</a>
+							</td>
+							<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td><?php 
+								if(isset($e["tags"])){
+									foreach ($e["tags"] as $key => $value) {
+										echo ' <span class="label label-inverse">'.$value.'</span>';
+									}
+								}
+							?></td>
+							<td class="center">
+								<?php /*if(Yii::app()->session["userId"] ) { ?>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; */?>
+							</td>
+						</tr>
+					<?php
+						}
 					}
 					?>
 
@@ -106,7 +180,7 @@
 
 			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
 			<?php 
-				if (isset($organizations) && count($organizations) == 0) {
+				/*if (isset($organizations) && count($organizations) == 0) {
 			?>
 				<div id="infoPodOrga" class="padding-10">
 					<blockquote> 
@@ -118,7 +192,7 @@
 					</blockquote>
 				</div>
 			<?php 
-				};
+				};*/
 			?>
 		</div>
 	</div>
@@ -127,7 +201,7 @@
 jQuery(document).ready(function() {
 	resetDirectoryTable() ;
 });	
-
+var directoryTable = null;
 function resetDirectoryTable() 
 { 
 	console.log("resetDirectoryTable");
@@ -147,9 +221,10 @@ function resetDirectoryTable()
 				}
 			},
 			"aaSorting" : [[1, 'asc']],
-			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
 			"iDisplayLength" : 10,
-			"destroy": true
 		});
 	} 
 	else 
@@ -163,5 +238,10 @@ function resetDirectoryTable()
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
+}
+
+function applyStateFilter(str)
+{
+	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 </script>
