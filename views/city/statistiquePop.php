@@ -126,14 +126,14 @@
 		var map = <?php echo json_encode($cityData) ?>;
 		var typeOfItem ='<?php if(isset($_GET["typeData"])) echo $_GET["typeData"]; else echo "population"; ?>';
 		createBtnOption(map);
-		if($("#label-graph").text() == "PieChart")
+		if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 			getPieChart(map);
 		else
 			getMultiBarChart(map);
 		//getMultiBarChart(map);
 		bindBtnAction();
-		$('#filtreByCommune').hide();
-		$("#listCommune").select2();
+		$("#"+typeOfItem+"_panel #filtreByCommune").hide();
+		$("#"+typeOfItem+"_panel #listCommune").select2();
 
 
 		function buildDataGraph(){
@@ -166,7 +166,7 @@
 		function bindBtnAction(){
 			console.warn("----------------- bindBtnAction -----------------");
 			
-			$(".typeBtn").click(function(){
+			$("#"+typeOfItem+"_panel .typeBtn").click(function(){
 				mapData = buildDataSet(map, $(this).data("name"));
 					//console.log(mapData);
 					d3.select('#chart svg')
@@ -177,7 +177,7 @@
 			});
 
 
-			$( ".locBtn" ).off().on("click", function() {
+			$( "#"+typeOfItem+"_panel .locBtn" ).off().on("click", function() {
 				$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		  	            '<blockquote>'+
@@ -197,12 +197,12 @@
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
-						if($("#label-graph").text() == "PieChart")
+						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 							getPieChart(data);
 						else
 							getMultiBarChart(data);
-						$('#filtreByCommune').show();
-						$('#listCommune').html('');
+						$("#"+typeOfItem+"_panel #filtreByCommune").show();
+						$("#"+typeOfItem+"_panel#listCommune").html('');
 						var ind = 1 ;
 						$.each(data, function( index, value )
 						{
@@ -210,7 +210,7 @@
 							{
 								codeInsee = keyInsee;
 							});
-							$('#listCommune').append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
+							$("#"+typeOfItem+"_panel #listCommune").append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
 						});
 
 						
@@ -220,9 +220,9 @@
 			});
 
 
-			$(".graphBtn" ).off().on("click", function() {
+			$("#"+typeOfItem+"_panel .graphBtn" ).off().on("click", function() {
 				
-				$("#label-graph").text($(this).text());
+				$("#"+typeOfItem+"_panel #label-graph").text($(this).text());
 				//typeOfItem = $("#label-type").text();
 				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
 				/*if("undefined" != $("#label-zone").text()){
@@ -235,12 +235,12 @@
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
-						if($("#label-graph").text() == "PieChart")
+						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 							getPieChart(data);
 						else
 							getMultiBarChart(data);
-						$('#filtreByCommune').show();
-						$('#listCommune').html('');
+						$("#"+typeOfItem+"_panel #filtreByCommune").show();
+						$("#"+typeOfItem+"_panel #listCommune").html('');
 						var ind = 1 ;
 						$.each(data, function( index, value )
 						{
@@ -248,7 +248,7 @@
 							{
 								codeInsee = keyInsee;
 							});
-							$('#listCommune').append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
+							$("#"+typeOfItem+"_panel #listCommune").append('<option class="btn-drop comBtn" value="'+ codeInsee +'">' + index + '</option>');
 						});
 
 						
@@ -257,12 +257,12 @@
 				});
 			});
 
-			$(".typeBtn").off().on("click", function(){
+			$("#"+typeOfItem+"_panel.typeBtn").off().on("click", function(){
 				$("#label-zone").text("Zone");
 				//typeOfItem = $("this").data("name");
 				typeOfItem = $("this").text();
 				alert(typeOfItem);
-				$("#label-type").text($(this).text());
+				$("#"+typeOfItem+"_panel #label-type").text($(this).text());
 				var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
 				$.ajax({
 					type: "POST",
@@ -270,30 +270,30 @@
 					dataType: "json",
 					success: function(data){
 						console.log("data", data);
-						if($("#label-graph").text() == "PieChart")
+						if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 							getPieChart(data);
 						else
 							getMultiBarChart(data);
 					}
 				});		
 			});
-			$("#label-zone").text("Zone");
+			$("#"+typeOfItem+"_panel #label-zone").text("Zone");
 
-			$("#listCommune").click(function(){
+			$("#"+typeOfItem+"_panel #listCommune").click(function(){
 				mapData = buildDataSet(map, $(this).data("name"));
 					//console.log(mapData);
-					d3.select('#chart svg')
+					d3.select("#"+typeOfItem+"_panel #chart svg")
 					    .datum(mapData)
 					    .call(chart);
 					chart.update();
 					bindBtnAction();
 			});
 
-			$("#listCommune" ).off().on("click", function() {
+			$("#"+typeOfItem+"_panel #listCommune" ).off().on("click", function() {
 				
 				var cities = [];
 				var i = 0 ;
-				$("#listCommune option:selected").each(function() 
+				$("#"+typeOfItem+"_panel #listCommune option:selected").each(function() 
 				{
 					cities[i] = $(this).val();
 					i++;
@@ -303,8 +303,8 @@
 				{
 					//typeOfItem = $(this).data("name");
 					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitiesdata/insee/"+insee+"/typeData/"+typeOfItem;
-					if("undefined" != $("label-zone").data("name")){
-						urlToSend += "/type/"+ $("label-zone").data("name");
+					if("undefined" != $("#"+typeOfItem+"_panel label-zone").data("name")){
+						urlToSend += "/type/"+ $("#"+typeOfItem+"_panel label-zone").data("name");
 					}
 
 					var zoneGraph = $(this).data("name");
@@ -315,7 +315,7 @@
 						dataType: "json",
 						success: function(data){
 							console.log("data", data);
-							if($("#label-graph").text() == "PieChart")
+							if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 								getPieChart(data);
 							else
 								getMultiBarChart(data);
@@ -328,8 +328,8 @@
 				{
 					//typeOfItem = $(this).data("name");
 					var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeOfItem;
-					if("undefined" != $("label-zone").data("name")){
-						urlToSend += "/type/"+ $("label-zone").data("name");
+					if("undefined" != $("#"+typeOfItem+"_panel label-zone").data("name")){
+						urlToSend += "/type/"+ $("#"+typeOfItem+"_panel label-zone").data("name");
 					}
 					$.ajax({
 						type: "POST",
@@ -337,7 +337,7 @@
 						dataType: "json",
 						success: function(data){
 							console.log("data", data);
-							if($("#label-graph").text() == "PieChart")
+							if($("#"+typeOfItem+"_panel #label-graph").text() == "PieChart")
 								getPieChart(data);
 							else
 								getMultiBarChart(data);
