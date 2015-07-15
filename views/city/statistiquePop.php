@@ -16,14 +16,15 @@
 		height: 100%;
 	}
 </style>
-<div class='panel panel-white'>
+<?php
+	if(isset($_GET['typeData']))
+		$typeData = $_GET['typeData'];
+	else
+		$typeData = "population";
+?>
+<div class='panel panel-white' id="<?php echo $typeData; ?>_panel">
 	<div class="panel-heading border-light">
-		<?php
-			if(isset($_GET['typeData']))
-				$typeData = $_GET['typeData'];
-			else
-				$typeData = "population";
-		?>
+		
 		<span id="<?php echo $typeData; ?>_titleGraph" class="text-large"> Statistique Population </span>
 		<ul  class="panel-heading-tabs border-light ulline">
 			<li>
@@ -446,8 +447,8 @@
 			    });
 
 
-			d3.selectAll("#"+typeOfItem+"_titleGraph svg > *").remove();
-			d3.select('#'+typeOfItem+'_titleGraph #chart svg')
+			d3.selectAll("#"+typeOfItem+"_panel svg > *").remove();
+			d3.select('#'+typeOfItem+'_panel #chart svg')
 			    .datum(mapData)
 			    .call(chart);
 
@@ -486,8 +487,8 @@
 		      .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
 		      .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
 		      ;
-		    d3.selectAll("#"+typeOfItem+"_titleGraph svg > *").remove();
-			d3.select('#'+typeOfItem+'_titleGraph #chart svg')
+		    d3.selectAll("#"+typeOfItem+"_panel svg > *").remove();
+			d3.select('#'+typeOfItem+'_panel #chart svg')
 		        .datum(mapData)
 		        .transition().duration(350)
 		        .call(chart);
