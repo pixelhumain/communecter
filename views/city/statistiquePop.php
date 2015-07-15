@@ -18,7 +18,13 @@
 </style>
 <div class='panel panel-white'>
 	<div class="panel-heading border-light">
-		<span id="titleGraph" class="text-large"> Statistique Population </span>
+		<?php
+			if(isset($_GET['typeData']))
+				$typeData = $_GET['typeData'];
+			else
+				$typeData = "population";
+		?>
+		<span id="<?php echo $typeData; ?>_titleGraph" class="text-large"> Statistique Population </span>
 		<ul  class="panel-heading-tabs border-light ulline">
 			<li>
 				<label class = "label_dropdown" for="typeGraph">Département : <?php echo $nbCitiesDepartement; ?> communes </label>
@@ -448,8 +454,8 @@
 			    });
 
 
-			d3.selectAll("svg > *").remove();
-			d3.select('#chart svg')
+			d3.selectAll("#"+typeOfItem+"_titleGraph svg > *").remove();
+			d3.select('#'+typeOfItem+'_titleGraph #chart svg')
 			    .datum(mapData)
 			    .call(chart);
 
@@ -488,8 +494,8 @@
 		      .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
 		      .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
 		      ;
-		    d3.selectAll("svg > *").remove();
-		    d3.select("#chart svg")
+		    d3.selectAll("#"+typeOfItem+"_titleGraph svg > *").remove();
+			d3.select('#'+typeOfItem+'_titleGraph #chart svg')
 		        .datum(mapData)
 		        .transition().duration(350)
 		        .call(chart);
