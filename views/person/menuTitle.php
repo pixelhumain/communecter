@@ -51,16 +51,20 @@
 	}
 
 	function showVideo(id) { 
+
 		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		$('.box-menu').slideUp();
+		$('.box-menu,.topLogoAnim').slideUp();
 		$.okvideo({ source: id,
-                    volume: 0,
+                    volume: 10,
                     loop: false,
                     //hd:true,
                     //adproof: true,
                     //annotations: false,
-                    onFinished: function() { showMenu("box-login") },
+                    onFinished: function() { 
+                    	$('.topLogoAnim').slideDown();
+                    	showMenu("box-login");
+                    },
                     /*unstarted: function() { console.log('unstarted') },
                     onReady: function() { console.log('onready') },
                     onPlay: function() { console.log('onplay') },
@@ -129,11 +133,13 @@
 	}*/
 </script>
 
-<div class="text-white text-extra-large text-bold center">
+<div class="text-white text-extra-large text-bold center topLogoAnim">
+	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in september, early registration open ) </span>
+	<br/>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	<a href="#" class="text-white" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><i class="fa fa-2x fa-youtube-play"></i></a>
+	<a href="#" class="text-white" onclick="showVideo('133632604')"><i class="fa fa-2x fa-youtube-play"></i></a>
 	
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>

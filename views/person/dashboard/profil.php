@@ -182,6 +182,7 @@ var bgClasses = [
 	{key : 'bgblue', name : "Blue"},
 	{key : 'bggreen', name : "Green"},
 	{key : 'bgred', name : "Red"},
+	{key : 'bgyellow', name : "Yellow"},
 
 	{key : 'bgcity', name : "City"},
 	{key : 'bgwave', name : "Wave"},
@@ -200,7 +201,7 @@ var bgClasses = [
 	{key : 'bgtree1', name : "Tree"},
 	//{key : 'bgCustom', name : "From my Gallery"},
 ];
-var existingClasses = "bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
+var existingClasses = "bgyellow bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
 function buildBgClassesList() 
 { 
 	if( $(".bgClassesContainer").html() == "" )
