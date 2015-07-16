@@ -2,30 +2,22 @@
 {{PERSON}}
 {{PROJECTS}}
 {{CITY}}
-<<<<<<< HEAD
 {{THINK TANK}}
 {{OPEN PEOPLE}}
-=======
->>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
 
 * IN PROGRESS
 	** YANNICK
 	** CLEMENT
-	  [X] integration timesheet.php sur project
-	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
+	  [ ] revenir sur les properties pour ne pas limiter le nombres 
+	  [ ] mettre  des propriété a valuer fixe exemple gouvernance 
+	  [ ] when empty put message
 	** JOHNSON + RAPHAEL
-		[ ] Zone info sur graphe
-		[ ] ordonnée par les 30 max
+		[X] ordonnée par les 30 max
 		[ ] drop down liste des communes
 		[ ] toujours afficher 
-		[ ] changer le graph en tarte
+		[X] changer le graph en tarte
 		[ ] proposer d'autre source
-		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
 	** RAPHAEL
-		[X] decouper en block  le fichier source
-		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
-		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
-		[ ] ajouter un bouton modification pour chaque  ligne du mapping
 		[ ] ré-importer l'ensemble des données
 			[ ] population
 			[ ] entreprise
@@ -36,29 +28,34 @@
 				[ ] superieur
 			[ ] autre...
 	** SYLVAIN
-		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
+	[ ] fincheInfo change pwd
 	** TIBOR
-		-> install ::: SublimeTExt MongoExec Package
-		[X] made editRoomSV loaded as ajax
-		[X] added listRoomTypes
-		* bgClasses
-			[X] adding bg image globally 
-			[ ] bug : chart not showing on votes 
-		[ ] created person personnal settings and preferences
+		*** where used ?? $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 		[ ] finish generic table/list view
-		[ ] filter by tags
-		[ ] filter by scope
-		[ ] voir avec Sylvain pour prepaSud
+			[ ] added organization directory
+			[X] shared views/default/directory accross all directories 
+				[X] person
+				[X] event
+				[X] city
+				[X] organization
+		[ ] data converter 
+		[X] filter by tags on directory page
+		[ ] filter by scope (pub priv) & territories
+		[ ] set up https
+		[ ] login account validation & alpha limitation
 		[ ] inter operable Granddir
+		[ ] voir avec {{@Sylvain}} pour prepa-Sud
 	** TRISTAN
 		[ ] Carto Statistics (Barchart + Pie Chart)
-
-
+		[ ] SIG pod city map , centré et zoomer sur la commune active
+		[ ] mettre les liens Graphs dans la liste a droite
 
 * COMMUNECTER  [0/36]
 	** GENERIC 
 		- count down before opening 15th september
 		- real time people connected count on every page
+		* SEARCH 
+			[ ] @JOhnSON autocomplete keyboard nav
 		* FILTERING
 			[ ] personnal tags 
 				- can be anything and are not shared accross users
@@ -69,6 +66,7 @@
 			[ ] territory
 				- can be anything and are not shared accross users
 				- are saved in [[tags]] collection 
+			[ ] Timeline RSS feed
 	** MOTION
 		* ressource 
 			9 assos
@@ -87,10 +85,8 @@
 			- foret scene de fin
 			- mots clefs a la fin (voir dernier slide)
 			- effet add to my events
-		* idea
-			- sur la vue apres l'intro faire apparaitre un maximum de point et de lien 
-			pour montrer la capacité a un territoire a creer du lien 
-
+			- communecter.org
+			- pas d'image juste les icones a la fin 
 	** SIG 
 		[ ] geo localiser les action Rooms ou les discussions
 
@@ -99,6 +95,15 @@
 		-> inviteSomeone => after search keyboard navigate down 
 		--- Bizare ---
 			person/dash > Authorisation::listEventsIamAdminOf($id);
+
+	** ORGANIZATION 
+		--- BUGS ---
+		[ ]  in links.members.xxx many entries have ::: "roles" : [""],
+
+	** EVENTS
+		[ ] add attending organizations
+		[ ] add sub events
+
 	** PROJECTS
 		[ ] sexy projects directory
 		[ ] room pod > add room
@@ -111,11 +116,13 @@
 		--- TEST LIBS ---
 			[ ] [[http://madvic.net/timesheet/]]
 			[ ] [[http://www.simile-widgets.org/timeline/examples/index.html]]
+
 	** CITY
 		--- TEST GRAPHS ---
 			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
 
 			[ ] [[http://bl.ocks.org/chrisrzhou/raw/d5bdd8546f64ca0e4366/]]
+
 	** ACTION ROOMS
 		[ ] connect discussions to the topbar menu
 		[ ] Types
@@ -129,6 +136,7 @@
 			[ ] Nombres de votants inscrit : 7
 			[ ] show both my created votes , my followed votes
 			[ ] closing a vote session, sending result
+
 	** page login 
 		Association, Entreprise , Projet ou evennement locale
 		construisons ensemble un territoire connecté pour le bien communs
@@ -173,3 +181,7 @@
 			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
+		
+		
+	
+	

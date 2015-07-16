@@ -148,7 +148,6 @@
 							
 					);
 
-
 		/* ***********************************************************************************/
 
 		//chargement de toutes les librairies css et js indispensable pour la carto
@@ -241,6 +240,7 @@
 		mapCity = Sig.loadMap("mapCanvas", initParams);
 		/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 		//var mapData = contextMap;
+		
 		<?php 
 			//transforme l'array des events pour pouvoir les parser correctement
 			foreach($events as $event){ $newEvents[] = $event; }

@@ -48,7 +48,7 @@
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
-																	  "resize" => "false",
+																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "show" => true,
 																	  "editMode" => $canEdit )); 
@@ -133,31 +133,8 @@
 				<?php 
 				if ( $canEdit ) { ?>
 				<div class="dropdown">
-					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown">Backgrounds</a>	
-					<div class="dropdown-menu" style="display: none;">
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgblack');">Black</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgblue');">Blue</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bggreen');">Green</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgred');">Red</a>
-						
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcity');">City</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgwave');">Wave</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgseasky');">Sea Sky</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bggreenImg');">Leaf Drops</a>
-
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcloud');">Cloud</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcrowd');">Crowd</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgcrowd2');">Crowd</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgfaces');">Faces</a>
-
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgwater');">Water</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgeau');">Water</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgfrings');">Frings</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgtree');">Tree</a>
-						<a class="btn btn-xs btn-default" href="javascript:;" onclick="setBg('bgtree1');">Tree</a>
-
-						
-					</div>
+					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown" onclick="buildBgClassesList()">Backgrounds</a>	
+					<div class="dropdown-menu bgClassesContainer" style="display: none;"></div>
 				</div>
 				<br/>
 				<?php } ?>
@@ -197,26 +174,72 @@ jQuery(document).ready(function()
 
 });
 
-function setBg(bg) { 
-		existingClasses = "bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
-		$(".main-container").removeClass(existingClasses).addClass(bg);
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/updatefield",
-	        dataType : "json",
-	        data: {
-	        	name : "bgClass",
-				pk : "<?php echo Yii::app()->session['userId']?>",
-				value : bg
-	        }
-	    })
-	    .done(function (data) 
-	    {
-	    	if(! data.result) 
-	    		toastr.error(data.msg); 
-	    });
+
+var bgClasses = [
+	{key : 'bggrey', name : "Grey"},
+	{key : 'bgdark', name : "Dark"},
+	{key : 'bgblack', name : "Black"},
+	{key : 'bgblue', name : "Blue"},
+	{key : 'bggreen', name : "Green"},
+	{key : 'bgred', name : "Red"},
+
+	{key : 'bgcity', name : "City"},
+	{key : 'bgwave', name : "Wave"},
+	{key : 'bgseasky', name : "Sea Sky"},
+	{key : 'bggreenImg', name : "Leaf Drops"},
+
+	{key : 'bgcloud', name : "Cloud"},
+	{key : 'bgcrowd', name : "Crowd"},
+	{key : 'bgcrowd2', name : "Crowd"},
+	{key : 'bgfaces', name : "Faces"},
+
+	{key : 'bgwater', name : "Water"},
+	{key : 'bgeau', name : "Water"},
+	{key : 'bgfrings', name : "Frings"},
+	{key : 'bgtree', name : "Tree"},
+	{key : 'bgtree1', name : "Tree"},
+	//{key : 'bgCustom', name : "From my Gallery"},
+];
+var existingClasses = "bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
+function buildBgClassesList() 
+{ 
+	if( $(".bgClassesContainer").html() == "" )
+	{
+		$.each(bgClasses,function(i,v) { 
+			$(".bgClassesContainer").append('<a class="btn btn-xs btn-default bgChangeBtn" href="javascript:;" data-class="'+v.key+'" >'+v.name+'</a>');
+		});
+		$(".bgChangeBtn").off().on("click", function(){
+			setBg( $(this).data("class") );
+		});
 	}
-function bindAboutPodEvents() {
+}
+
+function setBg( bg, url ) 
+{
+	if( !url )
+		$(".main-container").attr("style","");
+	$(".main-container").removeClass(existingClasses).addClass(bg);
+	
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/person/updatefield",
+        dataType : "json",
+        data: {
+        	"name" : "bgClass",
+			"pk" : "<?php echo Yii::app()->session['userId']?>",
+			"value" : bg,
+			"url" : url
+        }
+    })
+    .done(function (data) 
+    {
+    	if(! data.result) 
+    		toastr.error(data.msg); 
+    });
+}
+
+function bindAboutPodEvents() 
+{
 	$("#editProfil").on("click", function(){
 		switchMode();
 	})

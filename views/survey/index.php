@@ -109,8 +109,8 @@ $commentActive = true;
       
       //$infoslink bring visual detail about the entry
       $infoslink = "";
-      $infoslink .= (!empty($followingEntry)) ? "<i class='fa fa-rss infolink' ></i>" :"";
-      $infoslink .= (!empty($meslois)) ? "<i class='fa fa-user infolink' ></i>" :"";
+      $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
+      $infoslink .= (!empty($meslois)) ? "<a class='btn voteAbstain  filter' data-filter='.myentries'><i class='fa fa-user infolink' ></i></a>" :"";
 
       /* **************************************
       Rendering Each block
@@ -119,14 +119,14 @@ $commentActive = true;
       $avoter = $voteLinksAndInfos["avoter"];
       $hrefComment = "#commentsForm";
       $commentCount = 0;
-      $linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$value["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
+      //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$value["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
       $totalVote = $voteLinksAndInfos["totalVote"];
       $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> voteur(s)</span><br/>':'<span class="info"></span><br/>';
 
       $content = ($value["type"]==Survey::TYPE_ENTRY) ? "".$value["message"]:"";
 
       $leftLinks = $voteLinksAndInfos["links"];
-      $graphLink = ($totalVote) ?' <a class="btn btn-orange" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i></a> ' : '';
+      $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i></a> ' : '';
       $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$value["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$value["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
       $rightLinks = (  @$value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
       $rightLinks = ( $value["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
@@ -152,7 +152,7 @@ $commentActive = true;
       }
 
       $contextType = ( $value["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-      $commentBtn = "<a href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i></a>";
+      $commentBtn = "<a class='btn voteAbstain' href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i></a>";
       $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
       $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
       $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
@@ -169,54 +169,60 @@ $commentActive = true;
                     $info.
                     //$tags.
                     //$content.
-                    '<br/>'.$leftLinks.$rightLinks.
-                    '<div class="space1"></div>'.
-                    $commentBtn.
-                    $byInfo.$createdInfo.$views.
+                    '<div class="space1"></div>'.$leftLinks.
+                    //'<div class="space1"></div>'.$rightLinks.
+
+                    '<div class="pull-right" >'.
+                        $graphLink.$infoslink.$commentBtn. 
+                        $byInfo.
+                    '</div>'.
+                    '<div class="space1"></div>'.$createdInfo.$views.
                     '</div>';
     }
     ?>
-<div class="controls" style="border-radius: 8px;">
-  <button class="filter btn fr" data-filter="all">Tout</button>
-  
-  <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
-  <label>Participation : </label>
-  <button class="sort " data-sort="vote:asc">Asc</button>
-  <button class="sort " data-sort="vote:desc">Desc</button>
-  <?php } ?>
-  <label>Chronologique : </label>
-  <button class="sort " data-sort="time:asc">Asc</button>
-  <button class="sort " data-sort="time:desc">Desc</button>
-  <label>Affichage:</label>
-  <button id="ChangeLayout"><i class="fa fa-reorder"></i></button>
-  <br/>
+    <div class="controls" style="border-radius: 8px;">
+          <button class="filter btn fr" data-filter="all">Tout</button>
+          
+          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
+          <label>Participation : </label>
+          <button class="sort " data-sort="vote:asc">Asc</button>
+          <button class="sort " data-sort="vote:desc">Desc</button>
+          <?php } ?>
+          <label>Chronologique : </label>
+          <button class="sort " data-sort="time:asc">Asc</button>
+          <button class="sort " data-sort="time:desc">Desc</button>
+          <label>Affichage:</label>
+          <button id="ChangeLayout"><i class="fa fa-reorder"></i></button>
+          <br/>
 
-  <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
-  <label>Géographique : </label>
-  <?php echo $cpBlock; 
-  }?>
-  <br/>
+          <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
+          <label>Géographique : </label>
+          <?php echo $cpBlock; 
+          }?>
+          <br/>
 
-  <label>Filtre:</label>
-  <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-  <a class="filter btn btn-orange" data-filter=".avoter">A voter</a>
-  <a class="filter btn btn-orange" data-filter=".mesvotes">Mes votes</a>
-  <a class="filter btn btn-orange" data-filter=".myentries">Mes propositions</a>
-  <?php } ?>
-  
-  <?php echo $tagBlock?>
+          <label>Filtre:</label>
+          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
+          <a class="filter btn btn-orange" data-filter=".avoter">A voter</a>
+          <a class="filter btn btn-orange" data-filter=".mesvotes">Mes votes</a>
+          <a class="filter btn btn-orange" data-filter=".myentries">Mes propositions</a>
+          <?php } ?>
+          
+          <?php echo $tagBlock?>
 
-</div>
+    </div>
 
-<div id="mixcontainer" class="mixcontainer">
-  <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
-                                          '<a href="#" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
-                                         '</div>'; ?>
-</div>
+    <div id="mixcontainer" class="mixcontainer">
+        <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
+                                              '<a href="#" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
+                                             '</div>'; ?>
+    </div>
 
 </div>
 
 </section>
+
+<div class="space20"></div>
 
 <script type="text/javascript">
 
