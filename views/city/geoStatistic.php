@@ -37,7 +37,7 @@
 
 	        /* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
 	        "firstView"		  => array(  "coordinates" => array($city["geo"]["latitude"], $city["geo"]["longitude"]),//array(-21.137453135590444, 55.54962158203125),
-	                       				 "zoom"		   => 9),
+	                       				 "zoom"		   => 12),
 
 	    	/* CHARTS */
 	        "useChartsMarkers" => true,
@@ -236,7 +236,7 @@
 		//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
 		var initParams =  <?php echo json_encode($sigParams); ?>;
 
-		//chargement la carte
+		//chargement de la carte
 		mapCity = Sig.loadMap("mapCanvas", initParams);
 		/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 		//var mapData = contextMap;

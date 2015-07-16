@@ -362,10 +362,11 @@
 					if(this.initParameters.usePanel)
 						this.updatePanel(thisMap);
 
-					this.checkListElementMap(thisMap);
-					thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-
-					this.initHomeBtn();
+					this.checkListElementMap(thisMap); 
+					//console.log("position : "); console.log(typeof this.markersLayer.getBounds()._northEast);
+					
+					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
+						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 
 					thisSig.constructUI();
 

@@ -129,7 +129,7 @@ SigLoader.getSigFindPlace = function (Sig){
 				}
 			},
 			error: function (error) {
-				alert('erreur nominatim ajax jquery (map_finPlace.js)');
+				alert('erreur nominatim ajax jquery (map_findPlace.js)');
 			}
 		});
 	};
