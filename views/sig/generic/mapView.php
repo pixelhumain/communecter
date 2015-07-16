@@ -1,4 +1,13 @@
+<?php
+	//securise tous les paramètres utilisés dans mapView.php
+	$elements = array('usePanel', 		'useRightList',  'useResearchTools', 	'useZoomButton',
+					  'useHomeButton', 	'useFullScreen', 'useHelpCoordinates', 	'useChartsMarkers');
 
+	foreach($elements as $element){
+		$sigParams[$element] = isset($sigParams[$element]) ? $sigParams[$element] : false;
+	}
+	
+?>
 <div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 	<div class="mapCanvas" id="mapCanvas<?php echo $sigParams['sigKey']; ?>">
 		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
