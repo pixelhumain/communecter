@@ -1,5 +1,6 @@
 
 <div class="row">
+	<div class="col-md-12 no-padding">
 	<div class="col-lg-4 col-md-12">
 		<?php 
 			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries)); ?>
@@ -12,10 +13,13 @@
 	<div class ="col-lg-4 col-md-12">
 		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
 	</div>
+	
+	</div>
 	<?php if (!empty($tasks) OR $admin==true){ ?>
 	<div class ="col-lg-8 col-md-8 timesheetphp">
 		 <?php //$this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
 	</div>
+	
 	<?php } 
 	 if (!empty($properties) OR $admin==true){ ?>
 	<div class ="col-lg-4 col-md-12">
