@@ -298,8 +298,6 @@
 						$("#memberRole").select2("val", "");
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		                showSearch();
-
-		                
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -372,7 +370,6 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-	        	
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
 		 			
