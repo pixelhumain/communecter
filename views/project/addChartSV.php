@@ -19,6 +19,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 #editProjectChart{
 	display: none;
 }
+.borderHover{
+	background-color: rgba(0,  0,  0, 0.04);
+	border-radius:5px;
+}
+.removeProperty{
+	border: 3px solid white;
+  box-shadow: 0px 0px 0px 1px black;
+  width: 25px;
+  text-align: -webkit-center;
+  height: 25px;
+  background-color: black;
+  line-height: 22px;
+  color: white;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  border-radius: 25px;
+}
 </style>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-md-offset-2">
@@ -35,7 +53,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						foreach ($properties as $key => $val){ 
 						if($key!="avancement" && $key!="partenaire"){
 					?>
-						<div class="col-md-4">
+						<div class="col-md-4 form-property">
+							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
 							<h4 style="text-align:center;width:200px;"><?php echo $key; ?></h4>
 							<input class="knob project-property" name="<?php echo $key; ?>" value="<?php if (!empty($val)) echo $val; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">		
 					<?php if ($key=="gouvernance"){ ?>
@@ -59,28 +78,28 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<?php 		} 
 						} 
 					} else { ?>
-						<div class="col-md-4">
+						<div class="col-md-4 form-property">
 							<h4 style="text-align:center;width:200px;">Gouvernance</h4>
 							<input class="knob project-property" name="gouvernance" value="0" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
 								Ouverture en terme de décisions, de partenaires, de parties prenantes
 							</label>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 form-property">
 							<h4 style="text-align:center;width:200px;">Partage</h4>
 							<input class="knob project-property" value="0" name="partage" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
 								À combien le projet sert le bien communs?			
 							</label>	
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 form-property">
 							<h4 style="text-align:center;width:200px;">Solidaire</h4>
 							<input class="knob project-property" value="0" name="solidaire" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
 								À quel point le projet est-il d'utilité sociale, du développement durable, etc.?
 							</label>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 form-property">
 							<h4 style="text-align:center;width:200px;">Local</h4>
 							<input class="knob project-property" value="0" name="local" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
@@ -95,7 +114,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<blockquote> 
 									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	Ajouter
 									<br>Une nouvelle 
-									<br>Tâches
+									<br>Propriété
 									<br>
 									<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
 										<i class="fa fa-plus"></i> ADD
@@ -126,9 +145,11 @@ jQuery(document).ready(function() {
 	   newProperty=addNewProperties();
 	   $(this).parents().eq(3).before(newProperty);
 	   knobInit(); 
+	   removeChartProperty();
     });
 	bindprojectSubViewchart();
 	runChartFormValidation();
+	removeChartProperty();
 });
 function runChartFormValidation() {
 	var formProject = $('.form-chart');
@@ -173,6 +194,7 @@ function runChartFormValidation() {
 			errorHandler2.hide();
 			projectId = $(".form-chart .projectId").val();
 			newChart = [];
+			nbProperties=0;
 			$('.project-property').each(function(){
 				valueProperties = $(this).val();
 				if($(this).attr("name") == "newProjectProperty"){
@@ -181,12 +203,14 @@ function runChartFormValidation() {
 					if(nameProperties.length){
 						newProperties={"label" : nameProperties , "value" : valueProperties};
 						newChart.push(newProperties);
+						nbProperties++;
 					}
 				}
 				else{
 					nameProperties = $(this).attr("name");
 					newProperties={"label": nameProperties, "value": valueProperties};
 					newChart.push(newProperties);
+					nbProperties++;
 				}
 			});
 			console.log(newChart);
@@ -217,7 +241,7 @@ function runChartFormValidation() {
 		    {
 			   if (data.result==true) {   
 		        	toastr.success('Project properties succesfully update');
-		        		updateChart(data.properties,countProperties);
+		        		updateChart(data.properties,nbProperties);
 						$.unblockUI();
 						$.hideSubview(); 	
 		        } else {
@@ -262,8 +286,8 @@ function editChart() {
 	});
 };
 function addNewProperties(){
-	$newProperty='<div class="col-md-4">'+
-				'<h4 style="text-align:center;width:200px;">Nouvelle tâche</h4>'+
+	$newProperty='<div class="col-md-4 form-property">'+
+				'<h4 style="text-align:center;width:200px;">Nouvelle propriété</h4>'+
 				'<input class="knob project-property" value="0" name="newProjectProperty" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">'+		
 				'<label for="properties">'+
 					'Nom de la propriétés:'+
@@ -272,6 +296,18 @@ function addNewProperties(){
 			'</div>';
 	return $newProperty;
 }
+
+function removeChartProperty(){
+	$(".form-property").mouseenter(function(){
+		$(this).addClass("borderHover").find(".removeProperty").removeClass("hide");
+	}).mouseleave(function(){
+		$(this).removeClass("borderHover").find(".removeProperty").addClass("hide");
+	});
+	$(".removeProperty").click(function(){
+		$(this).parent().remove();
+	});
+}
+
 function knobInit(){
 	$(".knob").knob({
         draw: function () {
