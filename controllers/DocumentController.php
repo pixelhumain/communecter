@@ -2,7 +2,7 @@
 /**
  * SiteController.php
  *
- * @author: antonio ramirez <antonio@clevertech.biz>
+ * @author: Tibor Katelbach <tibor@pixelhumain.com>
  * Date: 7/23/12
  * Time: 12:25 AM
  */

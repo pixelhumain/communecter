@@ -100,7 +100,7 @@ class Menu {
             echo "<ul class='sub-menu'>";
               foreach( $item["children"] as $item2 )
               {
-                  buildLi22($item2);
+                  buildLi2($item2);
               }
             echo "</ul></li>";
           }

@@ -51,23 +51,24 @@
 	}
 
 	function showVideo(id) { 
-
-		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		$('.box-menu,.topLogoAnim').slideUp();
 		$.okvideo({ source: id,
                     volume: 10,
-                    loop: false,
+                    loop: 0,
                     //hd:true,
                     //adproof: true,
                     //annotations: false,
                     onFinished: function() { 
                     	$('.topLogoAnim').slideDown();
-                    	showMenu("box-login");
+                    	showMenu();
+                    	$("#okplayer").remove()
                     },
-                    /*unstarted: function() { console.log('unstarted') },
-                    onReady: function() { console.log('onready') },
-                    onPlay: function() { console.log('onplay') },
+                    //unstarted: function() { console.log('unstarted') },
+                    onReady: function() { 
+                    	$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
+						$("body.login").removeClass("bgred bggreen bgblack bgblue");
+						$('.box-login,.box-menu,.topLogoAnim,.byPHRight').slideUp();
+                     },
+                    /*onPlay: function() { console.log('onplay') },
                     onPause: function() { console.log('pause') },
                     buffering: function() { console.log('buffering') },
                     cued: function() { console.log('cued') },*/
@@ -139,7 +140,7 @@
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	<a href="#" class="text-white" onclick="showVideo('133632604')"><i class="fa fa-2x fa-youtube-play"></i></a>
+	<a href="#" class="text-white" onclick="showVideo('133636468')"><i class="fa fa-2x fa-youtube-play"></i></a>
 	
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>
