@@ -1,4 +1,4 @@
-<div class="panel-heading border-light center text-dark partition-white radius-10">
+<div class="panel-heading border-light center">
 	<span class="panel-title homestead"> <i class='fa fa-legal   fa-3x  '></i> <span style="font-size: 48px">WE ARE :  </span></span>
 </div>
 <div class="space20"></div>

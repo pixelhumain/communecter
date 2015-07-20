@@ -330,7 +330,6 @@ creer des conflits : regle pas assez specfique
  	left:0px;
  	background-color:rgba(82, 103, 119, 0.78);
  	padding:15px 0px;
- 	overflow-y: auto;
  }
  .item_panel_map{
 	text-align:left !important;
@@ -394,12 +393,10 @@ creer des conflits : regle pas assez specfique
 
 #ico_reload{
 	display:inline;
+	color:#E6D414;
 	padding:13px;
 	float:left;
-	border-radius: 50%;
-	color: #EADF00;
-	/*background-color: rgba(32, 80, 119, 0.71);*/
-	margin-top: 10px;
+	border-radius:5px;
 }
 
  .panel_map i.fa { padding:5px; }
@@ -445,59 +442,6 @@ creer des conflits : regle pas assez specfique
 .world_pix{
 	max-width:60%;
 }
-
-
-/* style tooltip des chartsMarkers */
-	div.leaflet-div-icon {
-		background-color:rgba(98, 151, 162, 0.18) !important;;/*gba(30, 38, 51, 0.95) !important;*/
-		background-image:url("") !important;
-		border-width:0px;
-		color:white;
-		font-size:13px !important;
-		font-family:"Open Sans" !important;
-		border-radius:5px;
-		height:0 !important;
-		max-height:270px !important;
-	}
-	div.twh-tooltip-element{
-		float:left;
-		margin-right:8px !important;
-		font-size:20px !important;
-		font-family:"Open Sans" !important;
-		text-align:center;
-		margin-bottom:4px !important;
-		line-height:42px !important;
-	}
-	div.twh-tooltip-value{
-		max-width:300px;
-		font-size:13px !important;
-		height:36px !important;
-		font-family:"Open Sans" !important;
-		text-align:center;
-		margin-bottom:4px !important;
-	}
-	.value{
-		padding:10px !important;
-		font-size:13px !important;
-		font-family:"Open Sans" !important;
-	}
-	.key{
-		padding:10px !important;
-		font-size:14px !important;
-		font-family:"Open Sans" !important;
-	}
-	/* carré couleur légende */
-	.legend-box{
-		display:none !important;
-		margin-top:10px !important;
-		opacity:1 !important;
-		width:20px !important;
-		height:20px !important;
-	}
-	.legend-values .key{
-		display: none;
-	}
-/* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
 

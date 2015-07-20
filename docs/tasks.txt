@@ -1,31 +1,35 @@
+<<<<<<< HEAD
 
+=======
+{{SIG}}
+{{PERSON}}
+{{PROJECTS}}
+{{CITY}}
+<<<<<<< HEAD
+{{THINK TANK}}
+{{OPEN PEOPLE}}
+=======
+>>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
+>>>>>>> da5ec625adc123e235d9491ed3a3aa4f2a168f7f
 
 * IN PROGRESS
 	** YANNICK
-		[ ] repair viewer
-		[ ] dynamic navigation
-		[ ] create things in graph
 	** CLEMENT
-	  [ ] revenir sur les properties pour ne pas limiter le nombres 
-	  [ ] mettre  des propriété a valuer fixe exemple gouvernance 
-	  [ ] when empty put message
+	  [X] integration timesheet.php sur project
+	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
 	** JOHNSON + RAPHAEL
+		[ ] Zone info sur graphe
+		[ ] ordonnée par les 30 max
+		[ ] drop down liste des communes
 		[ ] toujours afficher 
+		[ ] changer le graph en tarte
 		[ ] proposer d'autre source
-		inviteSomeone => after search keyboard navigate down 
+		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
 	** RAPHAEL
-		[ ] City
-			[ ] faire fonctionner l'ajaxPost pour les pod
-			[ ] ajouter des pod sur opendata
-			[ ] drop down liste des communes
-		[ ] Import données
-			[ ] supprimer les parties qui alourdissent le traitement
-			[ ] ajouter dans le mapping 
-			[ ] testé l'excution en ligne de commande
-			[ ] ajouter dans le readme toute les sources importés
-			[ ] ajouter dans importHistory.sh , l'ajout du mapping dans mongodb
-			[ ] correction du bug avec les rejets
-			[ ] mise à jour des données en ligne de commande 
+		[X] decouper en block  le fichier source
+		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
+		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
+		[ ] ajouter un bouton modification pour chaque  ligne du mapping
 		[ ] ré-importer l'ensemble des données
 			[ ] population
 			[ ] entreprise
@@ -38,9 +42,7 @@
 		[ ] Contact
 			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
-	[ ] fincheInfo change pwd
-	[???] unir tags and scope dans un seul slide down "filters"
-	[ ] add postalCode widget to add News
+		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
 		[ ] data converter 
 		[ ] module Admin PH
@@ -76,7 +78,6 @@
 			[ ] maps
 		[ ] set up https
 		[ ] inter operable Granddir
-		[ ] voir avec {{@Sylvain}} pour prepa-Sud
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )

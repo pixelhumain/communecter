@@ -5,118 +5,67 @@
 
 SigLoader.getSigCharts = function (Sig){
 
-	Sig.markersLayer = ""; 
-	Sig.chartsList = new Array();
+	Sig.currentResultResearch = "";
+	Sig.nbMaxTentative = 4;
+	Sig.fullTextResearch = true;
 
-	//rajoute une 
-	Sig.addChart = function(name, FeatureCollection, chartOptions){
-
-		this.chartsList[name] = new Array();
-		this.chartsList[name]["FeatureCollection"] = FeatureCollection;
-		this.chartsList[name]["chartOptions"] = chartOptions;
-
-		var thisSig = this;
-		var btn = '<button type="button" class="btn btn-map" name="' + name + '" id="btn-chart-'+ name +'"><i class="fa fa-bar-chart-o"></i> '+ name +'</button>';
-		$("#btn-group-charts-map").append(btn);
-		$("#btn-chart-"+ name).click(function(){ console.log("click on btn chart");
-			var name = $(this).attr("name");
-			thisSig.loadChart(thisSig.chartsList[name]["FeatureCollection"], thisSig.chartsList[name]["chartOptions"]);
-		});
-
-	}
 	//***
 	//
-	/*	>>>>>>>>>>>>>> LOAD CHART <<<<<<<<<<<<<<< */
-	Sig.loadChart = function (FeatureCollection, chartOptions){
+	/*	>>>>>>>>>>>>>> MAP <<<<<<<<<<<<<<< */
+	Sig.loadCharts = function (FeatureCollection, chartOptions){
 		if(this.initParameters.useChartsMarkers != true) return;
 
-		console.warn(">>>> LOAD CHART <<<<<");
-		console.dir(FeatureCollection);
-		console.dir(chartOptions);
-		
-		//réinitialise le groupLayer
-		if(this.markersLayer != ""){
-			this.map.removeLayer(this.markersLayer);
-			this.markersLayer = "";
+		function getToolTip(feature, value, unity, color){
+		return	"<div class='twh-tooltip-value' style='color:" + color + ";'> " +  value + " " + unity + "</div>" + 
+            	"<div class='twh-tooltip-element'><span class='label label-warning' style='font-size:25px;'><i class='fa fa-sun-o'></i> " 		+ feature.ensoleillement 	+ "%</span></div>" + 
+            	"<div class='twh-tooltip-element'><span class='label label-info' 	style='font-size:25px;'><i class='fa fa-umbrella'></i> " 	+ feature.précipitations 	+ " mm</span></div>" +
+                "";
 		}
-		
-		var thisSig = this;
-		
-		function getToolTip(feature, value, options, chartOptions){//unity, color){
-		console.log(">>> tooltip chartOptions : "); console.dir(chartOptions);
-
-		var tooltip = ""; //"<div class='twh-tooltip-value' style='color:" + options.color + ";'> " +  value + " " + options.unity + "</div>";
-		$.each(chartOptions, function(i, element)  { console.log("element"); console.warn(element);
-			tooltip +=
-			"<div class='twh-tooltip-element'>" + 
-				"<span class='label label-info' style='font-size:25px; background-color:" + element.fillColor + " !important;'>" + 
-					element.title + " " + 
-					feature[i] 	+ " " + 
-					element.unity + 
-				"</span>" +
-			"</div>";
-            	
-		});
-		return tooltip;
-		//"<div class='twh-tooltip-element'><span class='label label-info' 	style='font-size:25px;'><i class='fa fa-umbrella'></i> " 	+ feature.précipitations 	+ " mm</span></div>" +
-                //"";
-		}
-
-		
+	
 		 //$.getJSON(url, function(data) { //pour charger des données json depuis un fichier)
-        var   geojsonLayer = L.geoJson(FeatureCollection, {
-                pointToLayer: function (feature, latlng) {
-
-                    var completeChartOption = new Array();
-					var data = new Array();
-					$.each(chartOptions.options, function(i, options)  {
-						//construit le format valide des options à partir des options données en param
-						completeChartOption[i] = { 
-							fillColor: options.fillColor,
-				            minValue: options.minValue,
-				            maxValue: options.maxValue,
-				            maxHeight: chartOptions.maxHeight,
-				            displayText: function (value) { 
-				                return 	getToolTip(feature, value, options, chartOptions.options);
-				            }
-						};
-						//construit le format valide pour les valeurs des données
-						data[i] = feature[i];
-					});
-					
-					//compile les options correctement
-					var options = {
-                        data: data,
-                        chartOptions: completeChartOption,
-                        weight: 1,
-                        opacity: 1,
-                        fill:false,
-                        radius:chartOptions.radius,
-                        rotation:0.0,
-                        iconSize: new L.Point(300, 0)
+            var   geojsonLayer = L.geoJson(FeatureCollection, {
+                    pointToLayer: function (feature, latlng) {
+                       var options = {
+                            data: {
+                                'ensoleillement': feature.ensoleillement, 
+                                'précipitations': feature.précipitations,
+                            },
+                            chartOptions: {
+                                'ensoleillement': {
+                                    fillColor: '#F0AD4E',
+                                    minValue: 0,
+                                    maxValue: 100,
+                                    maxHeight: chartOptions.maxHeight,
+                                    displayText: function (value) { 
+                                        return 	getToolTip(feature, value, "%", '#F0AD4E');
+                                     }
+                                },
+                                'précipitations': {
+                                    fillColor: '#5BC0DE',
+                                    minValue: 0,
+                                    maxValue: 400,
+                                    maxHeight: chartOptions.maxHeight,
+                                    displayText: function (value) {
+                                        return 	getToolTip(feature, value, "mm", '#5BC0DE');
+                                    }
+                                },
+                            },
+                            weight: 1,
+                            opacity: 1,
+                            fill:false,
+                            radius:chartOptions.radius,
+                            rotation:0.0,
+                            iconSize: new L.Point(250, 270)
+                        }
+                        return Sig.getChartMarker(chartOptions.type, latlng, options);
                     }
-
-                    var chartMaker = thisSig.getChartMarker(chartOptions.type, latlng, options, chartOptions.options);
-                    return chartMaker;
-                }
-            });
-            
-            this.markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 100});
-			this.markersLayer.addLayer(geojsonLayer); 
-			this.map.addLayer(this.markersLayer);
-			
-			console.warn(">>>> CHART LOADED <<<<<")
-		
+                });
+                
+                var markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 100});
+				markersLayer.addLayer(geojsonLayer); 
+				this.map.addLayer(markersLayer);
 	};
 
-	Sig.getChartMarker = function (chartType, latlng, options){ //alert(chartType);
-        if(chartType == "BarChartMarker")  			  	return new L.BarChartMarker(latlng, options);
-        if(chartType == "RadialBarChartMarker")  		return new L.RadialBarChartMarker(latlng, options);
-        if(chartType == "PieChartMarker")  			  	return new L.PieChartMarker(latlng, options);    
-        if(chartType == "CoxcombChartMarker")  		  	return new L.CoxcombChartMarker(latlng, options);
-        if(chartType == "StackedRegularPolygonMarker")  return new L.StackedRegularPolygonMarker(latlng, options);
-        if(chartType == "RadialMeterMarker")  		  	return new L.RadialMeterMarker(latlng, options);
-    };
 
 	return Sig;
 };

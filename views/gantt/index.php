@@ -1,19 +1,10 @@
 <?php 
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
-	//'/assets/plugins/timesheet.js/dist/timesheet.js',
-	//'/assets/plugins/timesheet.js/dist/timesheet.css',
 	'/assets/css/timesheet.css/timesheet.css',
 	);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
-//$cs = Yii::app()->getClientScript();
-//$cs->registerCssFile(Yii::app()->baseUrl. '/protected/extensions/timesheetphp/sources/css/timesheet.css');
-//$this->module->assetsUrl);
-//echo Yii::app()->baseUrl. 'protected/extensions/timesheetphp/sou';
-//Yii::import('recaptcha.ReCaptcha', true);
-//require_once(Yii::app()->theme->baseUrl.'/assets/plugins/timesheetphp/sources/timesheet.php');
-//'assets.plugins.timesheet.php.sources.class.timesheet', true);;
- Yii::import('ext.timesheetphp.sources.timesheet', true); 
+Yii::import('ext.timesheetphp.sources.timesheet', true); 
 ?>
 <style>
 	.lightgray{
@@ -60,9 +51,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 			</a>
 		</div>
 	</div>
+	<?php if(isset($tasks) && !empty($tasks)){ ?>
 	<div class="panel-body no-padding partition-dark">
 		<ul id="timesheetTab" class="nav nav-tabs">
-			<?php if($period=="Yearly"){ ?>
+			
+			<?php if($period == "yearly"){ ?>
 			<li class="active">
 				<a href="#users_tab_attending" data-toggle="tab">
 					<span>
@@ -70,7 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 					</span>
 				</a>
 			</li>
-			<?php }else { ?>
+			<?php } else {  ?>
 			<li class="back">
 				<a href="#users_tab_attending" data-toggle="tab">
 					<span>
@@ -95,7 +88,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 		$endYear="";
 		$nbYear=0;
 		foreach ($tasks as $val){
-			if ($period=="Yearly"){
+			if ($period == "yearly"){
 				if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
 					$firstYear = date('Y',strtotime($val["startDate"]));
 				else
@@ -103,7 +96,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 				if ($endYear < date('Y',strtotime($val["endDate"])))
 					$endYear = date('Y',strtotime($val["endDate"]));
 			}
-			if($period != "Yearly"){
+			if($period != "yearly"){
 				$startDate=date("m-d",strtotime($val["startDate"]));
 				$endDate=date("m-d",strtotime($val["endDate"]));
 				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
@@ -112,7 +105,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 			$data[$val["name"]]=$array ;
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/
-		if ($period=="Yearly"){
+		if ($period == "yearly"){
 			for ($date = $firstYear; $date <= $endYear; $date++) {
 				array_push($alpha,$date);
 				$nbYear++;
@@ -144,16 +137,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
         );
 		$timeline = new timesheet($alpha, $args, $data );
 		$timeline -> display();?>
+		
 	</div>
+	<?php } else {?>
+
+		<div id="infoPodOrga" class="padding-10">
+					<blockquote> 
+					Create Gantt
+						<br>Tasks 
+						<br>Deadlines
+						<br>Follows
+						<br>To think, develop, build and shows next steps of the project to everyone
+			</blockquote>
+		</div>
+
+	<?php } ?>
 </div>
 </div>
 <?php
-if (!isset($_GET["noInit"]))
-	$init=true;
-else
-	$init=false;
-
-  $this->renderPartial('addTimesheetSV', array("tasks"=>$tasks,"init" => $init));
+  $this->renderPartial('addTimesheetSV', array("tasks"=>$tasks));
 ?>
 
 <script type="text/javascript">
@@ -163,27 +165,30 @@ jQuery(document).ready(function() {
 	}).mouseout(function(){
 		$(this).removeClass("lightgray");
 	});
-	toggleMonthYear();		
+	//toggleMonthYear();		
 	$(".back").click(function(){
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>",null,"html");
 	});
-});
-function toggleMonthYear(){
 	$('.scale section div').click(function(){
 		year=$(this).html();
-		//tasksYear=tasksInYear(year);
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");
-		$("#year").slideUp();
-		active=$("#timesheetTab").find(".active");
-		active.find("span").html("Back");
-		active.removeClass("active").addClass("backYearly");
-		$("#timesheetTab").find(".zoomTimesheet").removeClass("hide");
-		$("#timesheetTab").find(".zoomTimesheet").addClass("active").find("a span").html(year);
-		$('.backYearly').click(function(){
-			$("#year").slideDown();
-			$(this).removeClass("backYearly").addClass("active").find("span").html("Yearly");
-			$("#timesheetTab").find(".zoomTimesheet").removeClass("active").addClass("hide");
 		});
-	});
+});
+function toggleMonthYear(){
+	/*$('.scale section div').click(function(){
+		year=$(this).html();
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");*/
+		//$("#year").slideUp();
+		//active=$("#timesheetTab").find(".active");
+		//active.find("span").html("Back");
+		//active.removeClass("active").addClass("backYearly");
+		//$("#timesheetTab").find(".zoomTimesheet").removeClass("hide");
+		//$("#timesheetTab").find(".zoomTimesheet").addClass("active").find("a span").html(year);
+		//$('.backYearly').click(function(){
+		//	$("#year").slideDown();
+		//	$(this).removeClass("backYearly").addClass("active").find("span").html("Yearly");
+		//	$("#timesheetTab").find(".zoomTimesheet").removeClass("active").addClass("hide");
+		//});
+	//});
 }
 </script>

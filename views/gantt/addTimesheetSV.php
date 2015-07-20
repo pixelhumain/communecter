@@ -103,12 +103,10 @@ $cssAnsScriptFilesModule = array(
 </div>
 
 <script type="text/javascript">
-var init=<?php echo json_encode($init); ?>;
 var parentId = $('.parentId').val();
 jQuery(document).ready(function() {
 	bindSubViewTimesheet();
-	//runChartFormValidation();
-	initValidationTaskTable(init);
+	initValidationTaskTable();
 	bindBtnRemoveTask();
 	resetGenericFilesTable() ;
 	initFormAddTask();
@@ -255,9 +253,8 @@ function editTimesheet() {
 		$(".back-subviews").trigger("click");
 	});*/
 };
-function initValidationTaskTable(init){
+function initValidationTaskTable(){
 	strHTML="";
-	//if (init==true){
 	<?php if (!empty($tasks)) {
 		foreach ($tasks as $key => $val){ 
 		?>

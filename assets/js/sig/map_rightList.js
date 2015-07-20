@@ -11,7 +11,7 @@
     	var thisSig = this;
     	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
-				var objectId = thisSig.getObjectId(this);//console.log(objectId);
+				var objectId = thisSig.getObjectId(this);console.log(objectId);
 				$(thisSig.cssModuleName + " #element-right-list-" + objectId).css({ "display" : "none" });
 			});
 

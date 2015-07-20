@@ -44,6 +44,10 @@
 						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the project's description" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
+						<td>Maturité</td>
+						<td><a href="#" id="avancement" data-type="select" data-title="Avancement" data-emptytext="" data-original-title="" class="editable editable-click"><?php if(isset($project["properties"]["avancement"])) echo $project["properties"]["avancement"];?></a></td>
+					</tr>
+					<tr>
 						<td>Début</td>
 						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the project's start" class="editable editable-click"></a></td>
 					</tr>
@@ -209,6 +213,14 @@ function initXEditable() {
 			return countries;
 		},
 	});
+	$('#avancement').editable({
+		url: baseUrl+"/"+moduleId+"/project/updatefield", 
+		value: '<?php echo (isset( $project["properties"]["avancement"])) ? json_encode($project["properties"]["avancement"]) : ""; ?>',
+		source: function() {
+			avancement=["En démarrage","Concept","En développement","Mature"];
+			return avancement;
+		},
+	});
 
 }
 
@@ -223,7 +235,7 @@ function switchMode() {
 }
 
 function manageModeContext() {
-	listXeditables = ['#description', '#startDate', '#endDate', '#tags', '#address', '#addressCountry'];
+	listXeditables = ['#description', '#startDate', '#endDate', '#tags', '#address', '#addressCountry','#avancement'];
 	if (mode == "view") {
 		$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {

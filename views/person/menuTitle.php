@@ -141,20 +141,21 @@
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
 	<a href="#" class="text-white" onclick="showVideo('133636468')"><i class="fa fa-2x fa-youtube-play"></i></a>
+
 	
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>
 <div class="box-menu box">
 	<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
+		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><img  style="height:47px;margin-bottom: 7px;" src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a></li>
 		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT IS IT</a></li>
 		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
 		<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">FOR WHO</a></li>
 		<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how')">HOW</a></li>
 		<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when')">WHEN</a></li>
 		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where')">WHERE</a></li>
-		<li style="margin-left:50px">&nbsp;<i class="fa fa-lightbulb-o"></i> <a href="#" style="color:white" onclick="showMenu('box-help')">HELP US</a></li>
 		<li style="margin-left:50px"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <a href="#" style="color:white" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
-		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 67px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 70px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 	</ul>
 </div>
 
@@ -213,17 +214,5 @@
 		Every where there are people 
 		<br/> with ideas
 		<br/> motivation to change
-	</section>
-</div>
-
-<div class="box-help box">
-	<h1><i class="fa fa-lightbulb-o"></i> GET INVOLVED</h1>
-	<section>
-		To Build
-		<br/> Communicate
-		<br/> Design
-		<br/> Finance
-		<br/> Translate
-		<br/> Innovate
 	</section>
 </div>

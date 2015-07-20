@@ -22,7 +22,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h3>Add project's chart</h3>
+		<h3>Add project's properties</h3>
 		<form class="form-chart">
 			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
 			<div class="row">
@@ -31,29 +31,80 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						Degré d'ouverture du projet (0% = très fermé, 100% = très ouvert)			
 					</label>
 					<div class="col-md-12">
+					<?php if (isset($properties) && !empty($properties)){
+						foreach ($properties as $key => $val){ 
+						if($key!="avancement" && $key!="partenaire"){
+					?>
+						<div class="col-md-4">
+							<h4 style="text-align:center;width:200px;"><?php echo $key; ?></h4>
+							<input class="knob project-property" name="<?php echo $key; ?>" value="<?php if (!empty($val)) echo $val; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">		
+					<?php if ($key=="gouvernance"){ ?>
+						<label for="properties">
+							Ouverture en terme de décisions, de partenaires, de parties prenantes
+						</label>
+					<?php } else if ($key=="partage"){ ?>
+						<label for="properties">
+							À combien le projet sert le bien communs?
+						</label>
+					<?php }else if ($key=="solidaire"){ ?>
+						<label for="properties">
+							À quel point le projet sert-il l'utilité sociale, le développement durable
+						</label>
+					<?php }else if ($key=="local"){ ?>
+						<label for="properties">
+							Quel est l'impact géographique du projet?
+						</label>
+					<?php } ?>
+					</div>
+				<?php 		} 
+						} 
+					} else { ?>
 						<div class="col-md-4">
 							<h4 style="text-align:center;width:200px;">Gouvernance</h4>
-							<input class="knob project-gouvernance" name="gouvernancePropertiesProject" value="<?php if (!empty($properties["gouvernance"])) echo $properties["gouvernance"]; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<input class="knob project-property" name="gouvernance" value="0" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<label for="properties">
+								Ouverture en terme de décisions, de partenaires, de parties prenantes
+							</label>
 						</div>
 						<div class="col-md-4">
 							<h4 style="text-align:center;width:200px;">Partage</h4>
-							<input class="knob project-partage" value="<?php if (!empty($properties["partage"])) echo $properties["partage"]; else echo 0;?>" name="partagePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<input class="knob project-property" value="0" name="partage" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<label for="properties">
+								À combien le projet sert le bien communs?			
+							</label>	
 						</div>
 						<div class="col-md-4">
 							<h4 style="text-align:center;width:200px;">Solidaire</h4>
-							<input class="knob project-solidaire" value="<?php if (!empty($properties["solidaire"])) echo $properties["solidaire"]; else echo 0;?>" name="solidairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<input class="knob project-property" value="0" name="solidaire" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<label for="properties">
+								À quel point le projet est-il d'utilité sociale, du développement durable, etc.?
+							</label>
 						</div>
 						<div class="col-md-4">
 							<h4 style="text-align:center;width:200px;">Local</h4>
-							<input class="knob project-local" value="<?php if (!empty($properties["local"])) echo $properties["local"]; else echo 0;?>" name="localPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<input class="knob project-property" value="0" name="local" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<label for="properties">
+								Quel est l'impact géographique du projet?
+							</label>
 						</div>
+						<?php } ?>
 						<div class="col-md-4">
-							<h4 style="text-align:center;width:200px;">Avancement</h4>
-							<input class="knob project-avancement" value="<?php if (!empty($properties["avancement"])) echo $properties["avancement"]; else echo 0;?>" name="avancementPropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
+							<h4 style="text-align:center;width:200px;"></h4>
+								<div class="flexslider" style="margin-top:35px;">
+							<div id="infoPodOrga" class="padding-10">
+								<blockquote> 
+									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	Ajouter
+									<br>Une nouvelle 
+									<br>Tâches
+									<br>
+									<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
+										<i class="fa fa-plus"></i> ADD
+									</a>
+								</blockquote>
+								
+							</div>
+							
 						</div>
-						<div class="col-md-4">
-							<h4 style="text-align:center;width:200px;">Partenaire</h4>
-							<input class="knob project-partenaire" value="<?php if (!empty($properties["partenaire"])) echo $properties["partenaire"]; else echo 0;?>" name="partenairePropertiesProject" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 						</div>
 					</div>
 				</div>
@@ -68,45 +119,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </div>
 
 <script type="text/javascript">
+var countProperties=<?php echo json_encode(count($properties)); ?>;
 jQuery(document).ready(function() {
-	$(".knob").knob({
-        draw: function () {
-            // "tron" case
-            if (this.$.data('skin') == 'tron') {
-                var a = this.angle(this.cv) // Angle
-                    ,
-                    sa = this.startAngle // Previous start angle
-                    ,
-                    sat = this.startAngle // Start angle
-                    ,
-                    ea // Previous end angle
-                    , eat = sat + a // End angle
-                    ,
-                    r = true;
-                this.g.lineWidth = this.lineWidth;
-                this.o.cursor && (sat = eat - 0.3) && (eat = eat + 0.3);
-                if (this.o.displayPrevious) {
-                    ea = this.startAngle + this.angle(this.value);
-                    this.o.cursor && (sa = ea - 0.3) && (ea = ea + 0.3);
-                    this.g.beginPath();
-                    this.g.strokeStyle = this.previousColor;
-                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-                    this.g.stroke();
-                }
-                this.g.beginPath();
-                this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-                this.g.stroke();
-                this.g.lineWidth = 2;
-                this.g.beginPath();
-                this.g.strokeStyle = this.o.fgColor;
-                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                this.g.stroke();
-                return false;
-            }
-        }
+	knobInit();
+    $(".addProperties").click(function(){
+	   newProperty=addNewProperties();
+	   $(this).parents().eq(3).before(newProperty);
+	   knobInit(); 
     });
-    
 	bindprojectSubViewchart();
 	runChartFormValidation();
 });
@@ -151,14 +171,25 @@ function runChartFormValidation() {
 		submitHandler : function(form) {
 			successHandler2.show();
 			errorHandler2.hide();
-			newChart = new Object;
-			newChart.projectID=$(".form-chart .projectId").val(),
-			newChart.avancement=$(".form-chart .project-avancement").val(),
-			newChart.gouvernance=$(".form-chart .project-gouvernance").val(),
-			newChart.local=$(".form-chart .project-local").val(),
-			newChart.partenaire=$(".form-chart .project-partenaire").val(),
-			newChart.solidaire=$(".form-chart .project-solidaire").val(),
-			newChart.partage=$(".form-chart .project-partage").val();
+			projectId = $(".form-chart .projectId").val();
+			newChart = [];
+			$('.project-property').each(function(){
+				valueProperties = $(this).val();
+				if($(this).attr("name") == "newProjectProperty"){
+					nameProperties=$(this).parents().eq(1).find(".newLabelProperty").val();
+					//alert(nameProperties);
+					if(nameProperties.length){
+						newProperties={"label" : nameProperties , "value" : valueProperties};
+						newChart.push(newProperties);
+					}
+				}
+				else{
+					nameProperties = $(this).attr("name");
+					newProperties={"label": nameProperties, "value": valueProperties};
+					newChart.push(newProperties);
+				}
+			});
+			console.log(newChart);
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+
@@ -179,14 +210,14 @@ function runChartFormValidation() {
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/project/editchart',
 		        dataType : "json",
-		        data:newChart,
+		        data:{chart : newChart, id : projectId},
 				type:"POST",
 		    })
 		    .done(function (data,myNewChart) 
 		    {
-			   if (data.result==true) {               
+			   if (data.result==true) {   
 		        	toastr.success('Project properties succesfully update');
-		        		updateChart(data.properties);
+		        		updateChart(data.properties,countProperties);
 						$.unblockUI();
 						$.hideSubview(); 	
 		        } else {
@@ -230,4 +261,54 @@ function editChart() {
 		$(".back-subviews").trigger("click");
 	});
 };
+function addNewProperties(){
+	$newProperty='<div class="col-md-4">'+
+				'<h4 style="text-align:center;width:200px;">Nouvelle tâche</h4>'+
+				'<input class="knob project-property" value="0" name="newProjectProperty" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">'+		
+				'<label for="properties">'+
+					'Nom de la propriétés:'+
+				'</label>'+
+				'<input type="text" placeholder="Entrer l\'intitulé de la propriété" class="newLabelProperty form-control"/>'+
+			'</div>';
+	return $newProperty;
+}
+function knobInit(){
+	$(".knob").knob({
+        draw: function () {
+            // "tron" case
+            if (this.$.data('skin') == 'tron') {
+                var a = this.angle(this.cv) // Angle
+                    ,
+                    sa = this.startAngle // Previous start angle
+                    ,
+                    sat = this.startAngle // Start angle
+                    ,
+                    ea // Previous end angle
+                    , eat = sat + a // End angle
+                    ,
+                    r = true;
+                this.g.lineWidth = this.lineWidth;
+                this.o.cursor && (sat = eat - 0.3) && (eat = eat + 0.3);
+                if (this.o.displayPrevious) {
+                    ea = this.startAngle + this.angle(this.value);
+                    this.o.cursor && (sa = ea - 0.3) && (ea = ea + 0.3);
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.previousColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                    this.g.stroke();
+                }
+                this.g.beginPath();
+                this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+                this.g.stroke();
+                this.g.lineWidth = 2;
+                this.g.beginPath();
+                this.g.strokeStyle = this.o.fgColor;
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                this.g.stroke();
+                return false;
+            }
+        }
+    });
+}
 </script>

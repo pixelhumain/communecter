@@ -67,34 +67,14 @@
 		left:auto;
 		top:<?php echo $mapTop+10; ?>px;
 	}
-	
+
 	.<?php echo $moduleName; ?>
 	.btn-map{
 		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
 		color:<?php echo $mapBtnColor." !important"; ?>; /*#213042 */
 	}
-	.<?php echo $moduleName; ?>
 	.btn-map:hover{
 		background-color:<?php echo $mapBtnBgColor_hover." !important"; ?>; /*#E6D414#5896AB !important;*/
-	}
-
-	.<?php echo $moduleName; ?> 
-	.btn-group-charts	{
-		top:<?php echo $mapTop + 70; ?>px;px;
-		right:<?php echo $right ?> !important;
-		position:absolute;
-		margin-right: 10px;
-	}
-	.<?php echo $moduleName; ?> 
-	.btn-group-charts .btn-map	{
-		background-color:rgba(255, 255, 255, 0.72) !important;
-		font-size:13px !important;
-		max-width:200px;
-		text-align: left;
-	}
-	.<?php echo $moduleName; ?>
-	.btn-group-charts .btn-map:hover{
-		background-color:#FFF !important; /*#E6D414#5896AB !important;*/
 	}
 
 	/* XS */

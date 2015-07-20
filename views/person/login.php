@@ -450,9 +450,8 @@ var Login = function() {
     		  	              '<cite>Welcome to the Pixel Humain</cite>'+
     		  	            '</blockquote> '
     		  			});
-		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
-		        		//window.location.reload();
-		        		setTimeout(function() { $.unblockUI(); showMenu(); },5000);
+		        		toastr.success(data.msg);
+		        		window.location.reload();
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
