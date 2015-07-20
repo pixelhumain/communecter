@@ -42,6 +42,22 @@ var formDefinition = {
                     	"Urbanisme",
 	            	]
 	            },
+	        "public" :{
+	            	"inputType" : "checkbox",
+	            	"placeholder" : "Public",
+	            	"values" : true,
+	            	"onclick" : "function(){alert()}"
+	            },
+	        "scope" :{
+	            	"inputType" : "tags",
+	            	"placeholder" : "Scope, Who can see this",
+	            	"values" : [
+	            		"Sport",
+                    	"Agricutlture",
+                    	"Culture",
+                    	"Urbanisme",
+	            	]
+	            },
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
