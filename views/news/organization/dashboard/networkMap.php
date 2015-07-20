@@ -1,7 +1,9 @@
+
+
 <?php 
 	
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
-		$relativePath = "./";
+		$relativePath = "../sig/";
 		/* ***********************************************************************************/
 	  	
 	   	//chargement de toutes les librairies css et js indispensable pour la carto 
@@ -13,12 +15,11 @@
 		
 			$sigParams = array(
 			
-					/* CLÉ UNIQUE QUI SERT D'IDENTIFIANT POUR CETTE CARTE */
-					"sigKey" => "SV",
+					"sigKey" => "DashOrga",
 					
 					/* MAP */
 					"mapHeight" => 450,
-					"mapTop" => 0,
+					"mapTop" => 50,
 					"mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
 					"mapOpacity" => 1, //ex : 0.4
 					
@@ -31,6 +32,7 @@
 					"mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
 					"mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 					
+					 
 					/* MAP BUTTONS */			
 					"mapBtnBgColor" => '#E6D414', 
 					"mapBtnColor" => '#213042', 
@@ -38,21 +40,20 @@
 					 
 					/* USE */
 					"usePanel" => true,
-					"titlePanel" => 'THÈMES',
+					"titlePanel" => 'Thèmes',
 					"useRightList" => true,
 					"useZoomButton" => true,
 					"useHelpCoordinates" => false,
-					"useFullScreen" => true,
+					"useFullScreen" => false,
 					
-					/* TYPE NON CLUSTERISÉ (liste des types de données à ne pas inclure dans les clusters sur la carte (marker seul))*/
 					"notClusteredTag" => array("citoyens"),
 					
-					/* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
 					"firstView"		  => array(  "coordinates" => array(-21.13318, 55.5314),
-												 "zoom"		  => 9),
+													"zoom"		  => 9),
 					);
 		/* ***********************************************************************************/
-	   	   	
+	   	
+	   	
 		$moduleName = "sigModule".$sigParams['sigKey'];
 		
 		/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
@@ -88,25 +89,36 @@
 		.<?php echo $moduleName; ?> .mapCanvas{}
 		.<?php echo $moduleName; ?> .btn-group-map{}
 	}
-	
 </style>
-
-
 <?php /* ********************** HTML ********************/?>
 
 
-<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
-<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
-<?php /* *******************************************************************************/?>
-	
-	
+
+	<div class="panel panel-white">
+	  <div class="panel-heading border-light">
+	    <h4 class="panel-title">Annuaire Cartographique</h4>
+	    <div class="panel-tools"
+	      <a class="btn btn-xs btn-link panel-close" href="#">
+	        <i class="fa fa-times"></i>
+	      </a>
+	    </div>
+	  </div>
+	  <div class="panel-body no-padding">
+	  	
+	  		<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
+	   		<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
+	   		<?php /* *******************************************************************************/?>
+	   		
+	  </div>
+	</div>
+
 <script type="text/javascript">
 	
 	var Sig;
 	
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script vvvv)
-	var mapExemple;
+	var mapDashboardOrga;
 	/**************************************************************************************************************/
 	
 	//mémorise l'url des assets (si besoin)
@@ -116,23 +128,30 @@
 	{ 	
 		//création de l'objet SIG
 		Sig = SigLoader.getSig();
+		
 		//affiche l'icone de chargement
 		Sig.showIcoLoading(true);
 		
 			//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
 			var initParams =  <?php echo json_encode($sigParams); ?>;
+			
 			//chargement la carte
-			mapExemple = Sig.loadMap("mapCanvas", initParams);
+			mapDashboardOrga = Sig.loadMap("mapCanvas", initParams);
 			
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
+			//var mapData = ;
+			//alert("liste des différents éléments des données : " + JSON.stringify(contextMap));
 			/**************************************************************************************************************/
 	
+			//alert(JSON.stringify(mapData));
+			//console.dir(mapData);
 			//affichage des éléments sur la carte
-			Sig.showMapElements(mapExemple, mapData);//, elementsMap);
+			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
+
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
 				
 	});
 	
-</script>SS
+</script>

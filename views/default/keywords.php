@@ -1,4 +1,4 @@
-<div class="panel-heading border-light center">
+<div class="panel-heading border-light center text-dark partition-white radius-10">
 	<span class="panel-title homestead"> <i class='fa fa-cube  faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">KEY CONCEPTS</span></span>
 </div>
 <div class="space20"></div>

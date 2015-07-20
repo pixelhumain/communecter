@@ -78,6 +78,10 @@ class CommunecterController extends Controller
   );
 
   public $pages = array(
+    "admin" => array(
+      "index"   => array("href"=>"/ph/communecter/admin"),
+      "directory" => array("href"=>"/ph/communecter/admin/directory"),
+    ),
 
     "default" => array(
       "index"   => array("href"=>"/ph/communecter","api"=>""),
@@ -259,6 +263,9 @@ class CommunecterController extends Controller
 
   function initPage(){
     //managed public and private sections through a url manager 
+    if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] ) 
+      throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
+
     if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 

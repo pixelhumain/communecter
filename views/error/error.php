@@ -5,7 +5,14 @@
 				<?php echo $error["code"]?>
 			</div>
 			<div class="error-details col-sm-6 col-sm-offset-3">
-				<h3>Oops! You are stuck at <?php echo $error["code"]?></h3>
+				<h3>
+					<?php 
+					if( isset($error["message"]) )
+						echo $error["message"];
+					else
+						echo "Oops! You are stuck at ".$error["code"];
+					?>
+				</h3>
 				<p>
 					Unfortunately the page you were looking for could not be found.
 					<br>
