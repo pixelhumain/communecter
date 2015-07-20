@@ -208,9 +208,9 @@ function runChartFormValidation() {
 			});
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/project/editchart/id/'+projectId+'/',
+		        url: baseUrl+"/"+moduleId+'/project/editchart',
 		        dataType : "json",
-		        data:{chart:newChart},
+		        data:{chart : newChart, id : projectId},
 				type:"POST",
 		    })
 		    .done(function (data,myNewChart) 
