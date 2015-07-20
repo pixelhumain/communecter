@@ -30,6 +30,7 @@
 			<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
 				<a href="#" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
 			<?php } ?>
+			<a href="#" class="setbgCustom btn btn-xs btn-light-blue " data-class="bgCustom"  title="Set as Background" alt="Set as Background">Set as Background</a>
 			<a href="#galleryPhoto" class="gallery-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt="Show gallery"><i class="fa fa-camera"></i> Show gallery</a>
 		</div>
 		<div class="panel-body">
@@ -96,6 +97,16 @@
 			$("#addPhoto").css("display", "block");
 			$('#'+constImgKey+'_avatar').trigger("click");
 		});
+
+		$(".setbgCustom").off().on("click", function() 
+        {
+        	if( $("#slidesPhoto > li.flex-active-slide > img").attr('src') ) 
+        	{
+                $(".main-container").attr("style","background-image:url('"+$("#slidesPhoto > li.flex-active-slide > img").attr('src')+"')");
+                setBg("bgCustom",$("#slidesPhoto > li.flex-active-slide > img").attr('src'));
+            }
+        })
+
 
 	});
 	
