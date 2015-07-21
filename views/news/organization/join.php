@@ -220,7 +220,7 @@ var organizationInitData = {
 	"personName": "Sylvain Barbot",
 	"personEmail": "sylvain@gmail.com",
 	"personPostalCode": "97426",*/
-	//"password": "password"
+	"password": "password"
 };
 
 var dataBindOrganization = {
@@ -306,20 +306,23 @@ jQuery(document).ready(function() {
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/addNewOrganizationAsMember",
 	    	  data: params,
 	    	  dataType: "json"
-	    	})
-	    	.done(function(data){
+	    	}).done(function(data){
 	    		if(data.result) {
 	    			console.log("Resultat", data);
 	    			toastr.info(data.msg);
 	    			$.unblockUI();
-	    			$("#form-join").html("<a href='"+baseUrl+"/<?php echo $this->module->id?>/organization/dashboardMember/id/<?php echo $_GET['id'] ?>'>Back to <?php echo $parentOrganization['name']?></a>");
+	    			$("#form-join").html("<a href='"+baseUrl+"/<?php echo $this->module->id?>/organization/dashboardMember/id/<?php echo $_GET['id'] ?>'>retourner voir Granddir</a>");
 	    		} else {
-	    			manageAjaxError(data);
+	    			$.unblockUI();
+	    			var recaptchaframe = $('.g-recaptcha iframe');
+			        var recaptchaSoure = recaptchaframe[0].src;
+			        recaptchaframe[0].src = '';
+			        setInterval(function () { recaptchaframe[0].src = recaptchaSoure; }, 500);
+					$('.errorHandler').html(data.msg);
+					$('.errorHandler').show();
+					toastr.error('please check for Errors!');
 	    		}
-	    	})
-			.fail(function(data) {
-				manageAjaxError(data);
-			})
+	    	});
 		}
 	});
 	$(".cityselect").hide();
@@ -328,17 +331,6 @@ jQuery(document).ready(function() {
 	bindPostalCodeAction("#personPostalCode", "#personCity", ".personCityselect");
 	console.dir(form);
 });
-
-function manageAjaxError(data) {
-	$.unblockUI();
-	var recaptchaframe = $('.g-recaptcha iframe');
-	var recaptchaSoure = recaptchaframe[0].src;
-	recaptchaframe[0].src = '';
-	setInterval(function () { recaptchaframe[0].src = recaptchaSoure; }, 500);
-	$('.errorHandler').html(data.msg);
-	$('.errorHandler').show();
-	toastr.error('please check for Errors!');
-}
 
 function runShowCity(searchValue, idSelect, classDiv) {
 	$(idSelect).empty();

@@ -1,4 +1,13 @@
+<?php
+	//securise tous les paramètres utilisés dans mapView.php
+	$elements = array('usePanel', 		'useRightList',  'useResearchTools', 	'useZoomButton',
+					  'useHomeButton', 	'useFullScreen', 'useHelpCoordinates', 	'useChartsMarkers');
 
+	foreach($elements as $element){
+		$sigParams[$element] = isset($sigParams[$element]) ? $sigParams[$element] : false;
+	}
+	
+?>
 <div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 	<div class="mapCanvas" id="mapCanvas<?php echo $sigParams['sigKey']; ?>">
 		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
@@ -39,8 +48,8 @@
 	<?php } ?>
 
 
-	<?php if($sigParams['useResearchTools']){ ?>
 		<div class="btn-group btn-group-lg btn-group-map input-search-place">
+		<?php if($sigParams['useResearchTools']){ ?>
 			<input type="text" class="pull-left input-search-place-in-map txt-find-place" id="txt-find-place" placeholder="rechercher un lieu" style="margin-top:2px;">
 			<button type="button" class="btn btn-map pull-right" id="btn-find-more"><i class="fa fa-ellipsis-h"></i></button>
 				
@@ -59,13 +68,18 @@
 	                 </ul>
 	            </div>
 	        </div>
+		<?php } ?>
+			<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
 		</div>
-	<?php } ?>
 	
+		<?php if($sigParams['useChartsMarkers']){ ?>
+			<div class="btn-group-vertical btn-group-lg btn-group-charts" id="btn-group-charts-map">
+			
+			</div>
+		<?php } ?>
+
 		<div class="btn-group btn-group-lg btn-group-map">
 		
-			<i class="fa fa-refresh fa-spin fa-2x" id="ico_reload"></i>
-			<button type="button" class="btn btn-map-separator"></button>
 			<?php if($sigParams['useHomeButton']){ ?>
 				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
 				<button type="button" class="btn btn-map-separator"></button>
@@ -76,7 +90,6 @@
 			<?php } ?>
 			
 		</div>
-
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">
 			<button type="button" class="btn btn-map " id="btn-full-screen"><i class="fa fa-expand"></i></button>

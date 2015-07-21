@@ -64,7 +64,14 @@ div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
-
+var contextMap = {
+	"tags" : [],
+	"scopes" : {
+		codeInsee : [],
+		codePostal : [], 
+		region :[]
+	},
+};
 jQuery(document).ready(function() 
 {
 	buildTimeLine();
@@ -136,17 +143,49 @@ function buildLineHTML(newsObj)
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
 	url = 'href="javascript:;" onclick="'+url+'"';	
-	iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
-	var title = newsObj.name;
-	var text = newsObj.text;
-	var tags = "";
+	var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>',
+	title = newsObj.name,
+	text = newsObj.text,
+	tags = "", 
+	scopes = "",
+	tagsClass = "",
+	scopeClass = "";
 	
 	if( "object" == typeof newsObj.tags && newsObj.tags )
 	{
 		$.each( newsObj.tags , function(i,tag){
+			tagsClass += tag+" ";
 			tags += "<span class='label label-inverse'>"+tag+"</span> ";
+			if( $.inArray(tag, contextMap.tags )  == -1)
+				contextMap.tags.push(tag);
 		});
-		tags = '<div class="pull-right"><i class="fa fa-tags"></i> '+tags+'</div>';
+		tags = '<div class="pull-left"><i class="fa fa-tags"></i> '+tags+'</div>';
+	}
+
+	if( newsObj.address )
+	{
+		if( newsObj.address.codeInsee )
+		{
+			scopes += "<span class='label label-danger'>codeInsee : "+newsObj.address.codeInsee+"</span> ";
+			scopeClass += newsObj.address.codeInsee+" ";
+			if( $.inArray(newsObj.address.codeInsee, contextMap.scopes.codeInsee )  == -1)
+				contextMap.scopes.codeInsee.push(newsObj.address.codeInsee);
+		}
+		if( newsObj.address.codePostal )
+		{
+			scopes += "<span class='label label-danger'>codePostal : "+newsObj.address.codePostal+"</span> ";
+			scopeClass += newsObj.address.codePostal+" ";
+			if( $.inArray(newsObj.address.codePostal, contextMap.scopes.codePostal )  == -1)
+				contextMap.scopes.codePostal.push(newsObj.address.codePostal);
+		}
+		if( newsObj.address.region )
+		{
+			scopes += "<span class='label label-danger'>"+newsObj.address.region+"</span> ";
+			scopeClass += newsObj.address.region+" ";
+			if( $.inArray(newsObj.address.region, contextMap.scopes.region )  == -1)
+				contextMap.scopes.region.push(newsObj.address.region);
+		}
+		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
 	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
@@ -157,8 +196,10 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 	
-	newsTLLine = '<li><div class="timeline_element partition-'+color+'">'+
+	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
 					tags+
+					scopes+
+					'<div class="space1"></div>'+
 					'<div class="timeline_title">'+
 						objectLink+
 						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
@@ -173,7 +214,7 @@ function buildLineHTML(newsObj)
 					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
 					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
 					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
-					"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
+					//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 					"</div>"+
 				'</div></li>';
 
@@ -238,6 +279,45 @@ function updateNews(newsObj)
 	}
 	var newsTLLine = buildLineHTML(newsObj);
 	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
+}
+
+
+function applyTagFilter(str)
+{
+	$(".newsFeed").fadeOut();
+	if(!str){
+		if($(".btn-tag.active").length){
+			str = "";
+			sep = "";
+			$.each( $(".btn-tag.active") , function() { 
+				str += sep+"."+$(this).data("id");
+				sep = ",";
+			});
+		} else
+			str = ".newsFeed";
+	} 
+	console.log("applyTagFilter",str);
+	$(str).fadeIn();
+	return $(".newsFeed").length;
+}
+
+function applyScopeFilter(str)
+{
+	$(".newsFeed").fadeOut();
+	if(!str){
+		if($(".btn-context-scope.active").length){
+			str = "";
+			sep = "";
+			$.each( $(".btn-context-scope.active") , function() { 
+				str += sep+"."+$(this).data("val");
+				sep = ",";
+			});
+		} else
+			str = ".newsFeed";
+	} 
+	console.log("applyScopeFilter",str);
+	$(str).fadeIn();
+	return $(".newsFeed").length;
 }
 
 </script>

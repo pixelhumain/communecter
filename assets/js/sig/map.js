@@ -129,7 +129,8 @@
 					this.setFullScreen();
 				}
 				else{
-					$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
+					var left = $(this.cssModuleName + " .panel_map").width() + 10;
+					$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
 				}
 			}
 			this.Sig.verifyPanelFilter = function (thisData){
@@ -246,7 +247,6 @@
 							});
 
 						}
-
 					}
 
 					//affiche les MEMBERS
@@ -258,14 +258,18 @@
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-
-
 				}else {
+					if(thisData == null) return false;
+
 					console.warn("--------------- PAS D'ID ---------------------");
 					console.log(thisData);
+
+					if("undefined" != typeof thisData["chartOptions"] != null){
+						console.warn("--------------- LOAD CHART ---------------------");
+						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
+					}
 					return false;
 				}
-
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
@@ -276,15 +280,15 @@
 
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
+						//console.warn("--------------- show each thisData ---------------------");
+						//console.dir(thisData);
+
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}
 				else{
 					thisSig.showOneElementOnMap(dataFilter, thisMap);
 				}
-
-
-
 			};
 
 

@@ -1,35 +1,31 @@
-<<<<<<< HEAD
-
-=======
 {{SIG}}
 {{PERSON}}
 {{PROJECTS}}
 {{CITY}}
-<<<<<<< HEAD
 {{THINK TANK}}
 {{OPEN PEOPLE}}
-=======
->>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
->>>>>>> da5ec625adc123e235d9491ed3a3aa4f2a168f7f
 
 * IN PROGRESS
 	** YANNICK
+		[ ] repair viewer
+		[ ] dynamic navigation
+		[ ] create things in graph
 	** CLEMENT
-	  [X] integration timesheet.php sur project
-	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
+	  [ ] revenir sur les properties pour ne pas limiter le nombres 
+	  [ ] mettre  des propriété a valuer fixe exemple gouvernance 
+	  [ ] when empty put message
 	** JOHNSON + RAPHAEL
-		[ ] Zone info sur graphe
-		[ ] ordonnée par les 30 max
+		[X] ordonnée par les 30 max
 		[ ] drop down liste des communes
 		[ ] toujours afficher 
-		[ ] changer le graph en tarte
+		[X] changer le graph en tarte
 		[ ] proposer d'autre source
-		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
 	** RAPHAEL
-		[X] decouper en block  le fichier source
-		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
-		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
-		[ ] ajouter un bouton modification pour chaque  ligne du mapping
+		[ ] installer ubuntu & pixeain sur mon vieux ordi
+			[ ] installer ubuntu
+			[ ] installer pixelumain
+		[ ] finir la selection des types de données
+		[ ] ajouter des pod sur opendata
 		[ ] ré-importer l'ensemble des données
 			[ ] population
 			[ ] entreprise
@@ -39,29 +35,16 @@
 				[ ] 2er degres
 				[ ] superieur
 			[ ] autre...
-		[ ] Contact
-			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
-		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
+	[ ] fincheInfo change pwd
+	[???] unir tags and scope dans un seul slide down "filters"
+	[ ] add postalCode widget to add News
 	** TIBOR
 		[ ] data converter 
-		[ ] module Admin PH
-			[ ] all admin views can be Filtered :: show only data for a certain perspective 
-				- codeInsee
-				- type 
-			[ ] page admin/directory  ::: Persons, Organizations, Events, Projects
-				[ ] get all elements by type 
-			[ ] actions
-				[ ] validate users
-				[ ] ban users
-				[ ] moderate entries for abuses (desactivate)
-				[ ] create a quarantine system
-					[ ] when someone declares an abuse 
-			[ ] statistics 
-				- population
-				- site activity
-				- latest users
-			[ ] user notification
+		[X] login account validation & alpha limitation
+		[ ] organiser le BackEnd PH
+		[X] filter by tags on directory page
+		[X] filter by scope on directory page
 		[ ] adding into scope to news form (pub priv) & territories
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
 				[ ] users will have my scopes 
@@ -74,10 +57,138 @@
 					search a location can be added 
 				[ ] scopes can be listed like tags on any form
 		[ ] apply filter tags and scope 
+			[X] directory
+			[X] news
 			[ ] survey
 			[ ] maps
 		[ ] set up https
 		[ ] inter operable Granddir
+		[ ] voir avec {{@Sylvain}} pour prepa-Sud
 	** TRISTAN
+		[ ] Carto Statistics (Barchart + Pie Chart)
+		[ ] SIG pod city map , centré et zoomer sur la commune active
 		[ ] mettre les liens Graphs dans la liste a droite
-		[ ] faire interagir une carto avec les top filters ( tag et scope )
+
+* COMMUNECTER  [0/36]
+	** GENERIC 
+		- count down before opening 15th september
+		- real time people connected count on every page
+		* SEARCH 
+			[ ] @JOhnSON autocomplete keyboard nav
+		* FILTERING
+			[ ] backend filtering with page reload, for the moment filtering is only front end
+			[ ] personnal tags 
+				- can be anything and are not shared accross users
+				- are saved in [[tags]] collection 
+			[ ] context tags
+				- gathered during the render process 
+			[ ] categories
+				- are generic and shared tags
+				- are saved in [[lists::tags]] collection and document
+			[ ] territory
+				- can be anything and are not shared accross users
+				- are saved in [[tags]] collection 
+			[ ] Timeline RSS feed
+		* INTEROPERABILITY 
+			[ ] join with a PLP url > convert into ph data 
+	** SIG 
+		[ ] geo localiser les action Rooms ou les discussions
+
+	** PERSON
+		-> profil > click tag => show directory with similar content
+		-> inviteSomeone => after search keyboard navigate down 
+		--- Bizare ---
+			person/dash > Authorisation::listEventsIamAdminOf($id);
+
+	** ORGANIZATION 
+		--- BUGS ---
+		[ ]  in links.members.xxx many entries have ::: "roles" : [""],
+
+	** EVENTS
+		[ ] add attending organizations
+		[ ] add sub events
+
+	** PROJECTS
+		[ ] sexy projects directory
+		[ ] room pod > add room
+		[ ] project rooms toolbar show rooms count
+		[ ] ajaxified pods
+		--- BUGS ---
+			[ ] add contributor : Alias "citizenToolKit.controllers.project.SaveContributorAction" is invalid.
+			[ ] module Viewer :var id = obj2["_id"]["$id"];
+			[ ] change start date impossible , start date must be before end date mais end date is empty
+		--- TEST LIBS ---
+			[ ] [[http://madvic.net/timesheet/]]
+			[ ] [[http://www.simile-widgets.org/timeline/examples/index.html]]
+
+	** CITY
+		--- TEST GRAPHS ---
+			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
+
+			[ ] [[http://bl.ocks.org/chrisrzhou/raw/d5bdd8546f64ca0e4366/]]
+	** NEWS
+		[ ] only show 50 latest , scroll appear 
+
+	** ACTION ROOMS
+		[ ] connect discussions to the topbar menu
+		[ ] Types
+			- discussions
+			- votes 
+			- brainstorms
+			- external rooms like Gitter or Slack with url 
+		*** VOTER
+			[ ] vote & comment on anything 
+			[ ] mutualiser function addaction
+			[ ] Nombres de votants inscrit : 7
+			[ ] show both my created votes , my followed votes
+			[ ] closing a vote session, sending result
+
+	** page login 
+		Association, Entreprise , Projet ou evennement locale
+		construisons ensemble un territoire connecté pour le bien communs
+	** NEXT
+		[ ] Generic Directory 
+		[ ] Back Office PH
+		[ ] Back Office City
+		[ ] Gamification 
+		[ ] Badging
+			Seed 
+			Germ
+			small tree
+			tree
+		[ ] recherche par thematique : Environnement 
+				scope geographique
+				directory search
+		[ ] Person > dash
+			podcarto 
+			pod mes interets
+		[ ] Opendata 
+				Public / Privé
+				webId
+		[ ] Data convert 
+			[ ] schema.org
+			[ ] ACtivity Stream 
+		[ ] not logged issue when calling ajax
+		[ ] generic viewcount system on anything
+		[ ] clean up loaded libraries in main.php
+		[ ] load proverbs into localStorage and get radomly for blockUI 
+		[ ] make moduleMenu fixed when scroll
+		[ ] keep me loggued in
+		[ ] crypté par default
+	** TEST
+		[ ] France Connect [[https://doc.integ01.dev-franceconnect.fr/]]
+		[ ] Indie Auth [[https://indieauth.com/setup]]
+		[ ] Distributed Comments [[https://www.famust.com/fr/contact]]
+		[ ] Open Badges [[http://openbadges.org/]]
+	** Vocabs and conversions
+		[ ] [[https://github.com/openvocab/ovn]]
+		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
+	** OPEN PEOPLE
+		* TO CONTACT 
+			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
+	** THINK TANK
+		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
+		
+		
+	
+	

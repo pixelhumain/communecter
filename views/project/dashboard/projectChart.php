@@ -62,6 +62,7 @@ jQuery(document).ready(function() {
 });
 
 function updateChart(data, nbProperties){
+	alert(nbProperties);
 	if (nbProperties==0){
 		$("#infoPodChart").hide();
 		$(".contentChart").removeClass("hide");

@@ -77,10 +77,6 @@
 					}
 
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes ){
-							
-							/* **************************************
-							* TYPE + ICON
-							***************************************** */
 						$strHTML = '<tr id="'.$collection.(string)$e["_id"].'">'.
 							'<td class="'.$collection.'Line">'.
 								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">';
@@ -92,14 +88,8 @@
 								$strHTML .= '</a>';
 							$strHTML .= '</td>';
 							
-							/* **************************************
-							* NAME
-							***************************************** */
 							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
 							
-							/* **************************************
-							* TAGS
-							***************************************** */
 							$strHTML .= '<td>';
 							if(isset($e["tags"])){
 								foreach ($e["tags"] as $key => $value) {
@@ -110,9 +100,6 @@
 							}
 							$strHTML .= '</td>';
 
-							/* **************************************
-							* SCOPES
-							***************************************** */
 							$strHTML .= '<td>';
 							if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
 								$strHTML .= ' <a href="#" onclick="applyScopeFilter('.$e["address"]['codeInsee'].')"><span class="label label-inverse">'.$e["address"]['codeInsee'].'</span></a>';
@@ -131,17 +118,10 @@
 							}	
 							$strHTML .= '</td>';
 
-							/* **************************************
-							* ACTIONS
-							***************************************** */
 							$strHTML .= '<td class="center">';
-								if( Yii::app()->session["userIsAdmin"] ) 
-									$strHTML .= '<div class="btn-group">'.
-												'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'.
-												'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'.
-													'<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-file fa-stack-1x"></i><i class="fa fa-plus fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>'.
-													'<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> Ban This  </a> </li>  '.
-											'</ul></div>';
+								/*if(Yii::app()->session["userId"] ) { ?>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<?php }; */
 							$strHTML .= '</td>';
 						
 						$strHTML .= '</tr>';
@@ -175,51 +155,6 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	resetDirectoryTable() ;
-	<?php if( Yii::app()->session["userIsAdmin"] ) {?>		
-		$(".validateThisBtn").off().on("click",function () {
-
-        $(this).empty();
-        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
-        var btnClick = $(this);
-        var idToDisconnect = $(this).data("id");
-        var typeToDisconnect = $(this).data("type");
-        var ownerLink = $(this).data("ownerlink");
-        var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/"+ownerLink;
-        if("undefined" != typeof $(this).data("targetlink")){
-        	var targetLink = $(this).data("targetlink");
-        	urlToSend += "/targetLink/"+targetLink;
-        }
-
-        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
-        	function(result) {
-				if (!result) {
-					btnClick.empty();
-			        btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
-					return;
-				}
-				$.ajax({
-			        type: "POST",
-			        url: urlToSend,
-			        dataType : "json"
-			    })
-			    .done(function (data)
-			    {
-			        if ( data && data.result ) {
-			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-			        	$("#"+typeToDisconnect+idToDisconnect).remove();
-			        	$("#linkBtns").empty();
-	        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addKnowsRelation' data-placement='top' data-ownerlink='"+ownerLink+"' data-original-title='I know this person' ><i class=' connectBtnIcon fa fa-link '></i>FOLLOW</a></li>");
-	        			bindBtnFollow();
-			        } else {
-			           toastr.info("something went wrong!! please try again.");
-			          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
-			        }
-			    });
-
-		});
-
-	});
-	<?php } ?>
 });	
 var directoryTable = null;
 var contextMap = {

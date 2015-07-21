@@ -89,10 +89,12 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 		$nbYear=0;
 		foreach ($tasks as $val){
 			if ($period == "yearly"){
-				if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
+				if (!empty($firstYear)){
+					if ($firstYear > date('Y',strtotime($val["startDate"])))
+						$firstYear = date('Y',strtotime($val["startDate"]));
+				}else{
 					$firstYear = date('Y',strtotime($val["startDate"]));
-				else
-					$firstYear = date('Y',strtotime($val["startDate"]));
+				}
 				if ($endYear < date('Y',strtotime($val["endDate"])))
 					$endYear = date('Y',strtotime($val["endDate"]));
 			}
@@ -106,7 +108,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/
 		if ($period == "yearly"){
-			for ($date = $firstYear; $date <= $endYear; $date++) {
+			for ($date = $firstYear; $date <= $endYear;$date++) {
 				array_push($alpha,$date);
 				$nbYear++;
 			}	
