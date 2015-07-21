@@ -63,4 +63,4 @@ if(isset( Yii::app()->session["userId"])){
 
 <a class="btn" onclick="<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
 
-<br/>Views : <?php echo $survey["viewCount"]; ?>
+<br/>Views : <?php echo @$survey["viewCount"]; ?>

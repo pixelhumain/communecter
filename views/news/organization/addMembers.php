@@ -151,9 +151,45 @@
 	        </table>
 	    </div>
 	</div>
-    
+    <div class="col-md-8 col-md-offset-2 hide">
+        <h1>Batch Import </h1>
+        <p>import comma sepearated emails to connect people or Organisations</p>
+        
+        <form id="memberBatchImport" style="line-height:40px;">
+            <div class="row">
+                <select>
+                    <option value="Person">People</option>
+                    <option value="NGO">NGOs</option>
+                    <option value="LocalBusiness">Local Businesses</option>
+                    <option value="Groups">Groups</option>
+                </select>
+                <br/>
+                <textarea name="memberBatchImport" id="memberBatchImport" cols="30" rows="10"></textarea>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary" >Enregistrer</button>
+            </div>
+        </form>
+    </div>
 
-    
+    <div class="col-md-8 col-md-offset-2 hide">
+        <h1>Url Import </h1>
+        <p>
+            import from a PLP ressource or directory, Git Repo... <br/>
+            thoughts : <br/>
+            could be interesting to have the jsonFromJsonTo conversion tool <br/>
+            takes any url, show humanily > the user maps to the PH schema 
+        </p>
+        
+        <form id="memberUrlImport" style="line-height:40px;">
+            <div class="row">
+                <input placeholder="Url" id="memberUrl" name="memberUrl" value=""/></td>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
 </div>
 <script type="text/javascript">
 	var timeout;
@@ -262,6 +298,8 @@
 						$("#memberRole").select2("val", "");
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		                showSearch();
+
+		                
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -334,6 +372,7 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
+	        	
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
 		 			
@@ -368,8 +407,12 @@
   		}
 	}
 	function showSearch(){
-		$("#addMembers #btnCitoyen").removeClass("disabled btn-dark-green").addClass("btn-green");
-		$("#addMembers #btnOrganization").removeClass("disabled btn-dark-green").addClass("btn-green");
+		$("#addMembers #btnOrganization").removeClass("disabled");
+		$("#addMembers #btnCitoyen").removeClass("disabled");
+		$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+		$("#addMembers #btnCitoyen").addClass("btn-green");
+		$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+		$("#addMembers #btnOrganization").addClass("btn-green");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
 		$("#addMembers #searchMemberSection").css("display", "block");
@@ -386,14 +429,18 @@
 			$("#addMembers #divAdmin").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-user fa-2x"></i>');
 			$("#addMembers #divOrganizationType").css("display", "none");
-			$("#addMembers #btnCitoyen").removeClass("btn-green").addClass("btn-dark-green");
-			$("#addMembers #btnOrganization").removeClass("btn-dark-green").addClass("btn-green");
+			$("#addMembers #btnCitoyen").removeClass("btn-green");
+			$("#addMembers #btnCitoyen").addClass("btn-dark-green");
+			$("#addMembers #btnOrganization").removeClass("btn-dark-green");
+			$("#addMembers #btnOrganization").addClass("btn-green");
 		}else{
 			$("#addMembers #divAdmin").css("display", "none");
 			$("#addMembers #divOrganizationType").css("display", "block");
 			$("#addMembers #iconUser").html('<i class="fa fa-group fa-2x"></i>');
-			$("#addMembers #btnOrganization").removeClass("btn-green").addClass("btn-dark-green");
-			$("#addMembers #btnCitoyen").removeClass("btn-dark-green").addClass("btn-green");
+			$("#addMembers #btnOrganization").removeClass("btn-green");
+			$("#addMembers #btnOrganization").addClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").removeClass("btn-dark-green");
+			$("#addMembers #btnCitoyen").addClass("btn-green");
 		}
 		$("#addMembers #memberType").val(str);
 	}

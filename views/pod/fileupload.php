@@ -72,7 +72,7 @@
 		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
 		var contentIdtoSend = "<?php echo $contentId ?>";
 		
-		var resize = <?php echo ($resize) ? 'true':'false'; ?>;
+		var resize = <?php echo (@$resize) ? 'true':'false'; ?>;
 		var imageName= "";
 		var imageId= "";
 		var imagesPath = [];

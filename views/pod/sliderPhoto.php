@@ -29,8 +29,8 @@
 		<div class="panel-tools">
 			<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($itemId) && isset(Yii::app()->session["userId"]) && Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId))) { ?>
 				<a href="#" class="add-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add image" alt="Add image"><i class="fa fa-plus"></i></a>
+				<a href="#" class="setbgCustom btn btn-xs btn-light-blue " data-class="bgCustom"  title="Set as Background" alt="Set as Background">Set as Background</a>
 			<?php } ?>
-			<a href="#" class="setbgCustom btn btn-xs btn-light-blue " data-class="bgCustom"  title="Set as Background" alt="Set as Background">Set as Background</a>
 			<a href="#galleryPhoto" class="gallery-photo btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Show gallery" alt="Show gallery"><i class="fa fa-camera"></i> Show gallery</a>
 		</div>
 		<div class="panel-body">
@@ -72,32 +72,31 @@
 	</div>
 </div>
 
-
-
 <script type="text/javascript" charset="utf-8">
 	
- 	
  	var constImgKey = "<?php echo Document::IMG_SLIDER ; ?>";
  	
 	 jQuery(document).ready(function() {
 	 
 		bindPhotoSubview();
 
-		$(".gallery-photo").on("click", function(){
+		$(".gallery-photo").on("click", function()
+		{
 			location.href = baseUrl+"/"+moduleId+"/gallery/index/id/"+id+"/type/"+type;
 		})
 
 		
-		$(".validateSlider").off().on("click", function() {
+		$(".validateSlider").off().on("click", function() 
+		{
 			clearFileupload();
 		})
 
-		$(".add-photo").off().on("click", function() {
+		$(".add-photo").off().on("click", function() 
+		{
 			$("#sliderPhotoPod .flexslider").css("display", "none");
 			$("#addPhoto").css("display", "block");
 			$('#'+constImgKey+'_avatar').trigger("click");
 		});
-
 		$(".setbgCustom").off().on("click", function() 
         {
         	if( $("#slidesPhoto > li.flex-active-slide > img").attr('src') ) 
@@ -106,13 +105,12 @@
                 $(".main-container").attr("style","background-image:url('"+$("#slidesPhoto > li.flex-active-slide > img").attr('src')+"')");
             }
         })
+
 	});
 	
-
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})
 	}
-
 
 	//resetForm
 	function hidePhotoSv(){
@@ -122,8 +120,6 @@
 		$(".fileupload").fileupload("clear");
 		$.hideSubview();
 	}
-
-
 
 	function hideFileuploadSubview(){
 		$('#'+constImgKey+'_avatar').val('');

@@ -89,10 +89,12 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 		$nbYear=0;
 		foreach ($tasks as $val){
 			if ($period == "yearly"){
-				if (!empty($firstYear) && $firstYear > date('Y',strtotime($val["startDate"])))
+				if (!empty($firstYear)){
+					if ($firstYear > date('Y',strtotime($val["startDate"])))
+						$firstYear = date('Y',strtotime($val["startDate"]));
+				}else{
 					$firstYear = date('Y',strtotime($val["startDate"]));
-				else
-					$firstYear = date('Y',strtotime($val["startDate"]));
+				}
 				if ($endYear < date('Y',strtotime($val["endDate"])))
 					$endYear = date('Y',strtotime($val["endDate"]));
 			}
@@ -106,7 +108,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/
 		if ($period == "yearly"){
-			for ($date = $firstYear; $date <= $endYear; $date++) {
+			for ($date = $firstYear; $date <= $endYear;$date++) {
 				array_push($alpha,$date);
 				$nbYear++;
 			}	
@@ -165,30 +167,16 @@ jQuery(document).ready(function() {
 	}).mouseout(function(){
 		$(this).removeClass("lightgray");
 	});
-	//toggleMonthYear();		
+	//toggleMonthYear();	
+	$("#year").fadeIn("slow");	
 	$(".back").click(function(){
+		$("#year").fadeOut("slow");	
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>",null,"html");
 	});
 	$('.scale section div').click(function(){
+		$("#year").fadeOut("slow");	
 		year=$(this).html();
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");
 		});
 });
-function toggleMonthYear(){
-	/*$('.scale section div').click(function(){
-		year=$(this).html();
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");*/
-		//$("#year").slideUp();
-		//active=$("#timesheetTab").find(".active");
-		//active.find("span").html("Back");
-		//active.removeClass("active").addClass("backYearly");
-		//$("#timesheetTab").find(".zoomTimesheet").removeClass("hide");
-		//$("#timesheetTab").find(".zoomTimesheet").addClass("active").find("a span").html(year);
-		//$('.backYearly').click(function(){
-		//	$("#year").slideDown();
-		//	$(this).removeClass("backYearly").addClass("active").find("span").html("Yearly");
-		//	$("#timesheetTab").find(".zoomTimesheet").removeClass("active").addClass("hide");
-		//});
-	//});
-}
 </script>
