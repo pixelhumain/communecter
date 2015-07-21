@@ -17,7 +17,6 @@
 	</div>
 	<?php if (!empty($tasks) OR $admin==true){ ?>
 	<div class ="col-lg-8 col-md-8 timesheetphp">
-		 <?php //$this->renderPartial('dashboard/timesheet',array("itemId" => (string)$project["_id"], "tasks" => $tasks, "admin" =>$admin)); ?>
 	</div>
 	
 	<?php } 

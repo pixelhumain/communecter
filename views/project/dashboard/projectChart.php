@@ -62,19 +62,23 @@ jQuery(document).ready(function() {
 });
 
 function updateChart(data, nbProperties){
-	alert(nbProperties);
+	newCount=0;
 	if (nbProperties==0){
 		$("#infoPodChart").hide();
 		$(".contentChart").removeClass("hide");
 		chartInit(data);
 	}
 	else{
-		for (var i=0; i < nbProperties; i++ ){
+		for (var i=0; i < countProperties; i++ ){
 			myNewChart.removeData();
 		}
-		for (var lab in data){
-			myNewChart.addData([data[lab]], lab);
+		chartInit(data);
+		/*for (var lab in data){
+			//alert(lab+":"+data[lab]);
+			//myNewChart.addData([data[lab]], lab);
+			newCount++;
 		}
+		countProperties=newCount;*/
 	}
 }
 

@@ -241,6 +241,9 @@ function runChartFormValidation() {
 		    {
 			   if (data.result==true) {   
 		        	toastr.success('Project properties succesfully update');
+		        		updateNewKnob();
+		        		knobInit();
+		        		removeChartProperty();
 		        		updateChart(data.properties,nbProperties);
 						$.unblockUI();
 						$.hideSubview(); 	
@@ -296,7 +299,20 @@ function addNewProperties(){
 			'</div>';
 	return $newProperty;
 }
-
+function updateNewKnob(){
+	$(".newLabelProperty").each(function(){
+		nameProperty=$(this).val();
+		valueProperty=$(this).parent().find(".project-property").val();
+		replaceNewProperty='<div class="col-md-4 form-property">'+
+								'<div class="removeProperty hide">'+
+									'<span class="glyphicon glyphicon-remove"></span>'+
+								'</div>'+
+								'<h4 style="text-align:center;width:200px;">'+nameProperty+'</h4>'+
+								'<input class="knob project-property" name="'+nameProperty+'" value="'+valueProperty+'" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">'+
+							'</div>';
+		$(this).parent().replaceWith(replaceNewProperty);
+	});
+}
 function removeChartProperty(){
 	$(".form-property").mouseenter(function(){
 		$(this).addClass("borderHover").find(".removeProperty").removeClass("hide");
