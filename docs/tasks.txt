@@ -1,35 +1,26 @@
-<<<<<<< HEAD
-
-=======
-{{SIG}}
-{{PERSON}}
-{{PROJECTS}}
-{{CITY}}
-<<<<<<< HEAD
-{{THINK TANK}}
-{{OPEN PEOPLE}}
-=======
->>>>>>> c1b69c0021c10ef2aaea26addba63cd884b997aa
->>>>>>> da5ec625adc123e235d9491ed3a3aa4f2a168f7f
-
 * IN PROGRESS
 	** YANNICK
 	** CLEMENT
 	  [X] integration timesheet.php sur project
 	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
 	** JOHNSON + RAPHAEL
-		[ ] Zone info sur graphe
-		[ ] ordonnée par les 30 max
-		[ ] drop down liste des communes
 		[ ] toujours afficher 
-		[ ] changer le graph en tarte
 		[ ] proposer d'autre source
-		?? peut on utilise le fileupload pour l'image de fond : ficheInfo > Background
 	** RAPHAEL
-		[X] decouper en block  le fichier source
-		[X] create importMongoAll.sh, qui fait référence à tous les importMongo.sh de chaque dossier
-		[ ] ajouter une colonne dans la création du mapping pour choisir le type de la données
-		[ ] ajouter un bouton modification pour chaque  ligne du mapping
+		[ ] Import données
+			[X] supprimer les parties qui alourdissent le traitement
+			[X] ajouter dans importHistory.sh , l'ajout du mapping dans mongodb
+			[X] correction du bug avec les rejets
+			[ ] testé l'excution en ligne de commande
+			[ ] Update des données
+				[ ] ligne de commande
+				[ ] Vérifier si on a pas déja d'anciennes données
+						- Cas d'exemple , nous avons déja les données sur les entreprises en 2012, et nous voulons ajouter celle de 2013
+						- Etre capable de les ajouter dans le même document que celui de 2012 
+		[ ] City
+			[ ] faire fonctionner l'ajaxPost pour les pod
+			[ ] ajouter des pod sur opendata
+			[ ] drop down liste des communes
 		[ ] ré-importer l'ensemble des données
 			[ ] population
 			[ ] entreprise
@@ -45,23 +36,6 @@
 		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
 		[ ] data converter 
-		[ ] module Admin PH
-			[ ] all admin views can be Filtered :: show only data for a certain perspective 
-				- codeInsee
-				- type 
-			[ ] page admin/directory  ::: Persons, Organizations, Events, Projects
-				[ ] get all elements by type 
-			[ ] actions
-				[ ] validate users
-				[ ] ban users
-				[ ] moderate entries for abuses (desactivate)
-				[ ] create a quarantine system
-					[ ] when someone declares an abuse 
-			[ ] statistics 
-				- population
-				- site activity
-				- latest users
-			[ ] user notification
 		[ ] adding into scope to news form (pub priv) & territories
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
 				[ ] users will have my scopes 
@@ -81,3 +55,11 @@
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )
+	** JEREM
+		- son bizarre sur les 2 secondes de debut (pas flaggrant), globalement le son "xavier" sature 
+		- pour le volume de Steph , le bon test est sur tablette , on ne l'entend presque pas par rapport a Xavier
+		- 0:08s code postale sans "e"
+		- partout remplacer Saint-Paul dans tout les panels et notifications par "Mavil" 
+		- notification "username" devrait etre "Vincent"
+		- Pour la séquence "Projet", il manque l'affichage d'un Panel comme pour les autres séquence (entreprise, événement, association...). Avec une belle image de jardin partagé. 
+		- la zone ronde n'est pas équilibré avec Votre COMMUNE peux tu le remplacer par vous etes communecter à Mavil

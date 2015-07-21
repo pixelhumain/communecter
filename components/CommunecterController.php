@@ -35,9 +35,9 @@ class CommunecterController extends Controller
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
-              //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href"=>"#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
-              "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href"=>"#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"new-invite", "href"=>"#newInvite", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
+              "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"new-invite", "href" => "#newInvite", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -49,19 +49,19 @@ class CommunecterController extends Controller
                 "children"=> array(
                   "createNews" 	=> array( "label"=>"Create news",	"key"=>"new-news", 	 "class"=>"new-news", "iconStack"=> array("fa fa-bullhorn fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   //"newsStream" 	=> array( "label"=>"News stream",	"key"=>"newsstream", "class"=>"ajaxSV", "onclick"=>"openSubView('News stream', '/communecter/news/newsstream', null)", "iconStack"=> array("fa fa-list fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-                  //"newNote"		=> array( "label"=>"Add new note",	"class"=>"new-note",	  "key"=>"newNote",  "href"=>"#newNote",  "iconStack"=> array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
-                 // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href"=>"#readNote", "iconStack"=> array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                  //"newNote"		=> array( "label"=>"Add new note",	"class"=>"new-note",	  "key"=>"newNote",  "href" => "#newNote",  "iconStack"=> array("fa fa-list fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                 // "readNote" 	=> array( "label"=>"Read All notes","class"=>"read-all-notes","key"=>"readNote", "href" => "#readNote", "iconStack"=> array("fa fa-list fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
      array('label' => "Event", "key"=>"event",
                 "children"=> array(
-                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href"=>"#newEvent", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
-                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href"=>"/ph/communecter/event/calendarview", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href" => "#newEvent", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href" => "/ph/communecter/event/calendarview", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
      array('label' => "Projects", "key"=>"projects",
                 "children"=> array(
-                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href"=>"#newProject", "iconStack"=> array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newProject" => array( "label"=>"Add new Project","key"=>"newProject", "class"=>"new-project", "href" => "#newProject", "iconStack"=> array("fa fa-cogs fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
           ),
      array('label' => "Rooms", "key"=>"rooms",
@@ -79,17 +79,17 @@ class CommunecterController extends Controller
 
   public $pages = array(
     "admin" => array(
-      "index"   => array("href"=>"/ph/communecter/admin"),
-      "directory" => array("href"=>"/ph/communecter/admin/directory"),
+      "index"   => array("href" => "/ph/communecter/admin"),
+      "directory" => array("href" => "/ph/communecter/admin/directory"),
     ),
 
     "default" => array(
-      "index"   => array("href"=>"/ph/communecter","api"=>""),
-      "about"   => array("href"=>"/ph/communecter/default/about"),
-      "help"    => array("href"=>"/ph/communecter/default/help"),
-      "contact" => array("href"=>"/ph/communecter/default/contact"),
-      "view"    => array("href"=>"/ph/communecter/default/view"),
-      "directory" => array("href"=>"/ph/communecter/default/directory"),
+      "index"   => array("href" => "/ph/communecter","api"=>""),
+      "about"   => array("href" => "/ph/communecter/default/about"),
+      "help"    => array("href" => "/ph/communecter/default/help"),
+      "contact" => array("href" => "/ph/communecter/default/contact"),
+      "view"    => array("href" => "/ph/communecter/default/view"),
+      "directory" => array("href" => "/ph/communecter/default/directory"),
     ),
 
     "city"=> array(
@@ -118,30 +118,31 @@ class CommunecterController extends Controller
     "gantt"=> array(
       "index" => array("href" => "/ph/communecter/gantt/index"),
       "savetask" => array("href" => "/ph/communecter/gantt/savetask"),
-      "removetask"      => array("href"=>"/ph/communecter/gantt/removetask"),
-      "generatetimeline"      => array("href"=>"/ph/communecter/gantt/generatetimeline"),
+      "removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
+      "generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
     ),
 
     "person"=> array(
-      "login"           => array("href"=>"/ph/communecter/person/login",'title' => "Log me In"),
-      "sendemailpwd"    => array("href"=>"/ph/communecter/person/sendemailpwd"),
-      "index"           => array("href"=>"/ph/communecter/person/dashboard",'title' => "My Dashboard"),
-      "authenticate"    => array("href"=>"/ph/communecter/person/authenticate",'title' => "Authentication"),
-      "dashboard"       => array("href"=>"/ph/communecter/person/dashboard"),
-      "connect"         => array("href"=>"/ph/communecter/person/connect"),
-      "disconnect"      => array("href"=>"/ph/communecter/person/disconnect"),
-      "register"        => array("href" => "/ph/communecter/person/register"),
-      "logout"          => array("href"=>"/ph/communecter/person/logout"),
+      "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
+      "sendemailpwd"    => array("href" => "/ph/communecter/person/sendemailpwd"),
+      "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+      "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
+      "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
+      "connect"         => array("href" => "/ph/communecter/person/connect"),
+      "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
+      "register"        => array("href"=> "/ph/communecter/person/register"),
+      "activate"        => array('href'=> "/ph/communecter/person/activate"),
+      "logout"          => array("href" => "/ph/communecter/person/logout"),
       'getnotification' => array("href" => "/person/getNotification"),
 
-      "invite"          => array("href"=>"/ph/communecter/person/invite"),
-      "invitation"      => array("href"=>"/ph/communecter/person/invitation"),
-      "updatefield"     => array("href"=>"/person/updatefield"),
+      "invite"          => array("href" => "/ph/communecter/person/invite"),
+      "invitation"      => array("href" => "/ph/communecter/person/invitation"),
+      "updatefield"     => array("href" => "/person/updatefield"),
       "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
 
-      "getbyid"         => array("href"=>"/ph/communecter/person/getbyid"),
-      "getorganization" => array("href"=>"/ph/communecter/person/getorganization"),
-      "updatename"      => array("href"=>"/ph/communecter/person/updatename"),
+      "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
+      "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
+      "updatename"      => array("href" => "/ph/communecter/person/updatename"),
 
       "network"=> array('href'    => "/ph/communecter/person/network"),
       "google"=> array('href'     => "/ph/communecter/person/google"),
@@ -153,31 +154,31 @@ class CommunecterController extends Controller
       "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
       "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
       "importmydata"            => array("href" =>"'/ph/communecter/person/importmydata'"),
-      "about"                   => array("href"=>"/person/about"),
-      "data"                    => array("href"=>"/person/scopes"),
+      "about"                   => array("href" => "/person/about"),
+      "data"                    => array("href" => "/person/scopes"),
       "directory"               => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
     "organization"=> array(
-      "addorganizationform" => array("href"=>"/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
-      "savenew"             => array("href"=>"/ph/communecter/organization/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "save"                => array("href"=>"/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
-      "getbyid"             => array("href"=>"/ph/communecter/organization/getbyid"),
-      "updatefield"         => array("href"=>"/ph/communecter/organization/updatefield"),
-      "join"                => array("href"=>"/ph/communecter/organization/join"),
-      "sig"                 => array("href"=>"/ph/communecter/organization/sig"),
+      "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
+      "savenew"             => array("href" => "/ph/communecter/organization/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
+      "save"                => array("href" => "/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
+      "getbyid"             => array("href" => "/ph/communecter/organization/getbyid"),
+      "updatefield"         => array("href" => "/ph/communecter/organization/updatefield"),
+      "join"                => array("href" => "/ph/communecter/organization/join"),
+      "sig"                 => array("href" => "/ph/communecter/organization/sig"),
       //Links // create a Link controller ?
-      "addneworganizationasmember"  => array("href"=>"/ph/communecter/organization/AddNewOrganizationAsMember"),
+      "addneworganizationasmember"  => array("href" => "/ph/communecter/organization/AddNewOrganizationAsMember"),
       //Dashboards
-      "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),  
-      "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
-      "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
+      "dashboard"           => array("href" => "/ph/communecter/organization/dashboard"),  
+      "dashboardmember"     => array("href" => "/ph/communecter/organization/dashboardMember"),
+      "dashboard1"          => array("href" => "/ph/communecter/organization/dashboard1"),
     ),
     
     "event"=> array(
-      "save"            => array("href"=>"/ph/communecter/event/save"),
-      "saveattendees"   => array("href"=>"/ph/communecter/event/saveattendees"),
-      "dashboard"       => array("href"=>"/ph/communecter/event/dashboard"),
+      "save"            => array("href" => "/ph/communecter/event/save"),
+      "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
+      "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),
       "delete"          => array("href" => "ph/communecter/event/delete"),
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
@@ -185,23 +186,23 @@ class CommunecterController extends Controller
     ),
 
     "project"=> array(
-      "edit"            => array("href"=>"/ph/communecter/project/edit"),
-      "public"          => array("href"=>"/ph/communecter/project/public"),
-      "save"            => array("href"=>"/ph/communecter/project/save"),
-      "savecontributor" => array("href"=>"/ph/communecter/project/savecontributor"),
-      "dashboard"       => array("href"=>"/ph/communecter/project/dashboard"),
-  	  "removeproject"   => array("href"=>"/ph/communecter/project/removeproject"),
-  	  "editchart"       => array("href"=>"/ph/communecter/project/editchart"),
-  	  "updatefield"     => array("href"=>"/ph/communecter/project/updatefield"),
-      "projectsv"       => array("href"=>"/ph/communecter/project/projectsv"),
+      "edit"            => array("href" => "/ph/communecter/project/edit"),
+      "public"          => array("href" => "/ph/communecter/project/public"),
+      "save"            => array("href" => "/ph/communecter/project/save"),
+      "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
+      "dashboard"       => array("href" => "/ph/communecter/project/dashboard"),
+  	  "removeproject"   => array("href" => "/ph/communecter/project/removeproject"),
+  	  "editchart"       => array("href" => "/ph/communecter/project/editchart"),
+  	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
+      "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
     ),
 
     "job"=> array(
-      "edit"    => array("href"=>"/ph/communecter/job/edit"),
-      "public"  => array("href"=>"/ph/communecter/job/public"),
-      "save"    => array("href"=>"/ph/communecter/job/save"),
-      "delete"  => array("href"=>"/ph/communecter/job/delete"),
-      "list"    => array("href"=>"/ph/communecter/job/list"),
+      "edit"    => array("href" => "/ph/communecter/job/edit"),
+      "public"  => array("href" => "/ph/communecter/job/public"),
+      "save"    => array("href" => "/ph/communecter/job/save"),
+      "delete"  => array("href" => "/ph/communecter/job/delete"),
+      "list"    => array("href" => "/ph/communecter/job/list"),
     ),
 
     "pod" => array(
@@ -211,7 +212,7 @@ class CommunecterController extends Controller
     ),
     "gallery" => array(
     	"index"        => array("href" => "ph/communecter/gallery/index"),
-    	"removebyid"   => array("href"=>"ph/communecter/gallery/removebyid"),
+    	"removebyid"   => array("href" => "ph/communecter/gallery/removebyid"),
     ),
 
     "link" => array(

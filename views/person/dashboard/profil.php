@@ -198,8 +198,9 @@ jQuery(document).ready(function()
 });
 
 function setBg(bg) { 
-		existingClasses = "bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
+		existingClasses = "bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater bgCustom ";
 		$(".main-container").removeClass(existingClasses).addClass(bg);
+		$(".main-container").attr("style","");
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/updatefield",
