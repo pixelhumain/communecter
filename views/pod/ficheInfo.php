@@ -25,7 +25,8 @@
 			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
 			</a>
 			<span> - </span>
-			<a href="#" id="name" data-type="text" data-title="Name" data-emptytext="Name" class="editable-context editable editable-click required">
+			<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+				class="editable-context editable editable-click required">
 				<?php echo (isset($organization)) ? $organization["name"] : null; ?>
 			</a>
 		</h4>
@@ -51,17 +52,20 @@
 			</div>
 			<div class="col-sm-6 col-xs-6">
 				<div class="row height-155 padding-20">
-					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-context editable editable-click">
+					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
 						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
+					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
 					</a>
 					<br>
-					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
+					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 					</a>
 					<br>
-					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-context editable editable-click">
+					<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
 					</a>
 					<br>
@@ -69,12 +73,14 @@
 						<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="url" data-type="text" data-title="Web Site URL" data-emptytext="Website URL" class="editable-context editable editable-click">
+					<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 					</a>
 				</div>
 				<div class="row padding-20" style="background-color:#E6E6E6; min-height:155px;">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-context editable editable-click">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 					</a>
 				</div>
@@ -189,7 +195,7 @@
 			var idMemberOf = $(this).data("memberof-id");
 			var idMember = $(this).data("member-id");
 			var typeMember = $(this).data("member-type");
-			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+			bootbox.confirm("<?php echo Yii::t('organization','Are you sure you want to remove the connection with ') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
 				function(result) {
 					if (!result) {
 					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -203,15 +209,17 @@
 					dataType: "json",
 					success: function(data){
 						if ( data && data.result ) {
-							$("#linkBtns").html('<a href="javascript:;" class="connectBtn tooltips " id="addMeAsMemberInfo" data-placement="top" data-original-title="I\'m member of this organization" ><i class=" connectBtnIcon fa fa-link "></i> LINK</a>')           
+							$("#linkBtns").html('<a href="javascript:;" class="connectBtn tooltips " id="addMeAsMemberInfo" data-placement="top"'+
+												'data-original-title="<?php echo Yii::t('organization','Become a member of this organization') ?>" >
+												<i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t('organization','I AM A MEMBER') ?></a>')           
 							bindFicheInfoBtn();
-							toastr.info("LINK DIVORCED SUCCESFULLY!!");
+							toastr.success("<?php echo Yii::t('organization','The link has been removed successfully.') ?>");
 							$("#organizations"+idMemberOf).remove();
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
 						} else {
-						   toastr.info("something went wrong!! please try again.");
+						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}
 					}
 				});
@@ -233,7 +241,7 @@
 				"memberIsAdmin" : false,
 				"memberRoles" : ""
 			};
-			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+			bootbox.confirm("<?php echo Yii::t('organization','Do you really want to become a member of the organization : ') ?><span class='text-red'>"+contextData.name+"</span> ?", 
 				function(result) {
 					if (!result) {
 						$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -247,9 +255,12 @@
 					dataType: "json",
 					success: function(data) {
 						if(data.result){
-							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'" data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i>UNFOLLOW</a>');
+							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'" 
+												data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" 
+												data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >
+												<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 							bindFicheInfoBtn();
-							toastr.success("You are now member of the organization : "+contextData.name);
+							toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 						}
 						else
 							toastr.error(data.msg);
