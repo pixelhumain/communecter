@@ -18,9 +18,34 @@ var keywords = [
 		"body":"HELP US BUILD A BETTER PLACE"
 	},
 	{
-		"icon" : "fa-git",
+		"icon" : "fa-hand-o-up",
 		"title":"GET INVOLVED",
-		"body":"<a href='https://github.com/pixelhumain/pixelhumain' target='_blank'>GITHUB</a>"
+		"body":"All sorts of tasks : <br/>"+
+				"<ul><li> DEVS : <a href='https://github.com/pixelhumain/pixelhumain' target='_blank'>GITHUB</a></li>"+
+				"<li> ARTISTS : design, write a song, write for change</li>"+
+				"<li> COMMUNICATION : </li>"+
+				"<li> COMMONERS : </li>"+
+				"<li> JURISTS : </li>"+
+				"<li> BUILDERS : </li>"+
+				"<li> THINKERS : </li>"+
+				"<li> FINANCERS : </li>"+
+				"<li> BUILDERS : </li>"+
+				"<li> ARCHITECTS : </li>"+
+				"<li> CONNECTORS : </li>"+
+				"<li> INVENTORS : </li>"+
+				"<li> TRAVELLERS : </li>"+
+				"<li> MAKERS : </li>"+
+				"</ul>"
+	},
+	{
+		"icon" : "fa-users",
+		"title":"MEETUP SESSIONS",
+		"body":"Different sessions for different things : <br/>"+
+				"We meet up on skype or Hangout <br/>"+
+				"<ul><li>Scrum dev sessions : daylee</li>"+
+				"<li>Sessions for all : every 15j to talk globally about the project</li>"+
+				"<li>Demo session : specific sub milestones</li>"+
+				"</ul>"
 	},
 ];
 	
@@ -33,7 +58,7 @@ jQuery(document).ready(function()
 		var body = (obj.body) ? obj.body : null ;
 		var str = '<div class="col-md-6 col-sm-12 "><div class="panel panel-white ">'+
 			'<div class="panel-heading border-light ">'+
-				'<span class="panel-title homestead"> <i class="fa '+icon+'  fa-2x"></i> <span style="font-size: 35px; color:'+color+';"> '+obj.title+'</span></span>'+
+				'<span class="panel-title homestead"> <i class="fa '+icon+'  fa-2x"></i> <span style="font-size: 35px; color:'+color+';">&nbsp;'+obj.title+'</span></span>'+
 			'</div>';
 		if(body)
 			str += '<div class="panel-body">'+

@@ -1,3 +1,7 @@
+<div class="panel-heading border-light center text-dark partition-white radius-10 ">
+	<span class="panel-title homestead"> <i class='fa fa-child faa-pulse animated  fa-3x  '></i> <span style="font-size: 48px">ABOUT</span></span>
+</div>
+<div class="space20"></div>
 
 <style type="text/css">
 	.videoWrapper {
@@ -14,10 +18,39 @@
 		height: 100%;
 	}
 </style>
-<div class="panel-heading border-light center">
-	<span class="panel-title homestead"> <i class='fa fa-child faa-pulse animated fa-3x  '></i> <span style="font-size: 48px">ABOUT</span></span>
+
+<div class="panel panel-white">
+	<div class="panel-heading border-light ">
+		<span class="panel-title homestead"> <i class='fa fa-users fa-3x  '></i> <span style="font-size: 48px; color:#E33551"> a NETWORK of NETWORKS </span></span>
+	</div>
+	<div class="panel-body" >
+		HUMAN PIXEL a layered organization <br/>
+		<ul class="list-group ">
+			<li class="list-group-item panel-white"> O.R.D : a decentralised company of trusted independant professionals </li>
+			<li class="list-group-item panel-white"> OPEN ATLAS : a Non profit Organization </li>
+			<li class="list-group-item panel-white"> PIXEL HUMAIN : a community of people and organizations working, thinking and building for change</li>
+			<li class="list-group-item panel-white"> COMMUNECTER : a product , a modular framework, a Citizen Tool Kit</li>
+			<li class="list-group-item panel-white"> CITIZENS : are the heart of the system	</li>
+		</ul>
+		
+	</div>
 </div>
-<div class="space20"></div>
+
+<div class="panel panel-dark col-sm-6 col-lg-12 ">
+		<div class="panel-heading border-light">
+			<span class="text-extra-small text-blue"></span><span class="text-large text-white">WE WORK</span>
+		</div>
+		<div class="panel-body no-padding text-extra-large ">
+			<ul class="list-group ">
+				<li class="list-group-item panel-dark">For All</li>
+				<li class="list-group-item panel-dark">For The Commons</li>
+				<li class="list-group-item panel-dark">For apps</li>
+				<li class="list-group-item panel-dark">For innovation</li>
+				<li class="list-group-item panel-dark">For Knowledge</li>
+			</ul>
+		</div>
+	</div>
+</div>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light ">
