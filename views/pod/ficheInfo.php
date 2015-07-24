@@ -210,8 +210,8 @@
 					success: function(data){
 						if ( data && data.result ) {
 							$("#linkBtns").html('<a href="javascript:;" class="connectBtn tooltips " id="addMeAsMemberInfo" data-placement="top"'+
-												'data-original-title="<?php echo Yii::t('organization','Become a member of this organization') ?>" >
-												<i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t('organization','I AM A MEMBER') ?></a>')           
+												'data-original-title="<?php echo Yii::t('organization','Become a member of this organization') ?>" >'+
+												'<i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t('organization','I AM A MEMBER') ?></a>');
 							bindFicheInfoBtn();
 							toastr.success("<?php echo Yii::t('organization','The link has been removed successfully.') ?>");
 							$("#organizations"+idMemberOf).remove();
@@ -255,10 +255,10 @@
 					dataType: "json",
 					success: function(data) {
 						if(data.result){
-							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'" 
-												data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" 
-												data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >
-												<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
+							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'"'+ 
+												'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
+												'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
+												'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 							bindFicheInfoBtn();
 							toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 						}
