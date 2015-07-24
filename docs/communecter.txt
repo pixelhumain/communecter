@@ -25,18 +25,21 @@
 			[ ] territory
 				- can be anything and are not shared accross users
 				- are saved in [[tags]] collection 
-      [ ] filter by content type 
-        - show only images 
-        - show only links 
-      [ ] filter by person   
+        [ ] filter by content type 
+            - show only images 
+            - show only links 
+        [ ] filter by person   
 			[ ] Timeline RSS feed
-      [X] filter by tags on directory page
-      [X] filter by scope on directory page
-      [X] apply filter tags and scope 
-        [X] directory
-        [X] news
+        [X] filter by tags on directory page
+        [X] filter by scope on directory page
+        [X] apply filter tags and scope 
+            [X] directory
+            [X] news
 		* INTEROPERABILITY 
 			[ ] join with a PLP url > convert into ph data 
+        * data converter 
+            [ ] schema City map 
+            [ ] schema Place map
     * URLs
       [ ] url formatting for seo , ex : /organization/openatlas
 	** SIG 

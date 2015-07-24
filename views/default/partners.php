@@ -44,6 +44,12 @@ var keywords = [
 		"link" : "",
 		"class" : "partner"
 	},
+	{
+		"icon" : "fa-users",
+		"title": "LIVING.COOP",
+		"link" : "",
+		"class" : "partner"
+	},
 	/* **************************************
 	*
 	*	FINANCERS

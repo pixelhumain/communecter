@@ -34,8 +34,6 @@
 	** SYLVAIN
 		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
-		[ ] data converter 
-			[ ] into schema lang
 		[ ] smaller scope 
 		[ ] adding into scope to news form (pub priv) & territories
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
@@ -51,8 +49,15 @@
 		[ ] apply filter tags and scope 
 			[ ] survey
 			[ ] maps
-		[ ] set up https
 		[ ] inter operable Granddir
+		--- ??? ----
+		- check persons events existence
+		[[??? event.address]] : {
+		    "street": "Tempelhofer Ufer 23/24",
+		    "code": "10963",
+		    "city": "Berlin",
+		    "country": "Germany"
+		}
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )
