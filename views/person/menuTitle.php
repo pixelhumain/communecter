@@ -2,7 +2,7 @@
 	var  activePanel = "box-login";
 	var  bgcolorClass = "bgblack";
 
-	function showMenu(box){
+	function showMenu(box,bgStyle){
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		if($(".menuBtn").hasClass("fa-times"))
 		{
@@ -16,14 +16,7 @@
 				bgcolorClass = "bgCity";
 			}
 			else{
-				bgcolorClass = "bgblack";
-				if( box == "box-when" || box == "box-whatisit")
-					bgcolorClass = "bgyellow";
-				else if(box == "box-why" || box == "box-how" )
-					bgcolorClass = "bggreen";
-				else if(box == "box-4who" || box == "box-where" )
-					bgcolorClass = "bgblue";
-					
+				bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
 				$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			}
 
@@ -104,25 +97,26 @@
 		},3000);
 	}
 </script>
-
+<?php if(!isset($topTitleExists)){ ?>
 <div class="text-white text-extra-large text-bold center topLogoAnim">
 	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in september, early registration open ) </span>
 	<br/>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	<a href="#" class="text-white" onclick="showVideo('133632604')"><i class="fa fa-2x fa-youtube-play"></i></a>
+	<a href="#" class="text-white" onclick="showVideo('133636468')"><i class="fa fa-2x fa-youtube-play"></i></a>
 	
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>
+<?php } ?>
 <div class="box-menu box">
 	<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT</a></li>
-		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
-		<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">WHO</a></li>
-		<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how')">HOW</a></li>
-		<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when')">WHEN</a></li>
-		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where')">WHERE</a></li>
+		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit','bgyellow')">WHAT</a></li>
+		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why','bggreen')">WHY</a></li>
+		<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who','bgblue')">WHO</a></li>
+		<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how','bggreen')">HOW</a></li>
+		<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when','bgyellow')">WHEN</a></li>
+		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where','bgblue')">WHERE</a></li>
 		<li style="margin-left:50px">&nbsp;<i class="fa fa-lightbulb-o"></i> <a href="#" style="color:white" onclick="showMenu('box-help')">HELP US</a></li>
 		<li style="margin-left:50px"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <a href="#" style="color:white" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
 		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 64px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
@@ -147,7 +141,7 @@
 		<br/> 
 	</section>
 	<hl/>
-	<a href="#" onclick="showMenu();showMenu('box-why')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
+	<a href="#" onclick="showMenu();showMenu('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
 
 <div class="box-why box">
@@ -167,7 +161,7 @@
 		<br/> Discover and not Ignore
 		<br/> 
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-4who')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu();showMenu('box-4who','bgblue')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-4who box">
@@ -188,7 +182,7 @@
 		<br/> Travellers
 		<br/> Makers
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-how')" class="homestead nextBtns pull-right">HOW <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu();showMenu('box-how','bggreen')" class="homestead nextBtns pull-right">HOW <i class="fa fa-arrow-circle-o-right"></i></a>
 	
 </div>
 
@@ -204,7 +198,7 @@
 		<br/> Collective Imagination
 		<br/> Open source 
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-when')" class="homestead nextBtns pull-right">WHEN <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu();showMenu('box-when','bgyellow')" class="homestead nextBtns pull-right">WHEN <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-when box">
@@ -216,7 +210,7 @@
 		<br/> First Beta opening in september 2015
 		<br/> Crowd Foundin launches in August 2015
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-where')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu();showMenu('box-where','bgblue')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-where box">
@@ -245,5 +239,5 @@
 		<br/> Translate
 		<br/> Innovate
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-whatisit')" class="homestead nextBtns pull-right">WHAT <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>

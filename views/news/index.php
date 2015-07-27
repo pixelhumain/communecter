@@ -24,6 +24,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 		        	<li>
 		        		<a class="new-news btn btn-info" href="#new-News">Add <i class="fa fa-plus"></i></a>
 		        	</li>
+		        	<?php /* ?>
 			        <li class="panel-tools">
 			          <div class="dropdown">
 			            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
@@ -41,6 +42,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 			              </ul>
 		          	  </div>
 			        </li>
+			        <?php */?>
 		        </ul>
 			</div>
 			<div class="panel-body panel-white">

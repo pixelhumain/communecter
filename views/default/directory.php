@@ -25,6 +25,9 @@
 					<tr>
 						<th>Type</th>
 						<th>Name</th>
+						<?php if( Yii::app()->session[ "userIsAdmin"] && Yii::app()->controller->id == "admin" ){?>
+						<th>Email</th>
+						<?php }?>
 						<th>Tags</th>
 						<th>Scope</th>
 						<th>Actions</th>
@@ -91,7 +94,8 @@
 									$classes .= "tobeactivated";
 									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
 								}
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> Ban This  </a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
 							}
 
 							/* **************************************
@@ -113,6 +117,13 @@
 							***************************************** */
 							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
 							
+							/* **************************************
+							* EMAIL for admin use only
+							***************************************** */
+							if( Yii::app()->session[ "userIsAdmin"] && Yii::app()->controller->id == "admin" ){
+								$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["email"]))? $e["email"]:"").'</a></td>';
+							}
+
 							/* **************************************
 							* TAGS
 							***************************************** */
@@ -283,8 +294,8 @@ function applyScopeFilter(str)
 	return $('.directoryLines tr').length;
 }
 
-function bindBtnEvents(){
-	console.log("bindBtnEvents");
+function bindAdminBtnEvents(){
+	console.log("bindAdminBtnEvents");
 	
 	<?php 
 	/* **************************************

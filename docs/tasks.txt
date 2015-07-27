@@ -34,6 +34,16 @@
 	** SYLVAIN
 		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
 	** TIBOR
+		[X] discussion Nexa , forum des communs
+		[X] Meeting Sharitories 
+		[X] reparaired Action Rooms creation for projects
+		[X] repair admin directory 
+			[X] show only tobevalidated 
+			[X] build specific menu bar 
+		[ ] proto retour citoyen pour la Possession 
+			[ ] @TKA integrate new design multi section 
+			[ ] @SBA integré comments feed list 
+
 		[ ] smaller scope 
 		[ ] adding into scope to news form (pub priv) & territories
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---

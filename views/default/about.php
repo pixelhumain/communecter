@@ -26,8 +26,21 @@
 	<div class="panel-body" >
 		HUMAN PIXEL a layered organization <br/>
 		<ul class="list-group ">
-			<li class="list-group-item panel-white"> O.R.D : a decentralised company of trusted independant professionals </li>
-			<li class="list-group-item panel-white"> OPEN ATLAS : a Non profit Organization </li>
+			<li class="list-group-item panel-white"> 
+				OPEN ATLAS : a Non profit Organization 
+				<br/> garantis fonctionnement democratique 
+				<br/> Why An N.G.O ?
+				<br/> The project is non profit , aimed at building commons in a transparent and open source way
+				<br/> The NGO format seemed the most open structure
+				<br/> a chain of NGOs  
+			</li>
+			<li class="list-group-item panel-white"> 
+				a Group of companies managed by O.R.D 
+				<br/> a decentralised company of trusted independant professionals 
+				<br/> Why a company ?
+				
+			</li>
+			
 			<li class="list-group-item panel-white"> PIXEL HUMAIN : a community of people and organizations working, thinking and building for change</li>
 			<li class="list-group-item panel-white"> COMMUNECTER : a product , a modular framework, a Citizen Tool Kit</li>
 			<li class="list-group-item panel-white"> CITIZENS : are the heart of the system	</li>
