@@ -66,6 +66,8 @@ var context = <?php echo json_encode($context)?>;
 var contextType = <?php echo json_encode($contextType)?>;
 var comments = <?php echo json_encode($comments); ?>;
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
+var options = <?php echo json_encode($options)?>;
+var canUserComment = <?php echo json_encode($canComment)?>;
 
 jQuery(document).ready(function() 
 {
@@ -97,23 +99,19 @@ function addEmptyCommentOnTop() {
 }
 
 function buildComments(commentsLevel, level) {
-	console.log(level);
 	if (level == 0) {
 		var commentsHTML = '<ul class="tree">';
 	} else {
 		var commentsHTML = '<ul class="level">';	
 	}
 
-	$.each( commentsLevel , function(key,commentObj)
-	{
-		if(commentObj.text && commentObj.created)
-		{
+	$.each( commentsLevel , function(key,commentObj) {
+		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
 			var commentsTLLine = buildLineHTML(commentObj);
 			
 			commentsHTML += commentsTLLine;
 			
-			console.log(commentObj.replies, commentObj.replies.length);
 			if (commentObj.replies.length != 0) {
 				nextLevel = level + 1;
 				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel);
@@ -127,12 +125,10 @@ function buildComments(commentsLevel, level) {
 	return commentsHTML;
 }
 
-function buildLineHTML(commentObj)
-{
+function buildLineHTML(commentObj) {
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.format('D MMM YYYY HH:mm');
-	console.log("date",commentObj.created, dateStr);
 	
 	var iconStr = getProfilImageUrl(commentObj.author.profilImageUrl);
 	var objectLink = (commentObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
@@ -143,8 +139,7 @@ function buildLineHTML(commentObj)
 	var title = commentObj.author.name;
 	var text = commentObj.text;
 	var tags = "";
-	if( "undefined" != typeof commentObj.tags && commentObj.tags)
-	{
+	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
 			tags += "<span class='label label-inverse'>"+tag+"</span> ";
 		});
@@ -166,10 +161,16 @@ function buildLineHTML(commentObj)
 					'<div class="space10"></div>'+
 					
 					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "+
+					"<div class='bar_tools_post'>";
+	
+	if (options.tree == true) {
+		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
+	};
+
+	commentsTLLine = commentsTLLine + 
 					"<a href='javascript:;' class='commentVoteUp' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-green'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
 					"<a href='javascript:;' class='commentVoteDown' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-orange'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='commentReportAbuse' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>10 <i class='fa fa-warning'></i></span></a> "+
 					"</div>"+
 				'</div>';
 
@@ -220,7 +221,6 @@ function bindEvent(){
 }
 
 function replyComment(parentCommentId) {
-	toastr.info('Reply to comment '+parentCommentId);
 	
 	var commentsTLLine = buildNewCommentLine(parentCommentId);
 
@@ -242,9 +242,6 @@ function replyComment(parentCommentId) {
 
 function buildNewCommentLine(parentCommentId) {
 	var id = 'newcomment'+Math.floor((Math.random() * 100) + 1);
-	var date = moment();
-	var dateStr = date.format('D MMM YYYY HH:mm');//day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	console.log("date", dateStr);
 	
 	var iconStr = getProfilImageUrl(currentUser.profilImageUrl);
 	var objectLink = iconStr;
@@ -255,23 +252,29 @@ function buildNewCommentLine(parentCommentId) {
 	var title = currentUser.name;
 	var text = '<textarea class="newComment" rows="2" style="width: 100%"></textarea>';
 	var tags = "";
-	commentsTLLine = 
-				'<li id="'+id+'"><div class="commentline_element partition-'+color+'">'+
-					tags+
-					'<div class="commentline_title">'+
-						objectLink+
-						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
-					'</div>'+
-					'<div class="space10"></div>'+
-					text+	
-					'<div class="space10"></div>'+
-					
-					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Submit</span></a> "+
-					"<a href='javascript:;' class='cancelComment' data-id='"+id+"'><span class='label label-info'>Cancel</span></a> "+
-					"</div>"+
-				'</div></li>';
+	
+	if (canUserComment == true) {
+		commentsTLLine = 
+					'<li id="'+id+'"><div class="commentline_element partition-'+color+'">'+
+						tags+
+						'<div class="commentline_title">'+
+							objectLink+
+							'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
+						'</div>'+
+						'<div class="space10"></div>'+
+						text+	
+						'<div class="space10"></div>'+
+						"<div class='bar_tools_post'>"+
+						"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Submit</span></a> "+
+						"<a href='javascript:;' class='cancelComment' data-id='"+id+"'><span class='label label-info'>Cancel</span></a> "+
+						"</div>"+
+					'</div></li>';
+	} else {
+		commentsTLLine = 
+					'<li id="'+id+'"><div class="commentline_element partition-'+color+'">'+
+						'You can not comment more for this discussion'+
+					'</div></li>';
+	}
 	return commentsTLLine;
 }
 
@@ -315,7 +318,6 @@ function validateComment(commentId, parentCommentId) {
 
 //Switch from Edditing comment to view comment
 function switchComment(tempCommentId, comment, parentCommentId) {
-	console.log(comment, parentCommentId);
 	$('#'+tempCommentId).remove();
 	var commentsTLLine = buildLineHTML(comment);
 	// When it's a root comment
@@ -329,8 +331,6 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 		ulChildren.prepend(commentsTLLine);
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
-	
-	console.log(ulChildren);
 	
 	bindEvent();
 }
