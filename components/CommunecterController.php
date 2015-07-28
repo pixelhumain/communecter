@@ -123,7 +123,11 @@ class CommunecterController extends Controller
       "removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
       "generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
     ),
-
+	"needs"=> array(
+      "index" => array("href" => "/ph/communecter/needs/index"),
+      "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
+      "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
+    ),
     "person"=> array(
       "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
       "sendemailpwd"    => array("href" => "/ph/communecter/person/sendemailpwd"),
