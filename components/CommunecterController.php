@@ -264,6 +264,9 @@ class CommunecterController extends Controller
       "index" => array( "href" => "/ph/communecter/comment/index"),
       "save" => array( "href" => "/ph/communecter/comment/save")
     ),
+    "action"=> array(
+       "addaction"   => array("href" => "/ph/communecter/action/addaction"),
+    ),
     
   );
 

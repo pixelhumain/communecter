@@ -1,16 +1,11 @@
-<?php 
-//$this->renderPartial('commentsSV');
-?>
 <?php
 
-if(Yii::app()->request->isAjaxRequest){
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js');
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js');
-}else{
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
-}
+$cssAnsScriptFiles = array(
+	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
 ?>	
 	<!-- start: PAGE CONTENT -->
 <div id="commentHistory">
@@ -19,29 +14,29 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white">
 			<div class="panel-heading border-light">
-				<h4 class="panel-title">Comments - <?php echo $contextType.' - '.@$context["name"]?></h4>
+				<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <?php echo ucfirst($contextType).' - '.@$context["name"]?></h4>
 				<ul class="panel-heading-tabs border-light">
-		        	<li>
-		        		<a class="new-comment btn btn-info" href="#new-comment">Add <i class="fa fa-plus"></i></a>
-		        	</li>
-			        <li class="panel-tools">
-			          <div class="dropdown">
-			            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-			              <i class="fa fa-cog"></i>
-			            </a>
-			            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-			              <li>
-			                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-			              </li>
-			              <li>
-			                <a class="panel-expand" href="#">
-			                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-			                </a>
-			              </li>
-			              </ul>
-		          	  </div>
-			        </li>
-		        </ul>
+					<li>
+						<div><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</div>
+					</li>
+					<li class="panel-tools">
+					  <div class="dropdown">
+						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
+						  <i class="fa fa-cog"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-light pull-right" role="menu">
+						  <li>
+							<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
+						  </li>
+						  <li>
+							<a class="panel-expand" href="#">
+							  <i class="fa fa-expand"></i> <span>Fullscreen</span>
+							</a>
+						  </li>
+						  </ul>
+					  </div>
+					</li>
+				</ul>
 			</div>
 			<div class="panel-body panel-white">
 				<ul class="commentline-scrubber inner-element commentsTLmonthsList"></ul>
@@ -51,8 +46,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 												
 						</div>
 					</div>
+
 				</div>
 			</div>
+			<div id="waypoint">toto</div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
@@ -69,25 +66,18 @@ var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 
-jQuery(document).ready(function() 
-{
+jQuery(document).ready(function() {
 	buildTimeLine();
 	addEmptyCommentOnTop();
 	bindEvent();
 });
 
-function buildTimeLine()
-{
+function buildTimeLine() {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	
 	$('.commentsTL').append(buildComments(comments, 0));
 	$('.commentsTL').append()
-	
-	/*if($('.commentsTL').children('li').length == 0)
-		$(".commentsTL").html("<div class='center text-extra-large'>Sorry, no comments available</div>");
-	*/
 }
 
 function addEmptyCommentOnTop() {
@@ -167,10 +157,14 @@ function buildLineHTML(commentObj) {
 		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
 	};
 
+	var voteUpCount = parseInt(commentObj.voteUpCount) || 0;
+	var voteDownCount = parseInt(commentObj.voteDownCount) || 0;
+	var reportAbuseCount = parseInt(commentObj.reportAbuseCount) || 0;
+	
 	commentsTLLine = commentsTLLine + 
-					"<a href='javascript:;' class='commentVoteUp' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-green'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='commentVoteDown' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-orange'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='commentReportAbuse' data-count='10' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>10 <i class='fa fa-warning'></i></span></a> "+
+					"<a href='javascript:;' class='commentVoteUp' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-green'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' class='commentVoteDown' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-orange'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='commentReportAbuse' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>"+reportAbuseCount+" <i class='fa fa-warning'></i></span></a> "+
 					"</div>"+
 				'</div>';
 
@@ -197,27 +191,63 @@ function bindEvent(){
 	$('.commentReply').off().on("click",function(){
 		replyComment($(this).data("id"));
 	});
-	$('.commentVoteUp').off().on("click",function(){
-		toastr.info('TODO : VOTE UP this news Entry');
-		console.log("newsVoteUp",$(this).data("id"));
-		count = parseInt($(this).data("count"));
-		$(this).data( "count" , count+1 );
-		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
-	});
-	$('.commentVoteDown').off().on("click",function(){
-		toastr.info('TODO : VOTE DOWN this news Entry');
-		console.log("newsVoteDown",$(this).data("id"));
-		count = parseInt($(this).data("count"));
-		$(this).data( "count" , count+1 );
-		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
-	});
-
 	$('.validateComment').off().on("click",function(){
 		validateComment($(this).data("id"), $(this).data("parentid"));
 	});
 	$('.cancelComment').off().on("click",function(){
 		cancelComment($(this).data("id"));
 	});
+
+	$('#waypoint').on("appear", function(event, $all_appeared_elements) {
+		alert("vlan je suis sur le waypoint");
+	});
+
+	//Comment action button
+	$('.commentVoteUp').off().on("click",function(){
+		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
+	});
+	$('.commentVoteDown').off().on("click",function(){
+		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
+	});
+	$('.commentReportAbuse').off().on("click",function(){
+		actionOnComment($(this),'<?php echo Action::ACTION_REPORT_ABUSE ?>');
+	});
+}
+
+function actionOnComment(comment, action) {
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/action/addaction/",
+		data: {
+			id: comment.data("id"),
+			collection : '<?php echo Comment::COLLECTION?>',
+			action : action
+		},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: 
+			function(data) {
+    			if(!data.result){
+                    toastr.error(data.msg);
+               	}
+                else { 
+                    if (data.userAllreadyDidAction) {
+                    	toastr.info("You already vote on this comment.");
+                    } else {
+	                    toastr.success(data.msg);
+	                    count = parseInt(comment.data("count"));
+						comment.data( "count" , count+1 );
+						icon = comment.children(".label").children(".fa").attr("class");
+						comment.children(".label").html(comment.data("count")+" <i class='"+icon+"'></i>");
+					}
+                }
+            },
+        error: 
+        	function(data) {
+        		toastr.error("Error calling the serveur : contact your administrator.");
+        	}
+		});
 }
 
 function replyComment(parentCommentId) {
@@ -299,18 +329,18 @@ function validateComment(commentId, parentCommentId) {
 		dataType: 'json',
 		success: 
 			function(data) {
-    			if(!data.result){
-                    toastr.error(data.msg);
-               	}
-                else { 
-                    toastr.success(data.msg);
-                    switchComment(commentId, data.newComment, parentCommentId);
-                }
-            },
-        error: 
-        	function(data) {
-        		toastr.error("Error calling the serveur : contact your administrator.");
-        	}
+				if(!data.result){
+					toastr.error(data.msg);
+				}
+				else { 
+					toastr.success(data.msg);
+					switchComment(commentId, data.newComment, parentCommentId);
+				}
+			},
+		error: 
+			function(data) {
+				toastr.error("Error calling the serveur : contact your administrator.");
+			}
 	});
 
 	//return newCommentId;
@@ -336,8 +366,8 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 }
 
 function getProfilImageUrl(imageURL) {
-	var iconStr = '<i class=" fa fa-user_circled fa-2x pull-left fa-border"></i>';
-	if ("undefined" != typeof imageURL) {
+	var iconStr = '<i class="fa fa-user_circled fa-2x pull-left fa-border"></i>';
+	if ("undefined" != typeof imageURL && imageURL != "") {
 		iconStr = '<img width="50" height="50" alt="image" class="img-circle"'+ 
 						'src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+
 						 imageURL+'">';
