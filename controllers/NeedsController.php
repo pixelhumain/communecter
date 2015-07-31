@@ -17,7 +17,7 @@ class NeedsController extends CommunecterController {
 	    return array(
 	        'index'       		=> 'citizenToolKit.controllers.needs.IndexAction',
 	        'dashboard'       	=> 'citizenToolKit.controllers.needs.DashboardAction',
-			
+			'saveneed'       	=> 'citizenToolKit.controllers.needs.SaveNeedAction',
 	    );
 	}
 }
