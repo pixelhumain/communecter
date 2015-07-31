@@ -36,38 +36,40 @@
 			<table class="table table-condensed table-hover" >
 				<tbody>
 					<tr>
-						<td>Intitulé</td>
-						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a></td>
+						<td>Name</td>
+						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["name"]))echo $need["name"];?></td>
 					</tr>
 					<tr>
 						<td>Type</td>
-						<td><a href="#" id="type" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a></td>
+						<td><a href="#" id="type" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["type"]))echo $need["type"];?></td>
 					</tr>
 					<tr>
-						<td>Catégorie</td>
-						<td><a href="#" id="category" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a></td>
+						<td>Duration</td>
+						<td><a href="#" id="category" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["duration"]))echo $need["duration"];?></td>
 					</tr>
 					<!--<tr>
 						<td>Description</td>
 						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click"></a></td>
 					</tr>-->
+					<?php if ($need["duration"]== "ponctuel"){ ?>
 					<tr>
 						<td>Début</td>
-						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a></td>
+						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a><?php if(isset($need["startDate"]))echo $need["startDate"];?></td>
 					</tr>
 					<tr>
 						<td>Fin</td>
-						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a></td>
+						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a><?php if(isset($need["endDate"]))echo $need["endDate"];?></td>
 					</tr>
+					<?php } ?>
 					<tr>
 						<td>Quantité</td>
-						<td><a href="#" id="quantity" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a></td>
+						<td><a href="#" id="quantity" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["quantity"]))echo $need["quantity"];?></td>
 					</tr>
 					
 					
 					<tr>
 						<td>Benefits</td>
-						<td><a href="#" id="benefits" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a></td>
+						<td><a href="#" id="benefits" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["benefits"]))echo $need["benefits"];?></td>
 					</tr>
 				</tbody>
 			</table>
