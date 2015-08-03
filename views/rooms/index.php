@@ -3,7 +3,10 @@
 		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS </h4>
 		<ul class="panel-heading-tabs border-light">
     	<li>
-    		<a class=" btn btn-info" href="#" onclick="openSubView('Add a Room', '/communecter/rooms/editroom/type/<?php echo $_GET["type"] ?>/id/<?php echo $_GET["id"] ?>',null,function(){editRoomSV ();})" ><i class="fa fa-plus"></i> Room </a>
+    		<?php  
+    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? "/type/".$_GET["type"]."/id/".$_GET["id"] : "" ;
+    			?>
+    		<a class=" btn btn-info" href="#" onclick="openSubView('Add a Room', '/communecter/rooms/editroom<?php echo $urlParams ?>',null,function(){editRoomSV ();})" ><i class="fa fa-plus"></i> Room </a>
     	</li>
 		
 	</div>

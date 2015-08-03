@@ -62,11 +62,23 @@ $this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionT
 			<span class="text-extra-large text-bold">What do you want to fund</span>
 			<br/><label for="fund1" class="checkbox-inline"><input type="checkbox" id="fund1" class="grey"/> Our Team can remain in dev <span class="badge"> 1</span></label>
 			<br/><label for="fund2" class="checkbox-inline"><input type="checkbox" id="fund2" class="grey"/> Mobile version <span class="badge"> 5</span></label>
-			<br/>New modules like : </li>
+			<br/>New modules like : 
 			<br/><label for="fund3" class="checkbox-inline"><input type="checkbox" id="fund3" class="grey" /> Voting system <span class="badge"> 2</span></label>
 			<br/><label for="fund4" class="checkbox-inline"><input type="checkbox" id="fund4" class="grey"/> Action Rooms <span class="badge"> 1</span></label>
 		</div>
 		
+		<div class="box-fund box-pod box margin-10" style="padding-left:40px">
+			<span class="text-extra-large text-bold">YOU GAVE US , WE GIVE YOU </span>
+			<br/><label for="gift1" class="checkbox-inline"><input type="checkbox" id="gift1" class="grey" checked disabled/> Association Member <span class="badge"> 1</span></label>
+			<br/><label for="gifts" class="checkbox-inline"><input type="radio" id="gifts" class="grey"/> Gift1<span class="badge"> 1</span></label>
+			<br/><label for="gifts" class="checkbox-inline"><input type="radio" id="gifts" class="grey"/> Gift2<span class="badge"> 1</span></label>
+			<br/><label for="gifts" class="checkbox-inline"><input type="radio" id="gifts" class="grey"/> Gift3<span class="badge"> 1</span></label>
+			<br/>For <span class="nextAmount">xx</span>€ more get this 
+			<br/>Next Gift <span class="badge"> 2</span>
+			<br/>Next Gift <span class="badge"> 2</span>
+			<br/>Next Gift <span class="badge"> 2</span>
+		</div>
+
 		<div class="box-fund box-pod box margin-10">
 
 			<div class="col-sm-6 col-xs-12">
@@ -104,17 +116,20 @@ $this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionT
 						<div class="form-group">
 							<span class="input-icon">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Prénom Nom : John Doe">
-								<i class="fa fa-user"></i> </span>
+								<i class="fa fa-user"></i> 
+							</span>
 						</div>
 						<div class="form-group">
 							<span class="input-icon">
 								<input type="email" class="form-control" id="email3" name="email3" placeholder="Email">
-								<i class="fa fa-envelope"></i> </span>
+								<i class="fa fa-envelope"></i> 
+							</span>
 						</div>
 						<div class="form-group">
 							<span class="input-icon">
 								<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
-								<i class="fa fa-home"></i></span>
+								<i class="fa fa-home"></i>
+							</span>
 						</div>
 						<div class="form-group" id="cityDiv" style="display: none;">
 							<span class="input-icon">
@@ -124,29 +139,30 @@ $this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionT
 						</div>
 						<div class="form-group">
 							<span class="input-icon">
-								<select class="selectpicker form-control" id="amount3" name="amount3" >
-									<option>Help us fund it ? </option>
-									<option>Just Like the project, and will participate</option>
-									<option>Donate 1€</option>
-									<option>Donate 5€</option>
-									<option>Donate 12€ = 1€ / month</option>
-									<option>Donate 20€</option>
-									<option>Donate 50€</option>
-									<option>Donate 100€</option>
-									<option>Donate 300€</option>
-									<option>Donate 500€</option>
-									<option>Donate 800€</option>
-									<option>Donate 1K€</option>
-									<option>Donate 5K€</option>
+								<select class="selectpicker form-control" id="amount" name="amount" >
+									<option value="">Help us fund it ? </option>
+									<option value="0">Just Like the project, and will participate</option>
+									<option value="1">Donate 1€</option>
+									<option value="5">Donate 5€</option>
+									<option value="12">Donate 12€ = 1€ / month</option>
+									<option value="20">Donate 20€</option>
+									<option value="50">Donate 50€</option>
+									<option value="100">Donate 100€</option>
+									<option value="300">Donate 300€</option>
+									<option value="500">Donate 500€</option>
+									<option value="800">Donate 800€</option>
+									<option value="1000">Donate 1K€</option>
+									<option value="5000">Donate 5K€</option>
 								</select>
+							</span>
 						</div>
 						<div class="form-group">
 							<span class="input-icon">
 								<select class="selectpicker form-control" id="inExchange" name="inExchange" title='Contrepartie ?'>
-									<option>in exchange ?</option>
-									<option>Un slip rose</option>
-									<option>etre membre de l'association</option>
-									<option>recevoir un TShirt</option>
+									<option value="">in exchange ?</option>
+									<option value="">Un slip rose</option>
+									<option value="">etre membre de l'association</option>
+									<option value="">recevoir un TShirt</option>
 								</select>
 							</span>
 						</div>
@@ -185,7 +201,6 @@ $this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionT
 	</div>
 	
 </div>
-
 
 <div class="row partners-row" style="display:none" >
 	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">

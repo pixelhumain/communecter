@@ -68,15 +68,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<div class="box-vote box-pod box">
 			
 			<span class="text-extra-large text-bold">PRESENTATION DU SUJET</span>
-
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
+			<br/>
+			<img src="https://unsplash.it/g/300">
+			<br/>
+			<?php echo $survey["message"]; ?>
 		</div>
 	</div>
 

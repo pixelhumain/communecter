@@ -90,7 +90,7 @@ function editEntrySV (proposalObj) {
             console.log("saving Organization!!");
             one = getRandomInt(0,10);
             two = getRandomInt(0,10);
-            if( prompt("combien font "+one+"+"+two+" ?") == one+two )
+            if( $("#ajaxSV #name").val() && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
               $.blockUI({
                     message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -103,9 +103,9 @@ function editEntrySV (proposalObj) {
               var params = { 
                  "survey" : "<?php echo (string)$survey['_id']?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-                 "name" : $("#name").val() , 
-                 "tags" : $("#tags").val().split(","),
-                 "message" : $("#message").val(),
+                 "name" : $("#ajaxSV #name").val() , 
+                 "tags" : $("#ajaxSV #tags").val().split(","),
+                 "message" : $("#ajaxSV #message").val(),
                  <?php  
                  //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                  ?>
