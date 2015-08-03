@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var proposalFormDefinition = {
     "jsonSchema" : {
-        "title" : "News Form",
+        "title" : "Entry Form",
         "type" : "object",
         "properties" : {
           "id" :{
@@ -31,15 +31,34 @@ var proposalFormDefinition = {
                   "placeholder" : "url",
             },
             "tags" :{
-                "inputType" : "tags",
-                "placeholder" : "Tags",
-                "values" : [
-                  "Sport",
-                      "Agricutlture",
-                      "Culture",
-                      "Urbanisme",
-                ]
-              },
+              "inputType" : "tags",
+              "placeholder" : "Tags",
+              "values" : [
+                "Sport",
+                    "Agricutlture",
+                    "Culture",
+                    "Urbanisme",
+              ]
+            },
+              "separator1":{
+              "title":"Comment options"
+            },
+            "<?php echo Comment::COMMENT_ON_TREE ?>" :{
+              "inputType" : "checkbox",
+              "placeholder" : "Can I reply to a comment ?",
+              "checked" : true,
+              "value" : 1
+            },
+            "<?php echo Comment::COMMENT_ANONYMOUS ?>" :{
+              "inputType" : "checkbox",
+              "placeholder" : "Comment anonymously ?",
+              "value" : 1
+            },
+            "<?php echo Comment::ONE_COMMENT_ONLY ?>" :{
+              "inputType" : "checkbox",
+              "placeholder" : "Comment only one time ?",
+              "value" : 1
+            },
         }
     }
 };
@@ -50,6 +69,9 @@ var dataBind = {
    "#tags" : "tags",
    "#id"   : "typeId",
    "#type" : "type",
+   "#<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
+   "#<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
+   "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
 jQuery(document).ready(function() {
@@ -88,9 +110,9 @@ function editEntrySV (proposalObj) {
           },
           onSave : function(){
             console.log("saving Organization!!");
-            one = getRandomInt(0,10);
-            two = getRandomInt(0,10);
-            if( $("#ajaxSV #name").val() && prompt("combien font "+one+"+"+two+" ?") == one+two )
+            //one = getRandomInt(0,10);
+            //two = getRandomInt(0,10);
+            if( $("#ajaxSV #name").val()) //&& prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
               $.blockUI({
                     message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -111,7 +133,12 @@ function editEntrySV (proposalObj) {
                  ?>
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "urls" : getUrls(),
-                 "app" : "<?php echo $this->module->id?>"
+                 "app" : "<?php echo $this->module->id?>",
+                 "commentOptions" : {
+                   "<?php echo Comment::COMMENT_ON_TREE ?>" : $("#ajaxSV #<?php echo Comment::COMMENT_ON_TREE ?>").val(),
+                   "<?php echo Comment::COMMENT_ANONYMOUS ?>" : $("#ajaxSV #<?php echo Comment::COMMENT_ANONYMOUS ?>").val(),
+                   "<?php echo Comment::ONE_COMMENT_ONLY ?>" : $("#ajaxSV #<?php echo Comment::ONE_COMMENT_ONLY ?>").val()
+                 }
               };
              console.dir(params);
              $.ajax({
@@ -127,12 +154,14 @@ function editEntrySV (proposalObj) {
                   }
                   $.unblockUI();
                 },
+                error: function(data) {
+                  $.unblockUI();
+                  toastr.error("Something went really bad : "+data.msg);
+                },
                 dataType: "json"
               });
           } else 
             alert("mauvaise réponse, etes vous humain ?");
-
-
             return false;
           }
         });
