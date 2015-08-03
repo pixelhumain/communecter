@@ -321,36 +321,5 @@ function nameTimesheetClass(color){
 	}
 	return timeSheetClass;
 }
-function resetGenericFilesTable() 
-{
-	/*console.log("resetGenericFilesTable");
-	if( !$('.newTasksAddedTable').hasClass("dataTable") ){
-		genericFilesTable = $('.newTasksAddedTable').dataTable({
-			"aoColumnDefs" : [{
-				"aTargets" : [0]
-			}],
-			"oLanguage" : {
-				"sLengthMenu" : "Show _MENU_ Rows",
-				"sSearch" : "",
-				"oPaginate" : {
-					"sPrevious" : "",
-					"sNext" : ""
-				}
-			},
-			"aaSorting" : [[1, 'asc']],
-			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ],
-			"iDisplayLength" : 10,
-			"destroy": true
-		});
-	} else {
-		if( $(".newTaskAdded").children('tr').length > 0 )
-		{
-			$(".newTaskAdded").dataTable().fnDestroy();
-			$(".newTaskAdded").dataTable().fnDraw();
-		} else {
-			console.log(" projectFilesTable fnClearTable");
-			$(".newTaskAdded").dataTable().fnClearTable();
-		}
-	}*/
-}
+function resetGenericFilesTable() {}
 </script>

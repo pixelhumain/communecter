@@ -1,7 +1,8 @@
 <?php 
 		$cs = Yii::app()->getClientScript();
 
-		$cs->registerCssFile("http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
+		//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
+		$cs->registerCssFile($this->module->assetsUrl. '/css/sig/leaflet/leaflet.css');
 		$cs->registerCssFile($this->module->assetsUrl. '/css/sig/leaflet/leaflet.draw.css');
 		$cs->registerCssFile($this->module->assetsUrl. '/css/sig/leaflet/leaflet.draw.ie.css');
 		$cs->registerCssFile($this->module->assetsUrl. '/css/sig/leaflet/MarkerCluster.css');

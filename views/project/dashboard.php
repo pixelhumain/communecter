@@ -25,24 +25,21 @@
 		 <?php $this->renderPartial('dashboard/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin)); ?>
 	</div>
 	<?php } ?>
-	<div class="row" id="timesheetphp">
-	<?php //echo Yii::import('ext.timesheetphp.sources.timesheet', true); ?>
-	</div>
 	<div class="col-sm-6 col-xs-12 roomsPod">
-			<div class="panel panel-white pulsate">
+		<div class="panel panel-white pulsate">
 			<div class="panel-heading border-light ">
 				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Rooms Section</h4>
 				<div class="space5"></div>
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 col-xs-12 whatPod">
-			<div class="panel panel-white pulsate">
+	<div class="col-sm-6 col-xs-12 needsPod">
+		<!--<div class="panel panel-white pulsate">
 			<div class="panel-heading border-light ">
 				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Something Section</h4>
 				<div class="space5"></div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </div>
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
@@ -59,8 +56,8 @@
 		bindBtnFollow();
 		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 	})
-
 	var bindBtnFollow = function(){
 
 		$(".disconnectBtn").off().on("click",function () {

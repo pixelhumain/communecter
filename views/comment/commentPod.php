@@ -2,23 +2,35 @@
 
 $cssAnsScriptFiles = array(
 	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
 ?>	
-	<!-- start: PAGE CONTENT -->
+
+<style>
+.tree .comment .avatar {
+    clear: left;
+    float: left;
+    margin: 0 10px 5px 0;
+}
+
+.commenter-location, .comment-time {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 0.8125rem;
+}
+
+</style>
+<!-- start: PAGE CONTENT -->
 <div id="commentHistory">
-	<div class="space20"></div>
 	<div class="col-md-12">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white">
 			<div class="panel-heading border-light">
-				<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <?php echo ucfirst($contextType).' - '.@$context["name"]?></h4>
+				<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
 				<ul class="panel-heading-tabs border-light">
-					<li>
-						<div><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</div>
-					</li>
 					<li class="panel-tools">
 					  <div class="dropdown">
 						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
@@ -39,17 +51,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 				</ul>
 			</div>
 			<div class="panel-body panel-white">
-				<ul class="commentline-scrubber inner-element commentsTLmonthsList"></ul>
-				<div class='row'>
-					<div id="commentline">
-						<div class="commentline commentsTL col-md-6">
-												
-						</div>
+				<div class='row commentTable'>
+					<div class='saySomething padding-5'>
+						<input type="text" style="width:100%" value="Say Something"/>
 					</div>
 
 				</div>
 			</div>
-			<div id="waypoint">toto</div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
@@ -65,10 +73,10 @@ var comments = <?php echo json_encode($comments); ?>;
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
+var commentIdOnTop;
 
 jQuery(document).ready(function() {
 	buildTimeLine();
-	addEmptyCommentOnTop();
 	bindEvent();
 });
 
@@ -76,8 +84,7 @@ function buildTimeLine() {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	$('.commentsTL').append(buildComments(comments, 0));
-	$('.commentsTL').append()
+	$('.commentTable').append(buildComments(comments, 0));
 }
 
 function addEmptyCommentOnTop() {
@@ -90,9 +97,9 @@ function addEmptyCommentOnTop() {
 
 function buildComments(commentsLevel, level) {
 	if (level == 0) {
-		var commentsHTML = '<ul class="tree">';
+		var commentsHTML = '<ul class="tree list-unstyled padding-5">';
 	} else {
-		var commentsHTML = '<ul class="level">';	
+		var commentsHTML = '<ul class="level list-unstyled" style="padding-left: 15px">';	
 	}
 
 	$.each( commentsLevel , function(key,commentObj) {
@@ -118,7 +125,7 @@ function buildComments(commentsLevel, level) {
 function buildLineHTML(commentObj) {
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
-	var dateStr = date.format('D MMM YYYY HH:mm');
+	var dateStr = date.fromNow();
 	
 	var iconStr = getProfilImageUrl(commentObj.author.profilImageUrl);
 	var objectLink = (commentObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
@@ -126,7 +133,8 @@ function buildLineHTML(commentObj) {
 	var color = "white";
 	var icon = "fa-user";
 	
-	var title = commentObj.author.name;
+	var name = commentObj.author.name;
+	var city = commentObj.author.address.addressLocality;
 	var text = commentObj.text;
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
@@ -140,18 +148,19 @@ function buildLineHTML(commentObj) {
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
 
-	commentsTLLine = '<li id="comment'+id+'"><div class="commentline_element partition-'+color+'">'+
-					tags+
-					'<div class="commentline_title">'+
-						objectLink+
-						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
-					'</div>'+
-					'<div class="space10"></div>'+
-					text+	
-					'<div class="space10"></div>'+
-					
-					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-					"<div class='bar_tools_post'>";
+	commentsTLLine = '<hr style="border-width: 2px;"">'+
+					'<li id="comment'+id+'" class="comment">'+
+						'<div class="">'+
+							//tags+
+							objectLink+
+							'<div class="commentline_title">'+
+								'<span class="text-bold light-text no-margin">'+name+'</span>'+
+								'<span class="commenter-location padding-5">'+city+'</span>'+
+								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
+							'</div>'+
+							text+	
+							'<div class="space10"></div>'+
+							"<div class='bar_tools_post'>";
 	
 	if (options.tree == true) {
 		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
@@ -164,7 +173,7 @@ function buildLineHTML(commentObj) {
 	commentsTLLine = commentsTLLine + 
 					"<a href='javascript:;' class='commentVoteUp' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-green'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 					"<a href='javascript:;' class='commentVoteDown' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-orange'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='commentReportAbuse' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>"+reportAbuseCount+" <i class='fa fa-warning'></i></span></a> "+
+					"<a href='javascript:;' class='commentReportAbuse' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> "+
 					"</div>"+
 				'</div>';
 
@@ -188,8 +197,12 @@ function bindEvent(){
 		separator = $(this).attr("id");
 		$('.commentline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
-	$('.commentReply').off().on("click",function(){
-		replyComment($(this).data("id"));
+
+	//New comment actions
+	$('.saySomething').off().on("click",function(){
+		$('.saySomething').hide();
+		addEmptyCommentOnTop();
+		bindEvent();
 	});
 	$('.validateComment').off().on("click",function(){
 		validateComment($(this).data("id"), $(this).data("parentid"));
@@ -203,6 +216,9 @@ function bindEvent(){
 	});
 
 	//Comment action button
+	$('.commentReply').off().on("click",function(){
+		replyComment($(this).data("id"));
+	});
 	$('.commentVoteUp').off().on("click",function(){
 		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
 	});
@@ -261,7 +277,7 @@ function replyComment(parentCommentId) {
 	if (ulChildren.length == 0) {
 		console.log("pas de children");
 		//add new ul entry
-		commentsTLLine = '<ul class="level">'+commentsTLLine+'</ul>';
+		commentsTLLine = '<ul class="level list-unstyled" style="padding-left: 15px">'+commentsTLLine+'</ul>';
 		ulChildren = $('#comment'+parentCommentId);
 		ulChildren.append(commentsTLLine);
 	} else {
@@ -279,38 +295,44 @@ function buildNewCommentLine(parentCommentId) {
 	var color = "white";
 	var icon = "fa-user";
 	
-	var title = currentUser.name;
+	var name = currentUser.name;
+	var city = "";
 	var text = '<textarea class="newComment" rows="2" style="width: 100%"></textarea>';
-	var tags = "";
 	
 	if (canUserComment == true) {
 		commentsTLLine = 
-					'<li id="'+id+'"><div class="commentline_element partition-'+color+'">'+
-						tags+
-						'<div class="commentline_title">'+
+					'<li id="'+id+'" class="comment">'+
+						'<hr style="border-width: 2px;"">'+
+						'<div class="" >'+
+							//tags+
 							objectLink+
-							'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
-						'</div>'+
+							'<div class="commentline_title">'+
+								'<span class="text-bold light-text no-margin">'+name+'</span>'+
+								'<span class="commenter-location padding-5">'+city+'</span>'+
+							'</div>'+
 						'<div class="space10"></div>'+
 						text+	
 						'<div class="space10"></div>'+
 						"<div class='bar_tools_post'>"+
 						"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Submit</span></a> "+
-						"<a href='javascript:;' class='cancelComment' data-id='"+id+"'><span class='label label-info'>Cancel</span></a> "+
+						"<a href='javascript:;' class='cancelComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Cancel</span></a> "+
 						"</div>"+
 					'</div></li>';
 	} else {
 		commentsTLLine = 
-					'<li id="'+id+'"><div class="commentline_element partition-'+color+'">'+
-						'You can not comment more for this discussion'+
+					'<li id="'+id+'"><div class="partition-'+color+'">'+
+						'You can not comment more on this discussion'+
 					'</div></li>';
 	}
 	return commentsTLLine;
 }
 
 function cancelComment(commentId) {
-	console.log('Remove comment '+commentId);
+	console.log('Remove comment '+commentId, $('#'+commentId).data("parentid"));
 	$('#'+commentId).remove();
+	if ($('#'+commentId).children(".cancelComment").data("parentid") == "") {
+		$('.saySomething').show();
+	} 
 }
 
 function validateComment(commentId, parentCommentId) {
@@ -366,12 +388,18 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 }
 
 function getProfilImageUrl(imageURL) {
-	var iconStr = '<i class="fa fa-user_circled fa-2x pull-left fa-border"></i>';
+	var iconStr = '<div class="avatar">';
+	
 	if ("undefined" != typeof imageURL && imageURL != "") {
-		iconStr = '<img width="50" height="50" alt="image" class="img-circle"'+ 
+		iconStr += '<img width="50" height="50" alt="image" class="img-circle"'+ 
 						'src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+
 						 imageURL+'">';
+	} else {
+		iconStr += '<i class="fa fa-user_circled fa-2x fa-border"></i>';
 	}
+
+	iconStr += "</div>";
+	
 	return iconStr;
 }
 </script>

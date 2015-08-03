@@ -123,7 +123,12 @@ class CommunecterController extends Controller
       "removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
       "generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
     ),
-
+	"needs"=> array(
+      "index" => array("href" => "/ph/communecter/needs/index"),
+      "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
+      "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
+      "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
+    ),
     "person"=> array(
       "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
       "sendemailpwd"    => array("href" => "/ph/communecter/person/sendemailpwd"),
@@ -258,7 +263,11 @@ class CommunecterController extends Controller
 
     "comment"=> array(
       "index" => array( "href" => "/ph/communecter/comment/index"),
-      "save" => array( "href" => "/ph/communecter/comment/save")
+      "save" => array( "href" => "/ph/communecter/comment/save"),
+      "testpod" => array("href" => "/ph/communecter/comment/testpod")
+    ),
+    "action"=> array(
+       "addaction"   => array("href" => "/ph/communecter/action/addaction"),
     ),
     
   );

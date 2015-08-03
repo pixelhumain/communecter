@@ -21,4 +21,9 @@ class CommentController extends CommunecterController {
 	        'save'					=> 'citizenToolKit.controllers.comment.SaveAction',
 	    );
 	}
+
+	public function actionTestPod() {
+		$params = array();
+		$this->render( "testpod" , $params );
+	}
 }
