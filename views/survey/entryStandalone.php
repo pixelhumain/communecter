@@ -10,19 +10,28 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 ?>
 <style type="text/css">
 
-  a.btn{margin:3px;}
-  a:hover.btn {background-color: pink;border solid #666;}
+	a.btn{margin:3px;}
+	a:hover.btn {background-color: pink;border solid #666;}
 
-  /*.infolink{border-top:1px solid #fff}*/
-  .leftlinks a.btn{color:black;background-color: yellow;border: 1px solid yellow;}
-  /*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
-  a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
-  a.btn.golink{background-color:green;color:white;border: 1px solid green;}
-  a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
-  a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
-  a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
-  a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
-  a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
+	/*.infolink{border-top:1px solid #fff}*/
+	.leftlinks a.btn{color:black;background-color: yellow;border: 1px solid yellow;}
+	/*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
+	a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
+	a.btn.golink{background-color:green;color:white;border: 1px solid green;}
+	a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
+	a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
+	a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
+	a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
+	a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
+
+	.commentPod .panel {
+		box-shadow: none;
+	}
+
+	.commentPod .panel-heading {
+		border-bottom-width: 0px;
+	}
+
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -63,7 +72,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 <div class="row vote-row" >
 	
-	<div class="col-xs-12 col-sm-4 center">
+	<div class="col-xs-12 col-sm-4 center ">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
 			
@@ -82,7 +91,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 	<div class=" col-xs-12 col-sm-4 " >
 		
-		<div class="box-vote box-pod box margin-10" style="padding-left:40px">
+		<div class="box-vote box-pod box margin-10 commentPod">
 
 			<span class="text-extra-large text-bold">COMMENTS</span>
 
@@ -199,6 +208,8 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 </div>
 <script type="text/javascript">
 
+var survey = <?php echo json_encode($survey) ?>;
+
 jQuery(document).ready(function() {
 
 	//titleAnim ();
@@ -206,6 +217,8 @@ jQuery(document).ready(function() {
 	$('.box-vote').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});
+
+	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/"+survey._id.$id,null,"html");
 
 });
 
