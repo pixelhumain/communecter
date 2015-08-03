@@ -3,7 +3,8 @@
 $cssAnsScriptFiles = array(
 	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js'
+	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js',
+	'/assets/plugins/moment/min/moment.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
@@ -25,42 +26,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 </style>
 <!-- start: PAGE CONTENT -->
 <div id="commentHistory">
-	<div class="col-md-12">
-		<!-- start: TIMELINE PANEL -->
-		<div class="panel panel-white">
-			<div class="panel-heading border-light">
-				<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
-				<ul class="panel-heading-tabs border-light">
-					<li class="panel-tools">
-					  <div class="dropdown">
-						<a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-						  <i class="fa fa-cog"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-light pull-right" role="menu">
-						  <li>
-							<a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-						  </li>
-						  <li>
-							<a class="panel-expand" href="#">
-							  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-							</a>
-						  </li>
-						  </ul>
-					  </div>
-					</li>
-				</ul>
-			</div>
-			<div class="panel-body panel-white">
-				<div class='row commentTable'>
-					<div class='saySomething padding-5'>
-						<input type="text" style="width:100%" value="Say Something"/>
-					</div>
-
+	<!-- start: TIMELINE PANEL -->
+	<div class="panel panel-white">
+		<div class="panel-heading border-light">
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
+		</div>
+		<div class="panel-body panel-white">
+			<div class='row commentTable'>
+				<div class='saySomething padding-5'>
+					<input type="text" style="width:100%" value="Say Something"/>
 				</div>
+
 			</div>
 		</div>
-		<!-- end: TIMELINE PANEL -->
 	</div>
+	<!-- end: TIMELINE PANEL -->
 </div>
 <style type="text/css">
 
@@ -190,13 +170,14 @@ function bindEvent(){
 		$("body").scrollTo(anchor, 300);
 		e.preventDefault();
 	});
-	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
+	
+	/*$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.commentline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
 	}).on('disappear', function(event, $all_disappeared_elements) {   				
 		separator = $(this).attr("id");
 		$('.commentline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
-	});
+	});*/
 
 	//New comment actions
 	$('.saySomething').off().on("click",function(){
