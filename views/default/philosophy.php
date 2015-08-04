@@ -30,6 +30,11 @@ var keywords = [
 			"<br>rien ne l'arreter a tant qu'on ne le vivra pas "+
 			"<br>on continuera a la chercher"
 	},
+	{
+		"icon" : "fa-heart",
+		"title":"Art is the heart of our culture",
+		"body":""
+	},
 ];
 	
 jQuery(document).ready(function() 

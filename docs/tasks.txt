@@ -6,6 +6,7 @@
 	** JOHNSON + RAPHAEL
 		[ ] toujours afficher 
 		[ ] proposer d'autre source
+		[ ] ajouter un upload Image dans les SV, puis dans le dynForm
 	** RAPHAEL
 		[ ] Import données
 			[ ] lorsqu'on change un sous-fichier bloquer l'import de données, demandé une visualisation avant
@@ -33,26 +34,49 @@
 			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
 		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
+		[ ] COMMENTS
+			[ ] cacher les boutons vote sur mes commentaires
+			[ ] on click cancel 
 	** TIBOR
+		[X] MEETING : Rieul La Paillase soane : rieul.techer@gmail.com 
+		[X] MEETING : La Ruche de Paris & Auberge de solidarité : marine.ruche@gmail.com
+		[X] generic view Page system using ActivityStream 
+			- ActStr::viewPage( $url );
+			- db.getCollection('activityStream').find({"actor.ip":{"$exists":1}})
+		[X] proto retour citoyen pour la Possession 
+			[X] @TKA integrate new design multi section 
+			[X] @SBA integré comments feed list
 		[ ] GRANDDIR
-				Raccourcir le texte sur affichage carte
-				Raccourcir le texte sur affichage résultat
-				Double bar de scroll à droite
-				Créer une pagination sur les résultats (8 résultats par page)
-				Publics est toujours vide
-				Lors d'un clic sur un réul
-		[ ] proto retour citoyen pour la Possession 
-			[ ] @TKA integrate new design multi section 
-			[ ] @SBA integré comments feed list 
+			[X] Raccourcir le texte sur affichage carte
+			[X] Raccourcir le texte sur affichage résultat
+			[X] Double bar de scroll à droite
+			[ ] Créer une pagination sur les résultats (8 résultats par page)
+			[ ] Publics est toujours vide
+			[ ] Lors d'un clic sur un réul
 		[ ] smaller scope 
 		[ ] adding scope to news form (pub priv) & territories
 		[ ] ACTION ROOMS
-			[ ] enregistrer entries description
-			[ ] see entryStandalone without connection , request login on click action
-			[ ] action Room doesn't show in "my Action Rooms" after creation 
-			[ ] rooms Index : get Rooms I participated in 
+			[X] enregistrer entries description
+			[X] see entryStandalone without connection , request login on click action ::: checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" )
+			[/] action Room doesn't show in "my Action Rooms" after creation 
+			[/] rooms Index : get Rooms I participated in 
+		[ ] PH join 
+			[ ] chaque rencontre send email 
+				[ ] add Orga : Paillasse 
+					https://hackpad.com/Forum-des-Communs-Pixel-Humain-La-Reunion-b3Lneu3HHno
+					http://lapaillassaone.strikingly.com/
+				[ ] add Person
+				[ ] question 
+					[ ] become tete de reseau pour crowdfunding
+					[ ] become beta tester 
+					[ ] use Communecter to connect your terrritory
+		[ ] FORUM DES COMMUNS
+			[ ] cartographier les projet des biens communs d'un territoire
+			[ ] creer un planning
+			[ ] un ordre de passage
+			[ ] version enregistré
+				[ ] en smartPhone : 10 questions pour 10 reponses presentant un projet
 		[ ] CROWD FUNDING
-			
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
 				[ ] users will have my scopes 
 					- location or territory

@@ -80,10 +80,11 @@ function editEntrySV (proposalObj) {
           formId : "#ajaxForm",
           formObj : proposalFormDefinition,
           onLoad : function  () {
+            console.log("proposalObj",proposalObj);
             if( proposalObj ){
-              /*$("#name").val(data.title);
-              $("#message").val(data.contentBrut);
-              AutoGrowTextArea($("message"));*/
+              $("#name").val(proposalObj.title);
+              $("#message").val(proposalObj.contentBrut);
+              AutoGrowTextArea($("message"));
             }
           },
           onSave : function(){
