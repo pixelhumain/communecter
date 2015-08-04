@@ -1,4 +1,7 @@
 <script type="text/javascript">
+var organizerList = {};
+var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
+
 var proposalFormDefinition = {
     "jsonSchema" : {
         "title" : "Entry Form",
@@ -18,6 +21,15 @@ var proposalFormDefinition = {
               "rules" : {
                 "required" : true
               }
+            },
+            "organizer" : {
+              "inputType" : "select",
+              "placeholder" : "Organisateur du sondage",
+              "value" : "currentUser",
+              "rules" : {
+                "required" : true
+              },
+              "options" : organizerList
             },
             "message" :{
               "inputType" : "textarea",
@@ -74,8 +86,16 @@ var dataBind = {
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
+var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
+
 jQuery(document).ready(function() {
-  
+  //add current user as the default value
+  organizerList["currentUser"] = currentUser.name + " (You)";
+
+  $.each(rawOrganizerList, function(optKey, optVal) {
+    organizerList[optKey] = optVal.name;
+  });
+
   $(".newVoteProposal").off().on("click",function() { 
     editEntrySV ();
   });
@@ -109,7 +129,7 @@ function editEntrySV (proposalObj) {
             }
           },
           onSave : function(){
-            console.log("saving Organization!!");
+            console.log("saving Survey !!");
             //one = getRandomInt(0,10);
             //two = getRandomInt(0,10);
             if( $("#ajaxSV #name").val()) //&& prompt("combien font "+one+"+"+two+" ?") == one+two )
@@ -126,6 +146,7 @@ function editEntrySV (proposalObj) {
                  "survey" : "<?php echo (string)$survey['_id']?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#ajaxSV #name").val() , 
+                 "organizer" : $("#ajaxSV #organizer").val(),
                  "tags" : $("#ajaxSV #tags").val().split(","),
                  "message" : $("#ajaxSV #message").val(),
                  <?php  
