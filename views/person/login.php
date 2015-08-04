@@ -320,6 +320,10 @@ var Login = function() {
 						loginBtn.stop();
 		    		  }
 		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	loginBtn.stop();
+		    	  },
 		    	  dataType: "json"
 		    	});
 			    return false; // required to block normal submit since you used ajax
@@ -371,6 +375,9 @@ var Login = function() {
 						}
 					}
 		          },
+		          error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  },
 		          dataType: "json"
 		        });
 		        return false;
@@ -458,6 +465,10 @@ var Login = function() {
 						$('.registerResult').show();
 						createBtn.stop();
 		    		  }
+		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	createBtn.stop();
 		    	  },
 		    	  dataType: "json"
 		    	});
