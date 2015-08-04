@@ -121,7 +121,6 @@
 			[ ] schema.org
 			[ ] ACtivity Stream 
 		[ ] not logged issue when calling ajax
-		[ ] generic viewcount system on anything
 		[ ] clean up loaded libraries in main.php
 		[ ] load proverbs into localStorage and get radomly for blockUI 
 		[ ] make moduleMenu fixed when scroll

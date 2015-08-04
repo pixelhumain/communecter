@@ -205,10 +205,10 @@
 	<h1><i class="fa fa-calendar"></i> WHEN</h1>
 	
 	<section>
-		If it's not 
-		<br/>now it's never
+		If it's not now
+		<br/> it's never
 		<br/> First Beta opening in september 2015
-		<br/> Crowd Foundin launches in August 2015
+		<br/> Crowd Funding launches in August 2015
 	</section>
 	<a href="#" onclick="showMenu();showMenu('box-where','bgblue')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
@@ -217,8 +217,8 @@
 	<h1><i class="fa fa-map-marker"></i> WHERE</h1>
 	<section>
 		Every where there are people 
-		<br/> with ideas
-		<br/> motivation to change
+		<br/> With ideas
+		<br/> Motivation to change
 		<br/> And anyone can start 
 		<br/> Anywhere 
 		<br/> Anytime

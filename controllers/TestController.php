@@ -98,26 +98,26 @@ class TestController extends CommunecterController {
 		echo "Push a notication <br/>";
 		//push an activity Stream Notification 
 		/* **********************************
-        Activity Stream and Notifications
-        */
-        //$type,$perimetre,$verb,$label,$id
-        $asParam = array("type" => ActStr::TEST, 
-                        "codeInsee" => "97400",
-                        "verb" => "add",
-                        "actorType"=>"persons",
-                        "objectType"=>"test",
-                        "label" => "Testing Notification Push",
-                        "id" => Yii::app()->session['userId']
-                    );
-        $action = ActStr::buildEntry($asParam);
+    Activity Stream and Notifications
+    */
+    //$type,$perimetre,$verb,$label,$id
+    $asParam = array("type" => ActStr::TEST, 
+                    "codeInsee" => "97400",
+                    "verb" => "add",
+                    "actorType"=>"persons",
+                    "objectType"=>"test",
+                    "label" => "Testing Notification Push",
+                    "id" => Yii::app()->session['userId']
+                );
+    $action = ActStr::buildEntry($asParam);
 
-        //LOGGING WHO TO NOTIFY
-        $action["notify"] = ActivityStream::addNotification( array( 
-                                                            "persons" => array( Yii::app()->session['userId'] ),
-                                                             "label" => "Something Changed" , 
-                                                             "icon"=> ActStr::ICON_QUESTION ,
-                                                             "url" => 'javascript:alert(  "testing notifications"  );' 
-                                                        ));
+    //LOGGING WHO TO NOTIFY
+    $action["notify"] = ActivityStream::addNotification( array( 
+                                                        "persons" => array( Yii::app()->session['userId'] ),
+                                                         "label" => "Something Changed" , 
+                                                         "icon"=> ActStr::ICON_QUESTION ,
+                                                         "url" => 'javascript:alert(  "testing notifications"  );' 
+                                                    ));
         ActivityStream::addEntry($action);
 	}
 

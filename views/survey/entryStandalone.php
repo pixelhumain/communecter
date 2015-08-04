@@ -54,17 +54,18 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	*/?>
 	<br/>
 	<span class="text-red " style="font-size:40px">VOTE </span>
-	<span  style="font-size:40px" class=" "> DECIDE</span>
+	<span  style="font-size:40px" class=" "> DECIDE </span>
 	<span  style="font-size:40px" class=" text-red "> ACT</span>
 
 	<br/>
 	<span  style="font-size:23px" class="text-white text-bold"> <?php if( $voteLinksAndInfos["hasVoted"] )
-			echo "Thanks  for your vote"; 
+			echo "YOU VOTED ALLREADY"; 
 		else
-			echo "Feel Free to vote"; ?> | </span>
-	<span  style="font-size:23px" class="text-white text-bold"> VOTERS : <?php  echo ( $voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> | </span>
+			echo "FEEL FREE TO VOTE"; ?> </span>
+	<br/>
+	<span  style="font-size:23px" class="text-white text-bold"> VOTERS : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> | </span>
 	<span  style="font-size:23px" class="text-white text-bold"> Since : <?php echo date("m/d/Y",$survey["created"]) ?> | </span>
-	<span  style="font-size:23px" class="text-white text-bold"> VISITORS : 15</span>
+	<span  style="font-size:23px" class="text-white text-bold"> VISITORS : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
 </div>
 <?php 
 //$this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionTitle"=>"CONTRIBUTE", "actionIcon"=>"fa-money"));
@@ -76,36 +77,23 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
 			
-			<span class="text-extra-large text-bold">PRESENTATION DU SUJET</span>
+			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
 			<br/>
 			<img src="https://unsplash.it/g/300">
-			<br/>
+			<br/><br/>
 			<?php echo $survey["message"]; ?>
 		</div>
 	</div>
 
 	<div class=" col-xs-12 col-sm-4 " >
-		
-		<div class="box-vote box-pod box margin-10 commentPod">
-
-			<span class="text-extra-large text-bold">COMMENTS</span>
-
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-			<br/> xxxxxxxxxxxxxxxxxxxxxx
-		</div>
+		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
 
 	<div class="col-xs-12 col-sm-4 center ">
 		<?php 
-			$this->renderPartial('../person/menuTitle',array( "topTitleExists"=>true,
-															  "actionTitle" => "VOTE", 
-														 	  "actionIcon"  => "download" ));
+			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
+															  "actionTitle"    => "VOTE", 
+														 	  "actionIcon"     => "download" ));
 		?>
 		<div class="box-vote box-pod box radius-20">
 			<span class="text-extra-large text-bold"> INVITATION TO VOTE </span> 
@@ -113,7 +101,9 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 			<?php 
 			$this->renderPartial('entry',array( "survey" => $survey, 
 												"position" => "center",
-												"showName" => true ));
+												"showName" => true,
+												"hideTexts" => true
+												 ));
 			?>
 		</div>
 	</div>	
@@ -203,8 +193,6 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 </div>
 <script type="text/javascript">
 
-var survey = <?php echo json_encode($survey) ?>;
-
 jQuery(document).ready(function() {
 
 	//titleAnim ();
@@ -213,31 +201,32 @@ jQuery(document).ready(function() {
 		$(this).removeClass("animated flipInX");
 	});
 
-	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/"+survey._id.$id,null,"html");
+	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",null,"html");
 
 });
 
 function addaction(id,action){
     console.warn("--------------- addaction ---------------------");
-    if(confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){
-      params = { 
+
+    if( checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" ) && confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){
+      	params = { 
            "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
            "id" : id ,
            "collection":"surveys",
            "action" : action 
-           };
-      ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-        window.location.reload();
-      });
+        };
+      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+        	window.location.reload();
+      	});
     }
  }
 
-	var activePanel = "vote-row";
-	function showHidePanels (panel) {  
-		$('.'+activePanel).slideUp();
-		$('.'+panel).slideDown();
-		activePanel = panel;
-	}
+var activePanel = "vote-row";
+function showHidePanels (panel) {  
+	$('.'+activePanel).slideUp();
+	$('.'+panel).slideDown();
+	activePanel = panel;
+}
 
 </script>
 

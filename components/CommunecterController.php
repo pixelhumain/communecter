@@ -129,7 +129,7 @@ class CommunecterController extends Controller
       "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
       "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
     ),
-    "person"=> array(
+  "person"=> array(
       "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
       "sendemailpwd"    => array("href" => "/ph/communecter/person/sendemailpwd"),
       "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
@@ -250,11 +250,11 @@ class CommunecterController extends Controller
       "delete"      => array("href" => "/ph/communecter/survey/delete"),
       "addaction"   => array("href" => "/ph/communecter/survey/addaction"),
       "moderate"    => array("href" => "/ph/communecter/survey/moderate"),
-      "entry"       => array("href" => "/ph/communecter/survey/entry"),
+      "entry"       => array("href" => "/ph/communecter/survey/entry", "public" => true ),
       "graph"       => array("href" => "/ph/communecter/survey/graph"),
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
-      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
+      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd")
     ),
     
     "discuss"=> array(
@@ -262,14 +262,13 @@ class CommunecterController extends Controller
     ),
 
     "comment"=> array(
-      "index" => array( "href" => "/ph/communecter/comment/index"),
+      "index" => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save" => array( "href" => "/ph/communecter/comment/save"),
       "testpod" => array("href" => "/ph/communecter/comment/testpod")
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
-    ),
-    
+    )
   );
 
   function initPage(){
@@ -277,7 +276,10 @@ class CommunecterController extends Controller
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] ) 
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
 
-    if( Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
+    $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
+    
+    if( (!isset( $page["public"] ) ) 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
@@ -286,13 +288,8 @@ class CommunecterController extends Controller
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
         $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
     } 
-    /*else if( isset( Yii::app()->session[ "requestedUrl" ] ) )
-    {
-        Yii::app()->session[ "requestedUrl" ] = null;
-        $this->redirect(Yii::app()->session["requestedUrl"]);
-    }*/
-
-    //Yii::app()->session["requestedUrl"] = null;
+    if( isset( $_GET["backUrl"] ) )
+      Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
 
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
@@ -301,7 +298,7 @@ class CommunecterController extends Controller
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
-    $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
+    
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
