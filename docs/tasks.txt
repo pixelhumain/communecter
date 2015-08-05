@@ -55,12 +55,14 @@
 			[ ] Lors d'un clic sur un réul
 		[ ] smaller scope 
 		[ ] adding scope to news form (pub priv) & territories
-		[ ] ACTION ROOMS
+		[X] ACTION ROOMS
 			[X] enregistrer entries description
 			[X] see entryStandalone without connection , request login on click action ::: checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" )
-			[/] action Room doesn't show in "my Action Rooms" after creation 
-			[/] rooms Index : get Rooms I participated in 
+			[X] action Room doesn't show in "my Action Rooms" after creation 
+			[X] rooms Index : get Rooms I participated in 
+		[ ] dynForm Builder
 		[ ] PH join 
+			[ ] accepter les CGU 
 			[ ] chaque rencontre send email 
 				[ ] add Orga : Paillasse 
 					https://hackpad.com/Forum-des-Communs-Pixel-Humain-La-Reunion-b3Lneu3HHno
