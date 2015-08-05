@@ -141,6 +141,7 @@ class CommunecterController extends Controller
       "activate"        => array('href'=> "/ph/communecter/person/activate"),
       "logout"          => array("href" => "/ph/communecter/person/logout"),
       'getnotification' => array("href" => "/person/getNotification"),
+      'changepassword' => array("href" => "/person/changepassword"),
 
       "invite"          => array("href" => "/ph/communecter/person/invite"),
       "invitation"      => array("href" => "/ph/communecter/person/invitation"),
