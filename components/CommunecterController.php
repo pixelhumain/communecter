@@ -287,6 +287,7 @@ class CommunecterController extends Controller
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/activate" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
       && !Yii::app()->session[ "userId" ] )
     {
