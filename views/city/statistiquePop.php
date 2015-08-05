@@ -145,7 +145,7 @@
 					</a>
 					<ul role="menu" class="dropdown-menu pull-right" id="zoneGraph" >
 						<li>
-							<a class="btn-drop locBtn">Commune</a>
+							<a class="btn-drop locBtn" data-name="commune" >Commune</a>
 						</li>
 						<li>
 							<a  class="btn-drop locBtn" data-name="departement">Departement</a>
@@ -157,8 +157,9 @@
 				</div>
 			</li>
 			<li id="filtreByCommune">
-				<div class="btn-group col-xs-4">
-					<select id="listCommune" class="js-example-basic-multiple" multiple="multiple">  	
+				<div class="btn-group col-xs-6">
+					<select id="listCommune" class="js-example-basic-multiple" multiple="multiple"> 
+
 					</select>
 				</div>
 			</li>
@@ -206,9 +207,20 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 		
 		$("#label-zone").text($(this).text());
 		typeZone = $(this).data("name");
-
+		alert(typeZone);
 		if(typeZone != "commune")
+		{
 			$("#<?php echo $name_id ; ?>_panel #filtreByCommune").show();
+			var urlToSend = baseUrl+"/"+moduleId+"/city/getlistcities/insee/"+insee+"/zone/"+typeZone;
+			$.ajax({
+				type: "POST",
+				url: urlToSend,
+				dataType: "json",
+				success: function(data){
+					console.log("data", data);
+				}
+			});
+		}
 		else
 			$("#<?php echo $name_id ; ?>_panel #filtreByCommune").hide();
 
@@ -262,7 +274,7 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 	});
 
 
-	$("#"+name_id+"_panel #listCommune").click(function(){
+	/*$("#"+name_id+"_panel #listCommune").click(function(){
 		mapData = buildDataSet(map, $(this).data("name"));
 			//console.log(mapData);
 			d3.select("#<?php echo $name_id ; ?>_panel #chart svg")
@@ -270,9 +282,9 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 			    .call(chart);
 			chart.update();
 			bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-	});
+	});*/
 
-	$("#"+name_id+"_panel #listCommune" ).off().on("click", function() {
+	/*$("#"+name_id+"_panel #listCommune" ).off().on("click", function() {
 		
 		var cities = [];
 		var i = 0 ;
@@ -327,7 +339,7 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 		
 
 		
-	});
+	});*/
 
 }
 

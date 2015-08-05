@@ -105,6 +105,7 @@ class CommunecterController extends Controller
       'getlistoption'            => array("href" => "/ph/communecter/city/getlistoption"),
       'getpodopendata'            => array("href" => "/ph/communecter/city/getpodopendata"),
       'addpodopendata'            => array("href" => "/ph/communecter/city/addpodopendata"),
+      'getlistcities'            => array("href" => "/ph/communecter/city/getlistcities"),
 
     ),
     "news"=> array(
