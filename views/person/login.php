@@ -15,7 +15,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 
 <div class="row">
-	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
 	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
@@ -168,7 +168,6 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		Main.init();
 		Login.init();	
 		titleAnim ();	
-		loaderPoints ();
 	});
 
 var timeout;
@@ -321,6 +320,10 @@ var Login = function() {
 						loginBtn.stop();
 		    		  }
 		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	loginBtn.stop();
+		    	  },
 		    	  dataType: "json"
 		    	});
 			    return false; // required to block normal submit since you used ajax
@@ -372,6 +375,9 @@ var Login = function() {
 						}
 					}
 		          },
+		          error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  },
 		          dataType: "json"
 		        });
 		        return false;
@@ -450,14 +456,19 @@ var Login = function() {
     		  	              '<cite>Welcome to the Pixel Humain</cite>'+
     		  	            '</blockquote> '
     		  			});
-		        		toastr.success(data.msg);
-		        		window.location.reload();
+		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
+		        		//window.location.reload();
+		        		setTimeout(function() { $.unblockUI(); showMenu(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
 						$('.registerResult').show();
 						createBtn.stop();
 		    		  }
+		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	createBtn.stop();
 		    	  },
 		    	  dataType: "json"
 		    	});

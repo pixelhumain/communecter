@@ -1,9 +1,8 @@
 <?php 
-//Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
 	'/assets/plugins/Chart.js/Chart.min.js',
-	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module->assetsUrl);
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 ?>
 
 <style>
@@ -31,44 +30,71 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);//$this->module
 			</a>
 		</div>
 	</div>
+	<?php if(isset($properties) && !empty($properties)){ ?>
 	<div class="panel-body no-padding">
 		<canvas id="myChart" width="" height=""></canvas>
 	</div>
+	<?php } else { ?>
+		<div id="infoPodChart" class="padding-10">
+					<blockquote> 
+					Create Chart
+						<br>Opening 
+						<br>Values
+						<br>Governance
+						<br>To explain the aim and draw project conduct
+			</blockquote>
+		</div>
+		<div class="panel-body no-padding contentChart hide">
+			<canvas id="myChart" width="" height=""></canvas>
+		</div>
+	<?php } ?>
 </div>
 <?php
    $this->renderPartial('addChartSV', array( "properties" => $properties, "itemId" => $itemId));
 ?>
 <script type="text/javascript">
-	jQuery(document).ready(function() {
-		chartInit();
-
+var properties=<?php echo json_encode($properties); ?> ;
+var countProperties=numAttrs(properties);
+jQuery(document).ready(function() {
+	if (countProperties > 0){
+		chartInit(properties);
+	}
 });
-function updateChart(data){
-	console.log(myNewChart);
-	console.log(data);
-	myNewChart.datasets[0].points[0].value = data.gouvernance;
-	myNewChart.datasets[0].points[1].value = data.local;
-	myNewChart.datasets[0].points[2].value = data.partenaire;
-	myNewChart.datasets[0].points[3].value = data.partage;
-	myNewChart.datasets[0].points[4].value = data.solidaire;
-	myNewChart.datasets[0].points[5].value = data.avancement;
-	myNewChart.update();
+
+function updateChart(data, nbProperties){
+	newCount=0;
+	if (nbProperties==0){
+		$("#infoPodChart").hide();
+		$(".contentChart").removeClass("hide");
+		chartInit(data);
+	}
+	else{
+		for (var i=0; i < countProperties; i++ ){
+			myNewChart.removeData();
+		}
+		chartInit(data);
+		/*for (var lab in data){
+			//alert(lab+":"+data[lab]);
+			//myNewChart.addData([data[lab]], lab);
+			newCount++;
+		}
+		countProperties=newCount;*/
+	}
 }
-function chartInit(){
+
+function chartInit(dataProperties){
+	var labelProperties=[];
+	var valueProperties=[];
+	for (var label in dataProperties){
+		labelProperties.push(label);
+		valueProperties.push(dataProperties[label]);
+	}
 	Chart.defaults.global = {
 		// Boolean - Whether to animate the chart
 		animation: true,
 	    // Number - Number of animation steps
 	    animationSteps: 60,
 	    // String - Animation easing effect
-	    // Possible effects are:
-	    // [easeInOutQuart, linear, easeOutBounce, easeInBack, easeInOutQuad,
-	    //  easeOutQuart, easeOutQuad, easeInOutBounce, easeOutSine, easeInOutCubic,
-	    //  easeInExpo, easeInOutBack, easeInCirc, easeInOutElastic, easeOutBack,
-	    //  easeInQuad, easeInOutExpo, easeInQuart, easeOutQuint, easeInOutCirc,
-	    //  easeInSine, easeOutExpo, easeOutCirc, easeOutCubic, easeInQuint,
-	    //  easeInElastic, easeInOutSine, easeInOutQuint, easeInBounce,
-	    //  easeOutElastic, easeInCubic]
 	    animationEasing: "easeOutQuart",
 	    // Boolean - If we should show the scale at all
 	    showScale: true,
@@ -149,11 +175,7 @@ function chartInit(){
 	    onAnimationComplete: function(){}
 }
 var data = {
-    labels: [<?php 
-	    		foreach ($properties as $id=>$e){
-	    				echo "\"".$id."\",";
-	    			}?>
-    ],
+    labels : labelProperties,
     datasets: [
         {
             label: "My First dataset",
@@ -162,11 +184,9 @@ var data = {
             pointColor: "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
+            pointDot : false,
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [<?php foreach ($properties as $id=>$e){
-	    				echo "\"".$e."\",";
-	    			}?>
-			]
+			data : valueProperties
         },
     ]
 };
@@ -175,5 +195,15 @@ var options;
 var ctx = $("#myChart").get(0).getContext("2d");
 // This will get the first returned node in the jQuery collection.
 myNewChart = new Chart(ctx).Radar(data, options);
+}
+
+function numAttrs(obj) {
+  var count = 0;
+  for(var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      ++count;
+    }
+  }
+  return count;
 }
 </script>

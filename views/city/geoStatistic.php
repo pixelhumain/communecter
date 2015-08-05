@@ -1,5 +1,3 @@
-
-
 <?php
 
 		/* ***************** modifier l'url relative si besoin pour trouver communecter/view/sig/ *******************/
@@ -38,7 +36,7 @@
 	        "notClusteredTag" => array("citoyens"),
 
 	        /* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
-	        "firstView"		  => array(  "coordinates" => array(-21.137453135590444, 55.54962158203125),
+	        "firstView"		  => array(  "coordinates" => array($city["geo"]["latitude"], $city["geo"]["longitude"]),//array(-21.137453135590444, 55.54962158203125),
 	                       				 "zoom"		   => 9),
 
 	    	/* CHARTS */
@@ -246,13 +244,25 @@
 		<?php 
 			//transforme l'array des events pour pouvoir les parser correctement
 			foreach($events as $event){ $newEvents[] = $event; }
-			$contextMap = array("organizations" => $organizations, 
-								"events" 		=> $newEvents, 
-								"projects" 		=> $projects,
+			$contextMap = array(//"organizations" => $organizations, 
+								//"events" 		=> $newEvents, 
+								//"projects" 		=> $projects,
 								"charts"		=> $charts
 								 );
 		?>
-		var mapData = <?php echo json_encode($contextMap) ?>;//null;//contextMap;
+
+		/*
+			$.mockjax({
+				url : '/city/data',
+				dataType : 'json',
+				responseTime : 2000,
+				responseText : {
+					data : {"madata":{}}
+				}
+			});
+		*/
+
+		var mapData = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
 		console.log("contextMap");
 		console.dir(mapData);
 		/**************************************************************************************************************/
@@ -261,7 +271,7 @@
 		//affichage des éléments sur la carte
 		Sig.showMapElements(mapCity, mapData);//, elementsMap); 
 
-		mapCity.panTo([-21.06912308335471, 55.34912109375]);
+		//mapCity.panTo([-21.06912308335471, 55.34912109375]);
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
 

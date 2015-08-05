@@ -98,10 +98,14 @@
 			$('#'+constImgKey+'_avatar').trigger("click");
 		});
 		$(".setbgCustom").off().on("click", function() 
-		{
-			$(".main-container").attr("style","background-image:url('"+$("#slidesPhoto > li.flex-active-slide > img").attr('src')+"')");
-			setBg("bgCustom",$("#slidesPhoto > li.flex-active-slide > img").attr('src'));
-		})
+        {
+        	if( $("#slidesPhoto > li.flex-active-slide > img").attr('src') ) 
+        	{
+        		setBg("bgCustom",$("#slidesPhoto > li.flex-active-slide > img").attr('src'));
+                $(".main-container").attr("style","background-image:url('"+$("#slidesPhoto > li.flex-active-slide > img").attr('src')+"')");
+            }
+        })
+
 	});
 	
 	function bindPhotoSubview(){

@@ -2,7 +2,7 @@
 	var  activePanel = "box-login";
 	var  bgcolorClass = "bgblack";
 
-	function showMenu(box){
+	function showMenu(box,bgStyle){
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		if($(".menuBtn").hasClass("fa-times"))
 		{
@@ -16,14 +16,7 @@
 				bgcolorClass = "bgCity";
 			}
 			else{
-				bgcolorClass = "bgblack";
-				if(box == "box-whatisit" || box == "box-when" )
-					bgcolorClass = "bgred";
-				else if(box == "box-why" || box == "box-how" )
-					bgcolorClass = "bggreen";
-				else if(box == "box-4who" || box == "box-where" )
-					bgcolorClass = "bgblue";
-					
+				bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
 				$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			}
 
@@ -40,7 +33,7 @@
 			//$("body.login").removeClass(bgcolorClass).addClass("bgCity");
 			console.log("open showMenu",box, bgcolorClass );
 
-			$("body.login").removeClass("bgred bggreen bgblack bgblue");
+			$("body.login").removeClass("bggreen bgblack bgblue bgyellow");
 
 			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
@@ -51,16 +44,20 @@
 	}
 
 	function showVideo(id) { 
+
 		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		$('.box-menu').slideUp();
+		$("body.login").removeClass("bggreen bgblack bgblue bgyellow");
+		$('.box-menu,.topLogoAnim').slideUp();
 		$.okvideo({ source: id,
-                    volume: 0,
+                    volume: 10,
                     loop: false,
                     //hd:true,
                     //adproof: true,
                     //annotations: false,
-                    onFinished: function() { showMenu("box-login") },
+                    onFinished: function() { 
+                    	$('.topLogoAnim').slideDown();
+                    	showMenu("box-login");
+                    },
                     /*unstarted: function() { console.log('unstarted') },
                     onReady: function() { console.log('onready') },
                     onPlay: function() { console.log('onplay') },
@@ -95,77 +92,76 @@
 			else
 				$(".titleWhite2").html("");
 			$(".subTitle").html(map.subTitle);
-			$('.loaderDots').html("");
 			titleMapIndex = ( titleMapIndex == titleMap.length-1 ) ? 0 : titleMapIndex+1;
 			titleAnim ();
 		},3000);
 	}
-	function loaderPoints () { 
-		/*setTimeout(function(){
-			$('.loaderDots').html($('.loaderDots').html()+".");	
-			loaderPoints ();
-		},800)*/
-	}
-	/*var toggleTitleState = -1;
-	function  toggleTitle (state) {
-
-		console.log("toggleTitle",toggleTitleState); 
-		setTimeout(function(){
-
-			if(state>0)
-			{
-				$(".titleRed").html("COMMUNE");
-				$(".titleWhite").html("CTER");
-				$(".titleWhite2").html("");
-			}
-			else
-			{
-				$(".titleRed").html("CO");
-				$(".titleWhite").html("MMU");
-				$(".titleWhite2").html("NECTER");
-			}
-			toggleTitleState = -toggleTitleState; 
-		},500);
-	}*/
 </script>
-
-<div class="text-white text-extra-large text-bold center">
+<?php if(!isset($topTitleExists)){ ?>
+<div class="text-white text-extra-large text-bold center topLogoAnim">
+	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in september, early registration open ) </span>
+	<br/>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	<a href="#" class="text-white" onclick="showVideo('<?php echo $this->module->assetsUrl?>/images/motion2.mov')"><i class="fa fa-2x fa-youtube-play"></i></a>
+	<a href="#" class="text-white" onclick="showVideo('133636468')"><i class="fa fa-2x fa-youtube-play"></i></a>
 	
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>
+<?php } ?>
 <div class="box-menu box">
 	<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit')">WHAT IS IT</a></li>
-		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why')">WHY</a></li>
-		<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who')">FOR WHO</a></li>
-		<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how')">HOW</a></li>
-		<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when')">WHEN</a></li>
-		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where')">WHERE</a></li>
+		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showMenu('box-whatisit','bgyellow')">WHAT</a></li>
+		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showMenu('box-why','bggreen')">WHY</a></li>
+		<li style="margin-left:50px"><i class="fa fa-group"></i> <a href="#" style="color:white" onclick="showMenu('box-4who','bgblue')">WHO</a></li>
+		<li style="margin-left:50px"><i class="fa fa-laptop"></i> <a href="#" style="color:white" onclick="showMenu('box-how','bggreen')">HOW</a></li>
+		<li style="margin-left:50px"><i class="fa fa-calendar"></i> <a href="#" style="color:white" onclick="showMenu('box-when','bgyellow')">WHEN</a></li>
+		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showMenu('box-where','bgblue')">WHERE</a></li>
 		<li style="margin-left:50px">&nbsp;<i class="fa fa-lightbulb-o"></i> <a href="#" style="color:white" onclick="showMenu('box-help')">HELP US</a></li>
 		<li style="margin-left:50px"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <a href="#" style="color:white" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
-		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 67px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 64px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 	</ul>
 </div>
-
+<style type="text/css">
+	.nextBtns{color:#E33551; font-size:2.5em;}
+	.nextBtns:hover{color:white; }
+</style>
 <div class="box-whatisit box">
-	<a href="<?php echo Yii::app()->createUrl( $this->module->id.'/login' ) ?> "><img  src="<?php echo $this->module->assetsUrl?>/images/logoSMclean.png"/></a>
-	<h1><i class="fa fa-share-alt"></i> WHAT IS IT</h1>
+	
+	<h1><i class="fa fa-share-alt"></i> WHAT</h1>
 	<section>
-		a new way to live in society
-		<br/> together to make it better
-		<br/> It's sociatel network
+		A new way to live in society
+		<br/> Together to make it better
+		<br/> It's a societal network
+		<br/> Connected to your city 
+		<br/> Building for the commons
+		<br/> Thinking Collectively
+		<br/> Collaborative Economy
+		<br/> Communities drive societies 
+		<br/> 
 	</section>
+	<hl/>
+	<a href="#" onclick="showMenu();showMenu('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
 
 <div class="box-why box">
 	<h1><i class="fa fa-heart"></i> WHY</h1>
-	<section class="homestead">
+	<section class="">
 		Because We Love you
+		<br/> Because Nothings Happens just like that
+		<br/> Create the future you want to live in
+		<br/> Because of the state of things
+		<br/> The Passed is a lesson
+		<br/> A collaborative experiment
+		<br/> To Give a voice to the silent 99%
+		<br/> Sharing not owning
+		<br/> Copy Freely and make it better
+		<br/> Cooperate to Distribute Massively 
+		<br/> Get Together not hide alone
+		<br/> Discover and not Ignore
+		<br/> 
 	</section>
+	<a href="#" onclick="showMenu();showMenu('box-4who','bgblue')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-4who box">
@@ -177,46 +173,71 @@
 	</section>
 	<h1><i class="fa fa-group"></i> BY WHO</h1>
 	<section>
-		by builders , architects, thinkers, artists
-		connecters, inventors, travellers, makers
+		Builders 
+		<br/> Architects
+		<br/> Thinkers
+		<br/> Artists
+		<br/> Connecters
+		<br/> Inventors
+		<br/> Travellers
+		<br/> Makers
 	</section>
+	<a href="#" onclick="showMenu();showMenu('box-how','bggreen')" class="homestead nextBtns pull-right">HOW <i class="fa fa-arrow-circle-o-right"></i></a>
+	
 </div>
 
 <div class="box-how box">
 	<h1><i class="fa fa-laptop"></i> HOW</h1>
 	<section>
-		Computer and people 
-		<br/>make a good mix 
+		People, Organizations, Cities and Projects
+		<br/> By The numbers
+		<br/> Computers and more people 
+		<br/> Make a good mix 
 		<br/> Build Great Things
+		<br/> Societal Innovation
+		<br/> Collective Imagination
+		<br/> Open source 
 	</section>
+	<a href="#" onclick="showMenu();showMenu('box-when','bgyellow')" class="homestead nextBtns pull-right">WHEN <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-when box">
 	<h1><i class="fa fa-calendar"></i> WHEN</h1>
 	
 	<section>
-		If it's not 
-		<br/>now it's never
+		If it's not now
+		<br/> it's never
+		<br/> First Beta opening in september 2015
+		<br/> Crowd Funding launches in August 2015
 	</section>
+	<a href="#" onclick="showMenu();showMenu('box-where','bgblue')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-where box">
 	<h1><i class="fa fa-map-marker"></i> WHERE</h1>
 	<section>
 		Every where there are people 
-		<br/> with ideas
-		<br/> motivation to change
+		<br/> With ideas
+		<br/> Motivation to change
+		<br/> And anyone can start 
+		<br/> Anywhere 
+		<br/> Anytime
+		<br/> Remember you are never alone 
 	</section>
+
+	<a href="#" onclick="showMenu();showMenu('box-help')" class="homestead nextBtns pull-right">GET INVOLVED <i class="fa fa-arrow-circle-o-right"></i></a>
+
 </div>
 
 <div class="box-help box">
 	<h1><i class="fa fa-lightbulb-o"></i> GET INVOLVED</h1>
 	<section>
-		To Build
+		To Build 
 		<br/> Communicate
 		<br/> Design
 		<br/> Finance
 		<br/> Translate
 		<br/> Innovate
 	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>

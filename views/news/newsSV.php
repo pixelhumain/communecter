@@ -42,6 +42,22 @@ var formDefinition = {
                     	"Urbanisme",
 	            	]
 	            },
+	        "public" :{
+	            	"inputType" : "checkbox",
+	            	"placeholder" : "Public",
+	            	"values" : true,
+	            	"onclick" : "function(){alert()}"
+	            },
+	        "scope" :{
+	            	"inputType" : "tags",
+	            	"placeholder" : "Scope, Who can see this",
+	            	"values" : [
+	            		"Sport",
+                    	"Agricutlture",
+                    	"Culture",
+                    	"Urbanisme",
+	            	]
+	            },
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
@@ -83,19 +99,6 @@ jQuery(document).ready(function() {
 					formId : "#ajaxForm",
 					formObj : formDefinition,
 					onLoad : function  () {
-						/*console.log("on show subview",);
-						here you can load anythnig into your form fields 
-						it is called after creation
-						*/
-						/*$.each( dataBind, function(field,fieldObj){
-							if(field != ""){
-								var val = fieldObj.value;
-								if(val) {
-									$(field).val(val);
-									console.log("field key",field);
-								}
-							}
-						});*/
 						
 					},
 					onSave : function(){
