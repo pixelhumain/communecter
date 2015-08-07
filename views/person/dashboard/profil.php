@@ -151,7 +151,7 @@
 					<?php } 
 					if (Person::logguedAndValid() && $canEdit) {
 					?>
-						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>"
+						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>
 					<?php } ?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 				</div>

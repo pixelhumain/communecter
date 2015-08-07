@@ -52,7 +52,8 @@ class PersonController extends CommunecterController {
           'google'             => 'citizenToolKit.controllers.person.GoogleAction',
           'importfile'         => 'citizenToolKit.controllers.person.ImportFileAction',
           'saisir'             => 'citizenToolKit.controllers.person.SaisirAction',
-          'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction'
+          'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
+          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction'
 	    );
 	}
 

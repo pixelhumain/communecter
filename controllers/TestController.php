@@ -67,7 +67,7 @@ class TestController extends CommunecterController {
     Mail::schedule($params);
   }
 
-   public function actionDoCron() {
+  public function actionDoCron() {
   	Cron::processCron();
   }
   
