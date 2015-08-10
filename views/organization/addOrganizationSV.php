@@ -115,7 +115,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 									<label for="postalCode">
 										Code postal <span class="symbol required"></span>
 									</label>
-									<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
+									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">

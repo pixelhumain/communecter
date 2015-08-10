@@ -70,7 +70,7 @@
 								<label for="postalCode">
 									Code postal <span class="symbol required"></span>
 								</label>
-								<input type="text" class="form-control" placeholder="974xx" name="postalCode" id="postalCode" value="" >	
+								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >	
 							</div>
 							<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 								<label for="city">
