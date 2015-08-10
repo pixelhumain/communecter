@@ -89,11 +89,30 @@
 							***************************************** */
 							if( Yii::app()->session["userIsAdmin"] && $type == Person::CONTROLLER )
 							{
-								if( isset($e["tobeactivated"]) )
+								//Activated
+								if( @$e["roles"]["tobeactivated"] )
 								{
 									$classes .= "tobeactivated";
 									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
 								}
+								//Beta Test
+								if (@Yii::app()->params['betaTest']) {
+									if( @$e["roles"]["betaTester"] ) {
+										$classes .= "betaTester";
+										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
+									} else {
+										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
+									}
+								}
+								//Super Admin
+								if( @$e["roles"]["superAdmin"] ) {
+									$classes .= "superAdmin";
+									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
+								} else {
+									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
+								}
+
+								//TODO
 								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
 								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
 							}
@@ -337,10 +356,96 @@ function bindAdminBtnEvents(){
 			});
 
 		});
+
+		$(".addBetaTesterBtn").off().on("click",function () {
+			var btnClick = $(this);
+			bootbox.confirm("confirm please !!", function(result) {
+				if (result) {
+					changeRole(btnClick, "addBetaTester");
+				}
+			});
+		});
+
+		$(".revokeBetaTesterBtn").off().on("click",function () {
+			var btnClick = $(this);
+			bootbox.confirm("confirm please !!", function(result) {
+				if (result) {
+					changeRole(btnClick, "revokeBetaTester")
+				}
+			});
+		});
+
+		$(".addSuperAdminBtn").off().on("click",function () {
+			bootbox.confirm("confirm please !!", function(result) {
+				if (result) {
+					changeRole($(this).data("id"), "addSuperAdmin");
+				}
+			});
+		});
+
+		$(".revokeSuperAdminBtn").off().on("click",function () {
+			bootbox.confirm("confirm please !!", function(result) {
+				if (result) {
+					changeRole($(this).data("id"), "revokeSuperAdmin")
+				}
+			});
+		});
+	
 	<?php } ?>
 	$(".banThisBtn").off().on("click",function () 
 		{
 			console.log("banThisBtn click");
 		});
 }
+
+function changeRole(button, action) {
+	console.log(button," click");
+    //$(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+    var urlToSend = baseUrl+"/"+moduleId+"/person/changerole/";
+    var res = false;
+
+	$.ajax({
+        type: "POST",
+        url: urlToSend,
+        data: {
+        	"id" : button.data("id"),
+			"action" : action
+        },
+        dataType : "json"
+    })
+    .done(function (data) {
+        if ( data && data.result ) {
+        	toastr.success("Change has been done !!");
+        	changeButtonName(button, action);
+        	bindAdminBtnEvents();
+        } else {
+           toastr.error("Something went wrong!! please try again. " + data.msg);
+        }
+    });
+}
+
+function changeButtonName(button, action) {
+	console.log(action);
+	var icon = '<span class="fa-stack"> <i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span>';
+	if (action=="addBetaTester") {
+		button.removeClass("addBetaTesterBtn");
+		button.addClass("revokeBetaTesterBtn");
+		button.html(icon+" Revoke this beta tester");
+	} else if (action=="revokeBetaTester") {
+		button.removeClass("revokeBetaTesterBtn");
+		button.addClass("addBetaTesterBtn");
+		button.html(icon+" Add this beta tester");
+	} else if (action=="addSuperAdmin") {
+		button.removeClass("addSuperAdminBtn");
+		button.addClass("revokeSuperAdminBtn");
+		button.html(icon+" Revoke this super admin");
+	} else if (action=="revokeSuperAdmin") {
+		button.removeClass("revokeSuperAdminBtn");
+		button.addClass("addSuperAdminBtn");
+		button.html(icon+" Add this super admin");
+	} else {
+		console.warn("Unknown action !");
+	}
+}
+
 </script>

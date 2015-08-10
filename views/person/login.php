@@ -49,6 +49,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<div class="errorHandler alert alert-danger no-display loginResult">
 							<i class="fa fa-remove-sign"></i> Please verify your entries.
 						</div>
+						<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
+							<i class="fa fa-remove-sign"></i> Your account is not validated : please check your mailbox to validate your email address.
+							      If you didn't receive it or lost it, click
+							      <a class="validate" href="#">here</a> to receive it again.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
@@ -68,8 +73,8 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: LOGIN BOX -->
 		<!-- start: FORGOT BOX -->
-		<div class="box-forgot box">
-			<form class="form-forgot">
+		<div class="box-email box">
+			<form class="form-email">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
 				<fieldset style="padding-left:70px;padding-right:70px;">
@@ -171,6 +176,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	});
 
 var timeout;
+var emailType;
 var Login = function() {
 	"use strict";
 	var runBoxToShow = function() {
@@ -180,8 +186,11 @@ var Login = function() {
 				case "register" :
 					el = $('.box-register');
 					break;
-				case "forgot" :
-					el = $('.box-forgot');
+				case "email" :
+					el = $('.box-email');
+					break;
+				case "validate" :
+					el = $('.box-email');
 					break;
 				default :
 					el = $('.box-login');
@@ -198,10 +207,24 @@ var Login = function() {
 				$(this).hide().removeClass("animated bounceOutRight");
 
 			});
-			$('.box-forgot').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				$(this).show().removeClass("animated bounceInLeft");
 			});
-			activePanel = "box-forgot";
+			emailType = "password";
+			$("#email2").val($("#email").val());
+			activePanel = "box-email";
+		});
+		$('.validate').on('click', function() {
+			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).hide().removeClass("animated bounceOutRight");
+
+			});
+			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).show().removeClass("animated bounceInLeft");
+			});
+			emailType = "validation";
+			$("#email2").val($("#email").val());
+			activePanel = "box-email";
 		});
 		$('.register').on('click', function() {
 			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -220,8 +243,8 @@ var Login = function() {
 				boxToShow = $('.box-register');
 				activePanel = "box-register";
 			} else {
-				boxToShow = $('.box-forgot');
-				activePanel = "box-forgot";
+				boxToShow = $('.box-email');
+				activePanel = "box-email";
 			}
 			boxToShow.addClass("animated bounceOutLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				boxToShow.hide().removeClass("animated bounceOutLeft");
@@ -297,7 +320,7 @@ var Login = function() {
 				errorHandler.hide();
 				loginBtn.start();
 				var params = { 
-				   "email" : $("#email").val() , 
+				   "email" : $("#email").val(), 
                    "pwd" : $("#password").val()
                 };
 			      
@@ -313,12 +336,21 @@ var Login = function() {
 		    		  		window.location.href = url;
 		        		else
 		        			window.location.reload();
-		    		  }
-		    		  else {
-						$('.loginResult').html(data.msg);
-						$('.loginResult').show();
+		    		  } else {
+		    		  	var msg;
+		    		  	if (data.msg == "notValidatedEmail") {
+							$('.notValidatedEmailResult').show();
+		    		  	} else {
+		    		  		msg = data.msg;
+		    		  		$('.loginResult').html(msg);
+							$('.loginResult').show();
+		    		  	}
 						loginBtn.stop();
 		    		  }
+		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	loginBtn.stop();
 		    	  },
 		    	  dataType: "json"
 		    	});
@@ -331,7 +363,7 @@ var Login = function() {
 		});
 	};
 	var runForgotValidator = function() {
-		var form2 = $('.form-forgot');
+		var form2 = $('.form-email');
 		var errorHandler2 = $('.errorHandler', form2);
 		var forgotBtn = null;
 		Ladda.bind('.forgotBtn', {
@@ -348,10 +380,13 @@ var Login = function() {
 			submitHandler : function(form) {
 				errorHandler2.hide();
 				forgotBtn.start();
-				var params = { "email" : $("#email2").val()};
+				var params = { 
+					"email" : $("#email2").val(),
+					"type"	: emailType
+				};
 		        $.ajax({
 		          type: "POST",
-		          url: baseUrl+"/<?php echo $this->module->id?>/person/sendemailpwd",
+		          url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
 		          data: params,
 		          success: function(data){
 					if (data.result) {
@@ -359,7 +394,7 @@ var Login = function() {
 			            window.location.reload();
 					} else if (data.errId == "UNKNOWN_ACCOUNT_ID") {
 						if (confirm(data.msg)) {
-							$('.box-forgot').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+							$('.box-email').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 								$(this).hide().removeClass("animated bounceOutRight");
 							});
 							$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -371,6 +406,9 @@ var Login = function() {
 						}
 					}
 		          },
+		          error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  },
 		          dataType: "json"
 		        });
 		        return false;
@@ -459,6 +497,10 @@ var Login = function() {
 						createBtn.stop();
 		    		  }
 		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	createBtn.stop();
+		    	  },
 		    	  dataType: "json"
 		    	});
 			    return false;
@@ -483,6 +525,31 @@ var Login = function() {
 		}
 	};
 }();
+
+function sendEmailValidation() {
+	var params = { 
+		"email" : $("#email").val(),
+		"type"	: "validation"
+	};
+
+    $.ajax({
+      type: "POST",
+      url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
+      data: params,
+      success: function(data){
+		if (data.result) {
+			alert(data.msg);
+            window.location.reload();
+		} else {
+			toastr.error("Something went wrong : "+data.msg);
+		}
+      },
+      error: function(data) {
+	  	toastr.error("Something went really bad : contact your administrator !");
+	  },
+      dataType: "json"
+    });
+}
 
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);

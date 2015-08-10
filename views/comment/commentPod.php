@@ -309,7 +309,7 @@ function buildNewCommentLine(parentCommentId) {
 }
 
 function cancelComment(commentId) {
-	console.log('Remove comment '+commentId, $('#'+commentId).data("parentid"));
+	console.log('Remove comment '+commentId, $('#'+commentId).data("parentid"), $('#'+commentId));
 	$('#'+commentId).remove();
 	if ($('#'+commentId).children(".cancelComment").data("parentid") == "") {
 		$('.saySomething').show();

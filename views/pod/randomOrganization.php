@@ -2,7 +2,6 @@
   if(! isset($randomOrganization)){ 
     $randomOrganization["name"] = "Il est temps d'alimenter son réseau !";
     $randomOrganization["description"] = "Trouvez des organisations partenaires !";
-    $randomOrganization["publicURL"] = "";
   }
 ?>
   <div class="panel panel-white">

@@ -8,7 +8,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/jquery.mixitup.min
 
 $commentActive = true;
 
-  $logguedAndValid = ( isset( Yii::app()->session["userId"]) && !isset($user["tobeactivated"]) ) ;
+  $logguedAndValid = Person::logguedAndValid();
   $alltags = array(); 
   $blocks = "";
   $tagBlock = "";
