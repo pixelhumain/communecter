@@ -136,7 +136,7 @@ class CommunecterController extends Controller
     ),
   "person"=> array(
       "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
-      "sendemailpwd"    => array("href" => "/ph/communecter/person/sendemailpwd"),
+      "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
       "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
       "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
       "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
@@ -146,6 +146,8 @@ class CommunecterController extends Controller
       "activate"        => array('href'=> "/ph/communecter/person/activate"),
       "logout"          => array("href" => "/ph/communecter/person/logout"),
       'getnotification' => array("href" => "/person/getNotification"),
+      'changepassword' => array("href" => "/person/changepassword"),
+      'changerole' => array("href" => "/person/changerole"),
 
       "invite"          => array("href" => "/ph/communecter/person/invite"),
       "invitation"      => array("href" => "/ph/communecter/person/invitation"),
@@ -288,7 +290,7 @@ class CommunecterController extends Controller
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/activate" 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemailpwd" 
+      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemail" 
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;

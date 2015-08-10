@@ -34,7 +34,7 @@ class PersonController extends CommunecterController {
 	    return array(
 	        'index'              => 'citizenToolKit.controllers.person.IndexAction',
 	        'login'     	       => 'citizenToolKit.controllers.person.LoginAction',
-          'sendemailpwd'       => 'citizenToolKit.controllers.person.SendEmailPwdAction',
+          'sendemail'          => 'citizenToolKit.controllers.person.SendEmailAction',
 	        'logout'     	       => 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'       => 'citizenToolKit.controllers.person.AuthenticateAction',
 	        'dashboard'  	       => 'citizenToolKit.controllers.person.DashboardAction',
@@ -51,7 +51,9 @@ class PersonController extends CommunecterController {
           'network'            => 'citizenToolKit.controllers.person.NetworkAction',
           'google'             => 'citizenToolKit.controllers.person.GoogleAction',
           'importfile'         => 'citizenToolKit.controllers.person.ImportFileAction',
-          'saisir'             => 'citizenToolKit.controllers.person.SaisirAction'
+          'saisir'             => 'citizenToolKit.controllers.person.SaisirAction',
+          'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
+          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction'
 	    );
 	}
 

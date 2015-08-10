@@ -57,19 +57,24 @@
 						<div class="panel-scroll height-230 ps-container">
 							<table class="table table-striped table-hover">
 								<tbody id="tContributor">
-									<?php foreach ($contributors as $member) { ?>
+									<?php foreach ($contributors as $member) { 
+										if ($member["type"]=="citoyen"){
+											$icon="<i class=\"fa fa-smile-o fa-2x\"></i></td>";
+											$redirect="person";
+										}
+										else{
+											$icon="<i class=\"fa fa-group fa-2x\"></i></td>";
+											$redirect="organization";
+										}
+									?>
 									<tr id="contributor<?php echo $member["_id"]; ?>">
 										<td class="center">
 										<?php if($member && isset($member["imagePath"])) { ?>
 											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo $member["imagePath"]; ?>"></td>
 										<?php } else{ 
-												if ($member["type"]=="citoyen"){?>
-													<i class="fa fa-smile-o fa-2x"></i></td>
-												<?php }else{ ?>
-													<i class="fa fa-group fa-2x"></i></td>
-										<?php	} 
+												echo $icon;
 											} ?>
-										<td><span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
+										<td><span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a></td>
 										<?php if ( $admin ){ ?>
 											<td>
 												<a href="javascript:;" class="disconnectBtnContributor btn btn-xs btn-red tooltips " data-placement="left"  data-type="<?php if ($member["type"]=="citoyen") echo PHType::TYPE_CITOYEN; else echo  Organization::COLLECTION; ?>" data-id="<?php echo $member['_id'];?>" data-name="<?php echo $member["name"]; ?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>

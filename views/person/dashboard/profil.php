@@ -32,7 +32,7 @@
     </div>
 	
  	<div class="panel-tools">
-        <?php 
+ 		<?php    
 				if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
 					<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> InitData : Dummy People</a>
 		<?php } else { ?>
@@ -44,6 +44,9 @@
   	</div>
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="height: 190px">
+			<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+ 						<a href="javascript:;" class="btn btn-xs btn-red pull-right" ><i class="fa"></i>Beta Tester</a>
+ 			<?php 	} ?>
 			<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
@@ -145,9 +148,12 @@
     				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
 					{  ?>
 						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+					<?php } 
+					if (Person::logguedAndValid() && $canEdit) {
+					?>
+						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>
 					<?php } ?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
-
 				</div>
 
 			</div>

@@ -167,5 +167,47 @@ var bindBtnFollow = function(){
 	});
 }
 
+var bindBtnFollow = function() {
+	$(".changePasswordBtn").off().on("click",function () {
+		openChangePasswordSV();
+	})
+}
+function openChangePasswordSV(mode, id) {
+	console.log("openChangePasswordSV");
+	$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2 changePasswordContainer'>"+
+		  	"</div>");
+	$.subview({
+		content : "#ajaxSV",
+		onShow : function() {
+			$.ajax({
+	            type: "POST",
+	            url: baseUrl+"/"+moduleId+"/person/changepassword",
+	            data: {
+	            	"mode" : "initSV",
+	            	"userId" : userId 
+	            },
+	            dataType: "json"
+	        })
+	        .done(function (data) {
+	            console.log("yes !");
+	            if (data && data.result) {               
+	                $(".changePasswordContainer").html(data.content);
+	                //Add any callback on success
+
+	            } else {
+	              toastr.error((data.msg) ? data.msg : "bug happened");
+	              $.hideSubview();
+	            }
+        	})
+		},
+		onHide : function() {
+			$("#ajaxSV").html('');
+			$.hideSubview();
+		},
+		onSave : function() {
+			changePassword();
+		}
+	});
+}
 
 </script>
