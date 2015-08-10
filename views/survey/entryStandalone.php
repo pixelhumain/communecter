@@ -78,10 +78,11 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<div class="box-vote box-pod box">
 			
 			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
-			<br/>
-			<img src="https://unsplash.it/g/300">
 			<br/><br/>
+			<img src="https://avaazdo.s3.amazonaws.com/3b6ac9a762f54d9422039cb51fe5bd0e.jpg" width=400>
+			<br/><br/><br/>
 			<?php echo $survey["message"]; ?>
+			<br/>
 		</div>
 	</div>
 

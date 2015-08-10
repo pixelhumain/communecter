@@ -40,6 +40,9 @@
         * data converter 
             [ ] schema City map 
             [ ] schema Place map
+    [X] generic view Page system using ActivityStream 
+			- ActStr::viewPage( $url );
+			- db.getCollection('activityStream').find({"actor.ip":{"$exists":1}})
     * URLs
       [ ] url formatting for seo , ex : /organization/openatlas
 	** SIG 
@@ -88,6 +91,10 @@
 			- votes 
 			- brainstorms
 			- external rooms like Gitter or Slack with url 
+		[X] enregistrer entries description
+		[X] see entryStandalone without connection , request login on click action ::: checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" )
+		[X] action Room doesn't show in "my Action Rooms" after creation 
+		[X] rooms Index : get Rooms I participated in 
 		*** VOTER
 			[ ] vote & comment on anything 
 			[ ] mutualiser function addaction
@@ -138,8 +145,29 @@
 	** OPEN PEOPLE
 		* TO CONTACT 
 			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
+			[X] MEETING : Rieul La Paillase soane : rieul.techer@gmail.com 
+				- https://lapaillassaone.wordpress.com/
+				- Adresse : 1 Rue du Luizet, 69100 Villeurbanne, France
+				- Téléphone :+33 4 26 64 36 16
+			[X] MEETING : Auberge de solidarité : marine.ruche@gmail.com
+			[X] MEETING : Nacelle 2.0 , Hafid El Mehdaoui, Hafid El Mehdaoui <hafid94@gmail.com>
+				- nacelles02.com/?page_id=30
+			[X] MEETING : Createur de sens : kristy.diwas & Jennifer Vignot 
+				- https://www.youtube.com/watch?v=BXmBkHLJ4XI
+				- http://mondequiestu.com/
+				- http://www.humean.org/
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
+		- stupid loading pong game with mouse on a small section of screen 
+		- faire J'AIME | JE SOUTIENS | BECOME MEMBER | FOLLOW sur Orga , Event , Projet
+			ex : http://fr-voosilla.ouvaton.org/Incubation/DevSite/Actuel/index.html#ancre-contribliste
+		- activity Stream Mapper 
+			when some one enters a module or anything 
+			as he uses the system 
+			his activity Stream Map grows with his different actions 
+				can help understand usage
+				debug any bugs 
+			add easily add gamification features
 	** COMMUNICATION 
     [ ] faire marcher la newsletter 
 		

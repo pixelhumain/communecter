@@ -16,7 +16,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
-	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
+	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -142px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
 		$this->renderPartial('menuTitle');
