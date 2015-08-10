@@ -338,7 +338,7 @@ var Login = function() {
 		        			window.location.reload();
 		    		  } else {
 		    		  	var msg;
-		    		  	if (data.msg = "notValidatedEmail") {
+		    		  	if (data.msg == "notValidatedEmail") {
 							$('.notValidatedEmailResult').show();
 		    		  	} else {
 		    		  		msg = data.msg;
