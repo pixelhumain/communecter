@@ -378,7 +378,7 @@ function bindAdminBtnEvents(){
 		$(".addSuperAdminBtn").off().on("click",function () {
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
-					changeRole($(this).data("id"), "addSuperAdmin");
+					changeRole(btnClick, "addSuperAdmin");
 				}
 			});
 		});
@@ -386,7 +386,7 @@ function bindAdminBtnEvents(){
 		$(".revokeSuperAdminBtn").off().on("click",function () {
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
-					changeRole($(this).data("id"), "revokeSuperAdmin")
+					changeRole(btnClick, "revokeSuperAdmin")
 				}
 			});
 		});
