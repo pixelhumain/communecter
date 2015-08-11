@@ -376,6 +376,7 @@ function bindAdminBtnEvents(){
 		});
 
 		$(".addSuperAdminBtn").off().on("click",function () {
+			var btnClick = $(this);
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
 					changeRole(btnClick, "addSuperAdmin");
@@ -384,6 +385,7 @@ function bindAdminBtnEvents(){
 		});
 
 		$(".revokeSuperAdminBtn").off().on("click",function () {
+			var btnClick = $(this);
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
 					changeRole(btnClick, "revokeSuperAdmin")
