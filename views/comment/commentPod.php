@@ -377,7 +377,7 @@ function getProfilImageUrl(imageURL) {
 						'src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+
 						 imageURL+'">';
 	} else {
-		iconStr += '<i class="fa fa-user-circled fa-2x fa-border"></i>';
+		iconStr += '<i class="fa fa-user_circled fa-2x fa-border"></i>';
 	}
 
 	iconStr += "</div>";
