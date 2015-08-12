@@ -60,13 +60,31 @@
 			- create event
 			- invite someone
 			- import form
+		EAT OUR OWN FOOD
+			- repertorier nos partenaires
+			- nos evennements
+			- nos projets
+			- chacun doit avoir son dashboard
+			- test decision using the voting system
 
 		- bug GRANDDIR 
 		- Plan IRT (17/08) 4h date = 25/08
 		- plan Crowd Funding ( fin aout ) 
-		- ECo Collab Fest
-		- Forum des communs 
-			date : Sam 17 ou 10
+		- ECo Collab Fest (debut Oct)
+		- Forum des communs (10Oct)
+		- JEP (19 sept)
+		- CARRECO
+			- Banderole 
+			- Affiche Fonctionnel 
+				- Territoire connecté : 1j Cartographier Association, Entreprise
+				- System d'import 1j : Prix 500€
+				- City Box : Location : 1500€/an
+				- OpenData Consulting + installation de la plateforme : 2000€
+				- Conseil Citoyen : 2000€ /an 
+				- Citizen Tool Kit : Package : 5000€ / an
+				- LOCAL TOURISMO : 
+				- Economie Collaborative : Package : 
+			- Hackathon : W3a , DataRocks...
 		- Communacelle 
 			- @Hafid : photo aerienne de Toulouse
 			- RV avec Clemence 
@@ -78,59 +96,23 @@
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] bounce In icons with info panels
 		* vote Standalone
-			[ ] line break in textarea edit/create form
-			[ ] invited by 
-			[ ] traduction
-			[ ] remove Follow and share or check process
-			[ ] remove vote counts on buttons
-			[ ] results page
 			[ ] finish/close vote session
-			[ ] close date
-			[ ] remove burger
-			[ ] bootbox instead of alert
-			[ ] effet graphique after vote click
+				[ ] either finish on endDate
+				[ ] or add a finished btn for the creator
+				[ ] adds endDate
+			[ ] creatorId must exist if organizer is an orga, for admin purposes
+			[ ] traduction
+			[ ] line break in textarea edit/create form
 			** @Sylvain
 				[ ] cancel 
 				[ ] comments count
 				[ ] integrate checkLoggued
 				[ ] uploader
-
 		* IRT 
 			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
 			[ ] banderole refaire Communecter
 			[ ] transmettre le logo COMMUNECTER @DR
 			[ ] 17/08/2015 : presentation Communecter Tourisme 15min 2min/slide
-			[ ] 10/08/2015 : nb de personne pour communecter
-				communecter
-					- les avantages pour un territoire :
-						- avoir des citoyens contributeurs 
-						- Etat de L'art 
-							- Prendre de l'avance pour pas se faire 
-							- Tourisme collaboratif & P2P
-								- 39% ont pratiqué le partage vacance
-									logement
-										- airbnb
-										- home exchange
-										- couch surfing 
-										- Gambing : Garden Camping (location) 
-									transport 
-										- bla bla car
-										- trip & drive 
-									restauration
-										- apprendre cuisine local
-										- manger chez l'habitant
-									service
-										- guides locaux
-
-									- location entre particulier
-										- partir en se faisant payer
-									- apprendre a cuisiner localement
-									- voiture 
-						- valoriser les acteurs et services
-							- amelioration continu
-							- se connecter c'est exister
-						- innovation territoire tourisme 
-
 
 		* CONTACT : mairie sin paul 
 			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
@@ -138,27 +120,11 @@
 			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
 			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
 		
-
-		** CRES : Mélissa CadarsiTél. : 02 62 21 50 60, melissa.cadarsi@cres-reunion.com​
-			Asso
-			Mois de L'ESS 
-				Forum des communs
-					1er 17oct 
-					2eme nov sur le mois de l'ESS
-				"Label ESUS"
-			communiquer la campagne de crowdfunding 
-				newsletter
-				mise a dispo des BD ESS ?? 
-		* Vote Sample 
-			
-
 		* GRANDDIR
-			[X] Raccourcir le texte sur affichage carte
-			[X] Raccourcir le texte sur affichage résultat
-			[X] Double bar de scroll à droite
 			[ ] Créer une pagination sur les résultats (8 résultats par page)
 			[ ] @Tristan Publics est toujours vide
 			[ ] @Tristan Lors d'un clic sur un réul
+
 		[ ] smaller scope 
 		[ ] adding scope to news form (pub priv) & territories
 

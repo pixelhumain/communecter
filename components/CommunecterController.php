@@ -256,7 +256,8 @@ class CommunecterController extends Controller
       "graph"       => array("href" => "/ph/communecter/survey/graph"),
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
-      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd")
+      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
+      "close"    => array("href" => "/ph/communecter/survey/close")
     ),
     
     "discuss"=> array(

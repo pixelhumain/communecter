@@ -29,7 +29,7 @@ if( !isset($hideTexts) )
 <?php 
 if( !isset($hideTexts) )
 {
-	if( isset( $survey["urls"]) && count($survey["urls"]) ){
+	if( isset( $survey["urls"]) && count( $survey["urls"] )  ){
 		echo "Url(s) de référence(s) : <br/>";
 		foreach ($survey["urls"] as $u) {
 			echo "<a href='".$u."' target='_blank'>".$u."</a><br/>";
@@ -46,7 +46,7 @@ if( !isset($hideTexts) )
 		else
 			echo "Feel Free to vote.";
 
-		echo "<div>".$voteLinksAndInfos["links"]."</div>";
+		echo "<div style='font-size:2em;color:red;padding:5px;border:1px solid #666'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
 
 		if( $voteLinksAndInfos["totalVote"] )
 			echo "<br/>".$voteLinksAndInfos["totalVote"]." people voted."; 
@@ -84,12 +84,9 @@ if(isset( Yii::app()->session["userId"]) )
 	<?php } ?>
 <?php }} ?>
 
+<?php /* ?>
 <a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
+*/?>
 
 <br/>Views : <?php echo @$survey["viewCount"]; ?>
 
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	var shareBtns = new ShareButton(".share-button");;
-});
-</script>

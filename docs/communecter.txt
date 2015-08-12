@@ -142,25 +142,23 @@
 	** Vocabs and conversions
 		[ ] [[https://github.com/openvocab/ovn]]
 		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
-	** OPEN PEOPLE
-		* TO CONTACT 
+	** OPEN PEOPLE & PROJECTS
 			[ ] [[http://www.goodplanet.org/contacts/]]
 			[ ] [[http://www.ideas.asso.fr/fr/association-fondation/demarche-ideas/candidature-au-label-ideas/]]
 			[ ] [[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
-			[X] MEETING : Rieul La Paillase soane : rieul.techer@gmail.com 
+			[X] MEETING:06/08/2015: Rieul La Paillase soane : rieul.techer@gmail.com 
 				- https://lapaillassaone.wordpress.com/
 				- Adresse : 1 Rue du Luizet, 69100 Villeurbanne, France
 				- Téléphone :+33 4 26 64 36 16
-			[X] MEETING : Auberge de solidarité : marine.ruche@gmail.com
-			[X] MEETING : Nacelle 2.0 , Hafid El Mehdaoui, Hafid El Mehdaoui <hafid94@gmail.com>
-				- nacelles02.com/?page_id=30
-			[X] MEETING : Createur de sens : kristy.diwas & Jennifer Vignot 
+			[X] MEETING:08/08/2015: Auberge de solidarité : marine.ruche@gmail.com
+			[X] MEETING:10/08/2015: Createur de sens : kristy.diwas & Jennifer Vignot 
 				- https://www.youtube.com/watch?v=BXmBkHLJ4XI
 				- http://mondequiestu.com/
 				- http://www.humean.org/
-			[X] MEETING : Nacelle 2.0 
+			[X] MEETING:01/08/2015: Nacelle 2.0 
 				- Hafid El Mehdaoui <hafid94@gmail.com>
 				- nacelles02.com/?page_id=30
+			[X] MEETING:11/08/2015: CRES : Mélissa CadarsiTél. : 02 62 21 50 60, melissa.cadarsi@cres-reunion.com​
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
 		- stupid loading pong game with mouse on a small section of screen 

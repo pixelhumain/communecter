@@ -38,6 +38,10 @@ var proposalFormDefinition = {
                 "required" : true
               }
             },
+            "dateEnd" :{
+              "inputType" : "date",
+              "placeholder" : "Fin de la période de vote"
+            },
             "urls" : {
                   "inputType" : "array",
                   "placeholder" : "url",
@@ -81,6 +85,7 @@ var dataBind = {
    "#tags" : "tags",
    "#id"   : "typeId",
    "#type" : "type",
+   "#dateEnd" : "dateEnd",
    "#<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
    "#<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
@@ -99,6 +104,12 @@ jQuery(document).ready(function() {
   $(".newVoteProposal").off().on("click",function() { 
     editEntrySV ();
   });
+
+  $('.voteIcon').off().on("click",function() { 
+    $(this).addClass("faa-bounce animated");
+    clickedVoteObject = $(this).data("vote");
+    console.log(clickedVoteObject);
+   });
 });
 
 function editEntrySV (proposalObj) { 
@@ -128,7 +139,7 @@ function editEntrySV (proposalObj) {
             {
               $("#ajaxSV #name").val( proposalObj.title );
               $("#ajaxSV #message").val( proposalObj.contentBrut );
-              //AutoGrowTextArea($("message"));
+              AutoGrowTextArea($("message"));
             }
           },
           onSave : function(){
@@ -150,7 +161,7 @@ function editEntrySV (proposalObj) {
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#ajaxSV #name").val() , 
                  "organizer" : $("#ajaxSV #organizer").val(),
-                 "message" : $("#ajaxSV #message").val(),
+                 "message" : ($("#ajaxSV #message").code() ) ? $("#ajaxSV #message").code() : $("#ajaxSV #message").val(),
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
@@ -165,6 +176,8 @@ function editEntrySV (proposalObj) {
                 params.urls = urls;
               if( $("#ajaxSV #tags").val() )
                 params.tags = $("#ajaxSV #tags").val().split(",");
+              if( $("#ajaxSV #dateEnd").val() )
+                params.dateEnd = $("#ajaxSV #dateEnd").val();
 
              console.dir(params);
              $.ajax({
@@ -208,8 +221,10 @@ function getUrls()
 {
     var urls = [];
     $.each($('.addmultifield'), function() {
-        urls.push( $(this).val() );
+        if( $(this).val() != "" )
+          urls.push( $( this ).val() );
     });
+    console.log("urls",urls);
     return ( urls.length ) ? urls : null;
 };
 

@@ -6,6 +6,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/highcharts.js' , C
 $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/exporting.js' , CClientScript::POS_END);
 $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/jquery.mixitup.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
 
 $commentActive = true;
 ?>
@@ -18,8 +19,7 @@ $commentActive = true;
   
 
   /*.infolink{border-top:1px solid #fff}*/
-  .leftlinks{float: left}
-  .rightlinks{float: right}
+
   .leftlinks a.btn{background-color: yellow;border: 1px solid yellow;}
   /*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
   a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
@@ -111,7 +111,7 @@ $commentActive = true;
       //$infoslink bring visual detail about the entry
       $infoslink = "";
       $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
-      $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs voteAbstain filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> Edit</a> ' : '';                          
+      $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> Edit</a> ' : '';                          
       /* **************************************
       Rendering Each block
       ****************************************/
@@ -131,7 +131,7 @@ $commentActive = true;
       $rightLinks = (  @$value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
       $rightLinks = ( $value["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
       $ordre = $voteLinksAndInfos["ordre"];
-      $created = ( @$value["created"] ) ? date("d/m/Y h:i",$value["created"]) : ""; 
+      $created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
       $views = ( @$value["viewCount"] ) ? ", views : ".$value["viewCount"] : ""; 
       $byInfo = "";
       if ( isset($value["parentType"]) && isset($value["parentId"]) ) 
@@ -153,8 +153,12 @@ $commentActive = true;
 
       $contextType = ( $value["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
       $commentBtn = "<a class='btn btn-xs voteAbstain' href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i> Comment</a>";
+      $closeBtn = "";
+      if( Yii::app()->session["userEmail"] == $value["email"] && (!isset($value["dateEnd"]) || $value["dateEnd"] > time() ) && $value["type"] == Survey::TYPE_ENTRY ) 
+        $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;' onclick='closeEntry(\"".$value["_id"]."\")'><i class='fa fa-times'></i> CLOSE</a>";
       $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
       $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
+      $ends =  (!empty( $value["dateEnd"] )) ? '<div class="space1"></div>'." end : ".date("d/m/y",$value["dateEnd"]) : "";
       $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
       $blocks .= ' <div class="mix '.$boxColor.' '.$avoter.' '.
                     $meslois.' '.
@@ -173,8 +177,9 @@ $commentActive = true;
 
                    
                     '<div class="space1"></div>'.$createdInfo.$views.
+                    $ends.
                     '<div class="space1"></div><div class="pull-left" >'.
-                        $graphLink.$infoslink.$commentBtn. 
+                        $graphLink.$infoslink.$commentBtn.$closeBtn. 
                         $byInfo.
                     '</div>'.
                     '</div>';
@@ -231,6 +236,7 @@ $commentActive = true;
 *  Initialisation
 *
 ***************************************** */
+clickedVoteObject = null;
 jQuery(document).ready(function() {
   $container.mixItUp({
       load: {sort: 'vote:desc'},
@@ -244,6 +250,11 @@ jQuery(document).ready(function() {
       }
     });
   moduleWording();
+  $('.voteIcon').off().on("click",function() { 
+    $(this).addClass("faa-bounce animated");
+    clickedVoteObject = $(this).data("vote");
+    console.log(clickedVoteObject);
+   });
 });
 
 /* **************************************
@@ -294,20 +305,47 @@ $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
   *  voting and moderation
   *
   ***************************************** */
-  function addaction(id,action){
+function addaction(id,action)
+{
     console.warn("--------------- addaction ---------------------");
-    if(confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){
-      params = { 
-           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-           "id" : id ,
-           "collection":"surveys",
-           "action" : action 
-           };
-      ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-        window.location.reload();
+    
+      bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
+          function(result) {
+            if (result) {
+              params = { 
+                 "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+                 "id" : id ,
+                 "collection":"surveys",
+                 "action" : action 
+              };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+                window.location.reload();
+              });
+          } else {
+            $("."+clickedVoteObject).removeClass("faa-bounce animated");
+          }
       });
-    }
-  }
+ }
+
+ function closeEntry(id)
+{
+    console.warn("--------------- closeEntry ---------------------");
+    
+      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
+          function(result) {
+            if (result) {
+              params = { 
+                 "id" : id 
+              };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/close")?>',params,function(data){
+                if(data.result)
+                  window.location.reload();
+                else 
+                  toastr.error(data.msg);
+              });
+          } 
+      });
+ }
 
   function dejaVote(){
     alert("Vous ne pouvez pas votez 2 fois, ni changer de vote.");
@@ -332,7 +370,7 @@ $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
     ***************************************** */
     function AutoGrowTextArea(textField)
     {
-      if (textField.clientHeight < textField.scrollHeight)
+      /*if (textField.clientHeight < textField.scrollHeight)
       {
         textField.style.height = textField.scrollHeight + "px";
         if (textField.clientHeight < textField.scrollHeight)
@@ -340,7 +378,7 @@ $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
           textField.style.height = 
             (textField.scrollHeight * 2 - textField.clientHeight) + "px";
         }
-      }
+      }*/
     }
     activeView = ".home";
     function hideShow(ids,parent)
@@ -351,7 +389,8 @@ $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
     }
     function copytoPopin(){
       txt = $('#message1').val();
-      AutoGrowTextArea(this);$('#message').val(txt);
+      //AutoGrowTextArea(this);
+      $('#message').val(txt);
       $('#nameaddEntry').val(txt.substring(0,20));
     }
     function moduleWording(){
