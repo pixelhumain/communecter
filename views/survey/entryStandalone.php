@@ -4,6 +4,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
 
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
@@ -24,13 +25,8 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	a.btn.voteAbstain{color: black;background-color: white;border: 1px solid grey;}
 	a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
 
-	.commentPod .panel {
-		box-shadow: none;
-	}
-
-	.commentPod .panel-heading {
-		border-bottom-width: 0px;
-	}
+	.commentPod .panel {box-shadow: none;}
+	.commentPod .panel-heading {border-bottom-width: 0px;}
 
 </style>
 
@@ -76,13 +72,13 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	<div class="col-xs-12 col-sm-4 center ">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
-			
 			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
 			<br/><br/>
 			<img src="https://avaazdo.s3.amazonaws.com/3b6ac9a762f54d9422039cb51fe5bd0e.jpg" width=400>
-			<br/><br/><br/>
+			<br/><br/>
 			<?php echo $survey["message"]; ?>
-			<br/>
+			<br/><br/>
+			<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
 		</div>
 	</div>
 

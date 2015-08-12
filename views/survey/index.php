@@ -5,6 +5,7 @@ $cs->registerCssFile($this->module->assetsUrl. '/survey/css/mixitup/style.css');
 $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
 $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/exporting.js' , CClientScript::POS_END);
 $cs->registerScriptFile($this->module->assetsUrl. '/survey/js/jquery.mixitup.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
 
 $commentActive = true;
 ?>
@@ -131,7 +132,7 @@ $commentActive = true;
       $content = ($value["type"]==Survey::TYPE_ENTRY) ? "".$value["message"]:"";
 
       $leftLinks = $voteLinksAndInfos["links"];
-      $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i></a> ' : '';
+      $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> Result</a> ' : '';
       $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$value["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$value["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
       $rightLinks = (  @$value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
       $rightLinks = ( $value["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
@@ -157,7 +158,7 @@ $commentActive = true;
       }
 
       $contextType = ( $value["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-      $commentBtn = "<a class='btn voteAbstain' href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i></a>";
+      $commentBtn = "<a class='btn btn-xs voteAbstain' href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i> Comment</a>";
       $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
       $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
       $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
@@ -169,19 +170,19 @@ $commentActive = true;
                     
                     'data-vote="'.$ordre.'"  data-time="'.
                     $created.'" style="display:inline-blocks"">'.
-                    
                     $link.'<br/>'.
                     $info.
                     //$tags.
                     //$content.
-                    '<div class="space1"></div>'.$leftLinks.
+                    '<div class="space1"></div><div class="pull-right" >'.$leftLinks.'</div>'.
                     //'<div class="space1"></div>'.$rightLinks.
 
-                    '<div class="pull-right" >'.
+                   
+                    '<div class="space1"></div>'.$createdInfo.$views.
+                    '<div class="space1"></div><div class="pull-left" >'.
                         $graphLink.$infoslink.$commentBtn. 
                         $byInfo.
                     '</div>'.
-                    '<div class="space1"></div>'.$createdInfo.$views.
                     '</div>';
     }
     ?>

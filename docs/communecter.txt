@@ -144,7 +144,9 @@
 		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
 	** OPEN PEOPLE
 		* TO CONTACT 
-			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
+			[ ] [[http://www.goodplanet.org/contacts/]]
+			[ ] [[http://www.ideas.asso.fr/fr/association-fondation/demarche-ideas/candidature-au-label-ideas/]]
+			[ ] [[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
 			[X] MEETING : Rieul La Paillase soane : rieul.techer@gmail.com 
 				- https://lapaillassaone.wordpress.com/
 				- Adresse : 1 Rue du Luizet, 69100 Villeurbanne, France
@@ -156,6 +158,9 @@
 				- https://www.youtube.com/watch?v=BXmBkHLJ4XI
 				- http://mondequiestu.com/
 				- http://www.humean.org/
+			[X] MEETING : Nacelle 2.0 
+				- Hafid El Mehdaoui <hafid94@gmail.com>
+				- nacelles02.com/?page_id=30
 	** THINK TANK
 		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
 		- stupid loading pong game with mouse on a small section of screen 
@@ -168,6 +173,42 @@
 				can help understand usage
 				debug any bugs 
 			add easily add gamification features
+		- Application Communacelle : Communecter dans une nacelle
+			:cominspace:
+			- application smartphone ou tablet
+			- condition testing 
+				- connection quality 
+					- can work on gprs and relay into a web server
+				- sounds settings 
+				- is phone adapted 
+				- is envirronment adapted 
+				- voice test for each participant
+			- register a session : cube border 
+				- sessions can be physical or distant
+				- real time or async
+				- every participant takes a cube 
+				- fills form 
+				- tests voice 
+			- session features 
+				- record session 
+				- live session ( real time streamed )
+				- decision session
+				- session timeline	
+					- who arrived when 
+					- actions
+					- volume fluctuence ( could the spirit of the meeting )
+				- important point button 
+					- anyone at anytime can hit a btn , this will position a flag on the session timeline
+			- relay phones
+				- the system detects a phone neirby ( bluetooth ) with the app  
+				- can connect localy to other phone as relay for better sound recording
+				- relay phones also workfor surveys and decision making
+				- phone connecting works anywhere 
+					- walking in the street with the app alive 
+					- will be if you cross someone with the app 
+			- hardware 
+				- wireless mics
+				- tablet 
 	** COMMUNICATION 
     [ ] faire marcher la newsletter 
 		

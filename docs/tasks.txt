@@ -44,19 +44,57 @@
 			[ ] cacher les boutons vote sur mes commentaires
 			[ ] on click cancel 
 	** TIBOR
-		- Standalone Possesion
-		- join Standalone 
-		- bug GRANDDIR 
+		Jean Marc Laurent > prise de vue 
+		- Labo reunion Labo Elec 2 Procédé (Moufia)
+			- Fred alicalapa
+			- reseau de capteur
+		- SIPR
 		- bug AZOT (20/08) 2j
+		- Standalone Possesion
+		- join Standalone / simple
+			- tree type form
+			- create orga + admin
+			- add members
+			- create project 
+			- add contributors
+			- create event
+			- invite someone
+			- import form
+
+		- bug GRANDDIR 
 		- Plan IRT (17/08) 4h date = 25/08
 		- plan Crowd Funding ( fin aout ) 
 		- ECo Collab Fest
 		- Forum des communs 
-		- 
-
+			date : Sam 17 ou 10
+		- Communacelle 
+			- @Hafid : photo aerienne de Toulouse
+			- RV avec Clemence 
+			- @Hafid + frere : negot/contact pour tablet 
+			- @PH : integrer les opendatas toulouse
+				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
+		
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
-		[ ] edit Survey > Entry 
+		[ ] bounce In icons with info panels
+		* vote Standalone
+			[ ] line break in textarea edit/create form
+			[ ] invited by 
+			[ ] traduction
+			[ ] remove Follow and share or check process
+			[ ] remove vote counts on buttons
+			[ ] results page
+			[ ] finish/close vote session
+			[ ] close date
+			[ ] remove burger
+			[ ] bootbox instead of alert
+			[ ] effet graphique after vote click
+			** @Sylvain
+				[ ] cancel 
+				[ ] comments count
+				[ ] integrate checkLoggued
+				[ ] uploader
+
 		* IRT 
 			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
 			[ ] banderole refaire Communecter
@@ -99,43 +137,20 @@
 			- Service Subventions Associations au 0262 70 28 85
 			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
 			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
-		* MEETING : Nacelle 2.0 
-				- Hafid El Mehdaoui <hafid94@gmail.com>
-				- nacelles02.com/?page_id=30
-				** IDEAS Communacelle : Communecter dans une nacelle
-					- application smartphone ou tablet
-					- condition testing 
-						- connection quality 
-							- can work on gprs and relay into a web server
-						- sounds settings 
-						- is phone adapted 
-						- is envirronment adapted 
-						- voice test for each participant
-					- register a session : cube border 
-						- sessions can be physical or distant
-						- real time or async
-						- every participant takes a cube 
-						- fills form 
-						- tests voice 
-					- session features 
-						- record session 
-						- live session ( real time streamed )
-						- decision session
-						- session timeline	
-							- who arrived when 
-							- actions
-							- volume fluctuence ( could the spirit of the meeting )
-						- important point button 
-							- anyone at anytime can hit a btn , this will position a flag on the session timeline
-					- relay phones
-						- the system detects a phone neirby ( bluetooth ) with the app  
-						- can connect localy to other phone as relay for better sound recording
-						- relay phones also workfor surveys and decision making
-						- phone connecting works anywhere 
-							- walking in the street with the app alive 
-							- will be if you cross someone with the app 
+		
 
 		** CRES : Mélissa CadarsiTél. : 02 62 21 50 60, melissa.cadarsi@cres-reunion.com​
+			Asso
+			Mois de L'ESS 
+				Forum des communs
+					1er 17oct 
+					2eme nov sur le mois de l'ESS
+				"Label ESUS"
+			communiquer la campagne de crowdfunding 
+				newsletter
+				mise a dispo des BD ESS ?? 
+		* Vote Sample 
+			
 
 		* GRANDDIR
 			[X] Raccourcir le texte sur affichage carte
