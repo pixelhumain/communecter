@@ -65,9 +65,11 @@ if(isset( Yii::app()->session["userId"]) )
 		    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) {
 	    	?>
 		<br/>
+		<?php /* ?>
 		<a class="btn btn-xs btn-default" href="#" onclick="addaction('<?php echo (string)$survey["_id"]?>','<?php echo Action::ACTION_FOLLOW ?>')">
-			<i class='fa fa-rss' ></i> Follow this vote
+			<i class='fa fa-rss' ></i> Follow 
 		</a>
+		*/ ?>
 	<?php } else {?>
 		<br/>
 		You are Following this vote. <i class='fa fa-rss' ></i>
@@ -75,13 +77,19 @@ if(isset( Yii::app()->session["userId"]) )
 	} else {?>
 		You created this vote.
 		<br/>
-		<?php if( Yii::app()->request->isAjaxRequest ){ ?>
+		<?php if( Yii::app()->request->isAjaxRequest && false){ ?>
 		<a class="btn btn-xs btn-default" onclick="entryDetail('<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;">
 			<i class='fa fa-pencil' ></i> Edit this Entry
 		</a>
 	<?php } ?>
 <?php }} ?>
 
-<a class="btn btn-xs btn-default" href="<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>" target="_blank"><i class='fa fa-share' ></i> Share </a>
+<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
 
 <br/>Views : <?php echo @$survey["viewCount"]; ?>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	var shareBtns = new ShareButton(".share-button");;
+});
+</script>
