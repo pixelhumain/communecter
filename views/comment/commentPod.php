@@ -182,7 +182,9 @@ function bindEvent(){
 
 	//New comment actions
 	$('.saySomething').off().on("click",function(){
-		if (checkLoggued(window.location.href)) {
+		var backUrl = window.location.href.replace(window.location.origin, "");
+		console.log(backUrl);
+		if (checkLoggued(backUrl)) {
 			$('.saySomething').hide();
 			addEmptyCommentOnTop();
 			bindEvent();
