@@ -280,7 +280,7 @@ class CommunecterController extends Controller
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
 
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
-    
+
     if( (!isset( $page["public"] ) ) 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
       && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
