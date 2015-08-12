@@ -107,10 +107,15 @@ $commentActive = true;
       else if ( $value["type"] == "entry" )
         $link = '<a class="titleMix '.$meslois.'" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\')" href="javascript:;">'.$name.'</a>' ;
       
+
       //$infoslink bring visual detail about the entry
       $infoslink = "";
       $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
       $infoslink .= (!empty($meslois)) ? "<a class='btn voteAbstain  filter' data-filter='.myentries'><i class='fa fa-user infolink' ></i></a>" :"";
+      if (Yii::app()->session["userIsAdmin"]) {
+        $linkStandalone = Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]);
+        $infoslink .= "<a target='_blank' class='btn voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
+      }
 
       /* **************************************
       Rendering Each block

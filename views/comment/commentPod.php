@@ -182,9 +182,11 @@ function bindEvent(){
 
 	//New comment actions
 	$('.saySomething').off().on("click",function(){
-		$('.saySomething').hide();
-		addEmptyCommentOnTop();
-		bindEvent();
+		if (checkLoggued(window.location.href)) {
+			$('.saySomething').hide();
+			addEmptyCommentOnTop();
+			bindEvent();
+		}
 	});
 	$('.validateComment').off().on("click",function(){
 		validateComment($(this).data("id"), $(this).data("parentid"));
@@ -310,11 +312,12 @@ function buildNewCommentLine(parentCommentId) {
 }
 
 function cancelComment(commentId) {
-	console.log('Remove comment '+commentId, $('#'+commentId).data("parentid"), $('#'+commentId));
-	$('#'+commentId).remove();
-	if ($("#"+commentId).children().children(".bar_tools_post").children(".cancelComment").data("parentid") == "") {
+	var parentId = $("#"+commentId).children().children(".bar_tools_post").children(".cancelComment").data("parentid");
+	console.log('Remove comment '+commentId, parentId);
+	if (parentId == "") {
 		$('.saySomething').show();
 	} 
+	$('#'+commentId).remove();
 }
 
 function validateComment(commentId, parentCommentId) {
