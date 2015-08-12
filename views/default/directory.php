@@ -376,17 +376,19 @@ function bindAdminBtnEvents(){
 		});
 
 		$(".addSuperAdminBtn").off().on("click",function () {
+			var btnClick = $(this);
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
-					changeRole($(this).data("id"), "addSuperAdmin");
+					changeRole(btnClick, "addSuperAdmin");
 				}
 			});
 		});
 
 		$(".revokeSuperAdminBtn").off().on("click",function () {
+			var btnClick = $(this);
 			bootbox.confirm("confirm please !!", function(result) {
 				if (result) {
-					changeRole($(this).data("id"), "revokeSuperAdmin")
+					changeRole(btnClick, "revokeSuperAdmin")
 				}
 			});
 		});

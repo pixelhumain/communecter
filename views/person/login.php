@@ -54,6 +54,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 							      If you didn't receive it or lost it, click
 							      <a class="validate" href="#">here</a> to receive it again.
 						</div>
+						<div class="errorHandler alert alert-success no-display emailValidated">
+							<i class="fa fa-check"></i> Your account is now validated ! Please try to login.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
@@ -173,7 +176,18 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		Main.init();
 		Login.init();	
 		titleAnim ();	
+		if (email != "") {
+			$(".form-login #email").val(email);
+		}
+		if (userValidated) {
+			$(".errorHandler").hide();
+			$(".emailValidated").show();
+			$(".form-login #password").focus();
+		}
 	});
+
+var email = '<?php echo @$_GET["email"]; ?>';
+var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
 
 var timeout;
 var emailType;

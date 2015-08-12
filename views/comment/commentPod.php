@@ -103,6 +103,7 @@ function buildComments(commentsLevel, level) {
 }
 
 function buildLineHTML(commentObj) {
+	console.log(commentObj);
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.fromNow();
@@ -311,7 +312,7 @@ function buildNewCommentLine(parentCommentId) {
 function cancelComment(commentId) {
 	console.log('Remove comment '+commentId, $('#'+commentId).data("parentid"), $('#'+commentId));
 	$('#'+commentId).remove();
-	if ($('#'+commentId).children(".cancelComment").data("parentid") == "") {
+	if ($("#"+commentId).children().children(".bar_tools_post").children(".cancelComment").data("parentid") == "") {
 		$('.saySomething').show();
 	} 
 }

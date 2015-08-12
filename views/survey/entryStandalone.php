@@ -22,7 +22,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
 	a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
 	a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
-	a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
+	a.btn.voteAbstain{color: black;background-color: white;border: 1px solid grey;}
 	a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
 
 	.commentPod .panel {box-shadow: none;}
