@@ -105,18 +105,31 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	</div>
 
 	<div class="col-xs-12 col-sm-4 center ">
-		<?php 
+
+		<?php /*
 			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
 															  "actionTitle"    => "VOTE", 
-														 	  "actionIcon"     => "download" ));
+														 	  "actionIcon"     => "download" ));*/
 		?>
+
+<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
+		
 		<div class="box-vote box-pod box radius-20">
 			<span class="text-extra-large text-bold"> 
-				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time()){ ?>
-					THIS VOTE IS CLOSED
-				<?php } else { ?>
+				THIS VOTE IS CLOSED
+			</span> 
+			<?php if( isset($organizer) ){ ?>
+				<p> Invited by <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
+			<?php }	?>
+			<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>
+
+		</div>
+	
+<?php } else { ?> 
+
+		<div class="box-vote box-pod box radius-20">
+			<span class="text-extra-large text-bold"> 
 					INVITATION TO VOTE
-				<?php } ?>
 			</span> 
 			<?php 
 			if( isset($organizer) ){ ?>
@@ -127,22 +140,12 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 												"position" => "center",
 												"showName" => true,
 												"hideTexts" => true
-												 ));
-			?>
+												 ));?>
 		</div>
 
-<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time()){ ?>
-		
-		<div class="box-vote box-pod box radius-20">
-			<span class="text-extra-large text-bold"> 
-				RESULTS
-			</span> 
+<?php } ?>
 
-			<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>
 
-		</div>
-	
-<?php } ?> 
 	</div>	
 </div>
 

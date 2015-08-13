@@ -241,3 +241,54 @@
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>
+
+
+<div class="box-event box">
+	<h1><i class="fa fa-calendar"></i> EVENTS</h1>
+	<section>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-orga')"><?php echo (isset($actionTitle)) ? $actionTitle : "ORGANISATIONS" ?></a>
+</div>
+
+<div class="box-orga box">
+	<h1><i class="fa fa-users"></i> ORGANIZATIONS</h1>
+	<section>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-city')"><?php echo (isset($actionTitle)) ? $actionTitle : "CITY" ?></a>
+</div>
+
+<div class="box-city box">
+	<h1><i class="fa fa-university"></i> CITIES</h1>
+	<section>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-projects')"><?php echo (isset($actionTitle)) ? $actionTitle : "PROJECTS" ?></a>
+</div>
+
+<div class="box-projects box">
+	<h1><i class="fa fa-lightbulb-o"></i> PROJECTS</h1>
+	<section>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-event')"><?php echo (isset($actionTitle)) ? $actionTitle : "PEOPLE" ?></a>
+</div>
+
+<div class="box-people box">
+	<h1><i class="fa fa-user"></i> PEOPLE </h1>
+	<section>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
+</div>
