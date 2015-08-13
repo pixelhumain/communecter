@@ -3,48 +3,55 @@
 	var  bgcolorClass = "bgblack";
 
 	function showMenu(box,bgStyle){
+		
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		if($(".menuBtn").hasClass("fa-times"))
-		{
-			$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
-			console.log("showMenu",box, bgcolorClass );
-
-			$("body.login").removeClass("bgred bggreen bgblack bgblue");
-			if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
-				$(".byPHRight").fadeIn();
-				$("body.login").addClass("bgCity");
-				bgcolorClass = "bgCity";
-			}
-			else{
-				bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
-				$("body.login").removeClass("bgCity").addClass(bgcolorClass);
-			}
-
-			if(!box)
-				box = "box-login";
-			$('.box-menu').slideUp();
-			$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInRight");
-			});
-			activePanel = box;
+		console.log("showMenu",box, bgcolorClass );
+		$('.'+activePanel).hide();
+		$(".byPHRight").fadeOut();
+		$("body.login").removeClass("bgred bggreen bgblack bgblue");
+		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
+			$(".byPHRight").fadeIn();
+			$("body.login").addClass("bgCity");
+			bgcolorClass = "bgCity";
 		}
-		else 
-		{
-			//$("body.login").removeClass(bgcolorClass).addClass("bgCity");
-			console.log("open showMenu",box, bgcolorClass );
-
-			$("body.login").removeClass("bggreen bgblack bgblue bgyellow");
-
+		else{
+			bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
 			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
-			$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
-			$('.'+activePanel).hide();
-			$('.box-menu').slideDown();
-			$(".byPHRight").fadeOut();
 		}
+
+		if(!box)
+			box = "box-login";
+		$('.box-menu').slideUp();
+		$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+			$(this).show().removeClass("animated bounceInRight");
+		});
+		activePanel = box;
+		if( box != "box-ph" ){
+			$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
+			$(".eventMarker").show().addClass("animated slideInDown");
+			$(".cityMarker").show().addClass("animated slideInUp");
+			$(".projectMarker").show().addClass("animated zoomInRight");
+			$(".assoMarker").show().addClass("animated zoomInLeft");
+			$(".userMarker").show().addClass("animated zoomInLeft");
+		}
+	}
+	function showHideMenu () { 
+		console.log("open showMenu" );
+		$("body.login").removeClass("bggreen bgblack bgblue bgyellow bgCity").addClass(bgcolorClass);
+		//$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
+		$('.'+activePanel).hide();
+		$('.box-menu').slideDown();
+		$(".byPHRight").fadeOut();
+		$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
+		$(".eventMarker").show().addClass("animated slideInDown");
+		$(".cityMarker").show().addClass("animated slideInUp");
+		$(".projectMarker").show().addClass("animated zoomInRight");
+		$(".assoMarker").show().addClass("animated zoomInLeft");
+		$(".userMarker").show().addClass("animated zoomInLeft");
 	}
 
 	function showVideo(id) { 
-
+		$('.'+activePanel+",.byPHRight, .eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker,.partnerLogos ").fadeOut();
 		$(".menuBtn").removeClass("fa-times").addClass("fa-bars");
 		$("body.login").removeClass("bggreen bgblack bgblue bgyellow");
 		$('.box-menu,.topLogoAnim').slideUp();
@@ -141,7 +148,7 @@
 		<br/> 
 	</section>
 	<hl/>
-	<a href="#" onclick="showMenu();showMenu('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
+	<a href="#" onclick="showMenu('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
 
 <div class="box-why box">
@@ -161,7 +168,7 @@
 		<br/> Discover and not Ignore
 		<br/> 
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-4who','bgblue')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu('box-4who','bgblue')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-4who box">
@@ -182,7 +189,7 @@
 		<br/> Travellers
 		<br/> Makers
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-how','bggreen')" class="homestead nextBtns pull-right">HOW <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu('box-how','bggreen')" class="homestead nextBtns pull-right">HOW <i class="fa fa-arrow-circle-o-right"></i></a>
 	
 </div>
 
@@ -198,7 +205,7 @@
 		<br/> Collective Imagination
 		<br/> Open source 
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-when','bgyellow')" class="homestead nextBtns pull-right">WHEN <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu('box-when','bgyellow')" class="homestead nextBtns pull-right">WHEN <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-when box">
@@ -210,7 +217,7 @@
 		<br/> First Beta opening in september 2015
 		<br/> Crowd Funding launches in August 2015
 	</section>
-	<a href="#" onclick="showMenu();showMenu('box-where','bgblue')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu('box-where','bgblue')" class="homestead nextBtns pull-right">WHERE <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>
 
 <div class="box-where box">
@@ -225,7 +232,7 @@
 		<br/> Remember you are never alone 
 	</section>
 
-	<a href="#" onclick="showMenu();showMenu('box-help')" class="homestead nextBtns pull-right">GET INVOLVED <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showMenu('box-help')" class="homestead nextBtns pull-right">GET INVOLVED <i class="fa fa-arrow-circle-o-right"></i></a>
 
 </div>
 
@@ -239,7 +246,7 @@
 		<br/> Translate
 		<br/> Innovate
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>
 
 
@@ -250,7 +257,7 @@
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-orga')"><?php echo (isset($actionTitle)) ? $actionTitle : "ORGANISATIONS" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-orga')"><?php echo (isset($actionTitle)) ? $actionTitle : "ORGANISATIONS" ?></a>
 </div>
 
 <div class="box-orga box">
@@ -260,7 +267,7 @@
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-city')"><?php echo (isset($actionTitle)) ? $actionTitle : "CITY" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-city')"><?php echo (isset($actionTitle)) ? $actionTitle : "CITY" ?></a>
 </div>
 
 <div class="box-city box">
@@ -270,7 +277,7 @@
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-projects')"><?php echo (isset($actionTitle)) ? $actionTitle : "PROJECTS" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-projects')"><?php echo (isset($actionTitle)) ? $actionTitle : "PROJECTS" ?></a>
 </div>
 
 <div class="box-projects box">
@@ -280,7 +287,7 @@
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-event')"><?php echo (isset($actionTitle)) ? $actionTitle : "PEOPLE" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-event')"><?php echo (isset($actionTitle)) ? $actionTitle : "PEOPLE" ?></a>
 </div>
 
 <div class="box-people box">
@@ -290,5 +297,16 @@
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu();showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
+</div>
+
+<div class="box-ph box">
+	<h1><i class="fa fa-cubes"></i> PIXEL HUMAIN </h1>
+	<section>
+		Un collectif magnifique
+		Innovation au service des biens communs
+		Respectant un CODE SOCIAL ET LOGICIEL ouvert
+
+	</section>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>
