@@ -30,13 +30,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
+			<div class="controls">
+				<button class="btn commentOption <?php echo Comment::COMMENT_ON_TREE ?>"><?php echo $options[Comment::COMMENT_ON_TREE] ? 'Can Reply' : 'No Reply' ?></button>
+				<button class="btn commentOption <?php echo Comment::COMMENT_ANONYMOUS ?>"><?php echo $options[Comment::COMMENT_ANONYMOUS] ? 'Anonymous' : 'Nominatly' ?></button>
+				<button class="btn commentOption <?php echo Comment::ONE_COMMENT_ONLY ?>"><?php echo $options[Comment::ONE_COMMENT_ONLY] ? 'Only one comment' : 'No limit comment' ?></button>
+			</div>
 		</div>
 		<div class="panel-body panel-white">
-			<div class='row commentTable'>
+			<div class='row'>
 				<div class='saySomething padding-5'>
 					<input type="text" style="width:100%" value="Say Something"/>
 				</div>
-
+				<div class="commentTable">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -68,11 +74,11 @@ function buildTimeLine() {
 }
 
 function addEmptyCommentOnTop() {
-	var newCommentLine = buildNewCommentLine("");
-	
+	var newCommentLine = buildNewCommentLine("");	
 	//create a new reply line on the root
 	var ulRoot = $('.tree');
-	ulRoot.prepend(newCommentLine);	
+	ulRoot.prepend(newCommentLine);
+	$(".newComment").focus();
 }
 
 function buildComments(commentsLevel, level) {
@@ -181,7 +187,7 @@ function bindEvent(){
 	});*/
 
 	//New comment actions
-	$('.saySomething').off().on("click",function(){
+	$('.saySomething').off().on("focusin",function(){
 		var backUrl = window.location.href.replace(window.location.origin, "");
 		console.log(backUrl);
 		if (checkLoggued(backUrl)) {
@@ -270,6 +276,7 @@ function replyComment(parentCommentId) {
 		ulChildren.prepend(commentsTLLine);	
 	}
 	bindEvent();
+	$(".newComment").focus();
 }
 
 function buildNewCommentLine(parentCommentId) {
