@@ -175,8 +175,6 @@ jQuery(document).ready(function()
 
 });
 
-
-
 var bgClasses = [
 	{key : 'bggrey', name : "Grey"},
 	{key : 'bgdark', name : "Dark"},

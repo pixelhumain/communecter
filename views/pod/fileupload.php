@@ -9,7 +9,7 @@
 		height: auto;
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
-		width: 100%;
+		/*width: 100%;*/
 		min-height: 150px;
 		max-width: 100%;
 		max-height: 100%;
@@ -213,7 +213,7 @@
 			}else{
 				imageUrl = "<div class='center'>"+
 								"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-								"<br>Click on <i class='fa fa-plus'></i> for share your pictures"+
+								"<br>Click on <i class='fa fa-plus'></i> to add a pictures"+
 							"</div>";
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html(imageUrl);
