@@ -169,6 +169,13 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		<!-- end: REGISTER BOX -->
 	</div>
 </div>
+
+<img class="eventMarker" src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="z-index: -1;display:none;position:absolute; top:500px; left:100px;width:72px;cursor:pointer;" />
+<img class="cityMarker" src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="z-index: -1;display:none;position:absolute; top:350px; right:100px;width:72px;cursor:pointer;" />
+<img class="projectMarker" src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="z-index: -1;display:none;position:absolute; top:620px; left:240px;width:72px;cursor:pointer;" />
+<img class="assoMarker" src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="z-index: -1;display:none;position:absolute; top:750px; right:750px;width:72px;cursor:pointer;" />
+<img class="userMarker" src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="z-index: -1;display:none;position:absolute; top:530px; right:288px;width:72px;cursor:pointer;" />
+
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
@@ -177,13 +184,28 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		Login.init();	
 		titleAnim ();	
 		if (email != "") {
-			$(".form-login #email").val(email);
+			$(".form-login #email").val( email );
 		}
 		if (userValidated) {
 			$(".errorHandler").hide();
 			$(".emailValidated").show();
 			$(".form-login #password").focus();
 		}
+		$(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+			showMenu();showMenu('box-event');
+		});
+		$(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+			showMenu();showMenu('box-city');
+		});
+		$(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+			showMenu();showMenu('box-projects');
+		});
+		$(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showMenu();showMenu('box-orga');
+		});
+		$(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showMenu();showMenu('box-people');
+		});
 	});
 
 var email = '<?php echo @$_GET["email"]; ?>';

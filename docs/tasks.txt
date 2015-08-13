@@ -95,13 +95,21 @@
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] bounce In icons with info panels
+		[ ] opendata pole emploi .re
 		* vote Standalone
-			[ ] filter closed entries
-			[ ] turn block builder independant from view
 			[ ] traduction
 			[ ] line break in textarea edit/create form
+			[ ] pour ce qui n'ont pas internet 
+				[ ] System par SMS
+			[ ] mobile App
+			[ ] reflechir au notification
+			[ ] reflechir ajout au plan d'action 
+				[ ] plan d'action : présené en dessous des resultat
+				[ ] ajouter par les admins 
+				[ ] basé sur les commentaire avec un outil de high light
+
+
 			** @Sylvain
-				[ ] cancel 
 				[ ] comments count
 				[ ] integrate checkLoggued
 				[ ] uploader
