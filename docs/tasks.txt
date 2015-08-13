@@ -8,6 +8,12 @@
 		[ ] proposer d'autre source
 		[ ] ajouter un upload Image dans les SV, puis dans le dynForm
 	** RAPHAEL
+		[ ] utilisation de opendata Sets
+			- data.gouv
+			- wikidata
+				[[https://www.wikidata.org/wiki/Help:Items]]
+				[[https://www.wikidata.org/w/api.php]]
+				[[http://wdq.wmflabs.org/api_documentation.html]]
 		[ ] Import données
 			[ ] lorsqu'on change un sous-fichier bloquer l'import de données, demandé une visualisation avant
 			[ ] bug avec mongoDB : Read time out after reading 0 bytes, waited for 30.00000000
@@ -38,30 +44,104 @@
 			[ ] cacher les boutons vote sur mes commentaires
 			[ ] on click cancel 
 	** TIBOR
-		[X] MEETING : Rieul La Paillase soane : rieul.techer@gmail.com 
-		[X] MEETING : La Ruche de Paris & Auberge de solidarité : marine.ruche@gmail.com
-		[X] generic view Page system using ActivityStream 
-			- ActStr::viewPage( $url );
-			- db.getCollection('activityStream').find({"actor.ip":{"$exists":1}})
-		[X] proto retour citoyen pour la Possession 
-			[X] @TKA integrate new design multi section 
-			[X] @SBA integré comments feed list
-		[ ] GRANDDIR
-			[X] Raccourcir le texte sur affichage carte
-			[X] Raccourcir le texte sur affichage résultat
-			[X] Double bar de scroll à droite
+		Jean Marc Laurent > prise de vue 
+		- Labo reunion Labo Elec 2 Procédé (Moufia)
+			- Fred alicalapa
+			- reseau de capteur
+		- SIPR
+		- bug AZOT (20/08) 2j
+		- Standalone Possesion
+		- join Standalone / simple
+			- tree type form
+			- create orga + admin
+			- add members
+			- create project 
+			- add contributors
+			- create event
+			- invite someone
+			- import form
+		EAT OUR OWN FOOD
+			- repertorier nos partenaires
+			- nos evennements
+			- nos projets
+			- chacun doit avoir son dashboard
+			- test decision using the voting system
+
+		- bug GRANDDIR 
+		- Plan IRT (17/08) 4h date = 25/08
+		- plan Crowd Funding ( fin aout ) 
+		- ECo Collab Fest (debut Oct)
+		- Forum des communs (10Oct)
+		- JEP (19 sept) 
+		- CARRECO
+			- Banderole 
+			- Affiche Fonctionnel 
+				- Territoire connecté : 1j Cartographier Association, Entreprise
+				- System d'import 1j : Prix 500€
+				- City Box : Location : 1500€/an
+				- OpenData Consulting + installation de la plateforme : 2000€
+				- Conseil Citoyen : 2000€ /an 
+				- Citizen Tool Kit : Package : 5000€ / an
+				- LOCAL TOURISMO : 
+				- Economie Collaborative : Package : 
+			- Hackathon : W3a , DataRocks...
+		- Communacelle 
+			- @Hafid : photo aerienne de Toulouse
+			- RV avec Clemence 
+			- @Hafid + frere : negot/contact pour tablet 
+			- @PH : integrer les opendatas toulouse
+				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
+		
+		[ ] hide .git in prod htacess
+		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
+		[ ] bounce In icons with info panels
+		* vote Standalone
+			[ ] filter closed entries
+			[ ] turn block builder independant from view
+			[ ] traduction
+			[ ] line break in textarea edit/create form
+			** @Sylvain
+				[ ] cancel 
+				[ ] comments count
+				[ ] integrate checkLoggued
+				[ ] uploader
+				[ ] creatorId must exist if organizer is an orga, for admin purposes
+		* IRT 
+			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
+			[ ] banderole refaire Communecter
+			[ ] transmettre le logo COMMUNECTER @DR
+			[ ] 17/08/2015 : presentation Communecter Tourisme 15min 2min/slide
+
+		* CONTACT : mairie sin paul 
+			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
+			- Service Subventions Associations au 0262 70 28 85
+			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
+			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
+		
+		* GRANDDIR
 			[ ] Créer une pagination sur les résultats (8 résultats par page)
-			[ ] Publics est toujours vide
-			[ ] Lors d'un clic sur un réul
+			[ ] @Tristan Publics est toujours vide
+			[ ] @Tristan Lors d'un clic sur un réul
+
 		[ ] smaller scope 
 		[ ] adding scope to news form (pub priv) & territories
-		[X] ACTION ROOMS
-			[X] enregistrer entries description
-			[X] see entryStandalone without connection , request login on click action ::: checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" )
-			[X] action Room doesn't show in "my Action Rooms" after creation 
-			[X] rooms Index : get Rooms I participated in 
-		[ ] dynForm Builder
-		[ ] PH join 
+
+		* dynSurvey 
+			[X] integrate Smart Wizard into DynSurvey
+			[X] layouts with Smart Wizard 
+			[X] onNext and onPrev event functions on each form section
+		* dynForm Builder
+			[X] Bootstrap-Form-Builder read my Form json definition
+			[X] integrate jsonFromjsonTo
+			[X] convert BFB json to dynForm json using jsonFromjsonTo
+			[ ]  ::Test::btn:: : opens a standalone Form that uses localStorage.dynFormJson to build the form
+			[ ] save to localStorage.dynFormJson, show dynForm in a simpleForm template
+			[ ] save as microformat
+			[ ] set a destination collection write directly using CommonController
+				[ ] /common/save/
+				[ ] /common/GetMicroformat/key/
+
+		* PH join 
 			[ ] accepter les CGU 
 			[ ] chaque rencontre send email 
 				[ ] add Orga : Paillasse 
@@ -72,23 +152,39 @@
 					[ ] become tete de reseau pour crowdfunding
 					[ ] become beta tester 
 					[ ] use Communecter to connect your terrritory
-		[ ] FORUM DES COMMUNS
+
+		* FORUM DES COMMUNS
 			[ ] cartographier les projet des biens communs d'un territoire
 			[ ] creer un planning
 			[ ] un ordre de passage
 			[ ] version enregistré
-				[ ] en smartPhone : 10 questions pour 10 reponses presentant un projet
-		[ ] CROWD FUNDING
+				[ ] en smartPhone : 10 questions pour 10 reponses presentant 
+					Une Personne
+						- Qui êtes-vous et que faites-vous dans la vie ?
+						- Quelles sont vos passions ?  
+						- Pouvez-vous nous citer 3 de vos points forts/atouts ? 
+						- Qu'est-ce qui, dans le monde ou dans votre environnement quotidien, vous donne envie d'agir et comment ?
+						- Pourquoi aimez-vous votre projet/métier et quelle est son utilité pour le monde ?
+						- En quoi est ce que ce métier/projet vous ressemble ?
+						- Quel est pour vous le sens de la vie ? Du travail ?
+						- Quels conseils donneriez-vous aux personnes qui souhaitent réaliser leurs rêves ? Votre message pour les jeunes
+
+		* CROWD FUNDING
 			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
-				[ ] users will have my scopes 
-					- location or territory
-					- geoArea
-					- Organisation 
-					- Person
-				[ ] add a scope : is selector 
-				[ ] add as scope btn 
-					search a location can be added 
-				[ ] scopes can be listed like tags on any form
+			[ ] users will have my scopes 
+				- location or territory
+				- geoArea
+				- Organisation 
+				- Person
+			[ ] add a scope : is selector 
+			[ ] add as scope btn 
+				search a location can be added 
+			[ ] scopes can be listed like tags on any form
+			** slogan 
+				commune histoire
+					commencons par communiquer 
+					et commettre un crime des communs 
+					et communecter les 
 		[ ] apply filter tags and scope 
 			[ ] survey
 			[ ] maps
@@ -101,6 +197,7 @@
 		    "city": "Berlin",
 		    "country": "Germany"
 		}
+
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )

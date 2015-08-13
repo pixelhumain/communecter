@@ -33,11 +33,6 @@
 	
  	<div class="panel-tools">
  		<?php    
-				if( !Admin::checkInitData( PHType::TYPE_CITOYEN, "personNetworkingAll" ) ){ ?>
-					<a href="<?php echo Yii::app()->createUrl("/communecter/person/InitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> InitData : Dummy People</a>
-		<?php } else { ?>
-					<a href="<?php echo Yii::app()->createUrl("/communecter/person/clearInitDataPeopleAll") ?>" class="btn btn-xs btn-red " ><i class="fa fa-plus"></i> Remove Dummy People</a>
-		<?php } 
 				if ( $canEdit ) { ?>
 					<a href="#" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
 		<?php } ?>
@@ -180,8 +175,6 @@ jQuery(document).ready(function()
 
 });
 
-
-
 var bgClasses = [
 	{key : 'bggrey', name : "Grey"},
 	{key : 'bgdark', name : "Dark"},
@@ -263,24 +256,6 @@ function bindAboutPodEvents()
 	    {
 	        if (data.result) {               
 	        	toastr.success('Export successfull');
-	        } else {
-	           toastr.error('Something Went Wrong');
-	        }
-	    });
-    });
-
-    $('.importMyDataBtn').off().on("click",function () { 
-    	console.log("importMyDataBtn");
-    	$.ajax({
-	        type: "GET",
-	        url: baseUrl+"/"+moduleId+"/person/importmydata"
-	        //dataType : "json"
-	        //data: params
-	    })
-	    .done(function (data) 
-	    {
-	        if (data.result) {               
-	        	toastr.success('Import successfull');
 	        } else {
 	           toastr.error('Something Went Wrong');
 	        }

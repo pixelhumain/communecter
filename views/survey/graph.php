@@ -38,11 +38,11 @@ function setUpGraph(){
 	        type: 'pie',
 	        name: 'Vote',
 	        data: [
-	        	{ name: 'Vote Pour',y: <?php echo $voteUpCount?>,color: getColor['Pou'] },
-	        	{ name: 'Vote Contre',y: <?php echo $voteDownCount?>,color: getColor['Con'] },
-	        	{ name: 'Abstention',y: <?php echo $voteAbstainCount?>,color: getColor['Abs'] },
-	        	{ name: 'Pas Clair',y: <?php echo $voteUnclearCount?>,color: getColor['Pac'] },
-	        	{ name: "Plus d'infos",y: <?php echo $voteMoreInfoCount?>,color: getColor['Plu'] }
+	        	{ name: 'Vote Pour',y: <?php echo $voteUpCount?>, color: getColor['Pou'] },
+	        	{ name: 'Vote Contre',y: <?php echo $voteDownCount?>, color: getColor['Con'] },
+	        	{ name: 'Abstention',y: <?php echo $voteAbstainCount?>, color: getColor['Abs'] },
+	        	{ name: 'Pas Clair',y: <?php echo $voteUnclearCount?>, color: getColor['Pac'] },
+	        	{ name: "Plus d'infos",y: <?php echo $voteMoreInfoCount?>, color: getColor['Plu'] }
 	        ]
 	    }]
 	});

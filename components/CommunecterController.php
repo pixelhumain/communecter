@@ -261,7 +261,8 @@ class CommunecterController extends Controller
       "graph"       => array("href" => "/ph/communecter/survey/graph"),
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
-      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd")
+      "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
+      "close"    => array("href" => "/ph/communecter/survey/close")
     ),
     
     "discuss"=> array(
@@ -284,13 +285,15 @@ class CommunecterController extends Controller
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
 
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
+
+    $pagesWithoutLogin = array(
+                            //Login Page
+                            "person/login", "person/register", "person/authenticate", "person/activate", "person/sendemail", 
+                            //Document Resizer
+                            "document/resized");
     
     if( (!isset( $page["public"] ) ) 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/login" 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/register" 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/authenticate" 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/activate" 
-      && Yii::app()->controller->id."/".Yii::app()->controller->action->id != "person/sendemail" 
+      && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;

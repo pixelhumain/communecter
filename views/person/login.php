@@ -16,7 +16,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 <div class="row">
 	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
-	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
+	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -142px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
 		$this->renderPartial('menuTitle');
@@ -53,6 +53,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 							<i class="fa fa-remove-sign"></i> Your account is not validated : please check your mailbox to validate your email address.
 							      If you didn't receive it or lost it, click
 							      <a class="validate" href="#">here</a> to receive it again.
+						</div>
+						<div class="errorHandler alert alert-success no-display emailValidated">
+							<i class="fa fa-check"></i> Your account is now validated ! Please try to login.
 						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
@@ -173,7 +176,18 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		Main.init();
 		Login.init();	
 		titleAnim ();	
+		if (email != "") {
+			$(".form-login #email").val(email);
+		}
+		if (userValidated) {
+			$(".errorHandler").hide();
+			$(".emailValidated").show();
+			$(".form-login #password").focus();
+		}
 	});
+
+var email = '<?php echo @$_GET["email"]; ?>';
+var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
 
 var timeout;
 var emailType;

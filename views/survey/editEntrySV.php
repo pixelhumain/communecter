@@ -38,6 +38,10 @@ var proposalFormDefinition = {
                 "required" : true
               }
             },
+            "dateEnd" :{
+              "inputType" : "date",
+              "placeholder" : "Fin de la période de vote"
+            },
             "urls" : {
                   "inputType" : "array",
                   "placeholder" : "url",
@@ -81,6 +85,7 @@ var dataBind = {
    "#tags" : "tags",
    "#id"   : "typeId",
    "#type" : "type",
+   "#dateEnd" : "dateEnd",
    "#<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
    "#<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
@@ -99,10 +104,16 @@ jQuery(document).ready(function() {
   $(".newVoteProposal").off().on("click",function() { 
     editEntrySV ();
   });
+
+  $('.voteIcon').off().on("click",function() { 
+    $(this).addClass("faa-bounce animated");
+    clickedVoteObject = $(this).data("vote");
+    console.log(clickedVoteObject);
+   });
 });
 
 function editEntrySV (proposalObj) { 
-  console.warn("--------------- editEntrySV ---------------------");
+  console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
@@ -118,14 +129,16 @@ function editEntrySV (proposalObj) {
       content : "#ajaxSV",
       onShow : function() 
       {
+
         var form = $.dynForm({
           formId : "#ajaxForm",
           formObj : proposalFormDefinition,
-          onLoad : function  () {
-            console.log("proposalObj",proposalObj);
-            if( proposalObj ){
-              $("#name").val(proposalObj.title);
-              $("#message").val(proposalObj.contentBrut);
+          onLoad : function() {
+            console.log("onLoad",proposalObj);
+            if( proposalObj )
+            {
+              $("#ajaxSV #name").val( proposalObj.title );
+              $("#ajaxSV #message").val( proposalObj.contentBrut );
               AutoGrowTextArea($("message"));
             }
           },
@@ -148,13 +161,8 @@ function editEntrySV (proposalObj) {
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#ajaxSV #name").val() , 
                  "organizer" : $("#ajaxSV #organizer").val(),
-                 "tags" : $("#ajaxSV #tags").val().split(","),
-                 "message" : $("#ajaxSV #message").val(),
-                 <?php  
-                 //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
-                 ?>
+                 "message" : ($("#ajaxSV #message").code() ) ? $("#ajaxSV #message").code() : $("#ajaxSV #message").val(),
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
-                 "urls" : getUrls(),
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
                    "<?php echo Comment::COMMENT_ON_TREE ?>" : $("#ajaxSV #<?php echo Comment::COMMENT_ON_TREE ?>").val(),
@@ -162,6 +170,15 @@ function editEntrySV (proposalObj) {
                    "<?php echo Comment::ONE_COMMENT_ONLY ?>" : $("#ajaxSV #<?php echo Comment::ONE_COMMENT_ONLY ?>").val()
                  }
               };
+              
+              urls = getUrls();
+              if( urls != null )
+                params.urls = urls;
+              if( $("#ajaxSV #tags").val() )
+                params.tags = $("#ajaxSV #tags").val().split(",");
+              if( $("#ajaxSV #dateEnd").val() )
+                params.dateEnd = $("#ajaxSV #dateEnd").val();
+
              console.dir(params);
              $.ajax({
                 type: "POST",
@@ -190,6 +207,7 @@ function editEntrySV (proposalObj) {
         console.dir(form);
       },
       onHide : function() {
+        console.log("on Hide Event");
         $("#ajaxSV").html('');
         $.hideSubview();
       },
@@ -199,12 +217,15 @@ function editEntrySV (proposalObj) {
     });
 }
 
-function getUrls(){
+function getUrls()
+{
     var urls = [];
     $.each($('.addmultifield'), function() {
-        urls.push( $(this).val() );
+        if( $(this).val() != "" )
+          urls.push( $( this ).val() );
     });
-    return urls;
+    console.log("urls",urls);
+    return ( urls.length ) ? urls : null;
 };
 
 function getRandomInt (min, max) {
