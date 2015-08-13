@@ -7,7 +7,8 @@
 	  		);
 	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
   	}
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
+	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
+	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
 ?>
 <style>
 	.chart{
@@ -157,10 +158,12 @@
 				</div>
 			</li>
 			<li id="filtreByCommune">
-				<div class="btn-group col-xs-6">
-					<select id="listCommune" class="js-example-basic-multiple" multiple="multiple"> 
-
-					</select>
+				<div class="btn-group">
+					<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown"  aria-expanded="true">
+						<span id="label-cities"> Aucune communes sélectionnés </span><span class="caret"></span>
+					</a>
+					<ul role="menu" class="dropdown-menu pull-right" id="filterCities">
+					</ul>
 				</div>
 			</li>
 		</ul>
@@ -189,43 +192,39 @@
 		var typeGraph ='<?php if(isset($_GET["typeGraph"])) echo $_GET["typeGraph"] ; else echo "multibar"; ?>';
 		var typeZone ='<?php if(isset($_GET["type"])) echo $_GET["type"] ; else echo "commune"; ?>';
 		//var optionData ='<?php if(isset($_GET["option"])) echo $_GET["option"]; else echo "undefined"; ?>';
-		
-		
+		//alert('<?php if(isset($inseeCities)) json_encode($inseeCities) ; else json_encode(array()); ?>');
+		var citiesChecked ='<?php if(isset($inseeCities)) echo json_encode($inseeCities) ; else echo json_encode(array()); ?>';
 		var optionChecked = getValueChekbox(name_id);
+		var optionCheckedCities = getValueChekboxCities(insee, name_id);
+
+		modifyListCities(insee, typeData, typeZone, name_id, typeGraph, optionCheckedCities, citiesChecked, optionChecked)
 		
-		bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-		$("#<?php echo $name_id ; ?>_panel #filtreByCommune").hide();
-		$("#<?php echo $name_id ; ?>_panel #listCommune").select2();
+		bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+
+		if(typeZone == "commune")
+			$("#<?php echo $name_id ; ?>_panel #filtreByCommune").hide();
+		//$("#<?php echo $name_id ; ?>_panel #listCommune").select2();
+		//$("#<?php echo $name_id ; ?>_panel #listCommune").selectpicker();
 	});
 
-function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph)
+function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities)
 {
 	console.warn("----------------- bindBtnAction -----------------");
 	//console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
 	$("#"+name_id+"_panel .locBtn" ).off().on("click", function() {
-		
+		console.warn("----------------- locBtn -----------------");
 		$("#label-zone").text($(this).text());
 		typeZone = $(this).data("name");
-		alert(typeZone);
+		
 		if(typeZone != "commune")
 		{
-			$("#<?php echo $name_id ; ?>_panel #filtreByCommune").show();
-			var urlToSend = baseUrl+"/"+moduleId+"/city/getlistcities/insee/"+insee+"/zone/"+typeZone;
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					console.log("data", data);
-				}
-			});
+			modifyListCities(insee, typeData, typeZone, name_id, typeGraph, optionCheckedCities, [], optionChecked)
 		}
 		else
 			$("#<?php echo $name_id ; ?>_panel #filtreByCommune").hide();
 
-		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-
+		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
 
 	});
 
@@ -234,7 +233,7 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 		
 		$("#label-graph").text($(this).text());
 		typeGraph = $(this).data("name");
-		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
+		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
 		
 	});
 
@@ -243,7 +242,7 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 		typeData = $(this).data("name");
 		
 		$("#<?php echo $name_id ; ?>_panel #label-type").text($(this).text());
-		modifyListOption(insee, typeData, typeZone, name_id);
+		modifyListOption(insee, typeData, typeZone, name_id, optionCheckedCities);
 		/*var urlToSend = baseUrl+"/"+moduleId+"/city/getoptiondata/insee/"+insee+"/typeData/"+typeData;
 		$.ajax({
 			type: "POST",
@@ -267,84 +266,32 @@ function bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGr
 			$("#<?php echo $name_id ; ?>_panel #label-option").text($(this).text());
 		else
 			$("#<?php echo $name_id ; ?>_panel #label-option").text(optionChecked.length + " éléments séléctionnés");
-
 		//optionData = $(this).data("name");
-		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
+		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
 		
 	});
 
 
-	/*$("#"+name_id+"_panel #listCommune").click(function(){
-		mapData = buildDataSet(map, $(this).data("name"));
-			//console.log(mapData);
-			d3.select("#<?php echo $name_id ; ?>_panel #chart svg")
-			    .datum(mapData)
-			    .call(chart);
-			chart.update();
-			bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-	});*/
-
-	/*$("#"+name_id+"_panel #listCommune" ).off().on("click", function() {
-		
-		var cities = [];
-		var i = 0 ;
-		$("#<?php echo $name_id ; ?>_panel #listCommune option:selected").each(function() 
+	$("#"+name_id+"_panel .optionCities").off().on("click", function(){
+		console.warn("----------------- optionCities -----------------");
+		optionCheckedCities = getValueChekboxCities(insee, name_id);
+		console.log("optionCheckedCities", optionCheckedCities);
+		if(optionCheckedCities == null)
 		{
-			cities[i] = $(this).val();
-			i++;
-		});
-
-		if(i > 0)
-		{
-			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitiesdata/insee/"+insee+"/typeData/"+typeData;
-			if("undefined" != typeZone){
-				urlToSend += "/type/"+ typeZone;
-			}
-			
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				data : {cities : cities},
-				dataType: "json",
-				success: function(data){
-					console.log("data", data);
-					if(typeGraph == "piechart")
-						getPieChart(data, typeData, optionChecked, name_id);
-					else
-						getMultiBarChart(data, typeData, optionChecked, name_id);
-					
-				}
-			});
-
-		}
+			$("#<?php echo $name_id ; ?>_panel #label-cities").text("Aucunes communes séléctionnés");
+		}	
 		else
 		{
-			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
-			if("undefined" != typeZone){
-				urlToSend += "/type/"+ typeZone;
-			}
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					console.log("data", data);
-					if(typeGraph == "piechart")
-						getPieChart(data, typeData, optionChecked, name_id);
-					else
-						getMultiBarChart(data, typeData, optionChecked, name_id);
-				}
-			});
-		}
+			$("#<?php echo $name_id ; ?>_panel #label-cities").text((optionCheckedCities.length - 1) + " communes séléctionnés");
+		}	
+		sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
 		
-
-		
-	});*/
+	});
 
 }
 
 
-function modifyListOption(insee, typeData, typeZone, name_id, typeGraph){
+function modifyListOption(insee, typeData, typeZone, name_id, typeGraph, optionCheckedCities){
 	console.warn("----------------- modifyListOption -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistoption/";
 	$.ajax({
@@ -353,18 +300,51 @@ function modifyListOption(insee, typeData, typeZone, name_id, typeGraph){
 		data:{insee: insee, typeData: typeData, name_id: name_id},
 		dataType: "json",
 		success: function(data){
-			console.info("modifyListOptionSuccess", data);
+			//console.info("modifyListOptionSuccess", data);
 			$("#filterGraph").html(data);
 			optionChecked = getValueChekbox(name_id);
-			console.log("yoyooooooooptionChecked", optionChecked);
-			bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
-			sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph);
+			bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+			sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+		}
+	});
+}
+
+
+function modifyListCities(insee, typeData, typeZone, name_id, typeGraph, optionCheckedCities, citiesChecked, optionChecked){
+	console.warn("----------------- modifyListCities -----------------");
+	console.log("citiesChecked", citiesChecked);
+	$("#<?php echo $name_id ; ?>_panel #filtreByCommune").show();
+	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistcities/insee/"+insee+"/zone/"+typeZone;
+	$.ajax({
+		type: "POST",
+		url: urlToSend,
+		dataType: "json",
+		success: function(data){
+			console.log("data", data);
+			if(data.result == true)
+			{
+				console.log(data);
+				var chaine = "";
+				$.each(data.cities, function(keyCities,valuesCities){
+					if(citiesChecked.indexOf(valuesCities['insee']) == -1)
+						chaine = chaine + '<li><a class="btn-drop optionCities" data-name="'+valuesCities['insee']+'"><input type="checkbox" id="'+name_id+valuesCities['insee']+'" name="'+name_id+'optionCheckboxCities" value="'+valuesCities['insee']+'"/><label for="'+name_id+valuesCities['insee']+'" >'+valuesCities['name']+'</label></a></li>';
+					else
+						chaine = chaine + '<li><a class="btn-drop optionCities" data-name="'+valuesCities['insee']+'"><input type="checkbox" id="'+name_id+valuesCities['insee']+'" name="'+name_id+'optionCheckboxCities" value="'+valuesCities['insee']+'" checked/><label for="'+name_id+valuesCities['insee']+'" >'+valuesCities['name']+'</label></a></li>';
+				});
+				$("#<?php echo $name_id ; ?>_panel #label-cities").text("Aucunes communes séléctionnés");
+				$("#<?php echo $name_id ; ?>_panel #filterCities").html(chaine);
+				optionCheckedCities = getValueChekboxCities(insee, name_id);
+				console.log(optionCheckedCities);
+				bindBtnAction(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+				sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities);
+			}
+
 		}
 	});
 }
 
 function getValueChekbox(name_id){
-	console.warn("----------------- getValueChekbox -----------------");
+	//console.warn("----------------- getValueChekbox -----------------");
 	var optionChecked = [];
 	$('input:checked[name='+name_id+'optionCheckbox]').each(function() {
 	  optionChecked.push($(this).val());
@@ -375,9 +355,25 @@ function getValueChekbox(name_id){
 	return optionChecked ;
 }
 
+
+function getValueChekboxCities(insee, name_id){
+	console.warn("----------------- getValueChekbox -----------------");
+	var optionCheckedCities = [];
+	$('input:checked[name='+name_id+'optionCheckboxCities]').each(function() {
+	  optionCheckedCities.push($(this).val());
+	});
+
+	if(optionCheckedCities.length == 0)
+		optionCheckedCities = null ;
+	else
+		optionCheckedCities.push(insee);
+	
+	return optionCheckedCities ;
+}
+
 function getMultiBarChart(map, typeData, optionChecked, name_id){
-	console.warn("----------------- getMultiBarChart -----------------");
-	console.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//console.warn("----------------- getMultiBarChart -----------------");
+	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	//console.log("optionChecked 3 : ",  optionChecked);
 	var mapData = buildDataSetMulti(map, typeData,  optionChecked, name_id);
 	//console.log(mapData);
@@ -421,8 +417,8 @@ function getMultiBarChart(map, typeData, optionChecked, name_id){
 }
 
 function buildDataSetMulti(map, typeData, optionChecked, name_id){
-	console.warn("----------------- buildDataSetMulti -----------------");
-	console.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//console.warn("----------------- buildDataSetMulti -----------------");
+	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData= [];
 	var tabYear = [];
 	
@@ -454,7 +450,7 @@ function buildDataSetMulti(map, typeData, optionChecked, name_id){
 }
 
 function getPieChart(map, typeData, optionChecked, name_id){
-	console.warn("----------------- getPieChart -----------------");
+	//console.warn("----------------- getPieChart -----------------");
 	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData = buildDataSetPie(map, typeData,  optionChecked, name_id);
 	
@@ -480,7 +476,7 @@ function getPieChart(map, typeData, optionChecked, name_id){
 
 
 function buildDataSetPie(map, typeData, optionChecked, name_id){
-	console.warn("----------------- buildDataSetPie -----------------");
+	//console.warn("----------------- buildDataSetPie -----------------");
 	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	//console.log("map",map);
 	//console.log("str",str);
@@ -507,9 +503,9 @@ function buildDataSetPie(map, typeData, optionChecked, name_id){
 	return mapData;
 }
 
-function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph)
+function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities)
 {
-	console.warn("----------------- sendData -----------------");
+	//console.warn("----------------- sendData -----------------");
 	//console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
 	
@@ -521,10 +517,10 @@ function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph)
 	$.ajax({
 		type: "POST",
 		url: urlToSend,
-		data:{optionData: optionChecked},
+		data:{optionData: optionChecked, optionCities: optionCheckedCities},
 		dataType: "json",
 		success: function(data){
-			console.info("sendDataSuccess", typeData, optionChecked, name_id);
+			//console.info("sendDataSuccess", typeData, optionChecked, name_id);
 			if(typeGraph == "piechart")
 				getPieChart(data, typeData, optionChecked, name_id);
 			else

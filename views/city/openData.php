@@ -54,7 +54,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 						<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown"  aria-expanded="true">
 							<span id="label-option"> Total </span><span class="caret"></span>
 						</a>
-						<ul role="menu" class="dropdown-menu pull-right" id="filterGraph">
+						<ul role="menu" class="dropdown-menu pull-right panel-scroll height-230" id="filterGraph">
 							<?php
 								$typeData= "population";
 								$where = array("insee"=>$_GET['insee'], $typeData => array( '$exists' => 1 ));
@@ -93,13 +93,17 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 						</ul>
 					</div>
 				</li>
+			</ul>
+		</div>
+		<div class="panel-heading border-light divline">
+			<ul  class="panel-heading-tabs border-light ulline">
 				<li>
 					<label class = "label_dropdown" for="zoneGraph">Filtrer par : </label>
 					<div class="btn-group">
 						<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown"  aria-expanded="true">
 							<span id="label-zone"> Commune </span><span class="caret"></span>
 						</a>
-						<ul role="menu" class="dropdown-menu pull-right" id="zoneGraph" >
+						<ul role="menu" class="dropdown-menu pull-right " id="zoneGraph" >
 							<li>
 								<a class="btn-drop locBtn">Commune</a>
 							</li>
@@ -109,6 +113,16 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 							<li>
 								<a  class="btn-drop locBtn" data-name="region">Region</a>
 							</li>
+						</ul>
+					</div>
+				</li>
+				<li id="filtreByCommune">
+					<div class="btn-group">
+						<a class="btn btn-transparent-grey dropdown-toggle" data-toggle="dropdown"  aria-expanded="true">
+							<span id="label-cities"> Aucune communes sélectionnés </span><span class="caret"></span>
+						</a>
+
+						<ul role="menu" class="dropdown-menu pull-right panel-scroll height-230" id="filterCities">
 						</ul>
 					</div>
 				</li>
@@ -138,10 +152,14 @@ jQuery(document).ready(function() {
 	tabPod = [];
 	name_idOpenData = "<?php echo $name_idOpenData; ?>";
 	
+	var citiesCheckedOpenData ='<?php array(); ?>';
 	var optionCheckedOpenData = getValueChekboxOpenData(name_idOpenData);
+	var optionCheckedCitiesOpenData = getValueChekboxCitiesOpenData(inseeOpenData, name_idOpenData);
+
+	modifyListCitiesOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData, citiesCheckedOpenData, optionCheckedOpenData);
 	
-	bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData);
-	getPod();
+	bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+	getPod(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
 
 	$("#<?php echo $name_idOpenData ; ?>_panel #filtreByCommune").hide();
 	$("#<?php echo $name_idOpenData ; ?>_panel #listCommune").select2();
@@ -186,15 +204,21 @@ jQuery(document).ready(function() {
 });
 
 
-function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData)
+function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData)
 {
-	console.warn("----------------- bindBtnAction -----------------");
+	//console.warn("----------------- bindBtnAction -----------------");
 	//console.log(name_id + "_panel : ", insee, typeDataOpenData, typeZoneOpenData, optionChecked);
 	$("#"+name_idOpenData+"_panel .locBtn" ).off().on("click", function() {
 		
-		$("#label-zone").text($(this).text());
+		$("#"+name_idOpenData+"_panel #label-zone").text($(this).text());
 		typeZoneOpenData = $(this).data("name");
-		bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData)
+		if(typeZoneOpenData != "commune")
+		{
+			modifyListCitiesOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData, [], optionCheckedOpenData)
+		}
+		else
+			$("#"+name_idOpenData+"_panel #filtreByCommune").hide();
+		bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData)
 	});
 
 
@@ -202,7 +226,7 @@ function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData
 		
 		$("#label-graph").text($(this).text());
 		typeGraphOpenData = $(this).data("name");
-		bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData)
+		bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData)
 		
 	});
 
@@ -211,8 +235,9 @@ function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData
 		typeDataOpenData = $(this).data("name");
 		console.log("nameTEXT", $(this).text());
 
-		$("#<?php echo $name_idOpenData ; ?>_panel #label-type").text(typeDataOpenData);
-		modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData);
+		$("#"+name_idOpenData+"_panel #label-type").text(typeDataOpenData);
+		modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+		
 		/*var urlToSend = baseUrl+"/"+moduleId+"/city/getoptiondata/insee/"+inseeOpenData+"/typeData/"+typeDataOpenData;
 		$.ajax({
 			type: "POST",
@@ -222,124 +247,112 @@ function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData
 				console.log("gooooooo", data);
 				modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData);
 			}
-		});	*/
+		});*/
 	});
 
 	$("#"+name_idOpenData+"_panel .optionBtn").off().on("click", function(){
 		
-		optionChecked = getValueChekboxOpenData(name_idOpenData);
-		if(optionChecked.length == 1)
+		optionCheckedOpenData = getValueChekboxOpenData(name_idOpenData);
+		if(optionCheckedOpenData.length == 1)
 			$("#<?php echo $name_idOpenData ; ?>_panel #label-option").text($(this).text());
 		else
-			$("#<?php echo $name_idOpenData ; ?>_panel #label-option").text(optionChecked.length + " éléments séléctionnés");
-
-		optionData = $(this).data("name");
-		
+			$("#<?php echo $name_idOpenData ; ?>_panel #label-option").text(optionCheckedOpenData.length + " éléments séléctionnés");		
 	});
 
-
-	$("#"+name_idOpenData+"_panel #listCommune").click(function(){
-		mapData = buildDataSet(map, $(this).data("name"));
-			//console.log(mapData);
-			d3.select("#<?php echo $name_idOpenData ; ?>_panel #chart svg")
-			    .datum(mapData)
-			    .call(chart);
-			chart.update();
-			bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData);
-	});
-
-	$("#"+name_idOpenData+"_panel #listCommune" ).off().on("click", function() {
-		
-		var cities = [];
-		var i = 0 ;
-		$("#<?php echo $name_idOpenData ; ?>_panel #listCommune option:selected").each(function() 
+	$("#"+name_idOpenData+"_panel .optionCities").off().on("click", function(){
+		console.warn("----------------- optionCities -----------------");
+		optionCheckedCitiesOpenData = getValueChekboxCitiesOpenData(inseeOpenData, name_idOpenData);
+		console.log("optionCheckedCities", optionCheckedCitiesOpenData);
+		if(optionCheckedCitiesOpenData == null)
 		{
-			cities[i] = $(this).val();
-			i++;
-		});
-
-		if(i > 0)
-		{
-			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitiesdata/insee/"+inseeOpenData+"/typeData/"+typeDataOpenData;
-			if("undefined" != typeZoneOpenData){
-				urlToSend += "/type/"+ typeZoneOpenData;
-			}
-			
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				data : {cities : cities},
-				dataType: "json",
-				success: function(data){
-					console.log("data", data);
-					if(typeGraphOpenData == "piechart")
-						getPieChart(data, typeDataOpenData, optionChecked, name_idOpenData);
-					else
-						getMultiBarChart(data, typeDataOpenData, optionChecked, name_idOpenData);
-					
-				} 
-			});
-
-		}
+			$("#<?php echo $name_idOpenData ; ?>_panel #label-cities").text("Aucunes communes séléctionnés");
+		}	
 		else
 		{
-			var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+inseeOpenData+"/typeData/"+typeDataOpenData;
-			if("undefined" != typeZoneOpenData){
-				urlToSend += "/type/"+ typeZoneOpenData;
-			}
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					console.log("data", data);
-					if(typeGraphOpenData == "piechart")
-						getPieChart(data, typeDataOpenData, optionChecked, name_idOpenData);
-					else
-						getMultiBarChart(data, typeDataOpenData, optionChecked, name_idOpenData);
-				}
-			});
-		}
+			$("#<?php echo $name_idOpenData ; ?>_panel #label-cities").text((optionCheckedCitiesOpenData.length - 1) + " communes séléctionnés");
+		}			
 	});
+
+
+	
 
 
 	$("#ajouterPod").off().on("click", function(){
-		console.warn("----------------- ajouterPod -----------------");
-		console.info("ajouterPod", typeGraphOpenData);
-		var urlToSend = baseUrl+"/"+moduleId+"/city/addpodopendata/";
-		var urlPod = baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/"+inseeOpenData+"/typeData/"+typeDataOpenData;
-		
+		//console.warn("----------------- ajouterPod -----------------");
+		//console.info("ajouterPod", typeGraphOpenData);
+		var title = typeDataOpenData + " - " + typeGraphOpenData  + " - " + typeZoneOpenData;
+		bootbox.prompt("Donner un titre", function(result){
+			
+			if (result != null){                                             
+			    title = result ;
+			    var urlToSend = baseUrl+"/"+moduleId+"/city/addpodopendata/modify/add";
+				var urlPod = baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/"+inseeOpenData+"/typeData/"+typeDataOpenData;
+				
+				if("undefined" != typeGraphOpenData){
+					urlPod += "/typeGraph/"+ typeGraphOpenData;
+				}
+				if("undefined" != typeZoneOpenData){
+					urlPod += "/type/"+ typeZoneOpenData;
+				}
 
+				var optionCheckedOpenData = getNameOptionOpenData(name_idOpenData);
+				if({} != optionCheckedOpenData){
+					urlPod += "/optionData/"+ $.param(optionCheckedOpenData);
+				}
 
-		if("undefined" != typeGraphOpenData){
-			urlPod += "/typeGraph/"+ typeGraphOpenData;
-		}
-		if("undefined" != typeZoneOpenData){
-			urlPod += "/type/"+ typeZoneOpenData;
-		}
+				optionCheckedCitiesOpenData = getInseeOptionOpenData(name_idOpenData);
+				if({} != optionCheckedCitiesOpenData){
+					urlPod += "/inseeCities/"+ $.param(optionCheckedCitiesOpenData);
+				}
+				
+				$.ajax({
+					type: "POST",
+					url: urlToSend,
+					data:{urlPod: urlPod, titlePod: title, tabPod: tabPod},
+					dataType: "json",
+					success: function(data){
+						//console.info("ajouterPod", data);
+						if(data.result == false)
+						{
+							toastr.error(data.msgError);
+						}
+						else
+						{
+							$("#listPod").html("");
+							getPod(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+							toastr.success(data.msgSuccess);
+						}	
+					}
+				});                           
+			}
+		});		
+	});
 
-		
-		titlePod = typeDataOpenData + " - " + typeGraphOpenData  + " - " + typeZoneOpenData;
+	$(".deletePod").off().on("click", function(){
+		console.warn("----------------- deletePod -----------------");
+		var idPod_delete = $(this).attr("id").split("_");
+		//alert(idPod_delete[0]);
+		console.log("TabPod", tabPod);
+		newTabPod = {};
+		var i = 1 ;
+		$.each(tabPod, function(keyNamePod,valuesPod){
+			console.log("idPod_delete[0]", idPod_delete[0],"keyNamePod", keyNamePod);
+			if(idPod_delete[0] != keyNamePod)
+			{
+				newTabPod['pod'+i] = valuesPod;
+				i++ ;
+			}	
+		});
 
-		optionChecked = getNameOptionOpenData(name_idOpenData);
-		if([] != optionChecked){
-			urlPod += "/optionData/"+ $.param(optionChecked);
-			titlePod = titlePod + " - Option : [ ";
-			$.each(optionChecked, function(idOption,valueOption){
-				titlePod = titlePod + valueOption + " " ;
-			});
-			titlePod = titlePod + "]";
-		}
-
-		
-		
+		console.log("newTabPod", newTabPod);
+		var urlToSend = baseUrl+"/"+moduleId+"/city/addpodopendata/modify/delete";
 		$.ajax({
 			type: "POST",
 			url: urlToSend,
-			data:{urlPod: urlPod, titlePod: titlePod, tabPod: tabPod},
+			data:{tabPod: newTabPod},
 			dataType: "json",
 			success: function(data){
-				console.info("ajouterPod", data);
+				//console.info("ajouterPod", data);
 				if(data.result == false)
 				{
 					toastr.error(data.msgError);
@@ -347,17 +360,17 @@ function bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData
 				else
 				{
 					$("#listPod").html("");
-					getPod();
-					toastr.success("Le graphique a été ajouté.");
+					getPod(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+					toastr.success(data.msgSuccess);
 				}	
 			}
 		});
 	});
+
 }
 
-
-function modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData){
-	console.warn("----------------- modifyListOptionOpenData -----------------");
+function modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData){
+	//console.warn("----------------- modifyListOptionOpenData -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistoption/";
 	$.ajax({
 		type: "POST",
@@ -365,10 +378,43 @@ function modifyListOptionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenD
 		data:{insee: inseeOpenData, typeData: typeDataOpenData, name_id: name_idOpenData},
 		dataType: "json",
 		success: function(data){
-			console.info("modifyListOptionOpenDataSuccess", data);
+			//console.info("modifyListOptionOpenDataSuccess", data);
 			$("#<?php echo $name_idOpenData ; ?>_panel #filterGraph").html(data);
 			var optionChecked = getValueChekbox(name_idOpenData);
-			bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData);
+			$("#<?php echo $name_idOpenData ; ?>_panel #label-option").text(optionChecked.length + " éléments séléctionnés");
+			bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionChecked, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+		}
+	});
+}
+
+function modifyListCitiesOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData, citiesCheckedOpenData, optionCheckedOpenData){
+	//console.warn("----------------- modifyListCities -----------------");
+
+	$("#<?php echo $name_idOpenData ; ?>_panel #filtreByCommune").show();
+	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistcities/insee/"+inseeOpenData+"/zone/"+typeZoneOpenData;
+	$.ajax({
+		type: "POST",
+		url: urlToSend,
+		dataType: "json",
+		success: function(data){
+			console.log("data", data);
+			if(data.result == true)
+			{
+				console.log(data);
+				var chaine = "";
+				$.each(data.cities, function(keyCities,valuesCities){
+					if(citiesCheckedOpenData.indexOf(valuesCities['insee']) == -1)
+						chaine = chaine + '<li><a class="btn-drop optionCities" data-name="'+valuesCities['insee']+'"><input type="checkbox" id="'+name_idOpenData+valuesCities['insee']+'" name="'+name_idOpenData+'optionCheckboxCities" value="'+valuesCities['insee']+'"/><label for="'+name_idOpenData+valuesCities['insee']+'" >'+valuesCities['name']+'</label></a></li>';
+					else
+						chaine = chaine + '<li><a class="btn-drop optionCities" data-name="'+valuesCities['insee']+'"><input type="checkbox" id="'+name_idOpenData+valuesCities['insee']+'" name="'+name_idOpenData+'optionCheckboxCities" value="'+valuesCities['insee']+'" checked/><label for="'+name_idOpenData+valuesCities['insee']+'" >'+valuesCities['name']+'</label></a></li>';
+				});
+				$("#<?php echo $name_idOpenData ; ?>_panel #label-cities").text("Aucunes communes séléctionnés");
+				$("#<?php echo $name_idOpenData ; ?>_panel #filterCities").html(chaine);
+				optionCheckedCitiesOpenData = getValueChekboxCitiesOpenData(inseeOpenData, name_idOpenData);
+				console.log(optionCheckedCitiesOpenData);
+				bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
+			}
+
 		}
 	});
 }
@@ -385,6 +431,21 @@ function getValueChekboxOpenData(name_idOpenData){
 	return optionChecked ;
 }
 
+function getValueChekboxCitiesOpenData(inseeOpenData, name_idOpenData){
+	console.warn("----------------- getValueChekbox -----------------");
+	var optionCheckedCities = [];
+	$('input:checked[name='+name_idOpenData+'optionCheckboxCities]').each(function() {
+	  optionCheckedCities.push($(this).val());
+	});
+
+	if(optionCheckedCities.length == 0)
+		optionCheckedCities = null ;
+	else
+		optionCheckedCities.push(inseeOpenData);
+	
+	return optionCheckedCities ;
+}
+
 function getNameOptionOpenData(name_idOpenData){
 	console.warn("----------------- getNameOptionOpenData -----------------");
 	var optionChecked = {};
@@ -397,7 +458,19 @@ function getNameOptionOpenData(name_idOpenData){
 	return optionChecked ;
 }
 
-function getPod(){
+function getInseeOptionOpenData(name_idOpenData){
+	console.warn("----------------- getInseeOptionOpenData -----------------");
+	var optionCheckedCities = {};
+	var i = 0 ;
+	$('input:checked[name='+name_idOpenData+'optionCheckboxCities]').each(function() {
+	  optionCheckedCities[i] = $(this).val();
+	  i++;
+	});
+
+	return optionCheckedCities ;
+}
+
+function getPod(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData){
 	console.warn("----------------- getPod -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getpodopendata/";
 	$.ajax({
@@ -413,7 +486,8 @@ function getPod(){
 				function(){
 					$("."+namePod + " .ulline").hide();
 					$("."+namePod + " .divline").hide();
-					$("."+namePod + " .titlePod").html(valuePOD.title);
+					$("."+namePod + " .titlePod").html('<a href="#" id="'+namePod+'_delete" class="deletePod" >X</a> '+valuePOD.title);
+					bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
 				}, "html");
 			});
 		}
