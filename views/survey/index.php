@@ -1,10 +1,10 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($this->module->assetsUrl. '/survey/css/mixitup/reset.css');
-$cs->registerCssFile($this->module->assetsUrl. '/survey/css/mixitup/style.css');
-$cs->registerScriptFile($this->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl. '/survey/js/exporting.js' , CClientScript::POS_END);
-$cs->registerScriptFile($this->module->assetsUrl. '/survey/js/jquery.mixitup.min.js' , CClientScript::POS_END);
+$cs->registerCssFile(Yii::app()->controller->module->assetsUrl. '/survey/css/mixitup/reset.css');
+$cs->registerCssFile(Yii::app()->controller->module->assetsUrl. '/survey/css/mixitup/style.css');
+$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/exporting.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/jquery.mixitup.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
 
@@ -48,149 +48,170 @@ $commentActive = true;
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    foreach ($list as $key => $value) 
-    {
-      $name = $value["name"];
-      $email =  (isset($value["email"])) ? $value["email"] : "";
-      $cpList = (isset($value["cp"])) ? $value["cp"] : "";
-      if( !isset($_GET["cp"]) && $value["type"] == Survey::TYPE_SURVEY )
-      {
-        if(isset($value["cp"]))
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags ){
+        $logguedAndValid = Person::logguedAndValid();
+        $tagBlock = "";
+        $cpBlock = "";
+        $name = $entry["name"];
+        $email =  (isset($entry["email"])) ? $entry["email"] : "";
+        $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
+        if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
         {
-          if(is_array($value["cp"]))
+          if(isset($entry["cp"]))
           {
-            $cpList = "";
-            foreach ($value["cp"] as $cp) {
-              if(!in_array($cp, $cps)){
-                $cpBlock .= ' <button class="filter " data-filter=".'.$cp.'">'.$cp.'</button>';
-                array_push($cps, $cp);
+            if(is_array($entry["cp"]))
+            {
+              $cpList = "";
+              foreach ($entry["cp"] as $cp) {
+                if(!in_array($cp, $cps)){
+                  $cpBlock .= ' <button class="filter " data-filter=".'.$cp.'">'.$cp.'</button>';
+                  array_push($cps, $cp);
+                }
+                $cpList .= $cp." ";
               }
-              $cpList .= $cp." ";
+            } 
+            else if(!in_array($entry["cp"], $cps))
+            {
+              $cpBlock .= ' <button class="filter " data-filter=".'.$entry["cp"].'">'.$entry["cp"].'</button>';
+              array_push($cps, $entry["cp"]);
             }
-          } 
-          else if(!in_array($value["cp"], $cps))
-          {
-            $cpBlock .= ' <button class="filter " data-filter=".'.$value["cp"].'">'.$value["cp"].'</button>';
-            array_push($cps, $value["cp"]);
           }
         }
-      }
-
-      $tags = "";
-      if(isset($value["tags"]))
-      {
-        foreach ($value["tags"] as $t) 
+  
+        $tags = "";
+        if(isset($entry["tags"]))
         {
-          if(!empty($t) && !in_array($t, $alltags))
+          foreach ($entry["tags"] as $t) 
           {
-            array_push($alltags, $t);
-            $tagBlock .= ' <button class="filter " data-filter=".'.$t.'">'.$t.'</button>';
+            if(!empty($t) && !in_array($t, $alltags))
+            {
+              array_push($alltags, $t);
+              $tagBlock .= ' <button class="filter " data-filter=".'.$t.'">'.$t.'</button>';
+            }
+            $tags .= $t.' ';
           }
-          $tags .= $t.' ';
         }
-      }
-
-      $count = PHDB::count ( Survey::COLLECTION, array( "type"=>Survey::TYPE_ENTRY,
-                                                        "survey"=>(string)$value["_id"] ) );
-      $link = $name;
-
-      /* **************************************
-      //check if I wrote this law
-      *************************************** */
-      $meslois = ( $logguedAndValid && Yii::app()->session["userEmail"] && $value['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
-      
-      //checks if the user is a follower of the entry
-      $followingEntry = ( $logguedAndValid && Action::isUserFollowing($value,Action::ACTION_FOLLOW) ) ? "myentries":"";
-      
-      //title + Link
-      if ( $value["type"] == Survey::TYPE_SURVEY )
-        $link = '<a class="titleMix '.$meslois.'" href="'.Yii::app()->createUrl("/".$this->module->id."/survey/entries/id/".(string)$value["_id"]).'">'.$name.' ('.$count.')</a>' ;
-      else if ( $value["type"] == "entry" )
-        $link = '<a class="titleMix '.$meslois.'" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\')" href="javascript:;">'.$name.'</a>' ;
-      
-
-      //$infoslink bring visual detail about the entry
-      $infoslink = "";
-      $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
-
-      $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> Edit</a> ' : '';                          
-      if (Yii::app()->session["userIsAdmin"]) {
-        $linkStandalone = Yii::app()->createUrl("/".$this->module->id."/survey/entry/id/".(string)$value["_id"]);
-        $infoslink .= "<a target='_blank' class='btn voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
-      }
-
-
-      /* **************************************
-      Rendering Each block
-      ****************************************/
-      $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$value);
-      $avoter = $voteLinksAndInfos["avoter"];
-      $hrefComment = "#commentsForm";
-      $commentCount = 0;
-      //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$value["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
-      $totalVote = $voteLinksAndInfos["totalVote"];
-      $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> voteur(s)</span><br/>':'<span class="info"></span><br/>';
-
-      $content = ($value["type"]==Survey::TYPE_ENTRY) ? "".$value["message"]:"";
-
-      $leftLinks = $voteLinksAndInfos["links"];
-      $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".$this->module->id."/survey/graph/id/".(string)$value["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> Result</a> ' : '';
-      $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $value["applications"][$this->module->id]["cleared"] ) && $value["applications"][$this->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$value["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$value["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
-      $rightLinks = (  @$value["applications"][$this->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
-      $rightLinks = ( $value["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
-      $ordre = $voteLinksAndInfos["ordre"];
-      $created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
-      $views = ( @$value["viewCount"] ) ? ", views : ".$value["viewCount"] : ""; 
-      $byInfo = "";
-      if ( isset($value["parentType"]) && isset($value["parentId"]) ) 
-      {
-        if($value["parentType"] == Organization::COLLECTION){
-            $parentCtrler = Organization::CONTROLLER;
-            $parentIcon = "group";
+  
+        $count = PHDB::count ( Survey::COLLECTION, array( "type"=>Survey::TYPE_ENTRY,
+                                                          "survey"=>(string)$entry["_id"] ) );
+        $link = $name;
+  
+        /* **************************************
+        //check if I wrote this law
+        *************************************** */
+        $meslois = ( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
+        
+        //checks if the user is a follower of the entry
+        $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
+        
+        //title + Link
+        if ( $entry["type"] == Survey::TYPE_SURVEY )
+          $link = '<a class="titleMix '.$meslois.'" href="'.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entries/id/".(string)$entry["_id"]).'">'.$name.' ('.$count.')</a>' ;
+        else if ( $entry["type"] == "entry" )
+          $link = '<a class="titleMix '.$meslois.'" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\')" href="javascript:;">'.$name.'</a>' ;
+        
+  
+        //$infoslink bring visual detail about the entry
+        $infoslink = "";
+        $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
+  
+        $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> Edit</a> ' : '';                          
+        if (Yii::app()->session["userIsAdmin"]) {
+          $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
+          $infoslink .= "<a target='_blank' class='btn voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
         }
-        else if($value["parentType"] == Person::COLLECTION){
-            $parentCtrler = Person::CONTROLLER;
-            $parentIcon = "user";
-        }else if($value["parentType"] == City::COLLECTION){
-            $parentCtrler = City::CONTROLLER;
-            $parentIcon = "university";
+  
+  
+        /* **************************************
+        Rendering Each block
+        ****************************************/
+        $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$entry);
+        $avoter = $voteLinksAndInfos["avoter"];
+        $hrefComment = "#commentsForm";
+        $commentCount = 0;
+        //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$entry["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
+        $totalVote = $voteLinksAndInfos["totalVote"];
+        $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> voter(s)</span><br/>':'<span class="info"></span><br/>';
+  
+        $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
+  
+        $leftLinks = $voteLinksAndInfos["links"];
+        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> Result</a> ' : '';
+        $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
+        $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
+        $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
+        $ordre = $voteLinksAndInfos["ordre"];
+        $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
+        $views = ( @$entry["viewCount"] ) ? ", views : ".$entry["viewCount"] : ""; 
+        $byInfo = "";
+        if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
+        {
+          if($entry["parentType"] == Organization::COLLECTION){
+              $parentCtrler = Organization::CONTROLLER;
+              $parentIcon = "group";
+          }
+          else if($entry["parentType"] == Person::COLLECTION){
+              $parentCtrler = Person::CONTROLLER;
+              $parentIcon = "user";
+          }else if($entry["parentType"] == City::COLLECTION){
+              $parentCtrler = City::CONTROLLER;
+              $parentIcon = "university";
+          }
+          //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
+          $byInfo = "by <a href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/".$parentCtrler."/dashboard/id/".$entry["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
         }
-        //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
-        $byInfo = "by <a href='".Yii::app()->createUrl($this->module->id."/".$parentCtrler."/dashboard/id/".$value["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
-      }
 
-      $contextType = ( $value["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-      $commentBtn = "<a class='btn btn-xs voteAbstain' href='".Yii::app()->createUrl($this->module->id."/comment/index/type/".$contextType."/id/".$value["_id"])."'>".@$value["commentCount"]." <i class='fa fa-comment'></i> Comment</a>";
-      $closeBtn = "";
-      if( Yii::app()->session["userEmail"] == $value["email"] && (!isset($value["dateEnd"]) || $value["dateEnd"] > time() ) && $value["type"] == Survey::TYPE_ENTRY ) 
-        $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;' onclick='closeEntry(\"".$value["_id"]."\")'><i class='fa fa-times'></i> CLOSE</a>";
-      $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
-      $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
-      $ends =  (!empty( $value["dateEnd"] )) ? '<div class="space1"></div>'." end : ".date("d/m/y",$value["dateEnd"]) : "";
-      $boxColor = ($value["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
-      $blocks .= ' <div class="mix '.$boxColor.' '.$avoter.' '.
-                    $meslois.' '.
-                    $followingEntry.' '.
-                    $tags.' '.
-                    $cpList.'"'.
-                    
-                    'data-vote="'.$ordre.'"  data-time="'.
-                    $created.'" style="display:inline-blocks"">'.
-                    $link.'<br/>'.
-                    $info.
-                    //$tags.
-                    //$content.
-                    '<div class="space1"></div><div class="pull-right" >'.$leftLinks.'</div>'.
-                    //'<div class="space1"></div>'.$rightLinks.
+        $contextType = ( $entry["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
+        $commentBtn = "<a class='btn btn-xs voteAbstain' href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/comment/index/type/".$contextType."/id/".$entry["_id"])."'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> Comment</a>";
+        $closeBtn = "";
+        $isClosed = "";
+        if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
+          $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;' onclick='closeEntry(\"".$entry["_id"]."\")'><i class='fa fa-times'></i> CLOSE</a>";
+        else
+            $isClosed = " closed";
+        $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
+        $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
+        $ends =  (!empty( $entry["dateEnd"] )) ? '<div class="space1"></div>'." end : ".date("d/m/y",$entry["dateEnd"]) : "";
+        $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
+        $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
+                        $meslois.' '.
+                        $followingEntry.' '.
+                        $tags.' '.
+                        $cpList.$isClosed.'"'.
+                        
+                        'data-vote="'.$ordre.'"  data-time="'.
+                        $created.'" style="display:inline-blocks"">'.
+                        $link.'<br/>'.
+                        $info.
+                        //$tags.
+                        //$content.
+                        '<div class="space1"></div><div class="pull-right" >'.$leftLinks.'</div>'.
+                        //'<div class="space1"></div>'.$rightLinks.
 
-                   
-                    '<div class="space1"></div>'.$createdInfo.$views.
-                    $ends.
-                    '<div class="space1"></div><div class="pull-left" >'.
-                        $graphLink.$infoslink.$commentBtn.$closeBtn. 
-                        $byInfo.
-                    '</div>'.
+                       
+                        '<div class="space1"></div>'.$createdInfo.$views.
+                        $ends.
+                        '<div class="space1"></div><div class="pull-left" >'.
+                            $graphLink.$infoslink.$commentBtn.$closeBtn. 
+                            $byInfo.
+                        '</div>'.
                     '</div>';
+
+        return array(
+                "block"=>$block,
+                "alltags" => $alltags, 
+                "tagBlock" => $tagBlock,
+                "cpBlock" => $cpBlock
+            );
+    }
+    //TODO seperate logic from view
+    foreach ($list as $key => $entry) 
+    {
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags);
+        $blocks .= $entryMap["block"]; 
+        $alltags = $entryMap["alltags"];
+        $tagBlock .= $entryMap["tagBlock"];
+        $cpBlock .= $entryMap["cpBlock"];
     }
     ?>
     <div class="controls" style="border-radius: 8px;">
@@ -216,9 +237,10 @@ $commentActive = true;
 
           <label>Filtre:</label>
           <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-          <a class="filter btn btn-orange" data-filter=".avoter">A voter</a>
-          <a class="filter btn btn-orange" data-filter=".mesvotes">Mes votes</a>
-          <a class="filter btn btn-orange" data-filter=".myentries">Mes propositions</a>
+          <a class="filter btn btn-orange" data-filter=".avoter">To vote</a>
+          <a class="filter btn btn-orange" data-filter=".mesvotes">My votes</a>
+          <a class="filter btn btn-orange" data-filter=".myentries">My proposals</a>
+          <a class="filter btn btn-orange" data-filter=".closed">Closed</a>
           <?php } ?>
           
           <?php echo $tagBlock?>
@@ -326,7 +348,7 @@ function addaction(id,action)
                  "collection":"surveys",
                  "action" : action 
               };
-              ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/addaction")?>',params,function(data){
                 window.location.reload();
               });
           } else {
@@ -345,7 +367,7 @@ function addaction(id,action)
               params = { 
                  "id" : id 
               };
-              ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/close")?>',params,function(data){
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/close")?>',params,function(data){
                 if(data.result)
                   window.location.reload();
                 else 
@@ -365,8 +387,8 @@ function addaction(id,action)
       params = { 
         "survey" : id , 
         "action" : action , 
-        "app" : "<?php echo $this->module->id?>"};
-      ajaxPost("moderateEntryResult",'<?php echo Yii::app()->createUrl($this->module->id."/survey/moderateentry")?>',params,function(){
+        "app" : "<?php echo Yii::app()->controller->module->id?>"};
+      ajaxPost("moderateEntryResult",'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/moderateentry")?>',params,function(){
         window.location.reload();
       });
     }
@@ -412,11 +434,11 @@ function addaction(id,action)
 </script>
 <?php
 if($where["type"]==Survey::TYPE_ENTRY){
-  $this->renderPartial('editEntrySV',array("survey"=>$where[Survey::TYPE_SURVEY]));
-  $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.voterloiDesc');
-  $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.cgu');
+  Yii::app()->controller->renderPartial('editEntrySV',array("survey"=>$where[Survey::TYPE_SURVEY]));
+  Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.voterloiDesc');
+  Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.cgu');
   if($commentActive){
-    $this->renderPartial(Yii::app()->params["modulePath"].$this->module->id.'.views.survey.modals.comments');
+    Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.comments');
   }
 } 
 ?>

@@ -72,7 +72,7 @@
 		- plan Crowd Funding ( fin aout ) 
 		- ECo Collab Fest (debut Oct)
 		- Forum des communs (10Oct)
-		- JEP (19 sept)
+		- JEP (19 sept) 
 		- CARRECO
 			- Banderole 
 			- Affiche Fonctionnel 
@@ -96,11 +96,8 @@
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] bounce In icons with info panels
 		* vote Standalone
-			[ ] finish/close vote session
-				[ ] either finish on endDate
-				[ ] or add a finished btn for the creator
-				[ ] adds endDate
-			[ ] creatorId must exist if organizer is an orga, for admin purposes
+			[ ] filter closed entries
+			[ ] turn block builder independant from view
 			[ ] traduction
 			[ ] line break in textarea edit/create form
 			** @Sylvain
@@ -108,6 +105,7 @@
 				[ ] comments count
 				[ ] integrate checkLoggued
 				[ ] uploader
+				[ ] creatorId must exist if organizer is an orga, for admin purposes
 		* IRT 
 			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
 			[ ] banderole refaire Communecter
