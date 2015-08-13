@@ -79,17 +79,18 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<div class="box-vote box-pod box">
 			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
 			<br/><br/>
-			<?php 
-				//TODO - edit if super Admin || creator
-				$canEdit = Yii::app()->session[ "userIsAdmin" ];
-				$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
-																  "type" => Survey::COLLECTION,
-																  "resize" => false,
-																  "contentId" => Document::IMG_PROFIL,
-																  "show" => true,
-																  "editMode" => $canEdit )); 
-			?>?
-			<img src="https://avaazdo.s3.amazonaws.com/3b6ac9a762f54d9422039cb51fe5bd0e.jpg" width=400>
+			<div style="height: 300px">
+				<?php 
+					//TODO - edit if super Admin || creator
+					$canEdit = Yii::app()->session[ "userIsAdmin" ];
+					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
+																	  "type" => Survey::COLLECTION,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "show" => true,
+																	  "editMode" => $canEdit )); 
+				?>
+			</div>
 			<br/><br/>
 			<?php echo $survey["message"]; ?>
 			<br/><br/>

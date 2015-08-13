@@ -9,7 +9,7 @@
 		height: auto;
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
-		width: 100%;
+		/*width: 100%;*/
 		min-height: 150px;
 		max-width: 100%;
 		max-height: 100%;
