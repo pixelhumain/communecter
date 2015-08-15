@@ -262,9 +262,9 @@
 					if(thisData == null) return false;
 
 					console.warn("--------------- PAS D'ID ---------------------");
-					console.log(thisData);
+					console.dir(thisData);
 
-					if("undefined" != typeof thisData["chartOptions"] != null){
+					if("undefined" != typeof thisData["chartOptions"]){
 						console.warn("--------------- LOAD CHART ---------------------");
 						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
 					}
