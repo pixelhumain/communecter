@@ -8,15 +8,15 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 ?>
 
 <div class="pull-right" style="padding:20px;">
-	<a href="#" onclick="showMenu()">
+	<a href="#" onclick="showHideMenu ()">
 		<i class="menuBtn fa fa-bars fa-3x text-white "></i>
 	</a>
 </div>
 
 
 <div class="row">
-	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-	<a class="byPHRight" href="http://pixelhumain.com" target="_blank"><img style="height: 39px;position: absolute;right: -157px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
+	<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
+	<a class="byPHRight" href="#"><img style="height: 39px;position: absolute;right: -142px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
 		$this->renderPartial('menuTitle');
@@ -49,6 +49,14 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<div class="errorHandler alert alert-danger no-display loginResult">
 							<i class="fa fa-remove-sign"></i> Please verify your entries.
 						</div>
+						<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
+							<i class="fa fa-remove-sign"></i> Your account is not validated : please check your mailbox to validate your email address.
+							      If you didn't receive it or lost it, click
+							      <a class="validate" href="#">here</a> to receive it again.
+						</div>
+						<div class="errorHandler alert alert-success no-display emailValidated">
+							<i class="fa fa-check"></i> Your account is now validated ! Please try to login.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
@@ -68,8 +76,8 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: LOGIN BOX -->
 		<!-- start: FORGOT BOX -->
-		<div class="box-forgot box">
-			<form class="form-forgot">
+		<div class="box-email box">
+			<form class="form-email">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
 				<fieldset style="padding-left:70px;padding-right:70px;">
@@ -161,6 +169,46 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		<!-- end: REGISTER BOX -->
 	</div>
 </div>
+<style type="text/css">
+	
+</style>
+<div class="eventMarker" style="z-index: -1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
+	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
+</div>
+<div class="cityMarker" style="z-index: -1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
+	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
+</div>
+<div class="projectMarker" style="z-index: -1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
+	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
+</div>
+<div class="assoMarker" style="z-index: -1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
+	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
+</div>
+<div class="userMarker" style="z-index: -1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
+	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
+</div>
+
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
+
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top:750px; right:750px; cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
+
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.jpg" style="display:none;position:absolute; top:350px; right:150px; cursor:pointer;" />
+
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
+
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
@@ -168,10 +216,65 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		Main.init();
 		Login.init();	
 		titleAnim ();	
-		loaderPoints ();
+		if (email != "") {
+			$(".form-login #email").val( email );
+		}
+		if (userValidated) {
+			$(".errorHandler").hide();
+			$(".emailValidated").show();
+			$(".form-login #password").focus();
+		}
+		$(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+			showMenu('box-event');
+		}).on('mouseover',function() { 
+			$(".eventMarkerlabel").show();
+		}).on('mouseout',function() { 
+			$(".eventMarkerlabel").hide();
+		});
+		$(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+			showMenu('box-city');
+		}).on('mouseover',function() { 
+			$(".cityMarkerlabel").show();
+		}).on('mouseout',function() { 
+			$(".cityMarkerlabel").hide();
+		});
+		$(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+			showMenu('box-projects');
+		}).on('mouseover',function() { 
+			$(".projectMarkerlabel").show();
+		}).on('mouseout',function() { 
+			$(".projectMarkerlabel").hide();
+		});
+		$(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showMenu('box-orga');
+		}).on('mouseover',function() { 
+			$(".assoMarkerlabel").show();
+		}).on('mouseout',function() { 
+			$(".assoMarkerlabel").hide();
+		});
+		$(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showMenu('box-people');
+		}).on('mouseover',function() { 
+			$(".userMarkerlabel").show();
+		}).on('mouseout',function() { 
+			$(".userMarkerlabel").hide();
+		});
+		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showMenu('box-ph');
+			$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
+			$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
+			$(".partnerLogosRight").show().addClass("animated zoomInRight");
+			$(".partnerLogosDown").show().addClass("animated zoomInDown");
+			$(".partnerLogosUp").show().addClass("animated zoomInUp");
+		});
+		
 	});
 
+var email = '<?php echo @$_GET["email"]; ?>';
+var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
+
 var timeout;
+var emailType;
 var Login = function() {
 	"use strict";
 	var runBoxToShow = function() {
@@ -181,8 +284,11 @@ var Login = function() {
 				case "register" :
 					el = $('.box-register');
 					break;
-				case "forgot" :
-					el = $('.box-forgot');
+				case "email" :
+					el = $('.box-email');
+					break;
+				case "validate" :
+					el = $('.box-email');
 					break;
 				default :
 					el = $('.box-login');
@@ -199,10 +305,24 @@ var Login = function() {
 				$(this).hide().removeClass("animated bounceOutRight");
 
 			});
-			$('.box-forgot').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				$(this).show().removeClass("animated bounceInLeft");
 			});
-			activePanel = "box-forgot";
+			emailType = "password";
+			$("#email2").val($("#email").val());
+			activePanel = "box-email";
+		});
+		$('.validate').on('click', function() {
+			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).hide().removeClass("animated bounceOutRight");
+
+			});
+			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).show().removeClass("animated bounceInLeft");
+			});
+			emailType = "validation";
+			$("#email2").val($("#email").val());
+			activePanel = "box-email";
 		});
 		$('.register').on('click', function() {
 			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -221,8 +341,8 @@ var Login = function() {
 				boxToShow = $('.box-register');
 				activePanel = "box-register";
 			} else {
-				boxToShow = $('.box-forgot');
-				activePanel = "box-forgot";
+				boxToShow = $('.box-email');
+				activePanel = "box-email";
 			}
 			boxToShow.addClass("animated bounceOutLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				boxToShow.hide().removeClass("animated bounceOutLeft");
@@ -298,7 +418,7 @@ var Login = function() {
 				errorHandler.hide();
 				loginBtn.start();
 				var params = { 
-				   "email" : $("#email").val() , 
+				   "email" : $("#email").val(), 
                    "pwd" : $("#password").val()
                 };
 			      
@@ -314,12 +434,21 @@ var Login = function() {
 		    		  		window.location.href = url;
 		        		else
 		        			window.location.reload();
-		    		  }
-		    		  else {
-						$('.loginResult').html(data.msg);
-						$('.loginResult').show();
+		    		  } else {
+		    		  	var msg;
+		    		  	if (data.msg == "notValidatedEmail") {
+							$('.notValidatedEmailResult').show();
+		    		  	} else {
+		    		  		msg = data.msg;
+		    		  		$('.loginResult').html(msg);
+							$('.loginResult').show();
+		    		  	}
 						loginBtn.stop();
 		    		  }
+		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	loginBtn.stop();
 		    	  },
 		    	  dataType: "json"
 		    	});
@@ -332,7 +461,7 @@ var Login = function() {
 		});
 	};
 	var runForgotValidator = function() {
-		var form2 = $('.form-forgot');
+		var form2 = $('.form-email');
 		var errorHandler2 = $('.errorHandler', form2);
 		var forgotBtn = null;
 		Ladda.bind('.forgotBtn', {
@@ -349,10 +478,13 @@ var Login = function() {
 			submitHandler : function(form) {
 				errorHandler2.hide();
 				forgotBtn.start();
-				var params = { "email" : $("#email2").val()};
+				var params = { 
+					"email" : $("#email2").val(),
+					"type"	: emailType
+				};
 		        $.ajax({
 		          type: "POST",
-		          url: baseUrl+"/<?php echo $this->module->id?>/person/sendemailpwd",
+		          url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
 		          data: params,
 		          success: function(data){
 					if (data.result) {
@@ -360,7 +492,7 @@ var Login = function() {
 			            window.location.reload();
 					} else if (data.errId == "UNKNOWN_ACCOUNT_ID") {
 						if (confirm(data.msg)) {
-							$('.box-forgot').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+							$('.box-email').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 								$(this).hide().removeClass("animated bounceOutRight");
 							});
 							$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
@@ -372,6 +504,9 @@ var Login = function() {
 						}
 					}
 		          },
+		          error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  },
 		          dataType: "json"
 		        });
 		        return false;
@@ -450,14 +585,19 @@ var Login = function() {
     		  	              '<cite>Welcome to the Pixel Humain</cite>'+
     		  	            '</blockquote> '
     		  			});
-		        		toastr.success(data.msg);
-		        		window.location.reload();
+		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
+		        		//window.location.reload();
+		        		setTimeout(function() { $.unblockUI(); showMenu(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
 						$('.registerResult').show();
 						createBtn.stop();
 		    		  }
+		    	  },
+		    	  error: function(data) {
+		    	  	toastr.error("Something went really bad : contact your administrator !");
+		    	  	createBtn.stop();
 		    	  },
 		    	  dataType: "json"
 		    	});
@@ -483,6 +623,31 @@ var Login = function() {
 		}
 	};
 }();
+
+function sendEmailValidation() {
+	var params = { 
+		"email" : $("#email").val(),
+		"type"	: "validation"
+	};
+
+    $.ajax({
+      type: "POST",
+      url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
+      data: params,
+      success: function(data){
+		if (data.result) {
+			alert(data.msg);
+            window.location.reload();
+		} else {
+			toastr.error("Something went wrong : "+data.msg);
+		}
+      },
+      error: function(data) {
+	  	toastr.error("Something went really bad : contact your administrator !");
+	  },
+      dataType: "json"
+    });
+}
 
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);

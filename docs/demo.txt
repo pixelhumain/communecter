@@ -1,0 +1,26 @@
+--- PIXEL HUMAIN - COMMUNECTER - DEV TEAM WEEKLY DEMO 2 ---
+10/08/2015
+en francais 
+enregistrer et disponible ici 
+url : [[https://www.youtube.com/watch?v=LiX9NjM4bbc]]
+
+* @Sylvain  :: login / create account + Back Office 
+* @Tibor :: dynForm + dynSurvey + Form Builder
+* @Raph :: city stats 
+* @Tibor :: standalone vote 
+
+
+--- PIXEL HUMAIN - COMMUNECTER - DEV TEAM WEEKLY DEMO 1 ---
+24/07/2015
+en francais 
+enregistrer et disponible ici 
+url : [[https://plus.google.com/u/0/events/c9s4r1mqm23nttvjsh92g0nuaf8]]
+
+presentation :  
+* @Clement presente le module PROJET
+* @Yannick presente le module Visualisation Graph D3JS
+* @Raphael presente le module cityData (outil d'import et visualisation)
+* @Sylvain presente l'architecture de l'hebergement 
+* @Tristan presente le module SIG (la cartographie geographique )
+* @Tibor presente le systeme de conversion ontologie PH vers schema et PLP
+

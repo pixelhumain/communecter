@@ -12,7 +12,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
      <?php $this->renderPartial('geoStatistic', array("organizations" => $organizations, 
                                                       "events" => $events, 
                                                       "projects" => $projects, 
-                                                      "city" => $city)); ?>
+                                                      "city" => $city
+                                                      )); ?>
   </div>
 
   <div class="col-sm-4 col-xs-12">

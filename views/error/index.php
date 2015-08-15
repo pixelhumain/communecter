@@ -13,7 +13,7 @@
 					<br>
 					Check the URL you entered for any mistakes and try again.
 					<br>
-					<a href="index.html" class="btn btn-red btn-return">
+					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id);?>" class="btn btn-red btn-return">
 						Return home
 					</a>
 				</p>

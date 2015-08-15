@@ -24,7 +24,12 @@ class CityController extends CommunecterController {
 	        'getcitydata'     		=> 'citizenToolKit.controllers.city.GetCityDataAction',
 	        'getcitiesdata'     	=> 'citizenToolKit.controllers.city.GetCitiesDataAction',
 	        'statisticcity'			=> 'citizenToolKit.controllers.city.statisticCityAction',
-	        'opendata'			=> 'citizenToolKit.controllers.city.OpenDataAction'
+	        'opendata'			=> 'citizenToolKit.controllers.city.OpenDataAction',
+	        'getoptiondata'			=> 'citizenToolKit.controllers.city.GetOptionDataAction',
+	        'getlistoption'			=> 'citizenToolKit.controllers.city.GetListOptionAction',
+	        'getpodopendata'			=> 'citizenToolKit.controllers.city.GetPodOpenDataAction',
+	        'addpodopendata'			=> 'citizenToolKit.controllers.city.AddPodOpenDataAction',
+	        'getlistcities'			=> 'citizenToolKit.controllers.city.GetListCitiesAction'
 	    );
 	}
 }

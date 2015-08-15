@@ -1,25 +1,34 @@
-{{SIG}}
-{{PERSON}}
-{{PROJECTS}}
-{{CITY}}
-{{THINK TANK}}
-{{OPEN PEOPLE}}
-
 * IN PROGRESS
 	** YANNICK
 	** CLEMENT
-	  [ ] revenir sur les properties pour ne pas limiter le nombres 
-	  [ ] mettre  des propriété a valuer fixe exemple gouvernance 
-	  [ ] when empty put message
+	  [X] integration timesheet.php sur project
+	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
 	** JOHNSON + RAPHAEL
-		[X] ordonnée par les 30 max
-		[ ] drop down liste des communes
 		[ ] toujours afficher 
-		[X] changer le graph en tarte
 		[ ] proposer d'autre source
+		[ ] ajouter un upload Image dans les SV, puis dans le dynForm
 	** RAPHAEL
+		[ ] utilisation de opendata Sets
+			- data.gouv
+			- wikidata
+				[[https://www.wikidata.org/wiki/Help:Items]]
+				[[https://www.wikidata.org/w/api.php]]
+				[[http://wdq.wmflabs.org/api_documentation.html]]
+		[ ] Import données
+			[ ] lorsqu'on change un sous-fichier bloquer l'import de données, demandé une visualisation avant
+			[ ] bug avec mongoDB : Read time out after reading 0 bytes, waited for 30.00000000
+			[ ] testé l'excution en ligne de commande
+			[ ] Update des données
+				[ ] ligne de commande
+				[ ] Vérifier si on a pas déja d'anciennes données
+						- Cas d'exemple , nous avons déja les données sur les entreprises en 2012, et nous voulons ajouter celle de 2013
+						- Etre capable de les ajouter dans le même document que celui de 2012 
+		[ ] City
+			[ ] Ajouter les options pour les pods et le type de zonne
+			[ ] Crée les names_id pour les difs pod
+			[ ] ajouter des pod sur opendata
+			[ ] drop down liste des communes
 		[ ] ré-importer l'ensemble des données
-			[ ] population
 			[ ] entreprise
 			[ ] sport et loisir
 			[ ] enseignement
@@ -27,161 +36,178 @@
 				[ ] 2er degres
 				[ ] superieur
 			[ ] autre...
+		[ ] Contact
+			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
-	[ ] fincheInfo change pwd
+		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
+		[ ] COMMENTS
+			[ ] cacher les boutons vote sur mes commentaires
+			[ ] on click cancel 
 	** TIBOR
-		*** where used ?? $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
-		[ ] finish generic table/list view
-			[ ] added organization directory
-			[X] shared views/default/directory accross all directories 
-				[X] person
-				[X] event
-				[X] city
-				[X] organization
-		[ ] data converter 
-		[X] filter by tags on directory page
-		[ ] filter by scope (pub priv) & territories
-		[ ] set up https
-		[ ] login account validation & alpha limitation
+		Jean Marc Laurent > prise de vue 
+		- Labo reunion Labo Elec 2 Procédé (Moufia)
+			- Fred alicalapa
+			- reseau de capteur
+		- SIPR
+		- bug AZOT (20/08) 2j
+		- Standalone Possesion
+		- join Standalone / simple
+			- tree type form
+			- create orga + admin
+			- add members
+			- create project 
+			- add contributors
+			- create event
+			- invite someone
+			- import form
+		EAT OUR OWN FOOD
+			- repertorier nos partenaires
+			- nos evennements
+			- nos projets
+			- chacun doit avoir son dashboard
+			- test decision using the voting system
+
+		- bug GRANDDIR 
+		- Plan IRT (17/08) 4h date = 25/08
+		- plan Crowd Funding ( fin aout ) 
+		- ECo Collab Fest (debut Oct)
+		- Forum des communs (10Oct)
+		- JEP (19 sept) 
+		- CARRECO
+			- Banderole 
+			- Affiche Fonctionnel 
+				- Territoire connecté : 1j Cartographier Association, Entreprise
+				- System d'import 1j : Prix 500€
+				- City Box : Location : 1500€/an
+				- OpenData Consulting + installation de la plateforme : 2000€
+				- Conseil Citoyen : 2000€ /an 
+				- Citizen Tool Kit : Package : 5000€ / an
+				- LOCAL TOURISMO : 
+				- Economie Collaborative : Package : 
+			- Hackathon : W3a , DataRocks...
+		- Communacelle 
+			- @Hafid : photo aerienne de Toulouse
+			- RV avec Clemence 
+			- @Hafid + frere : negot/contact pour tablet 
+			- @PH : integrer les opendatas toulouse
+				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
+		
+		[ ] hide .git in prod htacess
+		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
+		[ ] bounce In icons with info panels
+		[ ] opendata pole emploi .re
+		* vote Standalone
+			[ ] traduction
+			[ ] line break in textarea edit/create form
+			[ ] pour ce qui n'ont pas internet 
+				[ ] System par SMS
+			[ ] mobile App
+			[ ] reflechir au notification
+			[ ] reflechir ajout au plan d'action 
+				[ ] plan d'action : présené en dessous des resultat
+				[ ] ajouter par les admins 
+				[ ] basé sur les commentaire avec un outil de high light
+
+
+			** @Sylvain
+				[ ] comments count
+				[ ] integrate checkLoggued
+				[ ] uploader
+				[ ] creatorId must exist if organizer is an orga, for admin purposes
+		* IRT 
+			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
+			[ ] banderole refaire Communecter
+			[ ] transmettre le logo COMMUNECTER @DR
+			[ ] 17/08/2015 : presentation Communecter Tourisme 15min 2min/slide
+
+		* CONTACT : mairie sin paul 
+			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
+			- Service Subventions Associations au 0262 70 28 85
+			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
+			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
+		
+		* GRANDDIR
+			[ ] Créer une pagination sur les résultats (8 résultats par page)
+			[ ] @Tristan Publics est toujours vide
+			[ ] @Tristan Lors d'un clic sur un réul
+
+		[ ] smaller scope 
+		[ ] adding scope to news form (pub priv) & territories
+
+		* dynSurvey 
+			[X] integrate Smart Wizard into DynSurvey
+			[X] layouts with Smart Wizard 
+			[X] onNext and onPrev event functions on each form section
+		* dynForm Builder
+			[X] Bootstrap-Form-Builder read my Form json definition
+			[X] integrate jsonFromjsonTo
+			[X] convert BFB json to dynForm json using jsonFromjsonTo
+			[ ]  ::Test::btn:: : opens a standalone Form that uses localStorage.dynFormJson to build the form
+			[ ] save to localStorage.dynFormJson, show dynForm in a simpleForm template
+			[ ] save as microformat
+			[ ] set a destination collection write directly using CommonController
+				[ ] /common/save/
+				[ ] /common/GetMicroformat/key/
+
+		* PH join 
+			[ ] accepter les CGU 
+			[ ] chaque rencontre send email 
+				[ ] add Orga : Paillasse 
+					https://hackpad.com/Forum-des-Communs-Pixel-Humain-La-Reunion-b3Lneu3HHno
+					http://lapaillassaone.strikingly.com/
+				[ ] add Person
+				[ ] question 
+					[ ] become tete de reseau pour crowdfunding
+					[ ] become beta tester 
+					[ ] use Communecter to connect your terrritory
+
+		* FORUM DES COMMUNS
+			[ ] cartographier les projet des biens communs d'un territoire
+			[ ] creer un planning
+			[ ] un ordre de passage
+			[ ] version enregistré
+				[ ] en smartPhone : 10 questions pour 10 reponses presentant 
+					Une Personne
+						- Qui êtes-vous et que faites-vous dans la vie ?
+						- Quelles sont vos passions ?  
+						- Pouvez-vous nous citer 3 de vos points forts/atouts ? 
+						- Qu'est-ce qui, dans le monde ou dans votre environnement quotidien, vous donne envie d'agir et comment ?
+						- Pourquoi aimez-vous votre projet/métier et quelle est son utilité pour le monde ?
+						- En quoi est ce que ce métier/projet vous ressemble ?
+						- Quel est pour vous le sens de la vie ? Du travail ?
+						- Quels conseils donneriez-vous aux personnes qui souhaitent réaliser leurs rêves ? Votre message pour les jeunes
+
+		* CROWD FUNDING
+			---  @TRISTAN?? see, choose and build SCOPE TOOL ---
+			[ ] users will have my scopes 
+				- location or territory
+				- geoArea
+				- Organisation 
+				- Person
+			[ ] add a scope : is selector 
+			[ ] add as scope btn 
+				search a location can be added 
+			[ ] scopes can be listed like tags on any form
+			** slogan 
+				commune histoire
+					commencons par communiquer 
+					et commettre un crime des communs 
+					et communecter les 
+		[ ] apply filter tags and scope 
+			[ ] survey
+			[ ] maps
 		[ ] inter operable Granddir
-		[ ] voir avec {{@Sylvain}} pour prepa-Sud
+		--- ??? ----
+		- check persons events existence
+		[[??? event.address]] : {
+		    "street": "Tempelhofer Ufer 23/24",
+		    "code": "10963",
+		    "city": "Berlin",
+		    "country": "Germany"
+		}
+
 	** TRISTAN
-		[ ] Carto Statistics (Barchart + Pie Chart)
-		[ ] SIG pod city map , centré et zoomer sur la commune active
 		[ ] mettre les liens Graphs dans la liste a droite
-
-* COMMUNECTER  [0/36]
-	** GENERIC 
-		- count down before opening 15th september
-		- real time people connected count on every page
-		* SEARCH 
-			[ ] @JOhnSON autocomplete keyboard nav
-		* FILTERING
-			[ ] personnal tags 
-				- can be anything and are not shared accross users
-				- are saved in [[tags]] collection 
-			[ ] categories
-				- are generic and shared tags
-				- are saved in [[lists::tags]] collection and document
-			[ ] territory
-				- can be anything and are not shared accross users
-				- are saved in [[tags]] collection 
-			[ ] Timeline RSS feed
-	** MOTION
-		* ressource 
-			9 assos
-			11 citoyens
-			7 entreprises
-			photo + logo
-				danse marmaille
-				ekopratik
-				riviere auto moto 
-			photo 
-				rue pietone
-				5 images evennement pour calendrier
-		* todo
-			- dynamiser l'arbre  
-			- delaunay au communectage
-			- foret scene de fin
-			- mots clefs a la fin (voir dernier slide)
-			- effet add to my events
-			- communecter.org
-			- pas d'image juste les icones a la fin 
-	** SIG 
-		[ ] geo localiser les action Rooms ou les discussions
-
-	** PERSON
-		-> profil > click tag => show directory with similar content
-		-> inviteSomeone => after search keyboard navigate down 
-		--- Bizare ---
-			person/dash > Authorisation::listEventsIamAdminOf($id);
-
-	** ORGANIZATION 
-		--- BUGS ---
-		[ ]  in links.members.xxx many entries have ::: "roles" : [""],
-
-	** EVENTS
-		[ ] add attending organizations
-		[ ] add sub events
-
-	** PROJECTS
-		[ ] sexy projects directory
-		[ ] room pod > add room
-		[ ] project rooms toolbar show rooms count
-		[ ] ajaxified pods
-		--- BUGS ---
-			[ ] add contributor : Alias "citizenToolKit.controllers.project.SaveContributorAction" is invalid.
-			[ ] module Viewer :var id = obj2["_id"]["$id"];
-			[ ] change start date impossible , start date must be before end date mais end date is empty
-		--- TEST LIBS ---
-			[ ] [[http://madvic.net/timesheet/]]
-			[ ] [[http://www.simile-widgets.org/timeline/examples/index.html]]
-
-	** CITY
-		--- TEST GRAPHS ---
-			[ ] [[https://www.jasondavies.com/coffee-wheel/]]
-
-			[ ] [[http://bl.ocks.org/chrisrzhou/raw/d5bdd8546f64ca0e4366/]]
-
-	** ACTION ROOMS
-		[ ] connect discussions to the topbar menu
-		[ ] Types
-			- discussions
-			- votes 
-			- brainstorms
-			- external rooms like Gitter or Slack with url 
-		*** VOTER
-			[ ] vote & comment on anything 
-			[ ] mutualiser function addaction
-			[ ] Nombres de votants inscrit : 7
-			[ ] show both my created votes , my followed votes
-			[ ] closing a vote session, sending result
-
-	** page login 
-		Association, Entreprise , Projet ou evennement locale
-		construisons ensemble un territoire connecté pour le bien communs
-	** NEXT
-		[ ] Generic Directory 
-		[ ] Back Office PH
-		[ ] Back Office City
-		[ ] Gamification 
-		[ ] Badging
-			Seed 
-			Germ
-			small tree
-			tree
-		[ ] recherche par thematique : Environnement 
-				scope geographique
-				directory search
-		[ ] Person > dash
-			podcarto 
-			pod mes interets
-		[ ] Opendata 
-				Public / Privé
-				webId
-		[ ] Data convert 
-			[ ] schema.org
-			[ ] ACtivity Stream 
-		[ ] not logged issue when calling ajax
-		[ ] generic viewcount system on anything
-		[ ] clean up loaded libraries in main.php
-		[ ] load proverbs into localStorage and get radomly for blockUI 
-		[ ] make moduleMenu fixed when scroll
-		[ ] keep me loggued in
-		[ ] crypté par default
-	** TEST
-		[ ] France Connect [[https://doc.integ01.dev-franceconnect.fr/]]
-		[ ] Indie Auth [[https://indieauth.com/setup]]
-		[ ] Distributed Comments [[https://www.famust.com/fr/contact]]
-	** Vocabs and conversions
-		[ ] [[https://github.com/openvocab/ovn]]
-		[ ] [[https://github.com/openvocab/ovn/wiki/Principles-for-this-vocabulary]]	
-	** OPEN PEOPLE
-		* TO CONTACT 
-			[[http://www.u-cergy.fr/fr/_plugins/mypage/mypage/content/rbadouar.html]]
-	** THINK TANK
-		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
-		
-		
-	
-	
+		[ ] faire interagir une carto avec les top filters ( tag et scope )
+	** JEREM
+		- faire qlq chose avec le son

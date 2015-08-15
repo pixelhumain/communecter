@@ -1,3 +1,4 @@
+[
 {
     "name" : "organisationTypes",
     "list" : {
@@ -5,8 +6,7 @@
         "LocalBusiness" : "Entreprise",
         "Group" : "Group"
     }
-}
-,
+},
 {
     "name" : "countries",
     "list" : {
@@ -44,4 +44,14 @@
         "Santé", 
         "Sport"
     ]
+},
+{
+    "name" : "listRoomTypes",
+    "list" : {
+        "survey" : "Survey",
+        "vote" : "Vote",
+        "discuss" : "Discussion",
+        "proposals" : "Brainstorm / Proposals / Ideas"
+    }
 }
+]

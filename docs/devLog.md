@@ -10,18 +10,23 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
-//TKA : new document in list collection 
-{
-    "_id" : ObjectId("559cbd2f2581e3491c77bbbc"),
-    "list" : {
-        "survey" : "Survey",
-        "vote" : "Vote",
-        "discuss" : "Discussion",
-        "proposals" : "Brainstorm / Proposals / Ideas"
-    },
-    "name" : "listRoomTypes"
-}
 ----------------------------------------------------
+
+//SBA : 12/08/2015
+New role object on Citoyen collection
+1/Backup your citoyen collection
+2/Launch the following code on your mongodb 
+db.citoyens.find().forEach(function(citoyen){
+    if(citoyen.roles == null) { 
+        print(citoyen.name+" roles is null ");
+        db.citoyens.update({"_id":citoyen._id}, 
+                    {'$set':{'roles': { 
+                        "standalonePageAccess" : true
+                    }}}
+        );
+    }
+});
+
 //SBA : 30/04/2015
 Update your config/main.php
 Now all the parameters link to your environment are stored in paramsconfig.php

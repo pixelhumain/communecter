@@ -25,7 +25,8 @@ class SurveyController extends CommunecterController {
           'graph'        => 'citizenToolKit.controllers.survey.GraphAction',
           'savesession'  => 'citizenToolKit.controllers.survey.SaveSessionAction',
           'moderate'     => 'citizenToolKit.controllers.survey.ModerateAction',
-          'delete'       => 'citizenToolKit.controllers.survey.DeleteAction',
+          //'delete'       => 'citizenToolKit.controllers.survey.DeleteAction',
+          'close'        => 'citizenToolKit.controllers.survey.CloseAction',
           'addaction'    => 'citizenToolKit.controllers.action.AddActionAction'
       );
   }
