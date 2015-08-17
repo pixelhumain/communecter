@@ -8,9 +8,13 @@ SigLoader.getSigCharts = function (Sig){
 	Sig.markersLayer = ""; 
 	Sig.chartsList = new Array();
 
-	//rajoute une 
+	//Permet de pré-charger une Chart
 	Sig.addChart = function(name, FeatureCollection, chartOptions){
 
+		console.log(">>>> BEFORE ADD CHART <<<<< "+name);
+		console.dir(FeatureCollection);
+		console.dir(chartOptions);
+		
 		this.chartsList[name] = new Array();
 		this.chartsList[name]["FeatureCollection"] = FeatureCollection;
 		this.chartsList[name]["chartOptions"] = chartOptions;
@@ -20,17 +24,20 @@ SigLoader.getSigCharts = function (Sig){
 		$("#btn-group-charts-map").append(btn);
 		$("#btn-chart-"+ name).click(function(){ console.log("click on btn chart");
 			var name = $(this).attr("name");
-			thisSig.loadChart(thisSig.chartsList[name]["FeatureCollection"], thisSig.chartsList[name]["chartOptions"]);
+			thisSig.loadChart(name);
 		});
 
 	}
 	//***
-	//
+	// Permet d'afficher les éléments d'une 
 	/*	>>>>>>>>>>>>>> LOAD CHART <<<<<<<<<<<<<<< */
-	Sig.loadChart = function (FeatureCollection, chartOptions){
+	Sig.loadChart = function (name){
 		if(this.initParameters.useChartsMarkers != true) return;
 
-		console.warn(">>>> LOAD CHART <<<<<");
+		var FeatureCollection = this.chartsList[name]["FeatureCollection"];
+		var chartOptions 	  = this.chartsList[name]["chartOptions"];
+
+		console.log(">>>> LOAD CHART <<<<<");
 		console.dir(FeatureCollection);
 		console.dir(chartOptions);
 		

@@ -64,7 +64,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   <div class="col-sm-4 col-xs-12 shareAgendaPod">
 		<div class="panel panel-white pulsate">
 		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+			<h4 class="panel-title"> <i class='fa fa-cog fa-spinn fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
 			<div class="space5"></div>
 		</div>
 	</div>
@@ -73,7 +73,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class="col-sm-4 col-xs-12 votingPod">
     <div class="panel panel-white pulsate">
     <div class="panel-heading border-light ">
-      <h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Voting Section</h4>
+      <h4 class="panel-title"> <i class='fa fa-cog fa-spinn fa-2x icon-big text-center'></i> Loading Voting Section</h4>
       <div class="space5"></div>
     </div>
   </div>
@@ -96,7 +96,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 	 <div class="col-sm-12 col-xs-12 statisticPop">
 		 <div class="panel panel-white pulsate">
 			<div class="panel-heading border-light ">
-				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spinn fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
 				<div class="space5"></div>
 			</div>
 		 </div>
@@ -379,7 +379,7 @@ var bindBtnFollow = function(){
 	$(".disconnectBtn").off().on("click",function () {
         
         $(this).empty();
-        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+        $(this).html('<i class=" disconnectBtnIcon fa fa-spinnner fa-spinn"></i>');
         var btnClick = $(this);
         var idToDisconnect = $(this).data("id");
         var typeToDisconnect = $(this).data("type");
@@ -410,7 +410,7 @@ var bindBtnFollow = function(){
 	});
 
 	$(".connectBtn").off().on("click",function () {
-		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
+		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinnner fa-spinn");
 		var idConnect = "<?php echo (string)$person['_id'] ?>";
 		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
@@ -431,7 +431,7 @@ var bindBtnFollow = function(){
 	        	bindBtnFollow();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
-	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
+	           $(".connectBtnIcon").removeClass("fa-spinnner fa-spinn").addClass("fa-link");
 	        }
 	    });
         

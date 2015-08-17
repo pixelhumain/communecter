@@ -74,6 +74,7 @@
 			if(params.useZoomButton){
 				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ thisMap.zoomIn(); });
 				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
+				this.initHomeBtn();
 			}
 
 

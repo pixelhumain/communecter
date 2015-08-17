@@ -262,9 +262,9 @@
 					if(thisData == null) return false;
 
 					console.warn("--------------- PAS D'ID ---------------------");
-					console.log(thisData);
+					console.dir(thisData);
 
-					if("undefined" != typeof thisData["chartOptions"] != null){
+					if("undefined" != typeof thisData["chartOptions"]){
 						console.warn("--------------- LOAD CHART ---------------------");
 						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
 					}
@@ -362,10 +362,11 @@
 					if(this.initParameters.usePanel)
 						this.updatePanel(thisMap);
 
-					this.checkListElementMap(thisMap);
-					thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-
-					this.initHomeBtn();
+					this.checkListElementMap(thisMap); 
+					//console.log("position : "); console.log(typeof this.markersLayer.getBounds()._northEast);
+					
+					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
+						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 
 					thisSig.constructUI();
 

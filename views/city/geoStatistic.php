@@ -32,19 +32,19 @@
 	        "useHelpCoordinates" => true,
 	        "useFullScreen" => false,
 	        "useResearchTools" => true,
+	        "useChartsMarkers" => true,
+
 	        /* TYPE NON CLUSTERISÉ (liste des types de données à ne pas inclure dans les clusters sur la carte (marker seul))*/
 	        "notClusteredTag" => array("citoyens"),
 
 	        /* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
 	        "firstView"		  => array(  "coordinates" => array($city["geo"]["latitude"], $city["geo"]["longitude"]),//array(-21.137453135590444, 55.54962158203125),
-	                       				 "zoom"		   => 9),
-
-	    	/* CHARTS */
-	        "useChartsMarkers" => true,
+	        							 "zoom"		   => 14),
 	    );
 	 
 	 	$charts =  array(/* 1ER GROUPE	*/
 						array(    "name" => "Graph1",
+								  /* options d'affichage de chaque donnée */
 								  "chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
 														  "maxHeight" => 120, //seulement pour BarChartMarker
@@ -71,6 +71,7 @@
 												                            )
 												                        )
 														),
+								/* valeurs données à afficher */
 								"chart" =>	array("type" => "FeatureCollection",
 			        							  "features" => 
 			        							 array(   array(  "type" => "Feature", 
@@ -79,7 +80,7 @@
 				 												   "précipitations" => 60, 
 				 												   "vitesse du vent" => 60, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.7144, -21.24724) )),
+				 												   						"coordinates" => array(55.4940, -21.34214) )), //lng 1er, lat 2em
 									 
 			           			  							array("type" => "Feature", 
 									 							   "id" => 5, 
@@ -87,7 +88,7 @@
 				 												   "précipitations" => 136, 
 				 												   "vitesse du vent" => 150, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.3182, -21.06015) )),
+				 												   						"coordinates" => array(55.3182, -21.06015) )), //lng 1er, lat 2em
 									 
 			           			  							array("type" => "Feature", 
 									 							   "id" => 6, 
@@ -95,12 +96,13 @@
 				 												   "précipitations" => 190, 
 				 												   "vitesse du vent" => 200, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.7279, -20.95503) )),
+				 												   						"coordinates" => array(55.7279, -20.95503) )), //lng 1er, lat 2em
 				                       			  	)	
 				        					),
 				        	),
 							/* 2EME GROUPE	*/
 							array("name" => "Graph2",
+								  /* options d'affichage de chaque donnée */
 								  "chartOptions"=> array( "type" => "RadialBarChartMarker",
 														  "radius" 	=> 25,
 														  "options" => array('ensoleillement' => array(
@@ -119,7 +121,7 @@
 												                            )
 												                        )
 														),
-
+								/* valeurs données à afficher */
 								"chart" =>	array("type" => "FeatureCollection",
 			        							  "features" => 
 			        							 array(   array(  "type" => "Feature", 
@@ -127,21 +129,21 @@
 				 												   "ensoleillement" => 40, 
 				 												   "précipitations" => 120, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.7144, -21.24724) )),
+				 												   						"coordinates" => array(55.4940, -21.34214) )), //lng 1er, lat 2em
 									 
 			           			  							array("type" => "Feature", 
 									 							   "id" => 5, 
 				 												   "ensoleillement" => 30, 
 				 												   "précipitations" => 60, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.3408, -21.248422) )),
+				 												   						"coordinates" => array(55.3408, -21.248422) )), //lng 1er, lat 2em
 									 
 			           			  							array("type" => "Feature", 
 									 							   "id" => 6, 
 				 												   "ensoleillement" => 80, 
 				 												   "précipitations" => 30, 
 				 												   "geometry" => array( "type" => "Point", 
-				 												   						"coordinates" => array(55.5935, -20.90756) )),
+				 												   						"coordinates" => array(55.5935, -20.90756) )), //lng 1er, lat 2em
 				                       			  	)	
 				        					),
 				        	),
@@ -206,9 +208,7 @@
 	  </div>
 	  <div class="panel-body no-padding">
 
-	  		<?php /* ********************** CHANGER LE CHEMIN RELATIF SI BESOIN ********************/?>
-	   		<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
-	   		<?php /* *******************************************************************************/?>
+	  		<?php $this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
 
 	  </div>
 	</div>
@@ -218,7 +218,7 @@
 	var Sig;
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
-	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script vvvv)
+	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
 	var mapCity;
 	/**************************************************************************************************************/
 
@@ -236,7 +236,7 @@
 		//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
 		var initParams =  <?php echo json_encode($sigParams); ?>;
 
-		//chargement la carte
+		//chargement de la carte
 		mapCity = Sig.loadMap("mapCanvas", initParams);
 		/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 		//var mapData = contextMap;
@@ -247,7 +247,8 @@
 			$contextMap = array(//"organizations" => $organizations, 
 								//"events" 		=> $newEvents, 
 								//"projects" 		=> $projects,
-								"charts"		=> $charts
+								"null"		=> null,
+								"charts"	=> $charts
 								 );
 		?>
 
@@ -271,6 +272,17 @@
 		//affichage des éléments sur la carte
 		Sig.showMapElements(mapCity, mapData);//, elementsMap); 
 
+		var boundingBox = <?php if(isset($city["geo"]["boundingbox"])) echo json_encode($city["geo"]["boundingbox"]); else echo "false"; ?>;
+
+		console.dir(boundingBox);
+		if(boundingBox != false){
+			var latMin = boundingBox[0];
+	    	var latMax = boundingBox[1];
+	    	var lngMin = boundingBox[2];
+	    	var lngMax = boundingBox[3];
+	    	mapCity.fitBounds([[latMin, lngMin],[latMax, lngMax]], { 'maxZoom' : 14 });
+	    	//var rec = new L.Rectangle([[latMin, lngMin],[latMax, lngMax]]).addTo(mapCity);
+	    }
 		//mapCity.panTo([-21.06912308335471, 55.34912109375]);
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
