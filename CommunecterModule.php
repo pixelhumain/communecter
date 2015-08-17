@@ -22,7 +22,7 @@ class CommunecterModule extends CWebModule
 		
 		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
 		Yii::app()->theme  = "ph-dori";
-		Yii::app()->language = 'en';
+		Yii::app()->language = 'fr';
 		// import the module-level models and components
 		$this->setImport(array(
 			'citizenToolKit.models.*',

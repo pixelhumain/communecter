@@ -198,11 +198,11 @@ $commentActive = true;
                     '</div>';
 
         return array(
-                "block"=>$block,
-                "alltags" => $alltags, 
-                "tagBlock" => $tagBlock,
-                "cpBlock" => $cpBlock
-            );
+            "block"=>$block,
+            "alltags" => $alltags, 
+            "tagBlock" => $tagBlock,
+            "cpBlock" => $cpBlock
+        );
     }
     //TODO seperate logic from view
     foreach ($list as $key => $entry) 

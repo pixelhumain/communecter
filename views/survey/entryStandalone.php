@@ -51,22 +51,22 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	<span class="subTitle text-white text-bold" style="margin-top:-13px; font-size:1.5em">Se connecter à sa commune.</span>
 	*/?>
 	<br/>
-	<span class="text-red " style="font-size:40px">VOTE </span>
-	<span  style="font-size:40px" class=" "> DECIDE </span>
-	<span  style="font-size:40px" class=" text-red "> ACT</span>
+	<span class="text-red " style="font-size:40px"><?php echo Yii::t("survey","VOTE",null,Yii::app()->controller->module->id) ?> </span>
+	<span  style="font-size:40px" class=" "> <?php echo Yii::t("survey","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
+	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("survey","ACT",null,Yii::app()->controller->module->id) ?></span>
 
 	<br/>
 	<span  style="font-size:23px" class="text-white text-bold"> <?php if( $voteLinksAndInfos["hasVoted"] )
-			echo "YOU VOTED ALLREADY"; 
+			echo Yii::t("survey","YOU VOTED ALLREADY",null,Yii::app()->controller->module->id); 
 		else
-			echo "FEEL FREE TO VOTE"; ?> </span>
+			echo Yii::t("survey","FEEL FREE TO VOTE",null,Yii::app()->controller->module->id); ?> </span>
 	<br/>
-	<span  style="font-size:23px" class="text-white text-bold"> VOTERS : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> | </span>
-	<span  style="font-size:23px" class="text-white text-bold"> Since : <?php echo date("m/d/y",$survey["created"]) ?> | </span>
+	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","VOTERS",null,Yii::app()->controller->module->id) ?> : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> | </span>
+	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","Since",null,Yii::app()->controller->module->id) ?> : <?php echo date("m/d/y",$survey["created"]) ?> | </span>
 	<?php if( @$survey["dateEnd"] ){ ?>
-	<span  style="font-size:23px" class="text-white text-bold"> Ends : <?php echo date("d/m/y",@$survey["dateEnd"]) ?> | </span>
+	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","Ends",null,Yii::app()->controller->module->id) ?> : <?php echo date("d/m/y",@$survey["dateEnd"]) ?> | </span>
 	<?php } ?>
-	<span  style="font-size:23px" class="text-white text-bold"> VISITORS : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
+	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
 </div>
 <?php 
 //$this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionTitle"=>"CONTRIBUTE", "actionIcon"=>"fa-money"));
@@ -116,7 +116,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		
 		<div class="box-vote box-pod box radius-20">
 			<span class="text-extra-large text-bold"> 
-				THIS VOTE IS CLOSED
+				<?php echo Yii::t("survey","THIS VOTE IS CLOSED",null,Yii::app()->controller->module->id) ?>
 			</span> 
 			<?php if( isset($organizer) ){ ?>
 				<p> Invited by <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
@@ -129,7 +129,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 		<div class="box-vote box-pod box radius-20">
 			<span class="text-extra-large text-bold"> 
-					INVITATION TO VOTE
+					<?php echo Yii::t("survey","INVITATION TO VOTE",null,Yii::app()->controller->module->id) ?>
 			</span> 
 			<?php 
 			if( isset($organizer) ){ ?>
@@ -218,17 +218,15 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 <div class="visible-desktop hidden-phone visible-tablet" style="position:fixed; bottom:0px; left:0px;background-color: #E33551;width:100%;height:50px;">
 	<div class="space10"></div>
 	<div class="center">
-		<a href="#" onclick="showMenu();showMenu ('vote-row','bgcity')" class=" footerBtn">VOTE . </a>
-		<a href="#" onclick="showMenu();showMenu ('discuss-row')" class=" footerBtn">DISCUSS . </a> 
-		<a href="#" onclick="showMenu();showMenu('decide-row','bgblue')" class=" footerBtn">DECIDE . </a>
-		<a href="#" onclick="showMenu();showMenu('act-row','bggreen')" class=" footerBtn">ACT . </a> 
-		<a href="#" onclick="showMenu();showMenu('contact-row')" class=" footerBtn">CONTACT </a> 
+		<a href="#" onclick="showMenu();showMenu ('vote-row','bgcity')" class=" footerBtn"><?php echo Yii::t("survey","VOTE",null,Yii::app()->controller->module->id) ?> . </a>
+		<a href="#" onclick="showMenu();showMenu ('discuss-row')" class=" footerBtn"><?php echo Yii::t("survey","DISCUSS",null,Yii::app()->controller->module->id) ?> . </a> 
+		<a href="#" onclick="showMenu();showMenu('decide-row','bgblue')" class=" footerBtn"><?php echo Yii::t("survey","DECIDE",null,Yii::app()->controller->module->id) ?> . </a>
+		<a href="#" onclick="showMenu();showMenu('act-row','bggreen')" class=" footerBtn"><?php echo Yii::t("survey","ACT",null,Yii::app()->controller->module->id) ?> . </a> 
+		<a href="#" onclick="showMenu();showMenu('contact-row')" class=" footerBtn"><?php echo Yii::t("survey","CONTACT",null,Yii::app()->controller->module->id) ?> </a> 
 	</div>
-	<div class="hide">
-		<h5>Our Current Progress</h5>
-		<div class="progress">
-			<div class="progress-bar" style="width: 90%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="90" role="progressbar"> 60% </div>
-		</div>
+
+	<div class="progress">
+		<div class="progress-bar" style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar"> </div>
 	</div>
 </div>
 <script type="text/javascript">
