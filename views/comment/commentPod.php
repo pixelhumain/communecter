@@ -24,17 +24,37 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 }
 
 </style>
+
+<?php 
+$optionsLabels = array(
+	Comment::COMMENT_ON_TREE => array(
+		true => array("title" => "You can reply to a comment", "label" => "Can Reply"),
+		false => array("title" => "You can not reply to a comment", "label" => "Can Reply")
+	),
+	Comment::COMMENT_ANONYMOUS => array(
+		true => array("title" => "The discussion is anonymous", "label" => "Anonymous"),
+		false => array("title" => "Your name and avatar will be displayed when you comment", "label" => "Nominatively")
+	),
+	Comment::ONE_COMMENT_ONLY => array(
+		true => array("title" => "You can only reply once", "label" => "Only one comment"),
+		false => array("title" => "No limit on comments", "label" => "No limit comments")
+	)
+);
+
+?>
 <!-- start: PAGE CONTENT -->
 <div id="commentHistory">
 	<!-- start: TIMELINE PANEL -->
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
-			<div class="controls">
-				<button class="btn commentOption <?php echo Comment::COMMENT_ON_TREE ?>"><?php echo $options[Comment::COMMENT_ON_TREE] ? 'Can Reply' : 'No Reply' ?></button>
-				<button class="btn commentOption <?php echo Comment::COMMENT_ANONYMOUS ?>"><?php echo $options[Comment::COMMENT_ANONYMOUS] ? 'Anonymous' : 'Nominatly' ?></button>
-				<button class="btn commentOption <?php echo Comment::ONE_COMMENT_ONLY ?>"><?php echo $options[Comment::ONE_COMMENT_ONLY] ? 'Only one comment' : 'No limit comment' ?></button>
+			<div class="options pull-right">
+				<?php foreach ($options as $optionKey => $optionValue) {
+					$currentLabel = $optionsLabels[$optionKey][$optionValue];
+					echo '<button class="btn btn-info btn-xs commentOption" title="'.$currentLabel["title"].'">'.$currentLabel["label"].'</button>';
+				}?>
 			</div>
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
+			
 		</div>
 		<div class="panel-body panel-white">
 			<div class='row'>
@@ -153,14 +173,45 @@ function buildLineHTML(commentObj) {
 		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
 	};
 
+	var actionDone = "";
+	var classVoteUp = "commentVoteUp";
+	var colorVoteUp = "label-green";
+	var classVoteDown = "commentVoteDown";
+	var colorVoteDown = "label-orange";
+	var classReportAbuse = "commentReportAbuse";
+	var colorReportAbuse = "label-red";
+
+
 	var voteUpCount = parseInt(commentObj.voteUpCount) || 0;
 	var voteDownCount = parseInt(commentObj.voteDownCount) || 0;
 	var reportAbuseCount = parseInt(commentObj.reportAbuseCount) || 0;
+
+	if (voteUpCount > 0 && commentObj.voteUp.toString().indexOf(userId) >= 0) {
+ 		actionDone = "voteUp";
+ 		colorVoteDown = colorReportAbuse = "label-inverse";
+	}
 	
+	if (voteDownCount > 0 && commentObj.voteDown.toString().indexOf(userId) >= 0) {
+ 		actionDone = "voteDown";
+ 		colorVoteUp = colorReportAbuse = "label-inverse";
+	}
+
+	if (reportAbuseCount > 0 && commentObj.reportAbuse.toString().indexOf(userId) >= 0) {
+ 		actionDone = "reportAbuse";
+ 		colorVoteDown = colorVoteUp = "label-inverse";
+	}
+
+	if (actionDone != "") {
+		classVoteUp = "";
+		classVoteDown = "";
+		classReportAbuse = "";
+	}
+	console.log(actionDone);
+
 	commentsTLLine = commentsTLLine + 
-					"<a href='javascript:;' class='commentVoteUp' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-green'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='commentVoteDown' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-orange'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='commentReportAbuse' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label label-red'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> "+
+					"<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' title='Disagree with that' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' title='Report an abuse' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> "+
 					"</div>"+
 				'</div>';
 
@@ -178,14 +229,6 @@ function bindEvent(){
 		e.preventDefault();
 	});
 	
-	/*$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
-		separator = '#' + $(this).attr("id");
-		$('.commentline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
-	}).on('disappear', function(event, $all_disappeared_elements) {   				
-		separator = $(this).attr("id");
-		$('.commentline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
-	});*/
-
 	//New comment actions
 	$('.saySomething').off().on("focusin",function(){
 		var backUrl = window.location.href.replace(window.location.origin, "");
@@ -213,12 +256,15 @@ function bindEvent(){
 	});
 	$('.commentVoteUp').off().on("click",function(){
 		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
+		disableOtherAction($(this).data("id"), '.commentVoteUp');
 	});
 	$('.commentVoteDown').off().on("click",function(){
 		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
+		disableOtherAction($(this).data("id"), '.commentVoteDown');
 	});
 	$('.commentReportAbuse').off().on("click",function(){
 		actionOnComment($(this),'<?php echo Action::ACTION_REPORT_ABUSE ?>');
+		disableOtherAction($(this).data("id"), '.commentReportAbuse');
 	});
 }
 
@@ -256,6 +302,23 @@ function actionOnComment(comment, action) {
         		toastr.error("Error calling the serveur : contact your administrator.");
         	}
 		});
+}
+
+//When a user already did an action on a comment the other buttons are disabled
+function disableOtherAction(commentId, action) {
+	if (action != ".commentVoteUp") {
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-green").addClass("label-inverse");
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").off();
+	}
+	if (action != ".commentVoteDown") {
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-orange").addClass("label-inverse");	
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").off();
+	}
+	
+	if (action != ".commentReportAbuse") {
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").children(".label").removeClass("label-red").addClass("label-inverse");
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").off();
+	}
 }
 
 function replyComment(parentCommentId) {
