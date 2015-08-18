@@ -59,7 +59,7 @@
 			//récupère l'url de l'icon a afficher
 			//var iconUrl = this.getIcoMarker(element['type']).options.iconUrl;
 
-			var ico = thisSig.getIcoNameByType(element["type"]);
+			var ico = thisSig.getIcoByType(element["type"]);
 			var color = thisSig.getIcoColorByType(element["type"]);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
