@@ -30,7 +30,7 @@ if( !isset($hideTexts) )
 if( !isset($hideTexts) )
 {
 	if( isset( $survey["urls"]) && count( $survey["urls"] )  ){
-		echo "Url(s) de référence(s) : <br/>";
+		echo "Url(s) : <br/>";
 		foreach ($survey["urls"] as $u) {
 			echo "<a href='".$u."' target='_blank'>".$u."</a><br/>";
 	 }} 
@@ -42,14 +42,14 @@ if( !isset($hideTexts) )
 		$voteLinksAndInfos = Action::voteLinksAndInfos( true , $survey );
 
 		if( $voteLinksAndInfos["hasVoted"] )
-			echo "Thank you for voting."; 
+			echo Yii::t("survey","Thank you for voting",null,Yii::app()->controller->module->id); 
 		else
-			echo "Feel Free to vote.";
+			echo Yii::t("survey","Feel Free to vote",null,Yii::app()->controller->module->id);
 
 		echo "<div style='font-size:2em;color:red;padding:5px;border:1px solid #666'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
 
 		if( $voteLinksAndInfos["totalVote"] )
-			echo "<br/>".$voteLinksAndInfos["totalVote"]." people voted."; 
+			echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("survey","people voted",null,Yii::app()->controller->module->id); 
 	 ?>
 </div>
 
@@ -72,21 +72,21 @@ if(isset( Yii::app()->session["userId"]) )
 		*/ ?>
 	<?php } else {?>
 		<br/>
-		You are Following this vote. <i class='fa fa-rss' ></i>
+		<?php echo Yii::t("survey","You are Following this vote.",null,Yii::app()->controller->module->id) ?> <i class='fa fa-rss' ></i>
 	<?php } 
 	} else {?>
-		You created this vote.
+		<?php echo Yii::t("survey","You created this vote.",null,Yii::app()->controller->module->id) ?>
 		<br/>
 		<?php if( Yii::app()->request->isAjaxRequest && false){ ?>
 		<a class="btn btn-xs btn-default" onclick="entryDetail('<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;">
-			<i class='fa fa-pencil' ></i> Edit this Entry
+			<i class='fa fa-pencil' ></i> <?php echo Yii::t("survey","Edit this Entry",null,Yii::app()->controller->module->id) ?>
 		</a>
 	<?php } ?>
 <?php }} ?>
 
 <?php /* ?>
 <a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
-*/?>
+
 
 <br/>Views : <?php echo @$survey["viewCount"]; ?>
-
+*/?>

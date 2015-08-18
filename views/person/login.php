@@ -169,26 +169,25 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		<!-- end: REGISTER BOX -->
 	</div>
 </div>
-<style type="text/css">
-	
-</style>
-<div class="eventMarker" style="z-index: -1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
+
+
+<div class="eventMarker" style="z-index:1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
 	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
 </div>
-<div class="cityMarker" style="z-index: -1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
+<div class="cityMarker" style="z-index:1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
 </div>
-<div class="projectMarker" style="z-index: -1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
+<div class="projectMarker" style="z-index:1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
 	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
 </div>
-<div class="assoMarker" style="z-index: -1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
+<div class="assoMarker" style="z-index:1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
 	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
 </div>
-<div class="userMarker" style="z-index: -1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
+<div class="userMarker" style="z-index:1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
 </div>
@@ -203,12 +202,40 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 <img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
 <img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.jpg" style="display:none;position:absolute; top:350px; right:150px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.png" style="display:none;position:absolute; top:750px; right:400px; cursor:pointer;" />
 
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
+<?php /* ?>
+
+http://habibhadi.com/lab/svgPathAnimation/demo/
+http://jonobr1.github.io/two.js/#basic-usage
+http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
+
+<style type="text/css">
+svg.graph {
+	position: absolute;
+	top:0px;
+	left: 0px;
+	height: 1000px;
+	width: 1000px;
+}
+
+svg.graph .line {
+  stroke: white;
+  stroke-width: 1;
+}
+</style>
+
+<svg class="graph">
+  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
+  <path class="line" d=" M 0 0 L 600 100"></path>
+  <path class="line" d=" M 0 0 L 150 150"></path>
+  <path class="line" d=" M 0 0 L 330 100"></path>
+</svg>
+*/?>
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
@@ -219,6 +246,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		if (email != "") {
 			$(".form-login #email").val( email );
 		}
+		
 		if (userValidated) {
 			$(".errorHandler").hide();
 			$(".emailValidated").show();
@@ -261,13 +289,8 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		});
 		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
 			showMenu('box-ph');
-			$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
-			$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
-			$(".partnerLogosRight").show().addClass("animated zoomInRight");
-			$(".partnerLogosDown").show().addClass("animated zoomInDown");
-			$(".partnerLogosUp").show().addClass("animated zoomInUp");
 		});
-		
+	
 	});
 
 var email = '<?php echo @$_GET["email"]; ?>';
