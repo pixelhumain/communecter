@@ -26,13 +26,19 @@
 			$(this).show().removeClass("animated bounceInRight");
 		});
 		activePanel = box;
-		if( box != "box-ph" ){
+		if( box != "box-ph" && box != "box-who" ){
 			$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
 			$(".eventMarker").show().addClass("animated slideInDown");
 			$(".cityMarker").show().addClass("animated slideInUp");
 			$(".projectMarker").show().addClass("animated zoomInRight");
 			$(".assoMarker").show().addClass("animated zoomInLeft");
 			$(".userMarker").show().addClass("animated zoomInLeft");
+		}else{
+			$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
+			$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
+			$(".partnerLogosRight").show().addClass("animated zoomInRight");
+			$(".partnerLogosDown").show().addClass("animated zoomInDown");
+			$(".partnerLogosUp").show().addClass("animated zoomInUp");
 		}
 	}
 	function showHideMenu () { 
@@ -253,10 +259,13 @@
 <div class="box-event box">
 	<h1><i class="fa fa-calendar"></i> EVENTS</h1>
 	<section>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+		<u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load event form')"> Add a Local Event </a></u> sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+		
 	</section>
+	
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-orga')"><?php echo (isset($actionTitle)) ? $actionTitle : "ORGANISATIONS" ?></a>
 </div>
 
@@ -264,8 +273,10 @@
 	<h1><i class="fa fa-users"></i> ORGANIZATIONS</h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		<u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load form')"> Add a Local Organization </a> </u>
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+		quis nostrud exercitation ullamco laboris <u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load form')"> Find a Local Organization </a> </u> nisi ut aliquip ex ea commodo.
+		
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-city')"><?php echo (isset($actionTitle)) ? $actionTitle : "CITY" ?></a>
 </div>
@@ -275,6 +286,7 @@
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		<u><a href="#" class="text-white" onclick="showMenu('box-login')">Connect to your city</a></u>
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-projects')"><?php echo (isset($actionTitle)) ? $actionTitle : "PROJECTS" ?></a>
@@ -285,16 +297,19 @@
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		<u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load form')"> Add a Local Project</a> </u>
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-event')"><?php echo (isset($actionTitle)) ? $actionTitle : "PEOPLE" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-people')"><?php echo (isset($actionTitle)) ? $actionTitle : "PEOPLE" ?></a>
 </div>
 
 <div class="box-people box">
 	<h1><i class="fa fa-user"></i> PEOPLE </h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		tempor incididunt ut labore et dolore magna aliqua. 
+		<u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load  form')"> Invite someone </a> </u>
+		Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
@@ -304,9 +319,11 @@
 	<h1><i class="fa fa-cubes"></i> PIXEL HUMAIN </h1>
 	<section>
 		Un collectif magnifique
-		Innovation au service des biens communs
-		Respectant un CODE SOCIAL ET LOGICIEL ouvert
-
+		<br/>Innovation au service des biens communs
+		<br/><u><a class="text-white" href="#" onclick="toastr.error('TODO : ajax form load form')"><i class="fa fa-mail"></i> Contact Us </a> </u>
+		<br/>Respectant un CODE SOCIAL ET LOGICIEL ouvert
+		<br/>Open Source, Semantic et Interopérable
+		
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showMenu('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>
