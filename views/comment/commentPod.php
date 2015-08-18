@@ -4,7 +4,10 @@ $cssAnsScriptFiles = array(
 	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
 	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js',
-	'/assets/plugins/moment/min/moment.min.js'
+	'/assets/plugins/moment/min/moment.min.js',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
+	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
@@ -17,7 +20,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
     margin: 0 10px 5px 0;
 }
 
-.commenter-location, .comment-time {
+.commenter-location, .comment-time, .comment-options {
     font-size: 0.95rem;
     font-weight: 300;
     line-height: 0.8125rem;
@@ -44,29 +47,72 @@ $optionsLabels = array(
 ?>
 <!-- start: PAGE CONTENT -->
 <div id="commentHistory">
-	<!-- start: TIMELINE PANEL -->
+
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
-					echo '<button class="btn btn-info btn-xs commentOption" title="'.$currentLabel["title"].'">'.$currentLabel["label"].'</button>';
+					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
 				}?>
 			</div>
 			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
 			
 		</div>
+
 		<div class="panel-body panel-white">
 			<div class='row'>
-				<div class='saySomething padding-5'>
-					<input type="text" style="width:100%" value="Say Something"/>
-				</div>
-				<div class="commentTable">
+				<div class="tabbable no-margin no-padding partition-dark">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active">
+							<!-- start: TIMELINE PANEL -->
+							<a href="#entry_comments" data-toggle="tab">
+								<span>Comments</span>
+							</a>
+							<!-- end: TIMELINE PANEL -->
+						</li>
+						<li role="presentation">
+							<a href="#entry_community_comments" data-toggle="tab">
+								Community Selected (TODO)
+							</a>
+						</li>
+					<?php 
+						if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { 
+					?>
+						<li role="presentation">
+							<a href="#entry_abuse" data-toggle="tab">
+								Abuse (TODO)
+							</a>
+						</li>
+					<?php } ?>
+					</ul>
+					<div class="tab-content partition-white">
+						<div class="tab-pane active" id="entry_comments">
+						<?php if ($canComment) {?>
+							<div class='saySomething padding-5'>
+								<input type="text" style="width:100%" value="Say Something"/>
+							</div>
+						<?php } ?>
+							<div class="panel-scroll height-230 ps-container commentTable">
+								<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -14px; width: 504px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 17px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 152px;"></div></div>
+							</div>
+						</div>
+						<div class="tab-pane" id="entry_community_comments">
+							<div class="communityCommentTable">
+								TODO
+							</div>
+						</div>
+						<div class="tab-pane" id="entry_abuse">
+							<div class="">
+								TODO
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end: TIMELINE PANEL -->
+
 </div>
 <style type="text/css">
 
@@ -173,6 +219,15 @@ function buildLineHTML(commentObj) {
 		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
 	};
 
+	commentsTLLine += commentActions(commentObj);
+	commentsTLLine += "</div> </div>";
+
+	return commentsTLLine;
+}
+
+function commentActions(commentObj) {
+	var res;
+
 	var actionDone = "";
 	var classVoteUp = "commentVoteUp";
 	var colorVoteUp = "label-green";
@@ -180,7 +235,6 @@ function buildLineHTML(commentObj) {
 	var colorVoteDown = "label-orange";
 	var classReportAbuse = "commentReportAbuse";
 	var colorReportAbuse = "label-red";
-
 
 	var voteUpCount = parseInt(commentObj.voteUpCount) || 0;
 	var voteDownCount = parseInt(commentObj.voteDownCount) || 0;
@@ -206,18 +260,13 @@ function buildLineHTML(commentObj) {
 		classVoteDown = "";
 		classReportAbuse = "";
 	}
-	console.log(actionDone);
 
-	commentsTLLine = commentsTLLine + 
-					"<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' title='Disagree with that' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' title='Report an abuse' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> "+
-					"</div>"+
-				'</div>';
+	res = "<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+		  "<a href='javascript:;' title='Disagree with that' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+		  "<a href='javascript:;' title='Report an abuse' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
 
-	return commentsTLLine;
+	return res;
 }
-
 
 function bindEvent(){
 	var separator, anchor;

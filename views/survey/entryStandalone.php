@@ -81,8 +81,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 			<br/><br/>
 			<div style="height: 300px">
 				<?php 
-					//TODO - edit if super Admin || creator
-					$canEdit = Yii::app()->session[ "userIsAdmin" ];
+					$canEdit = Authorisation::canEditEntry(Yii::app()->session["userId"], (string) $survey['_id']);
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
 																	  "type" => Survey::COLLECTION,
 																	  "resize" => false,
