@@ -75,7 +75,9 @@
 			//récupère le nom de l'icon en fonction du type de marker souhaité
 			this.Sig.getIcoMarkerMap = function(thisData)
 			{
-				console.warn("--------------- getIcoMarker ---------------------");
+				console.warn("--------------- getIcoMarker *** ---------------------");
+				console.log(thisData);
+
 				var type = thisData["type"];
 				var markerName = this.getIcoNameByType(type);
 
@@ -124,14 +126,16 @@
 				//console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+				var rightListHeight = mapHeight - 60;
+
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
-				$(this.cssModuleName + " #right_tool_map").css({"height":mapHeight});
+				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight});
 				$(this.cssModuleName + " .panel_map").css({"height":mapHeight});
-				$(this.cssModuleName + " #liste_map_element").css({"height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
-				$(this.cssModuleName + " #liste_map_element").css({"max-height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
-				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width()});// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
+				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
+				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
 				$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
 
 				//alert($(this.cssModuleName + " .panel_map").width());

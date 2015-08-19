@@ -93,14 +93,13 @@ svg{
  	font-size:13px !important;
  	color:#2aa0bd !important;
  }
-<<<<<<< HEAD
+
  /*
 creer des conflits : regle pas assez specfique
 =======
  .popup-result-find-place{
  	font-size:16px;
  }
->>>>>>> 9c019be1e3c79d7476d9334fcb1dd9f5e46a5cc0
  .modal-lg {
     width: 90%;
   }
@@ -121,12 +120,17 @@ creer des conflits : regle pas assez specfique
 	LISTE ELEMENT MAP (RIGHT)
 */
  #right_tool_map{
-	width:25%;
-	height:100%;
+	width:250px;
+	height:90%;
 	position:absolute !important;
-	right:0px;
-	top:0px;
+	right:5%;
+	top:5%;
 	background-color:white;
+	-moz-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
+	-webkit-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
+	-o-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
+	box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=315, Strength=3);
 }
 #map_pseudo_filters{
 	width:100%;
@@ -177,9 +181,61 @@ creer des conflits : regle pas assez specfique
 	display:inline-block;
 	height:35px;
 }
+
+.item_map_list .left-col{
+	float:left;
+	width:65px;
+	min-height:100px;
+}
+
+.item_map_list .left-col .ico-type-account{
+	/*background-color:#2A3945;*/
+	background-image:url("flag.png");
+	position:relative;
+	left:-6px;
+	text-align: center;
+	height: 20px;
+	width: 40px;
+	top: 5px;
+	font-size:12px;
+	padding:2px;
+}
+.item_map_list .left-col .ico-type-account i.fa{
+	padding:0px !important;
+	margin-left: 8px;
+	position: absolute;
+	margin-top:1px !important;
+}
+
+.item_map_list .left-col .thumbnail-profil{
+	width:50px;
+	height:50px;
+	background-color:#DADADA;
+	border-radius:4px;
+	float:right;
+}
+
+.item_map_list .right-col{
+	float:right;
+	width:150px;
+	max-width:150px;
+	min-height:100px;
+	text-align: left;
+}
+
+.item_map_list .right-col .info_item{
+	float:left;
+	min-width:100%;
+	max-width:100%;
+	text-align:left;
+	font-family: inherit;
+	font-size: 11px;
+	color: grey;
+}
+
 .item_map_list{
 	float:left;
-	width:75%;
+	width:100%;
 	padding-top:6px;
 	padding-bottom:4px;
 	margin-top:0px;
@@ -203,21 +259,20 @@ creer des conflits : regle pas assez specfique
 	float:left;
 	max-width:65%;
 	margin-top:2px;
-	font-family: "Raleway",sans-serif;
-	color:black;
+	/*font-family: "Raleway",sans-serif;*/
+	color:black !important;
+	font-weight: 500;
+	font-size:14px !important;
 }
 .city_item_map_list{
-		font-family: "Raleway",sans-serif;
-		text-align:right;
-		max-width:40%;
-		margin-right: 5px;
-		margin-top: 2px;
-		margin-bottom: 2px;
-		margin-left: 7px;
-		float: right;
-		color: grey;
+	
 }
 
+.tag_item_map_list{
+	color:red;
+	font-weight: 500;
+	text-decoration: none;
+}
 #liste_map_element a.btn.dropdown-toggle{
 	margin-right:5%;
 	margin-top:5px;
@@ -245,6 +300,8 @@ creer des conflits : regle pas assez specfique
 .btn_right_barre_tool_map:hover{
 	background-color:d3d1d5;
 }
+
+
 
 /* boutons */
 
