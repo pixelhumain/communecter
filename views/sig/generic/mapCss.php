@@ -16,7 +16,7 @@
 <style>
 
 	<?php   $mapWidth = "100%";
-			if($sigParams['useRightList']) $mapWidth = "75%";
+			//if($sigParams['useRightList']) $mapWidth = "75%";
 	?>
 
 	.<?php echo $moduleName; ?>
@@ -42,8 +42,8 @@
 
 	.<?php echo $moduleName; ?>
 	#right_tool_map{
-		height:<?php echo $mapHeight; ?>px;
-		top:<?php echo $mapTop; ?>px;
+		height:<?php echo (int)$mapHeight - 60; ?>px;
+		top:<?php echo (int)$mapTop + 30; ?>px;
 	}
 
 	.<?php echo $moduleName; ?>
@@ -58,7 +58,7 @@
 	}
 
 	<?php   $right = "0px";
-			if($sigParams['useRightList']) $right = "25%";
+			if($sigParams['useRightList']) $right = "30%";
 	?>
 	.<?php echo $moduleName; ?>
 	.btn-group-map{

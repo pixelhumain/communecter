@@ -64,7 +64,7 @@
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
-			var dropDown  = '';
+			/*var dropDown  = '';
 			if("undefined" != typeof element["tags"])
 			{
 				dropDown  = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey pull-right" data-toggle="dropdown"><i class="fa fa-tag"></i> <i class="fa fa-angle-down"></i> </a>';
@@ -79,7 +79,7 @@
 				});
 
 				dropDown += '</ul>';
-			}
+			}*/
 
 		/*	var dropDown = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown"><i class="fa fa-cog"></i> </a>
 				            <ul role="menu" class="dropdown-menu dropdown-light pull-right">
@@ -93,11 +93,42 @@
 			//return l'élément html
 		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
 		    				'<button id="item_map_list_'+ thisSig.getObjectId(element) +'" class="item_map_list">'
-								+ icons
-								+  ' <div class="pseudo_item_map_list">' +	name + "</div>"	+
-								//+  ' <div class="city_item_map_list">' +	place + "</div>"	+
-						    '</button>' +
-						   dropDown +
+		    					+ "<div class='left-col'>"
+		    					+ 	"<div class='thumbnail-profil'></div>"						
+		    					+ 	"<div class='ico-type-account'>"+icons+"</div>"
+		    					
+		    					+ "</div>"
+								+ "<div class='right-col'>";
+						
+						if("undefined" != typeof name)
+						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
+						
+						if("undefined" != typeof element['tags']){
+							button	+= 	"<div class='info_item items_map_list'>";
+							$.each(element['tags'], function(index, value){
+								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
+							});
+							button	+= 	"</div>";
+						}
+
+						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressLocality'] )
+						button	+= 	"<div class='info_item city_item_map_list'>" + element['address']['addressLocality'] + "</div>";
+								
+						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
+						button	+= 	"<div class='info_item country_item_map_list'>" + element['address']['addressCountry'] + "</div>";
+								
+						if("undefined" != typeof element['telephone'])
+						button	+= 	"<div class='info_item telephone_item_map_list'>" + element['telephone'] + "</div>";
+						
+						/*if("undefined" != typeof element['links']){
+							button	+= 	"<div class='items_map_list'>";
+							$.each(element['tags'], function(index, value){
+								button	+= 	"<div class='link_item_map_list'>" + value + "</div>";
+							});
+							button	+= 	"</div>";
+						}*/
+
+				button += 	'</button>' +
 						 '<div>';
 
 			$(this.cssModuleName + " #liste_map_element").append(button);
