@@ -1,7 +1,9 @@
 <style>
 
 #newInvite{
+	<?php if( @$isNotSV ){ ?>
 	display: none;
+	<?php } ?>
 }
 #newInvite .dropdown-menu{
 	width: 100%;
@@ -11,13 +13,26 @@
 }
 
 </style>
+
+<?php if( @$isNotSV ){ ?>
+<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
+<?php } ?>
 <div id="newInvite">
-	<div class="col-md-6 col-md-offset-3">  
+	<?php 
+	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
+	?>
+	<div class="<?php echo $size ?>" >  
        	<div class="panel panel-white">
+       		
         	<div class="panel-heading border-light">
-				<h1>Invite Someone</h1>
-			    <p>  local or that might be interested by the platform</p>
+        		<?php if( !@$isNotSV ){ ?>
+					<h1>Invite Someone</h1>
+				<?php } ?>	
+			    <p> 
+			    Invite people to the network
+			    </p>
 			</div>
+			
 		<div class="panel-body">
 			<form class="form-invite" autocomplete="off">
 				<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>

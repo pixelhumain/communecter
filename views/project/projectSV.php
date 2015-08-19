@@ -5,6 +5,18 @@
 		'/js/dataHelpers.js'
 		);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	$cssAnsScriptFilesModule = array(
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/moment/min/moment.min.js' , 
+	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	//'/plugins/bootstrap-select/bootstrap-select.min.css',
+	//'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/autosize/jquery.autosize.min.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <style>
 
@@ -12,12 +24,19 @@
 
 
 <!-- *** NEW PROJECT *** -->
+<?php if( @$isNotSV ){ ?>
+<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
+<?php } ?>
 <div id="newProject">
-	<div class="noteWrap col-md-8 col-md-offset-2">
+<?php 
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
+	?>
+	<div class="<?php echo $size ?>" >  
 		 <div class="panel panel-white">
         	<div class="panel-heading border-light">
+				<?php if( !@$isNotSV ){ ?>
 				<h1>Add a new project</h1>
-			    
+			    <?php } ?>
 			    <p>If you want to create a new project in order to make it more visible : it's the best place
 			    <br/>You can as well organize your project team, plan tasks, discuss, take decisions...
 			    <br/>Depending on the project visibility, contributors can join the project and help
@@ -111,6 +130,17 @@
 					</div>
 				</div>
 				<?php } ?>	
+				<?php if( @$isNotSV ){ ?>
+					<?php if( Yii::app()->session['userId'] ){ ?>
+					<div class= "row col-xs-12">
+						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
+					</div>
+					<?php } else { ?>
+						<div class= "row  col-xs-12">
+							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
+						</div>
+					<?php } ?>
+				<?php } ?>
 			</div>
 		</form>
 	</div>
