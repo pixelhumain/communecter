@@ -37,7 +37,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"new-invite", "href" => "#newInvite", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href" => "openSubView('Invite Someone', '/communecter/person/invitesv',null,function(){})", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -73,7 +73,7 @@ class CommunecterController extends Controller
   
   public $subviews = array(
     "news.newsSV",
-    "person.inviteSV",
+    //"person.inviteSV",
     "event.addAttendeesSV"
   );
 
@@ -88,8 +88,9 @@ class CommunecterController extends Controller
       "about"   => array("href" => "/ph/communecter/default/about"),
       "help"    => array("href" => "/ph/communecter/default/help"),
       "contact" => array("href" => "/ph/communecter/default/contact"),
-      "view"    => array("href" => "/ph/communecter/default/view"),
+      "view"    => array("href" => "/ph/communecter/default/view", "public" => true),
       "directory" => array("href" => "/ph/communecter/default/directory"),
+      "simple" => array("href" => "/ph/communecter/default/simple"),
     ),
 
     "city"=> array(
@@ -150,6 +151,7 @@ class CommunecterController extends Controller
       'changerole' => array("href" => "/person/changerole"),
 
       "invite"          => array("href" => "/ph/communecter/person/invite"),
+      "invitesv"          => array("href" => "/ph/communecter/person/invitesv", "public" => true),
       "invitation"      => array("href" => "/ph/communecter/person/invitation"),
       "updatefield"     => array("href" => "/person/updatefield"),
       "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
@@ -198,7 +200,7 @@ class CommunecterController extends Controller
       "delete"          => array("href" => "ph/communecter/event/delete"),
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
-      "eventsv"         => array("href" => "ph/communecter/event/eventsv"),
+      "eventsv"         => array("href" => "ph/communecter/event/eventsv", "public" => true),
       "directory"       => array("href"=>"/ph/communecter/event/directory"),
     ),
 
