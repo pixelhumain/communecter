@@ -67,13 +67,13 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								<span>Comments</span>
+								Comments <span class="badge badge-green"><?php echo $nbComment ?></span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								Community Selected (TODO)
+								Community Selected <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
 					<?php 
@@ -81,30 +81,27 @@ $optionsLabels = array(
 					?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
-								Abuse (TODO)
+								Abuse <span class="badge badge-red"><?php echo count($abusedComments) ?></span>
 							</a>
 						</li>
 					<?php } ?>
 					</ul>
 					<div class="tab-content partition-white">
-						<div class="tab-pane active" id="entry_comments">
-						<?php if ($canComment) {?>
-							<div class='saySomething padding-5'>
-								<input type="text" style="width:100%" value="Say Something"/>
-							</div>
-						<?php } ?>
-							<div class="panel-scroll height-230 ps-container commentTable">
-								<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -14px; width: 504px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 17px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 152px;"></div></div>
+						<div class="tab-pane active no-padding" id="entry_comments" >
+							<div class="panel-scroll ps-container commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<?php if ($canComment) {?>
+								<div class='saySomething padding-5'>
+									<input type="text" style="width:100%" value="Say Something"/>
+								</div>
+							<?php } ?>
 							</div>
 						</div>
 						<div class="tab-pane" id="entry_community_comments">
-							<div class="communityCommentTable">
-								TODO
+							<div class="panel-scroll ps-container communityCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							</div>
 						</div>
 						<div class="tab-pane" id="entry_abuse">
-							<div class="">
-								TODO
+							<div class="panel-scroll ps-container abuseCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							</div>
 						</div>
 					</div>
@@ -122,21 +119,26 @@ $optionsLabels = array(
 var context = <?php echo json_encode($context)?>;
 var contextType = <?php echo json_encode($contextType)?>;
 var comments = <?php echo json_encode($comments); ?>;
+var commentsSelected = <?php echo json_encode($communitySelectedComments); ?>;
+var abusedComments = <?php echo json_encode($abusedComments); ?>;
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 
 jQuery(document).ready(function() {
-	buildTimeLine();
+	buildCommentsTree('.commentTable', comments);
+	buildCommentsTree('.communityCommentTable', commentsSelected);
+	buildCommentsTree('.abuseCommentTable', abusedComments);
 	bindEvent();
+	$('.commentTable').perfectScrollbar({suppressScrollX : true});
 });
 
-function buildTimeLine() {
+function buildCommentsTree(where, commentsList) {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	$('.commentTable').append(buildComments(comments, 0));
+	$(where).append(buildComments(commentsList, 0));
 }
 
 function addEmptyCommentOnTop() {
