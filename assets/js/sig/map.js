@@ -73,6 +73,20 @@
 
 			//##
 			//récupère le nom de l'icon en fonction du type de marker souhaité
+			this.Sig.getIcoMarkerMap = function(thisData)
+			{
+				console.warn("--------------- getIcoMarker ---------------------");
+				var type = thisData["type"];
+				var markerName = this.getIcoNameByType(type);
+
+				return L.icon({
+				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
+				    iconSize: [49, 60], //38, 95],
+				    iconAnchor: [25, 59],//22, 94],
+				    popupAnchor: [-3, -60]//-3, -76]
+				});
+			};
+
 			this.Sig.getIcoMarker = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker ---------------------");
@@ -205,7 +219,7 @@
 							var content = this.getPopup(thisData);
 
 							//création de l'icon sur la carte
-							var theIcon = this.getIcoMarker(thisData);
+							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												content: content };
@@ -399,13 +413,25 @@
 										"zoom" : 4,
 										"worldCopyJump" : false });
 
-			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			// var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+			// 	subdomains: 'abc',
+			// 	minZoom: 0,
+			// 	maxZoom: 20
+			// });
+
+			var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				subdomains: 'abc',
 				minZoom: 0,
 				maxZoom: 20
 			});
+
+			
+
+
 
 
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);

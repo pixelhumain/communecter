@@ -97,6 +97,7 @@
 		background-color:#FFF !important; /*#E6D414#5896AB !important;*/
 	}
 
+	
 	/* XS */
 	@media screen and (max-width: 768px) {
 

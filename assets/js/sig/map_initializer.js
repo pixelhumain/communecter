@@ -36,23 +36,40 @@
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 
 			//TODO : définir les icons et couleurs de chaque type disponoble
+			thisSig.icoMarkersMap = { 		"default" 			: "user",
+
+										  	"citoyen" 			: "user",
+
+											"NGO" 				: "asso",
+											"organizations" 	: "asso",
+
+											"event" 			: "event",
+											"events" 			: "event",
+											"meeting" 			: "event",
+
+											"project" 			: "project",
+
+											"markerPlace" 		: "marker-place",
+
+									  };
+
 			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"citoyen" 			: { ico : "smile-o", color : "yellow" 	},
+										  	"citoyen" 			: { ico : "user", color : "yellow" 	},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
 
-											"event" 			: { ico : "circle", color : "red" 		},
-											"events" 			: { ico : "circle", color : "red" 		},
-											"meeting" 			: { ico : "calendar", color : "red" 	},
+											"event" 			: { ico : "calendar", color : "red" 		},
+											"events" 			: { ico : "calendar", color : "red" 		},
+											"meeting" 			: { ico : "calendar", color : "white" 	},
 
-											"project" 			: { ico : "lightbulb-o", color : "blue" },
+											"project" 			: { ico : "lightbulb-o", color : "yellow" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 
 									  };
-
+			
 			//TODO : définir les icons et couleurs de chaque tag
 			thisSig.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "grey" } };/*,
 											"citoyens" 		: { ico : "square", color : "green" },
@@ -118,15 +135,21 @@
 		};
 
 		Sig.getIcoNameByType = function (type){
-			if(this.icoMarkersTypes[type] != null){
-					return this.icoMarkersTypes[type].ico;
-			}else{  return this.icoMarkersTypes['default'].ico; }
+			if(this.icoMarkersMap[type] != null){
+					return this.icoMarkersMap[type];
+			}else{  return this.icoMarkersMap['default']; }
 		};
 
 		Sig.getIcoColorByType = function (type){
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
 			}else{  return this.icoMarkersTypes['default'].color; }
+		};
+
+		Sig.getIcoByType = function (type){
+			if(this.icoMarkersTypes[type] != null){
+					return this.icoMarkersTypes[type].ico;
+			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
 		Sig.getIcoNameByTag = function (tag){
