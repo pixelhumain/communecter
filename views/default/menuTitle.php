@@ -2,7 +2,7 @@
 	var  activePanel = "box-login";
 	var  bgcolorClass = "bgblack";
 
-	function showPanel(box,bgStyle,title){
+	function showPanel(box,bgStyle,title,icon){
 		
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
@@ -13,7 +13,7 @@
 		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
 			$(".byPHRight").fadeIn();
 			$(".connectMarker").fadeOut();
-			$("body.login").removeClass("bggreen bgblack bgblue bgyellow bgCity").addClass("bgCity");
+			$("body.login").addClass("bgCity");
 			bgcolorClass = "bgCity";
 		}
 		else{
@@ -21,7 +21,8 @@
 			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			$(".connectMarker").fadeIn();
 		}
-		$(".moduleLabel").html( ( (title) ? title : "") );
+		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
+		$(".moduleLabel").html( icon+title );
 		if(!box)
 			box = "box-login";
 		$('.box-menu').slideUp();
@@ -48,7 +49,7 @@
 		$(".ajaxForm").hide();
 		showPanel('box-ajax');
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
-		$(".panelTitle").html(icon+title).fadeIn();
+		$(".moduleLabel").html( icon+title );
 		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
 	}
 	function showHideMenu () { 
@@ -95,7 +96,7 @@
 		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Se connecter à sa commune"},
 		{titleRed:"CO",titleWhite:"MMUNECTER",subTitle:"Coopérer et Collaborer"},
 		{titleRed:"COMM",titleWhite:"UNECTER",subTitle:"Communiquons mieux localement"},
-		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Communautés qui travail ensemble"},
+		{titleRed:"COMMU",titleWhite:"NECTER",subTitle:"Communautés qui travaillent ensemble"},
 		{titleRed:"COMMUN",titleWhite:"ECTER",subTitle:"Pour le bien commun"},
 		{titleRed:"COMMUNE",titleWhite:"CTER",subTitle:"Pour améliorer la ville 2.2.main"}
 		

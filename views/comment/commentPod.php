@@ -96,11 +96,11 @@ $optionsLabels = array(
 							<?php } ?>
 							</div>
 						</div>
-						<div class="tab-pane" id="entry_community_comments">
+						<div class="tab-pane no-padding" id="entry_community_comments">
 							<div class="panel-scroll ps-container communityCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							</div>
 						</div>
-						<div class="tab-pane" id="entry_abuse">
+						<div class="tab-pane no-padding" id="entry_abuse">
 							<div class="panel-scroll ps-container abuseCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							</div>
 						</div>

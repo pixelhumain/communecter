@@ -17,6 +17,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>
 
 <style>
+	#addOrganization{
+	<?php if( @$isNotSV ){ ?>
+	display: none;
+	<?php } ?>
+}
 	#dropdown_search{
 		padding: 0px 15px; 
 		margin-left:2%; 
@@ -26,14 +31,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-
-<div style="display:none" id="addOrganization" >
+<?php if( @$isNotSV ){ ?>
+<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
+<?php } ?>
+<div id="addOrganization" >
 	<!-- start: PAGE CONTENT -->
-	<div class="noteWrap col-md-8 col-md-offset-2">
+	<?php 
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12 height-230"
+	?>
+	<div class="<?php echo $size ?>" >  
+	<div class="noteWrap">
 	    <div class="panel panel-white">
         	<div class="panel-heading border-light">
-				<h1>Référencer votre organization</h1>
-			    
+				<?php if( !@$isNotSV ){ ?>
+					<h1>Référencer votre organization</h1>
+			    <?php } ?>
 			    <p>Si vous gérer une ou plusieurs organisations ou etes simplement membre d'une organization :
 			    <br/>vous êtes au bon endroit pour la valoriser, la diffuser, l'aider à la faire vivre.
 			    <br/>Vérifier l'existance de l'organisation en saisissant son nom ou son email dans le champs de recherche.</p>
