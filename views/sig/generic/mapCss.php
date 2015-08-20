@@ -7,9 +7,9 @@
 		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
 		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      	: 0;
 
-		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#E6D414';
-		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#213042';
-		$mapBtnBgColor_hover = ( isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
+		$mapBtnBgColor       = ( !isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#2A3945';
+		$mapBtnColor 	     = ( !isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#fff';
+		$mapBtnBgColor_hover = ( !isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
 
 		$panelTop = 20;
 ?>
@@ -36,8 +36,8 @@
 	.<?php echo $moduleName; ?>
 	.panel_map{
 		position:absolute !important;
-		height:<?php echo $mapHeight; ?>px;
-		top:<?php echo $mapTop; ?>px;
+		/*height:<?php echo $mapHeight; ?>px;*/
+		/*top:<?php echo $mapTop; ?>px;*/
 	}
 
 	.<?php echo $moduleName; ?>
@@ -48,7 +48,7 @@
 
 	.<?php echo $moduleName; ?>
 	#lbl-chk-scope{
-		background-color:white;
+		/*background-color:white;*/
 	}
 
 	.<?php echo $moduleName; ?>
@@ -63,9 +63,9 @@
 	.<?php echo $moduleName; ?>
 	.btn-group-map{
 		position:absolute !important;
-		right:<?php echo $right; ?>;
-		left:auto;
-		top:<?php echo $mapTop+10; ?>px;
+		/*right:<?php echo $right; ?>;*/
+		left:20px;
+		top:<?php echo $mapTop+30; ?>px;
 	}
 	
 	.<?php echo $moduleName; ?>

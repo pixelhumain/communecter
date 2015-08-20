@@ -14,9 +14,9 @@
     </div>
 
 	<?php if($sigParams['usePanel']){ ?>
-		<div class="panel_map">
+		<div class="panel_map" id="panel_map">
 			<?php if(isset($sigParams['titlePanel'])) { ?>
-			<h3 id="title_panel"><i class="fa fa-angle-down"></i> <?php echo $sigParams['titlePanel']; ?></h3>
+			<!-- <h3 id="title_panel"><i class="fa fa-angle-down"></i> <?php echo $sigParams['titlePanel']; ?></h3> -->
 			<?php } ?>
 			<button class='item_panel_map' id='item_panel_map_all'>
 				<i class='fa fa-star'></i> Tous
@@ -27,13 +27,17 @@
 	<?php if($sigParams['useRightList']){ ?>
 		<div id="right_tool_map" class="hidden-xs">
 
+			<!-- 	HEADER -->
+			<div class="right_tool_map_header">
+				<span class="right_tool_map_header_title">Résultats</span>
+				<span class="right_tool_map_header_info">935 / 1034</span>
+			</div>
+			
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
 
-				<div class="input-group">
-						<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
-						<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="recherche par nom">
-				</div>
+				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="rechercher ...">
+				
 			</div>
 			<!-- 	PSEUDO SEARCH -->
 
@@ -78,16 +82,28 @@
 			</div>
 		<?php } ?>
 
-		<div class="btn-group btn-group-lg btn-group-map">
-		
-			<?php if($sigParams['useHomeButton']){ ?>
-				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
-				<button type="button" class="btn btn-map-separator"></button>
-			<?php } ?>
-			<?php if($sigParams['useZoomButton']){ ?>
-				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
-				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
-			<?php } ?>
+		<div class="btn-group-map">
+			<div class="btn-group btn-group-lg">		
+				<?php if($sigParams['useZoomButton']){ ?>
+					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
+					<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+				<?php } ?>
+			</div>
+			<div class="btn-group btn-group-lg">
+				<?php if($sigParams['useHomeButton']){ ?>
+					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-location-arrow"></i></button>
+				<?php } ?>	
+			</div>
+			<div class="btn-group btn-group-lg" id="btn-tags">
+				<?php if($sigParams['usePanel']){ ?>
+					<button type="button" class="btn btn-map" id="btn-panel"><i class="fa fa-tags"></i></button>
+				<?php } ?>	
+			</div>	
+			<div class="btn-group btn-group-lg" id="btn-filter">
+				<?php if($sigParams['usePanel']){ ?>
+					<button type="button" class="btn btn-map" id="btn-filters"><i class="fa fa-filter"></i></button>
+				<?php } ?>	
+			</div>
 			
 		</div>
 	<?php if($sigParams['useFullScreen']){ ?>
