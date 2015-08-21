@@ -277,4 +277,9 @@ class TestController extends CommunecterController {
 
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
   }  
+
+  public function actionAverageComment() {
+    var_dump(Comment::getCommunitySelectedComments("5596a29b88aee0c4d97da608", Survey::COLLECTION));
+  }
+
 }
