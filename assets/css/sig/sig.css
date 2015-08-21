@@ -120,7 +120,7 @@ creer des conflits : regle pas assez specfique
 	LISTE ELEMENT MAP (RIGHT)
 */
  #right_tool_map{
-	width:250px;
+	width:300px;
 	height:90%;
 	position:absolute !important;
 	right:5%;
@@ -132,11 +132,38 @@ creer des conflits : regle pas assez specfique
 	box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=315, Strength=3);
 }
+.right_tool_map_header{
+	height:50px;
+	width:100%;
+	background-color:#5F8295;
+	color:white;
+}
+.right_tool_map_header_title{
+	margin-top: 7px;
+	margin-left: 20px;
+	float: left;
+	font-size: 14px;
+	font-weight: 500;
+	width: 100%;
+}
+
+.right_tool_map_header_info{
+	margin-top:3px;
+	margin-left:20px;
+	font-weight: 300;
+	font-size: 13px;
+	
+}
 #map_pseudo_filters{
 	width:100%;
 	float:left;
 	background-color:white;
-	padding:8px;
+	padding:0px;
+}
+#input_name_filter{
+	font-size:13px;
+	width:100%;
+	padding-left: 20px;
 }
 #input_txt_pseudo_filter{
 	width:84%;
@@ -152,6 +179,11 @@ creer des conflits : regle pas assez specfique
 	border-radius:4px 0px 0px 4px;
 	float:left;
 }
+.input-group-addon{
+	background-color: #5F8295 !important;
+	border-radius:0px !important;
+}
+
 #btn_pseudo_filter{
 	width:15%;
 	height:30px;
@@ -170,11 +202,6 @@ creer des conflits : regle pas assez specfique
 	max-height:100%;
 /* 	margin-top:10px; */
 	overflow-y:auto;
-	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-webkit-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-o-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
 }
 .element-right-list{
 	width:100%;
@@ -185,7 +212,14 @@ creer des conflits : regle pas assez specfique
 .item_map_list .left-col{
 	float:left;
 	width:65px;
-	min-height:100px;
+	min-height:70px;
+}
+#right_tool_map .item_map_list .separation{
+	min-width:250px;
+	min-height:1px;
+	background-color:rgba(128, 128, 128, 0.4);
+	float: left;
+	margin-left:20px;
 }
 
 .item_map_list .left-col .ico-type-account{
@@ -217,9 +251,10 @@ creer des conflits : regle pas assez specfique
 
 .item_map_list .right-col{
 	float:right;
-	width:150px;
-	max-width:150px;
-	min-height:100px;
+	width:190px;
+	margin-bottom:4px;
+	max-width:190px;
+	min-height:70px;
 	text-align: left;
 }
 
@@ -258,7 +293,7 @@ creer des conflits : regle pas assez specfique
 .pseudo_item_map_list{
 	float:left;
 	max-width:65%;
-	margin-top:2px;
+	margin-top:-2px;
 	/*font-family: "Raleway",sans-serif;*/
 	color:black !important;
 	font-weight: 500;
@@ -311,9 +346,11 @@ creer des conflits : regle pas assez specfique
  	margin-right:10px;
 }
 .btn-map{
-	background-color:#E6D414;
+	background-color:#2A3945;
 	color:#213042 !important;
-	font-size:22px !important;
+	/*font-size:22px !important;*/
+	padding: 12px 18px 12px !important;
+	font-size:15px !important;
 }
 .btn-map:hover{
 	background-color:#5896AB !important;
@@ -330,64 +367,77 @@ creer des conflits : regle pas assez specfique
 .input-search-place{
 	margin-left:2px;
 	left:210px;
-	max-width:270px !important;
+	max-width:262px !important;
 }
+
+
 .input-search-place input.input-search-place-in-map{
 	float: left;
-	padding: 16px !important;
-	width: 218px;
-	border-color: rgba(98, 151, 162, 0.18) !important;
+	padding: 14px 14px 13px !important;
+	width: 204px;
+	border-color: transparent !important;
 	margin: 0px !important;
-	border-width: 2px;
+	border-width: 1px;
 	border-style: solid;
-	background-color: rgba(255, 255, 255, 0.69) !important;
-	color: #000;
-	font-weight: 800;
+	background-color: rgba(43, 62, 68, 0.91) !important;
+	color: #FFF;
+	font-weight: 300;
 }
 .input-search-place input.input-search-place-in-map.input-2s{
-	width: 109px !important;
+	width: 102px !important;
 }
 .input-search-place input.input-search-place-in-map.input-3s{
-	width: 134px !important;
+	width: 127px !important;
 }
 .input-search-place input.input-search-place-in-map.input-4s{
-	width: 270px !important;
+	width: 254px !important;
 }
-.input-search-place input:focus{
-	background-color: rgba(31, 29, 39, 0.69) !important;
-    background-image: none;
-    background: rgba(31, 29, 39, 0.69) !important;
-	color: #000 !important;
+.input-search-place input[type="text"]:focus{
+	background-image: none !important;
+    background: rgba(43, 62, 68, 0.59) !important;
+	background-color: rgba(43, 62, 68, 0.6) !important;
+	border-color: rgba(230, 230, 230, 0.4) !important;
+    color: #fff !important;
 }
 
 .input-search-place #dropdown-find-place{
-	width: 270px !important;
-	margin-top: -2px;
+	width: 254px !important;
+	margin-top: -4px;
 	border: 0px none;
 	border-radius: 0px;
-	margin-left: 2px;
+	margin-left: 0px;
 	float:right !important;
 }
 .input-search-place #list-dropdown-find-place{
 	border-radius:0px;
 }
 
+#list-dropdown-find-place.dropdown-menu{
+	background-color: #2A3945 !important;
+}
 #list-dropdown-find-place.dropdown-menu > li > a {
 	overflow-x: hidden;
 	text-overflow: ellipsis;
-	width: 270px;
+	width: 100%;
+	color:white;
+	font-weight: 200;
 }
-
+#list-dropdown-find-place.dropdown-menu > li > a:hover {
+	background-color: #5896AB;
+	color:white;
+}
  /* legende / panel */
 
  .panel_map{
  	position:relative;
  	max-width:200px;
  	min-width:150px;
- 	left:0px;
- 	background-color:rgba(82, 103, 119, 0.78);
+ 	top:74px;
+ 	background-color:#2A3945;
  	padding:15px 0px;
  	overflow-y: auto;
+ 	z-index: 10;
+ 	display:none;
  }
  .item_panel_map{
 	text-align:left !important;
@@ -398,11 +448,14 @@ creer des conflits : regle pas assez specfique
  	color:white !important;
  	max-width:250px;
  	min-width:60px;
- 	background:rgba(0,0,0,0.1);
+ 	background:transparent;
  	border:0px;
  	border-bottom:1;
  	width:100%;
- 	font-size:0.9em;
+ 	font-size: 1.1em;
+	background: transparent none repeat scroll 0% 0%;
+	font-weight: 400;
+	text-transform: capitalize;
  }
  .item_panel_map:hover{
   background-color:rgba(194, 203, 222, 0.4);
@@ -440,15 +493,31 @@ creer des conflits : regle pas assez specfique
  	top:0px;
  	left:270px;
 }
+.btn-group-map .btn-group{
+	margin-right:20px;
+}
 .btn-map{
 	background-color:#E6D414;
 	color:#213042 !important;
-	font-size:22px !important;
+	font-size:15px !important;
 }
 .btn-map:hover{
 	background-color:#5896AB;
 }
-
+.btn-group-map .btn{
+	border-radius:3px !important;
+}
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.input-search-place .btn{
+	border-radius:0px 3px 0px 0px !important;
+}
 #ico_reload{
 	display:inline;
 	padding:13px;
@@ -488,16 +557,14 @@ creer des conflits : regle pas assez specfique
   }
 
   #lbl-chk-scope{
-	height:42px;
-	padding-left:4% !important;
-	padding-top:8px;
-	width:100%;
-	font-size:1.1em;
-	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-webkit-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-o-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
+	height: 33px;
+    padding-left: 20px !important;
+	padding-top: 5px;
+    width: 100%;
+	font-size:0.9em;
+	background-color: #5F8295;
+    color: white;
+    font-size: 12px;
 }
 .world_pix{
 	max-width:60%;

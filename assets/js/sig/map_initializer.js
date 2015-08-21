@@ -118,6 +118,40 @@
 				$(this.cssModuleName + ' #item_panel_map_all').click(function(){
 					thisSig.changeFilter('all', thisMap);
 				});
+
+				$("#btn-tags").click(function(){
+					if($("#panel_map").css("display") == "none") {
+
+						$("#panel_map").css("display", "block");
+						$("#panel_map").css("opacity", "0");
+
+						var el = $('#panel_map'),
+						    curHeight = el.height(),
+						    autoHeight = el.css('height', 'auto').height();
+							el.height(curHeight);
+						$("#panel_map").animate({
+							opacity: "1",
+							height: autoHeight+30
+							}, 300, 
+							function() {
+						    	$("#panel_map").css("opacity", "1");
+									// Animation complete.
+						    		//$("#panel_map").css("display", "block");
+						 		}
+						 );
+					}
+					else{
+						$("#panel_map").animate({
+							opacity: "0",
+							height: "0"
+							}, 300, 
+							function() {
+						    		// Animation complete.
+						    		$("#panel_map").css("display", "none");
+						 		}
+						 );
+					}
+				});
 			}
 
 			this.initFindPlace();

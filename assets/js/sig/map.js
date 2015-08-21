@@ -126,17 +126,20 @@
 				//console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
-				var rightListHeight = mapHeight - 60;
+				var rightListHeight = mapHeight - 100;
 
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
-				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight});
-				$(this.cssModuleName + " .panel_map").css({"height":mapHeight});
+				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight+25});
+				$(this.cssModuleName + " .panel_map").css({"max-height":mapHeight-300});
+				//$(this.cssModuleName + " .panel_map").css({"top":mapHeight-300});
+				$(this.cssModuleName + " .panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
 				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
+				
 				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
-				$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " .input-search-place").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width()});// - $(this.cssModuleName + " #right_tool_map").width()});
 
 				//alert($(this.cssModuleName + " .panel_map").width());
 			};

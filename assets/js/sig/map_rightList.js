@@ -127,7 +127,8 @@
 							});
 							button	+= 	"</div>";
 						}*/
-
+				button += 	'</div><div class="separation"></div>';
+				
 				button += 	'</button>' +
 						 '<div>';
 

@@ -102,6 +102,7 @@
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] demander a Ken : opendata pole emploi .re
+		[ ] page expliquer la gouvernance 
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form
