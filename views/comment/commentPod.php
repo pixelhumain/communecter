@@ -26,6 +26,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
     line-height: 0.8125rem;
 }
 
+.commentContent-deleted {
+	opacity: 0.5;
+}
+
+.commentText-deleted {
+	color : rgba(229,51,76,1);
+	opacity: 1;
+}
 </style>
 
 <?php 
@@ -56,7 +64,7 @@ $optionsLabels = array(
 					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
 				}?>
 			</div>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><?php echo ' '.$nbComment; ?> Comments</h4>
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> Comments</h4>
 			
 		</div>
 
@@ -67,7 +75,7 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								Comments <span class="badge badge-green"><?php echo $nbComment ?></span>
+								Comments <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
@@ -81,7 +89,7 @@ $optionsLabels = array(
 					?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
-								Abuse <span class="badge badge-red"><?php echo count($abusedComments) ?></span>
+								Abuse <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
 							</a>
 						</li>
 					<?php } ?>
@@ -116,40 +124,43 @@ $optionsLabels = array(
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
-var context = <?php echo json_encode($context)?>;
-var contextType = <?php echo json_encode($contextType)?>;
+
+//Comments
 var comments = <?php echo json_encode($comments); ?>;
 var commentsSelected = <?php echo json_encode($communitySelectedComments); ?>;
 var abusedComments = <?php echo json_encode($abusedComments); ?>;
+
+var context = <?php echo json_encode($context)?>;
+var contextType = <?php echo json_encode($contextType)?>;
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 
 jQuery(document).ready(function() {
-	buildCommentsTree('.commentTable', comments);
-	buildCommentsTree('.communityCommentTable', commentsSelected);
-	buildCommentsTree('.abuseCommentTable', abusedComments);
+	buildCommentsTree('.commentTable', comments, "all");
+	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
+	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");
 	bindEvent();
-	$('.commentTable').perfectScrollbar({suppressScrollX : true});
+	$('.ps-container').perfectScrollbar({suppressScrollX : true});
 });
 
-function buildCommentsTree(where, commentsList) {
+function buildCommentsTree(where, commentsList, withActions) {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	$(where).append(buildComments(commentsList, 0));
+	$(where).append(buildComments(commentsList, 0, withActions));
 }
 
 function addEmptyCommentOnTop() {
 	var newCommentLine = buildNewCommentLine("");	
 	//create a new reply line on the root
-	var ulRoot = $('.tree');
+	var ulRoot = $('#entry_comments .tree');
 	ulRoot.prepend(newCommentLine);
 	$(".newComment").focus();
 }
 
-function buildComments(commentsLevel, level) {
+function buildComments(commentsLevel, level, withActions) {
 	if (level == 0) {
 		var commentsHTML = '<ul class="tree list-unstyled padding-5">';
 	} else {
@@ -159,13 +170,18 @@ function buildComments(commentsLevel, level) {
 	$.each( commentsLevel , function(key,commentObj) {
 		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
-			var commentsTLLine = buildLineHTML(commentObj);
+			var commentActions = withActions;
+			//Manage deleted comments
+			if (commentObj.status == "deleted") {
+				commentActions = "disabled";
+			}
+			var commentsTLLine = buildLineHTML(commentObj, commentActions);
 			
 			commentsHTML += commentsTLLine;
 			
 			if (commentObj.replies.length != 0) {
 				nextLevel = level + 1;
-				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel);
+				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel, withActions);
 				commentsHTML += commentsTLLineDown;
 			} else {
 				commentsHTML += "</li>";
@@ -176,8 +192,8 @@ function buildComments(commentsLevel, level) {
 	return commentsHTML;
 }
 
-function buildLineHTML(commentObj) {
-	console.log(commentObj);
+function buildLineHTML(commentObj, withActions) {
+	console.log(commentObj, withActions);
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.fromNow();
@@ -203,9 +219,9 @@ function buildLineHTML(commentObj) {
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
 
-	commentsTLLine = '<hr style="border-width: 2px;"">'+
+	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
-						'<div class="">'+
+						'<div class="commentContent-'+commentObj.status+'">'+
 							//tags+
 							objectLink+
 							'<div class="commentline_title">'+
@@ -213,23 +229,32 @@ function buildLineHTML(commentObj) {
 								'<span class="commenter-location padding-5">'+city+'</span>'+
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 							'</div>'+
-							text+	
+							'<div class="commentText-'+commentObj.status+'">'+text+'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post'>";
 	
-	if (options.tree == true) {
-		commentsTLLine = commentsTLLine + "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
-	};
+	if (withActions == "all") {
+		commentsTLLine += commentActions(commentObj);
+	} else if (withActions == "abuse") {
+		commentsTLLine += commentAbuseActions(commentObj);
+	} else if (withActions = "disabled") {
+		commentsTLLine += commentDisabledActions(commentObj);
+	}
 
-	commentsTLLine += commentActions(commentObj);
 	commentsTLLine += "</div> </div>";
 
 	return commentsTLLine;
 }
 
 function commentActions(commentObj) {
-	var res;
+	var res = "";
+	
+	//Reply button
+	if (options.tree == true) {
+		res += "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
+	};
 
+	//Other action button
 	var actionDone = "";
 	var classVoteUp = "commentVoteUp";
 	var colorVoteUp = "label-green";
@@ -252,7 +277,7 @@ function commentActions(commentObj) {
  		colorVoteUp = colorReportAbuse = "label-inverse";
 	}
 
-	if (reportAbuseCount > 0 && commentObj.reportAbuse.toString().indexOf(userId) >= 0) {
+	if (reportAbuseCount > 0 && "undefined" != typeof commentObj.reportAbuse[userId]) {
  		actionDone = "reportAbuse";
  		colorVoteDown = colorVoteUp = "label-inverse";
 	}
@@ -263,11 +288,24 @@ function commentActions(commentObj) {
 		classReportAbuse = "";
 	}
 
-	res = "<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+	res += "<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 		  "<a href='javascript:;' title='Disagree with that' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
 		  "<a href='javascript:;' title='Report an abuse' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
 
 	return res;
+}
+
+function commentAbuseActions(commentObj) {
+	var res = "";
+	
+	res += "<a href='javascript:;' title='Abuse history' class='abuseHistory' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-history'></i></span></a> "+
+			"<a href='javascript:;' title='Remove the comment' class='deleteComment' data-id='"+commentObj._id['$id']+"'><span class='label label-red'><i class='fa fa-trash-o'></i></span></a> "+
+			"<a href='javascript:;' title='Ignore abuse' class='ignoreAbuse' data-id='"+commentObj._id['$id']+"'><span class='label label-green'><i class='fa fa-check'></i></span></a> ";
+	return res;
+}
+
+function commentDisabledActions(commentObj) {
+	return "";
 }
 
 function bindEvent(){
@@ -297,10 +335,6 @@ function bindEvent(){
 		cancelComment($(this).data("id"));
 	});
 
-	$('#waypoint').on("appear", function(event, $all_appeared_elements) {
-		alert("vlan je suis sur le waypoint");
-	});
-
 	//Comment action button
 	$('.commentReply').off().on("click",function(){
 		replyComment($(this).data("id"));
@@ -313,10 +347,22 @@ function bindEvent(){
 		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
 		disableOtherAction($(this).data("id"), '.commentVoteDown');
 	});
+
+	//Abuse process
 	$('.commentReportAbuse').off().on("click",function(){
-		actionOnComment($(this),'<?php echo Action::ACTION_REPORT_ABUSE ?>');
-		disableOtherAction($(this).data("id"), '.commentReportAbuse');
+		reportAbuse($(this));
 	});
+	$('.deleteComment').off().on("click",function(){
+		actionAbuseComment($(this), "<?php echo Comment::STATUS_DELETED ?>", "");
+	});
+	$('.ignoreAbuse').off().on("click",function(){
+		actionAbuseComment($(this), "<?php echo Comment::STATUS_ACCEPTED ?>", "");
+
+	});
+	$('.abuseHistory').off().on("click",function(){
+		bootbox.alert("TODO - history");
+	});
+	
 }
 
 function actionOnComment(comment, action) {
@@ -355,6 +401,75 @@ function actionOnComment(comment, action) {
 		});
 }
 
+function reportAbuse(comment) {
+	bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
+		if (result != null) {			
+			if (result != "") {
+				actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
+				disableOtherAction(comment.data("id"), '.commentReportAbuse');
+				copyCommentOnAbuseTab(comment);
+				return true;
+			} else {
+				toastr.error("Please fill a reason");
+			}
+		}
+	});
+}
+
+function actionAbuseComment(comment, action, reason) {
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/comment/abuseprocess/",
+		data: {
+			id: comment.data("id"),
+			collection : '<?php echo Comment::COLLECTION?>',
+			action : action,
+			reason : reason
+		},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: 
+			function(data) {
+    			if(!data.result){
+                    toastr.error(data.msg);
+               	}
+                else { 
+                    if (data.userAllreadyDidAction) {
+                    	toastr.info("You already declare this comment as abused.");
+                    } else {
+	                    toastr.success(data.msg);
+	                    if (action == "<?php echo Action::ACTION_REPORT_ABUSE ?>") {
+		                    count = parseInt(comment.data("count"));
+							comment.data( "count" , count+1 );
+							icon = comment.children(".label").children(".fa").attr("class");
+							comment.children(".label").html(comment.data("count")+" <i class='"+icon+"'></i>");
+						} else {
+							$('.abuseCommentTable #comment'+comment.data("id")).remove();
+							//abusedComments[comment.data("id")]
+							$('.nbCommentsAbused').html((parseInt($('.nbCommentsAbused').html()) || 0) -1);
+						}
+					}
+                }
+            },
+        error: 
+        	function(data) {
+        		toastr.error("Error calling the serveur : contact your administrator.");
+        	}
+		});
+}
+
+function copyCommentOnAbuseTab(commentAbused) {
+	console.log("la", commentAbused.data("id"));
+	var commentObj = comments[commentAbused.data("id")];
+	abusedComments[commentAbused.data("id")] = commentObj;
+
+	var newCommentLine = buildLineHTML(commentObj, "abuse");
+	var ulRoot = $('#entry_abuse .tree');
+	ulRoot.prepend(newCommentLine);
+	$('.nbCommentsAbused').html((parseInt($('.nbCommentsAbused').html()) || 0) + 1);
+}
+
 //When a user already did an action on a comment the other buttons are disabled
 function disableOtherAction(commentId, action) {
 	if (action != ".commentVoteUp") {
@@ -370,6 +485,8 @@ function disableOtherAction(commentId, action) {
 		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").children(".label").removeClass("label-red").addClass("label-inverse");
 		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").off();
 	}
+
+	$("#comment"+commentId).children().children(".bar_tools_post").children(action).off();
 }
 
 function replyComment(parentCommentId) {
@@ -465,6 +582,7 @@ function validateComment(commentId, parentCommentId) {
 				else { 
 					toastr.success(data.msg);
 					switchComment(commentId, data.newComment, parentCommentId);
+					$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
 				}
 			},
 		error: 
@@ -478,14 +596,15 @@ function validateComment(commentId, parentCommentId) {
 
 //Switch from Edditing comment to view comment
 function switchComment(tempCommentId, comment, parentCommentId) {
+	comments[comment["_id"]["$id"]] = comment;
 	$('#'+tempCommentId).remove();
-	var commentsTLLine = buildLineHTML(comment);
+	var commentsTLLine = buildLineHTML(comment, "all");
 	// When it's a root comment
 	if (parentCommentId == "" || "undefined" == typeof parentCommentId) {
-		var ulChildren = $('.tree');
+		var ulChildren = $('#entry_comments .tree');
 		ulChildren.prepend(commentsTLLine);
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
-		addEmptyCommentOnTop();
+		$('.saySomething').show();
 	} else {
 		var ulChildren = $('#comment'+parentCommentId).children('ul');
 		ulChildren.prepend(commentsTLLine);
