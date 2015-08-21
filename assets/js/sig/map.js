@@ -34,6 +34,7 @@
 			this.Sig.markerSingleList = new Array();
 			this.Sig.popupOpen = false;
 
+			this.Sig.mapPolygon = null;
 
 			//##
 			//créé une donnée GeoJson (pour les cluster)
@@ -84,8 +85,8 @@
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
 				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 59],//22, 94],
-				    popupAnchor: [-3, -60]//-3, -76]
+				    iconAnchor: [25, 25],//22, 94],
+				    popupAnchor: [-3, -70]//-3, -76]
 				});
 			};
 
@@ -177,6 +178,19 @@
 				else{ return false; }
 			};
 
+			this.Sig.showPolygon = function(polygonPoints, options)
+			{
+				//si le polygone existe déjà on le supprime
+				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
+				//puis on charge le nouveau polygone
+				this.mapPolygon = L.polygon(polygonPoints, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.6,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+			}
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{

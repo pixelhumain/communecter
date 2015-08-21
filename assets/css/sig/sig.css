@@ -11,9 +11,9 @@ svg{
 /*   ############# leaflet ################## */
 
   .leaflet-popup-content-wrapper{
- 	background-color:rgba(39, 52, 65, 0.69);
+ 	background-color:#FFF;
  	border-radius:10px;
- 	color:white;
+ 	color:#2A3945;
  	font-family: "Open Sans";
  }
 
@@ -126,10 +126,10 @@ creer des conflits : regle pas assez specfique
 	right:5%;
 	top:5%;
 	background-color:white;
-	-moz-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
-	-webkit-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
-	-o-box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
-	box-shadow: -5px -5px 3px 0px rgba(189, 189, 189, 0.58);
+	-moz-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	-webkit-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	-o-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=315, Strength=3);
 }
 .right_tool_map_header{
@@ -669,7 +669,13 @@ creer des conflits : regle pas assez specfique
 	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	}
 
+	.leaflet-popup-tip-container{
+		display:none !important;
+	}
 
+	.leaflet-tile-container.leaflet-zoom-animated{
+		top:30px !important;
+	}
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
