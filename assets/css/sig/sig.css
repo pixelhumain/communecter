@@ -458,17 +458,17 @@ creer des conflits : regle pas assez specfique
 	text-transform: capitalize;
  }
  .item_panel_map:hover{
-  background-color:rgba(194, 203, 222, 0.4);
+  background-color:#5F8295 !important;
  }
  h3#title_panel{
  	margin: 0px 0px 5px 10px;
  }
 .item_panel_map.selected{
- 	background-color:rgba(23, 58, 75, 0.51) !important;
+ 	background-color:#77A3AE !important;
 	color:#FFF !important;
  }
 .item_panel_map.selected:hover{
- 	background-color:rgba(23, 58, 75, 0.51) !important;
+ 	background-color:#5F8295 !important;
 	color:#FFF !important;
  }
  .item_panel_map.selected a{
@@ -674,7 +674,10 @@ creer des conflits : regle pas assez specfique
 	}
 
 	.leaflet-tile-container.leaflet-zoom-animated{
-		top:30px !important;
+		/*top:30px !important;*/
+	}
+	.leaflet-map-pane{
+		top:154px;
 	}
 /* style tooltip des chartsMarkers */
 

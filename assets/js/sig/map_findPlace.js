@@ -258,7 +258,7 @@ SigLoader.getSigFindPlace = function (Sig){
 						//"lng" : this.currentResultResearch[id].lon };
 
 		console.log("value result research : ");
-		console.dir(this.currentResultResearch[id]);
+		//console.dir(this.currentResultResearch[id]);
 
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
 		var marker = this.getMarkerSingle(this.map, options, coordinates);

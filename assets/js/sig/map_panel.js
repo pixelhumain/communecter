@@ -7,17 +7,31 @@
 
 		//***
 		//evenement click sur un item du panel
-		this.Sig.changeFilter = function (val, thisMap)
+		this.Sig.changeFilter = function (val, thisMap, filterType)
 		{
 			var tagSelected = this.panelFilter.replace(/\s/g,"");
-			if(this.panelFilter != "")
-				$(this.cssModuleName + ' #item_panel_map_' + tagSelected).removeClass("selected");
+			
+			this.panelFilterType = filterType;
 
-			this.panelFilter = val;
-			tagSelected = this.panelFilter.replace(/\s/g,"");
+			if(filterType == "tags"){
+				if(this.panelFilter != "")
+					$(this.cssModuleName + ' #item_panel_map_' + tagSelected).removeClass("selected");
 
-			$(this.cssModuleName + ' #item_panel_map_' + tagSelected).addClass("selected");
+				this.panelFilter = val;
+				tagSelected = this.panelFilter.replace(/\s/g,"");
 
+				$(this.cssModuleName + ' #item_panel_map_' + tagSelected).addClass("selected");
+			}
+
+			if(filterType == "types"){
+				if(this.panelFilter != "")
+					$(this.cssModuleName + ' #item_panel_filter_' + tagSelected).removeClass("selected");
+
+				this.panelFilter = val;
+				tagSelected = this.panelFilter.replace(/\s/g,"");
+
+				$(this.cssModuleName + ' #item_panel_filter_' + tagSelected).addClass("selected");
+			}
 			this.showMapElements(thisMap, this.dataMap);
 			this.zoomOnAllElements(thisMap);
 		};
@@ -25,19 +39,39 @@
 		//***
 		//dé-zoom la carte pour afficher tous les éléments visibles
 		this.Sig.zoomOnAllElements = function(thisMap){
-			//alert(this.markersLayer.getBounds());
-			thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-			thisMap.zoomOut();
+			//console.dir(this.markersLayer.getBounds());
+			if(this.markersLayer.getBounds() != null){
+				thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
+				thisMap.zoomOut();
+			}
 		};
 		//***
 		//memorise la liste de tags de tous les éléments affiché sur la carte (à partir des tags qu'on lui passe en paramètre)
-		this.Sig.populatePanel = function(tags, objectId){
+		this.Sig.populatePanel = function(data, objectId){
 			var thisSig = this;
-			if("undefined" == typeof tags) tags = new Array("all");
-			//alert("tags : " + tags);
-			$.each(tags, function(){
-				thisSig.listPanel.push(this); //new Array(objectId);
+
+			var tags = new Array();
+			var types = new Array();
+			
+			if("undefined" != typeof data["tags"]) tags = data["tags"];
+			if("undefined" != typeof data["type"]) types = new Array(data["type"]);
+			
+			tags.push("all");
+			types.push("all");
+
+			console.dir(thisSig.listPanel);
+			
+			$.each(tags, function(index, value){
+				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
+
+			$.each(types, function(index, value){
+				thisSig.listPanel["types"].push(value); //new Array(objectId);
+			});
+
+			console.log("LIST PANEL");
+			console.dir(thisSig.listPanel);
+			
 		};
 
 
@@ -45,9 +79,13 @@
 		//affiche la liste des items dans le panel
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
+			console.warn("--------------- updatePanel ---------------------");
+			console.log(this.listPanel);
 			var thisSig = this;
-			$.each(this.listPanel, function(key, value){
-
+			//console.log(thisSig.listPanel["tags"].length);
+			$.each(thisSig.listPanel["tags"], function(key, value){
+				console.warn("--------------- each tags ---------------------" + value);
+			
 				var valueId = value.replace(/\s/g,"");
 				var ico = thisSig.getIcoNameByTag(value);
 				var color = thisSig.getIcoColorByTag(value);
@@ -58,10 +96,33 @@
 											     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value + //hidden-xs
 											  "</button>";
 
-					$(thisSig.cssModuleName + ' .panel_map').append(newItem);
+					$(thisSig.cssModuleName + ' #panel_map').append(newItem);
 
 					$(thisSig.cssModuleName + ' #item_panel_map_' + valueId).click(function(){
-						thisSig.changeFilter(value, thisMap);
+						thisSig.changeFilter(value, thisMap, "tags");
+					});
+
+				}
+
+			});
+
+			$.each(thisSig.listPanel["types"], function(key, value){
+
+				console.warn("--------------- each types ---------------------" + value);
+				var valueId = value.replace(/\s/g,"");
+				var ico = thisSig.getIcoByType(value);
+				var color = thisSig.getIcoColorByType(value);
+
+				//si l'item n'existe pas deja
+				if(!$(thisSig.cssModuleName + ' #item_panel_filter_' + valueId).length){ //on le rajoute...
+					var newItem = "<button class='item_panel_map' id='item_panel_filter_" + valueId + "'>" +
+											     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value + //hidden-xs
+											  "</button>";
+
+					$(thisSig.cssModuleName + ' #panel_filter').append(newItem);
+
+					$(thisSig.cssModuleName + ' #item_panel_filter_' + valueId).click(function(){
+						thisSig.changeFilter(value, thisMap, "types");
 					});
 
 				}
