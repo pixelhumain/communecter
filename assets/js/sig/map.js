@@ -170,9 +170,11 @@
 			this.Sig.verifyPanelFilter = function (thisData){
 				console.warn("--------------- verifyPanelFilter ---------------------");
 
+				if(this.panelFilter == "all") return true;
+
 				var thisSig = this;
-				console.log("PANELFILTER" + this.panelFilterType);
-					if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
+				//console.log("PANELFILTER" + this.panelFilterType);
+				if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
 					if(this.usePanel == false) return true;
 					console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
 					

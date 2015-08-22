@@ -15,7 +15,7 @@
 
 			if(filterType == "tags"){
 				if(this.panelFilter != "")
-					$(this.cssModuleName + ' #item_panel_map_' + tagSelected).removeClass("selected");
+					$(this.cssModuleName + ' .item_panel_map').removeClass("selected");
 
 				this.panelFilter = val;
 				tagSelected = this.panelFilter.replace(/\s/g,"");
@@ -25,7 +25,7 @@
 
 			if(filterType == "types"){
 				if(this.panelFilter != "")
-					$(this.cssModuleName + ' #item_panel_filter_' + tagSelected).removeClass("selected");
+					$(this.cssModuleName + ' .item_panel_map').removeClass("selected");
 
 				this.panelFilter = val;
 				tagSelected = this.panelFilter.replace(/\s/g,"");
@@ -56,8 +56,8 @@
 			if("undefined" != typeof data["tags"]) tags = data["tags"];
 			if("undefined" != typeof data["type"]) types = new Array(data["type"]);
 			
-			tags.push("all");
-			types.push("all");
+			//tags.push("all");
+			//types.push("all");
 
 			console.dir(thisSig.listPanel);
 			

@@ -118,7 +118,7 @@
 				this.currentFilter = "all";
 				
 				$(this.cssModuleName + ' #item_panel_map_all').click(function(){
-					thisSig.changeFilter('all', thisMap);
+					thisSig.changeFilter('all', thisMap, "tags");
 				});
 
 				$("#btn-tags").click(function(){
@@ -131,22 +131,13 @@
 				this.currentFilterType = "all";
 				
 				$(this.cssModuleName + ' #item_panel_filter_all').click(function(){
-					thisSig.changeFilter('all', thisMap);
+					thisSig.changeFilter('all', thisMap, "types");
 				});
 
 				$("#btn-filters").click(function(){ 
 					thisSig.switchDropDown("panel_filter");
 				});
 			}
-
-			$(thisSig.cssModuleName + ' #item_panel_map_all').click(function(){
-				thisSig.changeFilter("all", thisMap, "tags");
-			});
-
-			$(thisSig.cssModuleName + ' #item_panel_filter_all').click(function(){
-				thisSig.changeFilter("all", thisMap, "types");
-			});
-
 
 			this.initFindPlace();
 
