@@ -86,6 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 	function bindBtnAddProject() {
 		$('.new-project').off().on("click", function(){
+			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {

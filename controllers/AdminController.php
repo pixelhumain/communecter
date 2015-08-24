@@ -20,6 +20,7 @@ class AdminController extends CommunecterController {
 	        'index'       => 'citizenToolKit.controllers.admin.IndexAction',
 	        'directory'   => 'citizenToolKit.controllers.admin.DirectoryAction',
 	        'switchto'    => 'citizenToolKit.controllers.admin.SwitchtoAction',
+	        'delete'    => 'citizenToolKit.controllers.admin.DeleteAction',
 	    );
 	}
 }
