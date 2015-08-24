@@ -169,8 +169,13 @@
 	});
 	
 
-	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
-
+	var mapIcon = {
+		"citoyens":"fa-user", 
+		"NGO":"fa-users",
+		"LocalBusiness" :"fa-industry",
+		"Group" : "fa-circle-o",
+		"GovernmentOrganization" : "fa-university"
+ 	};
 
 	function bindOrganizationSubViewAddMember() {	
 		$(".addMembersBtn").off().on("click", function() {
@@ -334,11 +339,17 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
+	        		var icon = "fa-question-circle";
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddMember(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+mapIcon[key]+'"></i>'+v.name +'</a></li>';
+		 					if (key == "citoyens") {
+		 						icon = mapIcon[key];
+		 					} else if (key == "organizations") {
+		 						icon = mapIcon[v.type];
+		 					}
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddMember(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
 		  				});
 		  			}); 
 
