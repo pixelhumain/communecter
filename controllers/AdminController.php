@@ -19,6 +19,7 @@ class AdminController extends CommunecterController {
 	    return array(
 	        'index'       => 'citizenToolKit.controllers.admin.IndexAction',
 	        'directory'   => 'citizenToolKit.controllers.admin.DirectoryAction',
+	        'switchto'    => 'citizenToolKit.controllers.admin.SwitchtoAction',
 	    );
 	}
 }

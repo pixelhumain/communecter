@@ -112,7 +112,7 @@
 									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
 								}
 
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
 
 								//TODO
 								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
@@ -404,8 +404,7 @@ function bindAdminBtnEvents(){
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
-	        var type = $(this).data("type");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/activate/user/"+id;
+	        var urlToSend = baseUrl+"/"+moduleId+"/admin/switchto/uid/"+id;
 	        
 	        bootbox.confirm("confirm please !!",
         	function(result) 
@@ -413,22 +412,22 @@ function bindAdminBtnEvents(){
 				if (!result) {
 					btnClick.empty().html('<i class="fa fa-thumbs-down"></i>');
 					return;
+				} else {
+					$.ajax({
+				        type: "POST",
+				        url: urlToSend,
+				        dataType : "json"
+				    })
+				    .done(function (data)
+				    {
+				        if ( data && data.result ) {
+				        	toastr.info("Switched user!!");
+				        	window.location.href = baseUrl+"/"+moduleId+"/person/dashboard";
+				        } else {
+				           toastr.error("something went wrong!! please try again.");
+				        }
+				    });
 				}
-				$.ajax({
-			        type: "POST",
-			        url: urlToSend,
-			        dataType : "json"
-			    })
-			    .done(function (data)
-			    {
-			        if ( data && data.result ) {
-			        	toastr.info("Activated User!!");
-			        	btnClick.empty().html('<i class="fa fa-thumbs-up"></i>');
-			        } else {
-			           toastr.info("something went wrong!! please try again.");
-			        }
-			    });
-
 			});
 
 		});
