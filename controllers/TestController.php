@@ -49,7 +49,7 @@ class TestController extends CommunecterController {
         "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
                                "title" => "Test" ,
 	                           "logo"  => "/images/logo.png" )
-        );
+    );
   	
     Mail::schedule($params);
 
@@ -72,12 +72,12 @@ class TestController extends CommunecterController {
   }
   
   public function actionMail() {
-	//send validation mail
-	echo "from : ".Yii::app()->params['adminEmail'];
-	echo "<br/>";
-	echo "to : ".Yii::app()->session['userEmail'];
-	echo "<br/>";
-	echo "img : ".$this->module->assetsUrl."/images/logo.png";
+  	//send validation mail
+  	echo "from : ".Yii::app()->params['adminEmail'];
+  	echo "<br/>";
+  	echo "to : ".Yii::app()->session['userEmail'];
+  	echo "<br/>";
+  	echo "img : ".$this->module->assetsUrl."/images/logo.png";
 
     //Send Classic Email 
     $res = Mail::send(array("tpl"=>'validation',
@@ -88,9 +88,8 @@ class TestController extends CommunecterController {
                                "title" => "Test" ,
                                "logo"  => $this->module->assetsUrl."/images/logo.png" )) , true);
     
-	echo "<br/>";
+	  echo "<br/>";
     echo "result: ".$res; 
-
 	}
 	
 	public function actionNotif() 
@@ -118,7 +117,7 @@ class TestController extends CommunecterController {
                                                          "icon"=> ActStr::ICON_QUESTION ,
                                                          "url" => 'javascript:alert(  "testing notifications"  );' 
                                                     ));
-        ActivityStream::addEntry($action);
+    ActivityStream::addEntry($action);
 	}
 
 	public function actionMandrill() {

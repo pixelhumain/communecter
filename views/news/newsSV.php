@@ -27,7 +27,7 @@ var formDefinition = {
             },
             "text" :{
             	"inputType" : "textarea",
-            	"placeholder" : "Describe your Organization",
+            	"placeholder" : "Details",
             	"rules" : {
 						"required" : true
 					}

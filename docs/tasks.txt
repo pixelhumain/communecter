@@ -1,3 +1,10 @@
+* DNB 
+	fiche blanche 
+	question - millionaire 
+	devoirs
+		suivi 
+	pascal.dorr@ac-reunion.fr
+	noor.com@wanadoo.fr
 * IN PROGRESS
 	** YANNICK
 	** CLEMENT
@@ -94,15 +101,14 @@
 
 		- Communacelle 
 			- @Hafid : photo aerienne de Toulouse
-			- RV avec Clemence 
-			- @Hafid + frere : negot/contact pour tablet 
+			- RV avec Clemence  
 			- @PH : integrer les opendatas toulouse
 				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
 		
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
-		[ ] demander a Ken : opendata pole emploi .re
 		[ ] page expliquer la gouvernance 
+		[ ] switch to user 
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form

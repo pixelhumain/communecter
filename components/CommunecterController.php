@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.0.4";
-  public $versionDate = "14/08/2015";
+  public $version = "v0.0.41";
+  public $versionDate = "21/08/2015";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -37,7 +37,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href" => "openSubView('Invite Someone', '/communecter/person/invitesv',null,function(){})", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href" => "openSubView('Invite Someone', '/communecter/person/invitesv',null)", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -55,7 +55,7 @@ class CommunecterController extends Controller
           ),
      array('label' => "Event", "key"=>"event",
                 "children"=> array(
-                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href" => "#newEvent", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent",  "class"=>"ajaxSV", "onclick" => "openSubView('New Event', '/communecter/event/eventsv',null)", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href" => "/ph/communecter/event/calendarview", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
@@ -111,6 +111,7 @@ class CommunecterController extends Controller
     ),
     "news"=> array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
+      "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"  => array( "href" => "/ph/communecter/news/save"),
     ),
     
