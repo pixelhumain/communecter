@@ -10,7 +10,7 @@
 		Sig.initEnvironnement = function (thisMap, params){
 
 			console.log("initParams");
-			console.dir(params);
+			//console.dir(params);
 
 	    	var thisSig = this;
 
@@ -114,43 +114,28 @@
 			}
 
 			if(params.usePanel){
+				
 				this.currentFilter = "all";
+				
 				$(this.cssModuleName + ' #item_panel_map_all').click(function(){
-					thisSig.changeFilter('all', thisMap);
+					thisSig.changeFilter('all', thisMap, "tags");
 				});
 
 				$("#btn-tags").click(function(){
-					if($("#panel_map").css("display") == "none") {
+					thisSig.switchDropDown("panel_map");
+				});
+			}
 
-						$("#panel_map").css("display", "block");
-						$("#panel_map").css("opacity", "0");
+			if(params.useFilterType){
+				
+				this.currentFilterType = "all";
+				
+				$(this.cssModuleName + ' #item_panel_filter_all').click(function(){
+					thisSig.changeFilter('all', thisMap, "types");
+				});
 
-						var el = $('#panel_map'),
-						    curHeight = el.height(),
-						    autoHeight = el.css('height', 'auto').height();
-							el.height(curHeight);
-						$("#panel_map").animate({
-							opacity: "1",
-							height: autoHeight+30
-							}, 300, 
-							function() {
-						    	$("#panel_map").css("opacity", "1");
-									// Animation complete.
-						    		//$("#panel_map").css("display", "block");
-						 		}
-						 );
-					}
-					else{
-						$("#panel_map").animate({
-							opacity: "0",
-							height: "0"
-							}, 300, 
-							function() {
-						    		// Animation complete.
-						    		$("#panel_map").css("display", "none");
-						 		}
-						 );
-					}
+				$("#btn-filters").click(function(){ 
+					thisSig.switchDropDown("panel_filter");
 				});
 			}
 
@@ -158,6 +143,44 @@
 
 		};
 
+		
+		Sig.switchDropDown = function(panelId){
+			if($("#"+panelId).css("display") == "none") {
+
+				//ferme toutes les dropdown
+				$(".panel_map").css("display", "none");
+				
+				$("#"+panelId).css("display", "block");
+				$("#"+panelId).css("opacity", "0");
+
+				var el = $('#'+panelId),
+				    curHeight = el.height(),
+				    autoHeight = el.css('height', 'auto').height();
+					el.height(curHeight);
+				$("#"+panelId).animate({
+					opacity: "1",
+					height: autoHeight+30
+					}, 300, 
+					function() {
+				    	$("#"+panelId).css("opacity", "1");
+							// Animation complete.
+				    		//$("#panel_filter").css("display", "block");
+				 		}
+				 );
+			}
+			else{
+				$("#"+panelId).animate({
+					opacity: "0",
+					height: "0"
+					}, 300, 
+					function() {
+				    		// Animation complete.
+				    		$("#"+panelId).css("display", "none");
+				 		}
+				 );
+			}
+
+		}
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home
 			var thisSig = this;
@@ -172,6 +195,12 @@
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
+		};
+
+		Sig.getIcoByType = function (type){
+			if(this.icoMarkersMap[type] != null){
+					return this.icoMarkersTypes[type].ico;
+			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
 		Sig.getIcoColorByType = function (type){
@@ -197,7 +226,7 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ ////console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;

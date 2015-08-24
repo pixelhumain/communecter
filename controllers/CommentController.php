@@ -19,6 +19,7 @@ class CommentController extends CommunecterController {
 	    return array(
 	        'index'       			=> 'citizenToolKit.controllers.comment.IndexAction',
 	        'save'					=> 'citizenToolKit.controllers.comment.SaveAction',
+	        'abuseprocess'			=> 'citizenToolKit.controllers.comment.AbuseProcessAction',
 	    );
 	}
 

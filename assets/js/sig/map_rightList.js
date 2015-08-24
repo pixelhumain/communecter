@@ -20,6 +20,7 @@
 			$.each(thisSig.elementsMap,
 				function() {
 					var bounds = thisMap.getBounds();
+					
 					if( (this.geo.longitude > bounds.getSouthWest().lng && this.geo.longitude < bounds.getNorthEast().lng &&
 						this.geo.latitude > bounds.getSouthWest().lat && this.geo.latitude < bounds.getNorthEast().lat)
 						|| showElementOutOfMapView)

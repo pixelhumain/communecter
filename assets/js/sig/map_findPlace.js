@@ -52,14 +52,14 @@ SigLoader.getSigFindPlace = function (Sig){
 			if($(thisSig.cssModuleName + ' #full-research').hasClass("hidden")){
 				$(thisSig.cssModuleName + ' #full-research').removeClass("hidden");
 				$(thisSig.cssModuleName + ' #txt-find-place').addClass("hidden");
-				this.fullTextResearch = false;
+				thisSig.fullTextResearch = false;
 			}
 			else{
 				$(thisSig.cssModuleName + ' #full-research').addClass("hidden");
 				$(thisSig.cssModuleName + ' #txt-find-place').removeClass("hidden");
 				this.fullTextResearch = true;
 			}
-			console.log(this.fullTextResearch);
+			console.log("fullTextResearch = " + this.fullTextResearch);
 			//$(thisSig.cssModuleName + ' #full-research').toggle();
 		});
 
@@ -135,7 +135,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.getNominatimRequest = function(nbTentative){
-
+		
 		if(this.fullTextResearch == true){
 			return "?q=" + $(this.cssModuleName + " #txt-find-place").val();
 		}
@@ -171,7 +171,6 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		if(nbTentative == 3){
 			request = "?q=";
-			//on utilise la street pour la tentative 1 ou 2 (mais pas à la 3)
 			if(street != "") 	request += street;
 			if(city != "") 		request += ",+" + city;
 			if(cp != "") 		request += ",+" + cp;
@@ -258,9 +257,35 @@ SigLoader.getSigFindPlace = function (Sig){
 						//"lat" : this.currentResultResearch[id].lat ,
 						//"lng" : this.currentResultResearch[id].lon };
 
+		console.log("value result research : ");
+		//console.dir(this.currentResultResearch[id]);
+
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
 		var marker = this.getMarkerSingle(this.map, options, coordinates);
 		marker.openPopup();
+
+
+		if("undefined" != typeof this.currentResultResearch[id].polygonpoints){ //alert("affichage du polygone");
+			
+			
+			allPolygonpoints = this.currentResultResearch[id].polygonpoints;
+
+			var polygonpoints = new Array();
+			$.each(allPolygonpoints, function(index, value){
+				polygonpoints.push(new Array(parseFloat(value[1]), parseFloat(value[0])));
+			});
+
+			this.showPolygon(polygonpoints);
+			/*
+			this.mapPolygon = L.polygon(polygonpoints, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.6,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+			*/
+		}
 
 		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});
 		$(thisSig.cssModuleName + ' #btn-dropdown-find-place').dropdown('toggle');

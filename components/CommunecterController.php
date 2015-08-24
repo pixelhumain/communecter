@@ -275,6 +275,7 @@ class CommunecterController extends Controller
     "comment"=> array(
       "index" => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save" => array( "href" => "/ph/communecter/comment/save"),
+      'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod" => array("href" => "/ph/communecter/comment/testpod")
     ),
     "action"=> array(
