@@ -43,7 +43,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles ,Yii::app()->theme->b
 								<br/>max. 2.0Mb
 								<span class="text-small">
 									<br/>jpg, jpeg, png, gif
-									<br/>pdf, xls, xlsx, doc, docx, ppt, pptx
+									<br/>pdf, xls, xlsx, doc, docx, ppt, pptx, odt
 								</span>
 							</span>
 						</div>
@@ -109,7 +109,7 @@ function initDropZoneData(docs)
 		genericDropzone = new Dropzone("#generic-dropzone", {
 		  acceptedFiles: "image/*,"+
 		  				 "application/pdf,"+
-		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx",
+		  				 ".xls,.xlsx,.doc,.docx,ppt,.pptx, .odt",
 		  url : baseUrl+"/"+moduleId+"/document/upload/dir/"+destinationFolder+"/folder/"+folder+"/ownerId/"+ownerId+"/input/file",
 		  maxFilesize: 2.0, // MB
 		  sending: function() {

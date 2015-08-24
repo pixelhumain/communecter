@@ -5,10 +5,10 @@
 
 	   	//chargement de toutes les librairies css et js indispensable pour la carto
     	//HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
-			$this->renderPartial($relativePath.'generic/mapLibs');
-			$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
-			//var_dump($sigParams); //die();
-			$moduleName = "sigModule".$sigParams['sigKey'];
+		$this->renderPartial($relativePath.'generic/mapLibs');
+		$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+		//var_dump($sigParams); //die();
+		$moduleName = "sigModule".$sigParams['sigKey'];
 ?>
 
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>

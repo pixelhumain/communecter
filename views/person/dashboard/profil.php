@@ -141,14 +141,15 @@
 					//if connected user and pageUser are allready connected
 					$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
     				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
-					{  ?>
+					{  /* ?>
 						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
-					<?php } 
+					<?php */ } 
 					if (Person::logguedAndValid() && $canEdit) {
 					?>
 						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>
-					<?php } ?>
+					<?php } /*?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+					*/ ?>
 				</div>
 
 			</div>
@@ -248,7 +249,7 @@ function bindAboutPodEvents()
     	console.log("exportMyDataBtn");
     	$.ajax({
 	        type: "GET",
-	        url: baseUrl+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
+	        url: baseUrl+"/"+moduleId+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
 	        //dataType : "json"
 	        //data: params
 	    })

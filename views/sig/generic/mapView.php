@@ -15,10 +15,15 @@
 
 	<?php if($sigParams['usePanel']){ ?>
 		<div class="panel_map" id="panel_map">
-			<?php if(isset($sigParams['titlePanel'])) { ?>
-			<!-- <h3 id="title_panel"><i class="fa fa-angle-down"></i> <?php echo $sigParams['titlePanel']; ?></h3> -->
-			<?php } ?>
 			<button class='item_panel_map' id='item_panel_map_all'>
+				<i class='fa fa-star'></i> Tous
+			</button>
+		</div>
+	<?php } ?>
+
+	<?php if($sigParams['useFilterType']){ ?>
+		<div class="panel_map" id="panel_filter">
+			<button class='item_panel_map' id='item_panel_filter_all'>
 				<i class='fa fa-star'></i> Tous
 			</button>
 		</div>
@@ -100,7 +105,7 @@
 				<?php } ?>	
 			</div>	
 			<div class="btn-group btn-group-lg" id="btn-filter">
-				<?php if($sigParams['usePanel']){ ?>
+				<?php if($sigParams['useFilterType']){ ?>
 					<button type="button" class="btn btn-map" id="btn-filters"><i class="fa fa-filter"></i></button>
 				<?php } ?>	
 			</div>

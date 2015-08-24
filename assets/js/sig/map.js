@@ -22,8 +22,13 @@
 
 			//mémorise les identifiants des éléments de chaque carte
 			this.Sig.listId = new Array();
+
 			this.Sig.listPanel = new Array();
+			this.Sig.listPanel.tags = new Array();
+			this.Sig.listPanel.types = new Array();
+
 			this.Sig.panelFilter = "all";
+			this.Sig.panelFilterType = "all";
 			this.Sig.dataMap = {};
 
 			//mémorise les éléments
@@ -34,6 +39,7 @@
 			this.Sig.markerSingleList = new Array();
 			this.Sig.popupOpen = false;
 
+			this.Sig.mapPolygon = null;
 
 			//##
 			//créé une donnée GeoJson (pour les cluster)
@@ -84,8 +90,8 @@
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
 				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 59],//22, 94],
-				    popupAnchor: [-3, -60]//-3, -76]
+				    iconAnchor: [25, 25],//22, 94],
+				    popupAnchor: [-3, -70]//-3, -76]
 				});
 			};
 
@@ -113,7 +119,10 @@
 				});
 
 				this.listId = new Array();
-				this.listPanel = new Array();
+				//this.listPanel = new Array();
+				//this.listPanel.tags = new Array();
+				//this.listPanel.types = new Array();
+
 				$( this.cssModuleName + " #liste_map_element").html("");
 
 			};
@@ -132,9 +141,13 @@
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight+25});
-				$(this.cssModuleName + " .panel_map").css({"max-height":mapHeight-300});
-				//$(this.cssModuleName + " .panel_map").css({"top":mapHeight-300});
-				$(this.cssModuleName + " .panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
+				
+				$(this.cssModuleName + " #panel_map").css({"max-height":mapHeight-300});
+				$(this.cssModuleName + " #panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
+				
+				$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
+				$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20});
+				
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
 				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
 				
@@ -156,27 +169,63 @@
 			}
 			this.Sig.verifyPanelFilter = function (thisData){
 				console.warn("--------------- verifyPanelFilter ---------------------");
-				if(this.usePanel == false) return true;
 
-				//si thisData n'a pas de tags
-				if("undefined" == typeof thisData["tags"]){
-					return (this.panelFilter == "all");
-				}
-
+				if(this.panelFilter == "all") return true;
 
 				var thisSig = this;
-				var inArray = false;
-				$.each(thisData["tags"], function(index, value){
-					if(value == thisSig.panelFilter) inArray = true;
-				});
+				//console.log("PANELFILTER" + this.panelFilterType);
+				if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
+					if(this.usePanel == false) return true;
+					console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
+					
+					//si thisData n'a pas de tags
+					if("undefined" == typeof thisData["tags"]){
+						return (this.panelFilter == "all");
+					}
 
-				if(		inArray //$.inArray(this.panelFilter, thisData["tags"]) > -1 //ne fonctionne pas
-					||  this.panelFilter == "all") {
-						return true;
+
+					var inArray = false;
+					$.each(thisData["tags"], function(index, value){
+						if(value == thisSig.panelFilter) inArray = true;
+					});
+
+					if(	inArray //$.inArray(this.panelFilter, thisData["tags"]) > -1 //ne fonctionne pas
+						||  this.panelFilter == "all") {
+							return true;
+					}
+					else{ return false; }
+
 				}
-				else{ return false; }
+				
+				if(this.panelFilterType == "types" || this.panelFilterType == "all"){
+					if(this.useFilterType == false) return true;
+
+					//si thisData n'a pas de tags
+					if("undefined" == typeof thisData["type"]){
+						return (this.panelFilter == "all");
+					}
+					if(	thisData["type"] == thisSig.panelFilter
+						||  this.panelFilter == "all") {
+							return true;
+					}
+					else{ return false; }
+
+				}
 			};
 
+			this.Sig.showPolygon = function(polygonPoints, options)
+			{
+				//si le polygone existe déjà on le supprime
+				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
+				//puis on charge le nouveau polygone
+				this.mapPolygon = L.polygon(polygonPoints, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.6,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+			}
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{
@@ -253,7 +302,7 @@
 							{
 								this.elementsMap.push(thisData);
 								this.listId.push(objectId);
-								this.populatePanel(thisData["tags"], objectId);
+								this.populatePanel(thisData, objectId); //["tags"]
 								this.createItemRigthListMap(thisData, marker, thisMap);
 							}
 
@@ -283,7 +332,7 @@
 					if(thisData == null) return false;
 
 					console.warn("--------------- PAS D'ID ---------------------");
-					console.dir(thisData);
+					//console.dir(thisData);
 
 					if("undefined" != typeof thisData["chartOptions"]){
 						console.warn("--------------- LOAD CHART ---------------------");
@@ -297,12 +346,12 @@
 				console.warn("--------------- showFilterOnMap ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
-				console.dir(dataFilter);
+				//console.dir(dataFilter);
 
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
 						//console.warn("--------------- show each thisData ---------------------");
-						//console.dir(thisData);
+						////console.dir(thisData);
 
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
@@ -407,7 +456,7 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			console.warn("--------------- loadMap ---------------------");
-			console.dir(initParams);
+			//console.dir(initParams);
 			canvasId += initParams.sigKey;
 
 			$("#"+canvasId).html("");
@@ -420,21 +469,21 @@
 										"zoom" : 4,
 										"worldCopyJump" : false });
 
-			// var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-			// 	subdomains: 'abc',
-			// 	minZoom: 0,
-			// 	maxZoom: 20
-			// });
-
-			var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				subdomains: 'abc',
 				minZoom: 0,
 				maxZoom: 20
 			});
+
+			// var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+			// 	//subdomains: 'abc',
+			// 	minZoom: 0,
+			// 	maxZoom: 20
+			// });
 
 			
 

@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.0.4";
-  public $versionDate = "14/08/2015";
+  public $version = "v0.0.41";
+  public $versionDate = "21/08/2015";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -37,7 +37,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href" => "openSubView('Invite Someone', '/communecter/person/invitesv',null,function(){})", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "href" => "openSubView('Invite Someone', '/communecter/person/invitesv',null)", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -55,7 +55,7 @@ class CommunecterController extends Controller
           ),
      array('label' => "Event", "key"=>"event",
                 "children"=> array(
-                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent", "class"=>"new-event", "href" => "#newEvent", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent",  "class"=>"ajaxSV", "onclick" => "openSubView('New Event', '/communecter/event/eventsv',null)", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href" => "/ph/communecter/event/calendarview", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
@@ -81,6 +81,7 @@ class CommunecterController extends Controller
     "admin" => array(
       "index"   => array("href" => "/ph/communecter/admin"),
       "directory" => array("href" => "/ph/communecter/admin/directory"),
+      "switchto" => array("href" => "/ph/communecter/admin/switchto"),
     ),
 
     "default" => array(
@@ -111,6 +112,7 @@ class CommunecterController extends Controller
     ),
     "news"=> array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
+      "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"  => array( "href" => "/ph/communecter/news/save"),
     ),
     
@@ -129,50 +131,50 @@ class CommunecterController extends Controller
       "removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
       "generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
     ),
-	"needs"=> array(
-      "index" => array("href" => "/ph/communecter/needs/index"),
-      "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
-      "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
-      "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
-    ),
-  "person"=> array(
-      "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
-      "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
-      "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
-      "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
-      "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
-      "connect"         => array("href" => "/ph/communecter/person/connect"),
-      "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
-      "register"        => array("href"=> "/ph/communecter/person/register"),
-      "activate"        => array('href'=> "/ph/communecter/person/activate"),
-      "logout"          => array("href" => "/ph/communecter/person/logout"),
-      'getnotification' => array("href" => "/person/getNotification"),
-      'changepassword' => array("href" => "/person/changepassword"),
-      'changerole' => array("href" => "/person/changerole"),
+  	"needs"=> array(
+        "index" => array("href" => "/ph/communecter/needs/index"),
+        "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
+        "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
+        "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
+      ),
+    "person"=> array(
+        "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
+        "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
+        "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
+        "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
+        "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
+        "connect"         => array("href" => "/ph/communecter/person/connect"),
+        "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
+        "register"        => array("href"=> "/ph/communecter/person/register"),
+        "activate"        => array('href'=> "/ph/communecter/person/activate"),
+        "logout"          => array("href" => "/ph/communecter/person/logout"),
+        'getnotification' => array("href" => "/person/getNotification"),
+        'changepassword' => array("href" => "/person/changepassword"),
+        'changerole' => array("href" => "/person/changerole"),
 
-      "invite"          => array("href" => "/ph/communecter/person/invite"),
-      "invitesv"          => array("href" => "/ph/communecter/person/invitesv", "public" => true),
-      "invitation"      => array("href" => "/ph/communecter/person/invitation"),
-      "updatefield"     => array("href" => "/person/updatefield"),
-      "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
+        "invite"          => array("href" => "/ph/communecter/person/invite"),
+        "invitesv"          => array("href" => "/ph/communecter/person/invitesv", "public" => true),
+        "invitation"      => array("href" => "/ph/communecter/person/invitation"),
+        "updatefield"     => array("href" => "/person/updatefield"),
+        "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
 
-      "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
-      "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
-      "updatename"      => array("href" => "/ph/communecter/person/updatename"),
+        "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
+        "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
+        "updatename"      => array("href" => "/ph/communecter/person/updatename"),
 
-      "network"=> array('href'    => "/ph/communecter/person/network"),
-      "google"=> array('href'     => "/ph/communecter/person/google"),
-      "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
-      "importfile"=> array('href' => "/ph/communecter/person/importfile"),
-      "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
-      
-      //Init Data
-      "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
-      "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
-      "importmydata"            => array("href" =>"'/ph/communecter/person/importmydata'"),
-      "about"                   => array("href" => "/person/about"),
-      "data"                    => array("href" => "/person/scopes"),
-      "directory"               => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        "network"=> array('href'    => "/ph/communecter/person/network"),
+        "google"=> array('href'     => "/ph/communecter/person/google"),
+        "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
+        "importfile"=> array('href' => "/ph/communecter/person/importfile"),
+        "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
+        
+        //Init Data
+        "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
+        "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
+        "importmydata"            => array("href" =>"'/ph/communecter/person/importmydata'"),
+        "about"                   => array("href" => "/person/about"),
+        "data"                    => array("href" => "/person/scopes"),
+        "directory"               => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
     "organization"=> array(
