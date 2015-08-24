@@ -82,9 +82,12 @@
 
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes ){
 							
+							if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
+								return;
 							$actions = "";
 							$classes = "";
 							$id = @$e['_id'];
+
 							/* **************************************
 							* ADMIN STUFF
 							***************************************** */
