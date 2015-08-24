@@ -109,7 +109,10 @@
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] page expliquer la gouvernance 
 		[ ] gamification citoyenne
-		[ ] delete orga
+		[ ] disable orga
+			- hide from lists users lists
+			- inform users
+			- show disabled button
 		[ ] add organization to admin directory 
 		
 		* vote Standalone
