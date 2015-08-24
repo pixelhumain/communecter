@@ -19,12 +19,12 @@
       <ul class="nav nav-tabs" id="myTab">
         <li class="<?php if ($nbPerson > $nbOrganization) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example2">
-            <i class="fa fa-user text-red"></i> People <span class="badge badge-red"><?php echo $nbPerson ?></span>
+            <i class="fa fa-user text-red"></i> People <span class="badge badge-red nbPersons"><?php echo $nbPerson ?></span>
           </a>
         </li>
         <li class="<?php if ($nbPerson <= $nbOrganization) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example3">
-            <i class="fa fa-group text-green"></i> Organizations <span class="badge badge-green"><?php echo $nbOrganization ?></span>
+            <i class="fa fa-group text-green"></i> Organizations <span class="badge badge-green nbOrganizations"><?php echo $nbOrganization ?></span>
           </a>
         </li>
       </ul>
@@ -157,11 +157,13 @@
 				type = "";
 				imgHtml = '<i class="fa fa-user fa-2x"></i>';
 				tabObject= $("#tPerson");
+				$('.nbPersons').html((parseInt($('.nbPersons').html()) || 0) +1);
 			}else{
 				links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
 				tabObject = $("#tOrga");
 				imgHtml = '<i class="fa fa-group fa-2x"></i>'
 				type = newMember.type;
+				$('.nbOrganizations').html((parseInt($('.nbOrganizations').html()) || 0) +1);
 			}
 			if('undefined' != typeof newMember["imagePath"] && newMember["imagePath"]!=""){
 				imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newMember["imagePath"]+'">'
