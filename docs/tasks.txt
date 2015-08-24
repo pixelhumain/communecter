@@ -108,7 +108,7 @@
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] page expliquer la gouvernance 
-		[ ] switch to user 
+		[ ] gamification citoyenne
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form

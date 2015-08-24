@@ -84,6 +84,7 @@
 							
 							$actions = "";
 							$classes = "";
+							$id = @$e['_id'];
 							/* **************************************
 							* ADMIN STUFF
 							***************************************** */
@@ -93,38 +94,38 @@
 								if( @$e["roles"]["tobeactivated"] )
 								{
 									$classes .= "tobeactivated";
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
 								}
 								//Beta Test
 								if (@Yii::app()->params['betaTest']) {
 									if( @$e["roles"]["betaTester"] ) {
 										$classes .= "betaTester";
-										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
+										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
 									} else {
-										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
+										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
 									}
 								}
 								//Super Admin
 								if( @$e["roles"]["superAdmin"] ) {
 									$classes .= "superAdmin";
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
 								} else {
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
 								}
 
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
 
 								//TODO
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
+								$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
 							}
 
 							/* **************************************
 							* TYPE + ICON
 							***************************************** */
-						$strHTML = '<tr id="'.$collection.(string)$e["_id"].'">'.
+						$strHTML = '<tr id="'.$collection.(string)$id.'">'.
 							'<td class="'.$collection.'Line '.$classes.'">'.
-								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">';
+								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
 									if ($e && isset($e["imagePath"])){ 
 										$strHTML .= '<img width="50" height="50" alt="image" class="img-circle" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">'.((isset($e["type"])) ? $e["type"] : "");
 									} else { 
@@ -136,13 +137,13 @@
 							/* **************************************
 							* NAME
 							***************************************** */
-							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
+							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
 							
 							/* **************************************
 							* EMAIL for admin use only
 							***************************************** */
 							if( Yii::app()->session[ "userIsAdmin"] && Yii::app()->controller->id == "admin" ){
-								$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["email"]))? $e["email"]:"").'</a></td>';
+								$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["email"]))? $e["email"]:"").'</a></td>';
 							}
 
 							/* **************************************
