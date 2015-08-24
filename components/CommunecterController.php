@@ -82,6 +82,7 @@ class CommunecterController extends Controller
       "index"   => array("href" => "/ph/communecter/admin"),
       "directory" => array("href" => "/ph/communecter/admin/directory"),
       "switchto" => array("href" => "/ph/communecter/admin/switchto"),
+      "delete" => array("href" => "/ph/communecter/admin/delete"),
     ),
 
     "default" => array(
