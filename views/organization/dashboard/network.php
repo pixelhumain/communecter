@@ -133,9 +133,8 @@
 		bindBtnNetwork();
 	});
 
-	function updateOrganisation(newMember,type)
-	{
-		
+	function updateOrganisation(newMember,type) {
+		console.log("UpdateOrganization from network pod !");
 		if('undefined' != typeof contextMap["organizations"])
 		{
 			if(type == '<?php echo Person::COLLECTION; ?>')
@@ -161,7 +160,7 @@
 			}else{
 				links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
 				tabObject = $("#tOrga");
-				imgHtml = '<i class="fa fa-group fa-2x"></i>'
+				imgHtml = '<i class="fa fa-group fa-2x"></i>';
 				type = newMember.type;
 				$('.nbOrganizations').html((parseInt($('.nbOrganizations').html()) || 0) +1);
 			}
@@ -198,7 +197,7 @@
 										'</td>'+
 	        						'</tr>';
 
-	        console.log(networkLine);
+	        //console.log(networkLine);
 	        tabObject.append(networkLine);
 	        bindBtnNetwork();
 

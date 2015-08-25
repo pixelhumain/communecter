@@ -1,6 +1,6 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-smile-o fa-2x text-yellow"></i> Mon entourage</h4>
+		<h4 class="panel-title"><i class="fa fa-share-alt fa-2x text-yellow"></i> Mon entourage</h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
@@ -22,7 +22,7 @@
 								<?php if ($e && isset($e["imagePath"])){ ?>
 									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 								<?php } else { ?>
-									<i class="fa fa-smile-o fa-2x"></i>
+									<i class="fa fa-user fa-2x"></i>
 								<?php } ?>
 								</a>
 							</td>
