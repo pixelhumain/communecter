@@ -150,9 +150,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 jQuery(document).ready(function() {
 	addCustomValidators();
 	initProjectForm();
-	bindProjectSubViewEvents();
+	bindProjectSubViewProjects();
  	bindPostalCodeAction();
- 	runProjectFormValidationTest();
+ 	runProjectFormValidation();
 	//var countries = <?php echo json_encode($countries) ?>;
 	var countries = getCountries("select2");
 
@@ -166,8 +166,7 @@ jQuery(document).ready(function() {
  	});
 });
 
-function bindProjectSubViewEvents() {
-	
+function bindProjectSubViewProjects() {
 	$(".close-subview-button").off().on("click", function(e) {
 		$(".close-subviews").trigger("click");
 		e.prprojectDefault();
@@ -177,7 +176,7 @@ function bindProjectSubViewEvents() {
 //var dateToShow, calendar;
 // creates an array of projects to display in the calendar
 //validate new project form
-function runProjectFormValidationTest(el) {
+function runProjectFormValidation(el) {
 	var formProject = $('.form-project');
 	var errorHandler2 = $('.errorHandler', formProject);
 	var successHandler2 = $('.successHandler', formProject);
@@ -334,69 +333,69 @@ function initProjectForm(el) {
 };
 
 
-	//*************** Postal Code Management ****************************/
-	function runShowCity(searchValue) {
-		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		var oneValue = "";
-		$.each(citiesByPostalCode,function(i, value) {
-	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
-	    	oneValue = value.value;
-		});
-		
-		if (citiesByPostalCode.length == 1) {
-			$("#city").val(oneValue);
-		}
-
-		if (citiesByPostalCode.length >0) {
-	        $("#cityDiv").slideDown("medium");
-	      } else {
-	        $("#cityDiv").slideUp("medium");
-	      }
+//*************** Postal Code Management ****************************/
+function runShowCity(searchValue) {
+	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	var oneValue = "";
+	$.each(citiesByPostalCode,function(i, value) {
+    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
+	});
+	
+	if (citiesByPostalCode.length == 1) {
+		$("#city").val(oneValue);
 	}
 
-	function bindPostalCodeAction() {
-		$('.form-project #postalCode').keyup(function(e){
-			searchCity();
-		});
+	if (citiesByPostalCode.length >0) {
+        $("#cityDiv").slideDown("medium");
+      } else {
+        $("#cityDiv").slideUp("medium");
+      }
+}
 
-		$('.form-project #postalCode').change(function(e){
-			searchCity();
-		});
-	}
+function bindPostalCodeAction() {
+	$('.form-project #postalCode').keyup(function(e){
+		searchCity();
+	});
 
-	function searchCity() {
-		var searchValue = $('.form-project #postalCode').val();
-		if(searchValue.length == 5) {
-			$("#city").empty();
-			setTimeout(function(){
-				$("#iconeChargement").css("visibility", "visible");
-				runShowCity(searchValue);
-			}, 100); 
-		} else {
-			$("#cityDiv").slideUp("medium");
-			$("#city").empty();
-		}
+	$('.form-project #postalCode').change(function(e){
+		searchCity();
+	});
+}
+
+function searchCity() {
+	var searchValue = $('.form-project #postalCode').val();
+	if(searchValue.length == 5) {
+		$("#city").empty();
+		setTimeout(function(){
+			$("#iconeChargement").css("visibility", "visible");
+			runShowCity(searchValue);
+		}, 100); 
+	} else {
+		$("#cityDiv").slideUp("medium");
+		$("#city").empty();
 	}
+}
 
 function convertDate2(date, num){
 	var dateTab = date.split("-");
-		//console.log(dateTab, dateTab[num]);
-		var hour = dateTab[num].split(" ")[1+num];
-		var hourRes ="";
-		var hourUnit = dateTab[num].split(" ")[2+num];
-		//console.log(hourUnit);
-		if(hourUnit = "PM"){
-			hours = hour.split(":");
-			var newhour = parseInt(hours[0])+12;
-			if(newhour==24){
-				newhour = 00;
-			}
-			hourRes = newhour+":"+hours[1];
-		}else{
-			hourRes = hour;
+	//console.log(dateTab, dateTab[num]);
+	var hour = dateTab[num].split(" ")[1+num];
+	var hourRes ="";
+	var hourUnit = dateTab[num].split(" ")[2+num];
+	//console.log(hourUnit);
+	if(hourUnit = "PM"){
+		hours = hour.split(":");
+		var newhour = parseInt(hours[0])+12;
+		if(newhour==24){
+			newhour = 00;
 		}
-		//console.log(hourRes);
-		return dateTab[num].split(" ")[0+num]+" "+hourRes;
+		hourRes = newhour+":"+hours[1];
+	}else{
+		hourRes = hour;
+	}
+	//console.log(hourRes);
+	return dateTab[num].split(" ")[0+num]+" "+hourRes;
 }
 	
 </script>
