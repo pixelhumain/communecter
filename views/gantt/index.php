@@ -17,10 +17,10 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> PROJECT TIMELINE</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
-				<?php //if ($admin) { ?>
+				<?php if ($edit) { ?>
 				<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer la timeline"><i class="fa fa-pencil"></i>
 				</a>
-				<?php //} 
+				<?php } 
 				?>
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
@@ -53,7 +53,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 	</div>
 	<?php if(isset($tasks) && !empty($tasks)){ ?>
 	<div class="panel-body no-padding partition-dark">
-		<ul id="timesheetTab" class="nav nav-tabs">
+		<ul id="timesheetTab" class="nav nav-tabs no-margin">
 			
 			<?php if($period == "yearly"){ ?>
 			<li class="active">
