@@ -1,3 +1,11 @@
+fiche Orga 
+	- existe depuis 
+	- nombres d'adherents
+	- nb de fan FB
+
+affiche 
+	forum des commun 
+	crowdfunding
 * DNB 
 	fiche blanche 
 	question - millionaire 
@@ -55,9 +63,6 @@
 		- Labo reunion Labo Elec 2 Procédé (Moufia)
 			- Fred alicalapa
 			- reseau de capteur
-		- SIPR
-		- bug AZOT (20/08) 2j
-		- Standalone Possesion
 		- join Standalone / simple
 			- tree type form
 			- create orga + admin
@@ -108,12 +113,13 @@
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] page expliquer la gouvernance 
-		[ ] gamification citoyenne
-		[ ] disable orga
-			- hide from lists users lists
-			- inform users
-			- show disabled button
+		[X] disable orga
+			[ ] hide from lists users lists
+			[ ] inform users
+			[X] show disabled button
+			[X] disable all pods
 		[ ] add organization to admin directory 
+		[ ] smaller scope 
 		
 		* vote Standalone
 			[ ] traduction
@@ -127,12 +133,7 @@
 				[ ] basé sur les commentaire avec un outil de high light
 
 			[ ] creatorId must exist if organizer is an orga, for admin purposes
-		* IRT 
-			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
-			[ ] banderole refaire Communecter
-			[ ] transmettre le logo COMMUNECTER @DR
-			[ ] 17/08/2015 : presentation Communecter Tourisme 15min 2min/slide
-
+		
 		* CONTACT : mairie sin paul 
 			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
 			- Service Subventions Associations au 0262 70 28 85
@@ -144,7 +145,7 @@
 			[ ] @Tristan Publics est toujours vide
 			[ ] @Tristan Lors d'un clic sur un réul
 
-		[ ] smaller scope 
+		
 		[ ] adding scope to news form (pub priv) & territories
 
 		* dynSurvey 
