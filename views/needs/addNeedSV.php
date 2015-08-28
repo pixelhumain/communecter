@@ -214,23 +214,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
 			console.log("state = "+state );
 			if (state == true) {
-				$("#newNeed #needIsPonctual").val("ponctuel");
+				$("#newNeed #needIsPonctual").val("Ponctuel");
 				$("#newNeed .rangeDatePonctual").slideDown();
 				$("#newNeed .duration .explainLimit").fadeIn().text("Besoin ponctuel");
 			} else {
-				$("#newNeed #needIsPonctual").val("permanent");
+				$("#newNeed #needIsPonctual").val("Permanent");
 				$("#newNeed .rangeDatePonctual").slideUp();
-				$("#newNeed . duration.explainLimit").fadeIn().text("Besoin permanent");
+				$("#newNeed .duration .explainLimit").fadeIn().text("Besoin permanent");
 			}
 		});
 		$("[name='benefits-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
 			console.log("state = "+state );
 			if (state == true) {
-				$("#newNeed #needIsRemunerate").val("rémunéré");
+				$("#newNeed #needIsRemunerate").val("Rémunéré");
 				$("#newNeed .rangeRemunaration").slideDown();
 				$("#newNeed .remunarate .explainLimit").fadeIn().text("Indiquer une échelle");
 			} else {
-				$("#newNeed #needIsRemunerate").val("volontaire");
+				$("#newNeed #needIsRemunerate").val("Volontaire");
 				$("#newNeed .rangeRemunaration").slideUp();
 				$("#newNeed .remunarate .explainLimit").fadeIn().text("Volontaire");
 			}
