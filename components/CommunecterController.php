@@ -193,8 +193,8 @@ class CommunecterController extends Controller
       "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
-      "directory"          => array("href"=>"/ph/communecter/organization/directory"),
-
+      "directory"           => array("href"=>"/ph/communecter/organization/directory"),
+      "disabled"            => array("href"=>"/ph/communecter/organization/disabled")      
     ),
     
     "event"=> array(

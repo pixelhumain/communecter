@@ -9,7 +9,10 @@ $this->renderPartial('gedSV', array("categories" => $categories));
 			<h4 class="panel-title">Documents</h4>
 		</div>
 		<div class="panel-tools">
-			<?php if(isset($id) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id)){ ?>
+			<?php if(isset($id) 
+					&& isset(Yii::app()->session["userId"]) 
+					&& Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) 
+					&& !isset($organization["disabled"])){ ?>
 				<a href="#genericGED" class="new-file btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add a File"><i class="fa fa-plus"></i></a>
 			<?php }; ?>
 		</div>
