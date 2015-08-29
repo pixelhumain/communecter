@@ -35,9 +35,9 @@ function getCitiesByPostalCode(postalCode, selectType) {
 		success: function(data) {
 			$.each(data, function(key,value) {
 				if (selectType == "select2") {
-					result.push({"id" : value.insee, "text" :value.name});
+					result.push({"id" : value.insee, "text" :value.alternateName});
 				} else {
-					result.push({"value" : value.insee, "text" :value.name});
+					result.push({"value" : value.insee, "text" :value.alternateName});
 				}
 			});
 		}

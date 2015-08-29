@@ -33,32 +33,30 @@
 		</div>
 	</div>
 	<div class="panel-body padding">
-		<a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click">Sed cautela nimia in peiores haeserat plagas, ut narrabimus postea, aemulis consarcinantibus insidias graves apud Constantium, cetera medium principem sed siquid auribus eius huius modi quivis infudisset ignotus, acerbum et inplacabilem et in hoc causarum titulo dissimilem sui.
-
-Vbi curarum abiectis ponderibus aliis tamquam nodum et codicem difficillimum Caesarem convellere nisu valido cogitabat, eique deliberanti cum proximis clandestinis conloquiis et nocturnis qua vi, quibusve commentis id fieret, antequam effundendis rebus pertinacius incumberet confidentia, acciri mollioribus scriptis per simulationem tractatus publici nimis urgentis eundem placuerat Gallum, ut auxilio destitutus sine ullo interiret obstaculo.</a>
+		<a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click"></a>
 	</div>
 </div>
 <script>
-	var mode = "update";
-	var	needId="";
+	var modeDescription = "update";
+	var	needID="<?php echo (string) $id; ?>";
 jQuery(document).ready(function() 
 {
     bindDescriptionPodneeds();
-	initDescriptionXEditable();
-	manageDescriptionModeContext();
+	initNeedDescriptionXEditable();
+	manageNeedDescriptionModeContext();
 });
 
 
 
 function bindDescriptionPodneeds() {
 	$("#editNeedDescription").on("click", function(){
-		switchDescrMode();
+		switchNeedDescriptionMode();
 	})
 }
-function initDescriptionXEditable() {
+function initNeedDescriptionXEditable() {
 $('#description').editable({
 		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
-		value: <?php echo (isset($need["description"])) ? json_encode($need["description"]) : "''"; ?>,
+		value: <?php echo (isset($description)) ? json_encode($description) : "'Courte description du besoin...<br/>Pour qui? quel profil?<br/>Quelles sont les conditions? temps, retribution, etc.?'"; ?>,
 		placement: 'hover',
 		mode: 'popup',
 		wysihtml5: {
@@ -74,30 +72,30 @@ $('#description').editable({
 	    },
 	});
 }
-function switchDescrMode() {
-	if(mode == "view"){
-		mode = "update";
-		manageDescriptionModeContext();
+function switchNeedDescriptionMode() {
+	if(modeDescription == "view"){
+		modeDescription = "update";
+		manageNeedDescriptionModeContext();
 	} else {
-		mode ="view";
-		manageDescriptionModeContext();
+		modeDescription ="view";
+		manageNeedDescriptionModeContext();
 	}
 }
 
-function manageDescriptionModeContext() {
-	listXeditables = ['#description'];
-	if (mode == "view") {
+function manageNeedDescriptionModeContext() {
+	listDescriptionXeditables = ['#description',''];
+	if (modeDescription == "view") {
 //		$('.editable-need').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
 		})
-	} else if (mode == "update") {
+	} else if (modeDescription == "update") {
 		// Add a pk to make the update process available on X-Editable
 //		$('.editable-need').editable('option', 'pk', needId);
 //		$('.editable-need').editable('toggleDisabled');
-		$.each(listXeditables, function(i,value) {
+		$.each(listDescriptionXeditables, function(i,value) {
 			//add primary key to the x-editable field
-			$(value).editable('option', 'pk', needId);
+			$(value).editable('option', 'pk', needID);
 			$(value).editable('toggleDisabled');
 		})
 	}

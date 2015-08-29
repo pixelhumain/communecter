@@ -57,10 +57,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="row">
 					<div class="col-md-12">
 						<div class="errorHandler alert alert-danger no-display">
-							<i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+							<i class="fa fa-times-sign"></i> <?php echo Yii::t("common","You have some form errors. Please check below.") ?>
 						</div>
 						<div class="successHandler alert alert-success no-display">
-							<i class="fa fa-ok"></i> Your form validation is successful!
+							<i class="fa fa-ok"></i> <?php echo Yii::t("common","The form has been validated.") ?>
 						</div>
 					</div>
 					<div class="form-group" id="searchOrganizationSection">

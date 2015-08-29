@@ -84,9 +84,9 @@
 var projectData = <?php echo json_encode($project)?>;
 var mode = "update";
 var projectId= "<?php echo (string) $project["_id"]; ?>";
-var countries = <?php echo json_encode($countries) ?>;
-//var startDate = '<?php ?>';
-//var endDate = '<?php ?>';
+var countries = <?php echo json_encode($countries); ?>;
+var startDate = '<?php echo $project["startDate"]; ?>';
+var endDate = '<?php echo $project["endDate"]; ?>';
 
 
 jQuery(document).ready(function() 
@@ -106,14 +106,17 @@ function bindAboutPodProjects() {
 }
 
 function initXEditable() {
-	$.fn.editable.defaults.mode = 'inline';
+	$.fn.editable.defaults.mode = 'popup';
 	$('.editable-project').editable({
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
-    	onblur: 'submit',
+    	//value : <?php echo (isset($project["name"]))?json_encode($project["name"]) : "''";?> ,
+    	//onblur: 'submit',
     	showbuttons: false,
     	success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
 	        	toastr.success(data.msg);
+				console.log(data);
+	        }
 	        else
 	        	toastr.error(data.msg);  
 	    }

@@ -19,12 +19,12 @@
       <ul class="nav nav-tabs" id="myTab">
         <li class="<?php if ($nbPerson > $nbOrganization) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example2">
-            <i class="fa fa-user text-red"></i> People <span class="badge badge-red"><?php echo $nbPerson ?></span>
+            <i class="fa fa-user text-red"></i> People <span class="badge badge-red nbPersons"><?php echo $nbPerson ?></span>
           </a>
         </li>
         <li class="<?php if ($nbPerson <= $nbOrganization) echo "active" ?>">
           <a data-toggle="tab" href="#users_tab_example3">
-            <i class="fa fa-group text-green"></i> Organizations <span class="badge badge-green"><?php echo $nbOrganization ?></span>
+            <i class="fa fa-group text-green"></i> Organizations <span class="badge badge-green nbOrganizations"><?php echo $nbOrganization ?></span>
           </a>
         </li>
       </ul>
@@ -135,6 +135,7 @@
 
 	function updateOrganisation(newMember,type)
 	{
+		
 		if('undefined' != typeof contextMap["organizations"])
 		{
 			if(type == '<?php echo Person::COLLECTION; ?>')
@@ -145,60 +146,65 @@
 		console.log(newMember, "type", type);
 		var links ="";
 		var itemId = newMember["_id"]["$id"];
-		var imgHtml="";
-		var roles ="";
-		var parentId = organization["_id"]["$id"];
+		if( !$("#"+type+itemId).length > 0 ) 
+		{
+			var imgHtml="";
+			var roles ="";
+			var parentId = organization["_id"]["$id"];
 
-		if(type=="citoyens"){
-			links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
-			type = "";
-			imgHtml = '<i class="fa fa-user fa-2x"></i>';
-			tabObject= $("#tPerson");
-		}else{
-			links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
-			tabObject = $("#tOrga");
-			imgHtml = '<i class="fa fa-group fa-2x"></i>'
-			type = newMember.type;
-		}
-		if('undefined' != typeof newMember["imagePath"] && newMember["imagePath"]!=""){
-			imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newMember["imagePath"]+'">'
-		}
-		
-		if('undefined' != typeof newMember["links"]["memberOf"][parentId]["roles"]){
-			var rolesTab = newMember["links"]["memberOf"][parentId]["roles"];
-			for(var i = 0; i<rolesTab.length; i++){
-				if(i==0){
-					roles = rolesTab[i];
-				}else{
-					roles += ", "+rolesTab[i]
-				}	
+			if(type=="citoyens"){
+				links=  baseUrl+'/'+moduleId+'/person/dashboard/id/'+itemId;
+				type = "";
+				imgHtml = '<i class="fa fa-user fa-2x"></i>';
+				tabObject= $("#tPerson");
+				$('.nbPersons').html((parseInt($('.nbPersons').html()) || 0) +1);
+			}else{
+				links=  baseUrl+'/'+moduleId+'/organization/dashboard/id/'+itemId;
+				tabObject = $("#tOrga");
+				imgHtml = '<i class="fa fa-group fa-2x"></i>'
+				type = newMember.type;
+				$('.nbOrganizations').html((parseInt($('.nbOrganizations').html()) || 0) +1);
 			}
+			if('undefined' != typeof newMember["imagePath"] && newMember["imagePath"]!=""){
+				imgHtml = '<img width="50" height="50" alt="image" class="img-circle" src="'+newMember["imagePath"]+'">'
+			}
+			
+			if('undefined' != typeof newMember["links"]["memberOf"][parentId]["roles"]){
+				var rolesTab = newMember["links"]["memberOf"][parentId]["roles"];
+				for(var i = 0; i<rolesTab.length; i++){
+					if(i==0){
+						roles = rolesTab[i];
+					}else{
+						roles += ", "+rolesTab[i]
+					}	
+				}
+			}
+			
+			var networkLine = '<tr id="'+type+itemId+'">'+
+	          							'<td class="center">'+
+	          							'<a href="'+links+'">'+
+	          								imgHtml+
+	          							'</a>' +
+	          							'</td>'+
+	          							'<td> <a href="'+links+'">'+
+	          								newMember.name+
+										'</a> </td>'+
+	          							'<td>'+type+'</td>'+
+	          							'<td>'+roles+'</td>'+
+	      								'<td class="center">'+
+											'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
+												' <a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType=""  data-type="'+type+'" data-name="'+newMember.name+'" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
+											' </div>'+
+										'</td>'+
+	        						'</tr>';
+
+	        console.log(networkLine);
+	        tabObject.append(networkLine);
+	        bindBtnNetwork();
+
+	        if( $(".organizationNetwork tr").length > 0 )
+				$(".emptyOrganizationNetwork").remove();
 		}
-		
-		var networkLine = '<tr id="'+itemId+'">'+
-          							'<td class="center">'+
-          							'<a href="'+links+'">'+
-          								imgHtml+
-          							'</a>' +
-          							'</td>'+
-          							'<td> <a href="'+links+'">'+
-          								newMember.name+
-									'</a> </td>'+
-          							'<td>'+type+'</td>'+
-          							'<td>'+roles+'</td>'+
-      								'<td class="center">'+
-										'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-											' <a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType=""  data-type="'+type+'" data-name="'+newMember.name+'" data-original-title="" ><i class=" disconnectBtnIcon fa fa-unlink"></i> </a>'+
-										' </div>'+
-									'</td>'+
-        						'</tr>';
-
-        console.log(networkLine);
-        tabObject.append(networkLine);
-        bindBtnNetwork();
-
-        if( $(".organizationNetwork tr").length > 0 )
-			$(".emptyOrganizationNetwork").remove();
 	}
 
 	

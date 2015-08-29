@@ -31,9 +31,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 		</div>
 	</div>
 	<?php if(isset($properties) && !empty($properties)){ ?>
-	<div class="panel-body no-padding">
-		<canvas id="myChart" width="" height=""></canvas>
-	</div>
+		<div id="infoPodChart" class="padding-10 hide">
+						<blockquote> 
+						Create Chart
+							<br>Opening 
+							<br>Values
+							<br>Governance
+							<br>To explain the aim and draw project conduct
+				</blockquote>
+		</div>
+		<div class="panel-body no-padding">
+			<canvas id="myChart" width="" height=""></canvas>
+		</div>
 	<?php } else { ?>
 		<div id="infoPodChart" class="padding-10">
 					<blockquote> 
@@ -63,22 +72,29 @@ jQuery(document).ready(function() {
 
 function updateChart(data, nbProperties){
 	newCount=0;
-	if (nbProperties==0){
-		$("#infoPodChart").hide();
-		$(".contentChart").removeClass("hide");
-		chartInit(data);
+	if (countProperties==0){
+		if(nbProperties!=0){
+			$("#infoPodChart").addClass("hide");
+			$(".contentChart").removeClass("hide");
+			chartInit(data);
+			countProperties=nbProperties;
+		}		
 	}
 	else{
 		for (var i=0; i < countProperties; i++ ){
 			myNewChart.removeData();
 		}
-		chartInit(data);
-		/*for (var lab in data){
-			//alert(lab+":"+data[lab]);
-			//myNewChart.addData([data[lab]], lab);
-			newCount++;
+		if(nbProperties==0){
+			$("#infoPodChart").removeClass("hide");
+			$(".contentChart").addClass("hide");
+			$("#myChart").attr("width","0");
+			$("#myChart").attr("height","0");
+			
 		}
-		countProperties=newCount;*/
+		else {
+			chartInit(data);
+		}
+		countProperties=nbProperties;
 	}
 }
 

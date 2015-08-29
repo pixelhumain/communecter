@@ -55,7 +55,7 @@
 							</div>
 			            </div><br>
 		                <div id="formNewContributor">
-			    	        <div class="row">
+			    	        <div class="row form-group">
 			    	        	<div class="col-md-1" id="iconUser">	
 					           		
 					           	</div>
@@ -63,7 +63,7 @@
 			    	        		<input class="contributor-name form-control" placeholder="Name" id="contributorName" name="contributorName" value=""/>
 								</div>		    	        
 			    	        </div>
-			    	        <div class="row" id="divOrganizationType">
+			    	        <div class="row form-group" id="divOrganizationType">
 			    	        	<div class="col-md-1">
 			    	        		<i class="fa fa-crosshairs fa-2x"></i>
 					           	</div>
@@ -76,7 +76,7 @@
 									</select>
 								</div>		    	        
 			    	        </div>
-			    	        <div class ="row">
+			    	        <div class ="row form-group">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-envelope-o fa-2x"></i>
 					           	</div>
@@ -84,7 +84,7 @@
 			               			<input class="contributor-email form-control" placeholder="Email" autocomplete = "off" id="contributorEmail" name="contributorEmail" value=""/>
 			               		</div>
 			               	</div>
-			               	<div class="row">
+			               	<div class="row form-group">
 								<div class="col-md-5">
 									<div id="divAdmin" class="form-group">
 						    	    	<label class="control-label">
@@ -126,9 +126,10 @@
 		$('#contributorEmail').focusout(function(e){
 		});
 	});
+	
 	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
+	
 	function bindprojectSubViewcontributor() {	
-		
 		$(".new-contributor").off().on("click", function() {
 			subViewElement = $(this);
 			//$(".form-contributor .contributor-id").val($(this).data("id"));
@@ -136,13 +137,15 @@
 			$.subview({
 				content : subViewContent,
 				onShow : function() {
-					editProject();
+					editContributor();
 				},
 				onHide : function() {
-					hideEditProject();
+					hideEditContributor();
+					showSearchContributor();
 				},
 				onSave: function() {
-					hideEditProject();
+					hideEditContributor();
+					showSearchContributor();
 				}
 			});
 		});
@@ -235,7 +238,7 @@
 			success : function(label, element) {
 				label.addClass('help-block valid');
 				// mark the current input as valid and display OK icon
-				$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+				$(element).closest('.form-group').removeClass('has-error').find('.symbol').removeClass('required').addClass('ok');
 			},
 			submitHandler : function(form) {
 				successHandler2.show();
@@ -295,6 +298,7 @@
 		});
 	};
 	function setMemberInputAddContributor(id, name, email, type, organizationType){
+		name = name.replace("ACCENT","'");
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#newContributors #contributorSearch").val(name);
 		$("#newContributors #contributorName").val(name);
@@ -334,10 +338,10 @@
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddContributor(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+mapIcon[key]+'"></i>'+v.name +'</a></li>';
+			 				name = v.name.replace("'","ACCENT");
+		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v._id["$id"]+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";
 		  				});
 		  			}); 
-
 		  			$("#newContributors #dropdown_search").html(str);
 		  			$("#newContributors #dropdown_search").css({"display" : "inline" });
 	  			}
@@ -375,7 +379,7 @@
 		$("#newContributors #searchMemberSection").css("display", "block");
 		$("#newContributors #divAdmin").css("display", "none");
 		$("#iconeChargement").css("visibility", "hidden")
-		$("#newContributors #memberSearch").val("");
+		$("#newContributors .contributor-search").val("");
 		$("#newContributors #dropdown_search").css({"display" : "none" });
 	}
 	
@@ -404,11 +408,11 @@
 
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
-	function hideEditProject() {
+	function hideEditContributor() {
 		$.hideSubview();
 	};
 	// enables the edit form 
-	function editProject(el) {
+	function editContributor(el) {
 		$(".close-new-contributor").off().on("click", function() {
 			$(".back-subviews").trigger("click");
 		});

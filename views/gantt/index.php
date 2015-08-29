@@ -2,7 +2,7 @@
 //Chargement du fichier en ligne
 $cssAnsScriptFilesModule = array(
 	'/assets/css/timesheet.css/timesheet.css',
-	);
+);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 Yii::import('ext.timesheetphp.sources.timesheet', true); 
 ?>
@@ -14,13 +14,13 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 <div class="parentTimeline">
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> PROJECT TASKS</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> PROJECT TIMELINE</span></h4>
 		<div class="panel-tools">
 			<div class="dropdown">
-				<?php //if ($admin) { ?>
+				<?php if ($edit) { ?>
 				<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer la timeline"><i class="fa fa-pencil"></i>
 				</a>
-				<?php //} 
+				<?php } 
 				?>
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
@@ -53,7 +53,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 	</div>
 	<?php if(isset($tasks) && !empty($tasks)){ ?>
 	<div class="panel-body no-padding partition-dark">
-		<ul id="timesheetTab" class="nav nav-tabs">
+		<ul id="timesheetTab" class="nav nav-tabs no-margin">
 			
 			<?php if($period == "yearly"){ ?>
 			<li class="active">
@@ -137,7 +137,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 							"date_format" => $date_format,
 				)
         );
-		$timeline = new timesheet($alpha, $args, $data );
+		$timeline = new timesheet($alpha, $args, $data);
 		$timeline -> display();?>
 		
 	</div>
@@ -161,22 +161,28 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 ?>
 
 <script type="text/javascript">
+var booleanYearMonth= "<?php echo $period; ?>";
 jQuery(document).ready(function() {
-	$('.scale section').mouseover(function(){
-		$(this).addClass("lightgray");
-	}).mouseout(function(){
-		$(this).removeClass("lightgray");
-	});
-	//toggleMonthYear();	
-	$("#year").fadeIn("slow");	
+	
+	if (booleanYearMonth == "yearly"){
+		$('.scale section').mouseover(function(){
+			$(this).addClass("lightgray");
+		}).mouseout(function(){
+			$(this).removeClass("lightgray");
+		});
+		$('.scale section div').click(function(){
+			$("#year").fadeOut("slow");	
+			year=$(this).html();
+			getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");
+		});
+	}
+	
+	$("#year").fadeIn("slow");
+		
 	$(".back").click(function(){
 		$("#year").fadeOut("slow");	
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>",null,"html");
 	});
-	$('.scale section div').click(function(){
-		$("#year").fadeOut("slow");	
-		year=$(this).html();
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"",null,"html");
-		});
+	
 });
 </script>
