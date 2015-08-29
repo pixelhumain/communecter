@@ -69,8 +69,8 @@
 				thisSig.listPanel["types"].push(value); //new Array(objectId);
 			});
 
-			console.log("LIST PANEL");
-			console.dir(thisSig.listPanel);
+			//console.log("LIST PANEL");
+			//console.dir(thisSig.listPanel);
 			
 		};
 
@@ -80,11 +80,11 @@
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
 			console.warn("--------------- updatePanel ---------------------");
-			console.log(this.listPanel);
+			//console.log(this.listPanel);
 			var thisSig = this;
 			//console.log(thisSig.listPanel["tags"].length);
 			$.each(thisSig.listPanel["tags"], function(key, value){
-				console.warn("--------------- each tags ---------------------" + value);
+				//console.warn("--------------- each tags ---------------------" + value);
 			
 				var valueId = value.replace(/\s/g,"");
 				var ico = thisSig.getIcoNameByTag(value);
