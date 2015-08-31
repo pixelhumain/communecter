@@ -1,7 +1,6 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		isadmin<?php echo Yii::app()->session["userIsAdmin"] ?>test 
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> My <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
+		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
 																				<a href="javascript:;" onclick="applyStateFilter('person')" class="filter<?php echo Person::COLLECTION ?> btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
 																				<a href="javascript:;" onclick="applyStateFilter('event|concert|meeting|dance')" class="filter<?php echo Event::COLLECTION ?> btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count(@$events) ?></span></a> 
 																				<a href="javascript:;" onclick="applyStateFilter('project')" class="filter<?php echo Project::COLLECTION ?> btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count(@$projects) ?></span></a>

@@ -349,16 +349,25 @@
 		 					} else if (key == "organizations") {
 		 						icon = mapIcon[v.type];
 		 					}
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddMember(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:;" class="selectAddMember" data-id="'+v._id["$id"]+'" data-name="'+v.name+'" data-email="'+v.email+'" data-key="'+key+'" data-type="'+v.type+'"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
 		  				});
 		  			}); 
 
 		  			$("#addMembers #dropdown_search").html(str);
+		  			$(".selectAddMember").off().on('click',function() { 
+		  				var id = $(this).data('id');
+		  				var name = $(this).data('name');
+		  				var email = $(this).data('email');
+		  				var key = $(this).data('key');
+		  				var type = $(this).data('type');
+		  				setMemberInputAddMember(id,name,email,key,type);
+		  			});
 		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
 	  			}
 			}	
 		})
 	}
+
 	function openNewMemberForm(){
 		$("#addMembers #addMemberSection").css("display", "block");
 		$("#addMembers #searchMemberSection").css("display", "none");

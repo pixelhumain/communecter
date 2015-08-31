@@ -33,10 +33,14 @@
 		
 		<div class="panel-tools">
 			<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { ?>
+				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+					if(!isset($organization["disabled"])){
+				 	?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
-			
-			<?php } ?>
+					<a href="#" id="disableOrganization" class="btn btn-xs btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i></a>
+			<?php } else {?>
+					<span class="label label-danger">DISABLED</span>
+			<?php }} ?>
 		</div>
 	</div>
 	<div class="panel-body border-light" id="organizationDetail">
@@ -189,6 +193,29 @@
 
 	function bindFicheInfoBtn(){
 
+		
+		$("#disableOrganization").off().on("click",function () {
+			console.warn("disableOrganization",$(this).data("id"));
+			var id = $(this).data("id");
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists)') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+id ,
+							type: "POST",
+							success: function(data)
+							{
+								if(data.result)
+									toastr.success(data.msg);
+								else
+									toastr.error(data.msg);
+						  	},
+						});
+					}
+			});
+		});
 		$(".removeMemberBtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			

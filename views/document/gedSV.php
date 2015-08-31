@@ -171,6 +171,7 @@ function initDropZoneData(docs)
 		  error: function(response)
 		  {
 		  	toastr.error("Something went wrong!!");
+		  	genericDropzone.removeAllFiles(true);
 		  }
 		});
 	}

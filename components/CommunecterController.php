@@ -137,6 +137,7 @@ class CommunecterController extends Controller
         "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
         "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
         "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
+        "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
@@ -192,8 +193,8 @@ class CommunecterController extends Controller
       "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),  
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
-      "directory"          => array("href"=>"/ph/communecter/organization/directory"),
-
+      "directory"           => array("href"=>"/ph/communecter/organization/directory"),
+      "disabled"            => array("href"=>"/ph/communecter/organization/disabled")      
     ),
     
     "event"=> array(
