@@ -277,9 +277,6 @@ creer des conflits : regle pas assez specfique
 	text-decoration:none;
 	background-color:white;
 	border:0px white;
-	border-bottom-width:1px;
-	border-bottom-style:dashed;
-	border-bottom-color:d3d1d5;
 }
 .item_map_list:hover{
 	background-color:d3d1d5;
@@ -302,7 +299,6 @@ creer des conflits : regle pas assez specfique
 .city_item_map_list{
 	
 }
-
 .tag_item_map_list{
 	color:red;
 	font-weight: 500;
@@ -557,18 +553,31 @@ creer des conflits : regle pas assez specfique
   }
 
   #lbl-chk-scope{
-	height: 33px;
+	height: 46px;
     padding-left: 20px !important;
 	padding-top: 5px;
     width: 100%;
 	font-size:0.9em;
-	background-color: #5F8295;
+	background-color: #FFF; /*#5F8295;*/
     color: white;
     font-size: 12px;
-}
-.world_pix{
+  }
+  #lbl-chk-scope .pagination{
+  	margin:5px auto;
+  }
+  #lbl-chk-scope .pagination a{
+  	color:grey !important;
+  }
+
+  #pagination > li.active a{
+	color:white !important;
+	background-color:#5896AB !important;
+	border-color:#5896AB !important;
+  }
+
+  .world_pix{
 	max-width:60%;
-}
+  }
 
 
 /* style tooltip des chartsMarkers */

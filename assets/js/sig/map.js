@@ -82,7 +82,7 @@
 			this.Sig.getIcoMarkerMap = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker *** ---------------------");
-				console.log(thisData);
+				//console.log(thisData);
 
 				var type = thisData["type"];
 				var markerName = this.getIcoNameByType(type);
@@ -176,7 +176,7 @@
 				//console.log("PANELFILTER" + this.panelFilterType);
 				if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
 					if(this.usePanel == false) return true;
-					console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
+					//console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
 					
 					//si thisData n'a pas de tags
 					if("undefined" == typeof thisData["tags"]){

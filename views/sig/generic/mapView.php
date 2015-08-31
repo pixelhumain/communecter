@@ -51,8 +51,14 @@
 			</div>
 
 			<label id="lbl-chk-scope">
-				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
+				<nav>
+				  <ul class="pagination pagination-sm" id="pagination"></ul>
+				</nav>
 			</label>
+
+			<!-- <label id="lbl-chk-scope" class="hidden">
+				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
+			</label> -->
 		</div>
 	<?php } ?>
 
