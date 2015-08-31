@@ -45,6 +45,7 @@
 					<div class="form-group"  id="addContributorSection">
 						<div class='row center'>
 		            		<input type="hidden" id="contributorType"/>
+		            		<input type="hidden" id="contributorId"/>
 		            		<div class="btn-group ">
 								<a id="btnCitoyen" href="javascript:;" onclick="switchTypeContributor('citoyens')" class="btn btn-green">
 									Citoyen
@@ -245,12 +246,13 @@
 				errorHandler2.hide();
 				id=$("#projectID").val();
 				newProject = new Object;
-				newProject.id = $(".form-contributor #projectID").val(),
-				newProject.type = $(".form-contributor #contributorType").val(),
-				newProject.name = $(".form-contributor .contributor-name").val(), 
-				newProject.email = $('.form-contributor .contributor-email').val(), 
-				newProject.organizationType=$('.form-contributor #organizationType').val(), 
-				newProject.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val(),
+				newProject.id = $(".form-contributor #projectID").val();
+				newProject.type = $(".form-contributor #contributorType").val();
+				newProject.contribId = $("#newContributors #contributorId").val();
+				newProject.name = $(".form-contributor .contributor-name").val();
+				newProject.email = $('.form-contributor .contributor-email').val();
+				newProject.organizationType=$('.form-contributor #organizationType').val();
+				newProject.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -289,7 +291,7 @@
 				        	$.hideSubview();
 				        		
 				        } else {
-				           toastr.error('Something Went Wrong');
+				           toastr.error('Something Went Wrong : '+data.content);
 				        }
 				    });
 
@@ -338,7 +340,7 @@
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-			 				name = v.name.replace("'","ACCENT");
+			 				name = (v.name) ? v.name.replace("'","ACCENT") : "";
 		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v._id["$id"]+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";
 		  				});
 		  			}); 

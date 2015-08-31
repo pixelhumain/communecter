@@ -120,7 +120,7 @@ affiche
 			[X] disable all pods
 		[ ] add organization to admin directory 
 		[ ] smaller scope 
-		
+		[ ] test creating a user with an existing email
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form

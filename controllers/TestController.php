@@ -105,18 +105,18 @@ class TestController extends CommunecterController {
                     "verb" => "add",
                     "actorType"=>"persons",
                     "objectType"=>"test",
-                    "label" => "Testing Notification Push",
+                    "label" => "Testing Notification Push 2",
                     "id" => Yii::app()->session['userId']
                 );
     $action = ActStr::buildEntry($asParam);
 
     //LOGGING WHO TO NOTIFY
-    $action["notify"] = ActivityStream::addNotification( array( 
-                                                        "persons" => array( Yii::app()->session['userId'] ),
-                                                         "label" => "Something Changed" , 
-                                                         "icon"=> ActStr::ICON_QUESTION ,
-                                                         "url" => 'javascript:alert(  "testing notifications"  );' 
-                                                    ));
+    $notif = array( "persons" => array( Yii::app()->session['userId'] ),
+                    "label"   => "Something Changed Again " , 
+                    "icon"    => ActStr::ICON_QUESTION ,
+                    "url"     => 'javascript:alert(  "testing notifications"  );' 
+                  );
+    $action["notify"] = ActivityStream::addNotification( $notif );
     ActivityStream::addEntry($action);
 	}
 
