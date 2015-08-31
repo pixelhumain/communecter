@@ -21,7 +21,7 @@
 		</div>
 	<?php } ?>
 
-	<?php if($sigParams['useFilterType']){ ?>
+	<?php if(@$sigParams['useFilterType']){ ?>
 		<div class="panel_map" id="panel_filter">
 			<button class='item_panel_map' id='item_panel_filter_all'>
 				<i class='fa fa-star'></i> Tous
@@ -105,7 +105,7 @@
 				<?php } ?>	
 			</div>	
 			<div class="btn-group btn-group-lg" id="btn-filter">
-				<?php if($sigParams['useFilterType']){ ?>
+				<?php if(@$sigParams['useFilterType']){ ?>
 					<button type="button" class="btn btn-map" id="btn-filters"><i class="fa fa-filter"></i></button>
 				<?php } ?>	
 			</div>

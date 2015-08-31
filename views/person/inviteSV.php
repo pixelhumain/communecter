@@ -12,6 +12,9 @@
 	display:none;
 }
 
+.margin-bottom-10 {
+	margin-bottom: 10px;
+}
 </style>
 
 <?php if( @$isNotSV ){ ?>
@@ -53,7 +56,7 @@
 				</div>
 				<div class="row" id="step2">
 					<div class="form-group" id="ficheUser">
-						<div class="col-md-5 photoInvited">
+						<div class="col-md-5 photoInvited text-center">
 						</div>
 						<div class="col-md-7">
 							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
@@ -65,12 +68,12 @@
 					</div>
 	               	<div class ="row">
 		               	<div class="col-md-10  col-md-offset-1">	
-							<a href="javascript:clearEditEvent()"><i class="fa fa-search"></i> Search</a>
+							<a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a>
 						</div>
 					</div>
 				</div>
 				<div class="row" id="step3">
-					<div class="row">
+					<div class="row margin-bottom-10">
 						<div class="col-md-1 col-md-offset-1" id="iconUser">	
 				           	<i class="fa fa-user fa-2x"></i>
 				       	</div>
@@ -78,7 +81,7 @@
 							<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row margin-bottom-10">
 						<div class="col-md-1 col-md-offset-1">	
 			           		<i class="fa fa-envelope-o fa-2x"></i>
 			           	</div>
@@ -86,7 +89,15 @@
 							<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row margin-bottom-10">
+						<div class="col-md-1 col-md-offset-1">	
+			           		<i class="fa fa-align-justify fa-2x"></i>
+			           	</div>
+	    	        	<div class="col-md-9">
+							<textarea class="invite-text form-control" id="inviteText" name="inviteText" rows="4" />
+						</div>
+					</div>
+					<div class="row margin-bottom-10">
 						<div class="col-md-2 col-md-offset-1">
 							<div class="form-group">
 					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
@@ -103,67 +114,56 @@
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
 var tags;
 
+var subViewElement, subViewContent;
+var timeout;
+var tabObject = [];
+
 jQuery(document).ready(function() {
- 	bindinviteSubViewinvites();
+ 	initSubView();
+ 	bindInviteSubViewInvites();
  	runinviteFormValidation();
- 	//disable submit in enter
-	 $(window).keydown(function(event){
-	    if(event.keyCode == 13) {
-	      event.preventDefault();
-	      return false;
-	    }
-	  });
-	 
- 	$('#inviteSearch').keyup(function(e){
+});
+
+function bindInviteSubViewInvites() {	
+
+	$(".connectBtn").off().on("click", function() {
+		connectPerson();
+	});
+
+	$('#inviteSearch').keyup(function(e){
 	    var search = $('#inviteSearch').val();
 	    if(search.length>2){
-	    	clearTimeout(timeout)
-			timeout = setTimeout('autoCompleteInviteSearch("'+search+'")', 500); 
+	    	clearTimeout(timeout);
+			timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
 		 }else{
 		 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 		 }	
 	});
-	$('#inviteSearch').focusout(function(e){
-		//$(".new-invite #dropdown_city").css({"display" : "none" });
-	});
-
-	$('#btnInviteNew').on("click", function(){
-		$('.form-invite').submit();
-	});
-});
-
-function bindinviteSubViewinvites() {
-		
-	$(".new-invite").off().on("click", function() {
-		subViewElement = $(this);
-		subViewContent = subViewElement.attr('href');
-		$.subview({
-			content : subViewContent,
-			onShow : function() {
-				editinvite();
-				//getAjax(".photoInvite",baseUrl+"/"+moduleId+"/pod/fileupload/itemId//type//resize/false/edit/false/contentId/<?php //echo Document::IMG_PROFIL ?>/podId/invite",null,"html");
-
-			},
-			onHide : function() {
-				hideEditinvite();
-			},
-			onSave: function() {
-				hideEditinvite();
-			}
-		});
-	});
-
-	$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prinviteDefault();
-	});
 };
 
-var dateToShow, calendar, $inviteDetail, inviteClass, inviteCategory;
-var oTable, contributors;
-var subViewElement, subViewContent, subViewIndex;
-var timeout;
-var tabObject = [];
+function connectPerson() {
+	console.log("connect Person");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+'/person/connect',
+		dataType : "json",
+		data : {
+			connectUserId : $('#newInvite #inviteId').val(),
+		}
+	})
+	.done(function (data) {
+		$.unblockUI();
+		if (data &&  data.result) {               
+			toastr.success('Invite Created success');
+			$.hideSubview();
+			if(updateInvite != undefined && typeof updateInvite == "function"){
+				updateInvite(data.invitedUser);
+			}	
+		} else {
+			toastr.error('Something Went Wrong !');
+		}
+	});
+}
 
 //validate new invite form
 function runinviteFormValidation(el) {
@@ -190,11 +190,14 @@ function runinviteFormValidation(el) {
 			inviteName : {
 				minlength : 2,
 				required : true
+			},
+			inviteEmail : {
+				required : true
 			}
 		},
 		messages : {
-			inviteName : "* Please specify your first name",
-			inviteSearch : "* Please specify your email"
+			inviteName : "* Please specify a name",
+			inviteSearch : "* Please specify a email"
 		},
 		invalidHandler : function(invite, validator) {//display error alert on form submit
 			successHandler2.hide();
@@ -216,13 +219,12 @@ function runinviteFormValidation(el) {
 			$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 		},
 		submitHandler : function(form) {
+			console.log("submit handler");
 			successHandler2.show();
 			errorHandler2.hide();
-			newinvite = new Object;
-			newinvite.parentId = $(".form-invite .invite-parentId").val(),
-			newinvite.id = $(".form-invite .invite-id").val(),
-			newinvite.name = $("#inviteName").val(), 
-			newinvite.email = $("#inviteEmail").val(),
+			var parentId = $(".form-invite .invite-parentId").val();
+			var invitedUserName = $("#inviteName").val();
+			var invitedUserEmail = $("#inviteEmail").val();
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+
@@ -233,104 +235,68 @@ function runinviteFormValidation(el) {
 
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/person/invitation',
+		        url: baseUrl+"/"+moduleId+'/person/connect',
 		        dataType : "json",
-		        data:newinvite,
+		        data: {
+		        	parentId : parentId,
+		        	invitedUserName : invitedUserName,
+		        	invitedUserEmail : invitedUserEmail
+		        },
 				type:"POST",
 		    })
-		    .done(function (data) 
-		    {
+		    .done(function (data) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
-		        	toastr.success('invite Created success');
+		        	toastr.success('The invitation has been sent with success !');
 		        	$.hideSubview();
-		        	//console.log("updateinvite");
-		        	//if(updateinvite != undefined && typeof updateinvite == "function"){
-		        		//updateinvite( newinvite, data.id );
-		        	//}	
+		        	if(updateInvite != undefined && typeof updateInvite == "function"){
+		        		updateInvite(data.invitedUser, true);
+		        	}	
 		        } else {
-		           toastr.error('Something Went Wrong');
+		        	$.unblockUI();
+					toastr.error(data.msg);
 		        }
 		    });
 		}
 	});
 };
 
-// on hide invite's form destroy summernote and bootstrapSwitch plugins
-function hideEditinvite() {
-	clearEditEvent();
-	$.hideSubview();
-	//$('.form-invite .summernote').destroy();
-	//$(".form-invite .all-day").bootstrapSwitch('destroy');
+// init subview
+function initSubView() {
+	$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
+	$(".form-invite .invite-id").val("");
+	$(".form-invite .invite-name").val("");
+	$(".form-invite .invite-search").val("");
 };
 
-// enables the edit form 
-function editinvite(el) {
-	$(".close-new-invite").off().on("click", function() {
-		$(".back-subviews").trigger("click");
-	});
-	$(".form-invite .help-block").remove();
-	$(".form-invite .form-group").removeClass("has-error").removeClass("has-success");
-	
-	if ( 'undefined' == typeof el) {
-		$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
-		$(".form-invite .invite-id").val("");
-		$(".form-invite .invite-name").val("");
-		$(".form-invite .invite-search").val("");
-	} else {
-		$("#newInvite #dropdown_searchInvite").html("");
-  		$("#newInvite #dropdown_searchInvite").css({"display" : "none" });
-	}
-};
 
-// read invite
-function readinvite(el) 
-{
-	$(".edit-invite").off().on("click", function() {
-		subViewElement = $(this);
-		subViewContent = subViewElement.attr('href');
-		$.subview({
-			content : subViewContent,
-			onShow : function() {
-				editinvite(el);
-			},
-			onHide : function() {
-				hideEditinvite();
-			},
-			onSave : function(){
-				hideEditinvite();
-			}
-		});
-	});
-
-};
-	
 function autoCompleteInviteSearch(search){
+	tabObject = [];
 	var data = { 
 		"search" : search,
 		"searchMode" : "personOnly"
 	};
-	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
 	
-	function (data){
-		var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Aucun résultat satisfaisant? Cliquez ici</li>";
-		var compt = 0;
-
+	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
+		function (data){
+			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
+			var compt = 0;
 			$.each(data["citoyens"], function(k, v) { 
 				console.log(k, v);
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
-				if(v._id["$id"]!= userId){
+				if(v._id["$id"]!= userId) {
 					tabObject.push(v);
- 				if(v.profilImageUrl != ""){
- 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
- 				}
-  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
-  				compt++;
-  			}
+	 				if(v.profilImageUrl != ""){
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
+	 				}
+	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
+	  				compt++;
+  				}
 			}); 
 			$("#newInvite #dropdown_searchInvite").html(str);
 			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
-	});	
+		}
+	);	
 }
 
 function setInviteInput(num){
@@ -354,7 +320,11 @@ function setInviteInput(num){
 	}
 	$("#newInvite #tags").html('<div class="pull-left"><i class="fa fa-tags"></i> '+tagsStr+'</div>');
 	$(".photoInvited").empty();
-	$(".photoInvited").html("<img class='img-responsive' src='"+baseUrl+person["profilImageUrl"]+"' />");
+	if (person["profilImageUrl"] != "") {
+		$(".photoInvited").html("<img class='img-responsive' src='"+baseUrl+person["profilImageUrl"]+"' />");
+	} else {
+		$(".photoInvited").html("<span><i class='fa fa-user_circled' style='font-size: 10em;'></i></span>");
+	}
 
 	//Show / Hide steps
 	$("#newInvite #step1").css({"display" : "none"});
@@ -365,18 +335,24 @@ function setInviteInput(num){
 function newInvitation(){
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "block"});
+	
+	$('#newInvite #inviteId').val("");
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if(emailReg.test( $("#newInvite #inviteSearch").val() )){
 		$('#newInvite #inviteEmail').val( $("#newInvite #inviteSearch").val());
 	}else{
 		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
 	}
+	$("#inviteText").val("Bonjour ! \nViens me rejoindre sur ce site ! \nUn email, un code postal et tu es communecter ! \ Tu peux voir tout ce qu'il se passe dans ta commune et agir pour le bien commun ! \n");
 }
 
-function clearEditEvent(){
+function backToSearch(){
 	$("#newInvite #step1").css({"display" : "block"});
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "none"});
-}	
+
+	autoCompleteInviteSearch($('#inviteSearch').val());
+}
+
 </script>
