@@ -85,8 +85,8 @@ var projectData = <?php echo json_encode($project)?>;
 var mode = "update";
 var projectId= "<?php echo (string) $project["_id"]; ?>";
 var countries = <?php echo json_encode($countries); ?>;
-var startDate = '<?php echo $project["startDate"]; ?>';
-var endDate = '<?php echo $project["endDate"]; ?>';
+var startDate = '<?php if(isset($project["startDate"])) echo $project["startDate"]; else echo ""; ?>';
+var endDate = '<?php if(isset($project["endDate"])) echo $project["endDate"]; else echo "" ?>';
 
 
 jQuery(document).ready(function() 

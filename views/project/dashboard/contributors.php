@@ -70,7 +70,7 @@
 									<tr id="contributor<?php echo $member["_id"]; ?>">
 										<td class="center">
 										<?php if($member && isset($member["imagePath"])) { ?>
-											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo $member["imagePath"]; ?>"></td>
+											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member['imagePath']) ?>"></td>
 										<?php } else{ 
 												echo $icon;
 											} ?>
