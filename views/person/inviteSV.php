@@ -160,6 +160,7 @@ function connectPerson() {
 				updateInvite(data.invitedUser);
 			}	
 		} else {
+			$.unblockUI();
 			toastr.error('Something Went Wrong !');
 		}
 	});

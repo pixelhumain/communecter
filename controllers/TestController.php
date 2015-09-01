@@ -281,4 +281,12 @@ class TestController extends CommunecterController {
     var_dump(Comment::getCommunitySelectedComments("5596a29b88aee0c4d97da608", Survey::COLLECTION));
   }
 
+  public function actionActivationURL() {
+    $userId = "55e5c4722336f2d8580041e5";
+    
+    $validationKey =Person::getValidationKeyCheck($userId);
+    $url = Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id."/person/activate/user/".$userId.'/validationKey/'.$validationKey;
+    var_dump($url);
+  }
+
 }
