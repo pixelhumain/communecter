@@ -56,10 +56,14 @@
 				</div>
 				<div class="row" id="step2">
 					<div class="form-group" id="ficheUser">
-						<div class="col-md-5 photoInvited text-center">
+						<div class="col-md-5 text-center">
+							<div class='photoInvited text-center'>
+							</div>
+							<a class='pending btn btn-xs btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="This user has been already invited but has not connected yet.">Pending User</a>
 						</div>
 						<div class="col-md-7">
-							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
+							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Follow this person" ><i class=" connectBtnIcon fa fa-link "></i>  Follow this person</a>
+							<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
 							<hr>
 							<h2 id="ficheName" name="ficheName"></h2>
 							<span id="address" name="address" ></span><br><br>
@@ -112,6 +116,7 @@
 
 <script type="text/javascript">
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
+var currentUser = <?php echo json_encode($currentUser) ?>;
 var tags;
 
 var subViewElement, subViewContent;
@@ -128,6 +133,9 @@ function bindInviteSubViewInvites() {
 
 	$(".connectBtn").off().on("click", function() {
 		connectPerson();
+	});
+	$(".disconnectBtn").off().on("click", function() {
+		disconnectPerson();
 	});
 
 	$('#inviteSearch').keyup(function(e){
@@ -153,8 +161,9 @@ function connectPerson() {
 	})
 	.done(function (data) {
 		$.unblockUI();
-		if (data &&  data.result) {               
-			toastr.success('Invite Created success');
+		if (data &&  data.result) {
+			var name = $("#newInvite #ficheName").text();
+			toastr.success('You are now following '+name);
 			$.hideSubview();
 			if(updateInvite != undefined && typeof updateInvite == "function"){
 				updateInvite(data.invitedUser);
@@ -164,6 +173,40 @@ function connectPerson() {
 			toastr.error('Something Went Wrong !');
 		}
 	});
+}
+
+function disconnectPerson() {
+	var idToDisconnect = $('#newInvite #inviteId').val();
+	var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
+	var nameToDisconnect = $("#newInvite #ficheName").text();
+
+	bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+nameToDisconnect+"</span> connection ?", 
+		function(result) {
+			if (!result) {
+				return;
+			}
+			var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/knows";
+			$.ajax({
+				type: "POST",
+				url: urlToSend,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {               
+						toastr.info("You are not following this person anymore.");
+						$("#citoyens"+idToDisconnect).remove();
+						if ($("#people tr").length == 0) {
+							$("#info").show();
+						}
+					} else {
+						toastr.error(data.msg);
+					}
+				},
+				error: function(data) {
+					toastr.error("Something went really bad !");
+				}
+			});
+		}
+	);
 }
 
 //validate new invite form
@@ -302,13 +345,17 @@ function autoCompleteInviteSearch(search){
 
 function setInviteInput(num){
 	var person = tabObject[num];
-	console.log(person);
+	var personId = person["_id"]["$id"];
+	console.log(person, personId);
+
 	$('#newInvite #inviteName').val(person["name"]);
-	$('#newInvite #inviteId').val(person["_id"]["$id"]);
+	$('#newInvite #inviteId').val(personId);
 	$("#newInvite #ficheName").text(person["name"]);
 	
-	//Address : CP + Locality
-	$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
+	if (person.address != null) {
+		//Address : CP + Locality
+		$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
+	}
 	
 	//Tags
 	var tagsStr = "";
@@ -318,6 +365,8 @@ function setInviteInput(num){
 			if( $.inArray(tag, contextMap.tags )  == -1)
 				contextMap.tags.push(tag);
 		});
+	} else {
+		tagsStr += "<span class='label label-inverse'>No Tag</span> ";
 	}
 	$("#newInvite #tags").html('<div class="pull-left"><i class="fa fa-tags"></i> '+tagsStr+'</div>');
 	$(".photoInvited").empty();
@@ -325,6 +374,22 @@ function setInviteInput(num){
 		$(".photoInvited").html("<img class='img-responsive' src='"+baseUrl+person["profilImageUrl"]+"' />");
 	} else {
 		$(".photoInvited").html("<span><i class='fa fa-user_circled' style='font-size: 10em;'></i></span>");
+	}
+
+	//Pending
+	if (person.pending == true) {
+		$(".pending").show();
+	} else {
+		$(".pending").hide();
+	}
+
+	//Already in the network of the current user
+	if (currentUser.links != null && currentUser.links.knows != null && currentUser.links.knows[personId] != null) {
+		$('.disconnectBtn').show();
+		$('.connectBtn').hide();
+	} else {
+		$('.disconnectBtn').hide();
+		$('.connectBtn').show();
 	}
 
 	//Show / Hide steps
@@ -344,6 +409,7 @@ function newInvitation(){
 	}else{
 		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
 	}
+
 	$("#inviteText").val("Bonjour ! \nViens me rejoindre sur ce site ! \nUn email, un code postal et tu es communecter ! \ Tu peux voir tout ce qu'il se passe dans ta commune et agir pour le bien commun ! \n");
 }
 
@@ -355,5 +421,6 @@ function backToSearch(){
 
 	autoCompleteInviteSearch($('#inviteSearch').val());
 }
+
 
 </script>

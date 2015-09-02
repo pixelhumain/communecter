@@ -76,6 +76,10 @@
 
 var connectedPersons = <?php echo json_encode($people) ?>;
 jQuery(document).ready(function() {
+	bindConnectEvent();
+})
+
+function bindConnectEvent() {
 	$(".new-invite").off().on("click", function() {
 		openConnectPeopleSV();
 	});
@@ -83,8 +87,7 @@ jQuery(document).ready(function() {
 	$(".disconnectPersonBtn").off().on("click", function() {
 		disconnectPerson($(this));
 	});
-	
-})
+}
 
 function disconnectPerson(line) {
 
@@ -195,6 +198,7 @@ function updateInvite(user, isPending) {
 	}
 	
 	$('#people').prepend(newLine);
+	bindConnectEvent();
 }
 
 </script>
