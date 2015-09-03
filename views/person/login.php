@@ -73,6 +73,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<div class="errorHandler alert alert-success no-display emailValidated">
 							<i class="fa fa-check"></i> Your account is now validated ! Please try to login.
 						</div>
+						<div class="errorHandler alert alert-danger no-display custom-msg">
+							<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
@@ -169,6 +172,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 					<div class="form-actions">
 						<div class="errorHandler alert alert-danger no-display registerResult">
 							<i class="fa fa-remove-sign"></i> Please verify your entries.
+						</div>
+						<div class="errorHandler alert alert-success no-display pendingProcess">
+							<i class="fa fa-check"></i> Please fill your personal information in order to log in.
 						</div>
 						Already have an account?
 						<a href="#" class="go-back">
@@ -273,11 +279,27 @@ svg.graph .line {
 			$(".form-login #email").val( email );
 		}
 		
+		//Validation of the email
 		if (userValidated) {
-			$(".errorHandler").hide();
-			$(".emailValidated").show();
-			$(".form-login #password").focus();
+			//We are in a process of invitation. The user already exists in the db
+			if (invitor != null) {
+				$(".errorHandler").hide();
+				$('.register').click();
+				$('.pendingProcess').show();
+				$('#email3').val(email);
+				$('#email3').prop('disabled', true);
+			} else {
+				$(".errorHandler").hide();
+				$(".emailValidated").show();
+				$(".form-login #password").focus();
+			}
 		}
+
+		if (msgError != "") {
+			$(".custom-msg").show();
+			$(".custom-msg").text(msgError);
+		}
+
 		$(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
 			showPanel('box-event');
 		}).on('mouseover',function() { 
@@ -328,6 +350,9 @@ svg.graph .line {
 
 var email = '<?php echo @$_GET["email"]; ?>';
 var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
+var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
+var msgError = '<?php echo @$_GET["msg"]; ?>';
+var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
 
 var timeout;
 var emailType;
@@ -494,7 +519,14 @@ var Login = function() {
 		    		  	var msg;
 		    		  	if (data.msg == "notValidatedEmail") {
 							$('.notValidatedEmailResult').show();
-		    		  	} else {
+		    		  	} else if (data.msg == "accountPending") {
+		    		  		pendingUserId = data.pendingUserId;
+		    		  		$(".errorHandler").hide();
+							$('.register').click();
+							$('.pendingProcess').show();
+							$('#email3').val($("#email").val());
+							$('#email3').prop('disabled', true);
+		    		  	} else{
 		    		  		msg = data.msg;
 		    		  		$('.loginResult').html(msg);
 							$('.loginResult').show();
@@ -624,7 +656,8 @@ var Login = function() {
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
                    "app" : "<?php echo $this->module->id?>",
-                   "city" : $("#city").val()
+                   "city" : $("#city").val(),
+                   "pendingUserId" : pendingUserId
                 };
 			      
 		    	$.ajax({
@@ -635,11 +668,7 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	$.blockUI({
-    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-    		  	            '<blockquote>'+
-    		  	              '<p>You will receive an email to validate your account.</p>'+
-    		  	              '<cite>Welcome to the Pixel Humain</cite>'+
-    		  	            '</blockquote> '
+    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
     		  			});
 		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
 		        		//window.location.reload();
@@ -679,31 +708,6 @@ var Login = function() {
 		}
 	};
 }();
-
-function sendEmailValidation() {
-	var params = { 
-		"email" : $("#email").val(),
-		"type"	: "validation"
-	};
-
-    $.ajax({
-      type: "POST",
-      url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
-      data: params,
-      success: function(data){
-		if (data.result) {
-			alert(data.msg);
-            window.location.reload();
-		} else {
-			toastr.error("Something went wrong : "+data.msg);
-		}
-      },
-      error: function(data) {
-	  	toastr.error("Something went really bad : contact your administrator !");
-	  },
-      dataType: "json"
-    });
-}
 
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
