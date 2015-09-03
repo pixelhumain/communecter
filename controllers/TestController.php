@@ -26,11 +26,12 @@ class TestController extends CommunecterController {
   }
 
   public function actionInsertNewPerson() {
-	$res = Person::insert(array(
-	  'name' => "Test", 'email' => "new@email.com", 'postalCode' => "97426", 'pwd' => "vlanlepass"
-	  ));
+  $params = array(
+    'name' => "Test", 'email' => "new14@email.com", 'postalCode' => "97426", "city"=> "97401" ,'pwd' => "vlanlepass"
+    );
+  $res = Person::insert($params);
 
-	var_dump($res);
+  var_dump($params);
 
   }
 
@@ -288,6 +289,16 @@ class TestController extends CommunecterController {
     $validationKey =Person::getValidationKeyCheck($userId);
     $url = Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id."/person/activate/user/".$userId.'/validationKey/'.$validationKey;
     var_dump($url);
+  }
+
+  public function actionTestEmail() {    
+    var_dump(Utils::getServerInformation());
+    $person = Person::getById("55e5c4722336f2d8580041e5");
+    $params = array(   "person"   => $person ,
+                                    "title" => Yii::app()->name ,
+                                    "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
   }
 
 }
