@@ -101,11 +101,12 @@ class TestController extends CommunecterController {
     */
     //$type,$perimetre,$verb,$label,$id
     $asParam = array("type" => ActStr::TEST, 
-                    "codeInsee" => "97400",
+                    "codeInsee" => "97400",//option
+                    // IP //option
                     "verb" => "add",
                     "actorType"=>"persons",
                     "objectType"=>"test",
-                    "label" => "Testing Notification Push 2",
+                    "label" => "Testing Notification Push 2", //option
                     "id" => Yii::app()->session['userId']
                 );
     $action = ActStr::buildEntry($asParam);
@@ -114,7 +115,7 @@ class TestController extends CommunecterController {
     $notif = array( "persons" => array( Yii::app()->session['userId'] ),
                     "label"   => "Something Changed Again " , 
                     "icon"    => ActStr::ICON_QUESTION ,
-                    "url"     => 'javascript:alert(  "testing notifications"  );' 
+                    "url"     => 'javascript:alert( "testing notifications"  );' 
                   );
     $action["notify"] = ActivityStream::addNotification( $notif );
     ActivityStream::addEntry($action);

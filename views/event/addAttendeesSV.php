@@ -241,7 +241,7 @@
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/granddir/search/searchmemberautocomplete",
+	        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){

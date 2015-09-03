@@ -101,8 +101,8 @@ jQuery(document).ready(function() {
 
 
 
-var bindBtnFollow = function(){
-
+function bindBtnFollow()
+{
 
 	$(".disconnectBtn").off().on("click",function () {
 
@@ -158,7 +158,6 @@ var bindBtnFollow = function(){
         	urlToSend += "/targetLink/"+targetLink;
         }
 
-
 		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
 			idConnect = $("#inviteId").val();
 		}
@@ -182,9 +181,7 @@ var bindBtnFollow = function(){
 	        }
 	    });
 	});
-}
 
-var bindBtnFollow = function() {
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	})
