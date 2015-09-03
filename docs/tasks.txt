@@ -1,12 +1,25 @@
 
-projet Tangue (application mobile - mobilité durable)
-association RUN ACTION - président Willy ASSABY
-0262 58 63 90
-0692 56 10 01
+* CONTACT
+	* projet Tangue (application mobile - mobilité durable)
+		association RUN ACTION - président Willy ASSABY
+		Directeur Angamma Gerald 0692222218
+		0262 58 63 90
+		0692 56 10 01
 
-écoquartier Ravine Blanche
-CIVIS    Jessica K Bidi   0262499673  jessicak@civis.re
-SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement te renseigner
+	* écoquartier Ravine Blanche
+		CIVIS    Jessica K Bidi   0262499673  jessicak@civis.re
+		SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement te renseigner
+
+
+	* Labo reunion Labo Elec 2 Procédé (Moufia)
+		- Fred alicalapa
+		- reseau de capteur
+
+	* mairie sin paul 
+		- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
+		- Service Subventions Associations au 0262 70 28 85
+		[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
+		[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
 
 * IDEAS 
 	** 2054
@@ -93,16 +106,9 @@ SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement 
 	** SYLVAIN
 	** TIBOR
 		Jean Marc Laurent > prise de vue 
-		- Labo reunion Labo Elec 2 Procédé (Moufia)
-			- Fred alicalapa
-			- reseau de capteur
-
-		- bug GRANDDIR 
-		- Plan IRT (17/08) 4h date = 25/08
-		- plan Crowd Funding ( fin aout ) 
-		- ECo Collab Fest (debut Oct)
+		
+		- plan Crowd Funding 
 		- Forum des communs (10Oct)
-		- JEP (19 sept) 
 		- CARRECO
 			- Banderole 
 			- Affiche Fonctionnel 
@@ -115,19 +121,13 @@ SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement 
 				- LOCAL TOURISMO : 
 				- Economie Collaborative : Package : 
 				- Smart Citizen GRid : Capteur Local 
-			- Hackathon : W3a , DataRocks...
+				- Formation : Opendata , Open source, Collaboratif, SIT 
 			* DEMO
 				- cityData dash 
 					Geo Stats
 				- city dash 
 				- opendata /capteur Fablab demo
 
-		- Communacelle 
-			- @Hafid : photo aerienne de Toulouse
-			- RV avec Clemence  
-			- @PH : integrer les opendatas toulouse
-				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
-		
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] page expliquer la gouvernance 
@@ -151,11 +151,6 @@ SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement 
 				[ ] basé sur les commentaire avec un outil de high light
 
 			[ ] creatorId must exist if organizer is an orga, for admin purposes
-		* CONTACT : mairie sin paul 
-			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
-			- Service Subventions Associations au 0262 70 28 85
-			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
-			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
 		
 		* GRANDDIR
 			[ ] Créer une pagination sur les résultats (8 résultats par page)
