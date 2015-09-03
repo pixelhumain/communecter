@@ -14,7 +14,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		-khtml-opacity: 1;
 		opacity: 1;
 	}
-
+	.subviews{
+		top:62px;
+	}
 </style>
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
@@ -33,6 +35,15 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 	    	</div>
+	    	
+	    	<?php 
+		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
+			?>
+			<div class="col-sm-12 col-xs-12">
+	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
+	    	</div>
+	    	<?php }; ?>
+
 	    	<div class="col-sm-12 col-xs-12 documentPod">
 	    		<div class="panel panel-white pulsate">
 					<div class="panel-heading border-light ">
@@ -42,13 +53,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 				</div>
 	    		
 	    	</div>
-	    	<?php 
-		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
-			?>
-			<div class="col-sm-12 col-xs-12">
-	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
-	    	</div>
-	    	<?php }; ?>
 	    	
 	    	<div class="col-sm-12 col-xs-12 jobPod">
 	    		<div class="panel panel-white pulsate">

@@ -176,69 +176,19 @@ jQuery(document).ready(function()
 
 });
 
-var bgClasses = [
-	{key : 'bggrey', name : "Grey"},
-	{key : 'bgdark', name : "Dark"},
-	{key : 'bgblack', name : "Black"},
-	{key : 'bgblue', name : "Blue"},
-	{key : 'bggreen', name : "Green"},
-	{key : 'bgred', name : "Red"},
-	{key : 'bgyellow', name : "Yellow"},
-
-	{key : 'bgcity', name : "City"},
-	{key : 'bgwave', name : "Wave"},
-	{key : 'bgseasky', name : "Sea Sky"},
-	{key : 'bggreenImg', name : "Leaf Drops"},
-
-	{key : 'bgcloud', name : "Cloud"},
-	{key : 'bgcrowd', name : "Crowd"},
-	{key : 'bgcrowd2', name : "Crowd"},
-	{key : 'bgfaces', name : "Faces"},
-
-	{key : 'bgwater', name : "Water"},
-	{key : 'bgeau', name : "Water"},
-	{key : 'bgfrings', name : "Frings"},
-	{key : 'bgtree', name : "Tree"},
-	{key : 'bgtree1', name : "Tree"},
-	//{key : 'bgCustom', name : "From my Gallery"},
-];
-var existingClasses = "bgyellow bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
 function buildBgClassesList() 
 { 
 	if( $(".bgClassesContainer").html() == "" )
 	{
 		$.each(bgClasses,function(i,v) { 
 			$(".bgClassesContainer").append('<a class="btn btn-xs btn-default bgChangeBtn" href="javascript:;" data-class="'+v.key+'" >'+v.name+'</a>');
+			existingClasses += " "+v.key;
 		});
 		$(".bgChangeBtn").off().on("click", function(){
 			setBg( $(this).data("class") );
 		});
 	}
 }
-
-function setBg( bg, url ) 
-{
-	$(".main-container").attr("style","");
-	$(".main-container").removeClass(existingClasses).addClass(bg);
-	
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatefield",
-        dataType : "json",
-        data: {
-        	"name" : "bgClass",
-			"pk" : "<?php echo Yii::app()->session['userId']?>",
-			"value" : bg,
-			"url" : url
-        }
-    })
-    .done(function (data) 
-    {
-    	if(! data.result) 
-    		toastr.error(data.msg); 
-    });
-}
-
 function bindAboutPodEvents() 
 {
 	$("#editProfil").on("click", function(){

@@ -75,9 +75,37 @@
 <script type="text/javascript" charset="utf-8">
 	
  	var constImgKey = "<?php echo Document::IMG_SLIDER ; ?>";
- 	
-	 jQuery(document).ready(function() {
-	 
+ 	var bgClasses = [
+		{key : 'bggrey', name : "Grey"},
+		{key : 'bgdark', name : "Dark"},
+		{key : 'bgblack', name : "Black"},
+		{key : 'bgblue', name : "Blue"},
+		{key : 'bggreen', name : "Green"},
+		{key : 'bgred', name : "Red"},
+		{key : 'bgyellow', name : "Yellow"},
+
+		{key : 'bgcity', name : "City"},
+		{key : 'bgwave', name : "Wave"},
+		{key : 'bgseasky', name : "Sea Sky"},
+		{key : 'bggreenImg', name : "Leaf Drops"},
+
+		{key : 'bgcloud', name : "Cloud"},
+		{key : 'bgcrowd', name : "Crowd"},
+		{key : 'bgcrowd2', name : "Crowd"},
+		{key : 'bgfaces', name : "Faces"},
+
+		{key : 'bgwater', name : "Water"},
+		{key : 'bgeau', name : "Water"},
+		{key : 'bgfrings', name : "Frings"},
+		{key : 'bgtree', name : "Tree"},
+		{key : 'bgtree1', name : "Tree"},
+		//{key : 'bgCustom', name : "From my Gallery"},
+	];
+	var existingClasses = "";
+	jQuery(document).ready(function() {
+	 	$.each(bgClasses,function(i,v) { 
+			existingClasses += " "+v.key;
+		});
 		bindPhotoSubview();
 
 		$(".gallery-photo").on("click", function()
@@ -107,7 +135,29 @@
         })
 
 	});
-	
+	function setBg( bg, url ) 
+	{	
+		$(".main-container").attr("style","");
+		$(".main-container").removeClass(existingClasses).addClass(bg);
+		
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatefield",
+	        dataType : "json",
+	        data: {
+	        	"name" : "bgClass",
+				"pk" : "<?php echo Yii::app()->session['userId']?>",
+				"value" : bg,
+				"url" : url
+	        }
+	    })
+	    .done(function (data) 
+	    {
+	    	if(! data.result) 
+	    		toastr.error(data.msg); 
+	    });
+	}
+
 	function bindPhotoSubview(){
 		$("#avatar").fileupload({allowedFileExtensions:['jpg', 'gif', 'png']})
 	}

@@ -1,27 +1,64 @@
-fiche Orga 
-	- existe depuis 
-	- nombres d'adherents
-	- nb de fan FB
 
-affiche 
-	forum des commun 
-	crowdfunding
-* DNB 
-	fiche blanche 
-	question - millionaire 
-	devoirs
-		suivi 
-	pascal.dorr@ac-reunion.fr
-	noor.com@wanadoo.fr
+projet Tangue (application mobile - mobilité durable)
+association RUN ACTION - président Willy ASSABY
+0262 58 63 90
+0692 56 10 01
+
+écoquartier Ravine Blanche
+CIVIS    Jessica K Bidi   0262499673  jessicak@civis.re
+SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement te renseigner
+
+* IDEAS 
+	** 2054
+		je propose une rencontre Fablab.re : "2054"
+			- autonomie alimentaire 
+			- energetique
+			- 100% dechets traités
+			- faire un outil pour fassilité la transition
+			- 50% de la population communecter
+	** Objectif Tangible  
+		Communecter is getting better every day 
+			count down  10K users before dec 2015 
+			2016 : un outil qui facilitera l'autonomisation 
+			2054 : Faire que tout les territoire soit autonome
+	** Dark PH
+		Organisation secret
+	** Etape pour cartographier un territoire 
+		- cartographier son propre reseau 
+			chaque personne est acteur du systeme 
+			le systeme se dessine grace au lien sur un territoire 
+		- une personne ou une organization ajoute 
+			- d'autre personne
+				- des proches 
+				- des connaissances
+				- son reseau professionel  
+			- des organizations
+			- des projets
+	** - join Standalone / simple
+		- tree type form
+		- create orga + admin
+		- add members
+		- create project 
+		- add contributors
+		- create event
+		- invite someone
+		- import form
+	** EAT OUR OWN FOOD
+		- repertorier nos partenaires
+		- nos evennements
+		- nos projets
+		- chacun doit avoir son dashboard
+		- test decision using the voting system
+	** fiche Orga 
+		- existe depuis 
+		- nombres d'adherents
+		- nb de fan FB
+	** affiche 
+		- forum des commun 
+		- crowdfunding
+
 * IN PROGRESS
-	** YANNICK
 	** CLEMENT
-	  [X] integration timesheet.php sur project
-	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
-	** JOHNSON + RAPHAEL
-		[ ] toujours afficher 
-		[ ] proposer d'autre source
-		[ ] ajouter un upload Image dans les SV, puis dans le dynForm
 	** RAPHAEL
 		[ ] utilisation de opendata Sets
 			- data.gouv
@@ -54,30 +91,11 @@ affiche
 		[ ] Contact
 			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
-		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
-		[ ] COMMENTS
-			[ ] cacher les boutons vote sur mes commentaires
-			[ ] on click cancel 
 	** TIBOR
 		Jean Marc Laurent > prise de vue 
 		- Labo reunion Labo Elec 2 Procédé (Moufia)
 			- Fred alicalapa
 			- reseau de capteur
-		- join Standalone / simple
-			- tree type form
-			- create orga + admin
-			- add members
-			- create project 
-			- add contributors
-			- create event
-			- invite someone
-			- import form
-		EAT OUR OWN FOOD
-			- repertorier nos partenaires
-			- nos evennements
-			- nos projets
-			- chacun doit avoir son dashboard
-			- test decision using the voting system
 
 		- bug GRANDDIR 
 		- Plan IRT (17/08) 4h date = 25/08
@@ -133,7 +151,6 @@ affiche
 				[ ] basé sur les commentaire avec un outil de high light
 
 			[ ] creatorId must exist if organizer is an orga, for admin purposes
-		
 		* CONTACT : mairie sin paul 
 			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
 			- Service Subventions Associations au 0262 70 28 85
@@ -223,17 +240,7 @@ affiche
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )
-	** JEREM
-		- faire qlq chose avec le son
 
 
-art is the heart of our culture
-we not the vulture 
-we feel the spirit, 
-then we give it 
-and let it go 
-we let it flow 
 
-it is a power 
-of many color 
 
