@@ -105,6 +105,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 	var idToSend = contextMap["organization"]["_id"]["$id"];
 	events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
+	projects = <?php echo json_encode($projects) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 	
 	jQuery(document).ready(function() {

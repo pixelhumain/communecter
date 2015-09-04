@@ -90,7 +90,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {
-					var url = baseUrl+"/"+moduleId+"/project/projectsv";
+					var url = baseUrl+"/"+moduleId+"/project/projectsv/id/<?php echo $userId; ?>/type/citoyen";
 					getAjax("#ajaxSV", url, 
 							function(){
 								console.log('toto');

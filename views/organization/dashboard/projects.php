@@ -90,7 +90,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {
-					var url = baseUrl+"/"+moduleId+"/project/projectsv";
+					var url = baseUrl+"/"+moduleId+"/project/projectsv/id/<?php echo $orgaId; ?>/type/organization";
 					getAjax("#ajaxSV", url, 
 							function(){
 								console.log('toto');
@@ -148,8 +148,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	}
 	function updateProject( nProject, projectId ){
 		console.log(projectId);
-		if('undefined' != typeof contextMap){
-			contextMap["projects"].push(nProject);
+		if('undefined' != typeof projects){
+			//projects.push(nProject);
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
