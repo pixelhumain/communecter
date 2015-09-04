@@ -143,7 +143,7 @@ function initXEditable() {
 	        	toastr.error(data.msg);  
 	    },
 	});
-
+	
 	$('#startDate').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
 		type: "date",

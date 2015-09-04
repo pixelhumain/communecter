@@ -30,7 +30,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
-	    				"publics" => $public
+	    				"publics" => $public,
 	    			);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
@@ -85,7 +85,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 					</div>
 				</div>
 	 		</div>
-
+	 		<div class="col-sm-12 col-xs-12">
+	 			<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "orgaId" => (String) $organization["_id"])); ?>
+	 		</div>
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
