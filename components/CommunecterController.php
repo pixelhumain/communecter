@@ -111,6 +111,7 @@ class CommunecterController extends Controller
       'getlistcities'            => array("href" => "/ph/communecter/city/getlistcities"),
 
     ),
+
     "news"=> array(
       "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
@@ -283,7 +284,11 @@ class CommunecterController extends Controller
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
-    )
+    ),
+
+    "gamification"=> array(
+      "index" => array("href" => "/ph/communecter/gamification/index"),
+    ),
   );
 
   function initPage(){

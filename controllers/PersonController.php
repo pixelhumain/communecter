@@ -54,7 +54,7 @@ class PersonController extends CommunecterController {
           'importfile'         => 'citizenToolKit.controllers.person.ImportFileAction',
           'saisir'             => 'citizenToolKit.controllers.person.SaisirAction',
           'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
-          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction'
+          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction',
 	    );
 	}
 

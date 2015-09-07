@@ -5,6 +5,7 @@ class ActStr {
 	const TEST = "test"; 
 	const ICON_QUESTION = "fa-question";
     const ICON_SHARE = "fa-share-alt";
+    const ICON_CLOSE = "fa-times";
 
     const VIEW_PAGE = "viewPage";
 
@@ -18,6 +19,7 @@ class ActStr {
     const VERB_LEAVE = "leave";
     const VERB_INVITE = "invite";
     const VERB_ACCEPT = "accept";
+    const VERB_CLOSE = "close";
       
     const VERB_HOST = "host";
     const VERB_FOLLOW = "follow";

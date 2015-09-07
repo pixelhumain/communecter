@@ -327,7 +327,34 @@
 			VISUALIZE GLOBALY
 				- Graph
 				- GIS
-		
+	*** My planet : a nice vizualisation of my network
+		http://codepen.io/jdniki/pen/YyzBqd
+	** tag features 
+		un simple tag ajouté sur un element (ex : projet) 
+		propose automatiquement des fonctionalités spécifique
+			#agricutlure : ajoute le module production / permaculture 
+			#developpement : ajoute le kanban
+			#evennementiel : donne plus d'element au calendrier , preparation de salle ...etc
+	** Etape pour cartographier un territoire 
+		- cartographier son propre reseau 
+			chaque personne est acteur du systeme 
+			le systeme se dessine grace au lien sur un territoire 
+		- une personne ou une organization ajoute 
+			- d'autre personne
+				- des proches 
+				- des connaissances
+				- son reseau professionel  
+			- des organizations
+			- des projets
+	** Inscription
+		https://libertic.wordpress.com/2015/08/27/loperation-libre-libere-communes/
+	** Code Postale Photographers
+		comme AirBnb pour les appart 
+		commencer une collection de photographe par code postal
+		ex : 974 
+			./mobilehttp://www.rup.re/-/galeries/diaporama-page-dacceuil/-/medias/d92165f8-cdf8-11e3-a4d1-329e81129ea7-shrimp
+	** Dark PH
+		Organisation secret
 ** COMMUNICATION 
 	[ ] faire marcher la newsletter 
 	[ ] ANNIVERSAIRE PH

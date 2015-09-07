@@ -1,3 +1,5 @@
+Directeur 
+	Pascal Gascoin CEMEA
 
 * CONTACT
 	* projet Tangue (application mobile - mobilité durable)
@@ -22,31 +24,7 @@
 		[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
 
 * IDEAS 
-	** 2054
-		je propose une rencontre Fablab.re : "2054"
-			- autonomie alimentaire 
-			- energetique
-			- 100% dechets traités
-			- faire un outil pour fassilité la transition
-			- 50% de la population communecter
-	** Objectif Tangible  
-		Communecter is getting better every day 
-			count down  10K users before dec 2015 
-			2016 : un outil qui facilitera l'autonomisation 
-			2054 : Faire que tout les territoire soit autonome
-	** Dark PH
-		Organisation secret
-	** Etape pour cartographier un territoire 
-		- cartographier son propre reseau 
-			chaque personne est acteur du systeme 
-			le systeme se dessine grace au lien sur un territoire 
-		- une personne ou une organization ajoute 
-			- d'autre personne
-				- des proches 
-				- des connaissances
-				- son reseau professionel  
-			- des organizations
-			- des projets
+	
 	** - join Standalone / simple
 		- tree type form
 		- create orga + admin
@@ -64,10 +42,9 @@
 		- test decision using the voting system
 	** fiche Orga 
 		- existe depuis 
-		- nombres d'adherents
-		- nb de fan FB
+		- nombres moy d'adherents
 	** affiche 
-		- forum des commun 
+		- forum des communs
 		- crowdfunding
 
 * IN PROGRESS
@@ -131,14 +108,24 @@
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
 		[ ] page expliquer la gouvernance 
-		[X] disable orga
+		[ ] disable orga
 			[ ] hide from lists users lists
-			[ ] inform users
+			[X] inform users
 			[X] show disabled button
 			[X] disable all pods
-		[ ] add organization to admin directory 
-		[ ] smaller scope 
 		[ ] test creating a user with an existing email
+		[ ] un vue dashboard pour un tag : tagboard
+		[ ] scope board
+
+		[ ] Grid Pod : 
+			* Githubs
+				http://vnjs.net/www/project/freewall/
+				http://ksylvest.github.io/jquery-gridly/
+				Grid inside an item ?
+			* Usage 
+				Event : whoboard : liste en mode (title, bg img, short desc , long)
+				Event / Project : sitemap : 
+				Project : in depth viewer 
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form
