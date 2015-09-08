@@ -66,6 +66,7 @@
 							<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
 							<hr>
 							<h2 id="ficheName" name="ficheName"></h2>
+							<span id="email" name="email" ></span><br><br>
 							<span id="address" name="address" ></span><br><br>
 							<span id="tags" name="tags" ></span><br>
 						</div>
@@ -357,6 +358,10 @@ function setInviteInput(num){
 		$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
 	}
 	
+	if (person.email != null) {
+		//Email
+		$("#newInvite #email").text(person.email);
+	}
 	//Tags
 	var tagsStr = "";
 	if( "object" == typeof person.tags && person.tags ) {
