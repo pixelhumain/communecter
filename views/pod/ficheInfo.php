@@ -320,7 +320,7 @@
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),
-			onblur: 'submit',
+			mode: 'popup',
 			success: function(response, newValue) {
         		if(! response.result) return response.msg; //msg will be shown in editable form
     		}

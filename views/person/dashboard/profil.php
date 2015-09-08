@@ -220,6 +220,7 @@ function initXEditable() {
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
+    	mode: 'popup'
 	});
 
 	$('.socialIcon').editable({
@@ -249,7 +250,7 @@ function initXEditable() {
 
     $('#addressCountry').editable({
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
-		showbuttons: false, 
+		mode : 'popup',
 		value: '<?php echo (isset( $person["address"]["addressCountry"])) ? $person["address"]["addressCountry"] : ""; ?>',
 		source: function() {
 			return countries;
