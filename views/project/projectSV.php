@@ -266,7 +266,7 @@ function runProjectFormValidation(el) {
 
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/project/save/id/<? echo $_GET["id"]; ?>/type/<?php echo $_GET["type"];?>',
+		        url: baseUrl+"/"+moduleId+'/project/save/id/<?php echo $_GET["id"]; ?>/type/<?php echo $_GET["type"];?>',
 		        dataType: "json",
 		        data: newProject,
 				type: "POST",
