@@ -78,7 +78,11 @@
 			<div class="row">
 				<div class="col-sm-1"><i class="fa fa-users"></i></div>
 				<div class="col-sm-11">
-					Organisateur : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
+					<?php if($organizer["type"]=="project"){ ?>
+					Organisé par le projet
+					<?php } else { ?>
+					Organisateur 
+					<?php } ?> : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
 			<div class="row">
