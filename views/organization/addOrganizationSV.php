@@ -80,7 +80,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</div>
 						</div>
 					</div>
-					<div id="formNewOrganization">
+					<div id="formNewOrganization" style="display:none;">
 						<div class="col-md-6 col-sd-6" >
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
