@@ -362,8 +362,6 @@ function setInviteInput(num){
 	if( "object" == typeof person.tags && person.tags ) {
 		$.each( person.tags , function(i,tag){
 			tagsStr += "<span class='label label-inverse'>"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags )  == -1)
-				contextMap.tags.push(tag);
 		});
 	} else {
 		tagsStr += "<span class='label label-inverse'>No Tag</span> ";
