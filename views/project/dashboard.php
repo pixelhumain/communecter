@@ -1,4 +1,3 @@
-
 <div class="row">
 	<div class="col-md-12 no-padding">
 	<div class="col-lg-4 col-md-12">

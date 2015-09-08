@@ -16,6 +16,7 @@
 
 }
 .confirmBtn{
+	display:none;
 	font-size: 25px;
     width: 25px;
     position: absolute;
@@ -33,9 +34,8 @@
 					if(isset(Yii::app()->session["userId"]) && isset($_GET["id"]))
 						$admin = Authorisation::canEditItem(Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]);
 					if($admin){
- ?>
-				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>
-				<?php } ?>
+     				?>	
+					<?php } ?>
 				<div class="dropdown">
 					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 						<i class="fa fa-cog"></i>
@@ -80,15 +80,19 @@
 				
 				<div class="tab-content partition-white">
 					<?php //for ($i=0; $i<$quantity;$i++){ ?>
-						<div class="col-md-3 col-xs-4 center padding-10">
+						<div class="col-md-3 col-xs-4 center padding-10 helperBox">
 							<img width="50" height="50" alt="image" class="img-circle" src="/pixelhumain/ph/communecter/document/resized/50x50/upload/communecter/citoyens/555a124b126e9a6f6600000d/famillesuricate4.jpg">
 						</div>
-						<div class="col-md-3 col-xs-4 center padding-10">
-							<i class="fa fa-times-circle refuseBtn confirmBtn"></i>
+						<div class="col-md-3 col-xs-4 center padding-10 helperBox">
+							<a href="#" class="refuseHelp">
+								<i class="fa fa-times-circle refuseBtn confirmBtn"></i>
+							</a>
 							<img width="50" height="50" alt="image" class="img-circle grayscale" src="/pixelhumain/ph/communecter/document/resized/50x50/upload/communecter/citoyens/555a124b126e9a6f6600000d/famillesuricate4.jpg">
-							<i class="fa fa-check-circle validateBtn confirmBtn"></i>
+							<a href="#" class="acceptHelp">
+								<i class="fa fa-check-circle validateBtn confirmBtn"></i>
+							</a>
 						</div>
-						<div class="col-md-3 col-xs-4 center padding-10">
+						<div class="col-md-3 col-xs-4 center padding-10 helperBox">
 							<!--<img width="50" height="50" alt="image" class="img-circle grayscale" src="/pixelhumain/ph/communecter/document/resized/50x50/upload/communecter/citoyens/555a124b126e9a6f6600000d/famillesuricate4.jpg">-->
 							<div class="img-circle" style="height: 50px;width: 50px;border: 3px solid gray;margin:auto;">
 	    	<p style="line-height: 45px; font-size: 25px;"> ? </p>
@@ -151,3 +155,19 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript">
+admin= <?php echo $admin; ?>;
+jQuery(document).ready(function(){
+	if (admin==1){
+		$(".helperBox").mouseenter(function(){
+			if($(this).find(".confirmBtn").length){
+				$(this).find(".confirmBtn").fadeIn();
+			}
+		}).mouseleave(function(){
+			if($(this).find(".confirmBtn").length){
+				$(this).find(".confirmBtn").fadeOut();
+			}			
+		});
+	}
+});
+</script>
