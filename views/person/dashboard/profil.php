@@ -116,10 +116,10 @@
 						Tags : 
 					</label>
 					
-					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
+					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click">
 						<?php if(isset($person["tags"])){
 							foreach ($person["tags"] as $tag) {
-								echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
 							}
 						}?>
 					</a>
@@ -238,12 +238,12 @@ function initXEditable() {
 	//Select2 tags
     $('#tags').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
-        mode: 'inline',
-        showbuttons: false,
         mode : 'popup',
+        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
         select2: {
-            tags: tags,
-            tokenSeparators: [","]
+            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200
         }
     }); 
 

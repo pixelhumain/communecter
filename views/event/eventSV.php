@@ -35,7 +35,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .no-padding-right {
 	padding-right: 0;
 }
-
+.dropOrgaEvent{
+	padding-left: inherit;	
+}
+.dropOrgaEvent li{
+	list-style: none;
+	margin-left: 15px;
+}
+.categoryTitle{
+	margin-left: inherit;
+}
 </style>
 
 <!-- *** NEW EVENT *** -->
@@ -54,23 +63,49 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		<div class="col-md-11">
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
-					if(!empty($myOrganizationAdmin)) {
+				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
 				?>
 			<div class="row">
-				<div class="col-md-6 selectpicker">
+				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
 						
                         <a class="form-control dropdown-toggle " data-toggle="dropdown" href="#" aria-expanded="true">
-                          	<span id="labelOrga">Organisation</span><span class="caret"></span>
+                          	<span id="labelOrga">Choose an organizer</span><span class="caret"></span>
                         </a>
-                        <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
-                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
-	                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
-	                       	<?php } ?>
+                        <ul role="menu" class="dropdown-menu">
+	                        <li class="categoryOrgaEvent">
+		                        <ul class="dropOrgaEvent" id="citoyen">	                    
+			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-person'></i> Person</li>
+			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"></a>Moi</li>
+		                        </ul>
+	                        </li>
+	                        <?php if(!empty($myOrganizationAdmin)) { ?>
+	                        <li class="categoryOrgaEvent">
+		                        <ul class="dropOrgaEvent" id="organization">
+			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-user'></i> Organisation</li>
+		                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
+			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                       	<?php } ?>
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+	                        <?php	if(!empty($myProjectAdmin)) { ?>
+	                        <li class="categoryOrgaEvent">
+		                         <ul class="dropOrgaEvent" id="project">
+			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-lightbulb-o'></i> Project</li>
+			                        <?php foreach ($myProjectAdmin as $p) { ?>
+			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
+			                       	<?php } ?>
+
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+
                         </ul>
                     </div>
                     
-                    <input class="hide" type="text" id="newEventOrga" name="newEventOrga">
+                    <input class="hide" type="text" id="newEventOrgaId" name="newEventOrgaId">
+                    <input class="hide" type="text" id="newEventOrgaType" name="newEventOrgaType">
 
 				</div>
 				<div class="col-md-6">
@@ -91,7 +126,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 				</div>
 			</div>
-			<?php } ?>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -175,7 +209,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <script type="text/javascript">
 
 	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
-	var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
+	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
+	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var parentOrga = [];
 	var defaultHours;
 
@@ -335,7 +370,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.city = $(".form-event #city ").val();
-				
+				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
+				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -345,7 +381,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				});
 
 				if($(".form-event #newEventOrga").val() !==""){
-					newEvent.organization = $(".form-event #newEventOrga").val();
+
 				}
 				
 				$.ajax({
@@ -461,12 +497,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	//----------------------------Function for event SV--------------------
 
 	function initMyOrganization(){
-		
+		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
+			alert();
+			$(".selectpicker").addClass("col-md-12");
+			$(".categoryOrgaEvent").addClass("col-md-4");
+		}
+		else if (listOrgaAdmin.length != 0 || listProjectAdmin.length != 0){
+			$(".selectpicker").addClass("col-md-6");
+			$(".categoryOrgaEvent").addClass("col-md-6");
+		}
+		else {
+			$(".selectpicker").addClass("col-md-6");
+			$(".categoryOrgaEvent").addClass("col-md-12");
+		}
 
 		$(".dropOrg").click(function() {
 			console.log(this);
-			$("#labelOrga").text("Organisation : "+$(this).data("name"));
-			$("#newEventOrga").val($(this).data("id"));
+			if ($(this).parents().eq(1).attr("id")=="organization"){
+				$("#labelOrga").text("Organisation : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("organizations");
+			}
+			else if ($(this).parents().eq(1).attr("id")=="project"){
+				$("#labelOrga").text("Project : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("projects");
+			}
+			else {
+				$("#labelOrga").text("Person : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("citoyens");
+			}
+
+
 		})
 
 		if("undefined" != typeof(parentOrga)){

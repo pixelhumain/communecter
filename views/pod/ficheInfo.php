@@ -116,28 +116,14 @@
 			</div>
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-12 col-xs-12">
 				<h1> Public</h1>
-			</div>
-			<div class="col-sm-6 col-xs-6">
-				<h1> Telechargement</h1>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6 padding-20">
+			<div class="col-sm-12 col-xs-12 padding-20">
 				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
-			</div>
-			<div class="col-sm-6 col-xs-6 padding-20">
-				<?php 
-					if (isset($plaquette) && $plaquette) {
-	                	$this->widget('ext.widgets.documentLink.DocumentLinkWidget', array(
-	                		"document" => $plaquette,
-	                		"text" => "Plaquette de presentation"));
-	                	//echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
-					} else { ?>
-						<a href="#">N/A</a>
-				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -354,9 +340,9 @@
 			mode: 'popup',
 			value: <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>,
 			select2: {
-				width: 200,
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-				tokenSeparators: [","]
+				tokenSeparators: [","],
+				width: 200
 			}
 		});
 
