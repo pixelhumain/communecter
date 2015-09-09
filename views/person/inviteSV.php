@@ -15,6 +15,12 @@
 .margin-bottom-10 {
 	margin-bottom: 10px;
 }
+
+.city-search {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 0.8125rem;
+}
 </style>
 
 <?php if( @$isNotSV ){ ?>
@@ -326,15 +332,24 @@ function autoCompleteInviteSearch(search){
 		function (data){
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
 			var compt = 0;
+			var city, postalCode = "";
 			$.each(data["citoyens"], function(k, v) { 
-				console.log(k, v);
+				city = "";
+				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 				if(v._id["$id"]!= userId) {
 					tabObject.push(v);
 	 				if(v.profilImageUrl != ""){
 	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
 	 				}
-	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
+	 				if (v.address != null) {
+	 					city = v.address.addressLocality;
+	 					postalCode = v.address.postalCode;
+	 				}
+	  				str += 	"<li class='li-dropdown-scope'>" +
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
+	  						"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
+	  						"</li>";
 	  				compt++;
   				}
 			}); 
