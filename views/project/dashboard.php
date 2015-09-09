@@ -6,7 +6,7 @@
 	</div>
 	<div class ="col-lg-4 col-md-12">			
 		<?php 
-			 $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$project["_id"], "type" => PHType::TYPE_PROJECTS));
+			 $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$project["_id"], "type" => PHType::TYPE_PROJECTS, "isAdmin"=> $admin));
 		?>
 	</div>	
 	<div class ="col-lg-4 col-md-12">
@@ -54,7 +54,7 @@
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 	})
 	var bindBtnFollow = function(){
