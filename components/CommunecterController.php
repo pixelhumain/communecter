@@ -282,8 +282,15 @@ class CommunecterController extends Controller
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod" => array("href" => "/ph/communecter/comment/testpod")
     ),
+
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
+    ),
+
+    "notification"=> array(
+      "getnotifications" => array("href" => "/ph/communecter/notification/get"),
+      "marknotificationasread" => array("href" => "/ph/communecter/notification/remove"),
+      "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
     ),
 
     "gamification"=> array(

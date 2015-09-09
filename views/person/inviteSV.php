@@ -15,6 +15,12 @@
 .margin-bottom-10 {
 	margin-bottom: 10px;
 }
+
+.city-search {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 0.8125rem;
+}
 </style>
 
 <?php if( @$isNotSV ){ ?>
@@ -66,6 +72,7 @@
 							<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
 							<hr>
 							<h2 id="ficheName" name="ficheName"></h2>
+							<span id="email" name="email" ></span><br><br>
 							<span id="address" name="address" ></span><br><br>
 							<span id="tags" name="tags" ></span><br>
 						</div>
@@ -325,15 +332,24 @@ function autoCompleteInviteSearch(search){
 		function (data){
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
 			var compt = 0;
+			var city, postalCode = "";
 			$.each(data["citoyens"], function(k, v) { 
-				console.log(k, v);
+				city = "";
+				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 				if(v._id["$id"]!= userId) {
 					tabObject.push(v);
 	 				if(v.profilImageUrl != ""){
 	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
 	 				}
-	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
+	 				if (v.address != null) {
+	 					city = v.address.addressLocality;
+	 					postalCode = v.address.postalCode;
+	 				}
+	  				str += 	"<li class='li-dropdown-scope'>" +
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
+	  						"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
+	  						"</li>";
 	  				compt++;
   				}
 			}); 
@@ -357,6 +373,10 @@ function setInviteInput(num){
 		$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
 	}
 	
+	if (person.email != null) {
+		//Email
+		$("#newInvite #email").text(person.email);
+	}
 	//Tags
 	var tagsStr = "";
 	if( "object" == typeof person.tags && person.tags ) {
