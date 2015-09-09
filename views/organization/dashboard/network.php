@@ -39,24 +39,30 @@
               	?>
 						<tr id="<?php echo Person::COLLECTION.(string)$e["_id"];?>">
 							<td class="center">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>">
-								<?php if ($e && isset($e["imagePath"])){ ?>
-									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']); ?>">
-								<?php } else { ?>
-									<i class="fa fa-user fa-2x"></i>
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>">
+									<?php if ($e && isset($e["imagePath"])){ ?>
+										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']); ?>">
+									<?php } else { ?>
+										<i class="fa fa-user fa-2x"></i>
+									<?php } ?>
+								</a>
+							</td>
+							<td>
+								<?php 
+								if ($e && @$organization['links']['members'][ (string)$e['_id'] ]["isAdmin"] ){ ?>
+									<i class="fa fa-pencil-square text-red" title="is Admin"></i>
 								<?php } ?>
-							</a>
 							</td>
 							<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<td><?php if(isset($e["position"]))echo $e["position"]?></td>
 							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
 							<td><?php if(isset($e["links"]["memberOf"][$id]["roles"])) echo implode(",", $e["links"]["memberOf"][$id]["roles"]) ;?></td>
 							<td class="center">
-							<div class="visible-md visible-lg hidden-sm hidden-xs">
-								<?php if( $isAuthorized ) { ?>
-								<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this member" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-								<?php }; ?>
-							</div>
+								<div class="visible-md visible-lg hidden-sm hidden-xs">
+									<?php if( $isAuthorized ) { ?>
+									<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-type="<?php echo PHType::TYPE_CITOYEN ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this member" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<?php }; ?>
+								</div>
 							</td>
 						</tr>
 					<?php }}else{ ?>
@@ -82,24 +88,30 @@
                 	foreach ($members[Organization::COLLECTION] as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
-								<?php if ($e && isset($e["imagePath"])){ ?>
-									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
-								<?php } else { ?>
-									<i class="fa fa-group fa-2x"></i>
+								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+									<?php if ($e && isset($e["imagePath"])){ ?>
+										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
+									<?php } else { ?>
+										<i class="fa fa-group fa-2x"></i>
+									<?php } ?>
+								</a>
+							</td>
+							<td>
+								<?php 
+								if ($e && @$organization['links']['members'][ (string)$e['_id'] ]["isAdmin"] ){ ?>
+									<i class="fa fa-pencil-square text-red"  title="is Admin"></i>
 								<?php } ?>
-							</a>
 							</td>
 							<td><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<!--<td><?php //if(isset($e["tags"]))echo implode(", ", $e["tags"])?></td>-->
 							<td><?php if(isset($e["linkType"]))echo $e["linkType"]?></td>
 							<td class="center">
-							<div class="visible-md visible-lg hidden-sm hidden-xs">
-								<?php if( $isAuthorized ) { ?>
-								<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-								<?php }; ?>
-							</div>
+								<div class="visible-md visible-lg hidden-sm hidden-xs">
+									<?php if( $isAuthorized ) { ?>
+									<a href="javascript:;" class="disconnectBtnNet btn btn-xs btn-red tooltips " data-placement="left" data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo Organization::COLLECTION ?>" data-id="<?php if(isset($e['_id'])) echo $e['_id'];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove this organization" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<?php }; ?>
+								</div>
 							</td>
 						</tr>
 					<?php }}else{ ?>
