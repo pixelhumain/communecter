@@ -113,6 +113,12 @@ Directeur
 			[X] inform users
 			[X] show disabled button
 			[X] disable all pods
+
+		[ ] remove Notifications as Read 
+		[ ] event attendees
+		[ ] add is Admin to all listings
+		[ ] Orga : Rééditer un membre #104
+
 		[ ] test creating a user with an existing email
 		[ ] un vue dashboard pour un tag : tagboard
 		[ ] scope board
