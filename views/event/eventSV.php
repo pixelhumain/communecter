@@ -43,7 +43,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	margin-left: 15px;
 }
 .categoryTitle{
-	margin-left: inherit;
+    border-bottom: 1px solid #8b91a0;
+    font-variant: small-caps;
+    font-style: italic;
+    font-size: 17px;
+}
+.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
 }
 </style>
 
@@ -66,23 +74,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
 				?>
 			<div class="row">
-				<div class="selectpicker">
+				<div class="selectpicker col-md-6">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
 						
-                        <a class="form-control dropdown-toggle " data-toggle="dropdown" href="#" aria-expanded="true">
+                        <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga">Choose an organizer</span><span class="caret"></span>
                         </a>
-                        <ul role="menu" class="dropdown-menu">
-	                        <li class="categoryOrgaEvent">
+                        <!--<div class="panel-scroll height-230 ps-container">-->
+                        <ul role="menu" class="dropdown-menu scrollable-menu">
+	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
-			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-person'></i> Person</li>
-			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"></a>Moi</li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> Person</li>
+			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi">Moi</a></li>
 		                        </ul>
 	                        </li>
 	                        <?php if(!empty($myOrganizationAdmin)) { ?>
-	                        <li class="categoryOrgaEvent">
+	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="organization">
-			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-user'></i> Organisation</li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> Organisation</li>
 		                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
 			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 			                       	<?php } ?>
@@ -90,9 +99,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	                        </li>
 	                        <?php } ?>
 	                        <?php	if(!empty($myProjectAdmin)) { ?>
-	                        <li class="categoryOrgaEvent">
+	                        <li class="categoryOrgaEvent col-md-12">
 		                         <ul class="dropOrgaEvent" id="project">
-			                        <li style="font-variant: small-caps;font-style: italic;margin-left: inherit;"><i class='fa fa-lightbulb-o'></i> Project</li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-lightbulb-o'></i> Project</li>
 			                        <?php foreach ($myProjectAdmin as $p) { ?>
 			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
 			                       	<?php } ?>
@@ -102,6 +111,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	                        <?php } ?>
 
                         </ul>
+                       <!-- </div>-->
                     </div>
                     
                     <input class="hide" type="text" id="newEventOrgaId" name="newEventOrgaId">
@@ -498,17 +508,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function initMyOrganization(){
 		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
-			alert();
-			$(".selectpicker").addClass("col-md-12");
-			$(".categoryOrgaEvent").addClass("col-md-4");
+			//$(".selectpicker").addClass("col-md-12");
+			//$(".categoryOrgaEvent").addClass("col-md-4");
 		}
 		else if (listOrgaAdmin.length != 0 || listProjectAdmin.length != 0){
-			$(".selectpicker").addClass("col-md-6");
-			$(".categoryOrgaEvent").addClass("col-md-6");
+			//$(".selectpicker").addClass("col-md-6");
+			//$(".categoryOrgaEvent").addClass("col-md-6");
 		}
 		else {
-			$(".selectpicker").addClass("col-md-6");
-			$(".categoryOrgaEvent").addClass("col-md-12");
+			//$(".selectpicker").addClass("col-md-6");
+			//$(".categoryOrgaEvent").addClass("col-md-12");
 		}
 
 		$(".dropOrg").click(function() {
