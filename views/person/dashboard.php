@@ -29,10 +29,18 @@
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+																"contextId" =>(string)$person["_id"],
+																"contextType" => "citoyen",
+																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
+															)); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
-		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+																"contextId" => (string)$person["_id"],
+																"contextType" => "citoyen",
+																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
+														)); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
@@ -48,22 +56,24 @@
 		<?php $this->renderPartial('dashboard/profil', array("person" => $person, "tags" => $tags, "countries" => $countries )); ?>
 	</div>
 
-	<div class="col-lg-4 col-md-4 shareAgendaPod">
-		<div class="panel panel-white pulsate">
-			<div class="panel-heading border-light ">
-				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
-				<div class="space5"></div>
-			</div>
-		</div>
-	</div>
+	
 </div>
 
 <div class="row">
 	
-	<div class="col-lg-4 col-md-4 newsPod">
+	<div class=" col-md-5 newsPod">
 		<div class="panel panel-white pulsate">
 			<div class="panel-heading border-light ">
 				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading News Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class=" col-md-7 shareAgendaPod">
+		<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
 				<div class="space5"></div>
 			</div>
 		</div>
@@ -91,11 +101,10 @@ console.dir(contextMap);
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/type/<?php echo Person::COLLECTION ?>", function(){
-		}, "html");
 
-	getAjax(".newsPod", baseUrl+"/"+moduleId+"/news/latest/type/<?php echo Person::COLLECTION ?>/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/count/5", function(){
-		}, "html");
+	getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/event/calendarview/pod/1", function(){}, "html");
+
+	getAjax(".newsPod", baseUrl+"/"+moduleId+"/news/latest/type/<?php echo Person::COLLECTION ?>/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/count/5", function(){}, "html");
 
 });
 

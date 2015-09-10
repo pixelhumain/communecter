@@ -1,3 +1,11 @@
+<?php
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+
 <style>
 .user-pending {
 	opacity: 0.5;
@@ -85,47 +93,13 @@ function bindConnectEvent() {
 	});
 
 	$(".disconnectPersonBtn").off().on("click", function() {
-		disconnectPerson($(this));
+		var idToDisconnect = $(this).data("id");
+		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
+		var nameToDisconnect = $(this).data("name");
+		$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect);
+		$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 	});
-}
-
-function disconnectPerson(line) {
-
-	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	
-	var idToDisconnect = line.data("id");
-	var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
-
-	bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+line.data("name")+"</span> connection ?", 
-		function(result) {
-			if (!result) {
-				$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-				return;
-			}
-			var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/knows";
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					if ( data && data.result ) {               
-						toastr.info("You are not following this person anymore.");
-						$("#citoyens"+idToDisconnect).remove();
-						if ($("#people tr").length == 0) {
-							$("#info").show();
-						}
-					} else {
-						toastr.error(data.msg);
-					}
-				},
-				error: function(data) {
-					toastr.error("Something went really bad !");
-				}
-			});
-		}
-	);
-
-	$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 }
 
 function openConnectPeopleSV() {
@@ -160,45 +134,55 @@ function openConnectPeopleSV() {
 	});
 }
 
-function updateInvite(user, isPending) {
+function updateInvite(user, isPending, isLineToRemove) {
 	console.log("updateInvite", user);
 	var newLine = "";
 
-	if (isPending) {
-		newLine += '<tr class="user-pending" id="citoyens'+user.id+'">'+
-						'<td class="center">'+
-							'<i class="fa fa-user fa-2x"></i>'+
-						'</td>'+
-						'<td>'+user.name+'</td>'+
-						'<td class="center">'+
-							'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-								'<a data-original-title="Remove Knows relation" data-placement="left" data-name="'+user.name+'" data-id="'+user.id+'" data-type="citoyens" data-linktype="" class="disconnectBtn btn btn-xs btn-red tooltips " href="javascript:;"><i class=" disconnectBtnIcon fa fa-unlink"></i></a>'+
-							'</div>'+
-						'</td>'+
-					'</tr>';	
+	if (isLineToRemove) {
+		$("#citoyens"+user).fadeOut("slow", function() {
+			$(this).remove();
+		});
+		if ($("#people tr").length == 0) {
+			$("#infoPodPeople").show();
+		}
 	} else {
-		newLine += '<tr id="citoyens'+user.id+'">'+
-						'<td class="center">'+
-							'<a href="/ph/communecter/person/dashboard/id/'+user.id+'">';
-		//Profil Image
-		if (user.profilImageUrl == "") 
-			newLine += '<i class="fa fa-user fa-2x"></i>';
-		else 
-			newLine += '<img width="50" height="50" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+user.profilImageUrl+'" class="img-circle" alt="image">';
-		
-		newLine += '</a>'+
-						'</td>'+
-						'<td><a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+user.id+'">'+user.name+'</a></td>'+
-						'<td class="center">'+
-							'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-								'<a data-original-title="Remove Knows relation" data-placement="left" data-name="'+user.name+'" data-id="'+user.id+'" data-type="citoyens" data-linktype="" class="disconnectBtn btn btn-xs btn-red tooltips " href="javascript:;"><i class=" disconnectBtnIcon fa fa-unlink"></i></a>'+
-							'</div>'+
-						'</td>'+
-					'</tr>';
+		$("#infoPodPeople").hide();
+		if (isPending) {
+			newLine += '<tr class="user-pending" id="citoyens'+user.id+'">'+
+							'<td class="center">'+
+								'<i class="fa fa-user fa-2x"></i>'+
+							'</td>'+
+							'<td>'+user.name+'</td>'+
+							'<td class="center">'+
+								'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
+									'<a data-original-title="Remove Knows relation" data-placement="left" data-name="'+user.name+'" data-id="'+user.id+'" data-type="citoyens" data-linktype="" class="disconnectBtn btn btn-xs btn-red tooltips " href="javascript:;"><i class=" disconnectBtnIcon fa fa-unlink"></i></a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>';	
+		} else {
+			newLine += '<tr id="citoyens'+user.id+'">'+
+							'<td class="center">'+
+								'<a href="/ph/communecter/person/dashboard/id/'+user.id+'">';
+			//Profil Image
+			if (user.profilImageUrl == "") 
+				newLine += '<i class="fa fa-user fa-2x"></i>';
+			else 
+				newLine += '<img width="50" height="50" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+user.profilImageUrl+'" class="img-circle" alt="image">';
+			
+			newLine += '</a>'+
+							'</td>'+
+							'<td><a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+user.id+'">'+user.name+'</a></td>'+
+							'<td class="center">'+
+								'<div class="visible-md visible-lg hidden-sm hidden-xs">'+
+									'<a data-original-title="Remove Knows relation" data-placement="left" data-name="'+user.name+'" data-id="'+user.id+'" data-type="citoyens" data-linktype="" class="disconnectPersonBtn btn btn-xs btn-red tooltips " href="javascript:;"><i class=" disconnectBtnIcon fa fa-unlink"></i></a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>';
+		}
+		$('#people').prepend(newLine);
+		$('#citoyens'+user.id).addClass('animated bounceIn');
+		bindConnectEvent();
 	}
-	
-	$('#people').prepend(newLine);
-	bindConnectEvent();
 }
 
 </script>

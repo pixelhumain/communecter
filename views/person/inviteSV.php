@@ -1,3 +1,11 @@
+<?php
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+
 <style>
 
 #newInvite{
@@ -139,10 +147,13 @@ jQuery(document).ready(function() {
 function bindInviteSubViewInvites() {	
 
 	$(".connectBtn").off().on("click", function() {
-		connectPerson();
+		connectPerson($('#newInvite #inviteId').val(), false, $.hideSubview());
 	});
 	$(".disconnectBtn").off().on("click", function() {
-		disconnectPerson();
+		var idToDisconnect = $('#newInvite #inviteId').val();
+		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
+		var nameToDisconnect = $("#newInvite #ficheName").text();
+		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, $.hideSubview());
 	});
 
 	$('#inviteSearch').keyup(function(e){
@@ -156,65 +167,6 @@ function bindInviteSubViewInvites() {
 	});
 };
 
-function connectPerson() {
-	console.log("connect Person");
-	$.ajax({
-		type: "POST",
-		url: baseUrl+"/"+moduleId+'/person/connect',
-		dataType : "json",
-		data : {
-			connectUserId : $('#newInvite #inviteId').val(),
-		}
-	})
-	.done(function (data) {
-		$.unblockUI();
-		if (data &&  data.result) {
-			var name = $("#newInvite #ficheName").text();
-			toastr.success('You are now following '+name);
-			$.hideSubview();
-			if(updateInvite != undefined && typeof updateInvite == "function"){
-				updateInvite(data.invitedUser);
-			}	
-		} else {
-			$.unblockUI();
-			toastr.error('Something Went Wrong !');
-		}
-	});
-}
-
-function disconnectPerson() {
-	var idToDisconnect = $('#newInvite #inviteId').val();
-	var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
-	var nameToDisconnect = $("#newInvite #ficheName").text();
-
-	bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+nameToDisconnect+"</span> connection ?", 
-		function(result) {
-			if (!result) {
-				return;
-			}
-			var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/knows";
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					if ( data && data.result ) {               
-						toastr.info("You are not following this person anymore.");
-						$("#citoyens"+idToDisconnect).remove();
-						if ($("#people tr").length == 0) {
-							$("#info").show();
-						}
-					} else {
-						toastr.error(data.msg);
-					}
-				},
-				error: function(data) {
-					toastr.error("Something went really bad !");
-				}
-			});
-		}
-	);
-}
 
 //validate new invite form
 function runinviteFormValidation(el) {
@@ -279,11 +231,10 @@ function runinviteFormValidation(el) {
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+
-	              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
-	              '<cite title="Hegel">Hegel</cite>'+
+	              '<p>Get up Stand up ! Stand up for your right !</p>'+
+	              '<cite title="Bob Marley">Bob Marley</cite>'+
 	            '</blockquote> '
 			});
-
 			$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/person/connect',

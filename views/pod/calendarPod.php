@@ -14,108 +14,43 @@
 ?>
 
 <style>
-
-  #calendar{
-    width:60%;
-    margin-left: 20%;
-  }
-  #lastEvent{
-    width:100%;
-    padding: 0px;
-    clear: none;
-  }
-  .lastEventPadding{
-    width: 100%;
-  }
-  .imgEvent{
-    width: 100%;
-    height: 200px;
-  }
-  .imgEvent img{
-  	width: 100%;
-  	height: 100%;
-  }
-
- .imgEvent i{
- 	margin-bottom: auto;
- 	margin-top: auto;
- }
-  #dropBtn{
-    display: none;
-  }
-  #orgaDrop a, #orgaDrop ul{
-    width: 100%;
-  }
-
-  #showCalendar {
-    display: block;
-    float: none;
-  }
-
-  .panel-transparent {
-    background: none;
-  }
-
-  .fc-event-inner{
-  	padding-left: 5px;
-  	border-radius : 5px;
-  }
-
- .fc-event .fc-event-title::before, .event-category::before{
-  	color: white;
-  }
-
-  .fc-grid th{
-  	text-align: center;
-  	color: black;
-  }
-
-  #sectionNextEvent{
-  	clear:none;
-  }
-
-  .fc-popover .fc-content{
-  	color:#ccc;
-  }
-
-  .fc-content{
-  	cursor: pointer;
-  }
-
-  .fc button{
-	height: 3em;
-}
-
+#showCalendar { display: block; float: none; }
+#calendar{width:100%;  }
+#lastEvent{ width:100%;    padding: 0px;    clear: none;  }
+.lastEventPadding{    width: 100%;  }
+.imgEvent{    width: 100%;    height: 200px;  }
+.imgEvent img{  	width: 100%;  	height: 100%;  }
+.imgEvent i{ 	margin-bottom: auto; 	margin-top: auto; }
+#dropBtn{    display: none;  }
+#orgaDrop a, #orgaDrop ul{    width: 100%;  }
+.panel-transparent {    background: none;  }
+.fc-event-inner{  	padding-left: 5px;  	border-radius : 5px;  }
+.fc-event .fc-event-title::before, .event-category::before{  	color: white;  }
+.fc-grid th{  	text-align: center;  	color: black;  }
+#sectionNextEvent{  	clear:none;  }
+.fc-popover .fc-content{  	color:#ccc;  }
+.fc-content{  	cursor: pointer;  }
+.fc button{	height: 3em;}
 </style>
 
 
 
 <!-- *** SHOW CALENDAR *** -->
+<div id="showCalendar" class="col-md-12">
+  <div class="row">
 
-
-  <div id="showCalendar" class="col-md-10 col-md-offset-1">
-      
-      <div class="row ">
-        <div class="panel panel-white" id="sectionNextEvent">
-        	<div class="panel-heading litle-border-color-green">
-        		<h4>PROCHAINS EVENEMENTS</h4>
-        	</div>
-    		  <div class='panel-body panel-transparent boder-light' id="lastEvent">
-    		  </div>
-    	  </div>
+    <?php if(isset($canEdit) && $canEdit){ ?>
+      <div class="panel-tools">
+       <a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="<?php echo Yii::t("sliderAgenda","Add an event",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>     
       </div>
-      <div class="space 20"></div>
-      <div class="row">
-    	   <div class="panel panel-white" id>
-      		<div class="panel-heading litle-border-color-green">
-        		<h4>TOUS LES EVENEMENTS</h4>
-        	</div>
-        	<div class="panel-body boder-light">
-        		<div id="calendar"></div>
-        	</div>
-        </div>
-      </div>	
-  </div>
+    <?php } ?>
+	   <div class="panel panel-white">
+    	<div class="panel-body boder-light">
+    		<div id="calendar"></div>
+    	</div>
+    </div>
+  </div>	
+</div>
       
 
 
