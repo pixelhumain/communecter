@@ -38,6 +38,12 @@
 <!-- *** SHOW CALENDAR *** -->
 <div id="showCalendar" class="col-md-12">
   <div class="row">
+
+    <?php if(isset($canEdit) && $canEdit){ ?>
+      <div class="panel-tools">
+       <a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="<?php echo Yii::t("sliderAgenda","Add an event",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>     
+      </div>
+    <?php } ?>
 	   <div class="panel panel-white">
     	<div class="panel-body boder-light">
     		<div id="calendar"></div>

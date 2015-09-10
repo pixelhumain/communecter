@@ -29,10 +29,18 @@
 		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
-		<?php $this->renderPartial('dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+																"contextId" =>(string)$person["_id"],
+																"contextType" => "citoyen",
+																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
+															)); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
-		<?php $this->renderPartial('dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+																"contextId" => (string)$person["_id"],
+																"contextType" => "citoyen",
+																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
+														)); ?>
 	</div>
 	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
