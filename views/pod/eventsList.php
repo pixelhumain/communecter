@@ -1,9 +1,9 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> Mes événements</h4>
+		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> EVENTS</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if((isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"])  || (isset($organizationId) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organizationId))) { ?>
+		<?php if( $authorised ) { ?>
 		<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
 		<?php } ?>
 	</div>
@@ -64,18 +64,14 @@
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = contextMap["_id"]["$id"];
+		var itemId = contextMap<?php if($contextType == "organization" )echo '["organization"]'; ?>["_id"]["$id"];
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {
 					var url = "";
-					if("undefined" != typeof organization){
-						url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo Organization::COLLECTION ?>";
-					}else{
-						url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo Person::COLLECTION ?>";
-					}
+					url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo $contextType ?>";
 					getAjax("#ajaxSV", url, function(){bindEventSubViewEvents(); $(".new-event").trigger("click");}, "html");
 				},
 				onSave : function() {

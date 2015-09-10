@@ -114,9 +114,13 @@ Directeur
 			[X] show disabled button
 			[X] disable all pods
 
-[ ] remove Notifications as Read 
-		[ ] event attendees
-		[ ] Orga : Rééditer un membre #104
+[X] remove Notifications as Read
+[X] Azotlive  
+[ ] impossible de m'inscrire à un event bug [[https://github.com/pixelhumain/communecter/issues/98]]
+[ ] Impossible de s'ajouter à l'organisation [[https://github.com/pixelhumain/communecter/issues/92]]
+[ ] Bug lors de l'affichage du formulaire d'un nouvel évènement dans le pod "organizations" #82 [[https://github.com/pixelhumain/communecter/issues/82]]
+[ ] event attendees
+[ ] Orga : Rééditer un membre #104
 
 		[ ] test creating a user with an existing email
 		[ ] un vue dashboard pour un tag : tagboard
