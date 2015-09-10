@@ -65,6 +65,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input class="project-name form-control" name="projectName" value=""/>
 						</div>
 						<div class="form-group">
+							<label for="projectRangeDate">
+								<span>Durée du projet</span>
+							</label>
+							<span class="input-icon">
+								<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
+								<i class="fa fa-calendar"></i> 
+							</span>
+							<div class="hide">
+								<input type="text" class="project-start-date" value="" name="projectStartDate"/>
+								<input type="text" class="project-end-date" value="" name="projectEndDate"/>
+							</div>
+						</div>
+						<!--<div class="form-group">
 							<label class="control-label">
 								Url
 							</label>
@@ -75,7 +88,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								Licence
 							</label>
 							<input class="project-licence form-control" name="projectLicence" value=""/>
-						</div>
+						</div>-->
 					</div>
 					<div class="col-md-6 col-sd-6 ">
 						<div class="form-group">
@@ -99,19 +112,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="projectRangeDate">
-								<span>Durée du projet</span>
-							</label>
-							<span class="input-icon">
-								<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
-								<i class="fa fa-calendar"></i> 
-							</span>
-							<div class="hide">
-								<input type="text" class="project-start-date" value="" name="projectStartDate"/>
-								<input type="text" class="project-end-date" value="" name="projectEndDate"/>
-							</div>
-						</div>
+						
 					</div>
 
 					<div class="col-md-12">
@@ -246,9 +247,9 @@ function runProjectFormValidation(el) {
 			//alert(startDateSubmitProj);
 			newProject = new Object;
 			newProject.name = $(".form-project .project-name ").val(), 
-			newProject.url = $('.form-project .project-url').val(), 
+			//newProject.url = $('.form-project .project-url').val(), 
 			//newProject.version = $(".form-project .project-version").val(), 
-			newProject.licence = $(".form-project .project-licence").val(),
+			//newProject.licence = $(".form-project .project-licence").val(),
 			newProject.startDate=startDateSubmitProj,
 			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),

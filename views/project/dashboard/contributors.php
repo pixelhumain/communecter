@@ -11,7 +11,7 @@
 				<?php if ($admin){ ?>
 				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>
 				<?php } ?>
-				<div class="dropdown">
+				<!--<div class="dropdown">
 					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 						<i class="fa fa-cog"></i>
 					</a>
@@ -35,7 +35,7 @@
 							</a>
 						</li>
 					</ul>
-				</div>
+				</div>-->
 				<a href="#" class="btn btn-xs btn-link panel-close">
 					<i class="fa fa-times"></i>
 				</a>

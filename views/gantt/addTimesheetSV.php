@@ -11,17 +11,19 @@ $cssAnsScriptFilesTheme = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
-		//Data helper
-		'/js/dataHelpers.js'
-		);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	//Data helper
+	'/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 ?>
+
 <style>
 #editTimesheet{
 	display: none;
 }
 </style>
+
 <div id="editTimesheet">
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
@@ -39,7 +41,7 @@ $cssAnsScriptFilesModule = array(
 								<label class="control-label">
 									Nom de la tâche <span class="symbol required"></span>
 								</label>
-								<input type="text" class="task-name form-control" name="" value=""/>
+								<input type="text" class="task-name form-control" name="taskName" value=""/>
 							</div>
 							<div>
 								<label class="control-label">
@@ -178,42 +180,72 @@ function initFormAddTask(){
 
 	$('.task-range-date').data('daterangepicker').setStartDate(startDate);
 	$('.task-range-date').data('daterangepicker').setEndDate(endDate);
-	$(".form-timesheet").off().on("submit",function(task){
-	    	task.preventDefault();
-	    	startDateSubmitTask = moment($(".task-start-date").val()).format('YYYY-MM-DD');
-			endDateSubmitTask = moment($(".task-end-date").val()).format('YYYY-MM-DD');
-			colorClass=nameTimesheetClass($("#editTimesheet select[name='colorpicker']").val());
-	    	var params = { 
-	    		"parentId" : $("#editTimesheet .parentId").val(),
-	    		"parentType" : $("#editTimesheet .parentType").val(),
-				"taskName" : $("#editTimesheet .task-name").val(),
-				"taskColor" : colorClass,
-				"taskStart" : startDateSubmitTask,
-				"taskEnd" : endDateSubmitTask,
-			};
-			//console.log(params);
-	    	$.ajax({
-	            type: "POST",
-	            url: baseUrl+"/communecter/gantt/savetask",
-	            data: params,
-	            dataType: "json",
-	            success: function(data){
-	            	if(!data.result){
-	            		toastr.error(data.msg);
-	            	}else{
-	            		toastr.success("Project's task added successfully ");
-						setValidationTaskTable(data.idTask);
-						bindBtnRemoveTask();
-						$("#editTimesheet .task-name").val("");
-						$(".task-start-date").val(moment());
-						$(".task-end-date").val(moment().add('days', 1));
-	            	}
-	            	console.log(data.result);   
-	            },
-	            error:function (xhr, ajaxOptions, thrownError){
-	              toastr.error( thrownError );
-	            } 
-	    	});
+	
+		var formTimesheet = $('.form-timesheet');
+		var errorHandler2 = $('.errorHandler', formTimesheet);
+		var successHandler2 = $('.successHandler', formTimesheet);
+
+		formTimesheet.validate({
+		errorElement : "span", // contain the error msg in a span tag
+			errorClass : 'help-block',
+			errorPlacement : function(error, element) {// render error placement for each input type
+				if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
+					error.insertAfter($(element).closest('.form-group').children('div').children().last());
+				} else if (element.parent().hasClass("input-icon")) {
+
+					error.insertAfter($(element).parent());
+				} else {
+					error.insertAfter(element);
+					// for other inputs, just perform default behavior
+				}
+			},
+	//$(".form-timesheet").off().on("submit",function(task){
+			rules : {
+				taskName : {
+					minlength : 2,
+					required : true
+				},
+			},
+			messages : {
+				taskName : "* Please specify the name of the task",
+			},
+	    	submitHandler : function(form) {
+		    	//task.preventDefault();
+		    	startDateSubmitTask = moment($(".task-start-date").val()).format('YYYY-MM-DD');
+				endDateSubmitTask = moment($(".task-end-date").val()).format('YYYY-MM-DD');
+				colorClass=nameTimesheetClass($("#editTimesheet select[name='colorpicker']").val());
+		    	var params = { 
+		    		"parentId" : $("#editTimesheet .parentId").val(),
+		    		"parentType" : $("#editTimesheet .parentType").val(),
+					"taskName" : $("#editTimesheet .task-name").val(),
+					"taskColor" : colorClass,
+					"taskStart" : startDateSubmitTask,
+					"taskEnd" : endDateSubmitTask,
+				};
+				//console.log(params);
+		    	$.ajax({
+		            type: "POST",
+		            url: baseUrl+"/communecter/gantt/savetask",
+		            data: params,
+		            dataType: "json",
+		            success: function(data){
+		            	if(!data.result){
+		            		toastr.error(data.msg);
+		            	}else{
+		            		toastr.success("Project's task added successfully ");
+							setValidationTaskTable(data.idTask);
+							bindBtnRemoveTask();
+							$("#editTimesheet .task-name").val("");
+							$(".task-start-date").val(moment());
+							$(".task-end-date").val(moment().add('days', 1));
+		            	}
+		            	console.log(data.result);   
+		            },
+		            error:function (xhr, ajaxOptions, thrownError){
+		              toastr.error( thrownError );
+		            } 
+	    		});
+	    	}
 	    });
 }
 

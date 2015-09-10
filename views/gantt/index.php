@@ -16,13 +16,14 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> PROJECT TIMELINE</span></h4>
 		<div class="panel-tools">
-			<div class="dropdown">
+			
 				<?php if ($edit) { ?>
 				<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer la timeline"><i class="fa fa-pencil"></i>
 				</a>
 				<?php } 
 				?>
-				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
+				<!--<div class="dropdown">
+					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>
 				<ul role="menu" class="dropdown-menu dropdown-light pull-right">
@@ -45,7 +46,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 						</a>
 					</li>
 				</ul>
-			</div>
+			</div>-->
 			<a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
 			</a>
@@ -101,9 +102,9 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 			if($period != "yearly"){
 				$startDate=date("m-d",strtotime($val["startDate"]));
 				$endDate=date("m-d",strtotime($val["endDate"]));
-				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>$val["key"]));
 			}else
-				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"]));
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>$val["key"]));
 			$data[$val["name"]]=$array ;
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/
