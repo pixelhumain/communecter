@@ -89,7 +89,7 @@ jQuery(document).ready(function() {
 
 function bindConnectEvent() {
 	$(".new-invite").off().on("click", function() {
-		openConnectPeopleSV();
+		openSubView('Invite someone', '/'+moduleId+'/person/invitesv',null);
 	});
 
 	$(".disconnectPersonBtn").off().on("click", function() {
@@ -97,41 +97,17 @@ function bindConnectEvent() {
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $(this).data("name");
 		$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect);
+		
+		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, 
+			function(idToDisconnect, typeToDisconnect, nameToDisconnect) {
+				console.log('callback disconnectPerson');
+				updateInvite(idToDisconnect, typeToDisconnect, nameToDisconnect)
+			}
+		);
+
 		$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 	});
-}
 
-function openConnectPeopleSV() {
-	console.log("openConnectPeopleSV");
-	$("#ajaxSV").html("<div class='connectContainer'>"+
-		  	"</div>");
-	$.subview({
-		content : "#ajaxSV",
-		onShow : function() 
-		{
-			$.ajax({
-	            type: "POST",
-	            url: baseUrl+"/"+moduleId+"/person/invitesv",
-	            dataType: "json"
-	        })
-	        .done(function (data) 
-	        {
-	            if (data && data.result) {               
-	                $(".connectContainer").html(data.content);
-	                //Add any callback on success
-
-	            } else {
-	              toastr.error((data.msg) ? data.msg : "bug happened");
-	              $.hideSubview();
-	            }
-	        });
-		},
-		onHide : function() {
-			$("#ajaxSV").html('');
-			$.hideSubview();
-		}
-	});
 }
 
 function updateInvite(user, isPending, isLineToRemove) {

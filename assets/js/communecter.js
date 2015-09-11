@@ -23,14 +23,12 @@ function connectPerson(connectUserId, callback) {
 		if (data &&  data.result) {
 			var name = $("#newInvite #ficheName").text();
 			toastr.success('You are now following '+name);
-			if(updateInvite != undefined && typeof updateInvite == "function"){
-				updateInvite(data.invitedUser, false, false);
-			}
+			if (typeof callback == "function") callback(data.invitedUser);
 		} else {
 			$.unblockUI();
 			toastr.error('Something Went Wrong !');
 		}
-		if (typeof callback == "function") callback();
+		
 	});
 	
 }
@@ -51,17 +49,13 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 				success: function(data){
 					if ( data && data.result ) {               
 						toastr.info("You are not following this person anymore.");
-						if(updateInvite != undefined && typeof updateInvite == "function"){
-							updateInvite(idToDisconnect, false, true);
-						}
+						if (typeof callback == "function") callback(idToDisconnect, typeToDisconnect, nameToDisconnect);
 					} else {
 						toastr.error(data.msg);
 					}
-					if (typeof callback == "function") callback();
 				},
 				error: function(data) {
 					toastr.error("Something went really bad !");
-					if (typeof callback == "function") callback();
 				}
 			});
 		}

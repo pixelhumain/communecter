@@ -147,13 +147,25 @@ jQuery(document).ready(function() {
 function bindInviteSubViewInvites() {	
 
 	$(".connectBtn").off().on("click", function() {
-		connectPerson($('#newInvite #inviteId').val(), false, $.hideSubview());
+		connectPerson($('#newInvite #inviteId').val(), function(user){
+			console.log('callback connectPerson')
+			if(updateInvite != undefined && typeof updateInvite == "function"){
+				updateInvite(user, false, false);
+			}
+			$.hideSubview();
+		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
 		var idToDisconnect = $('#newInvite #inviteId').val();
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $("#newInvite #ficheName").text();
-		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, $.hideSubview());
+		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, function(id) {
+			console.log('callback disconnectPerson')
+			if(updateInvite != undefined && typeof updateInvite == "function"){
+				updateInvite(id, false, true);
+			}
+			$.hideSubview();
+		});
 	});
 
 	$('#inviteSearch').keyup(function(e){

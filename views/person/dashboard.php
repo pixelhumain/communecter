@@ -106,95 +106,35 @@ jQuery(document).ready(function() {
 
 	getAjax(".newsPod", baseUrl+"/"+moduleId+"/news/latest/type/<?php echo Person::COLLECTION ?>/id/<?php if(isset($_GET["id"])) echo $_GET["id"]; else if(isset($person["_id"])) echo $person["_id"]; ?>/count/5", function(){}, "html");
 
-});
-
-
-
-function bindBtnFollow()
-{
-
-	$(".disconnectBtn").off().on("click",function () {
-
-        $(this).empty();
-        $(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
-        var btnClick = $(this);
-        var idToDisconnect = $(this).data("id");
-        var typeToDisconnect = $(this).data("type");
-        var ownerLink = $(this).data("ownerlink");
-        var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/"+ownerLink;
-        if("undefined" != typeof $(this).data("targetlink")){
-        	var targetLink = $(this).data("targetlink");
-        	urlToSend += "/targetLink/"+targetLink;
-        }
-
-        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
-        	function(result) {
-				if (!result) {
-					btnClick.empty();
-			        btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
-					return;
-				}
-				$.ajax({
-			        type: "POST",
-			        url: urlToSend,
-			        dataType : "json"
-			    })
-			    .done(function (data)
-			    {
-			        if ( data && data.result ) {
-			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-			        	$("#"+typeToDisconnect+idToDisconnect).remove();
-			        	$("#linkBtns").empty();
-	        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addKnowsRelation' data-placement='top' data-ownerlink='"+ownerLink+"' data-original-title='I know this person' ><i class=' connectBtnIcon fa fa-link '></i>FOLLOW</a></li>");
-	        			bindBtnFollow();
-			        } else {
-			           toastr.info("something went wrong!! please try again.");
-			          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
-			        }
-			    });
-
-		});
-
-	});
-
-	$(".connectBtn").off().on("click",function () {
-		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
-		var idConnect = "<?php echo (string)$person['_id'] ?>";
-		var ownerLink = $(this).data("ownerlink");
-        var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>/ownerLink/"+ownerLink;
-        if("undefined" != typeof $(this).data("targetlink")){
-        	var targetLink = $(this).data("targetlink");
-        	urlToSend += "/targetLink/"+targetLink;
-        }
-
-		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
-			idConnect = $("#inviteId").val();
-		}
-
-		$.ajax({
-	        type: "POST",
-	        url: urlToSend,
-	        dataType : "json"
-	    })
-	    .done(function (data)
-	    {
-	        if ( data && data.result ) {
-	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
-	        	$(".connectBtn").fadeOut();
-	        	$("#linkBtns").empty();
-	        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["person"]["name"]+" 'data-id='"+personId+"' data-type='<?php echo PHType::TYPE_CITOYEN ?>' data-ownerlink='"+ownerLink+"' data-placement='top' data-original-title='Remove from my contact' ><i class='disconnectBtnIcon fa fa-unlink'></i>UNFOLLOW</a>")
-	        	bindBtnFollow();
-	        } else {
-	           toastr.info("something went wrong!! please try again.");
-	           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
-	        }
-	    });
-	});
-
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	})
+});
+
+function bindBtnFollow() {
+	$(".followBtn").off().on("click", function() {
+		console.log($(this).data("id"));
+		connectPerson($(this).data("id"), function(user) {
+			console.log(user);
+			$("#linkBtns").empty();
+	        $("#linkBtns").html('<a href="javascript:;" class="unfollowBtn text-red tooltips" data-name="'+user["name"]+'" data-id="'+user["id"]+'" data-type="<?php echo Person::COLLECTION?>" data-ownerlink="knows" data-placement="top" data-original-title="Remove from my contact" ><i class="disconnectBtnIcon fa fa-unlink"></i>UNFOLLOW</a>');
+	        bindBtnFollow();
+		});
+	});
+
+	$(".unfollowBtn").off().on("click", function() {
+		var id = $(this).data("id");
+		var type = $(this).data("type");
+		var name = $(this).data("name");
+		console.log(id, type, name);
+		disconnectPerson(id,type,name, function(id, type, name) {
+			$("#linkBtns").empty();
+			$("#linkBtns").html('<a href="javascript:;" class="followBtn tooltips" id="addKnowsRelation" data-id="'+id+'" data-placement="top" data-ownerlink="knows" data-original-title="I know this person" ><i class="connectBtnIcon fa fa-link "></i>FOLLOW</a></li>');
+			bindBtnFollow();
+		});
+	});
 }
+
 function openChangePasswordSV(mode, id) {
 	console.log("openChangePasswordSV");
 	$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2 changePasswordContainer'>"+
