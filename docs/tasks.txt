@@ -115,16 +115,19 @@ Directeur
 			[X] disable all pods
 
 [X] remove Notifications as Read
-[X] Azotlive  
-[ ] impossible de m'inscrire à un event bug [[https://github.com/pixelhumain/communecter/issues/98]]
+[X] Azotlive 
+[X] news on orga scope and notify members
+[ ] news on project scope and notify members
+[ ] news on event scope and notify members 
+[ ] trier events by date show date 
+[ ] on admin show orga counts, people counts, event counts, project count
+[ ] test creating orga/person dash list and project
 [ ] Impossible de s'ajouter à l'organisation [[https://github.com/pixelhumain/communecter/issues/92]]
 [ ] Bug lors de l'affichage du formulaire d'un nouvel évènement dans le pod "organizations" #82 [[https://github.com/pixelhumain/communecter/issues/82]]
-[ ] event attendees
 [ ] Orga : Rééditer un membre #104
 
 		[ ] test creating a user with an existing email
-		[ ] un vue dashboard pour un tag : tagboard
-		[ ] scope board
+		
 
 		[ ] Grid Pod : 
 			* Githubs

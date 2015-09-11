@@ -20,7 +20,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> fa-2x text-blue"></i> PROJECTS </h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( $authorised ) { ?>
+		<?php if( @$authorised ) { ?>
 			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
 		<?php } ?>
 	</div>
@@ -50,7 +50,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</td>
 						<td class="center">
 						<div class="visible-md visible-lg hidden-sm hidden-xs" >
-							<?php if( $authorised ) { ?>
+							<?php if( @$authorised ) { ?>
 							<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 							<?php }; ?>
 						</div>
@@ -90,7 +90,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {
-					var url = baseUrl+"/"+moduleId+"/project/projectsv/id/<?php echo $contextId; ?>/type/<?php echo $contextType; ?>";
+					var url = baseUrl+"/"+moduleId+"/project/projectsv/id/<?php echo @$contextId; ?>/type/<?php echo @$contextType; ?>";
 					getAjax("#ajaxSV", url, 
 							function(){
 								console.log('toto');
@@ -149,7 +149,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	function updateProject( nProject, projectId ){
 		console.log(projectId);
 		if('undefined' != typeof contextMap){
-			contextMap["projects"].push(nProject);
+			contextMap["projects"][projectId] = nProject;
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
