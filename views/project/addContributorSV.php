@@ -284,7 +284,7 @@
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-					        console.log(data.member); 
+					        console.log(data); 
 							if(typeof updateContributor != "undefined" && typeof updateContributor == "function")
 		        				updateContributor( data.member,  $("#newContributors #contributorType").val());            
 				        	toastr.success('Invatation to project success');
@@ -292,6 +292,8 @@
 				        		
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
+				           console.log(data);
+				           alert();
 				        }
 				    });
 
@@ -321,7 +323,6 @@
 		$("#newContributors #dropdown_search").css({"display" : "none" });
 		$("#newContributors #addContributorSection").css("display", "block");
 		$("#newContributors #searchMemberSection").css("display", "none");
-
 	}
 	function autoCompleteEmailAddContributor(searchValue){
 		//console.log("autoCompleteEmailAddMember");
@@ -355,7 +356,7 @@
 		$("#newContributors #searchMemberSection").css("display", "none");
 		$("#newContributors #contributorName").val("");
 		$("#newContributors #contributorName").removeAttr("disabled");
-		$("#newContributors #mcontributorId").val("");
+		$("#newContributors #contributorId").val("");
 		$('#newContributors #contributorEmail').val("");
 		$('#newContributors #contributorEmail').removeAttr("disabled");
 		$('#newContributors #organizationType').removeAttr("disabled");
