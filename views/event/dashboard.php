@@ -9,6 +9,15 @@
 								"eventTypes" => $eventTypes,
 								"type" => PHType::TYPE_EVENTS,
 								"countries" => $countries)); ?>
+		<div class="col-md-12 newsPod">
+			<div class="panel panel-white pulsate">
+				<div class="panel-heading border-light ">
+					<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading News Section</h4>
+					<div class="space5"></div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	<div class ="col-md-4 col-sm-12">
 		 <div class="col-sm-12">
@@ -18,7 +27,7 @@
 			<?php $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)) ?>
 		</div>
 	</div>
-
+	
 </div>
 <script type="text/javascript">
 	contextMap= <?php echo json_encode($event)?>;
@@ -28,6 +37,8 @@
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 	jQuery(document).ready(function() {
 		bindBtnFollow();
+
+		getAjax(".newsPod", baseUrl+"/"+moduleId+"/news/latest/type/<?php echo Event::COLLECTION ?>/id/<?php echo $_GET["id"];?>/count/5", function(){}, "html");
 	})
 
 

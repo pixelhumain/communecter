@@ -97,7 +97,7 @@ jQuery(document).ready(function() {
 			contextName = " : inform "+contextType+" "+$(this).data('name');
 		$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 							"<div class='space20'></div>"+
-							"<h1>Share a thought, an idea "+contextName+"" </h1>"+
+							"<h1>Share a thought, an idea "+contextName+" </h1>"+
 							"<form id='ajaxForm'></form>"+
 						  "</div>");
 		$.subview({

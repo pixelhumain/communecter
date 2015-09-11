@@ -5,6 +5,7 @@ class ActStr {
 	const TEST = "test"; 
 	const ICON_QUESTION = "fa-question";
     const ICON_SHARE = "fa-share-alt";
+    const ICON_COMMENT = "fa-comment";
     const ICON_CLOSE = "fa-times";
 
     const VIEW_PAGE = "viewPage";
