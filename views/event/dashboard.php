@@ -1,23 +1,23 @@
 <div class="row">
-<div class ="col-lg-4 col-md-12">
-	<?php $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)) ?>
-</div>
+	<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 
-
-<?php $this->renderPartial('/sig/generic/mapLibs'); ?>
-
-<div class="col-lg-4 col-md-12">
-	<?php $this->renderPartial('dashboard/description',array(
-							"event" => $event,
-							"organizer" =>$organizer,
-							"itemId" => (string)$event["_id"],
-							"eventTypes" => $eventTypes,
-							"type" => PHType::TYPE_EVENTS,
-							"countries" => $countries)); ?>
-</div>
-<div class ="col-lg-4 col-md-12">
-	 <?php $this->renderPartial('dashboard/attendees',array( "event" => $event, "attending" => $attending)); ?>
-</div>
+	<div class="col-md-8 col-sm-12">
+		<?php $this->renderPartial('dashboard/description',array(
+								"event" => $event,
+								"organizer" =>$organizer,
+								"itemId" => (string)$event["_id"],
+								"eventTypes" => $eventTypes,
+								"type" => PHType::TYPE_EVENTS,
+								"countries" => $countries)); ?>
+	</div>
+	<div class ="col-md-4 col-sm-12">
+		 <div class="col-sm-12">
+		 	<?php $this->renderPartial('dashboard/attendees',array( "event" => $event, "attending" => $attending)); ?>
+		 </div>
+		 <div class="col-sm-12">
+			<?php $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$event["_id"], "type" => PHType::TYPE_EVENTS)) ?>
+		</div>
+	</div>
 
 </div>
 <script type="text/javascript">
