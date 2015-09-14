@@ -5,6 +5,7 @@ class ActStr {
 	const TEST = "test"; 
 	const ICON_QUESTION = "fa-question";
     const ICON_SHARE = "fa-share-alt";
+    const ICON_COMMENT = "fa-comment";
     const ICON_CLOSE = "fa-times";
 
     const VIEW_PAGE = "viewPage";
@@ -26,7 +27,8 @@ class ActStr {
     const VERB_CONFIRM = "confirm";
     const VERB_AUTHORIZE = "authorize";
     const VERB_ATTEND = "attend";
-    const VERB_AT = "at";
+    
+    const VERB_POST = "post";
 
     const TYPE_URL = "url";
 	

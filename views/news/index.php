@@ -93,11 +93,9 @@ function buildTimeLine()
 		{
 			console.dir(newsObj);
 			var date = new Date( parseInt(newsObj.created)*1000 );
-			if(newsObj.date) {
-				d = newsObj.date.split("/");
-				month = parseInt(d[1])-1;
-				date = new Date( d[2], month,d[0] ) ;
-			}
+			if(newsObj.date != null) 
+				date = new Date( parseInt(newsObj.date)*1000 ) ;
+			
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
@@ -113,11 +111,9 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date) {
-		d = newsObj.date.split("/");
-		month = parseInt(d[1])-1;
-		date = new Date( d[2], month,d[0] ) ;
-	}
+	if(newsObj.date != null) 
+		date = new Date( parseInt(newsObj.date)*1000 ) ;
+	
 	var year = date.getFullYear();
 	var month = months[date.getMonth()];
 	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();

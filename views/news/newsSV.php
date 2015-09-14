@@ -48,7 +48,7 @@ var formDefinition = {
 	            	"values" : true,
 	            	"onclick" : "function(){alert()}"
 	            },
-	        "scope" :{
+	        /*"scope" :{
 	            	"inputType" : "tags",
 	            	"placeholder" : "Scope, Who can see this",
 	            	"values" : [
@@ -57,7 +57,7 @@ var formDefinition = {
                     	"Culture",
                     	"Urbanisme",
 	            	]
-	            },
+	            },*/
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
@@ -73,22 +73,31 @@ var formDefinition = {
 };
 
 var dataBind = {
-   "#text" : "text",
-   "#name" : "name",
-   "#tags" : "tags",
-   "#id" : "typeId",
-   "#type" : "type",
-   "#date" : "date",
+   "#ajaxForm #text" : "text",
+   "#ajaxForm #name" : "name",
+   "#ajaxForm #tags" : "tags",
+   "#ajaxForm #id" : "typeId",
+   "#ajaxForm #type" : "type",
+   "#ajaxForm #date" : "date",
   /* "#latitude" : "from.latitude",
    "#longitude" : "from.longitude"*/
 };
-
+var contextId = "";
+var contextType = "";
+var contextName = "";
 jQuery(document).ready(function() {
 	
 	$(".new-news").off().on("click",function() { 
+		console.log("add news on ",$(this).data('id'),$(this).data('type'));
+		if( $(this).data('id') )
+			contextId = $(this).data('id') ;
+		if( $(this).data('type') )
+			contextType = $(this).data('type');
+		if( $(this).data('name') )
+			contextName = " : inform "+contextType+" "+$(this).data('name');
 		$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 							"<div class='space20'></div>"+
-							"<h1>Share a thought, an idea, </h1>"+
+							"<h1>Share a thought, an idea "+contextName+" </h1>"+
 							"<form id='ajaxForm'></form>"+
 						  "</div>");
 		$.subview({
@@ -99,7 +108,10 @@ jQuery(document).ready(function() {
 					formId : "#ajaxForm",
 					formObj : formDefinition,
 					onLoad : function  () {
-						
+						if( contextId )
+							$("#ajaxForm #id").val( contextId );
+						if( contextType )
+							$("#ajaxForm #type").val( contextType );
 					},
 					onSave : function(){
 						console.log("saving Organization!!");

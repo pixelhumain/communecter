@@ -3,7 +3,7 @@
 		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> EVENTS</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( $authorised ) { ?>
+		<?php if( @$authorised ) { ?>
 		<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
 		<?php } ?>
 	</div>
@@ -64,14 +64,14 @@
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = contextMap<?php if($contextType == "organization" )echo '["organization"]'; ?>["_id"]["$id"];
+		var itemId = contextMap<?php if(@$contextType == "organization" )echo '["organization"]'; ?>["_id"]["$id"];
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
 				content : "#ajaxSV",
 				onShow : function() {
 					var url = "";
-					url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo $contextType ?>";
+					url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo @$contextType ?>";
 					getAjax("#ajaxSV", url, function(){bindEventSubViewEvents(); $(".new-event").trigger("click");}, "html");
 				},
 				onSave : function() {

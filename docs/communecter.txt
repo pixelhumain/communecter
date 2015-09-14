@@ -355,6 +355,9 @@
 			./mobilehttp://www.rup.re/-/galeries/diaporama-page-dacceuil/-/medias/d92165f8-cdf8-11e3-a4d1-329e81129ea7-shrimp
 	** Dark PH
 		Organisation secret
+	** Dashboard thematique 
+		[ ] un vue dashboard pour un tag : tagboard
+		[ ] scope board
 ** COMMUNICATION 
 	[ ] faire marcher la newsletter 
 	[ ] ANNIVERSAIRE PH
