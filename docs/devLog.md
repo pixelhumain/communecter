@@ -16,8 +16,12 @@ https://www.google.com/url?q=https%3A%2F%2Fgit-scm.com%2Fbook%2Ffr%2Fv1%2FLes-br
 git branch granddir-V.0.1
 //2. Pusher la branche sur le serveur distant
 git push origin granddir-V.0.1
-//3. Si besoin switcher de branche en local 
+//3. Si besoin checkout d'une branche distante sur une branche en local 
+//3.1 Récupérer les branches distantes nouvellement créée
+git fetch origin
+//3.2 récupérer le contenu d'une branche distante
 git checkout -b granddir-V.0.1 origin/granddir-V.0.1
+
 
 //Azot live branch
 git checkout -b azot-live-0.1 origin/azot-live-0.1
