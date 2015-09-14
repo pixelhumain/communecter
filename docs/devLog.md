@@ -12,8 +12,15 @@
 ----------------------------------------------------
 https://www.google.com/url?q=https%3A%2F%2Fgit-scm.com%2Fbook%2Ffr%2Fv1%2FLes-branches-avec-Git-Les-branches-distantes&sa=D&sntz=1&usg=AFQjCNHT0E5vbg_-BUC7xIm7guTVRBzG1Q
 
-git checkout -b granddir-V.0.1 origin/granddir-V.0.1
+//1. Créer une branche locale
+git branch granddir-V.0.1
+//2. Pusher la branche sur le serveur distant
 git push origin granddir-V.0.1
+//3. Si besoin switcher de branche en local 
+git checkout -b granddir-V.0.1 origin/granddir-V.0.1
+
+//Azot live branch
+git checkout -b azot-live-0.1 origin/azot-live-0.1
 ----------------------------------------------------
 
 //SBA : 12/08/2015
