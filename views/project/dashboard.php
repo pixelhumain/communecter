@@ -42,9 +42,9 @@
 	</div>
 	<div class="col-sm-6 col-xs-12">
 		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
-																"contextId" => (String) $organization["_id"],
-																"contextType" => "organization",
-																"authorised" => ( Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))
+																"contextId" => (String) $project["_id"],
+																"contextType" => Project::CONTROLLER,
+																"authorised" => ( Authorisation::isProjectAdmin(Yii::app()->session["userId"], (String) $project["_id"]))
 															  )); ?>
 	</div>
 </div>
