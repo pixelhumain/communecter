@@ -260,7 +260,6 @@
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
 				});
-				console.log(newProject);
 				if ($(".form-contributor .contributor-id").val() !== "") {
 					el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
@@ -284,7 +283,6 @@
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-					        console.log(data); 
 							if(typeof updateContributor != "undefined" && typeof updateContributor == "function")
 		        				updateContributor( data.member,  $("#newContributors #contributorType").val());            
 				        	toastr.success('Invatation to project success');
@@ -292,8 +290,6 @@
 				        		
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
-				           console.log(data);
-				           alert();
 				        }
 				    });
 
@@ -336,10 +332,8 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-	        		console.log(data);
 					str = "<li class='li-dropdown-scope'><a href='javascript:openNewContributorForm()'>Non trouvé ? Cliquez ici.</a></li>";
 		 			$.each(data, function(key, value) {
-		 			
 		 				$.each(value, function(i, v){
 			 				name = (v.name) ? v.name.replace("'","ACCENT") : "";
 		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v._id["$id"]+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";

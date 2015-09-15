@@ -139,6 +139,7 @@ class CommunecterController extends Controller
         "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
         "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
         "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
+        "addhelpervalidation" => array("href" => "/ph/communecter/needs/addhelpervalidation"),
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),

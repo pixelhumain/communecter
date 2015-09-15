@@ -19,6 +19,7 @@ class NeedsController extends CommunecterController {
 	        'dashboard'       	=> 'citizenToolKit.controllers.needs.DashboardAction',
 			'saveneed'       	=> 'citizenToolKit.controllers.needs.SaveNeedAction',
 			'updatefield'       => 'citizenToolKit.controllers.needs.UpdateFieldAction',
+			'addhelpervalidation'       => 'citizenToolKit.controllers.needs.AddHelperValidationAction',
 	    );
 	}
 }

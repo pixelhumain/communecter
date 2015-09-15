@@ -13,7 +13,7 @@
 		</div>
 		<div class="col-lg-4 col-md-12">
 			<?php 
-				$this->renderPartial('dashboard/helpers',array("id"=> $need["_id"],"quantity"=>$need["quantity"]));
+				$this->renderPartial('dashboard/helpers',array("id"=> $need["_id"],"quantity"=>$need["quantity"],"name"=>$need["name"], "helpers"=>$helpers));
 			 ?>
 		</div>
 	</div>
