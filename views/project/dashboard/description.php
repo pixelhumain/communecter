@@ -16,17 +16,88 @@
 	//X-Editable postal Code
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
 ?>
+<style>
+progress[value] {
+    /* Get rid of the default appearance */
+    appearance: none;   
+    /* This unfortunately leaves a trail of border behind in Firefox and Opera. We can remove that by setting the border to none. */
+    border: none;
+    /* Add dimensions */
+	width: 100%; height: 20px;
+    /* Although firefox doesn't provide any additional pseudo class to style the progress element container, any style applied here works on the container. */
+    background-color: whiteSmoke;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+    /* Of all IE, only IE10 supports progress element that too partially. It only allows to change the background-color of the progress value using the 'color' attribute. */
+    color: royalblue;
+    position: relative;
+}
+/*
+Webkit browsers provide two pseudo classes that can be use to style HTML5 progress element.
+-webkit-progress-bar -> To style the progress element container
+-webkit-progress-value -> To style the progress element value.
+*/
+
+progress[value]::-webkit-progress-bar {
+    background-color: whiteSmoke;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+}
+
+progress[value]::-webkit-progress-value {
+    position: relative;
+    
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+    border-radius:3px;
+    
+    /* Let's animate this */
+    animation: animate-stripes 5s linear infinite;
+}
+
+@keyframes animate-stripes { 100% { background-position: -100px 0; } }
+
+/* Firefox provides a single pseudo class to style the progress element value and not for container. -moz-progress-bar */
+progress[value]::-moz-progress-bar {
+    /* Gradient background with Stripes */
+    background-image:
+    -moz-linear-gradient( 135deg,
+	    transparent,
+	    transparent 33%,
+	    rgba(0,0,0,.1) 33%,
+	    rgba(0,0,0,.1) 66%,
+	    transparent 66%),
+    -moz-linear-gradient( top,
+        rgba(255, 255, 255, .25),
+        rgba(0,0,0,.2)),
+    -moz-linear-gradient( left, #09c, #f44);    
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+    border-radius:3px;
+    /* Firefox doesn't support CSS3 keyframe animations on progress element. Hence, we did not include animate-stripes in this code block */
+}
+
+.progressStyle::-webkit-progress-value
+{
+    /* Gradient background with Stripes */
+    background-image:
+    -webkit-linear-gradient( 135deg,
+        transparent,
+	    transparent 33%,
+	    rgba(0,0,0,.1) 33%,
+	    rgba(0,0,0,.1) 66%,
+	    transparent 66%),
+    -webkit-linear-gradient( top,
+        rgba(255, 255, 255, .25),
+        rgba(0,0,0,.2)),
+    -webkit-linear-gradient( left, #09c, #ff0);
+}
+</style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> PROJECT INFORMATION</span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php 
-					$edit = false;
-					if(isset(Yii::app()->session["userId"]) && isset($project["_id"]))
-						$edit = Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION, (string)$project["_id"]);
-					if($edit){
-				?>
+					if ($isAdmin){ ?>
 				<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i></a>
         		<?php } ?>
 			</div>
@@ -45,7 +116,27 @@
 					</tr>
 					<tr>
 						<td>Maturité</td>
-						<td><a href="#" id="avancement" data-type="select" data-title="Avancement" data-emptytext="" data-original-title="" class="editable editable-click"><?php if(isset($project["properties"]["avancement"])) echo $project["properties"]["avancement"];?></a></td>
+						<td>
+							<a href="#" id="avancement" data-type="select" data-title="avancement" data-original-title="Enter the project's maturity" class="editable editable-click">
+							<?php if(isset($project["properties"]["avancement"])){ 
+									if($project["properties"]["avancement"]=="En démarrage")
+										$val=20;
+									else if($project["properties"]["avancement"]=="Concept")
+										$val=40;
+									else if ($project["properties"]["avancement"]== "En développement")
+										$val=60;
+									else if ($project["properties"]["avancement"] == "En expérimentation")
+										$val=80;
+									else 
+										$val=100;
+									echo $project["properties"]["avancement"];
+							} ?>
+							</a>
+							<?php if(isset($project["properties"]["avancement"])){ ?>
+							<progress max="100" value="<?php echo $val;?>" class="progressStyle">
+							</progress>
+							<?php } ?>
+						</td>
 					</tr>
 					<tr>
 						<td>Début</td>
@@ -193,7 +284,13 @@ function initXEditable() {
 			width: 200,
 			tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 			tokenSeparators: [","]
-		}
+		},
+		success : function(data) {
+			if(data.result) 
+				toastr.success(data.msg);
+			else 
+				return data.msg;
+	    }
 	});
 
 	$('#address').editable({
@@ -206,7 +303,13 @@ function initXEditable() {
         	postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
         	codeInsee: '<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>',
         	addressLocality : '<?php echo (isset( $project["address"]["addressLocality"])) ? $project["address"]["addressLocality"] : ""; ?>'
-    	}
+    	},
+    	success : function(data) {
+			if(data.result) 
+				toastr.success(data.msg);
+			else 
+				return data.msg;
+	    }
 	});
 
 	$('#addressCountry').editable({
@@ -215,14 +318,38 @@ function initXEditable() {
 		source: function() {
 			return countries;
 		},
+		success : function(data) {
+			if(data.result) 
+				toastr.success(data.msg);
+			else 
+				return data.msg;
+	    }
 	});
 	$('#avancement').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
-		value: '<?php echo (isset( $project["properties"]["avancement"])) ? json_encode($project["properties"]["avancement"]) : ""; ?>',
+		//value: '<?php  if(isset( $project["properties"]["avancement"])) echo "<progress></progress>".$project["properties"]["avancement"] ?>',
 		source: function() {
-			avancement=["En démarrage","Concept","En développement","Mature"];
+			avancement=["En démarrage","Concept","En développement","En expérimentation","Mature"];
 			return avancement;
 		},
+		success : function(data) {
+			if(data.result) {
+				toastr.success(data.msg);
+				if(data.avancement=="En démarrage")
+					val=20;
+				else if(data.avancement=="Concept")
+					val=40;
+				else if (data.avancement== "En développement")
+					val=60;
+				else if (data.avancement == "En expérimentation")
+					val=80;
+				else 
+					val=100;
+				$('.progressStyle').val(val);
+			}
+			else 
+				return data.msg;
+	    }
 	});
 
 }
@@ -250,6 +377,7 @@ function manageModeContext() {
 		$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
 			//add primary key to the x-editable field
+			//alert(listXeditables[i]);
 			$(value).editable('option', 'pk', projectId);
 			$(value).editable('toggleDisabled');
 		})
