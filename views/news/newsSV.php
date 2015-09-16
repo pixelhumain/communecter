@@ -21,10 +21,7 @@ var formDefinition = {
 						"required" : true
 					}
             },
-            "date" :{
-            	"inputType" : "date",
-            	"placeholder" : "When was this or will it be",
-            },
+            
             "text" :{
             	"inputType" : "textarea",
             	"placeholder" : "Details",
@@ -42,6 +39,10 @@ var formDefinition = {
                     	"Urbanisme",
 	            	]
 	            },
+	        "date" :{
+            	"inputType" : "date",
+            	"placeholder" : "When was this or will it be",
+            },
 	        "public" :{
 	            	"inputType" : "checkbox",
 	            	"placeholder" : "Public",
@@ -99,6 +100,7 @@ jQuery(document).ready(function() {
 							"<div class='space20'></div>"+
 							"<h1>Share a thought, an idea "+contextName+" </h1>"+
 							"<form id='ajaxForm'></form>"+
+							"<div id='newsFeed'></div>"+
 						  "</div>");
 		$.subview({
 			content : "#ajaxSV",
@@ -112,6 +114,10 @@ jQuery(document).ready(function() {
 							$("#ajaxForm #id").val( contextId );
 						if( contextType )
 							$("#ajaxForm #type").val( contextType );
+						//hide form partially
+						//Fetch and show latest msgs
+						if(contextType && contextId)
+							getAjax(".newsFeed", baseUrl+"/"+moduleId+"/news/latest/type/"+contextType+"/id/<?php if(isset($_GET["id"]))echo $_GET["id"];?>/count/15", function(){}, "html");
 					},
 					onSave : function(){
 						console.log("saving Organization!!");
