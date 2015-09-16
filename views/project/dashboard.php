@@ -41,11 +41,10 @@
 		</div>-->
 	</div>
 	<div class="col-sm-6 col-xs-12">
-
 		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																"contextId" => (String) $project["_id"],
 																"contextType" => Project::CONTROLLER,
-																"authorised" => ( Authorisation::isProjectAdmin(Yii::app()->session["userId"], (String) $project["_id"]))
+																"authorised" => $admin
 															  )); ?>
 	</div>
 </div>
