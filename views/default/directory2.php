@@ -8,11 +8,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
-	.gallery-img img{
-		width: 100%;
-		height: 175px;
-	}
-
+	
 	.panel-tools{
 		filter: alpha(opacity=1);
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
