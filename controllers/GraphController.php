@@ -10,7 +10,7 @@
 class GraphController extends CommunecterController {
 
     protected function beforeAction($action) {
-		  return parent::beforeAction($action);
+		return parent::beforeAction($action);
   	}
 
   	public function actions()

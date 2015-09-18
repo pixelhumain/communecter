@@ -64,7 +64,7 @@
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = contextMap<?php if(@$contextType == "organization" )echo '["organization"]'; ?>["_id"]["$id"];
+		var itemId = contextMap<?php if(@$contextType == Organization::CONTROLLER )echo '["organization"]';else if(@$contextType == Project::CONTROLLER )echo '["project"]'; ?>["_id"]["$id"];
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
