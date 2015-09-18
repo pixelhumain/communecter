@@ -513,7 +513,7 @@ function buildDataSetPie(map, typeData, optionChecked, name_id){
 function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities)
 {
 	//console.warn("----------------- sendData -----------------");
-	//console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
+	console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked,optionCheckedCities);
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
 	
 	if("undefined" != typeZone){
@@ -527,7 +527,7 @@ function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, 
 		data:{optionData: optionChecked, optionCities: optionCheckedCities},
 		dataType: "json",
 		success: function(data){
-			//console.info("sendDataSuccess", data);
+			console.info("sendDataSuccess", data);
 			if(typeGraph == "piechart")
 				getPieChart(data, typeData, optionChecked, name_id);
 			else

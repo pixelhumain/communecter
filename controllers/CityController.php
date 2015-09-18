@@ -29,7 +29,9 @@ class CityController extends CommunecterController {
 	        'getlistoption'			=> 'citizenToolKit.controllers.city.GetListOptionAction',
 	        'getpodopendata'			=> 'citizenToolKit.controllers.city.GetPodOpenDataAction',
 	        'addpodopendata'			=> 'citizenToolKit.controllers.city.AddPodOpenDataAction',
-	        'getlistcities'			=> 'citizenToolKit.controllers.city.GetListCitiesAction'
+	        'getlistcities'			=> 'citizenToolKit.controllers.city.GetListCitiesAction',
+	        'creategraph'			=> 'citizenToolKit.controllers.city.CreateGraphAction',
+	        'graphcity'			=> 'citizenToolKit.controllers.city.GraphCityAction'
 	    );
 	}
 }
