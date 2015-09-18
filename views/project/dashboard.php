@@ -2,7 +2,7 @@
 	<div class="col-md-12 no-padding">
 	<div class="col-lg-4 col-md-12">
 		<?php 
-			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries)); ?>
+			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries,"isAdmin"=> $admin)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">			
 		<?php 
@@ -44,7 +44,7 @@
 		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																"contextId" => (String) $project["_id"],
 																"contextType" => Project::CONTROLLER,
-																"authorised" => ( Authorisation::isProjectAdmin(Yii::app()->session["userId"], (String) $project["_id"]))
+																"authorised" => $admin
 															  )); ?>
 	</div>
 </div>
@@ -52,7 +52,7 @@
 <script type="text/javascript">
 	var contextMap = {};
 	contextMap["project"] = <?php echo json_encode($project)?>;
-	contextMap["events"] = <?php echo json_encode($events) ?>;
+	//contextMap["events"] = <?php //echo json_encode($events) ?>;
 	var idToSend = contextMap["project"]["_id"]["$id"]
 	contextMap["people"] = <?php echo json_encode($people) ?>;
 	contextMap["organizations"] = <?php echo json_encode($organizations) ?>;

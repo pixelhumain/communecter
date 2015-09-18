@@ -55,7 +55,7 @@ class CommunecterController extends Controller
           ),
      array('label' => "Event", "key"=>"event",
                 "children"=> array(
-                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent",  "class"=>"ajaxSV", "onclick" => "openSubView('New Event', '/communecter/event/eventsv',null)", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newEvent" => array( "label"=>"Add new event","key"=>"newEvent",  "class"=>"init-event", "href" => "#newEvent", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   "showCalendar" => array( "label"=>"Show calendar","class"=>"show-calendar","key"=>"showCalendar", "href" => "/ph/communecter/event/calendarview", "iconStack"=> array("fa fa-calendar-o fa-stack-1x fa-lg","fa fa-share fa-stack-1x stack-right-bottom text-danger")),
                 )
           ),
