@@ -70,31 +70,31 @@
 		</div>
 		<div class="col-sm-6 col-xs-12 sectionBlockAdherent" id="infoEvent">
 			<div class="row padding-20" >
-				<div class="col-sm-12"><i class="fa fa-clock-o"></i>  Quand ?</div>
+				<div class="col-sm-12"><i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?</div>
 				<div class="col-sm-12">
 					<div class="col-xs-12 no-padding">
-						<span>Toute la journée : </span><a href="#" id="allDay" data-type="select" data-emptytext="Toute la journée ?" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span>Du </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","From") ?> </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span>Au </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
+						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
 				</div>
 			</div>
 			<div class="row padding-20">
-				<div class="col-sm-12"><i class="fa fa-users"></i>  Qui ?</div>
+				<div class="col-sm-12"><i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?</div>
 				<div class="col-sm-12">
-					<?php if($organizer["type"]=="project"){ ?>
-					Organisé par le projet
-					<?php } else { ?>
-					Organisateur 
-					<?php } ?> : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
+					<?php if($organizer["type"]=="project"){ 
+						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
+					 } else { 
+						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
+					 } ?> : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
 			<div class="row padding-20">
-				<div class="col-sm-12"><i class="fa fa-map-marker"></i>  Où ?</div>
+				<div class="col-sm-12"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?</div>
 				<div class="col-sm-12">
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-event editable editable-click">
 						<?php echo (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : null; ?>
@@ -139,7 +139,7 @@
 		manageModeContext();
 
 		$(".removeEventBtn").off().on("click", function(e){
-			bootbox.confirm("Are you sure you want to delete this event ?", function(result) {
+			bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete")?> <?php echo Yii::t("event","this event",null,Yii::app()->controller->module->id)?> ?", function(result) {
 				if (!result) {
 					return;
 				}

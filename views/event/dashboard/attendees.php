@@ -1,7 +1,7 @@
 
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> Participants</h4>
+			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("event","Attendees",null,Yii::app()->controller->module->id); ?></h4>
 		</div>
 		<div class="panel-tools">
 			<?php if( Authorisation::isEventAdmin((string)$event['_id'], @Yii::app()->session["userId"])) { ?>

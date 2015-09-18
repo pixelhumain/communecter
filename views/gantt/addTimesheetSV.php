@@ -28,8 +28,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
 	    	<div class="panel-heading border-light">
-	    		<h1>Add a Task </h1>
-	    		<p>Task will show what's next in the project</p>
+	    		<h1><?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?>"</h1>
+	    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
 	    	</div>
 	    	<div class="panel-body">
 				<form class="form-timesheet" submit="false">
@@ -39,13 +39,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="col-md-12">
 							<div class="">
 								<label class="control-label">
-									Nom de la tâche <span class="symbol required"></span>
+									<?php echo Yii::t("gantt","Task's name",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
 								</label>
 								<input type="text" class="task-name form-control" name="taskName" value=""/>
 							</div>
 							<div>
 								<label class="control-label">
-									Durée de la tâche <span class="symbol required"></span>
+									<?php echo Yii::t("gantt","Task's duration",null,Yii::app()->controller->module->id) ?><span class="symbol required"></span>
 								</label>
 								<div class="all-day-range">
 									<div class="">
@@ -65,20 +65,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</div>
 							<div>
 								<label class="control-label">
-									Couleur de la tâche <span class="symbol required"></span>
+									<?php echo Yii::t("gantt","Task's color",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
 								</label>
 								<select name="colorpicker">
-								  <option value="#9ACA27">Vert</option>
-								  <option value="#3CB6E3">Bleu</option>
-								  <option value="#FC464A">Rouge</option>
-								  <option value="#F4CF30">Jaune</option>
-								  <option value="#A969CA">Violet</option>
+								  <option value="#9ACA27"><?php echo Yii::t("common","Green") ?></option>
+								  <option value="#3CB6E3"><?php echo Yii::t("common","Blue") ?></option>
+								  <option value="#FC464A"><?php echo Yii::t("common","Red") ?></option>
+								  <option value="#F4CF30"><?php echo Yii::t("common","Yellow") ?></option>
+								  <option value="#A969CA"><?php echo Yii::t("common","Purple") ?></option>
 								</select>
 							</div>
 						</div>
 						<div>
 							<div class="row center">
-				    	        <button class="btn btn-primary" >Enregistrer</button>
+				    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
 							</div>
 						</div>
 					</div>
@@ -91,11 +91,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	        <table class="table table-striped table-bordered table-hover newTasksAddedTable hide">
 	            <thead>
 	                <tr>
-	                    <th>Name</th>
-	                    <th>Start</th>
-	                    <th>End</th>
-	                    <th>Color</th>
-	                    <th>Status</th>
+	                    <th><?php echo Yii::t("common","Name") ?></th>
+	                    <th><?php echo Yii::t("common","Start") ?></th>
+	                    <th><?php echo Yii::t("common","End") ?></th>
+	                    <th><?php echo Yii::t("common","Color") ?></th>
+	                    <th><?php echo Yii::t("common","Status") ?></th>
 	                </tr>
 	            </thead>
 	            <tbody class="newTaskAdded"></tbody>
@@ -121,7 +121,7 @@ function bindBtnRemoveTask(){
 			var idTask = $(this).data("id");
 			var parentType=$("#editTimesheet .parentType").val();
 			var parentId=$("#editTimesheet .parentId").val();
-			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> project ?", 
+			bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete") ?> <?php echo Yii::t("gantt","the task",null,Yii::app()->controller->module->id)?> \"<span class='text-red'>"+$(this).data("name")+"</span>\" ?", 
 				function(result) {
 					if (!result) {
 					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -146,7 +146,7 @@ function bindBtnRemoveTask(){
 						}
 					},
 					error: function(data) {
-						toastr.error("Something went wrong!! Contact your administrator");
+						toastr.error("<?php Yii::t("common","Something went wrong!")?>" );
 					}
 				});
 			});
