@@ -93,7 +93,7 @@ progress[value]::-moz-progress-bar {
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> PROJECT INFORMATION</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECT INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php 
@@ -107,29 +107,32 @@ progress[value]::-moz-progress-bar {
 			<table class="table table-condensed table-hover" >
 				<tbody>
 					<tr>
-						<td>Intitulé</td>
-						<td><a href="#" id="name" data-type="text" data-original-title="Enter the project's name" class="editable-project editable editable-click"><?php if(isset($project["name"]))echo $project["name"];?></a></td>
+						<td><?php echo Yii::t("common","Name") ?></td>
+						<td><a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["name"]))echo $project["name"];?></a></td>
 					</tr>
 					<tr>
 						<td>Description</td>
-						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the project's description" class="editable editable-click"></a></td>
+						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
-						<td>Maturité</td>
+						<td><?php echo Yii::t("project","Maturity",null,Yii::app()->controller->module->id) ?></td>
 						<td>
-							<a href="#" id="avancement" data-type="select" data-title="avancement" data-original-title="Enter the project's maturity" class="editable editable-click">
+							<a href="#" id="avancement" data-type="select" data-title="avancement" data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" class="editable editable-click">
 							<?php if(isset($project["properties"]["avancement"])){ 
-									if($project["properties"]["avancement"]=="En démarrage")
+								//idea => concept => Started => development => testing => mature
+									if($project["properties"]["avancement"]=="idea")
+										$val=5;
+									else if($project["properties"]["avancement"]=="concept")
 										$val=20;
-									else if($project["properties"]["avancement"]=="Concept")
+									else if ($project["properties"]["avancement"]== "started")
 										$val=40;
-									else if ($project["properties"]["avancement"]== "En développement")
+									else if ($project["properties"]["avancement"] == "development")
 										$val=60;
-									else if ($project["properties"]["avancement"] == "En expérimentation")
+									else if ($project["properties"]["avancement"] == "testing")
 										$val=80;
 									else 
 										$val=100;
-									echo $project["properties"]["avancement"];
+									echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
 							} ?>
 							</a>
 							<?php if(isset($project["properties"]["avancement"])){ ?>
@@ -139,32 +142,32 @@ progress[value]::-moz-progress-bar {
 						</td>
 					</tr>
 					<tr>
-						<td>Début</td>
-						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the project's start" class="editable editable-click"></a></td>
+						<td><?php echo Yii::t("common","Start") ?></td>
+						<td><a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
-						<td>Fin</td>
-						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the project's end" class="editable editable-click"></a></td>
+						<td><?php echo Yii::t("common","End") ?></td>
+						<td><a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
 						<td>Tags</td>
 						<td><a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click"></td>
 					</tr>
 					<tr>
-						<td>Code Postal</td>
+						<td><?php echo Yii::t("common","Postal Code") ?></td>
 						<td><a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a></td>
 					</tr>
 					<tr>
-						<td>Pays</td>
+						<td><?php echo Yii::t("common","Country") ?></td>
 						<td><a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
 						<td>Licence</td>
-						<td><a href="#" id="licence" data-type="text" data-original-title="Enter the project's licence" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
+						<td><a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
 					</tr>
 					<tr>
 						<td>URL</td>
-						<td><a href="#" id="url" data-type="text" data-original-title="Enter the project's url" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a></td>
+						<td><a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a></td>
 					</tr>
 					
 				</tbody>
@@ -327,23 +330,25 @@ function initXEditable() {
 	});
 	$('#avancement').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
-		//value: '<?php  if(isset( $project["properties"]["avancement"])) echo "<progress></progress>".$project["properties"]["avancement"] ?>',
 		source: function() {
-			avancement=["En démarrage","Concept","En développement","En expérimentation","Mature"];
+			//idea => concept => Started => development => testing => mature
+			avancement=["idea","concept","started","development","testing","mature"];
 			return avancement;
 		},
 		success : function(data) {
 			if(data.result) {
 				toastr.success(data.msg);
-				if(data.avancement=="En démarrage")
+				if(data.avancement=="idea")
+					val=5;
+				else if(data.avancement=="concept")
 					val=20;
-				else if(data.avancement=="Concept")
+				else if (data.avancement== "started")
 					val=40;
-				else if (data.avancement== "En développement")
+				else if (data.avancement == "development")
 					val=60;
-				else if (data.avancement == "En expérimentation")
+				else if(data.avancement == "testing")
 					val=80;
-				else 
+				else
 					val=100;
 				$('.progressStyle').val(val);
 			}

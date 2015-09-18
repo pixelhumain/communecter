@@ -35,12 +35,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		 <div class="panel panel-white">
         	<div class="panel-heading border-light">
 				<?php if( !@$isNotSV ){ ?>
-				<h1>Add a new project</h1>
+				<h1><?php echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?></h1>
 			    <?php } ?>
-			    <p>If you want to create a new project in order to make it more visible : it's the best place
-			    <br/>You can as well organize your project team, plan tasks, discuss, take decisions...
-			    <br/>Depending on the project visibility, contributors can join the project and help
-			    <br>to make it happen ! </p>
+			    <p><?php echo Yii::t("project","If you want to create a new project in order to make it more visible : it's the best place<br/>You can as well organize your project team, plan tasks, discuss, take decisions...<br/>Depending on the project visibility, contributors can join the project and help<br>to make it happen ! ",null,Yii::app()->controller->module->id) ?></p>
 
 			</div>
 		</div>
@@ -60,13 +57,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input class="project-id hide" type="text">
 						<div class="form-group">
 							<label class="control-label">
-								Nom <span class="symbol required"></span>
+								<?php echo Yii::t("common","Name") ?><span class="symbol required"></span>
 							</label>
 							<input class="project-name form-control" name="projectName" value=""/>
 						</div>
 						<div class="form-group">
 							<label for="projectRangeDate">
-								<span>Durée du projet</span>
+								<span><?php echo Yii::t("project","Project duration",null,Yii::app()->controller->module->id) ?></span>
 							</label>
 							<span class="input-icon">
 								<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
@@ -93,14 +90,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<div class="col-md-6 col-sd-6 ">
 						<div class="form-group">
 							<label class="control-label">
-								Pays <span class="symbol required"></span>
+								<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 							</label>
 							<input type="hidden" name="projectCountry" id="projectCountry" style="width: 100%; height:35px;"/>								
 						</div>
 						<div class="row">
 							<div class="col-md-4 form-group">
 								<label for="postalCode">
-									Code postal <span class="symbol required"></span>
+									<?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
 								</label>
 								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >	
 							</div>

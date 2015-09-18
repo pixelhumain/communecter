@@ -40,13 +40,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h3>Add project's properties</h3>
+		<h3><?php echo Yii::t("project","Add project's properties",null,Yii::app()->controller->module->id) ?></h3>
 		<form class="form-chart">
 			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
 			<div class="row">
 				<div class="col-md-12">
 					<label for="properties">
-						Degré d'ouverture du projet (0% = très fermé, 100% = très ouvert)			
+						<?php echo Yii::t("project","Degree of project's openness (0% = very closed, 100% = very opened)",null,Yii::app()->controller->module->id) ?>			
 					</label>
 					<div class="col-md-12">
 					<?php if (isset($properties) && !empty($properties)){
@@ -116,12 +116,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<div class="flexslider" style="margin-top:35px;">
 							<div id="infoPodOrga" class="padding-10">
 								<blockquote> 
-									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	Ajouter
-									<br>Une nouvelle 
-									<br>Propriété
-									<br>
+									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	<?php echo Yii::t("project","Add<br/>A new<br/>Property",null,Yii::app()->controller->module->id) ?>
+									<br/>
 									<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
-										<i class="fa fa-plus"></i> ADD
+										<i class="fa fa-plus"></i> <?php echo Yii::t("common","ADD"); ?>
 									</a>
 								</blockquote>
 								
