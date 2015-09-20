@@ -14,7 +14,7 @@
 					<li class="active">
 						<a href="#users_tab_attending" data-toggle="tab">
 							<span><i class="fa fa-child"></i>
-							Attending
+							<?php echo Yii::t("event","Attending",null,Yii::app()->controller->module->id); ?>
 							</span>
 						</a>
 					</li>

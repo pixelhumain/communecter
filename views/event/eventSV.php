@@ -65,7 +65,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	?>
 	<div class="noteWrap <?php echo $size ?> ">
 		<?php if( !@$isNotSV ){ ?>
-		<h3>Add new event</h3>
+		<h3><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h3>
 		<?php } ?>
 		<div class="row">
 		<div class="col-md-11">
@@ -78,20 +78,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
 						
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                          	<span id="labelOrga">Choose an organizer</span><span class="caret"></span>
+                          	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
                         </a>
                         <!--<div class="panel-scroll height-230 ps-container">-->
                         <ul role="menu" class="dropdown-menu scrollable-menu">
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
-			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> Person</li>
-			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi">Moi</a></li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
+			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
 		                        </ul>
 	                        </li>
 	                        <?php if(!empty($myOrganizationAdmin)) { ?>
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="organization">
-			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> Organisation</li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("common","Organizations") ?></li>
 		                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
 			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 			                       	<?php } ?>
@@ -101,7 +101,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	                        <?php	if(!empty($myProjectAdmin)) { ?>
 	                        <li class="categoryOrgaEvent col-md-12">
 		                         <ul class="dropOrgaEvent" id="project">
-			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-lightbulb-o'></i> Project</li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-lightbulb-o'></i> <?php echo Yii::t("common","Projects") ?></li>
 			                        <?php foreach ($myProjectAdmin as $p) { ?>
 			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
 			                       	<?php } ?>
@@ -122,14 +122,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<div class="col-md-6 no-padding-left">
 						<div class="form-group">
 							<span class="input-icon">
-								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="Postal Code">
+								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 								<i class="fa fa-home"></i></span>
 						</div>
 					</div>
 					<div class="col-md-6 no-padding-right">
 						<div class="form-group" id="cityDiv" style="display: none;">
 							<span class="input-icon">
-								<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+								<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 								</select>
 							</span>		
 						</div>
@@ -140,7 +140,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				<div class="col-md-6">
 					<div class="form-group">
 						<input class="event-id hide" type="text" id="newEventId" name="newEventId">
-						<input class="event-name form-control" name="eventName" type="text" placeholder="Event Name...">
+						<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -160,7 +160,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<div class= "row">
 				<div class="col-md-3">
 					<div class="form-group">
-						<input type="checkbox" class="all-day" data-label-text="All-Day" data-on-text="True" data-off-text="False">
+						<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
 					</div>
 				</div>
 				<div class="no-all-day-range">
@@ -194,7 +194,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
-						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="Write note here..."></textarea>
+						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
 					</div>
 				</div>
 				<?php if( @$isNotSV ){ ?>

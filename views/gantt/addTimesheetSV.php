@@ -28,7 +28,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
 	    	<div class="panel-heading border-light">
-	    		<h1><?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?>"</h1>
+	    		<h1><?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h1>
 	    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
 	    	</div>
 	    	<div class="panel-body">

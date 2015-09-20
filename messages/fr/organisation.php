@@ -16,7 +16,10 @@ return array(
 	"Add a Member ( Person, Organization )" => "Ajoutez un membre (Personne, Organisation)",
 	"An Organization can have People as members or Organizations" => "Une organisation peut avoir des personnes ou des organisations comme membres",
 	"Member added successfully " => "Membre ajouté avec succès ",
-	
-
+	// Form OrganizationSV
+	"Reference your organization" => "Référencer votre organisation",
+	"If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field." => "Si vous gérer une ou plusieurs organisations ou etes simplement membre d'une organization :<br/>vous êtes au bon endroit pour la valoriser, la diffuser, l'aider à la faire vivre.<br/>Vérifier l'existance de l'organisation en saisissant son nom ou son email dans le champs de recherche.",
+	"Corporate Name" => "Raison Sociale",
+	"Add Me as member Of" => "M'ajouter en tant que membre de",
 );
 ?>
