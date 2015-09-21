@@ -48,7 +48,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   </div>
 </div>
 
-
+<?php /* **********************
+  ICON MARKER FLOTTANT
+**************************** ?>
 <div class="eventMarker" style="z-index:1;display:none;position:fixed; bottom:0px; right:50px;cursor:pointer;" >
   <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
   <span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
@@ -69,22 +71,36 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   <span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
   <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
 </div>
+
+<?php /* **********************
+  LEFT MENU
+**************************** */?>
 <div class="center text-white" style="z-index:1;position:absolute; top:50px; left:25px;" >
     <div class="center text-white pull-left">
-        
         <a href="#" onclick="showPanel('box-login',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-home fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-people',null,'PEOPLE','user')" class="text-white"><i class="fa fa-user fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-orga',null,'ORGANIZATIONS','users')" class="text-white"><i class="fa fa-users fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-event',null,'EVENTS','calendar')" class="text-white"><i class="fa fa-calendar fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-projects',null,'PROJECTS','lightbulb-o')" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
+        <?php //onclick="showPanel('box-people',null,'PEOPLE','user')" ?>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="text-white"><i class="fa fa-users fa-2x"></i></a>
+        <?php //showPanel('box-orga',null,'ORGANIZATIONS','users') ?>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-calendar fa-2x"></i></a>
+        <?php //showPanel('box-event',null,'EVENTS','calendar') ?>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
+        <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
+        <br/><br/><a href="#" onclick="toastr.success('back as map!');" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
         <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>
     </div>
 </div>
 
+<?php /* **********************
+  CONTEXT TITLE
+**************************** */?>
 <div class="center text-white pull-left" style="z-index:1;position:absolute; top:10px; left:70px; " >
     <span class="homestead moduleLabel" style="color:white;font-size:25px"></span>
 </div>
 
+<?php /* **********************
+  PARTNER LOGOS
+**************************** */?>
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
