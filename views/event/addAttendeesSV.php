@@ -9,7 +9,7 @@
 	<div class="col-md-6 col-md-offset-3">  
        	<div class="panel panel-white">
         	<div class="panel-heading border-light">
-				<h1>Add an attendee</h1>
+				<h1><?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h1>
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
@@ -21,7 +21,7 @@
 		           	</div>
 					<div class="col-md-10">
 						<div class="form-group">
-							<input class="attendees-search form-control" placeholder="Search Here" autocomplete = "off" id="attendeesSearch" name="attendeesSearch" value="">
+							<input class="attendees-search form-control" placeholder="<?php echo Yii::t("common","Search By name, email") ?>" autocomplete = "off" id="attendeesSearch" name="attendeesSearch" value="">
 				        		<ul class="dropdown-menu" id="dropdown_search" style="">
 									<li class="li-dropdown-scope">-</li>
 								</ul>
@@ -33,10 +33,10 @@
 		
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-7">
-							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i>  Add me as attendee </a>
+							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t("event","Add me as attendee",null,Yii::app()->controller->module->id); ?> </a>
 							<hr>
-							Nom : <p id="ficheName" name="ficheName"></p><br>
-							Date de naissance : <p id="birth" name="birth" ></p><br>
+							<?php echo Yii::t("common", "Name") ?> : <p id="ficheName" name="ficheName"></p><br>
+							<?php echo Yii::t("common","Birth date") ?> : <p id="birth" name="birth" ></p><br>
 							Tags : <p id="tags" name="tags" ></p><br>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 				           	<i class="fa fa-user fa-2x"></i>
 				       	</div>
 				       	<div class="col-md-9">
-							<input class="attendees-name form-control" placeholder="Name" id="attendeesName" name="attendeesName" value="" />
+							<input class="attendees-name form-control" placeholder="<?php echo Yii::t("common","Name")?>" id="attendeesName" name="attendeesName" value="" />
 						</div>
 					</div>
 					<div class="row">
@@ -61,7 +61,7 @@
 					<div class="row">
 						<div class="col-md-2 col-md-offset-1">
 							<div class="form-group">
-					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+					    	    <button class="btn btn-primary" id="btnInviteNew" ><?php echo Yii::t("common","Invite"); ?></button>
 					    	</div>
 					    </div>
 				    </div>
