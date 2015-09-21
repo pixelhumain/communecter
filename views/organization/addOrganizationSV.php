@@ -70,12 +70,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	    <div class="panel panel-white">
         	<div class="panel-heading border-light">
 				<?php if( !@$isNotSV ){ ?>
-					<h1>Référencer votre organization</h1>
 					<h1><?php echo Yii::t("organisation","Reference your organization",null,Yii::app()->controller->module->id); ?></h1>
 			    <?php } ?>
-			    <p>Si vous gérer une ou plusieurs organisations ou etes simplement membre d'une organization :
-			    <br/>vous êtes au bon endroit pour la valoriser, la diffuser, l'aider à la faire vivre.
-			    <br/>Vérifier l'existance de l'organisation en saisissant son nom ou son email dans le champs de recherche.</p>
 			    <p><?php echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?></p>
 
 			</div>
@@ -98,7 +94,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				           	</div>
 				           	<div class="col-md-6">
 				           		<span class="input-icon input-icon-right">
-						           	<input class="organization-search form-control" placeholder="Search by name or email" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
 						           	<input class="organization-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email")?>" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 						        		<ul class="dropdown-menu" id="dropdown_search" style="">
@@ -114,7 +109,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
 								<label class="control-label">
-									Nom (Raison Sociale) <span class="symbol required"></span>
 									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
 								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
@@ -143,19 +137,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
-
-							<div class="form-group">
-								<div>
-									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
-								</div>
-							</div>
-
+							
+							
 							<div class="form-group">
 								<label class="control-label">
-									Centres d'interet 
+									<?php echo Yii::t("common","Interests") ?>
 								</label>
-								
 			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
 			        		    
 							</div>
@@ -164,7 +151,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
-									Pays <span class="symbol required"></span>
 									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
@@ -173,7 +159,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="row">
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
-										Code postal <span class="symbol required"></span>
 										<?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
@@ -181,7 +166,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
-										Ville <span class="symbol required"></span>
 										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
 									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
@@ -190,22 +174,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</div>
 
 										
-							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Interests") ?>
-								</label>
-								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
-							</div>
+							
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
+							
 							<div class="form-group hidden" id="sig_position">
 							
 								<?php 
@@ -280,15 +258,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="row">
 							<div class="col-md-12">
 								<div>
-									<span class="symbol required"></span>Required Fields
 									<span class="symbol required"></span><?php echo Yii::t("common","Required Fields") ?>
 									<hr>
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary" id="btnSaveNewOrganization">Save</button>
-						<button class="btn btn-primary" id="btnAddMeAsMemberOf">Add Me as member Of</button>
-						<a href="javascript:showSearch()"><i class="fa fa-search"></i>Back to Seach</a>
 						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
 						<button class="btn btn-primary" id="btnAddMeAsMemberOf"><?php echo Yii::t("organisation","Add Me as member Of",null,Yii::app()->controller->module->id); ?></button>
 						<a href="javascript:showSearch()"><i class="fa fa-search"></i><?php echo Yii::t("common","Back to Search")?></a>
