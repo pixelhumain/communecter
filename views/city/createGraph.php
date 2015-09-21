@@ -7,7 +7,7 @@
 	  		);
 	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
   	}
-	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
 	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
 ?>
 
@@ -15,83 +15,95 @@
 	
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">Ajouter un graphe</h4>
+		<ul class="panel-heading-tabs border-light ulline">
+			<li>
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/city/opendata/insee/'.$_GET['insee'];?>" class=""/>Back</a>
+			</li>
+		<ul>
 	</div>
 	<div class="panel-body">
 		<div id="paramsGraph">
 			<!-- Type Data -->
-			<div class="col-sm-4 col-xs-12">
-				<label for="typeData"/>Type :</label>
-		      	<select id="typeData" class="selectpicker">
-		        	<?php
-						$where = array("insee"=>$_GET['insee']);
-						$fields = array();
-						$option = City::getWhereData($where, $fields);
-						$chaine = "" ;
-						foreach ($option as $key => $value) 
-						{
-							foreach ($value as $k => $v) 
+			<div class="row">
+				<div class="col-sm-4 col-xs-12">
+					<label for="typeData" />Type :</label>
+					<!--class="selectpicker" -->
+			      	<select id="typeData" class="col-sm-12 col-xs-12">
+			        	<?php
+							$where = array("insee"=>$_GET['insee']);
+							$fields = array();
+							$option = City::getWhereData($where, $fields);
+							$chaine = "" ;
+							foreach ($option as $key => $value) 
 							{
-								if($k != "_id" && $k != "insee")
-								$chaine = $chaine.'<option value="'.$k.'">'.$k.'</option>';	
+								foreach ($value as $k => $v) 
+								{
+									if($k != "_id" && $k != "insee")
+									$chaine = $chaine.'<option value="'.$k.'">'.$k.'</option>';	
+								}
+
 							}
+							echo $chaine ;
+						?>
+			      	</select>
+			    </div>
 
-						}
-						echo $chaine ;
-					?>
-		      	</select>
-		    </div>
+			    <div id="divTypeOption" class="col-sm-4 col-xs-12">
+					<label for="typeOption" />Option : </label>
+			      	<select id="typeOption" class="col-sm-12 col-xs-12" multiple="multiple">
+			        	<?php
+							$typeData= "population";
+							$where = array("insee"=>$_GET['insee'], $typeData => array( '$exists' => 1 ));
+	 						$fields = array($typeData);
+	 						$option = City::getWhereData($where, $fields);
+	 						$chaine = "" ;
 
-	      	<div class="col-sm-4 col-xs-12">
-				<label for="typeGraph"/>Graph :</label>
-		      	<select id="typeGraph" class="selectpicker">
-		        	<option value="multibart">Multi-Bar</option>
-		        	<option value="piechart">PieChart</option>
-		      	</select>
-		    </div>
+	 						foreach ($option as $key => $value) 
+	 						{
+	 							foreach ($value as $k => $v) 
+	 							{
+	     							if($k == $typeData)
+	     							{
+	     								$chaine = CityOpenData::listOption2($v, $chaine, true, "");
+	     							}	
+	     						}
+	 						}
+	 						echo $chaine ;
+						?>
+			      	</select>
+			    </div>
 
-		   	<div class="col-sm-4 col-xs-12">
-				<label for="typeZone"/>Zone :</label>
-		      	<select id="typeZone" class="selectpicker">
-		        	<option value="commune">Commune</option>
-		        	<option value="departement">Departement</option>
-		        	<option value="region">Region</option>
-		      	</select>
-		    </div>
+		      	<div class="col-sm-4 col-xs-12">
+					<label for="typeGraph"/>Graphe :</label>
+			      	<select id="typeGraph" class="col-sm-12 col-xs-12">
+			        	<option value="multibart">Multi-Bar</option>
+			        	<option value="piechart">PieChart</option>
+			      	</select>
+			    </div>
 
-		    <div id="divTypeOption" class="col-sm-4 col-xs-12">
-				<label for="typeOption"/>Option : </label>
-		      	<select id="typeOption" class="selectpicker" multiple>
-		        	<?php
-						$typeData= "population";
-						$where = array("insee"=>$_GET['insee'], $typeData => array( '$exists' => 1 ));
- 						$fields = array($typeData);
- 						$option = City::getWhereData($where, $fields);
- 						$chaine = "" ;
+			   	
+			</div>
+			<br/>
+			<div class="row">
+			    <div class="col-sm-4 col-xs-12">
+					<label for="typeZone"/>Zone :</label>
+			      	<select id="typeZone" class="col-sm-12 col-xs-12">
+			        	<option value="commune">Commune</option>
+			        	<option value="departement">Departement</option>
+			        	<option value="region">Region</option>
+			      	</select>
+			    </div>
 
- 						foreach ($option as $key => $value) 
- 						{
- 							foreach ($value as $k => $v) 
- 							{
-     							if($k == $typeData)
-     							{
-     								$chaine = CityOpenData::listOption2($v, $chaine, true, "");
-     							}	
-     						}
- 						}
- 						echo $chaine ;
-					?>
-		      	</select>
-		    </div>
+			    <div id="divChooseCities" class="col-sm-4 col-xs-12" >
+					<label for="chooseCities"/>Comparer :</label>
+			      	<select id="chooseCities" class="col-sm-12 col-xs-12" multiple="multiple">
+			      	</select>
+			    </div>
 
-		    <div id="divChooseCities" class="col-sm-4 col-xs-12">
-				<label for="chooseCities"/>Comparer :</label>
-		      	<select id="chooseCities" class="selectpicker" multiple>
-		      	</select>
-		    </div>
-
- 			<div class="col-sm-4 col-xs-12">
-				<a href="#" id="addPod" class="btn btn-primary col-sm-4">Ajouter</a>
-		    </div>
+	 			<div class="col-sm-4 col-xs-12">
+					<a href="#" id="addPod" class="btn btn-primary col-sm-12 col-xs-12">Ajouter</a>
+			    </div>
+		   	</div>
 		</div>
 
 		<div id="corpsGraph">
@@ -115,7 +127,17 @@
 		bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 		getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 
-		$('.selectpicker').selectpicker();
+		$("#typeData").select2();
+		$("#typeZone").select2();
+		$("#typeGraph").select2();
+		$("#typeOption").select2();
+		$("#chooseCities").select2();
+		/*$("#typeData").selectpicker();
+		$("#typeZone").selectpicker();
+		$("#typeGraph").selectpicker();
+		$("#typeOption").selectpicker();
+		$("#chooseCities").selectpicker();
+		//$('.selectpicker').selectpicker();*/
 	});
 
 function bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked){
@@ -226,7 +248,8 @@ function modifyListOption(insee, typeData, typeZone, typeGraph, optionChecked, C
 		dataType: "json",
 		success: function(data){
 			
-			$("#typeOption").html(data).selectpicker('refresh');
+			//$("#typeOption").html(data).selectpicker('refresh');
+			$("#typeOption").select2('destroy').html(data).select2()
 
 			optionChecked = $("#typeOption").val();
 			bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
@@ -255,7 +278,8 @@ function modifyListCities(insee, typeData, typeZone, typeGraph, optionChecked, C
 					chaine += "<option value='"+valuesCities['insee']+"'>" + valuesCities['name'] + "</option>";
 				});
 
-				$("#chooseCities").html(chaine).selectpicker('refresh');
+				//$("#chooseCities").html(chaine).selectpicker('refresh');
+				$("#chooseCities").select2('destroy').html(chaine).select2()
 
 				CitiesChecked = $("#chooseCities").val();
 				bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);

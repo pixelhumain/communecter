@@ -15,6 +15,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <div class='panel panel-white'>
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">Liste des pods</h4>
+		<ul class="panel-heading-tabs border-light ulline">
+			<li>
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/city/creategraph/insee/'.$_GET['insee'];?>" class=""/>Ajouter</a>
+			</li>
+		<ul>
 	</div>
 	<div class="panel-body">
 		<div id="listPod">
@@ -24,78 +29,15 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 <script>
 jQuery(document).ready(function() {
-
 	getPod();
-	/*var inseeOpenData = "<?php echo $_GET['insee']; ?>";
-	var typeDataOpenData = "population";
-	var typeGraphOpenData = "multibar"; 
-	var typeZoneOpenData  = "commune";
-	//var optionData = "undefined";
-	tabPod = [];
-	name_idOpenData = "<?php //echo $name_idOpenData; ?>";
-	
-	var citiesCheckedOpenData ='<?php array(); ?>';
-	var optionCheckedOpenData = getValueChekboxOpenData(name_idOpenData);
-	var optionCheckedCitiesOpenData = getValueChekboxCitiesOpenData(inseeOpenData, name_idOpenData);
-
-	modifyListCitiesOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData, citiesCheckedOpenData, optionCheckedOpenData);
-	
-	bindBtnActionOpenData(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
-	getPod(inseeOpenData, typeDataOpenData, typeZoneOpenData, optionCheckedOpenData, name_idOpenData, typeGraphOpenData, optionCheckedCitiesOpenData);
-
-	$("#<?php //echo $name_idOpenData ; ?>_panel #filtreByCommune").hide();
-	$("#<?php //echo $name_idOpenData ; ?>_panel #listCommune").select2();
-
-	$('.pulsate').pulsate({
-            color: '#2A3945', // set the color of the pulse
-            reach: 10, // how far the pulse goes in px
-            speed: 1000, // how long one pulse takes in ms
-            pause: 200, // how long the pause between pulses is in ms
-            glow: false, // if the glow should be shown too
-            repeat: 10, // will repeat forever if true, if given a number will repeat for that many times
-            onHover: false // if true only pulsate if user hovers over the element
-        });
-	//$("#newPod").append(baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>");
-
-	/*getAjax(".statisticPop", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>", 
-		function(){
-			$(".statisticPop .ulline").hide();
-			$(".statisticPop .divline").hide();
-			$(".statisticPop #titleGraph").html('Population de la commune');
-		}, "html");
-	
-	optionData = {};
-	optionData["0"] = ".2012.total" ;
-	optionData["1"] = ".2012.agriculture" ;
-	
-	getAjax(".statisticEntreprise", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>/typeData/entreprise/optionData/"+$.param(optionData), 
-		function(){
-			$(".statisticEntreprise .ulline").hide();
-			$(".statisticEntreprise .divline").hide();
-			$(".statisticEntreprise #titleGraph").html('Entreprise agriculture de la commune');
-		}, "html");
-
-	getAjax(".statisticEntreprise2", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>/typeData/entreprise/", 
-		function(){
-			$(".statisticEntreprise2 .ulline").hide();
-			$(".statisticEntreprise2 .divline").hide();
-			$(".statisticEntreprise2 #titleGraph").html('Entreprise de la commune');
-		}, "html");*/
-
-
 });
 
 
-function bindBtnActionOpenData()
+function bindBtnActionOpenData(tabPod)
 {
-	//console.warn("----------------- bindBtnAction -----------------");
-	//console.log(name_id + "_panel : ", insee, typeDataOpenData, typeZoneOpenData, optionChecked);
-
 	$(".deletePod").off().on("click", function(){
 		console.warn("----------------- deletePod -----------------");
 		var idPod_delete = $(this).attr("id").split("_");
-		//alert(idPod_delete[0]);
-		console.log("TabPod", tabPod);
 		newTabPod = {};
 		var i = 1 ;
 		$.each(tabPod, function(keyNamePod,valuesPod){
@@ -107,7 +49,6 @@ function bindBtnActionOpenData()
 			}	
 		});
 
-		console.log("newTabPod", newTabPod);
 		var urlToSend = baseUrl+"/"+moduleId+"/city/addpodopendata/modify/delete";
 		$.ajax({
 			type: "POST",
@@ -131,7 +72,6 @@ function bindBtnActionOpenData()
 
 }
 
-
 function getPod(){
 	console.warn("----------------- getPod -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getpodopendata/";
@@ -140,13 +80,12 @@ function getPod(){
 		url: urlToSend,
 		dataType: "json",
 		success: function(data){
-			console.log("getPod", data.tabPod);
-			$("#listPod").append(data.chaine);
+			$("#listPod").html(data.chaine);
 			$.each(data.tabPod, function(namePod,valuePOD){
 				getAjax("."+namePod, valuePOD.url, 
 				function(){
-					$("."+namePod+" #title").html('X ' + valuePOD.title);
-					bindBtnActionOpenData();
+					$("."+namePod+" #title").html('<a href="#" id="'+namePod+'_supp" class="deletePod">X  </a>' + valuePOD.title);
+					bindBtnActionOpenData(data.tabPod);
 				}, "html");
 			});
 		}

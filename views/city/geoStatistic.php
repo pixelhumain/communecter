@@ -42,10 +42,60 @@
 	        							 "zoom"		   => 14),
 	    );
 	 
+	 	$populationTotalCity = City::getPopulationTotalInsee($_GET['insee'],'2011');
+	 	$populationTotalHommesCity = City::getPopulationHommesInsee($_GET['insee'],'2011');
+	 	$populationTotalFemmesCity = City::getPopulationFemmesInsee($_GET['insee'],'2011');
+	 	$params = array("insee" => $_GET['insee']);
+	 	$fields = array('geo');
+	 	$city = City::getWhere($params, $fields);
+	 	foreach ($city as $key => $value) {
+	 		$geo = $value['geo'];
+	 	}
+	 	var_dump($geo); 
+		//$populationTotalDepartement = City::getPopulationTotalInseeDepartement($_GET['insee'],'2011');
+		/*var_dump($populationTotalCity);
+		var_dump($populationTotalDepartement);
+		$res = (($populationTotalHommesCity * 100) / $populationTotalCity);
+		var_dump($res);*/
 	 	$charts =  array(/* 1ER GROUPE	*/
-						array(    "name" => "Graph1",
+	 					array(  "name" => "Population",
 								  /* options d'affichage de chaque donnée */
-								  "chartOptions"=> array( "type" => "PieChartMarker",
+								"chartOptions"=> array( "type" => "PieChartMarker",
+														  "radius" 	=> 25,
+														  "maxHeight" => 120, //seulement pour BarChartMarker
+														  "options" => array('populationhommes' => array(
+												                                "fillColor" => '#F0AD4E',
+												                                "minValue" => 0,
+												                                "maxValue" => 100,
+												                                "unity" => "%",
+												                                "title" => "<i class='fa fa-sun-o'></i> Population hommes"
+												                            ),
+																		  'populationfemmes' => array(
+																                                "fillColor" => '#27B128',
+																                                "minValue" => 0,
+																                                "maxValue" => 100,
+																                                "unity" => "%",
+																                                "title" => "<i class='fa fa-sun-o'></i> Population femmes"
+																                            )
+												                        )
+
+														),
+								/* valeurs données à afficher */
+								"chart" =>	array("type" => "FeatureCollection",
+			        							  "features" => 
+			        							 array(   array(  "type" => "Feature", 
+									 							   "id" => 4, 
+				 												   "populationhommes" => (($populationTotalHommesCity * 100) / $populationTotalCity),
+				 												   "populationfemmes" => (($populationTotalFemmesCity * 100) / $populationTotalCity), 
+				 												   "geometry" => array( "type" => "Point", 
+				 												   						"coordinates" => array($geo['longitude'], $geo['latitude']) )), //lng 1er, lat 2em
+									 
+			           			  					)	
+				        					),
+						),
+						array(  "name" => "Graph1",
+								  /* options d'affichage de chaque donnée */
+								"chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
 														  "maxHeight" => 120, //seulement pour BarChartMarker
 														  "options" => array('ensoleillement' => array(
