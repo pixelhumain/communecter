@@ -152,7 +152,7 @@
 				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
 				
 				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
-				$(this.cssModuleName + " .input-search-place").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width()});// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " .input-search-place").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
 
 				//alert($(this.cssModuleName + " .panel_map").width());
 			};
@@ -163,8 +163,13 @@
 					this.setFullScreen();
 				}
 				else{
-					var left = $(this.cssModuleName + " .panel_map").width() + 10;
+					var left = $("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20;
 					$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
+
+					var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+					$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
+					$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20});
+				
 				}
 			}
 			this.Sig.verifyPanelFilter = function (thisData){
@@ -336,7 +341,7 @@
 
 					if("undefined" != typeof thisData["chartOptions"]){
 						console.warn("--------------- LOAD CHART ---------------------");
-						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
+						this.addChart(thisData)
 					}
 					return false;
 				}
@@ -456,6 +461,8 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			console.warn("--------------- loadMap ---------------------");
+			console.log(canvasId);
+
 			//console.dir(initParams);
 			canvasId += initParams.sigKey;
 
@@ -472,7 +479,7 @@
 			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-				subdomains: 'abc',
+				//subdomains: 'abc',
 				minZoom: 0,
 				maxZoom: 20
 			});

@@ -19,7 +19,7 @@
 </style>
 <div id="newContributors">
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h1>Add contributor</h1>
+		<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
 		<form class="form-contributor" autocomplete="off">
 			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php echo (string)$project["_id"]; ?>'>
 			<div class="form-group" id="searchMemberSection">
@@ -29,7 +29,7 @@
 		           	</div>
 		           	<div class="col-md-11">
 		           		<span class="input-icon input-icon-right">
-				           	<input class="contributor-search form-control" placeholder="Search By name, email" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
+				           	<input class="contributor-search form-control" placeholder="<?php echo Yii::t("common", "Search By name, email") ?>" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
 				           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 				        		<ul class="dropdown-menu" id="dropdown_search" style="">
 									<li class="li-dropdown-scope">-</li>
@@ -98,13 +98,13 @@
 							</div>
 			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1">	
-									<a href="javascript:showSearchContributor()"><i class="fa fa-search"></i> Search</a>
+									<a href="javascript:showSearchContributor()"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
 								</div>
 							</div>
 							
 							<div class="form-group">
 								<div class="row">
-					    	        <button class="btn btn-primary" >Enregistrer</button>
+					    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
 					    	    </div>
 					    	</div>
 				    	</div>
@@ -217,9 +217,9 @@
 				}
 			},
 			messages : {
-				contributorName : "* Please specify your first name",
-				contributorType : "* Please select a type",
-				contributorEmail : "* Please enter an email"
+				contributorName : "* <?php echo Yii::t("common","Please specify your first name") ?>",
+				contributorType : "* <?php echo Yii::t("common","Please select a type") ?>",
+				contributorEmail : "* <?php echo Yii::t("common","Please enter an email") ?>"
 
 			},
 			invalidHandler : function(contributor, validator) {//display error alert on form submit
@@ -332,7 +332,7 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewContributorForm()'>Non trouvé ? Cliquez ici.</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewContributorForm()'><?php echo Yii::t("common","Not find ? Click here.")?></a></li>";
 		 			$.each(data, function(key, value) {
 		 				$.each(value, function(i, v){
 			 				name = (v.name) ? v.name.replace("'","ACCENT") : "";

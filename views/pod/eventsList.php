@@ -1,6 +1,6 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> EVENTS</h4>
+		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>

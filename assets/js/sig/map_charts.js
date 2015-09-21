@@ -9,7 +9,12 @@ SigLoader.getSigCharts = function (Sig){
 	Sig.chartsList = new Array();
 
 	//Permet de pré-charger une Chart
-	Sig.addChart = function(name, FeatureCollection, chartOptions){
+	Sig.addChart = function(thisData){
+
+		var name = thisData["name"];
+		var name_txt = thisData["name_text"];
+		var FeatureCollection = thisData["chart"];
+		var chartOptions =  thisData["chartOptions"];
 
 		console.log(">>>> BEFORE ADD CHART <<<<< "+name);
 		console.dir(FeatureCollection);
@@ -20,13 +25,29 @@ SigLoader.getSigCharts = function (Sig){
 		this.chartsList[name]["chartOptions"] = chartOptions;
 
 		var thisSig = this;
-		var btn = '<button type="button" class="btn btn-map" name="' + name + '" id="btn-chart-'+ name +'"><i class="fa fa-bar-chart-o"></i> '+ name +'</button>';
-		$("#btn-group-charts-map").append(btn);
+		//var btn = '<button type="button" class="btn btn-map" name="' + name + '" id="btn-chart-'+ name +'"><i class="fa fa-bar-chart-o"></i> '+ name +'</button>';
+		
+
+		var btn = '<div class="element-right-list">' +
+		    				'<button  name="' + name + '" id="btn-chart-'+ name +'" class="item_map_list">'
+		    					+ "<div class='left-col'>"
+		    					+ 	"<div class='thumbnail-profil'></div>"						
+		    					+ 	"<div class='ico-type-account'><i class='fa fa-bar-chart-o'></i></div>"
+		    					+ "</div>"
+								+ "<div class='right-col'>"
+								+ 	"<div class='info_item pseudo_item_map_list'>" + name_txt + "</div>"
+								+ "</div>"
+								+ "<div class='separation'></div>"
+							+"</button>"
+					+ "</div>";
+
+		//$("#btn-group-charts-map").append(btn);
+		$(this.cssModuleName + " #liste_map_element").append(btn);
+		
 		$("#btn-chart-"+ name).click(function(){ console.log("click on btn chart");
 			var name = $(this).attr("name");
 			thisSig.loadChart(name);
 		});
-
 	}
 	//***
 	// Permet d'afficher les éléments d'une 
@@ -111,7 +132,7 @@ SigLoader.getSigCharts = function (Sig){
             this.markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 100});
 			this.markersLayer.addLayer(geojsonLayer); 
 			this.map.addLayer(this.markersLayer);
-			
+			this.map.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 			console.warn(">>>> CHART LOADED <<<<<")
 		
 	};

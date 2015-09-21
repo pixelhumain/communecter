@@ -17,7 +17,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> fa-2x text-blue"></i> PROJECTS </h4>
+		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>

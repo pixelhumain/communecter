@@ -10,7 +10,7 @@
 		Sig.initEnvironnement = function (thisMap, params){
 
 			console.log("initParams");
-			//console.dir(params);
+			console.dir(params);
 
 	    	var thisSig = this;
 
@@ -23,10 +23,10 @@
 	    	//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.cssModuleName = ".sigModule" + params.sigKey;
 
-				//mémorise la clé utilisé pour cette instance
+			//mémorise la clé utilisé pour cette instance
 	    	thisSig.sigKey = params.sigKey;
 
-				//mémorise le nom (identifiant css classe) utilisé pour cette instance
+			//mémorise le nom (identifiant css classe) utilisé pour cette instance
 	    	thisSig.mapColor = params.mapColor;
 
 			//mémorise la liste des éléments non clusturisés
@@ -34,7 +34,7 @@
 
 			//initialise la position de la carte
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
-
+			
 			//TODO : définir les icons et couleurs de chaque type disponoble
 			thisSig.icoMarkersMap = { 		"default" 			: "user",
 
@@ -55,13 +55,13 @@
 
 			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"citoyen" 			: { ico : "user", color : "yellow" 	},
+										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
 
-											"event" 			: { ico : "calendar", color : "red" 		},
-											"events" 			: { ico : "calendar", color : "red" 		},
+											"event" 			: { ico : "calendar", color : "red" 	},
+											"events" 			: { ico : "calendar", color : "red" 	},
 											"meeting" 			: { ico : "calendar", color : "white" 	},
 
 											"project" 			: { ico : "lightbulb-o", color : "yellow" },
@@ -75,7 +75,6 @@
 											"citoyens" 		: { ico : "square", color : "green" },
 											"organization"  : { ico : "square", color : "blue" },
 											"citoyen" 		: { ico : "square", color : "yellow" },
-
 									  };*/
 
 			if(params.useRightList){
@@ -139,7 +138,9 @@
 				});
 			}
 
-			this.initFindPlace();
+			if(params.useResearchTools){
+				this.initFindPlace();
+			}
 
 		};
 

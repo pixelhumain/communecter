@@ -25,6 +25,14 @@ git checkout -b granddir-V.0.1 origin/granddir-V.0.1
 
 //Azot live branch
 git checkout -b azot-live-0.1 origin/azot-live-0.1
+
+
+git remote show origin
+If the remote branch you want to checkout is under "New remote branches" and not "Tracked remote branches" then you need to fetch them first:
+git remote update
+git fetch
+Now it should work:
+git checkout -b local-name origin/remote-name
 ----------------------------------------------------
 
 //SBA : 12/08/2015
