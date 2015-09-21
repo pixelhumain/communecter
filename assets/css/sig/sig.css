@@ -206,7 +206,6 @@ creer des conflits : regle pas assez specfique
 .element-right-list{
 	width:100%;
 	display:inline-block;
-	height:35px;
 }
 
 .item_map_list .left-col{
@@ -279,7 +278,7 @@ creer des conflits : regle pas assez specfique
 	border:0px white;
 }
 .item_map_list:hover{
-	background-color:d3d1d5;
+	background-color:#d3d1d5;
 }
 .ico_item_map_list{
 	float:left;

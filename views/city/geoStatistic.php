@@ -19,12 +19,13 @@
 	        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 
 	        /* MAP BUTTONS */
-	        "mapBtnBgColor" => '#E6D414',
-	        "mapBtnColor" => '#213042',
-	        "mapBtnBgColor_hover" => '#5896AB',
+	        //"mapBtnBgColor" => '#E6D414',
+	        //"mapBtnColor" => '#213042',
+	        //"mapBtnBgColor_hover" => '#5896AB',
 
 	        /* USE */
 	        "usePanel" => true,
+	        "useFilterType" => true,
 	        "titlePanel" => 'TAGS',
 	        "useRightList" => true,
 	        "useZoomButton" => true,
@@ -44,6 +45,7 @@
 	 
 	 	$charts =  array(/* 1ER GROUPE	*/
 						array(    "name" => "Graph1",
+								  "name_text" => "Mon graphique 1",
 								  /* options d'affichage de chaque donnée */
 								  "chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
@@ -102,6 +104,7 @@
 				        	),
 							/* 2EME GROUPE	*/
 							array("name" => "Graph2",
+								  "name_text" => "Mon graphique 2",
 								  /* options d'affichage de chaque donnée */
 								  "chartOptions"=> array( "type" => "RadialBarChartMarker",
 														  "radius" 	=> 25,
@@ -169,14 +172,10 @@
 
 	.<?php echo $moduleName; ?> .mapCanvas			{}
 	.<?php echo $moduleName; ?> .panel_map			{
-		background-color:rgba(255, 255, 255, 0.83) !important;
 	}
 	.<?php echo $moduleName; ?> .item_panel_map			{
-		background-color:rgba(0, 0, 0, 0) !important;
-		color:#7A7A7A !important;
 	}
 	.<?php echo $moduleName; ?> .item_panel_map:hover	{
-		background-color:rgba(0, 0, 0, 0.04) !important;
 	}
 
 	.<?php echo $moduleName; ?> #right_tool_map		{}

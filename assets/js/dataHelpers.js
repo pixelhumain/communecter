@@ -45,6 +45,23 @@ function getCitiesByPostalCode(postalCode, selectType) {
 	return result;
 }
 
+/** added by tristan **/
+function getCitiesGeoPosByPostalCode(postalCode, selectType) {
+	var result =new Array();
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/opendata/getcitiesgeoposbypostalcode/",
+		data: {postalCode: postalCode},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: function(data) { console.dir(data);
+			result.push(data);
+		}
+	});
+	return result;
+}
+
 function addCustomValidators() {
 	//Validate a postalCode
 	jQuery.validator.addMethod("validPostalCode", function(value, element) {

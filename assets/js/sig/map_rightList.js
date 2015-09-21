@@ -143,38 +143,10 @@
 			var name = (element['name'] != null) ? element['name'] : "Anonyme";
 
 			//récupère l'url de l'icon a afficher
-			//var iconUrl = this.getIcoMarker(element['type']).options.iconUrl;
-
 			var ico = thisSig.getIcoByType(element["type"]);
 			var color = thisSig.getIcoColorByType(element["type"]);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
-
-			/*var dropDown  = '';
-			if("undefined" != typeof element["tags"])
-			{
-				dropDown  = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey pull-right" data-toggle="dropdown"><i class="fa fa-tag"></i> <i class="fa fa-angle-down"></i> </a>';
-				dropDown += '<ul role="menu" class="dropdown-menu dropdown-light pull-right dropdown-item-right-list">';
-
-				$.each(element["tags"], function(){
-					ico = thisSig.getIcoNameByTag(this);
-					color = thisSig.getIcoColorByTag(this);
-
-					dropDown += '<li><a href="#"> <i class="fa fa-'+ ico + ' fa-'+ color +'"></i> <span>'+element["tags"]+'</span> </a></li>';
-					//dropDown += '<i class="fa fa-'+ ico + ' fa-'+ color +' pull-right"></i>';
-				});
-
-				dropDown += '</ul>';
-			}*/
-
-		/*	var dropDown = '<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown"><i class="fa fa-cog"></i> </a>
-				            <ul role="menu" class="dropdown-menu dropdown-light pull-right">
-				              <li><a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a></li>
-				              <li><a href="#" class="panel-refresh"> <i class="fa fa-refresh"></i> <span>Refresh</span> </a></li>
-				              <li><a data-toggle="modal" href="#panel-config" class="panel-config"> <i class="fa fa-wrench"></i> <span>Configurations</span></a></li>
-				              <li><a href="#" class="panel-expand"> <i class="fa fa-expand"></i> <span>Fullscreen</span></a></li>
-				            </ul>';
-		*/
 
 			//return l'élément html
 		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
@@ -206,13 +178,6 @@
 						if("undefined" != typeof element['telephone'])
 						button	+= 	"<div class='info_item telephone_item_map_list'>" + element['telephone'] + "</div>";
 						
-						/*if("undefined" != typeof element['links']){
-							button	+= 	"<div class='items_map_list'>";
-							$.each(element['tags'], function(index, value){
-								button	+= 	"<div class='link_item_map_list'>" + value + "</div>";
-							});
-							button	+= 	"</div>";
-						}*/
 				button += 	'</div><div class="separation"></div>';
 				
 				button += 	'</button>' +
@@ -224,6 +189,7 @@
 			//toastr.success(JSON.stringify(name + " " + markerPosition));
 		};
 
+		
 		Sig.changePagination(1);
 
 		return Sig;
