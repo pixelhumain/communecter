@@ -111,6 +111,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
+							
+							
+							<div class="form-group">
+								<label class="control-label">
+									<?php echo Yii::t("common","Interests") ?>
+								</label>
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
+			        		    
+							</div>
+
 						</div>
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
@@ -136,23 +146,85 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 									</select>
 								</div>
 							</div>
-
-							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Interests") ?>
-								</label>
-								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
-							</div>
+		
+							
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
+
+							
+							<div class="form-group hidden" id="sig_position">
+							
+								<?php 
+									//modifier l'url relative si besoin pour trouver communecter/view/sig/
+									$relativePath = "../sig/";
+									
+								   	//modifier les parametre en fonction des besoins de la carte
+									$sigParams = array(
+								        "sigKey" => "CityOrga",
+
+								        /* MAP */
+								        "mapHeight" => 235,
+								        "mapTop" => 0,
+								        "mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
+								        "mapOpacity" => 0.6, //ex : 0.4
+
+								        /* MAP LAYERS (FOND DE CARTE) */
+								        "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+								        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+
+								        /* MAP BUTTONS */
+								        //"mapBtnBgColor" => '#E6D414',
+								        //"mapBtnColor" => '#213042',
+								        //"mapBtnBgColor_hover" => '#5896AB',
+
+								        /* USE */
+								        "titlePanel" 		 => '',
+								        "usePanel" 			 => false,
+								        "useFilterType" 	 => false,
+								        "useRightList" 		 => false,
+								        "useZoomButton" 	 => true,
+								        "useHomeButton" 	 => false,
+								        "useHelpCoordinates" => false,
+								        "useFullScreen" 	 => false,
+								        "useResearchTools" 	 => false,
+								        "useChartsMarkers" 	 => false,
+
+								        "notClusteredTag" 	 => array(),
+								        "firstView"		  	 => array(  "coordinates" => array(-21.137453135590444, 55.54962158203125),
+	        														 	"zoom"		  => 14),
+								    );
+								 
+									/* ***********************************************************************************/
+									//chargement de toutes les librairies css et js indispensable pour la carto
+							    	$this->renderPartial($relativePath.'generic/mapLibs', array("sigParams" => $sigParams)); 
+							    	//$moduleName = "sigModule".$sigParams['sigKey'];
+
+									/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
+								   	//chargement de toutes les librairies css et js indispensable pour la carto
+								  	//$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+									//$this->renderPartial('addOrganizationMap'); var_dump($sigParams); die();
+								?>
+								<style>
+								.leaflet-map-pane{
+									top:0 !important;
+								}
+								</style>
+								<?php //$this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
+								<div class="alert alert-info hidden">
+									Pour un placement plus précis, déplacez votre icône sur la carte.
+								</div>	
+								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
+								</div>	
+							<!-- <div class="col-md-12"> -->
+							
+							
+
 						</div>
 						<div class="row">
 							<div class="col-md-12">
