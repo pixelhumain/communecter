@@ -246,6 +246,8 @@ jQuery(document).ready(function() {
 
 	if( activeType != "")
 		 $('.filter'+activeType).trigger("click");
+
+	initMap();
 });
 
 function initGrid(){
@@ -295,4 +297,22 @@ function bindBtnEvents(){
 			})
 	})
 }
+
+<?php 
+	$contextMap = array();
+	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
+	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
+	if(isset($events)) 			$contextMap = array_merge($contextMap, $events);
+	if(isset($projects)) 		$contextMap = array_merge($contextMap, $projects);
+?>
+function initMap(){
+	var mapData = <?php echo json_encode($contextMap) ?>;
+	console.log("contextMap");
+	console.dir(mapData);
+	//affichage des éléments sur la carte
+	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+}
 </script>
+
+
+

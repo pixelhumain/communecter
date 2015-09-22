@@ -86,7 +86,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
         <?php //showPanel('box-event',null,'EVENTS','calendar') ?>
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
         <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
-        <br/><br/><a href="#" onclick="toastr.success('back as map!');" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showMap(true)" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
         <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>
     </div>
 </div>
