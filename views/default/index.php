@@ -77,14 +77,14 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 **************************** */?>
 <div class="center text-white" style="z-index:1;position:absolute; top:50px; left:25px;" >
     <div class="center text-white pull-left">
-        <a href="#" onclick="showPanel('box-login',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-home fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
+        <a href="#"  id="filter-menu-all" onclick="showPanel('box-login',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-home fa-2x"></i></a>
+        <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
         <?php //onclick="showPanel('box-people',null,'PEOPLE','user')" ?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="text-white"><i class="fa fa-users fa-2x"></i></a>
+        <br/><br/><a href="#" id="filter-menu-organizations" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="text-white"><i class="fa fa-users fa-2x"></i></a>
         <?php //showPanel('box-orga',null,'ORGANIZATIONS','users') ?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-calendar fa-2x"></i></a>
+        <br/><br/><a href="#" id="filter-menu-events" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-calendar fa-2x"></i></a>
         <?php //showPanel('box-event',null,'EVENTS','calendar') ?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
+        <br/><br/><a href="#" id="filter-menu-projects" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
         <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
         <br/><br/><a href="#" onclick="showMap(true)" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
         <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>

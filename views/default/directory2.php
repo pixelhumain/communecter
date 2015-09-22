@@ -43,6 +43,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
+	#btn-close-panel {
+	    position: absolute;
+	    right: 25px;
+	    top: 20px;
+	    font-size: 20px;
+	}
 </style>
 <div class="row">
 	<div class="col-md-12">
@@ -66,6 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
+					<button class="button button-primary pull-right" id="btn-close-panel"><i class="fa fa-close"></i></button>
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -247,6 +254,16 @@ jQuery(document).ready(function() {
 	if( activeType != "")
 		 $('.filter'+activeType).trigger("click");
 
+	$('#btn-close-panel').click(function(){
+		if( $('#Grid').css("display") != "none"){
+			$('#Grid').hide("fast");
+			$('#btn-close-panel').html('<i class="fa fa-plus"></i>');
+		}else{
+			$('#Grid').show("fast");
+			$('#btn-close-panel').html('<i class="fa fa-close"></i>');
+		}
+	});
+
 	initMap();
 });
 
@@ -311,6 +328,50 @@ function initMap(){
 	console.dir(mapData);
 	//affichage des éléments sur la carte
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	
+	//EVENT MENU PRINCIPAL
+	$("#filter-menu-persons").click(function(){
+		var mapData = <?php echo json_encode($people) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-organizations").click(function(){
+		var mapData = <?php echo json_encode($organizations) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-events").click(function(){
+		var mapData = <?php echo json_encode($events) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-projects").click(function(){
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	
+	
+	//EVENT MENU PANEL
+	$(".filterorganizations").click(function(){
+		var mapData = <?php echo json_encode($organizations) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterpersons").click(function(){
+		var mapData = <?php echo json_encode($people) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterevents").click(function(){
+		var mapData = <?php echo json_encode($events) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterprojects").click(function(){
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	//EVENT MENU PANEL - ALL
+	$(".filter").click(function(){
+		if($(this).attr("data-filter") == "all"){
+			var mapData = <?php echo json_encode($contextMap) ?>;
+			Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		}
+	});
 }
 </script>
 
