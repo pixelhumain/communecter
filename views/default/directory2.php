@@ -168,12 +168,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							if( isset($e["address"]) && isset( $e["address"]['region']) )
 								$scopesClasses .= ' '.$e["address"]['region'];
 
+							//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+							$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
+							$url = "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )";
+
 							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 								'<div class="portfolio-item">'.
 									'<div class="imgDiv">'.$img.'</div>'.
-									'<div class="detailDiv"><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'" class="thumb-info"  >'.
-										((isset($e["name"]))? $e["name"]:"").
-									'</a>';
+									'<div class="detailDiv"><a href="#" onclick="'.$url.'" class="thumb-info"  >'.$name.'</a>';
 							
 							/* **************************************
 							* EMAIL for admin use only
@@ -210,7 +212,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								$strHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
 								if( !in_array($e["address"]['region'], $scopes['region']) ) 
 									array_push($scopes['region'], $e["address"]['region'] );
-							}	
+							}
 						//$strHTML .= '<div class="tools tools-bottom"><i class="fa fa-trash-o"></i></div>';
 						$strHTML .= '</div></li>';
 						echo $strHTML;
@@ -252,13 +254,13 @@ function initGrid(){
 	if( $(".mix").length ){
 		bindBtnEvents();
 		$('#Grid').mixItUp();
-		$('.portfolio-item .chkbox').bind('click', function () {
+		/*$('.portfolio-item .chkbox').bind('click', function () {
 	        if ($(this).parent().hasClass('selected')) {
 	            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');
 	        } else {
 	            $(this).parent().addClass('selected').children('a').children('img').addClass('selected');
 	        }
-	    });
+	    });*/
 	}else{
 		var htmlDefault = "<div class='center'>"+
 							"<i class='fa fa-picture-o fa-5x text-blue'></i>"+

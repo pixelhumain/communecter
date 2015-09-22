@@ -1,9 +1,27 @@
 <script type="text/javascript">
 	var  activePanel = "box-login";
 	var  bgcolorClass = "bgblack";
+	var navHistory = null;
+	var prevNav = null;
 
 	function showPanel(box,bgStyle,title,icon){
 		
+		if( navHistory != null)
+			prevNav = {
+				func : "showPanel",
+				box : navHistory.box,
+				bgStyle :navHistory.bgStyle ,
+				title : navHistory.title ,
+				icon : navHistory.icon 
+			};
+		navHistory = {
+			func : "showPanel",
+			box : box,
+			bgStyle :bgStyle ,
+			title : title ,
+			icon : icon 
+		};
+
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
 		$('.'+activePanel+", .panelTitle").hide();
@@ -45,12 +63,37 @@
 			$(".partnerLogosUp").show().addClass("animated zoomInUp");
 		}
 	}
-	function showAjaxPanel (url,title,icon) { 
+	function showAjaxPanel (url,title,icon) 
+	{ 
+		if( navHistory != null)
+			prevNav = {
+			func : "showAjaxPanel",
+			url : navHistory.url , 
+			title : navHistory.title ,
+			icon : navHistory.icon };
+		navHistory = {
+			func : "showAjaxPanel",
+			url : url , 
+			title : title ,
+			icon : icon };
+		console.log("showAjaxPanel",url,title,icon);
 		$(".ajaxForm").hide();
 		showPanel('box-ajax');
-		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
+		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
+		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
 		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+	}
+	function gotToPrevNav()
+	{
+		console.dir( prevNav );
+		if(prevNav != null)
+		{
+			if( prevNav.func == "showAjaxPanel" )
+				showAjaxPanel( prevNav.url, prevNav.title, prevNav.icon );
+			else if( prevNav.func == "showPanel" )
+				showPanel( prevNav.box, prevNav.bgStyle, prevNav.title, prevNav.icon );
+		}
 	}
 	function showHideMenu () { 
 		console.log("open showHideMenu" );
