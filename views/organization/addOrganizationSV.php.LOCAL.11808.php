@@ -12,8 +12,33 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 $cssAnsScriptFilesModule = array(
 	//Data helper
-	'/js/dataHelpers.js'
-);
+	'/js/dataHelpers.js',
+
+	'/css/sig/leaflet/leaflet.css',
+	'/css/sig/leaflet/leaflet.draw.css',
+	'/css/sig/leaflet/leaflet.draw.ie.css',
+	'/css/sig/leaflet/MarkerCluster.css',
+	'/css/sig/leaflet/MarkerCluster.Default.css',
+	'/css/sig/leaflet/leaflet.awesome-markers.css',
+	'/css/sig/sig.css',
+
+	'/js/sig/leaflet/leaflet.js',
+	'/js/sig/leaflet/leaflet.draw-src.js',
+	'/js/sig/leaflet/leaflet.draw.js',
+	'/js/sig/leaflet/leaflet.markercluster-src.js',
+	'/js/sig/leaflet/leaflet.awesome-markers.min.js',
+
+	'/js/sig/map.js' , 
+	'/js/sig/map_initializer.js' ,
+	'/js/sig/map_panel.js' ,
+	'/js/sig/map_popupContent.js' ,
+	'/js/sig/map_rightList.js' ,
+	'/js/sig/map_findPlace.js' ,
+	'/js/sig/map_findPlace.js' ,
+	'/js/sig/map_charts.js',
+
+	
+	);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
@@ -46,13 +71,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         	<div class="panel-heading border-light">
 				<?php if( !@$isNotSV ){ ?>
 					<h1>Référencer votre organization</h1>
-					<h1><?php echo Yii::t("organisation","Reference your organization",null,Yii::app()->controller->module->id); ?></h1>
 			    <?php } ?>
 			    <p>Si vous gérer une ou plusieurs organisations ou etes simplement membre d'une organization :
 			    <br/>vous êtes au bon endroit pour la valoriser, la diffuser, l'aider à la faire vivre.
 			    <br/>Vérifier l'existance de l'organisation en saisissant son nom ou son email dans le champs de recherche.</p>
-			    <p><?php echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?></p>
-
 			</div>
 		</div>
 		<div class="panel-body">
@@ -74,7 +96,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				           	<div class="col-md-6">
 				           		<span class="input-icon input-icon-right">
 						           	<input class="organization-search form-control" placeholder="Search by name or email" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
-						           	<input class="organization-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email")?>" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 						        		<ul class="dropdown-menu" id="dropdown_search" style="">
 											<li class="li-dropdown-scope">-</li>
@@ -90,7 +111,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="form-group">
 								<label class="control-label">
 									Nom (Raison Sociale) <span class="symbol required"></span>
-									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
 								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
 							</div>
@@ -140,7 +160,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="form-group">
 								<label class="control-label">
 									Pays <span class="symbol required"></span>
-									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
@@ -149,7 +168,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
 										Code postal <span class="symbol required"></span>
-										<?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									
@@ -157,29 +175,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
 										Ville <span class="symbol required"></span>
-										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
 									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
-									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
 
 										
-							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Interests") ?>
-								</label>
-								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<div>
-									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
-								</div>
 							</div>
 							<div class="form-group hidden" id="sig_position">
 							
@@ -256,7 +257,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="col-md-12">
 								<div>
 									<span class="symbol required"></span>Required Fields
-									<span class="symbol required"></span><?php echo Yii::t("common","Required Fields") ?>
 									<hr>
 								</div>
 							</div>
@@ -264,9 +264,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<button class="btn btn-primary" id="btnSaveNewOrganization">Save</button>
 						<button class="btn btn-primary" id="btnAddMeAsMemberOf">Add Me as member Of</button>
 						<a href="javascript:showSearch()"><i class="fa fa-search"></i>Back to Seach</a>
-						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
-						<button class="btn btn-primary" id="btnAddMeAsMemberOf"><?php echo Yii::t("organisation","Add Me as member Of",null,Yii::app()->controller->module->id); ?></button>
-						<a href="javascript:showSearch()"><i class="fa fa-search"></i><?php echo Yii::t("common","Back to Search")?></a>
 					</div>
 				</div>
 			</form>
@@ -429,7 +426,6 @@ jQuery(document).ready(function() {
 	        	}else{
 					organizationList = data.list;
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
-					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'><?php echo Yii::t("common","Not find ? Click here.") ?></a></li>";
 		 			$.each(data.list, function(key, value) {
 		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
 		  			}); 

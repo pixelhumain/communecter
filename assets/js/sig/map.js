@@ -159,6 +159,8 @@
 
 			this.Sig.constructUI = function()
 			{
+				if(this.initParameters.useFullPage){ return; }
+
 				if(this.initParameters.useFullScreen){
 					this.setFullScreen();
 				}
