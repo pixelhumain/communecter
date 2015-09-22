@@ -83,11 +83,13 @@ SigLoader.getSigFindPlace = function (Sig){
 		$('#list-dropdown-find-place').css({'display':'block'});
 
 		var urlRequest = this.getNominatimRequest(nbTentative);
-
+		console.log(urlRequest);
 		$.ajax({
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
 			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
+    		dataType: 'json',
+    		//crossDomain: true,
 			complete: function () { },
 			success: function (obj)
 			{
@@ -129,7 +131,10 @@ SigLoader.getSigFindPlace = function (Sig){
 				}
 			},
 			error: function (error) {
-				alert('erreur nominatim ajax jquery (map_findPlace.js)');
+				var itemDropbox = '<li style="width:100%;"><a href="#"><i class="fa fa-exclamation-circle"></i> Erreur nominatim ajax jquery</a></li>';
+				$(thisSig.cssModuleName + " #list-dropdown-find-place").html(itemDropbox);
+						
+				//alert('erreur nominatim ajax jquery (map_findPlace.js)');
 			}
 		});
 	};
@@ -142,6 +147,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		function transform(str){ //alert(newValue);
 			var res = "";
+			//remplace les espaces par des +
 			for(var i = 0; i<str.length; i++){
 				res += (str.charAt(i) == " ") ? "+" : str.charAt(i);
 			}

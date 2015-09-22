@@ -94,27 +94,28 @@
 		<?php } ?>
 
 		<div class="btn-group-map">
-			<div class="btn-group btn-group-lg">		
-				<?php if($sigParams['useZoomButton']){ ?>
+		
+			<?php if($sigParams['useZoomButton']){ ?>
+				<div class="btn-group btn-group-lg">		
 					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
 					<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
-				<?php } ?>
-			</div>
-			<div class="btn-group btn-group-lg">
-				<?php if($sigParams['useHomeButton']){ ?>
+				</div>
+			<?php } ?>
+			<?php if($sigParams['useHomeButton']){ ?>
+				<div class="btn-group btn-group-lg">
 					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-location-arrow"></i></button>
-				<?php } ?>	
-			</div>
-			<div class="btn-group btn-group-lg" id="btn-tags">
-				<?php if($sigParams['usePanel']){ ?>
+				</div>
+			<?php } ?>	
+			<?php if($sigParams['usePanel']){ ?>
+				<div class="btn-group btn-group-lg" id="btn-tags">
 					<button type="button" class="btn btn-map" id="btn-panel"><i class="fa fa-tags"></i></button>
-				<?php } ?>	
 			</div>	
-			<div class="btn-group btn-group-lg" id="btn-filter">
-				<?php if(@$sigParams['useFilterType']){ ?>
+			<?php } ?>
+			<?php if(@$sigParams['useFilterType']){ ?>
+				<div class="btn-group btn-group-lg" id="btn-filter">
 					<button type="button" class="btn btn-map" id="btn-filters"><i class="fa fa-filter"></i></button>
-				<?php } ?>	
-			</div>
+				</div>
+			<?php } ?>	
 			
 		</div>
 	<?php if($sigParams['useFullScreen']){ ?>
