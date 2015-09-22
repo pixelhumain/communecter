@@ -50,13 +50,9 @@
 	        var btnClick = $(this);
 	        var idToDisconnect = $(this).data("id");
 	        var typeToDisconnect = $(this).data("type");
-	        var ownerLink = $(this).data("ownerlink");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/"+ownerLink;
-	        if("undefined" != typeof $(this).data("targetlink")){
-	        	var targetLink = $(this).data("targetlink");
-	        	urlToSend += "/targetLink/"+targetLink;
-	        }
-
+	        var attendeeId = $(this).data("attendee-id");
+	        var urlToSend = baseUrl+"/"+moduleId+"/event/removeattendee/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/attendeeId/"+attendeeId;
+	        
 	        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
 	        	function(result) {
 					if (!result) {
@@ -73,9 +69,9 @@
 				    {
 				        if ( data && data.result ) {
 				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-				        	$("#"+typeToDisconnect+idToDisconnect).remove();
+				        	$("#attendee"+attendeeId).remove();
 				        	$("#linkBtns").empty();
-		        			$("#linkBtns").html("<a href='javascript:;' class='connectBtn tooltips ' id='addAttendingRelation' data-placement='top' data-ownerlink='"+ownerLink+"' data-original-title='I attendee to this event' ><i class=' connectBtnIcon fa fa-link '></i>ATTENDING</a></li>");
+		        			$("#linkBtns").html("<a href='javascript:;' class='attendeeMeBtn tooltips ' id='addAttendingRelation' data-placement='top' data-attendee-id='<?php echo Yii::app()->session["userId"];?>' data-original-title='I attendee to this event' ><i class='connectBtnIcon fa fa-link '></i>ATTENDING</a></li>");
 		        			bindBtnFollow();
 				        } else {
 				           toastr.info("something went wrong!! please try again.");
@@ -87,16 +83,11 @@
 
 		});
 
-		$(".connectBtn").off().on("click",function () {
+		$(".attendeeMeBtn").off().on("click",function () {
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
-			var idConnect = "<?php echo (string)$event['_id'] ?>";
-			var ownerLink = $(this).data("ownerlink");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Event::COLLECTION ?>/ownerLink/"+ownerLink;
-	        if("undefined" != typeof $(this).data("targetlink")){
-	        	var targetLink = $(this).data("targetlink");
-	        	urlToSend += "/targetLink/"+targetLink;
-	        }
-
+			var idEvent = "<?php echo (string)$event['_id'] ?>";
+			var idAttendee = $(this).data("attendee-id");
+	        var urlToSend = baseUrl+"/"+moduleId+"/event/saveattendees/idEvent/"+idEvent+"/attendeeId/"+idAttendee;
 			$.ajax({
 		        type: "POST",
 		        url: urlToSend,
@@ -105,16 +96,31 @@
 		    .done(function (data)
 		    {
 		        if ( data && data.result ) {
-		        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
-		        	$(".connectBtn").fadeOut();
+		        	toastr.info(data.msg);
+		        	$(".attendeeMeBtn").fadeOut();
 		        	$("#linkBtns").empty();
-		        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["name"]+" 'data-id='"+contextMap["_id"]["$id"]+"' data-type='<?php echo Event::COLLECTION ?>' data-ownerlink='"+ownerLink+"' data-placement='top' data-original-title='I no more attending' ><i class='disconnectBtnIcon fa fa-unlink'></i>NO ATTENDING</a>")
+		        	$("#linkBtns").html("<a href='javascript:;' class='disconnectBtn text-red tooltips' data-name='"+contextMap["name"]+" 'data-id='"+contextMap["_id"]["$id"]+"' data-type='<?php echo Event::COLLECTION ?>' data-attendee-id='"+idAttendee+"' data-placement='top' data-original-title='I no more attending' ><i class='disconnectBtnIcon fa fa-unlink'></i>NO ATTENDING</a>")
 		        	bindBtnFollow();
+		        	addAttendeeToTabe(idAttendee,data.attendee);
 		        } else {
 		           toastr.info("something went wrong!! please try again.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 		        }
 		    });
 		});
+	}
+	var addAttendeeToTabe = function(id,attendee){
+		trHtml='<tr id="attendee'+id+'">'+
+					'<td class="center">';
+					if (attendee.length > 0 && typeof(attendee.imagePath) != "undefined")
+						trHtml += '<img width="50" height="50"  alt="image" class="img-circle" src="'+attendee.imagePath+'">';
+					else 
+						trHtml += '<i class="fa fa-smile-o fa-2x"></i>';
+					trHtml += '</td>'+
+					'<td>'+
+						'<span class="text-large">'+attendee.name+'</span><a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+id+'" class="btn"><i class="fa fa-chevron-circle-right"></i></a>'+
+					'</td>'+
+				'</tr>';
+		$("#attendeeTable").append(trHtml);
 	}
 </script>
