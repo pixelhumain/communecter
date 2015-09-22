@@ -1,10 +1,10 @@
 <?php
-$cs = Yii::app()->getClientScript();
 
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/mixitup/src/jquery.mixitup.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js' , CClientScript::POS_END);
+$cssAnsScriptFilesModule = array(
+	'/plugins/mixitup/src/jquery.mixitup.js' 
+);
+
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -19,11 +19,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 
 	.mix{ 
 		height: 150px;
-		/*width: 23.5%;*/
+		width: 23.5%;
 		background-color: white;
 		display: inline-block;
-		border:1px solid #666
-		/*margin-right : 1.5%;*/
+		border:1px solid #666;
+		margin-right : 1.5%;
 	}
 	.mix a{
 		color:black;
@@ -32,6 +32,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 	.mix .imgDiv{
 		float:left;
 		width:25%;
+		background: ;
 		margin-top:25px;
 	}
 	.mix .detailDiv{
@@ -41,29 +42,28 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 		padding-left:15px;
 		text-align: left;
 	}
-	.mix .text-xss{font-size: 10px;}
+	.mix .text-xss{ font-size: 10px; }
 </style>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-transparent">
 			<div class="panel-body">
 				<div class="controls">
-					<h5>Filter Controls</h5>
 					<ul class="nav nav-pills">
 						<li class="filter active" data-filter="all">
 							<a href="#">Show All</a>
 						</li>
-						<li class="filter" data-filter=".person">
-							<a href="#"><i class="fa fa-user"></i> People</a>
+						<li class="filter " data-filter=".citoyens">
+							<a href="#" class="filterpersons"><i class="fa fa-user"></i> People <?php echo "(".count($people).")";  ?></a>
 						</li>
-						<li class="filter" data-filter=".organization">
-							<a href="#"><i class="fa fa-users"></i> Organizations</a>
+						<li class="filter" data-filter=".organizations">
+							<a href="#" class="filterorganizations"><i class="fa fa-users"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
 						</li>
-						<li class="filter" data-filter=".event">
-							<a href="#"><i class="fa fa-calendar"></i> Events</a>
+						<li class="filter" data-filter=".events">
+							<a href="#"  class="filterevents"><i class="fa fa-calendar"></i> Events <?php echo "(".count($events).")";  ?></a>
 						</li>
-						<li class="filter" data-filter=".project">
-							<a href="#"><i class="fa fa-lightbulb-o"></i> Project</a>
+						<li class="filter" data-filter=".projects">
+							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
 				</div>
@@ -168,10 +168,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 							if( isset($e["address"]) && isset( $e["address"]['region']) )
 								$scopesClasses .= ' '.$e["address"]['region'];
 
-							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$type.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
+							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 								'<div class="portfolio-item">'.
 									'<div class="imgDiv">'.$img.'</div>'.
-									'<div class="detailDiv"><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'" class="thumb-info" data-lightbox="all" >'.
+									'<div class="detailDiv"><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'" class="thumb-info"  >'.
 										((isset($e["name"]))? $e["name"]:"").
 									'</a>';
 							
@@ -183,7 +183,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 							/* **************************************
 							* TAGS
 							***************************************** */
-							$strHTML .= '<div class="tools tools-bottom">';
+							$strHTML .= '</div>';
 							if(isset($e["tags"])){
 								foreach ($e["tags"] as $key => $value) {
 									$strHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
@@ -211,8 +211,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 								if( !in_array($e["address"]['region'], $scopes['region']) ) 
 									array_push($scopes['region'], $e["address"]['region'] );
 							}	
-
-						$strHTML .= '</div></div></div></li>';
+						//$strHTML .= '<div class="tools tools-bottom"><i class="fa fa-trash-o"></i></div>';
+						$strHTML .= '</div></li>';
 						echo $strHTML;
 					}
 					?>
@@ -235,6 +235,8 @@ var itemId = "";
 var itemType = "";
 var controllerId = ""
 
+var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
+
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = [];
 
@@ -242,51 +244,13 @@ jQuery(document).ready(function() {
 	
 	initGrid();
 
-
-	$("#backToDashboardBtn").off().on("click", function(){
-		document.location.href=baseUrl+"/"+moduleId+"/"+controllerId+"/dashboard/id/"+itemId;
-	})
+	if( activeType != "")
+		 $('.filter'+activeType).trigger("click");
 });
 
 function initGrid(){
-	console.log(images);
-	j = 1;
-	$.each(images, function(k, v){
-		j++;
-		
-		if($.inArray(k, tabButton)==-1){
-			tabButton.push(k);
-			var liHtml = '<li class="filter" data-filter=".'+k+'">'+
-							'<a href="#">' + mapButton[k] + '</a>'+
-						 '</li>';
-			$(".nav-pills").append(liHtml);
-		}
-		//$.each(v, function(docId, document) {
-		for(var i = 0; i<v.length; i++){
-			var htmlBtn = "";
-			if(authorizationToEdit){
-				htmlBtn= ' <div class="tools tools-bottom">' +
-								' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
-									' <i class="fa fa-trash-o"></i>'+
-								' </a>'+
-							' </div>'
-			}
-			var path = baseUrl+v[i]["imageUrl"];
-			var htmlThumbail = '<li class="col-md-3 col-sm-6 col-xs-12 mix '+k+' gallery-img" data-cat="1" id="'+v[i]["_id"]["$id"]+'">'+
-						' <div class="portfolio-item">'+
-							' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="all">'+
-								' <img src="'+path+'" class="img-responsive" alt="">'+
-								' <span class="thumb-info-title">'+k+'</span>' +
-							' </a>' +
-							' <div class="chkbox"></div>' +
-							htmlBtn +
-						' </div>' +
-					'</li>' ;
-			$("#Grid").append(htmlThumbail);
-		}
-	})
-	if(j>0){
-		bindBtnGallery();
+	if( $(".mix").length ){
+		bindBtnEvents();
 		$('#Grid').mixItUp();
 		$('.portfolio-item .chkbox').bind('click', function () {
 	        if ($(this).parent().hasClass('selected')) {
@@ -304,7 +268,7 @@ function initGrid(){
 	}
 }
 
-function bindBtnGallery(){
+function bindBtnEvents(){
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");
 		var imageName= $(this).data("name");

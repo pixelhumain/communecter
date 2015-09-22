@@ -196,30 +196,31 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 			<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
 		</div>
 	</div>
+
 </div>
 
 
-<div class="eventMarker" style="z-index:1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
+<div class="eventMarker" style="z-index:-1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
 	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
 </div>
-<div class="cityMarker" style="z-index:1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
+<div class="cityMarker" style="z-index:-1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
 </div>
-<div class="projectMarker" style="z-index:1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
+<div class="projectMarker" style="z-index:-1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
 	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
 </div>
-<div class="assoMarker" style="z-index:1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
+<div class="assoMarker" style="z-index:-1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
 	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
 </div>
-<div class="userMarker" style="z-index:1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
+<div class="userMarker" style="z-index:-1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
 </div>
-<div class="connectMarker text-white" style="z-index:1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
+<div class="connectMarker text-white" style="z-index:-1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
 	<i class="fa fa-sign-in fa-2x"></i> 
 	<span class="homestead connectlabel" style="display:none;color:white;font-size:25px"> CONNECT</span>
 </div>
@@ -241,7 +242,6 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
 <?php /* ?>
-
 http://habibhadi.com/lab/svgPathAnimation/demo/
 http://jonobr1.github.io/two.js/#basic-usage
 http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
@@ -268,6 +268,7 @@ svg.graph .line {
   <path class="line" d=" M 0 0 L 330 100"></path>
 </svg>
 */?>
+
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
