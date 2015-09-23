@@ -611,7 +611,7 @@ var Login = function() {
 		var errorHandler3 = $('.errorHandler', form3);
 		var createBtn = null;
 		$("#email3").keyup(function(event){
-			if (event.which==32){
+			if (event.which==32 || event.which==86){
 				var txt=$(this).val();
 				$(this).val(txt.trim());
 			}
