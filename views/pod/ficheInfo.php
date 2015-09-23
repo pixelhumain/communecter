@@ -1,20 +1,20 @@
 <?php 
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css');
+$cssAnsScriptFilesModule = array(
+	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/x-editable/js/bootstrap-editable.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/plugins/wysihtml5/wysihtml5.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
-	//X-editable...
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
-
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
-
-	//Data helper
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
-	//X-Editable postal Code
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
+$cssAnsScriptFilesModule = array(
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 
@@ -98,10 +98,10 @@
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
 			<div class="col-sm-6 col-xs-6">
-				<h1> Activités</h1>
+				<h3> Activités</h3>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<h1> Thématiques</h1>
+				<h3> Thématiques</h3>
 			</div>
 		</div>
 		<div class="row">
@@ -117,7 +117,7 @@
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
 			<div class="col-sm-12 col-xs-12">
-				<h1> Public</h1>
+				<h3> Public</h3>
 			</div>
 		</div>
 		<div class="row">

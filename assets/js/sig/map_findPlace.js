@@ -88,7 +88,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
 			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
-    		dataType: 'jsonp',
+    		dataType: 'json',
     		//crossDomain: true,
 			complete: function () { },
 			success: function (obj)

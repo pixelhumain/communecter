@@ -33,6 +33,7 @@ class OrganizationController extends CommunecterController {
 		'addneworganizationasmember'	=> 'citizenToolKit.controllers.organization.AddNewOrganizationAsMemberAction',
 		'dashboard'						=> 'citizenToolKit.controllers.organization.DashboardAction',
 		'dashboard1'					=> 'citizenToolKit.controllers.organization.Dashboard1Action',
+		'detail'						=> 'citizenToolKit.controllers.organization.DetailAction',
 		'dashboardmember'				=> 'citizenToolKit.controllers.organization.DashboardMemberAction',
 		'news'							=> 'citizenToolKit.controllers.organization.NewsAction',
 		'sig'							=> 'citizenToolKit.controllers.organization.SigAction',

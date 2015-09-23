@@ -43,6 +43,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
+	#btn-close-panel {
+	    position: absolute;
+	    right: 25px;
+	    top: 20px;
+	    font-size: 20px;
+	}
 </style>
 <div class="row">
 	<div class="col-md-12">
@@ -66,6 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
+					<button class="button button-primary pull-right" id="btn-close-panel"><i class="fa fa-close"></i></button>
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -168,12 +175,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							if( isset($e["address"]) && isset( $e["address"]['region']) )
 								$scopesClasses .= ' '.$e["address"]['region'];
 
+							//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+							$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
+							$url = "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )";
+
 							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 								'<div class="portfolio-item">'.
 									'<div class="imgDiv">'.$img.'</div>'.
-									'<div class="detailDiv"><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'" class="thumb-info"  >'.
-										((isset($e["name"]))? $e["name"]:"").
-									'</a>';
+									'<div class="detailDiv"><a href="#" onclick="'.$url.'" class="thumb-info"  >'.$name.'</a>';
 							
 							/* **************************************
 							* EMAIL for admin use only
@@ -210,7 +219,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								$strHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
 								if( !in_array($e["address"]['region'], $scopes['region']) ) 
 									array_push($scopes['region'], $e["address"]['region'] );
-							}	
+							}
 						//$strHTML .= '<div class="tools tools-bottom"><i class="fa fa-trash-o"></i></div>';
 						$strHTML .= '</div></li>';
 						echo $strHTML;
@@ -246,19 +255,31 @@ jQuery(document).ready(function() {
 
 	if( activeType != "")
 		 $('.filter'+activeType).trigger("click");
+
+	$('#btn-close-panel').click(function(){
+		if( $('#Grid').css("display") != "none"){
+			$('#Grid').hide("fast");
+			$('#btn-close-panel').html('<i class="fa fa-plus"></i>');
+		}else{
+			$('#Grid').show("fast");
+			$('#btn-close-panel').html('<i class="fa fa-close"></i>');
+		}
+	});
+
+	initMap();
 });
 
 function initGrid(){
 	if( $(".mix").length ){
 		bindBtnEvents();
 		$('#Grid').mixItUp();
-		$('.portfolio-item .chkbox').bind('click', function () {
+		/*$('.portfolio-item .chkbox').bind('click', function () {
 	        if ($(this).parent().hasClass('selected')) {
 	            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');
 	        } else {
 	            $(this).parent().addClass('selected').children('a').children('img').addClass('selected');
 	        }
-	    });
+	    });*/
 	}else{
 		var htmlDefault = "<div class='center'>"+
 							"<i class='fa fa-picture-o fa-5x text-blue'></i>"+
@@ -295,4 +316,66 @@ function bindBtnEvents(){
 			})
 	})
 }
+
+<?php 
+	$contextMap = array();
+	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
+	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
+	if(isset($events)) 			$contextMap = array_merge($contextMap, $events);
+	if(isset($projects)) 		$contextMap = array_merge($contextMap, $projects);
+?>
+function initMap(){
+	var mapData = <?php echo json_encode($contextMap) ?>;
+	console.log("contextMap");
+	console.dir(mapData);
+	//affichage des éléments sur la carte
+	//Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	
+	//EVENT MENU PRINCIPAL
+	$("#filter-menu-persons").click(function(){
+		var mapData = <?php echo json_encode($people) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-organizations").click(function(){
+		var mapData = <?php echo json_encode($organizations) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-events").click(function(){
+		var mapData = <?php echo json_encode($events) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$("#filter-menu-projects").click(function(){
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	
+	
+	//EVENT MENU PANEL
+	$(".filterorganizations").click(function(){
+		var mapData = <?php echo json_encode($organizations) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterpersons").click(function(){
+		var mapData = <?php echo json_encode($people) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterevents").click(function(){
+		var mapData = <?php echo json_encode($events) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	$(".filterprojects").click(function(){
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
+	//EVENT MENU PANEL - ALL
+	$(".filter").click(function(){
+		if($(this).attr("data-filter") == "all"){
+			var mapData = <?php echo json_encode($contextMap) ?>;
+			Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		}
+	});
+}
 </script>
+
+
+

@@ -198,13 +198,16 @@ class CommunecterController extends Controller
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
       "directory"           => array("href"=>"/ph/communecter/organization/directory"),
-      "disabled"            => array("href"=>"/ph/communecter/organization/disabled")      
+      "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
+      "detail"              => array("href"=>"/ph/communecter/organization/detail")      
     ),
     
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
+      "removeattendee"   => array("href" => "/ph/communecter/event/removeattendee"),
       "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),
+      "detail"          => array("href" => "/ph/communecter/event/detail"),
       "delete"          => array("href" => "ph/communecter/event/delete"),
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
@@ -218,6 +221,7 @@ class CommunecterController extends Controller
       "save"            => array("href" => "/ph/communecter/project/save"),
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
       "dashboard"       => array("href" => "/ph/communecter/project/dashboard"),
+      "detail"          => array("href" => "/ph/communecter/project/detail"),
   	  "removeproject"   => array("href" => "/ph/communecter/project/removeproject"),
   	  "editchart"       => array("href" => "/ph/communecter/project/editchart"),
   	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
