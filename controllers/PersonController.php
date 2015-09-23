@@ -38,6 +38,7 @@ class PersonController extends CommunecterController {
 	        'logout'     	       => 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'       => 'citizenToolKit.controllers.person.AuthenticateAction',
 	        'dashboard'  	       => 'citizenToolKit.controllers.person.DashboardAction',
+          'detail'             => 'citizenToolKit.controllers.person.DetailAction',
 	        'connect'  		       => 'citizenToolKit.controllers.person.ConnectAction',
 	        'disconnect'         => 'citizenToolKit.controllers.person.DisconnectAction',
 	        'activate'  	       => 'citizenToolKit.controllers.person.ActivateAction',

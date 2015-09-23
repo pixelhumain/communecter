@@ -82,7 +82,7 @@
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
-		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").show(); },"html");
 	}
 	function gotToPrevNav()
 	{

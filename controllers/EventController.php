@@ -17,16 +17,16 @@ class EventController extends CommunecterController {
   public function actions()
   {
       return array(
-          'saveattendees'          		=> 'citizenToolKit.controllers.event.SaveAttendees',
-          'dashboard' 					=> 'citizenToolKit.controllers.event.DashboardAction',
-          'detail'            => 'citizenToolKit.controllers.organization.DetailAction',
+          'saveattendees'         => 'citizenToolKit.controllers.event.SaveAttendees',
+          'dashboard' 					  => 'citizenToolKit.controllers.event.DashboardAction',
+          'detail'                => 'citizenToolKit.controllers.event.DetailAction',
           'save'          				=> 'citizenToolKit.controllers.event.SaveAction',
           'getcalendar'   				=> 'citizenToolKit.controllers.event.GetCalendarAction',
-          'delete' 						=> 'citizenToolKit.controllers.event.DeleteAction',
-          'updatefield' 				=> 'citizenToolKit.controllers.event.UpdateFieldAction',
-          'eventsv' 					=> 'citizenToolKit.controllers.event.EventSVAction',
-          'calendarview'				=> 'citizenToolKit.controllers.event.CalendarViewAction',
-          'saveattendee'				=> 'citizenToolKit.controllers.link.SaveAttendeeAction',
+          'delete' 						    => 'citizenToolKit.controllers.event.DeleteAction',
+          'updatefield' 				  => 'citizenToolKit.controllers.event.UpdateFieldAction',
+          'eventsv' 					    => 'citizenToolKit.controllers.event.EventSVAction',
+          'calendarview'				  => 'citizenToolKit.controllers.event.CalendarViewAction',
+          'saveattendee'				  => 'citizenToolKit.controllers.link.SaveAttendeeAction',
           'removeattendee'			 	=> 'citizenToolKit.controllers.link.RemoveAttendeeAction',
           'directory'             => 'citizenToolKit.controllers.event.DirectoryAction',
       );
