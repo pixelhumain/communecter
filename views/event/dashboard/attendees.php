@@ -4,9 +4,9 @@
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("event","Attendees",null,Yii::app()->controller->module->id); ?></h4>
 		</div>
 		<div class="panel-tools">
-			<?php if( Authorisation::isEventAdmin((string)$event['_id'], @Yii::app()->session["userId"])) { ?>
-				<a href="#newAttendees" class="new-attendees btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add attendees" alt="Add attendees"><i class="fa fa-plus"></i> </a>
-			<?php } ?>
+			<?php //if( Authorisation::isEventAdmin((string)$event['_id'], @Yii::app()->session["userId"])) { ?>
+				<a href="#newAttendees" class="new-attendees btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" data-id="<?php echo  (string)$event["_id"] ?>" title="Add attendees" alt="Add attendees"><i class="fa fa-plus"></i> </a>
+			<?php //} ?>
 		</div>
 		<div class="panel-body no-padding">
 			<div class="tabbable no-margin no-padding partition-dark">
@@ -22,18 +22,18 @@
 				<div class="tab-content partition-white">
 					<div class="tab-pane padding-bottom-5 active" id="users_tab_attending">
 						<table class="table table-striped table-hover">
-							<tbody>
+							<tbody id="attendeeTable">
 								<?php foreach ($attending as $member) { ?>
-								<tr>
+								<tr id="attendee<?php echo $member["_id"] ?>">
 									<td class="center">
 									<?php if($member && isset($member["imagePath"])) { ?>
-										<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo $member["imagePath"]; ?>">
+										<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member["imagePath"]) ?>">
 									</td>
 									<?php } else{ ?>
 										<i class="fa fa-smile-o fa-2x"></i></td>
 									<?php } ?>
 									<td>
-										<span class="text-small block text-light"><?php if ($member && isset($member["position"])) echo $member["position"]; ?></span><span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
+										<span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
 									</td>
 								</tr>
 								<?php } ?>
@@ -57,7 +57,7 @@
 	jQuery(document).ready(function() {
 		$(".new-attendees").off().on("click", function() {
 			subViewElement = $(this);
-			$(".form-attendees .attendees-id").val($(this).data("id"));
+			$(".form-attendees .attendees-parentId").val($(this).data("id"));
 			subViewContent = subViewElement.attr('href');
 			$.subview({
 				content : subViewContent,

@@ -329,7 +329,7 @@ function initMap(){
 	console.log("contextMap");
 	console.dir(mapData);
 	//affichage des éléments sur la carte
-	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	//Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
 	//EVENT MENU PRINCIPAL
 	$("#filter-menu-persons").click(function(){
