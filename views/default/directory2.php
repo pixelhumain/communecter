@@ -349,7 +349,10 @@ function initMap(){
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	
-	
+	$("li.filter .label-danger").click(function(){ alert($(this).html());
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
 	//EVENT MENU PANEL
 	$(".filterorganizations").click(function(){
 		var mapData = <?php echo json_encode($organizations) ?>;

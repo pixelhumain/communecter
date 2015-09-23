@@ -123,6 +123,10 @@
 				$("#btn-tags").click(function(){
 					thisSig.switchDropDown("panel_map");
 				});
+
+				$(thisSig.cssModuleName + ' #mapCanvas' + this.sigKey).focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
+				});
 			}
 
 			if(params.useFilterType){
@@ -135,6 +139,10 @@
 
 				$("#btn-filters").click(function(){ 
 					thisSig.switchDropDown("panel_filter");
+				});
+
+				$(thisSig.cssModuleName + ' #mapCanvas' + this.sigKey).focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').css({'display':'none'});
 				});
 			}
 

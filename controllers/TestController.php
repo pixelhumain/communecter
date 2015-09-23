@@ -301,4 +301,11 @@ class TestController extends CommunecterController {
     $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
   }
 
+  public function actionImageMarker() {
+    $profilImage = Yii::app()->params['uploadDir']."communecter/image_2.jpg";
+    $srcEmptyMarker = Yii::app()->params['uploadDir']."communecter/marker-citizen.png";
+    ImagesUtils::createMarkerFromImage($profilImage,$srcEmptyMarker,"");
+
+  }
+
 }
