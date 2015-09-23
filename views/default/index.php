@@ -20,7 +20,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   <a class="byPHRight" href="#"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
     <!-- start: LOGIN BOX -->
     <?php 
-    $this->renderPartial('menuTitle');
+    $this->renderPartial('menuTitle',array("topTitleExists"=>false));
     $this->renderPartial('panels/what');
     $this->renderPartial('panels/how');
     $this->renderPartial('panels/why');
