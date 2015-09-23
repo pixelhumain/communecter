@@ -609,6 +609,12 @@ var Login = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
 		var createBtn = null;
+		$("#email3").keyup(function(event){
+			if (event.which==32){
+				var txt=$(this).val();
+				$(this).val(txt.trim());
+			}
+		});
 		Ladda.bind('.createBtn', {
 	        callback: function (instance) {
 	            createBtn = instance;
