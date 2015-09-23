@@ -79,8 +79,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		var thisSig = this;
 
 		//affiche le message "recherche en cours"
-		$("#list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
-		$('#list-dropdown-find-place').css({'display':'block'});
+		$(thisSig.cssModuleName + " #list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
+		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
 
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		console.log(urlRequest);

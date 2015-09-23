@@ -128,13 +128,12 @@
 			};
 
 
-			//## TODO : UTILISER cette fonction pour gérer le fullScreenMap
-			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
 			this.Sig.setFullScreen = function()
 			{
 				//console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
-				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();
 				var rightListHeight = mapHeight - 100;
 
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
@@ -149,14 +148,38 @@
 				$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20});
 				
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
-				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
+				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33  });
 				
-				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
-				$(this.cssModuleName + " .input-search-place").css({"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " #right_tool_map").css(		{"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " .input-search-place").css( {"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
 
 				//alert($(this.cssModuleName + " .panel_map").width());
 			};
 
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
+			this.Sig.setNoFullScreen = function()
+			{
+				var mapHeight = this.initParameters.mapHeight;
+				var rightListHeight = mapHeight - 100;
+
+				var left = $(this.cssModuleName + " #right_tool_map").position().left - $(this.cssModuleName + " .input-search-place").width() - 20;
+				$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
+
+				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
+				$(this.cssModuleName + " #panel_map").css({"max-height":mapHeight-300});
+				$(this.cssModuleName + " #panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
+				$(this.cssModuleName + " #panel_map").css({"top":top-3});
+				
+				$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
+				$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20}); //alert($(this.cssModuleName + " #btn-filter").position().top);
+				$(this.cssModuleName + " #panel_filter").css({"top":top-3});
+				
+				$(this.cssModuleName + " #liste_map_element").css({"height"    : rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 - 33 /*padding*/ });// - $(this.cssModuleName + " #chk-scope").height() - 33 });
+				$(this.cssModuleName + " #liste_map_element").css({"max-height": rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 - 33 /*padding*/ });
+			
+			};
+
+			//modifie la position et la forme des éléments de l'interface de facon dynamique
 			this.Sig.constructUI = function()
 			{
 				if(this.initParameters.useFullPage){ return; }
@@ -165,15 +188,10 @@
 					this.setFullScreen();
 				}
 				else{
-					var left = $("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20;
-					$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
-
-					var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
-					$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
-					$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20});
-				
+					this.setNoFullScreen();
 				}
 			}
+
 			this.Sig.verifyPanelFilter = function (thisData){
 				console.warn("--------------- verifyPanelFilter ---------------------");
 
@@ -494,11 +512,6 @@
 			// 	maxZoom: 20
 			// });
 
-			
-
-
-
-
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 
 			//initialisation de l'interface
@@ -507,10 +520,6 @@
 			return map;
 		};
 
-
-
-
-		//alert((this.Sig));
 		this.Sig = this.getSigInitializer(this.Sig);
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
