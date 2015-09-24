@@ -282,9 +282,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});
 		$(thisSig.cssModuleName + ' #btn-dropdown-find-place').dropdown('toggle');
 
-		alert("before");
 		this.map.panTo(coordinates);
-		alert("after");
 	};
 
 
