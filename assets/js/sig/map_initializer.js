@@ -49,7 +49,7 @@
 
 											"project" 			: "project",
 
-											"markerPlace" 		: "marker-place",
+											"markerPlace" 		: "map-marker",
 
 									  };
 
