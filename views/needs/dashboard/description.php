@@ -18,7 +18,7 @@
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> NEED Description</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED DESCRIPTION",null,Yii::app()->controller->module->id); ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php 
@@ -86,7 +86,7 @@ function manageNeedDescriptionModeContext() {
 	listDescriptionXeditables = ['#description',''];
 	if (modeDescription == "view") {
 //		$('.editable-need').editable('toggleDisabled');
-		$.each(listXeditables, function(i,value) {
+		$.each(listDescriptionXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
 		})
 	} else if (modeDescription == "update") {
