@@ -47,7 +47,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
     <div class="box-ajax box box-white-round" style="top:0px;">
       <a href="#" onclick="gotToPrevNav()" class="pull-left"><i class="fa fa-arrow-circle-left fa-2x"> </i></a>
-      <a href="#" onclick="$('.box-ajax').hide()" class="pull-right text-red"><i class="fa fa-times-circle-o fa-2x"> </i></a>
+      <a href="#" onclick="$('.box-ajax').hide()" class="pull-right text-red btn-close-panel"><i class="fa fa-times-circle-o fa-2x"> </i></a>
       <div class="space20"></div>
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
     </div>

@@ -336,7 +336,7 @@
 							//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 							//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 							if($.inArray(thisData['type'], this.notClusteredTag) > -1)
-							$(this.cssModuleName + " #item_map_list_" + objectId).click(function()
+							$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 							{	thisMap.panTo(coordinates, {"animate" : true });
 								thisSig.checkListElementMap(thisMap);
 								marker.openPopup();
@@ -435,7 +435,7 @@
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseclick', function(e) {	layer.openPopup(); });
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
+							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1],
 											  feature.geometry.coordinates[0]],
 											  13, {"animate" : true });
