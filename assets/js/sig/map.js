@@ -40,6 +40,7 @@
 			this.Sig.popupOpen = false;
 
 			this.Sig.mapPolygon = null;
+			this.Sig.markerFindPlace = null;
 
 			//##
 			//créé une donnée GeoJson (pour les cluster)
@@ -90,7 +91,7 @@
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
 				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 25],//22, 94],
+				    iconAnchor: [25, 60],//22, 94],
 				    popupAnchor: [-3, -70]//-3, -76]
 				});
 			};
@@ -303,6 +304,7 @@
 							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
+												type : thisData["type"],
 												content: content };
 
 							var marker;
@@ -335,7 +337,7 @@
 							//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 							//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 							if($.inArray(thisData['type'], this.notClusteredTag) > -1)
-							$(this.cssModuleName + " #item_map_list_" + objectId).click(function()
+							$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 							{	thisMap.panTo(coordinates, {"animate" : true });
 								thisSig.checkListElementMap(thisMap);
 								marker.openPopup();
@@ -434,7 +436,7 @@
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseclick', function(e) {	layer.openPopup(); });
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
+							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1],
 											  feature.geometry.coordinates[0]],
 											  13, {"animate" : true });
@@ -458,7 +460,6 @@
 						this.updatePanel(thisMap);
 
 					this.checkListElementMap(thisMap); 
-					//console.log("position : "); console.log(typeof this.markersLayer.getBounds()._northEast);
 					
 					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
@@ -496,6 +497,9 @@
 										"zoom" : 4,
 										"worldCopyJump" : false });
 
+			//initialisation de l'interface
+			Sig.initEnvironnement(map, initParams);
+
 			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
@@ -513,10 +517,8 @@
 			// });
 
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
-
-			//initialisation de l'interface
-			Sig.initEnvironnement(map, initParams);
-
+			//rafraichi les tiles après le redimentionnement du mapCanvas
+			map.invalidateSize(false);
 			return map;
 		};
 

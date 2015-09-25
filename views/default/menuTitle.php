@@ -28,7 +28,7 @@
 		$(".byPHRight").fadeOut();
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 
-		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
+		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" || box == "box-add" ){
 			$(".byPHRight").fadeIn();
 			$(".connectMarker").fadeOut();
 			$("body.login").addClass("bgCity");
@@ -82,7 +82,7 @@
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
-		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").show(); },"html");
+		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
 	}
 	function gotToPrevNav()
 	{

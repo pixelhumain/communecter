@@ -58,12 +58,11 @@
 	contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
 	var images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
-
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
-		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	})
 	var bindBtnFollow = function(){
 
