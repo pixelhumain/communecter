@@ -610,6 +610,13 @@ var Login = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
 		var createBtn = null;
+		/*---Other solution for email validation with no space
+			$("#email3").keyup(function(event){
+			if (event.which==32 || event.which==86){
+				var txt=$(this).val();
+				$(this).val(txt.trim());
+			}
+		});*/
 		Ladda.bind('.createBtn', {
 	        callback: function (instance) {
 	            createBtn = instance;
@@ -630,7 +637,12 @@ var Login = function() {
 					required : true
 				},
 				email3 : {
-					required : true,
+					required : { 
+						depends:function(){
+							$(this).val($.trim($(this).val()));
+							return true;
+        				}
+        			},
 					email : true
 				},
 				password3 : {

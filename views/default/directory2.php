@@ -186,7 +186,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 								'<div class="portfolio-item">'.
 									'<div class="imgDiv">'.$img.'</div>'.
-									'<div class="detailDiv"><a href="#" onclick="'.$url.'" class="thumb-info"  >'.$name.'</a>';
+									'<div class="detailDiv"><a href="#" onclick="'.$url.'" class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 							
 							/* **************************************
 							* EMAIL for admin use only
@@ -332,55 +332,88 @@ function bindBtnEvents(){
 	if(isset($events)) 			$contextMap = array_merge($contextMap, $events);
 	if(isset($projects)) 		$contextMap = array_merge($contextMap, $projects);
 ?>
+
+function finalShowMarker(){ //alert("ayé");
+	Sig.map.panBy([0, 300]);
+	$(".leaflet-popup-close-button").click();
+}
+
 function initMap(){
 	var mapData = <?php echo json_encode($contextMap) ?>;
 	console.log("contextMap");
 	console.dir(mapData);
 	//affichage des éléments sur la carte
-	//Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
+
+	$(".item_map_list_panel").click(function(){
+		$("#right_tool_map").hide("false");
+		var id = $(this).attr("data-id");
+		$(".item_map_list_" + id).click();
+		Sig.map.setZoom(13);
+		setTimeout("finalShowMarker()", 1000);
+	});
+
+
 	//EVENT MENU PRINCIPAL
 	$("#filter-menu-persons").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($people) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$("#filter-menu-organizations").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($organizations) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$("#filter-menu-events").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($events) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$("#filter-menu-projects").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($projects) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	
-	
+	$("li.filter .label-danger").click(function(){ alert($(this).html());
+		$("#right_tool_map").hide("false");
+		var mapData = <?php echo json_encode($projects) ?>;
+		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+	});
 	//EVENT MENU PANEL
 	$(".filterorganizations").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($organizations) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$(".filterpersons").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($people) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$(".filterevents").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($events) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	$(".filterprojects").click(function(){
+		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($projects) ?>;
 		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	});
 	//EVENT MENU PANEL - ALL
 	$(".filter").click(function(){
 		if($(this).attr("data-filter") == "all"){
+			$("#right_tool_map").hide("false");
 			var mapData = <?php echo json_encode($contextMap) ?>;
 			Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 		}
+	});
+
+	$(".btn-close-panel").click(function(){
+		$("#right_tool_map").show('fast');
 	});
 }
 </script>

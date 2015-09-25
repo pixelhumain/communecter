@@ -150,7 +150,7 @@
 
 			//return l'élément html
 		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
-		    				'<button id="item_map_list_'+ thisSig.getObjectId(element) +'" class="item_map_list">'
+		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(element) +'">'
 		    					+ "<div class='left-col'>"
 		    					+ 	"<div class='thumbnail-profil'></div>"						
 		    					+ 	"<div class='ico-type-account'>"+icons+"</div>"

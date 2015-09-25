@@ -30,7 +30,7 @@
 	        "useRightList" => true,
 	        "useZoomButton" => true,
 	        "useHomeButton" => false,
-	        "useHelpCoordinates" => true,
+	        "useHelpCoordinates" => false,
 	        "useFullScreen" => false,
 	        "useResearchTools" => true,
 	        "useChartsMarkers" => true,
@@ -52,15 +52,16 @@
 	 	foreach ($city as $key => $value) {
 	 		$geo = $value['geo'];
 	 	}
-	 	var_dump($geo); 
-		//$populationTotalDepartement = City::getPopulationTotalInseeDepartement($_GET['insee'],'2011');
+	 	
+	 	//$populationTotalDepartement = City::getPopulationTotalInseeDepartement($_GET['insee'],'2011');
 		/*var_dump($populationTotalCity);
 		var_dump($populationTotalDepartement);
 		$res = (($populationTotalHommesCity * 100) / $populationTotalCity);
 		var_dump($res);*/
 	 	$charts =  array(/* 1ER GROUPE	*/
 	 					array(  "name" => "Population",
-								  /* options d'affichage de chaque donnée */
+								"name_text" => "Population",
+								    /* options d'affichage de chaque donnée */
 								"chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
 														  "maxHeight" => 120, //seulement pour BarChartMarker
@@ -95,7 +96,8 @@
 				        					),
 						),
 						array(  "name" => "Graph1",
-								  /* options d'affichage de chaque donnée */
+								"name_text" => "Mon graphique 1",
+								    /* options d'affichage de chaque donnée */
 								"chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
 														  "maxHeight" => 120, //seulement pour BarChartMarker
@@ -311,27 +313,15 @@
 			});
 		*/
 
-		var mapData = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
+		var contextMap = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
 		console.log("contextMap");
-		console.dir(mapData);
+		console.dir(contextMap);
 		/**************************************************************************************************************/
 		
 		//console.dir(mapData);
 		//affichage des éléments sur la carte
-		Sig.showMapElements(mapCity, mapData);//, elementsMap); 
+		Sig.showMapElements(mapCity, contextMap);//, elementsMap); 
 
-		var boundingBox = <?php if(isset($city["geo"]["boundingbox"])) echo json_encode($city["geo"]["boundingbox"]); else echo "false"; ?>;
-
-		console.dir(boundingBox);
-		if(boundingBox != false){
-			var latMin = boundingBox[0];
-	    	var latMax = boundingBox[1];
-	    	var lngMin = boundingBox[2];
-	    	var lngMax = boundingBox[3];
-	    	mapCity.fitBounds([[latMin, lngMin],[latMax, lngMax]], { 'maxZoom' : 14 });
-	    	//var rec = new L.Rectangle([[latMin, lngMin],[latMax, lngMax]]).addTo(mapCity);
-	    }
-		//mapCity.panTo([-21.06912308335471, 55.34912109375]);
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
 

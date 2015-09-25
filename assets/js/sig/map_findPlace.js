@@ -79,8 +79,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		var thisSig = this;
 
 		//affiche le message "recherche en cours"
-		$("#list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
-		$('#list-dropdown-find-place').css({'display':'block'});
+		$(thisSig.cssModuleName + " #list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
+		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
 
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		console.log(urlRequest);
@@ -99,6 +99,10 @@ SigLoader.getSigFindPlace = function (Sig){
 
 					thisSig.currentResultResearch = obj;
 					var i = 0;
+
+					console.log("reponse nominatim : ");
+					console.dir(obj);
+
 					//affichage des résultats de la recherche
 					$.each(obj, function (){
 
@@ -234,47 +238,37 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.showPlace = function (id){
-		var thisSig = this; //alert(id);
-		//alert(JSON.stringify(this.currentResultResearch[id]));
-	   	var bounds = this.currentResultResearch[id].boundingbox;
+		var thisSig = this;
+		var bounds = this.currentResultResearch[id].boundingbox;
 	   	var southWest = L.latLng(bounds[0], bounds[2]),
     		northEast = L.latLng(bounds[1], bounds[3]),
     		LBounds = L.latLngBounds(southWest, northEast);
 
-		this.map.fitBounds(LBounds);
-
-		/*
-		if(rectangleScope != ""){
-			rectangleScope.editing.disable();
-			rectangleScope.setBounds(LBounds);
-			rectangleScope.editing.enable();
-			theMap.zoomOut();
-		}*/
-
-		/*rectangleScope.bindPopup('<h4><i class="fa fa-map-marker"></i> '+
-									currentResultResearch[id].address.city+
-								 '</h4>').openPopup();*/
-
-		//in map.js
+		//this.map.fitBounds(LBounds);
 
 		var options = {  id : 0,
 						 icon : this.getIcoMarker({'type' : 'markerPlace'}),
 						 content : "<span class='popup-result-find-place'>"+$(thisSig.cssModuleName + ' #btn-show-place-'+id).html()+"</span>" }; //,
-						//"lat" : this.currentResultResearch[id].lat ,
-						//"lng" : this.currentResultResearch[id].lon };
-
-		console.log("value result research : ");
-		//console.dir(this.currentResultResearch[id]);
+						
 
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
-		var marker = this.getMarkerSingle(this.map, options, coordinates);
-		marker.openPopup();
+		
+		//efface le polygone s'il existe
+		if(this.markerFindPlace != null) this.map.removeLayer(this.markerFindPlace);
 
+		this.markerFindPlace = this.getMarkerSingle(this.map, options, coordinates);
+		this.markerFindPlace.openPopup();
 
-		if("undefined" != typeof this.currentResultResearch[id].polygonpoints){ //alert("affichage du polygone");
+		//efface le polygone s'il existe
+		if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
+
+		//si l'élément à afficher est une ville et qu'il y a un polygone dans les données
+		//on l'affiche
+		if( (this.currentResultResearch[id].type == "city" ||
+			this.currentResultResearch[id].type == "town") && 
+		   "undefined" != typeof this.currentResultResearch[id].polygonpoints){
 			
-			
-			allPolygonpoints = this.currentResultResearch[id].polygonpoints;
+			var allPolygonpoints = this.currentResultResearch[id].polygonpoints;
 
 			var polygonpoints = new Array();
 			$.each(allPolygonpoints, function(index, value){
@@ -282,19 +276,13 @@ SigLoader.getSigFindPlace = function (Sig){
 			});
 
 			this.showPolygon(polygonpoints);
-			/*
-			this.mapPolygon = L.polygon(polygonpoints, {
-										color: '#FFF', 
-										opacity:0.7,
-										fillColor: '#71A4B4', 
-										fillOpacity:0.6,  
-										weight:'2px', 
-										smoothFactor:0.5}).addTo(this.map);
-			*/
 		}
 
+		//on ferme la dropdown
 		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});
 		$(thisSig.cssModuleName + ' #btn-dropdown-find-place').dropdown('toggle');
+
+		this.map.panTo(coordinates);
 	};
 
 
