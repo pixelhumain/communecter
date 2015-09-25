@@ -9,8 +9,8 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
-			console.log("initParams");
-			console.dir(params);
+			//console.log("initParams");
+			//console.dir(params);
 
 	    	var thisSig = this;
 
@@ -202,8 +202,8 @@
 						dataType : "json",
 						success: function(data){ 
 							
-							console.log("my position : ");
-							console.dir(data);
+							//console.log("my position : ");
+							//console.dir(data);
 
 							if(data != null){
 								var center = [data.position.latitude, data.position.longitude];

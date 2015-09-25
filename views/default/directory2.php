@@ -333,8 +333,8 @@ function finalShowMarker(){ //alert("ayé");
 
 function initMap(){
 	var mapData = <?php echo json_encode($contextMap) ?>;
-	console.log("contextMap");
-	console.dir(mapData);
+	//console.log("contextMap");
+	//console.dir(mapData);
 	//affichage des éléments sur la carte
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
@@ -416,8 +416,8 @@ function initMap(){
 	});
 
 
-	console.log("actions : ");
-	console.dir(actions);
+	//console.log("actions : ");
+	//console.dir(actions);
 
 }
 
