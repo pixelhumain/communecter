@@ -18,7 +18,7 @@
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> NEED INFORMATION</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id); ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php 
@@ -36,7 +36,7 @@
 			<table class="table table-condensed table-hover" >
 				<tbody>
 					<tr>
-						<td>Name</td>
+						<td><?php echo Yii::t("common","Name") ?></td>
 						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a></td>
 					</tr>
 					<tr>
@@ -44,7 +44,7 @@
 						<td><a href="#" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a></td>
 					</tr>
 					<tr>
-						<td>Duration</td>
+						<td><?php echo Yii::t("common","Duration") ?></td>
 						<td><a href="#" id="duration" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a></td>
 					</tr>
 					<!--<tr>
@@ -53,21 +53,21 @@
 					</tr>-->
 					
 					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
-						<td>Début</td>
+						<td><?php echo Yii::t("common","Start") ?></td>
 						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a></td>
 					</tr>
 					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
-						<td>Fin</td>
+						<td><?php echo Yii::t("common","End") ?></td>
 						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
-						<td>Quantité</td>
+						<td><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?>Quantité</td>
 						<td><a href="#" id="quantity" data-type="number" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["quantity"]))echo $need["quantity"];?></a></td>
 					</tr>
 					
 					
 					<tr>
-						<td>Benefits</td>
+						<td><?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?></td>
 						<td><a href="#" id="benefits" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["benefits"]))echo $need["benefits"];?></a></td>
 					</tr>
 				</tbody>

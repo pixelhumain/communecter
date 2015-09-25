@@ -48,11 +48,7 @@
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
-					Create and Attend 
-					<br/>Local Events
-					<br>build up local activity 
-					<br>help local culture
-					<br>create movement
+					<?php echo Yii::t("event","Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement",null,Yii::app()->controller->module->id); ?>
 				</blockquote>
 			</div>
 		<?php } ?>

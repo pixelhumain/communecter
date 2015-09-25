@@ -1,13 +1,16 @@
 <?php //print_r($needs); ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-cubes fa-2x text-blue"></i> NEEDS </h4>
+		<h4 class="panel-title"><i class="fa fa-cubes fa-2x text-blue"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
+		<?php if($isAdmin) { ?>
 		<ul class="panel-heading-tabs border-light">
-    	<li>
-    		<a class="new-need btn btn-info" href="#newNeed"><i class="fa fa-plus"></i> Need </a>
-    	</li>
-		
-	</ul>
+	    	<li>
+	    		<a class="new-need btn btn-info" href="#newNeed">
+		    		<i class="fa fa-plus"></i> <?php echo Yii::t("need","Need",null,Yii::app()->controller->module->id); ?>
+		    	</a>
+	    	</li>
+		</ul>
+		<?php } ?>
 	</div>
 	<div class="panel-body">
 		<div>
@@ -15,9 +18,9 @@
 				<thead>
 					<tr>
 						<th>Type</th>
-						<th>Name</th>
-						<th>Quantity</th>
-						<th>Benefits</th>
+						<th><?php echo Yii::t("common","Name"); ?></th>
+						<th><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?></th>
+						<th><?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?></th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines tableNeedLines">
@@ -54,11 +57,7 @@
 			<?php if (empty($needs)){ ?>
 				<div id="infoPodOrga" class="padding-10 info-no-need">
 					<blockquote> 
-						Create needs
-						<br>Materials  
-						<br>Knowledge
-						<br>Skills
-						<br>to call ressources that you need
+						<?php echo Yii::t("need","Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need",null,Yii::app()->controller->module->id); ?>
 					</blockquote>
 				</div>
 			<?php } ?>

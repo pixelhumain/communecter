@@ -18,12 +18,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 	.mix{ 
-		height: 150px;
+		min-height: 110px;
 		width: 23.5%;
 		background-color: white;
 		display: inline-block;
-		border:1px solid #666;
+		border:1px solid #bbb;
 		margin-right : 1.5%;
+		border-radius: 10px;
+		-webkit-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
+		-moz-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
+		box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 	}
 	.mix a{
 		color:black;
@@ -193,9 +197,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							* TAGS
 							***************************************** */
 							$strHTML .= '</div>';
+							$tagsHTML = "";
 							if(isset($e["tags"])){
 								foreach ($e["tags"] as $key => $value) {
-									$strHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+									$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
 									if( $tags != "" && !in_array($value, $tags) ) 
 										array_push($tags, $value);
 								}
@@ -205,22 +210,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							* SCOPES
 							***************************************** */
 							$strHTML .= '<br/>';
+							$scopeHTML = "";
 							if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
-								$strHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 								if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) 
 									array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
 							}
 							if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
-								$strHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
+								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
 								if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) 
 									array_push($scopes['codePostal'], $e["address"]['codePostal'] );
 							}
 							if( isset($e["address"]) && isset( $e["address"]['region']) ){
-								$strHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
+								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
 								if( !in_array($e["address"]['region'], $scopes['region']) ) 
 									array_push($scopes['region'], $e["address"]['region'] );
 							}
-						//$strHTML .= '<div class="tools tools-bottom"><i class="fa fa-trash-o"></i></div>';
+
+						$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
+
 						$strHTML .= '</div></li>';
 						echo $strHTML;
 					}
