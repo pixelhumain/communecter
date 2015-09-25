@@ -64,19 +64,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<a href="#">Show All</a>
 						</li>
 						<li class="filter " data-filter=".citoyens">
-							<a href="#" class="filterpersons"><i class="fa fa-user"></i> People <?php echo "(".count($people).")";  ?></a>
+							<a href="#" class="filterpersons"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".organizations">
-							<a href="#" class="filterorganizations"><i class="fa fa-users"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
+							<a href="#" class="filterorganizations"><i class="fa fa-users fa-2x"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".events">
-							<a href="#"  class="filterevents"><i class="fa fa-calendar"></i> Events <?php echo "(".count($events).")";  ?></a>
+							<a href="#"  class="filterevents"><i class="fa fa-calendar fa-2x"></i> Events <?php echo "(".count($events).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".projects">
-							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o"></i> Project <?php echo "(".count($projects).")";  ?></a>
+							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
+					<?php /* ?>
 					<button class="button button-primary pull-right" id="btn-close-panel"><i class="fa fa-close"></i></button>
+					*/?>
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -227,8 +229,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 									array_push($scopes['region'], $e["address"]['region'] );
 							}
 
-						$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
-
+						//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
+						$strHTML .= $tagsHTML."<br/>".$scopeHTML;
 						$strHTML .= '</div></li>';
 						echo $strHTML;
 					}

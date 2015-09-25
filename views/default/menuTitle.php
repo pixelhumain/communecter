@@ -28,7 +28,7 @@
 		$(".byPHRight").fadeOut();
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 
-		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" ){
+		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" || box == "box-add" ){
 			$(".byPHRight").fadeIn();
 			$(".connectMarker").fadeOut();
 			$("body.login").addClass("bgCity");
