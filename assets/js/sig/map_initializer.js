@@ -67,6 +67,7 @@
 											"project" 			: { ico : "lightbulb-o", color : "yellow" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
+											"me" 				: { ico : "map-marker", color : "blue" 	},
 
 									  };
 			
@@ -150,6 +151,7 @@
 				this.initFindPlace();
 			}
 
+
 		};
 
 		
@@ -191,12 +193,41 @@
 
 		}
 		Sig.initHomeBtn = function(){
-			//initialise le bouton home
+			//initialise le bouton home 
 			var thisSig = this;
-			if(this.initParameters.useHomeButton){
-				var center = this.getCoordinates(this.dataMap, "markerSingle");
-				if(center != null)
-				$( this.cssModuleName + " #btn-home" )	 .click(function (){ thisSig.map.panTo(center); });
+			if(this.initParameters.useHomeButton){ console.log("init btn home " + baseUrl + "/" + moduleId);
+				$.ajax({
+						url: baseUrl+"/"+moduleId+"/sig/getmyposition",
+						type: "POST",
+						dataType : "json",
+						success: function(data){ 
+							
+							console.log("my position : ");
+							console.dir(data);
+
+							if(data != null){
+								var center = [data.position.latitude, data.position.longitude];
+								if(center != null){
+
+									var properties = { 	id : "0",
+														icon : thisSig.getIcoMarkerMap({"type" : data.type}),
+														content: "" };
+
+									var marker = thisSig.getMarkerSingle(thisSig.map, properties, center);
+
+									$( "#btn-home" ).click(function (){ 
+											console.log("pan to my position :");
+											console.dir(center);
+											thisSig.map.panTo(center); 
+											thisSig.map.setZoom(16);
+									});
+								}
+							}else{
+								toastr.error("Impossible de trouver la position de l'utilisateur connecté");
+							}
+						}
+					})
+				
 			}
 		};
 
