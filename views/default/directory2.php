@@ -43,7 +43,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		float:right;
 		width:75%;
 		margin-top:25px;
-		padding-left:15px;
+		padding-left:20px;
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
@@ -145,94 +145,107 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						</div>
 					</li>
 					*/
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes ){
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes )
+					{
 							
-							if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
-								return;
-							$actions = "";
-							$id = @$e['_id'];
+						if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
+							return;
+						$actions = "";
+						$id = @$e['_id'];
 
-							/* **************************************
-							* TYPE + ICON
-							***************************************** */
-							$img = '<i class="fa '.$icon.' fa-3x"></i> ';
-							if ($e && isset($e["imagePath"])){ 
-								$img = '<img width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						/* **************************************
+						* TYPE + ICON
+						***************************************** */
+						$img = '<i class="fa '.$icon.' fa-3x"></i> ';
+						if ($e && isset($e["imagePath"])){ 
+							$img = '<img width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						}
+						
+						/* **************************************
+						* TAGS FILTER
+						***************************************** */							
+						$tagsClasses = "";
+						if(isset($e["tags"])){
+							foreach ($e["tags"] as $key => $value) {
+								$tagsClasses .= ' '.str_replace(" ", "", $value) ;
 							}
-							
-							/* **************************************
-							* TAGS FILTER
-							***************************************** */							
-							$tagsClasses = "";
-							if(isset($e["tags"])){
-								foreach ($e["tags"] as $key => $value) {
-									$tagsClasses .= ' '.str_replace(" ", "", $value) ;
-								}
-							}
+						}
 
-							/* **************************************
-							* SCOPES FILTER
-							***************************************** */
-							$scopesClasses = "";
-							if( isset($e["address"]) && isset( $e["address"]['codeInsee']) )
-								$scopesClasses .= ' '.$e["address"]['codeInsee'];
-							if( isset($e["address"]) && isset( $e["address"]['codePostal']) )
-								$scopesClasses .= ' '.$e["address"]['codePostal'];
-							if( isset($e["address"]) && isset( $e["address"]['region']) )
-								$scopesClasses .= ' '.$e["address"]['region'];
+						/* **************************************
+						* SCOPES FILTER
+						***************************************** */
+						$scopesClasses = "";
+						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) )
+							$scopesClasses .= ' '.$e["address"]['codeInsee'];
+						if( isset($e["address"]) && isset( $e["address"]['codePostal']) )
+							$scopesClasses .= ' '.$e["address"]['codePostal'];
+						if( isset($e["address"]) && isset( $e["address"]['region']) )
+							$scopesClasses .= ' '.$e["address"]['region'];
 
-							//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-							$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-							$url = "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )";
+						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
+						$url = "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )";
 
-							$strHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
-								'<div class="portfolio-item">'.
-									'<div class="imgDiv">'.$img.'</div>'.
-									'<div class="detailDiv"><a href="#" onclick="'.$url.'" class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
-							
-							/* **************************************
-							* EMAIL for admin use only
-							***************************************** */
-							$strHTML .= '<br/><a class="text-xss" href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["email"]))? $e["email"]:"").'</a>';
+						$panelHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
+							'<div class="portfolio-item">';
+						$strHTML = '<a href="#" onclick="'.$url.'" class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
+						
+						/* **************************************
+						* EMAIL for admin use only
+						***************************************** */
+						$strHTML .= '<br/><a class="text-xss" href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["email"]))? $e["email"]:"").'</a>';
 
-							/* **************************************
-							* TAGS
-							***************************************** */
-							$strHTML .= '</div>';
-							$tagsHTML = "";
-							if(isset($e["tags"])){
-								foreach ($e["tags"] as $key => $value) {
-									$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
-									if( $tags != "" && !in_array($value, $tags) ) 
-										array_push($tags, $value);
-								}
+						/* **************************************
+						* TAGS
+						***************************************** */
+						$strHTML .= '</div>';
+						$tagsHTML = "";
+						if(isset($e["tags"])){
+							foreach ($e["tags"] as $key => $value) {
+								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+								if( $tags != "" && !in_array($value, $tags) ) 
+									array_push($tags, $value);
 							}
+						}
 
-							/* **************************************
-							* SCOPES
-							***************************************** */
-							$strHTML .= '<br/>';
-							$scopeHTML = "";
-							if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
-								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
-								if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) 
-									array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
-							}
-							if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
-								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
-								if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) 
-									array_push($scopes['codePostal'], $e["address"]['codePostal'] );
-							}
-							if( isset($e["address"]) && isset( $e["address"]['region']) ){
-								$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
-								if( !in_array($e["address"]['region'], $scopes['region']) ) 
-									array_push($scopes['region'], $e["address"]['region'] );
-							}
+						/* **************************************
+						* SCOPES
+						***************************************** */
+						$strHTML .= '<br/>';
+						$scopeHTML = "";
+						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) 
+								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
+						}
+						if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
+							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) 
+								array_push($scopes['codePostal'], $e["address"]['codePostal'] );
+						}
+						if( isset($e["address"]) && isset( $e["address"]['region']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
+							if( !in_array($e["address"]['region'], $scopes['region']) ) 
+								array_push($scopes['region'], $e["address"]['region'] );
+						}
 
 						//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
-						$strHTML .= $tagsHTML."<br/>".$scopeHTML;
-						$strHTML .= '</div></li>';
-						echo $strHTML;
+						$strHTML .= "<br/><div class='pull-right'>";//$tagsHTML."<br/>".$scopeHTML;
+						$featuresHTML = "";
+						if( isset( $e["tags"]) ){
+							$strHTML .= '<div class="hide tags'.$id.$type.' features">'.$tagsHTML.'</div>';
+							$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
+						}
+						if( $scopeHTML != "" ){
+							$strHTML .= '<div class="hide scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
+							$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+						}
+						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
+							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
+						}
+						echo $panelHTML.
+							'<div class="imgDiv">'.$img.$featuresHTML.'</div>'.
+							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
 					?>
 					
@@ -280,6 +293,11 @@ jQuery(document).ready(function() {
 	initMap();
 });
 
+function showHideFeatures(classId){
+	$(".features").addClass('hide');
+	console.log(classId);
+	$("."+classId).removeClass('hide');
+}
 function initGrid(){
 	if( $(".mix").length ){
 		bindBtnEvents();
@@ -337,7 +355,7 @@ function bindBtnEvents(){
 ?>
 
 function finalShowMarker(){ //alert("ayé");
-	Sig.map.panBy([0, 300]);
+	Sig.map.panBy([0, 160]);
 	$(".leaflet-popup-close-button").click();
 }
 

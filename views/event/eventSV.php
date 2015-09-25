@@ -56,10 +56,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <!-- *** NEW EVENT *** -->
-<?php if( @$isNotSV ){ ?>
+<?php /*if( @$isNotSV ){ ?>
 <a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php } ?>
+<?php }*/ ?>
 <div id="newEvent">
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add and Event</h2>
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-10 col-md-offset-2" : "col-md-12"
 	?>

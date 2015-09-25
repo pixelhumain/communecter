@@ -19,7 +19,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
 		        	<li>
-		        		<a class="new-news btn btn-info" href="#new-News">Add <i class="fa fa-plus"></i></a>
+		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li>
 		        	<?php /* ?>
 			        <li class="panel-tools">

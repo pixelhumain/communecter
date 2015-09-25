@@ -5,7 +5,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
-  
 ?>
 
 <div class="pull-right" style="padding:20px;">
@@ -17,7 +16,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 <div class="row">
   <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 center">
-  <a class="byPHRight" href="#"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
+  <a class="byPHRight" href="#"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a>
     <!-- start: LOGIN BOX -->
     <?php 
     $this->renderPartial('menuTitle',array("topTitleExists"=>false));
@@ -45,9 +44,10 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
     
     
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
-    <div class="box-ajax box box-white-round" style="top:0px;">
+    <div class="box-ajax box box-white-round" id="ajaxSV"  style="top:0px;">
       <a href="#" onclick="gotToPrevNav()" class="pull-left"><i class="fa fa-arrow-circle-left fa-2x"> </i></a>
-      <a href="#" onclick="$('.box-ajax').hide()" class="pull-right text-red btn-close-panel"><i class="fa fa-times-circle-o fa-2x"> </i></a>
+  <?php /* <div class="pull-left center text-bold text-extra-large box-ajaxTitle" style="width:90%">TIT TIT TITIT ITI TIT IT TI TI </div>  */?>
+      <a href="#" onclick="$('.box-ajax').hide()" class="pull-right text-red btn-close-panel"><i class="fa fa-times "> </i></a>
       <div class="space20"></div>
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
     </div>
@@ -81,11 +81,13 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <?php /* **********************
   LEFT MENU
 **************************** */?>
-<div class="center text-white" style="z-index:1;position:absolute; top:50px; left:25px;" >
+<div class="center text-white" style="z-index:1;position:absolute; top:15px; left:25px;" >
     <div class="center text-white pull-left">
-        <a href="#"  id="filter-menu-all" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )" class="text-white"><i class="fa fa-home fa-2x"></i></a>
-        <br/><br/><a href="#" id="filter-menu-annuaire" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','lists' )" class="text-white"><i class="fa fa-share-alt fa-2x"></i></a>
-        <br/><br/><a href="#" id="filter-menu-annuaire" onclick="showPanel('box-add',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-plus fa-2x"></i></a>
+        <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white"><i class="fa fa-home fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )" class="text-white"><i class="fa fa-rss fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','lists' )" class="text-white"><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showPanel('box-add',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-plus fa-2x"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
         <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
@@ -105,8 +107,8 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <?php /* **********************
   CONTEXT TITLE
 **************************** */?>
-<div class="center text-white pull-left" style="z-index:1;position:absolute; top:10px; left:70px; " >
-    <span class="homestead moduleLabel" style="color:white;font-size:25px"></span>
+<div class="center pull-left" style="z-index:1;position:absolute; top:10px; left:100px; " >
+    <span class="homestead moduleLabel" style="color:#58879B;font-size:25px"></span>
 </div>
 
 <?php /* **********************
@@ -177,10 +179,10 @@ svg.graph .line {
     });
 
     $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-ph');
+      showPanel('box-menu');
     });
     
-    showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )
+    showAjaxPanel( baseUrl+'/'+moduleId+'/news', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
 
   });
 

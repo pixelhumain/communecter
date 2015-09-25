@@ -65,6 +65,9 @@
 	}
 	function showAjaxPanel (url,title,icon) 
 	{ 
+		console.log("showAjaxPanel",url,title,icon);
+		$(".ajaxForm").hide();
+		$(".ajaxForm").html("");
 		if( navHistory != null)
 			prevNav = {
 			func : "showAjaxPanel",
@@ -76,8 +79,8 @@
 			url : url , 
 			title : title ,
 			icon : icon };
-		console.log("showAjaxPanel",url,title,icon);
-		$(".ajaxForm").hide();
+		
+		
 		showPanel('box-ajax');
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";

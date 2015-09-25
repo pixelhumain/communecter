@@ -43,6 +43,11 @@ class DefaultController extends CommunecterController {
     public function actionSimple() 
     {
         $this->layout = "//layouts/mainSimple";
+
+        $this->title = "TOTOTOTO";//Yii::app()->session['user']['name'];
+        /*$controller->subTitle = (isset($organization["shortDescripion"])) ? $organization["shortDescripion"] : "";
+        $controller->pageTitle = $controller->title." - ".$controller->subTitle;*/
+
         $this->render("index");      
     }
 
