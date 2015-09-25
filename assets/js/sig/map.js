@@ -91,7 +91,7 @@
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
 				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 25],//22, 94],
+				    iconAnchor: [25, 60],//22, 94],
 				    popupAnchor: [-3, -70]//-3, -76]
 				});
 			};
@@ -304,6 +304,7 @@
 							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
+												type : thisData["type"],
 												content: content };
 
 							var marker;
@@ -459,7 +460,6 @@
 						this.updatePanel(thisMap);
 
 					this.checkListElementMap(thisMap); 
-					//console.log("position : "); console.log(typeof this.markersLayer.getBounds()._northEast);
 					
 					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
@@ -517,6 +517,7 @@
 			// });
 
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
 			return map;
 		};

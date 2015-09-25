@@ -6,7 +6,7 @@
 	SigLoader.getSigRightList = function (Sig){
 
 		Sig.paginationNumPage = 1;
-		Sig.paginationBy = 10;
+		Sig.paginationBy = 3;
 		Sig.paginationNumPageMax = 0;
 
 		Sig.changePagination = function (numPage){

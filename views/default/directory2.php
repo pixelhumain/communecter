@@ -258,6 +258,7 @@ var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>
 
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = [];
+var actions = [];
 
 jQuery(document).ready(function() {
 	
@@ -342,8 +343,8 @@ function finalShowMarker(){ //alert("ayé");
 
 function initMap(){
 	var mapData = <?php echo json_encode($contextMap) ?>;
-	console.log("contextMap");
-	console.dir(mapData);
+	//console.log("contextMap");
+	//console.dir(mapData);
 	//affichage des éléments sur la carte
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
@@ -417,6 +418,28 @@ function initMap(){
 	$(".btn-close-panel").click(function(){
 		$("#right_tool_map").show('fast');
 	});
+
+	$.each($(".item_map_list_panel"), function(){
+		actions.push({ "id" : $(this).attr('data-id'), 
+					   "onclick" : $(this).attr('onclick')
+					 });
+	});
+
+
+	//console.log("actions : ");
+	//console.dir(actions);
+
+}
+
+function getActionsById(id){
+	var action = "";
+	$.each(actions, function(){
+		if(this.id == id) {
+			action = this.onclick;
+		}
+	});
+
+	return action;
 }
 </script>
 
