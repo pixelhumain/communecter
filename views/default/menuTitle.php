@@ -67,7 +67,9 @@
 	{ 
 		console.log("showAjaxPanel",url,title,icon);
 		$(".ajaxForm").hide();
-		$(".ajaxForm").html("");
+		$(".ajaxForm,.box-ajaxTools").html("");
+		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+
 		if( navHistory != null)
 			prevNav = {
 			func : "showAjaxPanel",
@@ -80,12 +82,11 @@
 			title : title ,
 			icon : icon };
 		
-		
 		showPanel('box-ajax');
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
-		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+		
 	}
 	function gotToPrevNav()
 	{

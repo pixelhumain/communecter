@@ -24,10 +24,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <!-- *** NEW PROJECT *** -->
-<?php if( @$isNotSV ){ ?>
+<?php /*if( @$isNotSV ){ ?>
 <a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php } ?>
+<?php }*/ ?>
 <div id="newProject">
+<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Project</h2>
 <?php 
 	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
@@ -261,10 +262,11 @@ function runProjectFormValidation(el) {
 	              '<cite title="Hegel">Hegel</cite>'+
 	            '</blockquote> '
 			});
-
+			<?php $typeId = ( isset($_GET["id"]) ) ? '/id/'.$_GET["id"].'/type/'.$_GET["type"] : ""; ?>
+			var typeId = "<?php echo $typeId; ?>";
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/project/save/id/<?php echo $_GET["id"]; ?>/type/<?php echo $_GET["type"];?>',
+		        url: baseUrl+"/"+moduleId+'/project/save'+typeId,
 		        dataType: "json",
 		        data: newProject,
 				type: "POST",
@@ -275,6 +277,9 @@ function runProjectFormValidation(el) {
 		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
 		        		updateProject( newProject, data.id );
 						$.unblockUI();
+					if( 'undefined' != typeof showAjaxPanel && typeof showAjaxPanel == "function" ){
+						showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )
+					} else
 						$.hideSubview();
 		        	}	
 		        } else {

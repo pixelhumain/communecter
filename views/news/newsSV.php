@@ -99,7 +99,6 @@ jQuery(document).ready(function() {
 		if( $(this).data('name') )
 			contextName = " : inform "+contextType+" "+$(this).data('name');
 		
-
 		$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 							"<div class='space20'></div>"+
 							"<h2 class='radius-10 padding-10 partition-blue text-bold'>Share a thought, an idea "+contextName+" </h2>"+

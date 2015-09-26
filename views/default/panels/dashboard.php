@@ -98,7 +98,7 @@
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
             <a title="My projects" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
-            <a title="Add A Project" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+            <a title="Add A Project" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a>
           </div>
         </div>

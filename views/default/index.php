@@ -39,16 +39,17 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
     ?>
     
   </div>
-  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  center">
+  <div class="col-xs-10 col-xs-offset-1  center">
 
     
-    
+    <style type="text/css">
+      #ajaxSV{top:0px;}
+      @media screen and (max-width: 768px) {
+        #ajaxSV,.box{top:-100px;}
+      }
+    </style>
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
-    <div class="box-ajax box box-white-round" id="ajaxSV"  style="top:0px;">
-      <a href="#" onclick="gotToPrevNav()" class="pull-left"><i class="fa fa-arrow-circle-left fa-2x"> </i></a>
-  <?php /* <div class="pull-left center text-bold text-extra-large box-ajaxTitle" style="width:90%">TIT TIT TITIT ITI TIT IT TI TI </div>  */?>
-      <a href="#" onclick="$('.box-ajax').hide()" class="pull-right text-red btn-close-panel"><i class="fa fa-times "> </i></a>
-      <div class="space20"></div>
+    <div class="box-ajax box box-white-round" id="ajaxSV">
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
     </div>
   </div>
@@ -86,7 +87,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
         <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white"><i class="fa fa-home fa-2x"></i></a>
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )" class="text-white"><i class="fa fa-rss fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','lists' )" class="text-white"><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )" class="text-white"><i class="fa fa-share-alt fa-2x"></i></a>
         <br/><br/><a href="#" onclick="showPanel('box-add',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-plus fa-2x"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c

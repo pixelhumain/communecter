@@ -7,9 +7,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 
 );
-
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
@@ -32,11 +30,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-<?php if( @$isNotSV ){ ?>
-<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php } ?>
+<?php if( @$isNotSV ){ 
+	$this->renderPartial('../default/panels/toolbar'); 
+}?>
 <div id="addOrganization" >
-	<!-- start: PAGE CONTENT -->
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
 	<?php 
 	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12 height-230"
 	?>

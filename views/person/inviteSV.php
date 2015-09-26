@@ -8,11 +8,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <style>
 
-#newInvite{
-	<?php if( @$isNotSV ){ ?>
-	display: none;
-	<?php } ?>
-}
 #newInvite .dropdown-menu{
 	width: 100%;
 }
@@ -31,10 +26,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 </style>
 
-<?php if( @$isNotSV ){ ?>
-<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php } ?>
+<?php if( @$isNotSV ){ 
+	$this->renderPartial('../default/panels/toolbar'); 
+}?>
+
 <div id="newInvite">
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Person</h2>
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
 	?>
@@ -45,9 +42,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         		<?php if( !@$isNotSV ){ ?>
 					<h1>Connect people to your network</h1>
 				<?php } ?>	
-			    <p> 
-			    Find people you know by name or email.
-			    </p>
+			    <p>  Find people you know by name or email. </p>
 			</div>
 			
 		<div class="panel-body">
