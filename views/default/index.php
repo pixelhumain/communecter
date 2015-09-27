@@ -86,7 +86,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
     <div class="center text-white pull-left">
         <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white"><i class="fa fa-home fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )" class="text-white"><i class="fa fa-rss fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white"><i class="fa fa-rss fa-2x"></i></a>
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )" class="text-white"><i class="fa fa-share-alt fa-2x"></i></a>
         <br/><br/><a href="#" onclick="showPanel('box-add',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-plus fa-2x"></i></a>
         <?php /* ?>

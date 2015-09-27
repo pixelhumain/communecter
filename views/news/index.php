@@ -10,6 +10,10 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>	
 	<!-- start: PAGE CONTENT -->
+<?php 
+if( isset($_GET["isNotSV"])) 
+	$this->renderPartial('../default/panels/toolbar'); 
+?>
 <div id="newsHistory">
 	<div class="space20"></div>
 	<div class="col-md-12">

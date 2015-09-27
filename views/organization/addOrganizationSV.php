@@ -30,9 +30,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-<?php if( @$isNotSV ){ 
+<?php 
+if( isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/panels/toolbar'); 
-}?>
+?>
 <div id="addOrganization" >
 	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
 	<?php 

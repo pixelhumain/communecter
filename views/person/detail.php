@@ -21,7 +21,10 @@
 	padding-top: 10px;
 }
 </style>
-
+<?php 
+//if( isset($_GET["isNotSV"])) 
+$this->renderPartial('../default/panels/toolbar'); 
+?>
 <div class="row">
 	<div class="col-xs-12">
 		<?php $this->renderPartial('dashboard/profil', array("person" => $person, "tags" => $tags, "countries" => $countries )); ?>
