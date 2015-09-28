@@ -87,8 +87,8 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
         <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white btn-home btn-main-menu"><i class="fa fa-home fa-2x"></i></a>
         <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white btn-main-menu"><i class="fa fa-rss fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu"><i class="fa fa-share-alt fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-add',null,'<?php echo Yii::app()->session['user']['name'] ?>')" class="text-white"><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu"><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="text-white"><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
         <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
@@ -188,7 +188,7 @@ svg.graph .line {
       showMap(false);
     });
 
-    showAjaxPanel( baseUrl+'/'+moduleId+'/news', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
+    showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
 
   });
 

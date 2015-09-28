@@ -3,9 +3,10 @@
       <div class="col-sm-6">
         <div class="panel core-box">
           <div class="panel-tools">
+          <?php /* ?>
             <a href="#" class="btn btn-xs btn-link panel-close">
               <i class="fa fa-times"></i>
-            </a>
+            </a>*/?>
           </div>
           <div class="panel-body no-padding">
             <div class="padding-20 text-center core-icon">
@@ -29,9 +30,10 @@
       <div class="col-sm-6">
         <div class="panel panel-default panel-white core-box">
           <div class="panel-tools">
+            <?php /* ?>
             <a href="#" class="btn btn-xs btn-link panel-close">
               <i class="fa fa-times"></i>
-            </a>
+            </a>*/?>
           </div>
           <div class="panel-body no-padding">
             <div class="padding-20 text-center core-icon">
@@ -55,9 +57,10 @@
       <div class="col-sm-6">
         <div class="panel panel-default panel-white core-box">
           <div class="panel-tools">
+            <?php /* ?>
             <a href="#" class="btn btn-xs btn-link panel-close">
               <i class="fa fa-times"></i>
-            </a>
+            </a>*/?>
           </div>
           <div class="panel-body no-padding">
             <div class="padding-20 text-center core-icon">
@@ -81,9 +84,10 @@
       <div class="col-sm-6">
         <div class="panel panel-default panel-white core-box">
           <div class="panel-tools">
+            <?php /* ?>
             <a href="#" class="btn btn-xs btn-link panel-close">
               <i class="fa fa-times"></i>
-            </a>
+            </a>*/?>
           </div>
           <div class="panel-body no-padding">
             <div class="padding-20 text-center core-icon">
