@@ -15,6 +15,7 @@ $this->renderPartial('../default/panels/toolbar');
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
 	    				"publics" => $public,
+	    				"contentKeyBase" => $contentKeyBase
 	    			);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>

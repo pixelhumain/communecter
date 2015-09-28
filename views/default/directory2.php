@@ -54,6 +54,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	    font-size: 20px;
 	}
 </style>
+<?php 
+if( isset($_GET["isNotSV"])) {
+	$this->toolbarMBZ = array(
+	    array('tooltip' => "Add a Person, Organization, Event or Project","iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-xs btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+	    );
+	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); 
+}
+?>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-transparent">
@@ -76,8 +84,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
+					<?php /* ?>
 					<button class="button button-primary pull-right btn-close-panell"><i class="fa fa-close"></i></button>
-					
+					*/?>
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -183,11 +192,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )";
+						$url = ( isset($_GET["isNotSV"]))  ? "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						
+						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 							'<div class="portfolio-item">';
-						$strHTML = '<a href="#" onclick="'.$url.'" class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
+						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
 						/* **************************************
 						* EMAIL for admin use only

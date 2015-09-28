@@ -8,7 +8,11 @@
    		.btnSpacer{ margin-right:10px; }
    	}
 </style>
-<div class="pull-right center box-ajaxTools" style="width:90%">
+<?php 
+if(!isset($toolbarStyle)) $toolbarStyle = "width:90%";
+if(!isset($toolbarFloat)) $toolbarFloat = "pull-right";
+ ?>
+<div class="<?php echo $toolbarFloat ?> center box-ajaxTools" style="<?php echo $toolbarStyle ?>">
 	<?php 
 		if(isset($this->toolbarMBZ)){
 			foreach ($this->toolbarMBZ as $value) {
@@ -22,7 +26,8 @@
 
             $href = ( isset( $item["href"] ) ) ? $item["href"]  :"";
             $class = (isset($item["class"])) ? 'class="'.$item["class"].'"' : "";
-            $icon = (isset($item["iconClass"])) ? '<i class="'.$item["iconClass"].'  fa-2x"></i>' : '';
+            $iconSize = (isset($item["iconSize"])) ? 'class="'.$item["iconSize"].'"' : "fa-2x";
+            $icon = (isset($item["iconClass"])) ? '<i class="'.$item["iconClass"].' '.$iconSize.'"></i>' : '';
             $badge = ( isset( $item["badge"] ) ) ? $item["badge"] : "";
             $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
             $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";

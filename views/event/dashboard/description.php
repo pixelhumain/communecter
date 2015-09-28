@@ -21,7 +21,8 @@ $cssAnsScriptFilesTheme = array(
 
 '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
 '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-'/assets/plugins/wysihtml5/wysihtml5.js' 
+'/assets/plugins/wysihtml5/wysihtml5.js' ,
+'/assets/plugins/moment/min/moment.min.js' , 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
