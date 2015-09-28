@@ -75,12 +75,13 @@ var contextMap = {
 		region :[]
 	},
 };
+
 jQuery(document).ready(function() 
 {
 	buildTimeLine();
 });
 
-function buildTimeLine()
+function buildTimeLine ()
 {
 	$(".newsTL").html('<div class="spine"></div>');
 	$(".newsTLmonthsList").html('');
