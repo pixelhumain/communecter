@@ -36,19 +36,21 @@
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 			
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			thisSig.icoMarkersMap = { 		"default" 			: "user",
+			thisSig.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
 
-										  	"citoyen" 			: "user",
+										  	"city" 				: "COLLECTIVITE_A",
 
-											"NGO" 				: "asso",
-											"organizations" 	: "asso",
-											"organization" 		: "asso",
+											"citoyen" 			: "CITOYEN_A",
 
-											"event" 			: "event",
-											"events" 			: "event",
-											"meeting" 			: "event",
+											"NGO" 				: "ASSO_A",
+											"organizations" 	: "ASSO_A",
+											"organization" 		: "ASSO_A",
 
-											"project" 			: "project",
+											"event" 			: "EVENEMENTS_A",
+											"events" 			: "EVENEMENTS_A",
+											"meeting" 			: "EVENEMENTS_A",
+
+											"project" 			: "PROJET_A",
 
 											"markerPlace" 		: "map-marker",
 

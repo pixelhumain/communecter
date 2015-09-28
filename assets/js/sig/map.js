@@ -90,9 +90,9 @@
 
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
-				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 60],//22, 94],
-				    popupAnchor: [-3, -70]//-3, -76]
+				    iconSize: [53, 60], //38, 95],
+				    iconAnchor: [26, 60],//22, 94],
+				    popupAnchor: [0, -63]//-3, -76]
 				});
 			};
 
@@ -115,8 +115,9 @@
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
+				var thisSig = this;
 				$.each(this.markerSingleList, function(){
-					thisMap.removeLayer(this);
+					thisSig.map.removeLayer(this);
 				});
 
 				this.listId = new Array();
@@ -461,15 +462,21 @@
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
-							layer.on('mouseclick', function(e) {	layer.openPopup(); });
+							layer.on('click', function(e) {	
+								layer.openPopup(); 
+								thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]],
+											  13);
+							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								thisMap.setView([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]],
-											  13, {"animate" : true });
-
-								thisSig.checkListElementMap(thisMap); //alert("check");
+								
+								thisSig.checkListElementMap(thisMap);
 								layer.openPopup();
+								thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]],
+											  13);
+
 							});
 							//console.warn("--------------- showMapElements click OK  ---------------------");
 
