@@ -1,4 +1,11 @@
 	<?php
+		$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
 		/*$isProjectAdmin= false;
     	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])) {
     		$isProjectAdmin =  Authorisation::isProjectAdmin((String) $project["_id"],Yii::app()->session["userId"]);
@@ -91,7 +98,7 @@
 		</div>
 	</div>
 <?php
-   $this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
+  // $this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
  ?>
  <script type="text/javascript">
 	jQuery(document).ready(function() {

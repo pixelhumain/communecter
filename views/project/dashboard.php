@@ -2,7 +2,7 @@
 	<div class="col-md-12 no-padding">
 	<div class="col-lg-4 col-md-12">
 		<?php 
-			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries,"isAdmin"=> $admin)); ?>
+			$this->renderPartial('pod/description',array( "project" => $project, "tags" => $tags, "countries" => $countries,"isAdmin"=> $admin)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">			
 		<?php 
@@ -10,7 +10,7 @@
 		?>
 	</div>	
 	<div class ="col-lg-4 col-md-12">
-		 <?php $this->renderPartial('dashboard/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
+		 <?php $this->renderPartial('pod/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
 	</div>
 	
 	</div>
@@ -21,7 +21,7 @@
 	<?php } 
 	 if (!empty($properties) OR $admin==true){ ?>
 	<div class ="col-lg-4 col-md-12">
-		 <?php $this->renderPartial('dashboard/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin)); ?>
+		 <?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin)); ?>
 	</div>
 	<?php } ?>
 	<div class="col-sm-6 col-xs-12 roomsPod">
