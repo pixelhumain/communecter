@@ -13,21 +13,9 @@
 		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
     </div>
 
-	<?php if($sigParams['usePanel']){ ?>
-		<div class="panel_map" id="panel_map">
-			<button class='item_panel_map' id='item_panel_map_all'>
-				<i class='fa fa-star'></i> Tous
-			</button>
-		</div>
-	<?php } ?>
+	
 
-	<?php if(@$sigParams['useFilterType']){ ?>
-		<div class="panel_map" id="panel_filter">
-			<button class='item_panel_map' id='item_panel_filter_all'>
-				<i class='fa fa-star'></i> Tous
-			</button>
-		</div>
-	<?php } ?>
+	
 
 	<?php if($sigParams['useRightList']){ ?>
 		<div id="right_tool_map" class="hidden-xs">
@@ -93,8 +81,34 @@
 			</div>
 		<?php } ?>
 
-		<div class="btn-group-map">
+		<div class="btn-group-map tools-btn">
 		
+			<?php if($sigParams['usePanel']){ ?>
+				<div class="btn-group btn-group-lg dropdown " id="btn-tags">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-panel" data-toggle="dropdown">
+						<i class="fa fa-tags"></i>
+					</button>
+					<ul class="dropdown-menu panel_map" id="panel_map" role="menu" aria-labelledby="panel_map">
+					    <button class='item_panel_map' id='item_panel_map_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>	
+			<?php } ?>
+			<?php if($sigParams['useFilterType']){ ?>
+				<div class="btn-group btn-group-lg dropdown" id="btn-filter">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-filters" data-toggle="dropdown">
+						<i class="fa fa-filter"></i>
+					</button>
+					<ul class="dropdown-menu panel_map" id="panel_filter" role="menu" aria-labelledby="panel_filter">
+					    <button class='item_panel_map' id='item_panel_filter_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>
+			<?php } ?>	
+
+
 			<?php if($sigParams['useZoomButton']){ ?>
 				<div class="btn-group btn-group-lg">		
 					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
@@ -106,16 +120,7 @@
 					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-location-arrow"></i></button>
 				</div>
 			<?php } ?>	
-			<?php if($sigParams['usePanel']){ ?>
-				<div class="btn-group btn-group-lg" id="btn-tags">
-					<button type="button" class="btn btn-map" id="btn-panel"><i class="fa fa-tags"></i></button>
-			</div>	
-			<?php } ?>
-			<?php if(@$sigParams['useFilterType']){ ?>
-				<div class="btn-group btn-group-lg" id="btn-filter">
-					<button type="button" class="btn btn-map" id="btn-filters"><i class="fa fa-filter"></i></button>
-				</div>
-			<?php } ?>	
+			
 			
 		</div>
 	<?php if($sigParams['useFullScreen']){ ?>

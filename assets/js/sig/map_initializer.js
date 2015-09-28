@@ -42,6 +42,7 @@
 
 											"NGO" 				: "asso",
 											"organizations" 	: "asso",
+											"organization" 		: "asso",
 
 											"event" 			: "event",
 											"events" 			: "event",
@@ -59,6 +60,7 @@
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
+											"organization" 		: { ico : "group", color : "green" 		},
 
 											"event" 			: { ico : "calendar", color : "red" 	},
 											"events" 			: { ico : "calendar", color : "red" 	},
@@ -204,25 +206,12 @@
 							
 							//console.log("my position : ");
 							//console.dir(data);
+							thisSig.myPosition = data;
 
 							if(data != null){
-								var center = [data.position.latitude, data.position.longitude];
-								if(center != null){
-
-									var properties = { 	id : "0",
-														icon : thisSig.getIcoMarkerMap({"type" : data.type}),
-														content: "" };
-
-									var marker = thisSig.getMarkerSingle(thisSig.map, properties, center);
-
-									$( "#btn-home" ).click(function (){ 
-											console.log("pan to my position :");
-											console.dir(center);
-											thisSig.map.panTo(center); 
-											thisSig.map.setZoom(16);
-									});
-								}
-							}else{
+								thisSig.showMyPosition();
+							}
+							else{
 								toastr.error("Impossible de trouver la position de l'utilisateur connecté");
 							}
 						}
@@ -238,7 +227,7 @@
 		};
 
 		Sig.getIcoByType = function (type){
-			if(this.icoMarkersMap[type] != null){
+			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
@@ -273,9 +262,21 @@
 			return null;
 		};
 
+		Sig.centerSimple = function(center, zoom){
+			this.map.panTo(center);
+			this.map.setZoom(zoom);
+			var height = $("#mapCanvasBg").height();
+			console.log("height" + height);
+			var center = height / 2;
+			var pan = center - 100;
+			console.log("pan" + pan);
+			//alert("yo");
+			this.map.panBy([0, pan]);
+			this.map.invalidateSize(false);
+		};
 
-		//***
-		//afficher / masquer l'icone de chargement
+		//***chargement
+		//afficher / masquer l'icone de 
 		Sig.showIcoLoading = function (loading){
 			if(this.cssModuleName == "") return;
 			if(loading == true) { $( this.cssModuleName + " #ico_reload").css({"display":"block"});	 }

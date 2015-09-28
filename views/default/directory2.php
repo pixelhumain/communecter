@@ -47,7 +47,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
-	#btn-close-panel {
+	#btn-close-panell {
 	    position: absolute;
 	    right: 25px;
 	    top: 20px;
@@ -76,9 +76,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
 						</li>
 					</ul>
-					<?php /* ?>
-					<button class="button button-primary pull-right" id="btn-close-panel"><i class="fa fa-close"></i></button>
-					*/?>
+					<button class="button button-primary pull-right btn-close-panell"><i class="fa fa-close"></i></button>
+					
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -280,14 +279,8 @@ jQuery(document).ready(function() {
 	if( activeType != "")
 		 $('.filter'+activeType).trigger("click");
 
-	$('#btn-close-panel').click(function(){
-		if( $('#Grid').css("display") != "none"){
-			$('#Grid').hide("fast");
-			$('#btn-close-panel').html('<i class="fa fa-plus"></i>');
-		}else{
-			$('#Grid').show("fast");
-			$('#btn-close-panel').html('<i class="fa fa-close"></i>');
-		}
+	$('.btn-close-panell').click(function(){
+		showMap(true);
 	});
 
 	initMap();
@@ -376,28 +369,6 @@ function initMap(){
 	});
 
 
-	//EVENT MENU PRINCIPAL
-	$("#filter-menu-persons").click(function(){
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($people) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
-	});
-	$("#filter-menu-organizations").click(function(){
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($organizations) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
-	});
-	$("#filter-menu-events").click(function(){
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($events) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
-	});
-	$("#filter-menu-projects").click(function(){
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
-	});
-	
 	$("li.filter .label-danger").click(function(){ alert($(this).html());
 		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($projects) ?>;
@@ -433,9 +404,6 @@ function initMap(){
 		}
 	});
 
-	$(".btn-close-panel").click(function(){
-		$("#right_tool_map").show('fast');
-	});
 
 	$.each($(".item_map_list_panel"), function(){
 		actions.push({ "id" : $(this).attr('data-id'), 

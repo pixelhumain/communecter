@@ -424,15 +424,16 @@ creer des conflits : regle pas assez specfique
  /* legende / panel */
 
  .panel_map{
- 	position:relative;
  	max-width:200px;
  	min-width:150px;
- 	top:74px;
  	background-color:#2A3945;
  	padding:15px 0px;
+ 	max-height:300px;
  	overflow-y: auto;
  	z-index: 10;
  	display:none;
+ 	border-radius:0px;
+ 	border:none;
  }
  .item_panel_map{
 	text-align:left !important;
@@ -447,9 +448,9 @@ creer des conflits : regle pas assez specfique
  	border:0px;
  	border-bottom:1;
  	width:100%;
- 	font-size: 1.1em;
+ 	font-size: 1em;
 	background: transparent none repeat scroll 0% 0%;
-	font-weight: 400;
+	font-weight: 300;
 	text-transform: capitalize;
  }
  .item_panel_map:hover{

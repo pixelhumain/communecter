@@ -126,9 +126,30 @@
 
 				$( this.cssModuleName + " #liste_map_element").html("");
 
+				this.showMyPosition();
+
 			};
 
+			this.Sig.showMyPosition = function(){
+				var thisSig = this;
+				if(thisSig.myPosition != null){
+					console.log("position find");
+					var center = [thisSig.myPosition.position.latitude, 
+								  thisSig.myPosition.position.longitude];
+					var properties = { 	id : "0",
+										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										content: "" };
 
+					thisSig.getMarkerSingle(thisSig.map, properties, center);
+
+					$( "#btn-home" ).click(function (){ 
+							thisSig.setView(center, 16);
+					});
+					$( ".btn-home" ).click(function (){ 
+							thisSig.centerSimple(center, 16);
+					});
+				}
+			}
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
 			this.Sig.setFullScreen = function()
 			{
@@ -141,56 +162,59 @@
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight+25});
-				
-				$(this.cssModuleName + " #panel_map").css({"max-height":mapHeight-300});
-				$(this.cssModuleName + " #panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
-				
-				$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
-				$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20});
-				
+			
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
 				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33  });
 				
 				$(this.cssModuleName + " #right_tool_map").css(		{"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
 				$(this.cssModuleName + " .input-search-place").css( {"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
-
-				//alert($(this.cssModuleName + " .panel_map").width());
 			};
 
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
 			this.Sig.setNoFullScreen = function()
-			{
+			{ 
 				var mapHeight = this.initParameters.mapHeight;
 				var rightListHeight = mapHeight - 100;
 
 				var left = $(this.cssModuleName + " #right_tool_map").position().left - $(this.cssModuleName + " .input-search-place").width() - 20;
 				$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
+			};
 
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
+			this.Sig.setFullPage = function()
+			{ 
+				var mapHeight = $("#mapCanvasBg").height();
+				var rightPanelHeight = mapHeight - 120;
+
+				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
+				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
+				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});
+				
+				$(this.cssModuleName + " .tools-btn").css( 
+					{"left":$("#mapCanvas" + this.sigKey).width() - 
+					$("#right_tool_map").width() - 
+					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+				
+				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
+
+				var left = $(this.cssModuleName + " .tools-btn").position().left;
 				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
-				$(this.cssModuleName + " #panel_map").css({"max-height":mapHeight-300});
-				$(this.cssModuleName + " #panel_map").css({"left":$(this.cssModuleName + " #btn-tags").position().left+20});
-				$(this.cssModuleName + " #panel_map").css({"top":top-3});
-				
-				$(this.cssModuleName + " #panel_filter").css({"max-height":mapHeight-300});
-				$(this.cssModuleName + " #panel_filter").css({"left":$(this.cssModuleName + " #btn-filter").position().left+20}); //alert($(this.cssModuleName + " #btn-filter").position().top);
-				$(this.cssModuleName + " #panel_filter").css({"top":top-3});
-				
-				$(this.cssModuleName + " #liste_map_element").css({"height"    : rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 - 33 /*padding*/ });// - $(this.cssModuleName + " #chk-scope").height() - 33 });
-				$(this.cssModuleName + " #liste_map_element").css({"max-height": rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 - 33 /*padding*/ });
-			
+	
 			};
 
 			//modifie la position et la forme des éléments de l'interface de facon dynamique
 			this.Sig.constructUI = function()
 			{
-				if(this.initParameters.useFullPage){ return; }
-
+				
 				if(this.initParameters.useFullScreen){
 					this.setFullScreen();
 				}
 				else{
 					this.setNoFullScreen();
 				}
+
+				if(this.initParameters.useFullPage){ this.setFullPage(); }
+
 			}
 
 			this.Sig.verifyPanelFilter = function (thisData){
@@ -301,10 +325,14 @@
 							var content = this.getPopup(thisData);
 
 							//création de l'icon sur la carte
+							//console.log("THISDATA");
+							//console.dir(thisData);
 							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
+												name : thisData["name"],
+												faIcon : this.getIcoByType(thisData["type"]),
 												content: content };
 
 							var marker;
@@ -370,11 +398,10 @@
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				console.warn("--------------- showFilterOnMap ---------------------");
+				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
-				//console.dir(dataFilter);
-
+				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
 						//console.warn("--------------- show each thisData ---------------------");

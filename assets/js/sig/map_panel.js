@@ -59,7 +59,7 @@
 			//tags.push("all");
 			//types.push("all");
 
-			console.dir(thisSig.listPanel);
+			//console.dir(thisSig.listPanel);
 			
 			$.each(tags, function(index, value){
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);

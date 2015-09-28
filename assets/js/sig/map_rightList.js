@@ -6,7 +6,7 @@
 	SigLoader.getSigRightList = function (Sig){
 
 		Sig.paginationNumPage = 1;
-		Sig.paginationBy = 3;
+		Sig.paginationBy = 5;
 		Sig.paginationNumPageMax = 0;
 
 		Sig.changePagination = function (numPage){
@@ -49,8 +49,6 @@
 			$.each(thisSig.elementsMap,
 				function() {
 					var bounds = thisMap.getBounds();
-					
-					if(thisSig.inPagination(nbElement)){
 							
 						if( (this.geo.longitude > bounds.getSouthWest().lng && this.geo.longitude < bounds.getNorthEast().lng &&
 							this.geo.latitude > bounds.getSouthWest().lat && this.geo.latitude < bounds.getNorthEast().lat)
@@ -59,26 +57,34 @@
 								//si le champ de recherche par userName est rempli (n'est pas vide)
 								if(this.name != null && $(thisSig.cssModuleName + ' #input_name_filter').val() != "") {
 									//on affiche l'élément seulement s'il correspond à la recherche
-									if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
-										$(thisSig.cssModuleName + " #element-right-list-" + this._id.$id.toString()).css({ "display" : "inline" });
-									}
+										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
+											if(thisSig.inPagination(nbElement)){
+												$(thisSig.cssModuleName + " #element-right-list-" + this._id.$id.toString()).css({ "display" : "inline" });							
+											}
+											nbElement++;
+												
+										}
+									
 								}
 								else //si le champs de recherche est vide, on affiche l'élément
 								{
-									$(thisSig.cssModuleName + " #element-right-list-" + thisSig.getObjectId(this)).css({"display" : "inline" });
-							 	}
+									if(thisSig.inPagination(nbElement)){
+										$(thisSig.cssModuleName + " #element-right-list-" + thisSig.getObjectId(this)).css({"display" : "inline" });
+									}	
+									nbElement++;
+									
+								}
 							 }
-					}
-					else{
-
-					}
-					nbElement++;
+					
+					
 				});
 
 			var maxPaginationBtn = 5;
-			if(nbElement > this.paginationBy){
+			var nbTotal = nbElement; //thisSig.elementsMap.length;
+			console.log("nbTotalEment : " + nbTotal);
+			if(nbTotal > this.paginationBy){
 
-				var nbPage = nbElement / this.paginationBy;
+				var nbPage = nbTotal / this.paginationBy;
 				this.paginationNumPageMax = nbPage;
 
 				$("#pagination").html(
