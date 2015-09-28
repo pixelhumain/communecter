@@ -26,11 +26,12 @@ class TestController extends CommunecterController {
   }
 
   public function actionInsertNewPerson() {
-	$res = Person::insert(array(
-	  'name' => "Test", 'email' => "new@email.com", 'postalCode' => "97426", 'pwd' => "vlanlepass"
-	  ));
+  $params = array(
+    'name' => "Test", 'email' => "new14@email.com", 'postalCode' => "97426", "city"=> "97401" ,'pwd' => "vlanlepass"
+    );
+  $res = Person::insert($params);
 
-	var_dump($res);
+  var_dump($params);
 
   }
 
@@ -49,7 +50,7 @@ class TestController extends CommunecterController {
         "tplParams" => array( "user"=>Yii::app()->session['userId'] ,
                                "title" => "Test" ,
 	                           "logo"  => "/images/logo.png" )
-        );
+    );
   	
     Mail::schedule($params);
 
@@ -72,12 +73,12 @@ class TestController extends CommunecterController {
   }
   
   public function actionMail() {
-	//send validation mail
-	echo "from : ".Yii::app()->params['adminEmail'];
-	echo "<br/>";
-	echo "to : ".Yii::app()->session['userEmail'];
-	echo "<br/>";
-	echo "img : ".$this->module->assetsUrl."/images/logo.png";
+  	//send validation mail
+  	echo "from : ".Yii::app()->params['adminEmail'];
+  	echo "<br/>";
+  	echo "to : ".Yii::app()->session['userEmail'];
+  	echo "<br/>";
+  	echo "img : ".$this->module->assetsUrl."/images/logo.png";
 
     //Send Classic Email 
     $res = Mail::send(array("tpl"=>'validation',
@@ -88,9 +89,8 @@ class TestController extends CommunecterController {
                                "title" => "Test" ,
                                "logo"  => $this->module->assetsUrl."/images/logo.png" )) , true);
     
-	echo "<br/>";
+	  echo "<br/>";
     echo "result: ".$res; 
-
 	}
 	
 	public function actionNotif() 
@@ -102,23 +102,24 @@ class TestController extends CommunecterController {
     */
     //$type,$perimetre,$verb,$label,$id
     $asParam = array("type" => ActStr::TEST, 
-                    "codeInsee" => "97400",
+                    "codeInsee" => "97400",//option
+                    // IP //option
                     "verb" => "add",
                     "actorType"=>"persons",
                     "objectType"=>"test",
-                    "label" => "Testing Notification Push",
+                    "label" => "Testing Notification Push 2", //option
                     "id" => Yii::app()->session['userId']
                 );
     $action = ActStr::buildEntry($asParam);
 
     //LOGGING WHO TO NOTIFY
-    $action["notify"] = ActivityStream::addNotification( array( 
-                                                        "persons" => array( Yii::app()->session['userId'] ),
-                                                         "label" => "Something Changed" , 
-                                                         "icon"=> ActStr::ICON_QUESTION ,
-                                                         "url" => 'javascript:alert(  "testing notifications"  );' 
-                                                    ));
-        ActivityStream::addEntry($action);
+    $notif = array( "persons" => array( Yii::app()->session['userId'] ),
+                    "label"   => "Something Changed Again " , 
+                    "icon"    => ActStr::ICON_QUESTION ,
+                    "url"     => 'javascript:alert( "testing notifications"  );' 
+                  );
+    $action["notify"] = ActivityStream::addNotification( $notif );
+    ActivityStream::addEntry($action);
 	}
 
 	public function actionMandrill() {
@@ -277,4 +278,35 @@ class TestController extends CommunecterController {
 
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
   }  
+
+  public function actionAverageComment() {
+    var_dump(Comment::getCommunitySelectedComments("5596a29b88aee0c4d97da608", Survey::COLLECTION));
+  }
+
+  public function actionActivationURL() {
+    $userId = "55e5c4722336f2d8580041e5";
+    
+    $validationKey =Person::getValidationKeyCheck($userId);
+    $url = Yii::app()->getRequest()->getBaseUrl(true)."/".$this->module->id."/person/activate/user/".$userId.'/validationKey/'.$validationKey;
+    var_dump($url);
+  }
+
+  public function actionTestEmail() {    
+    var_dump(Utils::getServerInformation());
+    $person = Person::getById("55e5c4722336f2d8580041e5");
+    $params = array(   "person"   => $person ,
+                                    "title" => Yii::app()->name ,
+                                    "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
+  }
+
+  public function actionImageMarker() {
+    $profilImage = Yii::app()->params['uploadDir']."communecter/image_2.jpg";
+    $srcEmptyMarker = Yii::app()->params['uploadDir']."communecter/marker-citizen.png";
+    
+    $imageUtils = new ImagesUtils($profilImage);
+    $imageUtils->createMarkerFromImage($srcEmptyMarker);
+  }
+
 }

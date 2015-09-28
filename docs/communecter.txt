@@ -160,18 +160,18 @@
 				- nacelles02.com/?page_id=30
 			[X] MEETING:11/08/2015: CRES : Mélissa CadarsiTél. : 02 62 21 50 60, melissa.cadarsi@cres-reunion.com​
 	** THINK TANK
-		- any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
-		- stupid loading pong game with mouse on a small section of screen 
-		- faire J'AIME | JE SOUTIENS | BECOME MEMBER | FOLLOW sur Orga , Event , Projet
+		*** any one who wants a conversion format avalable needs to make his github and extraction format publicly available 
+		*** stupid loading pong game with mouse on a small section of screen 
+		*** faire J'AIME | JE SOUTIENS | BECOME MEMBER | FOLLOW sur Orga , Event , Projet
 			ex : http://fr-voosilla.ouvaton.org/Incubation/DevSite/Actuel/index.html#ancre-contribliste
-		- activity Stream Mapper 
+		*** activity Stream Mapper 
 			when some one enters a module or anything 
 			as he uses the system 
 			his activity Stream Map grows with his different actions 
 				can help understand usage
 				debug any bugs 
 			add easily add gamification features
-		- Application Communacelle : Communecter dans une nacelle
+		*** Application Communacelle : Communecter dans une nacelle
 			:cominspace:
 			- application smartphone ou tablet
 			- condition testing 
@@ -207,8 +207,160 @@
 			- hardware 
 				- wireless mics
 				- tablet 
-	** COMMUNICATION 
-    [ ] faire marcher la newsletter 
-		
-	
-	
+		*** Module Alert
+			se greffe sur le news module
+			on ne regarde pas juste un poste passer mais on peut s'y abonner
+			un abonnement peut partir d'une rencontre , d'un post 
+			on le suit 
+			ex j'ajoute un thread soil , sur la terre 
+				que tout le monde peut suivre 
+		*** Badge Commune ()
+			different niveau de badge d'une commune 
+			- local data gathered ( button pressed ) 
+			- adhésion de la commune
+				signifie qu'elle a creer son entité Organisation et fait des action contributive
+				definir une procedure d'inscription d'une commune
+			- nombre de communecter 
+			- nombre de flux locaux connecté
+			- taux d'activité inter commune
+			- Opendata
+		*** Badge citoyen / Organisation
+			nb de connection 
+			nb de contribution
+			nb de lien
+				citoyen
+				orga
+				event
+				projects
+			*** Colectivité 
+				according to criterias
+					adherent
+					citizen user count 
+					participation quotas
+				Badge types 
+					Gold
+					Platinum
+					Silver
+
+		*** Meteor Real Time Voting / open data sensor 
+		*** MOAC : Massiv Apero Citoyen
+			*** Question 
+				- Do you feel there's a waste of energy, due to individualism ?
+				- Do you feel like a creator, like someone who has good ideas ?
+				- How much energy would you give your ideas ? 10 25 50 75 90 100%
+				- Quelle sorte de culture aimer et le genre => ville Rock , Reggae, Maloya, Theatre ...
+				- qui ferait un MOAC
+				- quel type de citoyen etes
+					- sportif 
+					- culturel 
+		*** install a gratipay
+
+		*** NETWORK MAPPING
+			in a cloud version
+				mon organisation  =:: create a group : asso, ent., group of people ...
+				access through a single URL 
+				no login required 
+				loggued features 
+					easy import with excel 
+
+		*** MODULE TRIP, CHEMIN, TRAJET
+			open a trip 
+			dessiner des point sur une carte 
+			enregistrer
+				MODULE LIFEPATH
+			
+		** VOTE ROOM == pppm == OpenNote 
+			cloud & genreic version 
+				create root =:: an entry point == unique URL 
+				add sessions 
+				add entries
+				loggued features
+			textarea 
+				browser rich editor 
+			moderation
+				votre loi accepter ou refusé
+				pour moderateur  icon visuel pour voir les loi a modérer
+			easy import/ export
+				txt import 
+				using tab parenting 
+			remove ctrl textarea, addmulti, editList move to github testController
+		*** CITIZEN TASKING
+			- declarer votre quartier 
+			- photo de votre ville vue du dessus 
+		*** Timeline module 
+			user :: login 
+			add entry 
+				name 
+				date
+				desc
+				tags
+				people
+				type : event | 
+		*** Human Pixel The Movie 
+		*** Site Duplicator 
+			PH will propose differnet layouts for groups etc 
+			so an easy theme switcher will be available 
+			but also copy this site btn , will extract the page for anyone to duplicate 
+			simply fork a page
+			use Github pages : http://www.smashingmagazine.com/2014/08/01/build-blog-jekyll-github-pages/
+		*** Gestion Association 
+			GET TOGETHER 
+				- Add members
+				- Add Organizations
+			ACT TOGETHER
+				- Add Projects
+					- Add Contributors
+					- layout wireframe and bullet points
+					- Start Actions / Tasks
+						- assignee 
+				- Add Events
+					- add attendees
+				- Add documents
+			THINK TOGETHER
+				--- Request ---
+					question Communauté
+					demande de brainstorm 
+				--- Answer ---
+					Proposals
+					Yes / No / Maybe 
+				--- Vote  ---
+			VISUALIZE GLOBALY
+				- Graph
+				- GIS
+	*** My planet : a nice vizualisation of my network
+		http://codepen.io/jdniki/pen/YyzBqd
+	** tag features 
+		un simple tag ajouté sur un element (ex : projet) 
+		propose automatiquement des fonctionalités spécifique
+			#agricutlure : ajoute le module production / permaculture 
+			#developpement : ajoute le kanban
+			#evennementiel : donne plus d'element au calendrier , preparation de salle ...etc
+	** Etape pour cartographier un territoire 
+		- cartographier son propre reseau 
+			chaque personne est acteur du systeme 
+			le systeme se dessine grace au lien sur un territoire 
+		- une personne ou une organization ajoute 
+			- d'autre personne
+				- des proches 
+				- des connaissances
+				- son reseau professionel  
+			- des organizations
+			- des projets
+	** Inscription
+		https://libertic.wordpress.com/2015/08/27/loperation-libre-libere-communes/
+	** Code Postale Photographers
+		comme AirBnb pour les appart 
+		commencer une collection de photographe par code postal
+		ex : 974 
+			./mobilehttp://www.rup.re/-/galeries/diaporama-page-dacceuil/-/medias/d92165f8-cdf8-11e3-a4d1-329e81129ea7-shrimp
+	** Dark PH
+		Organisation secret
+	** Dashboard thematique 
+		[ ] un vue dashboard pour un tag : tagboard
+		[ ] scope board
+** COMMUNICATION 
+	[ ] faire marcher la newsletter 
+	[ ] ANNIVERSAIRE PH
+				
+			
+			

@@ -6,12 +6,12 @@
 	?>
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> CONTRIBUTORS</h4>
+			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id) ?></h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
-				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Connect People or Organizations that are part of your Organization"><i class="fa fa-plus"></i></a>
+				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>
 				<?php } ?>
-				<div class="dropdown">
+				<!--<div class="dropdown">
 					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 						<i class="fa fa-cog"></i>
 					</a>
@@ -35,7 +35,7 @@
 							</a>
 						</li>
 					</ul>
-				</div>
+				</div>-->
 				<a href="#" class="btn btn-xs btn-link panel-close">
 					<i class="fa fa-times"></i>
 				</a>
@@ -47,7 +47,7 @@
 					<li class="active">
 						<a href="#users_tab_attending" data-toggle="tab">
 							<span><i class="fa fa-child"></i>
-							Contributors
+							<?php echo  ucfirst(strtolower(Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id))) ?>
 							</span>
 						</a>
 					</li>
@@ -70,7 +70,7 @@
 									<tr id="contributor<?php echo $member["_id"]; ?>">
 										<td class="center">
 										<?php if($member && isset($member["imagePath"])) { ?>
-											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo $member["imagePath"]; ?>"></td>
+											<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member['imagePath']) ?>"></td>
 										<?php } else{ 
 												echo $icon;
 											} ?>

@@ -18,7 +18,7 @@
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> NEED INFORMATION</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id); ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php 
@@ -36,40 +36,39 @@
 			<table class="table table-condensed table-hover" >
 				<tbody>
 					<tr>
-						<td>Name</td>
-						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["name"]))echo $need["name"];?></td>
+						<td><?php echo Yii::t("common","Name") ?></td>
+						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a></td>
 					</tr>
 					<tr>
 						<td>Type</td>
-						<td><a href="#" id="type" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["type"]))echo $need["type"];?></td>
+						<td><a href="#" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a></td>
 					</tr>
 					<tr>
-						<td>Duration</td>
-						<td><a href="#" id="category" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["duration"]))echo $need["duration"];?></td>
+						<td><?php echo Yii::t("common","Duration") ?></td>
+						<td><a href="#" id="duration" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a></td>
 					</tr>
 					<!--<tr>
 						<td>Description</td>
 						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click"></a></td>
 					</tr>-->
-					<?php if ($need["duration"]== "ponctuel"){ ?>
-					<tr>
-						<td>Début</td>
-						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a><?php if(isset($need["startDate"]))echo $need["startDate"];?></td>
+					
+					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
+						<td><?php echo Yii::t("common","Start") ?></td>
+						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a></td>
+					</tr>
+					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
+						<td><?php echo Yii::t("common","End") ?></td>
+						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
-						<td>Fin</td>
-						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a><?php if(isset($need["endDate"]))echo $need["endDate"];?></td>
-					</tr>
-					<?php } ?>
-					<tr>
-						<td>Quantité</td>
-						<td><a href="#" id="quantity" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["quantity"]))echo $need["quantity"];?></td>
+						<td><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?>Quantité</td>
+						<td><a href="#" id="quantity" data-type="number" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["quantity"]))echo $need["quantity"];?></a></td>
 					</tr>
 					
 					
 					<tr>
-						<td>Benefits</td>
-						<td><a href="#" id="benefits" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"></a><?php if(isset($need["benefits"]))echo $need["benefits"];?></td>
+						<td><?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?></td>
+						<td><a href="#" id="benefits" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["benefits"]))echo $need["benefits"];?></a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -77,29 +76,28 @@
 </div>
 <script type="text/javascript">
 /*var needData = ;*/
-var needId="";
+var needID="<?php echo $_GET["idNeed"]; ?>";
 var mode = "update";
-//var startDate = '<?php ?>';
-//var endDate = '<?php ?>';
-
-
+var startDate = '<?php if(isset($need["startDate"])) echo $need["startDate"]; else echo ""; ?>';
+var endDate = '<?php if(isset($need["endDate"])) echo $need["endDate"]; else echo ""; ?>';
+console.log(startDate+" / "+endDate);
 jQuery(document).ready(function() 
 {
     bindAboutPodneeds();
-	initXEditable();
-	manageModeContext();
+	initNeedXEditable();
+	manageNeedModeContext();
 });
 
 
 
 function bindAboutPodneeds() {
 	$("#editNeedDetail").on("click", function(){
-		switchMode();
+		switchNeedMode();
 	})
 }
 
-function initXEditable() {
-	$.fn.editable.defaults.mode = 'inline';
+function initNeedXEditable() {
+	$.fn.editable.defaults.mode = 'popup';
 	$('.editable-need').editable({
     	url: baseUrl+"/"+moduleId+"/needs/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
@@ -109,31 +107,13 @@ function initXEditable() {
 	        	toastr.success(data.msg);
 	        else
 	        	toastr.error(data.msg);  
+	     console.log(data);
 	    }
 	});
     //make jobTitle required
 	$('#name').editable('option', 'validate', function(v) {
     	if(!v) return 'Required field!';
 	});
-
-	/*$('#description').editable({
-		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
-		value: <?php echo (isset($need["description"])) ? json_encode($need["description"]) : "''"; ?>,
-		placement: 'right',
-		mode: 'popup',
-		wysihtml5: {
-			html: true,
-			video: false,
-			image: false
-		},
-		success : function(data) {
-	        if(data.result) 
-	        	toastr.success(data.msg);
-	        else
-	        	toastr.error(data.msg);  
-	    },
-	});*/
-
 	$('#startDate').editable({
 		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
 		type: "date",
@@ -166,41 +146,92 @@ function initXEditable() {
 	        if(data.result) 
 	        	toastr.success(data.msg);
 	        else 
-				return data.msg;
+				toastr.error(data.msg);
 	    }
     });
     var formatDate = "YYYY-MM-DD";
     $('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 	$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 
+	$('#type').editable({
+			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			//mode: 'popup',
+			source:function() {
+				listType=["Materials","Competences","Services"];
+				return listType;
+			},
+			success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else 
+				return data.msg;
+	    }
+	});
+	$('#benefits').editable({
+			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			//mode: 'popup',
+			source:function() {
+				listBenefits=["Remunéré","Volontaire"];
+				return listBenefits;
+			},
+			success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else 
+				return data.msg;
+	    }
+	});
+	$('#duration').editable({
+			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			//mode: 'popup',
+			source:function() {
+				listBenefits=["Ponctuel","Permanent"];
+				return listBenefits;
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+		        	if(data.duration=="Permanent"){
+			        	$(".durationDate").addClass("hide");
+		        	}
+		        	else{
+			        	$(".durationDate").removeClass("hide");
+		        	}
+		        } else { 
+					return data.msg;
+				}
+				console.log(data);
+	    	}
+	});
 
     //Select2 tags
 }
 
-function switchMode() {
+function switchNeedMode() {
 	if(mode == "view"){
 		mode = "update";
-		manageModeContext();
+		manageNeedModeContext();
 	} else {
 		mode ="view";
-		manageModeContext();
+		manageNeedModeContext();
 	}
 }
 
-function manageModeContext() {
-	listXeditables = ['#startDate', '#endDate',"#quantity","#type","#category","#benefits"];
+function manageNeedModeContext() {
+	listNeedInfoXeditables = ['#startDate','#endDate',"#type","#duration","#benefits"];
 	if (mode == "view") {
 		$('.editable-need').editable('toggleDisabled');
-		$.each(listXeditables, function(i,value) {
+		$.each(listNeedInfoXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
 		})
 	} else if (mode == "update") {
+		console.log(needID);
 		// Add a pk to make the update process available on X-Editable
-		$('.editable-need').editable('option', 'pk', needId);
+		$('.editable-need').editable('option', 'pk', needID);
 		$('.editable-need').editable('toggleDisabled');
-		$.each(listXeditables, function(i,value) {
+		$.each(listNeedInfoXeditables, function(i,value) {
 			//add primary key to the x-editable field
-			$(value).editable('option', 'pk', needId);
+			$(value).editable('option', 'pk', needID);
 			$(value).editable('toggleDisabled');
 		})
 	}

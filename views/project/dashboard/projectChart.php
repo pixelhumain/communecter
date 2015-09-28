@@ -14,34 +14,36 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> CHART</span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
-			<div class="dropdown">
+			
 				<?php if ($admin){ ?>
-				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="Editer les propriétés"><i class="fa fa-pencil"></i>
+				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-pencil"></i>
 				</a>
 				<?php } ?>
+			<!--<div class="dropdown">
 				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
 					<i class="fa fa-cog"></i>
 				</a>
-			</div>
+			</div>-->
 			<a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
 			</a>
 		</div>
 	</div>
 	<?php if(isset($properties) && !empty($properties)){ ?>
-	<div class="panel-body no-padding">
-		<canvas id="myChart" width="" height=""></canvas>
-	</div>
+		<div id="infoPodChart" class="padding-10 hide">
+			<blockquote> 
+				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
+			</blockquote>
+		</div>
+		<div class="panel-body no-padding">
+			<canvas id="myChart" width="" height=""></canvas>
+		</div>
 	<?php } else { ?>
 		<div id="infoPodChart" class="padding-10">
-					<blockquote> 
-					Create Chart
-						<br>Opening 
-						<br>Values
-						<br>Governance
-						<br>To explain the aim and draw project conduct
+			<blockquote> 
+				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
 			</blockquote>
 		</div>
 		<div class="panel-body no-padding contentChart hide">
@@ -63,22 +65,29 @@ jQuery(document).ready(function() {
 
 function updateChart(data, nbProperties){
 	newCount=0;
-	if (nbProperties==0){
-		$("#infoPodChart").hide();
-		$(".contentChart").removeClass("hide");
-		chartInit(data);
+	if (countProperties==0){
+		if(nbProperties!=0){
+			$("#infoPodChart").addClass("hide");
+			$(".contentChart").removeClass("hide");
+			chartInit(data);
+			countProperties=nbProperties;
+		}		
 	}
 	else{
 		for (var i=0; i < countProperties; i++ ){
 			myNewChart.removeData();
 		}
-		chartInit(data);
-		/*for (var lab in data){
-			//alert(lab+":"+data[lab]);
-			//myNewChart.addData([data[lab]], lab);
-			newCount++;
+		if(nbProperties==0){
+			$("#infoPodChart").removeClass("hide");
+			$(".contentChart").addClass("hide");
+			$("#myChart").attr("width","0");
+			$("#myChart").attr("height","0");
+			
 		}
-		countProperties=newCount;*/
+		else {
+			chartInit(data);
+		}
+		countProperties=nbProperties;
 	}
 }
 

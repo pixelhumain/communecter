@@ -11,9 +11,9 @@ svg{
 /*   ############# leaflet ################## */
 
   .leaflet-popup-content-wrapper{
- 	background-color:rgba(39, 52, 65, 0.69);
+ 	background-color:#FFF;
  	border-radius:10px;
- 	color:white;
+ 	color:#2A3945;
  	font-family: "Open Sans";
  }
 
@@ -93,14 +93,13 @@ svg{
  	font-size:13px !important;
  	color:#2aa0bd !important;
  }
-<<<<<<< HEAD
+
  /*
 creer des conflits : regle pas assez specfique
 =======
  .popup-result-find-place{
  	font-size:16px;
  }
->>>>>>> 9c019be1e3c79d7476d9334fcb1dd9f5e46a5cc0
  .modal-lg {
     width: 90%;
   }
@@ -121,18 +120,50 @@ creer des conflits : regle pas assez specfique
 	LISTE ELEMENT MAP (RIGHT)
 */
  #right_tool_map{
-	width:25%;
-	height:100%;
+	width:300px;
+	height:90%;
 	position:absolute !important;
-	right:0px;
-	top:0px;
+	right:5%;
+	top:5%;
 	background-color:white;
+	-moz-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	-webkit-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	-o-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0.40);
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=315, Strength=3);
+}
+.right_tool_map_header{
+	height:50px;
+	width:100%;
+	background-color:#5F8295;
+	color:white;
+}
+.right_tool_map_header_title{
+	margin-top: 7px;
+	margin-left: 20px;
+	float: left;
+	font-size: 14px;
+	font-weight: 500;
+	width: 100%;
+}
+
+.right_tool_map_header_info{
+	margin-top:3px;
+	margin-left:20px;
+	font-weight: 300;
+	font-size: 13px;
+	
 }
 #map_pseudo_filters{
 	width:100%;
 	float:left;
 	background-color:white;
-	padding:8px;
+	padding:0px;
+}
+#input_name_filter{
+	font-size:13px;
+	width:100%;
+	padding-left: 20px;
 }
 #input_txt_pseudo_filter{
 	width:84%;
@@ -148,6 +179,11 @@ creer des conflits : regle pas assez specfique
 	border-radius:4px 0px 0px 4px;
 	float:left;
 }
+.input-group-addon{
+	background-color: #5F8295 !important;
+	border-radius:0px !important;
+}
+
 #btn_pseudo_filter{
 	width:15%;
 	height:30px;
@@ -166,32 +202,83 @@ creer des conflits : regle pas assez specfique
 	max-height:100%;
 /* 	margin-top:10px; */
 	overflow-y:auto;
-	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-webkit-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-o-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
 }
 .element-right-list{
 	width:100%;
 	display:inline-block;
-	height:35px;
 }
+
+.item_map_list .left-col{
+	float:left;
+	width:65px;
+	min-height:70px;
+}
+#right_tool_map .item_map_list .separation{
+	min-width:250px;
+	min-height:1px;
+	background-color:rgba(128, 128, 128, 0.4);
+	float: left;
+	margin-left:20px;
+}
+
+.item_map_list .left-col .ico-type-account{
+	/*background-color:#2A3945;*/
+	background-image:url("flag.png");
+	position:relative;
+	left:-6px;
+	text-align: center;
+	height: 20px;
+	width: 40px;
+	top: 5px;
+	font-size:12px;
+	padding:2px;
+}
+.item_map_list .left-col .ico-type-account i.fa{
+	padding:0px !important;
+	margin-left: 8px;
+	position: absolute;
+	margin-top:1px !important;
+}
+
+.item_map_list .left-col .thumbnail-profil{
+	width:50px;
+	height:50px;
+	background-color:#DADADA;
+	border-radius:4px;
+	float:right;
+}
+
+.item_map_list .right-col{
+	float:right;
+	width:190px;
+	margin-bottom:4px;
+	max-width:190px;
+	min-height:70px;
+	text-align: left;
+}
+
+.item_map_list .right-col .info_item{
+	float:left;
+	min-width:100%;
+	max-width:100%;
+	text-align:left;
+	font-family: inherit;
+	font-size: 11px;
+	color: grey;
+}
+
 .item_map_list{
 	float:left;
-	width:75%;
+	width:100%;
 	padding-top:6px;
 	padding-bottom:4px;
 	margin-top:0px;
 	text-decoration:none;
 	background-color:white;
 	border:0px white;
-	border-bottom-width:1px;
-	border-bottom-style:dashed;
-	border-bottom-color:d3d1d5;
 }
 .item_map_list:hover{
-	background-color:d3d1d5;
+	background-color:#d3d1d5;
 }
 .ico_item_map_list{
 	float:left;
@@ -202,22 +289,20 @@ creer des conflits : regle pas assez specfique
 .pseudo_item_map_list{
 	float:left;
 	max-width:65%;
-	margin-top:2px;
-	font-family: "Raleway",sans-serif;
-	color:black;
+	margin-top:-2px;
+	/*font-family: "Raleway",sans-serif;*/
+	color:black !important;
+	font-weight: 500;
+	font-size:14px !important;
 }
 .city_item_map_list{
-		font-family: "Raleway",sans-serif;
-		text-align:right;
-		max-width:40%;
-		margin-right: 5px;
-		margin-top: 2px;
-		margin-bottom: 2px;
-		margin-left: 7px;
-		float: right;
-		color: grey;
+	
 }
-
+.tag_item_map_list{
+	color:red;
+	font-weight: 500;
+	text-decoration: none;
+}
 #liste_map_element a.btn.dropdown-toggle{
 	margin-right:5%;
 	margin-top:5px;
@@ -246,6 +331,8 @@ creer des conflits : regle pas assez specfique
 	background-color:d3d1d5;
 }
 
+
+
 /* boutons */
 
 .btn-group-map{
@@ -254,9 +341,11 @@ creer des conflits : regle pas assez specfique
  	margin-right:10px;
 }
 .btn-map{
-	background-color:#E6D414;
+	background-color:#2A3945;
 	color:#213042 !important;
-	font-size:22px !important;
+	/*font-size:22px !important;*/
+	padding: 12px 18px 12px !important;
+	font-size:15px !important;
 }
 .btn-map:hover{
 	background-color:#5896AB !important;
@@ -273,64 +362,78 @@ creer des conflits : regle pas assez specfique
 .input-search-place{
 	margin-left:2px;
 	left:210px;
-	max-width:270px !important;
+	max-width:262px !important;
 }
+
+
 .input-search-place input.input-search-place-in-map{
 	float: left;
-	padding: 16px !important;
-	width: 218px;
-	border-color: rgba(98, 151, 162, 0.18) !important;
+	padding: 14px 14px 13px !important;
+	width: 204px;
+	border-color: transparent !important;
 	margin: 0px !important;
-	border-width: 2px;
+	border-width: 1px;
 	border-style: solid;
-	background-color: rgba(255, 255, 255, 0.69) !important;
-	color: #000;
-	font-weight: 800;
+	background-color: rgba(43, 62, 68, 0.91) !important;
+	color: #FFF;
+	font-weight: 300;
 }
 .input-search-place input.input-search-place-in-map.input-2s{
-	width: 109px !important;
+	width: 102px !important;
 }
 .input-search-place input.input-search-place-in-map.input-3s{
-	width: 134px !important;
+	width: 127px !important;
 }
 .input-search-place input.input-search-place-in-map.input-4s{
-	width: 270px !important;
+	width: 254px !important;
 }
-.input-search-place input:focus{
-	background-color: rgba(31, 29, 39, 0.69) !important;
-    background-image: none;
-    background: rgba(31, 29, 39, 0.69) !important;
-	color: #000 !important;
+.input-search-place input[type="text"]:focus{
+	background-image: none !important;
+    background: rgba(43, 62, 68, 0.59) !important;
+	background-color: rgba(43, 62, 68, 0.6) !important;
+	border-color: rgba(230, 230, 230, 0.4) !important;
+    color: #fff !important;
 }
 
 .input-search-place #dropdown-find-place{
-	width: 270px !important;
-	margin-top: -2px;
+	width: 254px !important;
+	margin-top: -4px;
 	border: 0px none;
 	border-radius: 0px;
-	margin-left: 2px;
+	margin-left: 0px;
 	float:right !important;
 }
 .input-search-place #list-dropdown-find-place{
 	border-radius:0px;
 }
 
+#list-dropdown-find-place.dropdown-menu{
+	background-color: #2A3945 !important;
+}
 #list-dropdown-find-place.dropdown-menu > li > a {
 	overflow-x: hidden;
 	text-overflow: ellipsis;
-	width: 270px;
+	width: 100%;
+	color:white;
+	font-weight: 200;
 }
-
+#list-dropdown-find-place.dropdown-menu > li > a:hover {
+	background-color: #5896AB;
+	color:white;
+}
  /* legende / panel */
 
  .panel_map{
- 	position:relative;
  	max-width:200px;
  	min-width:150px;
- 	left:0px;
- 	background-color:rgba(82, 103, 119, 0.78);
+ 	background-color:#2A3945;
  	padding:15px 0px;
+ 	max-height:300px;
  	overflow-y: auto;
+ 	z-index: 10;
+ 	display:none;
+ 	border-radius:0px;
+ 	border:none;
  }
  .item_panel_map{
 	text-align:left !important;
@@ -341,24 +444,27 @@ creer des conflits : regle pas assez specfique
  	color:white !important;
  	max-width:250px;
  	min-width:60px;
- 	background:rgba(0,0,0,0.1);
+ 	background:transparent;
  	border:0px;
  	border-bottom:1;
  	width:100%;
- 	font-size:0.9em;
+ 	font-size: 1em;
+	background: transparent none repeat scroll 0% 0%;
+	font-weight: 300;
+	text-transform: capitalize;
  }
  .item_panel_map:hover{
-  background-color:rgba(194, 203, 222, 0.4);
+  background-color:#5F8295 !important;
  }
  h3#title_panel{
  	margin: 0px 0px 5px 10px;
  }
 .item_panel_map.selected{
- 	background-color:rgba(23, 58, 75, 0.51) !important;
+ 	background-color:#77A3AE !important;
 	color:#FFF !important;
  }
 .item_panel_map.selected:hover{
- 	background-color:rgba(23, 58, 75, 0.51) !important;
+ 	background-color:#5F8295 !important;
 	color:#FFF !important;
  }
  .item_panel_map.selected a{
@@ -383,15 +489,31 @@ creer des conflits : regle pas assez specfique
  	top:0px;
  	left:270px;
 }
+.btn-group-map .btn-group{
+	margin-right:20px;
+}
 .btn-map{
 	background-color:#E6D414;
 	color:#213042 !important;
-	font-size:22px !important;
+	font-size:15px !important;
 }
 .btn-map:hover{
 	background-color:#5896AB;
 }
-
+.btn-group-map .btn{
+	border-radius:3px !important;
+}
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.input-search-place .btn{
+	border-radius:0px 3px 0px 0px !important;
+}
 #ico_reload{
 	display:inline;
 	padding:13px;
@@ -431,20 +553,31 @@ creer des conflits : regle pas assez specfique
   }
 
   #lbl-chk-scope{
-	height:42px;
-	padding-left:4% !important;
-	padding-top:8px;
-	width:100%;
-	font-size:1.1em;
-	-moz-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-webkit-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	-o-box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	box-shadow: inset 0px 3px 2px 0px #c0c0c0;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=180, Strength=2);
-}
-.world_pix{
+	height: 46px;
+    padding-left: 20px !important;
+	padding-top: 5px;
+    width: 100%;
+	font-size:0.9em;
+	background-color: #FFF; /*#5F8295;*/
+    color: white;
+    font-size: 12px;
+  }
+  #lbl-chk-scope .pagination{
+  	margin:5px auto;
+  }
+  #lbl-chk-scope .pagination a{
+  	color:grey !important;
+  }
+
+  #pagination > li.active a{
+	color:white !important;
+	background-color:#5896AB !important;
+	border-color:#5896AB !important;
+  }
+
+  .world_pix{
 	max-width:60%;
-}
+  }
 
 
 /* style tooltip des chartsMarkers */
@@ -496,6 +629,64 @@ creer des conflits : regle pas assez specfique
 	}
 	.legend-values .key{
 		display: none;
+	}
+
+
+
+	.marker-cluster{
+		border-radius: 40px;
+	    margin-left: -38px !important;
+	    margin-top: -38px !important;
+	    padding:7px !important;
+	    width: 77px !important;
+	    height: 77px !important;
+	    background-image: url("../images/marker_cluster.png");
+	    background-color: transparent !important;
+	}
+
+	.marker-cluster div{
+	    border-radius: 25px;
+	    width: 53px !important;
+		height: 53px !important;
+	    background-color: #FFF !important;
+	    padding: 10px !important;
+	    font-size: 15px !important;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	}
+
+	
+	.marker-cluster-small{
+		border-radius: 30px;
+	    margin-left: -27px !important;
+	    margin-top: -27px !important;
+	    padding:7px !important;
+	    width: 55px !important;
+	    height: 55px !important;
+	    background-image: url("../images/marker_cluster_small.png");
+	    background-color: transparent !important;
+	}
+
+	.marker-cluster-small div{
+	    border-radius: 25px;
+	    margin-left: 0px !important;
+	    margin-top: 0px !important;
+	    width: 40px !important;
+	    height: 40px !important;
+	    background-color: #FFF !important;
+	    padding: 5px !important;
+	    font-size: 15px !important;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	}
+
+	.leaflet-popup-tip-container{
+		display:none !important;
+	}
+
+	.leaflet-tile-container.leaflet-zoom-animated{
+		/*top:30px !important;*/
+	}
+	.leaflet-map-pane{
+		/*top:154px;*/
 	}
 /* style tooltip des chartsMarkers */
 

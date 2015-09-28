@@ -19,7 +19,7 @@
 </style>
 <div id="newContributors">
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h1>Add contributor</h1>
+		<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
 		<form class="form-contributor" autocomplete="off">
 			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php echo (string)$project["_id"]; ?>'>
 			<div class="form-group" id="searchMemberSection">
@@ -29,7 +29,7 @@
 		           	</div>
 		           	<div class="col-md-11">
 		           		<span class="input-icon input-icon-right">
-				           	<input class="contributor-search form-control" placeholder="Search By name, email" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
+				           	<input class="contributor-search form-control" placeholder="<?php echo Yii::t("common", "Search By name, email") ?>" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
 				           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 				        		<ul class="dropdown-menu" id="dropdown_search" style="">
 									<li class="li-dropdown-scope">-</li>
@@ -45,6 +45,7 @@
 					<div class="form-group"  id="addContributorSection">
 						<div class='row center'>
 		            		<input type="hidden" id="contributorType"/>
+		            		<input type="hidden" id="contributorId"/>
 		            		<div class="btn-group ">
 								<a id="btnCitoyen" href="javascript:;" onclick="switchTypeContributor('citoyens')" class="btn btn-green">
 									Citoyen
@@ -55,7 +56,7 @@
 							</div>
 			            </div><br>
 		                <div id="formNewContributor">
-			    	        <div class="row">
+			    	        <div class="row form-group">
 			    	        	<div class="col-md-1" id="iconUser">	
 					           		
 					           	</div>
@@ -63,7 +64,7 @@
 			    	        		<input class="contributor-name form-control" placeholder="Name" id="contributorName" name="contributorName" value=""/>
 								</div>		    	        
 			    	        </div>
-			    	        <div class="row" id="divOrganizationType">
+			    	        <div class="row form-group" id="divOrganizationType">
 			    	        	<div class="col-md-1">
 			    	        		<i class="fa fa-crosshairs fa-2x"></i>
 					           	</div>
@@ -76,7 +77,7 @@
 									</select>
 								</div>		    	        
 			    	        </div>
-			    	        <div class ="row">
+			    	        <div class ="row form-group">
 			    	        	<div class="col-md-1">	
 					           		<i class="fa fa-envelope-o fa-2x"></i>
 					           	</div>
@@ -84,7 +85,7 @@
 			               			<input class="contributor-email form-control" placeholder="Email" autocomplete = "off" id="contributorEmail" name="contributorEmail" value=""/>
 			               		</div>
 			               	</div>
-			               	<div class="row">
+			               	<div class="row form-group">
 								<div class="col-md-5">
 									<div id="divAdmin" class="form-group">
 						    	    	<label class="control-label">
@@ -97,13 +98,13 @@
 							</div>
 			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1">	
-									<a href="javascript:showSearchContributor()"><i class="fa fa-search"></i> Search</a>
+									<a href="javascript:showSearchContributor()"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
 								</div>
 							</div>
 							
 							<div class="form-group">
 								<div class="row">
-					    	        <button class="btn btn-primary" >Enregistrer</button>
+					    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
 					    	    </div>
 					    	</div>
 				    	</div>
@@ -126,9 +127,10 @@
 		$('#contributorEmail').focusout(function(e){
 		});
 	});
+	
 	var mapIcon = {"citoyens":"fa-smile-o", "organizations":" fa-building-o"};
+	
 	function bindprojectSubViewcontributor() {	
-		
 		$(".new-contributor").off().on("click", function() {
 			subViewElement = $(this);
 			//$(".form-contributor .contributor-id").val($(this).data("id"));
@@ -136,13 +138,15 @@
 			$.subview({
 				content : subViewContent,
 				onShow : function() {
-					editProject();
+					editContributor();
 				},
 				onHide : function() {
-					hideEditProject();
+					hideEditContributor();
+					showSearchContributor();
 				},
 				onSave: function() {
-					hideEditProject();
+					hideEditContributor();
+					showSearchContributor();
 				}
 			});
 		});
@@ -213,9 +217,9 @@
 				}
 			},
 			messages : {
-				contributorName : "* Please specify your first name",
-				contributorType : "* Please select a type",
-				contributorEmail : "* Please enter an email"
+				contributorName : "* <?php echo Yii::t("common","Please specify your first name") ?>",
+				contributorType : "* <?php echo Yii::t("common","Please select a type") ?>",
+				contributorEmail : "* <?php echo Yii::t("common","Please enter an email") ?>"
 
 			},
 			invalidHandler : function(contributor, validator) {//display error alert on form submit
@@ -235,19 +239,20 @@
 			success : function(label, element) {
 				label.addClass('help-block valid');
 				// mark the current input as valid and display OK icon
-				$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+				$(element).closest('.form-group').removeClass('has-error').find('.symbol').removeClass('required').addClass('ok');
 			},
 			submitHandler : function(form) {
 				successHandler2.show();
 				errorHandler2.hide();
 				id=$("#projectID").val();
 				newProject = new Object;
-				newProject.id = $(".form-contributor #projectID").val(),
-				newProject.type = $(".form-contributor #contributorType").val(),
-				newProject.name = $(".form-contributor .contributor-name").val(), 
-				newProject.email = $('.form-contributor .contributor-email').val(), 
-				newProject.organizationType=$('.form-contributor #organizationType').val(), 
-				newProject.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val(),
+				newProject.id = $(".form-contributor #projectID").val();
+				newProject.type = $(".form-contributor #contributorType").val();
+				newProject.contribId = $("#newContributors #contributorId").val();
+				newProject.name = $(".form-contributor .contributor-name").val();
+				newProject.email = $('.form-contributor .contributor-email').val();
+				newProject.organizationType=$('.form-contributor #organizationType').val();
+				newProject.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -255,7 +260,6 @@
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
 				});
-				console.log(newProject);
 				if ($(".form-contributor .contributor-id").val() !== "") {
 					el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
@@ -279,14 +283,13 @@
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-					        console.log(data.member); 
 							if(typeof updateContributor != "undefined" && typeof updateContributor == "function")
 		        				updateContributor( data.member,  $("#newContributors #contributorType").val());            
 				        	toastr.success('Invatation to project success');
 				        	$.hideSubview();
 				        		
 				        } else {
-				           toastr.error('Something Went Wrong');
+				           toastr.error('Something Went Wrong : '+data.content);
 				        }
 				    });
 
@@ -295,6 +298,7 @@
 		});
 	};
 	function setMemberInputAddContributor(id, name, email, type, organizationType){
+		name = name.replace("ACCENT","'");
 		$("#iconeChargement").css("visibility", "hidden")
 		$("#newContributors #contributorSearch").val(name);
 		$("#newContributors #contributorName").val(name);
@@ -315,7 +319,6 @@
 		$("#newContributors #dropdown_search").css({"display" : "none" });
 		$("#newContributors #addContributorSection").css("display", "block");
 		$("#newContributors #searchMemberSection").css("display", "none");
-
 	}
 	function autoCompleteEmailAddContributor(searchValue){
 		//console.log("autoCompleteEmailAddMember");
@@ -329,15 +332,13 @@
 	        	if(!data){
 	        		toastr.error(data.content);
 	        	}else{
-	        		console.log(data);
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewContributorForm()'>Non trouvé ? Cliquez ici.</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewContributorForm()'><?php echo Yii::t("common","Not find ? Click here.")?></a></li>";
 		 			$.each(data, function(key, value) {
-		 			
 		 				$.each(value, function(i, v){
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddContributor(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')"><i class="fa '+mapIcon[key]+'"></i>'+v.name +'</a></li>';
+			 				name = (v.name) ? v.name.replace("'","ACCENT") : "";
+		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v._id["$id"]+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";
 		  				});
 		  			}); 
-
 		  			$("#newContributors #dropdown_search").html(str);
 		  			$("#newContributors #dropdown_search").css({"display" : "inline" });
 	  			}
@@ -349,7 +350,7 @@
 		$("#newContributors #searchMemberSection").css("display", "none");
 		$("#newContributors #contributorName").val("");
 		$("#newContributors #contributorName").removeAttr("disabled");
-		$("#newContributors #mcontributorId").val("");
+		$("#newContributors #contributorId").val("");
 		$('#newContributors #contributorEmail').val("");
 		$('#newContributors #contributorEmail').removeAttr("disabled");
 		$('#newContributors #organizationType').removeAttr("disabled");
@@ -375,7 +376,7 @@
 		$("#newContributors #searchMemberSection").css("display", "block");
 		$("#newContributors #divAdmin").css("display", "none");
 		$("#iconeChargement").css("visibility", "hidden")
-		$("#newContributors #memberSearch").val("");
+		$("#newContributors .contributor-search").val("");
 		$("#newContributors #dropdown_search").css({"display" : "none" });
 	}
 	
@@ -404,11 +405,11 @@
 
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
-	function hideEditProject() {
+	function hideEditContributor() {
 		$.hideSubview();
 	};
 	// enables the edit form 
-	function editProject(el) {
+	function editContributor(el) {
 		$(".close-new-contributor").off().on("click", function() {
 			$(".back-subviews").trigger("click");
 		});

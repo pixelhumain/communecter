@@ -1,22 +1,37 @@
 <?php 
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
 
-	//X-editable...
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
+$cssAnsScriptFilesTheme = array(
+	//Select2
+'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
 
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
-	
+//X-editable...
+'/assets/plugins/x-editable/css/bootstrap-editable.css',
+'/assets/plugins/x-editable/js/bootstrap-editable.js',
+
+//DatePicker
+'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+
+//DateTime Picker
+'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+
+'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+'/assets/plugins/wysihtml5/wysihtml5.js' ,
+'/assets/plugins/moment/min/moment.min.js' , 
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
+$cssAnsScriptFilesModule = array(
 	//Data helper
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
-	//X-Editable postal Code
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <style type="text/css">
@@ -49,7 +64,7 @@
 		</div>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="col-sm-12 no-padding">
+		<div class="col-sm-6 col-xs-12 no-padding">
 			<div class="item" id="imgAdherent">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
@@ -60,30 +75,34 @@
 																		  "editMode" => $edit )); ?>
 			</div>
 		</div>
-		<div class="col-sm-12 sectionBlockAdherent" id="infoEvent">
-			<div class="row" >
-				<div class="col-sm-1"><i class="fa fa-clock-o"></i></div>
-				<div class="col-sm-11">
+		<div class="col-sm-6 col-xs-12 sectionBlockAdherent" id="infoEvent">
+			<div class="row padding-20" >
+				<div class="col-sm-12"><i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?</div>
+				<div class="col-sm-12">
 					<div class="col-xs-12 no-padding">
-						<span>Toute la journée : </span><a href="#" id="allDay" data-type="select" data-emptytext="Toute la journée ?" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span>Du </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","From") ?> </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span>Au </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
+						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-1"><i class="fa fa-users"></i></div>
-				<div class="col-sm-11">
-					Organisateur : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
+			<div class="row padding-20">
+				<div class="col-sm-12"><i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?</div>
+				<div class="col-sm-12">
+					<?php if($organizer["type"]=="project"){ 
+						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
+					 } else { 
+						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
+					 } ?> : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-1"><i class="fa fa-map-marker"></i></div>
-				<div class="col-sm-11">
+			<div class="row padding-20">
+				<div class="col-sm-12"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?</div>
+				<div class="col-sm-12">
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-event editable editable-click">
 						<?php echo (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : null; ?>
 					</a>
@@ -100,7 +119,7 @@
             <hr/>
             <h4 class="panel-title text-left">Description</h4>
         </div>
-		<div class="col-sm-12 hidden-xs padding-10">
+		<div class="col-sm-12 hidden-xs padding-20">
 			<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 			</a>
 		</div>
@@ -114,7 +133,7 @@
 	var countries = <?php echo json_encode($countries) ?>;
 	//By default : view mode
 	var mode = "view";
-	var allDay = '<?php echo (isset($event["allDay"])) ? $event["allDay"] : "false"; ?>'
+	var allDay = '<?php echo (@$event["allDay"] == true) ? $event["allDay"] : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	
@@ -127,7 +146,7 @@
 		manageModeContext();
 
 		$(".removeEventBtn").off().on("click", function(e){
-			bootbox.confirm("Are you sure you want to delete this event ?", function(result) {
+			bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete")?> <?php echo Yii::t("event","this event",null,Yii::app()->controller->module->id)?> ?", function(result) {
 				if (!result) {
 					return;
 				}
@@ -299,7 +318,7 @@
 				format: 'yyyy-mm-dd',
 				viewformat: 'dd/mm/yyyy',
 				datepicker: {
-					weekStart: 1,
+					weekStart: 1
 				},
 				success : function(data) {
 					if(data.result) 
@@ -318,7 +337,7 @@
 				format: 'yyyy-mm-dd',   
 	        	viewformat: 'dd/mm/yyyy',
 	        	datepicker: {
-	                weekStart: 1,
+	                weekStart: 1
 	           },
 	           success : function(data) {
 			        if(data.result) 
@@ -340,7 +359,8 @@
 				viewformat: 'dd/mm/yyyy hh:ii',
 				datetimepicker: {
 					weekStart: 1,
-					minuteStep: 30
+					minuteStep: 30,
+					language: 'fr'
 				   },
 				success : function(data) {
 					if(data.result) 
@@ -360,7 +380,8 @@
 	        	viewformat: 'dd/mm/yyyy hh:ii',
 	        	datetimepicker: {
 	                weekStart: 1,
-	                minuteStep: 30
+	                minuteStep: 30,
+	                language: 'fr'
 	           },
 	           success : function(data) {
 			        if(data.result) 

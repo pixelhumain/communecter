@@ -1,9 +1,21 @@
 <?php
-	$cssAnsScriptFilesModule = array(
-		//Data helper
-		'/js/dataHelpers.js'
-		);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+$cssAnsScriptFilesModule = array(
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/moment/min/moment.min.js' , 
+	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	'/plugins/bootstrap-select/bootstrap-select.min.css',
+	'/plugins/bootstrap-select/bootstrap-select.min.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>
 
 <style>
@@ -23,60 +35,113 @@
 .no-padding-right {
 	padding-right: 0;
 }
-
+.dropOrgaEvent{
+	padding-left: inherit;	
+}
+.dropOrgaEvent li{
+	list-style: none;
+	margin-left: 15px;
+}
+.categoryTitle{
+    border-bottom: 1px solid #8b91a0;
+    font-variant: small-caps;
+    font-style: italic;
+    font-size: 17px;
+}
+.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
+}
 </style>
 
 <!-- *** NEW EVENT *** -->
+<?php /*if( @$isNotSV ){ ?>
+<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
+<?php }*/ ?>
 <div id="newEvent">
-	<div class="noteWrap col-md-10 col-md-offset-2">
-		<h3>Add new event</h3>
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Event</h2>
+	<?php 
+	$size = ( !@$isNotSV ) ? "col-md-10 col-md-offset-2" : "col-md-12"
+	?>
+	<div class="noteWrap <?php echo $size ?> ">
+		<?php if( !@$isNotSV ){ ?>
+		<h3><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h3>
+		<?php } ?>
 		<div class="row">
 		<div class="col-md-11">
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
-					if(!empty($myOrganizationAdmin)) {
+				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
 				?>
 			<div class="row">
-				<div class="col-md-6 selectpicker">
+				<div class="selectpicker col-md-6">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
 						
-                        <a class="form-control dropdown-toggle " data-toggle="dropdown" href="#" aria-expanded="true">
-                          	<span id="labelOrga">Organisation</span><span class="caret"></span>
+                        <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                          	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
                         </a>
-                        <ul role="menu" class="dropdown-menu" id="dropOrgaEvent">
-                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
-	                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
-	                       	<?php } ?>
+                        <!--<div class="panel-scroll height-230 ps-container">-->
+                        <ul role="menu" class="dropdown-menu scrollable-menu">
+	                        <li class="categoryOrgaEvent col-md-12">
+		                        <ul class="dropOrgaEvent" id="citoyen">	                    
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
+			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
+		                        </ul>
+	                        </li>
+	                        <?php if(!empty($myOrganizationAdmin)) { ?>
+	                        <li class="categoryOrgaEvent col-md-12">
+		                        <ul class="dropOrgaEvent" id="organization">
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("common","Organizations") ?></li>
+		                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
+			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                       	<?php } ?>
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+	                        <?php	if(!empty($myProjectAdmin)) { ?>
+	                        <li class="categoryOrgaEvent col-md-12">
+		                         <ul class="dropOrgaEvent" id="project">
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-lightbulb-o'></i> <?php echo Yii::t("common","Projects") ?></li>
+			                        <?php foreach ($myProjectAdmin as $p) { ?>
+			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
+			                       	<?php } ?>
+
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+
                         </ul>
+                       <!-- </div>-->
                     </div>
                     
-                    <input class="hide" type="text" id="newEventOrga" name="newEventOrga">
+                    <input class="hide" type="text" id="newEventOrgaId" name="newEventOrgaId">
+                    <input class="hide" type="text" id="newEventOrgaType" name="newEventOrgaType">
 
 				</div>
 				<div class="col-md-6">
 					<div class="col-md-6 no-padding-left">
 						<div class="form-group">
 							<span class="input-icon">
-								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="Postal Code">
+								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 								<i class="fa fa-home"></i></span>
 						</div>
 					</div>
 					<div class="col-md-6 no-padding-right">
 						<div class="form-group" id="cityDiv" style="display: none;">
 							<span class="input-icon">
-								<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+								<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 								</select>
 							</span>		
 						</div>
 					</div>
 				</div>
 			</div>
-			<?php } ?>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<input class="event-id hide" type="text" id="newEventId" name="newEventId">
-						<input class="event-name form-control" name="eventName" type="text" placeholder="Event Name...">
+						<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -96,7 +161,7 @@
 			<div class= "row">
 				<div class="col-md-3">
 					<div class="form-group">
-						<input type="checkbox" class="all-day" data-label-text="All-Day" data-on-text="True" data-off-text="False">
+						<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
 					</div>
 				</div>
 				<div class="no-all-day-range">
@@ -130,9 +195,20 @@
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
-						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="Write note here..."></textarea>
+						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
 					</div>
 				</div>
+				<?php if( @$isNotSV ){ ?>
+					<?php if( Yii::app()->session['userId'] ){ ?>
+					<div class= "row  col-xs-12">
+						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
+					</div>
+					<?php } else { ?>
+						<div class= "row  col-xs-12">
+							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
+						</div>
+					<?php } ?>
+				<?php } ?>
 			</div>
 		</form>
 	</div>
@@ -144,7 +220,8 @@
 <script type="text/javascript">
 
 	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
-	var listOrgaAdmin = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])); ?>;
+	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
+	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var parentOrga = [];
 	var defaultHours;
 
@@ -304,7 +381,8 @@
 				newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.city = $(".form-event #city ").val();
-				
+				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
+				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -314,7 +392,7 @@
 				});
 
 				if($(".form-event #newEventOrga").val() !==""){
-					newEvent.organization = $(".form-event #newEventOrga").val();
+
 				}
 				
 				$.ajax({
@@ -430,12 +508,38 @@
 	//----------------------------Function for event SV--------------------
 
 	function initMyOrganization(){
-		
+		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
+			//$(".selectpicker").addClass("col-md-12");
+			//$(".categoryOrgaEvent").addClass("col-md-4");
+		}
+		else if (listOrgaAdmin.length != 0 || listProjectAdmin.length != 0){
+			//$(".selectpicker").addClass("col-md-6");
+			//$(".categoryOrgaEvent").addClass("col-md-6");
+		}
+		else {
+			//$(".selectpicker").addClass("col-md-6");
+			//$(".categoryOrgaEvent").addClass("col-md-12");
+		}
 
 		$(".dropOrg").click(function() {
 			console.log(this);
-			$("#labelOrga").text("Organisation : "+$(this).data("name"));
-			$("#newEventOrga").val($(this).data("id"));
+			if ($(this).parents().eq(1).attr("id")=="organization"){
+				$("#labelOrga").text("Organisation : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("organizations");
+			}
+			else if ($(this).parents().eq(1).attr("id")=="project"){
+				$("#labelOrga").text("Project : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("projects");
+			}
+			else {
+				$("#labelOrga").text("Person : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("citoyens");
+			}
+
+
 		})
 
 		if("undefined" != typeof(parentOrga)){

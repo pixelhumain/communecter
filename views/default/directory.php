@@ -1,10 +1,9 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		isadmin<?php echo Yii::app()->session["userIsAdmin"] ?>test 
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> My <a href="javascript:;" onclick="applyStateFilter('NGO|Group|LocalBusiness')" class="btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
-																				<a href="javascript:;" onclick="applyStateFilter('person')" class="btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
-																				<a href="javascript:;" onclick="applyStateFilter('event|concert|meeting|dance')" class="btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count(@$events) ?></span></a> 
-																				<a href="javascript:;" onclick="applyStateFilter('project')" class="btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count(@$projects) ?></span></a>
+		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> <a href="javascript:;" onclick="applyStateFilter('organization|NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('person')" class="filter<?php echo Person::COLLECTION ?> btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
+																				<a href="javascript:;" onclick="applyStateFilter('event|concert|meeting|dance')" class="filter<?php echo Event::COLLECTION ?> btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count(@$events) ?></span></a> 
+																				<a href="javascript:;" onclick="applyStateFilter('project')" class="filter<?php echo Project::COLLECTION ?> btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count(@$projects) ?></span></a>
 																				<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a></h4>
 	</div>
 	<div class="panel-tools">
@@ -82,47 +81,59 @@
 
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes ){
 							
+							if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
+								return;
 							$actions = "";
 							$classes = "";
+							$id = @$e['_id'];
+
 							/* **************************************
 							* ADMIN STUFF
 							***************************************** */
-							if( Yii::app()->session["userIsAdmin"] && $type == Person::CONTROLLER )
+							if( Yii::app()->session["userIsAdmin"] )
 							{
-								//Activated
-								if( @$e["roles"]["tobeactivated"] )
-								{
-									$classes .= "tobeactivated";
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
-								}
-								//Beta Test
-								if (@Yii::app()->params['betaTest']) {
-									if( @$e["roles"]["betaTester"] ) {
-										$classes .= "betaTester";
-										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
-									} else {
-										$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
+								if($type == Person::CONTROLLER){
+									//Activated
+									if( @$e["roles"]["tobeactivated"] )
+									{
+										$classes .= "tobeactivated";
+										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
 									}
-								}
-								//Super Admin
-								if( @$e["roles"]["superAdmin"] ) {
-									$classes .= "superAdmin";
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
-								} else {
-									$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
-								}
+									//Beta Test
+									if (@Yii::app()->params['betaTest']) {
+										if( @$e["roles"]["betaTester"] ) {
+											$classes .= "betaTester";
+											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
+										} else {
+											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
+										}
+									}
+									//Super Admin
+									if( @$e["roles"]["superAdmin"] ) {
+										$classes .= "superAdmin";
+										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
+									} else {
+										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
+									}
 
-								//TODO
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
-								$actions .= '<li><a href="javascript:;" data-id="'.$e["_id"].'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
+
+									//TODO
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
+								} else if( $type == Organization::CONTROLLER )
+								{
+								
+								}
+								$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i>Delete</a> </li>';
 							}
 
 							/* **************************************
 							* TYPE + ICON
 							***************************************** */
-						$strHTML = '<tr id="'.$collection.(string)$e["_id"].'">'.
+						$strHTML = '<tr id="'.$collection.(string)$id.'">'.
 							'<td class="'.$collection.'Line '.$classes.'">'.
-								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">';
+								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
 									if ($e && isset($e["imagePath"])){ 
 										$strHTML .= '<img width="50" height="50" alt="image" class="img-circle" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">'.((isset($e["type"])) ? $e["type"] : "");
 									} else { 
@@ -134,13 +145,13 @@
 							/* **************************************
 							* NAME
 							***************************************** */
-							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
+							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
 							
 							/* **************************************
 							* EMAIL for admin use only
 							***************************************** */
 							if( Yii::app()->session[ "userIsAdmin"] && Yii::app()->controller->id == "admin" ){
-								$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$e["_id"]).'">'.((isset($e["email"]))? $e["email"]:"").'</a></td>';
+								$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["email"]))? $e["email"]:"").'</a></td>';
 							}
 
 							/* **************************************
@@ -218,10 +229,12 @@
 	</div>
 </div>
 <script type="text/javascript">
+var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
 jQuery(document).ready(function() {
 	bindAdminBtnEvents();
 	resetDirectoryTable() ;
-	
+	if(openingFilter != "")
+		$('.filter'+openingFilter).trigger("click");
 });	
 
 var directoryTable = null;
@@ -391,6 +404,76 @@ function bindAdminBtnEvents(){
 					changeRole(btnClick, "revokeSuperAdmin")
 				}
 			});
+		});
+
+		
+		$(".switch2UserThisBtn").off().on("click",function () 
+		{
+			console.log("switch2UserThisBtn click");
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var urlToSend = baseUrl+"/"+moduleId+"/admin/switchto/uid/"+id;
+	        
+	        bootbox.confirm("confirm please !!",
+        	function(result) 
+        	{
+				if (!result) {
+					btnClick.empty().html('<i class="fa fa-thumbs-down"></i>');
+					return;
+				} else {
+					$.ajax({
+				        type: "POST",
+				        url: urlToSend,
+				        dataType : "json"
+				    })
+				    .done(function (data)
+				    {
+				        if ( data && data.result ) {
+				        	toastr.info("Switched user!!");
+				        	window.location.href = baseUrl+"/"+moduleId+"/person/dashboard";
+				        } else {
+				           toastr.error("something went wrong!! please try again.");
+				        }
+				    });
+				}
+			});
+
+		});
+
+		$(".deleteThisBtn").off().on("click",function () 
+		{
+			console.log("deleteThisBtn click");
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var type = $(this).data("type");
+	        var urlToSend = baseUrl+"/"+moduleId+"/admin/delete/type/"+type+"/id/"+id;
+	        
+	        bootbox.confirm("confirm please !!",
+        	function(result) 
+        	{
+				if (!result) {
+					btnClick.empty().html('<i class="fa fa-thumbs-down"></i>');
+					return;
+				} else {
+					$.ajax({
+				        type: "POST",
+				        url: urlToSend,
+				        dataType : "json"
+				    })
+				    .done(function (data)
+				    {
+				        if ( data && data.result ) {
+				        	toastr.info("Switched user!!");
+				        	window.location.href = baseUrl+"/"+moduleId+"/person/dashboard";
+				        } else {
+				           toastr.error("something went wrong!! please try again.");
+				        }
+				    });
+				}
+			});
+
 		});
 	
 	<?php } ?>

@@ -10,6 +10,29 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+https://www.google.com/url?q=https%3A%2F%2Fgit-scm.com%2Fbook%2Ffr%2Fv1%2FLes-branches-avec-Git-Les-branches-distantes&sa=D&sntz=1&usg=AFQjCNHT0E5vbg_-BUC7xIm7guTVRBzG1Q
+
+//1. Créer une branche locale
+git branch granddir-V.0.1
+//2. Pusher la branche sur le serveur distant
+git push origin granddir-V.0.1
+//3. Si besoin checkout d'une branche distante sur une branche en local 
+//3.1 Récupérer les branches distantes nouvellement créée
+git fetch origin
+//3.2 récupérer le contenu d'une branche distante
+git checkout -b granddir-V.0.1 origin/granddir-V.0.1
+
+
+//Azot live branch
+git checkout -b azot-live-0.1 origin/azot-live-0.1
+
+
+git remote show origin
+If the remote branch you want to checkout is under "New remote branches" and not "Tracked remote branches" then you need to fetch them first:
+git remote update
+git fetch
+Now it should work:
+git checkout -b local-name origin/remote-name
 ----------------------------------------------------
 
 //SBA : 12/08/2015

@@ -1,953 +1,239 @@
-<?php
+<?php 
 $cs = Yii::app()->getClientScript();
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
+//Data helper
+$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/weather-icons/css/weather-icons.min.css');
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/nv.d3.min.css');
-
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/lib/d3.v3.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/nv.d3.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/src/models/historicalBar.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/src/models/historicalBarChart.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/src/models/stackedArea.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/nvd3/src/models/stackedAreaChart.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.sparkline/jquery.sparkline.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/easy-pie-chart/dist/jquery.easypiechart.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/index.js' , CClientScript::POS_END);
-
-		
 ?>
-<!-- start: PAGE CONTENT -->
+
+<div class="pull-right" style="padding:20px;">
+  <a href="#" onclick="showHideMenu ()">
+    <i class="menuBtn fa fa-bars fa-3x text-white "></i>
+  </a>
+</div>
+
+
 <div class="row">
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="padding-20 text-center core-icon">
-          <i class="fa fa-users icon-big text-pink"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin text-pink">Citoyens</h3>
-          <span class="subtitle">
-            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 center">
+  <a class="byPHRight" href="#"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a>
+    <!-- start: LOGIN BOX -->
+    <?php 
+    $this->renderPartial('menuTitle',array("topTitleExists"=>false));
+    $this->renderPartial('panels/what');
+    $this->renderPartial('panels/how');
+    $this->renderPartial('panels/why');
+    $this->renderPartial('panels/where');
+    $this->renderPartial('panels/when');
+    $this->renderPartial('panels/who');
+    $this->renderPartial('panels/events');
+    $this->renderPartial('panels/cities');
+    $this->renderPartial('panels/orga');
+    $this->renderPartial('panels/people');
+    $this->renderPartial('panels/involved');
+    $this->renderPartial('panels/projects');
+    $this->renderPartial('panels/ph');
+    $this->renderPartial('panels/communecter');
 
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel panel-default panel-white core-box">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="padding-20 text-center core-icon">
-          <i class="fa fa-users icon-big text-green"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin text-green">Associations</h3>
-          <span class="subtitle">
-            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.
-          </span>
-        </div>
-      </div>
-      <div class="panel-footer clearfix no-padding">
-        <div class=""></div>
-        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person?tabId=panel_organisations")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-green" data-toggle="tooltip" data-placement="top" title="my NGOs" ><i class="fa fa-user"></i></a>
-        <a href="#" onclick="openSubView($(this).attr('alt'), '/<?php echo $this->module->id?>/organization/addorganizationform/type/NGO',null);" class="col-xs-4 padding-10 text-center text-white tooltips partition-blue" data-toggle="tooltip" data-placement="top" title="Add an NGO" alt="Add an NGO"><i class="fa fa-plus"></i></a>
-        <a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/organization/index/type/NGO")?>" class="col-xs-4 padding-10 text-center text-white tooltips partition-red" data-toggle="tooltip" data-placement="top" title="all NGOs"><i class="fa fa-chevron-right"></i></a>
-      </div>
-    </div>
+    $this->renderPartial('panels/dashboard');    
+    ?>
+    
   </div>
+  <div class="col-xs-10 col-xs-offset-1  center">
 
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel panel-default panel-white core-box">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="padding-20 text-center core-icon">
-          <i class="fa fa-users icon-big text-azure"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin text-azure">Entreprises</h3>
-          <span class="subtitle">
-            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel panel-default panel-white core-box">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="padding-20 text-center core-icon">
-          <i class="fa fa-users icon-big text-orange"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin text-orange">Collectivités</h3>
-          <span class="subtitle">
-            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper.
-          </span>
-        </div>
-      </div>
+    
+    <style type="text/css">
+      #ajaxSV{top:0px;}
+      @media screen and (max-width: 768px) {
+        #ajaxSV,.box{top:-100px;}
+      }
+    </style>
+    <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
+    <div class="box-ajax box box-white-round" id="ajaxSV">
+      <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
+<?php /* **********************
+  ICON MARKER FLOTTANT
+**************************** ?>
+<div class="eventMarker" style="z-index:1;display:none;position:fixed; bottom:0px; right:50px;cursor:pointer;" >
+  <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
+  <span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
+</div>
+<div class="cityMarker" style="z-index:1;display:none;position:absolute; bottom:0px; right:150px;cursor:pointer;" >
+  <span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
+  <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
+</div>
+<div class="projectMarker" style="z-index:1;display:none;position:absolute; bottom:0px; right:250px;cursor:pointer;" >
+  <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
+  <span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
+</div>
+<div class="assoMarker" style="z-index:1;display:none;position:absolute;bottom:0px; right:350px; cursor:pointer;" >
+  <span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
+  <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
+</div>
+<div class="userMarker" style="z-index:1;display:none;position:absolute; bottom:0px; right:450px;cursor:pointer;" >
+  <span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
+  <img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
 </div>
 
-<div class="row">
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
+<?php /* **********************
+  LEFT MENU
+**************************** */?>
+<div class="center text-white" style="z-index:1;position:absolute; top:15px; left:25px;" >
+    <div class="center text-white pull-left">
+        <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white btn-home btn-main-menu"><i class="fa fa-home fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white btn-main-menu"><i class="fa fa-rss fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu"><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="text-white"><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
+        <?php /* ?>
+        /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
+        <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
+        <?php //onclick="showPanel('box-people',null,'PEOPLE','user')" ?>
+        <br/><br/><a href="#" id="filter-menu-organizations" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="text-white"><i class="fa fa-users fa-2x"></i></a>
+        <?php //showPanel('box-orga',null,'ORGANIZATIONS','users') ?>
+        <br/><br/><a href="#" id="filter-menu-events" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-calendar fa-2x"></i></a>
+        <?php //showPanel('box-event',null,'EVENTS','calendar') ?>
+        <br/><br/><a href="#" id="filter-menu-projects" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
+        <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
+        */?>
+        <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
+        <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>
     </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-sm-6">
-    <div class="panel core-box small">
-      <div class="panel-tools">
-        <a href="#" class="btn btn-xs btn-link panel-close">
-          <i class="fa fa-times"></i>
-        </a>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="text-center core-icon panel-blue">
-          <i class="fa fa-users icon-big"></i>
-        </div>
-        <div class="padding-20 core-content">
-          <h3 class="title block no-margin">Thématique</h3>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<div class="row">
-  <div class="col-md-7 col-lg-4">
-    <div class="panel panel-dark">
-      <div class="panel-heading">
-        <h4 class="panel-title">Évennement</h4>
-        <div class="panel-tools">
-          <div class="dropdown">
-            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-white">
-              <i class="fa fa-cog"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-              <li>
-                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-              </li>
-              <li>
-                <a class="panel-refresh" href="#">
-                  <i class="fa fa-refresh"></i> <span>Refresh</span>
-                </a>
-              </li>
-              <li>
-                <a class="panel-config" href="#panel-config" data-toggle="modal">
-                  <i class="fa fa-wrench"></i> <span>Configurations</span>
-                </a>
-              </li>
-              <li>
-                <a class="panel-expand" href="#">
-                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <a class="btn btn-xs btn-link panel-close" href="#">
-            <i class="fa fa-times"></i>
-          </a>
-        </div>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="partition-green padding-15 text-center">
-          <h4 class="no-margin">Activité Locale</h4>
-          <span class="text-light">crowd sourcé</span>
-        </div>
-        <div id="accordion" class="panel-group accordion accordion-white no-margin">
-          <div class="panel no-radius">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-              <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15">
-                <i class="icon-arrow"></i>
-                Ce mois ci <span class="label label-danger pull-right">4</span>
-              </a></h4>
-            </div>
-            <div class="panel-collapse collapse in" id="collapseOne">
-              <div class="panel-body no-padding partition-light-grey">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <td class="center">1</td>
-                      <td>Festival musique africaine</td>
-                      <td class="center">4909</td>
-                      <td><i class="fa fa-caret-down text-red"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">2</td>
-                      <td>Exposition Photo</td>
-                      <td class="center">3857</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">3</td>
-                      <td>Concert Local</td>
-                      <td class="center">1789</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">4</td>
-                      <td>Journée Porte ouverte</td>
-                      <td class="center">612</td>
-                      <td><i class="fa fa-caret-down text-red"></i></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="panel no-radius">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-              <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
-                <i class="icon-arrow"></i>
-                Dans 1 mois
-              </a></h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseTwo">
-              <div class="panel-body no-padding partition-light-grey">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <td class="center">1</td>
-                      <td>Google Chrome</td>
-                      <td class="center">5228</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">2</td>
-                      <td>Mozilla Firefox</td>
-                      <td class="center">2853</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">3</td>
-                      <td>Safari</td>
-                      <td class="center">1948</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">4</td>
-                      <td>Internet Explorer</td>
-                      <td class="center">456</td>
-                      <td><i class="fa fa-caret-down text-red"></i></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="panel no-radius">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-              <a href="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
-                <i class="icon-arrow"></i>
-                Dans 2 mois
-              </a></h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseThree">
-              <div class="panel-body no-padding partition-light-grey">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <td class="center">1</td>
-                      <td>Google Chrome</td>
-                      <td class="center">4256</td>
-                      <td><i class="fa fa-caret-down text-red"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">2</td>
-                      <td>Mozilla Firefox</td>
-                      <td class="center">3557</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">3</td>
-                      <td>Safari</td>
-                      <td class="center">1435</td>
-                      <td><i class="fa fa-caret-up text-green"></i></td>
-                    </tr>
-                    <tr>
-                      <td class="center">4</td>
-                      <td>Internet Explorer</td>
-                      <td class="center">423</td>
-                      <td><i class="fa fa-caret-down text-red"></i></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-4 col-md-5">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-blue">
-          <div class="panel-body padding-20 text-center">
-            <div class="space10">
-              <h5 class="text-white semi-bold no-margin p-b-5">Aujourd'hui</h5>
-              <h3 class="text-white no-margin"><span class="text-small">&euro;</span>1,450</h3>
-              25 Echanges
-            </div>
-            <div class="sparkline-4 space10">
-              <span ></span>
-            </div>
-            <span class="text-light"><i class="fa fa-clock-o"></i> 1 hour ago</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-green">
-          <div class="panel-body padding-20 text-center">
-            <div class="space10">
-              <h5 class="text-white semi-bold no-margin p-b-5">Hier</h5>
-              <h3 class="text-white no-margin"><span class="text-small">&euro;</span>1,250</h3>
-              18 Echanges
-            </div>
-            <div class="sparkline-5 space10">
-              <span></span>
-            </div>
-            <span class="text-light"><i class="fa fa-clock-o"></i> 1 hour ago</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel">
-          <div class="panel-body">
-            <div class="easy-pie-chart">
-              <span class="cpu number appear" data-percent="82" data-plugin-options='{"barColor": "#ff0000"}'> <span class="percent"></span> </span>
-              <div class="label-chart">
-                <h4 class="no-margin">Population <br/>Communnecté</h4>
-              </div>
-            </div>
-            <div class="small-text text-center space15">
-              <span class="block">Objectif</span><span class="label label-danger vertical-align-bottom">85%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel">
-          <div class="panel-body">
-            <div class="easy-pie-chart">
-              <span class="bounce number appear" data-percent="44" data-plugin-options='{"barColor": "#35aa47"}'> <span class="percent"></span> </span>
-              <div class="label-chart">
-                <h4 class="no-margin">Utilisateur <br/>Connecté</h4>
-              </div>
-            </div>
-            <div class="text-center space15">
-              <span class="block">Objectif</span><span class="label label-danger vertical-align-bottom">58%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-4 col-md-12">
-    <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h4 class="panel-title">Mon Réseau</h4>
-        <div class="panel-tools">
-          <div class="dropdown">
-            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-              <i class="fa fa-cog"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-              <li>
-                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-              </li>
-              <li>
-                <a class="panel-refresh" href="#">
-                  <i class="fa fa-refresh"></i> <span>Refresh</span>
-                </a>
-              </li>
-              <li>
-                <a class="panel-config" href="#panel-config" data-toggle="modal">
-                  <i class="fa fa-wrench"></i> <span>Configurations</span>
-                </a>
-              </li>
-              <li>
-                <a class="panel-expand" href="#">
-                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <a class="btn btn-xs btn-link panel-close" href="#">
-            <i class="fa fa-times"></i>
-          </a>
-        </div>
-      </div>
-      <div class="panel-body no-padding">
-        <div class="padding-10">
-          <img width="50" height="50" alt="" class="img-circle pull-left" src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1-big.jpg">
-          <h4 class="no-margin inline-block padding-5">Peter Clark <span class="block text-small text-left">UI Designer</span></h4>
-          <div class="pull-right padding-15">
-            <span class="text-small text-bold text-green"><i class="fa fa-dot-circle-o"></i> on-line</span>
-          </div>
-        </div>
-        <div class="clearfix padding-5 space5">
-          <div class="col-xs-4 text-center no-padding">
-            <div class="border-right border-dark">
-              <a href="#" class="text-dark">
-                <i class="fa fa-heart-o text-red"></i> 250
-              </a>
-            </div>
-          </div>
-          <div class="col-xs-4 text-center no-padding">
-            <div class="border-right border-dark">
-              <a href="#" class="text-dark">
-                <i class="fa fa-bookmark-o text-green"></i> 20
-              </a>
-            </div>
-          </div>
-          <div class="col-xs-4 text-center no-padding">
-            <a href="#" class="text-dark"><i class="fa fa-comment-o text-azure"></i> 544</a>
-          </div>
-        </div>
-        <div class="tabbable no-margin no-padding partition-dark">
-          <ul class="nav nav-tabs" id="myTab">
-            <li class="active">
-              <a data-toggle="tab" href="#users_tab_example1">
-                All
-              </a>
-            </li>
-            <li class="">
-              <a data-toggle="tab" href="#users_tab_example2">
-                View and Edit
-              </a>
-            </li>
-            <li class="">
-              <a data-toggle="tab" href="#users_tab_example3">
-                View Only
-              </a>
-            </li>
-          </ul>
-          <div class="tab-content partition-white">
-            <div id="users_tab_example1" class="tab-pane padding-bottom-5 active">
-              <div class="panel-scroll height-230">
-                <table class="table table-striped table-hover">
-                  <tbody>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-1.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">UI Designer</span><span class="text-large">Peter Clark</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-2.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Content Designer</span><span class="text-large">Nicole Bell</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div id="users_tab_example2" class="tab-pane padding-bottom-5">
-              <div class="panel-scroll height-230">
-                <table class="table table-striped table-hover">
-                  <tbody>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div id="users_tab_example3" class="tab-pane padding-bottom-5">
-              <div class="panel-scroll height-230">
-                <table class="table table-striped table-hover">
-                  <tbody>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-2.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Content Designer</span><span class="text-large">Nicole Bell</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-3.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Visual Designer</span><span class="text-large">Steven Thompson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-5.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Senior Designer</span><span class="text-large">Kenneth Ross</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <td class="center"><img src="<?php echo Yii::app()->theme->baseUrl?>/assets/images/avatar-4.jpg" class="img-circle" alt="image"/></td>
-                      <td><span class="text-small block text-light">Web Editor</span><span class="text-large">Ella Patterson</span><a href="#" class="btn"><i class="fa fa-pencil"></i></a></td>
-                      <td class="center">
-                      <div>
-                        <div class="btn-group">
-                          <a class="btn btn-transparent-grey dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu dropdown-dark pull-right">
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-edit"></i> Edit
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-share"></i> Share
-                              </a>
-                            </li>
-                            <li role="presentation">
-                              <a role="menuitem" tabindex="-1" href="#">
-                                <i class="fa fa-times"></i> Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<?php /* **********************
+  CONTEXT TITLE
+**************************** */?>
+<div class="center pull-left" style="z-index:1;position:absolute; top:10px; left:100px; " >
+    <span class="homestead moduleLabel" style="color:#58879B;font-size:25px"></span>
 </div>
-<!-- end: PAGE CONTENT-->
-<script>
+
+<?php /* **********************
+  PARTNER LOGOS
+**************************** */?>
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
+<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
+
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top5:0px; left:50px; cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
+
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.png" style="display:none;position:absolute; top:750px; right:400px; cursor:pointer;" />
+
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
+
+<?php /* ?>
+
+http://habibhadi.com/lab/svgPathAnimation/demo/
+http://jonobr1.github.io/two.js/#basic-usage
+http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
+
+<style type="text/css">
+svg.graph {
+  position: absolute;
+  top:0px;
+  left: 0px;
+  height: 1000px;
+  width: 1000px;
+}
+
+svg.graph .line {
+  stroke: white;
+  stroke-width: 1;
+}
+</style>
+
+<svg class="graph">
+  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
+  <path class="line" d=" M 0 0 L 600 100"></path>
+  <path class="line" d=" M 0 0 L 150 150"></path>
+  <path class="line" d=" M 0 0 L 330 100"></path>
+</svg>
+*/?>
+<script type="text/javascript">
+
   jQuery(document).ready(function() {
-   
-   //Index.init();
+
+    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+      showPanel('box-event',null,"EVENTS");
+    });
+    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+      showPanel('box-city',null,"CITY");
+    });
+    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+      showPanel('box-projects',null,"PROJECTS");
+    });
+    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-orga',null,"ORGANIZATIONS");
+    });
+    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-people',null,"PEOPLE");
+    });
+
+    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-menu');
+    });
+
+    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
+    $(".btn-main-menu").click(function(){
+      showMap(false);
+    });
+
+    showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
+
   });
+
+function runShowCity(searchValue) {
+  var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+  var oneValue = "";
+  console.table(citiesByPostalCode);
+  $.each(citiesByPostalCode,function(i, value) {
+      $("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+      oneValue = value.value;
+  });
+  
+  if (citiesByPostalCode.length == 1) {
+    $("#city").val(oneValue);
+  }
+
+  if (citiesByPostalCode.length >0) {
+        $("#cityDiv").slideDown("medium");
+      } else {
+        $("#cityDiv").slideUp("medium");
+      }
+}
+
+function bindPostalCodeAction() {
+  $('.form-register #cp').change(function(e){
+    searchCity();
+  });
+  $('.form-register #cp').keyup(function(e){
+    searchCity();
+  });
+}
+
+function searchCity() {
+  var searchValue = $('.form-register #cp').val();
+  if(searchValue.length == 5) {
+    $("#city").empty();
+    clearTimeout(timeout);
+    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+    clearTimeout(timeout);
+    timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+  } else {
+    $("#cityDiv").slideUp("medium");
+    $("#city").val("");
+    $("#city").empty();
+  }
+}
 
 </script>

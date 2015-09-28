@@ -133,15 +133,13 @@
       showCalendar();
       initLastsEvents();
 
-      	$(window).on('resize', function(){
-			$('#calendar').fullCalendar('destroy');
-			showCalendar();
-			initLastsEvents();
-			
-		});
-      	$(".fc-button").on("click", function(e){
-      		setCategoryColor(tabOrganiser);
-     
+      $(window).on('resize', function(){
+  			$('#calendar').fullCalendar('destroy');
+  			showCalendar();
+  			initLastsEvents();
+  		});
+      $(".fc-button").on("click", function(e){
+      	setCategoryColor(tabOrganiser);
      	})
       
   })

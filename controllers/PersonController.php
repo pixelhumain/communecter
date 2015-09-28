@@ -38,12 +38,14 @@ class PersonController extends CommunecterController {
 	        'logout'     	       => 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'       => 'citizenToolKit.controllers.person.AuthenticateAction',
 	        'dashboard'  	       => 'citizenToolKit.controllers.person.DashboardAction',
+          'detail'             => 'citizenToolKit.controllers.person.DetailAction',
 	        'connect'  		       => 'citizenToolKit.controllers.person.ConnectAction',
 	        'disconnect'         => 'citizenToolKit.controllers.person.DisconnectAction',
 	        'activate'  	       => 'citizenToolKit.controllers.person.ActivateAction',
 	        'register'  	       => 'citizenToolKit.controllers.person.RegisterAction',
 	        'getnotification'    => 'citizenToolKit.controllers.person.GetNotificationAction',
 	        'invite'  		       => 'citizenToolKit.controllers.person.InviteAction',
+          'invitesv'           => 'citizenToolKit.controllers.person.InviteSVAction',
 	        'invitation'         => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	       => 'citizenToolKit.controllers.person.UpdateFieldAction',
           'directory'          => 'citizenToolKit.controllers.person.DirectoryAction',
@@ -53,7 +55,7 @@ class PersonController extends CommunecterController {
           'importfile'         => 'citizenToolKit.controllers.person.ImportFileAction',
           'saisir'             => 'citizenToolKit.controllers.person.SaisirAction',
           'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
-          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction'
+          'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction',
 	    );
 	}
 

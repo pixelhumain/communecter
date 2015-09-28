@@ -52,14 +52,14 @@ SigLoader.getSigFindPlace = function (Sig){
 			if($(thisSig.cssModuleName + ' #full-research').hasClass("hidden")){
 				$(thisSig.cssModuleName + ' #full-research').removeClass("hidden");
 				$(thisSig.cssModuleName + ' #txt-find-place').addClass("hidden");
-				this.fullTextResearch = false;
+				thisSig.fullTextResearch = false;
 			}
 			else{
 				$(thisSig.cssModuleName + ' #full-research').addClass("hidden");
 				$(thisSig.cssModuleName + ' #txt-find-place').removeClass("hidden");
 				this.fullTextResearch = true;
 			}
-			console.log(this.fullTextResearch);
+			console.log("fullTextResearch = " + this.fullTextResearch);
 			//$(thisSig.cssModuleName + ' #full-research').toggle();
 		});
 
@@ -79,15 +79,17 @@ SigLoader.getSigFindPlace = function (Sig){
 		var thisSig = this;
 
 		//affiche le message "recherche en cours"
-		$("#list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
-		$('#list-dropdown-find-place').css({'display':'block'});
+		$(thisSig.cssModuleName + " #list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
+		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
 
 		var urlRequest = this.getNominatimRequest(nbTentative);
-
+		console.log(urlRequest);
 		$.ajax({
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
 			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
+    		dataType: 'json',
+    		//crossDomain: true,
 			complete: function () { },
 			success: function (obj)
 			{
@@ -97,6 +99,10 @@ SigLoader.getSigFindPlace = function (Sig){
 
 					thisSig.currentResultResearch = obj;
 					var i = 0;
+
+					console.log("reponse nominatim : ");
+					console.dir(obj);
+
 					//affichage des résultats de la recherche
 					$.each(obj, function (){
 
@@ -129,19 +135,23 @@ SigLoader.getSigFindPlace = function (Sig){
 				}
 			},
 			error: function (error) {
-				alert('erreur nominatim ajax jquery (map_findPlace.js)');
+				var itemDropbox = '<li style="width:100%;"><a href="#"><i class="fa fa-exclamation-circle"></i> Erreur nominatim ajax jquery</a></li>';
+				$(thisSig.cssModuleName + " #list-dropdown-find-place").html(itemDropbox);
+						
+				//alert('erreur nominatim ajax jquery (map_findPlace.js)');
 			}
 		});
 	};
 
 	Sig.getNominatimRequest = function(nbTentative){
-
+		
 		if(this.fullTextResearch == true){
 			return "?q=" + $(this.cssModuleName + " #txt-find-place").val();
 		}
 
 		function transform(str){ //alert(newValue);
 			var res = "";
+			//remplace les espaces par des +
 			for(var i = 0; i<str.length; i++){
 				res += (str.charAt(i) == " ") ? "+" : str.charAt(i);
 			}
@@ -171,7 +181,6 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		if(nbTentative == 3){
 			request = "?q=";
-			//on utilise la street pour la tentative 1 ou 2 (mais pas à la 3)
 			if(street != "") 	request += street;
 			if(city != "") 		request += ",+" + city;
 			if(cp != "") 		request += ",+" + cp;
@@ -229,41 +238,51 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.showPlace = function (id){
-		var thisSig = this; //alert(id);
-		//alert(JSON.stringify(this.currentResultResearch[id]));
-	   	var bounds = this.currentResultResearch[id].boundingbox;
+		var thisSig = this;
+		var bounds = this.currentResultResearch[id].boundingbox;
 	   	var southWest = L.latLng(bounds[0], bounds[2]),
     		northEast = L.latLng(bounds[1], bounds[3]),
     		LBounds = L.latLngBounds(southWest, northEast);
 
-		this.map.fitBounds(LBounds);
-
-		/*
-		if(rectangleScope != ""){
-			rectangleScope.editing.disable();
-			rectangleScope.setBounds(LBounds);
-			rectangleScope.editing.enable();
-			theMap.zoomOut();
-		}*/
-
-		/*rectangleScope.bindPopup('<h4><i class="fa fa-map-marker"></i> '+
-									currentResultResearch[id].address.city+
-								 '</h4>').openPopup();*/
-
-		//in map.js
+		//this.map.fitBounds(LBounds);
 
 		var options = {  id : 0,
 						 icon : this.getIcoMarker({'type' : 'markerPlace'}),
 						 content : "<span class='popup-result-find-place'>"+$(thisSig.cssModuleName + ' #btn-show-place-'+id).html()+"</span>" }; //,
-						//"lat" : this.currentResultResearch[id].lat ,
-						//"lng" : this.currentResultResearch[id].lon };
+						
 
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
-		var marker = this.getMarkerSingle(this.map, options, coordinates);
-		marker.openPopup();
+		
+		//efface le polygone s'il existe
+		if(this.markerFindPlace != null) this.map.removeLayer(this.markerFindPlace);
 
+		this.markerFindPlace = this.getMarkerSingle(this.map, options, coordinates);
+		this.markerFindPlace.openPopup();
+
+		//efface le polygone s'il existe
+		if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
+
+		//si l'élément à afficher est une ville et qu'il y a un polygone dans les données
+		//on l'affiche
+		if( (this.currentResultResearch[id].type == "city" ||
+			this.currentResultResearch[id].type == "town") && 
+		   "undefined" != typeof this.currentResultResearch[id].polygonpoints){
+			
+			var allPolygonpoints = this.currentResultResearch[id].polygonpoints;
+
+			var polygonpoints = new Array();
+			$.each(allPolygonpoints, function(index, value){
+				polygonpoints.push(new Array(parseFloat(value[1]), parseFloat(value[0])));
+			});
+
+			this.showPolygon(polygonpoints);
+		}
+
+		//on ferme la dropdown
 		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'none'});
 		$(thisSig.cssModuleName + ' #btn-dropdown-find-place').dropdown('toggle');
+
+		this.map.panTo(coordinates);
 	};
 
 

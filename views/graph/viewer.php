@@ -1,4 +1,14 @@
- 
+ <?php
+$cs = Yii::app()->getClientScript();
+
+if(!Yii::app()->request->isAjaxRequest){
+$themeAssetsUrl = Yii::app()->theme->baseUrl.'../../ph-dori/assets';
+$cs->registerScriptFile(  $themeAssetsUrl.'/plugins/nvd3/lib/d3.v2.js' , CClientScript::POS_END);
+}
+
+//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/fluidlog/main.js' , CClientScript::POS_END);
+//$cs->registerCssFile(Yii::app()->theme->baseUrl.'/assets/plugins/fluidlog/main.css');
+?>
 
 <style>
 				
@@ -127,7 +137,7 @@
 	var mapText ;
 
 	function getDataFile(){
-		console.log("getDataFile");
+		if(debug)console.log("getDataFile");
 		var map = null;
 		if("undefined" != typeof viewerMap){
 			map=viewerMap;
@@ -176,7 +186,7 @@
 				firstNode = createDataNode(obj, 1);
 				firstNode['parent'] = key;
 			}else if(obj.length>0){
-				console.log(key);
+				if(debug)console.log(key);
 				var parent = key;
 				if(parent == "people" || parent=="citoyens")
 					parent = "person";
@@ -193,7 +203,7 @@
 				newNode['parent'] = parent;
 				newNode['name'] = key;
 				var newNodeChildren= [];
-				console.log("obj2", obj, key);
+				if(debug)console.log("obj2", obj, key);
 				$.each(obj, function(key2, obj2){
 					var newNodeChild;
 					var id = obj2["_id"]["$id"];
@@ -235,14 +245,14 @@
 						typeNode["children"] = typeArrayChildren;
 						newNodeChildren.push(typeNode);
 					})
-					console.log("newNodeChildren", newNodeChildren);
+					if(debug)console.log("newNodeChildren", newNodeChildren);
 				}
 				newNode['children'] = newNodeChildren;
 				firstNodeChildren.push(newNode);
 			}
 		});
 		firstNode['children']=firstNodeChildren;
-		console.log("firstNode", firstNode);
+		if(debug)console.log("firstNode", firstNode);
 		mapText = firstNode;
 		return firstNode;
 	}
@@ -252,16 +262,16 @@ function getLink(id, map, varname){
 	var link = "";
 	$.each(map, function(key, obj){
 		if(key == varname){
-			console.log(obj)
+			if(debug)console.log(obj)
 			if('undefined' != typeof(obj.links)){
 				$.each(obj.links, function(key2, obj2){
 					if($.inArray(key2, tabLinks)==-1){
 						tabLinks.push(key2);
 					}
 					$.each(obj2, function(key3, obj3){
-						console.log(key3, obj3);
+						if(debug)console.log(key3, obj3);
 						if(key3==id){
-							console.log('ok');
+							if(debug)console.log('ok');
 							link=key2;
 						}
 					})				
@@ -269,7 +279,7 @@ function getLink(id, map, varname){
 			}
 		}
 	});
-	console.log(link);
+	if(debug)console.log(link);
 	return link;
 }
 function createDataNode(object, level){
@@ -605,7 +615,7 @@ function getNewData(data){
 			.transition()
 			.duration(500)
 			.attr("stroke-width", "3")
-			.attr("stroke", function(d){console.log("target",d.target.link); return fill(d.target.link)})
+			.attr("stroke", function(d){if(debug)console.log("target",d.target.link); return fill(d.target.link)})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
@@ -708,7 +718,7 @@ function getNewData(data){
 	  var bbox = this.getBBox(),
 	      cbbox = this.parentNode.getBBox(),
 	      scale = Math.min(cbbox.width/bbox.width, cbbox.height/bbox.height);
-	      console.log("scale", scale);
+	      if(debug)console.log("scale", scale);
 	  d.scale = scale;
 	}
 	function getFontSize(text,r){
@@ -746,7 +756,7 @@ function getNewData(data){
 	}
 	function zoomed() {
 		zoomScale = d3.event.scale;
-		console.log(d3.event.translate);
+		if(debug)console.log(d3.event.translate);
         svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 

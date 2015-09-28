@@ -74,7 +74,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 <div class="row vote-row" >
 	
-	<div class="col-xs-12 col-sm-4 center ">
+	<div class="col-sm-12 col-md-4 center ">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
 			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
@@ -99,11 +99,11 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		</div>
 	</div>
 
-	<div class=" col-xs-12 col-sm-4 " >
+	<div class=" col-sm-12 col-md-4 " >
 		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
 
-	<div class="col-xs-12 col-sm-4 center ">
+	<div class="col-sm-12 col-md-4 center ">
 
 		<?php /*
 			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,

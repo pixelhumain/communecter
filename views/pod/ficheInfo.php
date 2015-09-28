@@ -1,20 +1,20 @@
 <?php 
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css');
+$cssAnsScriptFilesModule = array(
+	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/x-editable/js/bootstrap-editable.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/plugins/wysihtml5/wysihtml5.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
-	//X-editable...
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
-
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
-
-	//Data helper
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
-	//X-Editable postal Code
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
+$cssAnsScriptFilesModule = array(
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 
@@ -33,10 +33,14 @@
 		
 		<div class="panel-tools">
 			<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { ?>
+				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+					if(!isset($organization["disabled"])){
+				 	?>
 					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
-			
-			<?php } ?>
+					<a href="#" id="disableOrganization" class="btn btn-xs btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i></a>
+			<?php } else {?>
+					<span class="label label-danger">DISABLED</span>
+			<?php }} ?>
 		</div>
 	</div>
 	<div class="panel-body border-light" id="organizationDetail">
@@ -94,10 +98,10 @@
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
 			<div class="col-sm-6 col-xs-6">
-				<h1> Activités</h1>
+				<h3> Activités</h3>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<h1> Thématiques</h1>
+				<h3> Thématiques</h3>
 			</div>
 		</div>
 		<div class="row">
@@ -112,28 +116,14 @@
 			</div>
 		</div>
 		<div class="row" style="background-color:#E6E6E6">
-			<div class="col-sm-6 col-xs-6">
-				<h1> Public</h1>
-			</div>
-			<div class="col-sm-6 col-xs-6">
-				<h1> Telechargement</h1>
+			<div class="col-sm-12 col-xs-12">
+				<h3> Public</h3>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-6 col-xs-6 padding-20">
+			<div class="col-sm-12 col-xs-12 padding-20">
 				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
 				</a>
-			</div>
-			<div class="col-sm-6 col-xs-6 padding-20">
-				<?php 
-					if (isset($plaquette) && $plaquette) {
-	                	$this->widget('ext.widgets.documentLink.DocumentLinkWidget', array(
-	                		"document" => $plaquette,
-	                		"text" => "Plaquette de presentation"));
-	                	//echo Document::getDocumentLink($plaquette, "Plaquette de presentation");
-					} else { ?>
-						<a href="#">N/A</a>
-				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -189,6 +179,29 @@
 
 	function bindFicheInfoBtn(){
 
+		
+		$("#disableOrganization").off().on("click",function () {
+			console.warn("disableOrganization",$(this).data("id"));
+			var id = $(this).data("id");
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists)') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+id ,
+							type: "POST",
+							success: function(data)
+							{
+								if(data.result)
+									toastr.success(data.msg);
+								else
+									toastr.error(data.msg);
+						  	},
+						});
+					}
+			});
+		});
 		$(".removeMemberBtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			
@@ -327,9 +340,9 @@
 			mode: 'popup',
 			value: <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>,
 			select2: {
-				width: 200,
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-				tokenSeparators: [","]
+				tokenSeparators: [","],
+				width: 200
 			}
 		});
 

@@ -19,17 +19,18 @@
 	        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 
 	        /* MAP BUTTONS */
-	        "mapBtnBgColor" => '#E6D414',
-	        "mapBtnColor" => '#213042',
-	        "mapBtnBgColor_hover" => '#5896AB',
+	        //"mapBtnBgColor" => '#E6D414',
+	        //"mapBtnColor" => '#213042',
+	        //"mapBtnBgColor_hover" => '#5896AB',
 
 	        /* USE */
 	        "usePanel" => true,
+	        "useFilterType" => true,
 	        "titlePanel" => 'TAGS',
 	        "useRightList" => true,
 	        "useZoomButton" => true,
 	        "useHomeButton" => false,
-	        "useHelpCoordinates" => true,
+	        "useHelpCoordinates" => false,
 	        "useFullScreen" => false,
 	        "useResearchTools" => true,
 	        "useChartsMarkers" => true,
@@ -42,10 +43,62 @@
 	        							 "zoom"		   => 14),
 	    );
 	 
+	 	$populationTotalCity = City::getPopulationTotalInsee($_GET['insee'],'2011');
+	 	$populationTotalHommesCity = City::getPopulationHommesInsee($_GET['insee'],'2011');
+	 	$populationTotalFemmesCity = City::getPopulationFemmesInsee($_GET['insee'],'2011');
+	 	$params = array("insee" => $_GET['insee']);
+	 	$fields = array('geo');
+	 	$city = City::getWhere($params, $fields);
+	 	foreach ($city as $key => $value) {
+	 		$geo = $value['geo'];
+	 	}
+	 	
+	 	//$populationTotalDepartement = City::getPopulationTotalInseeDepartement($_GET['insee'],'2011');
+		/*var_dump($populationTotalCity);
+		var_dump($populationTotalDepartement);
+		$res = (($populationTotalHommesCity * 100) / $populationTotalCity);
+		var_dump($res);*/
 	 	$charts =  array(/* 1ER GROUPE	*/
-						array(    "name" => "Graph1",
-								  /* options d'affichage de chaque donnée */
-								  "chartOptions"=> array( "type" => "PieChartMarker",
+	 					array(  "name" => "Population",
+								"name_text" => "Population",
+								    /* options d'affichage de chaque donnée */
+								"chartOptions"=> array( "type" => "PieChartMarker",
+														  "radius" 	=> 25,
+														  "maxHeight" => 120, //seulement pour BarChartMarker
+														  "options" => array('populationhommes' => array(
+												                                "fillColor" => '#F0AD4E',
+												                                "minValue" => 0,
+												                                "maxValue" => 100,
+												                                "unity" => "%",
+												                                "title" => "<i class='fa fa-sun-o'></i> Population hommes"
+												                            ),
+																		  'populationfemmes' => array(
+																                                "fillColor" => '#27B128',
+																                                "minValue" => 0,
+																                                "maxValue" => 100,
+																                                "unity" => "%",
+																                                "title" => "<i class='fa fa-sun-o'></i> Population femmes"
+																                            )
+												                        )
+
+														),
+								/* valeurs données à afficher */
+								"chart" =>	array("type" => "FeatureCollection",
+			        							  "features" => 
+			        							 array(   array(  "type" => "Feature", 
+									 							   "id" => 4, 
+				 												   "populationhommes" => (($populationTotalHommesCity * 100) / $populationTotalCity),
+				 												   "populationfemmes" => (($populationTotalFemmesCity * 100) / $populationTotalCity), 
+				 												   "geometry" => array( "type" => "Point", 
+				 												   						"coordinates" => array($geo['longitude'], $geo['latitude']) )), //lng 1er, lat 2em
+									 
+			           			  					)	
+				        					),
+						),
+						array(  "name" => "Graph1",
+								"name_text" => "Mon graphique 1",
+								    /* options d'affichage de chaque donnée */
+								"chartOptions"=> array( "type" => "PieChartMarker",
 														  "radius" 	=> 25,
 														  "maxHeight" => 120, //seulement pour BarChartMarker
 														  "options" => array('ensoleillement' => array(
@@ -102,6 +155,7 @@
 				        	),
 							/* 2EME GROUPE	*/
 							array("name" => "Graph2",
+								  "name_text" => "Mon graphique 2",
 								  /* options d'affichage de chaque donnée */
 								  "chartOptions"=> array( "type" => "RadialBarChartMarker",
 														  "radius" 	=> 25,
@@ -169,14 +223,10 @@
 
 	.<?php echo $moduleName; ?> .mapCanvas			{}
 	.<?php echo $moduleName; ?> .panel_map			{
-		background-color:rgba(255, 255, 255, 0.83) !important;
 	}
 	.<?php echo $moduleName; ?> .item_panel_map			{
-		background-color:rgba(0, 0, 0, 0) !important;
-		color:#7A7A7A !important;
 	}
 	.<?php echo $moduleName; ?> .item_panel_map:hover	{
-		background-color:rgba(0, 0, 0, 0.04) !important;
 	}
 
 	.<?php echo $moduleName; ?> #right_tool_map		{}
@@ -263,27 +313,15 @@
 			});
 		*/
 
-		var mapData = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
+		var contextMap = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
 		console.log("contextMap");
-		console.dir(mapData);
+		console.dir(contextMap);
 		/**************************************************************************************************************/
 		
 		//console.dir(mapData);
 		//affichage des éléments sur la carte
-		Sig.showMapElements(mapCity, mapData);//, elementsMap); 
+		Sig.showMapElements(mapCity, contextMap);//, elementsMap); 
 
-		var boundingBox = <?php if(isset($city["geo"]["boundingbox"])) echo json_encode($city["geo"]["boundingbox"]); else echo "false"; ?>;
-
-		console.dir(boundingBox);
-		if(boundingBox != false){
-			var latMin = boundingBox[0];
-	    	var latMax = boundingBox[1];
-	    	var lngMin = boundingBox[2];
-	    	var lngMax = boundingBox[3];
-	    	mapCity.fitBounds([[latMin, lngMin],[latMax, lngMax]], { 'maxZoom' : 14 });
-	    	//var rec = new L.Rectangle([[latMin, lngMin],[latMax, lngMax]]).addTo(mapCity);
-	    }
-		//mapCity.panTo([-21.06912308335471, 55.34912109375]);
 		//masque l'icone de chargement
 		Sig.showIcoLoading(false);
 

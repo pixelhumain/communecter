@@ -3,25 +3,27 @@
 #newAttendees{
 	display: none;
 }
-
+#step3{
+	display:none;
+}
 </style>
 <div id="newAttendees">
 	<div class="col-md-6 col-md-offset-3">  
        	<div class="panel panel-white">
         	<div class="panel-heading border-light">
-				<h1>Add an attendee</h1>
+				<h1><?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h1>
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
-				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" type="text"/>
-				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" type="text"/>
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="" type="text"/>
+				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" value="" type="text"/>
 				<div class="row" id="step1">
 					<div class="col-md-1">	
 		           		<i class="fa fa-search fa-2x"></i> 
 		           	</div>
 					<div class="col-md-10">
 						<div class="form-group">
-							<input class="attendees-search form-control" placeholder="Search Here" autocomplete = "off" id="attendeesSearch" name="attendeesSearch" value="">
+							<input class="attendees-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email") ?>" autocomplete = "off" id="attendeesSearch" name="attendeesSearch" value="">
 				        		<ul class="dropdown-menu" id="dropdown_search" style="">
 									<li class="li-dropdown-scope">-</li>
 								</ul>
@@ -29,25 +31,25 @@
 						</div>
 					</div>
 				</div>
-				<div class="row" id="step2">
-		
+				<!--<div class="row" id="step2">
 					<div class="form-group" id="ficheUser">
 						<div class="col-md-7">
-							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i>  Add me as attendee </a>
+							//Laisser le bouton Add me as attendee (Ergonomique)
+							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t("event","Add me as attendee",null,Yii::app()->controller->module->id); ?> </a>
 							<hr>
-							Nom : <p id="ficheName" name="ficheName"></p><br>
-							Date de naissance : <p id="birth" name="birth" ></p><br>
+							<?php echo Yii::t("common", "Name") ?> : <p id="ficheName" name="ficheName"></p><br>
+							<?php echo Yii::t("common","Birth date") ?> : <p id="birth" name="birth" ></p><br>
 							Tags : <p id="tags" name="tags" ></p><br>
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<div class="row" id="step3">
 					<div class="row">
 						<div class="col-md-1 col-md-offset-1" id="iconUser">	
 				           	<i class="fa fa-user fa-2x"></i>
 				       	</div>
 				       	<div class="col-md-9">
-							<input class="attendees-name form-control" placeholder="Name" id="attendeesName" name="attendeesName" value="" />
+							<input class="attendees-name form-control" placeholder="<?php echo Yii::t("common","Name")?>" id="attendeesName" name="attendeesName" value="" />
 						</div>
 					</div>
 					<div class="row">
@@ -58,10 +60,15 @@
 							<input class="attendees-email form-control" placeholder="Email" id="attendeesEmail" name="attendeesEmail" value="" />
 						</div>
 					</div>
+					<div class ="row">
+				               	<div class="col-md-10  col-md-offset-1">	
+									<a href="javascript:showSearchAttendees()"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
+								</div>
+							</div>
 					<div class="row">
 						<div class="col-md-2 col-md-offset-1">
 							<div class="form-group">
-					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+					    	    <button class="btn btn-primary" id="btnInviteNew" ><?php echo Yii::t("common","Invite"); ?></button>
 					    	</div>
 					    </div>
 				    </div>
@@ -92,7 +99,7 @@
 		});
 
 
-		$(".connectAttendeesBtn").off().on("click", function(){
+		/*$(".connectAttendeesBtn").off().on("click", function(){
 			var idToconnect= $(this).data("id");
 			var eventId = $(".form-attendees .attendees-id").val();
 			$.ajax({
@@ -103,7 +110,7 @@
 	       		success: function(data){
 	       		}
 			})
-		});
+		});*/
 
 	};
 
@@ -144,7 +151,7 @@
 			},
 			messages : {
 				attendeesName : "* Please specify your first name",
-				attendeesType : "* Please select a type",
+				//attendeesType : "* Please select a type",
 				attendeesEmail : "* Please enter an email"
 
 			},
@@ -170,12 +177,12 @@
 			submitHandler : function(form) {
 				successHandler2.show();
 				errorHandler2.hide();
-				newProject = new Object;
-				newProject.id = $(".form-attendees .attendees-id").val(),
-				newProject.type = $(".form-attendees .attendees-type").val(),
-				newProject.name = $(".form-attendees .attendees-name ").val(), 
-				newProject.email = $('.form-attendees .attendees-email').val(), 
-				
+				newAttendee = new Object;
+				newAttendee.id = $(".form-attendees .attendees-id").val();
+				newAttendee.name = $(".form-attendees .attendees-name ").val(), 
+				newAttendee.email = $('.form-attendees .attendees-email').val(),
+				console.log(newAttendee);
+				idEvent=$(".attendees-parentId").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -184,8 +191,8 @@
 		            '</blockquote> '
 				});
 				
-				if ($(".form-attendees .attendees-id").val() !== "") {
-					el = $(".form-attendees .attendees-id").val();
+				//if ($(".form-attendees .attendees-id").val() !== "") {
+				//	el = $(".form-attendees .attendees-id").val();
 
 					//mockjax simulates an ajax call
 					$.mockjax({
@@ -195,35 +202,42 @@
 					responseText : {
 						say : 'ok'
 					}
-				});
+					});
 
 
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/event/saveAttendees',
+				        url: baseUrl+"/"+moduleId+"/event/saveattendees/idEvent/"+idEvent+"/attendeeId/"+newAttendee.id,
 				        dataType : "json",
-				        data:newProject,
+				        data:newAttendee,
 						type:"POST",
 				    })
 				    .done(function (data) 
 				    {
+
 				    	$.unblockUI();
-				        if (data &&  data.result) {               
-				        	toastr.success('Invitation to event success');
+				        if (data &&  data.result) { 
+					        console.log(data);           
+				        	toastr.success(data.msg);
 				        	$.hideSubview();
-				        		
+				        	if(typeof(data.attendee.person) != "undefined")
+				        		newAttendee=data.attendee.person;
+				        	else
+				        		newAttendee=data.attendee;
+				        	addAttendeeToTabe(data.id,newAttendee);
 				        } else {
-				           toastr.error('Something Went Wrong!');
+				           toastr.error(data.msg);
 				        }
 				    });
 
-				}
+				
 			}
 		});
 	};
 
 	// on hide attendees's form destroy summernote and bootstrapSwitch plugins
 	function hideEditProject() {
+		showSearchAttendees();
 		$.hideSubview();
 	};
 	// enables the edit form 
@@ -238,10 +252,10 @@
 
 	function autoCompleteEmailAddAttendees(searchValue){
 		console.log("autoCompleteEmailAddAttendees");
-		var data = {"search" : searchValue};
+		var data = {"search" : searchValue,"searchMode":"personOnly"};
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/granddir/search/searchmemberautocomplete",
+	        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
@@ -253,12 +267,12 @@
 		 			$.each(data, function(key, value) {
 		 				
 		 				$.each(value, function(i, v){
-		 					var imageSearch = '<i class="fa fa-users fa-2x"></i>';
+		 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
 		 					var logoSearch = "";
 		 					if("undefined" != typeof v.logo){
 		 						var logoSearch = '<div class="pull-right"><img alt="image" class="img-circle" src="'+baseUrl+"/"+moduleId+'/document/resized/40x40'+v.logo+'" /></div>'
 		 					}
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddAttendees(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\',\''+v.type+'\')">'+imageSearch+' '+v.name +'</a></li>';
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddAttendees(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
 		  				});
 		  			}); 
 
@@ -286,8 +300,20 @@
 	}
 
 
-	function setMemberInputAddAttendees(){
-		$("#newAttendees #step2").css("display", "block");
+	function setMemberInputAddAttendees(id,name,email,key){
+		$("#newAttendees #step3").css("display", "block");
 		$("#newAttendees #step1").css("display", "none");
+		$("#newAttendees #attendeesName").val(name).attr("disabled");
+		$('#newAttendees #attendeesEmail').val(email).attr("disabled");
+		$('#newAttendees #attendeesId').val(id);
+
+	}
+	
+	function showSearchAttendees(){
+		$("#newAttendees #step3").css("display", "none");
+		$("#newAttendees #step1").css("display", "block");
+		$("#newAttendees .attendees-search").val("");
+		$("#newAttendees .attendees-id").val("");
+		$("#newAttendees #dropdown_search").css({"display" : "none" });
 	}
 </script>

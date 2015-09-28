@@ -1,18 +1,19 @@
 <?php 
 $this->renderPartial('newsSV');
-?>
-<?php
 
-if(Yii::app()->request->isAjaxRequest){
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js');
-	echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js');
-}else{
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
-}
+$cssAnsScriptFilesModule = array(
+	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+	'/plugins/jquery.appear/jquery.appear.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>	
 	<!-- start: PAGE CONTENT -->
+<?php 
+if( isset($_GET["isNotSV"])) 
+	$this->renderPartial('../default/panels/toolbar'); 
+?>
 <div id="newsHistory">
 	<div class="space20"></div>
 	<div class="col-md-12">
@@ -22,7 +23,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-d
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
 		        	<li>
-		        		<a class="new-news btn btn-info" href="#new-News">Add <i class="fa fa-plus"></i></a>
+		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li>
 		        	<?php /* ?>
 			        <li class="panel-tools">
@@ -74,12 +75,13 @@ var contextMap = {
 		region :[]
 	},
 };
+
 jQuery(document).ready(function() 
 {
 	buildTimeLine();
 });
 
-function buildTimeLine()
+function buildTimeLine ()
 {
 	$(".newsTL").html('<div class="spine"></div>');
 	$(".newsTLmonthsList").html('');
@@ -93,11 +95,9 @@ function buildTimeLine()
 		{
 			console.dir(newsObj);
 			var date = new Date( parseInt(newsObj.created)*1000 );
-			if(newsObj.date) {
-				d = newsObj.date.split("/");
-				month = parseInt(d[1])-1;
-				date = new Date( d[2], month,d[0] ) ;
-			}
+			if(newsObj.date != null) 
+				date = new Date( parseInt(newsObj.date)*1000 ) ;
+			
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
@@ -113,11 +113,9 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date) {
-		d = newsObj.date.split("/");
-		month = parseInt(d[1])-1;
-		date = new Date( d[2], month,d[0] ) ;
-	}
+	if(newsObj.date != null) 
+		date = new Date( parseInt(newsObj.date)*1000 ) ;
+	
 	var year = date.getFullYear();
 	var month = months[date.getMonth()];
 	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();

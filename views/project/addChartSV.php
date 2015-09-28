@@ -40,13 +40,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h3>Add project's properties</h3>
+		<h3><?php echo Yii::t("project","Add project's properties",null,Yii::app()->controller->module->id) ?></h3>
 		<form class="form-chart">
 			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
 			<div class="row">
 				<div class="col-md-12">
 					<label for="properties">
-						Degré d'ouverture du projet (0% = très fermé, 100% = très ouvert)			
+						<?php echo Yii::t("project","Degree of project's openness (0% = very closed, 100% = very opened)",null,Yii::app()->controller->module->id) ?>			
 					</label>
 					<div class="col-md-12">
 					<?php if (isset($properties) && !empty($properties)){
@@ -79,6 +79,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						} 
 					} else { ?>
 						<div class="col-md-4 form-property">
+							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
 							<h4 style="text-align:center;width:200px;">Gouvernance</h4>
 							<input class="knob project-property" name="gouvernance" value="0" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
@@ -86,6 +87,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 							</label>
 						</div>
 						<div class="col-md-4 form-property">
+							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
 							<h4 style="text-align:center;width:200px;">Partage</h4>
 							<input class="knob project-property" value="0" name="partage" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
@@ -93,6 +95,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 							</label>	
 						</div>
 						<div class="col-md-4 form-property">
+							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
 							<h4 style="text-align:center;width:200px;">Solidaire</h4>
 							<input class="knob project-property" value="0" name="solidaire" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
@@ -100,6 +103,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 							</label>
 						</div>
 						<div class="col-md-4 form-property">
+							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
 							<h4 style="text-align:center;width:200px;">Local</h4>
 							<input class="knob project-property" value="0" name="local" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
 							<label for="properties">
@@ -112,12 +116,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<div class="flexslider" style="margin-top:35px;">
 							<div id="infoPodOrga" class="padding-10">
 								<blockquote> 
-									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	Ajouter
-									<br>Une nouvelle 
-									<br>Propriété
-									<br>
+									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	<?php echo Yii::t("project","Add<br/>A new<br/>Property",null,Yii::app()->controller->module->id) ?>
+									<br/>
 									<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
-										<i class="fa fa-plus"></i> ADD
+										<i class="fa fa-plus"></i> <?php echo Yii::t("common","ADD"); ?>
 									</a>
 								</blockquote>
 								
@@ -127,11 +129,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</div>
 					</div>
 				</div>
-				<div class="">
+				<!--<div class="">
 					<div class="row">
 		    	        <button class="btn btn-primary" >Enregistrer</button>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</form>
 	</div>
@@ -152,10 +154,10 @@ jQuery(document).ready(function() {
 	removeChartProperty();
 });
 function runChartFormValidation() {
-	var formProject = $('.form-chart');
-	var errorHandler2 = $('.errorHandler', formProject);
-	var successHandler2 = $('.successHandler', formProject);
-	formProject.validate({
+	var formChart = $('.form-chart');
+	var errorHandler2 = $('.errorHandler', formChart);
+	var successHandler2 = $('.successHandler', formChart);
+	formChart.validate({
 		errorElement : "span", // contain the error msg in a span tag
 		errorClass : 'help-block',
 		errorPlacement : function(error, element) {// render error placement for each input type
@@ -268,7 +270,7 @@ function bindprojectSubViewchart() {
 				hideEditChart();
 			},
 			onSave: function() {
-				hideEditChart();
+				$(".form-chart").submit();
 			}
 		});
 	});

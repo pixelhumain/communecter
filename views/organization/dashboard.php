@@ -14,7 +14,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		-khtml-opacity: 1;
 		opacity: 1;
 	}
-
+	.subviews{
+		top:62px;
+	}
 </style>
 <div class="col-sm-8 col-xs-12">
 		<div class="row">
@@ -28,11 +30,20 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
-	    				"publics" => $public
+	    				"publics" => $public,
 	    			);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 	    	</div>
+	    	
+	    	<?php 
+		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
+			?>
+			<div class="col-sm-12 col-xs-12">
+	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
+	    	</div>
+	    	<?php }; ?>
+
 	    	<div class="col-sm-12 col-xs-12 documentPod">
 	    		<div class="panel panel-white pulsate">
 					<div class="panel-heading border-light ">
@@ -42,13 +53,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 				</div>
 	    		
 	    	</div>
-	    	<?php 
-		    	if(isset($organization) && isset(Yii::app()->session["userId"]) && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"])) {
-			?>
-			<div class="col-sm-12 col-xs-12">
-	    		<?php $this->renderPartial('dashboard/network',array( "organization" => $organization,"members"=>$members, "organizationTypes" => $organizationTypes)); ?>
-	    	</div>
-	    	<?php }; ?>
 	    	
 	    	<div class="col-sm-12 col-xs-12 jobPod">
 	    		<div class="panel panel-white pulsate">
@@ -73,6 +77,23 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 				</div>
 	 			
 	 		</div>
+	 		
+	 		<div class="col-sm-12 col-xs-12">
+	 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+	 																	"contextId" => (String) $organization["_id"],
+																		"contextType" => "organization",
+	 																	"authorised" => ( Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))
+	 																	)); ?>
+	 		</div>
+
+	 		<div class="col-sm-12 col-xs-12">
+	 			<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+	 																	"contextId" => (String) $organization["_id"],
+																		"contextType" => "organization",
+	 																	"authorised" => ( Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))
+	 																  )); ?>
+	 		</div>
+
 	 		<div class="col-sm-12 col-xs-12 shareAgendaPod">
 	 			<div class="panel panel-white pulsate">
 					<div class="panel-heading border-light ">
@@ -81,7 +102,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 					</div>
 				</div>
 	 		</div>
-
 	 		<div class="col-sm-12 col-xs-12">
 	 			<?php //$this->renderPartial('../pod/news', array("events" => $events, "organizationId" => (isset($organization)) ? (String) $organization["_id"] : null )); ?>
 	 		</div>
@@ -94,11 +114,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 
 <!-- end: PAGE CONTENT-->
 <script>
-	var contextMap = { "desc" : [ "organization", "events " ] };
-	contextMap = <?php echo json_encode($contextMap) ?>;
+	var contextMap = <?php echo json_encode($contextMap) ?>;
+	contextMap["desc"] = [ "organization", "events " ];
+	contextMap["projects"] = <?php echo json_encode($projects) ?>;
 	var idToSend = contextMap["organization"]["_id"]["$id"];
 	events = <?php echo json_encode($events) ?>;
 	images = <?php echo json_encode($images) ?>;
+	projects = <?php echo json_encode($projects) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
 	
 	jQuery(document).ready(function() {
@@ -119,7 +141,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 		getAjax(".jobPod",baseUrl+"/"+moduleId+"/job/list/organizationId/<?php echo $_GET["id"]?>",null,"html");
 
 		
-		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["id"]?>/type/<?php echo Organization::COLLECTION ?>", function(){
+		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/event/calendarview/type/organizations/id/<?php echo $_GET["id"]?>/pod/1", function(){
 			//initAddEventBtn ();
 		}, "html");
 

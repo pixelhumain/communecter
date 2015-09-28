@@ -1,8 +1,13 @@
+<?php
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+
 <style>
 
-#newInvite{
-	display: none;
-}
 #newInvite .dropdown-menu{
 	width: 100%;
 }
@@ -10,14 +15,36 @@
 	display:none;
 }
 
+.margin-bottom-10 {
+	margin-bottom: 10px;
+}
+
+.city-search {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 0.8125rem;
+}
 </style>
+
+<?php if( @$isNotSV ){ 
+	$this->renderPartial('../default/panels/toolbar'); 
+}?>
+
 <div id="newInvite">
-	<div class="col-md-6 col-md-offset-3">  
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Person</h2>
+	<?php 
+	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
+	?>
+	<div class="<?php echo $size ?>" >  
        	<div class="panel panel-white">
+       		
         	<div class="panel-heading border-light">
-				<h1>Invite Someone</h1>
-			    <p>  local or that might be interested by the platform</p>
+        		<?php if( !@$isNotSV ){ ?>
+					<h1>Connect people to your network</h1>
+				<?php } ?>	
+			    <p>  Find people you know by name or email. </p>
 			</div>
+			
 		<div class="panel-body">
 			<form class="form-invite" autocomplete="off">
 				<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
@@ -37,25 +64,30 @@
 					</div>
 				</div>
 				<div class="row" id="step2">
-		
 					<div class="form-group" id="ficheUser">
-						<div class="col-md-5" class="photoInvite">
-							<?php /*$this->renderPartial('../pod/fileupload', array("itemId" => "",
-																	  "type" => "",
-																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => false)); */?>
+						<div class="col-md-5 text-center">
+							<div class='photoInvited text-center'>
+							</div>
+							<a class='pending btn btn-xs btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="This user has been already invited but has not connected yet.">Pending User</a>
 						</div>
 						<div class="col-md-7">
-							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="I know this person" ><i class=" connectBtnIcon fa fa-link "></i>  I know this person</a>
+							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Follow this person" ><i class=" connectBtnIcon fa fa-link "></i>  Follow this person</a>
+							<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
 							<hr>
-							Nom : <p id="ficheName" name="ficheName"></p><br>
-							Date de naissance : <p id="birth" name="birth" ></p><br>
-							Tags : <p id="tags" name="tags" ></p><br>
+							<h2 id="ficheName" name="ficheName"></h2>
+							<span id="email" name="email" ></span><br><br>
+							<span id="address" name="address" ></span><br><br>
+							<span id="tags" name="tags" ></span><br>
+						</div>
+					</div>
+	               	<div class ="row">
+		               	<div class="col-md-10  col-md-offset-1">	
+							<a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a>
 						</div>
 					</div>
 				</div>
 				<div class="row" id="step3">
-					<div class="row">
+					<div class="row margin-bottom-10">
 						<div class="col-md-1 col-md-offset-1" id="iconUser">	
 				           	<i class="fa fa-user fa-2x"></i>
 				       	</div>
@@ -63,7 +95,7 @@
 							<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row margin-bottom-10">
 						<div class="col-md-1 col-md-offset-1">	
 			           		<i class="fa fa-envelope-o fa-2x"></i>
 			           	</div>
@@ -71,7 +103,15 @@
 							<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row margin-bottom-10">
+						<div class="col-md-1 col-md-offset-1">	
+			           		<i class="fa fa-align-justify fa-2x"></i>
+			           	</div>
+	    	        	<div class="col-md-9">
+							<textarea class="invite-text form-control" id="inviteText" name="inviteText" rows="4" />
+						</div>
+					</div>
+					<div class="row margin-bottom-10">
 						<div class="col-md-2 col-md-offset-1">
 							<div class="form-group">
 					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
@@ -86,267 +126,277 @@
 
 <script type="text/javascript">
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
+var currentUser = <?php echo json_encode($currentUser) ?>;
 var tags;
+
+var subViewElement, subViewContent;
+var timeout;
+var tabObject = [];
+
 jQuery(document).ready(function() {
- 	bindinviteSubViewinvites();
+ 	initSubView();
+ 	bindInviteSubViewInvites();
  	runinviteFormValidation();
- 	//disable submit in enter
-	 $(window).keydown(function(event){
-	    if(event.keyCode == 13) {
-	      event.preventDefault();
-	      return false;
-	    }
-	  });
-	 
- 	$('#inviteSearch').keyup(function(e){
+});
+
+function bindInviteSubViewInvites() {	
+
+	$(".connectBtn").off().on("click", function() {
+		connectPerson($('#newInvite #inviteId').val(), function(user){
+			console.log('callback connectPerson')
+			if(updateInvite != undefined && typeof updateInvite == "function"){
+				updateInvite(user, false, false);
+			}
+			$.hideSubview();
+		});
+	});
+	$(".disconnectBtn").off().on("click", function() {
+		var idToDisconnect = $('#newInvite #inviteId').val();
+		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
+		var nameToDisconnect = $("#newInvite #ficheName").text();
+		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, function(id) {
+			console.log('callback disconnectPerson')
+			if(updateInvite != undefined && typeof updateInvite == "function"){
+				updateInvite(id, false, true);
+			}
+			$.hideSubview();
+		});
+	});
+
+	$('#inviteSearch').keyup(function(e){
 	    var search = $('#inviteSearch').val();
 	    if(search.length>2){
-	    	clearTimeout(timeout)
-			timeout = setTimeout('autoCompleteInviteSearch("'+search+'")', 500); 
+	    	clearTimeout(timeout);
+			timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
 		 }else{
 		 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 		 }	
 	});
-	$('#inviteSearch').focusout(function(e){
-		//$(".new-invite #dropdown_city").css({"display" : "none" });
-	});
-
-	$('#btnInviteNew').on("click", function(){
-		$('.form-invite').submit();
-	});
-});
-
-function bindinviteSubViewinvites() {
-		
-	$(".new-invite").off().on("click", function() {
-		subViewElement = $(this);
-		subViewContent = subViewElement.attr('href');
-		$.subview({
-			content : subViewContent,
-			onShow : function() {
-				editinvite();
-				getAjax(".photoInvite",baseUrl+"/"+moduleId+"/pod/fileupload/itemId//type//resize/false/edit/false/contentId/<?php //echo Document::IMG_PROFIL ?>/podId/invite",null,"html");
-
-			},
-			onHide : function() {
-				hideEditinvite();
-			},
-			onSave: function() {
-				hideEditinvite();
-			}
-		});
-	});
-
-	$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prinviteDefault();
-	});
 };
 
-var dateToShow, calendar, $inviteDetail, inviteClass, inviteCategory;
-var oTable, contributors;
-var subViewElement, subViewContent, subViewIndex;
-var timeout;
-var tabObject = [];
 
 //validate new invite form
 function runinviteFormValidation(el) {
-var forminvite = $('.form-invite');
-var errorHandler2 = $('.errorHandler', forminvite);
-var successHandler2 = $('.successHandler', forminvite);
+	var forminvite = $('.form-invite');
+	var errorHandler2 = $('.errorHandler', forminvite);
+	var successHandler2 = $('.successHandler', forminvite);
 
-forminvite.validate({
-	errorElement : "span", // contain the error msg in a span tag
-	errorClass : 'help-block',
-	errorPlacement : function(error, element) {// render error placement for each input type
-		if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
-			error.insertAfter($(element).closest('.form-group').children('div').children().last());
-		} else if (element.parent().hasClass("input-icon")) {
+	forminvite.validate({
+		errorElement : "span", // contain the error msg in a span tag
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {// render error placement for each input type
+			if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
+				error.insertAfter($(element).closest('.form-group').children('div').children().last());
+			} else if (element.parent().hasClass("input-icon")) {
 
-			error.insertAfter($(element).parent());
-		} else {
-			error.insertAfter(element);
-			// for other inputs, just perform default behavior
-		}
-	},
-	ignore : "",
-	rules : {
-		inviteName : {
-			minlength : 2,
-			required : true
-		}
-	},
-	messages : {
-		inviteName : "* Please specify your first name",
-		inviteSearch : "* Please specify your email"
-	},
-	invalidHandler : function(invite, validator) {//display error alert on form submit
-		successHandler2.hide();
-		errorHandler2.show();
-	},
-	highlight : function(element) {
-		$(element).closest('.help-block').removeClass('valid');
-		// display OK icon
-		$(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-		// add the Bootstrap error class to the control group
-	},
-	unhighlight : function(element) {// revert the change done by hightlight
-		$(element).closest('.form-group').removeClass('has-error');
-		// set error class to the control group
-	},
-	success : function(label, element) {
-		label.addClass('help-block valid');
-		// mark the current input as valid and display OK icon
-		$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
-	},
-	submitHandler : function(form) {
-		successHandler2.show();
-		errorHandler2.hide();
-		newinvite = new Object;
-		newinvite.parentId = $(".form-invite .invite-parentId").val(),
-		newinvite.id = $(".form-invite .invite-id").val(),
-		newinvite.name = $("#inviteName").val(), 
-		newinvite.email = $("#inviteEmail").val(),
-		$.blockUI({
-			message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-            '<blockquote>'+
-              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
-              '<cite title="Hegel">Hegel</cite>'+
-            '</blockquote> '
-		});
-
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+'/person/invitation',
-	        dataType : "json",
-	        data:newinvite,
-			type:"POST",
-	    })
-	    .done(function (data) 
-	    {
-	    	$.unblockUI();
-	        if (data &&  data.result) {               
-	        	toastr.success('invite Created success');
-	        	$.hideSubview();
-	        	//console.log("updateinvite");
-	        	//if(updateinvite != undefined && typeof updateinvite == "function"){
-	        		//updateinvite( newinvite, data.id );
-	        	//}	
-	        } else {
-	           toastr.error('Something Went Wrong');
-	        }
-	    });
-	}
-});
-};
-
-// on hide invite's form destroy summernote and bootstrapSwitch plugins
-function hideEditinvite() {
-	clearEditEvent();
-	$.hideSubview();
-	//$('.form-invite .summernote').destroy();
-	//$(".form-invite .all-day").bootstrapSwitch('destroy');
-};
-// enables the edit form 
-function editinvite(el) {
-	$(".close-new-invite").off().on("click", function() {
-		$(".back-subviews").trigger("click");
-	});
-	$(".form-invite .help-block").remove();
-	$(".form-invite .form-group").removeClass("has-error").removeClass("has-success");
-	
-
-	if ( 'undefined' == typeof el) {
-		$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
-		$(".form-invite .invite-id").val("");
-		$(".form-invite .invite-name").val("");
-		$(".form-invite .invite-search").val("");
-	} else {
-		$("#newInvite #dropdown_searchInvite").html("");
-  		$("#newInvite #dropdown_searchInvite").css({"display" : "none" });
-	}
-};
-
-// read invite
-function readinvite(el) 
-{
-	$(".edit-invite").off().on("click", function() {
-		subViewElement = $(this);
-		subViewContent = subViewElement.attr('href');
-		$.subview({
-			content : subViewContent,
-			onShow : function() {
-				editinvite(el);
-			},
-			onHide : function() {
-				hideEditinvite();
-			},
-			onSave : function(){
-				hideEditinvite();
+				error.insertAfter($(element).parent());
+			} else {
+				error.insertAfter(element);
+				// for other inputs, just perform default behavior
 			}
-		});
+		},
+		ignore : "",
+		rules : {
+			inviteName : {
+				minlength : 2,
+				required : true
+			},
+			inviteEmail : {
+				required : true
+			}
+		},
+		messages : {
+			inviteName : "* Please specify a name",
+			inviteSearch : "* Please specify a email"
+		},
+		invalidHandler : function(invite, validator) {//display error alert on form submit
+			successHandler2.hide();
+			errorHandler2.show();
+		},
+		highlight : function(element) {
+			$(element).closest('.help-block').removeClass('valid');
+			// display OK icon
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+			// add the Bootstrap error class to the control group
+		},
+		unhighlight : function(element) {// revert the change done by hightlight
+			$(element).closest('.form-group').removeClass('has-error');
+			// set error class to the control group
+		},
+		success : function(label, element) {
+			label.addClass('help-block valid');
+			// mark the current input as valid and display OK icon
+			$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+		},
+		submitHandler : function(form) {
+			console.log("submit handler");
+			successHandler2.show();
+			errorHandler2.hide();
+			var parentId = $(".form-invite .invite-parentId").val();
+			var invitedUserName = $("#inviteName").val();
+			var invitedUserEmail = $("#inviteEmail").val();
+			$.blockUI({
+				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+	            '<blockquote>'+
+	              '<p>Get up Stand up ! Stand up for your right !</p>'+
+	              '<cite title="Bob Marley">Bob Marley</cite>'+
+	            '</blockquote> '
+			});
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+'/person/connect',
+		        dataType : "json",
+		        data: {
+		        	parentId : parentId,
+		        	invitedUserName : invitedUserName,
+		        	invitedUserEmail : invitedUserEmail
+		        },
+				type:"POST",
+		    })
+		    .done(function (data) {
+		    	$.unblockUI();
+		        if (data &&  data.result) {               
+		        	toastr.success('The invitation has been sent with success !');
+		        	$.hideSubview();
+		        	if(updateInvite != undefined && typeof updateInvite == "function"){
+		        		updateInvite(data.invitedUser, true);
+		        	}	
+		        } else {
+		        	$.unblockUI();
+					toastr.error(data.msg);
+		        }
+		    });
+		}
 	});
-
 };
-	
-function autoCompleteInviteSearch(email){
-		var data = { "search" : email};
-		ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
-		function (data){
-			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Aucun résultat satisfaisant? Cliquez ici</li>";
-			var compt = 0;
 
- 			$.each(data["citoyens"], function(k, v) { 
- 				console.log(k, v);
- 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
- 				if(v._id["$id"]!= userId){
- 					tabObject.push(v);
-	 				if('undefined' != typeof v.imagePath){
-	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.imagePath+"'/>"
+// init subview
+function initSubView() {
+	$(".form-invite .invite-parentId").val("<?php echo Yii::app()->session['userId']; ?>");
+	$(".form-invite .invite-id").val("");
+	$(".form-invite .invite-name").val("");
+	$(".form-invite .invite-search").val("");
+};
+
+
+function autoCompleteInviteSearch(search){
+	tabObject = [];
+	var data = { 
+		"search" : search,
+		"searchMode" : "personOnly"
+	};
+	
+	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
+		function (data){
+			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
+			var compt = 0;
+			var city, postalCode = "";
+			$.each(data["citoyens"], function(k, v) { 
+				city = "";
+				postalCode = "";
+				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
+				if(v._id["$id"]!= userId) {
+					tabObject.push(v);
+	 				if(v.profilImageUrl != ""){
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
 	 				}
-	  				str += "<li class='li-dropdown-scope'><a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + "</a></li>";
+	 				if (v.address != null) {
+	 					city = v.address.addressLocality;
+	 					postalCode = v.address.postalCode;
+	 				}
+	  				str += 	"<li class='li-dropdown-scope'>" +
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
+	  						"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
+	  						"</li>";
 	  				compt++;
-	  			}
-  			}); 
-  			$("#newInvite #dropdown_searchInvite").html(str);
-  			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
-		});	
-	}
+  				}
+			}); 
+			$("#newInvite #dropdown_searchInvite").html(str);
+			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
+		}
+	);	
+}
 
 function setInviteInput(num){
-	var array = tabObject[num];
-	$('#newInvite #inviteName').val(array["name"]);
-	$('#newInvite #inviteId').val(array["_id"]["$id"]);
+	var person = tabObject[num];
+	var personId = person["_id"]["$id"];
+	console.log(person, personId);
+
+	$('#newInvite #inviteName').val(person["name"]);
+	$('#newInvite #inviteId').val(personId);
+	$("#newInvite #ficheName").text(person["name"]);
+	
+	if (person.address != null) {
+		//Address : CP + Locality
+		$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
+	}
+	
+	if (person.email != null) {
+		//Email
+		$("#newInvite #email").text(person.email);
+	}
+	//Tags
+	var tagsStr = "";
+	if( "object" == typeof person.tags && person.tags ) {
+		$.each( person.tags , function(i,tag){
+			tagsStr += "<span class='label label-inverse'>"+tag+"</span> ";
+		});
+	} else {
+		tagsStr += "<span class='label label-inverse'>No Tag</span> ";
+	}
+	$("#newInvite #tags").html('<div class="pull-left"><i class="fa fa-tags"></i> '+tagsStr+'</div>');
+	$(".photoInvited").empty();
+	if (person["profilImageUrl"] != "") {
+		$(".photoInvited").html("<img class='img-responsive' src='"+baseUrl+person["profilImageUrl"]+"' />");
+	} else {
+		$(".photoInvited").html("<span><i class='fa fa-user_circled' style='font-size: 10em;'></i></span>");
+	}
+
+	//Pending
+	if (person.pending == true) {
+		$(".pending").show();
+	} else {
+		$(".pending").hide();
+	}
+
+	//Already in the network of the current user
+	if (currentUser.links != null && currentUser.links.knows != null && currentUser.links.knows[personId] != null) {
+		$('.disconnectBtn').show();
+		$('.connectBtn').hide();
+	} else {
+		$('.disconnectBtn').hide();
+		$('.connectBtn').show();
+	}
+
+	//Show / Hide steps
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "block"});
-	$("#newInvite #ficheName").text(array["name"]);
-	$("#newInvite #birth").text(array["birth"]);
-	tags = array["tags"];
-	var tagsStr = "";
-	for(var i= 0; i<Object.keys(tags).length; i++){
-		tagsStr +=tags[i]+ " ";
-	}
-	$("#newInvite #tags").text(tagsStr);
-	$("#invitePhoto_imgPreview").empty();
-	$("#invitePhoto_imgPreview").html("<img src='"+array["imagePath"]+"' />");
 }
+
 function newInvitation(){
 	$("#newInvite #step1").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "block"});
+	
+	$('#newInvite #inviteId').val("");
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if(emailReg.test( $("#newInvite #inviteSearch").val() )){
 		$('#newInvite #inviteEmail').val( $("#newInvite #inviteSearch").val());
 	}else{
 		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
 	}
+
+	$("#inviteText").val("Bonjour ! \nViens me rejoindre sur ce site ! \nUn email, un code postal et tu es communecter ! \ Tu peux voir tout ce qu'il se passe dans ta commune et agir pour le bien commun ! \n");
 }
 
-function clearEditEvent(){
+function backToSearch(){
 	$("#newInvite #step1").css({"display" : "block"});
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "none"});
+
+	autoCompleteInviteSearch($('#inviteSearch').val());
 }
-	
+
+
 </script>

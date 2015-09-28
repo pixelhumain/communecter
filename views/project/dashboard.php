@@ -1,13 +1,12 @@
-
 <div class="row">
 	<div class="col-md-12 no-padding">
 	<div class="col-lg-4 col-md-12">
 		<?php 
-			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries)); ?>
+			$this->renderPartial('dashboard/description',array( "project" => $project, "tags" => $tags, "countries" => $countries,"isAdmin"=> $admin)); ?>
 	</div>
 	<div class ="col-lg-4 col-md-12">			
 		<?php 
-			 $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$project["_id"], "type" => PHType::TYPE_PROJECTS));
+			 $this->renderPartial('../pod/sliderPhoto', array("itemId" => (string)$project["_id"], "type" => PHType::TYPE_PROJECTS, "isAdmin"=> $admin));
 		?>
 	</div>	
 	<div class ="col-lg-4 col-md-12">
@@ -41,22 +40,29 @@
 			</div>
 		</div>-->
 	</div>
+	<div class="col-sm-6 col-xs-12">
+		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+																"contextId" => (String) $project["_id"],
+																"contextType" => Project::CONTROLLER,
+																"authorised" => $admin
+															  )); ?>
+	</div>
 </div>
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 <script type="text/javascript">
 	var contextMap = {};
 	contextMap["project"] = <?php echo json_encode($project)?>;
+	//contextMap["events"] = <?php //echo json_encode($events) ?>;
 	var idToSend = contextMap["project"]["_id"]["$id"]
 	contextMap["people"] = <?php echo json_encode($people) ?>;
 	contextMap["organizations"] = <?php echo json_encode($organizations) ?>;
 	var images = <?php echo json_encode($images) ?>;
 	var contentKeyBase = "<?php echo $contentKeyBase ?>";
-
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		getAjax(".roomsPod",baseUrl+"/"+moduleId+"/rooms/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
-		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>",null,"html");
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
+		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	})
 	var bindBtnFollow = function(){
 

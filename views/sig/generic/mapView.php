@@ -13,27 +13,24 @@
 		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center>
     </div>
 
-	<?php if($sigParams['usePanel']){ ?>
-		<div class="panel_map">
-			<?php if(isset($sigParams['titlePanel'])) { ?>
-			<h3 id="title_panel"><i class="fa fa-angle-down"></i> <?php echo $sigParams['titlePanel']; ?></h3>
-			<?php } ?>
-			<button class='item_panel_map' id='item_panel_map_all'>
-				<i class='fa fa-star'></i> Tous
-			</button>
-		</div>
-	<?php } ?>
+	
+
+	
 
 	<?php if($sigParams['useRightList']){ ?>
 		<div id="right_tool_map" class="hidden-xs">
 
+			<!-- 	HEADER -->
+			<div class="right_tool_map_header">
+				<span class="right_tool_map_header_title">Résultats</span>
+				<span class="right_tool_map_header_info">935 / 1034</span>
+			</div>
+			
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
 
-				<div class="input-group">
-						<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
-						<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="recherche par nom">
-				</div>
+				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="rechercher ...">
+				
 			</div>
 			<!-- 	PSEUDO SEARCH -->
 
@@ -42,8 +39,14 @@
 			</div>
 
 			<label id="lbl-chk-scope">
-				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
+				<nav>
+				  <ul class="pagination pagination-sm" id="pagination"></ul>
+				</nav>
 			</label>
+
+			<!-- <label id="lbl-chk-scope" class="hidden">
+				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
+			</label> -->
 		</div>
 	<?php } ?>
 
@@ -78,16 +81,46 @@
 			</div>
 		<?php } ?>
 
-		<div class="btn-group btn-group-lg btn-group-map">
+		<div class="btn-group-map tools-btn">
 		
-			<?php if($sigParams['useHomeButton']){ ?>
-				<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-home"></i></button>
-				<button type="button" class="btn btn-map-separator"></button>
+			<?php if($sigParams['usePanel']){ ?>
+				<div class="btn-group btn-group-lg dropdown " id="btn-tags">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-panel" data-toggle="dropdown">
+						<i class="fa fa-tags"></i>
+					</button>
+					<ul class="dropdown-menu panel_map" id="panel_map" role="menu" aria-labelledby="panel_map">
+					    <button class='item_panel_map' id='item_panel_map_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>	
 			<?php } ?>
+			<?php if($sigParams['useFilterType']){ ?>
+				<div class="btn-group btn-group-lg dropdown" id="btn-filter">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-filters" data-toggle="dropdown">
+						<i class="fa fa-filter"></i>
+					</button>
+					<ul class="dropdown-menu panel_map" id="panel_filter" role="menu" aria-labelledby="panel_filter">
+					    <button class='item_panel_map' id='item_panel_filter_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>
+			<?php } ?>	
+
+
 			<?php if($sigParams['useZoomButton']){ ?>
-				<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
-				<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+				<div class="btn-group btn-group-lg">		
+					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
+					<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+				</div>
 			<?php } ?>
+			<?php if($sigParams['useHomeButton']){ ?>
+				<div class="btn-group btn-group-lg">
+					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-location-arrow"></i></button>
+				</div>
+			<?php } ?>	
+			
 			
 		</div>
 	<?php if($sigParams['useFullScreen']){ ?>

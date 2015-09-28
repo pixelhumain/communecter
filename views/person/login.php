@@ -5,6 +5,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
+	
 ?>
 
 <div class="pull-right" style="padding:20px;">
@@ -19,10 +20,25 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	<a class="byPHRight" href="#"><img style="height: 39px;position: absolute;right: -142px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 		<!-- start: LOGIN BOX -->
 		<?php 
-		$this->renderPartial('menuTitle');
+		$this->renderPartial('../default/menuTitle');
+		$this->renderPartial('../default/panels/what');
+		$this->renderPartial('../default/panels/how');
+		$this->renderPartial('../default/panels/why');
+		$this->renderPartial('../default/panels/where');
+		$this->renderPartial('../default/panels/when');
+		$this->renderPartial('../default/panels/who');
+		$this->renderPartial('../default/panels/events');
+		$this->renderPartial('../default/panels/cities');
+		$this->renderPartial('../default/panels/orga');
+		$this->renderPartial('../default/panels/people');
+		$this->renderPartial('../default/panels/involved');
+		$this->renderPartial('../default/panels/projects');
+		$this->renderPartial('../default/panels/ph');
+		$this->renderPartial('../default/panels/communecter');
 		?>
 		
-		<div class="box-login box radius-20">
+
+		<div class="box-login box box-white-round">
 
 			<form class="form-login" action="" method="POST">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
@@ -57,6 +73,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<div class="errorHandler alert alert-success no-display emailValidated">
 							<i class="fa fa-check"></i> Your account is now validated ! Please try to login.
 						</div>
+						<div class="errorHandler alert alert-danger no-display custom-msg">
+							<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
 							Keep me signed in
@@ -76,7 +95,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: LOGIN BOX -->
 		<!-- start: FORGOT BOX -->
-		<div class="box-email box">
+		<div class="box-email box box-white-round">
 			<form class="form-email">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
@@ -102,7 +121,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: FORGOT BOX -->
 		<!-- start: REGISTER BOX -->
-		<div class="box-register box">
+		<div class="box-register box box-white-round">
 			
 			<form class="form-register">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
@@ -154,6 +173,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 						<div class="errorHandler alert alert-danger no-display registerResult">
 							<i class="fa fa-remove-sign"></i> Please verify your entries.
 						</div>
+						<div class="errorHandler alert alert-success no-display pendingProcess">
+							<i class="fa fa-check"></i> Please fill your personal information in order to log in.
+						</div>
 						Already have an account?
 						<a href="#" class="go-back">
 							Log-in
@@ -168,35 +190,46 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: REGISTER BOX -->
 	</div>
+	<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  center">
+		<h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
+		<div class="box-ajax box box-white-round">
+			<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
+		</div>
+	</div>
+
 </div>
 
 
-<div class="eventMarker" style="z-index:1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
+<div class="eventMarker" style="z-index:-1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
 	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
 </div>
-<div class="cityMarker" style="z-index:1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
+<div class="cityMarker" style="z-index:-1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
 </div>
-<div class="projectMarker" style="z-index:1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
+<div class="projectMarker" style="z-index:-1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
 	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
 </div>
-<div class="assoMarker" style="z-index:1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
+<div class="assoMarker" style="z-index:-1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
 	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
 </div>
-<div class="userMarker" style="z-index:1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
+<div class="userMarker" style="z-index:-1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
+</div>
+<div class="connectMarker text-white" style="z-index:-1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
+	<i class="fa fa-sign-in fa-2x"></i> 
+	<span class="homestead connectlabel" style="display:none;color:white;font-size:25px"> CONNECT</span>
 </div>
 
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
 
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top:750px; right:750px; cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top5:0px; left:50px; cursor:pointer;" />
 <img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
 <img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
 
@@ -209,7 +242,6 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
 <?php /* ?>
-
 http://habibhadi.com/lab/svgPathAnimation/demo/
 http://jonobr1.github.io/two.js/#basic-usage
 http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
@@ -236,6 +268,7 @@ svg.graph .line {
   <path class="line" d=" M 0 0 L 330 100"></path>
 </svg>
 */?>
+
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
@@ -247,54 +280,80 @@ svg.graph .line {
 			$(".form-login #email").val( email );
 		}
 		
+		//Validation of the email
 		if (userValidated) {
-			$(".errorHandler").hide();
-			$(".emailValidated").show();
-			$(".form-login #password").focus();
+			//We are in a process of invitation. The user already exists in the db
+			if (invitor != null) {
+				$(".errorHandler").hide();
+				$('.register').click();
+				$('.pendingProcess').show();
+				$('#email3').val(email);
+				$('#email3').prop('disabled', true);
+			} else {
+				$(".errorHandler").hide();
+				$(".emailValidated").show();
+				$(".form-login #password").focus();
+			}
 		}
+
+		if (msgError != "") {
+			$(".custom-msg").show();
+			$(".custom-msg").text(msgError);
+		}
+
 		$(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
-			showMenu('box-event');
+			showPanel('box-event');
 		}).on('mouseover',function() { 
 			$(".eventMarkerlabel").show();
 		}).on('mouseout',function() { 
 			$(".eventMarkerlabel").hide();
 		});
 		$(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
-			showMenu('box-city');
+			showPanel('box-city');
 		}).on('mouseover',function() { 
 			$(".cityMarkerlabel").show();
 		}).on('mouseout',function() { 
 			$(".cityMarkerlabel").hide();
 		});
 		$(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
-			showMenu('box-projects');
+			showPanel('box-projects');
 		}).on('mouseover',function() { 
 			$(".projectMarkerlabel").show();
 		}).on('mouseout',function() { 
 			$(".projectMarkerlabel").hide();
 		});
 		$(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-			showMenu('box-orga');
+			showPanel('box-orga');
 		}).on('mouseover',function() { 
 			$(".assoMarkerlabel").show();
 		}).on('mouseout',function() { 
 			$(".assoMarkerlabel").hide();
 		});
 		$(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-			showMenu('box-people');
+			showPanel('box-people');
 		}).on('mouseover',function() { 
 			$(".userMarkerlabel").show();
 		}).on('mouseout',function() { 
 			$(".userMarkerlabel").hide();
 		});
+		$(".connectMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showPanel('box-login');
+		}).on('mouseover',function() { 
+			$(".connectlabel").show();
+		}).on('mouseout',function() { 
+			$(".connectlabel").hide();
+		});
 		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-			showMenu('box-ph');
+			showPanel('box-ph');
 		});
 	
 	});
 
 var email = '<?php echo @$_GET["email"]; ?>';
 var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
+var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
+var msgError = '<?php echo @$_GET["msg"]; ?>';
+var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
 
 var timeout;
 var emailType;
@@ -461,7 +520,14 @@ var Login = function() {
 		    		  	var msg;
 		    		  	if (data.msg == "notValidatedEmail") {
 							$('.notValidatedEmailResult').show();
-		    		  	} else {
+		    		  	} else if (data.msg == "accountPending") {
+		    		  		pendingUserId = data.pendingUserId;
+		    		  		$(".errorHandler").hide();
+							$('.register').click();
+							$('.pendingProcess').show();
+							$('#email3').val($("#email").val());
+							$('#email3').prop('disabled', true);
+		    		  	} else{
 		    		  		msg = data.msg;
 		    		  		$('.loginResult').html(msg);
 							$('.loginResult').show();
@@ -544,6 +610,13 @@ var Login = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);
 		var createBtn = null;
+		/*---Other solution for email validation with no space
+			$("#email3").keyup(function(event){
+			if (event.which==32 || event.which==86){
+				var txt=$(this).val();
+				$(this).val(txt.trim());
+			}
+		});*/
 		Ladda.bind('.createBtn', {
 	        callback: function (instance) {
 	            createBtn = instance;
@@ -564,7 +637,12 @@ var Login = function() {
 					required : true
 				},
 				email3 : {
-					required : true,
+					required : { 
+						depends:function(){
+							$(this).val($.trim($(this).val()));
+							return true;
+        				}
+        			},
 					email : true
 				},
 				password3 : {
@@ -591,7 +669,8 @@ var Login = function() {
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
                    "app" : "<?php echo $this->module->id?>",
-                   "city" : $("#city").val()
+                   "city" : $("#city").val(),
+                   "pendingUserId" : pendingUserId
                 };
 			      
 		    	$.ajax({
@@ -602,15 +681,11 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	$.blockUI({
-    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-    		  	            '<blockquote>'+
-    		  	              '<p>You will receive an email to validate your account.</p>'+
-    		  	              '<cite>Welcome to the Pixel Humain</cite>'+
-    		  	            '</blockquote> '
+    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
     		  			});
 		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
 		        		//window.location.reload();
-		        		setTimeout(function() { $.unblockUI(); showMenu(); },5000);
+		        		setTimeout(function() { $.unblockUI(); showPanel(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
@@ -646,31 +721,6 @@ var Login = function() {
 		}
 	};
 }();
-
-function sendEmailValidation() {
-	var params = { 
-		"email" : $("#email").val(),
-		"type"	: "validation"
-	};
-
-    $.ajax({
-      type: "POST",
-      url: baseUrl+"/<?php echo $this->module->id?>/person/sendemail",
-      data: params,
-      success: function(data){
-		if (data.result) {
-			alert(data.msg);
-            window.location.reload();
-		} else {
-			toastr.error("Something went wrong : "+data.msg);
-		}
-      },
-      error: function(data) {
-	  	toastr.error("Something went really bad : contact your administrator !");
-	  },
-      dataType: "json"
-    });
-}
 
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);

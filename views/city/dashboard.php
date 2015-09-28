@@ -107,10 +107,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../person/dashboard/events',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
 	</div>
 	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../person/dashboard/projects',array( "projects" => $projects, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+          "userId" => (string)$person["_id"])); ?>
 	</div>
 </div>
 

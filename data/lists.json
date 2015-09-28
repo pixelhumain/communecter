@@ -53,5 +53,39 @@
         "discuss" : "Discussion",
         "proposals" : "Brainstorm / Proposals / Ideas"
     }
+},
+{
+    "name" : "public",
+    "list" : [ 
+        "Enseignants", 
+        "Educateurs à l'environnement", 
+        "Elus / Agents de collectivités", 
+        "Cylce 1", 
+        "Cylce 2", 
+        "Cylce 3", 
+        "Collectivités", 
+        "Collège", 
+        "Lycée", 
+        "Enseignement sup.", 
+        "Entreprises", 
+        "Etudiants", 
+        "Familles", 
+        "Adultes encadrés", 
+        "Public spécialisé", 
+        "Autres"
+    ]
+},
+{
+    "name" : "eventTypes",
+    "list" : {
+        "competition" : "Compétition",
+        "concert" : "Concert",
+        "concours" : "Concours",
+        "exposition" : "Exposition",
+        "festival" : "Festival",
+        "getTogether" : "Rencontre",
+        "market" : "Marché",
+        "meeting" : "Réunion"
+    }
 }
 ]

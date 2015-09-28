@@ -8,12 +8,12 @@
 		</div>
 		<div class="col-lg-4 col-md-12">
 			<?php 
-				$this->renderPartial('dashboard/description',array("description"=> $description));
+				$this->renderPartial('dashboard/description',array("id"=> $need["_id"], "description"=> $description));
 			 ?>
 		</div>
 		<div class="col-lg-4 col-md-12">
 			<?php 
-				$this->renderPartial('dashboard/helpers',array());
+				$this->renderPartial('dashboard/helpers',array("id"=> $need["_id"],"quantity"=>$need["quantity"],"name"=>$need["name"], "helpers"=>$helpers));
 			 ?>
 		</div>
 	</div>

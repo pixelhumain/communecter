@@ -26,16 +26,30 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-	//Redirect to the dashboard of the user
-	$this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
-	$detect = new Mobile_Detect;
-	$isMobile = $detect->isMobile();
+    	//Redirect to the dashboard of the user
+    	$this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/dashboard"));
+    	$detect = new Mobile_Detect;
+    	$isMobile = $detect->isMobile();
 
-	if($isMobile) 
-		$this->render("indexMob");
-	else 
-		$this->render("index");      
+    	if($isMobile) 
+    		$this->render("indexMob");
+    	else 
+    		$this->render("index");      
 	}
+
+    /**
+     * Simple interfaces
+     */
+    public function actionSimple() 
+    {
+        $this->layout = "//layouts/mainSimple";
+
+        $this->title = "TOTOTOTO";//Yii::app()->session['user']['name'];
+        /*$controller->subTitle = (isset($organization["shortDescripion"])) ? $organization["shortDescripion"] : "";
+        $controller->pageTitle = $controller->title." - ".$controller->subTitle;*/
+
+        $this->render("index");      
+    }
 
     public function actionAbout() 
     {

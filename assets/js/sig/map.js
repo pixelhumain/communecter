@@ -22,8 +22,13 @@
 
 			//mémorise les identifiants des éléments de chaque carte
 			this.Sig.listId = new Array();
+
 			this.Sig.listPanel = new Array();
+			this.Sig.listPanel.tags = new Array();
+			this.Sig.listPanel.types = new Array();
+
 			this.Sig.panelFilter = "all";
+			this.Sig.panelFilterType = "all";
 			this.Sig.dataMap = {};
 
 			//mémorise les éléments
@@ -34,6 +39,8 @@
 			this.Sig.markerSingleList = new Array();
 			this.Sig.popupOpen = false;
 
+			this.Sig.mapPolygon = null;
+			this.Sig.markerFindPlace = null;
 
 			//##
 			//créé une donnée GeoJson (pour les cluster)
@@ -73,6 +80,22 @@
 
 			//##
 			//récupère le nom de l'icon en fonction du type de marker souhaité
+			this.Sig.getIcoMarkerMap = function(thisData)
+			{
+				console.warn("--------------- getIcoMarker *** ---------------------");
+				//console.log(thisData);
+
+				var type = thisData["type"];
+				var markerName = this.getIcoNameByType(type);
+
+				return L.icon({
+				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
+				    iconSize: [49, 60], //38, 95],
+				    iconAnchor: [25, 60],//22, 94],
+				    popupAnchor: [-3, -70]//-3, -76]
+				});
+			};
+
 			this.Sig.getIcoMarker = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker ---------------------");
@@ -97,65 +120,162 @@
 				});
 
 				this.listId = new Array();
-				this.listPanel = new Array();
+				//this.listPanel = new Array();
+				//this.listPanel.tags = new Array();
+				//this.listPanel.types = new Array();
+
 				$( this.cssModuleName + " #liste_map_element").html("");
+
+				this.showMyPosition();
 
 			};
 
+			this.Sig.showMyPosition = function(){
+				var thisSig = this;
+				if(thisSig.myPosition != null){
+					console.log("position find");
+					var center = [thisSig.myPosition.position.latitude, 
+								  thisSig.myPosition.position.longitude];
+					var properties = { 	id : "0",
+										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										content: "" };
 
-			//## TODO : UTILISER cette fonction pour gérer le fullScreenMap
-			//gère les dimensions des différentes parties de la carte (carte, panel, etc)
+					thisSig.getMarkerSingle(thisSig.map, properties, center);
+
+					$( "#btn-home" ).click(function (){ 
+							thisSig.setView(center, 16);
+					});
+					$( ".btn-home" ).click(function (){ 
+							thisSig.centerSimple(center, 16);
+					});
+				}
+			}
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
 			this.Sig.setFullScreen = function()
 			{
 				//console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
-				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();// - $(".inner").height() - $(".top-navbar").height() - 1;
+				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();
+				var rightListHeight = mapHeight - 100;
+
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
 				//alert(mapHeight);
 				$("#mapCanvas" + this.sigKey).css({"margin-bottom":mapHeight*(-1)});
-				$(this.cssModuleName + " #right_tool_map").css({"height":mapHeight});
-				$(this.cssModuleName + " .panel_map").css({"height":mapHeight});
-				$(this.cssModuleName + " #liste_map_element").css({"height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
-				$(this.cssModuleName + " #liste_map_element").css({"max-height":mapHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ });
-				$(this.cssModuleName + " #right_tool_map").css({"left":$("#mapCanvas" + this.sigKey).width()});// - $(this.cssModuleName + " #right_tool_map").width()});
-				$(this.cssModuleName + " .input-search-place").css({"left":$(this.cssModuleName + " .panel_map").width() + 10});// - $(this.cssModuleName + " #right_tool_map").width()});
-
-				//alert($(this.cssModuleName + " .panel_map").width());
+				$(this.cssModuleName + " #right_tool_map").css({"height":rightListHeight+25});
+			
+				$(this.cssModuleName + " #liste_map_element").css({"height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33 });
+				$(this.cssModuleName + " #liste_map_element").css({"max-height":rightListHeight - $(this.cssModuleName + " #map_pseudo_filters").height() - 8*2 /*padding*/ - $(this.cssModuleName + " #chk-scope").height() - 33  });
+				
+				$(this.cssModuleName + " #right_tool_map").css(		{"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
+				$(this.cssModuleName + " .input-search-place").css( {"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
 			};
 
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
+			this.Sig.setNoFullScreen = function()
+			{ 
+				var mapHeight = this.initParameters.mapHeight;
+				var rightListHeight = mapHeight - 100;
+
+				var left = $(this.cssModuleName + " #right_tool_map").position().left - $(this.cssModuleName + " .input-search-place").width() - 20;
+				$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
+			};
+
+			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
+			this.Sig.setFullPage = function()
+			{ 
+				var mapHeight = $("#mapCanvasBg").height();
+				var rightPanelHeight = mapHeight - 120;
+
+				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
+				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
+				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});
+				
+				$(this.cssModuleName + " .tools-btn").css( 
+					{"left":$("#mapCanvas" + this.sigKey).width() - 
+					$("#right_tool_map").width() - 
+					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+				
+				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
+
+				var left = $(this.cssModuleName + " .tools-btn").position().left;
+				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
+	
+			};
+
+			//modifie la position et la forme des éléments de l'interface de facon dynamique
 			this.Sig.constructUI = function()
 			{
+				
 				if(this.initParameters.useFullScreen){
 					this.setFullScreen();
 				}
 				else{
-					var left = $(this.cssModuleName + " .panel_map").width() + 10;
-					$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
+					this.setNoFullScreen();
 				}
+
+				if(this.initParameters.useFullPage){ this.setFullPage(); }
+
 			}
+
 			this.Sig.verifyPanelFilter = function (thisData){
 				console.warn("--------------- verifyPanelFilter ---------------------");
-				if(this.usePanel == false) return true;
 
-				//si thisData n'a pas de tags
-				if("undefined" == typeof thisData["tags"]){
-					return (this.panelFilter == "all");
-				}
-
+				if(this.panelFilter == "all") return true;
 
 				var thisSig = this;
-				var inArray = false;
-				$.each(thisData["tags"], function(index, value){
-					if(value == thisSig.panelFilter) inArray = true;
-				});
+				//console.log("PANELFILTER" + this.panelFilterType);
+				if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
+					if(this.usePanel == false) return true;
+					//console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
+					
+					//si thisData n'a pas de tags
+					if("undefined" == typeof thisData["tags"]){
+						return (this.panelFilter == "all");
+					}
 
-				if(		inArray //$.inArray(this.panelFilter, thisData["tags"]) > -1 //ne fonctionne pas
-					||  this.panelFilter == "all") {
-						return true;
+
+					var inArray = false;
+					$.each(thisData["tags"], function(index, value){
+						if(value == thisSig.panelFilter) inArray = true;
+					});
+
+					if(	inArray //$.inArray(this.panelFilter, thisData["tags"]) > -1 //ne fonctionne pas
+						||  this.panelFilter == "all") {
+							return true;
+					}
+					else{ return false; }
+
 				}
-				else{ return false; }
+				
+				if(this.panelFilterType == "types" || this.panelFilterType == "all"){
+					if(this.useFilterType == false) return true;
+
+					//si thisData n'a pas de tags
+					if("undefined" == typeof thisData["type"]){
+						return (this.panelFilter == "all");
+					}
+					if(	thisData["type"] == thisSig.panelFilter
+						||  this.panelFilter == "all") {
+							return true;
+					}
+					else{ return false; }
+
+				}
 			};
 
+			this.Sig.showPolygon = function(polygonPoints, options)
+			{
+				//si le polygone existe déjà on le supprime
+				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
+				//puis on charge le nouveau polygone
+				this.mapPolygon = L.polygon(polygonPoints, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.6,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+			}
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{
@@ -205,9 +325,14 @@
 							var content = this.getPopup(thisData);
 
 							//création de l'icon sur la carte
-							var theIcon = this.getIcoMarker(thisData);
+							//console.log("THISDATA");
+							//console.dir(thisData);
+							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
+												type : thisData["type"],
+												name : thisData["name"],
+												faIcon : this.getIcoByType(thisData["type"]),
 												content: content };
 
 							var marker;
@@ -232,7 +357,7 @@
 							{
 								this.elementsMap.push(thisData);
 								this.listId.push(objectId);
-								this.populatePanel(thisData["tags"], objectId);
+								this.populatePanel(thisData, objectId); //["tags"]
 								this.createItemRigthListMap(thisData, marker, thisMap);
 							}
 
@@ -240,7 +365,7 @@
 							//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 							//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 							if($.inArray(thisData['type'], this.notClusteredTag) > -1)
-							$(this.cssModuleName + " #item_map_list_" + objectId).click(function()
+							$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 							{	thisMap.panTo(coordinates, {"animate" : true });
 								thisSig.checkListElementMap(thisMap);
 								marker.openPopup();
@@ -262,26 +387,25 @@
 					if(thisData == null) return false;
 
 					console.warn("--------------- PAS D'ID ---------------------");
-					console.dir(thisData);
+					//console.dir(thisData);
 
 					if("undefined" != typeof thisData["chartOptions"]){
 						console.warn("--------------- LOAD CHART ---------------------");
-						this.addChart(thisData["name"], thisData["chart"], thisData["chartOptions"])
+						this.addChart(thisData)
 					}
 					return false;
 				}
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				console.warn("--------------- showFilterOnMap ---------------------");
+				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
-				console.dir(dataFilter);
-
+				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
 						//console.warn("--------------- show each thisData ---------------------");
-						//console.dir(thisData);
+						////console.dir(thisData);
 
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
@@ -339,7 +463,7 @@
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseclick', function(e) {	layer.openPopup(); });
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
-							$(thisSig.cssModuleName + " #item_map_list_" + feature.properties.id).click(function(){
+							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisMap.setView([feature.geometry.coordinates[1],
 											  feature.geometry.coordinates[0]],
 											  13, {"animate" : true });
@@ -363,7 +487,6 @@
 						this.updatePanel(thisMap);
 
 					this.checkListElementMap(thisMap); 
-					//console.log("position : "); console.log(typeof this.markersLayer.getBounds()._northEast);
 					
 					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
@@ -386,7 +509,9 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			console.warn("--------------- loadMap ---------------------");
-			console.dir(initParams);
+			console.log(canvasId);
+
+			//console.dir(initParams);
 			canvasId += initParams.sigKey;
 
 			$("#"+canvasId).html("");
@@ -399,27 +524,31 @@
 										"zoom" : 4,
 										"worldCopyJump" : false });
 
+			//initialisation de l'interface
+			Sig.initEnvironnement(map, initParams);
+
 			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-				subdomains: 'abc',
+				//subdomains: 'abc',
 				minZoom: 0,
 				maxZoom: 20
 			});
 
+			// var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+			// 	//subdomains: 'abc',
+			// 	minZoom: 0,
+			// 	maxZoom: 20
+			// });
 
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
-
-			//initialisation de l'interface
-			Sig.initEnvironnement(map, initParams);
-
+			//rafraichi les tiles après le redimentionnement du mapCanvas
+			map.invalidateSize(false);
 			return map;
 		};
 
-
-
-
-		//alert((this.Sig));
 		this.Sig = this.getSigInitializer(this.Sig);
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);

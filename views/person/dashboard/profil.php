@@ -116,10 +116,10 @@
 						Tags : 
 					</label>
 					
-					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class=" editable editable-click">
+					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click">
 						<?php if(isset($person["tags"])){
 							foreach ($person["tags"] as $tag) {
-								echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
 							}
 						}?>
 					</a>
@@ -141,14 +141,15 @@
 					//if connected user and pageUser are allready connected
 					$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
     				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
-					{  ?>
+					{  /* ?>
 						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
-					<?php } 
+					<?php */ } 
 					if (Person::logguedAndValid() && $canEdit) {
 					?>
 						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>
-					<?php } ?>
+					<?php } /*?>
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+					*/ ?>
 				</div>
 
 			</div>
@@ -175,69 +176,19 @@ jQuery(document).ready(function()
 
 });
 
-var bgClasses = [
-	{key : 'bggrey', name : "Grey"},
-	{key : 'bgdark', name : "Dark"},
-	{key : 'bgblack', name : "Black"},
-	{key : 'bgblue', name : "Blue"},
-	{key : 'bggreen', name : "Green"},
-	{key : 'bgred', name : "Red"},
-	{key : 'bgyellow', name : "Yellow"},
-
-	{key : 'bgcity', name : "City"},
-	{key : 'bgwave', name : "Wave"},
-	{key : 'bgseasky', name : "Sea Sky"},
-	{key : 'bggreenImg', name : "Leaf Drops"},
-
-	{key : 'bgcloud', name : "Cloud"},
-	{key : 'bgcrowd', name : "Crowd"},
-	{key : 'bgcrowd2', name : "Crowd"},
-	{key : 'bgfaces', name : "Faces"},
-
-	{key : 'bgwater', name : "Water"},
-	{key : 'bgeau', name : "Water"},
-	{key : 'bgfrings', name : "Frings"},
-	{key : 'bgtree', name : "Tree"},
-	{key : 'bgtree1', name : "Tree"},
-	//{key : 'bgCustom', name : "From my Gallery"},
-];
-var existingClasses = "bgyellow bggrey bgdark bgcity bgwave bgseasky bggreenImg bgblack bgblue bggreen bgred bgcloud bgcrowd bgcrowd2 bgfaces bgeau bgfrings bgtree bgtree1 bgwater";
 function buildBgClassesList() 
 { 
 	if( $(".bgClassesContainer").html() == "" )
 	{
 		$.each(bgClasses,function(i,v) { 
 			$(".bgClassesContainer").append('<a class="btn btn-xs btn-default bgChangeBtn" href="javascript:;" data-class="'+v.key+'" >'+v.name+'</a>');
+			existingClasses += " "+v.key;
 		});
 		$(".bgChangeBtn").off().on("click", function(){
 			setBg( $(this).data("class") );
 		});
 	}
 }
-
-function setBg( bg, url ) 
-{
-	$(".main-container").attr("style","");
-	$(".main-container").removeClass(existingClasses).addClass(bg);
-	
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatefield",
-        dataType : "json",
-        data: {
-        	"name" : "bgClass",
-			"pk" : "<?php echo Yii::app()->session['userId']?>",
-			"value" : bg,
-			"url" : url
-        }
-    })
-    .done(function (data) 
-    {
-    	if(! data.result) 
-    		toastr.error(data.msg); 
-    });
-}
-
 function bindAboutPodEvents() 
 {
 	$("#editProfil").on("click", function(){
@@ -248,7 +199,7 @@ function bindAboutPodEvents()
     	console.log("exportMyDataBtn");
     	$.ajax({
 	        type: "GET",
-	        url: baseUrl+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
+	        url: baseUrl+"/"+moduleId+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
 	        //dataType : "json"
 	        //data: params
 	    })
@@ -269,6 +220,7 @@ function initXEditable() {
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
+    	mode: 'popup'
 	});
 
 	$('.socialIcon').editable({
@@ -287,18 +239,18 @@ function initXEditable() {
 	//Select2 tags
     $('#tags').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
-        mode: 'inline',
-        showbuttons: false,
         mode : 'popup',
+        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
         select2: {
-            tags: tags,
-            tokenSeparators: [","]
+            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200
         }
     }); 
 
     $('#addressCountry').editable({
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
-		showbuttons: false, 
+		mode : 'popup',
 		value: '<?php echo (isset( $person["address"]["addressCountry"])) ? $person["address"]["addressCountry"] : ""; ?>',
 		source: function() {
 			return countries;

@@ -11,6 +11,7 @@ class OpendataController extends CommunecterController {
 	public function actions() {
 	    return array(
 			'getcitiesbypostalcode'			=> 'citizenToolKit.controllers.opendata.GetCitiesByPostalCodeAction',
+			'getcitiesgeoposbypostalcode'	=> 'citizenToolKit.controllers.opendata.GetCitiesGeoPosByPostalCodeAction',
 			'getcountries'					=> 'citizenToolKit.controllers.opendata.GetCountriesAction'
 	    );
 	}

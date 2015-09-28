@@ -5,18 +5,22 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
+
 );
-
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
-	);
+);
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <style>
+	#addOrganization{
+	<?php if( @$isNotSV ){ ?>
+	display: none;
+	<?php } ?>
+}
 	#dropdown_search{
 		padding: 0px 15px; 
 		margin-left:2%; 
@@ -26,17 +30,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-
-<div style="display:none" id="addOrganization" >
-	<!-- start: PAGE CONTENT -->
-	<div class="noteWrap col-md-8 col-md-offset-2">
+<?php 
+if( isset($_GET["isNotSV"])) 
+	$this->renderPartial('../default/panels/toolbar'); 
+?>
+<div id="addOrganization" >
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
+	<?php 
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12 height-230"
+	?>
+	<div class="<?php echo $size ?>" >  
+	<div class="noteWrap">
 	    <div class="panel panel-white">
         	<div class="panel-heading border-light">
-				<h1>Référencer votre organization</h1>
-			    
-			    <p>Si vous gérer une ou plusieurs organisations ou etes simplement membre d'une organization :
-			    <br/>vous êtes au bon endroit pour la valoriser, la diffuser, l'aider à la faire vivre.
-			    <br/>Vérifier l'existance de l'organisation en saisissant son nom ou son email dans le champs de recherche.</p>
+				<?php if( !@$isNotSV ){ ?>
+					<h1><?php echo Yii::t("organisation","Reference your organization",null,Yii::app()->controller->module->id); ?></h1>
+			    <?php } ?>
+			    <p><?php echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?></p>
 
 			</div>
 		</div>
@@ -45,10 +55,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="row">
 					<div class="col-md-12">
 						<div class="errorHandler alert alert-danger no-display">
-							<i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+							<i class="fa fa-times-sign"></i> <?php echo Yii::t("common","You have some form errors. Please check below.") ?>
 						</div>
 						<div class="successHandler alert alert-success no-display">
-							<i class="fa fa-ok"></i> Your form validation is successful!
+							<i class="fa fa-ok"></i> <?php echo Yii::t("common","The form has been validated.") ?>
 						</div>
 					</div>
 					<div class="form-group" id="searchOrganizationSection">
@@ -58,7 +68,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				           	</div>
 				           	<div class="col-md-6">
 				           		<span class="input-icon input-icon-right">
-						           	<input class="organization-search form-control" placeholder="Search by name or email" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
+						           	<input class="organization-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email")?>" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 						        		<ul class="dropdown-menu" id="dropdown_search" style="">
 											<li class="li-dropdown-scope">-</li>
@@ -68,12 +78,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</div>
 						</div>
 					</div>
-					<div id="formNewOrganization">
+					<div id="formNewOrganization" style="display:none;">
 						<div class="col-md-6 col-sd-6" >
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
 								<label class="control-label">
-									Nom (Raison Sociale) <span class="symbol required"></span>
+									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
 								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
 							</div>
@@ -101,11 +111,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
+							
+							
+							<div class="form-group">
+								<label class="control-label">
+									<?php echo Yii::t("common","Interests") ?>
+								</label>
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
+			        		    
+							</div>
+
 						</div>
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
-									Pays <span class="symbol required"></span>
+									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
@@ -113,48 +133,113 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="row">
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
-										Code postal <span class="symbol required"></span>
+										<?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city">
-										Ville <span class="symbol required"></span>
+										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
 									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
-							</div>
 
-							<div class="form-group">
-								<label class="control-label">
-									Centres d'interet 
-								</label>
-								
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
-							</div>
+										
+							
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
+							
+							<div class="form-group hidden" id="sig_position">
+							
+								<?php 
+									//modifier l'url relative si besoin pour trouver communecter/view/sig/
+									$relativePath = "../sig/";
+									
+								   	//modifier les parametre en fonction des besoins de la carte
+									$sigParams = array(
+								        "sigKey" => "CityOrga",
+
+								        /* MAP */
+								        "mapHeight" => 235,
+								        "mapTop" => 0,
+								        "mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
+								        "mapOpacity" => 0.6, //ex : 0.4
+
+								        /* MAP LAYERS (FOND DE CARTE) */
+								        "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+								        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+
+								        /* MAP BUTTONS */
+								        //"mapBtnBgColor" => '#E6D414',
+								        //"mapBtnColor" => '#213042',
+								        //"mapBtnBgColor_hover" => '#5896AB',
+
+								        /* USE */
+								        "titlePanel" 		 => '',
+								        "usePanel" 			 => false,
+								        "useFilterType" 	 => false,
+								        "useRightList" 		 => false,
+								        "useZoomButton" 	 => true,
+								        "useHomeButton" 	 => false,
+								        "useHelpCoordinates" => false,
+								        "useFullScreen" 	 => false,
+								        "useResearchTools" 	 => false,
+								        "useChartsMarkers" 	 => false,
+
+								        "notClusteredTag" 	 => array(),
+								        "firstView"		  	 => array(  "coordinates" => array(-21.137453135590444, 55.54962158203125),
+	        														 	"zoom"		  => 14),
+								    );
+								 
+									/* ***********************************************************************************/
+									//chargement de toutes les librairies css et js indispensable pour la carto
+							    	$this->renderPartial($relativePath.'generic/mapLibs', array("sigParams" => $sigParams)); 
+							    	//$moduleName = "sigModule".$sigParams['sigKey'];
+
+									/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
+								   	//chargement de toutes les librairies css et js indispensable pour la carto
+								  	//$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+									//$this->renderPartial('addOrganizationMap'); var_dump($sigParams); die();
+								?>
+								<style>
+								.leaflet-map-pane{
+									top:0 !important;
+								}
+								</style>
+								<?php //$this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
+								<div class="alert alert-info hidden">
+									Pour un placement plus précis, déplacez votre icône sur la carte.
+								</div>	
+								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
+								</div>	
+							<!-- <div class="col-md-12"> -->
+							
+							
 						</div>
+						
+							
+
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div>
-									<span class="symbol required"></span>Required Fields
+									<span class="symbol required"></span><?php echo Yii::t("common","Required Fields") ?>
 									<hr>
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary" id="btnSaveNewOrganization">Save</button>
-						<button class="btn btn-primary" id="btnAddMeAsMemberOf">Add Me as member Of</button>
-						<a href="javascript:showSearch()"><i class="fa fa-search"></i>Back to Seach</a>
+						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
+						<button class="btn btn-primary" id="btnAddMeAsMemberOf"><?php echo Yii::t("organisation","Add Me as member Of",null,Yii::app()->controller->module->id); ?></button>
+						<a href="javascript:showSearch()"><i class="fa fa-search"></i><?php echo Yii::t("common","Back to Search")?></a>
 					</div>
 				</div>
 			</form>
@@ -245,14 +330,13 @@ jQuery(document).ready(function() {
 	showSearch();
 	bindPostalCodeAction();
 
-
 	//disable submit in enter
-	 $(window).keydown(function(event){
+	 /*$(window).keydown(function(event){
 	    if(event.keyCode == 13) {
 	      event.preventDefault();
 	      return false;
 	    }
-	  });
+	  });*/
  });  
 
 	function initForm() {
@@ -318,6 +402,7 @@ jQuery(document).ready(function() {
 	        	}else{
 					organizationList = data.list;
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'><?php echo Yii::t("common","Not find ? Click here.") ?></a></li>";
 		 			$.each(data.list, function(key, value) {
 		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
 		  			}); 
@@ -394,7 +479,10 @@ jQuery(document).ready(function() {
 	}
 
 	function runShowCity(searchValue) {
+		
 		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		var citiesGeoPosByPostalCode = getCitiesGeoPosByPostalCode(searchValue);
+		
 		var oneValue = "";
 		console.table(citiesByPostalCode);
 		$.each(citiesByPostalCode,function(i, value) {
@@ -411,6 +499,8 @@ jQuery(document).ready(function() {
 	      } else {
 	        $("#cityDiv").slideUp("medium");
 	      }
+
+	    showMap(citiesGeoPosByPostalCode);
 	}
 
 	function bindPostalCodeAction() {
@@ -425,6 +515,9 @@ jQuery(document).ready(function() {
 
 	function searchCity() {
 		var searchValue = $('#organizationForm #postalCode').val();
+
+		$("#sig_position").addClass("hidden");
+
 		if(searchValue.length == 5) {
 			$("#city").empty();
 			clearTimeout(timeout);
@@ -436,5 +529,71 @@ jQuery(document).ready(function() {
 			$("#city").empty();
 		}
 	}
+
+	var Sig = null;
+
+	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
+	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
+	var mapCityOrga = null;
+	var marker = null;
+
+	/**************************************************************************************************************/
+	//mémorise l'url des assets (si besoin)
+	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
+
+	function showMap(geoPosition){ 
+
+		
+		$("#sig_position").removeClass("hidden");
+
+		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
+		
+		//charge la carte si elle n'a pas déjà été créé
+		if(mapCityOrga == null) {
+			mapCityOrga = L.map('mapCanvasCityOrga').setView(latlng, 13);
+
+			L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', { //http://{s}.tile.osm.org/{z}/{x}/{y}.png
+			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(mapCityOrga);
+
+			var ico = L.icon({
+					    iconUrl: assetPath+'/images/sig/markers/02_ICONS_CARTO_COMMUNECTER_ASSO_A.png',
+					    iconSize: [49, 60], //38, 95],
+					    iconAnchor: [25, 25],//22, 94],
+					    popupAnchor: [-3, -70]//-3, -76]
+					});	
+		}else{ //sinon on déplace juste la carte sur la nouvelle position
+			mapCityOrga.panTo(latlng);
+		}
+
+		//si le marker n'existe pas, on le créé
+		if(marker == null){
+			marker = L.marker(latlng, {icon: ico}).addTo(mapCityOrga);
+			marker.dragging.enable();
+		}else{//sinon on le déplace
+			marker.setLatLng(latlng);
+		}
+
+		//.bindPopup('Pour un placement plus précis, déplacez votre icône sur la carte.')
+		//.openPopup();
+
+		//mémorise l'url des assets (si besoin)
+	/*	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
+
+		//création de l'objet SIG
+		Sig = SigLoader.getSig();
+		//affiche l'icone de chargement
+		//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
+		var initParams =  <?php echo json_encode($sigParams); ?>;
+		
+		initParams.firstView.coordinates = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
+
+		mapCityOrga = Sig.loadMap("mapCanvas", initParams);
+		Sig.showIcoLoading(false);
+
+		$(".sigModuleCityOrga").css({"display" : "block"});*/
+	}
+
+
 </script>	
 

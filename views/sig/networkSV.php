@@ -5,46 +5,13 @@
 
 	   	//chargement de toutes les librairies css et js indispensable pour la carto
     	//HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles , $this->module->assetsUrl);
-			$this->renderPartial($relativePath.'generic/mapLibs');
-			$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
-			//var_dump($sigParams); //die();
-			$moduleName = "sigModule".$sigParams['sigKey'];
+		$this->renderPartial($relativePath.'generic/mapLibs');
+		$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+		//var_dump($sigParams); //die();
+		$moduleName = "sigModule".$sigParams['sigKey'];
 ?>
 
 <?php /* ********************** CHANGER LE STYLE CSS SI BESOIN ********************/?>
-<style>
-
-	.<?php echo $moduleName; ?> .mapCanvas			{}
-	.<?php echo $moduleName; ?> .panel_map			{
-		background-color:rgba(255, 255, 255, 0.83) !important;
-	}
-	.<?php echo $moduleName; ?> .item_panel_map{
-		background-color:rgba(0, 0, 0, 0);
-		color:#7A7A7A !important;
-	}
-	.<?php echo $moduleName; ?> .item_panel_map.selected{
-		background-color:rgba(23, 58, 75, 0.51);
-		color:#FFF !important;
-	}
-	.<?php echo $moduleName; ?> .item_panel_map:hover	{
-		background-color:rgba(0, 0, 0, 0.04);
-	}
-
-	.<?php echo $moduleName; ?> #right_tool_map		{}
-	.<?php echo $moduleName; ?> #liste_map_element	{}
-
-	.<?php echo $moduleName; ?> #lbl-chk-scope		{}
-
-	.<?php echo $moduleName; ?> .btn-group-map		{}
-
-	/* XS */
-	@media screen and (max-width: 768px) {
-		.<?php echo $moduleName; ?> .mapCanvas{}
-		.<?php echo $moduleName; ?> .btn-group-map{}
-	}
-
-</style>
-
 
 <?php /* ********************** HTML ********************/?>
 

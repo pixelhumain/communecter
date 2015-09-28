@@ -1,6 +1,10 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS </h4>
+		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS 
+			<a href="javascript:;" onclick="applyStateFilter('survey')" class="btn btn-xs btn-default"> Rooms <span class="badge badge-warning"> <?php echo count(@$rooms) ?></span></a> 
+			<a href="javascript:;" onclick="applyStateFilter('entry')" class="btn btn-xs btn-default"> Actions <span class="badge badge-warning"> <?php echo count(@$actions) ?></span></a>  
+			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
+		</h4>
 		<ul class="panel-heading-tabs border-light">
     	<li>
     		<?php  
@@ -17,6 +21,10 @@
 					<tr>
 						<th>Type / Action</th>
 						<th>Name</th>
+						<th>Entries</th>
+						<th>Participants</th>
+						<th>Start Date</th>
+						<th>End Date</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -53,11 +61,15 @@
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
 									<?php } else { ?>
-										<i class="fa fa-<?php echo $icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
+										<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
 									<?php } ?>
 								</a>
 							</td>
 							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td><?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?></td>
+							<td></td>
+							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							<td><?php if(isset($e["dateEnd"]))echo $e["dateEnd"]?></td>
 							<td class="center">
 								<?php /*if(Yii::app()->session["userId"] ) { ?>
 									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my rooms" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
@@ -92,6 +104,23 @@
 								</a>
 							</td>
 							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<?php 
+							$participantCount = 0;
+							if(isset( $e[Action::ACTION_VOTE_UP] ))
+								$participantCount += count($e[Action::ACTION_VOTE_UP]);
+							if(isset( $e[Action::ACTION_VOTE_DOWN] ))
+								$participantCount += count($e[Action::ACTION_VOTE_DOWN]);
+							if(isset( $e[Action::ACTION_VOTE_ABSTAIN] ))
+								$participantCount += count($e[Action::ACTION_VOTE_ABSTAIN]);
+							if(isset( $e[Action::ACTION_VOTE_UNCLEAR] ))
+								$participantCount += count($e[Action::ACTION_VOTE_UNCLEAR]);
+							if(isset( $e[Action::ACTION_VOTE_MOREINFO] ))
+								$participantCount += count($e[Action::ACTION_VOTE_MOREINFO]);
+							?>
+							<td></td>
+							<td><?php echo $participantCount ?></td>
+							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							<td><?php if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"]) ?></td>
 							<td class="center">
 								<?php 
 								if(isset($e["action"]))
@@ -186,5 +215,15 @@ function resetDirectoryTable()
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
+}
+
+function applyStateFilter(str)
+{
+	console.log("applyStateFilter",str);
+	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
+}
+function clearAllFilters(str){ 
+	$( "input[type='search']" ).val("");
+	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 </script>

@@ -418,32 +418,39 @@ function getMultiBarChart(map, typeData, optionChecked, name_id){
 
 function buildDataSetMulti(map, typeData, optionChecked, name_id){
 	//console.warn("----------------- buildDataSetMulti -----------------");
-	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
+	console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData= [];
 	var tabYear = [];
 	
 	$.each(optionChecked, function(keyInd,valuesOptionChecked){
-		//console.log("optionChecked", valuesOptionChecked);
+		
+		var valInfo ;
 		valuesMap=[];
 		$.each(map, function(nameCommune,valuesCommune){
+			
 			$.each(valuesCommune, function(codeInsee,valuesInsee){
+
 				$.each(valuesInsee, function(keyInfo,valuesInfo){
-					//console.log("valuesInfo", valuesInfo);
+					console.log("valuesInfo", valuesInfo);
+					valInfo = valuesInfo ;
 					if(typeData == keyInfo)
 					{
 						var val = {};
 						val["x"] = nameCommune;
-						val["y"] = jsonHelper.getValueByPath(valuesInfo, valuesOptionChecked.substring(1));
-						//console.log("val : ", val);
+						val["y"] = jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "value"));
+						console.log("val : ", val);
 						valuesMap.push(val);
 					}
 				});
 			});
 		});
-
-		var itemMap = {"key": valuesOptionChecked.substring(1), "values": valuesMap};
+		var itemMap = {
+							"key": jsonHelper.getValueByPath(valInfo, add_element_mapping(valuesOptionChecked, "label")), 
+							"values": valuesMap
+						};
 		mapData.push(itemMap);
-		//console.log("mapData", mapData);
+		
+		console.log("mapData", mapData);
 	});
 	//console.log("mapData FIN", mapData);
 	return mapData;
@@ -486,12 +493,12 @@ function buildDataSetPie(map, typeData, optionChecked, name_id){
 		$.each(map, function(nameCommune,valuesCommune){
 			$.each(valuesCommune, function(codeInsee,valuesInsee){
 				$.each(valuesInsee, function(keyInfo,valuesInfo){
-					//console.log("valuesInfo", valuesInfo);
+					console.log("valuesInfo", valuesInfo);
 					if(typeData == keyInfo)
 					{
 						var val = {};
-						val["label"] = nameCommune + " : " + valuesOptionChecked.substring(1);
-						val["value"] = jsonHelper.getValueByPath(valuesInfo, valuesOptionChecked.substring(1));
+						val["label"] = nameCommune + " : " + jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "label"));
+						val["value"] = jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "value"));
 						//console.log("val : ", val);
 						mapData.push(val);
 					}
@@ -506,7 +513,7 @@ function buildDataSetPie(map, typeData, optionChecked, name_id){
 function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities)
 {
 	//console.warn("----------------- sendData -----------------");
-	//console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
+	console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked,optionCheckedCities);
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
 	
 	if("undefined" != typeZone){
@@ -520,7 +527,7 @@ function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, 
 		data:{optionData: optionChecked, optionCities: optionCheckedCities},
 		dataType: "json",
 		success: function(data){
-			//console.info("sendDataSuccess", typeData, optionChecked, name_id);
+			console.info("sendDataSuccess", data);
 			if(typeGraph == "piechart")
 				getPieChart(data, typeData, optionChecked, name_id);
 			else
@@ -529,4 +536,16 @@ function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, 
 	});
 		
 }	
+
+
+function add_element_mapping(valuesOptionChecked, addElement)
+{
+	
+	var arr = valuesOptionChecked.substring(1).split(".");
+	arr.push(addElement);
+	var la = arr.toString();
+	while(la.search(",") != -1)
+	{la = la.replace(",", ".");}
+	return la;
+}
 </script>

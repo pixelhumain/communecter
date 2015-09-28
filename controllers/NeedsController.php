@@ -18,6 +18,8 @@ class NeedsController extends CommunecterController {
 	        'index'       		=> 'citizenToolKit.controllers.needs.IndexAction',
 	        'dashboard'       	=> 'citizenToolKit.controllers.needs.DashboardAction',
 			'saveneed'       	=> 'citizenToolKit.controllers.needs.SaveNeedAction',
+			'updatefield'       => 'citizenToolKit.controllers.needs.UpdateFieldAction',
+			'addhelpervalidation'       => 'citizenToolKit.controllers.needs.AddHelperValidationAction',
 	    );
 	}
 }

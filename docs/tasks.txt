@@ -1,12 +1,53 @@
+	Pascal Gascoin CEMEA
+
+* CONTACT
+	* projet Tangue (application mobile - mobilité durable)
+		association RUN ACTION - président Willy ASSABY
+		Directeur Angamma Gerald 0692222218
+		0262 58 63 90
+		0692 56 10 01
+
+	* écoquartier Ravine Blanche
+		CIVIS    Jessica K Bidi   0262499673  jessicak@civis.re
+		SIDR et Saint-Pierre : j'ai perdu le contact mais madame K Bidi pourra surement te renseigner
+
+
+	* Labo reunion Labo Elec 2 Procédé (Moufia)
+		- Fred alicalapa
+		- reseau de capteur
+
+	* mairie sin paul 
+		- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
+		- Service Subventions Associations au 0262 70 28 85
+		[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
+		[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
+
+* IDEAS 
+	
+	** - join Standalone / simple
+		- tree type form
+		- create orga + admin
+		- add members
+		- create project 
+		- add contributors
+		- create event
+		- invite someone
+		- import form
+	** EAT OUR OWN FOOD
+		- repertorier nos partenaires
+		- nos evennements
+		- nos projets
+		- chacun doit avoir son dashboard
+		- test decision using the voting system
+	** fiche Orga 
+		- existe depuis 
+		- nombres moy d'adherents
+	** affiche 
+		- forum des communs
+		- crowdfunding
+
 * IN PROGRESS
-	** YANNICK
 	** CLEMENT
-	  [X] integration timesheet.php sur project
-	  [X] ajaxifier le pod Gantt (Controller, View + ajax)
-	** JOHNSON + RAPHAEL
-		[ ] toujours afficher 
-		[ ] proposer d'autre source
-		[ ] ajouter un upload Image dans les SV, puis dans le dynForm
 	** RAPHAEL
 		[ ] utilisation de opendata Sets
 			- data.gouv
@@ -39,40 +80,11 @@
 		[ ] Contact
 			[ ] faire comme dans linkin verifier si les contacts ne sont pas déjà dans communecter
 	** SYLVAIN
-		?? why :::: Person::updatePersonField returns tru and not Rest::json(array("result"=>true
-		[ ] COMMENTS
-			[ ] cacher les boutons vote sur mes commentaires
-			[ ] on click cancel 
 	** TIBOR
 		Jean Marc Laurent > prise de vue 
-		- Labo reunion Labo Elec 2 Procédé (Moufia)
-			- Fred alicalapa
-			- reseau de capteur
-		- SIPR
-		- bug AZOT (20/08) 2j
-		- Standalone Possesion
-		- join Standalone / simple
-			- tree type form
-			- create orga + admin
-			- add members
-			- create project 
-			- add contributors
-			- create event
-			- invite someone
-			- import form
-		EAT OUR OWN FOOD
-			- repertorier nos partenaires
-			- nos evennements
-			- nos projets
-			- chacun doit avoir son dashboard
-			- test decision using the voting system
-
-		- bug GRANDDIR 
-		- Plan IRT (17/08) 4h date = 25/08
-		- plan Crowd Funding ( fin aout ) 
-		- ECo Collab Fest (debut Oct)
+		
+		- plan Crowd Funding 
 		- Forum des communs (10Oct)
-		- JEP (19 sept) 
 		- CARRECO
 			- Banderole 
 			- Affiche Fonctionnel 
@@ -85,23 +97,46 @@
 				- LOCAL TOURISMO : 
 				- Economie Collaborative : Package : 
 				- Smart Citizen GRid : Capteur Local 
-			- Hackathon : W3a , DataRocks...
+				- Formation : Opendata , Open source, Collaboratif, SIT 
 			* DEMO
 				- cityData dash 
 					Geo Stats
 				- city dash 
 				- opendata /capteur Fablab demo
 
-		- Communacelle 
-			- @Hafid : photo aerienne de Toulouse
-			- RV avec Clemence 
-			- @Hafid + frere : negot/contact pour tablet 
-			- @PH : integrer les opendatas toulouse
-				https://data.toulouse-metropole.fr/explore/?refine.theme=Citoyennet%C3%A9&start=10 
-		
 		[ ] hide .git in prod htacess
 		[ ] test & debug : vagrant install https://github.com/acorbi/ph-deployment
-		[ ] demander a Ken : opendata pole emploi .re
+		[ ] page expliquer la gouvernance 
+		[ ] disable orga
+			[ ] hide from lists users lists
+			[X] inform users
+			[X] show disabled button
+			[X] disable all pods
+
+[X] remove Notifications as Read
+[X] Azotlive 
+[X] news on orga scope and notify members
+[ ] news on project scope and notify members
+[ ] news on event scope and notify members 
+[ ] trier events by date show date 
+[ ] on admin show orga counts, people counts, event counts, project count
+[ ] test creating orga/person dash list and project
+[ ] Impossible de s'ajouter à l'organisation [[https://github.com/pixelhumain/communecter/issues/92]]
+[ ] Bug lors de l'affichage du formulaire d'un nouvel évènement dans le pod "organizations" #82 [[https://github.com/pixelhumain/communecter/issues/82]]
+[ ] Orga : Rééditer un membre #104
+
+		[ ] test creating a user with an existing email
+		
+
+		[ ] Grid Pod : 
+			* Githubs
+				http://vnjs.net/www/project/freewall/
+				http://ksylvest.github.io/jquery-gridly/
+				Grid inside an item ?
+			* Usage 
+				Event : whoboard : liste en mode (title, bg img, short desc , long)
+				Event / Project : sitemap : 
+				Project : in depth viewer 
 		* vote Standalone
 			[ ] traduction
 			[ ] line break in textarea edit/create form
@@ -114,24 +149,13 @@
 				[ ] basé sur les commentaire avec un outil de high light
 
 			[ ] creatorId must exist if organizer is an orga, for admin purposes
-		* IRT 
-			[ ] DIGITAL TOURISME : 7h30 mardi 25 aout
-			[ ] banderole refaire Communecter
-			[ ] transmettre le logo COMMUNECTER @DR
-			[ ] 17/08/2015 : presentation Communecter Tourisme 15min 2min/slide
-
-		* CONTACT : mairie sin paul 
-			- Mme BERFEUIL au 0262 70 28 25 ou par mail à johanie.berfeuil@mairie-saintpaul.fr
-			- Service Subventions Associations au 0262 70 28 85
-			[ ] pour presenter PH ::ATTEND RV:: Chef : Mr Carlo
-			[ ] SUIVRE pour la ::SUB:: https://mairie-saintpaul.fr/spip.php?rubrique62
 		
 		* GRANDDIR
 			[ ] Créer une pagination sur les résultats (8 résultats par page)
 			[ ] @Tristan Publics est toujours vide
 			[ ] @Tristan Lors d'un clic sur un réul
 
-		[ ] smaller scope 
+		
 		[ ] adding scope to news form (pub priv) & territories
 
 		* dynSurvey 
@@ -209,5 +233,7 @@
 	** TRISTAN
 		[ ] mettre les liens Graphs dans la liste a droite
 		[ ] faire interagir une carto avec les top filters ( tag et scope )
-	** JEREM
-		- faire qlq chose avec le son
+
+
+
+

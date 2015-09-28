@@ -7,8 +7,8 @@
 		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
 		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      	: 0;
 
-		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#E6D414';
-		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#213042';
+		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#2A3945';
+		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#fff';
 		$mapBtnBgColor_hover = ( isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
 
 		$panelTop = 20;
@@ -16,7 +16,7 @@
 <style>
 
 	<?php   $mapWidth = "100%";
-			if($sigParams['useRightList']) $mapWidth = "75%";
+			//if($sigParams['useRightList']) $mapWidth = "75%";
 	?>
 
 	.<?php echo $moduleName; ?>
@@ -35,20 +35,22 @@
 
 	.<?php echo $moduleName; ?>
 	.panel_map{
-		position:absolute !important;
-		height:<?php echo $mapHeight; ?>px;
-		top:<?php echo $mapTop; ?>px;
+		max-width:250px !important;
+		width:250px !important;
+		/*position:absolute !important;*/
+		/*height:<?php echo $mapHeight; ?>px;*/
+		/*top:<?php echo $mapTop; ?>px;*/
 	}
 
 	.<?php echo $moduleName; ?>
 	#right_tool_map{
-		height:<?php echo $mapHeight; ?>px;
-		top:<?php echo $mapTop; ?>px;
+		height:<?php echo (int)$mapHeight - 60; ?>px;
+		top:<?php echo (int)$mapTop + 30; ?>px;
 	}
 
 	.<?php echo $moduleName; ?>
 	#lbl-chk-scope{
-		background-color:white;
+		/*background-color:white;*/
 	}
 
 	.<?php echo $moduleName; ?>
@@ -58,14 +60,14 @@
 	}
 
 	<?php   $right = "0px";
-			if($sigParams['useRightList']) $right = "25%";
+			if($sigParams['useRightList']) $right = "30%";
 	?>
 	.<?php echo $moduleName; ?>
 	.btn-group-map{
 		position:absolute !important;
-		right:<?php echo $right; ?>;
-		left:auto;
-		top:<?php echo $mapTop+10; ?>px;
+		/*right:<?php echo $right; ?>;*/
+		left:20px;
+		top:<?php echo $mapTop+30; ?>px;
 	}
 	
 	.<?php echo $moduleName; ?>
@@ -97,6 +99,7 @@
 		background-color:#FFF !important; /*#E6D414#5896AB !important;*/
 	}
 
+	
 	/* XS */
 	@media screen and (max-width: 768px) {
 
