@@ -277,12 +277,12 @@
 		};
 
 		Sig.centerSimple = function(center, zoom){
-			this.map.panTo(center);
-			this.map.setZoom(zoom);
+			this.map.setView(center, zoom);
+			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
 			//console.log("height" + height);
 			var center = height / 2;
-			var pan = center - 100;
+			var pan = center - 80;
 			//console.log("pan" + pan);
 			//alert("yo");
 			this.map.panBy([0, pan]);

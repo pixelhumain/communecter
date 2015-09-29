@@ -707,6 +707,18 @@ creer des conflits : regle pas assez specfique
 	.underline:hover{
 		text-decoration: none !important;
 	}
+
+	.leaflet-popup-content h1, h2{
+		font-size: 17px;
+		text-align: center;
+	}
+	.leaflet-popup-content h2{
+		font-size: 15px;
+	}
+
+	.leaflet-popup-content #btn-validate-geopos{
+		margin-bottom: 10px;
+	}
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
