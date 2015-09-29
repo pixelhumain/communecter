@@ -86,7 +86,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
 		}
 		var urlRequest = this.getNominatimRequest(nbTentative);
-		console.log(urlRequest);
+		//console.log(urlRequest);
 		$.ajax({
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
 			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",

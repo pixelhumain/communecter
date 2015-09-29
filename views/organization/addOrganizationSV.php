@@ -261,6 +261,7 @@ var formValidator = function() {
 
 var timeout;
 var geoPositionCity = null;
+var citiesByPostalCode = null;
 
 jQuery(document).ready(function() {
 	var organizationList;
@@ -436,7 +437,7 @@ jQuery(document).ready(function() {
 
 	function runShowCity(searchValue) {
 		
-		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		citiesByPostalCode = getCitiesByPostalCode(searchValue);
 
 		Sig.execFullSearchNominatim(0);
 		
@@ -510,8 +511,35 @@ jQuery(document).ready(function() {
 		//var geoPosition = geoPositionCity;
 		
 		Sig.clearMap();
-		
-		var latlng = [geoPosition[0]["lat"], geoPosition[0]["lon"]];
+		console.log("geoPosition");
+		console.dir(geoPosition);
+
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					console.log(value2.text); console.log(value.address.city);
+					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		var latlng = [position["lat"], position["lon"]];
 		//Sig.map.setView(latlng, 15);
 
 		Sig.centerSimple(latlng, 15);
