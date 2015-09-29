@@ -108,8 +108,18 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <?php /* **********************
   CONTEXT TITLE
 **************************** */?>
-<div class="center pull-left" style="z-index:1;position:absolute; top:10px; left:100px; " >
-    <span class="homestead moduleLabel" style="color:#58879B;font-size:25px"></span>
+<div class="center pull-left" style="z-index:1;position:absolute; top:10px; left:100px; width:80%; text-align: left" >
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
+    
+      <form class="inner pull-right">
+        <input class='hide' id="searchId" name="searchId"/>
+        <input class='hide' id="searchType" name="searchType"/>
+        <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
+        <ul class="dropdown-menu" id="dropdown_searchTop" style="">
+          <ol class="li-dropdown-scope">-</ol>
+        </ul>
+      </input>
+      </form>
 </div>
 
 <?php /* **********************
@@ -160,7 +170,16 @@ svg.graph .line {
 </svg>
 */?>
 <script type="text/javascript">
-
+var timeout;
+var mapIconTop = {
+    "citoyen":"php", 
+    "NGO":"fa-users",
+    "LocalBusiness" :"fa-industry",
+    "Group" : "fa-circle-o",
+    "GovernmentOrganization" : "fa-university",
+    "event":"fa-calendar",
+    "project":"fa-lightbulb-o"
+  };
   jQuery(document).ready(function() {
 
     $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
@@ -178,7 +197,6 @@ svg.graph .line {
     $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
       showPanel('box-people',null,"PEOPLE");
     });
-
     $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
       showPanel('box-menu');
     });
@@ -186,6 +204,21 @@ svg.graph .line {
     //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
     $(".btn-main-menu").click(function(){
       showMap(false);
+    });
+
+    $('#searchBar').keyup(function(e){
+        var name = $('#searchBar').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+        }   
+    });
+
+    $("#searchForm").off().on("click", function(){
+      $("dropdown_searchTop").css("display", "none");
     });
 
     showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
@@ -235,5 +268,74 @@ function searchCity() {
     $("#city").empty();
   }
 }
+
+function autoCompleteSearch(name){
+    var data = {"name" : name};
+    $.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          success: function(data){
+            if(!data){
+              toastr.error(data.content);
+            }else{
+          str = "";
+          var city, postalCode = "";
+          $.each(data, function(i, v) {
+            console.log(v, v.length, v.size);
+            var typeIco = i;
+            if(v.length!=0){
+              $.each(v, function(k, o){
+                city = "";
+                postalCode = "";
+                if(o.type){
+                  typeIco = o.type;
+                }
+                if (o.address != null) {
+                  city = o.address.addressLocality;
+                  postalCode = o.address.postalCode;
+                }
+                str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
+                    "<a href='#' data-id='"+ o._id["$id"] +"' data-type='"+ i +"' data-icon='"+ mapIconTop[typeIco] +"' data-name='"+ o.name +"' class='searchEntry'>"+
+                    "<span><i class='fa "+mapIconTop[typeIco]+"'></i></span>  " + o.name +
+                    "<span class='city-search'> "+postalCode+" "+city+"</span>"+
+                    "</a></ol></div>";
+              })
+            }
+            }); 
+            if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
+            $("#dropdown_searchTop").html(str);
+            $("#dropdown_searchTop").css({"display" : "inline" });
+            
+            $(".searchEntry").off().on("click", function(){
+              
+            });
+            
+            addEventOnSearch(); 
+          }
+      } 
+    })
+  }
+
+  function addEventOnSearch() {
+    $('.searchEntry').off().on("click", function(){
+      setSearchInput($(this).data("id"), $(this).data("type"),$(this).data("name"), $(this).data("icon") );
+    });
+  }
+
+  function setSearchInput(id, type,name,icon){
+    if(type=="citoyen"){
+      type = "person";
+    }
+    url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
+    console.log($(this).data("type"),$(this).data("id") );
+    showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
+    /*
+    $("#searchBar").val(name);
+    $("#searchId").val(id);
+    $("#searchType").val(type);
+    $("#dropdown_searchTop").css({"display" : "none" });*/  
+  }
 
 </script>
