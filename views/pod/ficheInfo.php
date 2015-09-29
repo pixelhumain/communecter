@@ -47,7 +47,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<?php 
-					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$_GET["id"],
+					$this->renderPartial('../pod/fileupload', array("itemId" => $organization["_id"],
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
@@ -132,9 +132,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 <script type="text/javascript">
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
+	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
-	
+	var images = <?php echo json_encode($images) ?>;
 	var types = <?php echo json_encode($organizationTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var publics = <?php echo json_encode($publics) ?>;

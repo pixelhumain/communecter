@@ -85,23 +85,21 @@
 				console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
 
-				var type = thisData["type"];
-				var markerName = this.getIcoNameByType(type);
+				var markerName = this.getIcoNameByType(thisData);
 
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
-				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 60],//22, 94],
-				    popupAnchor: [-3, -70]//-3, -76]
+				    iconSize: [53, 60], //38, 95],
+				    iconAnchor: [26, 60],//22, 94],
+				    popupAnchor: [0, -63]//-3, -76]
 				});
 			};
 
 			this.Sig.getIcoMarker = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker ---------------------");
-				var type = thisData["type"];
-				var ico = this.getIcoNameByType(type);
-				var color = this.getIcoColorByType(type);
+				var ico = this.getIcoNameByType(thisData);
+				var color = this.getIcoColorByType(thisData);
 
 				return L.AwesomeMarkers.icon({icon: ico + " fa-" + color, iconColor:color, prefix: 'fa' });
 			};
@@ -115,8 +113,9 @@
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
+				var thisSig = this;
 				$.each(this.markerSingleList, function(){
-					thisMap.removeLayer(this);
+					thisSig.map.removeLayer(this);
 				});
 
 				this.listId = new Array();
@@ -138,6 +137,9 @@
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
 										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										type : thisSig.myPosition["type"],
+										typeSig : thisSig.myPosition["typeSig"],
+										faIcon : this.getIcoByType(thisSig.myPosition),
 										content: "" };
 
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
@@ -331,8 +333,9 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
+												typeSig : thisData["typeSig"],
 												name : thisData["name"],
-												faIcon : this.getIcoByType(thisData["type"]),
+												faIcon : this.getIcoByType(thisData),
 												content: content };
 
 							var marker;
@@ -461,15 +464,21 @@
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
-							layer.on('mouseclick', function(e) {	layer.openPopup(); });
+							layer.on('click', function(e) {	
+								layer.openPopup(); 
+								thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]],
+											  13);
+							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								thisMap.setView([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]],
-											  13, {"animate" : true });
-
-								thisSig.checkListElementMap(thisMap); //alert("check");
+								
+								thisSig.checkListElementMap(thisMap);
 								layer.openPopup();
+								thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]],
+											  13);
+
 							});
 							//console.warn("--------------- showMapElements click OK  ---------------------");
 

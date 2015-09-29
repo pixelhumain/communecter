@@ -10,7 +10,9 @@ $this->renderPartial('../default/panels/toolbar');
 								"itemId" => (string)$event["_id"],
 								"eventTypes" => $eventTypes,
 								"type" => PHType::TYPE_EVENTS,
-								"countries" => $countries)); ?>
+								"countries" => $countries,
+								"imagesD" => $images ));
+								?>
 		
 
 	</div>

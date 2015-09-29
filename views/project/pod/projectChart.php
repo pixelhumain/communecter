@@ -61,6 +61,7 @@ jQuery(document).ready(function() {
 	if (countProperties > 0){
 		chartInit(properties);
 	}
+	console.log(properties);
 });
 
 function updateChart(data, nbProperties){

@@ -37,7 +37,7 @@ if( isset($_GET["isNotSV"]))
 <div id="addOrganization" >
 	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
 	<?php 
-	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12 height-230"
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
 	<div class="<?php echo $size ?>" >  
 	<div class="noteWrap">
@@ -312,8 +312,9 @@ var formValidator = function() {
 	});
 }
 
+var timeout;
+	
 jQuery(document).ready(function() {
-	var timeout;
 	var organizationList;
 	var countries = getCountries("select2");
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
@@ -401,6 +402,8 @@ jQuery(document).ready(function() {
 	        		toastr.error(data.content);
 	        	}else{
 					organizationList = data.list;
+					var mapIconTop = "";
+
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
 					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'><?php echo Yii::t("common","Not find ? Click here.") ?></a></li>";
 		 			$.each(data.list, function(key, value) {
@@ -500,7 +503,7 @@ jQuery(document).ready(function() {
 	        $("#cityDiv").slideUp("medium");
 	      }
 
-	    showMap(citiesGeoPosByPostalCode);
+	    showCityOnMap(citiesGeoPosByPostalCode);
 	}
 
 	function bindPostalCodeAction() {
@@ -530,7 +533,7 @@ jQuery(document).ready(function() {
 		}
 	}
 
-	var Sig = null;
+	//var Sig = null;
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
@@ -541,10 +544,21 @@ jQuery(document).ready(function() {
 	//mémorise l'url des assets (si besoin)
 	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 
-	function showMap(geoPosition){ 
+	function showCityOnMap(geoPosition){ 
 
-		
-		$("#sig_position").removeClass("hidden");
+		console.log("showCityOnMap");
+		Sig.clearMap();
+		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
+		Sig.map.setView(latlng, 13);
+		console.log("center ok");
+
+		var properties = { 	id : "0",
+							icon : thisSig.getIcoMarkerMap({"type" : "city"}),
+							content: "NOM DE LA VILLE" };
+
+		Sig.getMarkerSingle(Sig.map, properties, latlng);
+
+		/*$("#sig_position").removeClass("hidden");
 
 		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
 		
@@ -576,7 +590,7 @@ jQuery(document).ready(function() {
 
 		//.bindPopup('Pour un placement plus précis, déplacez votre icône sur la carte.')
 		//.openPopup();
-
+*/
 		//mémorise l'url des assets (si besoin)
 	/*	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 

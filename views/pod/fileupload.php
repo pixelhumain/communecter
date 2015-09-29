@@ -71,7 +71,6 @@
 		var type = "<?php echo $type ?>";
 		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
 		var contentIdtoSend = "<?php echo $contentId ?>";
-		
 		var resize = <?php echo (@$resize) ? 'true':'false'; ?>;
 		var imageName= "";
 		var imageId= "";
@@ -80,9 +79,14 @@
 			var contentKey = contentKeyBase+"."+contentIdtoSend;
 		else
 			contentKey = contentIdtoSend;
-		initFileUpload();
-
-
+		if("undefined" != typeof(images[contentId])){
+			initFileUpload();
+		}else{
+			setTimeout(function(){
+			    initFileUpload();
+			}, 1000);
+		}
+		
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
 			

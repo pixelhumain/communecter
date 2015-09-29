@@ -14,16 +14,15 @@ svg{
  	background-color:#FFF;
  	border-radius:10px;
  	color:#2A3945;
- 	font-family: "Open Sans";
  }
 
  .leaflet-popup-tip{
- 	background-color:rgba(53, 61, 68, 0.7);
+ 	background-color:#FFF;
  }
 
  .leaflet-popup-content{
- 	padding:20px;
- 	min-width:300px;
+ 	margin:10px 10px 0px 5px !important;
+ 	min-width:280px;
  	padding-bottom:40px;
  }
 /*   ############################### */
@@ -271,15 +270,28 @@ creer des conflits : regle pas assez specfique
 	float:left;
 	width:100%;
 	padding-top:6px;
-	padding-bottom:4px;
+	padding-bottom:0px;
 	margin-top:0px;
 	text-decoration:none;
 	background-color:white;
 	border:0px white;
 }
 .item_map_list:hover{
-	background-color:#d3d1d5;
+	background-color:#EFEFEF;
 }
+
+.item_map_list.popup-marker{
+	width:100%;
+	text-decoration:none;
+	background-color:white;
+	border:0px white;
+	float:unset;
+	display: inline-block;
+}
+.item_map_list.popup-marker:hover{
+	background-color:#FFF !important;
+}
+
 .ico_item_map_list{
 	float:left;
 	margin-left:10px;
@@ -679,7 +691,7 @@ creer des conflits : regle pas assez specfique
 	}
 
 	.leaflet-popup-tip-container{
-		display:none !important;
+		/*display:none !important;*/
 	}
 
 	.leaflet-tile-container.leaflet-zoom-animated{
@@ -687,6 +699,13 @@ creer des conflits : regle pas assez specfique
 	}
 	.leaflet-map-pane{
 		/*top:154px;*/
+	}
+
+	.underline{
+		text-decoration: underline !important;
+	}
+	.underline:hover{
+		text-decoration: none !important;
 	}
 /* style tooltip des chartsMarkers */
 
