@@ -459,8 +459,6 @@ jQuery(document).ready(function() {
 	      }
 
 	    $("#alert-city-found").removeClass("hidden");
-		
-	    //showCityOnMap();
 	}
 
 	function bindPostalCodeAction() {
@@ -575,19 +573,8 @@ jQuery(document).ready(function() {
 		});
 
 		$('#btn-show-city').click(function(){
-			//console.log("btn-show-city click");
-			//markerNewData.closePopup();
-		
-			//Sig.map.setView(markerNewData.getLatLng(), 15);
 			$("#ajaxSV").hide(400);
 			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
-			//Sig.map.invalidateSize(true);
-			//setTimeout(Sig.map.invalidateSize(true), 1000);
-			//setTimeout(markerNewData.openPopup(), 1000);
-			//markerNewData.openPopup();
-
-			
-			
 		});
 
 		function btnValidateClick(){ //alert("yepaé");
