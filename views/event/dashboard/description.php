@@ -136,6 +136,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var allDay = '<?php echo (@$event["allDay"] == true) ? $event["allDay"] : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
+	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : null; ?>;
+	if(imagesD != null){
+		var images = imagesD;
+	}
 	
 	jQuery(document).ready(function() {
 		$("#editEventDetail").on("click", function(){

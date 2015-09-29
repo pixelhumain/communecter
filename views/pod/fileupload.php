@@ -84,7 +84,7 @@
 		}else{
 			setTimeout(function(){
 			    initFileUpload();
-			}, 2000);
+			}, 1000);
 		}
 		
 

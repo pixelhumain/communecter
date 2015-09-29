@@ -14,7 +14,8 @@ $this->renderPartial('../default/panels/toolbar');
 																"contributors" => $contributors,
 																"properties" => $properties,
 																"needs"=> $needs,
-																"events" => $events
+																"events" => $events,
+																"imagesD" => $images
 																));
 			?>
 			
