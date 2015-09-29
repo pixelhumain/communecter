@@ -280,7 +280,7 @@ class TestController extends CommunecterController {
   }  
 
   public function actionAverageComment() {
-    var_dump(Comment::getCommunitySelectedComments("5596a29b88aee0c4d97da608", Survey::COLLECTION));
+    var_dump(Comment::getCommunitySelectedComments("5596a29b88aee0c4d97da608", Survey::COLLECTION, null));
   }
 
   public function actionActivationURL() {
@@ -302,11 +302,13 @@ class TestController extends CommunecterController {
   }
 
   public function actionImageMarker() {
-    $profilImage = Yii::app()->params['uploadDir']."communecter/image_2.jpg";
+    $profilImage = Yii::app()->params['uploadDir']."communecter/photoProfil.jpg";
     $srcEmptyMarker = Yii::app()->params['uploadDir']."communecter/marker-citizen.png";
     
     $imageUtils = new ImagesUtils($profilImage);
-    $imageUtils->createMarkerFromImage($srcEmptyMarker);
+    //$imageUtils->resizeImage(40,40)->display();
+    //$imageUtils->createCircleImage(40,40)->display();
+    $imageUtils->createMarkerFromImage($srcEmptyMarker)->display();
   }
 
 }
