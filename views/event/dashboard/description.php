@@ -93,7 +93,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="row padding-20">
 				<div class="col-sm-12"><i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?</div>
 				<div class="col-sm-12">
-					<?php if($organizer["type"]=="project"){ 
+					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
 					 } else { 
 						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);

@@ -41,6 +41,8 @@
 										  	"city" 				: "COLLECTIVITE_A",
 
 											"citoyen" 			: "CITOYEN_A",
+											"citoyens" 			: "CITOYEN_A",
+											"people" 			: "CITOYEN_A",
 
 											"NGO" 				: "ASSO_A",
 											"organizations" 	: "ASSO_A",
@@ -51,6 +53,7 @@
 											"meeting" 			: "EVENEMENTS_A",
 
 											"project" 			: "PROJET_A",
+											"projects" 			: "PROJET_A",
 
 											"markerPlace" 		: "map-marker",
 
@@ -59,6 +62,7 @@
 			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
+										  	"people" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
@@ -69,6 +73,7 @@
 											"meeting" 			: { ico : "calendar", color : "white" 	},
 
 											"project" 			: { ico : "lightbulb-o", color : "yellow" },
+											"projects" 			: { ico : "lightbulb-o", color : "yellow" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
@@ -206,8 +211,8 @@
 						dataType : "json",
 						success: function(data){ 
 							
-							//console.log("my position : ");
-							//console.dir(data);
+							console.log("my position : ");
+							console.dir(data);
 							thisSig.myPosition = data;
 
 							if(data != null){
@@ -222,28 +227,35 @@
 			}
 		};
 
-		Sig.getIcoNameByType = function (type){
+		Sig.getTypeSigOfData = function (data){
+			console.log("getTypeSigOfData");
+			console.dir("data");
+			var type = data["typeSig"] ?  data["typeSig"] :  data["type"];
+			return type;
+		};
+
+		Sig.getIcoNameByType = function (data){
+			console.log("getIcoNameByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (type){
+		Sig.getIcoByType = function (data){
+			console.log("getIcoByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
-		Sig.getIcoColorByType = function (type){
+		Sig.getIcoColorByType = function (data){
+			console.log("getIcoColorByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
 			}else{  return this.icoMarkersTypes['default'].color; }
-		};
-
-		Sig.getIcoByType = function (type){
-			if(this.icoMarkersTypes[type] != null){
-					return this.icoMarkersTypes[type].ico;
-			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
 		Sig.getIcoNameByTag = function (tag){

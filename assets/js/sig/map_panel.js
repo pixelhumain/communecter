@@ -52,25 +52,27 @@
 
 			var tags = new Array();
 			var types = new Array();
+			var typeSig = new Array();
 			
 			if("undefined" != typeof data["tags"]) tags = data["tags"];
 			if("undefined" != typeof data["type"]) types = new Array(data["type"]);
-			
-			//tags.push("all");
-			//types.push("all");
+			if("undefined" != typeof data["typeSig"]) typeSig = new Array(data["typeSig"]);
+			else typeSig = new Array(data["type"]);
 
-			//console.dir(thisSig.listPanel);
+			console.log("LIST PANEL DATA");
+			console.dir(data);
 			
 			$.each(tags, function(index, value){
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
 
-			$.each(types, function(index, value){
+			/*$.each(types, function(index, value){
 				thisSig.listPanel["types"].push(value); //new Array(objectId);
-			});
+			});*/
 
-			//console.log("LIST PANEL");
-			//console.dir(thisSig.listPanel);
+			thisSig.listPanel["types"].push(typeSig);
+			console.log("LIST PANEL");
+			console.dir(thisSig.listPanel);
 			
 		};
 
@@ -109,7 +111,7 @@
 			$.each(thisSig.listPanel["types"], function(key, value){
 
 				console.warn("--------------- each types ---------------------" + value);
-				var valueId = value.replace(/\s/g,"");
+				var valueId = value;//.replace(/\s/g,"");
 				var ico = thisSig.getIcoByType(value);
 				var color = thisSig.getIcoColorByType(value);
 

@@ -85,8 +85,7 @@
 				console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
 
-				var type = thisData["type"];
-				var markerName = this.getIcoNameByType(type);
+				var markerName = this.getIcoNameByType(thisData);
 
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
@@ -99,9 +98,8 @@
 			this.Sig.getIcoMarker = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker ---------------------");
-				var type = thisData["type"];
-				var ico = this.getIcoNameByType(type);
-				var color = this.getIcoColorByType(type);
+				var ico = this.getIcoNameByType(thisData);
+				var color = this.getIcoColorByType(thisData);
 
 				return L.AwesomeMarkers.icon({icon: ico + " fa-" + color, iconColor:color, prefix: 'fa' });
 			};
@@ -139,6 +137,9 @@
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
 										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										type : thisSig.myPosition["type"],
+										typeSig : thisSig.myPosition["typeSig"],
+										faIcon : this.getIcoByType(thisSig.myPosition),
 										content: "" };
 
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
@@ -332,8 +333,9 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
+												typeSig : thisData["typeSig"],
 												name : thisData["name"],
-												faIcon : this.getIcoByType(thisData["type"]),
+												faIcon : this.getIcoByType(thisData),
 												content: content };
 
 							var marker;

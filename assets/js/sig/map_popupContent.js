@@ -88,12 +88,12 @@
 		//création du contenu de la popup d'un data
 		Sig.getPopupSimple = function(data){
 
-			var type = data['type'] ? data['type'] : "";
+			var type = data['typeSig'] ? data['typeSig'] : data['type'];
 
 			var popupContent = "<div class='item_map_list popup-marker'>";
 	
-			var ico = this.getIcoByType(data["type"]);
-			var color = this.getIcoColorByType(data["type"]);
+			var ico = this.getIcoByType(data);
+			var color = this.getIcoColorByType(data);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
@@ -103,12 +103,21 @@
 
 			//showMap(false);
 
-			var url = baseUrl+'/'+moduleId+'/'+data.type+'/detail/id/'+data["_id"]["$id"];
-			var title = data.type + ' : ' + data.name;
+			var type = data.typeSig;
+			var typeElement = "";
+			if(type == "people") 		typeElement = "person";
+			if(type == "organizations") typeElement = "organization";
+			if(type == "events") 		typeElement = "event";
+			if(type == "projects") 		typeElement = "project";
+
+			var url = baseUrl+'/'+moduleId+'/'+typeElement+'/detail/id/'+data["_id"]["$id"];
+			var title = data.typeSig + ' : ' + data.name;
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			//showAjaxPanel( url, title, icon );
 							
+			popupContent += "<button class='item_map_list popup-marker' onclick='showAjaxPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\"); showMap(false);'>";
+										
 			popupContent += 
 						  "<div class='left-col'>"
 	    				+ 	"<div class='thumbnail-profil'></div>"						
@@ -118,7 +127,7 @@
 						+ "<div class='right-col'>";
 						
 						if("undefined" != typeof data['name'])
-						popupContent	+= 	"<a href='#' onclick='showAjaxPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\"); showMap(false);' class='info_item pseudo_item_map_list'>" + data['name'] + "</a>";
+						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
 						
 						if("undefined" != typeof data['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
@@ -137,7 +146,7 @@
 						if("undefined" != typeof data['telephone'])
 						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
-				popupContent += '<div><div>';
+				popupContent += '</button><div>';
 
 			return popupContent;
 		};

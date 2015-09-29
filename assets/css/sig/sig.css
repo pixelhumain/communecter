@@ -700,6 +700,13 @@ creer des conflits : regle pas assez specfique
 	.leaflet-map-pane{
 		/*top:154px;*/
 	}
+
+	.underline{
+		text-decoration: underline !important;
+	}
+	.underline:hover{
+		text-decoration: none !important;
+	}
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {

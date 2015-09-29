@@ -351,6 +351,13 @@ function bindBtnEvents(){
 }
 
 <?php 
+	//rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+	//et pour ouvrir le panel info correctement
+	foreach($people 		  as $key => $data)	{ $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+	foreach($organizations 	  as $key => $data)	{ $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+	foreach($events 		  as $key => $data)	{ $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+	foreach($projects 		  as $key => $data)	{ $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+	
 	$contextMap = array();
 	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
 	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
