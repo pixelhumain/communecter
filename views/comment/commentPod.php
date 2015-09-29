@@ -81,7 +81,7 @@ $optionsLabels = array(
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								Community Selected <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								Popular <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
 					<?php 
