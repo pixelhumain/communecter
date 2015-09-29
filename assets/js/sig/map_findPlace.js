@@ -8,6 +8,8 @@ SigLoader.getSigFindPlace = function (Sig){
 	Sig.currentResultResearch = "";
 	Sig.nbMaxTentative = 4;
 	Sig.fullTextResearch = true;
+	//pour effectuer des recherches nominatim à partir d'un form externe (différent de la recherche intégrée)
+	Sig.useExternalSearchPlace = false;
 
 	//***
 	//initialisation de l'interface et des événements (click, etc)
@@ -59,7 +61,7 @@ SigLoader.getSigFindPlace = function (Sig){
 				$(thisSig.cssModuleName + ' #txt-find-place').removeClass("hidden");
 				this.fullTextResearch = true;
 			}
-			console.log("fullTextResearch = " + this.fullTextResearch);
+			//console.log("fullTextResearch = " + this.fullTextResearch);
 			//$(thisSig.cssModuleName + ' #full-research').toggle();
 		});
 
@@ -79,9 +81,10 @@ SigLoader.getSigFindPlace = function (Sig){
 		var thisSig = this;
 
 		//affiche le message "recherche en cours"
-		$(thisSig.cssModuleName + " #list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
-		$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
-
+		if(!thisSig.useExternalSearchPlace){
+			$(thisSig.cssModuleName + " #list-dropdown-find-place").html('<li style="width:100%;"><a href="#"><i class="fa fa-refresh fa-spin"></i> ('+ nbTentative +') Recherche en cours ...</a></li>');
+			$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
+		}
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		console.log(urlRequest);
 		$.ajax({
@@ -94,6 +97,8 @@ SigLoader.getSigFindPlace = function (Sig){
 			success: function (obj)
 			{
 				if (obj.length > 0) {
+
+					if(thisSig.useExternalSearchPlace) return obj;
 
 					$(thisSig.cssModuleName + " #list-dropdown-find-place").html("");
 
@@ -146,7 +151,16 @@ SigLoader.getSigFindPlace = function (Sig){
 	Sig.getNominatimRequest = function(nbTentative){
 		
 		if(this.fullTextResearch == true){
-			return "?q=" + $(this.cssModuleName + " #txt-find-place").val();
+			if(this.useExternalSearchPlace){
+				var str = $("#fullStreet").val();
+				if(str != "") str += " ";
+				str += $("#postalCode").val();
+
+				return "?q=" + transform(str);
+			}
+			else{
+				return "?q=" + $(this.cssModuleName + " #txt-find-place").val();
+			}
 		}
 
 		function transform(str){ //alert(newValue);
@@ -285,6 +299,46 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.map.panTo(coordinates);
 	};
 
+
+	Sig.execFullSearchNominatim = function (nbTentative){
+	/*	var oldFullText = this.fullTextResearch;
+		this.fullTextResearch = true;
+		this.useExternalSearchPlace = true;
+		var res = this.findPlace(0);
+		this.fullTextResearch = oldFullText;
+		this.useExternalSearchPlace = false;
+		return res;
+	*/
+		console.warn("--------------- execFullSearchNominatim ---------------------");
+		var thisSig = this;
+
+		this.useExternalSearchPlace = true;
+		var urlRequest = this.getNominatimRequest(nbTentative);
+		//console.log(urlRequest);
+		$.ajax({
+			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
+			type: 'POST',
+    		dataType: 'json',
+    		complete: function () { },
+			success: function (obj)
+			{
+				if (obj.length > 0) {
+					//console.log("search success");
+					//déclarer cette fonction avant d'executer Sig.execFullSearchNominatim
+					callBackFullSearch(obj);
+					//return obj;
+				}
+				else {
+					if(nbTentative <= thisSig.nbMaxTentative){
+						thisSig.execFullSearchNominatim(nbTentative+1);
+					}
+				}
+			},
+			error: function (error) {
+				
+			}
+		});
+	};
 
 	return Sig;
 };

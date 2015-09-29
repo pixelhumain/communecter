@@ -129,7 +129,13 @@ if( isset($_GET["isNotSV"]))
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
-
+								
+							<div class="form-group">
+								<label for="address">
+									<?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
+								</label>
+								<input type="text" class="form-control" name="address" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
@@ -146,6 +152,7 @@ if( isset($_GET["isNotSV"]))
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
+
 								<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
 									<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
 									<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
@@ -155,6 +162,8 @@ if( isset($_GET["isNotSV"]))
 								<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
 								
 						</div>
+
+							
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
@@ -162,16 +171,6 @@ if( isset($_GET["isNotSV"]))
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
-							
-							
-								<div class="alert alert-info hidden">
-									Pour un placement plus précis, déplacez votre icône sur la carte.
-								</div>	
-								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
-								</div>	
-							<!-- <div class="col-md-12"> -->
-							
-							
 						</div>
 						
 							
@@ -438,7 +437,8 @@ jQuery(document).ready(function() {
 	function runShowCity(searchValue) {
 		
 		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		geoPositionCity = getCitiesGeoPosByPostalCode(searchValue);
+
+		Sig.execFullSearchNominatim(0);
 		
 		var oneValue = "";
 		console.table(citiesByPostalCode);
@@ -459,7 +459,7 @@ jQuery(document).ready(function() {
 
 	    $("#alert-city-found").removeClass("hidden");
 		
-	    showCityOnMap();
+	    //showCityOnMap();
 	}
 
 	function bindPostalCodeAction() {
@@ -500,20 +500,26 @@ jQuery(document).ready(function() {
 	//mémorise l'url des assets (si besoin)
 	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 
-	function showCityOnMap(){ 
+	function callBackFullSearch(resultNominatim){
+		//console.log("callback ok");
+		showCityOnMap(resultNominatim);
+	}
 
-		var geoPosition = geoPositionCity;
+	function showCityOnMap(geoPosition){ 
+
+		//var geoPosition = geoPositionCity;
 		
 		Sig.clearMap();
 		
-		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
+		var latlng = [geoPosition[0]["lat"], geoPosition[0]["lon"]];
 		//Sig.map.setView(latlng, 15);
+
 		Sig.centerSimple(latlng, 15);
 		//console.log("center ok");
 
 		var content = Sig.getPopupNewData();
 		var properties = { 	id : "0",
-							icon : Sig.getIcoMarkerMap({"type" : "city"}),
+							icon : Sig.getIcoMarkerMap({"type" : "organization"}),
 							content: content };
 
 		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
@@ -524,34 +530,46 @@ jQuery(document).ready(function() {
 		});
 
 		markerNewData.on('dragend', function(e){
+			//console.log("dragend");
 			markerNewData.openPopup();	
 		});
 
 		markerNewData.on('popupopen', function(e){
+			//console.log("popupopen");
 			$("#btn-validate-geopos").click(function(){
 				btnValidateClick();
 			});
 		});
 		
 		markerNewData.on('dragstart', function(e){
+			//console.log("dragstart");
 			$("#ajaxSV").hide(400);
 		});
 
 		$('#btn-show-city').click(function(){
-			markerNewData.closePopup();
-			Sig.map.setView(markerNewData.getLatLng(), 15);
+			//console.log("btn-show-city click");
+			//markerNewData.closePopup();
+		
+			//Sig.map.setView(markerNewData.getLatLng(), 15);
 			$("#ajaxSV").hide(400);
-			markerNewData.openPopup();
-			Sig.map.invalidateSize(true);
+			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
+			//Sig.map.invalidateSize(true);
+			//setTimeout(Sig.map.invalidateSize(true), 1000);
+			//setTimeout(markerNewData.openPopup(), 1000);
+			//markerNewData.openPopup();
+
+			
+			
 		});
 
 		function btnValidateClick(){ //alert("yepaé");
+			//console.log("btnValidateClick");
 			markerNewData.closePopup();
 			Sig.centerSimple(markerNewData.getLatLng(), 15);
 			$("#ajaxSV").show(400);
 			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
 			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
-			//Sig.map.invalidateSize(true);
+			Sig.map.invalidateSize(false);
 			markerNewData.openPopup();
 		}
 		
