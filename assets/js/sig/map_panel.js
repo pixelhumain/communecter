@@ -39,7 +39,7 @@
 		//***
 		//dé-zoom la carte pour afficher tous les éléments visibles
 		this.Sig.zoomOnAllElements = function(thisMap){
-			//console.dir(this.markersLayer.getBounds());
+			////console.dir(this.markersLayer.getBounds());
 			if(this.markersLayer.getBounds() != null){
 				thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 				thisMap.zoomOut();
@@ -59,8 +59,8 @@
 			if("undefined" != typeof data["typeSig"]) typeSig = new Array(data["typeSig"]);
 			else typeSig = new Array(data["type"]);
 
-			console.log("LIST PANEL DATA");
-			console.dir(data);
+			//console.log("LIST PANEL DATA");
+			//console.dir(data);
 			
 			$.each(tags, function(index, value){
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
@@ -71,8 +71,8 @@
 			});*/
 
 			thisSig.listPanel["types"].push(typeSig);
-			console.log("LIST PANEL");
-			console.dir(thisSig.listPanel);
+			//console.log("LIST PANEL");
+			//console.dir(thisSig.listPanel);
 			
 		};
 
@@ -82,9 +82,9 @@
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
 			console.warn("--------------- updatePanel ---------------------");
-			//console.log(this.listPanel);
+			////console.log(this.listPanel);
 			var thisSig = this;
-			//console.log(thisSig.listPanel["tags"].length);
+			////console.log(thisSig.listPanel["tags"].length);
 			$.each(thisSig.listPanel["tags"], function(key, value){
 				//console.warn("--------------- each tags ---------------------" + value);
 			

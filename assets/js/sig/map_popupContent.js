@@ -98,8 +98,8 @@
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
 			//var prop = feature.properties;
-			console.log("PROPRIETES : ");
-			console.dir(data);
+			//console.log("PROPRIETES : ");
+			//console.dir(data);
 
 			//showMap(false);
 

@@ -9,8 +9,8 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
-			//console.log("initParams");
-			//console.dir(params);
+			////console.log("initParams");
+			////console.dir(params);
 
 	    	var thisSig = this;
 
@@ -204,15 +204,15 @@
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home 
 			var thisSig = this;
-			if(this.initParameters.useHomeButton){ console.log("init btn home " + baseUrl + "/" + moduleId);
+			if(this.initParameters.useHomeButton){ //console.log("init btn home " + baseUrl + "/" + moduleId);
 				$.ajax({
 						url: baseUrl+"/"+moduleId+"/sig/getmyposition",
 						type: "POST",
 						dataType : "json",
 						success: function(data){ 
 							
-							console.log("my position : ");
-							console.dir(data);
+							//console.log("my position : ");
+							//console.dir(data);
 							thisSig.myPosition = data;
 
 							if(data != null){
@@ -228,14 +228,14 @@
 		};
 
 		Sig.getTypeSigOfData = function (data){
-			console.log("getTypeSigOfData");
-			console.dir("data");
+			//console.log("getTypeSigOfData");
+			//console.dir("data");
 			var type = data["typeSig"] ?  data["typeSig"] :  data["type"];
 			return type;
 		};
 
 		Sig.getIcoNameByType = function (data){
-			console.log("getIcoNameByType");
+			//console.log("getIcoNameByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
@@ -243,7 +243,7 @@
 		};
 
 		Sig.getIcoByType = function (data){
-			console.log("getIcoByType");
+			//console.log("getIcoByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
@@ -251,7 +251,7 @@
 		};
 
 		Sig.getIcoColorByType = function (data){
-			console.log("getIcoColorByType");
+			//console.log("getIcoColorByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
@@ -269,7 +269,7 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ ////console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //////console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
@@ -280,10 +280,10 @@
 			this.map.panTo(center);
 			this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
-			console.log("height" + height);
+			//console.log("height" + height);
 			var center = height / 2;
 			var pan = center - 100;
-			console.log("pan" + pan);
+			//console.log("pan" + pan);
 			//alert("yo");
 			this.map.panBy([0, pan]);
 			this.map.invalidateSize(false);
