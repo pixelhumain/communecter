@@ -353,7 +353,7 @@ var mapIconTop = {
     });
 
     $('#searchBar').focusout(function(e){
-      $('#dropdown_searchTop').css("display" , "none");
+      //$('#dropdown_searchTop').css("display" , "none");
     });
     
     $('#searchBar').focusin(function(e){
