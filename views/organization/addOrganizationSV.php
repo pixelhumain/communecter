@@ -68,11 +68,10 @@ if( isset($_GET["isNotSV"]))
 								<label class="control-label">
 									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
-								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>">
-									<ul class="dropdown-menu" id="dropdown_search" style="">
-										<li class="li-dropdown-scope">-</li>
-									</ul>
-								</input>
+								<span id="organizationNameInput" class="input-icon">
+									<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>">
+									<i id="information-icon" class="fa fa-info"></i>
+								</span>
 							</div>
 
 							<div class="form-group">
@@ -205,7 +204,6 @@ if( isset($_GET["isNotSV"]))
 									/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
 								   	//chargement de toutes les librairies css et js indispensable pour la carto
 								  	//$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
-									//$this->renderPartial('addOrganizationMap'); var_dump($sigParams); die();
 								?>
 								<style>
 								.leaflet-map-pane{
@@ -228,6 +226,12 @@ if( isset($_GET["isNotSV"]))
 							</div>
 						</div>
 						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
+					</div>
+					<div id="infoOrgaSameName" style='display:none'>
+						<h1>Similar organization already exists : please check below</h1>
+						<div id="listOrgaSameName">
+						</div>
+						<input type="button" id="ok" value="ok" /> 
 					</div>
 				</div>
 			</form>
@@ -336,10 +340,22 @@ jQuery(document).ready(function() {
  }); 
 
 	function initForm() {
+		$("#information-icon").hide();
 		$('#organizationName').off().on("blur", function(){
 	    	var search = $('#organizationName').val();
-	    	autoCompleteOrganizationName(encodeURI(search));
+	    	if (search.length > 3) {
+	    		autoCompleteOrganizationName(encodeURI(search));
+	    	}
 		});
+
+		$("#information-icon").off().on("click", function() {
+            $.blockUI({ message: $('#infoOrgaSameName'), css: { width: '400px' } }); 
+		});
+
+		$('#infoOrgaSameName #ok').click(function() { 
+            $.unblockUI(); 
+            return false; 
+        }); 
 	}	
 	
 	function autoCompleteOrganizationName(searchValue){
@@ -348,7 +364,6 @@ jQuery(document).ready(function() {
 			"searchMode" : "organizationOnly"
 		};
 		
-		var str = "<div class='searchList li-dropdown-scope'>Organizations already have same name : please check below</div>"
 		$.ajax({
 			type: "POST",
 	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
@@ -360,10 +375,6 @@ jQuery(document).ready(function() {
 
 	 			$.each(data.organizations, function(idOrga, orga) {
 	  				console.log(orga);
-	  				if (compt == 0) {
-	  					str += "<div class='searchList li-dropdown-scope'>Similar organization already exists : please check below</div>"
-	  				}
-
 	  				city = "";
 					postalCode = "";
 					var htmlIco ="<i class='fa fa-users fa-2x'></i>"
@@ -378,17 +389,22 @@ jQuery(document).ready(function() {
  					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
  						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>"
  					}
- 					str += 	"<div class='searchList li-dropdown-scope' ><ol>"+
- 							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ i +"' class='searchEntry'>"+
+ 					str += 	"<div><ol>"+
+ 							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ typeIco +"'>"+
  							"<span>"+ htmlIco +"</span>  " + orga.name +
  							"<span class='city-search'> "+postalCode+" "+city+"</span>"+
  							"</a></ol></div>";
  					compt++;
 	  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
 	  			});
-				$("#addOrganization #dropdown_search").html(str);
-		  		$("#addOrganization #dropdown_search").css({"display" : "inline" });
-		  		$("#addOrganization #dropdown_search").focus();
+				
+				if (compt > 0) {
+					$("#information-icon").show();
+				} else {
+					$("#information-icon").hide();
+				}
+
+				$("#addOrganization #listOrgaSameName").html(str);
 			}	
 		})
 	}
@@ -396,9 +412,7 @@ jQuery(document).ready(function() {
 	function showNewOrganizationForm(){
 		//Manage Button
 		$("#addOrganization #btnSaveNewOrganization").css("display", "block");
-
 		$("#addOrganization #formNewOrganization").css("display", "block");
-		
 		initNewOrganizationForm();
 	}
 
@@ -569,6 +583,6 @@ jQuery(document).ready(function() {
 		
 		
 	}
-	
+
 </script>	
 

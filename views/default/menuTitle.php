@@ -68,7 +68,10 @@
 		console.log("showAjaxPanel",url,title,icon);
 		$(".ajaxForm").hide();
 		$(".ajaxForm,.box-ajaxTools").html("");
+
 		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+		urlT = url.split("/");
+		location.hash = urlT[1]+"."+urlT[2]+"."+urlT[3];
 
 		if( navHistory != null)
 			prevNav = {
