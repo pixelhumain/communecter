@@ -130,10 +130,11 @@ class CommunecterController extends Controller
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
     ),
     "gantt"=> array(
-      "index" => array("href" => "/ph/communecter/gantt/index"),
-      "savetask" => array("href" => "/ph/communecter/gantt/savetask"),
-      "removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
-      "generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
+    	"index" => array("href" => "/ph/communecter/gantt/index"),
+		"savetask" => array("href" => "/ph/communecter/gantt/savetask"),
+		"removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
+		"generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
+		"addtimesheetsv"      => array("href" => "/ph/communecter/gantt/addtimesheetsv"),
     ),
   	"needs"=> array(
         "index" => array("href" => "/ph/communecter/needs/index"),
@@ -227,6 +228,7 @@ class CommunecterController extends Controller
   	  "editchart"       => array("href" => "/ph/communecter/project/editchart"),
   	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
+      "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
     ),
 
     "job"=> array(
