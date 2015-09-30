@@ -350,14 +350,14 @@ var mapIconTop = {
         }   
     });
 
-    $('#searchBar').focusout(function(e){
+    /*$('#searchBar').focusout(function(e){
       $('#dropdown_searchTop').css("display" , "none");
     });
     
     $('#searchBar').focusin(function(e){
       if($("#searchBar").val() != "")
       $('#dropdown_searchTop').css("display" , "inline");
-    });
+    });*/
     
     $('.btn-show-map').click(function(e){
       showMap();
@@ -447,7 +447,7 @@ function autoCompleteSearch(name){
                 }
 
                 str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' class='searchEntry'>"+
+                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' class='searchEntry' "+
                     "<span>"+ htmlIco +"</span>  " + o.name +
                     "<span class='city-search'> "+postalCode+" "+city+"</span>"+
                     "</a></ol></div>";
@@ -458,10 +458,6 @@ function autoCompleteSearch(name){
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
             
-            $(".searchEntry").off().on("click", function(){
-              
-            });
-            
             addEventOnSearch(); 
           }
       } 
@@ -470,11 +466,14 @@ function autoCompleteSearch(name){
 
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
+      console.log("event");
       setSearchInput($(this).data("id"), $(this).data("type"),$(this).data("name"), $(this).data("icon") );
+      $('#dropdown_searchTop').css("display" , "none");
     });
   }
 
   function setSearchInput(id, type,name,icon){
+    console.log("showpanel ?");
     if(type=="citoyen"){
       type = "person";
     }
