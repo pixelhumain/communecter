@@ -5,22 +5,34 @@ $this->renderPartial('../default/panels/toolbar');
 <div class="row">
 	<div class=" col-md-12">
 		<div class="col-md-12">
-		<?php 
-			$this->renderPartial('pod/ficheInfo', array( "project" => $project, 
-																"tags" => $tags, 
-																"countries" => $countries,
-																"isAdmin"=> $admin,
-																"tasks" =>$tasks,
+			<div class="panel panel-white col-md-8">
+				<?php 
+				$this->renderPartial('pod/ficheInfo', array( "project" => $project, 
+																	"tags" => $tags, 
+																	"countries" => $countries,
+																	"isAdmin"=> $admin,
+																	"tasks" =>$tasks,
+																	"needs"=> $needs,
+																	//"events" => $events
+																	));
+				?>
+				<div class="timesheetphp">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<?php $this->renderPartial('pod/contributors', array( "project" => $project, 
+																
+																"admin"=> $admin,
+																
 																"contributors" => $contributors,
-																"properties" => $properties,
-																"needs"=> $needs,
-																"events" => $events
-																));
-			?>
-			
+																"isDetailView" => 1																));
+				?>
+				<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
+			</div>
 		</div>
-		<div class="col-md-4">
-		<?php //$this->renderPartial('pod/contributors',array( "contributors" => $contributors, "organizationTypes" => $organizationTypes, "project" => $project, "admin" => $admin)); ?>
+
+		<div class ="col-lg-8 col-md-12">
+			 
 		</div>
 		
 	
@@ -30,7 +42,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 	
 jQuery(document).ready(function() {
-getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
-
+//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
+getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 });
 </script>

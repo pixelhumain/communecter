@@ -10,7 +10,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/assets/plugins/wysihtml5/wysihtml5.js',
-	'/assets/plugins/moment/min/moment.min.js'
+	'/assets/plugins/moment/min/moment.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -100,7 +101,7 @@ progress[value]::-moz-progress-bar {
     -webkit-linear-gradient( left, #09c, #ff0);
 }
 </style>
-<div class="panel panel-white col-md-8">
+
 	<div class="panel-heading border-light margin-bottom-10">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECT INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
@@ -222,44 +223,11 @@ progress[value]::-moz-progress-bar {
 					</table>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-4">
-		<div class="panel panel-white">
-			<div class="panel-heading border-light">
-				<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id) ?></h4>
-				<div class="panel-tools">
-					<?php if ($isAdmin){ ?>
-					<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>
-					<?php } ?>
-					
-					<a href="#" class="btn btn-xs btn-link panel-close">
-						<i class="fa fa-times"></i>
-					</a>
-				</div>
-			</div>
-			<?php foreach ($contributors as $member) { 
-				if ($member["type"]=="citoyen"){
-					$icon="<i class=\"fa fa-smile-o fa-2x\"></i></td>";
-					$redirect="person";
-				}
-				else{
-					$icon="<i class=\"fa fa-group fa-2x\"></i></td>";
-					$redirect="organization";
-				}
-			?>
-				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">
-				<?php if($member && isset($member["imagePath"])) { ?>
-					<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member['imagePath']) ?>"></td>
-				<?php } else{ 
-						echo $icon;
-					} ?>
-				</a>					
-			<?php } ?>
-		</div>
-	</div>
-	<div class ="col-lg-4 col-md-12">
-			 <?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$isAdmin)); ?>
-	</div>
+
+
+		
+
+	
 <script type="text/javascript">
 var projectData = <?php echo json_encode($project)?>;
 var mode = "update";
@@ -310,7 +278,7 @@ function initXEditable() {
 	$('#description').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
 		value: <?php echo (isset($project["description"])) ? json_encode($project["description"]) : "''"; ?>,
-		placement: 'right',
+		placement: 'bottom',
 		mode: 'popup',
 		wysihtml5: {
 			html: true,

@@ -1,4 +1,3 @@
-
 <?php 
 	$cssAnsScriptFilesModule = array(
 		//Data helper
@@ -28,7 +27,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
 <?php }*/ ?>
 <div id="newProject">
-<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Project</h2>
+<?php if( @$isNotSV ){ ?>
+<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?></h2>
+<?php } ?>
 <?php 
 	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
