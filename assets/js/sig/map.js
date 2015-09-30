@@ -478,7 +478,7 @@
 							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								
+								console.log("click on .item_map_list_" + feature.properties.id);
 								var zoom = 20;
 								thisSig.currentMarkerPopupOpen = layer;
 								layer.openPopup();
@@ -486,32 +486,18 @@
 								console.log("icon clicked : " + popupOpen);
 								
 								thisSig.checkListElementMap(thisMap);
-								
-								
-
+											
 								if(!popupOpen){ zoom = 20; }
 								thisMap.setView([feature.geometry.coordinates[1],
 											  feature.geometry.coordinates[0]], zoom);
-
-						//		if(thisMap.getZoom() != 20)
-						//		thisMap.setZoom(zoom);
-
-								/*thisMap.panTo([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]]);
-								*/
-
+					
 								if(!popupOpen){ 
 									$(".marker-cluster").click();
 									layer.openPopup();
 								
 									thisMap.invalidateSize(false);
-								}
-									
-								
-								
-							});
-							//console.warn("--------------- showMapElements click OK  ---------------------");
-
+								}								
+							});							
 						}
 					});
 					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
