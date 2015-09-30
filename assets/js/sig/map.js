@@ -62,6 +62,7 @@
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
 				console.warn("--------------- getMarkerSingle ---------------------");
+				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window";
 
@@ -142,7 +143,7 @@
 										type : thisSig.myPosition["type"],
 										typeSig : thisSig.myPosition["typeSig"],
 										faIcon : this.getIcoByType(thisSig.myPosition),
-										content: "" };
+										content: "<h1>Vous êtes ici</h1><br/>" };
 
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
 
@@ -470,19 +471,44 @@
 							layer.on('click', function(e) {	
 								layer.openPopup(); 
 								thisSig.currentMarkerPopupOpen = layer;
+
 								thisMap.panTo([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]],
-											  13);
+											  feature.geometry.coordinates[0]]);
+								
 							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								
-								thisSig.checkListElementMap(thisMap);
+								var zoom = 20;
+								thisSig.currentMarkerPopupOpen = layer;
 								layer.openPopup();
-								thisMap.panTo([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]],
-											  13);
+								var popupOpen = layer.getPopup()._isOpen;
+								console.log("icon clicked : " + popupOpen);
+								
+								thisSig.checkListElementMap(thisMap);
+								
+								
 
+								if(!popupOpen){ zoom = 20; }
+								thisMap.setView([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]], zoom);
+
+						//		if(thisMap.getZoom() != 20)
+						//		thisMap.setZoom(zoom);
+
+								/*thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]]);
+								*/
+
+								if(!popupOpen){ 
+									$(".marker-cluster").click();
+									layer.openPopup();
+								
+									thisMap.invalidateSize(false);
+								}
+									
+								
+								
 							});
 							//console.warn("--------------- showMapElements click OK  ---------------------");
 
