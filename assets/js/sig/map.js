@@ -253,10 +253,11 @@
 					if(this.useFilterType == false) return true;
 
 					//si thisData n'a pas de tags
-					if("undefined" == typeof thisData["type"]){
+					if("undefined" == typeof thisData["type"] && "undefined" == typeof thisData["typeSig"]){
 						return (this.panelFilter == "all");
 					}
-					if(	thisData["type"] == thisSig.panelFilter
+					if(		thisData["type"] == thisSig.panelFilter
+						||  thisData["typeSig"] == thisSig.panelFilter
 						||  this.panelFilter == "all") {
 							return true;
 					}

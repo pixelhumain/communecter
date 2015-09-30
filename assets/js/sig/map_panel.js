@@ -9,7 +9,8 @@
 		//evenement click sur un item du panel
 		this.Sig.changeFilter = function (val, thisMap, filterType)
 		{
-			var tagSelected = this.panelFilter.replace(/\s/g,"");
+			console.dir(this.panelFilter);
+			var tagSelected = ""; //this.panelFilter.replace(/\s/g,"");
 			
 			this.panelFilterType = filterType;
 
@@ -55,7 +56,7 @@
 			var typeSig = new Array();
 			
 			if("undefined" != typeof data["tags"]) tags = data["tags"];
-			if("undefined" != typeof data["type"]) types = new Array(data["type"]);
+			//if("undefined" != typeof data["type"]) types = new Array(data["type"]);
 			if("undefined" != typeof data["typeSig"]) typeSig = new Array(data["typeSig"]);
 			else typeSig = new Array(data["type"]);
 
@@ -66,11 +67,11 @@
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
 
-			/*$.each(types, function(index, value){
+			$.each(typeSig, function(index, value){
 				thisSig.listPanel["types"].push(value); //new Array(objectId);
-			});*/
+			});
 
-			thisSig.listPanel["types"].push(typeSig);
+			//thisSig.listPanel["types"].push(typeSig);
 			//console.log("LIST PANEL");
 			//console.dir(thisSig.listPanel);
 			

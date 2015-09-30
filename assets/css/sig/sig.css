@@ -314,6 +314,7 @@ creer des conflits : regle pas assez specfique
 	color:red;
 	font-weight: 500;
 	text-decoration: none;
+	display: inline;
 }
 #liste_map_element a.btn.dropdown-toggle{
 	margin-right:5%;
