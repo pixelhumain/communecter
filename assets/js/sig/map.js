@@ -38,6 +38,7 @@
 			//créer un marker sur la carte, en fonction de sa position géographique
 			this.Sig.markerSingleList = new Array();
 			this.Sig.popupOpen = false;
+			this.Sig.currentMarkerPopupOpen = null;
 
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
@@ -74,6 +75,7 @@
 
 				marker.on('click', function(e) {
 						marker.openPopup();
+						thisSig.currentMarkerPopupOpen = this;							
 				});
 				return marker;
 			};
@@ -467,6 +469,7 @@
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('click', function(e) {	
 								layer.openPopup(); 
+								thisSig.currentMarkerPopupOpen = layer;
 								thisMap.panTo([feature.geometry.coordinates[1],
 											  feature.geometry.coordinates[0]],
 											  13);

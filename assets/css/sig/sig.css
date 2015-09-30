@@ -256,6 +256,12 @@ creer des conflits : regle pas assez specfique
 	text-align: left;
 }
 
+.popup-marker .item_map_list .right-col, 
+.popup-marker .item_map_list .left-col{
+	min-height:55px;
+}
+
+
 .item_map_list .right-col .info_item{
 	float:left;
 	min-width:100%;
@@ -371,7 +377,19 @@ creer des conflits : regle pas assez specfique
 	background: transparent !important;
 }
 
+.btn-more{
+	background-color: rgb(222, 222, 222);
+    border-color: #D2D2D2;
+    margin-top: 5px;
+    margin-bottom: 7px;
+    text-align: center;
+    color: #3C3C3C;
+    font-weight: 500;
+}
 
+.item_map_list .btn-more i{
+	float:none !important;
+}
 .input-search-place{
 	margin-left:2px;
 	left:210px;
@@ -543,7 +561,7 @@ creer des conflits : regle pas assez specfique
  .fa-blue{ color:#00C9FF !important; }
  .fa-yellow{ color:#E6D414 !important; }
  .fa-red{ color:#F03737 !important; }
- .fa-orange{ color:#FF9000 !important; }
+ .fa-orange{ color:#E6A441 !important; }
  .fa-green{ color:#60CF27 !important; }
  .fa-purple{ color:#7C2ED1 !important; }
  .fa-pink{ color:#DB31D3 !important; }
@@ -690,10 +708,27 @@ creer des conflits : regle pas assez specfique
 	    font-size: 15px !important;
 	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	}
-
-	.leaflet-popup-tip-container{
-		/*display:none !important;*/
+/*
+	.leaflet-popup{
+		bottom: -40px !important;
+		left: 40px !important;
 	}
+	.leaflet-popup-tip-container {
+	    margin: 0px auto;
+	    margin-left: 11px;
+	    width: 25px;
+	    height: 20px;
+	    position: absolute;
+	    overflow: unset;
+	    left: -21px;
+	    top: 55px;
+	    z-index: -1;
+	}
+	.leaflet-popup-tip {
+		box-shadow: 0px 3px 14px rgba(0, 0, 0, 0);
+		margin: 0px auto !important;
+	}
+	*/
 
 	.leaflet-tile-container.leaflet-zoom-animated{
 		/*top:30px !important;*/
