@@ -200,7 +200,7 @@ li.mix{
 </div>
 
 <?php /* **********************
-  CONTEXT TITLE
+  HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" style="z-index:1;position:absolute; top:0px; left:100px; width:80%; text-align: left" >
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px;margin-top:10px;"></span>
@@ -212,7 +212,7 @@ li.mix{
         
       }
     </style>
-    <form class="inner pull-right" style="height:50px; background-color:#58879B; padding-right:5px;">
+    <form class="inner pull-right" style="height:50px; background-color:#58879B; padding-right:5px; margin-top-5">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" class="margin-top-10" style="border: none">
