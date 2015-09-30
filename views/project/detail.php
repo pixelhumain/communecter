@@ -13,6 +13,8 @@ $this->renderPartial('../default/panels/toolbar');
 																	"isAdmin"=> $admin,
 																	"tasks" =>$tasks,
 																	"needs"=> $needs,
+																	"events" => $events,
+																"imagesD" => $images
 																	//"events" => $events
 																	));
 				?>
@@ -25,10 +27,12 @@ $this->renderPartial('../default/panels/toolbar');
 																"admin"=> $admin,
 																
 																"contributors" => $contributors,
+
 																"isDetailView" => 1																));
 				?>
 				<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 			</div>
+
 		</div>
 
 		<div class ="col-lg-8 col-md-12">

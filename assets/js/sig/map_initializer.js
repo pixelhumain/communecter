@@ -9,8 +9,8 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
-			//console.log("initParams");
-			//console.dir(params);
+			////console.log("initParams");
+			////console.dir(params);
 
 	    	var thisSig = this;
 
@@ -36,19 +36,24 @@
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 			
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			thisSig.icoMarkersMap = { 		"default" 			: "user",
+			thisSig.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
 
-										  	"citoyen" 			: "user",
+										  	"city" 				: "COLLECTIVITE_A",
 
-											"NGO" 				: "asso",
-											"organizations" 	: "asso",
-											"organization" 		: "asso",
+											"citoyen" 			: "CITOYEN_A",
+											"citoyens" 			: "CITOYEN_A",
+											"people" 			: "CITOYEN_A",
 
-											"event" 			: "event",
-											"events" 			: "event",
-											"meeting" 			: "event",
+											"NGO" 				: "ASSO_A",
+											"organizations" 	: "ASSO_A",
+											"organization" 		: "ASSO_A",
 
-											"project" 			: "project",
+											"event" 			: "EVENEMENTS_A",
+											"events" 			: "EVENEMENTS_A",
+											"meeting" 			: "EVENEMENTS_A",
+
+											"project" 			: "PROJET_A",
+											"projects" 			: "PROJET_A",
 
 											"markerPlace" 		: "map-marker",
 
@@ -57,16 +62,18 @@
 			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
+										  	"people" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
 											"organization" 		: { ico : "group", color : "green" 		},
 
-											"event" 			: { ico : "calendar", color : "red" 	},
-											"events" 			: { ico : "calendar", color : "red" 	},
-											"meeting" 			: { ico : "calendar", color : "white" 	},
+											"event" 			: { ico : "calendar", color : "orange" 	},
+											"events" 			: { ico : "calendar", color : "orange" 	},
+											"meeting" 			: { ico : "calendar", color : "orange" 	},
 
 											"project" 			: { ico : "lightbulb-o", color : "yellow" },
+											"projects" 			: { ico : "lightbulb-o", color : "yellow" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
@@ -197,7 +204,7 @@
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home 
 			var thisSig = this;
-			if(this.initParameters.useHomeButton){ console.log("init btn home " + baseUrl + "/" + moduleId);
+			if(this.initParameters.useHomeButton){ //console.log("init btn home " + baseUrl + "/" + moduleId);
 				$.ajax({
 						url: baseUrl+"/"+moduleId+"/sig/getmyposition",
 						type: "POST",
@@ -220,28 +227,35 @@
 			}
 		};
 
-		Sig.getIcoNameByType = function (type){
+		Sig.getTypeSigOfData = function (data){
+			//console.log("getTypeSigOfData");
+			//console.dir("data");
+			var type = data["typeSig"] ?  data["typeSig"] :  data["type"];
+			return type;
+		};
+
+		Sig.getIcoNameByType = function (data){
+			//console.log("getIcoNameByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (type){
+		Sig.getIcoByType = function (data){
+			//console.log("getIcoByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
-		Sig.getIcoColorByType = function (type){
+		Sig.getIcoColorByType = function (data){
+			//console.log("getIcoColorByType");
+			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
 			}else{  return this.icoMarkersTypes['default'].color; }
-		};
-
-		Sig.getIcoByType = function (type){
-			if(this.icoMarkersTypes[type] != null){
-					return this.icoMarkersTypes[type].ico;
-			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
 		Sig.getIcoNameByTag = function (tag){
@@ -255,7 +269,7 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ ////console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //////console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
@@ -263,13 +277,13 @@
 		};
 
 		Sig.centerSimple = function(center, zoom){
-			this.map.panTo(center);
-			this.map.setZoom(zoom);
+			this.map.setView(center, zoom);
+			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
-			console.log("height" + height);
+			//console.log("height" + height);
 			var center = height / 2;
-			var pan = center - 100;
-			console.log("pan" + pan);
+			var pan = center - 80;
+			//console.log("pan" + pan);
 			//alert("yo");
 			this.map.panBy([0, pan]);
 			this.map.invalidateSize(false);
@@ -283,7 +297,24 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 
+	 	Sig.clearStr = function(str) {
+	 	  str = str.toLowerCase();
+		  str = str.replace(/^\s+|\s+$/g, ''); // trim
+		  str = str.toLowerCase();
+		  
+		  // remove accents, swap ñ for n, etc
+		  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+		  var to   = "aaaaeeeeiiiioooouuuunc------";
+		  for (var i=0, l=from.length ; i<l ; i++) {
+		    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+		  }
 
+		  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+		    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+		    .replace(/-+/g, '-'); // collapse dashes
+
+		  return str;
+		};
 
 		return Sig;
 	};

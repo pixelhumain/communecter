@@ -37,7 +37,7 @@ if( isset($_GET["isNotSV"]))
 <div id="addOrganization" >
 	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
 	<?php 
-	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12 height-230"
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
 	<div class="<?php echo $size ?>" >  
 	<div class="noteWrap">
@@ -61,31 +61,18 @@ if( isset($_GET["isNotSV"]))
 							<i class="fa fa-ok"></i> <?php echo Yii::t("common","The form has been validated.") ?>
 						</div>
 					</div>
-					<div class="form-group" id="searchOrganizationSection">
-		    	    	<div class='row'>
-							<div class="col-md-1">	
-				           		<i class="fa fa-search fa-2x"></i> 	
-				           	</div>
-				           	<div class="col-md-6">
-				           		<span class="input-icon input-icon-right">
-						           	<input class="organization-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email")?>" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
-						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-						        		<ul class="dropdown-menu" id="dropdown_search" style="">
-											<li class="li-dropdown-scope">-</li>
-										</ul>
-									</input>
-								</span>
-							</div>
-						</div>
-					</div>
-					<div id="formNewOrganization" style="display:none;">
+					<div id="formNewOrganization">
 						<div class="col-md-6 col-sd-6" >
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
-								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
+								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>">
+									<ul class="dropdown-menu" id="dropdown_search" style="">
+										<li class="li-dropdown-scope">-</li>
+									</ul>
+								</input>
 							</div>
 
 							<div class="form-group">
@@ -107,29 +94,32 @@ if( isset($_GET["isNotSV"]))
 							
 							<div class="form-group">
 								<label class="control-label">
-									Email <span class="symbol required"></span>
+									Email
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
-							
-							
+						</div>
+						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Interests") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">		        		    
 							</div>
 
-						</div>
-						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
-
+								
+							<div class="form-group">
+								<label for="address">
+									<?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
+								</label>
+								<input type="text" class="form-control" name="address" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
@@ -142,14 +132,20 @@ if( isset($_GET["isNotSV"]))
 									<label for="city">
 										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
-									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
+								<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
+									<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+									<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+								</div>
 
-										
-							
+								<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
+								<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
+							</div>
 						</div>
+
+							
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
@@ -157,6 +153,7 @@ if( isset($_GET["isNotSV"]))
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
+						</div>
 							
 							<div class="form-group hidden" id="sig_position">
 							
@@ -221,14 +218,7 @@ if( isset($_GET["isNotSV"]))
 								</div>	
 								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
 								</div>	
-							<!-- <div class="col-md-12"> -->
-							
-							
 						</div>
-						
-							
-
-						
 						<div class="row">
 							<div class="col-md-12">
 								<div>
@@ -238,8 +228,6 @@ if( isset($_GET["isNotSV"]))
 							</div>
 						</div>
 						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
-						<button class="btn btn-primary" id="btnAddMeAsMemberOf"><?php echo Yii::t("organisation","Add Me as member Of",null,Yii::app()->controller->module->id); ?></button>
-						<a href="javascript:showSearch()"><i class="fa fa-search"></i><?php echo Yii::t("common","Back to Search")?></a>
 					</div>
 				</div>
 			</form>
@@ -259,9 +247,6 @@ var formValidator = function() {
 				required : true
 			},
 			description : {
-				required : true
-			},
-			organizationEmail : {
 				required : true
 			},
 			organizationName : {
@@ -312,9 +297,22 @@ var formValidator = function() {
 	});
 }
 
+var timeout;
+
+var mapIconTop = {
+	"citoyen":"fa-user", 
+	"NGO":"fa-users",
+	"LocalBusiness" :"fa-industry",
+	"Group" : "fa-circle-o",
+	"GovernmentOrganization" : "fa-university",
+	"event":"fa-calendar",
+	"project":"fa-lightbulb-o"
+};
+
+var geoPositionCity = null;
+var citiesByPostalCode = null;
+
 jQuery(document).ready(function() {
-	var timeout;
-	var organizationList;
 	var countries = getCountries("select2");
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
@@ -323,117 +321,85 @@ jQuery(document).ready(function() {
 		data : countries
 	});
 
+	$('#btn-show-city').click(function(){
+		$("#ajaxSV").hide(400);
+		//showCityOnMap();
+	});
+
 	$("textarea.autosize").autosize();
+	
+	
 
 	formValidator();
 	initForm();
-	showSearch();
 	bindPostalCodeAction();
-
-	//disable submit in enter
-	 /*$(window).keydown(function(event){
-	    if(event.keyCode == 13) {
-	      event.preventDefault();
-	      return false;
-	    }
-	  });*/
- });  
+ }); 
 
 	function initForm() {
-		$('#organizationForm #organizationSearch').keyup(function(e){
-		    var searchValue = $('#organizationForm #organizationSearch').val();
-		    if(searchValue.length>2){
-		    	clearTimeout(timeout);
-			    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-			    clearTimeout(timeout);
-			    timeout = setTimeout('autoCompleteOrganizationName("'+searchValue+'")', 500); 
-		    }else{
-		    	$("#organizationSearch #dropdown_search").css({"display" : "none" });
-		    	$("#iconeChargement").css("visibility", "hidden")
-		    }		       		
+		$('#organizationName').off().on("blur", function(){
+	    	var search = $('#organizationName').val();
+	    	autoCompleteOrganizationName(encodeURI(search));
 		});
-
-		//Add Me as member Of Button
-		$('#btnAddMeAsMemberOf').click(function(e) {
-			e.preventDefault();
-			var formData = {
-	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
-				"memberName" : "",
-				"memberEmail" : "",
-				"memberType" : '<?php echo PHType::TYPE_CITOYEN ?>', 
-				"parentOrganisation" : $("#addOrganization #organizationId").val(),
-				"memberIsAdmin" : false,
-				"memberRoles" : ""
-			};
-			console.table(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/saveMember",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						organization = {"id" : $("#addOrganization #organizationId").val(),
-										"name": $("#addOrganization #organizationName").val(),
-										"type" : $("#addOrganization #type").val(),
-									}
-						toastr.success("You are now member of the organization : "+organization.name);
-						if( "undefined" != typeof updateMyOrganization )
-		        				updateMyOrganization(organization, organization.id);
-						$.hideSubview();
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});               
-		});	
 	}	
 	
 	function autoCompleteOrganizationName(searchValue){
-		var data = {"name" : searchValue, "email" : searchValue};
+		var data = { 
+			"search" : searchValue,
+			"searchMode" : "organizationOnly"
+		};
+		
+		var str = "<div class='searchList li-dropdown-scope'>Organizations already have same name : please check below</div>"
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/search/searchbycriteria/type/<?php echo Organization::COLLECTION ?>",
+	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
-	        	if(!data.result){
-	        		toastr.error(data.content);
-	        	}else{
-					organizationList = data.list;
-					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
-					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'><?php echo Yii::t("common","Not find ? Click here.") ?></a></li>";
-		 			$.each(data.list, function(key, value) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
-		  			}); 
-		  			$("#addOrganization #dropdown_search").html(str);
-		  			$("#addOrganization #dropdown_search").css({"display" : "inline" });
-	  			}
+	 			var str = "";
+	 			var compt = 0;
+
+	 			$.each(data.organizations, function(idOrga, orga) {
+	  				console.log(orga);
+	  				if (compt == 0) {
+	  					str += "<div class='searchList li-dropdown-scope'>Similar organization already exists : please check below</div>"
+	  				}
+
+	  				city = "";
+					postalCode = "";
+					var htmlIco ="<i class='fa fa-users fa-2x'></i>"
+					if(orga.type){
+						typeIco = orga.type;
+						htmlIco ="<i class='fa "+mapIconTop[orga.type] +" fa-2x'></i>"
+ 					}
+ 					if (orga.address != null) {
+						city = orga.address.addressLocality;
+						postalCode = orga.address.postalCode;
+					}
+ 					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>"
+ 					}
+ 					str += 	"<div class='searchList li-dropdown-scope' ><ol>"+
+ 							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ i +"' class='searchEntry'>"+
+ 							"<span>"+ htmlIco +"</span>  " + orga.name +
+ 							"<span class='city-search'> "+postalCode+" "+city+"</span>"+
+ 							"</a></ol></div>";
+ 					compt++;
+	  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
+	  			});
+				$("#addOrganization #dropdown_search").html(str);
+		  		$("#addOrganization #dropdown_search").css({"display" : "inline" });
+		  		$("#addOrganization #dropdown_search").focus();
 			}	
 		})
-	}
-
-	function showSearch(){
-		organizationList = "";
-		$("#addOrganization").css("display", "block");
-		$("#addOrganization #formNewOrganization").css("display", "none");
-		$("#searchOrganizationSection").css("display", "block");
-
-		$("#iconeChargement").css("visibility", "hidden")
-		$("#organizationForm #organizationSearch").val("");
-		$("#addOrganization #dropdown_search").css({"display" : "none" });
 	}
 
 	function showNewOrganizationForm(){
 		//Manage Button
 		$("#addOrganization #btnSaveNewOrganization").css("display", "block");
-		$("#addOrganization #btnAddMeAsMemberOf").css("display", "none");
 
 		$("#addOrganization #formNewOrganization").css("display", "block");
-		$("#searchOrganizationSection").css("display", "none");
 		
 		initNewOrganizationForm();
-		$("#addOrganization #organizationName").val($('#organizationForm #organizationSearch').val());
 	}
 
 	function initNewOrganizationForm() {
@@ -448,40 +414,11 @@ jQuery(document).ready(function() {
 		$("#addOrganization #organizationCountry").select2('val', "");
 	}
 
-	function initAddMeAsMemberOrganizationForm(organizationId) {
-		showNewOrganizationForm();
-		setOrganizationForm(organizationId);
-
-		//Manage Button
-		$("#addOrganization #btnSaveNewOrganization").css("display", "none");
-		$("#addOrganization #btnAddMeAsMemberOf").css("display", "block");
-		
-		//TODO disable the inputs
-		$('#formNewOrganization input, #formNewOrganization select, #formNewOrganization select2, #formNewOrganization textarea').each(
-		    function(){
-		        $(this).attr("disabled", 'disabled');
-		    }
-		);
-	}
-
-	function setOrganizationForm(organizationId) {
-		organization = organizationList[organizationId];
-		$("#addOrganization #organizationId").val(organizationId);
-		$("#addOrganization #organizationName").val(organization.name);
-		$("#addOrganization #type").val(organization.type);
-		$("#addOrganization #organizationEmail").val(organization.email);
-		$("#addOrganization #tagsOrganization").select2('val', organization.tags);
-		$("#addOrganization #description").val(organization.description);
-		if ('undefined' != typeof organization.address) {
-			if ('undefined' != typeof organization.address.country) $('#addOrganization #organizationCountry').val(organization.address.country);
-			if ('undefined' != typeof organization.address.postalCode) $("#addOrganization #postalCode").val(organization.address.postalCode);
-		}
-	}
-
 	function runShowCity(searchValue) {
 		
-		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		var citiesGeoPosByPostalCode = getCitiesGeoPosByPostalCode(searchValue);
+		citiesByPostalCode = getCitiesByPostalCode(searchValue);
+
+		Sig.execFullSearchNominatim(0);
 		
 		var oneValue = "";
 		console.table(citiesByPostalCode);
@@ -500,7 +437,7 @@ jQuery(document).ready(function() {
 	        $("#cityDiv").slideUp("medium");
 	      }
 
-	    showMap(citiesGeoPosByPostalCode);
+	    $("#alert-city-found").removeClass("hidden");
 	}
 
 	function bindPostalCodeAction() {
@@ -530,7 +467,7 @@ jQuery(document).ready(function() {
 		}
 	}
 
-	var Sig = null;
+	//var Sig = null;
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
@@ -541,59 +478,97 @@ jQuery(document).ready(function() {
 	//mémorise l'url des assets (si besoin)
 	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 
-	function showMap(geoPosition){ 
-
-		
-		$("#sig_position").removeClass("hidden");
-
-		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
-		
-		//charge la carte si elle n'a pas déjà été créé
-		if(mapCityOrga == null) {
-			mapCityOrga = L.map('mapCanvasCityOrga').setView(latlng, 13);
-
-			L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', { //http://{s}.tile.osm.org/{z}/{x}/{y}.png
-			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(mapCityOrga);
-
-			var ico = L.icon({
-					    iconUrl: assetPath+'/images/sig/markers/02_ICONS_CARTO_COMMUNECTER_ASSO_A.png',
-					    iconSize: [49, 60], //38, 95],
-					    iconAnchor: [25, 25],//22, 94],
-					    popupAnchor: [-3, -70]//-3, -76]
-					});	
-		}else{ //sinon on déplace juste la carte sur la nouvelle position
-			mapCityOrga.panTo(latlng);
-		}
-
-		//si le marker n'existe pas, on le créé
-		if(marker == null){
-			marker = L.marker(latlng, {icon: ico}).addTo(mapCityOrga);
-			marker.dragging.enable();
-		}else{//sinon on le déplace
-			marker.setLatLng(latlng);
-		}
-
-		//.bindPopup('Pour un placement plus précis, déplacez votre icône sur la carte.')
-		//.openPopup();
-
-		//mémorise l'url des assets (si besoin)
-	/*	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
-
-		//création de l'objet SIG
-		Sig = SigLoader.getSig();
-		//affiche l'icone de chargement
-		//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
-		var initParams =  <?php echo json_encode($sigParams); ?>;
-		
-		initParams.firstView.coordinates = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
-
-		mapCityOrga = Sig.loadMap("mapCanvas", initParams);
-		Sig.showIcoLoading(false);
-
-		$(".sigModuleCityOrga").css({"display" : "block"});*/
+	function callBackFullSearch(resultNominatim){
+		//console.log("callback ok");
+		showCityOnMap(resultNominatim);
 	}
 
+	function showCityOnMap(geoPosition){ 
 
+		//var geoPosition = geoPositionCity;
+		
+		Sig.clearMap();
+		console.log("geoPosition");
+		console.dir(geoPosition);
+
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					console.log(value2.text); console.log(value.address.city);
+					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		var latlng = [position["lat"], position["lon"]];
+		//Sig.map.setView(latlng, 15);
+
+		Sig.centerSimple(latlng, 15);
+		//console.log("center ok");
+
+		var content = Sig.getPopupNewData();
+		var properties = { 	id : "0",
+							icon : Sig.getIcoMarkerMap({"type" : "organization"}),
+							content: content };
+
+		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
+		markerNewData.dragging.enable();
+		markerNewData.openPopup();
+		$("#btn-validate-geopos").click(function(){
+			btnValidateClick();
+		});
+
+		markerNewData.on('dragend', function(e){
+			//console.log("dragend");
+			markerNewData.openPopup();	
+		});
+
+		markerNewData.on('popupopen', function(e){
+			//console.log("popupopen");
+			$("#btn-validate-geopos").click(function(){
+				btnValidateClick();
+			});
+		});
+		
+		markerNewData.on('dragstart', function(e){
+			//console.log("dragstart");
+			$("#ajaxSV").hide(400);
+		});
+
+		$('#btn-show-city').click(function(){
+			$("#ajaxSV").hide(400);
+			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
+		});
+
+		function btnValidateClick(){ //alert("yepaé");
+			//console.log("btnValidateClick");
+			markerNewData.closePopup();
+			Sig.centerSimple(markerNewData.getLatLng(), 15);
+			$("#ajaxSV").show(400);
+			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
+			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
+			Sig.map.invalidateSize(false);
+			markerNewData.openPopup();
+		}
+		
+		
+	}
+	
 </script>	
 

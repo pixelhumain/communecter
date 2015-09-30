@@ -6,7 +6,7 @@
 	SigLoader.getSigRightList = function (Sig){
 
 		Sig.paginationNumPage = 1;
-		Sig.paginationBy = 5;
+		Sig.paginationBy = 15;
 		Sig.paginationNumPageMax = 0;
 
 		Sig.changePagination = function (numPage){
@@ -149,8 +149,8 @@
 			var name = (element['name'] != null) ? element['name'] : "Anonyme";
 
 			//récupère l'url de l'icon a afficher
-			var ico = thisSig.getIcoByType(element["type"]);
-			var color = thisSig.getIcoColorByType(element["type"]);
+			var ico = thisSig.getIcoByType(element);
+			var color = thisSig.getIcoColorByType(element);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 

@@ -38,6 +38,7 @@
 			//créer un marker sur la carte, en fonction de sa position géographique
 			this.Sig.markerSingleList = new Array();
 			this.Sig.popupOpen = false;
+			this.Sig.currentMarkerPopupOpen = null;
 
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
@@ -61,6 +62,7 @@
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
 				console.warn("--------------- getMarkerSingle ---------------------");
+				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window";
 
@@ -74,6 +76,7 @@
 
 				marker.on('click', function(e) {
 						marker.openPopup();
+						thisSig.currentMarkerPopupOpen = this;							
 				});
 				return marker;
 			};
@@ -85,23 +88,21 @@
 				console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
 
-				var type = thisData["type"];
-				var markerName = this.getIcoNameByType(type);
+				var markerName = this.getIcoNameByType(thisData);
 
 				return L.icon({
 				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
-				    iconSize: [49, 60], //38, 95],
-				    iconAnchor: [25, 60],//22, 94],
-				    popupAnchor: [-3, -70]//-3, -76]
+				    iconSize: [53, 60], //38, 95],
+				    iconAnchor: [26, 60],//22, 94],
+				    popupAnchor: [0, -63]//-3, -76]
 				});
 			};
 
 			this.Sig.getIcoMarker = function(thisData)
 			{
 				console.warn("--------------- getIcoMarker ---------------------");
-				var type = thisData["type"];
-				var ico = this.getIcoNameByType(type);
-				var color = this.getIcoColorByType(type);
+				var ico = this.getIcoNameByType(thisData);
+				var color = this.getIcoColorByType(thisData);
 
 				return L.AwesomeMarkers.icon({icon: ico + " fa-" + color, iconColor:color, prefix: 'fa' });
 			};
@@ -115,8 +116,9 @@
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
+				var thisSig = this;
 				$.each(this.markerSingleList, function(){
-					thisMap.removeLayer(this);
+					thisSig.map.removeLayer(this);
 				});
 
 				this.listId = new Array();
@@ -138,7 +140,10 @@
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
 										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
-										content: "" };
+										type : thisSig.myPosition["type"],
+										typeSig : thisSig.myPosition["typeSig"],
+										faIcon : this.getIcoByType(thisSig.myPosition),
+										content: "<h1>Vous êtes ici</h1><br/>" };
 
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
 
@@ -251,10 +256,11 @@
 					if(this.useFilterType == false) return true;
 
 					//si thisData n'a pas de tags
-					if("undefined" == typeof thisData["type"]){
+					if("undefined" == typeof thisData["type"] && "undefined" == typeof thisData["typeSig"]){
 						return (this.panelFilter == "all");
 					}
-					if(	thisData["type"] == thisSig.panelFilter
+					if(		thisData["type"] == thisSig.panelFilter
+						||  thisData["typeSig"] == thisSig.panelFilter
 						||  this.panelFilter == "all") {
 							return true;
 					}
@@ -331,8 +337,9 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
+												typeSig : thisData["typeSig"],
 												name : thisData["name"],
-												faIcon : this.getIcoByType(thisData["type"]),
+												faIcon : this.getIcoByType(thisData),
 												content: content };
 
 							var marker;
@@ -461,18 +468,36 @@
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
-							layer.on('mouseclick', function(e) {	layer.openPopup(); });
+							layer.on('click', function(e) {	
+								layer.openPopup(); 
+								thisSig.currentMarkerPopupOpen = layer;
+
+								thisMap.panTo([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]]);
+								
+							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								thisMap.setView([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]],
-											  13, {"animate" : true });
-
-								thisSig.checkListElementMap(thisMap); //alert("check");
+								console.log("click on .item_map_list_" + feature.properties.id);
+								var zoom = 20;
+								thisSig.currentMarkerPopupOpen = layer;
 								layer.openPopup();
-							});
-							//console.warn("--------------- showMapElements click OK  ---------------------");
-
+								var popupOpen = layer.getPopup()._isOpen;
+								console.log("icon clicked : " + popupOpen);
+								
+								thisSig.checkListElementMap(thisMap);
+											
+								if(!popupOpen){ zoom = 20; }
+								thisMap.setView([feature.geometry.coordinates[1],
+											  feature.geometry.coordinates[0]], zoom);
+					
+								if(!popupOpen){ 
+									$(".marker-cluster").click();
+									layer.openPopup();
+								
+									thisMap.invalidateSize(false);
+								}								
+							});							
 						}
 					});
 					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");

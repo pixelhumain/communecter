@@ -9,7 +9,8 @@
 		//evenement click sur un item du panel
 		this.Sig.changeFilter = function (val, thisMap, filterType)
 		{
-			var tagSelected = this.panelFilter.replace(/\s/g,"");
+			console.dir(this.panelFilter);
+			var tagSelected = ""; //this.panelFilter.replace(/\s/g,"");
 			
 			this.panelFilterType = filterType;
 
@@ -39,7 +40,7 @@
 		//***
 		//dé-zoom la carte pour afficher tous les éléments visibles
 		this.Sig.zoomOnAllElements = function(thisMap){
-			//console.dir(this.markersLayer.getBounds());
+			////console.dir(this.markersLayer.getBounds());
 			if(this.markersLayer.getBounds() != null){
 				thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 				thisMap.zoomOut();
@@ -52,23 +53,25 @@
 
 			var tags = new Array();
 			var types = new Array();
+			var typeSig = new Array();
 			
 			if("undefined" != typeof data["tags"]) tags = data["tags"];
-			if("undefined" != typeof data["type"]) types = new Array(data["type"]);
-			
-			//tags.push("all");
-			//types.push("all");
+			//if("undefined" != typeof data["type"]) types = new Array(data["type"]);
+			if("undefined" != typeof data["typeSig"]) typeSig = new Array(data["typeSig"]);
+			else typeSig = new Array(data["type"]);
 
-			//console.dir(thisSig.listPanel);
+			//console.log("LIST PANEL DATA");
+			//console.dir(data);
 			
 			$.each(tags, function(index, value){
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
 
-			$.each(types, function(index, value){
+			$.each(typeSig, function(index, value){
 				thisSig.listPanel["types"].push(value); //new Array(objectId);
 			});
 
+			//thisSig.listPanel["types"].push(typeSig);
 			//console.log("LIST PANEL");
 			//console.dir(thisSig.listPanel);
 			
@@ -80,9 +83,9 @@
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
 			console.warn("--------------- updatePanel ---------------------");
-			//console.log(this.listPanel);
+			////console.log(this.listPanel);
 			var thisSig = this;
-			//console.log(thisSig.listPanel["tags"].length);
+			////console.log(thisSig.listPanel["tags"].length);
 			$.each(thisSig.listPanel["tags"], function(key, value){
 				//console.warn("--------------- each tags ---------------------" + value);
 			
@@ -109,7 +112,7 @@
 			$.each(thisSig.listPanel["types"], function(key, value){
 
 				console.warn("--------------- each types ---------------------" + value);
-				var valueId = value.replace(/\s/g,"");
+				var valueId = value;//.replace(/\s/g,"");
 				var ico = thisSig.getIcoByType(value);
 				var color = thisSig.getIcoColorByType(value);
 

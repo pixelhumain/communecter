@@ -74,36 +74,39 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 <div class="row vote-row" >
 	
-	<div class="col-sm-12 col-md-4 center ">
+	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
-			<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
-			<br/><br/>
-			<div style="height: 300px">
-				<?php 
-					$canEdit = Authorisation::canEditEntry(Yii::app()->session["userId"], (string) $survey['_id']);
-					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
-																	  "type" => Survey::COLLECTION,
-																	  "resize" => false,
-																	  "contentId" => Document::IMG_PROFIL,
-																	  "show" => true,
-																	  "editMode" => $canEdit )); 
-				?>
+			<div class="col-md-4" >
+				<div style="height: 300px">
+					<?php 
+						$canEdit = Authorisation::canEditEntry(Yii::app()->session["userId"], (string) $survey['_id']);
+						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
+																		  "type" => Survey::COLLECTION,
+																		  "resize" => false,
+																		  "contentId" => Document::IMG_PROFIL,
+																		  "show" => true,
+																		  "editMode" => $canEdit )); 
+					?>
+				</div>
+				<?php /* ?>
+				<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
+				*/?>
 			</div>
-			<br/><br/>
-			<?php echo $survey["message"]; ?>
-			<br/><br/>
-			<?php /* ?>
-			<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
-			*/?>
+			<div class="col-md-8">
+				<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
+				<br/><br/>
+				<?php echo $survey["message"]; ?>
+				<br/><br/>
+			</div>
 		</div>
 	</div>
 
-	<div class=" col-sm-12 col-md-4 " >
+	<div class="col-md-8" >
 		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
 
-	<div class="col-sm-12 col-md-4 center ">
+	<div class="col-md-4 center ">
 
 		<?php /*
 			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
@@ -214,20 +217,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 <style type="text/css">
 	.footerBtn{font-size: 2em; color:white; font-weight: bolder;}
 </style>
-<div class="visible-desktop hidden-phone visible-tablet" style="position:fixed; bottom:0px; left:0px;background-color: #E33551;width:100%;height:50px;">
-	<div class="space10"></div>
-	<div class="center">
-		<a href="#" onclick="showMenu();showMenu ('vote-row','bgcity')" class=" footerBtn"><?php echo Yii::t("survey","VOTE",null,Yii::app()->controller->module->id) ?> . </a>
-		<a href="#" onclick="showMenu();showMenu ('discuss-row')" class=" footerBtn"><?php echo Yii::t("survey","DISCUSS",null,Yii::app()->controller->module->id) ?> . </a> 
-		<a href="#" onclick="showMenu();showMenu('decide-row','bgblue')" class=" footerBtn"><?php echo Yii::t("survey","DECIDE",null,Yii::app()->controller->module->id) ?> . </a>
-		<a href="#" onclick="showMenu();showMenu('act-row','bggreen')" class=" footerBtn"><?php echo Yii::t("survey","ACT",null,Yii::app()->controller->module->id) ?> . </a> 
-		<a href="#" onclick="showMenu();showMenu('contact-row')" class=" footerBtn"><?php echo Yii::t("survey","CONTACT",null,Yii::app()->controller->module->id) ?> </a> 
-	</div>
 
-	<div class="progress">
-		<div class="progress-bar" style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar"> </div>
-	</div>
-</div>
 <script type="text/javascript">
 clickedVoteObject = null;
 

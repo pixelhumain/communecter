@@ -192,7 +192,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
@@ -253,14 +253,13 @@ if( isset($_GET["isNotSV"])) {
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
 							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
+
+						$flag = '';//'<div class="ico-type-account"><i class="fa fa-lightbulb-o fa-yellow"></i></div>';
 						echo $panelHTML.
-							'<div class="imgDiv">'.$img.$featuresHTML.'</div>'.
+							'<div class="imgDiv">'.$flag.$img.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
 					?>
-					
-					
-					
 				</ul>
 			</div>
 		</div>
@@ -351,6 +350,13 @@ function bindBtnEvents(){
 }
 
 <?php 
+	//rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+	//et pour ouvrir le panel info correctement
+	foreach($people 		  as $key => $data)	{ $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+	foreach($organizations 	  as $key => $data)	{ $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+	foreach($events 		  as $key => $data)	{ $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+	foreach($projects 		  as $key => $data)	{ $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+	
 	$contextMap = array();
 	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
 	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
@@ -371,14 +377,15 @@ function initMap(){
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
 
-	$(".item_map_list_panel").click(function(){
+	/*$(".item_map_list_panel").click(function(){
+		console.log("item_map_list_panel click");
 		$("#right_tool_map").hide("false");
 		var id = $(this).attr("data-id");
 		$(".item_map_list_" + id).click();
 		Sig.map.setZoom(13);
 		setTimeout("finalShowMarker()", 1000);
 	});
-
+*/
 
 	$("li.filter .label-danger").click(function(){ alert($(this).html());
 		$("#right_tool_map").hide("false");
