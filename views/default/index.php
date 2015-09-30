@@ -214,11 +214,10 @@ li.mix{
 **************************** */?>
 <div class="center text-white" id="menu-container" style="" >
     <div class="center text-white pull-left">
-        <img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image">
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white btn-home btn-main-menu"><i class="fa fa-home fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white btn-main-menu"><i class="fa fa-rss fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu"><i class="fa fa-share-alt fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="text-white"><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white btn-home btn-main-menu tooltips"   data-placement='right' data-original-title='MY DETAILS' ><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ></a>
+        <br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white btn-main-menu tooltips"  data-placement='right' data-original-title='N.E.W.S'><i class="fa fa-rss fa-2x"></i></a>
+        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="text-white tooltips"  data-placement='right' data-original-title='ADD SOMETHING'><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
         <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
@@ -236,13 +235,12 @@ li.mix{
 </div>
 
 <?php /* **********************
-  CONTEXT TITLE
+  HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
     
-      
-      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map"></i></button>  
+      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map-marker"></i></button>  
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -257,7 +255,7 @@ li.mix{
 
 <?php /* **********************
   PARTNER LOGOS
-**************************** */?>
+**************************** ?>
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
@@ -274,7 +272,7 @@ li.mix{
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
-<?php /* ?>
+<?php  */ /* ?>
 
 http://habibhadi.com/lab/svgPathAnimation/demo/
 http://jonobr1.github.io/two.js/#basic-usage
@@ -314,6 +312,10 @@ var mapIconTop = {
     "project":"fa-lightbulb-o"
   };
   jQuery(document).ready(function() {
+
+    if($(".tooltips").length) {
+      $('.tooltips').tooltip();
+    }
 
     $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
       showPanel('box-event',null,"EVENTS");
@@ -367,9 +369,26 @@ var mapIconTop = {
       $("dropdown_searchTop").css("display", "none");
     });
 
-    showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
+    if( "onhashchange" in window && location.hash){
+      loadByHash(location.hash);
+    }
+    else
+      showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
 
   });
+
+function loadByHash( hash ) { 
+  switch( hash ) {
+    case "communecter.person.directory" :
+        showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
+        break;
+    case "communecter.person.detail" :
+        showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
+        break;
+    default:
+        showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+}
+}
 
 function runShowCity(searchValue) {
   var citiesByPostalCode = getCitiesByPostalCode(searchValue);
@@ -447,7 +466,7 @@ function autoCompleteSearch(name){
                 }
 
                 str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' class='searchEntry' "+
+                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ mapIconTop[o.type] +"' class='searchEntry'>"+
                     "<span>"+ htmlIco +"</span>  " + o.name +
                     "<span class='city-search'> "+postalCode+" "+city+"</span>"+
                     "</a></ol></div>";
@@ -457,7 +476,7 @@ function autoCompleteSearch(name){
             if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
-            
+
             addEventOnSearch(); 
           }
       } 
