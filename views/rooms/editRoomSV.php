@@ -8,11 +8,11 @@ var roomFormDefinition = {
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : 'cicicic' ?>"
+              "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'kikik' ?>"
+              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
             "roomType" :{
                 "inputType" : "select",

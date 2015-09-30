@@ -61,31 +61,18 @@ if( isset($_GET["isNotSV"]))
 							<i class="fa fa-ok"></i> <?php echo Yii::t("common","The form has been validated.") ?>
 						</div>
 					</div>
-					<div class="form-group" id="searchOrganizationSection">
-		    	    	<div class='row'>
-							<div class="col-md-1">	
-				           		<i class="fa fa-search fa-2x"></i> 	
-				           	</div>
-				           	<div class="col-md-6">
-				           		<span class="input-icon input-icon-right">
-						           	<input class="organization-search form-control" placeholder="<?php echo Yii::t("common","Search by name or email")?>" autocomplete = "off" id="organizationSearch" name="organizationSearch" value="">
-						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-						        		<ul class="dropdown-menu" id="dropdown_search" style="">
-											<li class="li-dropdown-scope">-</li>
-										</ul>
-									</input>
-								</span>
-							</div>
-						</div>
-					</div>
-					<div id="formNewOrganization" style="display:none;">
+					<div id="formNewOrganization">
 						<div class="col-md-6 col-sd-6" >
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
-								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>"/>
+								<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>">
+									<ul class="dropdown-menu" id="dropdown_search" style="">
+										<li class="li-dropdown-scope">-</li>
+									</ul>
+								</input>
 							</div>
 
 							<div class="form-group">
@@ -107,22 +94,19 @@ if( isset($_GET["isNotSV"]))
 							
 							<div class="form-group">
 								<label class="control-label">
-									Email <span class="symbol required"></span>
+									Email
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
-							
-							
+						</div>
+						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Interests") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">
-			        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">		        		    
 							</div>
 
-						</div>
-						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
 								<label class="control-label">
 									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
@@ -148,11 +132,9 @@ if( isset($_GET["isNotSV"]))
 									<label for="city">
 										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
-									<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
-
 								<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
 									<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
 									<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
@@ -160,7 +142,7 @@ if( isset($_GET["isNotSV"]))
 
 								<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
 								<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
-								
+							</div>
 						</div>
 
 							
@@ -172,10 +154,71 @@ if( isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-						
 							
+							<div class="form-group hidden" id="sig_position">
+							
+								<?php 
+									//modifier l'url relative si besoin pour trouver communecter/view/sig/
+									$relativePath = "../sig/";
+									
+								   	//modifier les parametre en fonction des besoins de la carte
+									$sigParams = array(
+								        "sigKey" => "CityOrga",
 
-						
+								        /* MAP */
+								        "mapHeight" => 235,
+								        "mapTop" => 0,
+								        "mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
+								        "mapOpacity" => 0.6, //ex : 0.4
+
+								        /* MAP LAYERS (FOND DE CARTE) */
+								        "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+								        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+
+								        /* MAP BUTTONS */
+								        //"mapBtnBgColor" => '#E6D414',
+								        //"mapBtnColor" => '#213042',
+								        //"mapBtnBgColor_hover" => '#5896AB',
+
+								        /* USE */
+								        "titlePanel" 		 => '',
+								        "usePanel" 			 => false,
+								        "useFilterType" 	 => false,
+								        "useRightList" 		 => false,
+								        "useZoomButton" 	 => true,
+								        "useHomeButton" 	 => false,
+								        "useHelpCoordinates" => false,
+								        "useFullScreen" 	 => false,
+								        "useResearchTools" 	 => false,
+								        "useChartsMarkers" 	 => false,
+
+								        "notClusteredTag" 	 => array(),
+								        "firstView"		  	 => array(  "coordinates" => array(-21.137453135590444, 55.54962158203125),
+	        														 	"zoom"		  => 14),
+								    );
+								 
+									/* ***********************************************************************************/
+									//chargement de toutes les librairies css et js indispensable pour la carto
+							    	$this->renderPartial($relativePath.'generic/mapLibs', array("sigParams" => $sigParams)); 
+							    	//$moduleName = "sigModule".$sigParams['sigKey'];
+
+									/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
+								   	//chargement de toutes les librairies css et js indispensable pour la carto
+								  	//$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
+									//$this->renderPartial('addOrganizationMap'); var_dump($sigParams); die();
+								?>
+								<style>
+								.leaflet-map-pane{
+									top:0 !important;
+								}
+								</style>
+								<?php //$this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
+								<div class="alert alert-info hidden">
+									Pour un placement plus précis, déplacez votre icône sur la carte.
+								</div>	
+								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
+								</div>	
+						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div>
@@ -184,9 +227,7 @@ if( isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary btn-input" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
-						<button class="btn btn-primary" id="btnAddMeAsMemberOf"><?php echo Yii::t("organisation","Add Me as member Of",null,Yii::app()->controller->module->id); ?></button>
-						<a href="javascript:showSearch()"><i class="fa fa-search"></i><?php echo Yii::t("common","Back to Search")?></a>
+						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
 					</div>
 				</div>
 			</form>
@@ -206,9 +247,6 @@ var formValidator = function() {
 				required : true
 			},
 			description : {
-				required : true
-			},
-			organizationEmail : {
 				required : true
 			},
 			organizationName : {
@@ -260,11 +298,21 @@ var formValidator = function() {
 }
 
 var timeout;
+
+var mapIconTop = {
+	"citoyen":"fa-user", 
+	"NGO":"fa-users",
+	"LocalBusiness" :"fa-industry",
+	"Group" : "fa-circle-o",
+	"GovernmentOrganization" : "fa-university",
+	"event":"fa-calendar",
+	"project":"fa-lightbulb-o"
+};
+
 var geoPositionCity = null;
 var citiesByPostalCode = null;
 
 jQuery(document).ready(function() {
-	var organizationList;
 	var countries = getCountries("select2");
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
@@ -279,118 +327,79 @@ jQuery(document).ready(function() {
 	});
 
 	$("textarea.autosize").autosize();
+	
+	
 
 	formValidator();
 	initForm();
-	showSearch();
 	bindPostalCodeAction();
-
-	//disable submit in enter
-	 /*$(window).keydown(function(event){
-	    if(event.keyCode == 13) {
-	      event.preventDefault();
-	      return false;
-	    }
-	  });*/
- });  
+ }); 
 
 	function initForm() {
-		$('#organizationForm #organizationSearch').keyup(function(e){
-		    var searchValue = $('#organizationForm #organizationSearch').val();
-		    if(searchValue.length>2){
-		    	clearTimeout(timeout);
-			    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-			    clearTimeout(timeout);
-			    timeout = setTimeout('autoCompleteOrganizationName("'+searchValue+'")', 500); 
-		    }else{
-		    	$("#organizationSearch #dropdown_search").css({"display" : "none" });
-		    	$("#iconeChargement").css("visibility", "hidden")
-		    }		       		
+		$('#organizationName').off().on("blur", function(){
+	    	var search = $('#organizationName').val();
+	    	autoCompleteOrganizationName(encodeURI(search));
 		});
-
-		//Add Me as member Of Button
-		$('#btnAddMeAsMemberOf').click(function(e) {
-			e.preventDefault();
-			var formData = {
-	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
-				"memberName" : "",
-				"memberEmail" : "",
-				"memberType" : '<?php echo PHType::TYPE_CITOYEN ?>', 
-				"parentOrganisation" : $("#addOrganization #organizationId").val(),
-				"memberIsAdmin" : false,
-				"memberRoles" : ""
-			};
-			console.table(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/saveMember",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						organization = {"id" : $("#addOrganization #organizationId").val(),
-										"name": $("#addOrganization #organizationName").val(),
-										"type" : $("#addOrganization #type").val(),
-									}
-						toastr.success("You are now member of the organization : "+organization.name);
-						if( "undefined" != typeof updateMyOrganization )
-		        				updateMyOrganization(organization, organization.id);
-						$.hideSubview();
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});               
-		});	
 	}	
 	
 	function autoCompleteOrganizationName(searchValue){
-		var data = {"name" : searchValue, "email" : searchValue};
+		var data = { 
+			"search" : searchValue,
+			"searchMode" : "organizationOnly"
+		};
+		
+		var str = "<div class='searchList li-dropdown-scope'>Organizations already have same name : please check below</div>"
 		$.ajax({
 			type: "POST",
-	        url: baseUrl+"/communecter/search/searchbycriteria/type/<?php echo Organization::COLLECTION ?>",
+	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
 	        data: data,
 	        dataType: "json",
 	        success: function(data){
-	        	if(!data.result){
-	        		toastr.error(data.content);
-	        	}else{
-					organizationList = data.list;
-					var mapIconTop = "";
+	 			var str = "";
+	 			var compt = 0;
 
-					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'>Non trouvé ? Cliquez ici.</a></li>";
-					str = "<li class='li-dropdown-scope'><a href='javascript:showNewOrganizationForm()'><?php echo Yii::t("common","Not find ? Click here.") ?></a></li>";
-		 			$.each(data.list, function(key, value) {
-		  				str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
-		  			}); 
-		  			$("#addOrganization #dropdown_search").html(str);
-		  			$("#addOrganization #dropdown_search").css({"display" : "inline" });
-	  			}
+	 			$.each(data.organizations, function(idOrga, orga) {
+	  				console.log(orga);
+	  				if (compt == 0) {
+	  					str += "<div class='searchList li-dropdown-scope'>Similar organization already exists : please check below</div>"
+	  				}
+
+	  				city = "";
+					postalCode = "";
+					var htmlIco ="<i class='fa fa-users fa-2x'></i>"
+					if(orga.type){
+						typeIco = orga.type;
+						htmlIco ="<i class='fa "+mapIconTop[orga.type] +" fa-2x'></i>"
+ 					}
+ 					if (orga.address != null) {
+						city = orga.address.addressLocality;
+						postalCode = orga.address.postalCode;
+					}
+ 					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>"
+ 					}
+ 					str += 	"<div class='searchList li-dropdown-scope' ><ol>"+
+ 							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ i +"' class='searchEntry'>"+
+ 							"<span>"+ htmlIco +"</span>  " + orga.name +
+ 							"<span class='city-search'> "+postalCode+" "+city+"</span>"+
+ 							"</a></ol></div>";
+ 					compt++;
+	  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
+	  			});
+				$("#addOrganization #dropdown_search").html(str);
+		  		$("#addOrganization #dropdown_search").css({"display" : "inline" });
+		  		$("#addOrganization #dropdown_search").focus();
 			}	
 		})
-	}
-
-	function showSearch(){
-		organizationList = "";
-		$("#addOrganization").css("display", "block");
-		$("#addOrganization #formNewOrganization").css("display", "none");
-		$("#searchOrganizationSection").css("display", "block");
-
-		$("#iconeChargement").css("visibility", "hidden")
-		$("#organizationForm #organizationSearch").val("");
-		$("#addOrganization #dropdown_search").css({"display" : "none" });
 	}
 
 	function showNewOrganizationForm(){
 		//Manage Button
 		$("#addOrganization #btnSaveNewOrganization").css("display", "block");
-		$("#addOrganization #btnAddMeAsMemberOf").css("display", "none");
 
 		$("#addOrganization #formNewOrganization").css("display", "block");
-		$("#searchOrganizationSection").css("display", "none");
 		
 		initNewOrganizationForm();
-		$("#addOrganization #organizationName").val($('#organizationForm #organizationSearch').val());
 	}
 
 	function initNewOrganizationForm() {
@@ -403,36 +412,6 @@ jQuery(document).ready(function() {
 		//cas particulier du select2
 		$("#addOrganization #tagsOrganization").select2('val', "");
 		$("#addOrganization #organizationCountry").select2('val', "");
-	}
-
-	function initAddMeAsMemberOrganizationForm(organizationId) {
-		showNewOrganizationForm();
-		setOrganizationForm(organizationId);
-
-		//Manage Button
-		$("#addOrganization #btnSaveNewOrganization").css("display", "none");
-		$("#addOrganization #btnAddMeAsMemberOf").css("display", "block");
-		
-		//TODO disable the inputs
-		$('#formNewOrganization input, #formNewOrganization select, #formNewOrganization select2, #formNewOrganization textarea').each(
-		    function(){
-		        $(this).attr("disabled", 'disabled');
-		    }
-		);
-	}
-
-	function setOrganizationForm(organizationId) {
-		organization = organizationList[organizationId];
-		$("#addOrganization #organizationId").val(organizationId);
-		$("#addOrganization #organizationName").val(organization.name);
-		$("#addOrganization #type").val(organization.type);
-		$("#addOrganization #organizationEmail").val(organization.email);
-		$("#addOrganization #tagsOrganization").select2('val', organization.tags);
-		$("#addOrganization #description").val(organization.description);
-		if ('undefined' != typeof organization.address) {
-			if ('undefined' != typeof organization.address.country) $('#addOrganization #organizationCountry').val(organization.address.country);
-			if ('undefined' != typeof organization.address.postalCode) $("#addOrganization #postalCode").val(organization.address.postalCode);
-		}
 	}
 
 	function runShowCity(searchValue) {
@@ -590,8 +569,6 @@ jQuery(document).ready(function() {
 		
 		
 	}
-
-
-
+	
 </script>	
 

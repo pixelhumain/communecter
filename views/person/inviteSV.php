@@ -133,6 +133,7 @@ var subViewElement, subViewContent;
 var timeout;
 var tabObject = [];
 
+
 jQuery(document).ready(function() {
  	initSubView();
  	bindInviteSubViewInvites();
@@ -281,6 +282,7 @@ function initSubView() {
 
 function autoCompleteInviteSearch(search){
 	tabObject = [];
+
 	var data = { 
 		"search" : search,
 		"searchMode" : "personOnly"
