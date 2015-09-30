@@ -89,7 +89,7 @@
 
 			if(params.useRightList){
 				//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
-				thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
+				//thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
 				//losque on effectue une recherche dans le champs de texte
 				$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ thisSig.checkListElementMap(thisMap); });
 				//lorsqu'on active/désactive le filtre par zone

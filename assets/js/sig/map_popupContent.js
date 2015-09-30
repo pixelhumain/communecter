@@ -156,11 +156,10 @@
 			return popupContent;
 		};
 
-		Sig.getPopupNewData = function(data){
+		Sig.getPopupNewData = function(){
 							
-			var popupContent = 
-				  "<h1>Déplacer l'icon sur votre position</h1>" +
-				  "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
+			var popupContent = "<h1>Déplacer l'icon sur votre position</h1>" +
+				  			   "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
 
 			return popupContent;
 		};

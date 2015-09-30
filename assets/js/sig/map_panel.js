@@ -9,7 +9,7 @@
 		//evenement click sur un item du panel
 		this.Sig.changeFilter = function (val, thisMap, filterType)
 		{
-			console.dir(this.panelFilter);
+			//console.dir(this.panelFilter);
 			var tagSelected = ""; //this.panelFilter.replace(/\s/g,"");
 			
 			this.panelFilterType = filterType;
@@ -82,12 +82,12 @@
 		//affiche la liste des items dans le panel
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
-			console.warn("--------------- updatePanel ---------------------");
+			//console.warn("--------------- updatePanel ---------------------");
 			////console.log(this.listPanel);
 			var thisSig = this;
 			////console.log(thisSig.listPanel["tags"].length);
 			$.each(thisSig.listPanel["tags"], function(key, value){
-				//console.warn("--------------- each tags ---------------------" + value);
+				////console.warn("--------------- each tags ---------------------" + value);
 			
 				var valueId = value.replace(/\s/g,"");
 				var ico = thisSig.getIcoNameByTag(value);
@@ -111,7 +111,7 @@
 
 			$.each(thisSig.listPanel["types"], function(key, value){
 
-				console.warn("--------------- each types ---------------------" + value);
+				//console.warn("--------------- each types ---------------------" + value);
 				var valueId = value;//.replace(/\s/g,"");
 				var ico = thisSig.getIcoByType(value);
 				var color = thisSig.getIcoColorByType(value);
