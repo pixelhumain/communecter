@@ -297,7 +297,7 @@ function autoCompleteInviteSearch(search){
 				city = "";
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
-				if(v._id["$id"]!= userId) {
+				if(v.id != userId) {
 					tabObject.push(v);
 	 				if(v.profilImageUrl != ""){
 	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
