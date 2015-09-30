@@ -47,7 +47,7 @@
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
 			{
-				console.warn("--------------- getGeoJsonMarker ---------------------");
+				//console.warn("--------------- getGeoJsonMarker ---------------------");
 				properties.visible = false;
 				//alert(JSON.stringify(properties));
 				return { "type": 'Feature',
@@ -61,7 +61,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
-				console.warn("--------------- getMarkerSingle ---------------------");
+				//console.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window";
@@ -85,7 +85,7 @@
 			//récupère le nom de l'icon en fonction du type de marker souhaité
 			this.Sig.getIcoMarkerMap = function(thisData)
 			{
-				console.warn("--------------- getIcoMarker *** ---------------------");
+				//console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
 
 				var markerName = this.getIcoNameByType(thisData);
@@ -100,7 +100,7 @@
 
 			this.Sig.getIcoMarker = function(thisData)
 			{
-				console.warn("--------------- getIcoMarker ---------------------");
+				//console.warn("--------------- getIcoMarker ---------------------");
 				var ico = this.getIcoNameByType(thisData);
 				var color = this.getIcoColorByType(thisData);
 
@@ -112,7 +112,7 @@
 			//supprime tous les marker de la carte
 			this.Sig.clearMap = function(thisMap)
 			{
-				console.warn("--------------- clearMap ---------------------");
+				//console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
@@ -158,7 +158,7 @@
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
 			this.Sig.setFullScreen = function()
 			{
-				//console.warn("--------------- setFullScreen ---------------------");
+				////console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();
 				var rightListHeight = mapHeight - 100;
@@ -223,7 +223,7 @@
 			}
 
 			this.Sig.verifyPanelFilter = function (thisData){
-				console.warn("--------------- verifyPanelFilter ---------------------");
+				//console.warn("--------------- verifyPanelFilter ---------------------");
 
 				if(this.panelFilter == "all") return true;
 
@@ -285,7 +285,7 @@
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{
-				console.warn("--------------- getCoordinates ---------------------");
+				//console.warn("--------------- getCoordinates ---------------------");
 
 				if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
 
@@ -304,7 +304,7 @@
 						return thisData.geoPosition.coordinates;
 					}
 				}else if(typeof thisData.locations != "undefined"){
-					console.warn("--------------- locations ---------------------");
+					//console.warn("--------------- locations ---------------------");
 					$.each(thisData.locations, function(key, value){
 						console.log(key + " => " + value);
 
@@ -317,7 +317,7 @@
 
 
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				console.warn("--------------- showOneElementOnMap ---------------------");
+				//console.warn("--------------- showOneElementOnMap ---------------------");
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
 
@@ -393,11 +393,11 @@
 				}else {
 					if(thisData == null) return false;
 
-					console.warn("--------------- PAS D'ID ---------------------");
+					//console.warn("--------------- PAS D'ID ---------------------");
 					//console.dir(thisData);
 
 					if("undefined" != typeof thisData["chartOptions"]){
-						console.warn("--------------- LOAD CHART ---------------------");
+						//console.warn("--------------- LOAD CHART ---------------------");
 						this.addChart(thisData)
 					}
 					return false;
@@ -405,13 +405,13 @@
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
 				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
-						//console.warn("--------------- show each thisData ---------------------");
+						////console.warn("--------------- show each thisData ---------------------");
 						////console.dir(thisData);
 
 						thisSig.showOneElementOnMap(thisData, thisMap);
@@ -425,7 +425,7 @@
 
 			this.Sig.showMapElements = function(thisMap, data)
 			{
-				console.warn("--------------- showMapElements ---------------------");
+				//console.warn("--------------- showMapElements ---------------------");
 
 				if(data == null) return;
 
@@ -453,7 +453,7 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len > 1){
 					$.each(data, function (key, value){
-						console.warn("key");
+						//console.warn("key");
 						console.log(key);
 						//console.log(value);
 
@@ -500,7 +500,7 @@
 							});							
 						}
 					});
-					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
+					////console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
@@ -533,7 +533,7 @@
 		//chargement de la carte
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
-			console.warn("--------------- loadMap ---------------------");
+			//console.warn("--------------- loadMap ---------------------");
 			console.log(canvasId);
 
 			//console.dir(initParams);
