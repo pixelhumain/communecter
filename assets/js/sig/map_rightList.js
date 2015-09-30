@@ -34,6 +34,7 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){
+		console.log("****checkListElementMap*******");
     	var thisSig = this;
     	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
@@ -50,9 +51,10 @@
 				function() {
 					var bounds = thisMap.getBounds();
 							
-						if( (this.geo.longitude > bounds.getSouthWest().lng && this.geo.longitude < bounds.getNorthEast().lng &&
-							this.geo.latitude > bounds.getSouthWest().lat && this.geo.latitude < bounds.getNorthEast().lat)
-							|| showElementOutOfMapView)
+						if( //(this.geo.longitude > bounds.getSouthWest().lng && this.geo.longitude < bounds.getNorthEast().lng &&
+							//this.geo.latitude > bounds.getSouthWest().lat && this.geo.latitude < bounds.getNorthEast().lat)
+							//|| 
+							showElementOutOfMapView)
 							{
 								//si le champ de recherche par userName est rempli (n'est pas vide)
 								if(this.name != null && $(thisSig.cssModuleName + ' #input_name_filter').val() != "") {
@@ -81,7 +83,7 @@
 
 			var maxPaginationBtn = 5;
 			var nbTotal = nbElement; //thisSig.elementsMap.length;
-			console.log("nbTotalEment : " + nbTotal);
+			//console.log("nbTotalEment : " + nbTotal);
 			if(nbTotal > this.paginationBy){
 
 				var nbPage = nbTotal / this.paginationBy;
@@ -125,10 +127,10 @@
 				$("#btn_pagination_previous").click(function(){ thisSig.previousPagination(); });
 				$("#btn_pagination_next").click(function(){ thisSig.nextPagination(); });
 
-				$("#lbl-chk-scope").removeClass("hidden");
+				//$("#lbl-chk-scope").removeClass("hidden");
 
 			}else{
-				$("#lbl-chk-scope").addClass("hidden");
+				//$("#lbl-chk-scope").addClass("hidden");
 			}
 		};
 

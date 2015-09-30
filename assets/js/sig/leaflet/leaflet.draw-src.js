@@ -709,7 +709,7 @@ L.Draw.SimpleShape = L.Draw.Feature.extend({
 
 			L.DomEvent.off(document, 'mouseup', this._onMouseUp);
 
-			// If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
+			// If the box element doesn't exist they must not have moved the mouse, so don't need to destroy//return
 			if (this._shape) {
 				this._map.removeLayer(this._shape);
 				delete this._shape;

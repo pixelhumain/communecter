@@ -68,6 +68,7 @@
 
 				var markerOptions = { icon : options.icon };
 
+				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
@@ -513,7 +514,7 @@
 
 					this.checkListElementMap(thisMap); 
 					
-					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
+					if("undefined" != typeof this.markersLayer.getBounds() )
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 
 					thisSig.constructUI();
