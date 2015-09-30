@@ -16,11 +16,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>
 
 <style>
-	#addOrganization{
-	<?php if( @$isNotSV ){ ?>
-	display: none;
-	<?php } ?>
-}
 	#dropdown_search{
 		padding: 0px 15px; 
 		margin-left:2%; 
@@ -332,8 +327,6 @@ jQuery(document).ready(function() {
 
 	$("textarea.autosize").autosize();
 	
-	
-
 	formValidator();
 	initForm();
 	bindPostalCodeAction();
