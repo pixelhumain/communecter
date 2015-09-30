@@ -151,6 +151,14 @@
 			return popupContent;
 		};
 
+		Sig.getPopupNewData = function(data){
+							
+			var popupContent = 
+				  "<h1>Déplacer l'icon sur votre position</h1>" +
+				  "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
+
+			return popupContent;
+		};
 
 		//##
 		//création du contenu de la popup d'un data

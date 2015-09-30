@@ -113,7 +113,13 @@ if( isset($_GET["isNotSV"]))
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
-
+								
+							<div class="form-group">
+								<label for="address">
+									<?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
+								</label>
+								<input type="text" class="form-control" name="address" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
 									<label for="postalCode">
@@ -129,8 +135,17 @@ if( isset($_GET["isNotSV"]))
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
+								<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
+									<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+									<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+								</div>
+
+								<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
+								<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
 							</div>
 						</div>
+
+							
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
@@ -138,6 +153,7 @@ if( isset($_GET["isNotSV"]))
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
+						</div>
 							
 							<div class="form-group hidden" id="sig_position">
 							
@@ -202,7 +218,6 @@ if( isset($_GET["isNotSV"]))
 								</div>	
 								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
 								</div>	
-							<!-- <div class="col-md-12"> -->
 						</div>
 						<div class="row">
 							<div class="col-md-12">
@@ -283,6 +298,7 @@ var formValidator = function() {
 }
 
 var timeout;
+
 var mapIconTop = {
 	"citoyen":"fa-user", 
 	"NGO":"fa-users",
@@ -292,6 +308,10 @@ var mapIconTop = {
 	"event":"fa-calendar",
 	"project":"fa-lightbulb-o"
 };
+
+var geoPositionCity = null;
+var citiesByPostalCode = null;
+
 jQuery(document).ready(function() {
 	var countries = getCountries("select2");
 	//very strange BUg this only works when declaring it twice, no idea and no time to loose
@@ -299,6 +319,11 @@ jQuery(document).ready(function() {
 	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
 	$('#organizationCountry').select2({
 		data : countries
+	});
+
+	$('#btn-show-city').click(function(){
+		$("#ajaxSV").hide(400);
+		//showCityOnMap();
 	});
 
 	$("textarea.autosize").autosize();
@@ -391,8 +416,9 @@ jQuery(document).ready(function() {
 
 	function runShowCity(searchValue) {
 		
-		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		var citiesGeoPosByPostalCode = getCitiesGeoPosByPostalCode(searchValue);
+		citiesByPostalCode = getCitiesByPostalCode(searchValue);
+
+		Sig.execFullSearchNominatim(0);
 		
 		var oneValue = "";
 		console.table(citiesByPostalCode);
@@ -411,7 +437,7 @@ jQuery(document).ready(function() {
 	        $("#cityDiv").slideUp("medium");
 	      }
 
-	    showCityOnMap(citiesGeoPosByPostalCode);
+	    $("#alert-city-found").removeClass("hidden");
 	}
 
 	function bindPostalCodeAction() {
@@ -452,70 +478,97 @@ jQuery(document).ready(function() {
 	//mémorise l'url des assets (si besoin)
 	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
 
-	function showCityOnMap(geoPosition){ 
-
-		console.log("showCityOnMap");
-		Sig.clearMap();
-		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
-		Sig.map.setView(latlng, 13);
-		console.log("center ok");
-
-		var properties = { 	id : "0",
-							icon : thisSig.getIcoMarkerMap({"type" : "city"}),
-							content: "NOM DE LA VILLE" };
-
-		Sig.getMarkerSingle(Sig.map, properties, latlng);
-
-		/*$("#sig_position").removeClass("hidden");
-
-		var latlng = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
-		
-		//charge la carte si elle n'a pas déjà été créé
-		if(mapCityOrga == null) {
-			mapCityOrga = L.map('mapCanvasCityOrga').setView(latlng, 13);
-
-			L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', { //http://{s}.tile.osm.org/{z}/{x}/{y}.png
-			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(mapCityOrga);
-
-			var ico = L.icon({
-					    iconUrl: assetPath+'/images/sig/markers/02_ICONS_CARTO_COMMUNECTER_ASSO_A.png',
-					    iconSize: [49, 60], //38, 95],
-					    iconAnchor: [25, 25],//22, 94],
-					    popupAnchor: [-3, -70]//-3, -76]
-					});	
-		}else{ //sinon on déplace juste la carte sur la nouvelle position
-			mapCityOrga.panTo(latlng);
-		}
-
-		//si le marker n'existe pas, on le créé
-		if(marker == null){
-			marker = L.marker(latlng, {icon: ico}).addTo(mapCityOrga);
-			marker.dragging.enable();
-		}else{//sinon on le déplace
-			marker.setLatLng(latlng);
-		}
-
-		//.bindPopup('Pour un placement plus précis, déplacez votre icône sur la carte.')
-		//.openPopup();
-*/
-		//mémorise l'url des assets (si besoin)
-	/*	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
-
-		//création de l'objet SIG
-		Sig = SigLoader.getSig();
-		//affiche l'icone de chargement
-		//chargement des paramètres d'initialisation à partir des params PHP definis plus haut
-		var initParams =  <?php echo json_encode($sigParams); ?>;
-		
-		initParams.firstView.coordinates = [geoPosition[0]["latitude"], geoPosition[0]["longitude"]];
-
-		mapCityOrga = Sig.loadMap("mapCanvas", initParams);
-		Sig.showIcoLoading(false);
-
-		$(".sigModuleCityOrga").css({"display" : "block"});*/
+	function callBackFullSearch(resultNominatim){
+		//console.log("callback ok");
+		showCityOnMap(resultNominatim);
 	}
 
+	function showCityOnMap(geoPosition){ 
 
+		//var geoPosition = geoPositionCity;
+		
+		Sig.clearMap();
+		console.log("geoPosition");
+		console.dir(geoPosition);
+
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					console.log(value2.text); console.log(value.address.city);
+					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		var latlng = [position["lat"], position["lon"]];
+		//Sig.map.setView(latlng, 15);
+
+		Sig.centerSimple(latlng, 15);
+		//console.log("center ok");
+
+		var content = Sig.getPopupNewData();
+		var properties = { 	id : "0",
+							icon : Sig.getIcoMarkerMap({"type" : "organization"}),
+							content: content };
+
+		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
+		markerNewData.dragging.enable();
+		markerNewData.openPopup();
+		$("#btn-validate-geopos").click(function(){
+			btnValidateClick();
+		});
+
+		markerNewData.on('dragend', function(e){
+			//console.log("dragend");
+			markerNewData.openPopup();	
+		});
+
+		markerNewData.on('popupopen', function(e){
+			//console.log("popupopen");
+			$("#btn-validate-geopos").click(function(){
+				btnValidateClick();
+			});
+		});
+		
+		markerNewData.on('dragstart', function(e){
+			//console.log("dragstart");
+			$("#ajaxSV").hide(400);
+		});
+
+		$('#btn-show-city').click(function(){
+			$("#ajaxSV").hide(400);
+			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
+		});
+
+		function btnValidateClick(){ //alert("yepaé");
+			//console.log("btnValidateClick");
+			markerNewData.closePopup();
+			Sig.centerSimple(markerNewData.getLatLng(), 15);
+			$("#ajaxSV").show(400);
+			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
+			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
+			Sig.map.invalidateSize(false);
+			markerNewData.openPopup();
+		}
+		
+		
+	}
+	
 </script>	
 

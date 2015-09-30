@@ -253,14 +253,13 @@ if( isset($_GET["isNotSV"])) {
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
 							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
+
+						$flag = '';//'<div class="ico-type-account"><i class="fa fa-lightbulb-o fa-yellow"></i></div>';
 						echo $panelHTML.
-							'<div class="imgDiv">'.$img.$featuresHTML.'</div>'.
+							'<div class="imgDiv">'.$flag.$img.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
 					?>
-					
-					
-					
 				</ul>
 			</div>
 		</div>

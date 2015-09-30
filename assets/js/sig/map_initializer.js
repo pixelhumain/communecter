@@ -277,12 +277,12 @@
 		};
 
 		Sig.centerSimple = function(center, zoom){
-			this.map.panTo(center);
-			this.map.setZoom(zoom);
+			this.map.setView(center, zoom);
+			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
 			//console.log("height" + height);
 			var center = height / 2;
-			var pan = center - 100;
+			var pan = center - 80;
 			//console.log("pan" + pan);
 			//alert("yo");
 			this.map.panBy([0, pan]);
@@ -297,7 +297,24 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 
+	 	Sig.clearStr = function(str) {
+	 	  str = str.toLowerCase();
+		  str = str.replace(/^\s+|\s+$/g, ''); // trim
+		  str = str.toLowerCase();
+		  
+		  // remove accents, swap ñ for n, etc
+		  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+		  var to   = "aaaaeeeeiiiioooouuuunc------";
+		  for (var i=0, l=from.length ; i<l ; i++) {
+		    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+		  }
 
+		  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+		    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+		    .replace(/-+/g, '-'); // collapse dashes
+
+		  return str;
+		};
 
 		return Sig;
 	};
