@@ -162,7 +162,7 @@ li.mix{
     ?>
     
   </div>
-  <div class="col-xs-10 col-xs-offset-1  center">
+  <div class="col-xs-10 col-xs-offset-1 ">
 
     
     <style type="text/css">
