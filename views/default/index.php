@@ -128,6 +128,13 @@ li.mix{
     color: #FFF;
     background-color: #7BA4B1;
 }
+
+.city-search {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 0.8125rem;
+}
+
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -298,7 +305,7 @@ svg.graph .line {
 <script type="text/javascript">
 var timeout;
 var mapIconTop = {
-    "citoyen":"php", 
+    "citoyen":"fa-user", 
     "NGO":"fa-users",
     "LocalBusiness" :"fa-industry",
     "Group" : "fa-circle-o",
@@ -422,7 +429,6 @@ function autoCompleteSearch(name){
           str = "";
           var city, postalCode = "";
           $.each(data, function(i, v) {
-            console.log(v, v.length, v.size);
             var typeIco = i;
             if(v.length!=0){
               $.each(v, function(k, o){
@@ -430,14 +436,19 @@ function autoCompleteSearch(name){
                 postalCode = "";
                 if(o.type){
                   typeIco = o.type;
+                  htmlIco ="<i class='fa "+mapIconTop[o.type] +" fa-2x'></i>"
                 }
                 if (o.address != null) {
                   city = o.address.addressLocality;
                   postalCode = o.address.postalCode;
                 }
+                if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
+                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
+                }
+
                 str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                    "<a href='#' data-id='"+ o._id["$id"] +"' data-type='"+ i +"' data-icon='"+ mapIconTop[typeIco] +"' data-name='"+ o.name +"' class='searchEntry'>"+
-                    "<span><i class='fa "+mapIconTop[typeIco]+"'></i></span>  " + o.name +
+                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' class='searchEntry'>"+
+                    "<span>"+ htmlIco +"</span>  " + o.name +
                     "<span class='city-search'> "+postalCode+" "+city+"</span>"+
                     "</a></ol></div>";
               })
