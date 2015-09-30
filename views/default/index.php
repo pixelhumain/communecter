@@ -108,18 +108,28 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <?php /* **********************
   CONTEXT TITLE
 **************************** */?>
-<div class="center pull-left" style="z-index:1;position:absolute; top:10px; left:100px; width:80%; text-align: left" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
+<div class="center pull-left" style="z-index:1;position:absolute; top:0px; left:100px; width:80%; text-align: left" >
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px;margin-top:10px;"></span>
     
-      <form class="inner pull-right">
+    <style type="text/css">
+      #searchBar{
+        background-color:#58879B; 
+        color:white;
+        
+      }
+    </style>
+    <form class="inner pull-right" style="height:50px; background-color:#58879B; padding-right:5px;">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
-        <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
+        <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" class="margin-top-10" style="border: none">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
           <ol class="li-dropdown-scope">-</ol>
         </ul>
       </input>
-      </form>
+    </form>
+    <div class="trigger collapse_trigger pull-right" style="height:50px; background-color:#58879B;" id="searchForm">
+      <i class="fa fa-search fa-2x text-white" style="margin:10px 5px 0 5px; opacity:0.8"></i>
+    </div>
 </div>
 
 <?php /* **********************
