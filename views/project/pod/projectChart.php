@@ -1,15 +1,31 @@
 <?php 
+if (!@$isDetailView){
 $cssAnsScriptFilesModule = array(
 	'/assets/plugins/Chart.js/Chart.min.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+}
+else{
+	$cssAnsScriptFilesModule = array(
+	'/plugins/Chart.js/Chart.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+}
 ?>
 
 <style>
 #myChart {
 	padding: 10px 10px 10px 10px;
 }
-
+@media (max-width: 979px) {
+            canvas {
+                width: 100% !important;
+                max-width: 800px;
+                height: auto !important;
+                // width: 500px !important;
+                // height: 300px !important;
+            }
+        }
 </style>
 
 <div class="panel panel-white">
@@ -47,12 +63,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 			</blockquote>
 		</div>
 		<div class="panel-body no-padding contentChart hide">
-			<canvas id="myChart" width="" height=""></canvas>
+			<!--<canvas id="myChart" width="" height=""></canvas>-->
 		</div>
 	<?php } ?>
 </div>
 <?php
-   $this->renderPartial('addChartSV', array( "properties" => $properties, "itemId" => $itemId));
+	if (!@$isDetailView){
+		$this->renderPartial('addChartSV', array( "properties" => $properties, "itemId" => $itemId));
+	}
 ?>
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
@@ -61,7 +79,6 @@ jQuery(document).ready(function() {
 	if (countProperties > 0){
 		chartInit(properties);
 	}
-	console.log(properties);
 });
 
 function updateChart(data, nbProperties){
@@ -79,6 +96,7 @@ function updateChart(data, nbProperties){
 			myNewChart.removeData();
 		}
 		if(nbProperties==0){
+			alert();
 			$("#infoPodChart").removeClass("hide");
 			$(".contentChart").addClass("hide");
 			$("#myChart").attr("width","0");
@@ -93,12 +111,15 @@ function updateChart(data, nbProperties){
 }
 
 function chartInit(dataProperties){
+	
 	var labelProperties=[];
 	var valueProperties=[];
 	for (var label in dataProperties){
 		labelProperties.push(label);
 		valueProperties.push(dataProperties[label]);
 	}
+	console.log(labelProperties);
+	console.log(valueProperties);
 	Chart.defaults.global = {
 		// Boolean - Whether to animate the chart
 		animation: true,
@@ -203,8 +224,10 @@ var data = {
 
 var options;
 var ctx = $("#myChart").get(0).getContext("2d");
+
 // This will get the first returned node in the jQuery collection.
 myNewChart = new Chart(ctx).Radar(data, options);
+console.log(myNewChart);
 }
 
 function numAttrs(obj) {

@@ -1,53 +1,44 @@
-	<?php
+<?php
 		$cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
-		/*$isProjectAdmin= false;
-    	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])) {
-    		$isProjectAdmin =  Authorisation::isProjectAdmin((String) $project["_id"],Yii::app()->session["userId"]);
-		}*/
-	?>
+?>
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id) ?></h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
-				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>
+				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>', 'ADD CONTRIBUTORS','users' )" <?php } ?>><i class="fa fa-plus"></i></a>
 				<?php } ?>
-				<!--<div class="dropdown">
-					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-						<i class="fa fa-cog"></i>
-					</a>
-					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-						<li>
-							<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> 								<span>Collapse</span> </a>
-						</li>
-						<li>
-							<a href="#" class="panel-refresh">
-								<i class="fa fa-refresh"></i> <span>Refresh</span>
-							</a>
-						</li>
-						<li>
-							<a data-toggle="modal" href="#panel-config" class="panel-config">
-								<i class="fa fa-wrench"></i> <span>Configurations</span>
-							</a>
-						</li>
-						<li>
-							<a href="#" class="panel-expand">
-								<i class="fa fa-expand"></i> <span>Fullscreen</span>
-							</a>
-						</li>
-					</ul>
-				</div>-->
 				<a href="#" class="btn btn-xs btn-link panel-close">
 					<i class="fa fa-times"></i>
 				</a>
 			</div>
 		</div>
+		<?php if (isset($isDetailView)){ ?>
+			<?php foreach ($contributors as $member) { 
+				if ($member["type"]=="citoyen"){
+					$icon="<i class=\"fa fa-smile-o fa-2x\"></i></td>";
+					$redirect="person";
+				}
+				else{
+					$icon="<i class=\"fa fa-group fa-2x\"></i></td>";
+					$redirect="organization";
+				}
+			?>
+				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">
+				<?php if($member && isset($member["imagePath"])) { ?>
+					<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member['imagePath']) ?>"></td>
+				<?php } else{ 
+						echo $icon;
+					} ?>
+				</a>					
+			<?php } ?>
+		<?php }
+		else { ?>
 		<div class="panel-body no-padding">
 			<div class="tabbable no-margin no-padding partition-dark">
 				<ul id="myTab" class="nav nav-tabs">
@@ -96,9 +87,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 	</div>
 <?php
-  // $this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
+	if(!isset($isDetailView))
+		$this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
  ?>
  <script type="text/javascript">
 	jQuery(document).ready(function() {

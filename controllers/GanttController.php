@@ -19,6 +19,7 @@ class GanttController extends CommunecterController {
 			'savetask'  		=> 'citizenToolKit.controllers.gantt.SaveTaskAction',
 			'removetask'   		=> 'citizenToolKit.controllers.gantt.RemoveTaskAction',
 			'generatetimeline'  => 'citizenToolKit.controllers.gantt.GenerateTimelineAction',
+			'addtimesheetsv'	=> 'citizenToolKit.controllers.gantt.AddTimesheetSvAction',
 	    );
 	}
 }

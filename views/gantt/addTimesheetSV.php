@@ -1,4 +1,5 @@
 <?php
+	
 $cssAnsScriptFilesTheme = array(
 //Select2
 
@@ -10,6 +11,19 @@ $cssAnsScriptFilesTheme = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+if (isset($isNotSV)){
+		$cssAnsScriptFilesModule = array(
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/moment/min/moment.min.js' , 
+	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	//'/plugins/bootstrap-select/bootstrap-select.min.css',
+	//'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/autosize/jquery.autosize.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+}
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
@@ -19,16 +33,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>
 
 <style>
+<?php if(!isset($isNotSV)){ ?>
 #editTimesheet{
 	display: none;
 }
+<?php } ?>
 </style>
 
 <div id="editTimesheet">
+	<?php if( @$isNotSV ){ ?>
+<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
+<?php } ?>
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
 	    	<div class="panel-heading border-light">
+		    	<?php if( !@$isNotSV ){ ?>
 	    		<h1><?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h1>
+	    		<?php } ?>
 	    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
 	    	</div>
 	    	<div class="panel-body">
@@ -287,7 +308,7 @@ function editTimesheet() {
 };
 function initValidationTaskTable(){
 	strHTML="";
-	<?php if (!empty($tasks)) {
+	<?php if (isset($tasks) && !empty($tasks)) {
 		foreach ($tasks as $key => $val){ 
 		?>
 			color=nameTimesheetClass("<?php echo $val["color"];?>");
@@ -299,7 +320,7 @@ function initValidationTaskTable(){
 				+"</td><td>"+
 				"<span class='label label-info'>already</span>"
 				+"<div class='label'>"
-					+"<a href='#' class='removeTask btn btn-xs btn-red tooltips delBtn' data-id='<?php echo $key ?>' data-name='<?php echo $val["name"];?>' data-placement='left' data-original-title='Remove'>"
+					+"<a href='#' class='removeTask btn btn-xs btn-red tooltips delBtn' data-id='<?php echo $val["key"] ?>' data-name='<?php echo $val["name"];?>' data-placement='left' data-original-title='Remove'>"
 						+"<i class='fa fa-times fa fa-white'></i>"
 					+"</a>"
 				+"</div></td><tr>";

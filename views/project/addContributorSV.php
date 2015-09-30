@@ -1,9 +1,37 @@
-
+<?php 
+if (@$isNotSV){
+	$cssAnsScriptFilesModule = array(
+		//Data helper
+		'/js/dataHelpers.js'
+		);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	$cssAnsScriptFilesModule = array(
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/moment/min/moment.min.js' , 
+	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	//'/plugins/bootstrap-select/bootstrap-select.min.css',
+	//'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/autosize/jquery.autosize.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+}
+?>
 <style>
-
+<?php if (!@$isNotSV){ ?>
 #newContributors{
 	display: none;
 }
+<?php } else{ ?>
+#newContributors{
+	min-height: 300px;
+}
+.dropdown-menu{
+	height:200px;
+	overflow:scroll;
+}
+<?php } ?>
 .li-dropdown-scope{
 	padding: 8px 3px;
 }
@@ -18,11 +46,16 @@
 }
 </style>
 <div id="newContributors">
+	<?php if( @$isNotSV ){ ?>
+		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
+	<?php } ?>
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
+		<?php if (!@$isNotSV){ ?>
+			<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
+		<?php } ?>
 		<form class="form-contributor" autocomplete="off">
-			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php echo (string)$project["_id"]; ?>'>
-			<div class="form-group" id="searchMemberSection">
+			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php if (!@$isNotSV) echo (string)$project["_id"]; else echo $id; ?>'>
+			<div class="form-group" id="searchMemberSection" style="z-index:1000000;">
     	    	<div class='row'>
 					<div class="col-md-1">	
 		           		<i class="fa fa-search fa-2x"></i> 

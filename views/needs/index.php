@@ -1,4 +1,4 @@
-<?php //print_r($needs); ?>
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-cubes fa-2x text-blue"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
