@@ -148,70 +148,7 @@ if( isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-							
-							<div class="form-group hidden" id="sig_position">
-							
-								<?php 
-									//modifier l'url relative si besoin pour trouver communecter/view/sig/
-									$relativePath = "../sig/";
-									
-								   	//modifier les parametre en fonction des besoins de la carte
-									$sigParams = array(
-								        "sigKey" => "CityOrga",
-
-								        /* MAP */
-								        "mapHeight" => 235,
-								        "mapTop" => 0,
-								        "mapColor" => '',  //ex : '#456074', //'#5F8295', //'#955F5F', rgba(69, 116, 88, 0.49)
-								        "mapOpacity" => 0.6, //ex : 0.4
-
-								        /* MAP LAYERS (FOND DE CARTE) */
-								        "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
-								        "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
-
-								        /* MAP BUTTONS */
-								        //"mapBtnBgColor" => '#E6D414',
-								        //"mapBtnColor" => '#213042',
-								        //"mapBtnBgColor_hover" => '#5896AB',
-
-								        /* USE */
-								        "titlePanel" 		 => '',
-								        "usePanel" 			 => false,
-								        "useFilterType" 	 => false,
-								        "useRightList" 		 => false,
-								        "useZoomButton" 	 => true,
-								        "useHomeButton" 	 => false,
-								        "useHelpCoordinates" => false,
-								        "useFullScreen" 	 => false,
-								        "useResearchTools" 	 => false,
-								        "useChartsMarkers" 	 => false,
-
-								        "notClusteredTag" 	 => array(),
-								        "firstView"		  	 => array(  "coordinates" => array(-21.137453135590444, 55.54962158203125),
-	        														 	"zoom"		  => 14),
-								    );
-								 
-									/* ***********************************************************************************/
-									//chargement de toutes les librairies css et js indispensable pour la carto
-							    	$this->renderPartial($relativePath.'generic/mapLibs', array("sigParams" => $sigParams)); 
-							    	//$moduleName = "sigModule".$sigParams['sigKey'];
-
-									/* ***************** modifier l'url si besoin pour trouver ce fichier *******************/
-								   	//chargement de toutes les librairies css et js indispensable pour la carto
-								  	//$this->renderPartial($relativePath.'generic/mapCss', array("sigParams" => $sigParams));
-								?>
-								<style>
-								.leaflet-map-pane{
-									top:0 !important;
-								}
-								</style>
-								<?php //$this->renderPartial($relativePath.'generic/mapView', array( "sigParams" => $sigParams)); ?>
-								<div class="alert alert-info hidden">
-									Pour un placement plus précis, déplacez votre icône sur la carte.
-								</div>	
-								<div id="mapCanvasCityOrga" class="mapCanvas" style="height:235px; width:100%;"></div>		
-								</div>	
-						</div>
+						
 						<div class="row">
 							<div class="col-md-12">
 								<div>
@@ -370,17 +307,17 @@ jQuery(document).ready(function() {
 	  				console.log(orga);
 	  				city = "";
 					postalCode = "";
-					var htmlIco ="<i class='fa fa-users fa-2x'></i>"
+					var htmlIco ="<i class='fa fa-users fa-2x'></i>";
 					if(orga.type){
 						typeIco = orga.type;
-						htmlIco ="<i class='fa "+mapIconTop[orga.type] +" fa-2x'></i>"
+						htmlIco ="<i class='fa "+mapIconTop[orga.type] +" fa-2x'></i>";
  					}
  					if (orga.address != null) {
 						city = orga.address.addressLocality;
 						postalCode = orga.address.postalCode;
 					}
  					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
- 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>"
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>";
  					}
  					str += 	"<div><ol>"+
  							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ typeIco +"'>"+
@@ -495,8 +432,8 @@ jQuery(document).ready(function() {
 		//var geoPosition = geoPositionCity;
 		
 		Sig.clearMap();
-		console.log("geoPosition");
-		console.dir(geoPosition);
+		console.log("*** showCityOnMap ***");
+		//console.dir(geoPosition);
 
 		var cp = $("#postalCode").val();
 
@@ -511,7 +448,7 @@ jQuery(document).ready(function() {
 
 				if(city != "" && value2.text != null){
 					
-					console.log(value2.text); console.log(value.address.city);
+					//console.log(value2.text); console.log(value.address.city);
 					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
 						&& cp == addressCp
 						&& position == null) 
@@ -519,6 +456,7 @@ jQuery(document).ready(function() {
 				}
 			});
 		});
+
 
 		if(position == null) position = geoPosition[0];
 		//console.log("position"); console.dir(position);
@@ -534,9 +472,14 @@ jQuery(document).ready(function() {
 							icon : Sig.getIcoMarkerMap({"type" : "organization"}),
 							content: content };
 
+		console.log("before getMarkerSingle");
 		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
-		markerNewData.dragging.enable();
+		console.log("before openPopup");
 		markerNewData.openPopup();
+		console.log("after openPopup");
+		markerNewData.dragging.enable();
+		console.log("after dragging");
+
 		$("#btn-validate-geopos").click(function(){
 			btnValidateClick();
 		});
