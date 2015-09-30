@@ -432,7 +432,7 @@ jQuery(document).ready(function() {
 		//var geoPosition = geoPositionCity;
 		
 		Sig.clearMap();
-		console.log("*** showCityOnMap ***");
+		//console.log("*** showCityOnMap ***");
 		//console.dir(geoPosition);
 
 		var cp = $("#postalCode").val();
@@ -472,13 +472,13 @@ jQuery(document).ready(function() {
 							icon : Sig.getIcoMarkerMap({"type" : "organization"}),
 							content: content };
 
-		console.log("before getMarkerSingle");
+		//console.log("before getMarkerSingle");
 		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
-		console.log("before openPopup");
+		//console.log("before openPopup");
 		markerNewData.openPopup();
-		console.log("after openPopup");
+		//console.log("after openPopup");
 		markerNewData.dragging.enable();
-		console.log("after dragging");
+		//console.log("after dragging");
 
 		$("#btn-validate-geopos").click(function(){
 			btnValidateClick();

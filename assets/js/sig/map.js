@@ -455,7 +455,7 @@
 				if(len > 1){
 					$.each(data, function (key, value){
 						//console.warn("key");
-						console.log(key);
+						//console.log(key);
 						//console.log(value);
 
 						thisSig.showFilterOnMap(data, key, thisMap);
@@ -479,12 +479,12 @@
 							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								console.log("click on .item_map_list_" + feature.properties.id);
+								//console.log("click on .item_map_list_" + feature.properties.id);
 								var zoom = 20;
 								thisSig.currentMarkerPopupOpen = layer;
 								layer.openPopup();
 								var popupOpen = layer.getPopup()._isOpen;
-								console.log("icon clicked : " + popupOpen);
+								//console.log("icon clicked : " + popupOpen);
 								
 								thisSig.checkListElementMap(thisMap);
 											
@@ -535,7 +535,7 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			//console.warn("--------------- loadMap ---------------------");
-			console.log(canvasId);
+			//console.log(canvasId);
 
 			//console.dir(initParams);
 			canvasId += initParams.sigKey;

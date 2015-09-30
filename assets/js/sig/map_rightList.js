@@ -14,7 +14,7 @@
 			this.paginationMin = (this.paginationNumPage - 1) * this.paginationBy;
 			this.paginationMax = this.paginationMin + this.paginationBy;
 			this.checkListElementMap(this.map);
-			console.log("change pagination : " + this.paginationMin + " - " + this.paginationMax + " - by : " + this.paginationBy + " - max : " + this.paginationNumPageMax);
+			//console.log("change pagination : " + this.paginationMin + " - " + this.paginationMax + " - by : " + this.paginationBy + " - max : " + this.paginationNumPageMax);
 			//alert("stop");
 		};
 		Sig.previousPagination = function (){
@@ -34,7 +34,7 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){
-		console.log("****checkListElementMap*******");
+		//console.log("****checkListElementMap*******");
     	var thisSig = this;
     	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
