@@ -63,6 +63,7 @@
 			$(".partnerLogosUp").show().addClass("animated zoomInUp");
 		}
 	}
+	var hashUrl = null
 	function showAjaxPanel (url,title,icon) 
 	{ 
 		console.log("showAjaxPanel",url,title,icon);
@@ -70,8 +71,11 @@
 		$(".ajaxForm,.box-ajaxTools").html("");
 
 		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+
+		//show hash
 		urlT = url.split("/");
-		location.hash = urlT[1]+"."+urlT[2]+"."+urlT[3];
+		hashUrl = urlT[4]+"."+urlT[5]+"."+urlT[6];
+		location.hash = hashUrl;
 
 		if( navHistory != null)
 			prevNav = {
