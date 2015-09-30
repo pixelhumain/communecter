@@ -344,7 +344,7 @@ jQuery(document).ready(function() {
 		});
 
 		$("#similarOrganizationLink").off().on("click", function() {
-            $.blockUI({ message: $('#infoOrgaSameName'), css: { width: '400px' } }); 
+            $.blockUI({ message: $('#infoOrgaSameName'), css: { width: '400px', top: '20%' } }); 
 		});
 	}	
 	
@@ -380,7 +380,7 @@ jQuery(document).ready(function() {
  						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>"
  					}
  					str += 	"<div class='padding-10'>"+
- 							"<a href='#' data-id='"+ orga._id["$id"] +"' data-type='"+ typeIco +"'>"+
+ 							"<a href='#' data-id='"+ orga.id +"' data-type='"+ typeIco +"'>"+
  							"<span>"+ htmlIco +"</span>  " + orga.name +
  							"<span class='city-search'> "+postalCode+" "+city+"</span>"+
  							"</a></div>";
