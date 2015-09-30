@@ -311,6 +311,7 @@ var mapIconTop = {
     "event":"fa-calendar",
     "project":"fa-lightbulb-o"
   };
+var images = [];  
   jQuery(document).ready(function() {
 
     if($(".tooltips").length) {
