@@ -18,7 +18,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   position:fixed; 
   top:0px; 
   left:0px;
-  padding: 10px 0px 10px 20px;
+  padding: 10px 0px 10px 18px;
   width:100%;    
   background-color: rgba(255, 255, 255, 0.56);
 }
@@ -43,12 +43,12 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   height: 56px;
   top: 0px;
   position: absolute;
-  right: 0px;
+  right: 60px;
   border: 0;
   background-color: rgba(255, 255, 255, 0.63) !important;
   color: #116168 !important;
   padding: 0px 20px;
-  width: 300px;
+  width: 272px;
 }
 
 .box-white-round{
@@ -58,6 +58,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 li.mix{
   background:rgba(255, 255, 255, 0.7) !important;
+  border-radius: 2px;
+  box-shadow: none;
+  border: 1px solid rgba(187, 187, 187, 0.49);
 }
 .panel-body{
   background:rgba(255, 255, 255, 0.6) !important;
@@ -95,9 +98,35 @@ li.mix{
     border: 0px solid rgba(0, 0, 0, 0.15);
     border-radius: 1px;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
-    width: 301px;
+    width: 333px;
     padding: 10px 5px;
     right: -1px !important;
+}
+
+#menu-top-container .fa-search{
+  right: 332px;
+  position: absolute;
+  font-size: 18px;
+  padding: 8px 6px;
+  color: rgba(17, 97, 104, 0.66) !important;
+}
+
+#menu-top-container .btn-show-map{
+  right: 0px;
+  height: 56px;
+  width: 60px;
+  top: 0px;
+  position: absolute;
+  font-size: 18px;
+  padding: 8px 6px;
+  color: rgba(255, 255, 255, 0.7) !important;
+  background-color: rgba(38, 88, 108, 0.73);
+  border: none;
+  border-radius: 0px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #FFF;
+    background-color: #7BA4B1;
 }
 </style>
 
@@ -194,7 +223,7 @@ li.mix{
         <br/><br/><a href="#" id="filter-menu-projects" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class="text-white"><i class="fa fa-lightbulb-o fa-2x"></i></a>
         <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
         */?>
-        <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a>
+        <!-- <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a> -->
         <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>
     </div>
 </div>
@@ -202,28 +231,21 @@ li.mix{
 <?php /* **********************
   CONTEXT TITLE
 **************************** */?>
-<div class="center pull-left" style="z-index:1;position:absolute; top:0px; left:100px; width:80%; text-align: left" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px;margin-top:10px;"></span>
+<div class="center pull-left" id="menu-top-container" style="" >
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
     
-    <style type="text/css">
-      #searchBar{
-        background-color:#58879B; 
-        color:white;
-        
-      }
-    </style>
-    <form class="inner pull-right" style="height:50px; background-color:#58879B; padding-right:5px;">
+      
+      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map"></i></button>  
+      <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
-        <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" class="margin-top-10" style="border: none">
+        <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
           <ol class="li-dropdown-scope">-</ol>
         </ul>
       </input>
-    </form>
-    <div class="trigger collapse_trigger pull-right" style="height:50px; background-color:#58879B;" id="searchForm">
-      <i class="fa fa-search fa-2x text-white" style="margin:10px 5px 0 5px; opacity:0.8"></i>
-    </div>
+      </form>
+      <i class="fa fa-search"></i>
 </div>
 
 <?php /* **********************
@@ -330,6 +352,10 @@ var mapIconTop = {
       $('#dropdown_searchTop').css("display" , "inline");
     });
     
+    $('.btn-show-map').click(function(e){
+      showMap();
+    });
+
     $("#searchForm").off().on("click", function(){
       $("dropdown_searchTop").css("display", "none");
     });

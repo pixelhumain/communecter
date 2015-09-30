@@ -11,8 +11,9 @@
 
 				return this.getPopupSimple(data);
 
-				if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") 
+				if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
 					return this.getPopupEvent(data);
+				}
 				else{
 					return this.getPopupCitoyen(data);
 				}
