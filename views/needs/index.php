@@ -1,20 +1,21 @@
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-cubes fa-2x text-blue"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title text-left"><i class="fa fa-cubes fa-2x text-blue"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
 		<?php if($isAdmin) { ?>
 		<ul class="panel-heading-tabs border-light">
 	    	<li>
-	    		<a class="new-need btn btn-info" href="#newNeed">
+	    		<a class="new-need btn btn-info" href="#newNeed" <?php if (@$_GET["isDetailView"]){ ?> onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1', 'ADD NEED','cubes' )" <?php } ?>>
 		    		<i class="fa fa-plus"></i> <?php echo Yii::t("need","Need",null,Yii::app()->controller->module->id); ?>
 		    	</a>
 	    	</li>
 		</ul>
 		<?php } ?>
 	</div>
-	<div class="panel-body">
+	<div class="<?php if (!@$_GET["isDetailView"]) echo 'panel-body'; ?>">
 		<div>
-			<table class="table table-striped table-bordered table-hover table-need directoryTable<?php if (empty($needs)) echo " hide"; ?>">
+			<table class="table table-striped table-hover <?php if (!@$_GET["isDetailView"]) echo "table-bordered table-need directoryTable"; if (empty($needs)) echo " hide"; ?>">
+				<?php if(!@$_GET["isDetailView"]){ ?>
 				<thead>
 					<tr>
 						<th>Type</th>
@@ -34,7 +35,7 @@
 					?>
 								<tr id="need<?php echo $data["_id"]; ?>">
 									<td class="organizationLine">
-										<i class="fa <?php echo $icon; ?> fa-2x text-blue"></i> <?php echo $data["type"]; ?>
+										<i class="fa <?php echo $icon; ?> fa-x text-blue"></i> <?php echo $data["type"]; ?>
 									</td>
 									<td ><a href="#showNeed"><?php echo $data["name"]; ?></a></td>
 									<td>
@@ -53,6 +54,26 @@
 						}
 					?>
 				</tbody>
+				<?php } else { ?>
+				<tbody>
+					<?php
+					if (isset($needs) && !empty($needs)){
+						foreach ($needs as $data){ 
+							if ($data["type"]=="materials")
+								$icon="fa-bullhorn";
+							else 
+								$icon="fa-gears"; ?>
+					<tr>
+						<td class="center">
+							<i class="fa <?php echo $icon; ?> fa-2 text-blue"></i> 
+						</td>
+						<td class="text-left">
+							<span class="text-large"><?php echo $data["name"]; ?></span>
+							<a href="#" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
+						</td>
+					</tr>
+				</tbody>
+				<?php } } } ?>
 			</table>
 			<?php if (empty($needs)){ ?>
 				<div id="infoPodOrga" class="padding-10 info-no-need">
@@ -65,6 +86,7 @@
 		</div>		
 </div>
 <?php
+if (!@$_GET["isDetailView"])
    $this->renderPartial('addNeedSV', array( ));
  ?>
 
@@ -105,7 +127,7 @@ function updateNeed(data){
 function resetDirectoryTable() 
 { 
 	console.log("resetDirectoryTable");
-
+	<?php if(!@$_GET["isDetailView"]){ ?>
 	if( !$('.directoryTable').hasClass("dataTable") )
 	{
 		directoryTable = $('.directoryTable').dataTable({
@@ -137,6 +159,7 @@ function resetDirectoryTable()
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
+	<?php } ?>
 }
         
 </script>

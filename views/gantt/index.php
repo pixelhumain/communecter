@@ -24,8 +24,8 @@ if(isset($_GET["isDetailView"]))
 	<div class="panel-heading border-light" <?php if (isset($isDetailView)){ ?> style="background-color:#E6E6E6;border-radius:inherit;" <?php } ?>>
 		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
-			<?php if ($edit) { ?>
-			<? if (@$isDetailView){
+			<?php if ($edit) {
+				if (@$isDetailView){
 				$tasksSerialize = base64_encode(serialize($tasks));
 				$tasksSerialize = str_replace('"','/"',$tasksSerialize);
 				$urlArray = '&tasks={'.$tasksSerialize.'}';

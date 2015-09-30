@@ -310,6 +310,7 @@ function initValidationTaskTable(){
 	strHTML="";
 	<?php if (isset($tasks) && !empty($tasks)) {
 		foreach ($tasks as $key => $val){ 
+			if (!is_array($val["key"])){
 		?>
 			color=nameTimesheetClass("<?php echo $val["color"];?>");
 			strHTML += "<tr class='task<?php echo $key;?>'>"
@@ -324,11 +325,11 @@ function initValidationTaskTable(){
 						+"<i class='fa fa-times fa fa-white'></i>"
 					+"</a>"
 				+"</div></td><tr>";
-		<?php }?>
+		<?php } }?>
 		$(".newTaskAdded").append(strHTML);
 		if($(".newTasksAddedTable").hasClass("hide"))
         	$(".newTasksAddedTable").removeClass('hide').addClass('animated bounceIn');
-	<?php } ?>
+	<?php  } ?>
 	//}
 }
 function setValidationTaskTable(id){	

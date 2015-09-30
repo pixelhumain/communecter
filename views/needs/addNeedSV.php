@@ -12,13 +12,26 @@ $cssAnsScriptFilesTheme = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-
+if (isset($isNotSV)){
+		$cssAnsScriptFilesModule = array(
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/moment/min/moment.min.js' , 
+	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	//'/plugins/bootstrap-select/bootstrap-select.min.css',
+	//'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/autosize/jquery.autosize.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+}
 ?>
 <style>
-
+<? if (!@$isNotSV){ ?>
 #newNeed{
 	display: none;
 }
+<?php } ?>
 .li-dropdown-scope{
 	padding: 8px 3px;
 }
@@ -40,10 +53,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 }
 </style>
 <div id="newNeed">
+	<?php if (@$isNotSV) { ?>
+		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>
+	<?php } ?>
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
 			<div class="panel-heading border-light">
+				<?php if (!@$isNotSV) { ?>
 				<h1>Add Need</h1>
+				<?php } ?>
 				<p>Task will show what's next in the project</p>
 			</div>
 			<div class="panel-body">
@@ -67,7 +85,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 										</a>
 									</div>
 					            </div><br>
-				                <div id="formNewNeed">
+				                <div id="formNewNeed" <?php if (@$isNotSV) echo "class='text-left'" ?>>
 					    	        <div class="col-md-12 form-group">
 					    	        	<label class="control-label">
 											Nom du besoin<span class="symbol required"></span>

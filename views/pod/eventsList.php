@@ -44,7 +44,9 @@
 					?>
 				</tbody>
 			</table>
+			<?php if(isset($events) && count($events)>0 ){ ?>
 			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<?php } ?>
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
@@ -60,7 +62,7 @@
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = contextMap<?php if(@$contextType == Organization::CONTROLLER )echo '["organization"]';else if(@$contextType == Project::CONTROLLER )echo '["project"]'; ?>["_id"]["$id"];
+		var itemId = '<?php if (@$isNotSV) echo $contextId; else {?> contextMap<?php if(@$contextType == Organization::CONTROLLER )echo '["organization"]["_id"]["$id"]';else if(@$contextType == Project::CONTROLLER )echo '["project"]["_id"]["$id"]'; }?>';
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({

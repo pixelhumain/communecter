@@ -177,52 +177,7 @@ progress[value]::-moz-progress-bar {
 		<div class="col-md-12 padding-20">
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
 		</div>
-		<div class="col-md-12" style="background-color:#E6E6E6;">
-			<h3>NEEDS</h3>
-		</div>
-			<div class="col-md-12">
-				<table class="table table-striped table-bordered table-hover table-need directoryTable<?php if (empty($needs)) echo " hide"; ?>">
-						<thead>
-							<tr>
-								<th>Type</th>
-								<th><?php echo Yii::t("common","Name"); ?></th>
-								<th><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?></th>
-								<th><?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?></th>
-							</tr>
-						</thead>
-						<tbody class="directoryLines tableNeedLines">
-							<?php
-								if (isset($needs) && !empty($needs)){
-									foreach ($needs as $data){ 
-										if ($data["type"]=="materials")
-											$icon="fa-bullhorn";
-										else 
-											$icon="fa-gears";
-							?>
-										<tr id="need<?php echo $data["_id"]; ?>">
-											<td class="organizationLine">
-												<i class="fa <?php echo $icon; ?> fa-2x text-blue"></i> <?php echo $data["type"]; ?>
-											</td>
-											<td ><a href="#showNeed"><?php echo $data["name"]; ?></a></td>
-											<td>
-												<?php echo $data["quantity"]; ?>
-											</td>
-											<td>
-												<?php echo $data["benefits"];?>
-											</td>
-											<td>
-												<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/needs/dashboard/idNeed/".$data["_id"]."/type/projects/id/".$project["_id"]."") ?>" class="btn showNeed">
-													<i class="fa fa-chevron-circle-right"></i>
-												</a>	
-											</td>
-										</tr>
-								<?php	}
-								}
-							?>
-						</tbody>
-					</table>
-			</div>
-		</div>
+	</div>
 
 
 		
