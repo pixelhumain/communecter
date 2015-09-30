@@ -90,7 +90,7 @@
 
 			var type = data['typeSig'] ? data['typeSig'] : data['type'];
 
-			var popupContent = "<div class='item_map_list popup-marker'>";
+			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(data);
 			var color = this.getIcoColorByType(data);
@@ -112,11 +112,14 @@
 
 			var url = baseUrl+'/'+moduleId+'/'+typeElement+'/detail/id/'+data["_id"]["$id"];
 			var title = data.typeSig + ' : ' + data.name;
+			title = title.replace("'", "");
+			title = title.replace('"', "");
+
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			//showAjaxPanel( url, title, icon );
 							
-			popupContent += "<button class='item_map_list popup-marker' onclick='showAjaxPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\"); showMap(false);'>";
+			popupContent += "<button class='item_map_list popup-marker' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\");'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
@@ -146,7 +149,8 @@
 						if("undefined" != typeof data['telephone'])
 						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
-				popupContent += '</button><div>';
+				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+				popupContent += '</button>';
 
 			return popupContent;
 		};

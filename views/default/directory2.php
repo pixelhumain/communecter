@@ -192,7 +192,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "showAjaxPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
@@ -377,14 +377,15 @@ function initMap(){
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
 
-	$(".item_map_list_panel").click(function(){
+	/*$(".item_map_list_panel").click(function(){
+		console.log("item_map_list_panel click");
 		$("#right_tool_map").hide("false");
 		var id = $(this).attr("data-id");
 		$(".item_map_list_" + id).click();
 		Sig.map.setZoom(13);
 		setTimeout("finalShowMarker()", 1000);
 	});
-
+*/
 
 	$("li.filter .label-danger").click(function(){ alert($(this).html());
 		$("#right_tool_map").hide("false");

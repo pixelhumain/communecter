@@ -68,9 +68,9 @@
 											"organizations" 	: { ico : "group", color : "green" 		},
 											"organization" 		: { ico : "group", color : "green" 		},
 
-											"event" 			: { ico : "calendar", color : "red" 	},
-											"events" 			: { ico : "calendar", color : "red" 	},
-											"meeting" 			: { ico : "calendar", color : "white" 	},
+											"event" 			: { ico : "calendar", color : "orange" 	},
+											"events" 			: { ico : "calendar", color : "orange" 	},
+											"meeting" 			: { ico : "calendar", color : "orange" 	},
 
 											"project" 			: { ico : "lightbulb-o", color : "yellow" },
 											"projects" 			: { ico : "lightbulb-o", color : "yellow" },
