@@ -21,7 +21,7 @@ svg{
  }
 
  .leaflet-popup-content{
- 	margin:10px 10px 0px 5px !important;
+ 	margin:5px 0px 0px -1px !important;
  	min-width:280px;
  	padding-bottom:40px;
  }
@@ -264,8 +264,8 @@ creer des conflits : regle pas assez specfique
 
 .item_map_list .right-col .info_item{
 	float:left;
-	min-width:100%;
-	max-width:100%;
+	min-width:90%;
+	max-width:90%;
 	text-align:left;
 	font-family: inherit;
 	font-size: 11px;

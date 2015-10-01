@@ -286,7 +286,7 @@
 			var height = $("#mapCanvasBg").height();
 			//console.log("height" + height);
 			var center = height / 2;
-			var pan = center - 80;
+			var pan = center - 160;
 			//console.log("pan" + pan);
 			//alert("yo");
 			this.map.panBy([0, pan]);
