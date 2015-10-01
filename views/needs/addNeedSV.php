@@ -157,6 +157,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 <script type="text/javascript">
+	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
+	var parentId = $(".form-need #parentId").val();
+	var parentType = $(".form-need #parentType").val();
+	if (parentType=="projects"){
+		typeRedirect="project";
+		iconRedirect="fa-lightbulb-o";
+	}
 	jQuery(document).ready(function() {
 	 	bindSubViewNeed();
 	 	runNeedFormValidation();
@@ -311,8 +318,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				errorHandler2.hide();
 				id=$("#projectID").val();
 				newNeed = new Object;
-				newNeed.parentId = $(".form-need #parentId").val(),
-				newNeed.parentType = $(".form-need #parentType").val(),
+				newNeed.parentId = parentId,
+				newNeed.parentType = parentType,
 				newNeed.type = $(".form-need #needType").val();
 				newNeed.name = $(".form-need .need-name").val(), 
 				newNeed.quantity = $('.form-need .need-quantity').val(), 
@@ -357,7 +364,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							if(typeof updateNeed != "undefined" && typeof updateNeed == "function")
 		        				updateNeed(data);            
 				        	toastr.success('Need added successfuly');
-				        	$.hideSubview();
+				        	if(isNotSV==0){ 
+								$.hideSubview();
+							} else{ 
+								openMainPanelFromPanel( baseUrl+'/'+moduleId+'/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo $_GET["parentName"] ?>',iconRedirect, parentId );
+							} 
 				        		
 				        } else {
 				           toastr.error('Something Went Wrong');
@@ -430,7 +441,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditNeed() {
+		if(isNotSV==0){ 
 		$.hideSubview();
+		} else{ 
+			openMainPanelFromPanel( baseUrl+'/'+moduleId+'/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo $_GET["parentName"] ?>',iconRedirect, parentId );
+		 } 
 	};
 	// enables the edit form 
 	function editNeed(el) {

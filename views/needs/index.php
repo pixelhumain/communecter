@@ -5,7 +5,7 @@
 		<?php if($isAdmin) { ?>
 		<ul class="panel-heading-tabs border-light">
 	    	<li>
-	    		<a class="new-need btn btn-info" href="#newNeed" <?php if (@$_GET["isDetailView"]){ ?> onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1', 'ADD NEED','cubes' )" <?php } ?>>
+	    		<a class="new-need btn btn-info" href="#newNeed" <?php if (@$_GET["isDetailView"]){ ?> onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )" <?php } ?>>
 		    		<i class="fa fa-plus"></i> <?php echo Yii::t("need","Need",null,Yii::app()->controller->module->id); ?>
 		    	</a>
 	    	</li>

@@ -230,7 +230,7 @@ class CommunecterController extends Controller
   	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
-       "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
+      "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
     ),
 
     "job"=> array(

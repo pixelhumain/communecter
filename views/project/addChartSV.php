@@ -145,6 +145,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
+var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
+var projectId = $(".form-chart .projectId").val();
 jQuery(document).ready(function() {
 	knobInit();
     $(".addProperties").click(function(){
@@ -198,7 +200,6 @@ function runChartFormValidation() {
 		submitHandler : function(form) {
 			successHandler2.show();
 			errorHandler2.hide();
-			projectId = $(".form-chart .projectId").val();
 			newChart = [];
 			nbProperties=0;
 			$('.project-property').each(function(){
@@ -247,12 +248,17 @@ function runChartFormValidation() {
 		    {
 			   if (data.result==true) {   
 		        	toastr.success('Project properties succesfully update');
+		        	if(isNotSV==0){
 		        		updateNewKnob();
 		        		knobInit();
 		        		removeChartProperty();
 		        		updateChart(data.properties,nbProperties);
 						$.unblockUI();
-						$.hideSubview(); 	
+						$.hideSubview(); 
+					} else { 
+						$.unblockUI();
+						openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+					}	
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }
@@ -286,7 +292,11 @@ function bindprojectSubViewchart() {
 
 var subViewElement, subViewContent, subViewIndex;
 function hideEditChart() {
-	$.hideSubview();
+	if (isNotSV==0){
+		$.hideSubview();
+	} else { 
+		openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+	}	
 };
 // enables the edit form 
 function editChart() {

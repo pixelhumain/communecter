@@ -28,7 +28,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 																"isDetailView" => 1																));
 				?>
-				<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
+				<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 			</div>
 			<div class="col-md-4 needsPod">
 			</div>

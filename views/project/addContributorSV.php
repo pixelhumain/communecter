@@ -149,6 +149,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 <script type="text/javascript">
+	var projectId=$(".form-contributor #projectID").val();
+	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	jQuery(document).ready(function() {
 	 	bindprojectSubViewcontributor();
 	 	runContributorFormValidation();
@@ -279,7 +281,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				errorHandler2.hide();
 				id=$("#projectID").val();
 				newProject = new Object;
-				newProject.id = $(".form-contributor #projectID").val();
+				newProject.id = projectId;
 				newProject.type = $(".form-contributor #contributorType").val();
 				newProject.contribId = $("#newContributors #contributorId").val();
 				newProject.name = $(".form-contributor .contributor-name").val();
@@ -316,11 +318,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-							if(typeof updateContributor != "undefined" && typeof updateContributor == "function")
+							if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
 		        				updateContributor( data.member,  $("#newContributors #contributorType").val());            
 				        	toastr.success('Invatation to project success');
-				        	$.hideSubview();
-				        		
+				        	if(isNotSV==0){ 
+								$.hideSubview();
+							} else{ 
+								openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+							} 	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -439,7 +444,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditContributor() {
-		$.hideSubview();
+		if(isNotSV==0){ 
+			$.hideSubview();
+		} else{ 
+			openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+		} 
 	};
 	// enables the edit form 
 	function editContributor(el) {
