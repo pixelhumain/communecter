@@ -214,10 +214,10 @@ li.mix{
 **************************** */?>
 <div class="center text-white" id="menu-container" style="" >
     <div class="center text-white pull-left">
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="text-white btn-home btn-main-menu tooltips"   data-placement='right' data-original-title='MY DETAILS' ><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ></a>
-        <br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class="text-white btn-main-menu tooltips"  data-placement='right' data-original-title='N.E.W.S'><i class="fa fa-rss fa-2x"></i></a>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class="text-white btn-main-menu tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x"></i></a>
-        <br/><br/><a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="text-white tooltips"  data-placement='right' data-original-title='ADD SOMETHING'><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class=" tooltips"   data-placement='right' data-original-title='MY DETAILS' ><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ></a>
+        <br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" tooltips"  data-placement='right' data-original-title='N.E.W.S'><i class="fa fa-rss fa-2x"></i></a>
+        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x"></i></a>
+        <br/><br/><a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="tooltips"  data-placement='right' data-original-title='ADD SOMETHING'><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
         <br/><br/><a href="#" id="filter-menu-persons" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="text-white"><i class="fa fa-user fa-2x"></i></a>
@@ -230,7 +230,7 @@ li.mix{
         <?php //showPanel('box-projects',null,'PROJECTS','lightbulb-o') ?>
         */?>
         <!-- <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a> -->
-        <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="text-white"><i class="fa fa-sign-out fa-2x"></i></a>
+        <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="tooltips"   data-placement='right' data-original-title='LOGOUT'><i class="fa fa-sign-out fa-2x"></i></a>
     </div>
 </div>
 
