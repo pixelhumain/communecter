@@ -1,4 +1,3 @@
-<?php echo "oui"; ?> 
 <style>
 <?php if(!@$isNotSV){ ?>
 #newAttendees{
