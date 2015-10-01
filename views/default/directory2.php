@@ -370,67 +370,48 @@ function finalShowMarker(){ //alert("ayé");
 
 function initMap(){
 	var mapData = <?php echo json_encode($contextMap) ?>;
-	//console.log("contextMap");
-	//console.dir(mapData);
-	//affichage des éléments sur la carte
-	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
+	//affichage des éléments sur la carte
+	Sig.clearMap();
+	Sig.showMapElements(mapBg, mapData);
 
-	/*$(".item_map_list_panel").click(function(){
-		console.log("item_map_list_panel click");
-		$("#right_tool_map").hide("false");
-		var id = $(this).attr("data-id");
-		$(".item_map_list_" + id).click();
-		Sig.map.setZoom(13);
-		setTimeout("finalShowMarker()", 1000);
-	});
-*/
 
 	$("li.filter .label-danger").click(function(){ alert($(this).html());
 		$("#right_tool_map").hide("false");
 		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		Sig.showMapElements(mapBg, mapData);
 	});
 	//EVENT MENU PANEL
 	$(".filterorganizations").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($organizations) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		Sig.changeFilter("organizations", Sig.map, "types");
 	});
 	$(".filterpersons").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($people) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		Sig.changeFilter("people", Sig.map, "types");
 	});
 	$(".filterevents").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($events) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		Sig.changeFilter("events", Sig.map, "types");
 	});
 	$(".filterprojects").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+		Sig.changeFilter("projects", Sig.map, "types");
 	});
 	//EVENT MENU PANEL - ALL
 	$(".filter").click(function(){
 		if($(this).attr("data-filter") == "all"){
 			$("#right_tool_map").hide("false");
 			var mapData = <?php echo json_encode($contextMap) ?>;
-			Sig.showMapElements(mapBg, mapData);//, elementsMap); 
+			Sig.showMapElements(mapBg, mapData);
 		}
 	});
-
 
 	$.each($(".item_map_list_panel"), function(){
 		actions.push({ "id" : $(this).attr('data-id'), 
 					   "onclick" : $(this).attr('onclick')
 					 });
 	});
-
-
-	//console.log("actions : ");
-	//console.dir(actions);
 
 }
 

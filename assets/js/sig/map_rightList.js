@@ -46,6 +46,7 @@
 			
 			//var paginationIndex = this.paginationMin;
 			var nbElement = 0;
+			var nbVisible = 0;
 			//rend visible tous les éléments qui se trouve dans le bound visible de la carte
 			$.each(thisSig.elementsMap,
 				function() {
@@ -62,6 +63,7 @@
 										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
 											if(thisSig.inPagination(nbElement)){
 												$(thisSig.cssModuleName + " #element-right-list-" + this._id.$id.toString()).css({ "display" : "inline" });							
+												nbVisible++;
 											}
 											nbElement++;
 												
@@ -72,6 +74,7 @@
 								{
 									if(thisSig.inPagination(nbElement)){
 										$(thisSig.cssModuleName + " #element-right-list-" + thisSig.getObjectId(this)).css({"display" : "inline" });
+										nbVisible++;
 									}	
 									nbElement++;
 									
@@ -83,6 +86,7 @@
 
 			var maxPaginationBtn = 5;
 			var nbTotal = nbElement; //thisSig.elementsMap.length;
+			$(".right_tool_map_header_info").html(nbVisible + " / " + nbTotal);
 			//console.log("nbTotalEment : " + nbTotal);
 			if(nbTotal > this.paginationBy){
 

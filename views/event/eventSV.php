@@ -74,8 +74,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
 				?>
-			<div class="row">
-				<div class="selectpicker col-md-6">
+			<div class="col-md-6">
+				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
 						
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
@@ -119,15 +119,44 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                     <input class="hide" type="text" id="newEventOrgaType" name="newEventOrgaType">
 
 				</div>
-				<div class="col-md-6">
-					<div class="col-md-6 no-padding-left">
+				<div class="form-group">
+					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
+					<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
+				</div>
+				<div class="form-group">
+					<select class="form-control selectpicker event-categories">
+						<?php if(isset($lists) && isset($lists["eventTypes"])) {
+							foreach ($lists["eventTypes"] as $key => $value) { ?>
+								<option data-content="<span class='event-category event-home'><?php echo $value ?></span>" value="<?php echo $key; ?>"><?php echo $value ?></option>
+						<?php }
+							}
+						?>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+					
+					<div class="col-md-12">
+						<div class="form-group">
+							<span class="input-icon">
+								<input type="text" class="form-control" name="streetAddress" id="fullStreet"  placeholder="<?php echo Yii::t("common","Adresse") ?>" >
+								<i class="fa fa-road"></i>
+							</span>
+						</div>
+					</div>
+
+					<div class="col-md-6">
 						<div class="form-group">
 							<span class="input-icon">
 								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
-								<i class="fa fa-home"></i></span>
+								<i class="fa fa-home"></i>
+							</span>
 						</div>
 					</div>
-					<div class="col-md-6 no-padding-right">
+
+					
+					<div class="col-md-6">
 						<div class="form-group" id="cityDiv" style="display: none;">
 							<span class="input-icon">
 								<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
@@ -135,37 +164,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							</span>		
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<input class="event-id hide" type="text" id="newEventId" name="newEventId">
-						<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
+
+					<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
+						<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+						<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
 					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<select class="form-control selectpicker event-categories">
-							<?php if(isset($lists) && isset($lists["eventTypes"])) {
-								foreach ($lists["eventTypes"] as $key => $value) { ?>
-									<option data-content="<span class='event-category event-home'><?php echo $value ?></span>" value="<?php echo $key; ?>"><?php echo $value ?></option>
-							<?php }
-								}
-							?>
-						</select>
-					</div>
-				</div>
+
+					<input type="hidden" name="geoPosLatitude" id="geoPosLatitude">
+					<input type="hidden" name="geoPosLongitude" id="geoPosLongitude">
+						
 			</div>
-		
-			<div class= "row">
-				<div class="col-md-3">
+			
+			<div class="col-md-12">				
+				<div class="col-sm-3">
 					<div class="form-group">
 						<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
 					</div>
 				</div>
 				<div class="no-all-day-range">
-					<div class="col-md-9">
+					<div class="col-sm-9">
 						<div class="form-group">
 							<div class="form-group">
 								<span class="input-icon">
@@ -190,6 +207,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<input type="text" class="event-start-date" name="eventStartDate"/>
 					<input type="text" class="event-end-date" name="eventEndDate"/>
 				</div>
+			</div>
+			
+
+			<div class="row col-md-12">
+				
 				<div class="col-md-12">
 					
 				</div>
@@ -224,7 +246,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var parentOrga = [];
 	var defaultHours;
-
+	var citiesByPostalCode;
 
 	if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
@@ -248,7 +270,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	});
 
 	function runShowCity(searchValue) {
-		var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		Sig.execFullSearchNominatim(0);
+
 		var oneValue = "";
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
@@ -264,6 +288,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	      } else {
 	        $("#cityDiv").slideUp("medium");
 	      }
+
+	    
 	}
 
 	function bindPostalCodeAction() {
@@ -383,6 +409,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.city = $(".form-event #city ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
+				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
+				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();				
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -559,6 +587,118 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			roundMoment.minutes(0);
 		}
 		return roundMoment;
+	}
+
+
+	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
+	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
+	var marker = null;
+
+	/**************************************************************************************************************/
+	//mémorise l'url des assets (si besoin)
+	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
+
+	function callBackFullSearch(resultNominatim){
+		//console.log("callback ok");
+		showCityOnMap(resultNominatim);
+	}
+
+	function showCityOnMap(geoPosition){ 
+
+		//var geoPosition = geoPositionCity;
+		
+		//Sig.clearMap();
+		//console.log("*** showCityOnMap ***");
+		//console.dir(geoPosition);
+
+		$("#alert-city-found").removeClass("hidden");
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					//console.log(value2.text); console.log(value.address.city);
+					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		$("#geoPosLongitude").attr("value", position["lat"]);
+		$("#geoPosLatitude").attr("value", position["lon"]);
+
+		var latlng = [position["lat"], position["lon"]];
+		//Sig.map.setView(latlng, 15);
+
+		Sig.centerSimple(latlng, 15);
+		//console.log("center ok");
+
+		var content = Sig.getPopupNewData();
+		var properties = { 	id : "0",
+							icon : Sig.getIcoMarkerMap({"type" : "event"}),
+							content: content };
+
+		//console.log("before getMarkerSingle");
+		Sig.clearMap();
+		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
+		//console.log("before openPopup");
+		markerNewData.openPopup();
+		//console.log("after openPopup");
+		markerNewData.dragging.enable();
+		//console.log("after dragging");
+
+		$("#btn-validate-geopos").click(function(){
+			btnValidateClick();
+		});
+
+		markerNewData.on('dragend', function(e){
+			//console.log("dragend");
+			markerNewData.openPopup();	
+		});
+
+		markerNewData.on('popupopen', function(e){
+			//console.log("popupopen");
+			$("#btn-validate-geopos").click(function(){
+				btnValidateClick();
+			});
+		});
+		
+		markerNewData.on('dragstart', function(e){
+			//console.log("dragstart");
+			$("#ajaxSV").hide(400);
+		});
+
+		$('#btn-show-city').click(function(){
+			$("#ajaxSV").hide(400);
+			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
+		});
+
+		function btnValidateClick(){ //alert("yepaé");
+			//console.log("btnValidateClick");
+			markerNewData.closePopup();
+			Sig.centerSimple(markerNewData.getLatLng(), 15);
+			$("#ajaxSV").show(400);
+			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
+			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
+			Sig.map.invalidateSize(false);
+			markerNewData.openPopup();
+		}
+		
+		
 	}
 
 </script>
