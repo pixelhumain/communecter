@@ -131,27 +131,7 @@
 
 				$( this.cssModuleName + " #liste_map_element").html("");
 
-				if(this.initParameters.usePanel){
-					$( this.cssModuleName + " #panel_filter").html(
-							'<button class="item_panel_map" id="item_panel_filter_all">' + 
-								'<i class="fa fa-star"></i> Tous' +
-							'</button>');
-
-					$(this.cssModuleName + ' #item_panel_filter_all').click(function(){
-						thisSig.changeFilter('all', thisMap, "types");
-					});
-				}
 				
-				if(this.initParameters.usePanel){
-					$( this.cssModuleName + " #panel_map").html(
-							'<button class="item_panel_map" id="item_panel_map_all">' +
-								'<i class="fa fa-star"></i> Tous' +
-							'</button>');
-
-					$(this.cssModuleName + ' #item_panel_map_all').click(function(){
-						thisSig.changeFilter('all', thisMap, "tags");
-					});
-				}
 				this.showMyPosition();
 
 			};

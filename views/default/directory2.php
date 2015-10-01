@@ -385,23 +385,19 @@ function initMap(){
 	//EVENT MENU PANEL
 	$(".filterorganizations").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($organizations) ?>;
-		Sig.showMapElements(mapBg, mapData);
+		Sig.changeFilter("organizations", Sig.map, "types");
 	});
 	$(".filterpersons").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($people) ?>;
-		Sig.showMapElements(mapBg, mapData);
+		Sig.changeFilter("people", Sig.map, "types");
 	});
 	$(".filterevents").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($events) ?>;
-		Sig.showMapElements(mapBg, mapData);
+		Sig.changeFilter("events", Sig.map, "types");
 	});
 	$(".filterprojects").click(function(){
 		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);
+		Sig.changeFilter("projects", Sig.map, "types");
 	});
 	//EVENT MENU PANEL - ALL
 	$(".filter").click(function(){
