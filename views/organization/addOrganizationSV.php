@@ -408,7 +408,6 @@ jQuery(document).ready(function() {
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
-	var mapCityOrga = null;
 	var marker = null;
 
 	/**************************************************************************************************************/

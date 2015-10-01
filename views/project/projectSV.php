@@ -431,7 +431,6 @@ function convertDate2(date, num){
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
-	var mapCityOrga = null;
 	var marker = null;
 
 	/**************************************************************************************************************/
@@ -489,7 +488,7 @@ function convertDate2(date, num){
 
 		var content = Sig.getPopupNewData();
 		var properties = { 	id : "0",
-							icon : Sig.getIcoMarkerMap({"type" : "event"}),
+							icon : Sig.getIcoMarkerMap({"type" : "project"}),
 							content: content };
 
 		//console.log("before getMarkerSingle");
