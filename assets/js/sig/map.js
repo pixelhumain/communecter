@@ -367,7 +367,7 @@
 							//si l'élément n'est pas déjà dans la liste, on l'enregistre
 							if($.inArray(objectId, this.listId) == -1)
 							{	
-								console.log("push " + objectId);
+								//console.log("push " + objectId);
 								this.elementsMap.push(thisData);
 								this.listId.push(objectId);
 								this.populatePanel(thisData, objectId); //["tags"]

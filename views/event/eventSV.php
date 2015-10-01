@@ -639,6 +639,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		if(position == null) position = geoPosition[0];
 		//console.log("position"); console.dir(position);
 		 
+		$("#geoPosLongitude").attr("value", position["lat"]);
+		$("#geoPosLatitude").attr("value", position["lon"]);
+
 		var latlng = [position["lat"], position["lon"]];
 		//Sig.map.setView(latlng, 15);
 
