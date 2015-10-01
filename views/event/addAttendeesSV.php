@@ -1,21 +1,28 @@
+<?php echo "oui"; ?> 
 <style>
-
+<?php if(!@$isNotSV){ ?>
 #newAttendees{
 	display: none;
 }
+<?php } ?>
 #step3{
 	display:none;
 }
 </style>
 <div id="newAttendees">
+	<?php if(@$isNotSV){ ?>
+		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h2>
+	<?php } ?>
 	<div class="col-md-6 col-md-offset-3">  
        	<div class="panel panel-white">
         	<div class="panel-heading border-light">
+	        	<?php if(!@$isNotSV){ ?>
 				<h1><?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h1>
+				<?php } ?>
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
-				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="" type="text"/>
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php if (@$isNotSV) echo $id ?>" type="text"/>
 				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" value="" type="text"/>
 				<div class="row" id="step1">
 					<div class="col-md-1">	
@@ -78,6 +85,8 @@
 	</div>
 </div>
 <script type="text/javascript">
+	var isNotSV = <?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
+	
 	jQuery(document).ready(function() {
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
@@ -182,7 +191,7 @@
 				newAttendee.name = $(".form-attendees .attendees-name ").val(), 
 				newAttendee.email = $('.form-attendees .attendees-email').val(),
 				console.log(newAttendee);
-				idEvent=$(".attendees-parentId").val();
+				idEvent = $(".attendees-parentId").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -219,12 +228,16 @@
 				        if (data &&  data.result) { 
 					        console.log(data);           
 				        	toastr.success(data.msg);
-				        	$.hideSubview();
-				        	if(typeof(data.attendee.person) != "undefined")
-				        		newAttendee=data.attendee.person;
-				        	else
-				        		newAttendee=data.attendee;
-				        	addAttendeeToTabe(data.id,newAttendee);
+				        	if (isNotSV==0){
+					        	$.hideSubview();
+					        	if(typeof(data.attendee.person) != "undefined")
+					        		newAttendee=data.attendee.person;
+					        	else
+					        		newAttendee=data.attendee;
+					        	addAttendeeToTabe(data.id,newAttendee);
+							} else {
+								openMainPanelFromPanel( baseUrl+'/'+moduleId+'/event/detail/id/'+idEvent, 'Event : <?php if(@$eventName) echo $eventName ?>',"fa-calendar", idEvent );
+							}
 				        } else {
 				           toastr.error(data.msg);
 				        }
@@ -236,12 +249,12 @@
 	};
 
 	// on hide attendees's form destroy summernote and bootstrapSwitch plugins
-	function hideEditProject() {
+	function hideEditAttendee() {
 		showSearchAttendees();
 		$.hideSubview();
 	};
 	// enables the edit form 
-	function editProject(el) {
+	function editAttendee(el) {
 		$(".close-new-attendees").off().on("click", function() {
 			$(".back-subviews").trigger("click");
 		});

@@ -8,6 +8,19 @@
 				<a href="#newAttendees" class="new-attendees btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" data-id="<?php echo  (string)$event["_id"] ?>" title="Add attendees" alt="Add attendees"><i class="fa fa-plus"></i> </a>
 			<?php //} ?>
 		</div>
+		<?php if (isset($isDetailView)){ ?>
+			<?php foreach ($attending as $member) { 
+			?>
+				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">
+				<?php if($member && isset($member["imagePath"])) { ?>
+					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
+				<?php } else{ ?>
+					<i class="fa fa-smile-o fa-2x"></i>					
+				<?php } ?>
+				</a>					
+			<?php } ?>
+		<?php }
+		else { ?>
 		<div class="panel-body no-padding">
 			<div class="tabbable no-margin no-padding partition-dark">
 				<ul id="myTab" class="nav nav-tabs">
@@ -51,26 +64,32 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 	</div>
 
 <script type="text/javascript">
+	var isNotSV=<?php if (@$isDetailView) echo 1; else echo 0; ?>;
 	jQuery(document).ready(function() {
 		$(".new-attendees").off().on("click", function() {
-			subViewElement = $(this);
-			$(".form-attendees .attendees-parentId").val($(this).data("id"));
-			subViewContent = subViewElement.attr('href');
-			$.subview({
-				content : subViewContent,
-				onShow : function() {
-					editProject();
-				},
-				onHide : function() {
-					hideEditProject();
-				},
-				onSave: function() {
-					hideEditProject();
-				}
-			});
+			if (isNotSV==0){
+				subViewElement = $(this);
+				$(".form-attendees .attendees-parentId").val($(this).data("id"));
+				subViewContent = subViewElement.attr('href');
+				$.subview({
+					content : subViewContent,
+					onShow : function() {
+						editAttendee();
+					},
+					onHide : function() {
+						hideEditAttendee();
+					},
+					onSave: function() {
+						hideEditAttendee();
+					}
+				});
+			} else {
+				showAjaxPanel( baseUrl+'/'+moduleId+'/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id")+"&eventName=<?php echo $event["name"] ?>", 'ADD ATTENDEE','users' )
+			}
 		});
 	});
 </script>
