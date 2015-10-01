@@ -100,6 +100,10 @@
 			if(params.useZoomButton){
 				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ thisMap.zoomIn(); });
 				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
+			}
+
+			//initialise les boutons zoom-in et zoom-out
+			if(params.useHomeButton){
 				this.initHomeBtn();
 			}
 

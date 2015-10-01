@@ -164,6 +164,12 @@
 			return popupContent;
 		};
 
+		Sig.getPopupSearchPlace = function(dataTxt){
+							
+			var popupContent = "<h1>"+dataTxt+"</h1></br>";
+			return popupContent;
+		};
+
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopupEvent = function(data){

@@ -262,8 +262,8 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		var options = {  id : 0,
 						 icon : this.getIcoMarker({'type' : 'markerPlace'}),
-						 content : "<span class='popup-result-find-place'>"+$(thisSig.cssModuleName + ' #btn-show-place-'+id).html()+"</span>" }; //,
-						
+						 content : thisSig.getPopupSearchPlace($(thisSig.cssModuleName + ' #btn-show-place-'+id).html())
+					  };
 
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
 		
