@@ -104,7 +104,7 @@ if( isset($_GET["isNotSV"]))
 								<label for="address">
 									<?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
 								</label>
-								<input type="text" class="form-control" name="address" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
 							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
@@ -259,11 +259,8 @@ jQuery(document).ready(function() {
 		data : countries
 	});
 
-	$('#btn-show-city').click(function(){
-		$("#ajaxSV").hide(400);
-		//showCityOnMap();
-	});
-
+	Sig.clearMap();
+	
 	$("textarea.autosize").autosize();
 	
 	formValidator();
@@ -378,7 +375,7 @@ jQuery(document).ready(function() {
 	        $("#cityDiv").slideUp("medium");
 	      }
 
-	    $("#alert-city-found").removeClass("hidden");
+	    
 	}
 
 	function bindPostalCodeAction() {
@@ -408,7 +405,6 @@ jQuery(document).ready(function() {
 		}
 	}
 
-	//var Sig = null;
 
 	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
 	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
@@ -428,10 +424,11 @@ jQuery(document).ready(function() {
 
 		//var geoPosition = geoPositionCity;
 		
-		Sig.clearMap();
+		//Sig.clearMap();
 		//console.log("*** showCityOnMap ***");
 		//console.dir(geoPosition);
 
+		$("#alert-city-found").removeClass("hidden");
 		var cp = $("#postalCode").val();
 
 		var position = null;
@@ -470,6 +467,7 @@ jQuery(document).ready(function() {
 							content: content };
 
 		//console.log("before getMarkerSingle");
+		Sig.clearMap();
 		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
 		//console.log("before openPopup");
 		markerNewData.openPopup();

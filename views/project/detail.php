@@ -1,5 +1,5 @@
 <?php 
-//if( isset($_GET["isNotSV"])) 
+if( isset($_GET["isNotSV"])) 
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
@@ -12,9 +12,7 @@ $this->renderPartial('../default/panels/toolbar');
 																	"countries" => $countries,
 																	"isAdmin"=> $admin,
 																	"tasks" =>$tasks,
-																	"needs"=> $needs,
-																	"events" => $events,
-																"imagesD" => $images
+																	"imagesD" => $images
 																	//"events" => $events
 																	));
 				?>
@@ -32,21 +30,28 @@ $this->renderPartial('../default/panels/toolbar');
 				?>
 				<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 			</div>
+			<div class="col-md-4 needsPod">
+			</div>
+			<div class="col-md-4 col-xs-12">
+				<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+																"contextId" => (String) $project["_id"],
+																"contextType" => Project::CONTROLLER,
+																"authorised" => $admin,
+																"isNotSV" => 1
+															  )); ?>
+			</div>
 
-		</div>
-
-		<div class ="col-lg-8 col-md-12">
-			 
-		</div>
-		
-	
+		</div>	
 	</div>
 </div>
 
 <script type="text/javascript">
 	
 jQuery(document).ready(function() {
+
+
 //getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 });
+getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 </script>

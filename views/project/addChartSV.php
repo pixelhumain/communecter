@@ -16,9 +16,11 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <style>
+<?php if (!@$isNotSV){?>
 #editProjectChart{
 	display: none;
 }
+<?php } ?>
 .borderHover{
 	background-color: rgba(0,  0,  0, 0.04);
 	border-radius:5px;
@@ -39,7 +41,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 }
 </style>
 <div id="editProjectChart">
-	<div class="noteWrap col-md-8 col-md-offset-2">
+	<div class="noteWrap <?php if (@$isNotSV) echo "panel-white col-md-12"; else echo "col-md-8 col-md-offset-2"?>">
 		<h3><?php echo Yii::t("project","Add project's properties",null,Yii::app()->controller->module->id) ?></h3>
 		<form class="form-chart">
 			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
@@ -129,11 +131,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</div>
 					</div>
 				</div>
-				<!--<div class="">
+				<?php if (@$isNotSV){ ?>
+				<div class="">
 					<div class="row">
 		    	        <button class="btn btn-primary" >Enregistrer</button>
 					</div>
-				</div>-->
+				</div>
+				<?php } ?>
 			</div>
 		</form>
 	</div>

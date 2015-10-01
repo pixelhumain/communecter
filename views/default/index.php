@@ -311,6 +311,7 @@ var mapIconTop = {
     "event":"fa-calendar",
     "project":"fa-lightbulb-o"
   };
+var images = [];  
   jQuery(document).ready(function() {
 
     if($(".tooltips").length) {
@@ -352,14 +353,14 @@ var mapIconTop = {
         }   
     });
 
-    $('#searchBar').focusout(function(e){
-      //$('#dropdown_searchTop').css("display" , "none");
+    /*$('#searchBar').focusout(function(e){
+      $('#dropdown_searchTop').css("display" , "none");
     });
     
     $('#searchBar').focusin(function(e){
       if($("#searchBar").val() != "")
       $('#dropdown_searchTop').css("display" , "inline");
-    });
+    });*/
     
     $('.btn-show-map').click(function(e){
       showMap();
@@ -476,10 +477,8 @@ function autoCompleteSearch(name){
             if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
-            
-            $('.searchEntry').off().on("click", function(){alert();
-              setSearchInput($(this).data("id"), $(this).data("type"),$(this).data("name"), $(this).data("icon") );
-            });
+ 
+            addEventOnSearch(); 
           }
       } 
     })
@@ -487,11 +486,14 @@ function autoCompleteSearch(name){
 
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
+      console.log("event");
       setSearchInput($(this).data("id"), $(this).data("type"),$(this).data("name"), $(this).data("icon") );
+      $('#dropdown_searchTop').css("display" , "none");
     });
   }
 
   function setSearchInput(id, type,name,icon){
+    console.log("showpanel ?");
     if(type=="citoyen"){
       type = "person";
     }

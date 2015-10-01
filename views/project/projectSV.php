@@ -76,6 +76,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<input type="text" class="project-end-date" value="" name="projectEndDate"/>
 							</div>
 						</div>
+						<div class="form-group">
+							<div>
+								<label for="form-field-24" class="control-label"> Description </label>
+								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+							</div>
+						</div>
 						<!--<div class="form-group">
 							<label class="control-label">
 								Url
@@ -89,12 +95,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input class="project-licence form-control" name="projectLicence" value=""/>
 						</div>-->
 					</div>
+
 					<div class="col-md-6 col-sd-6 ">
 						<div class="form-group">
 							<label class="control-label">
 								<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 							</label>
 							<input type="hidden" name="projectCountry" id="projectCountry" style="width: 100%; height:35px;"/>								
+						</div>
+						<div class="form-group">
+							<label class="control-label">
+								<?php echo Yii::t("common","Adresse") ?> <span class="symbol required"></span>
+							</label>
+							<span class="input-icon">
+								<input type="text" class="form-control" name="streetAddress" id="fullStreet" >
+								<i class="fa fa-road"></i>
+							</span>
 						</div>
 						<div class="row">
 							<div class="col-md-4 form-group">
@@ -112,16 +128,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							</div>
 						</div>
 						
+						<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
+							<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+							<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+						</div>
+
+						<input type="hidden" name="geoPosLatitude" id="geoPosLatitude">
+						<input type="hidden" name="geoPosLongitude" id="geoPosLongitude">
+					
 					</div>
 
-					<div class="col-md-12">
-						<div class="form-group">
-							<div>
-								<label for="form-field-24" class="control-label"> Description </label>
-								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
-							</div>
-						</div>
-					</div>		
+						
 				</div>
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
 				<div class="col-md-12">
@@ -147,12 +164,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 <script type="text/javascript">
+
+var citiesByPostalCode;
+
 jQuery(document).ready(function() {
 	addCustomValidators();
 	initProjectForm();
 	bindProjectSubViewProjects();
  	bindPostalCodeAction();
  	runProjectFormValidation();
+ 	Sig.clearMap();
+		
 	//var countries = <?php echo json_encode($countries) ?>;
 	var countries = getCountries("select2");
 
@@ -254,7 +276,9 @@ function runProjectFormValidation(el) {
 			newProject.city=$(".form-project #city").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
-			
+			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val();				
+			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val();				
+				
 			console.log(newProject);
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -339,7 +363,10 @@ function initProjectForm(el) {
 
 //*************** Postal Code Management ****************************/
 function runShowCity(searchValue) {
-	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	Sig.execFullSearchNominatim(0);
+
+
 	var oneValue = "";
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
@@ -401,5 +428,114 @@ function convertDate2(date, num){
 	//console.log(hourRes);
 	return dateTab[num].split(" ")[0+num]+" "+hourRes;
 }
+
+	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
+	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
+	var mapCityOrga = null;
+	var marker = null;
+
+	/**************************************************************************************************************/
+	//mémorise l'url des assets (si besoin)
+	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
+
+	function callBackFullSearch(resultNominatim){
+		//console.log("callback ok");
+		showCityOnMap(resultNominatim);
+	}
+
+	function showCityOnMap(geoPosition){ 
+
+		//var geoPosition = geoPositionCity;
+		
+		//Sig.clearMap();
+		//console.log("*** showCityOnMap ***");
+		//console.dir(geoPosition);
+		
+		$("#alert-city-found").removeClass("hidden");
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					//console.log(value2.text); console.log(value.address.city);
+					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		var latlng = [position["lat"], position["lon"]];
+		//Sig.map.setView(latlng, 15);
+
+		Sig.centerSimple(latlng, 15);
+		//console.log("center ok");
+
+		var content = Sig.getPopupNewData();
+		var properties = { 	id : "0",
+							icon : Sig.getIcoMarkerMap({"type" : "event"}),
+							content: content };
+
+		//console.log("before getMarkerSingle");
+		Sig.clearMap();
+		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
+		//console.log("before openPopup");
+		markerNewData.openPopup();
+		//console.log("after openPopup");
+		markerNewData.dragging.enable();
+		//console.log("after dragging");
+
+		$("#btn-validate-geopos").click(function(){
+			btnValidateClick();
+		});
+
+		markerNewData.on('dragend', function(e){
+			//console.log("dragend");
+			markerNewData.openPopup();	
+		});
+
+		markerNewData.on('popupopen', function(e){
+			//console.log("popupopen");
+			$("#btn-validate-geopos").click(function(){
+				btnValidateClick();
+			});
+		});
+		
+		markerNewData.on('dragstart', function(e){
+			//console.log("dragstart");
+			$("#ajaxSV").hide(400);
+		});
+
+		$('#btn-show-city').click(function(){
+			$("#ajaxSV").hide(400);
+			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
+		});
+
+		function btnValidateClick(){ //alert("yepaé");
+			//console.log("btnValidateClick");
+			markerNewData.closePopup();
+			Sig.centerSimple(markerNewData.getLatLng(), 15);
+			$("#ajaxSV").show(400);
+			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
+			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
+			Sig.map.invalidateSize(false);
+			markerNewData.openPopup();
+		}
+		
+		
+	}
 	
 </script>

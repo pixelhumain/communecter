@@ -123,6 +123,8 @@
 				});
 
 				this.listId = new Array();
+				this.elementsMap = new Array();
+				this.paginationNumPage = 1;
 				//this.listPanel = new Array();
 				//this.listPanel.tags = new Array();
 				//this.listPanel.types = new Array();
@@ -149,7 +151,7 @@
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
 
 					$( "#btn-home" ).click(function (){ 
-							thisSig.setView(center, 16);
+							thisSig.map.setView(center, 16);
 					});
 					$( ".btn-home" ).click(function (){ 
 							thisSig.centerSimple(center, 16);
@@ -359,10 +361,13 @@
 								marker = this.getGeoJsonMarker(properties, coordinates);
 								this.geoJsonCollection['features'].push(marker);
 							}
-
+							//console.dir(this.listId);
+							//console.log("inarray ? " + objectId);
+							//console.log($.inArray(objectId, this.listId));
 							//si l'élément n'est pas déjà dans la liste, on l'enregistre
 							if($.inArray(objectId, this.listId) == -1)
-							{
+							{	
+								console.log("push " + objectId);
 								this.elementsMap.push(thisData);
 								this.listId.push(objectId);
 								this.populatePanel(thisData, objectId); //["tags"]

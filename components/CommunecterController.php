@@ -143,6 +143,7 @@ class CommunecterController extends Controller
         "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
         "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
         "addhelpervalidation" => array("href" => "/ph/communecter/needs/addhelpervalidation"),
+        "addneedsv" => array("href" => "/ph/communecter/needs/addneedsv"),
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
@@ -229,6 +230,7 @@ class CommunecterController extends Controller
   	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
+       "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
     ),
 
     "job"=> array(

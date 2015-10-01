@@ -31,7 +31,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			?>
 				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">
 				<?php if($member && isset($member["imagePath"])) { ?>
-					<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member['imagePath']) ?>"></td>
+					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
 				<?php } else{ 
 						echo $icon;
 					} ?>

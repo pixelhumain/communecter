@@ -83,6 +83,7 @@
 
 			var maxPaginationBtn = 5;
 			var nbTotal = nbElement; //thisSig.elementsMap.length;
+			$(".right_tool_map_header_info").html(this.paginationBy + " / " + nbTotal);
 			//console.log("nbTotalEment : " + nbTotal);
 			if(nbTotal > this.paginationBy){
 

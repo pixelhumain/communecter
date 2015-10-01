@@ -17,15 +17,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 #myChart {
 	padding: 10px 10px 10px 10px;
 }
-@media (max-width: 979px) {
-            canvas {
-                width: 100% !important;
-                max-width: 800px;
-                height: auto !important;
-                // width: 500px !important;
-                // height: 300px !important;
-            }
-        }
+
 </style>
 
 <div class="panel panel-white">
@@ -33,8 +25,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
 			
-				<?php if ($admin){ ?>
-				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-pencil"></i>
+				<?php if ($admin){
+					if (@$isDetailView){
+						$propertiesSerialize = base64_encode(serialize($properties));
+						$propertiesSerialize = str_replace('"','/"',$propertiesSerialize);
+						$urlArray = '&properties={'.$propertiesSerialize.'}';
+					} 
+				?>
+				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/project/addchartsv/id/<?php echo $itemId ?>?isNotSV=1<?php echo $urlArray ?>', 'EDIT CHARTE','charte' )" <?php } ?>><i class="fa fa-pencil"></i>
 				</a>
 				<?php } ?>
 			<!--<div class="dropdown">
@@ -77,7 +75,7 @@ var properties=<?php echo json_encode($properties); ?> ;
 var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	if (countProperties > 0){
-		chartInit(properties);
+			setTimeout(function(){ chartInit(properties)}, 0);
 	}
 });
 
@@ -111,7 +109,7 @@ function updateChart(data, nbProperties){
 }
 
 function chartInit(dataProperties){
-	
+	console.log(dataProperties);
 	var labelProperties=[];
 	var valueProperties=[];
 	for (var label in dataProperties){

@@ -374,6 +374,7 @@ function initMap(){
 	//console.log("contextMap");
 	//console.dir(mapData);
 	//affichage des éléments sur la carte
+	Sig.clearMap();
 	Sig.showMapElements(mapBg, mapData);//, elementsMap); 
 	
 
