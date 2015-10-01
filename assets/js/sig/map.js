@@ -131,7 +131,7 @@
 
 				$( this.cssModuleName + " #liste_map_element").html("");
 
-				
+
 				this.showMyPosition();
 
 			};
@@ -139,7 +139,7 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					console.log("position find");
+					//console.log("position find");
 					var center = [thisSig.myPosition.position.latitude, 
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
@@ -291,7 +291,7 @@
 			{
 				//console.warn("--------------- getCoordinates ---------------------");
 
-				if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
+				//if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
 
 				if( thisData['geo'] != null && thisData['geo'].longitude != null ){
 					if(type == "markerSingle")
@@ -310,7 +310,7 @@
 				}else if(typeof thisData.locations != "undefined"){
 					//console.warn("--------------- locations ---------------------");
 					$.each(thisData.locations, function(key, value){
-						console.log(key + " => " + value);
+						//console.log(key + " => " + value);
 
 					});
 				}

@@ -494,12 +494,12 @@ function autoCompleteSearch(name){
   }
 
   function setSearchInput(id, type,name,icon){
-    console.log("showpanel ?");
+    //console.log("showpanel ?");
     if(type=="citoyen"){
       type = "person";
     }
     url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
-    console.log($(this).data("type"),$(this).data("id") );
+    //console.log($(this).data("type"),$(this).data("id") );
     //showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
     openMainPanelFromPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon, id);
     /*
