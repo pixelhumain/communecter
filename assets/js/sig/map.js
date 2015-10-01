@@ -151,7 +151,7 @@
 					thisSig.getMarkerSingle(thisSig.map, properties, center);
 
 					$( "#btn-home" ).click(function (){ 
-							thisSig.setView(center, 16);
+							thisSig.map.setView(center, 16);
 					});
 					$( ".btn-home" ).click(function (){ 
 							thisSig.centerSimple(center, 16);
