@@ -477,7 +477,7 @@ function autoCompleteSearch(name){
             if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
-
+ 
             addEventOnSearch(); 
           }
       } 
