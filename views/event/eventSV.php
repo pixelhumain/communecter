@@ -170,8 +170,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
 					</div>
 
-					<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
-					<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
+					<input type="hidden" name="geoPosLatitude" id="geoPosLatitude">
+					<input type="hidden" name="geoPosLongitude" id="geoPosLongitude">
 						
 			</div>
 			
@@ -611,7 +611,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		//Sig.clearMap();
 		//console.log("*** showCityOnMap ***");
 		//console.dir(geoPosition);
-		
+
 		$("#alert-city-found").removeClass("hidden");
 		var cp = $("#postalCode").val();
 
