@@ -370,6 +370,7 @@ var images = [];
       $("dropdown_searchTop").css("display", "none");
     });
 
+
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
@@ -499,7 +500,8 @@ function autoCompleteSearch(name){
     }
     url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
     console.log($(this).data("type"),$(this).data("id") );
-    showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
+    //showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
+    openMainPanelFromPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon, id);
     /*
     $("#searchBar").val(name);
     $("#searchId").val(id);
