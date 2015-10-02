@@ -88,7 +88,6 @@
 			url : url , 
 			title : title ,
 			icon : icon };
-		
 		showPanel('box-ajax');
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";

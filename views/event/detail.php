@@ -3,7 +3,7 @@
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-md-8 col-sm-12">
 		<?php $this->renderPartial('dashboard/description',array(
 								"event" => $event,
 								"organizer" =>$organizer,
@@ -16,8 +16,14 @@ $this->renderPartial('../default/panels/toolbar');
 		
 
 	</div>
+	<div class="col-md-4 col-sm-12">
+		<?php $this->renderPartial('dashboard/attendees', array(  "event"=> $event,
+																	
+																	"attending" => $attending,
 	
-	
+																	"isDetailView" => 1																));
+					?>
+	</div>
 </div>
 <script type="text/javascript">
 	

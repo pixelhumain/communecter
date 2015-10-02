@@ -216,6 +216,7 @@ class CommunecterController extends Controller
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
       "eventsv"         => array("href" => "ph/communecter/event/eventsv", "public" => true),
       "directory"       => array("href"=>"/ph/communecter/event/directory"),
+      "addattendeesv"       => array("href"=>"/ph/communecter/event/addattendeesv"),
     ),
 
     "project"=> array(

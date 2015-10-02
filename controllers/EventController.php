@@ -30,6 +30,7 @@ class EventController extends CommunecterController {
           'removeattendee'			 	=> 'citizenToolKit.controllers.event.RemoveAttendeeAction',
           'saveattendee'          => 'citizenToolKit.controllers.link.SaveAttendeeAction',
           'directory'             => 'citizenToolKit.controllers.event.DirectoryAction',
+          'addattendeesv'             => 'citizenToolKit.controllers.event.AddAttendeeSvAction',
       );
   }
 }
