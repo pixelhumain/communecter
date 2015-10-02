@@ -22,8 +22,33 @@
 
 			<!-- 	HEADER -->
 			<div class="right_tool_map_header">
-				<span class="right_tool_map_header_title">Résultats</span>
+				<?php if($sigParams['usePanel']){ ?>
+				<div class="btn-group btn-group-lg dropdown  pull-right" id="btn-tags">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-panel" data-toggle="dropdown">
+						<i class="fa fa-tags"></i>
+					</button>
+					<ul class="dropdown-menu panel_map pull-right" id="panel_map" role="menu" aria-labelledby="panel_map">
+					    <button class='item_panel_map' id='item_panel_map_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>	
+			<?php } ?>
+			<?php if($sigParams['useFilterType']){ ?>
+				<div class="btn-group btn-group-lg dropdown  pull-right" id="btn-filter">
+					<button type="button" class="btn btn-map dropdown-toggle" id="btn-filters" data-toggle="dropdown">
+						<i class="fa fa-filter"></i>
+					</button>
+					<ul class="dropdown-menu panel_map" id="panel_filter" role="menu" aria-labelledby="panel_filter">
+					    <button class='item_panel_map pull-right' id='item_panel_filter_all'>
+							<i class='fa fa-star'></i> Tous
+						</button>
+					</ul>
+				</div>
+			<?php } ?>	
+			<span class="right_tool_map_header_title">Résultats</span>
 				<span class="right_tool_map_header_info">935 / 1034</span>
+				
 			</div>
 			
 			<!-- 	PSEUDO SEARCH -->
@@ -83,31 +108,7 @@
 
 		<div class="btn-group-map tools-btn">
 		
-			<?php if($sigParams['usePanel']){ ?>
-				<div class="btn-group btn-group-lg dropdown " id="btn-tags">
-					<button type="button" class="btn btn-map dropdown-toggle" id="btn-panel" data-toggle="dropdown">
-						<i class="fa fa-tags"></i>
-					</button>
-					<ul class="dropdown-menu panel_map" id="panel_map" role="menu" aria-labelledby="panel_map">
-					    <button class='item_panel_map' id='item_panel_map_all'>
-							<i class='fa fa-star'></i> Tous
-						</button>
-					</ul>
-				</div>	
-			<?php } ?>
-			<?php if($sigParams['useFilterType']){ ?>
-				<div class="btn-group btn-group-lg dropdown" id="btn-filter">
-					<button type="button" class="btn btn-map dropdown-toggle" id="btn-filters" data-toggle="dropdown">
-						<i class="fa fa-filter"></i>
-					</button>
-					<ul class="dropdown-menu panel_map" id="panel_filter" role="menu" aria-labelledby="panel_filter">
-					    <button class='item_panel_map' id='item_panel_filter_all'>
-							<i class='fa fa-star'></i> Tous
-						</button>
-					</ul>
-				</div>
-			<?php } ?>	
-
+			
 
 			<?php if($sigParams['useZoomButton']){ ?>
 				<div class="btn-group btn-group-lg">		

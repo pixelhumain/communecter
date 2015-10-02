@@ -143,7 +143,7 @@ creer des conflits : regle pas assez specfique
 	float: left;
 	font-size: 14px;
 	font-weight: 500;
-	width: 100%;
+	width: 51%;
 }
 
 .right_tool_map_header_info{
@@ -151,6 +151,8 @@ creer des conflits : regle pas assez specfique
 	margin-left:20px;
 	font-weight: 300;
 	font-size: 13px;
+	float: left;
+	width: 51%;
 	
 }
 #map_pseudo_filters{
@@ -754,6 +756,24 @@ creer des conflits : regle pas assez specfique
 
 	.leaflet-popup-content #btn-validate-geopos{
 		margin-bottom: 10px;
+	}
+
+	#btn-tags, #btn-filter{
+		top:6px;
+		margin-right:4px;
+		position:absolute;
+
+	}
+	#btn-tags .btn-map, #btn-filter .btn-map{
+		padding:8px 14px !important;
+
+	}
+
+	#btn-filter{
+		right:0px;
+	}
+	#btn-tags{
+		right:55px;
 	}
 /* style tooltip des chartsMarkers */
 
