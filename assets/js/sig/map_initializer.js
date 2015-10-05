@@ -134,13 +134,29 @@
 					thisSig.changeFilter('all', thisMap, "tags");
 				});
 
-				$("#btn-tags").click(function(){
-					thisSig.switchDropDown("panel_map");
+				$(thisSig.cssModuleName + " #btn-tags").click(function(){
+					//thisSig.switchDropDown("panel_map");
 				});
 
 				$(thisSig.cssModuleName + ' #mapCanvas' + this.sigKey).focus(function(event) {
 					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
 				});
+				$(thisSig.cssModuleName + ' #right_tool_map').focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
+				});
+
+				$(thisSig.cssModuleName + ' .item_map_list').focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
+				});
+
+				$(thisSig.cssModuleName + ' #btn-tags').mouseenter(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').show(200);
+					$(thisSig.cssModuleName + ' #panel_filter').hide(1);
+				});
+				$(thisSig.cssModuleName + ' #right_tool_map').mouseleave(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').hide(200);
+				});
+
 			}
 
 			if(params.useFilterType){
@@ -152,11 +168,28 @@
 				});
 
 				$("#btn-filters").click(function(){ 
-					thisSig.switchDropDown("panel_filter");
+					//thisSig.switchDropDown("panel_filter");
 				});
 
 				$(thisSig.cssModuleName + ' #mapCanvas' + this.sigKey).focus(function(event) {
 					$(thisSig.cssModuleName + ' #panel_filter').css({'display':'none'});
+				});
+
+				$(thisSig.cssModuleName + ' #right_tool_map').focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').css({'display':'none'});
+				});
+
+				$(thisSig.cssModuleName + ' .item_map_list').focus(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').css({'display':'none'});
+				});
+
+
+				$(thisSig.cssModuleName + ' #btn-filters').mouseenter(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').show(200);
+					$(thisSig.cssModuleName + ' #panel_map').hide(1);
+				});
+				$(thisSig.cssModuleName + ' #right_tool_map').mouseleave(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').hide(200);
 				});
 			}
 

@@ -28,7 +28,8 @@
 						<i class="fa fa-tags"></i>
 					</button>
 					<ul class="dropdown-menu panel_map pull-right" id="panel_map" role="menu" aria-labelledby="panel_map">
-					    <button class='item_panel_map' id='item_panel_map_all'>
+					    <h3 class="title_panel_map"><i class="fa fa-angle-down"></i> Filtrer les résultats par tags</h3>
+						<button class='item_panel_map' id='item_panel_map_all'>
 							<i class='fa fa-star'></i> Tous
 						</button>
 					</ul>
@@ -40,7 +41,8 @@
 						<i class="fa fa-filter"></i>
 					</button>
 					<ul class="dropdown-menu panel_map" id="panel_filter" role="menu" aria-labelledby="panel_filter">
-					    <button class='item_panel_map pull-right' id='item_panel_filter_all'>
+					    <h3 class="title_panel_map"><i class="fa fa-angle-down"></i> Filtrer les résultats par types</h3>
+						<button class='item_panel_map' id='item_panel_filter_all'>
 							<i class='fa fa-star'></i> Tous
 						</button>
 					</ul>
