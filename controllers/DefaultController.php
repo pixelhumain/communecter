@@ -44,11 +44,107 @@ class DefaultController extends CommunecterController {
     {
         $this->layout = "//layouts/mainSimple";
 
-        $this->title = "TOTOTOTO";//Yii::app()->session['user']['name'];
-        /*$controller->subTitle = (isset($organization["shortDescripion"])) ? $organization["shortDescripion"] : "";
-        $controller->pageTitle = $controller->title." - ".$controller->subTitle;*/
+        //get The person Id
+        if (empty($id)) {
+            if ( empty( Yii::app()->session["userId"] ) ) {
+                $controller->redirect(Yii::app()->homeUrl);
+            } else {
+                $id = Yii::app()->session["userId"];
+            }
+        }
 
-        $this->render("index");      
+        /* **************************************
+        *  PERSON
+        ***************************************** */
+        $person = Person::getPublicData($id);
+
+        $this->title = ((isset($person["name"])) ? $person["name"] : "")."'s Directory";
+        $this->subTitle = (isset($person["description"])) ? $person["description"] : "";
+        $this->pageTitle = ucfirst($this->module->id)." - ".$this->title;
+
+        /* **************************************
+        *  EVENTS
+        ***************************************** */
+        $events = Authorisation::listEventsIamAdminOf($id);
+        $eventsAttending = Event::listEventAttending($id);
+        foreach ($eventsAttending as $key => $value) {
+          $eventId = (string)$value["_id"];
+          if(!isset($events[$eventId])){
+            $events[$eventId] = $value;
+          }
+        }
+
+        //TODO - SBAR : Pour le dashboard person, affiche t-on les événements des associations dont je suis memebre ?
+        //Get the organization where i am member of;
+
+        /* **************************************
+        *  ORGANIZATIONS
+        ***************************************** */
+        $organizations = array();
+        if( isset($person["links"]) && isset($person["links"]["memberOf"])) 
+        {
+          
+            foreach ($person["links"]["memberOf"] as $key => $member) 
+            {
+                $organization;
+                if( $member['type'] == Organization::COLLECTION )
+                {
+                    $organization = Organization::getPublicData( $key );
+                    $profil = Document::getLastImageByKey($key, Organization::COLLECTION, Document::IMG_PROFIL);
+                    if($profil !="")
+                      $organization["imagePath"]= $profil;
+                    array_push($organizations, $organization );
+                }
+           
+              if(isset($organization["links"]["events"]))
+              {
+                foreach ($organization["links"]["events"] as $keyEv => $valueEv) 
+                {
+                  $event = Event::getPublicData($keyEv);
+                  $events[$keyEv] = $event; 
+                }
+              }
+            }        
+            //$randomOrganizationId = array_rand($subOrganizationIds);
+            //$randomOrganization = Organization::getById( $subOrganizationIds[$randomOrganizationId] );
+            //$params["randomOrganization"] = $randomOrganization;
+            
+        }
+
+        /* **************************************
+        *  PEOPLE
+        ***************************************** */
+        $people = array();
+        if( isset( $person["links"] ) && isset( $person["links"]["knows"] )) {
+          foreach ( $person["links"]["knows"] as $key => $member ) {
+                if( $member['type'] == Person::COLLECTION )
+                {
+                  $citoyen = Person::getPublicData( $key );
+                  $profil = Document::getLastImageByKey( $key, Person::COLLECTION, Document::IMG_PROFIL );
+                  if($profil !="" )
+                      $citoyen["imagePath"]= $profil;
+                  array_push( $people, $citoyen );
+                }
+          }
+        }
+
+        /* **************************************
+        *  PROJECTS
+        ***************************************** */
+        $projects = array();
+        if(isset($person["links"]["projects"])){
+          foreach ($person["links"]["projects"] as $key => $value) {
+            $project = Project::getPublicData($key);
+            array_push( $projects, $project );
+          }
+        }
+
+        $params["organizations"] = $organizations;
+        $params["projects"] = $projects;
+        $params["events"] = $events;
+        $params["people"] = $people;
+
+        $this->render("index",$params);      
     }
 
     public function actionAbout() 

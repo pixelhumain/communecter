@@ -164,7 +164,7 @@ var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 var countries = <?php echo json_encode($countries) ?>;
 var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 var tags = <?php echo json_encode($tags)?>;
-var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : null; ?>;
+var imagesD = <?php echo(isset($imagesD) ) ? json_encode($imagesD) : "null"; ?>;
 if(imagesD != null){
 	var images = imagesD;
 }

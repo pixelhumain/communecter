@@ -30,8 +30,11 @@ if( isset($_GET["isNotSV"]))
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div id="addOrganization" >
+	<?php if( isset($_GET["isNotSV"])){?>
 	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
-	<?php 
+	<?php
+	} 
+	
 	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
 	<div class="<?php echo $size ?>" >  
