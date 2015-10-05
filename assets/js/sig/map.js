@@ -165,7 +165,7 @@
 				////console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();
-				var rightListHeight = mapHeight - 100;
+				var rightListHeight = mapHeight - 110;
 
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});
 				//alert(mapHeight);
@@ -177,6 +177,9 @@
 				
 				$(this.cssModuleName + " #right_tool_map").css(		{"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - 20 });// - $(this.cssModuleName + " #right_tool_map").width()});
 				$(this.cssModuleName + " .input-search-place").css( {"left":$("#mapCanvas" + this.sigKey).width() - $("#right_tool_map").width() - $(this.cssModuleName + " #right_tool_map").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+			
+				$(this.cssModuleName + " .panel_map").css({"max-height":rightListHeight - 8*2 /*padding*/ - 33 });
+				
 			};
 
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode normal
@@ -193,12 +196,15 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 130;
+				var rightPanelHeight = mapHeight - 140;
 
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
 				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});
 				
+				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
+				
+
 				$(this.cssModuleName + " .tools-btn").css( 
 					{"left":$("#mapCanvas" + this.sigKey).width() - 
 					$("#right_tool_map").width() - 

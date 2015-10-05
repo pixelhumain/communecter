@@ -461,7 +461,7 @@ creer des conflits : regle pas assez specfique
  	min-width:150px;
  	background-color:#2A3945;
  	padding:15px 0px;
- 	max-height:400px;
+ 	/*max-height:400px;*/
  	overflow-y: auto;
  	z-index: 10;
  	display:none;
@@ -595,11 +595,13 @@ creer des conflits : regle pas assez specfique
 	height: 46px;
     padding-left: 20px !important;
 	padding-top: 5px;
+    margin-top: 10px;
     width: 100%;
 	font-size:0.9em;
 	background-color: #FFF; /*#5F8295;*/
     color: white;
     font-size: 12px;
+    box-shadow: -5px 0px 1px 0px rgba(189, 189, 189, 0.4);
   }
   #lbl-chk-scope .pagination{
   	margin:5px auto;
