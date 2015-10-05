@@ -351,4 +351,11 @@ class CommunecterController extends Controller
 
     CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
   }
+
+  protected function beforeAction($action){
+    if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
+        Yii::app()->assetManager->forceCopy = true;
+    }
+    return parent::beforeAction($action);
+  }
 }
