@@ -386,21 +386,25 @@ var mapData = <?php echo json_encode($contextMap) ?>;
         }   
     });
 
-    /*$('#searchBar').focusout(function(e){
-      $('#dropdown_searchTop').css("display" , "none");
-    });
-    
     $('#searchBar').focusin(function(e){
       if($("#searchBar").val() != "")
       $('#dropdown_searchTop').css("display" , "inline");
-    });*/
+    });
+    
+    $('.mapCanvas').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+    });
+    
+    $('#ajaxSV').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+    });
     
     $('.btn-show-map').click(function(e){
       showMap();
     });
 
     $("#searchForm").off().on("click", function(){
-      $("dropdown_searchTop").css("display", "none");
+      $("#dropdown_searchTop").css("display", "none");
     });
 
     //preload directory data
@@ -408,8 +412,12 @@ var mapData = <?php echo json_encode($contextMap) ?>;
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
-    else
+    else{
       showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
+
+    }
+
+    initMap();
 
   });
 
@@ -506,7 +514,6 @@ function autoCompleteSearch(name){
                 postalCode = "";
                // if(o.type){
                   typeIco = o.type;
-                  console.log(typeIco);
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
                // }
@@ -546,9 +553,6 @@ function autoCompleteSearch(name){
 
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
-      console.log("event");
-      console.log($(this).data("insee"));
-
       setSearchInput($(this).data("id"), $(this).data("type"),
                      $(this).data("name"), $(this).data("icon"), 
                      $(this).data("insee") );
@@ -558,16 +562,13 @@ function autoCompleteSearch(name){
   }
 
   function setSearchInput(id, type,name,icon, insee){
-    //console.log("showpanel ?");
     if(type=="citoyen"){
       type = "person";
     }
     url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
     
-    console.log("type : " + type);
     if(type=="cities")
     url = baseUrl+"/" + moduleId + "/city/detail/insee/"+insee+"?isNotSV=1";
-    //console.log($(this).data("type"),$(this).data("id") );
     //showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
     openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
@@ -576,5 +577,54 @@ function autoCompleteSearch(name){
     $("#searchType").val(type);
     $("#dropdown_searchTop").css({"display" : "none" });*/  
   }
+
+
+  function initMap(){
+    var mapData = <?php echo json_encode($contextMap) ?>;
+    
+    //affichage des éléments sur la carte
+    Sig.clearMap();
+    Sig.showMapElements(mapBg, mapData);
+
+
+    $("li.filter .label-danger").click(function(){ alert($(this).html());
+      $("#right_tool_map").hide("false");
+      var mapData = <?php echo json_encode($projects) ?>;
+      Sig.showMapElements(mapBg, mapData);
+    });
+    //EVENT MENU PANEL
+    $(".filterorganizations").click(function(){
+      $("#right_tool_map").hide("false");
+      Sig.changeFilter("organizations", Sig.map, "types");
+    });
+    $(".filterpersons").click(function(){
+      $("#right_tool_map").hide("false");
+      Sig.changeFilter("people", Sig.map, "types");
+    });
+    $(".filterevents").click(function(){
+      $("#right_tool_map").hide("false");
+      Sig.changeFilter("events", Sig.map, "types");
+    });
+    $(".filterprojects").click(function(){
+      $("#right_tool_map").hide("false");
+      Sig.changeFilter("projects", Sig.map, "types");
+    });
+    //EVENT MENU PANEL - ALL
+    $(".filter").click(function(){
+      if($(this).attr("data-filter") == "all"){
+        $("#right_tool_map").hide("false");
+        var mapData = <?php echo json_encode($contextMap) ?>;
+        Sig.showMapElements(mapBg, mapData);
+      }
+    });
+
+    $.each($(".item_map_list_panel"), function(){
+      actions.push({ "id" : $(this).attr('data-id'), 
+               "onclick" : $(this).attr('onclick')
+             });
+    });
+
+  }
+
 
 </script>

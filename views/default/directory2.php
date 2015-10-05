@@ -292,7 +292,6 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 
-	initMap();
 });
 
 function showHideFeatures(classId){
@@ -348,83 +347,6 @@ function bindBtnEvents(){
 	})
 }
 
-<?php 
-	//rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-	//et pour ouvrir le panel info correctement
-	foreach($people 		  as $key => $data)	{ $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-	foreach($organizations 	  as $key => $data)	{ $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-	foreach($events 		  as $key => $data)	{ $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-	foreach($projects 		  as $key => $data)	{ $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-	
-	$contextMap = array();
-	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
-	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
-	if(isset($events)) 			$contextMap = array_merge($contextMap, $events);
-	if(isset($projects)) 		$contextMap = array_merge($contextMap, $projects);
-?>
-
-function finalShowMarker(){ //alert("ayé");
-	Sig.map.panBy([0, 160]);
-	$(".leaflet-popup-close-button").click();
-}
-
-function initMap(){
-	var mapData = <?php echo json_encode($contextMap) ?>;
-	
-	//affichage des éléments sur la carte
-	Sig.clearMap();
-	Sig.showMapElements(mapBg, mapData);
-
-
-	$("li.filter .label-danger").click(function(){ alert($(this).html());
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);
-	});
-	//EVENT MENU PANEL
-	$(".filterorganizations").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("organizations", Sig.map, "types");
-	});
-	$(".filterpersons").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("people", Sig.map, "types");
-	});
-	$(".filterevents").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("events", Sig.map, "types");
-	});
-	$(".filterprojects").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("projects", Sig.map, "types");
-	});
-	//EVENT MENU PANEL - ALL
-	$(".filter").click(function(){
-		if($(this).attr("data-filter") == "all"){
-			$("#right_tool_map").hide("false");
-			var mapData = <?php echo json_encode($contextMap) ?>;
-			Sig.showMapElements(mapBg, mapData);
-		}
-	});
-
-	$.each($(".item_map_list_panel"), function(){
-		actions.push({ "id" : $(this).attr('data-id'), 
-					   "onclick" : $(this).attr('onclick')
-					 });
-	});
-
-}
-
-function getActionsById(id){
-	var action = "";
-	$.each(actions, function(){
-		if(this.id == id) {
-			action = this.onclick;
-		}
-	});
-
-	return action;
-}
 </script>
 
 
