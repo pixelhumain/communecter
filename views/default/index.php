@@ -66,8 +66,9 @@ li.mix{
   background:rgba(255, 255, 255, 0.6) !important;
 }
 #dropdown_searchTop .li-dropdown-scope ol{
-  padding:3px !important;
-  color:#155869;
+  padding: 5px !important;
+  color: #155869;
+  padding-left: 15px !important;
 }
 
 #dropdown_searchTop .li-dropdown-scope ol a{
@@ -99,8 +100,10 @@ li.mix{
     border-radius: 1px;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
     width: 333px;
-    padding: 10px 5px;
+    padding: 10px 0px;
     right: -1px !important;
+    max-height:520px;
+    overflow-y: auto; 
 }
 
 #menu-top-container .fa-search{
@@ -135,6 +138,14 @@ li.mix{
   line-height: 0.8125rem;
 }
 
+.searchEntry i.fa{
+  border-radius:30px;
+  /*background-color: white;*/
+  padding: 10px 13px;
+  /*color:#155869 !important;*/
+}
+.searchEntry i.fa:hover{
+}
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -304,13 +315,17 @@ svg.graph .line {
 <script type="text/javascript">
 var timeout;
 var mapIconTop = {
+    "default" : "fa-arrow-circle-right",
     "citoyen":"fa-user", 
     "NGO":"fa-users",
     "LocalBusiness" :"fa-industry",
     "Group" : "fa-circle-o",
+    "group" : "fa-users",
+    "association" : "fa-users",
     "GovernmentOrganization" : "fa-university",
     "event":"fa-calendar",
-    "project":"fa-lightbulb-o"
+    "project":"fa-lightbulb-o",
+    "city":"fa-university"
   };
 var images = [];  
   jQuery(document).ready(function() {
@@ -466,14 +481,17 @@ function autoCompleteSearch(name){
           var city, postalCode = "";
           $.each(data, function(i, v) {
             var typeIco = i;
+            var ico = mapIconTop["default"];
             if(v.length!=0){
               $.each(v, function(k, o){
                 city = "";
                 postalCode = "";
-                if(o.type){
+               // if(o.type){
                   typeIco = o.type;
-                  htmlIco ="<i class='fa "+mapIconTop[o.type] +" fa-2x'></i>"
-                }
+                  console.log(typeIco);
+                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+                  htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
+               // }
                 if (o.address != null) {
                   city = o.address.addressLocality;
                   postalCode = o.address.postalCode;
@@ -482,11 +500,19 @@ function autoCompleteSearch(name){
                   var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
                 }
 
+                var insee = o.insee ? o.insee : "";
                 str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                    "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ mapIconTop[o.type] +"' class='searchEntry'>"+
-                    "<span>"+ htmlIco +"</span>  " + o.name +
-                    "<span class='city-search'> "+postalCode+" "+city+"</span>"+
-                    "</a></ol></div>";
+                        "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry'>"+
+                        "<span>"+ htmlIco +"</span>  " + o.name;
+
+                var cityComplete = "";
+                //console.log(postalCode + " - " + city);
+                if("undefined" != typeof postalCode) cityComplete += postalCode;
+                if("undefined" != typeof city && city != "Unknown" && cityComplete != "") cityComplete += " ";
+                if("undefined" != typeof city && city != "Unknown") cityComplete += city;
+                str +=   "<span class='city-search'> "+cityComplete+"</span>";
+
+                str +=  "</a></ol></div>";
               })
             }
             }); 
@@ -503,20 +529,29 @@ function autoCompleteSearch(name){
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
       console.log("event");
-      setSearchInput($(this).data("id"), $(this).data("type"),$(this).data("name"), $(this).data("icon") );
+      console.log($(this).data("insee"));
+
+      setSearchInput($(this).data("id"), $(this).data("type"),
+                     $(this).data("name"), $(this).data("icon"), 
+                     $(this).data("insee") );
+
       $('#dropdown_searchTop').css("display" , "none");
     });
   }
 
-  function setSearchInput(id, type,name,icon){
+  function setSearchInput(id, type,name,icon, insee){
     //console.log("showpanel ?");
     if(type=="citoyen"){
       type = "person";
     }
     url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
+    
+    console.log("type : " + type);
+    if(type=="cities")
+    url = baseUrl+"/" + moduleId + "/city/detail/insee/"+insee+"?isNotSV=1";
     //console.log($(this).data("type"),$(this).data("id") );
     //showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    openMainPanelFromPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon, id);
+    openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
     $("#searchBar").val(name);
     $("#searchId").val(id);
