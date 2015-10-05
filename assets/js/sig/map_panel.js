@@ -44,6 +44,7 @@
 			if(this.markersLayer.getBounds() != null){
 				thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 				thisMap.zoomOut();
+				thisMap.invalidateSize(false);
 			}
 		};
 		//***
