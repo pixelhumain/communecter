@@ -284,7 +284,7 @@
 		 					if("undefined" != typeof v.logo){
 		 						var logoSearch = '<div class="pull-right"><img alt="image" class="img-circle" src="'+baseUrl+"/"+moduleId+'/document/resized/40x40'+v.logo+'" /></div>'
 		 					}
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddAttendees(\''+v._id["$id"]+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:setMemberInputAddAttendees(\''+v.id+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
 		  				});
 		  			}); 
 

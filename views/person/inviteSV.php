@@ -321,7 +321,7 @@ function autoCompleteInviteSearch(search){
 
 function setInviteInput(num){
 	var person = tabObject[num];
-	var personId = person["_id"]["$id"];
+	var personId = person["id"];
 	console.log(person, personId);
 
 	$('#newInvite #inviteName').val(person["name"]);

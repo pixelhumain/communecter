@@ -374,7 +374,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		 			$.each(data, function(key, value) {
 		 				$.each(value, function(i, v){
 			 				name = (v.name) ? v.name.replace("'","ACCENT") : "";
-		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v._id["$id"]+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";
+		  					str += "<li class=\"li-dropdown-scope\"><a href='javascript:setMemberInputAddContributor(\""+v.id+"\",\""+name+"\",\""+v.email+"\",\""+key+"\",\""+v.type+"\")'><i class=\"fa "+mapIcon[key]+"\"></i>"+v.name +"</a></li>";
 		  				});
 		  			}); 
 		  			$("#newContributors #dropdown_search").html(str);
