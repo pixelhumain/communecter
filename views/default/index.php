@@ -216,7 +216,8 @@ li.mix{
     <div class="center text-white pull-left">
         <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="btn-home tooltips"   data-placement='right' data-original-title='MY DETAILS' ><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ></a>
         <br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" tooltips"  data-placement='right' data-original-title='N.E.W.S'><i class="fa fa-rss fa-2x btn-main-menu"></i></a>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
+        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
+        <br/><br/><a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="tooltips"  data-placement='right' data-original-title='MY CITY <?php echo Yii::app()->session['user']['codeInsee']?>'><i class="fa fa-university fa-2x btn-main-menu"></i></a>
         <br/><br/><a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="tooltips"  data-placement='right' data-original-title='ADD SOMETHING'><i class="fa fa-plus fa-2x btn-main-menu"></i></a>
         <?php /* ?>
         /ph/communecter/news/index/type/citoyens/id/520931e2f6b95c5cd3003d6c
@@ -380,16 +381,30 @@ var images = [];
   });
 
 function loadByHash( hash ) { 
-  switch( hash ) {
-    case "communecter.person.directory" :
+  console.log("loadByHash",hash);
+
+    if( hash.indexOf("#person.directory") >= 0 )
         showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
-        break;
-    case "communecter.person.detail" :
-        showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
-        break;
-    default:
+    else if( hash  == "#panel.box-add" )
+        showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
+    else if( hash.indexOf("#person.detail") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PERSON DETAIL ','user' );
+    else if( hash.indexOf("#event.detail") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'EVENT DETAIL ','calendar' );
+    else if( hash.indexOf("#project.detail") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PROJECT DETAIL ','lightbulb-o' );
+    else if( hash.indexOf("#organization.detail") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'ORGANIZATION DETAIL ','users' );
+    else if( hash.indexOf("#organization.addorganizationform") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )
+    else if( hash.indexOf("#person.invitesv") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' )
+    else if( hash.indexOf("#event.eventsv") >= 0 )
+        showAjaxPanel( baseUrl+'/'+moduleId+'/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )
+    else if( hash.indexOf("#project.projectsv") >= 0 )    
+        showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
+    else
         showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' );
-}
 }
 
 function runShowCity(searchValue) {
