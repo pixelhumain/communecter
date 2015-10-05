@@ -164,7 +164,7 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* TYPE + ICON
 						***************************************** */
-						$img = '<i class="fa '.$icon.' fa-3x"></i> ';
+						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
 						if ($e && isset($e["imagePath"])){ 
 							$img = '<img width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
 						}
@@ -195,7 +195,7 @@ if( isset($_GET["isNotSV"])) {
 						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
-						$panelHTML = '<li id="'.$collection.(string)$id.'" class="col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
+						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
 							'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
@@ -253,9 +253,9 @@ if( isset($_GET["isNotSV"])) {
 							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 
-						$flag = '';//'<div class="ico-type-account"><i class="fa fa-lightbulb-o fa-yellow"></i></div>';
+						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-yellow"></i></div>';
 						echo $panelHTML.
-							'<div class="imgDiv">'.$flag.$img.$featuresHTML.'</div>'.
+							'<div class="imgDiv left-col">'.$flag.$img.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
 					?>

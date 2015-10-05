@@ -35,8 +35,9 @@
 
 	.<?php echo $moduleName; ?>
 	.panel_map{
-		max-width:250px !important;
-		width:250px !important;
+		max-width:299px !important;
+		width:299px !important;
+		background:#7093A7;
 		/*position:absolute !important;*/
 		/*height:<?php echo $mapHeight; ?>px;*/
 		/*top:<?php echo $mapTop; ?>px;*/

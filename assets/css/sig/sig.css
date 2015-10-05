@@ -143,7 +143,7 @@ creer des conflits : regle pas assez specfique
 	float: left;
 	font-size: 14px;
 	font-weight: 500;
-	width: 100%;
+	width: 51%;
 }
 
 .right_tool_map_header_info{
@@ -151,6 +151,8 @@ creer des conflits : regle pas assez specfique
 	margin-left:20px;
 	font-weight: 300;
 	font-size: 13px;
+	float: left;
+	width: 51%;
 	
 }
 #map_pseudo_filters{
@@ -455,16 +457,17 @@ creer des conflits : regle pas assez specfique
  /* legende / panel */
 
  .panel_map{
- 	max-width:200px;
+ 	max-width:300px;
  	min-width:150px;
  	background-color:#2A3945;
  	padding:15px 0px;
- 	max-height:300px;
+ 	max-height:400px;
  	overflow-y: auto;
  	z-index: 10;
  	display:none;
  	border-radius:0px;
  	border:none;
+ 	top:97% !important;
  }
  .item_panel_map{
 	text-align:left !important;
@@ -473,7 +476,7 @@ creer des conflits : regle pas assez specfique
 	padding-bottom:3px;
 	padding-top:3px;
  	color:white !important;
- 	max-width:250px;
+ 	max-width:300px;
  	min-width:60px;
  	background:transparent;
  	border:0px;
@@ -487,8 +490,13 @@ creer des conflits : regle pas assez specfique
  .item_panel_map:hover{
   background-color:#5F8295 !important;
  }
- h3#title_panel{
- 	margin: 0px 0px 5px 10px;
+ h3.title_panel_map{
+ 	margin: 0px 0px 0px 0px;
+ 	margin: 0px;
+	padding: 4px;
+	padding-left: 15px;
+	text-align: left;
+	font-weight: 200;
  }
 .item_panel_map.selected{
  	background-color:#77A3AE !important;
@@ -754,6 +762,29 @@ creer des conflits : regle pas assez specfique
 
 	.leaflet-popup-content #btn-validate-geopos{
 		margin-bottom: 10px;
+	}
+
+	#btn-tags, #btn-filter{
+		top:0px;
+		margin:0px;
+		position:absolute;
+
+	}
+	#btn-tags .btn-map, #btn-filter .btn-map{
+		padding:14px 17px !important;
+		border-radius:0px;
+		background-color: rgba(42, 57, 69, 0.29) !important;
+	}
+
+	#btn-filter{
+		right:0px;
+	}
+	#btn-tags{
+		right:50px;
+	}
+
+	#panel_map{
+		right:-49px !important;
 	}
 /* style tooltip des chartsMarkers */
 

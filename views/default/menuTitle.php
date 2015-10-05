@@ -6,7 +6,7 @@
 
 	function showPanel(box,bgStyle,title,icon){
 		
-		if( navHistory != null)
+		/*if( navHistory != null)
 			prevNav = {
 				func : "showPanel",
 				box : navHistory.box,
@@ -20,11 +20,11 @@
 			bgStyle :bgStyle ,
 			title : title ,
 			icon : icon 
-		};
+		};*/
 
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
-		$('.'+activePanel+", .panelTitle").hide();
+		$('.'+activePanel+", .panelTitle, .box-ajax").hide();
 		$(".byPHRight").fadeOut();
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 
@@ -74,10 +74,18 @@
 
 		//show hash
 		urlT = url.split("/");
-		hashUrl = urlT[4]+"."+urlT[5]+"."+urlT[6];
-		location.hash = hashUrl;
+		hashUrl = urlT[5]+"."+urlT[6];
+		if(urlT[7] != undefined)
+			hashUrl += "."+urlT[7]+"."+urlT[8];
+		if(urlT[9] != undefined)
+			hashUrl += "."+urlT[9]+"."+urlT[10];
+		//adds hash to the url 
+		//timeout is a hack : dont understand why the hash is empty in some cases
+		//maybe a conflict with some libs that automatically overide the location hash 
+		setTimeout( function(){location.hash = hashUrl;},500 );
+		console.log(hashUrl);
 
-		if( navHistory != null)
+		/*if( navHistory != null)
 			prevNav = {
 			func : "showAjaxPanel",
 			url : navHistory.url , 
@@ -87,7 +95,7 @@
 			func : "showAjaxPanel",
 			url : url , 
 			title : title ,
-			icon : icon };
+			icon : icon };*/
 		showPanel('box-ajax');
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
