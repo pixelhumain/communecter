@@ -1,33 +1,26 @@
 <?php
 $cssAnsScriptFilesTheme = array(
-//Select2
-
-	//autosize
-	//Select2
 	'/assets/plugins/ion.rangeSlider/js/ion.rangeSlider.min.js',
 	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.css',
 	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
 	'/assets/plugins/ion.rangeSlider/css/normalize.min.css',
-		//'/assets/js/ui-sliders.js',
 );
-
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
 if (isset($isNotSV)){
-		$cssAnsScriptFilesModule = array(
-	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
-	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
-	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
-	//'/plugins/bootstrap-select/bootstrap-select.min.css',
-	//'/plugins/bootstrap-select/bootstrap-select.min.js'
-	'/plugins/autosize/jquery.autosize.min.js'
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+	$cssAnsScriptFilesModule = array(
+		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+		'/plugins/moment/min/moment.min.js' , 
+		'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+		'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+		'/plugins/autosize/jquery.autosize.min.js'
+	);
+	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 }
 ?>
 <style>
-<? if (!@$isNotSV){ ?>
+<?php if (!@$isNotSV){ ?>
 #newNeed{
 	display: none;
 }
