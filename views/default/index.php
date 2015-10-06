@@ -230,10 +230,10 @@ li.mix{
         <?php /* ?>
         <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
         */?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class=" tooltips"  data-placement='right' data-original-title='MY PEOPLE'><i class="fa fa-user fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" tooltips"  data-placement='right' data-original-title='MY ORGANIZATIONS'><i class="fa fa-users fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" tooltips"  data-placement='right' data-original-title='MY PROJECTS'><i class="fa fa-lightbulb-o fa-2x"></i></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" tooltips"  data-placement='right' data-original-title='MY EVENTS'><i class="fa fa-calendar fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class=" tooltips annuaire"  data-sig-type="people" data-placement='right' data-original-title='MY PEOPLE'><i class="fa fa-user fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" tooltips annuaire"  data-sig-type="organizations"  data-placement='right' data-original-title='MY ORGANIZATIONS'><i class="fa fa-users fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','lightbulb-o' )" class=" tooltips annuaire"  data-sig-type="projects"  data-placement='right' data-original-title='MY PROJECTS'><i class="fa fa-lightbulb-o fa-2x"></i></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calendar' )" class=" tooltips annuaire"  data-sig-type="events"  data-placement='right' data-original-title='MY EVENTS'><i class="fa fa-calendar fa-2x"></i></a>
         
         
         <br/><br/><a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="tooltips"  data-placement='right' data-original-title='MY CITY <?php echo Yii::app()->session['user']['codeInsee']?>'><i class="fa fa-university fa-2x btn-main-menu"></i></a>
@@ -416,6 +416,11 @@ var mapData = <?php echo json_encode($contextMap) ?>;
       showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
 
     }
+
+    $(".tooltips.annuaire").click(function (){
+      Sig.changeFilter($(this).data("sig-type"), Sig.map, "types");
+      showMap(false);
+    });
 
     initMap();
 
