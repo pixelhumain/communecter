@@ -230,23 +230,27 @@ li.mix{
         color:black;
         float:right;
         margin-left:5px;
+        
     }
     .menuIcon i{
         float:left;
         margin-left:5px;
     }
+    .menuIcon:hover {
+        opacity: 1;
+    }
     </style>
-<div class="center text-white" id="menu-container" style="" >
+<div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left" >
         <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide" > MY DETAILS</span></a>
-        <br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
+        <br/><br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
         <?php /* ?>
         <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
         */?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
+        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
         
         
         <br/><br/><a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
@@ -365,10 +369,10 @@ var mapData = <?php echo json_encode($contextMap) ?>;
       $('.tooltips').tooltip();
     }
 
-    $(".menuIcon").hover(function() { 
+    $("#menu-container").hover(function() { 
       $(".menuline").removeClass("hide");
     });
-    $(".menuline").mouseout(function() { 
+   $("#menu-container").mouseout(function() { 
       $(".menuline").addClass("hide");
     });
     $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
@@ -593,7 +597,7 @@ function autoCompleteSearch(name){
     url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
     
     if(type=="cities")
-    url = baseUrl+"/" + moduleId + "/city/detail/insee/"+insee+"?isNotSV=1";
+        url = baseUrl+"/" + moduleId + "/city/detail/insee/"+insee+"?isNotSV=1";
     //showAjaxPanel( baseUrl+'/'+moduleId+'/'+type+'/detail/id/'+id, type+" : "+name,icon);
     openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
