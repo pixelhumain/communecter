@@ -35,15 +35,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.mix .imgDiv{
 		float:left;
-		width:25%;
+		width:30%;
 		background: ;
 		margin-top:25px;
 	}
 	.mix .detailDiv{
 		float:right;
-		width:75%;
+		width:70%;
 		margin-top:25px;
-		padding-left:20px;
+		padding-left:10px;
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
@@ -52,6 +52,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	    right: 25px;
 	    top: 20px;
 	    font-size: 20px;
+	}
+
+	#Grid .item_map_list{
+		padding:0px !important; 
+	}
+	#Grid .ico-type-account i.fa{
+		margin-left:11px !important;
+	}
+	#Grid .thumbnail-profil{
+		margin-left:10px;
 	}
 </style>
 <?php 
@@ -166,7 +176,9 @@ if( isset($_GET["isNotSV"])) {
 						***************************************** */
 						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
 						if ($e && isset($e["imagePath"])){ 
-							$img = '<img width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						}else{
+							$img = "<div class='thumbnail-profil'></div>";
 						}
 						
 						/* **************************************
@@ -253,11 +265,51 @@ if( isset($_GET["isNotSV"])) {
 							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 
-						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-yellow"></i></div>';
+						$color = "";
+						if($icon == "fa-users") $color = "green";
+						if($icon == "fa-user") $color = "yellow";
+						if($icon == "fa-calendar") $color = "orange";
+						if($icon == "fa-lightbulb-o") $color = "yellow";
+						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo $panelHTML.
-							'<div class="imgDiv left-col">'.$flag.$img.$featuresHTML.'</div>'.
+							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
+/*
+					//return l'élément html
+		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
+		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(element) +'">'
+		    					+ "<div class='left-col'>"
+		    					+ 	"<div class='thumbnail-profil'></div>"						
+		    					+ 	"<div class='ico-type-account'>"+icons+"</div>"
+		    					
+		    					+ "</div>"
+								+ "<div class='right-col'>";
+						
+						if("undefined" != typeof name)
+						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
+						
+						if("undefined" != typeof element['tags']){
+							button	+= 	"<div class='info_item items_map_list'>";
+							$.each(element['tags'], function(index, value){
+								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
+							});
+							button	+= 	"</div>";
+						}
+
+						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressLocality'] )
+						button	+= 	"<div class='info_item city_item_map_list'>" + element['address']['addressLocality'] + "</div>";
+								
+						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
+						button	+= 	"<div class='info_item country_item_map_list'>" + element['address']['addressCountry'] + "</div>";
+								
+						if("undefined" != typeof element['telephone'])
+						button	+= 	"<div class='info_item telephone_item_map_list'>" + element['telephone'] + "</div>";
+						
+				button += 	'</div><div class="separation"></div>';
+				
+				button += 	'</button>' +
+						 '<div>';*/
 					?>
 				</ul>
 			</div>
