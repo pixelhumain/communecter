@@ -552,18 +552,18 @@ function autoCompleteSearch(name){
                
                 //console.dir(o);
                   
-                /*if (o.address != null) {
+                if (o.address != null) {
                   console.dir(o.address);
                   city = o.address.addressLocality;
-                  postalCode = o.address.postalCode;
-                  insee = o.address.insee;
+                  //postalCode = o.address.postalCode;
+                  //insee = o.address.insee;
                 }
-                */
+                
                 if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
                   var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
                 }
 
-                var insee      = o.insee      ? o.insee      : "";
+                var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
 
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
@@ -572,9 +572,9 @@ function autoCompleteSearch(name){
                           "<span>"+ htmlIco +"</span>  " + o.name;
 
                 var cityComplete = "";
-                console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
-                //if("undefined" != typeof city && city != "Unknown") cityComplete += city;
-                //if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
+                //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
+                if("undefined" != typeof city && city != "Unknown") cityComplete += city;
+                if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
                 str +=   "<span class='city-search'> "+cityComplete+"</span>";
 
