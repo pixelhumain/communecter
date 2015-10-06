@@ -329,19 +329,41 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 
 </div>
 <!-- end: PAGE CONTENT-->
+
+<?php 
+    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+    //et pour ouvrir le panel info correctement
+    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    
+    $contextMap = array();
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+    if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($events))          $contextMap = array_merge($contextMap, $events);
+    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+?>
+
 <script>
 
 var contextMap = {};
-contextMap = <?php echo json_encode($person) ?>;
+contextMap = <?php echo json_encode($contextMap) ?>;
+var city = <?php echo json_encode($city) ?>;
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
+
+//  console.log("contextMap");
+//  console.dir(contextMap);
+initCityMap();
 
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
 
-	$('.pulsate').pulsate({
+  
+/*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
             reach: 10, // how far the pulse goes in px
             speed: 1000, // how long one pulse takes in ms
@@ -350,7 +372,7 @@ jQuery(document).ready(function() {
             repeat: 10, // will repeat forever if true, if given a number will repeat for that many times
             onHover: false // if true only pulsate if user hovers over the element
         });
-		
+	*/	
 		getAjax(".shareAgendaPod", baseUrl+"/"+moduleId+"/pod/slideragenda/id/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){
 			//initAddEventBtn ();
 		}, "html");
@@ -365,9 +387,17 @@ jQuery(document).ready(function() {
 });
 
 
+function initCityMap(){
+  //affichage des éléments sur la carte
+  //console.log("clearMap");
+  //Sig.clearMap();
+  //console.log("showMapElements");
+  Sig.showMapElements(Sig.map, contextMap);
+  Sig.map.panTo([city.geo.latitude, city.geo.longitude]);
+  Sig.map.setZoom(12);
+}
 
-var bindBtnFollow = function(){
-
+function bindBtnFollow(){
 
 	$(".disconnectBtn").off().on("click",function () {
         
@@ -420,7 +450,7 @@ var bindBtnFollow = function(){
 	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
 	        	$(".connectBtn").fadeOut();
 	        	$("#btnTools").empty();
-	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>')
+	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>');
 	        	bindBtnFollow();
 	        } else {
 	           toastr.info("something went wrong!! please try again.");
@@ -429,7 +459,7 @@ var bindBtnFollow = function(){
 	    });
         
 	});
-}
+};
 
 	
 </script>
