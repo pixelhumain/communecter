@@ -275,41 +275,7 @@ if( isset($_GET["isNotSV"])) {
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
-/*
-					//return l'élément html
-		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
-		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(element) +'">'
-		    					+ "<div class='left-col'>"
-		    					+ 	"<div class='thumbnail-profil'></div>"						
-		    					+ 	"<div class='ico-type-account'>"+icons+"</div>"
-		    					
-		    					+ "</div>"
-								+ "<div class='right-col'>";
-						
-						if("undefined" != typeof name)
-						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
-						
-						if("undefined" != typeof element['tags']){
-							button	+= 	"<div class='info_item items_map_list'>";
-							$.each(element['tags'], function(index, value){
-								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
-							});
-							button	+= 	"</div>";
-						}
 
-						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressLocality'] )
-						button	+= 	"<div class='info_item city_item_map_list'>" + element['address']['addressLocality'] + "</div>";
-								
-						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
-						button	+= 	"<div class='info_item country_item_map_list'>" + element['address']['addressCountry'] + "</div>";
-								
-						if("undefined" != typeof element['telephone'])
-						button	+= 	"<div class='info_item telephone_item_map_list'>" + element['telephone'] + "</div>";
-						
-				button += 	'</div><div class="separation"></div>';
-				
-				button += 	'</button>' +
-						 '<div>';*/
 					?>
 				</ul>
 			</div>
