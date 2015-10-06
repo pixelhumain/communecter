@@ -35,15 +35,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.mix .imgDiv{
 		float:left;
-		width:25%;
+		width:30%;
 		background: ;
 		margin-top:25px;
 	}
 	.mix .detailDiv{
 		float:right;
-		width:75%;
+		width:70%;
 		margin-top:25px;
-		padding-left:20px;
+		padding-left:10px;
 		text-align: left;
 	}
 	.mix .text-xss{ font-size: 10px; }
@@ -52,6 +52,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	    right: 25px;
 	    top: 20px;
 	    font-size: 20px;
+	}
+
+	#Grid .item_map_list{
+		padding:0px !important; 
+	}
+	#Grid .ico-type-account i.fa{
+		margin-left:11px !important;
+	}
+	#Grid .thumbnail-profil{
+		margin-left:10px;
 	}
 </style>
 <?php 
@@ -166,7 +176,9 @@ if( isset($_GET["isNotSV"])) {
 						***************************************** */
 						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
 						if ($e && isset($e["imagePath"])){ 
-							$img = '<img width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						}else{
+							$img = "<div class='thumbnail-profil'></div>";
 						}
 						
 						/* **************************************
@@ -253,11 +265,17 @@ if( isset($_GET["isNotSV"])) {
 							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 
-						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-yellow"></i></div>';
+						$color = "";
+						if($icon == "fa-users") $color = "green";
+						if($icon == "fa-user") $color = "yellow";
+						if($icon == "fa-calendar") $color = "orange";
+						if($icon == "fa-lightbulb-o") $color = "yellow";
+						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo $panelHTML.
-							'<div class="imgDiv left-col">'.$flag.$img.$featuresHTML.'</div>'.
+							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
+
 					?>
 				</ul>
 			</div>
@@ -292,7 +310,6 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 
-	initMap();
 });
 
 function showHideFeatures(classId){
@@ -348,83 +365,6 @@ function bindBtnEvents(){
 	})
 }
 
-<?php 
-	//rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-	//et pour ouvrir le panel info correctement
-	foreach($people 		  as $key => $data)	{ $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-	foreach($organizations 	  as $key => $data)	{ $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-	foreach($events 		  as $key => $data)	{ $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-	foreach($projects 		  as $key => $data)	{ $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-	
-	$contextMap = array();
-	if(isset($organizations)) 	$contextMap = array_merge($contextMap, $organizations);
-	if(isset($people)) 			$contextMap = array_merge($contextMap, $people);
-	if(isset($events)) 			$contextMap = array_merge($contextMap, $events);
-	if(isset($projects)) 		$contextMap = array_merge($contextMap, $projects);
-?>
-
-function finalShowMarker(){ //alert("ayé");
-	Sig.map.panBy([0, 160]);
-	$(".leaflet-popup-close-button").click();
-}
-
-function initMap(){
-	var mapData = <?php echo json_encode($contextMap) ?>;
-	
-	//affichage des éléments sur la carte
-	Sig.clearMap();
-	Sig.showMapElements(mapBg, mapData);
-
-
-	$("li.filter .label-danger").click(function(){ alert($(this).html());
-		$("#right_tool_map").hide("false");
-		var mapData = <?php echo json_encode($projects) ?>;
-		Sig.showMapElements(mapBg, mapData);
-	});
-	//EVENT MENU PANEL
-	$(".filterorganizations").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("organizations", Sig.map, "types");
-	});
-	$(".filterpersons").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("people", Sig.map, "types");
-	});
-	$(".filterevents").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("events", Sig.map, "types");
-	});
-	$(".filterprojects").click(function(){
-		$("#right_tool_map").hide("false");
-		Sig.changeFilter("projects", Sig.map, "types");
-	});
-	//EVENT MENU PANEL - ALL
-	$(".filter").click(function(){
-		if($(this).attr("data-filter") == "all"){
-			$("#right_tool_map").hide("false");
-			var mapData = <?php echo json_encode($contextMap) ?>;
-			Sig.showMapElements(mapBg, mapData);
-		}
-	});
-
-	$.each($(".item_map_list_panel"), function(){
-		actions.push({ "id" : $(this).attr('data-id'), 
-					   "onclick" : $(this).attr('onclick')
-					 });
-	});
-
-}
-
-function getActionsById(id){
-	var action = "";
-	$.each(actions, function(){
-		if(this.id == id) {
-			action = this.onclick;
-		}
-	});
-
-	return action;
-}
 </script>
 
 
