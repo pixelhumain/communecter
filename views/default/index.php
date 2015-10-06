@@ -142,6 +142,8 @@ li.mix{
   border-radius:30px;
   /*background-color: white;*/
   padding: 10px 13px;
+  vertical-align: middle;
+  margin-top: -5px;
   /*color:#155869 !important;*/
 }
 .searchEntry i.fa:hover{
@@ -543,34 +545,40 @@ function autoCompleteSearch(name){
             var ico = mapIconTop["default"];
             if(v.length!=0){
               $.each(v, function(k, o){
-                city = "";
-                postalCode = "";
-               // if(o.type){
-                  typeIco = o.type;
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
-               // }
-                if (o.address != null) {
+                
+                typeIco = o.type;
+                ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+                htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
+               
+                //console.dir(o);
+                  
+                /*if (o.address != null) {
+                  console.dir(o.address);
                   city = o.address.addressLocality;
                   postalCode = o.address.postalCode;
+                  insee = o.address.insee;
                 }
+                */
                 if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
                   var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
                 }
 
-                var insee = o.insee ? o.insee : "";
-                str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                        "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry'>"+
-                        "<span>"+ htmlIco +"</span>  " + o.name;
+                var insee      = o.insee      ? o.insee      : "";
+                var postalCode = o.cp ? o.cp : "";
+
+                str +=  //"<div class='searchList li-dropdown-scope' >"+
+                          "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<ol>"+
+                          "<span>"+ htmlIco +"</span>  " + o.name;
 
                 var cityComplete = "";
-                //console.log(postalCode + " - " + city);
+                console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
+                //if("undefined" != typeof city && city != "Unknown") cityComplete += city;
+                //if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
-                if("undefined" != typeof city && city != "Unknown" && cityComplete != "") cityComplete += " ";
-                if("undefined" != typeof city && city != "Unknown") cityComplete += city;
                 str +=   "<span class='city-search'> "+cityComplete+"</span>";
 
-                str +=  "</a></ol></div>";
+                str +=  "</ol></a>";//</div>";
               })
             }
             }); 
