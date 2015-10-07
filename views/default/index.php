@@ -186,7 +186,7 @@ li.mix{
 
     
     <style type="text/css">
-      #ajaxSV{top:0px;}
+      #ajaxSV{top:125px;margin-top:0px;}
       @media screen and (max-width: 768px) {
         #ajaxSV,.box{top:-100px;}
       }
