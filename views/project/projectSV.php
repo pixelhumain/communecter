@@ -299,9 +299,10 @@ function runProjectFormValidation(el) {
 		    .done(function (data) {
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
+		        	$.unblockUI();
 		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
 		        		updateProject( newProject, data.id );
-						$.unblockUI();
+						
 					if( 'undefined' != typeof showAjaxPanel && typeof showAjaxPanel == "function" ){
 						showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )
 					} else
