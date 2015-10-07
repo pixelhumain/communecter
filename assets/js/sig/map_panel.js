@@ -19,7 +19,7 @@
 					$(this.cssModuleName + ' .item_panel_map').removeClass("selected");
 
 				this.panelFilter = val;
-				tagSelected = this.panelFilter.replace(/\s/g,"");
+				tagSelected = this.panelFilter.replace(/[^A-Za-z0-9]/g,"");
 
 				$(this.cssModuleName + ' #item_panel_map_' + tagSelected).addClass("selected");
 			}
@@ -29,7 +29,7 @@
 					$(this.cssModuleName + ' .item_panel_map').removeClass("selected");
 
 				this.panelFilter = val;
-				tagSelected = this.panelFilter.replace(/\s/g,"");
+				tagSelected = this.panelFilter.replace(/[^A-Za-z0-9]/g,"");
 
 				$(this.cssModuleName + ' #item_panel_filter_' + tagSelected).addClass("selected");
 			}
@@ -90,7 +90,7 @@
 			$.each(thisSig.listPanel["tags"], function(key, value){
 				////console.warn("--------------- each tags ---------------------" + value);
 			
-				var valueId = value.replace(/\s/g,"");
+				var valueId = value.replace(/[^A-Za-z0-9]/g,"");
 				var ico = thisSig.getIcoNameByTag(value);
 				var color = thisSig.getIcoColorByTag(value);
 
