@@ -95,8 +95,8 @@ function buildTimeLine ()
 		{
 			console.dir(newsObj);
 			var date = new Date( parseInt(newsObj.created)*1000 );
-			if(newsObj.date != null) 
-				date = new Date( parseInt(newsObj.date)*1000 ) ;
+			//if(newsObj.date != null) 
+			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
@@ -113,9 +113,9 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date != null) 
-		date = new Date( parseInt(newsObj.date)*1000 ) ;
-	
+	//if(newsObj.date != null) {
+	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
+	//}
 	var year = date.getFullYear();
 	var month = months[date.getMonth()];
 	var day = (date.getDate() < 10) ?  "0"+date.getDate() : date.getDate();
@@ -143,7 +143,11 @@ function buildLineHTML(newsObj)
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
 	url = 'href="javascript:;" onclick="'+url+'"';	
-	var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>',
+	if(typeof(newsObj.icon) != "undefined"){
+		var iconStr = '<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
+	} else {
+		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
+	}
 	title = newsObj.name,
 	text = newsObj.text,
 	tags = "", 
