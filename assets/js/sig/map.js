@@ -164,7 +164,7 @@
 			{
 				////console.warn("--------------- setFullScreen ---------------------");
 				//full screen map
-				var mapHeight = $(".subviews.subviews-top").height() - $(".toolbar").height();
+				var mapHeight = $(".subviews.subviews-top").height();// - $(".toolbar").height();
 				var rightListHeight = mapHeight - 110;
 
 				$("#mapCanvas" + this.sigKey).css({"height":mapHeight});

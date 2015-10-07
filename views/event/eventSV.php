@@ -58,17 +58,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <!-- *** NEW EVENT *** -->
 <?php /*if( @$isNotSV ){ ?>
 <a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php }*/ ?>
+<?php }*/ 
+
+if( !isset($_GET["isNotSV"])) 
+	$this->renderPartial('../default/mapFormSV'); 
+
+?>
+
+
 <div id="newEvent">
-	<?php if( !@$isNotSV ){ ?>
+	<?php if( @$isNotSV ){ ?>
 	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Event</h2>
 	<?php } ?>
 	<?php 
-	$size = ( !@$isNotSV ) ? "col-md-10 col-md-offset-2" : "col-md-12"
+	$size = ( !@$isNotSV ) ? "col-md-8 col-md-offset-2" : "col-md-12"
 	?>
-	<div class="noteWrap <?php echo $size ?> ">
+	<div class="noteWrap <?php echo $size ?> form-add-data">
 		<?php if( !@$isNotSV ){ ?>
-		<h3><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h3>
+			<h1><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h1>
 		<?php } ?>
 		<div class="row">
 		<div class="col-md-11">
@@ -592,115 +599,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 
-	/**************************** DONNER UN NOM DIFFERENT A LA MAP POUR CHAQUE CARTE ******************************/
-	//le nom de cette variable doit changer dans chaque vue pour éviter les conflits (+ vérifier dans la suite du script)
-	var marker = null;
-
-	/**************************************************************************************************************/
-	//mémorise l'url des assets (si besoin)
-	var assetPath 	= "<?php echo $this->module->assetsUrl; ?>";
-
 	function callBackFullSearch(resultNominatim){
 		//console.log("callback ok");
-		showCityOnMap(resultNominatim);
-	}
-
-	function showCityOnMap(geoPosition){ 
-
-		//var geoPosition = geoPositionCity;
-		
-		//Sig.clearMap();
-		//console.log("*** showCityOnMap ***");
-		//console.dir(geoPosition);
-
-		$("#alert-city-found").removeClass("hidden");
-		var cp = $("#postalCode").val();
-
-		var position = null;
-		$.each(geoPosition, function (key, value){
-			//console.log((citiesByPostalCode));
-			$.each(citiesByPostalCode, function (key2, value2){
-
-				var addressCp = value.address.postcode ? value.address.postcode : "";
-				var city = value.address.city != null ? value.address.city : 
-							value.address.village ? value.address.village : "";
-
-				if(city != "" && value2.text != null){
-					
-					//console.log(value2.text); console.log(value.address.city);
-					if(Sig.clearStr(value2.text) == Sig.clearStr(city) 
-						&& cp == addressCp
-						&& position == null) 
-						position = value;
-				}
-			});
-		});
-
-
-		if(position == null) position = geoPosition[0];
-		//console.log("position"); console.dir(position);
-		 
-		$("#geoPosLongitude").attr("value", position["lat"]);
-		$("#geoPosLatitude").attr("value", position["lon"]);
-
-		var latlng = [position["lat"], position["lon"]];
-		//Sig.map.setView(latlng, 15);
-
-		Sig.centerSimple(latlng, 15);
-		//console.log("center ok");
-
-		var content = Sig.getPopupNewData();
-		var properties = { 	id : "0",
-							icon : Sig.getIcoMarkerMap({"type" : "event"}),
-							content: content };
-
-		//console.log("before getMarkerSingle");
-		Sig.clearMap();
-		var markerNewData = Sig.getMarkerSingle(Sig.map, properties, latlng);
-		//console.log("before openPopup");
-		markerNewData.openPopup();
-		//console.log("after openPopup");
-		markerNewData.dragging.enable();
-		//console.log("after dragging");
-
-		$("#btn-validate-geopos").click(function(){
-			btnValidateClick();
-		});
-
-		markerNewData.on('dragend', function(e){
-			//console.log("dragend");
-			markerNewData.openPopup();	
-		});
-
-		markerNewData.on('popupopen', function(e){
-			//console.log("popupopen");
-			$("#btn-validate-geopos").click(function(){
-				btnValidateClick();
-			});
-		});
-		
-		markerNewData.on('dragstart', function(e){
-			//console.log("dragstart");
-			$("#ajaxSV").hide(400);
-		});
-
-		$('#btn-show-city').click(function(){
-			$("#ajaxSV").hide(400);
-			Sig.map.panTo(markerNewData.getLatLng(), {animate:true});
-		});
-
-		function btnValidateClick(){ //alert("yepaé");
-			//console.log("btnValidateClick");
-			markerNewData.closePopup();
-			Sig.centerSimple(markerNewData.getLatLng(), 15);
-			$("#ajaxSV").show(400);
-			$("#geoPosLongitude").attr("value", markerNewData.getLatLng().lng);
-			$("#geoPosLatitude").attr("value", markerNewData.getLatLng().lat);
-			Sig.map.invalidateSize(false);
-			markerNewData.openPopup();
-		}
-		
-		
+		Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
 	}
 
 </script>

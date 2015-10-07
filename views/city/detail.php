@@ -388,13 +388,20 @@ jQuery(document).ready(function() {
 
 
 function initCityMap(){
-  //affichage des éléments sur la carte
-  //console.log("clearMap");
-  //Sig.clearMap();
-  //console.log("showMapElements");
+
   Sig.showMapElements(Sig.map, contextMap);
-  Sig.map.panTo([city.geo.latitude, city.geo.longitude]);
-  Sig.map.setZoom(12);
+  var latlng = [city.geo.latitude, city.geo.longitude];
+
+  var content = Sig.getPopupCity(city.name);
+  var properties = {  id : "0",
+                      icon : Sig.getIcoMarkerMap({"type" : "city"}),
+                      content: content };
+
+  Sig.clearMap();
+  var markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
+  Sig.centerSimple(latlng, 12);
+  markerCity.openPopup();
+  showMap(false);
 }
 
 function bindBtnFollow(){
