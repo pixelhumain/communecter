@@ -233,61 +233,12 @@
 			return popupContent;
 		};
 
-		//##
-		//création du contenu de la popup d'un data
-	/*	Sig.getPopupShort = function(url, title, icon){
-
-			var type = data['typeSig'] ? data['typeSig'] : data['type'];
-			var cut = title.indexOf(":");
-			var dataName = title.substr(cut+2, title.length);
-			
-			var color = "";
-			if(icon == "user")
-
-			var data = { "type" : type };
-			this.getIcoColorByType(data);
-
-			var icons = '<i class="fa fa-'+ icon + ' fa-'+ color +'"></i>';
-
-			//var prop = feature.properties;
-			//console.log("PROPRIETES : ");
-			//console.dir(data);
-
-			//showMap(false);
-
-			//var url = baseUrl+'/'+moduleId+'/'+typeElement+'/detail/id/'+data["_id"]["$id"];
-			var popupContent = "<div class='popup-marker'>";
-			var fa_icon = 'fa-'+ icon;
+		Sig.getPopupCity = function(dataTxt){
 							
-			popupContent += "<button class='item_map_list popup-marker' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + fa_icon + "\");'>";
-										
-			popupContent += 
-						  "<div class='left-col'>"
-	    				+ 	"<div class='thumbnail-profil'></div>"						
-	    				+ 	"<div class='ico-type-account'>"+icon+"</div>"					
-	    				+ "</div>"
-
-						+ "<div class='right-col'>";
-						
-						if("undefined" != typeof data['name'])
-						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + dataName + "</div>";
-						
-						if("undefined" != typeof data['tags']){
-							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(data['tags'], function(index, value){
-								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
-							});
-							popupContent	+= 	"</div>";
-						}
-
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
-						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
-								
-						
-				popupContent += '</button>';
-
+			var popupContent = "<h1>"+dataTxt+"</h1></br>";
 			return popupContent;
 		};
-	*/
+
+
 		return Sig;
 	};
