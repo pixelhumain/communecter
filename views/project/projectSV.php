@@ -10,6 +10,8 @@
 	'/plugins/moment/min/moment.min.js' , 
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
 	'/plugins/autosize/jquery.autosize.min.js'
@@ -83,11 +85,12 @@ if( !isset($_GET["isNotSV"]))
 							</div>
 						</div>
 						<div class="form-group">
-							<div>
-								<label for="form-field-24" class="control-label"> Description </label>
-								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
-							</div>
+								<label class="control-label">
+									<?php echo Yii::t("common","Tags") ?>
+								</label>
+			        		    <input id="tagsProject" type="" data-type="select2" name="tagsProject" value="" style="display: none;width:100%; height:35px;">		        		    
 						</div>
+						
 						<!--<div class="form-group">
 							<label class="control-label">
 								Url
@@ -143,7 +146,12 @@ if( !isset($_GET["isNotSV"]))
 						<input type="hidden" name="geoPosLongitude" id="geoPosLongitude">
 					
 					</div>
-
+					<div class="form-group col-md-12">
+							<div>
+								<label for="form-field-24" class="control-label"> Description </label>
+								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+							</div>
+					</div>
 						
 				</div>
 				<?php if(!isset(Yii::app()->session["userEmail"])){?>
@@ -168,12 +176,14 @@ if( !isset($_GET["isNotSV"]))
 		</form>
 	</div>
 </div>
-
 <script type="text/javascript">
 
 var citiesByPostalCode;
 
 jQuery(document).ready(function() {
+
+	$('#tagsProject').select2({tags:<?php echo $tags ?>});
+	$('#tagsProject').select2({tags:<?php echo $tags ?>});
 	addCustomValidators();
 	initProjectForm();
 	bindProjectSubViewProjects();
@@ -282,9 +292,9 @@ function runProjectFormValidation(el) {
 			newProject.city=$(".form-project #city").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
-			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val();				
-			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val();				
-				
+			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
+			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
+			newProject.tags = $(".form-project #tagsProject").val();
 			console.log(newProject);
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -335,7 +345,8 @@ function initProjectForm(el) {
 	$(".form-project .project-name").val("");
 	$(".form-project .project-url").val("");
 	$(".form-project .project-licence").val("");
-
+	$("#addOrganization #tagsOrganization").select2('val', "");
+	$("#addOrganization #organizationCountry").select2('val', "");
 	$('.form-project .all-day-range').hide();
 	$(".form-project .project-start-date").val(moment());
 	$(".form-project .project-end-date").val(moment().add('days', 1));

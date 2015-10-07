@@ -69,8 +69,9 @@ class ActStr {
           $action["codeInsee"] = $params["codeInsee"];
 
         if( isset( $params["label"] ))
-          $action["object"]["displayName"] = $params["label"];
-
+        	$action["object"]["displayName"] = $params["label"];
+		if (isset ($params["tags"]))
+			$action["tags"] = $params["tags"];
       return $action;
     }
 
