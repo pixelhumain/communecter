@@ -23,7 +23,7 @@ svg{
  .leaflet-popup-content{
  	margin:5px 0px 0px -1px !important;
  	min-width:280px;
- 	padding-bottom:40px;
+ 	padding-bottom:0px;
  }
 /*   ############################### */
 

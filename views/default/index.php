@@ -142,6 +142,8 @@ li.mix{
   border-radius:30px;
   /*background-color: white;*/
   padding: 10px 13px;
+  vertical-align: middle;
+  margin-top: -5px;
   /*color:#155869 !important;*/
 }
 .searchEntry i.fa:hover{
@@ -184,7 +186,7 @@ li.mix{
 
     
     <style type="text/css">
-      #ajaxSV{top:0px;}
+      #ajaxSV{top:125px;margin-top:0px;}
       @media screen and (max-width: 768px) {
         #ajaxSV,.box{top:-100px;}
       }
@@ -230,37 +232,41 @@ li.mix{
         color:black;
         float:right;
         margin-left:5px;
-        
+    }
+    .menuIcon {
+        /*border:1px solid white;*/
+        display: block;
+        height:40px;
+        padding:5px;
+    }
+    .menuIcon:hover {
+        background-color: white;
     }
     .menuIcon i{
         float:left;
         margin-left:5px;
     }
-    .menuIcon:hover {
-        opacity: 1;
-    }
     </style>
 <div class="center text-white" id="menu-container" >
-    <div class="center text-white pull-left" >
+    <div class="center text-white pull-left menuContainer"  >
         <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide" > MY DETAILS</span></a>
-        <br/><br/><br/><a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
+        <br/>
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
         <?php /* ?>
         <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
         */?>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
-        <br/><br/><a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
+        <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
+        <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
+        <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
+        <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
         
         
-        <br/><br/><a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
-        <br/><br/><a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide"> ADD SOMETHING</span></a>
+       <a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
+        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide"> ADD SOMETHING</span></a>
                 
         <!-- <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a> -->
-        <br/><br/><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide"> LOGOUT</span></a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide"> LOGOUT</span></a>
     </div>
-    
-   
 </div>
 
 <?php /* **********************
@@ -369,10 +375,10 @@ var mapData = <?php echo json_encode($contextMap) ?>;
       $('.tooltips').tooltip();
     }
 
-    $("#menu-container").hover(function() { 
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { 
       $(".menuline").removeClass("hide");
     });
-   $("#menu-container").mouseout(function() { 
+   $(".menuContainer,#menu-container").mouseout(function() { 
       $(".menuline").addClass("hide");
     });
     $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
@@ -539,34 +545,40 @@ function autoCompleteSearch(name){
             var ico = mapIconTop["default"];
             if(v.length!=0){
               $.each(v, function(k, o){
-                city = "";
-                postalCode = "";
-               // if(o.type){
-                  typeIco = o.type;
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
-               // }
+                
+                typeIco = o.type;
+                ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+                htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
+               
+                //console.dir(o);
+                  
                 if (o.address != null) {
+                  console.dir(o.address);
                   city = o.address.addressLocality;
-                  postalCode = o.address.postalCode;
+                  //postalCode = o.address.postalCode;
+                  //insee = o.address.insee;
                 }
+                
                 if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
                   var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
                 }
 
-                var insee = o.insee ? o.insee : "";
-                str +=  "<div class='searchList li-dropdown-scope' ><ol>"+
-                        "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry'>"+
-                        "<span>"+ htmlIco +"</span>  " + o.name;
+                var insee      = o.insee ? o.insee : "";
+                var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+
+                str +=  //"<div class='searchList li-dropdown-scope' >"+
+                          "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<ol>"+
+                          "<span>"+ htmlIco +"</span>  " + o.name;
 
                 var cityComplete = "";
-                //console.log(postalCode + " - " + city);
-                if("undefined" != typeof postalCode) cityComplete += postalCode;
-                if("undefined" != typeof city && city != "Unknown" && cityComplete != "") cityComplete += " ";
+                //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
                 if("undefined" != typeof city && city != "Unknown") cityComplete += city;
+                if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
+                if("undefined" != typeof postalCode) cityComplete += postalCode;
                 str +=   "<span class='city-search'> "+cityComplete+"</span>";
 
-                str +=  "</a></ol></div>";
+                str +=  "</ol></a>";//</div>";
               })
             }
             }); 

@@ -10,8 +10,9 @@ SigLoader.getSigFindPlace = function (Sig){
 	Sig.fullTextResearch = true;
 	//pour effectuer des recherches nominatim à partir d'un form externe (différent de la recherche intégrée)
 	Sig.useExternalSearchPlace = false;
+	Sig.markerNewData = "";
 
-	//***
+	//***	
 	//initialisation de l'interface et des événements (click, etc)
 	/*	>>>>>>>>>>>>>> MAP <<<<<<<<<<<<<<< */
 	Sig.initFindPlace = function (){
@@ -338,6 +339,108 @@ SigLoader.getSigFindPlace = function (Sig){
 				
 			}
 		});
+	};
+
+	Sig.showCityOnMap = function(geoPosition, isNotSV, type){ 
+
+		var thisSig = this;
+
+		$("#alert-city-found").removeClass("hidden");
+		var cp = $("#postalCode").val();
+
+		var position = null;
+		$.each(geoPosition, function (key, value){
+			//console.log((citiesByPostalCode));
+			$.each(citiesByPostalCode, function (key2, value2){
+
+				var addressCp = value.address.postcode ? value.address.postcode : "";
+				var city = value.address.city != null ? value.address.city : 
+							value.address.village ? value.address.village : "";
+
+				if(city != "" && value2.text != null){
+					
+					//console.log(value2.text); console.log(value.address.city);
+					if(thisSig.clearStr(value2.text) == thisSig.clearStr(city) 
+						&& cp == addressCp
+						&& position == null) 
+						position = value;
+				}
+			});
+		});
+
+
+		if(position == null) position = geoPosition[0];
+		//console.log("position"); console.dir(position);
+		 
+		$("#geoPosLongitude").attr("value", position["lat"]);
+		$("#geoPosLatitude").attr("value", position["lon"]);
+
+		var latlng = [position["lat"], position["lon"]];
+		//thisSig.map.setView(latlng, 15);
+
+		thisSig.centerSimple(latlng, 15);
+		//console.log("center ok");
+
+		var content = thisSig.getPopupNewData();
+		var properties = { 	id : "0",
+							icon : thisSig.getIcoMarkerMap({"type" : type}),
+							content: content };
+
+		//console.dir(properties);
+		//console.log("before getMarkerSingle");
+		thisSig.clearMap();
+		var markerNewData = thisSig.getMarkerSingle(thisSig.map, properties, latlng);
+		//console.dir(markerNewData);
+		
+		thisSig.markerNewData = markerNewData;
+		//console.log("before openPopup");
+		markerNewData.openPopup();
+		//console.log("after openPopup");
+		markerNewData.dragging.enable();
+		//console.log("after dragging");
+
+		$("#btn-validate-geopos").click(function(){
+			btnValidateClick(isNotSV);
+		});
+
+		thisSig.markerNewData.on('popupopen', function(e){
+			$("#btn-validate-geopos").click(function(){
+				btnValidateClick(isNotSV);
+			});
+		});
+		
+		thisSig.markerNewData.on('dragend', function(e){
+			thisSig.markerNewData.openPopup();	
+		});
+
+		thisSig.markerNewData.on('dragstart', function(e){
+			if(isNotSV) $("#ajaxSV").hide(400);
+			else 		$(".noteWrap").hide(400);
+		});
+
+		$('#btn-show-city').click(function(){
+			if(isNotSV) $("#ajaxSV").hide(400);
+			else 		$(".noteWrap").hide(400);
+			thisSig.map.panTo(thisSig.markerNewData.getLatLng(), {animate:true});
+		});
+
+		if(!isNotSV) $(".form-add-data").css("top" , "200px");
+
+		function btnValidateClick(isNotSV){ //alert("yepaé");
+			//console.log("btnValidateClick");
+			Sig.markerNewData.closePopup();
+			Sig.centerSimple(Sig.markerNewData.getLatLng(), 15);
+
+			if(isNotSV) $("#ajaxSV").show(400);
+			else 			$(".noteWrap").show(400);
+
+			$("#geoPosLongitude").attr("value", Sig.markerNewData.getLatLng().lng);
+			$("#geoPosLatitude").attr("value", Sig.markerNewData.getLatLng().lat);
+			Sig.map.invalidateSize(false);
+			Sig.markerNewData.openPopup();
+		}
+		
+		
 	};
 
 	return Sig;
