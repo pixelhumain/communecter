@@ -257,7 +257,7 @@ function runChartFormValidation() {
 						$.hideSubview(); 
 					} else { 
 						$.unblockUI();
-						openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+						openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
 					}	
 		        } else {
 		           toastr.error('Something Went Wrong');
@@ -295,7 +295,7 @@ function hideEditChart() {
 	if (isNotSV==0){
 		$.hideSubview();
 	} else { 
-		openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+		openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
 	}	
 };
 // enables the edit form 

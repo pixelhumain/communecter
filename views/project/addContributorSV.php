@@ -324,7 +324,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				        	if(isNotSV==0){ 
 								$.hideSubview();
 							} else{ 
-								openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+								openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
 							} 	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
@@ -447,7 +447,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		if(isNotSV==0){ 
 			$.hideSubview();
 		} else{ 
-			openMainPanelFromPanel( baseUrl+'/'+moduleId+'/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
+			openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo $projectName ?>',"fa-lightbulb-o", projectId );
 		} 
 	};
 	// enables the edit form 

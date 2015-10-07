@@ -1,3 +1,11 @@
+<?php 
+$cssAnsScriptFilesTheme = array(
+	'/plugins/DataTables/media/css/DT_bootstrap.css',
+	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
+	'/plugins/DataTables/media/js/DT_bootstrap.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
+ ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS 

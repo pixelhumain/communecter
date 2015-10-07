@@ -197,7 +197,7 @@ function buildDynForm(){
 	    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" )
 	            		updateNews(data.object);
 	            	else if( notSubview )
-	            		showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>', 'KESS KISS PASS ','rss' )
+	            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
 					console.dir(data);
 					$.unblockUI();
 					$("#ajaxSV").html('');

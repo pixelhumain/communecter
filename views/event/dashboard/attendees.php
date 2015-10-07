@@ -88,7 +88,7 @@
 					}
 				});
 			} else {
-				showAjaxPanel( baseUrl+'/'+moduleId+'/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id")+"&eventName=<?php echo $event["name"] ?>", 'ADD ATTENDEE','users' )
+				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id")+"&eventName=<?php echo $event["name"] ?>", 'ADD ATTENDEE','users' )
 			}
 		});
 	});
