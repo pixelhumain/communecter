@@ -479,6 +479,7 @@ function loadByHash( hash ) {
         showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
     else
         showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+    location.hash = hash;
 }
 
 function runShowCity(searchValue) {

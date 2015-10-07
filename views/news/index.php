@@ -93,7 +93,7 @@ function buildTimeLine ()
 	{
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
-			console.dir(newsObj);
+			//console.dir(newsObj);
 			var date = new Date( parseInt(newsObj.created)*1000 );
 			if(newsObj.date != null) 
 				date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -122,7 +122,7 @@ function buildLineHTML(newsObj)
 	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	console.log("date",dateStr);
+	//console.log("date",dateStr);
 	if( currentMonth != date.getMonth() )
 	{
 		currentMonth = date.getMonth();
