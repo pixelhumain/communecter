@@ -310,7 +310,7 @@ function runProjectFormValidation(el) {
 		        		updateProject( newProject, data.id );
 						
 					if( 'undefined' != typeof showAjaxPanel && typeof showAjaxPanel == "function" ){
-						showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )
+						showAjaxPanel( '/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )
 					} else
 						$.hideSubview();
 		        	}	
