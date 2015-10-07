@@ -236,11 +236,20 @@ li.mix{
     .menuIcon {
         /*border:1px solid white;*/
         display: block;
-        height:40px;
+        height:38px;
         padding:5px;
+        border-radius: 5px;
     }
     .menuIcon:hover {
+      color:black;
         background-color: white;
+        border: 1px solid #5D828E;
+        -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+        -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+        box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+    }
+    .hoverRed:hover {
+      color:red;
     }
     .menuIcon i{
         float:left;
@@ -252,22 +261,19 @@ li.mix{
         <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide" > MY DETAILS</span></a>
         <br/>
         <a href="#news.index.type.citoyen" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
-        <?php /* ?>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
-        */?>
         <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
         <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
         <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
         <a href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
-        
-        
-       <a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
+        <a href="#panel.box-add" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
         <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide"> ADD SOMETHING</span></a>
-                
-        <!-- <br/><br/><a href="#" onclick="showMap()" class="text-white"><i class="fa fa-map-marker fa-2x"></i></a> -->
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide"> LOGOUT</span></a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide"> LOGOUT</span></a>
     </div>
 </div>
+ <?php /* ?>
+        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
+        */?>
+       
 
 <?php /* **********************
   HEADER : CONTEXT TITLE + SEARCH 
@@ -455,9 +461,14 @@ var mapData = <?php echo json_encode($contextMap) ?>;
     initMap();
 
   });
+var typesLabels = {
+  "<?php echo Organization::COLLECTION ?>":"Organization",
+  "<?php echo Event::COLLECTION ?>":"Event",
+  "<?php echo Project::COLLECTION ?>":"Project",
+};
 
 function loadByHash( hash ) { 
-  console.log("loadByHash",hash);
+    console.log("loadByHash",hash);
 
     if( hash.indexOf("#person.directory") >= 0 )
         showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
@@ -479,8 +490,13 @@ function loadByHash( hash ) {
         showAjaxPanel( baseUrl+'/'+moduleId+'/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
-    else
+
+    else if( hash.indexOf("#news.index.type") >= 0 ){
+      hashT = hash.split(".");
+      showAjaxPanel( baseUrl+'/'+moduleId+'/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+    } else
         showAjaxPanel( baseUrl+'/'+moduleId+'/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+
     location.hash = hash;
 }
 

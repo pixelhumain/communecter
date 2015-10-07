@@ -358,6 +358,9 @@
 	** Dashboard thematique 
 		[ ] un vue dashboard pour un tag : tagboard
 		[ ] scope board
+	** List to Map 
+		- paste a list of addresses > geolocate them 
+		- Import People list into an organization + geoloc
 ** COMMUNICATION 
 	[ ] faire marcher la newsletter 
 	[ ] ANNIVERSAIRE PH
