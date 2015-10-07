@@ -68,7 +68,8 @@
 	{ 
 		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
 		$(".ajaxForm").hide();
-		$(".ajaxForm,.box-ajaxTools").html("");
+		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
+		$(".box-ajaxTools").html("");
 
 		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
 
@@ -83,6 +84,7 @@
 		//timeout is a hack : dont understand why the hash is empty in some cases
 		//maybe a conflict with some libs that automatically overide the location hash 
 		setTimeout( function(){location.hash = hashUrl;},500 );
+		history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		console.log(hashUrl);
 
 		/*if( navHistory != null)

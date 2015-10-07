@@ -64,12 +64,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-left:10px;
 	}
 </style>
+
 <?php 
 if( isset($_GET["isNotSV"])) {
-	$this->toolbarMBZ = array(
-	    array('tooltip' => "Add a Person, Organization, Event or Project","iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-xs btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-	    );
-	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); 
+	/*
+	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
+	if( isset($type) && $type == Organization::CONTROLLER && isset($organization))
+		Menu::organization( $organization );
+	/*else
+		$this->toolbarMBZ = array(
+		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+		);*/
+	$this->renderPartial('../default/panels/toolbar'); 
 }
 ?>
 <div class="row">

@@ -1,5 +1,5 @@
 <?php 
-//if( isset($_GET["isNotSV"])) 
+Menu::organization($organization);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="col-xs-12 infoPanel dataPanel">
