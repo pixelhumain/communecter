@@ -72,8 +72,8 @@
 											"events" 			: { ico : "calendar", color : "orange" 	},
 											"meeting" 			: { ico : "calendar", color : "orange" 	},
 
-											"project" 			: { ico : "lightbulb-o", color : "yellow" },
-											"projects" 			: { ico : "lightbulb-o", color : "yellow" },
+											"project" 			: { ico : "lightbulb-o", color : "purple" },
+											"projects" 			: { ico : "lightbulb-o", color : "purple" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
@@ -314,7 +314,7 @@
 		};
 
 		Sig.centerSimple = function(center, zoom){
-			this.map.setView(center, zoom);
+			this.map.panTo(center, {"animate" : false });
 			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
 			//console.log("height" + height);
@@ -322,7 +322,7 @@
 			var pan = center - 160;
 			//console.log("pan" + pan);
 			//alert("yo");
-			this.map.panBy([0, pan]);
+			this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
 		};
 

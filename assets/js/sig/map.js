@@ -88,6 +88,7 @@
 			{
 				//console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
+			this.allowMouseoverMaker = true;
 
 				var markerName = this.getIcoNameByType(thisData);
 
@@ -481,35 +482,56 @@
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
-							layer.on('click', function(e) {	
+							layer.on('mouseover', function(e) {	
+								if(thisSig.allowMouseoverMaker == false) return;
 								layer.openPopup(); 
 								thisSig.currentMarkerPopupOpen = layer;
-
-								thisMap.panTo([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]]);
+							});
+							layer.on('click', function(e) {	
+								thisSig.currentMarkerPopupOpen = layer;
+								thisMap.panTo(layer.getLatLng());	
+								layer.openPopup(); 
 								
 							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								//console.log("click on .item_map_list_" + feature.properties.id);
-								var zoom = 20;
-								thisSig.currentMarkerPopupOpen = layer;
-								layer.openPopup();
-								var popupOpen = layer.getPopup()._isOpen;
-								//console.log("icon clicked : " + popupOpen);
+								console.log("click on .item_map_list_" + feature.properties.id);
+								thisSig.allowMouseoverMaker = false;
 								
+								var coordinates =  [feature.geometry.coordinates[1], 
+													feature.geometry.coordinates[0]];
+								thisMap.panTo(coordinates, {"animate" : false });
+								
+								var visibleOne = null;
+								if(typeof layer != "undefined")
+									visibleOne = Sig.markersLayer.getVisibleParent(layer);
+								
+								if(typeof visibleOne != "undefined"){
+									if(typeof visibleOne._childCount != "undefined"){
+										var i = 0;
+										while(typeof visibleOne._childCount != "undefined" && i<5){
+											coordinates = visibleOne.getLatLng();
+											thisMap.panTo(coordinates, {"animate" : false });
+											visibleOne.fire("click");
+											visibleOne = Sig.markersLayer.getVisibleParent(layer);
+											thisSig.currentParentToOpen = visibleOne;
+											i++;
+										}
+									}
+									else{
+										if(typeof visibleOne._spiderLeg == "undefined")	{
+											thisMap.fire("click");
+											thisMap.setZoom(15, {"animate" : false });
+											thisMap.panTo(coordinates, {"animate" : false });
+											thisSig.currentParentToOpen = null;
+								
+										}
+									}
+								}
 								thisSig.checkListElementMap(thisMap);
-											
-								if(!popupOpen){ zoom = 20; }
-								thisMap.setView([feature.geometry.coordinates[1],
-											  feature.geometry.coordinates[0]], zoom);
-					
-								if(!popupOpen){ 
-									$(".marker-cluster").click();
-									layer.openPopup();
-								
-									thisMap.invalidateSize(false);
-								}								
+								thisSig.currentMarkerToOpen = layer;
+								thisSig.currentMarkerPopupOpen = layer;
+								setTimeout("Sig.openCurrentMarker()", 700);
 							});							
 						}
 					});
@@ -535,7 +557,16 @@
 
 		};
 
+		//##
+		this.Sig.openCurrentMarker = function(){
+			if(typeof this.currentParentToOpen != "undefined" && this.currentParentToOpen != null)
+				this.currentParentToOpen.fire("click");
 
+			if(typeof this.currentMarkerToOpen != "undefined" && this.currentMarkerToOpen != null)
+				this.currentMarkerToOpen.openPopup();
+
+			this.allowMouseoverMaker = true;
+		};
 
 
 		//##
