@@ -111,7 +111,7 @@
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
 
-			var url = baseUrl+'/'+moduleId+'/'+typeElement+'/detail/id/'+id;
+			var url = '/'+typeElement+'/detail/id/'+id;
 			var title = data.typeSig + ' : ' + data.name;
 			title = title.replace("'", "");
 			title = title.replace('"', "");
