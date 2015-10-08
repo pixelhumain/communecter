@@ -309,13 +309,18 @@ jQuery(document).ready(function() {
 	
 	initGrid();
 
-	if( activeType != "")
+	console.log("change filter " + activeType);
+
+	if( activeType != ""){
+		 $('#item_panel_filter_'+activeType).trigger("click");
 		 $('.filter'+activeType).trigger("click");
+	}
 
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
 
+	
 });
 
 function showHideFeatures(classId){

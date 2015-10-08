@@ -238,7 +238,7 @@ creer des conflits : regle pas assez specfique
 	padding:0px !important;
 	margin-left: 8px;
 	position: absolute;
-	margin-top:1px !important;
+	margin-top:1px;
 }
 
 .item_map_list .left-col .thumbnail-profil{
@@ -571,7 +571,7 @@ creer des conflits : regle pas assez specfique
  .fa-red{ color:#F03737 !important; }
  .fa-orange{ color:#E6A441 !important; }
  .fa-green{ color:#60CF27 !important; }
- .fa-purple{ color:#7C2ED1 !important; }
+ .fa-purple{ color:#B081FF !important; } /*B081FF*/
  .fa-pink{ color:#DB31D3 !important; }
  .fa-white{ color:#FFF !important; }
 
@@ -589,6 +589,11 @@ creer des conflits : regle pas assez specfique
 	float:left;
 	font-size:1em;
 	margin-top:2px;
+  }
+
+  .item_map_list i.fa-lightbulb-o{
+	font-size:1.4em;
+	margin-top:0px !important;
   }
 
   #lbl-chk-scope{

@@ -66,9 +66,7 @@
 												nbVisible++;
 											}
 											nbElement++;
-												
-										}
-									
+										}									
 								}
 								else //si le champs de recherche est vide, on affiche l'élément
 								{
@@ -77,7 +75,6 @@
 										nbVisible++;
 									}	
 									nbElement++;
-									
 								}
 							 }
 					

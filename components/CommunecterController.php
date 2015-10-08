@@ -354,7 +354,7 @@ class CommunecterController extends Controller
 
   protected function beforeAction($action){
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
-        Yii::app()->assetManager->forceCopy = true;
+      Yii::app()->assetManager->forceCopy = true;
     }
     return parent::beforeAction($action);
   }

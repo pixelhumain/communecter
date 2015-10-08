@@ -640,10 +640,10 @@ function autoCompleteSearch(name){
     if(type=="citoyen"){
       type = "person";
     }
-    url = baseUrl+"/" + moduleId + "/"+type+"/detail/id/"+id;
+    url = "/"+type+"/detail/id/"+id;
     
     if(type=="cities")
-        url = baseUrl+"/" + moduleId + "/city/detail/insee/"+insee+"?isNotSV=1";
+        url = "/city/detail/insee/"+insee+"?isNotSV=1";
     //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
     openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
