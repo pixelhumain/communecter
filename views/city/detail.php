@@ -8,10 +8,25 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 <?php
    // var_dump($people);var_dump($projects); die();
 ?>
+<style type="text/css">
+  .panel-title{
+    font-family: "Homestead";
+  }
+  #btn-center-city{
+    padding: 5px 16px;
+    border-radius: 25px;
+    background: rgba(252, 252, 252, 0.75);
+    margin-left: 10px;
+  }
+  #btn-center-city:hover{
+    background: #58879B;
+    color:white;
+  }
+</style>
 <!-- start: PAGE CONTENT -->
 <div class="row">
   <div class="col-sm-12 col-xs-12 main-title">
-    <h2><i class="fa fa-university"></i> Nouméa</h2>     
+    <h2 class="homestead"><i class="fa fa-university"></i> <?php echo $city["name"]; ?><a href="#" id="btn-center-city"><i class="fa fa-map-marker"></i></a></h2>     
   </div>
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
@@ -67,6 +82,19 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 
 <div class="row">
+  <div class="col-sm-4  col-xs-12">
+    <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+  </div>
+  <div class="col-sm-4 col-xs-12">
+    <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+  </div>
+  <div class="col-sm-4 col-xs-12">
+    <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+          "userId" => (string)$person["_id"])); ?>
+  </div>
+</div>
+
+<div class="row">
 
 	<div class="col-sm-7 col-xs-12">
 		<?php //$this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
@@ -86,19 +114,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		 </div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-sm-4  col-xs-12">
-		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
-	</div>
-	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
-	</div>
-	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-          "userId" => (string)$person["_id"])); ?>
-	</div>
-</div>
-
 
 </div>
 <!-- end: PAGE CONTENT-->
@@ -122,7 +137,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 
 <script>
 
-var contextMap = {};
+//var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
 var images = <?php echo json_encode($images) ?>;
@@ -162,9 +177,11 @@ jQuery(document).ready(function() {
 
 
 function initCityMap(){
-  console.dir(contextMap);
-  Sig.clearMap();
-  console.log(contextMap);
+  //console.dir(contextMap);
+  //Sig.clearMap();
+  //console.log(contextMap);
+  Sig.restartMap();
+  //return;
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
 
@@ -174,12 +191,20 @@ function initCityMap(){
                       content: content };
 
   var markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
+  Sig.allowMouseoverMaker = false;
   Sig.map.setZoom(13, {animate:false});
   Sig.centerSimple(latlng, 13);
   markerCity.openPopup();
   //thisSig.currentMarkerPopupOpen = markerCity;  
-  //markerCity.closePopup();
+  $("#btn-center-city").click(function(){
+    Sig.map.setZoom(13, {animate:false});
+    Sig.map.panTo(latlng, {animate:true});
+    showMap(true);
+    //Sig.centerSimple(latlng, 13);
+  });
+  markerCity.closePopup();
   showMap(false);
+  Sig.allowMouseoverMaker = true;
 }
 
 function bindBtnFollow(){

@@ -114,9 +114,9 @@
 
 				//console.warn("--------------- each types ---------------------" + value);
 				var valueId = value;//.replace(/\s/g,"");
-				var ico = thisSig.getIcoByType(value);
-				var color = thisSig.getIcoColorByType(value);
-
+				var ico = thisSig.getIcoByType({typeSig:value});
+				var color = "white"; //thisSig.getIcoColorByType({typeSig:value});
+				
 				//si l'item n'existe pas deja
 				if(!$(thisSig.cssModuleName + ' #item_panel_filter_' + valueId).length){ //on le rajoute...
 					var newItem = "<button class='item_panel_map' id='item_panel_filter_" + valueId + "'>" +

@@ -15,6 +15,7 @@
 	    	var thisSig = this;
 
 	    	//memorise les paramètres dans une variable globale de l'instance SIG
+	    	if(params != "restart")
 	    	thisSig.initParameters = params;
 
 	    	//memorise la carte
