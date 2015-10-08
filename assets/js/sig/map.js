@@ -467,17 +467,12 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len > 1){
 					$.each(data, function (key, value){
-						//console.warn("key");
-						//console.log(key);
-						//console.log(value);
-
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 				}else{
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
 
-				//alert("fin");
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
@@ -495,7 +490,6 @@
 							});
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								console.log("click on .item_map_list_" + feature.properties.id);
 								thisSig.allowMouseoverMaker = false;
 								
 								var coordinates =  [feature.geometry.coordinates[1], 
