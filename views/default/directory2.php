@@ -210,7 +210,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
@@ -220,7 +220,7 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* EMAIL for admin use only
 						***************************************** */
-						$strHTML .= '<br/><a class="text-xss" href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["email"]))? $e["email"]:"").'</a>';
+						$strHTML .= '<br/><a class="text-xss" '.$url.'>'.((isset($e["email"]))? $e["email"]:"").'</a>';
 
 						/* **************************************
 						* TAGS

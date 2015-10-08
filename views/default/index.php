@@ -501,7 +501,8 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
 
-    else if( hash.indexOf("#rooms.index.type") >= 0 ){
+    else if( hash.indexOf("#rooms.index.type") >= 0 )
+    {
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }  
