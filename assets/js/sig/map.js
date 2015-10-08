@@ -66,7 +66,8 @@
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window";
 
-				var markerOptions = { icon : options.icon };
+				var markerOptions = { icon : options.icon
+									};
 
 				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
@@ -77,9 +78,27 @@
 
 				marker.on('click', function(e) {
 						marker.openPopup();
+						//Sig.markerToBounce = marker;
+						//Sig.bounceMarker(0);
+						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;							
 				});
 				return marker;
+			};
+
+			this.Sig.timerbounce = null;
+			this.Sig.bounceMarker = function(i){
+				//Sig.markerToBounce.bounce({duration: 500, height: 30});
+				i++;
+				console.log(i);
+				if(i < 5){
+					this.timerbounce = setTimeout(function(){ 
+							Sig.markerToBounce.bounce({duration: 500, height: 30}); 
+							Sig.bounceMarker(i); 
+						}, 1000);
+				}else{
+					clearTimeout(this.timerbounce);
+				}
 			};
 
 			//##
@@ -473,6 +492,7 @@
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
 
+				//alert("fin");
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données

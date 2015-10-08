@@ -13,6 +13,7 @@
 			'/js/sig/leaflet/leaflet.draw.js',
 			'/js/sig/leaflet/leaflet.markercluster-src.js',
 			'/js/sig/leaflet/leaflet.awesome-markers.min.js',
+			'/js/sig/leaflet/leaflet.bouncemarker.js',
 
 			'/js/sig/map.js' , 
 			'/js/sig/map_initializer.js' ,
