@@ -255,6 +255,10 @@ li.mix{
         float:left;
         margin-left:5px;
     }
+    .main-title h2{
+      color:#58879B !important;
+      font-size:18px;
+    }
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer"  >
