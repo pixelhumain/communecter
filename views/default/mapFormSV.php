@@ -14,7 +14,7 @@
         "mapOpacity" => 1, //ex : 0.4
 
         /* MAP LAYERS (FOND DE CARTE) */
-        "mapTileLayer" 	  => 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+        "mapTileLayer" 	  => '//{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
         "mapAttributions" => '<a href="http://www.opencyclemap.org">OpenCycleMap</a>',	 	//'Map tiles by <a href="http://stamen.com">Stamen Design</a>'
 
         /* MAP BUTTONS */
@@ -61,7 +61,7 @@
 	    top: 30px;
 	    border-radius:3px;
 	}
-	
+
 </style>
 
 <script type="text/javascript">
