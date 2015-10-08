@@ -234,7 +234,7 @@ if( !isset($_GET["isNotSV"]))
 					<div class= "row  col-xs-12">
 						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
 					</div>
-					<?php } else { ?>
+					<?php echo "oui"; } else { echo "non" ?>
 						<div class= "row  col-xs-12">
 							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
 						</div>
@@ -419,7 +419,8 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
-				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();				
+				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
+				console.log(newEvent)			
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
