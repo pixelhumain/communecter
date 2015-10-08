@@ -235,7 +235,7 @@
 					        		newAttendee=data.attendee;
 					        	addAttendeeToTabe(data.id,newAttendee);
 							} else {
-								openMainPanelFromPanel( baseUrl+'/'+moduleId+'/event/detail/id/'+idEvent, 'Event : <?php if(@$eventName) echo $eventName ?>',"fa-calendar", idEvent );
+								openMainPanelFromPanel( '/event/detail/id/'+idEvent, 'Event : <?php if(@$eventName) echo $eventName ?>',"fa-calendar", idEvent );
 							}
 				        } else {
 				           toastr.error(data.msg);

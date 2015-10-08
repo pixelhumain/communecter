@@ -66,23 +66,25 @@
 	var hashUrl = null
 	function showAjaxPanel (url,title,icon) 
 	{ 
-		console.log("showAjaxPanel",url,title,icon);
+		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
 		$(".ajaxForm").hide();
-		$(".ajaxForm,.box-ajaxTools").html("");
+		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
+		$(".box-ajaxTools").html("");
 
-		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
 
 		//show hash
 		urlT = url.split("/");
-		hashUrl = urlT[5]+"."+urlT[6];
-		if(urlT[7] != undefined)
-			hashUrl += "."+urlT[7]+"."+urlT[8];
-		if(urlT[9] != undefined)
-			hashUrl += "."+urlT[9]+"."+urlT[10];
+		hashUrl = urlT[1]+"."+urlT[2];
+		if(urlT[3] != undefined)
+			hashUrl += "."+urlT[3]+"."+urlT[4];
+		if(urlT[5] != undefined)
+			hashUrl += "."+urlT[5]+"."+urlT[6];
 		//adds hash to the url 
 		//timeout is a hack : dont understand why the hash is empty in some cases
 		//maybe a conflict with some libs that automatically overide the location hash 
 		setTimeout( function(){location.hash = hashUrl;},500 );
+		history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		console.log(hashUrl);
 
 		/*if( navHistory != null)

@@ -1,8 +1,8 @@
 <?php 
-//if( isset($_GET["isNotSV"])) 
+Menu::organization($organization);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
-<div class="col-xs-12">
+<div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
 	    		<?php 
@@ -22,7 +22,6 @@ $this->renderPartial('../default/panels/toolbar');
 	    	</div>
 	    </div>
 	 </div>
-
 </div>
 
 

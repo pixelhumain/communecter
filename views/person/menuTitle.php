@@ -49,7 +49,7 @@
 		showPanel('box-ajax');
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 		$(".panelTitle").html(icon+title).fadeIn();
-		getAjax('.ajaxForm',url,function(){ $(".ajaxForm").slideDown(); },"html");
+		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
 	}
 	function showHideMenu () { 
 		console.log("open showHideMenu" );

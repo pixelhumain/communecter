@@ -64,12 +64,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-left:10px;
 	}
 </style>
+
 <?php 
 if( isset($_GET["isNotSV"])) {
-	$this->toolbarMBZ = array(
-	    array('tooltip' => "Add a Person, Organization, Event or Project","iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-xs btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-	    );
-	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); 
+	/*
+	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
+	if( isset($type) && $type == Organization::CONTROLLER && isset($organization))
+		Menu::organization( $organization );
+	/*else
+		$this->toolbarMBZ = array(
+		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+		);*/
+	$this->renderPartial('../default/panels/toolbar'); 
 }
 ?>
 <div class="row">
@@ -204,7 +210,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( baseUrl+'/'+moduleId+'/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.

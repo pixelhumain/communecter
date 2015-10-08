@@ -20,8 +20,8 @@
             </div>
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
-            <a title="My people" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="col-xs-4 padding-10 text-center text-red tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
-            <a title="Invite Someone" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' )" class="col-xs-4 padding-10 text-center text-red tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+            <a title="My people" href="#" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="col-xs-4 padding-10 text-center text-red tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
+            <a title="Invite Someone" href="#" onclick="showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' )" class="col-xs-4 padding-10 text-center text-red tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-red tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a>
           </div>
         </div>
@@ -47,8 +47,8 @@
             </div>
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
-            <a title="My organizations" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
-            <a title="Add An Organization" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+            <a title="My organizations" href="#" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
+            <a title="Add An Organization" href="#" onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a>
           </div>
         </div>
@@ -74,8 +74,8 @@
             </div>
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
-           <a title="My events" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calendar' )" class="col-xs-4 padding-10 text-center text-azure tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
-            <a title="Add An Event" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )" class="col-xs-4 padding-10 text-center text-azure tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+           <a title="My events" href="#" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calendar' )" class="col-xs-4 padding-10 text-center text-azure tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
+            <a title="Add An Event" href="#" onclick="showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )" class="col-xs-4 padding-10 text-center text-azure tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-azure tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a>
           </div>
         </div>
@@ -101,8 +101,8 @@
             </div>
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
-            <a title="My projects" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
-            <a title="Add A Project" href="#" onclick="showAjaxPanel( baseUrl+'/'+moduleId+'/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+            <a title="My projects" href="#" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a>
+            <a title="Add A Project" href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a>
           </div>
         </div>
