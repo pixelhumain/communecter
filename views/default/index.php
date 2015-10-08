@@ -239,6 +239,7 @@ li.mix{
         height:38px;
         padding:5px;
         border-radius: 5px;
+        border: rgba(256,256,256, 0.58);
     }
     .menuIcon:hover {
       color:black;
