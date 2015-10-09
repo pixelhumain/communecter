@@ -231,6 +231,7 @@
 <script type="text/javascript">
 var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
 jQuery(document).ready(function() {
+
 	bindAdminBtnEvents();
 	resetDirectoryTable() ;
 	if(openingFilter != "")
