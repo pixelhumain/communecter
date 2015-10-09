@@ -276,7 +276,7 @@ li.mix{
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer"  >
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide homestead" > MY DETAILS</span></a>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.Yii::app()->session['user']['profilImageUrl'])?>" alt="image" ><span  class="menuline hide homestead" > MY DETAILS</span></a>
         <br/>
         <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> N.E.W.S</span></a>
         <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
