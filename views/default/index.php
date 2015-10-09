@@ -232,6 +232,9 @@ li.mix{
         color:black;
         float:right;
         margin-left:5px;
+        width:175px;
+        text-align: left;
+        padding-left:10px;
     }
     .menuIcon {
         /*border:1px solid white;*/
@@ -381,13 +384,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 
   jQuery(document).ready(function() {
 
-    $(window).on("popstate", function(e) {
-      if( "onhashchange" in window && location.hash){
-        var url = e.state;
-        console.log("popstate",url);
-        //loadByHash(location.hash);
-      }
-    });
+    
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
     }
@@ -471,6 +468,14 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 
     initMap();
 
+    $(window).on("popstate", function(e) {
+      console.dir(history.state);
+      if(  e.originalEvent.state ){
+        console.dir(e.originalEvent.state);
+        //loadByHash("#"+e.originalEvent.state.hash);
+      }
+    });
+
   });
 var typesLabels = {
   "<?php echo Organization::COLLECTION ?>":"Organization",
@@ -496,6 +501,8 @@ function loadByHash( hash ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PROJECT DETAIL ','lightbulb-o' );
     else if( hash.indexOf("#organization.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'ORGANIZATION DETAIL ','users' );
+    else if( hash.indexOf("#city.detail") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'CITY BOX ','university' );
     
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )

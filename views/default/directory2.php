@@ -71,6 +71,8 @@ if( isset($_GET["isNotSV"])) {
 	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
 	if( isset($type) && $type == Organization::CONTROLLER && isset($organization))
 		Menu::organization( $organization );
+	else if( isset($type) && $type == City::CONTROLLER && isset($city))
+		Menu::city( $city );
 	/*else
 		$this->toolbarMBZ = array(
 		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")

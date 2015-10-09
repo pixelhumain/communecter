@@ -1,18 +1,9 @@
-<?php
-/*$cs = Yii::app()->getClientScript();
-
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/weather-icons/css/weather-icons.min.css');
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js' , CClientScript::POS_END);
-*/
-?>
-<?php
-   // var_dump($people);var_dump($projects); die();
+<?php 
+Menu::city($city);
+$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
-  <div class="col-sm-12 col-xs-12 main-title">
-    <h2><i class="fa fa-university"></i> Nouméa</h2>     
-  </div>
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
@@ -65,7 +56,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
         <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
-
+<?php /* ?>
 <div class="row">
 
 	<div class="col-sm-7 col-xs-12">
@@ -86,6 +77,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		 </div>
 	</div>
 </div>
+
 <div class="row">
 	<div class="col-sm-4  col-xs-12">
 		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
@@ -99,8 +91,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 	</div>
 </div>
 
-
-</div>
+*/?>
 <!-- end: PAGE CONTENT-->
 
 <?php 
@@ -135,7 +126,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-
+  $(".moduleLabel").html("MY CITY : <?php echo $city["name"] ?>");
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
