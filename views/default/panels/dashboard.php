@@ -1,5 +1,5 @@
 <div class="space20"></div>
-<div class="row box-add  box">
+<div class="row box-add box" style="margin-top:60px;">
       <div class="col-sm-6">
         <div class="panel core-box">
           <div class="panel-tools">

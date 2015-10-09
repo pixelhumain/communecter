@@ -138,7 +138,7 @@ class DefaultController extends CommunecterController {
             array_push( $projects, $project );
           }
         }
-
+        $params["person"]= $person;
         $params["organizations"] = $organizations;
         $params["projects"] = $projects;
         $params["events"] = $events;
