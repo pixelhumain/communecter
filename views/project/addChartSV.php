@@ -133,7 +133,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</div>
 				<?php if (@$isNotSV){ ?>
 				<div class="">
-					<div class="row">
+					<div class="row center">
 		    	        <button class="btn btn-primary" >Enregistrer</button>
 					</div>
 				</div>
