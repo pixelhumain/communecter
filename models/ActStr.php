@@ -63,10 +63,12 @@ class ActStr {
         }
 
         if( isset( $params["ip"] ))
-          $action["actor"]["ip"] = $params["ip"];
+        	$action["actor"]["ip"] = $params["ip"];
 
         if( isset( $params["codeInsee"] ))
-          $action["codeInsee"] = $params["codeInsee"];
+        	$action["codeInsee"] = $params["codeInsee"];
+		if( isset( $params["geo"] ))
+        	$action["geo"] = $params["geo"];
 
         if( isset( $params["label"] ))
         	$action["object"]["displayName"] = $params["label"];

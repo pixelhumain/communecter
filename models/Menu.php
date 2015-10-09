@@ -87,7 +87,7 @@ class Menu {
         $onclick = "showAjaxPanel( '/city/detail/insee/".$insee."', 'CITY BOX : ".$city["name"]."','university' )";
         $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Details",
-                                                                "iconClass"=>"fa fa-home",
+                                                                "iconClass"=>"fa fa-university",
                                                                 "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
         
         //SEND MESSAGE
@@ -121,6 +121,13 @@ class Menu {
                                                                 "iconClass"=>"fa fa-users",
                                                                 "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
 
+        //STATISTICS
+        //-----------------------------
+        $onclick = "showAjaxPanel( '/city/opendata/insee/".$insee."?isNotSV=1', 'CITY DATA : ".$city["name"]."','line-chart' )";
+        $active = (Yii::app()->controller->id == "city" && Yii::app()->controller->action->id == "opendata" ) ? "active" : "";
+        array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Statistics",
+                                                                "iconClass"=>"fa fa-line-chart",
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
         //FOLLOW BUTTON
         //-----------------------------
         /*if( !isset( $organization["disabled"] ) ){

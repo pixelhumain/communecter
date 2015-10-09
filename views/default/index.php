@@ -1,6 +1,7 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/history/history.js' , CClientScript::POS_END);
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
@@ -228,29 +229,39 @@ li.mix{
 <style type="text/css">
     .menuline{
         line-height: 31px;
-        font-size: 1.2em;
-        color:black;
+        font-size: 1.5em;
+        color:#58879B;
         float:right;
         margin-left:5px;
-        width:175px;
-        text-align: left;
-        padding-left:10px;
+        min-width: 200px;
+        text-align: right;
+        
+    }
+    .menuline.hide{
+        min-width: 0px;
     }
     .menuIcon {
         /*border:1px solid white;*/
         display: block;
-        height:38px;
-        padding:5px;
-        border-radius: 5px;
-        border: rgba(256,256,256, 0.58);
+
+        height: 45px;
+        padding: 9px 15px;
+        border-radius: 0px;
+    }
+    .menuIcon i {
+      margin-left: 5px;
+      width: 30px;
+    }
+    #menu-container{
+      padding:10px 0px !important;
     }
     .menuIcon:hover {
-      color:black;
+        color:#58879B;
         background-color: white;
-        border: 1px solid #5D828E;
+        border: 0px solid #CFDFE4;
         -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
         -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-        box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+        box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
     }
     .hoverRed:hover {
       color:red;
@@ -261,21 +272,22 @@ li.mix{
     }
     .main-title h2{
       color:#58879B !important;
-      font-size:18px;
+      font-size:30px;
+      padding-top:30px;
     }
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer"  >
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide" > MY DETAILS</span></a>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" ><img class="img-circle pull-left" width="40" height="40" src="<?php echo Yii::app()->session['user']['profilImageUrl']?>" alt="image" ><span  class="menuline hide homestead" > MY DETAILS</span></a>
         <br/>
-        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide"> N.E.W.S</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide"> MY PEOPLE</a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide"> MY ORGANIZATIONS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide"> MY PROJECTS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide"> MY EVENTS</span></a>
-        <a href="#panel.box-add" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide">MY CITY</span></a>
-        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide"> ADD SOMETHING</span></a>
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide"> LOGOUT</span></a>
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> N.E.W.S</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
+        <a href="#panel.box-add" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
+        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
     </div>
 </div>
  <?php /* ?>
@@ -504,6 +516,9 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#city.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'CITY BOX ','university' );
     
+    else if( hash.indexOf("#city.opendata") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'CITY STATISTICS ','university' );
+
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )
     else if( hash.indexOf("#person.invitesv") >= 0 )
@@ -513,17 +528,18 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
 
-    else if( hash.indexOf("#rooms.index.type") >= 0 )
-    {
+    else if( hash.indexOf("#rooms.index.type") >= 0 ){
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }  
 
+
     else if( hash.indexOf("#news.index.type") >= 0 ){
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
-    } else
-        showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+    } 
+    else
+      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
 
     location.hash = hash;
     history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
@@ -682,18 +698,22 @@ function autoCompleteSearch(name){
     //EVENT MENU PANEL
     $(".filterorganizations").click(function(){
       $("#right_tool_map").hide("false");
+      thisSig.currentMarkerPopupOpen = null;  
       Sig.changeFilter("organizations", Sig.map, "types");
     });
     $(".filterpersons").click(function(){
       $("#right_tool_map").hide("false");
+      thisSig.currentMarkerPopupOpen = null;  
       Sig.changeFilter("people", Sig.map, "types");
     });
     $(".filterevents").click(function(){
       $("#right_tool_map").hide("false");
+      thisSig.currentMarkerPopupOpen = null;  
       Sig.changeFilter("events", Sig.map, "types");
     });
     $(".filterprojects").click(function(){
       $("#right_tool_map").hide("false");
+      thisSig.currentMarkerPopupOpen = null;  
       Sig.changeFilter("projects", Sig.map, "types");
     });
     //EVENT MENU PANEL - ALL
@@ -701,6 +721,7 @@ function autoCompleteSearch(name){
       if($(this).attr("data-filter") == "all"){
         $("#right_tool_map").hide("false");
         var mapData = <?php echo json_encode($contextMap) ?>;
+        thisSig.currentMarkerPopupOpen = null;  
         Sig.showMapElements(mapBg, mapData);
       }
     });

@@ -145,15 +145,29 @@
 				this.listId = new Array();
 				this.elementsMap = new Array();
 				this.paginationNumPage = 1;
-				//this.listPanel = new Array();
-				this.listPanel.tags = new Array();
-				this.listPanel.types = new Array();
-
+				
 				$( this.cssModuleName + " #liste_map_element").html("");
-
 
 				this.showMyPosition();
 
+			};
+
+			//##
+			//supprime tous les marker de la carte
+			this.Sig.restartMap = function(thisMap)
+			{	
+				//supprime les item panel (sauf all)
+				$.each($(this.cssModuleName + " .item_panel_map"), function(){
+					if($(this).attr("id") != "item_panel_map_all" && $(this).attr("id") != "item_panel_filter_all")
+						$(this).remove();
+				});
+				$(this.cssModuleName + " #liste_map_element").html();
+
+				this.listPanel.tags = new Array();
+				this.listPanel.types = new Array();
+				this.panelFilter = "all";
+				this.panelFilterType = "all";
+				this.clearMap(thisMap);
 			};
 
 			this.Sig.showMyPosition = function(){
@@ -562,7 +576,9 @@
 
 					this.checkListElementMap(thisMap); 
 					
-					if("undefined" != typeof this.markersLayer.getBounds() )
+					//console.log("fitBounds");
+					//console.dir(this.markersLayer.getBounds());
+					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 
 					thisSig.constructUI();

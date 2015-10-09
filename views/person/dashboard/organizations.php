@@ -14,7 +14,7 @@
 		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="panel-scroll height-230 ps-container" style="max-height:230px!important;">	
+		<div class="panel-scroll height-230 ps-container">	
 			<table class="table table-striped table-hover" id="organizations">
 				<tbody>
 					<?php 

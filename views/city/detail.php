@@ -2,8 +2,24 @@
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
+<style type="text/css">
+  .panel-title{
+    font-family: "Homestead";
+  }
+  #btn-center-city{
+    padding: 5px 16px;
+    border-radius: 25px;
+    background: rgba(252, 252, 252, 0.75);
+    margin-left: 10px;
+  }
+  #btn-center-city:hover{
+    background: #58879B;
+    color:white;
+  }
+</style>
 <!-- start: PAGE CONTENT -->
 <div class="row">
+
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
@@ -58,6 +74,19 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 <?php /* ?>
 <div class="row">
+  <div class="col-sm-4  col-xs-12">
+    <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+  </div>
+  <div class="col-sm-4 col-xs-12">
+    <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+  </div>
+  <div class="col-sm-4 col-xs-12">
+    <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+          "userId" => (string)$person["_id"])); ?>
+  </div>
+</div>
+
+<div class="row">
 
 	<div class="col-sm-7 col-xs-12">
 		<?php //$this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
@@ -92,6 +121,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 */?>
+
 <!-- end: PAGE CONTENT-->
 
 <?php 
@@ -113,7 +143,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script>
 
-var contextMap = {};
+//var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
 var images = <?php echo json_encode($images) ?>;
@@ -126,7 +156,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-  $(".moduleLabel").html("MY CITY : <?php echo $city["name"] ?>");
+  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
@@ -153,9 +183,11 @@ jQuery(document).ready(function() {
 
 
 function initCityMap(){
-  console.dir(contextMap);
-  Sig.clearMap();
-  console.log(contextMap);
+  //console.dir(contextMap);
+  //Sig.clearMap();
+  //console.log(contextMap);
+  Sig.restartMap();
+  //return;
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
 
@@ -165,12 +197,20 @@ function initCityMap(){
                       content: content };
 
   var markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
+  Sig.allowMouseoverMaker = false;
   Sig.map.setZoom(13, {animate:false});
   Sig.centerSimple(latlng, 13);
   markerCity.openPopup();
   //thisSig.currentMarkerPopupOpen = markerCity;  
-  //markerCity.closePopup();
+  $("#btn-center-city").click(function(){
+    Sig.map.setZoom(13, {animate:false});
+    Sig.map.panTo(latlng, {animate:true});
+    showMap(true);
+    //Sig.centerSimple(latlng, 13);
+  });
+  markerCity.closePopup();
   showMap(false);
+  Sig.allowMouseoverMaker = true;
 }
 
 function bindBtnFollow(){
