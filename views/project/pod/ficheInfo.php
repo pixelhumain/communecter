@@ -119,7 +119,7 @@ progress[value]::-moz-progress-bar {
 					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																	  "type" => Project::COLLECTION,
 																	  "resize" => false,
-																	  "contentId" => Document::IMG_PROFIL,
+																	  "contentId" => Document::IMG_SLIDER,
 																	  "editMode" => 			Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
 				?>
 			</div>

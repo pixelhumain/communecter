@@ -101,6 +101,9 @@ class DefaultController extends CommunecterController {
                 foreach ($organization["links"]["events"] as $keyEv => $valueEv) 
                 {
                   $event = Event::getPublicData($keyEv);
+                  $profil = Document::getLastImageByKey( $keyEv, Event::COLLECTION, Document::IMG_PROFIL );
+                  if($profil !="")
+                      $event["imagePath"]= $profil;
                   $events[$keyEv] = $event; 
                 }
               }
@@ -138,7 +141,7 @@ class DefaultController extends CommunecterController {
             array_push( $projects, $project );
           }
         }
-
+        $params["person"]= $person;
         $params["organizations"] = $organizations;
         $params["projects"] = $projects;
         $params["events"] = $events;

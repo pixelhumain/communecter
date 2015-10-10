@@ -1,25 +1,30 @@
-<?php
-/*$cs = Yii::app()->getClientScript();
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/weather-icons/css/weather-icons.min.css');
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js' , CClientScript::POS_END);
-*/
-?>
-<?php
-	$cs = Yii::app()->getClientScript();
-  	$cssAnsScriptFilesModule = array(
-  		'/assets/plugins/nvd3/nv.d3.js',
-  		);
-  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+<?php 
+
+$cs = Yii::app()->getClientScript();
+$cssAnsScriptFilesModule = array(
+	'/assets/plugins/nvd3/lib/d3.v3.js',
+	'/assets/plugins/nvd3/nv.d3.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+if( isset( $_GET["isNotSV"])){
+	Menu::city($city);
+	$this->renderPartial('../default/panels/toolbar'); 
+}
 ?>
 <!-- start: PAGE CONTENT -->
 <div class='panel panel-white'>
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">Liste des pods</h4>
+		<?php 
+		if( !isset( $_GET["isNotSV"])){
+			?>
 		<ul class="panel-heading-tabs border-light ulline">
 			<li>
 				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/city/creategraph/insee/'.$_GET['insee'];?>" class=""/>Ajouter</a>
 			</li>
 		<ul>
+		<?php } ?>
 	</div>
 	<div class="panel-body">
 		<div id="listPod">
@@ -29,6 +34,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 <script>
 jQuery(document).ready(function() {
+	//$(".moduleLabel").html( $(".moduleLabel").html()+" : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	getPod();
 });
 
