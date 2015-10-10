@@ -1,6 +1,6 @@
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-calendar fa-2x text-red"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title  text-orange"><i class="fa fa-calendar fa-2x"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>
@@ -17,12 +17,12 @@
 					{
 					?>
 					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-						<td class="center">
+						<td class="center" style="padding-left: 18px;">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
 								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 							<?php } else { ?>
-								<i class="fa fa-calendar fa-2x"></i>
+								<i class="fa fa-calendar fa-2x text-orange"></i>
 							<?php } ?>
 						</td>
 						<td>
@@ -32,9 +32,9 @@
 						</td>
 						<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 						<td class="center">
-							<div class="visible-md visible-lg hidden-sm hidden-xs">
+							<div class="visible-lg">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-grey tooltips  hidden-sm hidden-xs" data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 						</td>
@@ -106,7 +106,7 @@
 							"</td>" +
 							"<td class='center'>" +
 								"<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-									"<a href='#'' class='btn btn-xs btn-red tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='left' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
+									"<a href='#'' class='btn btn-xs btn-grey tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='left' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
 								"</div>" +
 							"</td>" +
 						"</tr>";

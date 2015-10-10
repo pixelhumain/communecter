@@ -6,7 +6,7 @@
 ?>
   <div class="panel panel-white">
     <div class="panel-heading border-light">
-      <h4 class="panel-title">UNE ASSO AU HASARD </h4>
+      <h4 class="panel-title text-blue">UNE ASSO AU HASARD </h4>
     </div>
     <div class="panel-body no-padding"  >
       <div class="row">

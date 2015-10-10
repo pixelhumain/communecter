@@ -20,7 +20,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">LOCAL ACTORS </h4>
-		<div class="panel-tools">
+		    <div class="panel-tools">
         	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
         </div>
       </div>
@@ -107,11 +107,10 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
 	</div>
 	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/eventsList', array( "events" => $events, "userId" => (string)$person["_id"])); ?>
 	</div>
 	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-          "userId" => (string)$person["_id"])); ?>
+		<?php $this->renderPartial('../pod/projectsList', array( "projects" => $projects)); ?>
 	</div>
 </div>
 

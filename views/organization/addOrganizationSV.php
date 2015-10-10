@@ -364,10 +364,11 @@ jQuery(document).ready(function() {
 	function runShowCity(searchValue) {
 		
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
-
+		Sig.citiesByPostalCode = citiesByPostalCode;
 		Sig.execFullSearchNominatim(0);
 		
 		var oneValue = "";
+		console.dir(citiesByPostalCode);
 		console.table(citiesByPostalCode);
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
@@ -393,6 +394,21 @@ jQuery(document).ready(function() {
 		});
 
 		$('#organizationForm #postalCode').change(function(e){
+			searchCity();
+		});
+
+		$('#organizationForm #fullStreet').keyup(function(e){
+			if($('#organizationForm #postalCode').val() != "")
+			searchCity();
+		});
+
+		$('#organizationForm #fullStreet').change(function(e){
+			if($('#organizationForm #postalCode').val() != "")
+			searchCity();
+		});
+
+		$('#city').change(function(e){
+			alert($(this).val());
 			searchCity();
 		});
 	}

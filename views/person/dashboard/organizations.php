@@ -6,7 +6,7 @@
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-group fa-2x text-green"></i> Mes organisations</h4>
+		<h4 class="panel-title  text-green"><i class="fa fa-group fa-2x"></i> Organisations</h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
@@ -23,20 +23,20 @@
 					if(isset($organizations)) { 
 					foreach ($organizations as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="center organizationLine" style="padding-left: 18px;">
 								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 									<?php } else { ?>
-										<i class="fa fa-group fa-2x"></i>
+										<i class="fa fa-group fa-2x text-green"></i>
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><a class="text-dark" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<td class="center">
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-grey tooltips visible-lg" data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</td>
 						</tr>
@@ -79,7 +79,7 @@
 			var idMemberOf = $(this).data("memberof-id");
 			var idMember = $(this).data("member-id");
 			var typeMember = $(this).data("member-type");
-			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?", 
+			bootbox.confirm("Are you sure you want to delete <span class='text-grey'>"+$(this).data("name")+"</span> connection ?", 
 				function(result) {
 					if (!result) {
 					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -114,10 +114,10 @@
 			contextMap["organizations"].push(nOrganization);
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/organization/dashboard/id/'+organizationId+'">';
-		var unlinkBtn = '<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips" data-name="'+nOrganization.name+'"data-memberof-id="'+organizationId+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"]?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>';
+		var unlinkBtn = '<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-grey tooltips" data-name="'+nOrganization.name+'"data-memberof-id="'+organizationId+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"]?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>';
 		var organizationLine  = 
 		'<tr id="<?php echo Organization::COLLECTION ?>'+organizationId+'">'+
-					'<td class="center">'+viewBtn+'<i class="fa fa-group fa-2x"></i></a></td>'+
+					'<td class="center">'+viewBtn+'<i class="fa fa-group fa-2x  text-green"></i></a></td>'+
 					'<td>'+viewBtn+nOrganization.name+'</a></td>'+
 					'<td>'+nOrganization.type+'</td>'+
 					'<td class="center">'+

@@ -168,6 +168,7 @@
 				this.panelFilter = "all";
 				this.panelFilterType = "all";
 				this.clearMap(thisMap);
+				this.currentMarkerPopupOpen = null;
 			};
 
 			this.Sig.showMyPosition = function(){

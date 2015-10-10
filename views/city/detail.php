@@ -31,7 +31,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title">LOCAL ACTORS </h4>
+        <h4 class="panel-title text-blue">LOCAL ACTORS </h4>
 		    <div class="panel-tools">
         	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
         </div>
@@ -82,13 +82,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-p
 </div>
 
 <div class="row">
-  <div class="col-sm-4  col-xs-12">
-    <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
-  </div>
-  <div class="col-sm-4 col-xs-12">
+  <div class="col-md-4 col-sm-12 col-xs-12">
     <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
   </div>
-  <div class="col-sm-4 col-xs-12">
+  <div class="col-md-4 col-sm-6  col-xs-12">
+    <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+  </div>
+  <div class="col-md-4 col-sm-6 col-xs-12">
     <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
           "userId" => (string)$person["_id"])); ?>
   </div>
@@ -169,9 +169,9 @@ jQuery(document).ready(function() {
       //initAddEventBtn ();
     }, "html");
 
-		getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/insee/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
+		//getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/insee/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
 
-		getAjax(".statisticPop", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>", function(){bindBtnAction();}, "html")
+		//getAjax(".statisticPop", baseUrl+"/"+moduleId+"/city/statisticpopulation/insee/<?php echo $_GET["insee"]?>", function(){bindBtnAction();}, "html")
 		
 });
 
@@ -181,6 +181,7 @@ function initCityMap(){
   //Sig.clearMap();
   //console.log(contextMap);
   Sig.restartMap();
+  Sig.map.setZoom(2, {animate:false});
   //return;
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
@@ -192,18 +193,25 @@ function initCityMap(){
 
   var markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
   Sig.allowMouseoverMaker = false;
-  Sig.map.setZoom(13, {animate:false});
-  Sig.centerSimple(latlng, 13);
+  
   markerCity.openPopup();
-  //thisSig.currentMarkerPopupOpen = markerCity;  
+  Sig.map.panTo(latlng, {animate:false});
+  Sig.centerSimple(latlng, 13);
+  Sig.currentMarkerPopupOpen = null;//markerCity;  
+  
   $("#btn-center-city").click(function(){
+    Sig.currentMarkerPopupOpen = null;//markerCity;  
+    //markerCity.openPopup();
+    showMap(true);
+    markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
-    showMap(true);
     //Sig.centerSimple(latlng, 13);
   });
+  
   markerCity.closePopup();
   showMap(false);
+  
   Sig.allowMouseoverMaker = true;
 }
 

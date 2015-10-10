@@ -24,62 +24,62 @@
 
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
 
-
-	
-
 <div class="row">
-	<div class="col-md-4 col-sm-6  col-xs-12">
-		<?php $this->renderPartial('dashboard/profil', array("person" => $person, "tags" => $tags, "countries" => $countries )); ?>
-		<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
-		<div class="shareAgendaPod">
-			<div class="panel panel-white pulsate">
-				<div class="panel-heading border-light ">
-					<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
-					<div class="space5"></div>
-				</div>
-			</div>
-		</div>	
-		<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+	<div class="col-md-3 col-sm-6  col-xs-12">
+		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+	</div>
+	<div class="col-md-3 col-sm-6  col-xs-12">
+		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																"contextId" =>(string)$person["_id"],
 																"contextType" => "citoyen",
 																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
 															)); ?>
 	</div>
-									
-	<div class="col-md-8 col-sm-6  col-xs-12">
+	<div class="col-md-3 col-sm-6  col-xs-12">
+		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+																"contextId" => (string)$person["_id"],
+																"contextType" => "citoyen",
+																"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
+														)); ?>
+	</div>
+	<div class="col-md-3 col-sm-6  col-xs-12">
 		<?php $this->renderPartial('dashboard/people',array( "people" => $people, "userId" =>(string)$person["_id"])); ?>
 	</div>
-	<div class="col-md-4 col-sm-6  col-xs-12">
-				
-		<?php $this->renderPartial('dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+</div>
+
+<div class="row">
+	<div class ="col-lg-4 col-md-4">
+		<?php $this->renderPartial('../pod/sliderPhoto', array("userId" => (string)$person["_id"])); ?>
 	</div>
-	<div class="col-md-4 col-sm-6  col-xs-12">
-	<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-															"contextId" => (string)$person["_id"],
-															"contextType" => "citoyen",
-															"authorised" => ( (string)@$person["_id"] == Yii::app()->session["userId"] ) 
-													)); ?>
+
+	<div class="col-lg-4 col-md-4">
+		<?php $this->renderPartial('dashboard/profil', array("person" => $person, "tags" => $tags, "countries" => $countries )); ?>
 	</div>
+
 	
-	<div class="col-md-8 col-sm-12  col-xs-12 pull-right">
-		<div class="newsPod">
-			<div class="panel panel-white pulsate">
-				<div class="panel-heading border-light ">
-					<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading News Section</h4>
-					<div class="space5"></div>
-				</div>
+</div>
+
+<div class="row">
+	
+	<div class=" col-md-5 newsPod">
+		<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading News Section</h4>
+				<div class="space5"></div>
 			</div>
 		</div>
 	</div>
-		
-</div>				
 
-<div class="row">
-		
+	<div class=" col-md-7 shareAgendaPod">
+		<div class="panel panel-white pulsate">
+			<div class="panel-heading border-light ">
+				<h4 class="panel-title"> <i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
+				<div class="space5"></div>
+			</div>
+		</div>
+	</div>
 	
-
 </div>
-
 
 
 <script>

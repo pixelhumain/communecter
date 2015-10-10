@@ -17,7 +17,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
+		<h4 class="panel-title  text-purple"><i class="fa <?php echo Project::ICON ?> fa-2x"></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>
@@ -33,13 +33,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					if(isset($projects) && count($projects)>0){
 					foreach ($projects as $e) {
 					?>
-					<tr id="project<?php echo (string)$e["_id"];?>">
-						<td class="center">
+					<tr id="project<?php echo (string)$e["_id"];?>" style="padding:5px 0px;">
+						<td class="center" style="padding-left: 15px;">
 							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
 								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
 							<?php } else { ?>
-								<i class="fa fa-lightbulb-o fa-2x"></i>
+								<i class="fa fa-lightbulb-o fa-2x text-purple"></i>
 							<?php } ?>
 						</a>
 						</td>
@@ -49,9 +49,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 							</a>
 						</td>
 						<td class="center">
-						<div class="visible-md visible-lg hidden-sm hidden-xs" >
+						<div class="visible-md visible-lg visible-lg" >
 							<?php if( @$authorised ) { ?>
-							<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+							<a href="#" class="removeProjectbtn btn btn-xs btn-grey tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 							<?php }; ?>
 						</div>
 						</td>
@@ -114,7 +114,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 			
 			var idProject = $(this).data("id");
-			bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> project ?", 
+			bootbox.confirm("Are you sure you want to delete <span class='text-grey'>"+$(this).data("name")+"</span> project ?", 
 				function(result) {
 					if (!result) {
 					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -153,7 +153,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		}
 		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
 		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-							'<a href="#" class="removeProjectbtn btn btn-xs btn-red tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
+							'<a href="#" class="removeProjectbtn btn btn-xs btn-grey tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
 						'</div>';
 		var projectLine  = 
 		'<tr id="project'+projectId.$id+'">'+

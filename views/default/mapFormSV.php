@@ -76,6 +76,7 @@
 			Sig.showIcoLoading(true);
 			
 			mapBg = Sig.loadMap("mapCanvas", <?php echo json_encode($sigParams); ?>);
+			mapBg.scrollWheelZoom.disable();
 
 			Sig.showIcoLoading(false);
 			$("#mapCanvasBg").css("height", "1000px");

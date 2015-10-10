@@ -153,10 +153,36 @@ SigLoader.getSigFindPlace = function (Sig){
 		
 		if(this.fullTextResearch == true){
 			if(this.useExternalSearchPlace){
-				var str = $("#fullStreet").val();
-				if(str != "") str += " ";
-				str += $("#postalCode").val();
+				var str = "";
+				
+				if($("#postalCode").length>0 && $("#postalCode").val() != null)
+					str += $("#postalCode").val();
+				
+				if(nbTentative < 1)
+				if($("#fullStreet").length>0 && $("#fullStreet").val() != null){
+					if(str != "") str += " ";
+						str += $("#fullStreet").val();
+				}
+				
+				// var cityInsee = "";
+				// console.dir($("#city").attr("city-name"));
+				// if($("#city").length>0 && $("#city").val() != null){
+				// 	if(str != "") str += " ";
+				// 		cityInsee = $("#city").val();
+				
+				// 	console.dir(this.citiesByPostalCode);
+				// 	if(cityInsee != ""){ console.log(" insee : " + cityInsee);
+				// 		$.each(this.citiesByPostalCode, function(key, data){
+				// 			console.log("item data");
+				// 			console.dir(data);
+				// 			if(data.value == cityInsee) cityInsee = data.text;
+				// 		});
+				// 		console.log(" insee : " + cityInsee);
+						
+				// 	}
+				// }
 
+				console.log("nominatim external research : " + "?q=" + transform(str));
 				return "?q=" + transform(str);
 			}
 			else{
@@ -391,14 +417,14 @@ SigLoader.getSigFindPlace = function (Sig){
 		thisSig.clearMap();
 		var markerNewData = thisSig.getMarkerSingle(thisSig.map, properties, latlng);
 		//console.dir(markerNewData);
-		
-		thisSig.markerNewData = markerNewData;
-		//console.log("before openPopup");
-		markerNewData.openPopup();
-		//console.log("after openPopup");
-		markerNewData.dragging.enable();
-		//console.log("after dragging");
+		thisSig.map.panTo(markerNewData.getLatLng(), {animate:false});
+		thisSig.map.setZoom(15, {animate:false});
+		Sig.centerSimple(markerNewData.getLatLng(), 15);
 
+		thisSig.markerNewData = markerNewData;
+		markerNewData.openPopup();
+		markerNewData.dragging.enable();
+		
 		$("#btn-validate-geopos").click(function(){
 			btnValidateClick(isNotSV);
 		});
@@ -421,7 +447,9 @@ SigLoader.getSigFindPlace = function (Sig){
 		$('#btn-show-city').click(function(){
 			if(isNotSV) $("#ajaxSV").hide(400);
 			else 		$(".noteWrap").hide(400);
-			thisSig.map.panTo(thisSig.markerNewData.getLatLng(), {animate:true});
+			thisSig.map.panTo(thisSig.markerNewData.getLatLng(), {animate:false});
+			thisSig.map.setZoom(15, {animate:false});
+			
 		});
 
 		if(!isNotSV) $(".form-add-data").css("top" , "200px");

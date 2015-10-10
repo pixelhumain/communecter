@@ -177,7 +177,6 @@ li.mix{
     $this->renderPartial('panels/projects');
     $this->renderPartial('panels/ph');
     $this->renderPartial('panels/communecter');
-
     $this->renderPartial('panels/dashboard');    
     ?>
     
@@ -186,7 +185,7 @@ li.mix{
 
     
     <style type="text/css">
-      #ajaxSV{top:125px;margin-top:0px;}
+      #ajaxSV{top:85px;margin-top:0px;}
       @media screen and (max-width: 768px) {
         #ajaxSV,.box{top:-100px;}
       }
@@ -397,7 +396,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
     $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
-        console.log("popstate",url);
+        //console.log("popstate",url);
         //loadByHash(location.hash);
       }
     });
