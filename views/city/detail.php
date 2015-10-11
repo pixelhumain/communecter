@@ -1,3 +1,11 @@
+ <div class="col-md-12 main-title">
+  <h2 class="panel-title">
+    <i class="fa fa-university"></i> 
+    <?php echo $city["name"]; ?>
+    <a href='#' id="btn-center-city"><i class="fa fa-map-marker"></i></a>
+  </h2>
+
+ </div>
 <?php 
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar'); 
@@ -72,7 +80,7 @@ $this->renderPartial('../default/panels/toolbar');
         <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
-<?php /* ?>
+
 <div class="row">
   <div class="col-md-4 col-sm-12 col-xs-12">
     <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
@@ -96,7 +104,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 </div>
 
-<div class="row">
+<!-- <div class="row">
 	 <div class="col-sm-12 col-xs-12 statisticPop">
 		 <div class="panel panel-white pulsate">
 			<div class="panel-heading border-light ">
@@ -105,22 +113,10 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 		 </div>
 	</div>
-</div>
+</div> -->
 
-<div class="row">
-	<div class="col-sm-4  col-xs-12">
-		<?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
-	</div>
-	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
-	</div>
-	<div class="col-sm-4 col-xs-12">
-		<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-          "userId" => (string)$person["_id"])); ?>
-	</div>
-</div>
 
-*/?>
+
 
 <!-- end: PAGE CONTENT-->
 
@@ -156,7 +152,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?> ");
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse

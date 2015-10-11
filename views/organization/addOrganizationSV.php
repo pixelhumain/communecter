@@ -408,7 +408,6 @@ jQuery(document).ready(function() {
 		});
 
 		$('#city').change(function(e){
-			alert($(this).val());
 			searchCity();
 		});
 	}

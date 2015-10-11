@@ -150,17 +150,31 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
+							<input type="text" class="form-control" name="streetAddress" id="fullStreet" placeholder="Full Street" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+							<i class="fa fa-road"></i>
+						</span>
+					</div>
+					<div class="form-group">
+						<span class="input-icon">
 							<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
-							<i class="fa fa-home"></i></span>
+							<i class="fa fa-home"></i>
+						</span>
 					</div>
 					<div class="form-group" id="cityDiv" style="display: none;">
 						<span class="input-icon">
 							<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
 							</select>
 						</span>
+						<div class="alert alert-success pull-left col-md-12" id="alert-city-found" style="text-align:center;font-family:inherit; border-radius:0px; margin-top:10px;">
+							<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+							<div class="btn btn-success" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+						</div>
+
+						<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
+						<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
 								
 					</div>
-					<div class="form-group">
+					<div class="form-group pull-left">
 						<div>
 							<label for="agree" class="checkbox-inline">
 								<input type="checkbox" class="grey agree" id="agree" name="agree">
@@ -270,7 +284,8 @@ svg.graph .line {
 */?>
 
 <script type="text/javascript">
-
+	var geoPositionCity = null;
+	var citiesByPostalCode = null;
 	jQuery(document).ready(function() {
 
 		Main.init();
@@ -668,6 +683,8 @@ var Login = function() {
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
+                   "geoPosLatitude" : $("#geoPosLatitude").val(),
+                   "geoPosLongitude" : $("#geoPosLongitude").val(),
                    "app" : "<?php echo $this->module->id?>",
                    "city" : $("#city").val(),
                    "pendingUserId" : pendingUserId
@@ -723,7 +740,10 @@ var Login = function() {
 }();
 
 function runShowCity(searchValue) {
-	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	Sig.citiesByPostalCode = citiesByPostalCode;
+	Sig.execFullSearchNominatim(0);
+
 	var oneValue = "";
 	console.table(citiesByPostalCode);
 	$.each(citiesByPostalCode,function(i, value) {
@@ -749,9 +769,23 @@ function bindPostalCodeAction() {
 	$('.form-register #cp').keyup(function(e){
 		searchCity();
 	});
+
+	$('.form-register #fullStreet').keyup(function(e){
+		if($('.form-register #cp').val() != "")
+		searchCity();
+	});
+
+	$('.form-register #fullStreet').change(function(e){
+		if($('.form-register #cp').val() != "")
+		searchCity();
+	});
+
+	$('#city').change(function(e){
+		searchCity();
+	});
 }
 
-function searchCity() {
+function searchCity() { console.log("searchCity");
 	var searchValue = $('.form-register #cp').val();
 	if(searchValue.length == 5) {
 		$("#city").empty();
@@ -766,4 +800,15 @@ function searchCity() {
 	}
 }
 
+function callBackFullSearch(resultNominatim){
+	//console.log("callback ok");
+	Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+	$(".topLogoAnim").hide();
+
+	//setTimeout("setMapPositionregister();", 1000);
+}
+function setMapPositionregister(){ console.log("setMapPositionregister");
+	Sig.map.panTo(Sig.markerNewData.getLatLng(), {animate:false}); 
+	Sig.map.panBy([300, 0]);
+}
 </script>

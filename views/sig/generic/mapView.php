@@ -10,7 +10,7 @@
 ?>
 <div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 	<div class="mapCanvas" id="mapCanvas<?php echo $sigParams['sigKey']; ?>">
-		<!-- <center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/world_pixelized.png"></center> -->
+		<center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/shattered.png"></center>
     </div>
 
 	

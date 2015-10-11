@@ -157,7 +157,10 @@ SigLoader.getSigFindPlace = function (Sig){
 				
 				if($("#postalCode").length>0 && $("#postalCode").val() != null)
 					str += $("#postalCode").val();
+				else if($("#cp").length>0 && $("#cp").val() != null)
+					str += $("#cp").val();
 				
+
 				if(nbTentative < 1)
 				if($("#fullStreet").length>0 && $("#fullStreet").val() != null){
 					if(str != "") str += " ";
@@ -441,12 +444,19 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		thisSig.markerNewData.on('dragstart', function(e){
 			if(isNotSV) $("#ajaxSV").hide(400);
-			else 		$(".noteWrap").hide(400);
+			else {
+					$(".noteWrap").hide(400);
+					$(".main-login").hide(400);
+			}
+			
 		});
 
 		$('#btn-show-city').click(function(){
 			if(isNotSV) $("#ajaxSV").hide(400);
-			else 		$(".noteWrap").hide(400);
+			else {
+					$(".noteWrap").hide(400);
+					$(".main-login").hide(400);
+			}
 			thisSig.map.panTo(thisSig.markerNewData.getLatLng(), {animate:false});
 			thisSig.map.setZoom(15, {animate:false});
 			
@@ -460,8 +470,11 @@ SigLoader.getSigFindPlace = function (Sig){
 			Sig.centerSimple(Sig.markerNewData.getLatLng(), 15);
 
 			if(isNotSV) $("#ajaxSV").show(400);
-			else 			$(".noteWrap").show(400);
-
+			else {
+					$(".noteWrap").show(400);
+					$(".main-login").show(400);
+			}
+			
 			$("#geoPosLongitude").attr("value", Sig.markerNewData.getLatLng().lng);
 			$("#geoPosLatitude").attr("value", Sig.markerNewData.getLatLng().lat);
 			Sig.map.invalidateSize(false);

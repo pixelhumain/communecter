@@ -23,7 +23,8 @@
 	.mapCanvas{
 		height:<?php echo $mapHeight; ?>px;
 		width:<?php echo $mapWidth ?> !important;
-		background-color:<?php echo $mapColor; ?>;
+		/*background-color:<?php echo $mapColor; ?>;*/
+		/*background:url("<?php echo $this->module->assetsUrl; ?>/images/fabric_plaid.png") repeat;*/
 	}
 
 	.<?php echo $moduleName; ?>
@@ -100,6 +101,10 @@
 		background-color:#FFF !important; /*#E6D414#5896AB !important;*/
 	}
 
+	.<?php echo $moduleName; ?>
+	.leaflet-tile-container{
+
+	}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {

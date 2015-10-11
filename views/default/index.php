@@ -270,7 +270,8 @@ li.mix{
     .main-title h2{
       color:#58879B !important;
       font-size:30px;
-      padding-top:30px;
+      padding-top: 75px;
+      padding-bottom: 15px;
     }
     </style>
 <div class="center text-white" id="menu-container" >

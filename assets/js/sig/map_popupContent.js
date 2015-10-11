@@ -156,7 +156,8 @@
 
 		Sig.getPopupNewData = function(){
 							
-			var popupContent = "<h1>Déplacer l'icon sur votre position</h1>" +
+			var popupContent = //'<img style="width:100%" class="pull-right" src="'+assetPath+'/images/logoL.jpg"/>' +
+							   "<h1><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon sur votre position</h1>" +
 				  			   "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
 
 			return popupContent;
