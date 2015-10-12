@@ -1,3 +1,11 @@
+<?php
+	
+$cssAnsScriptFilesModule = array(
+	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+?>
 <style>
 	#dropdown_search{
 		padding: 0px 15px; 
@@ -24,15 +32,31 @@
 		display: none;
 	};
 </style>
+<?php 
+$visible = "";
+if( isset($_GET["isNotSV"])) {
+	Menu::organization($organization);
+	$this->renderPartial('../default/panels/toolbar'); 
+} else
+	$visible = ' style="display:none" ';
 
-<div style="display:none" id="addMembers" >
+?>
+<div <?php echo $visible; ?> id="addMembers" >
     <!-- start: PAGE CONTENT -->
-    <div class="col-md-6 col-md-offset-3">
+    <?php if( isset($_GET["isNotSV"])){?>
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Member ( Person, Organization ) </h2>
+	<?php
+	} 
+	$size = ( !@$isNotSV ) ? " col-md-6 col-md-offset-3" : "col-md-12"
+	?>
+	<div class="<?php echo $size ?> " >  
     	
        
         <div class="panel panel-white">
         	<div class="panel-heading border-light">
+        	<?php if( !isset($_GET["isNotSV"])){?>
         		<h1>Add a Member ( Person, Organization )</h1>
+        	<?php } ?>
         		<p>An Organization can have People as members or Organizations</p>
         	</div>
         	<div class="panel-body">
@@ -165,7 +189,16 @@
 		      return false;
 		    }
 		  });*/
+		<?php if( isset($_GET["isNotSV"])){?>
+		initFormAddMember();
+		<?php
+		} else { ?>
 		bindOrganizationSubViewAddMember();
+		<?php } ?>
+		
+		
+
+
 	});
 	
 

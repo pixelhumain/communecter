@@ -8,7 +8,7 @@ var formDefinition = {
         "properties" : {
         	"id" :{
             	"inputType" : "hidden",
-            	"value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
+            	"value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>"
             },
             "type" :{
             	"inputType" : "hidden",
