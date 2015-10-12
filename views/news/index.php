@@ -166,8 +166,8 @@ function buildLineHTML(newsObj)
 		// '<div class="detailDiv">'.$strHTML.'</div></div></li>';
 
 	url = 'href="javascript:;" onclick="'+url+'"';	
-	if(typeof(newsObj.icon) != "undefined"){
-		var iconStr = "<div class='thumbnail-profil'></div>" + flag ; 
+	if(typeof(newsObj.icon) != "undefined"){									//<?php echo Yii::app()->createUrl("/".$this->module->id."/document/resized/50x50"); ?>'+ newsObj.object.author.profilImageUrl +' );">
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl + "'></div>" + flag ; 
 		//'<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
 	} else {
 		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
@@ -227,7 +227,8 @@ function buildLineHTML(newsObj)
 	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
 					tags+
 					scopes+
-					'<div class="space1"></div>'+
+					'<div class="space1"></div>'+ 
+					'<div class="timeline_shared_picture"  style="background-image:url(<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>);"><img src="<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>"></div>'+
 					'<div class="timeline_author_block">'+
 						objectLink+
 						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
