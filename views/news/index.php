@@ -145,9 +145,30 @@ function buildLineHTML(newsObj)
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
+	console.dir(newsObj);
+	if(typeof newsObj.author.type !== "undefined"){
+		if(newsObj.author.type == "organizations") newsObj.icon = "fa-groups";
+		if(newsObj.author.type == "events") 		newsObj.icon = "fa-calendar";
+		if(newsObj.author.type == "projects") 		newsObj.icon = "fa-lightbulb-o";
+		if(newsObj.author.type == "person") 		newsObj.icon = "fa-user";
+	}else{
+		newsObj.icon = "fa-user";
+	}
+	var colorIcon = "grey";
+	if(newsObj.icon == "fa-users") colorIcon = "green";
+	if(newsObj.icon == "fa-user") colorIcon = "yellow";
+	if(newsObj.icon == "fa-calendar") colorIcon = "orange";
+	if(newsObj.icon == "fa-lightbulb-o") colorIcon = "yellow";
+
+	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
+	
+		// '<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
+		// '<div class="detailDiv">'.$strHTML.'</div></div></li>';
+
 	url = 'href="javascript:;" onclick="'+url+'"';	
 	if(typeof(newsObj.icon) != "undefined"){
-		var iconStr = '<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
+		var iconStr = "<div class='thumbnail-profil'></div>" + flag ; 
+		//'<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
 	} else {
 		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
 	}
@@ -162,11 +183,11 @@ function buildLineHTML(newsObj)
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
-			tags += "<span class='label label-inverse'>"+tag+"</span> ";
+			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags )  == -1)
 				contextMap.tags.push(tag);
 		});
-		tags = '<div class="pull-left"><i class="fa fa-tags"></i> '+tags+'</div>';
+		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
 
 	if( newsObj.address )
@@ -197,7 +218,7 @@ function buildLineHTML(newsObj)
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	
-	var personName = "Unknown";
+	var personName = newsObj.author.name;
 	//var dateString = date.toLocaleString();
 	var commentCount = 0;
 	if ("undefined" != typeof newsObj.commentCount) 
@@ -207,20 +228,28 @@ function buildLineHTML(newsObj)
 					tags+
 					scopes+
 					'<div class="space1"></div>'+
-					'<div class="timeline_title">'+
+					'<div class="timeline_author_block">'+
 						objectLink+
-						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
+						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
+						'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +
+					
 					'</div>'+
-					'<div class="space10"></div>'+
-					text+	
+					'<div class="space5"></div>'+
+					'<div class="timeline_title">'+
+						'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
+						'</span>'+
+
+					'</div>'+
+					'<div class="space5"></div>'+
+					'<span class="timeline_text">'+ text + '</span>' +	
 					'<div class="space10"></div>'+
 					
-					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
+					'<hr>'+
+					"<div class='bar_tools_post pull-left'>"+
+					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
 					//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 					"</div>"+
 				'</div></li>';
