@@ -155,12 +155,16 @@ function buildLineHTML(newsObj)
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
-	if(typeof newsObj.author.type == "undefined") 
+	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
+		colorIcon="yellow";
+	}
 	console.dir(newsObj);
-	
-	newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
-	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+	//if (newsObj.type=="projects"){
+	//	newsObj.
+	//}
+	//newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
+	//var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
 	
 	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
 	
