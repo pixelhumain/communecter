@@ -22,7 +22,7 @@
 }
 </style>
 <?php 
-//if( isset($_GET["isNotSV"])) 
+Menu::person($person);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">

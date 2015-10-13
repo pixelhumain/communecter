@@ -276,8 +276,8 @@ li.mix{
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.Yii::app()->session['user']['profilImageUrl'])?>" alt="image" ><span  class="menuline hide homestead" style="padding-top:7px;"> MY DETAILS</span></a>
-        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> N.E.W.S</span></a>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span><img class="img-circle" width="40" height="40" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.Yii::app()->session['user']['profilImageUrl'])?>" alt="image" ><span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span></a>
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
         <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
         <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
         <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
@@ -493,8 +493,8 @@ function loadByHash( hash ) {
     console.log("loadByHash",hash);
 
     if( hash.indexOf("#person.directory") >= 0 )
-        showAjaxPanel( '/person/directory/?tpl=directory2&isNotSV=1', 'MY WORLD ','share-alt' );
-    if( hash.indexOf("#organization.directory") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PERSON DIRECTORY ','share-alt' );
+    else if( hash.indexOf("#organization.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'ORGANIZATION DIRECTORY ','users' );
     else if( hash  == "#panel.box-add" )
         showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');

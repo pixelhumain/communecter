@@ -1,3 +1,4 @@
+ <?php /* ?>
  <div class="col-md-12 main-title">
   <h2 class="panel-title">
     <i class="fa fa-university"></i> 
@@ -6,7 +7,7 @@
   </h2>
 
  </div>
-<?php 
+<?php */
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
@@ -152,7 +153,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?> ");
+  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
