@@ -90,7 +90,7 @@
 			this.Sig.bounceMarker = function(i){
 				//Sig.markerToBounce.bounce({duration: 500, height: 30});
 				i++;
-				console.log(i);
+				//console.log(i);
 				if(i < 5){
 					this.timerbounce = setTimeout(function(){ 
 							Sig.markerToBounce.bounce({duration: 500, height: 30}); 
@@ -612,15 +612,13 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			//console.warn("--------------- loadMap ---------------------");
-			//console.log(canvasId);
-
-			//console.dir(initParams);
 			canvasId += initParams.sigKey;
 
 			$("#"+canvasId).html("");
 			$("#"+canvasId).css({"background-color": this.mapColor});
 
 			//initialisation des variables de départ de la carte
+			if(canvasId != "")
 			var map = L.map(canvasId, { "zoomControl" : false,
 										"scrollWheelZoom":true,
 										"center" : [51.505, -0.09],
@@ -629,6 +627,7 @@
 
 			//initialisation de l'interface
 			Sig.initEnvironnement(map, initParams);
+			if(canvasId == "") return;
 
 			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -638,14 +637,6 @@
 				maxZoom: 20
 			});
 
-			// var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-			// 	//subdomains: 'abc',
-			// 	minZoom: 0,
-			// 	maxZoom: 20
-			// });
-
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
@@ -653,6 +644,9 @@
 		};
 
 		this.Sig = this.getSigInitializer(this.Sig);
+
+		console.log("load");
+
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);

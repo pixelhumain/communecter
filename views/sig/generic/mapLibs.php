@@ -25,7 +25,7 @@
 			'/js/sig/map_charts.js',
 		);
 
-		if(isset($sigParams)){
+		if(isset($sigParams) && isset($sigParams["useChartsMarkers"])){
 			if($sigParams["useChartsMarkers"] == true){ 
 
 				$cssAndScriptFilesCharts = array(
