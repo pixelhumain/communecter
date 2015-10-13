@@ -36,61 +36,8 @@
 			//initialise la position de la carte
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 			
-			//TODO : définir les icons et couleurs de chaque type disponoble
-			thisSig.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
-
-										  	"city" 				: "COLLECTIVITE_A",
-											
-											"news" 				: "NEWS_A",
-
-											"citoyen" 			: "CITOYEN_A",
-											"citoyens" 			: "CITOYEN_A",
-											"people" 			: "CITOYEN_A",
-
-											"NGO" 				: "ASSO_A",
-											"organizations" 	: "ASSO_A",
-											"organization" 		: "ASSO_A",
-
-											"event" 			: "EVENEMENTS_A",
-											"events" 			: "EVENEMENTS_A",
-											"meeting" 			: "EVENEMENTS_A",
-
-											"project" 			: "PROJET_A",
-											"projects" 			: "PROJET_A",
-
-											"markerPlace" 		: "map-marker",
-
-									  };
-
-			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
-
-										  	"news" 				: { ico : "newspaper-o", color : "white" 	},
-
-										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
-										  	"people" 			: { ico : "user", color : "yellow" 		},
-
-											"NGO" 				: { ico : "group", color : "green" 		},
-											"organizations" 	: { ico : "group", color : "green" 		},
-											"organization" 		: { ico : "group", color : "green" 		},
-
-											"event" 			: { ico : "calendar", color : "orange" 	},
-											"events" 			: { ico : "calendar", color : "orange" 	},
-											"meeting" 			: { ico : "calendar", color : "orange" 	},
-
-											"project" 			: { ico : "lightbulb-o", color : "purple" },
-											"projects" 			: { ico : "lightbulb-o", color : "purple" },
-
-											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
-											"me" 				: { ico : "map-marker", color : "blue" 	},
-
-									  };
+			this.loadIcoParams();
 			
-			//TODO : définir les icons et couleurs de chaque tag
-			thisSig.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "grey" } };/*,
-											"citoyens" 		: { ico : "square", color : "green" },
-											"organization"  : { ico : "square", color : "blue" },
-											"citoyen" 		: { ico : "square", color : "yellow" },
-									  };*/
 
 			if(params.useRightList){
 				//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
@@ -211,6 +158,63 @@
 
 		};
 
+		Sig.loadIcoParams = function(){
+			//TODO : définir les icons et couleurs de chaque type disponoble
+			this.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
+
+										  	"city" 				: "COLLECTIVITE_A",
+											
+											"news" 				: "NEWS_A",
+
+											"citoyen" 			: "CITOYEN_A",
+											"citoyens" 			: "CITOYEN_A",
+											"people" 			: "CITOYEN_A",
+
+											"NGO" 				: "ASSO_A",
+											"organizations" 	: "ASSO_A",
+											"organization" 		: "ASSO_A",
+
+											"event" 			: "EVENEMENTS_A",
+											"events" 			: "EVENEMENTS_A",
+											"meeting" 			: "EVENEMENTS_A",
+
+											"project" 			: "PROJET_A",
+											"projects" 			: "PROJET_A",
+
+											"markerPlace" 		: "map-marker",
+
+									  };
+
+			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
+
+										  	"news" 				: { ico : "newspaper-o", color : "white" 	},
+
+										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
+										  	"people" 			: { ico : "user", color : "yellow" 		},
+
+											"NGO" 				: { ico : "group", color : "green" 		},
+											"organizations" 	: { ico : "group", color : "green" 		},
+											"organization" 		: { ico : "group", color : "green" 		},
+
+											"event" 			: { ico : "calendar", color : "orange" 	},
+											"events" 			: { ico : "calendar", color : "orange" 	},
+											"meeting" 			: { ico : "calendar", color : "orange" 	},
+
+											"project" 			: { ico : "lightbulb-o", color : "purple" },
+											"projects" 			: { ico : "lightbulb-o", color : "purple" },
+
+											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
+											"me" 				: { ico : "map-marker", color : "blue" 	},
+
+									  };
+
+			//TODO : définir les icons et couleurs de chaque tag
+			this.icoMarkersTags = { 		"default" 		: { ico : "tag", color : "grey" } };/*,
+											"citoyens" 		: { ico : "square", color : "green" },
+											"organization"  : { ico : "square", color : "blue" },
+											"citoyen" 		: { ico : "square", color : "yellow" },
+									  };*/
+		}
 		
 		Sig.switchDropDown = function(panelId){
 			if($("#"+panelId).css("display") == "none") {
