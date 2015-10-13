@@ -65,10 +65,18 @@ if( isset($_GET["isNotSV"])) {
 div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 .timeline_element {padding: 10px;}
 
+
+<?php 
+		foreach($news as $key => $oneNews){
+			$news[$key]["typeSig"] = "news";	
+		}
+?>
+
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
+//var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
 	"tags" : [],
@@ -82,6 +90,8 @@ var contextMap = {
 jQuery(document).ready(function() 
 {
 	buildTimeLine();
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, news);
 });
 
 function buildTimeLine ()
@@ -145,33 +155,24 @@ function buildLineHTML(newsObj)
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
+	if(typeof newsObj.author.type == "undefined") 
+		newsObj.author.type = "people";
 	console.dir(newsObj);
-	if(typeof newsObj.author.type !== "undefined"){
-		if(newsObj.author.type == "organizations") newsObj.icon = "fa-groups";
-		if(newsObj.author.type == "events") 		newsObj.icon = "fa-calendar";
-		if(newsObj.author.type == "projects") 		newsObj.icon = "fa-lightbulb-o";
-		if(newsObj.author.type == "person") 		newsObj.icon = "fa-user";
-	}else{
-		newsObj.icon = "fa-user";
-	}
-	var colorIcon = "grey";
-	if(newsObj.icon == "fa-users") colorIcon = "green";
-	if(newsObj.icon == "fa-user") colorIcon = "yellow";
-	if(newsObj.icon == "fa-calendar") colorIcon = "orange";
-	if(newsObj.icon == "fa-lightbulb-o") colorIcon = "yellow";
-
+	
+	newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
+	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+	
 	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
 	
-		// '<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
-		// '<div class="detailDiv">'.$strHTML.'</div></div></li>';
-
 	url = 'href="javascript:;" onclick="'+url+'"';	
-	if(typeof(newsObj.icon) != "undefined"){									//<?php echo Yii::app()->createUrl("/".$this->module->id."/document/resized/50x50"); ?>'+ newsObj.object.author.profilImageUrl +' );">
-		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl + "'></div>" + flag ; 
-		//'<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
+	if(typeof(newsObj.icon) != "undefined"){
+		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
+		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != "") imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 	} else {
 		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
 	}
+
 	title = newsObj.name,
 	text = newsObj.text,
 	tags = "", 

@@ -332,9 +332,14 @@
 			{
 				//console.warn("--------------- getCoordinates ---------------------");
 
-				//if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
+				//si la donnée est une news, on doit afficher la position de l'auteur
+				if( typeof thisData.typeSig !== "undefined"){
+					if(thisData.typeSig == "news" && typeof thisData.author !== "undefined"){
+						thisData = thisData.author;
+					}
+				}
 
-				if( thisData['geo'] != null && thisData['geo'].longitude != null ){
+				if( typeof thisData.geo !== "undefined" && typeof thisData.geo.longitude !== "undefined"){
 					if(type == "markerSingle")
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
 					else if(type == "markerGeoJson")
@@ -348,12 +353,6 @@
 					} else if(type == "markerGeoJson"){
 						return thisData.geoPosition.coordinates;
 					}
-				}else if(typeof thisData.locations != "undefined"){
-					//console.warn("--------------- locations ---------------------");
-					$.each(thisData.locations, function(key, value){
-						//console.log(key + " => " + value);
-
-					});
 				}
 				else{
 					return null;
@@ -369,7 +368,8 @@
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
-					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
+					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
+						("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
 						if(this.verifyPanelFilter(thisData))
 						{
 							//préparation du contenu de la bulle
@@ -382,7 +382,7 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
-												typeSig : thisData["typeSig"],
+												typeSig : (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"],
 												name : thisData["name"],
 												faIcon : this.getIcoByType(thisData),
 												content: content };
@@ -501,6 +501,11 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len > 1){
 					$.each(data, function (key, value){
+						var oneData = key;
+						console.log("type Sig : ");
+						console.dir(value);
+						if(value.typeSig == "news" && typeof value.author !== "undefined") 
+							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 				}else{

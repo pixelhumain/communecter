@@ -40,6 +40,8 @@
 			thisSig.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
 
 										  	"city" 				: "COLLECTIVITE_A",
+											
+											"news" 				: "NEWS_A",
 
 											"citoyen" 			: "CITOYEN_A",
 											"citoyens" 			: "CITOYEN_A",
@@ -61,6 +63,8 @@
 									  };
 
 			thisSig.icoMarkersTypes = { 	"default" 			: { ico : "circle", color : "yellow" 	},
+
+										  	"news" 				: { ico : "newspaper-o", color : "white" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
@@ -157,6 +161,9 @@
 				$(thisSig.cssModuleName + ' #right_tool_map').mouseleave(function(event) {
 					$(thisSig.cssModuleName + ' #panel_map').hide(200);
 				});
+				$(thisSig.cssModuleName + ' .dropdown-menu.panel_map').mouseleave(function(event) {
+					$(thisSig.cssModuleName + ' #panel_map').hide(200);
+				});
 
 			}
 
@@ -190,6 +197,9 @@
 					$(thisSig.cssModuleName + ' #panel_map').hide(1);
 				});
 				$(thisSig.cssModuleName + ' #right_tool_map').mouseleave(function(event) {
+					$(thisSig.cssModuleName + ' #panel_filter').hide(200);
+				});
+				$(thisSig.cssModuleName + ' .dropdown-menu.panel_map').mouseleave(function(event) {
 					$(thisSig.cssModuleName + ' #panel_filter').hide(200);
 				});
 			}
@@ -312,6 +322,14 @@
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			return null;
+		};
+		Sig.getThumbProfil = function (element){
+			var imgProfilPath =  assetPath + "/images/news/profile_default_l.png";
+			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
+				imgProfilPath = "/ph/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
+			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
+				imgProfilPath =  "/ph/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+			return imgProfilPath;
 		};
 
 		Sig.centerSimple = function(center, zoom){

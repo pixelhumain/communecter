@@ -142,6 +142,9 @@
 
 			var thisSig = this;
 			var objectId = thisSig.getObjectId(this);
+			var allElement = element;
+			var element = (typeof element.author != "undefined") ? element.author : element;
+
 			//rassemble le nom de la ville au CP
 			var place = "";
 			if(element['city'] != null) place += element['city'];
@@ -157,11 +160,15 @@
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
+
+			//recuperation de l'image de profil (ou image par defaut)
+			var imgProfilPath =  Sig.getThumbProfil(element);
+
 			//return l'élément html
-		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(element)+'">' +
-		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(element) +'">'
+		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(allElement)+'">' +
+		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(allElement) +'">'
 		    					+ "<div class='left-col'>"
-		    					+ 	"<div class='thumbnail-profil'></div>"						
+		    					+ 	"<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>"						
 		    					+ 	"<div class='ico-type-account'>"+icons+"</div>"
 		    					
 		    					+ "</div>"
@@ -179,16 +186,27 @@
 						}
 
 						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressLocality'] )
-						button	+= 	"<div class='info_item city_item_map_list'>" + element['address']['addressLocality'] + "</div>";
+						button	+= 	"<div class='info_item city_item_map_list inline'>" + element['address']['addressLocality'] + "</div>";
 								
 						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
-						button	+= 	"<div class='info_item country_item_map_list'>" + element['address']['addressCountry'] + "</div>";
+						button	+= 	"<div class='info_item country_item_map_list inline'>" + element['address']['addressCountry'] + "</div>";
 								
 						if("undefined" != typeof element['telephone'])
-						button	+= 	"<div class='info_item telephone_item_map_list'>" + element['telephone'] + "</div>";
-						
-				button += 	'</div><div class="separation"></div>';
+						button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
+								
 				
+				button += 	'</div>';
+
+				if("undefined" != typeof allElement['text']){
+					if("undefined" != typeof allElement['name']){
+						button	+= 	"<div class='info_item title_news_item_map_list'><i class='fa fa-newspaper-o'></i> " + allElement['name'] + "</div>";
+					}		
+					button	+= 	"<div class='info_item text_item_map_list'>" + allElement['text'] + "</div>";
+				}
+				
+				button += '<div class="separation"></div>';
+				
+
 				button += 	'</button>' +
 						 '<div>';
 

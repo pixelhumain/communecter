@@ -9,26 +9,31 @@
 		//création du contenu de la popup d'un data
 		Sig.getPopup = function(data){
 
+			if(typeof(data.typeSig) != "undefined" && data.typeSig == "news"){
+				return this.getPopupSimpleNews(data);
+			}else{
 				return this.getPopupSimple(data);
+			}
 
-				if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
+			/*	if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
 					return this.getPopupEvent(data);
 				}
 				else{
 					return this.getPopupCitoyen(data);
-				}
+				}*/
 		};
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopupCitoyen = function(data){
 
 			var type = data['type'] ? data['type'] : "";
+			var imgProfilPath =  Sig.getThumbProfil(element);
 
 			var popupContent = "";
-			if(data['thumb_path'] != null)
-			popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='" + data['thumb_path'] + "' height=100 class='popup-info-profil-thumb "+type+"'></div>";
-			else
-			popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='"+assetPath+"/images/thumb/default.png' width=100 class='popup-info-profil-thumb "+type+"'></div>";
+			//if(data['thumb_path'] != null)
+			popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='" + imgProfilPath + "' height=100 class='popup-info-profil-thumb "+type+"'></div>";
+			//else
+			//popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='"+assetPath+"/images/thumb/default.png' width=100 class='popup-info-profil-thumb "+type+"'></div>";
 
 
 			//NOM DE L'UTILISATEUR
@@ -95,6 +100,7 @@
 	
 			var ico = this.getIcoByType(data);
 			var color = this.getIcoColorByType(data);
+			var imgProfilPath =  Sig.getThumbProfil(data);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
@@ -122,7 +128,7 @@
 										
 			popupContent += 
 						  "<div class='left-col'>"
-	    				+ 	"<div class='thumbnail-profil'></div>"						
+	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
 	    				+ 	"<div class='ico-type-account'>"+icons+"</div>"					
 	    				+ "</div>"
 
@@ -149,6 +155,89 @@
 						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
 				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+				popupContent += '</button>';
+
+			return popupContent;
+		};
+
+		//##
+		//création du contenu de la popup d'un data de type News
+		Sig.getPopupSimpleNews = function(data){
+
+			var allData = data;
+			data = data.author;
+
+			var type = data['typeSig'] ? data['typeSig'] : data['type'];
+			var id = data["_id"]["$id"];
+			var popupContent = "<div class='popup-marker'>";
+	
+			var ico = this.getIcoByType(data);
+			var color = this.getIcoColorByType(data);
+			var imgProfilPath =  Sig.getThumbProfil(data);
+
+			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
+
+			//var prop = feature.properties;
+			//console.log("PROPRIETES : ");
+			//console.dir(data);
+
+			//showMap(false);
+
+			//var type = data.typeSig;
+			var typeElement = "";
+			if(type == "people") 		typeElement = "person";
+			if(type == "organizations") typeElement = "organization";
+			if(type == "events") 		typeElement = "event";
+			if(type == "projects") 		typeElement = "project";
+
+			var url = '/'+typeElement+'/detail/id/'+id;
+			var title = data.typeSig + ' : ' + data.name;
+			title = title.replace("'", "");
+			title = title.replace('"', "");
+
+			var icon = 'fa-'+ this.getIcoByType(data);
+
+			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");'>";
+										
+			popupContent += 
+						  "<div class='left-col'>"
+	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
+	    				+ 	"<div class='ico-type-account'>"+icons+"</div>"					
+	    				+ "</div>"
+
+						+ "<div class='right-col'>";
+						
+						if("undefined" != typeof data['name'])
+						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
+						
+						if("undefined" != typeof data['tags']){
+							popupContent	+= 	"<div class='info_item items_map_list'>";
+							$.each(data['tags'], function(index, value){
+								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
+							});
+							popupContent	+= 	"</div>";
+						}
+
+						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
+						popupContent	+= 	"<div class='info_item city_item_map_list inline'>" + data['address']['addressLocality'] + "</div>";
+								
+						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
+						popupContent	+= 	"<div class='info_item country_item_map_list inline'>" + data['address']['addressCountry'] + "</div>";
+								
+						if("undefined" != typeof data['telephone'])
+						popupContent	+= 	"<div class='info_item telephone_item_map_list inline'>" + data['telephone'] + "</div>";
+
+				popupContent += '</div>';
+
+				if("undefined" != typeof allData['text']){
+					if("undefined" != typeof allData['name']){
+						popupContent	+= 	"<div class='info_item title_news_item_map_list'><i class='fa fa-newspaper-o'></i> " + allData['name'] + "</div>";
+					}		
+					popupContent	+= 	"<div class='info_item text_item_map_list'>" + allData['text'] + "</div>";
+				}
+					
+
+				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
 			return popupContent;
