@@ -502,8 +502,6 @@
 				if(len > 1){
 					$.each(data, function (key, value){
 						var oneData = key;
-						console.log("type Sig : ");
-						console.dir(value);
 						if(value.typeSig == "news" && typeof value.author !== "undefined") 
 							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
