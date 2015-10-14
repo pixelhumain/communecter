@@ -133,6 +133,20 @@ jQuery(document).ready(function()
 
 	buildDynForm();
 
+	$(".form-create-news-container #text").hide();
+	$(".form-create-news-container .tagstags").hide();
+	$(".form-create-news-container .datedate").hide();
+	$(".form-create-news-container .form-actions").hide();
+	$(".form-create-news-container #name").focus(function(){
+		$(".form-create-news-container #text").show();
+		$(".form-create-news-container .tagstags").show();
+		$(".form-create-news-container .datedate").show();
+		$(".form-create-news-container .form-actions").show();
+		
+	});
+
+
+
 });
 
 function buildTimeLine ()

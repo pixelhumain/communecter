@@ -13,6 +13,13 @@
 	padding:10px !important;
 	height: 55px;
 }
+.form-create-news-container .alert{
+	margin:10px !important;
+	padding:5px !important;
+}
+.form-create-news-container .form-group label.error{
+	padding:0px 10px;
+}
 .header-form-create-news{
 	background-color:transparent;
 	padding-bottom: 50px !important;
@@ -34,7 +41,7 @@
 .form-group #text{
 	min-width:100%;
 	max-width:100%;
-	resize: vertical;
+	resize: none;
 	min-height:150px;
 	max-height: 250px;
 	border-width: 1px 0px 0px 0px !important;
