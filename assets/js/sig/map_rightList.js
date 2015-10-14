@@ -177,9 +177,9 @@
 						if("undefined" != typeof name)
 						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
 						
-						if("undefined" != typeof element['tags']){
+						if("undefined" != typeof allElement['tags']){
 							button	+= 	"<div class='info_item items_map_list'>";
-							$.each(element['tags'], function(index, value){
+							$.each(allElement['tags'], function(index, value){
 								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
 							});
 							button	+= 	"</div>";

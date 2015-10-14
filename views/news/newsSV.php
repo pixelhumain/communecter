@@ -7,7 +7,7 @@
 .form-create-news-container{
 	background-color:#F2F2F2;
 	padding-bottom: 5px !important;
-	background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");
+	/*background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");*/
 	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
 	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
 	-o-box-shadow: 0px 0px 5px 1px #C8C8C8;

@@ -101,7 +101,7 @@
 					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
 				});
 
-				$(thisSig.cssModuleName + ' #btn-tags').mouseenter(function(event) {
+				$(thisSig.cssModuleName + ' #btn-tags').click(function(event) { //mouseenter
 					$(thisSig.cssModuleName + ' #panel_map').show(200);
 					$(thisSig.cssModuleName + ' #panel_filter').hide(1);
 				});
@@ -139,7 +139,7 @@
 				});
 
 
-				$(thisSig.cssModuleName + ' #btn-filters').mouseenter(function(event) {
+				$(thisSig.cssModuleName + ' #btn-filters').click(function(event) { //mouseenter
 					$(thisSig.cssModuleName + ' #panel_filter').show(200);
 					$(thisSig.cssModuleName + ' #panel_map').hide(1);
 				});

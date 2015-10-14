@@ -210,9 +210,9 @@
 						if("undefined" != typeof data['name'])
 						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
 						
-						if("undefined" != typeof data['tags']){
+						if("undefined" != typeof allData['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(data['tags'], function(index, value){
+							$.each(allData['tags'], function(index, value){
 								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
 							});
 							popupContent	+= 	"</div>";
