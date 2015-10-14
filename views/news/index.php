@@ -15,6 +15,11 @@ if( isset($_GET["isNotSV"])) {
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
 	$this->renderPartial('../default/panels/toolbar'); 
+
+}
+
+if( !isset($_GET["isNotSV"])) {
+	$this->renderPartial('../sig/generic/mapLibs');
 }
 ?>
 <div id="newsHistory">
@@ -65,10 +70,18 @@ if( isset($_GET["isNotSV"])) {
 div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 .timeline_element {padding: 10px;}
 
+
+<?php 
+		foreach($news as $key => $oneNews){
+			$news[$key]["typeSig"] = "news";	
+		}
+?>
+
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
+//var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
 	"tags" : [],
@@ -79,9 +92,24 @@ var contextMap = {
 	},
 };
 
+<?php if( !isset($_GET["isNotSV"]) ) { ?>
+		var Sig = null;
+	<?php } ?>
+
 jQuery(document).ready(function() 
 {
+	
+	<?php if( !isset($_GET["isNotSV"]) ) { ?>
+		Sig = SigLoader.getSig();
+		Sig.loadIcoParams();
+	<?php } ?>	
+
 	buildTimeLine();
+
+	<?php if( isset($_GET["isNotSV"]) ) { ?>
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, news);
+	<?php } ?>
 });
 
 function buildTimeLine ()
@@ -145,12 +173,28 @@ function buildLineHTML(newsObj)
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
 	
+	if(typeof newsObj.author.type == "undefined") {
+		newsObj.author.type = "people";
+		colorIcon="yellow";
+	}
+	console.dir(newsObj);
+	//if (newsObj.type=="projects"){
+	//	newsObj.
+	//}
+	//newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
+	//var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+	
+	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
+	
 	url = 'href="javascript:;" onclick="'+url+'"';	
 	if(typeof(newsObj.icon) != "undefined"){
-		var iconStr = '<i class=" fa '+newsObj.icon+' fa-2x pull-left fa-border"></i>';
+		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
+		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != "") imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 	} else {
 		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
 	}
+
 	title = newsObj.name,
 	text = newsObj.text,
 	tags = "", 
@@ -162,11 +206,11 @@ function buildLineHTML(newsObj)
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
-			tags += "<span class='label label-inverse'>"+tag+"</span> ";
+			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags )  == -1)
 				contextMap.tags.push(tag);
 		});
-		tags = '<div class="pull-left"><i class="fa fa-tags"></i> '+tags+'</div>';
+		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
 
 	if( newsObj.address )
@@ -197,7 +241,7 @@ function buildLineHTML(newsObj)
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	
-	var personName = "Unknown";
+	var personName = newsObj.author.name;
 	//var dateString = date.toLocaleString();
 	var commentCount = 0;
 	if ("undefined" != typeof newsObj.commentCount) 
@@ -206,21 +250,30 @@ function buildLineHTML(newsObj)
 	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
 					tags+
 					scopes+
-					'<div class="space1"></div>'+
-					'<div class="timeline_title">'+
+					'<div class="space1"></div>'+ 
+					'<div class="timeline_shared_picture"  style="background-image:url(<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>);"><img src="<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>"></div>'+
+					'<div class="timeline_author_block">'+
 						objectLink+
-						'<span class="text-large text-bold light-text no-margin padding-5">'+title+'</span>'+
+						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
+						'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +
+					
 					'</div>'+
-					'<div class="space10"></div>'+
-					text+	
+					'<div class="space5"></div>'+
+					'<div class="timeline_title">'+
+						'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
+						'</span>'+
+
+					'</div>'+
+					'<div class="space5"></div>'+
+					'<span class="timeline_text">'+ text + '</span>' +	
 					'<div class="space10"></div>'+
 					
-					'<hr><div class="pull-right"><i class="fa fa-clock-o"></i> '+dateStr+'</div>'+
-					"<div class='bar_tools_post'>"+
-					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label label-info'>10 <i class='fa fa-share-alt'></i></span></a> "+
+					'<hr>'+
+					"<div class='bar_tools_post pull-left'>"+
+					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
 					//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 					"</div>"+
 				'</div></li>';

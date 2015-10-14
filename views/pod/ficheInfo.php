@@ -115,17 +115,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 			</div>
 		</div>
-		<div class="row" style="background-color:#E6E6E6">
-			<div class="col-sm-12 col-xs-12">
-				<h3> Public</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 padding-20">
-				<a href="#" id="typeOfPublic" data-title="Public" data-type="checklist" data-emptytext="Type Of Public" class="editable editable-click">
-				</a>
-			</div>
-		</div>
+		
 	</div>
 </div>
 
@@ -311,7 +301,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#typeIntervention').editable('toggleDisabled');
-			$('#typeOfPublic').editable('toggleDisabled');
 		}
 	}
 
@@ -381,12 +370,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
         	}
 		});
 
-		$('#typeOfPublic').editable({
-			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: <?php echo (isset($organization["typeOfPublic"])) ? json_encode(implode(",", $organization["typeOfPublic"])) : "''"; ?>,
-			source: publics,
-			placement: 'right'
-		});
+	
 
 		$('#description').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 

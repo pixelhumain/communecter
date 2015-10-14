@@ -22,7 +22,7 @@
 }
 </style>
 <?php 
-//if( isset($_GET["isNotSV"])) 
+Menu::person($person);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
@@ -39,7 +39,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script>
 
 jQuery(document).ready(function() {
-
+	var images = <?php echo json_encode($images) ?>;
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	})

@@ -4,7 +4,54 @@ class Menu {
     public static $infoMenu = array();
 
 	public static $sectionMenu = array();
-  
+    
+    public static function person($person)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
+        $id = (string)$person["_id"];
+        
+        //HOME
+        //-----------------------------
+        $onclick = "showAjaxPanel( '/person/detail/id/".$id."', 'PERSON DETAIL ','user' )";
+        $active = (Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
+        array_push( Yii::app()->controller->toolbarMBZ, array( 'tooltip' => "Person Details",
+                                                                "iconClass"=>"fa fa-user",
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+        
+        //SEND MESSAGE
+        //-----------------------------
+        array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Send a message to this Person",
+                                                                "iconClass"=>"fa fa-envelope-o",
+                                                                "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Person::COLLECTION."' data-name='".$person['name']."'") );
+        
+        
+        
+        //DIRECTORY
+        //-----------------------------
+        $active = (Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "directory" ) ? "active" : "";
+        $onclick = "showAjaxPanel( '/person/directory/id/".$id."?tpl=directory2&isNotSV=1', 'DIRECTORY ','users' )";
+        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "PUBLIC DIRECTORY",
+                                                                "iconClass"=>"fa fa-users",
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+
+        //FOLLOW BUTTON
+        //-----------------------------
+        if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && $person["_id"] != Yii::app()->session["userId"]){
+            //Link button
+            if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && Link::isConnected( Yii::app()->session['userId'] , Person::COLLECTION , (string)$person["_id"] , Person::COLLECTION ))
+                $htmlFollowBtn = array('tooltip' => "Unfollow this Person", 
+                                       "iconClass"=>"disconnectBtnIcon fa fa-unlink",
+                                        "href"=>"<a href='#' class='unfollowBtn text-red tooltips btn btn-default' data-name=\"".$person["name"]."\" data-id='".$person["_id"]."' data-type='".Person::COLLECTION."' data-ownerlink='".link::person2person."' ");
+            else
+                $htmlFollowBtn = array('tooltip' => "Follow this Person", 
+                                        "iconClass"=>"connectBtnIcon fa fa-unlink",
+                                        "href"=>"<a href='javascript:;' class='followBtn tooltips btn btn-default ' id='addKnowsRelation'  data-id='".$person["_id"]."' data-ownerlink='".link::person2person."' ");
+            array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
+        } 
+    }
+
     public static function organization($organization)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
@@ -50,6 +97,14 @@ class Menu {
         $onclick = "showAjaxPanel( '/organization/directory/id/".$id."?tpl=directory2&isNotSV=1', 'ORGANIZATION MEMBERS ','users' )";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "MEMBERS : Organization participants",
                                                                 "iconClass"=>"fa fa-users",
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+
+        // ADD MEMBER
+        //-----------------------------
+        $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "addmember" ) ? "active" : "";
+        $onclick = "showAjaxPanel( '/organization/addmember/id/".$id."?isNotSV=1', 'ADD A MEMBER','plus' )";
+        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "ADD MEMBER : Organization participants",
+                                                                "iconClass"=>"fa fa-plus",
                                                                 "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
 
         //FOLLOW BUTTON

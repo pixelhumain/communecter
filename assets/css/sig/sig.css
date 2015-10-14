@@ -43,18 +43,7 @@ svg{
  	text-align:center;
  }
  .popup-info-profil-thumb{
- 	border-radius:190px;
- 	border-width:6px;
- 	border-color:yellow;
- 	border-style:solid;
  }
-.popup-info-profil-thumb.organization, .popup-info-profil-thumb.NGO{
-	border-color:#60CF27;
-}
-.popup-info-profil-thumb.meeting, .popup-info-profil-thumb.event{
-	padding:15px;
-	border-color:#F03737;
-}
  .popup-info-profil-username{
  	width:100%;
  	text-transform:capitalize;
@@ -212,14 +201,14 @@ creer des conflits : regle pas assez specfique
 .item_map_list .left-col{
 	float:left;
 	width:65px;
-	min-height:70px;
 }
 #right_tool_map .item_map_list .separation{
 	min-width:250px;
 	min-height:1px;
 	background-color:rgba(128, 128, 128, 0.4);
 	float: left;
-	margin-left:20px;
+	margin-left:10px;
+	margin-top:5px;
 }
 
 .item_map_list .left-col .ico-type-account{
@@ -248,16 +237,19 @@ creer des conflits : regle pas assez specfique
 	border-radius:4px;
 	float:right;
 }
-
+.item_map_list .left-col .thumbnail-profil img{
+	border-radius:4px;
+}
 .item_map_list .right-col{
 	float:right;
 	width:190px;
 	margin-bottom:4px;
 	max-width:190px;
-	min-height:70px;
 	text-align: left;
 }
 
+.item_map_list .right-col, 
+.item_map_list .left-col
 .popup-marker .item_map_list .right-col, 
 .popup-marker .item_map_list .left-col{
 	min-height:55px;
@@ -272,6 +264,35 @@ creer des conflits : regle pas assez specfique
 	font-family: inherit;
 	font-size: 11px;
 	color: grey;
+}
+.item_map_list .right-col .info_item.inline{
+	min-width:10px;
+	margin-right:7px;
+	display:inline;
+}
+.item_map_list .info_item.text_item_map_list{
+	width: 100%;
+	overflow: hidden;
+	float: left;
+	text-align: left;
+	max-height: 115px;
+	padding: 0px 15px 7px 15px;
+}
+.item_map_list .info_item.title_news_item_map_list{
+	width: 100%;
+	text-overflow: ellipsis;
+	float: left;
+	text-align: left;
+	max-height: 20px;
+	padding: 0px 15px;
+	color: #000 !important;
+	font-weight: 500;
+	font-size: 14px !important;
+}
+.item_map_list .info_item.title_news_item_map_list i.fa{
+	padding:0px !important;
+	margin:0px !important;
+	float:none !important;
 }
 
 .item_map_list{
@@ -595,6 +616,11 @@ creer des conflits : regle pas assez specfique
 	font-size:1.4em;
 	margin-top:0px !important;
   }
+  .item_map_list i.fa-newspaper-o{
+	margin-left: 3px !important;
+	font-size: 1.1em;
+  }
+
 
   #lbl-chk-scope{
 	height: 46px;

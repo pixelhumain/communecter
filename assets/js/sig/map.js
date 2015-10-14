@@ -90,7 +90,7 @@
 			this.Sig.bounceMarker = function(i){
 				//Sig.markerToBounce.bounce({duration: 500, height: 30});
 				i++;
-				console.log(i);
+				//console.log(i);
 				if(i < 5){
 					this.timerbounce = setTimeout(function(){ 
 							Sig.markerToBounce.bounce({duration: 500, height: 30}); 
@@ -332,9 +332,14 @@
 			{
 				//console.warn("--------------- getCoordinates ---------------------");
 
-				//if(typeof thisData.locations != "undefined"){ console.log("LOCATION"); }
+				//si la donnée est une news, on doit afficher la position de l'auteur
+				if( typeof thisData.typeSig !== "undefined"){
+					if(thisData.typeSig == "news" && typeof thisData.author !== "undefined"){
+						thisData = thisData.author;
+					}
+				}
 
-				if( thisData['geo'] != null && thisData['geo'].longitude != null ){
+				if( typeof thisData.geo !== "undefined" && typeof thisData.geo.longitude !== "undefined"){
 					if(type == "markerSingle")
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
 					else if(type == "markerGeoJson")
@@ -348,12 +353,6 @@
 					} else if(type == "markerGeoJson"){
 						return thisData.geoPosition.coordinates;
 					}
-				}else if(typeof thisData.locations != "undefined"){
-					//console.warn("--------------- locations ---------------------");
-					$.each(thisData.locations, function(key, value){
-						//console.log(key + " => " + value);
-
-					});
 				}
 				else{
 					return null;
@@ -369,7 +368,8 @@
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
-					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition']) {
+					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
+						("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
 						if(this.verifyPanelFilter(thisData))
 						{
 							//préparation du contenu de la bulle
@@ -382,7 +382,7 @@
 							var properties = { 	id : objectId,
 												icon : theIcon,
 												type : thisData["type"],
-												typeSig : thisData["typeSig"],
+												typeSig : (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"],
 												name : thisData["name"],
 												faIcon : this.getIcoByType(thisData),
 												content: content };
@@ -501,6 +501,9 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len > 1){
 					$.each(data, function (key, value){
+						var oneData = key;
+						if(value.typeSig == "news" && typeof value.author !== "undefined") 
+							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 				}else{
@@ -609,15 +612,13 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 			//console.warn("--------------- loadMap ---------------------");
-			//console.log(canvasId);
-
-			//console.dir(initParams);
 			canvasId += initParams.sigKey;
 
 			$("#"+canvasId).html("");
 			$("#"+canvasId).css({"background-color": this.mapColor});
 
 			//initialisation des variables de départ de la carte
+			if(canvasId != "")
 			var map = L.map(canvasId, { "zoomControl" : false,
 										"scrollWheelZoom":true,
 										"center" : [51.505, -0.09],
@@ -626,6 +627,7 @@
 
 			//initialisation de l'interface
 			Sig.initEnvironnement(map, initParams);
+			if(canvasId == "") return;
 
 			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -635,14 +637,6 @@
 				maxZoom: 20
 			});
 
-			// var tileLayer = L.tileLayer("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png", { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-			// 	//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-			// 	attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-			// 	//subdomains: 'abc',
-			// 	minZoom: 0,
-			// 	maxZoom: 20
-			// });
-
 			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
@@ -650,6 +644,9 @@
 		};
 
 		this.Sig = this.getSigInitializer(this.Sig);
+
+		console.log("load");
+
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);
 		this.Sig = this.getSigPopupContent(this.Sig);
