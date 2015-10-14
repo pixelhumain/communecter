@@ -6,7 +6,13 @@
 }
 .form-create-news-container{
 	background-color:#F2F2F2;
+	padding-bottom: 5px !important;
 	background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");
+	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	-o-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	box-shadow: 0px 0px 5px 1px #C8C8C8;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
 }
 .form-create-news-container .form-actions{
 	margin:0px !important;
