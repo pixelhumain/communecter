@@ -14,8 +14,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 if( isset($_GET["isNotSV"])) {
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
-	else
-		Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
 
 }
@@ -26,8 +24,9 @@ if( !isset($_GET["isNotSV"])) {
 ?>
 
 <div id="formCreateNewsTemp">
-	<div class='no-padding form-create-news-container'>
-		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
+	<div class='col-sm-8 col-sm-offset-2'>
+		<div class='space20'></div>
+		<h2 class='radius-10 padding-10 partition-blue text-bold'>Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
 	 </div>
 </div>
@@ -42,13 +41,6 @@ if( !isset($_GET["isNotSV"])) {
 			<div class="panel-heading border-light">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
-		        	<?php 
-					if( !isset($_GET["isNotSV"])) 
-					{ ?>
-		        	<li>
-		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
-		        	</li>
-		        	<?php } /* ?>
 		        	<!-- <li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li> -->
@@ -86,11 +78,10 @@ if( !isset($_GET["isNotSV"])) {
 		<!-- end: TIMELINE PANEL -->
 	</div>
 </div>
-
 <style type="text/css">
-	div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
-	.timeline_element {padding: 10px;}
-</style>
+div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
+.timeline_element {padding: 10px;}
+
 
 <?php 
 		foreach($news as $key => $oneNews){
@@ -98,6 +89,7 @@ if( !isset($_GET["isNotSV"])) {
 		}
 ?>
 
+</style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
@@ -141,7 +133,6 @@ function buildTimeLine ()
 	$(".newsTLmonthsList").html('');
 	console.log("buildTimeLine",Object.keys(news).length);
 	
-	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp").html();
 	$("#formCreateNewsTemp").html("");		
 
@@ -159,7 +150,7 @@ function buildTimeLine ()
 			var newsTLLine = buildLineHTML(newsObj);
 			if(countEntries == 0)
 			$(".newsTL"+date.getMonth()).append(
-				"<li class='newsFeed'><div class='timeline_element partition-white no-padding' style='min-width:85%;'>" + formCreateNews + "</div></li>");
+				"<li class='newsFeed'><div class='timeline_element partition-white'>" + formCreateNews + "</div></li>");
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
@@ -201,8 +192,7 @@ function buildLineHTML(newsObj)
 	var color = "white";
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
-	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
-
+	
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
 		colorIcon="yellow";
@@ -210,7 +200,6 @@ function buildLineHTML(newsObj)
 	//if (newsObj.type=="projects"){
 	//	newsObj.
 	//}
-
 	newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
 	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
 	
