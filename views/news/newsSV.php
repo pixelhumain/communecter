@@ -6,12 +6,25 @@
 }
 .form-create-news-container{
 	background-color:#F2F2F2;
+	padding-bottom: 5px !important;
 	background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");
+	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	-o-box-shadow: 0px 0px 5px 1px #C8C8C8;
+	box-shadow: 0px 0px 5px 1px #C8C8C8;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
 }
 .form-create-news-container .form-actions{
 	margin:0px !important;
 	padding:10px !important;
 	height: 55px;
+}
+.form-create-news-container .alert{
+	margin:10px !important;
+	padding:5px !important;
+}
+.form-create-news-container .form-group label.error{
+	padding:0px 10px;
 }
 .header-form-create-news{
 	background-color:transparent;
@@ -34,7 +47,7 @@
 .form-group #text{
 	min-width:100%;
 	max-width:100%;
-	resize: vertical;
+	resize: none;
 	min-height:150px;
 	max-height: 250px;
 	border-width: 1px 0px 0px 0px !important;
