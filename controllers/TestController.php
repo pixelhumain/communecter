@@ -311,4 +311,12 @@ class TestController extends CommunecterController {
     $imageUtils->createMarkerFromImage($srcEmptyMarker)->display();
   }
 
+  public function actionGetImages() {
+    $itemId = "55c0c1a72336f213040041ee";
+    $itemType = Person::COLLECTION;
+    $limit = array(Document::IMG_PROFIL => 1, Document::IMG_SLIDER => 5);
+    var_dump(Document::getImagesByKey($itemId, $itemType, $limit));
+
+  }
+
 }

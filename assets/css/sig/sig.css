@@ -276,7 +276,8 @@ creer des conflits : regle pas assez specfique
 	float: left;
 	text-align: left;
 	max-height: 115px;
-	padding: 0px 15px 7px 15px;
+	padding: 0px 15px 0px 15px;
+	margin-bottom: 10px;
 }
 .item_map_list .info_item.title_news_item_map_list{
 	width: 100%;

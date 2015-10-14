@@ -39,7 +39,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script>
 
 jQuery(document).ready(function() {
-
+	var images = <?php echo json_encode($images) ?>;
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	})

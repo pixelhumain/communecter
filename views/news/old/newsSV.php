@@ -1,86 +1,4 @@
 
-
-<style type="text/css">
-#ajaxForm .form-group{
-	margin-bottom: 0px !important;
-}
-.form-create-news-container{
-	background-color:#F2F2F2;
-	padding-bottom: 5px !important;
-	background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");
-	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	-o-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	box-shadow: 0px 0px 5px 1px #C8C8C8;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
-}
-.form-create-news-container .form-actions{
-	margin:0px !important;
-	padding:10px !important;
-	height: 55px;
-}
-.form-create-news-container .alert{
-	margin:10px !important;
-	padding:5px !important;
-}
-.form-create-news-container .form-group label.error{
-	padding:0px 10px;
-}
-.header-form-create-news{
-	background-color:transparent;
-	padding-bottom: 50px !important;
-	margin-bottom: -50px !important;
-	color:rgba(22, 53, 66, 0.7) !important;
-}
-.form-create-news-container .select2-input{
-	margin:0px !important;
-}
-.form-group #name{
-	margin:3%;
-	width:94%;
-	border: 1px solid #CBCBCB !important;
-	border-radius: 3px !important;
-	padding-left: 12px;
-	color:#555965;
-	/*background-color:rgba(249, 249, 249, 0.8) !important;*/
-}
-.form-group #text{
-	min-width:100%;
-	max-width:100%;
-	resize: none;
-	min-height:150px;
-	max-height: 250px;
-	border-width: 1px 0px 0px 0px !important;
-	border-top-color:#DADADA;
-	/*background-color:rgba(249, 249, 249, 0.8) !important;*/
-}
-.tagstags ul.select2-choices{
-	border-radius: 0px;
-	border-width: 1px 0px 1px 0px;
-	border-style:solid;
-	border-bottom-color:#DADADA;
-	border-top-color:#DADADA;
-	background-color:rgba(249, 249, 249, 0.8) !important;
-}
-.tagstags .select2-search-field{
-	background-color:white;
-}
-.form-group #date{
-	margin-top: 0px;
-	width:100%;
-	border-width: 0px 0px 1px 0px !important;
-	border-color:#DADADA !important;
-	font-size: 13px;
-}
-.datepicker .day{
-	cursor: pointer;
-}
-.datepicker .day.active{
-	color:white;
-}
-
-</style>
-
 <script type="text/javascript">
 
 var formDefinition = {
@@ -98,7 +16,7 @@ var formDefinition = {
             },
             "name" :{
             	"inputType" : "text",
-            	"placeholder" : "In a few words ... ",
+            	"placeholder" : "Title",
             	"rules" : {
 						"required" : true
 					}
@@ -106,7 +24,7 @@ var formDefinition = {
             
             "text" :{
             	"inputType" : "textarea",
-            	"placeholder" : "Details ",
+            	"placeholder" : "Details",
             	"rules" : {
 						"required" : true,
 						"maxlength" : 1000
@@ -114,7 +32,7 @@ var formDefinition = {
             },
             "tags" :{
 	            	"inputType" : "tags",
-	            	"placeholder" : "#tags",
+	            	"placeholder" : "Tags",
 	            	"values" : [
 	            		"Sport",
                     	"Agricutlture",
@@ -123,16 +41,15 @@ var formDefinition = {
 	            	]
 	            },
 	        "date" :{
-	        	"icon" : "fa fa-calendar",
             	"inputType" : "date",
-            	"placeholder" : "When ?",
+            	"placeholder" : "When was this or will it be",
             },
-	        // "public" :{
-	        //     	"inputType" : "checkbox",
-	        //     	"placeholder" : "Public",
-	        //     	"values" : true,
-	        //     	"onclick" : "function(){alert()}"
-	        //     },
+	        "public" :{
+	            	"inputType" : "checkbox",
+	            	"placeholder" : "Public",
+	            	"values" : true,
+	            	"onclick" : "function(){alert()}"
+	            },
 	        /*"scope" :{
 	            	"inputType" : "tags",
 	            	"placeholder" : "Scope, Who can see this",
