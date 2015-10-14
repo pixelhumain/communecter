@@ -76,8 +76,12 @@
 		$(".box-ajaxTools").html("");
 
 		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
-			$(".ajaxForm").slideDown(); 
-			$.unblockUI();
+			if(!userId){
+				window.href.location = baseUrl+'/'+moduleId+"/person/login";
+			} else{
+				$(".ajaxForm").slideDown(); 
+				$.unblockUI();
+			}
 		},"html");
 
 		//show hash
@@ -97,7 +101,7 @@
 		//maybe a conflict with some libs that automatically overide the location hash 
 		setTimeout( function(){
 			location.hash = hashUrl;
-			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
+			//history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		},500 );
 		
 		console.warn("pushState",hashUrl);

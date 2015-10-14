@@ -259,9 +259,11 @@ function runinviteFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success('The invitation has been sent with success !');
 		        	$.hideSubview();
-		        	if(updateInvite != undefined && typeof updateInvite == "function"){
+		        	if( isNotSV )	
+		        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
+		        	else if(updateInvite != undefined && typeof updateInvite == "function"){
 		        		updateInvite(data.invitedUser, true);
-		        	}	
+		        	} 
 		        } else {
 		        	$.unblockUI();
 					toastr.error(data.msg);

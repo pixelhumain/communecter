@@ -234,7 +234,7 @@ if( !isset($_GET["isNotSV"]))
 					<div class= "row  col-xs-12">
 						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
 					</div>
-					<?php echo "oui"; } else { echo "non" ?>
+					<?php } else {  ?>
 						<div class= "row  col-xs-12">
 							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
 						</div>
@@ -447,7 +447,10 @@ if( !isset($_GET["isNotSV"]))
 				        	toastr.success('Event Created success');
 				        	$("#newEventId").val(data.id["$id"]);
 				        	//$.hideSubview();
-				        	document.location.href=baseUrl+"/"+moduleId+"/event/dashboard/id/"+data.id["$id"];
+				        	if( isNotSV )	
+				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS','calendar' );
+				        	else 
+				        		document.location.href=baseUrl+"/"+moduleId+"/event/dashboard/id/"+data.id["$id"];
 				        } else {
 				           toastr.error(data.msg);
 				        }

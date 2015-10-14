@@ -316,14 +316,14 @@ function runProjectFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
 		        	$.unblockUI();
-		        	if( 'undefined' != typeof updateProject && typeof updateProject == "function" ){
+		        	if( isNotSV )	
+				        showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','lightbulb-o' );
+		        	else if( 'undefined' != typeof updateProject && typeof updateProject == "function" )
 		        		updateProject( newProject, data.id );
 						
-					if( 'undefined' != typeof showAjaxPanel && typeof showAjaxPanel == "function" ){
-						showAjaxPanel( baseUrl+'/'+moduleId+'/person/directory/?tpl=directory2', 'MY WORLD ','share-alt' )
-					} else
+					
+					if( !isNotSV )	
 						$.hideSubview();
-		        	}	
 		        } else {
 		           $.unblockUI();
 		           toastr.error(data.msg);

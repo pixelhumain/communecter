@@ -92,7 +92,7 @@ if( isset($_GET["isNotSV"])) {
 							<a href="#">Show All</a>
 						</li>
 						<li class="filter " data-filter=".citoyens">
-							<a href="#" class="filterpersons"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
+							<a href="#" class="filtercitoyens"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".organizations">
 							<a href="#" class="filterorganizations"><i class="fa fa-users fa-2x"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
@@ -345,8 +345,8 @@ function initGrid(){
 	    });*/
 	}else{
 		var htmlDefault = "<div class='center'>"+
-							"<i class='fa fa-picture-o fa-5x text-blue'></i>"+
-							"<br>No picture to show"+
+							"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
+							"<br>No Connections yet"+
 						"</div>";
 		$('#Grid').append(htmlDefault);
 	}
