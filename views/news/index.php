@@ -133,18 +133,17 @@ jQuery(document).ready(function()
 
 	buildDynForm();
 
-	$(".form-create-news-container #text").hide();
-	$(".form-create-news-container .tagstags").hide();
-	$(".form-create-news-container .datedate").hide();
-	$(".form-create-news-container .form-actions").hide();
+	showFormBlock(false);
 	$(".form-create-news-container #name").focus(function(){
-		$(".form-create-news-container #text").show();
-		$(".form-create-news-container .tagstags").show();
-		$(".form-create-news-container .datedate").show();
-		$(".form-create-news-container .form-actions").show();
-		
+		showFormBlock(true);	
 	});
 
+	$(".form-create-news-container #name").focusout(function(){
+		if($(".form-create-news-container #name").val() == ""){
+			showFormBlock(false);
+		}
+	});
+	
 
 
 });
@@ -425,8 +424,18 @@ function applyScopeFilter(str)
 	return $(".newsFeed").length;
 }
 
-function loadFormCreateNews(){
 
+function showFormBlock(bool){
+	if(bool){
+		$(".form-create-news-container #text").show("fast");
+		$(".form-create-news-container .tagstags").show("fast");
+		$(".form-create-news-container .datedate").show("fast");
+		$(".form-create-news-container .form-actions").show("fast");	
+	}else{
+		$(".form-create-news-container #text").hide();
+		$(".form-create-news-container .tagstags").hide();
+		$(".form-create-news-container .datedate").hide();
+		$(".form-create-news-container .form-actions").hide();
+	}
 }
-
 </script>
