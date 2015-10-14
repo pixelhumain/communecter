@@ -10,11 +10,12 @@
 class GraphController extends CommunecterController {
 
     protected function beforeAction($action) {
-		return parent::beforeAction($action);
+        parent::initPage();
+		    return parent::beforeAction($action);
   	}
 
   	public function actions()
-	{	
+	{
 	    return array(
 	        'getdata'  => 'citizenToolKit.controllers.graph.GetDataAction',
 	        'viewer'   => 'citizenToolKit.controllers.graph.ViewerAction'
