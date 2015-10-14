@@ -181,18 +181,19 @@ function buildLineHTML(newsObj)
 	//if (newsObj.type=="projects"){
 	//	newsObj.
 	//}
-	//newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
-	//var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+	newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
+	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
 	
 	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
-	
+	var iconStr = "";
 	url = 'href="javascript:;" onclick="'+url+'"';	
 	if(typeof(newsObj.icon) != "undefined"){
 		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
 		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != "") imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
-		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 	} else {
-		var iconStr = '<i class=" fa fa-rss fa-2x pull-left fa-border"></i>';
+		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
+		iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 	}
 
 	title = newsObj.name,
