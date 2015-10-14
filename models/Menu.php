@@ -206,6 +206,27 @@ class Menu {
         } */
     }
 
+    public static function news()
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        //SEND MESSAGE
+        //-----------------------------
+        array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Post Something",
+                                                                "iconClass"=>"fa fa-envelope-o",
+                                                                "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-notsubview='1' ") );
+        
+    }
+
+    public static function add2MBZ($entry)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        array_push( Yii::app()->controller->toolbarMBZ , $entry );
+    }
+
     public static function menuItems($conn=null,$type=null)
     {
         $result = array();

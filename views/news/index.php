@@ -14,6 +14,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 if( isset($_GET["isNotSV"])) {
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
+	else
+		Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
 
 }
@@ -30,10 +32,13 @@ if( !isset($_GET["isNotSV"])) {
 			<div class="panel-heading border-light">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
+		        	<?php 
+						if( !isset($_GET["isNotSV"])) 
+						{ ?>
 		        	<li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li>
-		        	<?php /* ?>
+		        	<?php } /* ?>
 			        <li class="panel-tools">
 			          <div class="dropdown">
 			            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
@@ -172,7 +177,8 @@ function buildLineHTML(newsObj)
 	var color = "white";
 	var icon = "fa-user";
 	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
-	
+	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
 		colorIcon="yellow";
@@ -182,7 +188,7 @@ function buildLineHTML(newsObj)
 	//	newsObj.
 	//}
 	//newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
-	//var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
+	
 	
 	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
 	
