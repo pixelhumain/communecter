@@ -70,11 +70,15 @@
 	function showAjaxPanel (url,title,icon) 
 	{ 
 		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
+		$.blockUI({message : '<br/><i class="fa fa-spinner fa-spin"></i> Processing... <br/><br/> '});
 		$(".ajaxForm").hide();
 		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
 		$(".box-ajaxTools").html("");
 
-		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
+		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
+			$(".ajaxForm").slideDown(); 
+			$.unblockUI();
+		},"html");
 
 		//show hash
 		var urlT = [];
