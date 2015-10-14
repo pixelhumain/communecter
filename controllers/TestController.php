@@ -302,13 +302,21 @@ class TestController extends CommunecterController {
   }
 
   public function actionImageMarker() {
+    //$profilImage = Yii::app()->params['uploadDir']."communecter/slide1.png";
     $profilImage = Yii::app()->params['uploadDir']."communecter/photoProfil.jpg";
     $srcEmptyMarker = Yii::app()->params['uploadDir']."communecter/marker-citizen.png";
     
     $imageUtils = new ImagesUtils($profilImage);
-    //$imageUtils->resizeImage(40,40)->display();
+    // $imageUtils->resizeImage(40,40)->display();
     //$imageUtils->createCircleImage(40,40)->display();
     $imageUtils->createMarkerFromImage($srcEmptyMarker)->display();
+  }
+
+  public function actionGenerateThumbs() {
+    $docId = "561bb2ca2336f2e70c0041ab";
+    //$docId = "5608ca102336f2b4040041af";
+    $document = Document::getById($docId);
+    Document::generateProfilImages($document);
   }
 
   public function actionGetImages() {
@@ -316,7 +324,13 @@ class TestController extends CommunecterController {
     $itemType = Person::COLLECTION;
     $limit = array(Document::IMG_PROFIL => 1, Document::IMG_SLIDER => 5);
     var_dump(Document::getImagesByKey($itemId, $itemType, $limit));
+  }
 
+  public function actionTestMarker() {
+    $itemId = "55c0c1a72336f213040041e";
+    $itemType = Person::COLLECTION;
+    var_dump(Document::getGeneratedImageUrl($itemId, $itemType, Document::GENERATED_THUMB_PROFIL));
+    var_dump(Document::getGeneratedImageUrl($itemId, $itemType, Document::GENERATED_MARKER));
   }
 
 }

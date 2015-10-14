@@ -108,7 +108,8 @@ var contextMap = {
 	"scopes" : {
 		codeInsee : [],
 		codePostal : [], 
-		region :[]
+		region :[],
+		addressLocality : []
 	},
 };
 
@@ -118,7 +119,6 @@ var contextMap = {
 
 jQuery(document).ready(function() 
 {
-	
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 		Sig = SigLoader.getSig();
 		Sig.loadIcoParams();
@@ -133,18 +133,17 @@ jQuery(document).ready(function()
 
 	buildDynForm();
 
-	$(".form-create-news-container #text").hide();
-	$(".form-create-news-container .tagstags").hide();
-	$(".form-create-news-container .datedate").hide();
-	$(".form-create-news-container .form-actions").hide();
+	showFormBlock(false);
 	$(".form-create-news-container #name").focus(function(){
-		$(".form-create-news-container #text").show();
-		$(".form-create-news-container .tagstags").show();
-		$(".form-create-news-container .datedate").show();
-		$(".form-create-news-container .form-actions").show();
-		
+		showFormBlock(true);	
 	});
 
+	$(".form-create-news-container #name").focusout(function(){
+		if($(".form-create-news-container #name").val() == ""){
+			showFormBlock(false);
+		}
+	});
+	
 
 
 });
@@ -214,31 +213,66 @@ function buildLineHTML(newsObj)
 
 	var color = "white";
 	var icon = "fa-user";
-	var url = baseUrl+'/'+moduleId+'/rpee/projects/perimeterid/';
-	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
-
+	///// Url link to object
+	redirectTypeUrl=newsObj.type.substring(0,newsObj.type.length-1);
+	<?php if (isset($_GET["isNotSV"])){ ?> 
+		url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+	<?php } else{ ?>
+		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
+	<?php } ?>
+	var imageBackground = "";
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
-		colorIcon="yellow";
 	}
+	if (typeof newsObj.type == "events"){
+		newsObj.author.type = "";		
+	}
+	console.dir(newsObj);
 	//if (newsObj.type=="projects"){
 	//	newsObj.
 	//}
-
-	newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.author.type});
-	var colorIcon = Sig.getIcoColorByType({type : newsObj.author.type});
-	
-	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';
-	var iconStr = "";
-	url = 'href="javascript:;" onclick="'+url+'"';	
 	if(typeof(newsObj.icon) != "undefined"){
-		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != "") imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
-		iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
-	} else {
-		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-		iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.type});
+		var colorIcon = Sig.getIcoColorByType({type : newsObj.type});
+	}else{ 
+		newsObj.icon = "fa-rss";
+		colorIcon="blue";
 	}
+
+	///// Image Backgound
+	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
+		imagePath = baseUrl+'/'+newsObj.imageBackground;
+		imageBackground = '<a '+url+'>'+
+							'<div class="timeline_shared_picture"  style="background-image:url('+imagePath+');">'+
+								'<img src="'+imagePath+'">'+
+							'</div>'+
+						'</a>';
+	}
+	//END Image Background
+	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';	
+	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
+	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens"){
+		if(newsObj.target.type=="projects")
+			var iconBlank="fa-lightbulb-o";
+		else if (newsObj.target.type=="organizations")
+			var iconBlank="fa-group";
+		if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
+			imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
+		//alert(newsObj.target.profilImageUrl);
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		}else {
+			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
+		}
+	}
+	else{
+		var iconBlank="fa-user";
+		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
+		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != ""){imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
+		}
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ;
+		 
+	}
+	// END IMAGE AND FLAG POST BY HOSTED BY //
 
 	title = newsObj.name,
 	text = newsObj.text,
@@ -260,34 +294,53 @@ function buildLineHTML(newsObj)
 
 	if( newsObj.address )
 	{
-		if( newsObj.address.codeInsee )
+		/*if( newsObj.address.codeInsee )
 		{
 			scopes += "<span class='label label-danger'>codeInsee : "+newsObj.address.codeInsee+"</span> ";
 			scopeClass += newsObj.address.codeInsee+" ";
 			if( $.inArray(newsObj.address.codeInsee, contextMap.scopes.codeInsee )  == -1)
 				contextMap.scopes.codeInsee.push(newsObj.address.codeInsee);
-		}
-		if( newsObj.address.codePostal )
+		}*/
+		if( newsObj.address.postalCode)
 		{
-			scopes += "<span class='label label-danger'>codePostal : "+newsObj.address.codePostal+"</span> ";
-			scopeClass += newsObj.address.codePostal+" ";
-			if( $.inArray(newsObj.address.codePostal, contextMap.scopes.codePostal )  == -1)
-				contextMap.scopes.codePostal.push(newsObj.address.codePostal);
+			scopes += "<span class='label label-danger'>"+newsObj.address.postalCode+"</span> ";
+			scopeClass += newsObj.address.postalCode+" ";
+			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1)
+				contextMap.scopes.codePostal.push(newsObj.address.postalCode);
 		}
-		if( newsObj.address.region )
+		if( newsObj.address.addressLocality)
 		{
-			scopes += "<span class='label label-danger'>"+newsObj.address.region+"</span> ";
-			scopeClass += newsObj.address.region+" ";
-			if( $.inArray(newsObj.address.region, contextMap.scopes.region )  == -1)
-				contextMap.scopes.region.push(newsObj.address.region);
+			scopes += "<span class='label label-danger'>"+newsObj.address.addressLocality+"</span> ";
+			scopeClass += newsObj.address.addressLocality+" ";
+			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1)
+				contextMap.scopes.addressLocality.push(newsObj.address.addressLocality);
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
 	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
-	
-	var personName = newsObj.author.name;
-	//var dateString = date.toLocaleString();
+	// HOST NAME AND REDIRECT URL
+	if (typeof(newsObj.target) != "undefined" && newsObj.target){
+		redirectTypeUrl=newsObj.target.type.substring(0,newsObj.target.type.length-1);
+		if (newsObj.target.type=="citoyens")
+			redirectTypeUrl="person";
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.target.id+'\', \''+redirectTypeUrl+' : '+newsObj.target.name+'\',\''+iconBlank+'\', \''+newsObj.target.id+'\')"';
+		<?php } else{ ?>
+			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.target.id+'"';
+		<?php } ?>
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
+	}
+	else {
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
+		<?php } else{ ?>
+			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
+		<?php } ?>
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
+		//var personName = newsObj.author.name;
+	}// END HOST NAME AND REDIRECT URL
+
 	var commentCount = 0;
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
@@ -296,7 +349,7 @@ function buildLineHTML(newsObj)
 					tags+
 					scopes+
 					'<div class="space1"></div>'+ 
-					'<div class="timeline_shared_picture"  style="background-image:url(<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>);"><img src="<?php echo $this->module->assetsUrl.'/images/default_shared.jpg';?>"></div>'+
+					imageBackground+
 					'<div class="timeline_author_block">'+
 						objectLink+
 						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
@@ -304,6 +357,7 @@ function buildLineHTML(newsObj)
 					
 					'</div>'+
 					'<div class="space5"></div>'+
+					'<a '+url+'>'+
 					'<div class="timeline_title">'+
 						'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
 						'</span>'+
@@ -311,6 +365,7 @@ function buildLineHTML(newsObj)
 					'</div>'+
 					'<div class="space5"></div>'+
 					'<span class="timeline_text">'+ text + '</span>' +	
+					'</a>'+
 					'<div class="space10"></div>'+
 					
 					'<hr>'+
@@ -425,8 +480,18 @@ function applyScopeFilter(str)
 	return $(".newsFeed").length;
 }
 
-function loadFormCreateNews(){
 
+function showFormBlock(bool){
+	if(bool){
+		$(".form-create-news-container #text").show("fast");
+		$(".form-create-news-container .tagstags").show("fast");
+		$(".form-create-news-container .datedate").show("fast");
+		$(".form-create-news-container .form-actions").show("fast");	
+	}else{
+		$(".form-create-news-container #text").hide();
+		$(".form-create-news-container .tagstags").hide();
+		$(".form-create-news-container .datedate").hide();
+		$(".form-create-news-container .form-actions").hide();
+	}
 }
-
 </script>
