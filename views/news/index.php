@@ -93,9 +93,9 @@ if( !isset($_GET["isNotSV"])) {
 </style>
 
 <?php 
-		foreach($news as $key => $oneNews){
-			$news[$key]["typeSig"] = "news";	
-		}
+foreach($news as $key => $oneNews){
+	$news[$key]["typeSig"] = "news";	
+}
 ?>
 
 <!-- end: PAGE CONTENT-->

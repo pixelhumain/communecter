@@ -386,6 +386,19 @@ svg.graph .line {
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+
+    function random_pic()
+    {
+        if(file_exists ( "../../modules/communecter/assets/images/proverb" )){
+          $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+          $res = array();
+          for ($i=0; $i < 8; $i++) { 
+            array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
+          }
+          return $res;
+        } else
+          return array();
+    }
 ?>
 <script type="text/javascript">
 var timeout;
@@ -405,9 +418,10 @@ var mapIconTop = {
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
+var proverbs = <?php echo json_encode(random_pic()) ?>;
 
   jQuery(document).ready(function() {
-
+    console.dir(proverbs);
     $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
