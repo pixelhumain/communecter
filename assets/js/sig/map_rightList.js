@@ -34,9 +34,9 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){
-		//console.log("****checkListElementMap*******");
-    	var thisSig = this;
-    	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
+		
+			var thisSig = this;
+    		//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
 				var objectId = thisSig.getObjectId(this);//console.log(objectId);
 				$(thisSig.cssModuleName + " #element-right-list-" + objectId).css({ "display" : "none" });
@@ -134,6 +134,7 @@
 
 			}else{
 				$("#pagination").html("");
+				this.paginationNumPage = 1;
 				//$("#lbl-chk-scope").addClass("hidden");
 			}
 		};
@@ -158,8 +159,8 @@
 			var name = (element['name'] != null) ? element['name'] : "Anonyme";
 
 			//récupère l'url de l'icon a afficher
-			var ico = thisSig.getIcoByType(element);
-			var color = thisSig.getIcoColorByType(element);
+			var ico = thisSig.getIcoByType(allElement);
+			var color = thisSig.getIcoColorByType(allElement);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 

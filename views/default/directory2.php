@@ -294,7 +294,20 @@ if( isset($_GET["isNotSV"])) {
 </div>
 <!-- end: PAGE CONTENT-->
 
-
+<?php 
+    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+    //et pour ouvrir le panel info correctement
+    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    
+    $contextMap = array();
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+    if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($events))          $contextMap = array_merge($contextMap, $events);
+    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+?>
 <script type="text/javascript">
 
 var tabButton = [];
@@ -308,7 +321,8 @@ var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = [];
 var actions = [];
-
+var mapData = <?php echo json_encode($contextMap) ?>;
+	
 jQuery(document).ready(function() {
 	
 	initGrid();
@@ -323,8 +337,9 @@ jQuery(document).ready(function() {
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
-
 	
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, mapData);
 });
 
 function showHideFeatures(classId){

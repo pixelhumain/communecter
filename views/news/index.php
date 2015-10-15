@@ -114,8 +114,8 @@ var contextMap = {
 };
 
 <?php if( !isset($_GET["isNotSV"]) ) { ?>
-		var Sig = null;
-	<?php } ?>
+	var Sig = null;
+<?php } ?>
 
 jQuery(document).ready(function() 
 {

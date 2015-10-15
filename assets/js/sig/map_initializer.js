@@ -376,5 +376,12 @@
 		  return str;
 		};
 
+		Sig.hidePopupContent = function(bool){
+			$("#popup"+id+" .city_item_map_list").hide(100);
+			$("#popup"+id+" .country_item_map_list").hide(100);
+			$("#popup"+id+" .btn-more").hide(100);
+			$("#popup"+id+" .title_news_item_map_list").hide(100);
+			$("#popup"+id+" .text_news_item_map_list").hide(100);
+		}
 		return Sig;
 	};

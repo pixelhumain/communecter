@@ -231,7 +231,7 @@ function openSubview () {
 	});
 }
 
-function buildDynForm(){ console.log("CONSTRUC FGORM");
+function buildDynForm(){ 
 	var form = $.dynForm({
 		formId : "#ajaxForm",
 		formObj : formDefinition,

@@ -144,7 +144,7 @@
 
 				this.listId = new Array();
 				this.elementsMap = new Array();
-				this.paginationNumPage = 1;
+				this.changePagination(1);
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
@@ -153,7 +153,7 @@
 			};
 
 			//##
-			//supprime tous les marker de la carte
+			//supprime tous les marker de la carte et prépare pour recharger de nouvelles données
 			this.Sig.restartMap = function(thisMap)
 			{	
 				//supprime les item panel (sauf all)
@@ -611,6 +611,7 @@
 		//chargement de la carte
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
+	 		
 			//console.warn("--------------- loadMap ---------------------");
 			canvasId += initParams.sigKey;
 
