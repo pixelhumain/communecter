@@ -376,7 +376,7 @@
 		  return str;
 		};
 
-		Sig.hidePopupContent = function(bool){
+		Sig.hidePopupContent = function(id){
 			$("#popup"+id+" .city_item_map_list").hide(100);
 			$("#popup"+id+" .country_item_map_list").hide(100);
 			$("#popup"+id+" .btn-more").hide(100);
