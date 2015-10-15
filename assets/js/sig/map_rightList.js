@@ -88,6 +88,7 @@
 			if(nbTotal > this.paginationBy){
 
 				var nbPage = nbTotal / this.paginationBy;
+				console.log("num page pagination : " + nbPage);
 				this.paginationNumPageMax = nbPage;
 
 				$("#pagination").html(
@@ -101,9 +102,10 @@
 				var dep = this.paginationNumPage - maxPaginationBtn;
 				if(dep < 0) dep = 0;
 				for(var i=dep; i<nbPage && i < dep+maxPaginationBtn; i++){
-					//alert("index : "+i);
+					
 					var classe="";
 					if(i+1 == this.paginationNumPage) classe="active";
+
 					$("#pagination").append(
 						'<li class="'+classe+'"><a href="#" id="btn_pagination_'+i+'" page="'+(i+1)+'">'+(i+1)+'</a></li>'
 						);
@@ -131,6 +133,7 @@
 				//$("#lbl-chk-scope").removeClass("hidden");
 
 			}else{
+				$("#pagination").html("");
 				//$("#lbl-chk-scope").addClass("hidden");
 			}
 		};
@@ -199,7 +202,7 @@
 
 				if("undefined" != typeof allElement['text']){
 					if("undefined" != typeof allElement['name']){
-						button	+= 	"<div class='info_item title_news_item_map_list'><i class='fa fa-newspaper-o'></i> " + allElement['name'] + "</div>";
+						button	+= 	"<div class='info_item title_news_item_map_list'>" + allElement['name'] + "</div>";
 					}		
 					button	+= 	"<div class='info_item text_item_map_list'>" + allElement['text'] + "</div>";
 				}

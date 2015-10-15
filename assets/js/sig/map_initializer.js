@@ -187,7 +187,7 @@
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"news" 				: { ico : "newspaper-o", color : "white" 	},
+										  	"news" 				: { ico : "rss", color : "blue" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
