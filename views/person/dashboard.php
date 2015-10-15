@@ -20,6 +20,11 @@
 	padding-right: 20px;
 	padding-top: 10px;
 }
+.flexslider .slides > li{
+	height:auto !important;
+}.flexslider{
+	height:auto !important;
+}
 </style>
 
 <?php $this->renderPartial('/sig/generic/mapLibs'); ?>
