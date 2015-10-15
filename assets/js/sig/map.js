@@ -114,7 +114,7 @@
 				var markerName = this.getIcoNameByType(thisData);
 				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
 				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
-					iconUrl = "/ph" + thisData.profilMarkerImageUrl;
+					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
 
 				return L.icon({
 				    iconUrl: iconUrl,

@@ -325,9 +325,9 @@
 		Sig.getThumbProfil = function (element){
 			var imgProfilPath =  assetPath + "/images/news/profile_default_l.png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
-				imgProfilPath = "/ph/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
+				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
 			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
-				imgProfilPath =  "/ph/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+				imgProfilPath =  baseUrl + "/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
 			return imgProfilPath;
 		};
 
