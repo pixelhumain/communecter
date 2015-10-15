@@ -337,9 +337,10 @@ jQuery(document).ready(function() {
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
-	
+
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
+	Sig.changeFilter(activeType, Sig.map, "types");
 });
 
 function showHideFeatures(classId){
