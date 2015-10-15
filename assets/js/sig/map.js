@@ -107,15 +107,20 @@
 			{
 				//console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
-			this.allowMouseoverMaker = true;
+				if(typeof thisData.author != "undefined") thisData = thisData.author;
+
+				this.allowMouseoverMaker = true;
 
 				var markerName = this.getIcoNameByType(thisData);
+				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
+				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
+					iconUrl = "/ph" + thisData.profilMarkerImageUrl;
 
 				return L.icon({
-				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
+				    iconUrl: iconUrl,
 				    iconSize: [53, 60], //38, 95],
-				    iconAnchor: [26, 60],//22, 94],
-				    popupAnchor: [0, -63]//-3, -76]
+				    iconAnchor: [27, 57],//22, 94],
+				    popupAnchor: [0, -55]//-3, -76]
 				});
 			};
 
@@ -502,7 +507,7 @@
 				if(len > 1){
 					$.each(data, function (key, value){
 						var oneData = key;
-						if(value.typeSig == "news" && typeof value.author !== "undefined") 
+						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
 							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
