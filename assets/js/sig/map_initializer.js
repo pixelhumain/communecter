@@ -280,14 +280,11 @@
 		};
 
 		Sig.getTypeSigOfData = function (data){
-			//console.log("getTypeSigOfData");
-			//console.dir("data");
 			var type = data["typeSig"] ?  data["typeSig"] :  data["type"];
 			return type;
 		};
 
 		Sig.getIcoNameByType = function (data){
-			//console.log("getIcoNameByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
@@ -295,7 +292,6 @@
 		};
 
 		Sig.getIcoByType = function (data){
-			//console.log("getIcoByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
@@ -303,7 +299,6 @@
 		};
 
 		Sig.getIcoColorByType = function (data){
-			//console.log("getIcoColorByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
