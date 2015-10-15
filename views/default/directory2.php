@@ -101,12 +101,28 @@ if( isset($_GET["isNotSV"])) {
 							<a href="#"  class="filterevents"><i class="fa fa-calendar fa-2x"></i> Events <?php echo "(".count($events).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".projects">
-							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
+							<a href="#" class="filterprojects"> <i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
+						</li>
+						<li >
+							<a href="#" onClick="$('#tagFilters').slideToggle()"><i class="fa fa-tags fa-2x"></i> Tags </a>
+						</li>
+						<li >
+							<a href="#" onClick="$('#scopeFilters').slideToggle()"><i class="fa fa-circle-o fa-2x"></i> Scopes </a>
 						</li>
 					</ul>
-					<?php /* ?>
-					<button class="button button-primary pull-right btn-close-panell"><i class="fa fa-close"></i></button>
-					*/?>
+
+					<br/>
+					<div id="tagFilters" class="hidden" >
+						<a href="#" class="badge "> #Energie </a>
+						<a href="#" class="badge"> #Agriculture </a>
+					</div>
+
+					<br/>
+					<div id="scopeFilters" class="hidden" >
+						<a href="#" class="badge ">97421</a>
+						<a href="#" class="badge">MOMO</a>
+					</div>
+
 				</div>
 				<hr/>
 				<!-- GRID -->

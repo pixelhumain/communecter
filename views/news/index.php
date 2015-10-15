@@ -332,7 +332,7 @@ function buildLineHTML(newsObj)
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
-	else {
+	else if(newsObj.author._id){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author._id.$id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author._id.$id+'\')"';
 		<?php } else{ ?>
