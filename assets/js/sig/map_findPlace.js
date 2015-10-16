@@ -90,7 +90,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		//console.log(urlRequest);
 		$.ajax({
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
-			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
+			url: "//nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
     		dataType: 'json',
     		//crossDomain: true,
@@ -346,7 +346,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		//console.log(urlRequest);
 		$.ajax({
-			url: "http://nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
+			url: "//nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
     		dataType: 'json',
     		complete: function () { },
