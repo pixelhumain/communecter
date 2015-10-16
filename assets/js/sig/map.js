@@ -179,11 +179,12 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					//console.log("position find");
+					//console.log("MYPOSITION !!");
+					//console.dir(thisSig.myPosition);
 					var center = [thisSig.myPosition.position.latitude, 
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
-										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
 										type : thisSig.myPosition["type"],
 										typeSig : thisSig.myPosition["typeSig"],
 										faIcon : this.getIcoByType(thisSig.myPosition),

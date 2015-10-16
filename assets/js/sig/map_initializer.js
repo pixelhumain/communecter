@@ -263,11 +263,11 @@
 						dataType : "json",
 						success: function(data){ 
 							
-							//console.log("my position : ");
-							//console.dir(data);
 							thisSig.myPosition = data;
 
 							if(data != null){
+								if(data.profilMarkerExists == true)
+								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;
 								thisSig.showMyPosition();
 							}
 							else{

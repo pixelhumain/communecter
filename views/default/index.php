@@ -688,7 +688,7 @@ function autoCompleteSearch(name){
 
   function initMap(){
     var mapData = <?php echo json_encode($contextMap) ?>;
-    
+     
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
