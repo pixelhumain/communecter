@@ -25,7 +25,7 @@ if( !isset($_GET["isNotSV"])) {
 }
 ?>
 
-<div id="formCreateNewsTemp">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-8">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -126,27 +126,13 @@ jQuery(document).ready(function()
 		Sig.loadIcoParams();
 	<?php } ?>	
 
+	buildDynForm();
 	buildTimeLine();
 
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
-
-	buildDynForm();
-
-	showFormBlock(false);
-	$(".form-create-news-container #name").focus(function(){
-		showFormBlock(true);	
-	});
-
-	$(".form-create-news-container #name").focusout(function(){
-		if($(".form-create-news-container #name").val() == ""){
-			showFormBlock(false);
-		}
-	});
-	
-
 
 });
 
@@ -158,8 +144,7 @@ function buildTimeLine ()
 	
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp").html();
-	$("#formCreateNewsTemp").html("");		
-
+	
 	currentMonth = null;
 	countEntries = 0;
 	$.each( news , function(key,newsObj)
@@ -179,8 +164,22 @@ function buildTimeLine ()
 			countEntries++;
 		}
 	});
-	if(!countEntries)
+	if(!countEntries){
 		$(".newsTL").html("<div class='center text-extra-large'>Sorry, no news available</div>");
+	}else{
+		//deplacement du formulaire dans le stream
+		$("#formCreateNewsTemp").html("");		
+		showFormBlock(false);
+		$(".form-create-news-container #name").focus(function(){
+			showFormBlock(true);	
+		});
+
+		$(".form-create-news-container #name").focusout(function(){
+			if($(".form-create-news-container #name").val() == ""){
+				showFormBlock(false);
+			}
+		});
+	}
 	bindEvent();
 }
 
@@ -221,9 +220,9 @@ function buildLineHTML(newsObj)
 
 	if(newsObj.type == "citoyens" && typeof(newsObj.verb) == "undefined"){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-		url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
 		<?php } else{ ?>
-		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
 		<?php } ?>
 	}
 	else{
@@ -300,21 +299,19 @@ function buildLineHTML(newsObj)
 	//END Image Background
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
-	
-		if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens"){
-			if(newsObj.target.type=="projects")
-				var iconBlank="fa-lightbulb-o";
-			else if (newsObj.target.type=="organizations")
-				var iconBlank="fa-group";
-			if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
-				imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
-			//alert(newsObj.target.profilImageUrl);
-			var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
-			}else {
-				var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
-			}
+	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens"){
+		if(newsObj.target.type=="projects")
+			var iconBlank="fa-lightbulb-o";
+		else if (newsObj.target.type=="organizations")
+			var iconBlank="fa-group";
+		if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
+			imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
+		
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		}else {
+			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
-		else{
+		}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
 			if(contextParentType == "projects" && typeof(newsObj.verb) != "undefined"){
 				if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
@@ -394,7 +391,6 @@ function buildLineHTML(newsObj)
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
 	else if(newsObj.author.id){
-		alert();
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		<?php } else{ ?>

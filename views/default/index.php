@@ -4,7 +4,6 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-vali
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-
 ?>
 <style>
 /*#menu-top-container{
@@ -276,12 +275,17 @@ li.mix{
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
-    <?php if(isset(Yii::app()->session['user']['profilImageUrl']) && Yii::app()->session['user']['profilImageUrl'] != "")
-            $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.Yii::app()->session['user']['profilImageUrl']);
+        <?php 
+          $me = Person::getById(Yii::app()->session['userId']);
+          if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
+            $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-    ?>
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span><img class="img-circle" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" ><span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span></a>
+        ?>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+          <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+          <span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span>
+        </a>
 
         <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
         <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
