@@ -234,6 +234,7 @@ class CommunecterController extends Controller
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
       "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
+      "directory"       => array("href"=>"/ph/communecter/project/directory"),
     ),
 
     "job"=> array(

@@ -229,6 +229,54 @@ class Menu {
         
     }
 
+    public static function project($project)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        $id = (string)$project["_id"];
+        
+        //SEE TIMELINE
+        //-----------------------------
+        self::entry( null,"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+
+        //SEE DISCUSSION ROOMS
+        //-----------------------------
+        //self::entry( null,"See Project Discussion","comments-o","/rooms/index/type/projects/id/".$id,"rooms","index",null );
+
+        //SEND MESSAGE
+        //-----------------------------
+        //self::entry(null,"Post Something","envelope-o",null,null,null,"new-news");
+
+        //HOME
+        //-----------------------------
+        self::entry('showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/".$id."',"project","detail");
+
+        //DIRECTORY
+        //-----------------------------
+        self::entry('showAjaxPanel',"PROJECT CONTRIBUTORS",'users','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+    }
+
+    public static function entry($type,$title,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
+    {
+        if( $type == 'showAjaxPanel')
+        {
+            $active = (Yii::app()->controller->id == $controllerid && Yii::app()->controller->action->id == $actionid ) ? "active" : "";
+            $onclick = "showAjaxPanel( '".$url."', '".$title."','".$icon."' )";
+            $entry = array( 'tooltip'    => $title,
+                            "iconClass" => "fa fa-".$icon,
+                            "badge"     => $badge,
+                            "href"      => "<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"");
+        } 
+        else 
+        {
+            $entry = array( 'tooltip'    => $title,
+                            "iconClass" => "fa fa-".$icon,
+                            "href"      => "<a href='#' class='".$class." tooltips btn btn-default' data-notsubview='1' ");
+        }
+        array_push( Yii::app()->controller->toolbarMBZ, $entry);
+    }
+
     public static function add2MBZ($entry)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))

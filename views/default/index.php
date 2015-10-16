@@ -1,6 +1,8 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
@@ -526,7 +528,9 @@ function loadByHash( hash ) {
     if( hash.indexOf("#person.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DIRECTORY ','share-alt' );
     else if( hash.indexOf("#organization.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DIRECTORY ','users' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
+    else if( hash.indexOf("#project.directory") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
     else if( hash  == "#panel.box-add" )
         showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
     

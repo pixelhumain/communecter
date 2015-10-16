@@ -12,10 +12,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 if( isset($_GET["isNotSV"])) {
-	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
+	/*if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
 	else
-		Menu::news();
+		Menu::news();*/
 	$this->renderPartial('../default/panels/toolbar'); 
 
 }
