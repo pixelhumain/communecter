@@ -240,7 +240,6 @@
 				}
 			}
 		}
-
 		function saveImage(doc, path){
 
 			$.ajax({
@@ -262,13 +261,32 @@
 				  		}
 				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
 				  			updateSliderImage(id, path);
+
 				  		}
 					}, 2000) 
 				    toastr.success(data.msg);
+				    //met à jour l'image de myMarker (marker sur MA position)
+				    Sig.initHomeBtn();
+				    //met à jour l'image de profil dans le menu principal
+				    updateMenuThumbProfil();
+
 				} else
 					toastr.error(data.msg);
 
 			});
+		}
+		//met à jour l'image de profil dans le menu principal
+		function updateMenuThumbProfil(){ console.log("loading new profil");
+			$.ajax({
+			  	type: "POST",
+			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
+			  	dataType: "json"
+			}).done( function(data){
+		        if(typeof data.profilImageUrl != "undefined"){
+		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        }
+		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		    });
 		}
 		
 	});
