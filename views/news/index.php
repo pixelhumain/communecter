@@ -25,7 +25,7 @@ if( !isset($_GET["isNotSV"])) {
 }
 ?>
 
-<div id="formCreateNewsTemp">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-8">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -101,6 +101,8 @@ foreach($news as $key => $oneNews){
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
+var contextParentType = <?php echo json_encode($contextParentType) ?>;
+var contextParentId = <?php echo json_encode($contextParentId) ?>;
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
@@ -124,27 +126,13 @@ jQuery(document).ready(function()
 		Sig.loadIcoParams();
 	<?php } ?>	
 
+	buildDynForm();
 	buildTimeLine();
 
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
-
-	buildDynForm();
-
-	showFormBlock(false);
-	$(".form-create-news-container #name").focus(function(){
-		showFormBlock(true);	
-	});
-
-	$(".form-create-news-container #name").focusout(function(){
-		if($(".form-create-news-container #name").val() == ""){
-			showFormBlock(false);
-		}
-	});
-	
-
 
 });
 
@@ -156,8 +144,7 @@ function buildTimeLine ()
 	
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp").html();
-	$("#formCreateNewsTemp").html("");		
-
+	
 	currentMonth = null;
 	countEntries = 0;
 	$.each( news , function(key,newsObj)
@@ -177,14 +164,29 @@ function buildTimeLine ()
 			countEntries++;
 		}
 	});
-	if(!countEntries)
+	if(!countEntries){
 		$(".newsTL").html("<div class='center text-extra-large'>Sorry, no news available</div>");
+	}else{
+		//deplacement du formulaire dans le stream
+		$("#formCreateNewsTemp").html("");		
+		showFormBlock(false);
+		$(".form-create-news-container #name").focus(function(){
+			showFormBlock(true);	
+		});
+
+		$(".form-create-news-container #name").focusout(function(){
+			if($(".form-create-news-container #name").val() == ""){
+				showFormBlock(false);
+			}
+		});
+	}
 	bindEvent();
 }
 
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
+	console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -214,23 +216,55 @@ function buildLineHTML(newsObj)
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
-	//url = '/'+typeElement+'/latest/id/'+id;
 	redirectTypeUrl=newsObj.type.substring(0,newsObj.type.length-1);
-	if(newsObj.type == "citoyens"){
+
+	if(newsObj.type == "citoyens" && typeof(newsObj.verb) == "undefined"){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
 		<?php } else{ ?>
-		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
 		<?php } ?>
 	}
 	else{
-	<?php if (isset($_GET["isNotSV"])){ ?> 
-		url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-		//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-	<?php } else{ ?>
-		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
-		//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
-	<?php } ?>
+		if (contextParentType=="projects"){
+			if(newsObj.type=="needs"){
+				redirectTypeUrl=newsObj.type;
+				typeId="idNeed";
+				urlParent="/type/"+contextParentType+"/id/"+contextParentId;
+			}
+			else if(newsObj.type =="citoyens"){
+				redirectTypeUrl="person";
+				typeId="id";
+				urlParent="";
+			} 
+			else if(newsObj.type =="organizations"){
+				redirectTypeUrl="organization";
+				typeId="id";
+				urlParent="";
+			} 
+			else if(newsObj.type =="events"){
+				redirectTypeUrl="event";
+				typeId="id";
+				urlParent="";
+			} 
+			<?php if (isset($_GET["isNotSV"])){ ?> 
+				url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+			<?php } else{ ?>
+				url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+newsObj.id+urlParent+'"';
+			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+		<?php } ?>
+
+		}
+		else{
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+		<?php } else{ ?>
+			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
+			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+		<?php } ?>
+		}
 	} 
 	var imageBackground = "";
 	if(typeof newsObj.author.type == "undefined") {
@@ -272,20 +306,31 @@ url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'
 			var iconBlank="fa-group";
 		if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
 			imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
-		//alert(newsObj.target.profilImageUrl);
+		
 		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 		}else {
 			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
-	}
-	else{
-		var iconBlank="fa-user";
-		var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-		if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != ""){imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
+		}else{
+			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
+			if(contextParentType == "projects" && typeof(newsObj.verb) != "undefined"){
+				if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
+					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
+					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+				}else {
+					if(newsObj.type=="organizations")
+						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
+					else
+						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+
+				}
+			}
+			else{	
+				if(typeof newsObj.author.profilImageUrl !== "undefined" && newsObj.author.profilImageUrl != ""){imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>" + newsObj.author.profilImageUrl;
+				}
+				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ;	 
+			}
 		}
-		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ;
-		 
-	}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 
 	title = newsObj.name,
@@ -334,7 +379,7 @@ url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	// HOST NAME AND REDIRECT URL
-	if (typeof(newsObj.target) != "undefined" && newsObj.target){
+	if (typeof(newsObj.target) != "undefined" && newsObj.target && newsObj.type!="needs"){
 		redirectTypeUrl=newsObj.target.type.substring(0,newsObj.target.type.length-1);
 		if (newsObj.target.type=="citoyens")
 			redirectTypeUrl="person";
@@ -345,7 +390,7 @@ url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
-	else if(newsObj.author._id){
+	else if(newsObj.author.id){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		<?php } else{ ?>
@@ -353,12 +398,24 @@ url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
 		//var personName = newsObj.author.name;
-	}// END HOST NAME AND REDIRECT URL
-
+	}
+	// END HOST NAME AND REDIRECT URL
+	// Created By Or invited by
+	if(typeof(newsObj.verb) != "undefined" && typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id){
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
+		<?php } else{ ?>
+			urlAuthor = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
+	authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
+		<?php } ?>
+	}
+	else 
+		authorLine="";
+	//END OF CREATED BY OR INVITED BY
 	var commentCount = 0;
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
-	
+
 	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
 					tags+
 					scopes+
@@ -380,6 +437,8 @@ url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'
 					'<div class="space5"></div>'+
 					'<span class="timeline_text">'+ text + '</span>' +	
 					'</a>'+
+					'<div class="space5"></div>'+
+					'<span class="timeline_text">'+ authorLine + '</span>' +
 					'<div class="space10"></div>'+
 					
 					'<hr>'+

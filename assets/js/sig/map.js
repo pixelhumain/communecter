@@ -142,6 +142,9 @@
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
+				if(typeof this.myMarker != "undefined") 
+					this.map.removeLayer(this.myMarker);
+				
 				var thisSig = this;
 				$.each(this.markerSingleList, function(){
 					thisSig.map.removeLayer(this);
@@ -190,7 +193,8 @@
 										faIcon : this.getIcoByType(thisSig.myPosition),
 										content: "<h1>Vous êtes ici</h1><br/>" };
 
-					thisSig.getMarkerSingle(thisSig.map, properties, center);
+					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
+					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
 
 					$( "#btn-home" ).click(function (){ 
 							thisSig.map.setView(center, 16);
@@ -649,6 +653,7 @@
 			map.invalidateSize(false);
 			return map;
 		};
+
 
 		this.Sig = this.getSigInitializer(this.Sig);
 
