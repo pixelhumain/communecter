@@ -21,7 +21,7 @@ if( isset($_GET["isNotSV"])) {
 }
 
 if( !isset($_GET["isNotSV"])) {
-	//$this->renderPartial('../sig/generic/mapLibs');
+	$this->renderPartial('../sig/generic/mapLibs');
 }
 ?>
 
@@ -216,11 +216,22 @@ function buildLineHTML(newsObj)
 	///// Url link to object
 	//url = '/'+typeElement+'/latest/id/'+id;
 	redirectTypeUrl=newsObj.type.substring(0,newsObj.type.length-1);
-	<?php if (isset($_GET["isNotSV"])){ ?> 
-		url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-	<?php } else{ ?>
+	if(newsObj.type == "citoyens"){
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+		<?php } else{ ?>
 		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+		<?php } ?>
+	}
+	else{
+	<?php if (isset($_GET["isNotSV"])){ ?> 
+		url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+		//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+	<?php } else{ ?>
+		url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
+		//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
 	<?php } ?>
+	} 
 	var imageBackground = "";
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
@@ -233,10 +244,12 @@ function buildLineHTML(newsObj)
 	//	newsObj.
 	//}
 	if(typeof(newsObj.icon) != "undefined"){
-		newsObj.icon = "fa-" + Sig.getIcoByType({type : newsObj.type});
+		icon = "fa-" + Sig.getIcoByType({type : newsObj.type});
 		var colorIcon = Sig.getIcoColorByType({type : newsObj.type});
+		if (icon == "fa-circle")
+			icon = newsObj.icon;
 	}else{ 
-		newsObj.icon = "fa-rss";
+		icon = "fa-rss";
 		colorIcon="blue";
 	}
 
@@ -250,7 +263,7 @@ function buildLineHTML(newsObj)
 						'</a>';
 	}
 	//END Image Background
-	var flag = '<div class="ico-type-account"><i class="fa '+newsObj.icon+' fa-'+colorIcon+'"></i></div>';	
+	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
 	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens"){
 		if(newsObj.target.type=="projects")
@@ -332,11 +345,11 @@ function buildLineHTML(newsObj)
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
-	else {
+	else if(newsObj.author._id){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author._id.$id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author._id.$id+'\')"';
+			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		<?php } else{ ?>
-			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author._id.$id+'"';
+			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
 		//var personName = newsObj.author.name;
