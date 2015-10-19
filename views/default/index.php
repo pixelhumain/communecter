@@ -322,12 +322,12 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php if( empty( $this->notifications )  ){?>
+      <?php /*if( empty( $this->notifications )  ){?>
         <a href="#" onclick="$('#notificationPanel').slideToggle()" >
           <i class="fa fa-bell-o fa-2x"></i>
           <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
         </a>
-        <?php } ?>
+        <?php } */?>
       
 </div>
 
