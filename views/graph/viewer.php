@@ -140,7 +140,7 @@ jQuery(document).ready(function() {
   });
 
   //Graph
-  var datafile = getDataFile();
+  var datafile = getDataFile(viewerMap);
 
   if (datafile != null) {
     d3data = createFluidGraph(type, contextId, datafile)
@@ -155,30 +155,32 @@ jQuery(document).ready(function() {
     myGraph.config.charge = -500;
     myGraph.activateForce();
     myGraph.customNodes.displayId = true;
-    myGraph.customNodes.listType = ["citoyens", "events","organisations","person","projects"];
-    myGraph.customNodes.colorType = {"projects" : "#89A5E5",
+    myGraph.customNodes.listType = ["projects", "person", "organizations", "events", "citoyens"];
+    myGraph.customNodes.colorType = {
+                  "projects" : "#89A5E5",
                   "person" : "#F285B9",
-                  "organisations" : "#FFD98D",
+                  "organizations" : "#FFD98D",
                   "events" : "#CDF989",
                   "citoyens" : "#999",
                   "xxx" : "gray"};
 
-    myGraph.customNodes.colorTypeRgba = {"projects" : "137,165,229",
+    myGraph.customNodes.colorTypeRgba = {
+                      "projects" : "137,165,229",
                       "person" : "242,133,185",
-                      "organisations" : "255,217,141",
+                      "organizations" : "255,217,141",
                       "events" : "205,249,137",
                       "citoyens" : "255,255,255",
                       "xxx" : "200,200,200"};
 
     myGraph.customNodes.imageType = {"citoyens" : "child",
                                     "events" : "calendar",
-                                    "organisations" : "world",
+                                    "organizations" : "world",
                                     "person" : "user",
                                     "projects" : "lab"};
 
     myGraph.customNodes.strokeColorType = {"projects" : "#CCC",
                   "person" : "#CCC",
-                  "organisations" : "#CCC",
+                  "organizations" : "#CCC",
                   "events" : "#CCC",
                   "citoyens" : "#CCC",
                   "xxx" : "CCC"}
@@ -204,22 +206,22 @@ jQuery(document).ready(function() {
 });
 
 
-function getDataFile() {
+function getDataFile(dataMap) {
   console.log("getDataFile");
   var map = null;
-  if ("undefined" != typeof viewerMap) {
-    map = viewerMap;
-    if ("undefined" != typeof viewerMap.person) {
-      contextId = viewerMap.person["_id"]["$id"];
+  if (typeof dataMap != "undefined") {
+    map = dataMap;
+    if (typeof dataMap.person != "undefined") {
+      contextId = dataMap.person["_id"]["$id"];
       type = 'person';
-    } else if ("undefined" != typeof viewerMap.organization) {
-      contextId = viewerMap.organization["_id"]["$id"];
+    } else if (typeof dataMap.organization != "undefined") {
+      contextId = dataMap.organization["_id"]["$id"];
       type = 'organization';
-    } else if ("undefined" != typeof viewerMap.event) {
-      contextId = viewerMap.event["_id"]["$id"];
+    } else if (typeof dataMap.event != "undefined") {
+      contextId = dataMap.event["_id"]["$id"];
       type = "event";
-    } else if ("undefined" != typeof viewerMap.project) {
-      contextId = viewerMap.project["_id"]["$id"];
+    } else if (typeof dataMap.project != "undefined") {
+      contextId = dataMap.project["_id"]["$id"];
       type = "project";
     }
 
@@ -244,76 +246,91 @@ function createFluidGraph(type, contextId, datafile) {
   var nodes= [];
   var edges= [];
 
+  // var sousTypeMap = {
+  //   "NGO" : "organizations",
+  //   "Group" : "organizations",
+  //   "LocalBusiness" : "organizations",
+  //   "GovernmentOrganization" : "organizations",
+  //   "getTogether" : "events",
+  //   "projects" : "projects",
+  //   "person" : "person",
+  // };
+
   var index = 0;
   $.each(datafile, function(type, obj) {
-    console.log("index = " + index + " ,type = " + type + ", obj = " + obj);
+    console.log("index = " + index + " ,type = " + type + ", obj = " + obj + ", typeOf obj = " + typeof obj);
 
-    if (type == "person")
+    var typeMap = {
+      "organization" : "organizations",
+      "event" : "events",
+      "project" : "projects",
+      "person" : "person",
+    };
+
+    if (obj["_id"])
     {
-      nodes.push({id : index, type : type, label : obj.name, identifier : obj._id.$id})
+      nodes.push({id : index, type : typeMap[type], label : obj.name, identifier : obj._id.$id})
       index++;
     }
     else {
-      obj.forEach(function(sousobj, i)
+      if (obj.length)
       {
-        var soustype;
-
-        switch (sousobj.type)
+        obj.forEach(function(sousobj, i)
         {
-          case "NGO" : soustype = "organisations"; break;
-          case "Group" : soustype = "organisations"; break;
-          case "LocalBusiness" : soustype = "organisations"; break;
-          case "GovernmentOrganization" : soustype = "organisations"; break;
-          case "getTogether" : soustype = "events"; break;
-          case "citoyens" : soustype = "citoyens"; break;
-          case "projects" : soustype = "projects"; break;
-          case "person" : soustype = "person"; break;
-          default : soustype = "xxx"; break;
-        }
+          var soustype;
 
-        nodes.push({id : index, type : soustype, label : sousobj.name, identifier : sousobj._id.$id})
-        index++;
-      });
+          switch (sousobj.type)
+          {
+            case "NGO" : soustype = "organizations"; break;
+            case "Group" : soustype = "organizations"; break;
+            case "LocalBusiness" : soustype = "organizations"; break;
+            case "GovernmentOrganization" : soustype = "organizations"; break;
+            case "getTogether" : soustype = "events"; break;
+            case "citoyens" : soustype = "citoyens"; break;
+            case "projects" : soustype = "projects"; break;
+            case "person" : soustype = "person"; break;
+            default : soustype = "xxx"; break;
+          }
+
+          nodes.push({id : index, type : soustype, label : sousobj.name, identifier : sousobj._id.$id})
+          index++;
+        });
+      }
     }
   });
 
   var index = 0;
   //links
   $.each(datafile, function(type, obj) {
-    if (type != "person")
+    if (!obj["_id"])
     {
-      obj.forEach(function(sousobj, i)
+      if (obj.length)
       {
-        var linkIndex = {};
-        var indexSource = searchIndexOfNodeId(nodes,sousobj._id.$id)
-        $.each(sousobj.links, function(linkType, linkObj)
+        obj.forEach(function(sousobj, i)
         {
-          switch (linkType)
+          var linkIndex = {};
+          var indexSource = searchIndexOfNodeId(nodes,sousobj._id.$id)
+          $.each(sousobj.links, function(linkType, linkObj)
           {
-            case "members" :
-              linkIndex.members = Object.keys(linkObj)[0];
-              break;
-            case "events" :
-              linkIndex.events = Object.keys(linkObj)[0];
-              break;
-            case "attendees" :
-              linkIndex.attendees = Object.keys(linkObj)[0];
-              break;
-            case "organizer" :
-              linkIndex.organizer = Object.keys(linkObj)[0];
-              break;
-            case "contributors" :
-              linkIndex.contributors = Object.keys(linkObj)[0];
-              break;
-          }
-        });
+            var linkIndexTemp = [];
+            $.each(linkObj, function(id, object)
+            {
+              linkIndexTemp.push(id);
+            });
+            linkIndex[linkType] = linkIndexTemp;
+          });
 
-        $.each(linkIndex, function(linkIndexType, linkIndexTarget)
-        {
-          indexTarget = searchIndexOfNodeId(nodes,linkIndexTarget)
-          edges.push({source : indexSource, target : indexTarget})
+          $.each(linkIndex, function(linkIndexType, linkIndexTargetTab)
+          {
+            linkIndexTargetTab.forEach(function(linkIndexTarget, i)
+            {
+              indexTarget = searchIndexOfNodeId(nodes,linkIndexTarget)
+              if (indexTarget != -1)
+                edges.push({source : indexSource, target : indexTarget})
+            });
+          });
         });
-      });
+      }
     }
   });
 
