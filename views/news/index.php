@@ -101,8 +101,8 @@ foreach($news as $key => $oneNews){
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
-var contextParentType = <?php echo json_encode($contextParentType) ?>;
-var contextParentId = <?php echo json_encode($contextParentId) ?>;
+var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
+var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
