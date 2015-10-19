@@ -17,12 +17,12 @@
 			 ?>
 		</div>
 	</div>
-	<div class="col-md-12 no-padding" id="commentNeed">
+	<div class="col-md-12" id="commentNeed">
 	</div>
 </div>
 
 <script>
 jQuery(document).ready(function() {
-	getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>",null,"html");
+	getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo $need["parentType"];?>/id/<?php echo $need["parentId"];?>",null,"html");
 });
 </script>

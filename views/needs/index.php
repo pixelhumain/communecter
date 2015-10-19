@@ -69,7 +69,7 @@
 						</td>
 						<td class="text-left">
 							<span class="text-large"><?php echo $data["name"]; ?></span>
-							<a href="#" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
+							<a href="#" onclick="openMainPanelFromPanel('/needs/detail/idNeed/<?php echo $data["_id"] ?>/type/<?php echo $data["parentType"] ?>/id/<?php echo $data["parentId"] ?>', ' Need : <?php echo $data["name"]?>','fa-cubes', '<?php echo $data["_id"] ?>')" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
 						</td>
 					</tr>
 				</tbody>

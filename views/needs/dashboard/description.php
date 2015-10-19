@@ -56,7 +56,7 @@ function bindDescriptionPodneeds() {
 function initNeedDescriptionXEditable() {
 $('#description').editable({
 		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
-		value: <?php echo (isset($description)) ? json_encode($description) : "'Courte description du besoin...<br/>Pour qui? quel profil?<br/>Quelles sont les conditions? temps, retribution, etc.?'"; ?>,
+		value: <?php echo (isset($description) && $description) ? json_encode($description) : "'Courte description du besoin...<br/>Pour qui? quel profil?<br/>Quelles sont les conditions? temps, retribution, etc.?'"; ?>,
 		placement: 'hover',
 		mode: 'popup',
 		wysihtml5: {
