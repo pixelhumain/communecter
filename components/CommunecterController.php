@@ -23,7 +23,7 @@ class CommunecterController extends Controller
       array("img"=>"/images/Logo_Licence_Ouverte_noir_avec_texte.gif","url"=>"https://data.gouv.fr"),
       array("img"=>'/images/blog-github.png',"url"=>"https://github.com/orgs/pixelhumain/dashboard"),
       array("img"=>'/images/opensource.gif',"url"=>"http://opensource.org/"));
-  
+
 
   const theme = "ph-dori";
   public $person = null;
@@ -31,7 +31,7 @@ class CommunecterController extends Controller
   public $notifications = array();
 	//TODO - Faire le tri des liens
   //TODO - Les children ne s'affichent pas dans le menu
- 
+
   public $toolbarMenuAdd = array(
      array('label' => "My Network", "key"=>"myNetwork",
             "children"=> array(
@@ -70,7 +70,7 @@ class CommunecterController extends Controller
                   )
           )
   );
-  
+
   public $subviews = array(
     "news.newsSV",
     //"person.inviteSV",
@@ -120,7 +120,7 @@ class CommunecterController extends Controller
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"  => array( "href" => "/ph/communecter/news/save"),
     ),
-    
+
     "search"=> array(
     	"getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
     ),
@@ -179,7 +179,7 @@ class CommunecterController extends Controller
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
         "importfile"=> array('href' => "/ph/communecter/person/importfile"),
         "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
-        
+
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
         "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
@@ -190,9 +190,9 @@ class CommunecterController extends Controller
     ),
 
     "organization"=> array(
-      "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),      
+      "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "savenew"             => array("href" => "/ph/communecter/organization/saveNew",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "save"                => array("href" => "/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),       
+      "save"                => array("href" => "/ph/communecter/organization/save",'title' => "Organization", "subTitle"=>"Découvrez les organization locales","pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
       "getbyid"             => array("href" => "/ph/communecter/organization/getbyid"),
       "updatefield"         => array("href" => "/ph/communecter/organization/updatefield"),
       "join"                => array("href" => "/ph/communecter/organization/join"),
@@ -200,15 +200,15 @@ class CommunecterController extends Controller
       //Links // create a Link controller ?
       "addneworganizationasmember"  => array("href" => "/ph/communecter/organization/AddNewOrganizationAsMember"),
       //Dashboards
-      "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),  
+      "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
       "directory"           => array("href"=>"/ph/communecter/organization/directory"),
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
-      "detail"              => array("href"=>"/ph/communecter/organization/detail"),     
+      "detail"              => array("href"=>"/ph/communecter/organization/detail"),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember")
     ),
-    
+
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
@@ -236,6 +236,7 @@ class CommunecterController extends Controller
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
       "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
+      "directory"       => array("href"=>"/ph/communecter/project/directory"),
     ),
 
     "job"=> array(
@@ -288,7 +289,7 @@ class CommunecterController extends Controller
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
       "close"    => array("href" => "/ph/communecter/survey/close")
     ),
-    
+
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index"),
     ),
@@ -313,39 +314,42 @@ class CommunecterController extends Controller
     "gamification"=> array(
       "index" => array("href" => "/ph/communecter/gamification/index"),
     ),
+    "graph"=> array(
+      "viewer" => array("href" => "/ph/communecter/graph/viewer"),
+    ),
   );
 
   function initPage(){
-    //managed public and private sections through a url manager 
-    if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] ) 
+    //managed public and private sections through a url manager
+    if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
 
     $page = $this->pages[Yii::app()->controller->id][Yii::app()->controller->action->id];
 
     $pagesWithoutLogin = array(
                             //Login Page
-                            "person/login", "person/register", "person/authenticate", "person/activate", "person/sendemail", 
+                            "person/login", "person/register", "person/authenticate", "person/activate", "person/sendemail",
                             //Document Resizer
                             "document/resized");
-    
-    if( (!isset( $page["public"] ) ) 
+
+    if( (!isset( $page["public"] ) )
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
         $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-    } 
+    }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
 
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
-    
+
     $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
     $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
-    
+
     $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
     $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
     $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;

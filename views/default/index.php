@@ -1,6 +1,8 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
@@ -320,12 +322,12 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php if( empty( $this->notifications )  ){?>
+      <?php /*if( empty( $this->notifications )  ){?>
         <a href="#" onclick="$('#notificationPanel').slideToggle()" >
           <i class="fa fa-bell-o fa-2x"></i>
           <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
         </a>
-        <?php } ?>
+        <?php } */?>
       
 </div>
 
@@ -390,6 +392,19 @@ svg.graph .line {
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+
+    function random_pic()
+    {
+        if(file_exists ( "../../modules/communecter/assets/images/proverb" )){
+          $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+          $res = array();
+          for ($i=0; $i < 8; $i++) { 
+            array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
+          }
+          return $res;
+        } else
+          return array();
+    }
 ?>
 <script type="text/javascript">
 var timeout;
@@ -409,9 +424,10 @@ var mapIconTop = {
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
+var proverbs = <?php echo json_encode(random_pic()) ?>;
 
   jQuery(document).ready(function() {
-
+    console.dir(proverbs);
     $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
@@ -516,7 +532,9 @@ function loadByHash( hash ) {
     if( hash.indexOf("#person.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DIRECTORY ','share-alt' );
     else if( hash.indexOf("#organization.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DIRECTORY ','users' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
+    else if( hash.indexOf("#project.directory") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
     else if( hash  == "#panel.box-add" )
         showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
     

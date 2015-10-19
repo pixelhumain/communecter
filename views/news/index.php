@@ -12,10 +12,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 if( isset($_GET["isNotSV"])) {
-	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
+	/*if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
 	else
-		Menu::news();
+		Menu::news();*/
 	$this->renderPartial('../default/panels/toolbar'); 
 
 }
@@ -93,16 +93,16 @@ if( !isset($_GET["isNotSV"])) {
 </style>
 
 <?php 
-		foreach($news as $key => $oneNews){
-			$news[$key]["typeSig"] = "news";	
-		}
+foreach($news as $key => $oneNews){
+	$news[$key]["typeSig"] = "news";	
+}
 ?>
 
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news)?>;
-var contextParentType = <?php echo json_encode($contextParentType) ?>;
-var contextParentId = <?php echo json_encode($contextParentId) ?>;
+var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
+var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {

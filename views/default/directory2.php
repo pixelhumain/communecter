@@ -220,7 +220,7 @@ if( isset($_GET["isNotSV"])) {
 						$tagsClasses = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
-								$tagsClasses .= ' '.str_replace(" ", "", $value) ;
+								$tagsClasses .= ' '.preg_replace("/[^A-Za-z0-9]/", "", $value) ;
 							}
 						}
 
@@ -257,10 +257,10 @@ if( isset($_GET["isNotSV"])) {
 						$tagsHTML = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
-								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
 								if( $tags != "" && !in_array($value, $tags) ) {
 									array_push($tags, $value);
-									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.str_replace(" ", "", $value).'"><span>#'.$value.'</span></a>';
+									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span>#'.$value.'</span></a>';
 								}
 							}
 						}
