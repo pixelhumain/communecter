@@ -70,11 +70,23 @@
 	function showAjaxPanel (url,title,icon) 
 	{ 
 		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
+		rand = Math.floor((Math.random() * 8) + 1);
+		$.blockUI({message : '<br/><i class="fa fa-spinner fa-spin"></i> Processing... <br/><br/> '
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" width="250" style="border:5px solid #666"/></a><br/><br/>'
+			});
 		$(".ajaxForm").hide();
 		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
 		$(".box-ajaxTools").html("");
 
-		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
+		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
+			if(!userId){
+				window.href.location = baseUrl+'/'+moduleId+"/person/login";
+			} else{
+				$(".ajaxForm").slideDown(); 
+				$.unblockUI();
+			}
+		},"html");
 
 		//show hash
 		var urlT = [];
@@ -93,7 +105,7 @@
 		//maybe a conflict with some libs that automatically overide the location hash 
 		setTimeout( function(){
 			location.hash = hashUrl;
-			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
+			//history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		},500 );
 		
 		console.warn("pushState",hashUrl);

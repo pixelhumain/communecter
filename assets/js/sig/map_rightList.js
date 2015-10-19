@@ -34,9 +34,9 @@
 		//***
 		//affiche dans la liste de droite seulement les éléments visibles sur la carte
 		Sig.checkListElementMap = function (thisMap){
-		//console.log("****checkListElementMap*******");
-    	var thisSig = this;
-    	//rend invisible tous les éléments de la liste (mais ne les supprime pas)
+		
+			var thisSig = this;
+    		//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
 				var objectId = thisSig.getObjectId(this);//console.log(objectId);
 				$(thisSig.cssModuleName + " #element-right-list-" + objectId).css({ "display" : "none" });
@@ -88,6 +88,7 @@
 			if(nbTotal > this.paginationBy){
 
 				var nbPage = nbTotal / this.paginationBy;
+				console.log("num page pagination : " + nbPage);
 				this.paginationNumPageMax = nbPage;
 
 				$("#pagination").html(
@@ -101,9 +102,10 @@
 				var dep = this.paginationNumPage - maxPaginationBtn;
 				if(dep < 0) dep = 0;
 				for(var i=dep; i<nbPage && i < dep+maxPaginationBtn; i++){
-					//alert("index : "+i);
+					
 					var classe="";
 					if(i+1 == this.paginationNumPage) classe="active";
+
 					$("#pagination").append(
 						'<li class="'+classe+'"><a href="#" id="btn_pagination_'+i+'" page="'+(i+1)+'">'+(i+1)+'</a></li>'
 						);
@@ -131,6 +133,8 @@
 				//$("#lbl-chk-scope").removeClass("hidden");
 
 			}else{
+				$("#pagination").html("");
+				this.paginationNumPage = 1;
 				//$("#lbl-chk-scope").addClass("hidden");
 			}
 		};
@@ -155,8 +159,8 @@
 			var name = (element['name'] != null) ? element['name'] : "Anonyme";
 
 			//récupère l'url de l'icon a afficher
-			var ico = thisSig.getIcoByType(element);
-			var color = thisSig.getIcoColorByType(element);
+			var ico = thisSig.getIcoByType(allElement);
+			var color = thisSig.getIcoColorByType(allElement);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
@@ -177,9 +181,9 @@
 						if("undefined" != typeof name)
 						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
 						
-						if("undefined" != typeof element['tags']){
+						if("undefined" != typeof allElement['tags']){
 							button	+= 	"<div class='info_item items_map_list'>";
-							$.each(element['tags'], function(index, value){
+							$.each(allElement['tags'], function(index, value){
 								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
 							});
 							button	+= 	"</div>";
@@ -199,7 +203,7 @@
 
 				if("undefined" != typeof allElement['text']){
 					if("undefined" != typeof allElement['name']){
-						button	+= 	"<div class='info_item title_news_item_map_list'><i class='fa fa-newspaper-o'></i> " + allElement['name'] + "</div>";
+						button	+= 	"<div class='info_item title_news_item_map_list'>" + allElement['name'] + "</div>";
 					}		
 					button	+= 	"<div class='info_item text_item_map_list'>" + allElement['text'] + "</div>";
 				}

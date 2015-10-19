@@ -166,13 +166,13 @@
 
 			var allData = data;
 			data = data.author;
-
-			var type = data['typeSig'] ? data['typeSig'] : data['type'];
+			console.log("typeSig : " + allData['typeSig']);
+			var type = allData['typeSig'] ? allData['typeSig'] : "news"; //allData['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
 	
-			var ico = this.getIcoByType(data);
-			var color = this.getIcoColorByType(data);
+			var ico = this.getIcoByType(allData);
+			var color = this.getIcoColorByType(allData);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
@@ -189,8 +189,11 @@
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-
+			if(type == "news") 			typeElement = "news";
+			
 			var url = '/'+typeElement+'/detail/id/'+id;
+			if(typeElement == "news") url = '/'+typeElement+'/latest/id/'+id;
+			
 			var title = data.typeSig + ' : ' + data.name;
 			title = title.replace("'", "");
 			title = title.replace('"', "");
@@ -210,9 +213,9 @@
 						if("undefined" != typeof data['name'])
 						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
 						
-						if("undefined" != typeof data['tags']){
+						if("undefined" != typeof allData['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(data['tags'], function(index, value){
+							$.each(allData['tags'], function(index, value){
 								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
 							});
 							popupContent	+= 	"</div>";
@@ -231,7 +234,7 @@
 
 				if("undefined" != typeof allData['text']){
 					if("undefined" != typeof allData['name']){
-						popupContent	+= 	"<div class='info_item title_news_item_map_list'><i class='fa fa-newspaper-o'></i> " + allData['name'] + "</div>";
+						popupContent	+= 	"<div class='info_item title_news_item_map_list'>" + allData['name'] + "</div>";
 					}		
 					popupContent	+= 	"<div class='info_item text_item_map_list'>" + allData['text'] + "</div>";
 				}

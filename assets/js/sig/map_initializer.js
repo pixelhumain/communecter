@@ -101,7 +101,7 @@
 					$(thisSig.cssModuleName + ' #panel_map').css({'display':'none'});
 				});
 
-				$(thisSig.cssModuleName + ' #btn-tags').mouseenter(function(event) {
+				$(thisSig.cssModuleName + ' #btn-tags').click(function(event) { //mouseenter
 					$(thisSig.cssModuleName + ' #panel_map').show(200);
 					$(thisSig.cssModuleName + ' #panel_filter').hide(1);
 				});
@@ -139,7 +139,7 @@
 				});
 
 
-				$(thisSig.cssModuleName + ' #btn-filters').mouseenter(function(event) {
+				$(thisSig.cssModuleName + ' #btn-filters').click(function(event) { //mouseenter
 					$(thisSig.cssModuleName + ' #panel_filter').show(200);
 					$(thisSig.cssModuleName + ' #panel_map').hide(1);
 				});
@@ -187,7 +187,7 @@
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"news" 				: { ico : "newspaper-o", color : "white" 	},
+										  	"news" 				: { ico : "rss", color : "blue" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
@@ -263,11 +263,11 @@
 						dataType : "json",
 						success: function(data){ 
 							
-							//console.log("my position : ");
-							//console.dir(data);
 							thisSig.myPosition = data;
 
 							if(data != null){
+								if(data.profilMarkerExists == true)
+								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;
 								thisSig.showMyPosition();
 							}
 							else{
@@ -280,14 +280,11 @@
 		};
 
 		Sig.getTypeSigOfData = function (data){
-			//console.log("getTypeSigOfData");
-			//console.dir("data");
 			var type = data["typeSig"] ?  data["typeSig"] :  data["type"];
 			return type;
 		};
 
 		Sig.getIcoNameByType = function (data){
-			//console.log("getIcoNameByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
@@ -295,7 +292,6 @@
 		};
 
 		Sig.getIcoByType = function (data){
-			//console.log("getIcoByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
@@ -303,7 +299,6 @@
 		};
 
 		Sig.getIcoColorByType = function (data){
-			//console.log("getIcoColorByType");
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
@@ -330,9 +325,9 @@
 		Sig.getThumbProfil = function (element){
 			var imgProfilPath =  assetPath + "/images/news/profile_default_l.png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
-				imgProfilPath = "/ph/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
+				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
 			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
-				imgProfilPath =  "/ph/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+				imgProfilPath =  baseUrl + "/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
 			return imgProfilPath;
 		};
 
@@ -376,5 +371,12 @@
 		  return str;
 		};
 
+		Sig.hidePopupContent = function(id){
+			$("#popup"+id+" .city_item_map_list").hide(100);
+			$("#popup"+id+" .country_item_map_list").hide(100);
+			$("#popup"+id+" .btn-more").hide(100);
+			$("#popup"+id+" .title_news_item_map_list").hide(100);
+			$("#popup"+id+" .text_news_item_map_list").hide(100);
+		}
 		return Sig;
 	};

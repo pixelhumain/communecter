@@ -155,9 +155,10 @@ class CommunecterController extends Controller
         "detail"          => array("href" => "/ph/communecter/person/detail"),
         "connect"         => array("href" => "/ph/communecter/person/connect"),
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
-        "register"        => array("href"=> "/ph/communecter/person/register"),
-        "activate"        => array('href'=> "/ph/communecter/person/activate"),
+        "register"        => array("href" => "/ph/communecter/person/register"),
+        "activate"        => array('href' => "/ph/communecter/person/activate"),
         "logout"          => array("href" => "/ph/communecter/person/logout"),
+        'getthumbpath'    => array("href" => "/ph/communecter/person/getThumbPath"),
         'getnotification' => array("href" => "/person/getNotification"),
         'changepassword'  => array("href" => "/person/changepassword"),
         'changerole'      => array("href" => "/person/changerole"),
@@ -234,6 +235,7 @@ class CommunecterController extends Controller
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
       "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
+      "directory"       => array("href"=>"/ph/communecter/project/directory"),
     ),
 
     "job"=> array(

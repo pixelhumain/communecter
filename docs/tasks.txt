@@ -1,4 +1,16 @@
 
+Département > depName
+Région > regionName
+Statut > structure
+Altitude Moyenne > avgAltitude
+Superficie > surface
+geo_shape > geoShape
+Code Commune > commune
+Code Canton > canton
+Code Arrondissement > arrond
+Code Département > dep
+Code Région > region
+
 CINOR 
 	Christopha ANnette 
 	0692272212

@@ -276,18 +276,21 @@ creer des conflits : regle pas assez specfique
 	float: left;
 	text-align: left;
 	max-height: 115px;
-	padding: 0px 15px 7px 15px;
+	padding: 0px 15px 0px 15px;
+	margin-bottom: 10px;
+	color:#719FAB !important;
 }
 .item_map_list .info_item.title_news_item_map_list{
 	width: 100%;
 	text-overflow: ellipsis;
 	float: left;
 	text-align: left;
-	max-height: 20px;
 	padding: 0px 15px;
 	color: #000 !important;
 	font-weight: 500;
 	font-size: 14px !important;
+	color:#719FAB !important;
+	text-transform:uppercase;
 }
 .item_map_list .info_item.title_news_item_map_list i.fa{
 	padding:0px !important;

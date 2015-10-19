@@ -107,15 +107,20 @@
 			{
 				//console.warn("--------------- getIcoMarker *** ---------------------");
 				//console.log(thisData);
-			this.allowMouseoverMaker = true;
+				if(typeof thisData.author != "undefined") thisData = thisData.author;
+
+				this.allowMouseoverMaker = true;
 
 				var markerName = this.getIcoNameByType(thisData);
+				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
+				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
+					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
 
 				return L.icon({
-				    iconUrl: assetPath+'/images/sig/markers/'+markerName+'.png',
+				    iconUrl: iconUrl,
 				    iconSize: [53, 60], //38, 95],
-				    iconAnchor: [26, 60],//22, 94],
-				    popupAnchor: [0, -63]//-3, -76]
+				    iconAnchor: [27, 57],//22, 94],
+				    popupAnchor: [0, -55]//-3, -76]
 				});
 			};
 
@@ -137,6 +142,9 @@
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
+				if(typeof this.myMarker != "undefined") 
+					this.map.removeLayer(this.myMarker);
+				
 				var thisSig = this;
 				$.each(this.markerSingleList, function(){
 					thisSig.map.removeLayer(this);
@@ -144,7 +152,7 @@
 
 				this.listId = new Array();
 				this.elementsMap = new Array();
-				this.paginationNumPage = 1;
+				this.changePagination(1);
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
@@ -153,7 +161,7 @@
 			};
 
 			//##
-			//supprime tous les marker de la carte
+			//supprime tous les marker de la carte et prépare pour recharger de nouvelles données
 			this.Sig.restartMap = function(thisMap)
 			{	
 				//supprime les item panel (sauf all)
@@ -174,17 +182,19 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					//console.log("position find");
+					//console.log("MYPOSITION !!");
+					//console.dir(thisSig.myPosition);
 					var center = [thisSig.myPosition.position.latitude, 
 								  thisSig.myPosition.position.longitude];
 					var properties = { 	id : "0",
-										icon : thisSig.getIcoMarkerMap({"type" : thisSig.myPosition.type}),
+										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
 										type : thisSig.myPosition["type"],
 										typeSig : thisSig.myPosition["typeSig"],
 										faIcon : this.getIcoByType(thisSig.myPosition),
 										content: "<h1>Vous êtes ici</h1><br/>" };
 
-					thisSig.getMarkerSingle(thisSig.map, properties, center);
+					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
+					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
 
 					$( "#btn-home" ).click(function (){ 
 							thisSig.map.setView(center, 16);
@@ -502,7 +512,7 @@
 				if(len > 1){
 					$.each(data, function (key, value){
 						var oneData = key;
-						if(value.typeSig == "news" && typeof value.author !== "undefined") 
+						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
 							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
@@ -611,6 +621,7 @@
 		//chargement de la carte
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
+	 		
 			//console.warn("--------------- loadMap ---------------------");
 			canvasId += initParams.sigKey;
 
@@ -642,6 +653,7 @@
 			map.invalidateSize(false);
 			return map;
 		};
+
 
 		this.Sig = this.getSigInitializer(this.Sig);
 

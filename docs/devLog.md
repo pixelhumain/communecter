@@ -9,6 +9,12 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Init scripts
+
+#import lists 
+cd communecter/data
+mongoimport --db pixelhumain --collection lists lists.json --jsonArray;
+
 ----------------------------------------------------
 https://www.google.com/url?q=https%3A%2F%2Fgit-scm.com%2Fbook%2Ffr%2Fv1%2FLes-branches-avec-Git-Les-branches-distantes&sa=D&sntz=1&usg=AFQjCNHT0E5vbg_-BUC7xIm7guTVRBzG1Q
 

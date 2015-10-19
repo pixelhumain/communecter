@@ -1,10 +1,11 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-
 ?>
 <style>
 /*#menu-top-container{
@@ -191,7 +192,7 @@ li.mix{
       }
     </style>
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
-    <div class="box-ajax box box-white-round" id="ajaxSV">
+    <div class="box-ajax box box-white-round" id="ajaxSV" style="min-height:500px">
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
     </div>
   </div>
@@ -276,17 +277,24 @@ li.mix{
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
-    <?php if(isset(Yii::app()->session['user']['profilImageUrl']) && Yii::app()->session['user']['profilImageUrl'] != "")
-            $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.Yii::app()->session['user']['profilImageUrl']);
+        <?php 
+          $me = Person::getById(Yii::app()->session['userId']);
+          if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
+            $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-    ?>
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span><img class="img-circle" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" ><span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span></a>
-        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory/?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
+        ?>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+          <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+          <span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span>
+        </a>
+
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
+        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
+
         <a href="#panel.box-add" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
         <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
@@ -314,6 +322,13 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
+      <?php if( empty( $this->notifications )  ){?>
+        <a href="#" onclick="$('#notificationPanel').slideToggle()" >
+          <i class="fa fa-bell-o fa-2x"></i>
+          <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+        </a>
+        <?php } ?>
+      
 </div>
 
 <?php /* **********************
@@ -377,6 +392,19 @@ svg.graph .line {
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+
+    function random_pic()
+    {
+        if(file_exists ( "../../modules/communecter/assets/images/proverb" )){
+          $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+          $res = array();
+          for ($i=0; $i < 8; $i++) { 
+            array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
+          }
+          return $res;
+        } else
+          return array();
+    }
 ?>
 <script type="text/javascript">
 var timeout;
@@ -395,8 +423,11 @@ var mapIconTop = {
   };
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
-  jQuery(document).ready(function() {
+var isNotSV = true;
+var proverbs = <?php echo json_encode(random_pic()) ?>;
 
+  jQuery(document).ready(function() {
+    console.dir(proverbs);
     $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
@@ -497,21 +528,24 @@ var typesLabels = {
 function loadByHash( hash ) { 
     console.log("loadByHash",hash);
 
+    params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
     if( hash.indexOf("#person.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PERSON DIRECTORY ','share-alt' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DIRECTORY ','share-alt' );
     else if( hash.indexOf("#organization.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'ORGANIZATION DIRECTORY ','users' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
+    else if( hash.indexOf("#project.directory") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
     else if( hash  == "#panel.box-add" )
         showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
     
     else if( hash.indexOf("#person.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PERSON DETAIL ','user' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DETAIL ','user' );
     else if( hash.indexOf("#event.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'EVENT DETAIL ','calendar' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'EVENT DETAIL ','calendar' );
     else if( hash.indexOf("#project.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'PROJECT DETAIL ','lightbulb-o' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT DETAIL ','lightbulb-o' );
     else if( hash.indexOf("#organization.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?tpl=directory2&isNotSV=1', 'ORGANIZATION DETAIL ','users' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DETAIL ','users' );
     
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )
@@ -533,8 +567,8 @@ function loadByHash( hash ) {
     } else
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
 
-    location.hash = hash;
-    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
+    //location.hash = hash;
+    //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
 }
 
 function runShowCity(searchValue) {
@@ -676,7 +710,7 @@ function autoCompleteSearch(name){
 
   function initMap(){
     var mapData = <?php echo json_encode($contextMap) ?>;
-    
+     
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);

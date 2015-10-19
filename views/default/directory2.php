@@ -63,6 +63,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	#Grid .thumbnail-profil{
 		margin-left:10px;
 	}
+	.marginbot{
+		display: inline-block;
+		margin-bottom : 5px;
+	}
 </style>
 
 <?php 
@@ -89,24 +93,41 @@ if( isset($_GET["isNotSV"])) {
 				<div class="controls">
 					<ul class="nav nav-pills">
 						<li class="filter active" data-filter="all">
-							<a href="#">Show All</a>
+							<a href="#"><i class="fa fa-lists fa-2x"></i> Show All</a>
 						</li>
 						<li class="filter " data-filter=".citoyens">
-							<a href="#" class="filterpersons"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
+							<a href="javascript:;" class="filtercitoyens" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".organizations">
-							<a href="#" class="filterorganizations"><i class="fa fa-users fa-2x"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
+							<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations"><i class="fa fa-users fa-2x"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".events">
-							<a href="#"  class="filterevents"><i class="fa fa-calendar fa-2x"></i> Events <?php echo "(".count($events).")";  ?></a>
+							<a href="javascript:;"  class="filterevents" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2x"></i> Events <?php echo "(".count($events).")";  ?></a>
 						</li>
 						<li class="filter" data-filter=".projects">
-							<a href="#" class="filterprojects"><i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
+							<a href="javascript:;" class="filterprojects" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
+						</li>
+						<li >
+							<a href="javascript:;" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags fa-2x"></i> Tags </a>
+						</li>
+						<li >
+							<a href="javascript:;" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o fa-2x"></i> Scopes </a>
 						</li>
 					</ul>
-					<?php /* ?>
-					<button class="button button-primary pull-right btn-close-panell"><i class="fa fa-close"></i></button>
-					*/?>
+
+					<br/>
+
+					<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+					<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+					<div id="orgaTypesFilters" class="optionFilter pull-left center" style="display:none;width:100%;" >
+						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".NGO"><span>N.G.O</span></a>
+						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".LocalBusiness">Business</a>
+						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".Group">Group</a>
+						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".GovernmentOrganization">Government Organization</a>
+					</div>
+
+					<div class="space10"></div>
+
 				</div>
 				<hr/>
 				<!-- GRID -->
@@ -115,18 +136,20 @@ if( isset($_GET["isNotSV"])) {
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
 					$tags = array();
+					$tagsHTMLFull = "";
 					$scopes = array(
 						"codeInsee"=>array(),
 						"codePostal"=>array(),
 						"region"=>array(),
 					);
+					$scopesHTMLFull = "";
 					
 					/* ************ ORGANIZATIONS ********************** */
 					if(isset($organizations)) 
 					{ 
 						foreach ($organizations as $e) 
 						{ 
-							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						};
 					}
 
@@ -135,7 +158,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($people as $e) 
 						{ 
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						}
 					}
 
@@ -144,7 +167,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($events as $e) 
 						{ 
-							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						}
 					}
 	
@@ -153,7 +176,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($projects as $e) 
 						{ 
-							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						}
 					}
 					/*
@@ -173,7 +196,7 @@ if( isset($_GET["isNotSV"])) {
 						</div>
 					</li>
 					*/
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes )
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull )
 					{
 							
 						if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
@@ -217,7 +240,8 @@ if( isset($_GET["isNotSV"])) {
 						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
-						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.'" data-cat="1" >'.
+						$entryType = ( isset($e["type"])) ? $e["type"] : "";
+						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
 							'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
@@ -234,8 +258,10 @@ if( isset($_GET["isNotSV"])) {
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
 								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
-								if( $tags != "" && !in_array($value, $tags) ) 
+								if( $tags != "" && !in_array($value, $tags) ) {
 									array_push($tags, $value);
+									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.str_replace(" ", "", $value).'"><span>#'.$value.'</span></a>';
+								}
 							}
 						}
 
@@ -246,18 +272,24 @@ if( isset($_GET["isNotSV"])) {
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
-							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) 
+							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
+							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
-							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) 
+							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) {
 								array_push($scopes['codePostal'], $e["address"]['codePostal'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>cp '.$e["address"]['codePostal'].'</span></a>';
+							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
-							if( !in_array($e["address"]['region'], $scopes['region']) ) 
+							if( !in_array($e["address"]['region'], $scopes['region']) ) {
 								array_push($scopes['region'], $e["address"]['region'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
+							}
 						}
 
 						//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
@@ -294,7 +326,20 @@ if( isset($_GET["isNotSV"])) {
 </div>
 <!-- end: PAGE CONTENT-->
 
-
+<?php 
+    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+    //et pour ouvrir le panel info correctement
+    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    
+    $contextMap = array();
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+    if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($events))          $contextMap = array_merge($contextMap, $events);
+    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+?>
 <script type="text/javascript">
 
 var tabButton = [];
@@ -308,9 +353,11 @@ var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = [];
 var actions = [];
-
-jQuery(document).ready(function() {
+var mapData = <?php echo json_encode($contextMap) ?>;
 	
+jQuery(document).ready(function() {
+	$("#tagFilters").html('<?php echo $tagsHTMLFull ?>');
+	$("#scopeFilters").html('<?php echo $scopesHTMLFull ?>');
 	initGrid();
 
 	console.log("change filter " + activeType);
@@ -323,10 +370,18 @@ jQuery(document).ready(function() {
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
+	
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, mapData);
+
 
 	
 });
-
+ function toggleFilters(what){
+ 	if( !$(what).is(":visible") )
+ 		$('.optionFilter').hide();
+ 	$(what).slideToggle();
+ }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
 	console.log(classId);
@@ -345,8 +400,8 @@ function initGrid(){
 	    });*/
 	}else{
 		var htmlDefault = "<div class='center'>"+
-							"<i class='fa fa-picture-o fa-5x text-blue'></i>"+
-							"<br>No picture to show"+
+							"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
+							"<br>No Connections yet"+
 						"</div>";
 		$('#Grid').append(htmlDefault);
 	}

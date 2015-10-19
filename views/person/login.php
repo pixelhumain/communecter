@@ -287,7 +287,7 @@ svg.graph .line {
 	var geoPositionCity = null;
 	var citiesByPostalCode = null;
 	jQuery(document).ready(function() {
-
+		userId = null;
 		Main.init();
 		Login.init();	
 		titleAnim ();	
