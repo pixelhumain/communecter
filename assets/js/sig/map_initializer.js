@@ -74,6 +74,7 @@
 			if(params.useHelpCoordinates){
 				thisMap.on('click', function(e) {
 						var pos = e.latlng;
+						if(typeof pos != "undefined")
 						$("#help-coordinates").html('lat lng : ' + pos.lat + ", " + pos.lng);
 				});
 			}
