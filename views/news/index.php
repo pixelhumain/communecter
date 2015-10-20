@@ -244,22 +244,17 @@ function buildLineHTML(newsObj)
 				typeId="id";
 				urlParent="";
 			} 
-			<?php if (isset($_GET["isNotSV"])){ ?> 
-				url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			<?php } else{ ?>
-				url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+newsObj.id+urlParent+'"';
-			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+		<?php } else{ ?>
+			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+newsObj.id+urlParent+'"';
 		<?php } ?>
-
 		}
 		else{
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-		<?php } else{ ?>
+			<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
-			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
 		<?php } ?>
 		}
 	} 
@@ -387,11 +382,15 @@ function buildLineHTML(newsObj)
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
-	else if(newsObj.author.id){
+	else {
+		if(newsObj.author.id)
+			authorId=newsObj.author.id;
+		else
+			authorId=newsObj.author._id.$id;
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
+			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+authorId+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+authorId+'\')"';
 		<?php } else{ ?>
-			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
+			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+authorId+'"';
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
 		//var personName = newsObj.author.name;
@@ -403,8 +402,8 @@ function buildLineHTML(newsObj)
 			urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		<?php } else{ ?>
 			urlAuthor = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
-	authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
 		<?php } ?>
+		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
 	}
 	else 
 		authorLine="";

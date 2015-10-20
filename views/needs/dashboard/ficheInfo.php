@@ -1,39 +1,48 @@
 <?php 
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css');
-	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/css/bootstrap-editable.css');
+$cssAnsScriptFilesTheme = array(
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	//X-editable...
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/x-editable/js/bootstrap-editable.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , CClientScript::POS_END, array(), 2);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/wysihtml5/wysihtml5.js' , CClientScript::POS_END, array(), 2);
-
+	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js',
+	'/assets/plugins/moment/min/moment.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+$cssAnsScriptFilesModule = array(
 	//Data helper
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END, array(), 2);
-	//X-Editable postal Code
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/postalCode.js' , CClientScript::POS_END, array(), 2);
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$cssAnsScriptFilesModuleSS = array(
+	'/plugins/Chart.js/Chart.min.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
 ?>
-<div class="panel panel-white">
-	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id); ?></span></h4>
+
+<style>
+</style>
+
+	<div class="panel-heading border-light margin-bottom-10">
+		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
-				<?php 
-					$edit = false;
-					if(isset(Yii::app()->session["userId"]) && isset($_GET["id"]))
-						$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]);
-					if($edit){
-				?>
-				<a href="#" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt=""><i class="fa fa-pencil"></i></a>
+				<?php if ($isAdmin){ ?>
+					<a href="#" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt=""><i class="fa fa-pencil"></i></a>
         		<?php } ?>
 			</div>
 		</div>
 	</div>
+
 	<div class="panel-body no-padding">
-			<table class="table table-condensed table-hover" >
+	<div class="col-md-6">
+			<table class="table-condensed table-hover" >
 				<tbody>
 					<tr>
 						<td><?php echo Yii::t("common","Name") ?></td>
@@ -73,9 +82,17 @@
 				</tbody>
 			</table>
 	</div>
-</div>
+<vr></vr>
+		<div class="col-md-6 padding-20">
+			<h3> Description</h3>
+			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("need","Enter the need's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
+		</div>
+
+
+		
+
+	
 <script type="text/javascript">
-/*var needData = ;*/
 var needID="<?php echo $_GET["idNeed"]; ?>";
 var mode = "update";
 var startDate = '<?php if(isset($need["startDate"])) echo $need["startDate"]; else echo ""; ?>';
@@ -203,7 +220,23 @@ function initNeedXEditable() {
 				console.log(data);
 	    	}
 	});
-
+	$('#description').editable({
+		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+		value: <?php echo (isset($description) && $description) ? json_encode($description) : "'Courte description du besoin...<br/>Pour qui? quel profil?<br/>Quelles sont les conditions? temps, retribution, etc.?'"; ?>,
+		placement: 'hover',
+		mode: 'popup',
+		wysihtml5: {
+			html: true,
+			video: false,
+			image: false
+		},
+		success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else
+	        	toastr.error(data.msg);  
+	    },
+	});
     //Select2 tags
 }
 
@@ -218,7 +251,7 @@ function switchNeedMode() {
 }
 
 function manageNeedModeContext() {
-	listNeedInfoXeditables = ['#startDate','#endDate',"#type","#duration","#benefits"];
+	listNeedInfoXeditables = ['#startDate','#endDate',"#type","#duration","#benefits","#description"];
 	if (mode == "view") {
 		$('.editable-need').editable('toggleDisabled');
 		$.each(listNeedInfoXeditables, function(i,value) {
