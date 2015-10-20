@@ -163,11 +163,16 @@ li.mix{
 #btn-show-notification i.fa{
   margin-right: 10px;
 }
-#btn-show-notification .badge.badge-danger{
-  background-color: #D9534F !important;
+#btn-show-notification .badge{
   position: absolute;
   top: 32%;
   left: 47%;
+}
+#btn-show-notification .badge.badge-danger{
+  background-color: #D9534F !important;
+}
+#btn-show-notification .badge.badge-info{
+  /*background-color: #D9534F !important;*/
 }
 #notificationPanel{
     float: right;
@@ -486,7 +491,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
 
-  jQuery(document).ready(function() {
+jQuery(document).ready(function() {
     console.dir(proverbs);
     $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
@@ -581,18 +586,18 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
       showMap(false);
     });
 
-    initMap();
-
     $("#btn-show-notification").click(function(){
-      if($('#notificationPanel').css("display") == "none")
+      if($('#notificationPanel').css("display") == "none"){
         $('#notificationPanel').show("fast");
-      else
+      }else{
         $('#notificationPanel').hide("fast");
-
+      }
       $("#dropdown_searchTop").css("display", "none");
     });
 
-  });
+    initMap();
+});
+
 var typesLabels = {
   "<?php echo Organization::COLLECTION ?>":"Organization",
   "<?php echo Event::COLLECTION ?>":"Event",

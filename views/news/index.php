@@ -183,7 +183,7 @@ function buildTimeLine ()
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
-	console.log(newsObj);
+	//console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
