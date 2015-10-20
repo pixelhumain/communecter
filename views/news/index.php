@@ -25,7 +25,7 @@ if( !isset($_GET["isNotSV"])) {
 }
 ?>
 
-<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-8">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-6">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -159,27 +159,24 @@ function buildTimeLine ()
 			var newsTLLine = buildLineHTML(newsObj);
 			if(countEntries == 0)
 			$(".newsTL"+date.getMonth()).append(
-				"<li class='newsFeed'><div class='timeline_element partition-white no-padding' style='min-width:85%;'>" + formCreateNews + "</div></li>");
+				"<li class='newsFeed'><div class='timeline_element partition-white no-padding' style='min-width:85%;'>" 
+				+ formCreateNews 
+				+ "</div></li>");
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
 	if(!countEntries){
-		$(".newsTL").html("<div class='center text-extra-large'>Sorry, no news available</div>");
+		var date = new Date( );
+		$(".newsTL").html("<div class='col-md-6 text-extra-large'>"+formCreateNews+"</div>");
+		$(".newsTL").append("<div class='col-md-6 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+		
 	}else{
 		//deplacement du formulaire dans le stream
-		$("#formCreateNewsTemp").html("");		
 		showFormBlock(false);
-		$(".form-create-news-container #name").focus(function(){
-			showFormBlock(true);	
-		});
-
-		$(".form-create-news-container #name").focusout(function(){
-			if($(".form-create-news-container #name").val() == ""){
-				showFormBlock(false);
-			}
-		});
 	}
+	
+	$("#formCreateNewsTemp").html("");			
 	bindEvent();
 }
 
@@ -416,40 +413,40 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 
-	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
-					tags+
-					scopes+
-					'<div class="space1"></div>'+ 
-					imageBackground+
-					'<div class="timeline_author_block">'+
-						objectLink+
-						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
-						'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +
-					
+	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' ">'+
+					'<div class="timeline_element partition-'+color+'">'+
+						tags+
+						scopes+
+						'<div class="space1"></div>'+ 
+						imageBackground+
+						'<div class="timeline_author_block">'+
+							objectLink+
+							'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
+							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
+						'</div>'+
+						'<div class="space5"></div>'+
+						'<a '+url+'>'+
+							'<div class="timeline_title">'+
+								'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
+								'</span>'+
+							'</div>'+
+							'<div class="space5"></div>'+
+							'<span class="timeline_text">'+ text + '</span>' +	
+						'</a>'+
+						'<div class="space5"></div>'+
+						'<span class="timeline_text">'+ authorLine + '</span>' +
+						'<div class="space10"></div>'+
+						
+						'<hr>'+
+						"<div class='bar_tools_post pull-left'>"+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+							"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
+							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
+						"</div>"+
 					'</div>'+
-					'<div class="space5"></div>'+
-					'<a '+url+'>'+
-					'<div class="timeline_title">'+
-						'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
-						'</span>'+
-
-					'</div>'+
-					'<div class="space5"></div>'+
-					'<span class="timeline_text">'+ text + '</span>' +	
-					'</a>'+
-					'<div class="space5"></div>'+
-					'<span class="timeline_text">'+ authorLine + '</span>' +
-					'<div class="space10"></div>'+
-					
-					'<hr>'+
-					"<div class='bar_tools_post pull-left'>"+
-					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
-					//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
-					"</div>"+
-				'</div></li>';
+				'</li>';
 
 	return newsTLLine;
 }
@@ -499,6 +496,16 @@ function bindEvent(){
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
+	});
+
+	$(".form-create-news-container #name").focus(function(){
+		showFormBlock(true);	
+	});
+
+	$(".form-create-news-container #name").focusout(function(){
+		if($(".form-create-news-container #name").val() == ""){
+			showFormBlock(false);
+		}
 	});
 }
 
