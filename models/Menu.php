@@ -238,7 +238,7 @@ class Menu {
         
         //SEE TIMELINE
         //-----------------------------
-        self::entry( null,"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
 
         //SEE DISCUSSION ROOMS
         //-----------------------------
