@@ -160,6 +160,15 @@ li.mix{
   right:0px !important;
   position:absolute;
 }
+#btn-show-notification i.fa{
+  margin-right: 10px;
+}
+#btn-show-notification .badge.badge-danger{
+  background-color: #D9534F !important;
+  position: absolute;
+  top: 32%;
+  left: 47%;
+}
 #notificationPanel{
     float: right;
     margin: 56px 0px 0px 50px;
@@ -168,9 +177,12 @@ li.mix{
     position: absolute;
     right: 0px;
     z-index: 1000;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
+    
 }
 .notifications{
   background-color: transparent;
+
 }
 .notifications li{
   list-style-type: none;
@@ -188,6 +200,11 @@ li.mix{
     color: #2A5B6E;
     background-color: #C1D4DD;
     border-color: rgba(187, 211, 222, 0.59);
+}
+.pageslide-list .btn-primary:hover {
+    color: #C1D4DD;
+    background-color: #2A5B6E;
+    
 }
 /* NOTIFICATIONS */
 
@@ -360,7 +377,7 @@ li.mix{
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
-          <ol class="li-dropdown-scope">-</ol>
+          <ol class="li-dropdown-scope">Recherche en cours</ol>
         </ul>
       </input>
       </form>
@@ -520,6 +537,7 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
           timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
         }else{
           $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
         }   
     });
 
@@ -532,10 +550,12 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
     
     $('.mapCanvas').click(function(e){
       $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
     });
     
     $('#ajaxSV').click(function(e){
       $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
     });
     
     $('#btn-show-map').click(function(e){
@@ -724,7 +744,7 @@ function autoCompleteSearch(name){
               })
             }
             }); 
-            if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
+            if(str == "") str = "<ol class='li-dropdown-scope'><i class='fa fa-ban'></i> Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
             $('#notificationPanel').hide("fast");
@@ -734,6 +754,11 @@ function autoCompleteSearch(name){
           }
       } 
     });
+
+    str = "<ol class='li-dropdown-scope'><i class='fa fa-circle-o-notch fa-spin'></i> Recherche en cours</ol>";
+    $("#dropdown_searchTop").html(str);
+    $("#dropdown_searchTop").css({"display" : "inline" });
+                    
   }
 
   function addEventOnSearch() {
