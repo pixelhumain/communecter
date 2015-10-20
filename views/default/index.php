@@ -115,13 +115,12 @@ li.mix{
   color: rgba(17, 97, 104, 0.66) !important;
 }
 
-#menu-top-container .btn-show-map{
-  right: 0px;
+#menu-top-container .btn-menu-top{
   height: 56px;
-  width: 60px;
+  width: 70px;
   top: 0px;
   position: absolute;
-  font-size: 18px;
+  font-size: 20px;
   padding: 8px 6px;
   color: rgba(255, 255, 255, 0.7) !important;
   background-color: rgba(38, 88, 108, 0.73);
@@ -141,14 +140,58 @@ li.mix{
 
 .searchEntry i.fa{
   border-radius:30px;
-  /*background-color: white;*/
   padding: 10px 13px;
   vertical-align: middle;
   margin-top: -5px;
-  /*color:#155869 !important;*/
 }
 .searchEntry i.fa:hover{
 }
+
+.moduleLabel{
+  margin-left:70px;
+}
+
+#btn-show-map{
+  left: 0px !important;
+}
+
+/* NOTIFICATIONS */
+#btn-show-notification{
+  right:0px !important;
+  position:absolute;
+}
+#notificationPanel{
+    float: right;
+    margin: 56px 0px 0px 50px;
+    background-color: rgba(82, 129, 149, 0.71);
+    color: white;
+    position: absolute;
+    right: 0px;
+    z-index: 1000;
+}
+.notifications{
+  background-color: transparent;
+}
+.notifications li{
+  list-style-type: none;
+}
+.pageslide-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+.pageslide-list{
+  padding: 0px;
+}
+.pageslide-list .btn-primary {
+    color: #2A5B6E;
+    background-color: #C1D4DD;
+    border-color: rgba(187, 211, 222, 0.59);
+}
+/* NOTIFICATIONS */
+
+
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -311,7 +354,7 @@ li.mix{
 <div class="center pull-left" id="menu-top-container" style="" >
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
     
-      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map-marker"></i></button>  
+      <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -322,12 +365,12 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php /*if( empty( $this->notifications )  ){?>
-        <a href="#" onclick="$('#notificationPanel').slideToggle()" >
-          <i class="fa fa-bell-o fa-2x"></i>
-          <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
-        </a>
-        <?php } */?>
+      <?php if( empty( $this->notifications )  ){?>
+      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
+        <i class="fa fa-bell-o"></i>
+        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+      </button>
+      <?php } ?>
       
 </div>
 
@@ -481,8 +524,10 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
     });
 
     $('#searchBar').focusin(function(e){
-      if($("#searchBar").val() != "")
-      $('#dropdown_searchTop').css("display" , "inline");
+      if($("#searchBar").val() != ""){
+        $('#dropdown_searchTop').css("display" , "inline");
+        $('#notificationPanel').hide("fast");
+      }
     });
     
     $('.mapCanvas').click(function(e){
@@ -493,7 +538,7 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
       $("#dropdown_searchTop").css("display", "none");
     });
     
-    $('.btn-show-map').click(function(e){
+    $('#btn-show-map').click(function(e){
       showMap();
     });
 
@@ -517,6 +562,15 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
     });
 
     initMap();
+
+    $("#btn-show-notification").click(function(){
+      if($('#notificationPanel').css("display") == "none")
+        $('#notificationPanel').show("fast");
+      else
+        $('#notificationPanel').hide("fast");
+
+      $("#dropdown_searchTop").css("display", "none");
+    });
 
   });
 var typesLabels = {
@@ -673,6 +727,8 @@ function autoCompleteSearch(name){
             if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
+            $('#notificationPanel').hide("fast");
+
  
             addEventOnSearch(); 
           }
