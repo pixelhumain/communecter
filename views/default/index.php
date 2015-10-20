@@ -387,12 +387,12 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php if( empty( $this->notifications )  ){?>
+      <?php //if( empty( $this->notifications )  ){?>
       <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
         <i class="fa fa-bell-o"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
-      <?php } ?>
+      <?php //} ?>
       
 </div>
 

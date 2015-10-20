@@ -78,7 +78,13 @@
 .datepicker .day.active{
 	color:white;
 }
-
+.select2-search-field, .select2-input{
+	width:100% !important;
+	font-size: 14px !important;
+}
+.select2-search-choice{
+	font-size:14px !important;
+}
 </style>
 
 <script type="text/javascript">
@@ -278,13 +284,18 @@ function buildDynForm(){
 	    	}).done( function(data){
 	    		if(data.result)
 	    		{
+	    			if(countEntries == 0)
+	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
+					
 	    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" )
 	            		updateNews(data.object);
 	            	else if( notSubview )
 	            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
+					
+	            	
 					console.dir(data);
 					$.unblockUI();
-					$("#ajaxSV").html('');
+					//$("#ajaxSV").html('');
 					$.hideSubview();
 					toastr.success('Saved successfully!');
 	    		}
