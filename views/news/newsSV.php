@@ -6,7 +6,7 @@
 }
 .form-create-news-container{
 	background-color:#F2F2F2;
-	padding-bottom: 5px !important;
+	padding-bottom: 1px !important;
 	/*background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");*/
 	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
 	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
@@ -85,6 +85,25 @@
 .select2-search-choice{
 	font-size:14px !important;
 }
+.form-create-news-container #s2id_scope.select2ScopeUsersInput{
+	width: 94%;
+	display: inline-block;
+	margin-left: 3%;
+	margin-top: 10px;
+	display:none;
+}
+.select2ScopeUsersInput .select2-container-multi .select2-choices {
+    border: 0px !important;
+}
+.form-create-news-container .publiccheckbox{
+	padding: 10px;
+	margin-top: 7px;
+	width: 60%;
+}
+.form-create-news-container .form-actions{
+	margin-top: -45px !important;
+	
+}
 </style>
 
 <script type="text/javascript">
@@ -133,22 +152,20 @@ var formDefinition = {
             	"inputType" : "date",
             	"placeholder" : "When ?",
             },
-	        // "public" :{
-	        //     	"inputType" : "checkbox",
-	        //     	"placeholder" : "Public",
-	        //     	"values" : true,
-	        //     	"onclick" : "function(){alert()}"
-	        //     },
-	        /*"scope" :{
-	            	"inputType" : "tags",
-	            	"placeholder" : "Scope, Who can see this",
+	       "scope" :{
+	            	"inputType" : "scopeUsers",
+	            	"placeholder" : "Scope : select your contacts",
 	            	"values" : [
-	            		"Sport",
-                    	"Agricutlture",
-                    	"Culture",
-                    	"Urbanisme",
+	            		"All your contacts",
 	            	]
-	            },*/
+	            },
+	         "public" :{
+	            	"inputType" : "checkbox",
+	            	"placeholder" : "<i class='fa fa-users'></i> Scope : all your contacts",
+	            	"value" : "scopePublic",
+	            	"checked" : true,
+	            	"onclick" : "showScope()"
+	            },
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
@@ -293,7 +310,7 @@ function buildDynForm(){
 	            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
 					
 	            	
-					console.dir(data);
+					//console.dir(data);
 					$.unblockUI();
 					//$("#ajaxSV").html('');
 					$.hideSubview();
@@ -309,5 +326,11 @@ function buildDynForm(){
 			return false;
 		}
 	});
+}
+
+function showScope(){ 
+	if( $("input#public").prop('checked') != true )
+	$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");
+	else $(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide("fast");
 }
 </script>
