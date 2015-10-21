@@ -50,6 +50,9 @@ svg{
  .leaflet-popup-content .pod-local-actors .list-group{
  	margin-bottom: -10px;
  }
+ .marker-cluster{
+ 	z-index:480;
+ }
 /*   ############################### */
 
 
