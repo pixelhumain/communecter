@@ -29,11 +29,11 @@ $this->renderPartial('../default/panels/toolbar');
 <!-- start: PAGE CONTENT -->
 <div class="row">
 
-  <div class="col-sm-4 col-xs-12">
+  <div class="col-sm-4 col-xs-12" id="pod-local-actors">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title text-blue">LOCAL ACTORS </h4>
-		    <div class="panel-tools">
+        <h3 class="panel-title text-blue">LOCAL ACTORS </h3>
+		    <div class="panel-tools" style="display:block">
         	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
         </div>
       </div>
@@ -180,12 +180,10 @@ jQuery(document).ready(function() {
 
 
 function initCityMap(){
-  //console.dir(contextMap);
-  //Sig.clearMap();
-  //console.log(contextMap);
+  
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
-  //return;
+  
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
 
@@ -198,10 +196,18 @@ function initCityMap(){
   Sig.allowMouseoverMaker = false;
   
   markerCity.openPopup();
+  Sig.map.setZoom(13, {animate:false});
   Sig.map.panTo(latlng, {animate:false});
-  Sig.centerSimple(latlng, 13);
-  Sig.currentMarkerPopupOpen = null;//markerCity;  
+  //Sig.centerSimple(latlng, 13);
+  Sig.currentMarkerPopupOpen = markerCity;  
   
+  if(typeof city["geoShape"] != "undefined"){
+    var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
+    Sig.showPolygon(geoShape);
+    Sig.map.setZoom(20, {animate:false});
+    Sig.map.fitBounds(geoShape);
+  }
+
   $("#btn-center-city").click(function(){
     Sig.currentMarkerPopupOpen = null;//markerCity;  
     //markerCity.openPopup();

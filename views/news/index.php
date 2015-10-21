@@ -25,7 +25,7 @@ if( !isset($_GET["isNotSV"])) {
 }
 ?>
 
-<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-6">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -103,6 +103,7 @@ foreach($news as $key => $oneNews){
 var news = <?php echo json_encode($news)?>;
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
+var countEntries = 0;
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
@@ -143,7 +144,8 @@ function buildTimeLine ()
 	console.log("buildTimeLine",Object.keys(news).length);
 	
 	//insertion du formulaire CreateNews dans le stream
-	var formCreateNews = $("#formCreateNewsTemp").html();
+	var formCreateNews = $("#formCreateNewsTemp");//.html();
+	//alert(formCreateNews);
 	
 	currentMonth = null;
 	countEntries = 0;
@@ -158,26 +160,36 @@ function buildTimeLine ()
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
-			if(countEntries == 0)
-			$(".newsTL"+date.getMonth()).append(
-				"<li class='newsFeed'><div class='timeline_element partition-white no-padding' style='min-width:85%;'>" 
-				+ formCreateNews 
-				+ "</div></li>");
+			if(countEntries == 0){
+				$(".newsTL"+date.getMonth()).append(
+					"<li class='newsFeed'>"+
+						"<div id='newFeedForm' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
+					"</li>"); //<div id='formCreateNewsTemp' class='timeline_element partition-white no-padding' style='min-width:85%;'>" 
+				
+				//$("#formCreateNewsTemp").remove();	
+				$("#newFeedForm").append(formCreateNews);
+				
+				//	+ formCreateNews 
+				//	+ "</div></li>");
+			}
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
 	if(!countEntries){
-		var date = new Date( );
-		$(".newsTL").html("<div class='col-md-6 text-extra-large'>"+formCreateNews+"</div>");
-		$(".newsTL").append("<div class='col-md-6 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+		var date = new Date( ); 
+		//$("#formCreateNewsTemp").remove();
+		$(".newsTL").html("<div id='newFeedForm' class='col-md-7 text-extra-large'></div>");
+		$("#newFeedForm").append(formCreateNews);
+		//$("#formCreateNews").append(formCreateNews);
+		$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 		
 	}else{
 		//deplacement du formulaire dans le stream
 		showFormBlock(false);
 	}
 	
-	$("#formCreateNewsTemp").html("");			
+	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
 }
 
@@ -386,7 +398,7 @@ function buildLineHTML(newsObj)
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
 	else {
-		if(newsObj.author.id)
+		if(typeof newsObj.author.id != "undefined")
 			authorId=newsObj.author.id;
 		else
 			authorId=newsObj.author._id.$id;
@@ -568,12 +580,17 @@ function showFormBlock(bool){
 		$(".form-create-news-container #text").show("fast");
 		$(".form-create-news-container .tagstags").show("fast");
 		$(".form-create-news-container .datedate").show("fast");
-		$(".form-create-news-container .form-actions").show("fast");	
+		$(".form-create-news-container .form-actions").show("fast");
+		$(".form-create-news-container .publiccheckbox").show("fast");
+		if($("input#public").prop('checked') != true)
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
 	}else{
 		$(".form-create-news-container #text").hide();
 		$(".form-create-news-container .tagstags").hide();
 		$(".form-create-news-container .datedate").hide();
 		$(".form-create-news-container .form-actions").hide();
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
+		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }
 </script>

@@ -327,8 +327,16 @@
 		};
 
 		Sig.getPopupCity = function(dataTxt){
-							
-			var popupContent = "<h1>"+dataTxt+"</h1></br>";
+			var localActors = "";
+			if($("#pod-local-actors").length > 0){ console.log("try to catch local actors");
+				localActors = $("#pod-local-actors").html();
+			}
+			var popupContent = '<div class="pod-local-actors">' +
+									"<h4 class='panel-title text-blue'>"+
+										"<i class='fa fa-university'></i> "+dataTxt+
+									"</h4>" + 
+									localActors +
+								'</div>';
 			return popupContent;
 		};
 
