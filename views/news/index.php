@@ -149,6 +149,7 @@ function buildTimeLine ()
 	countEntries = 0;
 	$.each( news , function(key,newsObj)
 	{
+		console.log(newsObj);
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
@@ -183,7 +184,7 @@ function buildTimeLine ()
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
-	//console.log(newsObj);
+	console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -259,11 +260,13 @@ function buildLineHTML(newsObj)
 		}
 	} 
 	var imageBackground = "";
+	if(typeof newsObj.author != "undefined"){
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
 	}
 	if (typeof newsObj.type == "events"){
 		newsObj.author.type = "";		
+	}
 	}
 	//console.dir(newsObj);
 	//if (newsObj.type=="projects"){
@@ -278,7 +281,7 @@ function buildLineHTML(newsObj)
 		icon = "fa-rss";
 		colorIcon="blue";
 	}
-
+//alert();
 	///// Image Backgound
 	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
 		imagePath = baseUrl+'/'+newsObj.imageBackground;
@@ -303,9 +306,9 @@ function buildLineHTML(newsObj)
 		}else {
 			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
-		}else{
+	}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-			if(contextParentType == "projects" && typeof(newsObj.verb) != "undefined"){
+			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(newsObj.verb) != "undefined"){
 				if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
 					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 

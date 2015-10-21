@@ -732,7 +732,6 @@ function autoCompleteSearch(name){
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
