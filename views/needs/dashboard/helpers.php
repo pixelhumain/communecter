@@ -199,7 +199,7 @@ function acceptHelp(){
 $(".acceptHelp").off().on("click",function () {
 	var idHelper = $(this).data("id");
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        bootbox.confirm("Are you sure you want the help help <span class='text-red'>"+$(this).data("name")+"</span>?", 
+	        bootbox.confirm("Are you sure you want the help from <span class='text-red'>"+$(this).data("name")+"</span>?", 
 			function(result) {
 					if (result) {
 						$.ajax({
@@ -224,7 +224,6 @@ $(".acceptHelp").off().on("click",function () {
 }
 function addAttentConfirmBox(helper, bool){
 	if(bool == 0){
-		alert("ici");
 		console.log(helper);
 		divHelper = '<div class="col-md-3 col-xs-4 center padding-10 helperBox'+helper._id["$id"]+'">'+
 						'<a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+helper._id["$id"]+'" title="wait for validation">';

@@ -236,7 +236,10 @@ class Menu {
         
         $id = (string)$project["_id"];
         
-        
+        //SEE TIMELINE
+        //-----------------------------
+        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+
 
         //SEE DISCUSSION ROOMS
         //-----------------------------

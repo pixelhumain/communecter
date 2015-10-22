@@ -141,6 +141,7 @@ class CommunecterController extends Controller
         "index" => array("href" => "/ph/communecter/needs/index"),
         "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
         "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
+        "detail" => array("href" => "/ph/communecter/needs/detail"),
         "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
         "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
         "addhelpervalidation" => array("href" => "/ph/communecter/needs/addhelpervalidation"),

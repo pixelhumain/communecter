@@ -25,7 +25,7 @@ if( !isset($_GET["isNotSV"])) {
 }
 ?>
 
-<div id="formCreateNewsTemp" style="float: none;" class="center-block col-md-8">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -103,6 +103,7 @@ foreach($news as $key => $oneNews){
 var news = <?php echo json_encode($news)?>;
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
+var countEntries = 0;
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
@@ -143,12 +144,14 @@ function buildTimeLine ()
 	console.log("buildTimeLine",Object.keys(news).length);
 	
 	//insertion du formulaire CreateNews dans le stream
-	var formCreateNews = $("#formCreateNewsTemp").html();
+	var formCreateNews = $("#formCreateNewsTemp");//.html();
+	//alert(formCreateNews);
 	
 	currentMonth = null;
 	countEntries = 0;
 	$.each( news , function(key,newsObj)
 	{
+		console.log(newsObj);
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
@@ -157,29 +160,36 @@ function buildTimeLine ()
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
-			if(countEntries == 0)
-			$(".newsTL"+date.getMonth()).append(
-				"<li class='newsFeed'><div class='timeline_element partition-white no-padding' style='min-width:85%;'>" + formCreateNews + "</div></li>");
+			if(countEntries == 0){
+				$(".newsTL"+date.getMonth()).append(
+					"<li class='newsFeed'>"+
+						"<div id='newFeedForm' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
+					"</li>"); //<div id='formCreateNewsTemp' class='timeline_element partition-white no-padding' style='min-width:85%;'>" 
+				
+				//$("#formCreateNewsTemp").remove();	
+				$("#newFeedForm").append(formCreateNews);
+				
+				//	+ formCreateNews 
+				//	+ "</div></li>");
+			}
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
 	if(!countEntries){
-		$(".newsTL").html("<div class='center text-extra-large'>Sorry, no news available</div>");
+		var date = new Date( ); 
+		//$("#formCreateNewsTemp").remove();
+		$(".newsTL").html("<div id='newFeedForm' class='col-md-7 text-extra-large'></div>");
+		$("#newFeedForm").append(formCreateNews);
+		//$("#formCreateNews").append(formCreateNews);
+		$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+		
 	}else{
 		//deplacement du formulaire dans le stream
-		$("#formCreateNewsTemp").html("");		
 		showFormBlock(false);
-		$(".form-create-news-container #name").focus(function(){
-			showFormBlock(true);	
-		});
-
-		$(".form-create-news-container #name").focusout(function(){
-			if($(".form-create-news-container #name").val() == ""){
-				showFormBlock(false);
-			}
-		});
 	}
+	
+	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
 }
 
@@ -247,31 +257,28 @@ function buildLineHTML(newsObj)
 				typeId="id";
 				urlParent="";
 			} 
-			<?php if (isset($_GET["isNotSV"])){ ?> 
-				url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			<?php } else{ ?>
-				url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+newsObj.id+urlParent+'"';
-			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
+		<?php if (isset($_GET["isNotSV"])){ ?> 
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
+		<?php } else{ ?>
+			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+newsObj.id+urlParent+'"';
 		<?php } ?>
-
 		}
 		else{
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-			//url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
-		<?php } else{ ?>
+			<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.id+'"';
-			//url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+newsObj.id+'"';
 		<?php } ?>
 		}
 	} 
 	var imageBackground = "";
+	if(typeof newsObj.author != "undefined"){
 	if(typeof newsObj.author.type == "undefined") {
 		newsObj.author.type = "people";
 	}
 	if (typeof newsObj.type == "events"){
 		newsObj.author.type = "";		
+	}
 	}
 	//console.dir(newsObj);
 	//if (newsObj.type=="projects"){
@@ -286,7 +293,7 @@ function buildLineHTML(newsObj)
 		icon = "fa-rss";
 		colorIcon="blue";
 	}
-
+//alert();
 	///// Image Backgound
 	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
 		imagePath = baseUrl+'/'+newsObj.imageBackground;
@@ -311,9 +318,9 @@ function buildLineHTML(newsObj)
 		}else {
 			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
-		}else{
+	}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-			if(contextParentType == "projects" && typeof(newsObj.verb) != "undefined"){
+			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(newsObj.verb) != "undefined"){
 				if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
 					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
@@ -390,11 +397,15 @@ function buildLineHTML(newsObj)
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
-	else if(newsObj.author.id){
+	else {
+		if(typeof newsObj.author.id != "undefined")
+			authorId=newsObj.author.id;
+		else
+			authorId=newsObj.author._id.$id;
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
+			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+authorId+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+authorId+'\')"';
 		<?php } else{ ?>
-			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
+			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+authorId+'"';
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
 		//var personName = newsObj.author.name;
@@ -406,8 +417,8 @@ function buildLineHTML(newsObj)
 			urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		<?php } else{ ?>
 			urlAuthor = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
-	authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
 		<?php } ?>
+		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
 	}
 	else 
 		authorLine="";
@@ -416,40 +427,40 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 
-	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' "><div class="timeline_element partition-'+color+'">'+
-					tags+
-					scopes+
-					'<div class="space1"></div>'+ 
-					imageBackground+
-					'<div class="timeline_author_block">'+
-						objectLink+
-						'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
-						'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +
-					
+	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' ">'+
+					'<div class="timeline_element partition-'+color+'">'+
+						tags+
+						scopes+
+						'<div class="space1"></div>'+ 
+						imageBackground+
+						'<div class="timeline_author_block">'+
+							objectLink+
+							'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
+							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
+						'</div>'+
+						'<div class="space5"></div>'+
+						'<a '+url+'>'+
+							'<div class="timeline_title">'+
+								'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
+								'</span>'+
+							'</div>'+
+							'<div class="space5"></div>'+
+							'<span class="timeline_text">'+ text + '</span>' +	
+						'</a>'+
+						'<div class="space5"></div>'+
+						'<span class="timeline_text">'+ authorLine + '</span>' +
+						'<div class="space10"></div>'+
+						
+						'<hr>'+
+						"<div class='bar_tools_post pull-left'>"+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
+							"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
+							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
+						"</div>"+
 					'</div>'+
-					'<div class="space5"></div>'+
-					'<a '+url+'>'+
-					'<div class="timeline_title">'+
-						'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+title+
-						'</span>'+
-
-					'</div>'+
-					'<div class="space5"></div>'+
-					'<span class="timeline_text">'+ text + '</span>' +	
-					'</a>'+
-					'<div class="space5"></div>'+
-					'<span class="timeline_text">'+ authorLine + '</span>' +
-					'<div class="space10"></div>'+
-					
-					'<hr>'+
-					"<div class='bar_tools_post pull-left'>"+
-					"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-					"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-					"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
-					//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
-					"</div>"+
-				'</div></li>';
+				'</li>';
 
 	return newsTLLine;
 }
@@ -499,6 +510,16 @@ function bindEvent(){
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
+	});
+
+	$(".form-create-news-container #name").focus(function(){
+		showFormBlock(true);	
+	});
+
+	$(".form-create-news-container #name").focusout(function(){
+		if($(".form-create-news-container #name").val() == ""){
+			showFormBlock(false);
+		}
 	});
 }
 
@@ -559,12 +580,17 @@ function showFormBlock(bool){
 		$(".form-create-news-container #text").show("fast");
 		$(".form-create-news-container .tagstags").show("fast");
 		$(".form-create-news-container .datedate").show("fast");
-		$(".form-create-news-container .form-actions").show("fast");	
+		$(".form-create-news-container .form-actions").show("fast");
+		$(".form-create-news-container .publiccheckbox").show("fast");
+		if($("input#public").prop('checked') != true)
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
 	}else{
 		$(".form-create-news-container #text").hide();
 		$(".form-create-news-container .tagstags").hide();
 		$(".form-create-news-container .datedate").hide();
 		$(".form-create-news-container .form-actions").hide();
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
+		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }
 </script>

@@ -88,7 +88,6 @@
 			if(nbTotal > this.paginationBy){
 
 				var nbPage = nbTotal / this.paginationBy;
-				console.log("num page pagination : " + nbPage);
 				this.paginationNumPageMax = nbPage;
 
 				$("#pagination").html(

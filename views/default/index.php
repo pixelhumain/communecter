@@ -115,13 +115,12 @@ li.mix{
   color: rgba(17, 97, 104, 0.66) !important;
 }
 
-#menu-top-container .btn-show-map{
-  right: 0px;
+#menu-top-container .btn-menu-top{
   height: 56px;
-  width: 60px;
+  width: 70px;
   top: 0px;
   position: absolute;
-  font-size: 18px;
+  font-size: 20px;
   padding: 8px 6px;
   color: rgba(255, 255, 255, 0.7) !important;
   background-color: rgba(38, 88, 108, 0.73);
@@ -141,14 +140,80 @@ li.mix{
 
 .searchEntry i.fa{
   border-radius:30px;
-  /*background-color: white;*/
   padding: 10px 13px;
   vertical-align: middle;
   margin-top: -5px;
-  /*color:#155869 !important;*/
 }
 .searchEntry i.fa:hover{
 }
+
+.moduleLabel{
+  margin-left:70px;
+}
+
+#btn-show-map{
+  left: 0px !important;
+}
+
+/* NOTIFICATIONS */
+#btn-show-notification{
+  right:0px !important;
+  position:absolute;
+}
+#btn-show-notification i.fa{
+  margin-right: 10px;
+}
+#btn-show-notification .badge{
+  position: absolute;
+  top: 32%;
+  left: 47%;
+}
+#btn-show-notification .badge.badge-danger{
+  background-color: #D9534F !important;
+}
+#btn-show-notification .badge.badge-info{
+  /*background-color: #D9534F !important;*/
+}
+#notificationPanel{
+    float: right;
+    margin: 56px 0px 0px 50px;
+    background-color: rgba(82, 129, 149, 0.71);
+    color: white;
+    position: absolute;
+    right: 0px;
+    z-index: 1000;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
+    
+}
+.notifications{
+  background-color: transparent;
+
+}
+.notifications li{
+  list-style-type: none;
+}
+.pageslide-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+.pageslide-list{
+  padding: 0px;
+}
+.pageslide-list .btn-primary {
+    color: #2A5B6E;
+    background-color: #C1D4DD;
+    border-color: rgba(187, 211, 222, 0.59);
+}
+.pageslide-list .btn-primary:hover {
+    color: #C1D4DD;
+    background-color: #2A5B6E;
+    
+}
+/* NOTIFICATIONS */
+
+
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -311,23 +376,24 @@ li.mix{
 <div class="center pull-left" id="menu-top-container" style="" >
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
     
-      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map-marker"></i></button>  
+      <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
-          <ol class="li-dropdown-scope">-</ol>
+          <ol class="li-dropdown-scope">Recherche en cours</ol>
         </ul>
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php /*if( empty( $this->notifications )  ){?>
-        <a href="javascript:;" onclick="$('#notificationPanel').slideToggle()" >
-          <i class="fa fa-bell-o fa-2x"></i>
-          <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
-        </a>
-        <?php } */?>
+
+      <?php //if( empty( $this->notifications )  ){?>
+      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
+        <i class="fa fa-bell-o"></i>
+        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+      </button>
+      <?php //} ?>
       
 </div>
 
@@ -426,8 +492,9 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
 
-  jQuery(document).ready(function() {
-    //console.dir(proverbs);
+
+jQuery(document).ready(function() {
+    console.dir(proverbs);
     
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
@@ -471,23 +538,28 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
           timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
         }else{
           $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
         }   
     });
 
     $('#searchBar').focusin(function(e){
-      if($("#searchBar").val() != "")
-      $('#dropdown_searchTop').css("display" , "inline");
+      if($("#searchBar").val() != ""){
+        $('#dropdown_searchTop').css("display" , "inline");
+        $('#notificationPanel').hide("fast");
+      }
     });
     
     $('.mapCanvas').click(function(e){
       $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
     });
     
     $('#ajaxSV').click(function(e){
       $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
     });
     
-    $('.btn-show-map').click(function(e){
+    $('#btn-show-map').click(function(e){
       showMap();
     });
 
@@ -516,9 +588,18 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
       showMap(false);
     });
 
-    initMap();
+    $("#btn-show-notification").click(function(){
+      if($('#notificationPanel').css("display") == "none"){
+        $('#notificationPanel').show("fast");
+      }else{
+        $('#notificationPanel').hide("fast");
+      }
+      $("#dropdown_searchTop").css("display", "none");
+    });
 
-  });
+    initMap();
+});
+
 var typesLabels = {
   "<?php echo Organization::COLLECTION ?>":"Organization",
   "<?php echo Event::COLLECTION ?>":"Event",
@@ -653,7 +734,6 @@ function autoCompleteSearch(name){
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
@@ -670,14 +750,21 @@ function autoCompleteSearch(name){
               })
             }
             }); 
-            if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
+            if(str == "") str = "<ol class='li-dropdown-scope'><i class='fa fa-ban'></i> Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
+            $('#notificationPanel').hide("fast");
+
  
             addEventOnSearch(); 
           }
       } 
     });
+
+    str = "<ol class='li-dropdown-scope'><i class='fa fa-circle-o-notch fa-spin'></i> Recherche en cours</ol>";
+    $("#dropdown_searchTop").html(str);
+    $("#dropdown_searchTop").css({"display" : "inline" });
+                    
   }
 
   function addEventOnSearch() {
