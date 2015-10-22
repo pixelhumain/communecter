@@ -235,11 +235,6 @@ class Menu {
             Yii::app()->controller->toolbarMBZ = array();
         
         $id = (string)$project["_id"];
-        
-        //SEE TIMELINE
-        //-----------------------------
-        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
-
 
         //SEE DISCUSSION ROOMS
         //-----------------------------
@@ -255,7 +250,7 @@ class Menu {
 
         //SEE TIMELINE
         //-----------------------------
-        self::entry( null,"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
 
         //DIRECTORY
         //-----------------------------

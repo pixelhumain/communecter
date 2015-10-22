@@ -72,8 +72,8 @@
 		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
 		rand = Math.floor((Math.random() * 8) + 1);
 		$.blockUI({message : '<br/><i class="fa fa-spinner fa-spin"></i> Processing... <br/><br/> '
-			//+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
-			//+ '<img src="'+proverbs[rand]+'" width="250" style="border:5px solid #666"/></a>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" width="250" style="border:5px solid #666"/></a>'
 			+'<br/><br/>'
 			});
 		$(".ajaxForm").hide();

@@ -572,7 +572,7 @@ jQuery(document).ready(function() {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
         console.log("popstate",url);
-        loadByHash(location.hash);
+        //loadByHash(location.hash);
       }
     });
     if( "onhashchange" in window && location.hash){
