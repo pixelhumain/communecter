@@ -25,10 +25,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <!-- *** NEW PROJECT *** -->
-<?php /*if( @$isNotSV ){ ?>
-<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php }*/ 
-
+<?php if( @$isNotSV ){ 
+	$this->renderPartial('../default/panels/toolbar'); 
+}
 
 if( !isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/mapFormSV'); 

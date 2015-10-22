@@ -25,9 +25,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-<?php 
-if( isset($_GET["isNotSV"])) 
+<?php if( @$isNotSV ){ 
 	$this->renderPartial('../default/panels/toolbar'); 
+}?>
+<?php 
 
 if( !isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/mapFormSV'); 

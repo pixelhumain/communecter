@@ -18,14 +18,14 @@ class Menu {
         $active = (Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array( 'tooltip' => "Person Details : ".$person['name'],
                                                                 "iconClass"=>"fa fa-user",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         
         //SEND MESSAGE
         //-----------------------------
         if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && $person["_id"] != Yii::app()->session["userId"]){
             array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Send a message to this Person",
                                                                 "iconClass"=>"fa fa-envelope-o",
-                                                                "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Person::COLLECTION."' data-name='".$person['name']."'") );
+                                                                "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Person::COLLECTION."' data-name='".$person['name']."'") );
         
         }
         
@@ -35,7 +35,7 @@ class Menu {
         $onclick = "showAjaxPanel( '/person/directory/id/".$id."?tpl=directory2&isNotSV=1', 'DIRECTORY ','users' )";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => $person['name']."'s PUBLIC DIRECTORY",
                                                                 "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -44,7 +44,7 @@ class Menu {
             if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && Link::isConnected( Yii::app()->session['userId'] , Person::COLLECTION , (string)$person["_id"] , Person::COLLECTION ))
                 $htmlFollowBtn = array('tooltip' => "Unfollow this Person", 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
-                                        "href"=>"<a href='#' class='unfollowBtn text-red tooltips btn btn-default' data-name=\"".$person["name"]."\" data-id='".$person["_id"]."' data-type='".Person::COLLECTION."' data-ownerlink='".link::person2person."' ");
+                                        "href"=>"<a href='javascript:;' class='unfollowBtn text-red tooltips btn btn-default' data-name=\"".$person["name"]."\" data-id='".$person["_id"]."' data-type='".Person::COLLECTION."' data-ownerlink='".link::person2person."' ");
             else
                 $htmlFollowBtn = array('tooltip' => "Follow this Person", 
                                         "iconClass"=>"connectBtnIcon fa fa-unlink",
@@ -58,7 +58,7 @@ class Menu {
             $onclick = "showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');";
             array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Add Something to My Network",
                                                                 "iconClass"=>"fa fa-plus",
-                                                                "href"=>"<a  class='tooltips btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         }
     }
 
@@ -75,14 +75,14 @@ class Menu {
         $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Details",
                                                                 "iconClass"=>"fa fa-home",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         
         //SEND MESSAGE
         //-----------------------------
         if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
             array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Send a message to this Organization",
                                                                     "iconClass"=>"fa fa-envelope-o",
-                                                                    "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
+                                                                    "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
         }
         
         //SEE TIMELINE
@@ -91,7 +91,7 @@ class Menu {
         $active = (Yii::app()->controller->id == "news" && Yii::app()->controller->action->id == "index" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "TIMELINE : Organization Activity",
                                                               "iconClass"=>"fa fa-rss",
-                                                              "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                              "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         
         //ACTION ROOMS
         //-----------------------------
@@ -99,7 +99,7 @@ class Menu {
         $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
                                                               "iconClass"=>"fa fa-legal",
-                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         */
         //DIRECTORY
         //-----------------------------
@@ -107,7 +107,7 @@ class Menu {
         $onclick = "showAjaxPanel( '/organization/directory/id/".$id."?tpl=directory2&isNotSV=1', 'ORGANIZATION MEMBERS ','users' )";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "MEMBERS : Organization participants",
                                                                 "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
 
         // ADD MEMBER
         //-----------------------------
@@ -115,7 +115,7 @@ class Menu {
         $onclick = "showAjaxPanel( '/organization/addmember/id/".$id."?isNotSV=1', 'ADD A MEMBER','plus' )";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "ADD MEMBER : Organization participants",
                                                                 "iconClass"=>"fa fa-plus",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -124,7 +124,7 @@ class Menu {
             if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked((string)$organization["_id"], Organization::COLLECTION , Yii::app()->session["userId"]))
                 $htmlFollowBtn = array('tooltip' => "leave this Organization", 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
-                                        "href"=>"<a href='#' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
+                                        "href"=>"<a href='javascript:;' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
             else
                 $htmlFollowBtn = array('tooltip' => "join this Organization", 
                                         "iconClass"=>"connectBtnIcon fa fa-unlink",
@@ -135,7 +135,7 @@ class Menu {
             if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id)) {
                 array_push(Yii::app()->controller->toolbarMBZ, array('tooltip' => "Declare me as admin of this organization",   
                                                                      "iconClass"=>"fa fa-user-plus",
-                                                                     "href"=>"<a href='#' class='declare-me-admin tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
+                                                                     "href"=>"<a href='javascript:;' class='declare-me-admin tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
             }
         } 
     }
@@ -153,13 +153,13 @@ class Menu {
         $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Details",
                                                                 "iconClass"=>"fa fa-university",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         
         //SEND MESSAGE
         //-----------------------------
         /*array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Send a message to this City",
                                                                 "iconClass"=>"fa fa-envelope-o",
-                                                                "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-id='".$insee."' data-type='".City::COLLECTION."' data-name='".$city['name']."'") );
+                                                                "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-id='".$insee."' data-type='".City::COLLECTION."' data-name='".$city['name']."'") );
         */
         
         //SEE TIMELINE
@@ -168,7 +168,7 @@ class Menu {
         $active = (Yii::app()->controller->id == "news" && Yii::app()->controller->action->id == "index" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "TIMELINE : City Activity",
                                                               "iconClass"=>"fa fa-rss",
-                                                              "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );*/
+                                                              "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );*/
         
         //ACTION ROOMS
         //-----------------------------
@@ -176,7 +176,7 @@ class Menu {
         $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
                                                               "iconClass"=>"fa fa-legal",
-                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         */
         //DIRECTORY
         //-----------------------------
@@ -184,7 +184,7 @@ class Menu {
         $onclick = "showAjaxPanel( '/city/directory/insee/".$insee."?tpl=directory2&isNotSV=1', 'CITY NETWORK ','share-alt' )";
         array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "LOCAL NETWORK",
                                                                 "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
 
         //STATISTICS
         //-----------------------------
@@ -192,7 +192,7 @@ class Menu {
         $active = (Yii::app()->controller->id == "city" && Yii::app()->controller->action->id == "opendata" ) ? "active" : "";
         array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Statistics",
                                                                 "iconClass"=>"fa fa-line-chart",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         //FOLLOW BUTTON
         //-----------------------------
         /*if( !isset( $organization["disabled"] ) ){
@@ -200,7 +200,7 @@ class Menu {
             if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked((string)$organization["_id"], Organization::COLLECTION , Yii::app()->session["userId"]))
                 $htmlFollowBtn = array('tooltip' => "leave this Organization", 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
-                                        "href"=>"<a href='#' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
+                                        "href"=>"<a href='javascript:;' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
             else
                 $htmlFollowBtn = array('tooltip' => "join this Organization", 
                                         "iconClass"=>"connectBtnIcon fa fa-unlink",
@@ -211,7 +211,7 @@ class Menu {
             if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id)) {
                 array_push(Yii::app()->controller->toolbarMBZ, array('tooltip' => "Declare me as admin of this organization",   
                                                                      "iconClass"=>"fa fa-user-plus",
-                                                                     "href"=>"<a href='#' class='declare-me-admin tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
+                                                                     "href"=>"<a href='javascript:;' class='declare-me-admin tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
             }
         } */
     }
@@ -225,7 +225,7 @@ class Menu {
         //-----------------------------
         array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Post Something",
                                                                 "iconClass"=>"fa fa-envelope-o",
-                                                                "href"=>"<a href='#' class='new-news tooltips btn btn-default' data-notsubview='1' ") );
+                                                                "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-notsubview='1' ") );
         
     }
 
@@ -236,9 +236,7 @@ class Menu {
         
         $id = (string)$project["_id"];
         
-        //SEE TIMELINE
-        //-----------------------------
-        self::entry( null,"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+        
 
         //SEE DISCUSSION ROOMS
         //-----------------------------
@@ -251,6 +249,10 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry('showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/".$id."',"project","detail");
+
+        //SEE TIMELINE
+        //-----------------------------
+        self::entry( null,"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
 
         //DIRECTORY
         //-----------------------------
@@ -266,13 +268,13 @@ class Menu {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips ".$active." btn btn-default' href='#' onclick=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
         } 
         else 
         {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
-                            "href"      => "<a href='#' class='".$class." tooltips btn btn-default' data-notsubview='1' ");
+                            "href"      => "<a href='javascript:;' class='".$class." tooltips btn btn-default' data-notsubview='1' ");
         }
         array_push( Yii::app()->controller->toolbarMBZ, $entry);
     }
