@@ -105,8 +105,17 @@
 	
 }
 </style>
-
+<?php
+	$myContacts = Person::getPersonKnowsByPersonId(Yii::app()->session['userId']);
+	$myFormContact = array();
+	foreach ($myContacts as $key => $contact) {
+		$myFormContact[] = $contact["name"]; 
+	}
+?>
 <script type="text/javascript">
+var myContacts = <?php echo json_encode($myFormContact) ?>;
+//console.log("mycontacts");
+//console.dir(myContacts);
 
 var formDefinition = {
     "jsonSchema" : {
@@ -155,9 +164,10 @@ var formDefinition = {
 	       "scope" :{
 	            	"inputType" : "scopeUsers",
 	            	"placeholder" : "Scope : select your contacts",
-	            	"values" : [
-	            		"All your contacts",
-	            	]
+	            	"values" : myContacts,
+	            	// [
+	            	// 	"All your contacts",
+	            	// ]
 	            },
 	         "public" :{
 	            	"inputType" : "checkbox",
