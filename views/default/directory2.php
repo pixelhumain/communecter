@@ -356,8 +356,10 @@ var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
 	
 jQuery(document).ready(function() {
-	$("#tagFilters").html('<?php echo $tagsHTMLFull ?>');
-	$("#scopeFilters").html('<?php echo $scopesHTMLFull ?>');
+	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
+	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
+	$("#tagFilters").html(tagFilters);
+	$("#scopeFilters").html(scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);
