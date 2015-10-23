@@ -21,24 +21,34 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   left:0px;
   padding: 10px 0px 10px 18px;
   width:100%;    
-  background-color: rgba(255, 255, 255, 0.56);
+  background-color: rgba(255, 255, 255, 1);
+  -moz-box-shadow:    0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+  -o-box-shadow:      0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+  box-shadow:         0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
 }
 
 #menu-container{
-  background-color: rgba(255, 255, 255, 0.58) !important;
+  background-color: rgba(49, 92, 110, 0.83) !important;
   padding: 10px;
-  border-radius: 0px 0px 10px 0px;
+  border-radius: 0px 0px 0px 0px;
   z-index: 1;
   position: fixed;
   top: 56px;
   left: 0px;
   border: none;
+  -moz-box-shadow:    2px 0px 2px -2px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 0px 2px -2px rgba(0, 0, 0, 0.4);
+  -o-box-shadow:      2px 0px 2px -2px rgba(0, 0, 0, 0.4);
+  box-shadow:         2px 0px 2px -2px rgba(0, 0, 0, 0.4);
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
 }
-#menu-container a.text-white {
-    color: rgba(17, 97, 104, 0.69);
+#menu-container a.menuIcon .menu-line {
+    color: #FFF !important;
 }
-#menu-container a.text-white:hover {
-    color: #FFF;
+#menu-container a.menuIcon:hover .menu-line {
+    color: #58879B !important;
 }
 #searchBar{
   height: 56px;
@@ -46,7 +56,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   position: absolute;
   right: 60px;
   border: 0;
-  background-color: rgba(255, 255, 255, 0.63) !important;
+  background-color: rgba(160, 183, 192, 0.18) !important;
   color: #116168 !important;
   padding: 0px 20px;
   width: 272px;
@@ -123,7 +133,7 @@ li.mix{
   font-size: 20px;
   padding: 8px 6px;
   color: rgba(255, 255, 255, 0.7) !important;
-  background-color: rgba(38, 88, 108, 0.73);
+  background-color: #315C6E;
   border: none;
   border-radius: 0px;
 }
@@ -152,12 +162,12 @@ li.mix{
 }
 
 #btn-show-map{
-  left: 0px !important;
+  right: 0px !important;
 }
 
 /* NOTIFICATIONS */
 #btn-show-notification{
-  right:0px !important;
+  left:0px !important;
   position:absolute;
 }
 #btn-show-notification i.fa{
@@ -175,22 +185,31 @@ li.mix{
   /*background-color: #D9534F !important;*/
 }
 #notificationPanel{
-    float: right;
-    margin: 56px 0px 0px 50px;
-    background-color: rgba(82, 129, 149, 0.71);
-    color: white;
-    position: absolute;
-    right: 0px;
-    z-index: 1000;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
+  margin: 0px;
+  background-color: rgba(82, 129, 149, 1);
+  color: #FFF;
+  position: absolute;
+  left: 70px;
+  z-index: 1000;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
+  top: 56px !important;
+  width: 400px !important;
     
 }
 .notifications{
-  background-color: transparent;
-
+    background-color: transparent;
+    padding: 20px 0px !important;
 }
 .notifications li{
   list-style-type: none;
+}
+.notifications a.notif{
+  background-color: white;
+  border-radius: 0px;
+  margin: -1px 0px;
+  padding: 11px;
+  position: relative;
+  padding: 15px 10px;
 }
 .pageslide-title {
     font-size: 11px;
@@ -211,8 +230,35 @@ li.mix{
     background-color: #2A5B6E;
     
 }
+ul.notifList{
+    padding-right:0px; 
+    margin-top:15px;
+    margin-bottom:0px;
+    overflow-x: hidden;
+}
+
 /* NOTIFICATIONS */
 
+/* BLOCK PROCESSING */
+
+.blockMsg{
+  width: 50% !important;
+  top: 17% !important;
+  left: 24% !important;
+}
+.blockMsg img{
+  max-width:70%;
+  height:auto;
+  width:auto;
+}
+.blockMsg .title-processing{
+  padding: 25px;
+  color: #30A8B1;
+  font-size:30px !important;
+  
+}
+
+/* BLOCK PROCESSING */
 
 </style>
 
@@ -247,14 +293,24 @@ li.mix{
     ?>
     
   </div>
-  <div class="col-xs-10 col-xs-offset-1 ">
+  <div class="col-xs-12 col-xs-offset-1 main-col">
 
     
     <style type="text/css">
-      #ajaxSV{top:85px;margin-top:0px;}
+      #ajaxSV{
+        min-height: 500px;
+        display: block;
+        padding: 50px 50px 50px 120px;
+        margin: 0px 0px;
+        top: -23px !important;
+      }
       @media screen and (max-width: 768px) {
         #ajaxSV,.box{top:-100px;}
       }
+      .main-col{
+        margin:0px !important;
+      }
+
     </style>
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
     <div class="box-ajax box box-white-round" id="ajaxSV" style="min-height:500px">
@@ -291,13 +347,16 @@ li.mix{
   LEFT MENU
 **************************** */?>
 <style type="text/css">
+    #menu-container{
+      padding:10px 0px !important;
+    }
     .menuline{
         line-height: 31px;
         font-size: 1.5em;
-        color:#58879B;
+        color:inherit;
         float:right;
         margin-left:5px;
-        min-width: 200px;
+        min-width: 210px;
         text-align: right;
         
     }
@@ -306,6 +365,7 @@ li.mix{
     }
     .menuIcon {
         /*border:1px solid white;*/
+        color: rgba(255, 255, 255, 0.85) !important;
         display: block;
         height: 45px;
         padding: 9px 15px;
@@ -314,12 +374,10 @@ li.mix{
     .menuIcon i {
       margin-left: 5px;
       width: 30px;
-    }
-    #menu-container{
-      padding:10px 0px !important;
+      color: inherit;
     }
     .menuIcon:hover {
-        color:#58879B;
+        color:#58879B !important;;
         background-color: white;
         border: 0px solid #CFDFE4;
         -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
@@ -327,7 +385,7 @@ li.mix{
         box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
     }
     .hoverRed:hover {
-      color:red;
+      color:red !important;
     }
     .menuIcon i{
         float:left;
@@ -376,8 +434,12 @@ li.mix{
 <div class="center pull-left" id="menu-top-container" style="" >
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
     
-      <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
-      <form class="inner pull-right">
+      <?php //if( empty( $this->notifications )  ){?>
+      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
+        <i class="fa fa-bell-o"></i>
+        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+      </button>
+      <?php //} ?><form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
@@ -387,12 +449,8 @@ li.mix{
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php //if( empty( $this->notifications )  ){?>
-      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
-        <i class="fa fa-bell-o"></i>
-        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
-      </button>
-      <?php //} ?>
+      <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
+      
       
 </div>
 
@@ -504,7 +562,7 @@ jQuery(document).ready(function() {
       $('.tooltips').tooltip();
     }
 
-    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { 
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { console.log("easeOutBounce");
       $(".menuline").removeClass("hide");
     });
    $(".menuContainer,#menu-container").mouseout(function() { 
@@ -596,6 +654,7 @@ jQuery(document).ready(function() {
     });
 
     initMap();
+    resizeInterface();
 });
 
 var typesLabels = {
@@ -851,4 +910,9 @@ function togglePanel(activeClass) {
   $(activeClass).slideDown();
 }
 
+function resizeInterface(){
+  var height = $("#mapCanvasBg").height() - 55;
+  $("#ajaxSV").css({"minHeight" : height});
+  $("#menu-container").css({"minHeight" : height});
+}
 </script>

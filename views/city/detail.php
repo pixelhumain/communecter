@@ -211,7 +211,7 @@ function initCityMap(){
   $("#btn-center-city").click(function(){
     Sig.currentMarkerPopupOpen = null;//markerCity;  
     //markerCity.openPopup();
-    showMap(true);
+    showMap();
     markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
