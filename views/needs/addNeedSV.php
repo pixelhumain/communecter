@@ -45,6 +45,12 @@ if (isset($isNotSV)){
 	display:none;
 }
 </style>
+<?php 
+if( @$isNotSV ) {
+	Menu::project($project);
+	$this->renderPartial('../default/panels/toolbar'); 
+}
+?>
 <div id="newNeed">
 	<?php if (@$isNotSV) { ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>

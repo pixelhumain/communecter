@@ -221,11 +221,16 @@ class Menu {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
         
-        //SEND MESSAGE
+        //FILTERs
         //-----------------------------
-        array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Post Something",
-                                                                "iconClass"=>"fa fa-envelope-o",
-                                                                "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-notsubview='1' ") );
+        self::entry('filter','SHOW NEWS ONLY','rss',null,"newsFeed",".news");
+        self::entry('filter','SHOW NETWORK ACTIVITY','exchange',null,"newsFeed",".activityStream");
+        self::entry('filter',"SHOW PEOPLE ENTRIES ONLY",'user',null,"newsFeed",".citoyens");
+        self::entry('filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
+        self::entry('filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
+        self::entry('filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
+        self::entry('onclick',"show tag filters",'tags',"toggleFilters('#tagFilters')",null,null);
+        self::entry('onclick',"show scope filters",'circle-o',"toggleFilters('#scopeFilters')",null,null);
         
     }
 
@@ -246,11 +251,11 @@ class Menu {
 
         //HOME
         //-----------------------------
-        self::entry('showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/".$id."',"project","detail");
+        self::entry('showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/'.$id,"project","detail");
 
         //SEE TIMELINE
         //-----------------------------
-        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id,"news","index",null );
+        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id."?isNotSV=1","news","index",null );
 
         //DIRECTORY
         //-----------------------------
@@ -268,11 +273,26 @@ class Menu {
                             "badge"     => $badge,
                             "href"      => "<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
         } 
+        else if( $type == 'filter')
+        {
+            $entry = array( 'tooltip'    => $title,
+                            "iconClass" => "fa fa-".$icon,
+                            "badge"     => $badge,
+                            "href"      => "<a  class='tooltips filter btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
+        } 
+        else if( $type == 'onclick')
+        {
+            $onclick = $url;
+            $entry = array( 'tooltip'    => $title,
+                            "iconClass" => "fa fa-".$icon,
+                            "badge"     => $badge,
+                            "href"      => "<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
+        } 
         else 
         {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
-                            "href"      => "<a href='javascript:;' class='".$class." tooltips btn btn-default' data-notsubview='1' ");
+                            "href"      => "<a href='javascript:;' class='".$class." coco tooltips btn btn-default' data-notsubview='1' ");
         }
         array_push( Yii::app()->controller->toolbarMBZ, $entry);
     }
