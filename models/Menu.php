@@ -14,11 +14,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        $onclick = "showAjaxPanel( '/person/detail/id/".$id."', 'PERSON DETAIL ','user' )";
-        $active = (Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
-        array_push( Yii::app()->controller->toolbarMBZ, array( 'tooltip' => "Person Details : ".$person['name'],
-                                                                "iconClass"=>"fa fa-user",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel',"Person Details : ".$person['name'],'user','/person/detail/id/'.$id,"person","detail");
         
         //SEND MESSAGE
         //-----------------------------
@@ -31,12 +27,8 @@ class Menu {
         
         //DIRECTORY
         //-----------------------------
-        $active = (Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "directory" ) ? "active" : "";
-        $onclick = "showAjaxPanel( '/person/directory/id/".$id."?tpl=directory2&isNotSV=1', 'DIRECTORY ','users' )";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => $person['name']."'s PUBLIC DIRECTORY",
-                                                                "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
-
+        self::entry('showAjaxPanel','DIRECTORY','users','/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"person","directory");
+        
         //FOLLOW BUTTON
         //-----------------------------
         if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && $person["_id"] != Yii::app()->session["userId"]){
@@ -71,12 +63,8 @@ class Menu {
         
         //HOME
         //-----------------------------
-        $onclick = "showAjaxPanel( '/organization/detail/id/".$id."', 'ORGANIZATION DETAIL ','home' )";
-        $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Details",
-                                                                "iconClass"=>"fa fa-home",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
-        
+        self::entry('showAjaxPanel','ORGANIZATION DETAIL','home','/organization/detail/id/'.$id,"organization","detail");
+       
         //SEND MESSAGE
         //-----------------------------
         if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
@@ -87,11 +75,7 @@ class Menu {
         
         //SEE TIMELINE
         //-----------------------------
-        $onclick = "showAjaxPanel( '/news/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTIVITY ','rss' )";
-        $active = (Yii::app()->controller->id == "news" && Yii::app()->controller->action->id == "index" ) ? "active" : "";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "TIMELINE : Organization Activity",
-                                                              "iconClass"=>"fa fa-rss",
-                                                              "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','TIMELINE : Organization Activity','rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id,"news","index");
         
         //ACTION ROOMS
         //-----------------------------
@@ -103,19 +87,11 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "directory" ) ? "active" : "";
-        $onclick = "showAjaxPanel( '/organization/directory/id/".$id."?tpl=directory2&isNotSV=1', 'ORGANIZATION MEMBERS ','users' )";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "MEMBERS : Organization participants",
-                                                                "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','MEMBERS : Organization participants','users','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
 
         // ADD MEMBER
         //-----------------------------
-        $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "addmember" ) ? "active" : "";
-        $onclick = "showAjaxPanel( '/organization/addmember/id/".$id."?isNotSV=1', 'ADD A MEMBER','plus' )";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "ADD MEMBER : Organization participants",
-                                                                "iconClass"=>"fa fa-plus",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','ADD MEMBER : Organization participants','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -149,11 +125,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        $onclick = "showAjaxPanel( '/city/detail/insee/".$insee."', 'CITY BOX : ".$city["name"]."','university' )";
-        $active = (Yii::app()->controller->id == "organization" && Yii::app()->controller->action->id == "detail" ) ? "active" : "";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Details",
-                                                                "iconClass"=>"fa fa-university",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','Details','university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
         
         //SEND MESSAGE
         //-----------------------------
@@ -180,19 +152,12 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        $active = (Yii::app()->controller->id == "city" && Yii::app()->controller->action->id == "directory" ) ? "active" : "";
-        $onclick = "showAjaxPanel( '/city/directory/insee/".$insee."?tpl=directory2&isNotSV=1', 'CITY NETWORK ','share-alt' )";
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "LOCAL NETWORK",
-                                                                "iconClass"=>"fa fa-users",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','LOCAL NETWORK','users','/city/directory/insee/'.$insee.'?isNotSV=1',"city","directory");
 
         //STATISTICS
         //-----------------------------
-        $onclick = "showAjaxPanel( '/city/opendata/insee/".$insee."?isNotSV=1', 'CITY DATA : ".$city["name"]."','line-chart' )";
-        $active = (Yii::app()->controller->id == "city" && Yii::app()->controller->action->id == "opendata" ) ? "active" : "";
-        array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => "Statistics",
-                                                                "iconClass"=>"fa fa-line-chart",
-                                                                "href"=>"<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        self::entry('showAjaxPanel','Statistics','line-chart','/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
+
         //FOLLOW BUTTON
         //-----------------------------
         /*if( !isset( $organization["disabled"] ) ){
