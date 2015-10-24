@@ -100,20 +100,151 @@
 	margin-top: 7px;
 	width: 60%;
 }
+
+.form-create-news-container .scopescopeUsers{
+	margin-top: 10px;
+}
 .form-create-news-container .form-actions{
 	margin-top: -45px !important;
 	
 }
+.form-create-news-container .dropdown{
+	display: inline;
+}
+.form-create-news-container .dropdown-menu{
+	margin-top: 13px;
+	margin-left: 5px;
+}
+.form-create-news-container .dropdown-menu > li > a:hover, 
+.form-create-news-container .dropdown-menu > li > a:focus {
+    color: #FFF;
+    text-decoration: none;
+    background-color: rgba(49, 92, 110, 0.83);
+}
+.form-create-news-container #lbl-send-to{
+	margin-left: 15px;
+}
+.form-create-news-container #btn-toogle-dropdown-scope{
+	margin-left:5px;
+}
+/* MODAL */
+.form-create-news-container  .modal-header{
+	background-color: #EAEAEA;
+	color: #2D6569;
+}
+
+.form-create-news-container  .modal-header button.close{
+	color: 2D6569 !important;
+	opacity: 0.6 !important;
+}
+.form-create-news-container  #list-scroll-type{
+	max-height:400px;
+	overflow-y:auto; 
+	padding-top:15px;
+	border-left: 1px solid rgba(128, 128, 128, 0.26);
+}
+.form-create-news-container  #list-scroll-type .panel-heading{
+	margin-bottom: 10px;
+}
+.form-create-news-container .modal .panel-heading{
+	padding: 0px;
+	min-height: auto;
+	background-color: transparent;
+	border: none;
+}
+.form-create-news-container .modal input#search-contact{
+	width: 299px;
+	margin-top: -15px;
+	margin-right: -15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 52px;
+	background-color: rgba(255, 255, 255, 0.54);
+}
+
+.form-create-news-container .modal .panel-heading h4{
+	margin:0px;
+	font-size: 20px;
+	background-color: rgba(114, 114, 114, 0.1);
+	padding: 10px;
+	border-radius: 0px;
+}
+.form-create-news-container .modal-body{
+	padding: 0px 15px;
+}
+
+.form-create-news-container .modal .panel{
+	padding: 0px;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
+.form-create-news-container .modal ul{
+	list-style: none !important;
+	padding-left: 0px;
+	margin-bottom:20px;
+}
+.form-create-news-container .modal #menu-type ul li{
+	font-size:17px;
+}
+.form-create-news-container .modal #menu-type ul li i{
+	width:20px;
+	text-align: center;
+}
+.form-create-news-container .modal #menu-type ul li a:hover{
+	color:inherit !important;	
+	text-decoration: underline;
+}
+.form-create-news-container .modal .btn-scroll-type{
+	border:none!important;
+    padding: 3px;
+}
+.form-create-news-container .modal #menu-type .btn-scroll-type{
+	border:none!important;
+    padding: 8px;
+}
+.form-create-news-container .modal #menu-type .btn-scroll-type:hover{
+	/*background-color:rgb(42, 58, 69);*/
+}
+.form-create-news-container .modal .scope-name-contact{
+	display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+}
+.form-create-news-container .modal .thumb-send-to {
+    width: 35px;
+    height: 35px;
+    background-color: #DADADA;
+    border-radius: 4px;
+    margin:5px;
+}
+.form-create-news-container .modal .text-light{
+	font-weight:500;
+}
+/* MODAL */
 </style>
 <?php
-	$myContacts = Person::getPersonKnowsByPersonId(Yii::app()->session['userId']);
-	$myFormContact = array();
-	foreach ($myContacts as $key => $contact) {
-		$myFormContact[] = $contact["name"]; 
-	}
+	$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
+	$myFormContact = $myContacts; //array();
+	// foreach ($myContacts as $key => $contact) {
+	// 	$myFormContact[] = $contact["name"]; 
+	// }
 ?>
 <script type="text/javascript">
 var myContacts = <?php echo json_encode($myFormContact) ?>;
+console.log("myContacts"); 
+console.dir(myContacts); 
+var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user"			},
+						{ name : "organizations", 	color: "green" 	, icon:"group"			},
+						{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
+						{ name : "events", 			color: "orange"	, icon:"calendar"		}];
+
+
 //console.log("mycontacts");
 //console.dir(myContacts);
 
@@ -165,17 +296,18 @@ var formDefinition = {
 	            	"inputType" : "scopeUsers",
 	            	"placeholder" : "Scope : select your contacts",
 	            	"values" : myContacts,
+	            	"contactTypes" : contactTypes
 	            	// [
 	            	// 	"All your contacts",
 	            	// ]
 	            },
-	         "public" :{
-	            	"inputType" : "checkbox",
-	            	"placeholder" : "<i class='fa fa-users'></i> Scope : all your contacts",
-	            	"value" : "scopePublic",
-	            	"checked" : true,
-	            	"onclick" : "showScope()"
-	            },
+	         // "public" :{
+	         //    	"inputType" : "checkbox",
+	         //    	"placeholder" : "<i class='fa fa-users'></i> Scope : all your contacts",
+	         //    	"value" : "scopePublic",
+	         //    	"checked" : true,
+	         //    	"onclick" : "showScope()"
+	         //    },
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
@@ -273,13 +405,33 @@ function buildDynForm(){
 				$("#ajaxForm #id").val( contextId );
 			if( contextType )
 				$("#ajaxForm #type").val( contextType );
+
+			$.each(contactTypes, function(key, type){ console.log("BINDEVENT CONTACTTYPES : " + type.name);
+				$("#btn-scroll-type-"+type.name).click(function(){
+					console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
+					$('#list-scroll-type').animate({
+			         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top - 10
+			         }, 400);
+				});
+
+				$("#check-all-type"+type.name).click(function(){
+					$(".chk-scope-"+type.name).prop("checked", $(this).prop('checked'));
+				});
+			});
+
+			$(".btn-select-contact").click(function(){
+				var id = $(this).attr("idcontact");
+				$("#chk-scope-"+id).prop("checked", !$("#chk-scope-"+id).prop('checked'));
+			});
+
+
 			//hide form partially
 			//Fetch and show latest msgs
 			/*if( contextType && contextId )
 				getAjax(".newsFeed", baseUrl+"/"+moduleId+"/news/latest/type/"+contextType+"/id/<?php if(isset($_GET["id"]))echo $_GET["id"];?>/count/15", function(){}, "html");*/
 		},
 		onSave : function(){
-			console.log("saving Organization!!");
+			console.log("saving News!!");
 			var params = {};
 			$.each(dataBind,function(field,dest){
 				console.log("dataBind 1 ",field,$(field).val());

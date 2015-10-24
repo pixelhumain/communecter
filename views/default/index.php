@@ -186,7 +186,7 @@ li.mix{
 }
 #notificationPanel{
   margin: 0px;
-  background-color: rgba(82, 129, 149, 1);
+  background-color: rgba(82, 129, 149, 1); /*rgba(36, 81, 101, 0.5)*/
   color: #FFF;
   position: absolute;
   left: 70px;

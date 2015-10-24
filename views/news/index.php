@@ -582,6 +582,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .datedate").show("fast");
 		$(".form-create-news-container .form-actions").show("fast");
 		$(".form-create-news-container .publiccheckbox").show("fast");
+		$(".form-create-news-container .scopescopeUsers").show("fast");
 		if($("input#public").prop('checked') != true)
 		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
 	}else{
@@ -591,6 +592,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .form-actions").hide();
 		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
 		$(".form-create-news-container .publiccheckbox").hide();
+		$(".form-create-news-container .scopescopeUsers").hide();
 	}
 }
 </script>
