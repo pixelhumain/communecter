@@ -12,17 +12,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 if( isset($_GET["isNotSV"])) {
-	/*if( isset($type) && $type == Organization::COLLECTION && isset($organization))
-		Menu::organization( $organization );
-	else
-		Menu::news();*/
+	Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
-
+	?>
+	<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+	<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+	<?php 
 }
-
-if( !isset($_GET["isNotSV"])) {
+else 
 	$this->renderPartial('../sig/generic/mapLibs');
-}
 ?>
 
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
@@ -136,7 +134,8 @@ jQuery(document).ready(function()
 	<?php } ?>
 
 });
-
+var tagsFilterListHTML = "";
+var scopesFilterListHTML = "";
 function buildTimeLine ()
 {
 	$(".newsTL").html('<div class="spine"></div>');
@@ -149,6 +148,7 @@ function buildTimeLine ()
 	
 	currentMonth = null;
 	countEntries = 0;
+	
 	$.each( news , function(key,newsObj)
 	{
 		console.log(newsObj);
@@ -176,6 +176,12 @@ function buildTimeLine ()
 			countEntries++;
 		}
 	});
+
+	if( tagsFilterListHTML != "" )
+		$("#tagFilters").html(tagsFilterListHTML);
+	if( scopesFilterListHTML != "" )
+		$("#scopeFilters").html(scopesFilterListHTML);
+
 	if(!countEntries){
 		var date = new Date( ); 
 		//$("#formCreateNewsTemp").remove();
@@ -352,8 +358,10 @@ function buildLineHTML(newsObj)
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
 			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags )  == -1)
+			if( $.inArray(tag, contextMap.tags )  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
 				contextMap.tags.push(tag);
+				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+			}
 		});
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
@@ -371,15 +379,19 @@ function buildLineHTML(newsObj)
 		{
 			scopes += "<span class='label label-danger'>"+newsObj.address.postalCode+"</span> ";
 			scopeClass += newsObj.address.postalCode+" ";
-			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1)
+			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1){
 				contextMap.scopes.codePostal.push(newsObj.address.postalCode);
+				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
+			}
 		}
 		if( newsObj.address.addressLocality)
 		{
 			scopes += "<span class='label label-danger'>"+newsObj.address.addressLocality+"</span> ";
 			scopeClass += newsObj.address.addressLocality+" ";
-			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1)
+			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
 				contextMap.scopes.addressLocality.push(newsObj.address.addressLocality);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.addressLocality+'"><span class="text-red text-xss">'+newsObj.address.addressLocality+'</span></a>';
+			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
 	}
@@ -427,7 +439,7 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 
-	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' ">'+
+	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						scopes+
@@ -512,6 +524,13 @@ function bindEvent(){
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
 	});
 
+	$('.filter').off().on("click",function(){
+		console.warn("filter",$(this).data("filter"));
+		filter = $(this).data("filter");
+		$(".newsFeed").hide();
+		$(filter).show();
+	});
+
 	$(".form-create-news-container #name").focus(function(){
 		showFormBlock(true);	
 	});
@@ -574,6 +593,11 @@ function applyScopeFilter(str)
 	return $(".newsFeed").length;
 }
 
+function toggleFilters(what){
+ 	if( !$(what).is(":visible") )
+ 		$('.optionFilter').hide();
+ 	$(what).slideToggle();
+ }
 
 function showFormBlock(bool){
 	if(bool){

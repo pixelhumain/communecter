@@ -103,10 +103,10 @@
 		//adds hash to the url 
 		//timeout is a hack : dont understand why the hash is empty in some cases
 		//maybe a conflict with some libs that automatically overide the location hash 
-		setTimeout( function(){
+		//setTimeout( function(){
 			location.hash = hashUrl;
-			//history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
-		},500 );
+			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
+		//},500 );
 		
 		console.warn("pushState",hashUrl);
 		//console.dir({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl);
