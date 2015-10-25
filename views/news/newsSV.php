@@ -8,10 +8,18 @@
 	background-color:#F2F2F2;
 	padding-bottom: 1px !important;
 	/*background-image: url("<?php echo $this->module->assetsUrl.'/images/small-crackle-bright.png';?>");*/
-	-moz-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	-webkit-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	-o-box-shadow: 0px 0px 5px 1px #C8C8C8;
-	box-shadow: 0px 0px 5px 1px #C8C8C8;
+	-moz-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.4);
+	-webkit-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.4);
+	-o-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.4);
+	box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.4);
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
+}
+
+#formCreateNewsTemp .form-create-news-container{
+	-moz-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
+	-webkit-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
+	-o-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
+	box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
 }
 .form-create-news-container .form-actions{
@@ -85,14 +93,14 @@
 .select2-search-choice{
 	font-size:14px !important;
 }
-.form-create-news-container #s2id_scope.select2ScopeUsersInput{
+.form-create-news-container #s2id_scope.select2ScopeInput{
 	width: 94%;
 	display: inline-block;
 	margin-left: 3%;
 	margin-top: 10px;
 	display:none;
 }
-.select2ScopeUsersInput .select2-container-multi .select2-choices {
+.select2ScopeInput .select2-container-multi .select2-choices {
     border: 0px !important;
 }
 .form-create-news-container .publiccheckbox{
@@ -101,7 +109,7 @@
 	width: 60%;
 }
 
-.form-create-news-container .scopescopeUsers{
+.form-create-news-container .scopescope{
 	margin-top: 10px;
 }
 .form-create-news-container .form-actions{
@@ -278,28 +286,25 @@
 	margin: 0;
 	margin-bottom: 10px;
 }
-
 /* MODAL */
 </style>
+
 <?php
+	//var_dump($_GET); 
 	$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
-	$myFormContact = $myContacts; //array();
-	// foreach ($myContacts as $key => $contact) {
-	// 	$myFormContact[] = $contact["name"]; 
-	// }
+	$myFormContact = $myContacts; 
+	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "people";
 ?>
 <script type="text/javascript">
 var myContacts = <?php echo json_encode($myFormContact) ?>;
-console.log("myContacts"); 
-console.dir(myContacts); 
+// console.log("myContacts"); 
+// console.dir(myContacts); 
 var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user"			},
 						{ name : "organizations", 	color: "green" 	, icon:"group"			},
 						{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
 						{ name : "events", 			color: "orange"	, icon:"calendar"		}];
 
-
-//console.log("mycontacts");
-//console.dir(myContacts);
+<?php  ?>
 
 var formDefinition = {
     "jsonSchema" : {
@@ -308,11 +313,11 @@ var formDefinition = {
         "properties" : {
         	"id" :{
             	"inputType" : "hidden",
-            	"value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>"
+            	"value" : "<?php echo (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : Yii::app()->session['userId']; ?>"
             },
             "type" :{
             	"inputType" : "hidden",
-            	"value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+            	"value" : "<?php echo (isset($_GET['type'])) ? $getType : 'people'; ?>"
             },
             "name" :{
             	"inputType" : "text",
@@ -345,19 +350,16 @@ var formDefinition = {
             	"inputType" : "date",
             	"placeholder" : "When ?",
             },
-	       "scope" :{
-	            	"inputType" : "scopeUsers",
+	        "scope" :{
+	            	"inputType" : "scope",
 	            	"placeholder" : "Scope : select your contacts",
 	            	"values" : myContacts,
 	            	"contactTypes" : contactTypes
 	            },
-	         // "public" :{
-	         //    	"inputType" : "checkbox",
-	         //    	"placeholder" : "<i class='fa fa-users'></i> Scope : all your contacts",
-	         //    	"value" : "scopePublic",
-	         //    	"checked" : true,
-	         //    	"onclick" : "showScope()"
-	         //    },
+	        "privateScope" :{
+	            	"inputType" : "hidden",
+	            	"value" : "true"
+	            },
 	        /*"latitude" :{
             	"inputType" : "hidden",
             	"value" : "<?php echo (isset($_GET['lat'])) ? $_GET['lat'] : '' ?>"
@@ -479,9 +481,11 @@ function buildDynForm(){
 					console.log("dataBind 2",field);
 					value = "";
 
+					/*TAGS*/
 					if(dest == "tags"){
 						value = $(field).val().split(",");
 					}
+					/*SCOPE*/
 					else if(dest.search(new RegExp("scope", "i")) >= 0){
 						if(dest == "scope.cities"){
 							value = $(field).val().split(" ");
@@ -497,8 +501,19 @@ function buildDynForm(){
 									value.push($(element).val());
 								}
 							});
+							//si le scope est privé (my wall) 
+							if($("#privateScope").val() == "true"){
+								console.log("scopePrivate", $(".typehidden input#type").val());
+								//et qu'on est sur le même type que le type du receveur (people, orga, project, ou event)
+								if(dest == "scope."+$("input[name='type']").val()){
+									//on ajoute la valeur a la liste
+									console.log("insert id wall");
+									value.push($(".idhidden input#id").val());
+								}
+							}
 						}
 					} 
+					/*OTHERS*/
 					else if( $(field) && $(field).val() && $(field).val() != "" ){
 						value = $(field).val();
 					}
@@ -551,8 +566,8 @@ function buildDynForm(){
 
 function showScope(){ 
 	if( $("input#public").prop('checked') != true )
-	$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");
-	else $(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide("fast");
+	$(".form-create-news-container #s2id_scope.select2ScopeInput").show("fast");
+	else $(".form-create-news-container #s2id_scope.select2ScopeInput").hide("fast");
 }
 
 function bindEventScopeModal(){
@@ -611,23 +626,89 @@ function bindEventScopeModal(){
 	$("#search-contact").keyup(function(){
 		filterContact($(this).val());
 	});
+
+	$("#btn-cancel").click(function(){
+		showStateScope("cancel");
+	});
+	$("#btn-save").click(function(){
+		showStateScope("save");
+	});
+	$("#btn-reset-scope").click(function(){
+		$.each($('.modal input:checkbox'), function(){
+			$(this).prop("checked", false);
+		});
+	});
+	$("#scope-my-wall").click(function(){
+		showStateScope("cancel");
+	});
+	$("#scope-select").click(function(){
+		showStateScope("save");
+	});
 }
 
 function filterContact(searchVal){
+	//masque/affiche tous les contacts présents dans la liste
 	if(searchVal != "")	$(".btn-select-contact").hide();
 	else				$(".btn-select-contact").show();
-
+	//recherche la valeur recherché dans les 3 champs "name", "cp", et "city"
 	$.each($(".scope-name-contact"), function() { checkSearch($(this), searchVal); });
 	$.each($(".scope-cp-contact"), 	 function()	{ checkSearch($(this), searchVal); });
 	$.each($(".scope-city-contact"), function() { checkSearch($(this), searchVal); });
 }
 
+//si l'élément contient la searchVal, on l'affiche
 function checkSearch(thisElement, searchVal, type){
 	var content = thisElement.html();
 	var found = content.search(new RegExp(searchVal, "i"));
 	if(found >= 0){
 		var id = thisElement.attr("idcontact");
 		$("#contact"+id).show();
+	}
+}
+
+//modifie le contenu du bouton "Send To >"
+function showStateScope(action){ //action == "cancel" || "save"
+	if(action == "save"){
+		//verifie qu'au moins une checkbox est selectionné
+		var empty = true;
+		$.each($('.modal #list-scroll-type input:checkbox'), function(){
+			if($(this).prop("checked") == true) empty = false;
+		});
+		$.each($('.modal .select-population input:checkbox'), function(){
+			if($(this).prop("checked") == true) empty = false;
+		});
+		//si aucune checkbox n'est selectionné, on simule l'action "cancel"
+		if(empty) { showStateScope("cancel"); return; }
+
+		$("#privateScope").val("false");
+		var btnSelected = $("#scope-select").html() + " <i class='fa fa-caret-down'></i>";
+		$("#btn-toogle-dropdown-scope").html(btnSelected);
+	}else
+	if(action == "cancel"){
+		$("#privateScope").val("true");
+		var btnSelected = $("#scope-my-wall").html() + " <i class='fa fa-caret-down'></i>";
+		$("#btn-toogle-dropdown-scope").html(btnSelected);
+	}
+}
+
+//affiche le contenu du formulaire
+//masqué par defaut
+function showFormBlock(bool){
+	if(bool){
+		$(".form-create-news-container #text").show("fast");
+		$(".form-create-news-container .tagstags").show("fast");
+		$(".form-create-news-container .datedate").show("fast");
+		$(".form-create-news-container .form-actions").show("fast");
+		$(".form-create-news-container .publiccheckbox").show("fast");
+		$(".form-create-news-container .scopescope").show("fast");
+	}else{
+		$(".form-create-news-container #text").hide();
+		$(".form-create-news-container .tagstags").hide();
+		$(".form-create-news-container .datedate").hide();
+		$(".form-create-news-container .form-actions").hide();
+		$(".form-create-news-container #s2id_scope.select2ScopeInput").hide();
+		$(".form-create-news-container .publiccheckbox").hide();
+		$(".form-create-news-container .scopescope").hide();
 	}
 }
 </script>

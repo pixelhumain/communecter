@@ -40,13 +40,12 @@ else
 			<div class="panel-heading border-light">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
-		        	<?php 
-					if( !isset($_GET["isNotSV"])) 
-					{ ?>
+		        	<?php if( !isset($_GET["isNotSV"])) { ?>
 		        	<li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li>
-		        	<?php } /* ?>
+		        	<?php } 
+		        	/* ?>
 		        	<!-- <li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li> -->
@@ -151,7 +150,6 @@ function buildTimeLine ()
 	
 	$.each( news , function(key,newsObj)
 	{
-		console.log(newsObj);
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
@@ -168,9 +166,6 @@ function buildTimeLine ()
 				
 				//$("#formCreateNewsTemp").remove();	
 				$("#newFeedForm").append(formCreateNews);
-				
-				//	+ formCreateNews 
-				//	+ "</div></li>");
 			}
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
@@ -202,7 +197,7 @@ function buildTimeLine ()
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
-	console.log(newsObj);
+	//console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -599,24 +594,4 @@ function toggleFilters(what){
  	$(what).slideToggle();
  }
 
-function showFormBlock(bool){
-	if(bool){
-		$(".form-create-news-container #text").show("fast");
-		$(".form-create-news-container .tagstags").show("fast");
-		$(".form-create-news-container .datedate").show("fast");
-		$(".form-create-news-container .form-actions").show("fast");
-		$(".form-create-news-container .publiccheckbox").show("fast");
-		$(".form-create-news-container .scopescopeUsers").show("fast");
-		if($("input#public").prop('checked') != true)
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
-	}else{
-		$(".form-create-news-container #text").hide();
-		$(".form-create-news-container .tagstags").hide();
-		$(".form-create-news-container .datedate").hide();
-		$(".form-create-news-container .form-actions").hide();
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
-		$(".form-create-news-container .publiccheckbox").hide();
-		$(".form-create-news-container .scopescopeUsers").hide();
-	}
-}
 </script>

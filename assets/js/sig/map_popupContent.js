@@ -108,7 +108,7 @@
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			console.log("type", type);
+			//console.log("type", type);
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
