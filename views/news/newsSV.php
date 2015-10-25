@@ -146,8 +146,10 @@
 	padding-top:15px;
 	border-left: 1px solid rgba(128, 128, 128, 0.26);
 }
-.form-create-news-container  #list-scroll-type .panel-heading{
-	margin-bottom: 10px;
+.form-create-news-container  #list-scroll-type .panel-default,
+.form-create-news-container  #list-scroll-type .panel-heading,
+.form-create-news-container  #list-scroll-type .panel-body{
+	margin-bottom: 0px;
 }
 .form-create-news-container .modal .panel-heading{
 	padding: 0px;
@@ -374,9 +376,15 @@ var dataBind = {
    "#ajaxForm #text" : "text",
    "#ajaxForm #name" : "name",
    "#ajaxForm #tags" : "tags",
-   "#ajaxForm #id" : "typeId",
+   "#ajaxForm #id" 	 : "typeId",
    "#ajaxForm #type" : "type",
    "#ajaxForm #date" : "date",
+
+   "#ajaxForm .chk-scope-people" 		: "scope.people",
+   "#ajaxForm .chk-scope-organizations" : "scope.organizations",
+   "#ajaxForm .chk-scope-projects" 		: "scope.projects",
+   "#ajaxForm .chk-scope-events" 		: "scope.events", 
+   "#ajaxForm #scope-postal-code" 		: "scope.cities",
   /* "#latitude" : "from.latitude",
    "#longitude" : "from.longitude"*/
 };
@@ -470,13 +478,32 @@ function buildDynForm(){
 				{
 					console.log("dataBind 2",field);
 					value = "";
+
 					if(dest == "tags"){
 						value = $(field).val().split(",");
-					} else if( $(field) && $(field).val() && $(field).val() != "" )
+					}
+					else if(dest.search(new RegExp("scope", "i")) >= 0){
+						if(dest == "scope.cities"){
+							value = $(field).val().split(" ");
+							if(value[0] == "") value = new Array();
+							if($("#ajaxForm #chk-my-city").prop("checked")){ 
+								var myCp = "98800";
+								value.push(myCp);
+							}
+						}else{
+							value = new Array();
+							$.each($(field),function(key,element){
+								if($(element).prop("checked")){
+									value.push($(element).val());
+								}
+							});
+						}
+					} 
+					else if( $(field) && $(field).val() && $(field).val() != "" ){
 						value = $(field).val();
+					}
 
-					if( value != "" )
-					{
+					if( value != "" ){
 						console.log("dataBind 3 ",field,dest,value);
 						jsonHelper.setValueByPath( params, dest, value );
 					} 
