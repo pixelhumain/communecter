@@ -173,6 +173,9 @@
 	padding: 0px 15px;
 }
 
+.form-create-news-container .panel-body{
+	background-color: transparent !important;
+}
 .form-create-news-container .modal .panel{
 	padding: 0px;
 	background-color: transparent;
@@ -185,7 +188,7 @@
 	margin-bottom:20px;
 }
 .form-create-news-container .modal #menu-type ul li{
-	font-size:17px;
+	font-size:16px;
 }
 .form-create-news-container .modal #menu-type ul li i{
 	width:20px;
@@ -201,10 +204,21 @@
 }
 .form-create-news-container .modal #menu-type .btn-scroll-type{
 	border:none!important;
-    padding: 8px;
+    padding: 2px;
+	text-align: left;
+	width: 92%;
+	margin-left: 4%;
+	padding: 6px 4px 4px 8px;
+	margin-bottom: 3px;
+	background:transparent !important;
 }
 .form-create-news-container .modal #menu-type .btn-scroll-type:hover{
-	/*background-color:rgb(42, 58, 69);*/
+	background-color:rgba(0, 0, 0, 0.04) !important;
+}
+.form-create-news-container .modal #scope-postal-code{
+	width: 99%;
+	display: none;
+	margin-left: -1% !important;
 }
 .form-create-news-container .modal .scope-name-contact{
 	display: inline-block;
@@ -226,6 +240,16 @@
 .form-create-news-container .modal .text-light{
 	font-weight:500;
 }
+.form-create-news-container .modal #menu-type h4 {
+    background-color: rgba(35, 83, 96, 0.7);
+	color: #FFF;
+	width: 100%;
+	float: left;
+	padding: 5px 5px 5px 20px;
+	margin: 0;
+	margin-bottom: 10px;
+}
+
 /* MODAL */
 </style>
 <?php
@@ -406,23 +430,41 @@ function buildDynForm(){
 			if( contextType )
 				$("#ajaxForm #type").val( contextType );
 
-			$.each(contactTypes, function(key, type){ console.log("BINDEVENT CONTACTTYPES : " + type.name);
+			
+			/* initialisation des fonctionnalités de la modale SCOPE */
+			//parcourt tous les types de contacts
+			$.each(contactTypes, function(key, type){ //console.log("BINDEVENT CONTACTTYPES : " + type.name);
+				//initialise le scoll automatique de la liste de contact
 				$("#btn-scroll-type-"+type.name).click(function(){
-					console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
+					//console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
 					$('#list-scroll-type').animate({
 			         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top - 10
 			         }, 400);
 				});
-
+				//initialisation des boutons pour selectionner toutes les checkbox d'un type de contact
 				$("#check-all-type"+type.name).click(function(){
 					$(".chk-scope-"+type.name).prop("checked", $(this).prop('checked'));
 				});
 			});
-
+			//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
 			$(".btn-select-contact").click(function(){
 				var id = $(this).attr("idcontact");
 				$("#chk-scope-"+id).prop("checked", !$("#chk-scope-"+id).prop('checked'));
 			});
+
+			//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+			$("#btn-scroll-type-other-city").mouseover(function(){
+				$("#scope-postal-code").show();
+			});
+			//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+			$("#btn-scroll-type-other-city").click(function(){
+				$("#scope-postal-code").show();
+			});
+			//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+			$("#btn-scroll-type-other-city").mouseout(function(){
+				$("#scope-postal-code").hide();
+			});
+			$("#scope-postal-code").hide();
 
 
 			//hide form partially
