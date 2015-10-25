@@ -123,6 +123,7 @@
 }
 .form-create-news-container #lbl-send-to{
 	margin-left: 15px;
+	font-size:13px !important;
 }
 .form-create-news-container #btn-toogle-dropdown-scope{
 	margin-left:5px;
