@@ -535,6 +535,7 @@ function buildDynForm(){
 					//$("#ajaxSV").html('');
 					$.hideSubview();
 					toastr.success('Saved successfully!');
+					$("#ajaxForm")[0].reset();
 	    		}
 	    		else 
 	    		{
