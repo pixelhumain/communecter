@@ -231,7 +231,7 @@ if( !isset($_GET["isNotSV"]))
 				<?php if( @$isNotSV ){ ?>
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
+						<button class="pull-right btn btn-primary" onclick="">Enregistrer</button>
 					</div>
 					<?php } else {  ?>
 						<div class= "row  col-xs-12">
