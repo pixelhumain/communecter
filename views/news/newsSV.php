@@ -293,7 +293,7 @@
 	//var_dump($_GET); 
 	$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
 	$myFormContact = $myContacts; 
-	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "people";
+	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
 ?>
 <script type="text/javascript">
 var myContacts = <?php echo json_encode($myFormContact) ?>;
@@ -382,7 +382,7 @@ var dataBind = {
    "#ajaxForm #type" : "type",
    "#ajaxForm #date" : "date",
 
-   "#ajaxForm .chk-scope-people" 		: "scope.people",
+   "#ajaxForm .chk-scope-people" 		: "scope.citoyens",
    "#ajaxForm .chk-scope-organizations" : "scope.organizations",
    "#ajaxForm .chk-scope-projects" 		: "scope.projects",
    "#ajaxForm .chk-scope-events" 		: "scope.events", 
@@ -503,11 +503,11 @@ function buildDynForm(){
 							});
 							//si le scope est privé (my wall) 
 							if($("#privateScope").val() == "true"){
-								console.log("scopePrivate", $(".typehidden input#type").val());
+								console.log("scopePrivate", $(".typehidden input#type").val(), dest);
 								//et qu'on est sur le même type que le type du receveur (people, orga, project, ou event)
-								if(dest == "scope."+$("input[name='type']").val()){
+								if(dest == "scope."+$("input[name='type']").val() ||
+									(dest == "scope.citoyens" && $("input[name='type']").val() == "people")){
 									//on ajoute la valeur a la liste
-									console.log("insert id wall");
 									value.push($(".idhidden input#id").val());
 								}
 							}
@@ -527,13 +527,14 @@ function buildDynForm(){
 					console.log("save Error",field);
 			});
 			params.id = '<?php echo Yii::app()->session['userId']; ?>';
-			console.dir(params);
+			//console.dir(params);
 			$.ajax({
 	    	  type: "POST",
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/news/save",
 	    	  data: params,
 	    	  dataType: "json"
 	    	}).done( function(data){
+					
 	    		if(data.result)
 	    		{
 	    			if(countEntries == 0)
@@ -637,6 +638,7 @@ function bindEventScopeModal(){
 		$.each($('.modal input:checkbox'), function(){
 			$(this).prop("checked", false);
 		});
+		$("#scope-postal-code").val("");
 	});
 	$("#scope-my-wall").click(function(){
 		showStateScope("cancel");
