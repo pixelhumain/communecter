@@ -2,7 +2,7 @@
 
 <style type="text/css">
 #ajaxForm .form-group{
-	margin-bottom: 0px !important;
+	margin-bottom: 0px;
 }
 .form-create-news-container{
 	background-color:#F2F2F2;
@@ -112,6 +112,7 @@
 .form-create-news-container .scopescope{
 	margin-top: 10px;
 	margin-bottom: -42px !important;
+	max-width: 170px;
 }
 .form-create-news-container .form-actions{
 	
