@@ -111,9 +111,10 @@
 
 .form-create-news-container .scopescope{
 	margin-top: 10px;
+	margin-bottom: -42px !important;
 }
 .form-create-news-container .form-actions{
-	margin-top: -45px !important;
+	
 	
 }
 .form-create-news-container .dropdown{
@@ -291,12 +292,14 @@
 
 <?php
 	//var_dump($_GET); 
+	//préchargement des contacts pour la modal Scope
 	$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
 	$myFormContact = $myContacts; 
 	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
 ?>
 <script type="text/javascript">
 var myContacts = <?php echo json_encode($myFormContact) ?>;
+
 // console.log("myContacts"); 
 // console.dir(myContacts); 
 var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user"			},
@@ -646,6 +649,7 @@ function bindEventScopeModal(){
 	$("#scope-select").click(function(){
 		showStateScope("save");
 	});
+
 }
 
 function filterContact(searchVal){
@@ -693,16 +697,27 @@ function showStateScope(action){ //action == "cancel" || "save"
 	}
 }
 
+
+var getType = "<?php echo $getType ?>";
+var getId 	= "<?php echo (isset($_GET['id']) && $_GET['id'] != '') ? $_GET['id'] : Yii::app()->session['userId']; ?>";
+var myId 	= "<?php echo Yii::app()->session['userId']; ?>";
+var myWall 	= false;
+if((getType == "citoyens" || getType == "citoyen") && myId == getId) myWall = true;
+
 //affiche le contenu du formulaire
 //masqué par defaut
-function showFormBlock(bool){
+function showFormBlock(bool){ 
+	console.log("my wall ?", myWall);
+	console.log("myId", myId, "getType", getType, "getId", getId);
 	if(bool){
 		$(".form-create-news-container #text").show("fast");
 		$(".form-create-news-container .tagstags").show("fast");
 		$(".form-create-news-container .datedate").show("fast");
 		$(".form-create-news-container .form-actions").show("fast");
 		$(".form-create-news-container .publiccheckbox").show("fast");
-		$(".form-create-news-container .scopescope").show("fast");
+		if(myWall){ //on ne montre le btn scope que si on est sur my wall
+			$(".form-create-news-container .scopescope").show("fast");
+		}
 	}else{
 		$(".form-create-news-container #text").hide();
 		$(".form-create-news-container .tagstags").hide();
