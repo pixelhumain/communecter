@@ -215,24 +215,24 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 
 <div class="eventMarker" style="z-index:-1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
 	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
 </div>
 <div class="cityMarker" style="z-index:-1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
 </div>
 <div class="projectMarker" style="z-index:-1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
 	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
 </div>
 <div class="assoMarker" style="z-index:-1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
 	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
 </div>
 <div class="userMarker" style="z-index:-1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
 </div>
 <div class="connectMarker text-white" style="z-index:-1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
 	<i class="fa fa-sign-in fa-2x"></i> 
