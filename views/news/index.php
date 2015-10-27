@@ -119,7 +119,9 @@ var contextMap = {
 <?php if( !isset($_GET["isNotSV"]) ) { ?>
 	var Sig = null;
 <?php } ?>
-
+var offset="";
+var	dateLimit = 0;	
+var lastoffset="";
 jQuery(document).ready(function() 
 {
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
@@ -128,30 +130,72 @@ jQuery(document).ready(function()
 	<?php } ?>	
 
 	buildDynForm();
-	buildTimeLine();
-
+	buildTimeLine (news);
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
 
-});
-
-function buildTimeLine ()
-{
-	$(".newsTL").html('<div class="spine"></div>');
-	$(".newsTLmonthsList").html('');
-	console.log("buildTimeLine",Object.keys(news).length);
+	if(contextParentType=="citoyens"){
+	setTimeout(function(){chargementActu()},0);
 	
+	$(window).off().on("scroll",function(){ 				
+				// On surveille l'évènement scroll
+				// Fixer la barre latérale au scroll
+				//if ($window.scrollTop() > offsetSidebar.top-20) {
+				//	$sidebar.css({"position":"fixed","top":"15px","width":"22%"});
+				//} else if ($sidebar   = $("#sidebarScrollAccueil")) {
+				//	$sidebar.css({"position":"inherit","top":"inherit","width":"100%"});
+				//} 	
+				/* Si l'élément offset est en bas de scroll, alors on 
+				lance la fonction pour récupérer l'actualité qui suit. */
+				//console.log("lastOfssett:"+lastoffset+" / offset:"+(offset.top-336)+" / windowScroll:"+$(window).scrollTop());
+
+				if(offset.top - 336 <= $(window).scrollTop()) {
+					if (lastoffset != offset.top){
+						lastoffset=offset.top;
+						chargementActu();
+					}
+				}
+		});
+ } 
+
+});
+var chargementActu = function(){
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit,
+       	dataType: "json",
+    	success: function(data){
+	    	if(data){
+	    		console.log(data);
+				buildTimeLine (data.news);
+				dateLimit=data.limitDate.created;
+								//$(".spine").css('bottom',"0px");	
+			}
+		}
+	});
+}
+function buildTimeLine (news)
+{	
+	console.log(news);
+	//A REMETTRE ET RETRAVAILLER 
+	if (dateLimit==0){
+		$(".newsTL").html('<div class="spine"></div>');
+		$(".newsTLmonthsList").html('');
+	}
+	console.log("buildTimeLine",Object.keys(news).length);
+	//FIN A REMETTRE ET RETRAVAILLER */
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp");//.html();
 	//alert(formCreateNews);
 	
 	currentMonth = null;
 	countEntries = 0;
+	console.log(news);
 	$.each( news , function(key,newsObj)
 	{
-		console.log(newsObj);
+
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
@@ -160,7 +204,7 @@ function buildTimeLine ()
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
-			if(countEntries == 0){
+			if(countEntries == 0 && dateLimit == 0){
 				$(".newsTL"+date.getMonth()).append(
 					"<li class='newsFeed'>"+
 						"<div id='newFeedForm' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
@@ -172,18 +216,29 @@ function buildTimeLine ()
 				//	+ formCreateNews 
 				//	+ "</div></li>");
 			}
+			console.log(newsTLLine);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
 	if(!countEntries){
-		var date = new Date( ); 
-		//$("#formCreateNewsTemp").remove();
-		$(".newsTL").html("<div id='newFeedForm' class='col-md-7 text-extra-large'></div>");
-		$("#newFeedForm").append(formCreateNews);
-		//$("#formCreateNews").append(formCreateNews);
-		$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
-		
+		if( dateLimit == 0){
+			var date = new Date(); 
+			//$("#formCreateNewsTemp").remove();
+			$(".newsTL").html("<div id='newFeedForm' class='col-md-7 text-extra-large'></div>");
+			$("#newFeedForm").append(formCreateNews);
+			//$("#formCreateNews").append(formCreateNews);
+			$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+		}
+		else {
+		titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
+						'<a href="#">'+
+							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
+						'</a>'+
+					'</div>';
+					$(".newsTL").append(titleHTML);
+
+		}
 	}else{
 		//deplacement du formulaire dans le stream
 		showFormBlock(false);
@@ -196,7 +251,7 @@ function buildTimeLine ()
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
-	console.log(newsObj);
+	//console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -208,7 +263,9 @@ function buildLineHTML(newsObj)
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	//console.log("date",dateStr);
-	if( currentMonth != date.getMonth() )
+	//alert( $('.newsTL'+date.getMonth()).length);
+	offset=$('.newsFeed:last').offset(); 
+	if( currentMonth != date.getMonth() && $('.newsTL'+date.getMonth()).length == 0)
 	{
 		currentMonth = date.getMonth();
 		linkHTML =  '<li class="">'+
@@ -221,8 +278,11 @@ function buildLineHTML(newsObj)
 					'</div>'+
 					'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
 		$(".newsTL").append(titleHTML);
+		$(".spine").css("bottom","0px")
 	}
-
+	else{
+		$(".spine").css('bottom',"-"+(offset.top)+"px");	
+	}
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
@@ -525,14 +585,14 @@ function bindEvent(){
 
 function updateNews(newsObj)
 {
-	var date = new Date( parseInt(newsObj.created)*1000 );
+	/*var date = new Date( parseInt(newsObj.created)*1000 );
 	if(newsObj.date) {
 		d = newsObj.date.split("/");
 		month = parseInt(d[1])-1;
 		date = new Date( d[2], month,d[0] ) ;
 	}
 	var newsTLLine = buildLineHTML(newsObj);
-	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
+	$(".newsTL"+date.getMonth()).prepend(newsTLLine);*/
 }
 
 
@@ -593,4 +653,9 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }
+
+//function scroll(){
+	
+//}
+
 </script>
