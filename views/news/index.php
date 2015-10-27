@@ -127,36 +127,36 @@ jQuery(document).ready(function()
 	<?php } ?>	
 
 	buildDynForm();
+	if(contextParentType!="citoyens"){
 	buildTimeLine (news);
+	}
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
 
 	if(contextParentType=="citoyens"){
-	setTimeout(function(){chargementActu()},0);
+		setTimeout(function(){chargementActu()},0);
+		$(window).off().on("scroll",function(){ 				
+					// On surveille l'évènement scroll
+					// Fixer la barre latérale au scroll
+					//if ($window.scrollTop() > offsetSidebar.top-20) {
+					//	$sidebar.css({"position":"fixed","top":"15px","width":"22%"});
+					//} else if ($sidebar   = $("#sidebarScrollAccueil")) {
+					//	$sidebar.css({"position":"inherit","top":"inherit","width":"100%"});
+					//} 	
+					/* Si l'élément offset est en bas de scroll, alors on 
+					lance la fonction pour récupérer l'actualité qui suit. */
+					//console.log("lastOfssett:"+lastoffset+" / offset:"+(offset.top-336)+" / windowScroll:"+$(window).scrollTop());
 	
-	$(window).off().on("scroll",function(){ 				
-				// On surveille l'évènement scroll
-				// Fixer la barre latérale au scroll
-				//if ($window.scrollTop() > offsetSidebar.top-20) {
-				//	$sidebar.css({"position":"fixed","top":"15px","width":"22%"});
-				//} else if ($sidebar   = $("#sidebarScrollAccueil")) {
-				//	$sidebar.css({"position":"inherit","top":"inherit","width":"100%"});
-				//} 	
-				/* Si l'élément offset est en bas de scroll, alors on 
-				lance la fonction pour récupérer l'actualité qui suit. */
-				//console.log("lastOfssett:"+lastoffset+" / offset:"+(offset.top-336)+" / windowScroll:"+$(window).scrollTop());
-
-				if(offset.top - 336 <= $(window).scrollTop()) {
-					if (lastoffset != offset.top){
-						lastoffset=offset.top;
-						chargementActu();
+					if(offset.top - 336 <= $(window).scrollTop()) {
+						if (lastoffset != offset.top){
+							lastoffset=offset.top;
+							chargementActu();
+						}
 					}
-				}
-		});
+			});
  	} 
-
 });
 var chargementActu = function(){
 	$.ajax({
@@ -178,7 +178,7 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 function buildTimeLine (news)
 {
-	if (dateLimit==0){
+	if (dateLimit==0)
 	$(".newsTL").html('<div class="spine"></div>');
 	$(".newsTLmonthsList").html('');
 	console.log("buildTimeLine",Object.keys(news).length);
@@ -537,7 +537,7 @@ function bindEvent(){
 		marginTop: $('header').outerHeight() + 100
 	}).find("a").on("click", function(e){			
 		anchor = $(this).data("separator");
-		$("body").scrollTo(anchor, 300);
+		//$("body").scrollTo(anchor, 300);
 		e.preventDefault();
 	});
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
