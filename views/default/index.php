@@ -6,10 +6,21 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-//Floop contact
+//FloopDrawer
 $cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClientScript::POS_END);
 $cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
+
+//JQUERY UI
+$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
+$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
+
 ?>
+
+
+<!-- <link href="jquery-ui.css" rel="stylesheet">
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+ -->
 <style>
 /*#menu-top-container{
   z-index:1;
@@ -261,6 +272,75 @@ ul.notifList{
 
 /* BLOCK PROCESSING */
 
+
+
+      #ajaxSV{
+        min-height: 500px;
+        display: block;
+        padding: 50px 50px 50px 120px;
+        margin: 0px 0px;
+        top: -23px !important;
+      }
+      @media screen and (max-width: 768px) {
+        #ajaxSV,.box{top:-100px;}
+      }
+      .main-col{
+        margin:0px !important;
+      }
+
+
+#menu-container{
+  padding:10px 0px !important;
+}
+.menuline{
+    line-height: 31px;
+    font-size: 1.5em;
+    color:inherit;
+    float:right;
+    margin-left:5px;
+    min-width: 210px;
+    text-align: right;
+    
+}
+.menuline.hide{
+    min-width: 0px;
+}
+.menuIcon {
+    /*border:1px solid white;*/
+    color: rgba(255, 255, 255, 0.85) !important;
+    display: block;
+    height: 45px;
+    padding: 9px 15px;
+    border-radius: 0px;
+}
+.menuIcon i {
+  margin-left: 5px;
+  width: 30px;
+  color: inherit;
+}
+.menuIcon:hover {
+    color:#58879B !important;;
+    background-color: white;
+    border: 0px solid #CFDFE4;
+    -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+    -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
+    box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
+}
+.hoverRed:hover {
+  color:red !important;
+}
+.menuIcon i{
+    float:left;
+    margin-left:5px;
+}
+.main-title h2{
+  color:#58879B !important;
+  font-size:30px;
+  padding-top: 75px;
+  padding-bottom: 15px;
+}
+
+
 </style>
 
 <div class="pull-right" style="padding:20px;">
@@ -295,24 +375,6 @@ ul.notifList{
     
   </div>
   <div class="col-xs-12 col-xs-offset-1 main-col">
-
-    
-    <style type="text/css">
-      #ajaxSV{
-        min-height: 500px;
-        display: block;
-        padding: 50px 50px 50px 120px;
-        margin: 0px 0px;
-        top: -23px !important;
-      }
-      @media screen and (max-width: 768px) {
-        #ajaxSV,.box{top:-100px;}
-      }
-      .main-col{
-        margin:0px !important;
-      }
-
-    </style>
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
     <div class="box-ajax box box-white-round" id="ajaxSV" style="min-height:500px">
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
@@ -347,60 +409,7 @@ ul.notifList{
 <?php /* **********************
   LEFT MENU
 **************************** */?>
-<style type="text/css">
-    #menu-container{
-      padding:10px 0px !important;
-    }
-    .menuline{
-        line-height: 31px;
-        font-size: 1.5em;
-        color:inherit;
-        float:right;
-        margin-left:5px;
-        min-width: 210px;
-        text-align: right;
-        
-    }
-    .menuline.hide{
-        min-width: 0px;
-    }
-    .menuIcon {
-        /*border:1px solid white;*/
-        color: rgba(255, 255, 255, 0.85) !important;
-        display: block;
-        height: 45px;
-        padding: 9px 15px;
-        border-radius: 0px;
-    }
-    .menuIcon i {
-      margin-left: 5px;
-      width: 30px;
-      color: inherit;
-    }
-    .menuIcon:hover {
-        color:#58879B !important;;
-        background-color: white;
-        border: 0px solid #CFDFE4;
-        -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-        -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-        box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
-    }
-    .hoverRed:hover {
-      color:red !important;
-    }
-    .menuIcon i{
-        float:left;
-        margin-left:5px;
-    }
-    .main-title h2{
-      color:#58879B !important;
-      font-size:30px;
-      padding-top: 75px;
-      padding-bottom: 15px;
-    }
 
-  
-    </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
         <?php 
@@ -946,7 +955,9 @@ function resizeInterface(){
   var height = $("#mapCanvasBg").height() - 55;
   $("#ajaxSV").css({"minHeight" : height});
   $("#menu-container").css({"minHeight" : height});
-  $("#floopDrawerDirectory").css({"minHeight" : height+10});
-  $("#floopDrawerDirectory").css({"maxHeight" : height+10});
+  var heightDif = $("#search-contact").height();
+  console.log("heightDif", heightDif);
+  $(".floopScroll").css({"minHeight" : height-heightDif});
+  $(".floopScroll").css({"maxHeight" : height-heightDif});
 }
 </script>
