@@ -15,16 +15,6 @@ $this->renderPartial('../default/panels/toolbar');
   .panel-title{
     font-family: "Homestead";
   }
-  #btn-center-city{
-    padding: 5px 16px;
-    border-radius: 25px;
-    background: rgba(252, 252, 252, 0.75);
-    margin-left: 10px;
-  }
-  #btn-center-city:hover{
-    background: #58879B;
-    color:white;
-  }
 </style>
 <!-- start: PAGE CONTENT -->
 <div class="row">
@@ -211,7 +201,7 @@ function initCityMap(){
   $("#btn-center-city").click(function(){
     Sig.currentMarkerPopupOpen = null;//markerCity;  
     //markerCity.openPopup();
-    showMap(true);
+    showMap();
     markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});

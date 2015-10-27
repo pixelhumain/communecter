@@ -114,9 +114,10 @@ if( isset($_GET["isNotSV"])) {
 							<a href="javascript:;" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o fa-2x"></i> Scopes </a>
 						</li>
 					</ul>
-
-					<br/>
-
+				</div>
+				<hr/>
+				<!-- GRID -->
+				<span class="col-md-3">
 					<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="orgaTypesFilters" class="optionFilter pull-left center" style="display:none;width:100%;" >
@@ -125,12 +126,7 @@ if( isset($_GET["isNotSV"])) {
 						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".Group">Group</a>
 						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".GovernmentOrganization">Government Organization</a>
 					</div>
-
-					<div class="space10"></div>
-
-				</div>
-				<hr/>
-				<!-- GRID -->
+				</span>
 				<ul id="Grid" class="list-unstyled">
 					<?php 
 					$memberId = Yii::app()->session["userId"];
@@ -179,7 +175,7 @@ if( isset($_GET["isNotSV"])) {
 							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						}
 					}
-					/*
+					/* 
 					<li class="col-md-3 col-sm-6 col-xs-12 mix kiki gallery-img" data-cat="1" id="">
 						<div class="portfolio-item">
 							<a class="thumb-info" href="" data-title="Website"  data-lightbox="all">
@@ -356,8 +352,10 @@ var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
 	
 jQuery(document).ready(function() {
-	$("#tagFilters").html('<?php echo $tagsHTMLFull ?>');
-	$("#scopeFilters").html('<?php echo $scopesHTMLFull ?>');
+	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
+	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
+	$("#tagFilters").html(tagFilters);
+	$("#scopeFilters").html(scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);

@@ -120,7 +120,7 @@
 			<?php } ?>
 			<?php if($sigParams['useHomeButton']){ ?>
 				<div class="btn-group btn-group-lg">
-					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-location-arrow"></i></button>
+					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-bullseye"></i></button>
 				</div>
 			<?php } ?>	
 			

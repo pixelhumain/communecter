@@ -12,17 +12,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 if( isset($_GET["isNotSV"])) {
-	/*if( isset($type) && $type == Organization::COLLECTION && isset($organization))
-		Menu::organization( $organization );
-	else
-		Menu::news();*/
+	Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
-
+	?>
+	<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+	<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
+	<?php 
 }
-
-if( !isset($_GET["isNotSV"])) {
+else 
 	$this->renderPartial('../sig/generic/mapLibs');
-}
 ?>
 
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
@@ -42,13 +40,12 @@ if( !isset($_GET["isNotSV"])) {
 			<div class="panel-heading border-light">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
-		        	<?php 
-					if( !isset($_GET["isNotSV"])) 
-					{ ?>
+		        	<?php if( !isset($_GET["isNotSV"])) { ?>
 		        	<li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li>
-		        	<?php } /* ?>
+		        	<?php } 
+		        	/* ?>
 		        	<!-- <li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
 		        	</li> -->
@@ -158,7 +155,7 @@ jQuery(document).ready(function()
 					}
 				}
 		});
- } 
+ 	} 
 
 });
 var chargementActu = function(){
@@ -176,14 +173,14 @@ var chargementActu = function(){
 		}
 	});
 }
+
+var tagsFilterListHTML = "";
+var scopesFilterListHTML = "";
 function buildTimeLine (news)
-{	
-	console.log(news);
-	//A REMETTRE ET RETRAVAILLER 
+{
 	if (dateLimit==0){
-		$(".newsTL").html('<div class="spine"></div>');
-		$(".newsTLmonthsList").html('');
-	}
+	$(".newsTL").html('<div class="spine"></div>');
+	$(".newsTLmonthsList").html('');
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
 	//insertion du formulaire CreateNews dans le stream
@@ -192,10 +189,9 @@ function buildTimeLine (news)
 	
 	currentMonth = null;
 	countEntries = 0;
-	console.log(news);
+	
 	$.each( news , function(key,newsObj)
 	{
-
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
@@ -212,15 +208,18 @@ function buildTimeLine (news)
 				
 				//$("#formCreateNewsTemp").remove();	
 				$("#newFeedForm").append(formCreateNews);
-				
-				//	+ formCreateNews 
-				//	+ "</div></li>");
 			}
 			console.log(newsTLLine);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
+
+	if( tagsFilterListHTML != "" )
+		$("#tagFilters").html(tagsFilterListHTML);
+	if( scopesFilterListHTML != "" )
+		$("#scopeFilters").html(scopesFilterListHTML);
+
 	if(!countEntries){
 		if( dateLimit == 0){
 			var date = new Date(); 
@@ -412,8 +411,10 @@ function buildLineHTML(newsObj)
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
 			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags )  == -1)
+			if( $.inArray(tag, contextMap.tags )  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
 				contextMap.tags.push(tag);
+				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+			}
 		});
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
@@ -431,15 +432,19 @@ function buildLineHTML(newsObj)
 		{
 			scopes += "<span class='label label-danger'>"+newsObj.address.postalCode+"</span> ";
 			scopeClass += newsObj.address.postalCode+" ";
-			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1)
+			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1){
 				contextMap.scopes.codePostal.push(newsObj.address.postalCode);
+				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
+			}
 		}
 		if( newsObj.address.addressLocality)
 		{
 			scopes += "<span class='label label-danger'>"+newsObj.address.addressLocality+"</span> ";
 			scopeClass += newsObj.address.addressLocality+" ";
-			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1)
+			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
 				contextMap.scopes.addressLocality.push(newsObj.address.addressLocality);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.addressLocality+'"><span class="text-red text-xss">'+newsObj.address.addressLocality+'</span></a>';
+			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
 	}
@@ -487,7 +492,7 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 
-	newsTLLine = '<li class="newsFeed '+tagsClass+' '+scopeClass+' ">'+
+	newsTLLine = '<li class="newsFeed '+''/*tagsClass*/+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						scopes+
@@ -543,12 +548,18 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function(){
-		window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
-		/*toastr.info('TODO : COMMENT this news Entry');
+		alert("/comment/index/type/news/id/"+$(this).data("id"));
+		if(isNotSV)
+			showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
+		else
+			window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
+		/*
+		toastr.info('TODO : COMMENT this news Entry');
 		console.log("newsAddComment",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
-		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");*/
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");
+		*/
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		toastr.info('TODO : VOTE UP this news Entry');
@@ -570,6 +581,13 @@ function bindEvent(){
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
+	});
+
+	$('.filter').off().on("click",function(){
+		console.warn("filter",$(this).data("filter"));
+		filter = $(this).data("filter");
+		$(".newsFeed").hide();
+		$(filter).show();
 	});
 
 	$(".form-create-news-container #name").focus(function(){
@@ -634,6 +652,11 @@ function applyScopeFilter(str)
 	return $(".newsFeed").length;
 }
 
+function toggleFilters(what){
+ 	if( !$(what).is(":visible") )
+ 		$('.optionFilter').hide();
+ 	$(what).slideToggle();
+ }
 
 function showFormBlock(bool){
 	if(bool){
@@ -654,8 +677,5 @@ function showFormBlock(bool){
 	}
 }
 
-//function scroll(){
-	
-//}
 
 </script>
