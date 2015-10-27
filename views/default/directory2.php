@@ -313,7 +313,6 @@ if( isset($_GET["isNotSV"])) {
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
-
 					?>
 				</ul>
 			</div>

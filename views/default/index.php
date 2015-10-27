@@ -398,6 +398,8 @@ ul.notifList{
       padding-bottom: 15px;
     }
     </style>
+
+<?php if( isset( Yii::app()->session['userId']) ){?>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
         <?php 
@@ -423,23 +425,23 @@ ul.notifList{
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
     </div>
 </div>
- <?php /* ?>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
-        */?>
+ <?php } ?>
        
 
 <?php /* **********************
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELL COMMUNECT</span>
     
-      <?php //if( empty( $this->notifications )  ){?>
+      <?php if( isset( Yii::app()->session['userId']) ){?>
       <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
         <i class="fa fa-bell-o"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
-      <?php //} ?><form class="inner pull-right">
+      <?php } else { ?>
+      <a id="btn-show-notification" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right"><i class="fa fa-sign-in fa-2x"></i></a>
+      <?php } ?><form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
@@ -473,48 +475,24 @@ ul.notifList{
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
-<?php  */ /* ?>
-
-http://habibhadi.com/lab/svgPathAnimation/demo/
-http://jonobr1.github.io/two.js/#basic-usage
-http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
-
-<style type="text/css">
-svg.graph {
-  position: absolute;
-  top:0px;
-  left: 0px;
-  height: 1000px;
-  width: 1000px;
-}
-
-svg.graph .line {
-  stroke: white;
-  stroke-width: 1;
-}
-</style>
-
-<svg class="graph">
-  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
-  <path class="line" d=" M 0 0 L 600 100"></path>
-  <path class="line" d=" M 0 0 L 150 150"></path>
-  <path class="line" d=" M 0 0 L 330 100"></path>
-</svg>
 */?>
 
 <?php 
     //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
     //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    if( isset( Yii::app()->session['userId']) ){
+      foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+      foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+      foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+      foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+      
+      
+      if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+      if(isset($people))          $contextMap = array_merge($contextMap, $people);
+      if(isset($events))          $contextMap = array_merge($contextMap, $events);
+      if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    }
 
     function random_pic()
     {
@@ -533,16 +511,16 @@ svg.graph .line {
 var timeout;
 var mapIconTop = {
     "default" : "fa-arrow-circle-right",
-    "citoyen":"fa-user", 
-    "NGO":"fa-users",
-    "LocalBusiness" :"fa-industry",
-    "Group" : "fa-circle-o",
-    "group" : "fa-users",
-    "association" : "fa-users",
-    "GovernmentOrganization" : "fa-university",
-    "event":"fa-calendar",
-    "project":"fa-lightbulb-o",
-    "city":"fa-university"
+    "citoyen":"<?php echo Person::ICON ?>", 
+    "NGO":"<?php echo Organization::ICON ?>",
+    "LocalBusiness" :"<?php echo Organization::ICON_BIZ ?>",
+    "Group" : "<?php echo Organization::ICON_GROUP ?>",
+    "group" : "<?php echo Organization::ICON ?>",
+    "association" : "<?php echo Organization::ICON ?>",
+    "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
+    "event":"<?php echo Event::ICON ?>",
+    "project":"<?php echo Project::ICON ?>",
+    "city": "<?php echo City::ICON ?>"
   };
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
@@ -557,72 +535,7 @@ jQuery(document).ready(function() {
       $('.tooltips').tooltip();
     }
 
-    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { console.log("easeOutBounce");
-      $(".menuline").removeClass("hide");
-    });
-   $(".menuContainer,#menu-container").mouseout(function() { 
-      $(".menuline").addClass("hide");
-    });
-    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
-      showPanel('box-event',null,"EVENTS");
-    });
-    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
-      showPanel('box-city',null,"CITY");
-    });
-    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
-      showPanel('box-projects',null,"PROJECTS");
-    });
-    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-orga',null,"ORGANIZATIONS");
-    });
-    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-people',null,"PEOPLE");
-    });
-    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-menu');
-    });
-
-    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
-    $(".btn-main-menu").click(function(){
-      showMap(false);
-    });
-
-    $('#searchBar').keyup(function(e){
-        var name = $('#searchBar').val();
-        $(this).css("color", "#58879B");
-        if(name.length>=3){
-          clearTimeout(timeout);
-          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
-        }else{
-          $("#dropdown_searchTop").css("display", "none");
-          $('#notificationPanel').hide("fast");
-        }   
-    });
-
-    $('#searchBar').focusin(function(e){
-      if($("#searchBar").val() != ""){
-        $('#dropdown_searchTop').css("display" , "inline");
-        $('#notificationPanel').hide("fast");
-      }
-    });
-    
-    $('.mapCanvas').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-      $('#notificationPanel').hide("fast");
-    });
-    
-    $('#ajaxSV').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-      $('#notificationPanel').hide("fast");
-    });
-    
-    $('#btn-show-map').click(function(e){
-      showMap();
-    });
-
-    $("#searchForm").off().on("click", function(){
-      $("#dropdown_searchTop").css("display", "none");
-    });
+    bindEvents();
 
     //preload directory data
     $(window).on("popstate", function(e) {
@@ -636,23 +549,8 @@ jQuery(document).ready(function() {
       loadByHash(location.hash);
     }
     else{
-      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
-
+      loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
     }
-
-    $(".tooltips.annuaire").click(function (){
-      Sig.changeFilter($(this).data("sig-type"), Sig.map, "types");
-      showMap(false);
-    });
-
-    $("#btn-show-notification").click(function(){
-      if($('#notificationPanel').css("display") == "none"){
-        $('#notificationPanel').show("fast");
-      }else{
-        $('#notificationPanel').hide("fast");
-      }
-      $("#dropdown_searchTop").css("display", "none");
-    });
 
     initMap();
     resizeInterface();
@@ -703,8 +601,10 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#news.index.type") >= 0 ){
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
-    } else
+    } else if(userId != "")
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+    else
+        showPanel('box-communecter',null,null,null);
 
     //location.hash = hash;
     //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
@@ -863,7 +763,7 @@ function autoCompleteSearch(name){
 
     $("li.filter .label-danger").click(function(){ alert($(this).html());
       $("#right_tool_map").hide("false");
-      var mapData = <?php echo json_encode($projects) ?>;
+      var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
@@ -891,7 +791,7 @@ function autoCompleteSearch(name){
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
         $("#right_tool_map").hide("false");
-        var mapData = <?php echo json_encode($contextMap) ?>;
+        var mapData = <?php echo ( isset($contextMap) ) ? json_encode($contextMap) : "{}" ?>;
         thisSig.currentMarkerPopupOpen = null;  
         Sig.showMapElements(mapBg, mapData);
       }
@@ -915,5 +815,103 @@ function resizeInterface(){
   var height = $("#mapCanvasBg").height() - 55;
   $("#ajaxSV").css({"minHeight" : height});
   $("#menu-container").css({"minHeight" : height});
+}
+
+function bindEvents() { 
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { console.log("easeOutBounce");
+      $(".menuline").removeClass("hide");
+    });
+   $(".menuContainer,#menu-container").mouseout(function() { 
+      $(".menuline").addClass("hide");
+    });
+    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+      showPanel('box-event',null,"EVENTS");
+    });
+    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+      showPanel('box-city',null,"CITY");
+    });
+    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+      showPanel('box-projects',null,"PROJECTS");
+    });
+    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-orga',null,"ORGANIZATIONS");
+    });
+    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-people',null,"PEOPLE");
+    });
+    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-menu');
+    });
+
+    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
+    $(".btn-main-menu").click(function(){
+      showMap(false);
+    });
+
+    $('#searchBar').keyup(function(e){
+        var name = $('#searchBar').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
+    $('#searchBar').focusin(function(e){
+      if($("#searchBar").val() != ""){
+        $('#dropdown_searchTop').css("display" , "inline");
+        $('#notificationPanel').hide("fast");
+      }
+    });
+    
+    $('.mapCanvas').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#ajaxSV').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#btn-show-map').click(function(e){
+      showMap();
+    });
+
+    $("#searchForm").off().on("click", function(){
+      $("#dropdown_searchTop").css("display", "none");
+    });
+
+    $(".tooltips.annuaire").click(function (){
+      Sig.changeFilter($(this).data("sig-type"), Sig.map, "types");
+      showMap(false);
+    });
+
+    $("#btn-show-notification").click(function(){
+      if($('#notificationPanel').css("display") == "none"){
+        $('#notificationPanel').show("fast");
+      }else{
+        $('#notificationPanel').hide("fast");
+      }
+      $("#dropdown_searchTop").css("display", "none");
+    });
+
+    
+    $('#communectMe').keyup(function(e){
+        $("#searchBar").val( $('#communectMe').val() );
+        var name = $('#communectMe').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
 }
 </script>
