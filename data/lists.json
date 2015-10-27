@@ -87,5 +87,33 @@
         "market" : "Marché",
         "meeting" : "Réunion"
     }
+},
+{
+    "name" : "NGOCategories",
+    "list" : { 
+        "AA" : "Agriculture & Alimentation",
+        "AU" : "Architecture et Urbanisme",
+        "AC" : "Arts & Culture",
+        "DL" : "Droits & Liberté",
+        "ES" : "Entraide & Solidarité",
+        "EN" : "Écologie & Nature",
+        "EI" : "Emploi & Insertion",
+        "EF" : "Éducation & Formation",
+        "HU" : "Humanitaire",
+        "IN" : "International",
+        "PO" : "Politique",
+        "RE" : "Religion",
+        "SS" : "Santé, sanitaire et social",
+        "SD" : "Sciences & Découverte",
+        "SL" : "Sports & Loisirs",
+        "UM" : "Usages numeriques",
+        "OT" : "Autres"
+    }
+},
+{
+    "name" : "localBusinessCategories",
+    "list" : [ 
+        
+    ]
 }
 ]
