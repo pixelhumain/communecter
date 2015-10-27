@@ -6,6 +6,9 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+//Floop contact
+$cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClientScript::POS_END);
+$cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
 ?>
 <style>
 /*#menu-top-container{
@@ -30,7 +33,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 }
 
 #menu-container{
-  background-color: rgba(49, 92, 110, 0.83) !important;
+  background-color: rgba(49, 92, 110, 1) !important;
   padding: 10px;
   border-radius: 0px 0px 0px 0px;
   z-index: 1;
@@ -43,6 +46,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
   -o-box-shadow:      2px 0px 2px -2px rgba(0, 0, 0, 0.4);
   box-shadow:         2px 0px 2px -2px rgba(0, 0, 0, 0.4);
   filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
+  z-index: 10;
 }
 #menu-container a.menuIcon .menu-line {
     color: #FFF !important;
@@ -236,11 +240,8 @@ ul.notifList{
     margin-bottom:0px;
     overflow-x: hidden;
 }
-
 /* NOTIFICATIONS */
-
 /* BLOCK PROCESSING */
-
 .blockMsg{
   width: 50% !important;
   top: 17% !important;
@@ -397,6 +398,8 @@ ul.notifList{
       padding-top: 75px;
       padding-bottom: 15px;
     }
+
+  
     </style>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
@@ -407,20 +410,23 @@ ul.notifList{
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
         ?>
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
           <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span>
         </a>
 
-        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
-        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
-        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
-        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
-        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu no-floop-item"><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )"                   class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-people" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )"    class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-organizations" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )"            class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-projects" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )"               class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-events" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
 
-        <a href="javascript:;" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
-        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu no-floop-item" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
+        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu no-floop-item" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
+        
+    </div>
+    <div class="floopDrawer" id="floopDrawerDirectory">
     </div>
 </div>
  <?php /* ?>
@@ -528,6 +534,14 @@ svg.graph .line {
         } else
           return array();
     }
+
+    if(isset(Yii::app()->session['userId'])){
+      $myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
+      $myFormContact = $myContacts; 
+      $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
+    }else{
+      $myFormContact = null;
+    }
 ?>
 <script type="text/javascript">
 var timeout;
@@ -548,6 +562,7 @@ var images = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
+var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
 
 jQuery(document).ready(function() {
@@ -557,12 +572,25 @@ jQuery(document).ready(function() {
       $('.tooltips').tooltip();
     }
 
-    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { console.log("easeOutBounce");
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() {
       $(".menuline").removeClass("hide");
     });
-   $(".menuContainer,#menu-container").mouseout(function() { 
+   
+
+    $(".menuContainer,#menu-container").mouseout(function() { 
       $(".menuline").addClass("hide");
     });
+    
+    //console.log("myContacts");
+    //console.dir(myContacts);
+    if(myContacts != null){
+      var floopDrawerHtml = buildListContactHtml(myContacts);
+      $("#floopDrawerDirectory").html(floopDrawerHtml);
+      $("#floopDrawerDirectory").hide();
+      
+      bindEventFloopDrawer();
+    }
+
     $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
       showPanel('box-event',null,"EVENTS");
     });
@@ -656,6 +684,9 @@ jQuery(document).ready(function() {
 
     initMap();
     resizeInterface();
+    $(window).resize(function(){
+      resizeInterface();
+    })
 });
 
 var typesLabels = {
@@ -915,5 +946,7 @@ function resizeInterface(){
   var height = $("#mapCanvasBg").height() - 55;
   $("#ajaxSV").css({"minHeight" : height});
   $("#menu-container").css({"minHeight" : height});
+  $("#floopDrawerDirectory").css({"minHeight" : height+10});
+  $("#floopDrawerDirectory").css({"maxHeight" : height+10});
 }
 </script>

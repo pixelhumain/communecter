@@ -356,7 +356,6 @@ var formDefinition = {
             },
 	        "scope" :{
 	            	"inputType" : "scope",
-	            	"placeholder" : "Scope : select your contacts",
 	            	"values" : myContacts,
 	            	"contactTypes" : contactTypes
 	            },
