@@ -490,12 +490,18 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function(){
-		window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
-		/*toastr.info('TODO : COMMENT this news Entry');
+		alert("/comment/index/type/news/id/"+$(this).data("id"));
+		if(isNotSV)
+			showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
+		else
+			window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
+		/*
+		toastr.info('TODO : COMMENT this news Entry');
 		console.log("newsAddComment",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
-		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");*/
+		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");
+		*/
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		toastr.info('TODO : VOTE UP this news Entry');

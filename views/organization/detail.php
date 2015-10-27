@@ -28,6 +28,7 @@ $this->renderPartial('../default/panels/toolbar');
 <!-- end: PAGE CONTENT-->
 <script>
 	jQuery(document).ready(function() {
+		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo $organization["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		if($(".tooltips").length) {
      		$('.tooltips').tooltip();
    		}
