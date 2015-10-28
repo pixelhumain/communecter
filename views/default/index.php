@@ -29,10 +29,11 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
   left:25px;
 }*/
 #menu-top-container{
-  z-index:1;
+  z-index:10;
   position:fixed; 
   top:0px; 
   left:0px;
+  min-height:55px;
   padding: 10px 0px 10px 18px;
   width:100%;    
   background-color: rgba(255, 255, 255, 1);
