@@ -78,7 +78,10 @@ else
 											
 					</div>
 				</div>
+				
+
 			</div>
+			<div class="title-processing homestead stream-processing center fa-2x" style="margin-right:100px;"><i class="fa fa-spinner fa-spin"></i> Processing... </div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
@@ -119,6 +122,7 @@ var contextMap = {
 var offset="";
 var	dateLimit = 0;	
 var lastoffset="";
+var streamType="activity";
 jQuery(document).ready(function() 
 {
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
@@ -134,21 +138,10 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
-
+	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	if(contextParentType=="citoyens"){
 		setTimeout(function(){chargementActu()},0);
 		$(window).off().on("scroll",function(){ 				
-					// On surveille l'évènement scroll
-					// Fixer la barre latérale au scroll
-					//if ($window.scrollTop() > offsetSidebar.top-20) {
-					//	$sidebar.css({"position":"fixed","top":"15px","width":"22%"});
-					//} else if ($sidebar   = $("#sidebarScrollAccueil")) {
-					//	$sidebar.css({"position":"inherit","top":"inherit","width":"100%"});
-					//} 	
-					/* Si l'élément offset est en bas de scroll, alors on 
-					lance la fonction pour récupérer l'actualité qui suit. */
-					//console.log("lastOfssett:"+lastoffset+" / offset:"+(offset.top-336)+" / windowScroll:"+$(window).scrollTop());
-	
 					if(offset.top - 336 <= $(window).scrollTop()) {
 						if (lastoffset != offset.top){
 							lastoffset=offset.top;
@@ -156,12 +149,14 @@ jQuery(document).ready(function()
 						}
 					}
 			});
- 	} 
+ 	}
+ 	//$(".filter").click(function(){
+	//	  	}); 
 });
 var chargementActu = function(){
 	$.ajax({
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit,
+        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
        	dataType: "json",
     	success: function(data){
 	    	if(data){
@@ -206,8 +201,9 @@ function buildTimeLine (news)
 						"<div id='newFeedForm' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
 					"</li>"); //<div id='formCreateNewsTemp' class='timeline_element partition-white no-padding' style='min-width:85%;'>" 
 				
-				//$("#formCreateNewsTemp").remove();	
+				//$("#formCreateNewsTemp").remove();
 				$("#newFeedForm").append(formCreateNews);
+						//buildDynForm();
 			}
 			console.log(newsTLLine);
 			$(".newsTL"+date.getMonth()).append(newsTLLine);
@@ -236,6 +232,7 @@ function buildTimeLine (news)
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
+			$(".stream-processing").hide();
 
 		}
 	}else{
@@ -285,8 +282,10 @@ function buildLineHTML(newsObj)
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
-	redirectTypeUrl=newsObj.type.substring(0,newsObj.type.length-1);
-
+	if(typeof(newsObj.type) != "undefined")
+		redirectTypeUrl=newsObj.type.substring(0,newsObj.type.length-1);
+	else 
+		redirectTypeUrl="news";
 	if(newsObj.type == "citoyens" && typeof(newsObj.verb) == "undefined"){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
@@ -584,10 +583,38 @@ function bindEvent(){
 	});
 
 	$('.filter').off().on("click",function(){
+
+	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
+		 	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'+
+			 	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
+			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+			});
+			offset="";
+			dateLimit = 0;	
+			lastoffset="";
+			if ($(this).data("filter")== ".news")
+				streamType="news";
+			else if ($(this).data("filter")== ".activityStream")
+				streamType="activity";
+			$(".newsTL").empty();
+			formCreateNews = "<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
+										"<div class='no-padding form-create-news-container'>"+
+											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
+												"<i class='fa fa-pencil'></i> Share a thought, an idea </h2>"+
+												"<form id='ajaxForm'></form>"+
+										"</div>"+
+									"</div>";
+			$('.box-ajax').append(formCreateNews);					
+			chargementActu();
+			buildDynForm();
+			$.unblockUI();
+		}
+		else{
 		console.warn("filter",$(this).data("filter"));
 		filter = $(this).data("filter");
 		$(".newsFeed").hide();
 		$(filter).show();
+		}
 	});
 
 	$(".form-create-news-container #name").focus(function(){
