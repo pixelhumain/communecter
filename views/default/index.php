@@ -126,7 +126,7 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELL COMMUNECT</span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELCOM MUNECT HEY !!!</span>
     
       <?php if( isset( Yii::app()->session['userId']) ){?>
       <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
@@ -400,7 +400,7 @@ function autoCompleteSearch(name){
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           "<span>"+ htmlIco +"</span>  " + o.name;
 
