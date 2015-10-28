@@ -98,9 +98,9 @@ class CommunecterController extends Controller
     "city"=> array(
     	"index"               => array("href" => "/ph/communecter/city/index", "public" => true),
       "detail"              => array("href" => "/ph/communecter/city/detail", "public" => true),
-      "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true),
+      "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true), 
     	"directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
-    	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation"),
+    	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation", "public" => true),
     	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
@@ -131,14 +131,14 @@ class CommunecterController extends Controller
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
     ),
     "gantt"=> array(
-    	"index"            => array("href" => "/ph/communecter/gantt/index"),
+    	"index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
   		"savetask"         => array("href" => "/ph/communecter/gantt/savetask"),
   		"removetask"       => array("href" => "/ph/communecter/gantt/removetask"),
   		"generatetimeline" => array("href" => "/ph/communecter/gantt/generatetimeline"),
   		"addtimesheetsv"   => array("href" => "/ph/communecter/gantt/addtimesheetsv"),
     ),
   	"needs"=> array(
-        "index" => array("href" => "/ph/communecter/needs/index"),
+        "index" => array("href" => "/ph/communecter/needs/index", "public" => true),
         "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
         "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
         "detail" => array("href" => "/ph/communecter/needs/detail", "public" => true),
@@ -186,7 +186,7 @@ class CommunecterController extends Controller
         "importmydata"            => array("href" =>"'/ph/communecter/person/importmydata'"),
         "about"                   => array("href" => "/person/about"),
         "data"                    => array("href" => "/person/scopes"),
-        "directory"               => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
     "organization"=> array(
@@ -248,7 +248,7 @@ class CommunecterController extends Controller
     ),
 
     "pod" => array(
-    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda", "public" => true),
     	"photovideo"   => array("href" => "ph/communecter/pod/photovideo"),
     	"fileupload"   => array("href" => "ph/communecter/pod/fileupload"),
     ),
@@ -264,7 +264,7 @@ class CommunecterController extends Controller
     ),
 
     "document" => array(
-      "resized"             => array("href"=> "/ph/communecter/document/resized"),
+      "resized"             => array("href"=> "/ph/communecter/document/resized", "public" => true),
       "list"                => array("href"=> "/ph/communecter/document/list"),
       "save"                => array("href"=> "/ph/communecter/document/save"),
       "deleteDocumentById"  => array("href"=> "/ph/communecter/document/deleteDocumentById"),
@@ -275,8 +275,8 @@ class CommunecterController extends Controller
     ),
 
     "survey" => array(
-      "index"       => array("href" => "/ph/communecter/survey/index"),
-      "entries"     => array("href" => "/ph/communecter/survey/entries"),
+      "index"       => array("href" => "/ph/communecter/survey/index", "public" => true),
+      "entries"     => array("href" => "/ph/communecter/survey/entries", "public" => true),
       "savesession" => array("href" => "/ph/communecter/survey/savesession"),
       "savesurvey"  => array("href" => "/ph/communecter/survey/savesurvey"),
       "delete"      => array("href" => "/ph/communecter/survey/delete"),
@@ -291,7 +291,7 @@ class CommunecterController extends Controller
     ),
 
     "discuss"=> array(
-      "index" => array( "href" => "/ph/communecter/discuss/index"),
+      "index" => array( "href" => "/ph/communecter/discuss/index", "public" => true),
     ),
 
     "comment"=> array(
@@ -333,7 +333,6 @@ class CommunecterController extends Controller
                             "person/authenticate", 
                             "person/activate", 
                             "person/sendemail",
-                            "default/index",
                             //Document Resizer
                             "document/resized");
 
