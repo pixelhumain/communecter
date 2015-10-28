@@ -87,5 +87,53 @@
         "market" : "Marché",
         "meeting" : "Réunion"
     }
+},
+{
+    "name" : "NGOCategories",
+    "list" : { 
+        "AA" : "Agriculture & Alimentation",
+        "AU" : "Architecture et Urbanisme",
+        "AC" : "Arts & Culture",
+        "DL" : "Droits & Liberté",
+        "ES" : "Entraide & Solidarité",
+        "EN" : "Écologie & Nature",
+        "EI" : "Emploi & Insertion",
+        "EF" : "Éducation & Formation",
+        "HU" : "Humanitaire",
+        "IN" : "International",
+        "PO" : "Politique",
+        "RE" : "Religion",
+        "SS" : "Santé, sanitaire et social",
+        "SD" : "Sciences & Découverte",
+        "SL" : "Sports & Loisirs",
+        "UM" : "Usages numeriques",
+        "OT" : "Autres"
+    }
+},
+{
+    "name" : "localBusinessCategories",
+    "list" : {
+        "AL" : "Alimentaire",
+        "AU" : "Automobile",
+        "BA" : "Banque / Assurance",
+        "BP" : "Bois / Papier / Imprimerie",
+        "BT" : "BTP / Matériaux de construction",
+        "CH" : "Chimie / Parachimie",
+        "CT" : "Collecte, Traitement, Recyclage",
+        "CO" : "Commerce / Distribution",
+        "ED" : "Edition / Communication / Multimédia",
+        "EE" : "Electronique / Electricité",
+        "EN" : "Environnement / Espaces Verts",
+        "EC" : "Etudes / conseils",
+        "EV" : "Evénementiel / Tourisme",
+        "IT" : "Informatique / Télécom",
+        "LT" : "Logistique, Transport",
+        "MP" : "Mise à disposition de personnel",
+        "RE" : "Restauration",
+        "RH" : "Services RH et administratifs",
+        "TA" : "Textile, Artisanat",
+        "TO" : "Tourisme",
+        "SE" : "Service aux entreprises"
+    }
 }
 ]

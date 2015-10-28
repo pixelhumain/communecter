@@ -1,44 +1,7 @@
-<?php 
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
-//Data helper
-$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
-	
-?>
-
-<div class="pull-right" style="padding:20px;">
-	<a href="#" onclick="showHideMenu ()">
-		<i class="menuBtn fa fa-bars fa-3x text-white "></i>
-	</a>
-</div>
-
-
-<div class="row">
 	<div class="main-login col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
-	<a class="byPHRight" href="#"><img style="height: 39px;position: absolute;right: -142px;top: 203px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
-		<!-- start: LOGIN BOX -->
-		<?php 
-		$this->renderPartial('../default/menuTitle');
-		$this->renderPartial('../default/panels/what');
-		$this->renderPartial('../default/panels/how');
-		$this->renderPartial('../default/panels/why');
-		$this->renderPartial('../default/panels/where');
-		$this->renderPartial('../default/panels/when');
-		$this->renderPartial('../default/panels/who');
-		$this->renderPartial('../default/panels/events');
-		$this->renderPartial('../default/panels/cities');
-		$this->renderPartial('../default/panels/orga');
-		$this->renderPartial('../default/panels/people');
-		$this->renderPartial('../default/panels/involved');
-		$this->renderPartial('../default/panels/projects');
-		$this->renderPartial('../default/panels/ph');
-		$this->renderPartial('../default/panels/communecter');
-		?>
-		
 
-		<div class="box-login box box-white-round">
+		<div class="box-login box box-white-round" style="display:none">
 
 			<form class="form-login" action="" method="POST">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
@@ -204,84 +167,34 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 		</div>
 		<!-- end: REGISTER BOX -->
 	</div>
-	<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  center">
-		<h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
-		<div class="box-ajax box box-white-round">
-			<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
-		</div>
-	</div>
-
-</div>
-
+	
 
 <div class="eventMarker" style="z-index:-1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/event.png" style="width:72px;" />
 	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
 </div>
 <div class="cityMarker" style="z-index:-1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/mairie.png" style="width:72px;" />
 </div>
 <div class="projectMarker" style="z-index:-1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/project.png" style="width:72px;" />
 	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
 </div>
 <div class="assoMarker" style="z-index:-1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
 	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/asso.png" style="width:72px;" />
 </div>
 <div class="userMarker" style="z-index:-1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/user.png" style="width:72px;" />
 </div>
 <div class="connectMarker text-white" style="z-index:-1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
 	<i class="fa fa-sign-in fa-2x"></i> 
 	<span class="homestead connectlabel" style="display:none;color:white;font-size:25px"> CONNECT</span>
 </div>
 
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
 
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top5:0px; left:50px; cursor:pointer;" />
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
-
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.png" style="display:none;position:absolute; top:750px; right:400px; cursor:pointer;" />
-
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
-
-<?php /* ?>
-http://habibhadi.com/lab/svgPathAnimation/demo/
-http://jonobr1.github.io/two.js/#basic-usage
-http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
-
-<style type="text/css">
-svg.graph {
-	position: absolute;
-	top:0px;
-	left: 0px;
-	height: 1000px;
-	width: 1000px;
-}
-
-svg.graph .line {
-  stroke: white;
-  stroke-width: 1;
-}
-</style>
-
-<svg class="graph">
-  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
-  <path class="line" d=" M 0 0 L 600 100"></path>
-  <path class="line" d=" M 0 0 L 150 150"></path>
-  <path class="line" d=" M 0 0 L 330 100"></path>
-</svg>
-*/?>
 
 <script type="text/javascript">
 	var geoPositionCity = null;
@@ -290,7 +203,7 @@ svg.graph .line {
 		userId = null;
 		Main.init();
 		Login.init();	
-		titleAnim ();	
+		//titleAnim ();	
 		if (email != "") {
 			$(".form-login #email").val( email );
 		}

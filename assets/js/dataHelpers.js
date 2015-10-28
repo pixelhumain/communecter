@@ -23,6 +23,18 @@ function getCountries(selectType) {
 	return result;
 }
 
+function formatDataForSelect(data, selectType) {
+	var result = new Array();
+	$.each(data, function(key,value) {
+		if (selectType == "select2") {
+			result.push({"id" : key, "text" :value});
+		} else {
+			result.push({"value" : key, "text" :value});
+		}
+	});
+	return result;
+}
+
 function getCitiesByPostalCode(postalCode, selectType) {
 	var result =new Array();
 	$.ajax({

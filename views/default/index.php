@@ -21,327 +21,6 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
 <script src="external/jquery/jquery.js"></script>
 <script src="jquery-ui.js"></script>
  -->
-<style>
-/*#menu-top-container{
-  z-index:1;
-  position:absolute; 
-  top:15px; 
-  left:25px;
-}*/
-#menu-top-container{
-  z-index:1;
-  position:fixed; 
-  top:0px; 
-  left:0px;
-  padding: 10px 0px 10px 18px;
-  width:100%;    
-  background-color: rgba(255, 255, 255, 1);
-  -moz-box-shadow:    0px 2px 2px -2px rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.4);
-  -o-box-shadow:      0px 2px 2px -2px rgba(0, 0, 0, 0.4);
-  box-shadow:         0px 2px 2px -2px rgba(0, 0, 0, 0.4);
-  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
-}
-
-#menu-container{
-  background-color: rgba(49, 92, 110, 1) !important;
-  padding: 10px;
-  border-radius: 0px 0px 0px 0px;
-  z-index: 1;
-  position: fixed;
-  top: 56px;
-  left: 0px;
-  border: none;
-  -moz-box-shadow:    2px 0px 2px -2px rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: 2px 0px 2px -2px rgba(0, 0, 0, 0.4);
-  -o-box-shadow:      2px 0px 2px -2px rgba(0, 0, 0, 0.4);
-  box-shadow:         2px 0px 2px -2px rgba(0, 0, 0, 0.4);
-  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
-  z-index: 10;
-}
-#menu-container a.menuIcon .menu-line {
-    color: #FFF !important;
-}
-#menu-container a.menuIcon:hover .menu-line {
-    color: #58879B !important;
-}
-#searchBar{
-  height: 56px;
-  top: 0px;
-  position: absolute;
-  right: 60px;
-  border: 0;
-  background-color: rgba(160, 183, 192, 0.18) !important;
-  color: #116168 !important;
-  padding: 0px 20px;
-  width: 272px;
-}
-
-.box-white-round{
-  background-color:rgba(255, 255, 255, 0.5) !important;
-  border-radius:10px !important;
-}
-
-li.mix{
-  background:rgba(255, 255, 255, 0.7) !important;
-  border-radius: 2px;
-  box-shadow: none;
-  border: 1px solid rgba(187, 187, 187, 0.49);
-}
-.panel-body{
-  background:rgba(255, 255, 255, 0.6) !important;
-}
-#dropdown_searchTop .li-dropdown-scope ol{
-  padding: 5px !important;
-  color: #155869;
-  padding-left: 15px !important;
-}
-
-#dropdown_searchTop .li-dropdown-scope ol a{
-  color:inherit !important;
-}
-#dropdown_searchTop .li-dropdown-scope ol:hover{
-  background-color:#88BBC8;
-  color:white !important;
-}
-.timeline-scrubber{
-  z-index:1 !important;
-}
-#menu-top-container .dropdown-menu {
-    position: absolute;
-    top: 96%;
-    left: unset;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 153px;
-    padding: 5px 0px;
-    margin: 2px 0px 0px;
-    font-size: 14px;
-    text-align: left;
-    list-style: outside none none;
-    background-color: #FFF;
-    background-clip: padding-box;
-    border: 0px solid rgba(0, 0, 0, 0.15);
-    border-radius: 1px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
-    width: 333px;
-    padding: 10px 0px;
-    right: -1px !important;
-    max-height:520px;
-    overflow-y: auto; 
-}
-
-#menu-top-container .fa-search{
-  right: 332px;
-  position: absolute;
-  font-size: 18px;
-  padding: 8px 6px;
-  color: rgba(17, 97, 104, 0.66) !important;
-}
-
-#menu-top-container .btn-menu-top{
-  height: 56px;
-  width: 70px;
-  top: 0px;
-  position: absolute;
-  font-size: 20px;
-  padding: 8px 6px;
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: #315C6E;
-  border: none;
-  border-radius: 0px;
-}
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-    color: #FFF;
-    background-color: #7BA4B1;
-}
-
-.city-search {
-  font-size: 0.95rem;
-  font-weight: 300;
-  line-height: 0.8125rem;
-}
-
-.searchEntry i.fa{
-  border-radius:30px;
-  padding: 10px 13px;
-  vertical-align: middle;
-  margin-top: -5px;
-}
-.searchEntry i.fa:hover{
-}
-
-.moduleLabel{
-  margin-left:70px;
-}
-
-#btn-show-map{
-  right: 0px !important;
-}
-
-/* NOTIFICATIONS */
-#btn-show-notification{
-  left:0px !important;
-  position:absolute;
-}
-#btn-show-notification i.fa{
-  margin-right: 10px;
-}
-#btn-show-notification .badge{
-  position: absolute;
-  top: 32%;
-  left: 47%;
-}
-#btn-show-notification .badge.badge-danger{
-  background-color: #D9534F !important;
-}
-#btn-show-notification .badge.badge-info{
-  /*background-color: #D9534F !important;*/
-}
-#notificationPanel{
-  margin: 0px;
-  background-color: rgba(82, 129, 149, 1); /*rgba(36, 81, 101, 0.5)*/
-  color: #FFF;
-  position: absolute;
-  left: 70px;
-  z-index: 1000;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
-  top: 56px !important;
-  width: 400px !important;
-    
-}
-.notifications{
-    background-color: transparent;
-    padding: 20px 0px !important;
-}
-.notifications li{
-  list-style-type: none;
-}
-.notifications a.notif{
-  background-color: white;
-  border-radius: 0px;
-  margin: -1px 0px;
-  padding: 11px;
-  position: relative;
-  padding: 15px 10px;
-}
-.pageslide-title {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    text-align: center;
-}
-.pageslide-list{
-  padding: 0px;
-}
-.pageslide-list .btn-primary {
-    color: #2A5B6E;
-    background-color: #C1D4DD;
-    border-color: rgba(187, 211, 222, 0.59);
-}
-.pageslide-list .btn-primary:hover {
-    color: #C1D4DD;
-    background-color: #2A5B6E;
-    
-}
-ul.notifList{
-    padding-right:0px; 
-    margin-top:15px;
-    margin-bottom:0px;
-    overflow-x: hidden;
-}
-/* NOTIFICATIONS */
-/* BLOCK PROCESSING */
-.blockMsg{
-  width: 50% !important;
-  top: 17% !important;
-  left: 24% !important;
-}
-.blockMsg img{
-  max-width:70%;
-  height:auto;
-  width:auto;
-}
-.blockMsg .title-processing{
-  padding: 25px;
-  color: #30A8B1;
-  font-size:30px !important;
-  
-}
-
-/* BLOCK PROCESSING */
-
-
-
-      #ajaxSV{
-        min-height: 500px;
-        display: block;
-        padding: 50px 50px 50px 120px;
-        margin: 0px 0px;
-        top: -23px !important;
-      }
-      @media screen and (max-width: 768px) {
-        #ajaxSV,.box{top:-100px;}
-      }
-      .main-col{
-        margin:0px !important;
-      }
-
-
-#menu-container{
-  padding:10px 0px !important;
-}
-.menuline{
-    line-height: 31px;
-    font-size: 1.5em;
-    color:inherit;
-    float:right;
-    margin-left:5px;
-    min-width: 210px;
-    text-align: right;
-    
-}
-.menuline.hide{
-    min-width: 0px;
-}
-.menuIcon {
-    /*border:1px solid white;*/
-    color: rgba(255, 255, 255, 0.85) !important;
-    display: block;
-    height: 45px;
-    padding: 9px 15px;
-    border-radius: 0px;
-}
-.menuIcon i {
-  margin-left: 5px;
-  width: 30px;
-  color: inherit;
-}
-.menuIcon:hover {
-    color:#58879B !important;;
-    background-color: white;
-    border: 0px solid #CFDFE4;
-    -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-    -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-    box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
-}
-.hoverRed:hover {
-  color:red !important;
-}
-.menuIcon i{
-    float:left;
-    margin-left:5px;
-}
-.main-title h2{
-  color:#58879B !important;
-  font-size:30px;
-  padding-top: 75px;
-  padding-bottom: 15px;
-}
-
-
-</style>
 
 <div class="pull-right" style="padding:20px;">
   <a href="javascript:;" onclick="showHideMenu ()">
@@ -410,6 +89,8 @@ ul.notifList{
   LEFT MENU
 **************************** */?>
 
+
+<?php if( isset( Yii::app()->session['userId']) ){?>
 <div class="center text-white" id="menu-container" >
     <div class="center text-white pull-left menuContainer">
         <?php 
@@ -438,23 +119,23 @@ ul.notifList{
     <div class="floopDrawer" id="floopDrawerDirectory">
     </div>
 </div>
- <?php /* ?>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
-        */?>
+ <?php } ?>
        
 
 <?php /* **********************
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELL COMMUNECT</span>
     
-      <?php //if( empty( $this->notifications )  ){?>
+      <?php if( isset( Yii::app()->session['userId']) ){?>
       <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
         <i class="fa fa-bell-o"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
-      <?php //} ?><form class="inner pull-right">
+      <?php } else { ?>
+      <a id="btn-show-notification" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right"><i class="fa fa-sign-in fa-2x"></i></a>
+      <?php } ?><form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
@@ -488,48 +169,24 @@ ul.notifList{
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
-<?php  */ /* ?>
-
-http://habibhadi.com/lab/svgPathAnimation/demo/
-http://jonobr1.github.io/two.js/#basic-usage
-http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
-
-<style type="text/css">
-svg.graph {
-  position: absolute;
-  top:0px;
-  left: 0px;
-  height: 1000px;
-  width: 1000px;
-}
-
-svg.graph .line {
-  stroke: white;
-  stroke-width: 1;
-}
-</style>
-
-<svg class="graph">
-  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
-  <path class="line" d=" M 0 0 L 600 100"></path>
-  <path class="line" d=" M 0 0 L 150 150"></path>
-  <path class="line" d=" M 0 0 L 330 100"></path>
-</svg>
 */?>
 
 <?php 
     //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
     //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    if( isset( Yii::app()->session['userId']) ){
+      foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+      foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+      foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+      foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+      
+      
+      if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+      if(isset($people))          $contextMap = array_merge($contextMap, $people);
+      if(isset($events))          $contextMap = array_merge($contextMap, $events);
+      if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    }
 
     function random_pic()
     {
@@ -556,16 +213,16 @@ svg.graph .line {
 var timeout;
 var mapIconTop = {
     "default" : "fa-arrow-circle-right",
-    "citoyen":"fa-user", 
-    "NGO":"fa-users",
-    "LocalBusiness" :"fa-industry",
-    "Group" : "fa-circle-o",
-    "group" : "fa-users",
-    "association" : "fa-users",
-    "GovernmentOrganization" : "fa-university",
-    "event":"fa-calendar",
-    "project":"fa-lightbulb-o",
-    "city":"fa-university"
+    "citoyen":"<?php echo Person::ICON ?>", 
+    "NGO":"<?php echo Organization::ICON ?>",
+    "LocalBusiness" :"<?php echo Organization::ICON_BIZ ?>",
+    "Group" : "<?php echo Organization::ICON_GROUP ?>",
+    "group" : "<?php echo Organization::ICON ?>",
+    "association" : "<?php echo Organization::ICON ?>",
+    "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
+    "event":"<?php echo Event::ICON ?>",
+    "project":"<?php echo Project::ICON ?>",
+    "city": "<?php echo City::ICON ?>"
   };
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
@@ -581,85 +238,8 @@ jQuery(document).ready(function() {
       $('.tooltips').tooltip();
     }
 
-    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() {
-      $(".menuline").removeClass("hide");
-    });
-   
-
-    $(".menuContainer,#menu-container").mouseout(function() { 
-      $(".menuline").addClass("hide");
-    });
+    bindEvents();
     
-    //console.log("myContacts");
-    //console.dir(myContacts);
-    if(myContacts != null){
-      var floopDrawerHtml = buildListContactHtml(myContacts);
-      $("#floopDrawerDirectory").html(floopDrawerHtml);
-      $("#floopDrawerDirectory").hide();
-      
-      bindEventFloopDrawer();
-    }
-
-    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
-      showPanel('box-event',null,"EVENTS");
-    });
-    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
-      showPanel('box-city',null,"CITY");
-    });
-    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
-      showPanel('box-projects',null,"PROJECTS");
-    });
-    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-orga',null,"ORGANIZATIONS");
-    });
-    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-people',null,"PEOPLE");
-    });
-    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-menu');
-    });
-
-    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
-    $(".btn-main-menu").click(function(){
-      showMap(false);
-    });
-
-    $('#searchBar').keyup(function(e){
-        var name = $('#searchBar').val();
-        $(this).css("color", "#58879B");
-        if(name.length>=3){
-          clearTimeout(timeout);
-          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
-        }else{
-          $("#dropdown_searchTop").css("display", "none");
-          $('#notificationPanel').hide("fast");
-        }   
-    });
-
-    $('#searchBar').focusin(function(e){
-      if($("#searchBar").val() != ""){
-        $('#dropdown_searchTop').css("display" , "inline");
-        $('#notificationPanel').hide("fast");
-      }
-    });
-    
-    $('.mapCanvas').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-      $('#notificationPanel').hide("fast");
-    });
-    
-    $('#ajaxSV').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-      $('#notificationPanel').hide("fast");
-    });
-    
-    $('#btn-show-map').click(function(e){
-      showMap();
-    });
-
-    $("#searchForm").off().on("click", function(){
-      $("#dropdown_searchTop").css("display", "none");
-    });
 
     //preload directory data
     $(window).on("popstate", function(e) {
@@ -673,23 +253,8 @@ jQuery(document).ready(function() {
       loadByHash(location.hash);
     }
     else{
-      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
-
+      loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
     }
-
-    $(".tooltips.annuaire").click(function (){
-      Sig.changeFilter($(this).data("sig-type"), Sig.map, "types");
-      showMap(false);
-    });
-
-    $("#btn-show-notification").click(function(){
-      if($('#notificationPanel').css("display") == "none"){
-        $('#notificationPanel').show("fast");
-      }else{
-        $('#notificationPanel').hide("fast");
-      }
-      $("#dropdown_searchTop").css("display", "none");
-    });
 
     initMap();
     resizeInterface();
@@ -743,8 +308,10 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#news.index.type") >= 0 ){
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
-    } else
+    } else if(userId != "")
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+    else
+        showPanel('box-communecter',null,null,null);
 
     //location.hash = hash;
     //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
@@ -903,7 +470,7 @@ function autoCompleteSearch(name){
 
     $("li.filter .label-danger").click(function(){ alert($(this).html());
       $("#right_tool_map").hide("false");
-      var mapData = <?php echo json_encode($projects) ?>;
+      var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
@@ -931,7 +498,7 @@ function autoCompleteSearch(name){
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
         $("#right_tool_map").hide("false");
-        var mapData = <?php echo json_encode($contextMap) ?>;
+        var mapData = <?php echo ( isset($contextMap) ) ? json_encode($contextMap) : "{}" ?>;
         thisSig.currentMarkerPopupOpen = null;  
         Sig.showMapElements(mapBg, mapData);
       }
@@ -959,5 +526,102 @@ function resizeInterface(){
   console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
+}
+
+function bindEvents() { 
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() {
+      $(".menuline").removeClass("hide");
+    });
+   
+
+    $(".menuContainer,#menu-container").mouseout(function() { 
+      $(".menuline").addClass("hide");
+    });
+    
+    //console.log("myContacts");
+    //console.dir(myContacts);
+    if(myContacts != null){
+      var floopDrawerHtml = buildListContactHtml(myContacts);
+      $("#floopDrawerDirectory").html(floopDrawerHtml);
+      $("#floopDrawerDirectory").hide();
+      
+      bindEventFloopDrawer();
+    }
+
+    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+      showPanel('box-event',null,"EVENTS");
+    });
+    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+      showPanel('box-city',null,"CITY");
+    });
+    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+      showPanel('box-projects',null,"PROJECTS");
+    });
+    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-orga',null,"ORGANIZATIONS");
+    });
+    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-people',null,"PEOPLE");
+    });
+    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-menu');
+    });
+
+    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
+    $(".btn-main-menu").click(function(){
+      showMap(false);
+    });
+
+    $('#searchBar').keyup(function(e){
+        var name = $('#searchBar').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
+    $('#searchBar').focusin(function(e){
+      if($("#searchBar").val() != ""){
+        $('#dropdown_searchTop').css("display" , "inline");
+        $('#notificationPanel').hide("fast");
+      }
+    });
+    
+    $('.mapCanvas').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#ajaxSV').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#btn-show-map').click(function(e){
+      showMap();
+    });
+
+    $("#searchForm").off().on("click", function(){
+      $("#dropdown_searchTop").css("display", "none");
+    });
+
+    
+    $('#communectMe').keyup(function(e){
+        $("#searchBar").val( $('#communectMe').val() );
+        var name = $('#communectMe').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
 }
 </script>
