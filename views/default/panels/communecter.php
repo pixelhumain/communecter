@@ -8,18 +8,26 @@
 		#communectMe{
 			line-height: 35px;
 			height : 60px;
-			opacity : 0.3;
+			opacity : 0.6;
 			border:none;
-			width: 330px;
+			width: 450px;
 			font-weight: bold;
 			font-size: 1.5em;
+			border-radius: 10px;
 		}
 		</style>
-		<br/><span class="homestead">CITY OR POSTAL CODE</span> : 
-		<br/><input type="text" name="communectMe" id="communectMe"/>
+		<br/><span class="homestead">FIND MY CITY</span> 
+		<br/><input type="text" class="center" name="communectMe" id="communectMe" placeholder="city, postal code"/>
 		<br/><br/>
-		<iframe class="pull-left" src="https://player.vimeo.com/video/133636468" style="width:45%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-		<iframe class="pull-right" src="https://player.vimeo.com/video/74212373" style="width:45%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		<div class="partition-white padding-20 radius-10">
+			Communect is part the commons
+			<br/> Get together to build connected territories
+			<br/> Organize, develop and innovate localy, socialy and massively.
+			<br/><br/>
+			<iframe class="pull-left" src="https://player.vimeo.com/video/133636468" style="width:45%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<iframe class="pull-right" src="https://player.vimeo.com/video/74212373" style="width:45%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		</div>
+		
 	</section>
 	<div class="space20"></div>
 	<a href="#" onclick="showPanel('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
