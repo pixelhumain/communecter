@@ -112,8 +112,28 @@
 },
 {
     "name" : "localBusinessCategories",
-    "list" : [ 
-        
-    ]
+    "list" : {
+        "AL" : "Alimentaire",
+        "AU" : "Automobile",
+        "BA" : "Banque / Assurance",
+        "BP" : "Bois / Papier / Imprimerie",
+        "BT" : "BTP / Matériaux de construction",
+        "CH" : "Chimie / Parachimie",
+        "CT" : "Collecte, Traitement, Recyclage",
+        "CO" : "Commerce / Distribution",
+        "ED" : "Edition / Communication / Multimédia",
+        "EE" : "Electronique / Electricité",
+        "EN" : "Environnement / Espaces Verts",
+        "EC" : "Etudes / conseils",
+        "EV" : "Evénementiel / Tourisme",
+        "IT" : "Informatique / Télécom",
+        "LT" : "Logistique, Transport",
+        "MP" : "Mise à disposition de personnel",
+        "RE" : "Restauration",
+        "RH" : "Services RH et administratifs",
+        "TA" : "Textile, Artisanat",
+        "TO" : "Tourisme",
+        "SE" : "Service aux entreprises"
+    }
 }
 ]
