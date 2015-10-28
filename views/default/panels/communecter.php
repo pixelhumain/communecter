@@ -20,8 +20,8 @@
 		<br/><input type="text" class="center" name="communectMe" id="communectMe" placeholder="city, postal code"/>
 		<br/><br/>
 		<div class="partition-white padding-20 radius-10">
-			Communect is part the commons
-			<br/> Get together to build connected territories
+			<span class="homestead text-red" >Communect</span> is part <a href="#" class="text-red">the commons</a>
+			<br/> Get together to build <a href="#" class="text-red">connected territories</a>
 			<br/> Organize, develop and innovate localy, socialy and massively.
 			<br/><br/>
 			<iframe class="pull-left" src="https://player.vimeo.com/video/133636468" style="width:45%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
