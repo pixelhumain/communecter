@@ -3,7 +3,7 @@
 	var SigLoader = new Array();
 
 		SigLoader.getSig = function (){
-
+			
 			this.Sig = new Array();
 
 			this.Sig.map = null;
@@ -636,20 +636,22 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 	 		
-			//console.warn("--------------- loadMap ---------------------");
+			console.warn("--------------- loadMap ---------------------");
 			canvasId += initParams.sigKey;
+			if(this.map == null){
+				$("#"+canvasId).html("");
+				$("#"+canvasId).css({"background-color": this.mapColor});
 
-			$("#"+canvasId).html("");
-			$("#"+canvasId).css({"background-color": this.mapColor});
-
-			//initialisation des variables de départ de la carte
-			if(canvasId != "")
-			var map = L.map(canvasId, { "zoomControl" : false,
-										"scrollWheelZoom":true,
-										"center" : [51.505, -0.09],
-										"zoom" : 4,
-										"worldCopyJump" : false });
-
+				//initialisation des variables de départ de la carte
+				if(canvasId != "")
+				var map = L.map(canvasId, { "zoomControl" : false,
+											"scrollWheelZoom":true,
+											"center" : [51.505, -0.09],
+											"zoom" : 4,
+											"worldCopyJump" : false });
+			}else{
+				var map = this.map;
+			}
 			//initialisation de l'interface
 			Sig.initEnvironnement(map, initParams);
 			if(canvasId == "") return;

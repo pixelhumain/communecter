@@ -17,6 +17,23 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
+	.fileupload, .fileupload-preview.thumbnail, 
+	.fileupload-new .thumbnail, 
+	.fileupload-new .thumbnail img, 
+	.fileupload-preview.thumbnail img {
+	    width: 100%;
+	}
+	.panelDetails .row{
+		margin:0px !important;
+	}
+	.info-coordonnees a{
+		font-size:14px;
+		font-weight: 500;
+	}
+	.info-shortDescription a{
+		font-size:14px;
+		font-weight: 500;
+	}
 
 </style>
 <div class="panel panel-white">
@@ -36,14 +53,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
 					if(!isset($organization["disabled"])){
 				 	?>
-					<a href="#" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
-					<a href="#" id="disableOrganization" class="btn btn-xs btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i></a>
+					<a href="javascript:" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+					<a href="javascript:" id="disableOrganization" class="btn btn-xs btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i></a>
 			<?php } else {?>
 					<span class="label label-danger">DISABLED</span>
 			<?php }} ?>
 		</div>
 	</div>
-	<div class="panel-body border-light" id="organizationDetail">
+	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
 			<div class="col-sm-6 col-xs-6">
 				<?php 
@@ -55,11 +72,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				?>
 			</div>
 			<div class="col-sm-6 col-xs-6">
-				<div class="row height-155 padding-20">
+				<div class="row padding-20 info-coordonnees">
 					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
 						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
+				
 					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
 					</a>
@@ -68,21 +86,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 					</a>
 					<br>
+				
 					<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
 					</a>
 					<br>
+				
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 						<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 					</a>
 					<br>
+				
 					<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 					</a>
 				</div>
-				<div class="row padding-20" style="background-color:#E6E6E6; min-height:155px;">
+				<div class="row padding-20 info-shortDescription" style="background-color:#E6E6E6;">
 					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
@@ -96,22 +117,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 			</div>
 		</div>
-		<div class="row" style="background-color:#E6E6E6">
-			<div class="col-sm-6 col-xs-6">
-				<h3> Activités</h3>
-			</div>
-			<div class="col-sm-6 col-xs-6">
-				<h3> Thématiques</h3>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-sm-6 col-xs-6 padding-20">
-				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click">
-				</a>
+				<h3><i class="fa fa-angle-down"></i> Activités</h3>
+				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
 			</div>
 			<div class="col-sm-6 col-xs-6 padding-20">
+				<h3><i class="fa fa-angle-down"></i> Thématiques</h3>
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
-					
 				</a>
 			</div>
 		</div>

@@ -14,18 +14,44 @@
 			font-weight: bold;
 			font-size: 1.5em;
 			border-radius: 10px;
+			border-bottom : 1px solid #666;
 		}
 		</style>
-		<br/><span class="homestead">FIND MY CITY</span> 
-		<br/><input type="text" class="center" name="communectMe" id="communectMe" placeholder="city, postal code"/>
-		<br/><br/>
+		
 		<div class="partition-white padding-20 radius-10">
-			<span class="homestead text-red" >Communect</span> is part <a href="#" class="text-red">the commons</a>
-			<br/> Get together to build <a href="#" class="text-red">connected territories</a>
-			<br/> Organize, develop and innovate localy, socialy and massively.
-			<br/><br/>
-			<iframe class="pull-left" src="https://player.vimeo.com/video/133636468" style="width:45%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-			<iframe class="pull-right" src="https://player.vimeo.com/video/74212373" style="width:45%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<br/><input type="text" class="center" name="communectMe" id="communectMe" placeholder="Your city or postal code"/>
+			<div class="space20"></div>
+			<span class="homestead text-red" >Communect</span> is part of <a href="#" class="text-red">the commons</a>
+			<br/> Get together to build 
+			<br/> <a href="#" class="text-red">smart, democratic and connected territories</a>
+			<br/> Organize, develop and innovate 
+			<br/> Localy, socialy and massively.
+			<div class="space10"></div>
+			<div class="row radius-10 padding-20" style="background-color: black">
+				<iframe class=" col-sm-6" src="https://player.vimeo.com/video/133636468" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+				<iframe class="col-sm-6" src="https://player.vimeo.com/video/74212373" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			</div>
+			<div class="space20"></div>
+			<div class="col-sm-6">
+				Connected Cities
+				<br/>
+				<a href="#todo" class="text-red btn btn-xs btn-default">St Pierre</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">St Denis</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Lilles</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Toulouse</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Paris</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Montpellier</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Perpignan</a>
+			</div>
+			<div class="col-sm-6">
+				Connected People
+				<br/>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Tibor</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Sylvain</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Clement</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Mathieu</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Guillaume</a> 
+			</div>
 		</div>
 		
 	</section>
