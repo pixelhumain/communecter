@@ -623,8 +623,9 @@ function bindEvent(){
 		showFormBlock(true);	
 	});
 
-	$(".form-create-news-container #name").focusout(function(){
-		if($(".form-create-news-container #name").val() == ""){
+	$("#timeline").focus(function(){
+		if($(".form-create-news-container #name").val() == "" &&
+			$(".form-create-news-container #text").val() == ""){
 			showFormBlock(false);
 		}
 	});
@@ -632,14 +633,14 @@ function bindEvent(){
 
 function updateNews(newsObj)
 {
-	/*var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date) {
+	var date = new Date( parseInt(newsObj.created)*1000 );
+	if(newsObj.date && newsObj.created != date) {
 		d = newsObj.date.split("/");
 		month = parseInt(d[1])-1;
 		date = new Date( d[2], month,d[0] ) ;
 	}
 	var newsTLLine = buildLineHTML(newsObj);
-	$(".newsTL"+date.getMonth()).prepend(newsTLLine);*/
+	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
 }
 
 
