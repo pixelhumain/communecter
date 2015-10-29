@@ -538,20 +538,21 @@ function buildDynForm(){
 	    	  data: params,
 	    	  dataType: "json"
 	    	}).done( function(data){
-					
+					console.log(data);
 	    		if(data.result)
 	    		{
 	    			if(countEntries == 0){
-	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
-						toastr.success('Saved successfully!');
-						return;
+
+	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSv=1', 'KESS KISS PASS ','rss' )
 					}
-	    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" )
-	            		updateNews(data.object);
-	            	else if( notSubview )
-	            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
-					
-	            	
+					else {
+		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){		
+		            		updateNews(data.object);
+		            	}else {
+			          
+		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSv=1', 'KESS KISS PASS ','rss' )
+		            	}
+					}
 					//console.dir(data);
 					$.unblockUI();
 					//$("#ajaxSV").html('');
