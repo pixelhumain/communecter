@@ -469,33 +469,34 @@ function autoCompleteSearch(name){
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
-    
-    $("li.filter .label-danger").click(function(){ alert($(this).html());
+    //alert("stop !");
+
+    $("li.filter .label-danger").click(function(){
       $("#right_tool_map").hide("false");
       var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
-    $(".filterorganizations").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("organizations", Sig.map, "types");
-    });
-    $(".filterpersons").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("people", Sig.map, "types");
-    });
-    $(".filterevents").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("events", Sig.map, "types");
-    });
-    $(".filterprojects").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("projects", Sig.map, "types");
-    });
+    // $(".filterorganizations").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("organizations", Sig.map, "types");
+    // });
+    // $(".filterpersons").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("people", Sig.map, "types");
+    // });
+    // $(".filterevents").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("events", Sig.map, "types");
+    // });
+    // $(".filterprojects").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("projects", Sig.map, "types");
+    // });
     //EVENT MENU PANEL - ALL
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
