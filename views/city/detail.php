@@ -29,7 +29,7 @@ $this->renderPartial('../default/panels/toolbar');
 
     $rand = rand(0, sizeof($organizations)-1);
     //echo "rand : " . $rand;
-    $randomOrganization = $organizations[$rand];
+    $randomOrganization = isset($organizations[$rand]) ? $organizations[$rand] : null;
     //var_dump($randomOrganization);
     //die();
     //var_dump($people);var_dump($projects);
@@ -93,7 +93,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
   <div class="col-sm-8 col-xs-12">
-        <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
+        <?php if($randomOrganization != null) $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
 
