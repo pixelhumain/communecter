@@ -129,12 +129,12 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
     <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELCOM MUNECT HEY !!!</span>
     
       <?php if( isset( Yii::app()->session['userId']) ){?>
-      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
+      <button id="btn-show-notification" class="btn btn-default btn-corner-top-left btn-menu-top pull-right">
         <i class="fa fa-bell-o"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a id="btn-show-notification" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right"><i class="fa fa-sign-in fa-2x"></i></a>
+      <a id="btn-login" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-sign-in fa-2x"></i></a>
       <?php } ?><form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -601,6 +601,10 @@ function bindEvents() {
       $('#notificationPanel').hide("fast");
     });
     
+    $('#btn-show-notification').click(function(){
+      $('#notificationPanel').show("fast");
+    });
+
     $('#btn-show-map').click(function(e){
       showMap();
     });

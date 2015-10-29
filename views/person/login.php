@@ -7,6 +7,13 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 	
 ?>
+<style>
+	fieldset{
+		padding-top:15px; 
+		padding-left:70px;
+		padding-right:70px; 
+	}
+</style>
 
 <div class="pull-right" style="padding:20px;">
 	<a href="#" onclick="showHideMenu ()">
@@ -44,7 +51,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
 				<?php //echo Yii::app()->session["requestedUrl"]." - ".Yii::app()->request->url; ?>
-				<fieldset style="padding-left:70px;padding-right:70px;">
+				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">		
 							<input type="text" class="form-control radius-10" name="email" id="email" placeholder="Email" >
@@ -99,7 +106,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 			<form class="form-email">
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
-				<fieldset style="padding-left:70px;padding-right:70px;">
+				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="email" class="form-control" id="email2" placeholder="Email">
@@ -127,7 +134,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 				<img style="width:100%" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
 				<br/>
 				
-				<fieldset style="padding-left:70px;padding-right:70px;">
+				<fieldset>
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="text" class="form-control" id="name" name="name" placeholder="Prénom Nom : John Doe">

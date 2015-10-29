@@ -242,6 +242,8 @@ function buildTimeLine (news)
 	
 	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
+	$(".stream-processing").hide();
+
 }
 
 var currentMonth = null;

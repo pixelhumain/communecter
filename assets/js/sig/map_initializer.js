@@ -341,7 +341,7 @@
 			var pan = center - 160;
 			//console.log("pan" + pan);
 			//alert("yo");
-			this.map.panBy([0, pan], {"animate" : false });
+			//this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
 		};
 
