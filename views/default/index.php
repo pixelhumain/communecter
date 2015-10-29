@@ -126,16 +126,18 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELL COMMUNECT</span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELCOM MUNECT HEY !!!</span>
     
       <?php if( isset( Yii::app()->session['userId']) ){?>
-      <button id="btn-show-notification" class="btn btn-default btn-menu-top pull-right">
+      <button id="btn-show-notification" class="btn btn-default btn-corner-top-left btn-menu-top pull-right">
         <i class="fa fa-bell-o"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a id="btn-show-notification" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right"><i class="fa fa-sign-in fa-2x"></i></a>
-      <?php } ?><form class="inner pull-right">
+      <a id="btn-login" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-sign-in fa-2x"></i></a>
+      <?php } ?>
+
+      <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
@@ -207,6 +209,7 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
       $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
     }else{
       $myFormContact = null;
+
     }
 ?>
 <script type="text/javascript">
@@ -400,7 +403,7 @@ function autoCompleteSearch(name){
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           "<span>"+ htmlIco +"</span>  " + o.name;
 
@@ -466,8 +469,7 @@ function autoCompleteSearch(name){
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
-
-
+    
     $("li.filter .label-danger").click(function(){ alert($(this).html());
       $("#right_tool_map").hide("false");
       var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
@@ -526,6 +528,8 @@ function resizeInterface(){
   console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
+  $("ul.notifList").css({"maxHeight" : height-heightDif});
+
 }
 
 function bindEvents() { 
@@ -601,6 +605,14 @@ function bindEvents() {
       $('#notificationPanel').hide("fast");
     });
     
+    $('#btn-show-notification').click(function(){
+      if($("#notificationPanel").css("display") == "none")
+        $('#notificationPanel').show("fast");
+      else
+        $('#notificationPanel').hide("fast");
+        
+    });
+
     $('#btn-show-map').click(function(e){
       showMap();
     });

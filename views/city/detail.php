@@ -11,6 +11,31 @@
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
+
+
+<?php 
+    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+    //et pour ouvrir le panel info correctement
+    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    
+    $contextMap = array();
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+    if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($events))          $contextMap = array_merge($contextMap, $events);
+    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+
+    $rand = rand(0, sizeof($organizations)-1);
+    //echo "rand : " . $rand;
+    $randomOrganization = isset($organizations[$rand]) ? $organizations[$rand] : null;
+    //var_dump($randomOrganization);
+    //die();
+    //var_dump($people);var_dump($projects);
+?>
+
+
 <style type="text/css">
   .panel-title{
     font-family: "Homestead";
@@ -68,7 +93,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
   <div class="col-sm-8 col-xs-12">
-        <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
+        <?php if($randomOrganization != null) $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
 
@@ -110,23 +135,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 
 <!-- end: PAGE CONTENT-->
-
-<?php 
-    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-    //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
-    $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
-
-    //var_dump($people);var_dump($projects);
-?>
 
 <script>
 

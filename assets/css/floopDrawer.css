@@ -4,8 +4,8 @@
 	margin-bottom: 0px;
 }
 .floopDrawer {
-
-	  width:300px;
+	  display: none;	
+	  width:0px;
       float:right;
       top:0px;
       background-color: white;
@@ -22,7 +22,6 @@
 	overflow-y:auto;
     overflow-x:hidden;
     scroll-behavior: smooth; /*only for firefox*/
-	  
 }
 
 .floopDrawer input#search-contact{

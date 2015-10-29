@@ -244,6 +244,8 @@ function buildTimeLine (news)
 	
 	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
+	$(".stream-processing").hide();
+
 }
 
 var currentMonth = null;
@@ -623,8 +625,9 @@ function bindEvent(){
 		showFormBlock(true);	
 	});
 
-	$(".form-create-news-container #name").focusout(function(){
-		if($(".form-create-news-container #name").val() == ""){
+	$("#timeline").focus(function(){
+		if($(".form-create-news-container #name").val() == "" &&
+			$(".form-create-news-container #text").val() == ""){
 			showFormBlock(false);
 		}
 	});

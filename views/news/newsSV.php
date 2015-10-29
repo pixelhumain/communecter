@@ -482,7 +482,7 @@ function buildDynForm(){
 				if(field != "" )
 				{
 					console.log("dataBind 2",field);
-					value = "";
+					var value = "";
 
 					/*TAGS*/
 					if(dest == "tags"){
@@ -492,7 +492,8 @@ function buildDynForm(){
 					else if(dest.search(new RegExp("scope", "i")) >= 0){
 						if(dest == "scope.cities"){
 							value = $(field).val().split(" ");
-							if(value[0] == "") value = new Array();
+							if(typeof value[0] != "undefined" && value[0] == "") 
+								value = new Array();
 							if($("#ajaxForm #chk-my-city").prop("checked")){ 
 								var myCp = "98800";
 								value.push(myCp);
@@ -541,6 +542,7 @@ function buildDynForm(){
 	    		if(data.result)
 	    		{
 	    			if(countEntries == 0){
+
 	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSv=1', 'KESS KISS PASS ','rss' )
 					}
 					else {
@@ -556,7 +558,7 @@ function buildDynForm(){
 					//$("#ajaxSV").html('');
 					$.hideSubview();
 					toastr.success('Saved successfully!');
-					$("#ajaxForm")[0].reset();
+					$("#ajaxForm").reset();
 	    		}
 	    		else 
 	    		{

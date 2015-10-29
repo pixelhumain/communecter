@@ -132,6 +132,7 @@
 	jQuery(document).ready(function()
 	{
 		//création de l'objet SIG
+		console.log("load map from networkMap");
 		Sig = SigLoader.getSig();
 
 		//affiche l'icone de chargement
