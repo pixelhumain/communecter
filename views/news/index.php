@@ -104,6 +104,7 @@ var news = <?php echo json_encode($news)?>;
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
+//alert(contextParentType);
 //var authorNews = <?php //echo json_encode($authorNews)?>;
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 var contextMap = {
@@ -122,7 +123,7 @@ var contextMap = {
 var offset="";
 var	dateLimit = 0;	
 var lastoffset="";
-var streamType="activity";
+var streamType="news";
 jQuery(document).ready(function() 
 {
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
@@ -173,9 +174,10 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 function buildTimeLine (news)
 {
-	if (dateLimit==0)
+	if (dateLimit==0){
 	$(".newsTL").html('<div class="spine"></div>');
 	$(".newsTLmonthsList").html('');
+	}
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
 	//insertion du formulaire CreateNews dans le stream
@@ -249,7 +251,7 @@ function buildTimeLine (news)
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
-	//console.log(newsObj);
+	console.log(newsObj);
 	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
@@ -263,6 +265,7 @@ function buildLineHTML(newsObj)
 	//console.log("date",dateStr);
 	//alert( $('.newsTL'+date.getMonth()).length);
 	offset=$('.newsFeed:last').offset(); 
+	console.log(offset);
 	if( currentMonth != date.getMonth() && $('.newsTL'+date.getMonth()).length == 0)
 	{
 		currentMonth = date.getMonth();
@@ -406,13 +409,12 @@ function buildLineHTML(newsObj)
 	scopes = "",
 	tagsClass = "",
 	scopeClass = "";
-	
 	if( "object" == typeof newsObj.tags && newsObj.tags )
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
 			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags )  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
 				contextMap.tags.push(tag);
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
 			}
@@ -623,23 +625,24 @@ function bindEvent(){
 		showFormBlock(true);	
 	});
 
-	$(".form-create-news-container #name").focusout(function(){
-		if($(".form-create-news-container #name").val() == ""){
-			showFormBlock(false);
-		}
-	});
+	// $(".timeline_element").click(function(){
+	// 	if($(".form-create-news-container #name").val() == "" &&
+	// 		$(".form-create-news-container #text").val() == ""){
+	// 		showFormBlock(false);
+	// 	}
+	// });
 }
 
 function updateNews(newsObj)
 {
-	/*var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date) {
+	var date = new Date( parseInt(newsObj.created)*1000 );
+	if(newsObj.date && newsObj.date != newsObj.created) {
 		d = newsObj.date.split("/");
 		month = parseInt(d[1])-1;
 		date = new Date( d[2], month,d[0] ) ;
 	}
 	var newsTLLine = buildLineHTML(newsObj);
-	$(".newsTL"+date.getMonth()).prepend(newsTLLine);*/
+	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
 }
 
 

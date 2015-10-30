@@ -135,7 +135,9 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
       </button>
       <?php } else { ?>
       <a id="btn-login" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-sign-in fa-2x"></i></a>
-      <?php } ?><form class="inner pull-right">
+      <?php } ?>
+
+      <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
@@ -207,6 +209,7 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
       $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
     }else{
       $myFormContact = null;
+
     }
 ?>
 <script type="text/javascript">
@@ -468,34 +471,34 @@ function autoCompleteSearch(name){
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
+    //alert("stop !");
 
-
-    $("li.filter .label-danger").click(function(){ alert($(this).html());
+    $("li.filter .label-danger").click(function(){
       $("#right_tool_map").hide("false");
       var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
-    $(".filterorganizations").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("organizations", Sig.map, "types");
-    });
-    $(".filterpersons").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("people", Sig.map, "types");
-    });
-    $(".filterevents").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("events", Sig.map, "types");
-    });
-    $(".filterprojects").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("projects", Sig.map, "types");
-    });
+    // $(".filterorganizations").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("organizations", Sig.map, "types");
+    // });
+    // $(".filterpersons").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("people", Sig.map, "types");
+    // });
+    // $(".filterevents").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("events", Sig.map, "types");
+    // });
+    // $(".filterprojects").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("projects", Sig.map, "types");
+    // });
     //EVENT MENU PANEL - ALL
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
@@ -528,6 +531,8 @@ function resizeInterface(){
   console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
+  $("ul.notifList").css({"maxHeight" : height-heightDif});
+
 }
 
 function bindEvents() { 
@@ -604,7 +609,11 @@ function bindEvents() {
     });
     
     $('#btn-show-notification').click(function(){
-      $('#notificationPanel').show("fast");
+      if($("#notificationPanel").css("display") == "none")
+        $('#notificationPanel').show("fast");
+      else
+        $('#notificationPanel').hide("fast");
+        
     });
 
     $('#btn-show-map').click(function(e){
