@@ -234,7 +234,7 @@ function buildTimeLine (news)
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
-			$(".stream-processing").hide();
+					$(".stream-processing").hide();
 
 		}
 	}else{
@@ -689,25 +689,6 @@ function toggleFilters(what){
  		$('.optionFilter').hide();
  	$(what).slideToggle();
  }
-
-function showFormBlock(bool){
-	if(bool){
-		$(".form-create-news-container #text").show("fast");
-		$(".form-create-news-container .tagstags").show("fast");
-		$(".form-create-news-container .datedate").show("fast");
-		$(".form-create-news-container .form-actions").show("fast");
-		$(".form-create-news-container .publiccheckbox").show("fast");
-		if($("input#public").prop('checked') != true)
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
-	}else{
-		$(".form-create-news-container #text").hide();
-		$(".form-create-news-container .tagstags").hide();
-		$(".form-create-news-container .datedate").hide();
-		$(".form-create-news-container .form-actions").hide();
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
-		$(".form-create-news-container .publiccheckbox").hide();
-	}
-}
 
 
 </script>
