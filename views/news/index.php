@@ -244,12 +244,15 @@ function buildTimeLine (news)
 			$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 		}
 		else {
-		titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
+			if($("#backToTop").length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
 						'<a href="#">'+
 							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
+					$(".spine").css('bottom',"0px");
+			}
 			$(".stream-processing").hide();
 
 		}
@@ -293,16 +296,15 @@ function buildLineHTML(newsObj)
 						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
 		$(".newsTLmonthsList").append(linkHTML);
-
 		titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 					'</div>'+
 					'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
 		$(".newsTL").append(titleHTML);
-		$(".spine").css("bottom","0px")
+		$(".spine").css("bottom","0px");
 	}
 	else{
-		$(".spine").css('bottom',"-"+(offset.top)+"px");	
+			$(".spine").css('bottom',"-"+(offset.top)+"px");
 	}
 	var color = "white";
 	var icon = "fa-user";
@@ -557,12 +559,13 @@ function buildLineHTML(newsObj)
 function bindEvent(){
 	var separator, anchor;
 	$('.timeline-scrubber').scrollToFixed({
-		marginTop: $('header').outerHeight() + 100
+		marginTop: $('header').outerHeight() + 200
 	}).find("a").on("click", function(e){			
 		anchor = $(this).data("separator");
 		//$("body").scrollTo(anchor, 300);
 		e.preventDefault();
 	});
+	$('.timeline-scrubber').css("right","50px");
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
