@@ -169,7 +169,11 @@ var chargementActu = function(){
 	    	if(data){
 	    		console.log(data);
 				buildTimeLine (data.news);
-				dateLimit=data.limitDate.created;
+				if(typeof(data.limitDate.created) == "object")
+					dateLimit=data.limitDate.created.sec;//var date = new Date( parseInt(newsObj.created.sec)*1000 );
+				else
+					dateLimit=data.limitDate.created;
+				//dateLimit=data.limitDate.created;
 				//$(".spine").css('bottom',"0px");	
 			}
 		}
@@ -198,7 +202,12 @@ function buildTimeLine (news)
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
-			var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(typeof(newsObj.created));
+			if(typeof(newsObj.created) == "object")
+				var date = new Date( parseInt(newsObj.created.sec)*1000 );
+			else
+				var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(date);
 			//if(newsObj.date != null) 
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
@@ -259,7 +268,12 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	console.log(newsObj);
-	var date = new Date( parseInt(newsObj.created)*1000 );
+	if(typeof(newsObj.created) == "object")
+		var date = new Date( parseInt(newsObj.created.sec)*1000 );
+	else
+		var date = new Date( parseInt(newsObj.created)*1000 );
+
+//	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 	//}
