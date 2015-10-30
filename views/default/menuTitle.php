@@ -33,6 +33,10 @@
 			$(".connectMarker").fadeOut();
 			$("body.login").addClass("bgCity");
 			bgcolorClass = "bgCity";
+
+			if(box == "box-add"){
+				Sig.map.setZoom(2);
+			}
 		}
 		else{
 			bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
