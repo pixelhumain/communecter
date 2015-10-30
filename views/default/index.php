@@ -97,7 +97,7 @@ if( !isset( Yii::app()->session['userId']) ){
 
 
 <div class="center text-white" id="menu-container" >
-    <div class="center text-white pull-left menuContainer">
+    <div class="center text-white pull-left menuContainer" >
     <?php if( isset( Yii::app()->session['userId']) )
     {
           $me = Person::getById(Yii::app()->session['userId']);
@@ -146,7 +146,7 @@ if( !isset( Yii::app()->session['userId']) ){
       <?php } else { ?>
       <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-question-circle fa-2x"></i></a>
       <?php } ?>
-
+    
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -653,5 +653,67 @@ function bindEvents() {
         }   
     });
 
+}
+
+function startIntro(){
+var intro = introJs();
+  intro.setOptions({
+    showProgress : true,
+    steps: [
+      {
+        element: '#menu-container',
+        intro: "<b> Menu </b>: Access everything easily.",
+        position: 'right'
+      },
+      {
+        element: '#searchBar',
+        intro: "<b>Your Search</b> : direct access to everything that's on your mind",
+        position: 'bottom'
+      },
+      {
+        element: '.moduleLabel',
+        intro: 'Context Title : Never get lost',
+        position: 'bottom'
+      },
+      {
+        element: '#btn-show-map',
+        intro: "Switch from information to Panel in a click",
+        position: 'bottom'
+      },
+      {
+        element: '#right_tool_map',
+        intro: "Search and fidn stuff in the map ",
+        position: 'left'
+      },
+      /*,
+      {
+        intro: "The Background Map always shows what is in the foreground",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },
+      {
+        intro: "Visit a city's activity",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },*/
+      
+    ]/*,
+    onbeforechange(function(targetElement) {
+          console.dir(targetElement);
+        })*/
+  });
+
+  intro.onbeforechange(function(targetElement) {
+                console.log(targetElement.id);
+                if(targetElement.id == "searchBar"){
+                    $("#searchBar").val("97421").trigger("keyup");
+                    $(".searchEntry").trigger("click");
+                }else if(targetElement.id == "btn-show-map"){
+                    $(".box-whatisit").hide();
+                    showMap();
+                }
+            }).start();
 }
 </script>
