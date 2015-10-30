@@ -656,9 +656,12 @@ function bindEvents() {
 }
 
 function startIntro(){
+    loadByHash("#city.detail.insee.97414");
 var intro = introJs();
   intro.setOptions({
     showProgress : true,
+    showBullets:false,
+    scrollToElement:true,
     steps: [
       {
         element: '#menu-container',
@@ -667,24 +670,61 @@ var intro = introJs();
       },
       {
         element: '#searchBar',
-        intro: "<b>Your Search</b> : direct access to everything that's on your mind",
+        intro: "<b>Your Search</b> "+
+                "<br/>direct access to everything that's on your mind"+
+                "<br/>Search People, Organizations, Events, Projects, Cities",
+        position: 'bottom'
+      },
+      /*{
+        element: '#dropdown_searchTop',
+        intro: "<h1>Click here <i class='fa fa-arrow-up'></i></h1> ",
+        position: 'bottom'
+      },*/
+      
+      {
+        element: '.moduleLabel',
+        intro: '<h1>Discover a city </h1>',
         position: 'bottom'
       },
       {
-        element: '.moduleLabel',
-        intro: 'Context Title : Never get lost',
+        element: '#cityDetail_events ',
+        intro: "<h1>Local Events </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_organizations ',
+        intro: "<h1>Local Organizations </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_projects ',
+        intro: "<h1>Local Projects </h1> ",
+        position: 'left'
+      },
+       
+      {
+        element: '#btn-center-city',
+        intro: "<h1>Click here </h1> ",
         position: 'bottom'
       },
       {
         element: '#btn-show-map',
-        intro: "Switch from information to Panel in a click",
+        intro: "<h1>Click here </h1> ",
         position: 'bottom'
       },
-      {
+      /*{
         element: '#right_tool_map',
-        intro: "Search and fidn stuff in the map ",
+        intro: "Search and find stuff in the map "+
+                "People, Organizations, Events, Projects",
+        position: 'left'
+      },*/
+      {
+        element: '.pod-local-actors',
+        intro: "<h1>See your city on the the Map</h1> ",
         position: 'left'
       },
+      
+      
       /*,
       {
         intro: "The Background Map always shows what is in the foreground",
@@ -705,15 +745,18 @@ var intro = introJs();
         })*/
   });
 
-  intro.onbeforechange(function(targetElement) {
-                console.log(targetElement.id);
-                if(targetElement.id == "searchBar"){
-                    $("#searchBar").val("97421").trigger("keyup");
-                    $(".searchEntry").trigger("click");
-                }else if(targetElement.id == "btn-show-map"){
-                    $(".box-whatisit").hide();
-                    showMap();
-                }
-            }).start();
+  intro.onbeforechange( function(targetElement) {
+        console.dir(targetElement);
+        $(".box-whatisit").hide();
+        /*if(targetElement.id == "searchBar")
+        {
+            $("#searchBar").val("97421").trigger("keyup");
+            //loadByHash("#city.detail.insee.97414");
+        } 
+        else */
+        if(targetElement.id == "btn-center-city" || targetElement.id == "btn-show-map"){
+            showMap();
+        }
+    }).start();
 }
 </script>
