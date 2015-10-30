@@ -71,7 +71,16 @@ else
 		        </ul>
 			</div>
 			<div class="panel-body panel-white">
-
+				<div class="center filterNewsActivity" style="margin-right:100px;">
+					<div class="btn-group">
+						<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:100px;">
+							<i class="fa fa-rss"></i> News
+						</a>
+						<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:100px;">
+							<i class="fa fa-exchange"></i> Activity
+						</a>
+					</div>
+				</div>
 				<ul class="timeline-scrubber inner-element newsTLmonthsList"></ul>
 				<div id="timeline">
 					<div class="timeline newsTL">
@@ -185,8 +194,8 @@ var scopesFilterListHTML = "";
 function buildTimeLine (news)
 {
 	if (dateLimit==0){
-	$(".newsTL").html('<div class="spine"></div>');
-	$(".newsTLmonthsList").html('');
+		$(".newsTL").html('<div class="spine"></div>');
+		$(".newsTLmonthsList").html('');
 	}
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
@@ -619,10 +628,18 @@ function bindEvent(){
 			dateLimit = 0;	
 			lastoffset="";
 			$(".stream-processing").show();
-			if ($(this).data("filter")== ".news")
+			if ($(this).data("filter")== ".news"){
 				streamType="news";
-			else if ($(this).data("filter")== ".activityStream")
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				
+				$("#btnActivity").removeClass("btn-dark-green").addClass("btn-green");
+				//$("#newNeed #btnServices, #newNeed #btnMaterials").addClass("btn-green");
+
+			}else if ($(this).data("filter")== ".activityStream"){
 				streamType="activity";
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
+			}
 			$(".newsTL").empty();
 			formCreateNews = "<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
 										"<div class='no-padding form-create-news-container'>"+
