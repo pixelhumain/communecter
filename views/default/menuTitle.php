@@ -35,7 +35,8 @@
 			bgcolorClass = "bgCity";
 
 			if(box == "box-add"){
-				Sig.map.setZoom(2);
+				Sig.clearMap();
+				Sig.map.setView([23.32517767999296, -31.9921875], 2);
 			}
 		}
 		else{
