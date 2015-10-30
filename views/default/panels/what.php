@@ -13,5 +13,6 @@
 		<br/> 
 	</section>
 	<hl/>
+	<a href="#"  data-intro='Hello step one!' onclick="introJs().start();" class="homestead nextBtns pull-left"><i class="fa fa-arrow-circle-o-left"></i> GUIDED TOUR  </a>
 	<a href="#" onclick="showPanel('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
