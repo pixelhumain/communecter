@@ -133,7 +133,7 @@ jQuery(document).ready(function()
 
 	buildDynForm();
 	if(contextParentType!="citoyens"){
-	buildTimeLine (news);
+		buildTimeLine (news);
 	}
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
@@ -142,8 +142,13 @@ jQuery(document).ready(function()
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	if(contextParentType=="citoyens"){
 		setTimeout(function(){chargementActu()},0);
-		$(window).off().on("scroll",function(){ 				
-					if(offset.top - 336 <= $(window).scrollTop()) {
+		if (streamType=="news")
+			minusOffset=500;
+		else if (streamType=="activity")
+			minusOffset=336;
+		$(window).off().on("scroll",function(){ 
+					console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$(window).scrollTop());				
+					if(offset.top - minusOffset <= $(window).scrollTop()) {
 						if (lastoffset != offset.top){
 							lastoffset=offset.top;
 							chargementActu();
@@ -160,11 +165,16 @@ var chargementActu = function(){
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
        	dataType: "json",
     	success: function(data){
+	    	console.log(data);
 	    	if(data){
 	    		console.log(data);
 				buildTimeLine (data.news);
-				dateLimit=data.limitDate.created;
-								//$(".spine").css('bottom',"0px");	
+				if(typeof(data.limitDate.created) == "object")
+					dateLimit=data.limitDate.created.sec;//var date = new Date( parseInt(newsObj.created.sec)*1000 );
+				else
+					dateLimit=data.limitDate.created;
+				//dateLimit=data.limitDate.created;
+				//$(".spine").css('bottom',"0px");	
 			}
 		}
 	});
@@ -192,7 +202,12 @@ function buildTimeLine (news)
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
-			var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(typeof(newsObj.created));
+			if(typeof(newsObj.created) == "object")
+				var date = new Date( parseInt(newsObj.created.sec)*1000 );
+			else
+				var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(date);
 			//if(newsObj.date != null) 
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
@@ -212,7 +227,8 @@ function buildTimeLine (news)
 			countEntries++;
 		}
 	});
-
+		offset=$('.newsFeed:last').offset(); 
+		console.log(offset);
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);
 	if( scopesFilterListHTML != "" )
@@ -244,7 +260,7 @@ function buildTimeLine (news)
 	
 	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
-	$(".stream-processing").hide();
+	//$(".stream-processing").hide();
 
 }
 
@@ -252,7 +268,12 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	console.log(newsObj);
-	var date = new Date( parseInt(newsObj.created)*1000 );
+	if(typeof(newsObj.created) == "object")
+		var date = new Date( parseInt(newsObj.created.sec)*1000 );
+	else
+		var date = new Date( parseInt(newsObj.created)*1000 );
+
+//	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 	//}
@@ -264,7 +285,6 @@ function buildLineHTML(newsObj)
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	//console.log("date",dateStr);
 	//alert( $('.newsTL'+date.getMonth()).length);
-	offset=$('.newsFeed:last').offset(); 
 	console.log(offset);
 	if( currentMonth != date.getMonth() && $('.newsTL'+date.getMonth()).length == 0)
 	{
@@ -587,7 +607,6 @@ function bindEvent(){
 	});
 
 	$('.filter').off().on("click",function(){
-
 	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
 		 	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'+
 			 	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
@@ -596,6 +615,7 @@ function bindEvent(){
 			offset="";
 			dateLimit = 0;	
 			lastoffset="";
+			$(".stream-processing").show();
 			if ($(this).data("filter")== ".news")
 				streamType="news";
 			else if ($(this).data("filter")== ".activityStream")

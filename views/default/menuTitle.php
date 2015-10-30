@@ -17,6 +17,11 @@
 			$(".connectMarker").fadeOut();
 			$("body.login").addClass("bgCity");
 			bgcolorClass = "bgCity";
+
+			if(box == "box-add"){
+				Sig.clearMap();
+				Sig.map.setView([23.32517767999296, -31.9921875], 2);
+			}
 		}
 		else{
 			bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
