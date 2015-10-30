@@ -26,11 +26,15 @@
 			<br/> <a href="#" class="text-red">smart, democratic and connected territories</a>
 			<br/> Organize, develop and innovate 
 			<br/> Localy, socialy and massively.
+
+			<?php if( !isset( Yii::app()->session['userId']) ){?>
 			<div class="space10"></div>
 			<div class="row radius-10 padding-20" style="background-color: black">
 				<iframe class=" col-sm-6" src="https://player.vimeo.com/video/133636468" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 				<iframe class="col-sm-6" src="https://player.vimeo.com/video/74212373" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 			</div>
+			<?php } ?>
+
 			<div class="space20"></div>
 			<div class="col-sm-6">
 				Connected Cities
