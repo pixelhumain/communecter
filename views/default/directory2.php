@@ -117,7 +117,7 @@ if( isset($_GET["isNotSV"])) {
 				</div>
 				<hr/>
 				<!-- GRID -->
-				<span class="col-md-3">
+				<span class="col-md-12">
 					<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="orgaTypesFilters" class="optionFilter pull-left center" style="display:none;width:100%;" >

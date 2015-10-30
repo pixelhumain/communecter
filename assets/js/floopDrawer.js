@@ -63,7 +63,7 @@ function showFloopDrawer(show){
 			$(".floopDrawer" ).animate( { width: 300 }, 300 );
 		}
 	}else{
-		$(".floopDrawer").stop().hide("fast");
+		$(".floopDrawer").hide("fast");
 	}
 }
 
@@ -91,7 +91,7 @@ function bindEventFloopDrawer(){
 	});
 
 
-    $("#ajaxSV,#menu-top-container").mouseout(function() { 
+    $("#ajaxSV,#menu-top-container").mouseenter(function() { 
       showFloopDrawer(false);
     });
     $(".floopDrawer,.floopDrawer #search-contact").mouseover(function() {
