@@ -631,12 +631,12 @@ function bindEvent(){
 		showFormBlock(true);	
 	});
 
-	$("#timeline").focus(function(){
-		if($(".form-create-news-container #name").val() == "" &&
-			$(".form-create-news-container #text").val() == ""){
-			showFormBlock(false);
-		}
-	});
+	// $(".timeline_element").click(function(){
+	// 	if($(".form-create-news-container #name").val() == "" &&
+	// 		$(".form-create-news-container #text").val() == ""){
+	// 		showFormBlock(false);
+	// 	}
+	// });
 }
 
 function updateNews(newsObj)

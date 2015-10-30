@@ -245,13 +245,13 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    $(window).on("popstate", function(e) {
+    /*$(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
         console.log("popstate",url);
         //loadByHash(location.hash);
       }
-    });
+    });*/
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
@@ -293,6 +293,8 @@ function loadByHash( hash ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT DETAIL ','lightbulb-o' );
     else if( hash.indexOf("#organization.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DETAIL ','users' );
+    else if( hash.indexOf("#city.detail") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'CITY ','university' );
     
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )
@@ -316,7 +318,7 @@ function loadByHash( hash ) {
     else
         showPanel('box-communecter',null,null,null);
 
-    //location.hash = hash;
+    location.hash = hash;
     //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
 }
 
@@ -469,33 +471,34 @@ function autoCompleteSearch(name){
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
-    
-    $("li.filter .label-danger").click(function(){ alert($(this).html());
+    //alert("stop !");
+
+    $("li.filter .label-danger").click(function(){
       $("#right_tool_map").hide("false");
       var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
-    $(".filterorganizations").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("organizations", Sig.map, "types");
-    });
-    $(".filterpersons").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("people", Sig.map, "types");
-    });
-    $(".filterevents").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("events", Sig.map, "types");
-    });
-    $(".filterprojects").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("projects", Sig.map, "types");
-    });
+    // $(".filterorganizations").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("organizations", Sig.map, "types");
+    // });
+    // $(".filterpersons").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("people", Sig.map, "types");
+    // });
+    // $(".filterevents").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("events", Sig.map, "types");
+    // });
+    // $(".filterprojects").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("projects", Sig.map, "types");
+    // });
     //EVENT MENU PANEL - ALL
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
