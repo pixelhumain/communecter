@@ -22,7 +22,24 @@ if( isset($_GET["isNotSV"])) {
 else 
 	$this->renderPartial('../sig/generic/mapLibs');
 ?>
-
+<style>
+#btnCitoyens:hover{
+	color:#F3D116;
+	border-left: 5px solid #F3D116;
+}
+btnOrganization:hover{
+	color:#93C020;
+	border-left: 5px solid #93C020;
+}
+#btnEvent:hover{
+	color:#F9B21A;
+	border-left: 5px solid #F9B21A;
+}
+#btnProject:hover{
+	color:#8C5AA1;
+	border-left: 5px solid #8C5AA1;
+}
+</style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
@@ -81,7 +98,9 @@ else
 						</a>
 					</div>
 				</div>
-				<ul class="timeline-scrubber inner-element newsTLmonthsList"></ul>
+				<ul class="timeline-scrubber inner-element newsTLmonthsList">
+					
+				</ul>
 				<div id="timeline">
 					<div class="timeline newsTL">
 											
@@ -195,7 +214,11 @@ function buildTimeLine (news)
 {
 	if (dateLimit==0){
 		$(".newsTL").html('<div class="spine"></div>');
-		$(".newsTLmonthsList").html('');
+		btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
+			'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
+			'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
+			'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
+		$(".newsTLmonthsList").html(btnFilterSpecific);
 	}
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
@@ -620,10 +643,12 @@ function bindEvent(){
 
 	$('.filter').off().on("click",function(){
 	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
-		 	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'+
-			 	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
-			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-			});
+		 	 htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
+		 	<?php if( isset($_GET["isNotSV"]) ) { ?>
+				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
+			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
+			 		<?php } ?>
+		 	$.blockUI({message : htmlMessage});
 			offset="";
 			dateLimit = 0;	
 			lastoffset="";
@@ -654,6 +679,7 @@ function bindEvent(){
 			$.unblockUI();
 		}
 		else{
+
 		console.warn("filter",$(this).data("filter"));
 		filter = $(this).data("filter");
 		$(".newsFeed").hide();
