@@ -188,12 +188,12 @@ class Menu {
         
         //FILTERs
         //-----------------------------
-        self::entry('filter','SHOW NEWS ONLY','rss',null,"newsFeed",".news");
-        self::entry('filter','SHOW NETWORK ACTIVITY','exchange',null,"newsFeed",".activityStream");
-        self::entry('filter',"SHOW PEOPLE ENTRIES ONLY",'user',null,"newsFeed",".citoyens");
-        self::entry('filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
-        self::entry('filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
-        self::entry('filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
+       // self::entry('filter','SHOW NEWS ONLY','rss',null,"newsFeed",".news");
+        //self::entry('filter','SHOW NETWORK ACTIVITY','exchange',null,"newsFeed",".activityStream");
+        //self::entry('filter',"SHOW PEOPLE ENTRIES ONLY",'user',null,"newsFeed",".citoyens");
+        //self::entry('filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
+        //self::entry('filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
+        //self::entry('filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
         self::entry('onclick',"show tag filters",'tags',"toggleFilters('#tagFilters')",null,null);
         self::entry('onclick',"show scope filters",'circle-o',"toggleFilters('#scopeFilters')",null,null);
         
