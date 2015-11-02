@@ -55,6 +55,11 @@ btnOrganization:hover{
 	border-bottom: 1px dashed #315C6E !important;
 
 }
+#tagFilters a.filter{
+	background-color: rgba(245, 245, 245, 0.7);
+	font-size: 14px;
+	padding: 4px;
+}
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>

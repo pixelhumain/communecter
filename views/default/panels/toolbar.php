@@ -16,15 +16,14 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
 <div class="<?php echo $toolbarFloat ?> center box-ajaxTools" style="<?php echo $toolbarStyle ?>">
 	<?php 
     
-    $colLeft = "<div class='col-md-8 col-sm-8 col-xs-8 no-padding pull-left'>";
-    $colRight = "<div class='col-md-4 col-sm-4 col-xs-4  no-padding pull-right'>";
+    $colLeft = "<div class='col-md-8 col-sm-8 col-xs-8 text-left no-padding pull-left'>";
+    $colRight = "<div class='col-md-4 col-sm-4 col-xs-4 text-right no-padding pull-right'>";
 		
     if(isset($this->toolbarMBZ)){
 			foreach ($this->toolbarMBZ as $value) {
         $position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
-             if($position == "left"){ $colLeft   .= buildToolBarEntry($value); }
+             if($position == "left") { $colLeft  .= buildToolBarEntry($value); }
         else if($position == "right"){ $colRight .= buildToolBarEntry($value); }
-        
 			}
 		} 
 		
@@ -44,8 +43,8 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
             $badge = ( isset( $item["badge"] ) ) ? $item["badge"] : "";
             $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
             $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";
-            
-            $html = $href.$tooltip.">".$badge.$icon.$label.'</a>';
+            //$position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
+            $html = $href.$tooltip.">".$badge.$icon.' '.$label.'</a>';
 
             if( isset( $item["parent"] ) && isset( $item["parentId"] ) ) {
             	$html = '<'.$item["parent"].' id="'.$item["parentId"].'">'.$html.'</'.$item["parent"].'>';
