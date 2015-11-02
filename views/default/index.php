@@ -96,7 +96,7 @@ if( !isset( Yii::app()->session['userId']) ){
 
 
 
-<div class="center text-white" id="menu-container" >
+<div class="center text-white no-padding" id="menu-container" >
     <div class="center text-white pull-left menuContainer" >
     <?php if( isset( Yii::app()->session['userId']) )
     {
@@ -166,9 +166,9 @@ if( !isset( Yii::app()->session['userId']) ){
     margin-right: -1px;
     margin-bottom: -1px;
     font-size: 13px;
-    height: 40px;
+    height: 46px;
     transition: all 0.1s ease 0s !important;
-    padding: 10px 10px;
+    padding: 13px;
     color: #315C6E;
     font-weight: 500;
     border-radius: 0px;
@@ -196,14 +196,17 @@ if( !isset( Yii::app()->session['userId']) ){
     top: 56px;
     left: 0px;
     position: fixed;
+    padding:0px 35px 0px 105px
+  }
+  .bg-box-ajaxTools{
     background-color: #FFF;
-    padding: 0px 0px 0px 69px;
+    float:left;
+    width:100%;
     -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
-   
   }
 </style>
 <?php /* **********************

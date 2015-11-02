@@ -41,6 +41,7 @@ btnOrganization:hover{
 }
 .timeline-scrubber{
 	min-width: 115px;
+	top:125px;
 }
 .timeline{
 	float: left;
@@ -55,6 +56,24 @@ btnOrganization:hover{
 	border-bottom: 1px dashed #315C6E !important;
 
 }
+#tagFilters a.filter{
+	background-color: rgba(245, 245, 245, 0.7);
+	font-size: 14px;
+	padding: 4px;
+}
+.filterNewsActivity .btn-green{
+	background-color: #3A758D;
+	border-color: #315C6E;
+}
+.filterNewsActivity .btn-green:hover{
+	background-color: #315C6E;
+}
+
+.filterNewsActivity .btn-dark-green{
+	background-color: #315C6E;
+	border-color: #315C6E;
+}
+
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>

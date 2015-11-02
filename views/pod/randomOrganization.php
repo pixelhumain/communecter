@@ -95,10 +95,6 @@
             <?php if(isset($randomEntity["address"]["codeInsee"])){ ?>
               <span><i class="fa fa-bullseye"></i> Insee <?php echo $randomEntity["address"]["codeInsee"]; ?></span></br>
             <?php } ?>  
-
-              
-
-
           </div>
 
           <?php if(isset($randomEntity["shortDescription"])){ ?>
@@ -130,7 +126,7 @@
             <?php if(isset($randomEntity["tags"])) { ?>
             <span class="pull-right col-md-6 no-padding">
               <?php foreach ($randomEntity["tags"] as $tag) { ?>
-              <span class="pull-right"><i class="fa fa-tag"></i> <?php echo $tag; ?></span>
+              <span class="pull-right text-red"><i class="fa fa-tag"></i> <?php echo $tag; ?></span>
             </span>
             <?php }} ?>
 
