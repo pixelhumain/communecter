@@ -26,51 +26,107 @@ class TestController extends CommunecterController {
 	foreach ($news as $key => $data){
 		if (@$data["created"]){	
 			if (is_int($data["created"])){
-			echo $data["created"];
-			$dateCreated= new MongoDate($data["created"]);
-			echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
-			$res = PHDB::update(News::COLLECTION,
-	                            array("_id"=>new MongoId($key)), 
-	                            array('$set' => array("created" => $dateCreated)));
-	                      echo "</br>";
-	                      print_r($res);
-	                      echo '</br>';
+				echo $data["created"];
+				$dateCreated= new MongoDate($data["created"]);
+				echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
+				$res = PHDB::update(News::COLLECTION,
+				    array("_id"=>new MongoId($key)), 
+				    array('$set' => array("created" => $dateCreated)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
 	        }
         }
 		//echo $data["date"];
 		//$dateCreated= new MongoDate($data["date"]);
 		//echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
 		//$dateDate =  new MongoDate( strtotime($data["date"], '%d/%m/%y') );
-	if (@$data["date"]){	
-		if (is_int($data["date"])){
-			echo $data["date"];
-			$dateDate= new MongoDate($data["date"]);
-			echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
-			/*$res = PHDB::update(News::COLLECTION,
-	                            array("_id"=>new MongoId($key)), 
-	                            array('$set' => array("created" => $dateCreated)));
-	                      echo "</br>";
-	                      print_r($res);
-	                      echo '</br>';
-	                     }*/
-	
+		if (@$data["date"]){	
+			if (is_int($data["date"])){
+				echo $data["date"];
+				$dateDate= new MongoDate($data["date"]);
+				echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
+				$res = PHDB::update(News::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("created" => $dateCreated)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+			}
+			else if (is_string($data["date"])){
+				echo $data["date"];
+				echo "//".strtotime(str_replace('/', '-', $data["date"]));
+				$dateDate= new MongoDate(strtotime(str_replace('/', '-', $data["date"])));
+				echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
+			
+				$res = PHDB::update(News::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("date" => $dateDate)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+		     }
+		
 		}
-		else if (is_string($data["date"])){
-			echo $data["date"];
-			echo "//".strtotime(str_replace('/', '-', $data["date"]));
-			$dateDate= new MongoDate(strtotime(str_replace('/', '-', $data["date"])));
-			echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
+	}
+	$activity=PHDB::find(ActivityStream::COLLECTION);
+	foreach ($activity as $key => $data){
+		if (@$data["created"]){	
+			if (is_int($data["created"])){
+				echo $data["created"];
+				$dateCreated= new MongoDate($data["created"]);
+				echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
+				$res = PHDB::update(ActivityStream::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("created" => $dateCreated)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+	        }
+        }
+        if (@$data["timestamp"]){	
+			if (is_int($data["timestamp"])){
+				echo $data["timestamp"];
+				$dateTimestamp= new MongoDate($data["timestamp"]);
+				echo "::".date(DATE_ISO8601, $dateTimestamp->sec)."</br>";
+				$res = PHDB::update(ActivityStream::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("timestamp" => $dateTimestamp)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+	        }
+        }
+		if (@$data["date"]){	
+			if (is_int($data["date"])){
+				echo $data["date"];
+				$dateDate= new MongoDate($data["date"]);
+				echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
+				$res = PHDB::update(ActivityStream::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("created" => $dateDate)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+		                     
+		
+			}
+			else if (is_string($data["date"])){
+				echo $data["date"];
+				echo "//".strtotime($data["date"]);
+				$dateDate= new MongoDate(strtotime($data["date"]));
+				echo "::".date(DATE_ISO8601, $dateDate->sec)."</br>";
+			
+				$res = PHDB::update(ActivityStream::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("date" => $dateDate)));
+				echo "</br>";
+				print_r($res);
+				echo '</br>';
+			}
 		}
-		$res = PHDB::update(News::COLLECTION,
-	                            array("_id"=>new MongoId($key)), 
-	                            array('$set' => array("date" => $dateDate)));
-	                      echo "</br>";
-	                      print_r($res);
-	                      echo '</br>';
-	
 	}
-	}
-  }
+}
 
   public function actionInsertNewPerson() {
   $params = array(
