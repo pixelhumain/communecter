@@ -96,7 +96,7 @@
 		//maybe a conflict with some libs that automatically overide the location hash 
 		//setTimeout( function(){
 			location.hash = hashUrl;
-			//history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
+			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		//},500 );
 		
 		console.warn("pushState",hashUrl);
