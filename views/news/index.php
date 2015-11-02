@@ -42,6 +42,19 @@ btnOrganization:hover{
 .timeline-scrubber{
 	min-width: 115px;
 }
+.timeline{
+	float: left;
+}
+.date_separator span{
+	font-family: "homestead";
+	font-size: 21px;
+	background-color: white !important;
+	color: #315C6E !important;
+	border: none !important;
+	border-radius: 0px !important;
+	border-bottom: 1px dashed #315C6E !important;
+
+}
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
