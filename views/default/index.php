@@ -14,6 +14,11 @@ $cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
 $cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
 $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
 
+if( !isset( Yii::app()->session['userId']) ){
+    $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/introjs/introjs.css');
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/introjs/intro.js' , CClientScript::POS_END);
+}
+
 ?>
 
 
@@ -90,10 +95,11 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
 **************************** */?>
 
 
-<?php if( isset( Yii::app()->session['userId']) ){?>
+
 <div class="center text-white" id="menu-container" >
-    <div class="center text-white pull-left menuContainer">
-        <?php 
+    <div class="center text-white pull-left menuContainer" >
+    <?php if( isset( Yii::app()->session['userId']) )
+    {
           $me = Person::getById(Yii::app()->session['userId']);
           if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
             $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
@@ -116,10 +122,14 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
         
     </div>
-    <div class="floopDrawer" id="floopDrawerDirectory">
+    <div class="floopDrawer" id="floopDrawerDirectory"></div>
+    <?php } else {?>
+        <a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-home fa-2x"></i><span class="menuline hide homestead"> HOME</a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGIN</span></a>
     </div>
+    <?php } ?>
 </div>
- <?php } ?>
+
        
 
 <?php /* **********************
@@ -134,9 +144,9 @@ $cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.c
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a id="btn-login" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-sign-in fa-2x"></i></a>
+      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-question-circle fa-2x"></i></a>
       <?php } ?>
-
+    
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -326,8 +336,13 @@ function loadByHash( hash ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
     else if( hash.indexOf("#project.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
-    else if( hash  == "#panel.box-add" )
-        showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
+    else if( hash.indexOf("#panel") >= 0 ){
+        if(hash.substr(7) == "box-add")
+            title = 'ADD SOMETHING TO MY NETWORK';
+        else
+            title = "WELCOM MUNECT HEY !!!";
+        showPanel(hash.substr(7),null,title);
+    }
     
     else if( hash.indexOf("#person.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DETAIL ','user' );
@@ -360,7 +375,7 @@ function loadByHash( hash ) {
     } else if(userId != "")
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
     else
-        showPanel('box-communecter',null,null,null);
+        showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
     //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
@@ -682,5 +697,110 @@ function bindEvents() {
         }   
     });
 
+}
+
+function startIntro(){
+    loadByHash("#city.detail.insee.97414");
+var intro = introJs();
+  intro.setOptions({
+    showProgress : true,
+    showBullets:false,
+    scrollToElement:true,
+    steps: [
+      {
+        element: '#menu-container',
+        intro: "<b> Menu </b>: Access everything easily.",
+        position: 'right'
+      },
+      {
+        element: '#searchBar',
+        intro: "<b>Your Search</b> "+
+                "<br/>direct access to everything that's on your mind"+
+                "<br/>Search People, Organizations, Events, Projects, Cities",
+        position: 'bottom'
+      },
+      /*{
+        element: '#dropdown_searchTop',
+        intro: "<h1>Click here <i class='fa fa-arrow-up'></i></h1> ",
+        position: 'bottom'
+      },*/
+      
+      {
+        element: '.moduleLabel',
+        intro: '<h1>Discover a city </h1>',
+        position: 'bottom'
+      },
+      {
+        element: '#cityDetail_events ',
+        intro: "<h1>Local Events </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_organizations ',
+        intro: "<h1>Local Organizations </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_projects ',
+        intro: "<h1>Local Projects </h1> ",
+        position: 'left'
+      },
+       
+      {
+        element: '#btn-center-city',
+        intro: "<h1>Click here </h1> ",
+        position: 'bottom'
+      },
+      {
+        element: '#btn-show-map',
+        intro: "<h1>Click here </h1> ",
+        position: 'bottom'
+      },
+      /*{
+        element: '#right_tool_map',
+        intro: "Search and find stuff in the map "+
+                "People, Organizations, Events, Projects",
+        position: 'left'
+      },*/
+      {
+        element: '.pod-local-actors',
+        intro: "<h1>See your city on the the Map</h1> ",
+        position: 'left'
+      },
+      
+      
+      /*,
+      {
+        intro: "The Background Map always shows what is in the foreground",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },
+      {
+        intro: "Visit a city's activity",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },*/
+      
+    ]/*,
+    onbeforechange(function(targetElement) {
+          console.dir(targetElement);
+        })*/
+  });
+
+  intro.onbeforechange( function(targetElement) {
+        console.dir(targetElement);
+        $(".box-whatisit").hide();
+        /*if(targetElement.id == "searchBar")
+        {
+            $("#searchBar").val("97421").trigger("keyup");
+            //loadByHash("#city.detail.insee.97414");
+        } 
+        else */
+        if(targetElement.id == "btn-center-city" || targetElement.id == "btn-show-map"){
+            showMap();
+        }
+    }).start();
 }
 </script>

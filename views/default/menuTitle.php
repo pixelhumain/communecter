@@ -6,22 +6,6 @@
 
 	function showPanel(box,bgStyle,title,icon){
 		
-		/*if( navHistory != null)
-			prevNav = {
-				func : "showPanel",
-				box : navHistory.box,
-				bgStyle :navHistory.bgStyle ,
-				title : navHistory.title ,
-				icon : navHistory.icon 
-			};
-		navHistory = {
-			func : "showPanel",
-			box : box,
-			bgStyle :bgStyle ,
-			title : title ,
-			icon : icon 
-		};*/
-
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
 		$('.'+activePanel+", .panelTitle, .box-ajax").hide();

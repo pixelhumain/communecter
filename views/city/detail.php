@@ -51,9 +51,9 @@ $this->renderPartial('../default/panels/toolbar');
   }
 </style>
 <!-- start: PAGE CONTENT -->
-<div class="row">
+<div class="row" id="cityDetail">
 
-  <div class="col-sm-4 col-xs-12" id="pod-local-actors">
+  <div class="col-sm-4 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h3 class="panel-title text-blue">LOCAL ACTORS </h3>
@@ -107,14 +107,14 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
 </div>
 
-<div class="row">
-  <div class="col-md-4 col-sm-12 col-xs-12">
+<div class="row"  >
+  <div class="col-md-4 col-sm-12 col-xs-12" id="cityDetail_events" data-position="top" data-intro="Find Local Events">
     <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
   </div>
-  <div class="col-md-4 col-sm-6  col-xs-12">
+  <div class="col-md-4 col-sm-6  col-xs-12"  id="cityDetail_organizations" data-position="top" data-intro="Find Local  Organizations" >
     <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
   </div>
-  <div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="col-md-4 col-sm-6 col-xs-12"  id="cityDetail_projects" data-position="top" data-intro="Find Local Projects">
     <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
           "userId" => (string)$person["_id"])); ?>
   </div>

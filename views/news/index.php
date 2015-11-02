@@ -22,7 +22,24 @@ if( isset($_GET["isNotSV"])) {
 else 
 	$this->renderPartial('../sig/generic/mapLibs');
 ?>
-
+<style>
+#btnCitoyens:hover{
+	color:#F3D116;
+	border-left: 5px solid #F3D116;
+}
+btnOrganization:hover{
+	color:#93C020;
+	border-left: 5px solid #93C020;
+}
+#btnEvent:hover{
+	color:#F9B21A;
+	border-left: 5px solid #F9B21A;
+}
+#btnProject:hover{
+	color:#8C5AA1;
+	border-left: 5px solid #8C5AA1;
+}
+</style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
@@ -71,8 +88,19 @@ else
 		        </ul>
 			</div>
 			<div class="panel-body panel-white">
-
-				<ul class="timeline-scrubber inner-element newsTLmonthsList"></ul>
+				<div class="center filterNewsActivity" style="margin-right:100px;">
+					<div class="btn-group">
+						<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:100px;">
+							<i class="fa fa-rss"></i> News
+						</a>
+						<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:100px;">
+							<i class="fa fa-exchange"></i> Activity
+						</a>
+					</div>
+				</div>
+				<ul class="timeline-scrubber inner-element newsTLmonthsList">
+					
+				</ul>
 				<div id="timeline">
 					<div class="timeline newsTL">
 											
@@ -133,7 +161,7 @@ jQuery(document).ready(function()
 
 	buildDynForm();
 	if(contextParentType!="citoyens"){
-	buildTimeLine (news);
+		buildTimeLine (news);
 	}
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
@@ -142,8 +170,13 @@ jQuery(document).ready(function()
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	if(contextParentType=="citoyens"){
 		setTimeout(function(){chargementActu()},0);
-		$(window).off().on("scroll",function(){ 				
-					if(offset.top - 336 <= $(window).scrollTop()) {
+		if (streamType=="news")
+			minusOffset=500;
+		else if (streamType=="activity")
+			minusOffset=336;
+		$(window).off().on("scroll",function(){ 
+					console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$(window).scrollTop());				
+					if(offset.top - minusOffset <= $(window).scrollTop()) {
 						if (lastoffset != offset.top){
 							lastoffset=offset.top;
 							chargementActu();
@@ -160,11 +193,16 @@ var chargementActu = function(){
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
        	dataType: "json",
     	success: function(data){
+	    	console.log(data);
 	    	if(data){
 	    		console.log(data);
 				buildTimeLine (data.news);
-				dateLimit=data.limitDate.created;
-								//$(".spine").css('bottom',"0px");	
+				if(typeof(data.limitDate.created) == "object")
+					dateLimit=data.limitDate.created.sec;//var date = new Date( parseInt(newsObj.created.sec)*1000 );
+				else
+					dateLimit=data.limitDate.created;
+				//dateLimit=data.limitDate.created;
+				//$(".spine").css('bottom',"0px");	
 			}
 		}
 	});
@@ -175,8 +213,12 @@ var scopesFilterListHTML = "";
 function buildTimeLine (news)
 {
 	if (dateLimit==0){
-	$(".newsTL").html('<div class="spine"></div>');
-	$(".newsTLmonthsList").html('');
+		$(".newsTL").html('<div class="spine"></div>');
+		btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
+			'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
+			'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
+			'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
+		$(".newsTLmonthsList").html(btnFilterSpecific);
 	}
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
@@ -192,7 +234,12 @@ function buildTimeLine (news)
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
 			//console.dir(newsObj);
-			var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(typeof(newsObj.created));
+			if(typeof(newsObj.created) == "object")
+				var date = new Date( parseInt(newsObj.created.sec)*1000 );
+			else
+				var date = new Date( parseInt(newsObj.created)*1000 );
+			//alert(date);
 			//if(newsObj.date != null) 
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 			//console.dir(newsObj);
@@ -212,7 +259,8 @@ function buildTimeLine (news)
 			countEntries++;
 		}
 	});
-
+		offset=$('.newsFeed:last').offset(); 
+		console.log(offset);
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);
 	if( scopesFilterListHTML != "" )
@@ -228,13 +276,16 @@ function buildTimeLine (news)
 			$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 		}
 		else {
-		titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
+			if($("#backToTop").length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
 						'<a href="#">'+
 							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
-					$(".stream-processing").hide();
+					$(".spine").css('bottom',"0px");
+			}
+			$(".stream-processing").hide();
 
 		}
 	}else{
@@ -244,7 +295,7 @@ function buildTimeLine (news)
 	
 	//$("#formCreateNewsTemp").html("");			
 	bindEvent();
-	$(".stream-processing").hide();
+	//$(".stream-processing").hide();
 
 }
 
@@ -252,7 +303,12 @@ var currentMonth = null;
 function buildLineHTML(newsObj)
 {
 	console.log(newsObj);
-	var date = new Date( parseInt(newsObj.created)*1000 );
+	if(typeof(newsObj.created) == "object")
+		var date = new Date( parseInt(newsObj.created.sec)*1000 );
+	else
+		var date = new Date( parseInt(newsObj.created)*1000 );
+
+//	var date = new Date( parseInt(newsObj.created)*1000 );
 	//if(newsObj.date != null) {
 	//	date = new Date( parseInt(newsObj.date)*1000 ) ;
 	//}
@@ -264,7 +320,6 @@ function buildLineHTML(newsObj)
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 	//console.log("date",dateStr);
 	//alert( $('.newsTL'+date.getMonth()).length);
-	offset=$('.newsFeed:last').offset(); 
 	console.log(offset);
 	if( currentMonth != date.getMonth() && $('.newsTL'+date.getMonth()).length == 0)
 	{
@@ -273,16 +328,15 @@ function buildLineHTML(newsObj)
 						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
 		$(".newsTLmonthsList").append(linkHTML);
-
 		titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 					'</div>'+
 					'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
 		$(".newsTL").append(titleHTML);
-		$(".spine").css("bottom","0px")
+		$(".spine").css("bottom","0px");
 	}
 	else{
-		$(".spine").css('bottom',"-"+(offset.top)+"px");	
+			$(".spine").css('bottom',"-"+(offset.top)+"px");
 	}
 	var color = "white";
 	var icon = "fa-user";
@@ -376,7 +430,8 @@ function buildLineHTML(newsObj)
 			var iconBlank="fa-group";
 		if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
 			imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
-			var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 		}else {
 			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
@@ -536,12 +591,13 @@ function buildLineHTML(newsObj)
 function bindEvent(){
 	var separator, anchor;
 	$('.timeline-scrubber').scrollToFixed({
-		marginTop: $('header').outerHeight() + 100
+		marginTop: $('header').outerHeight() + 200
 	}).find("a").on("click", function(e){			
 		anchor = $(this).data("separator");
 		//$("body").scrollTo(anchor, 300);
 		e.preventDefault();
 	});
+	$('.timeline-scrubber').css("right","50px");
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
@@ -586,19 +642,29 @@ function bindEvent(){
 	});
 
 	$('.filter').off().on("click",function(){
-
 	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
-		 	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'+
-			 	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
-			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-			});
+		 	 htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
+		 	<?php if( isset($_GET["isNotSV"]) ) { ?>
+				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
+			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
+			 		<?php } ?>
+		 	$.blockUI({message : htmlMessage});
 			offset="";
 			dateLimit = 0;	
 			lastoffset="";
-			if ($(this).data("filter")== ".news")
+			$(".stream-processing").show();
+			if ($(this).data("filter")== ".news"){
 				streamType="news";
-			else if ($(this).data("filter")== ".activityStream")
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				
+				$("#btnActivity").removeClass("btn-dark-green").addClass("btn-green");
+				//$("#newNeed #btnServices, #newNeed #btnMaterials").addClass("btn-green");
+
+			}else if ($(this).data("filter")== ".activityStream"){
 				streamType="activity";
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
+			}
 			$(".newsTL").empty();
 			formCreateNews = "<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
 										"<div class='no-padding form-create-news-container'>"+
@@ -613,6 +679,7 @@ function bindEvent(){
 			$.unblockUI();
 		}
 		else{
+
 		console.warn("filter",$(this).data("filter"));
 		filter = $(this).data("filter");
 		$(".newsFeed").hide();
@@ -688,6 +755,25 @@ function toggleFilters(what){
  		$('.optionFilter').hide();
  	$(what).slideToggle();
  }
+
+function showFormBlock(bool){
+	if(bool){
+		$(".form-create-news-container #text").show("fast");
+		$(".form-create-news-container .tagstags").show("fast");
+		$(".form-create-news-container .datedate").show("fast");
+		$(".form-create-news-container .form-actions").show("fast");
+		$(".form-create-news-container .publiccheckbox").show("fast");
+		if($("input#public").prop('checked') != true)
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
+	}else{
+		$(".form-create-news-container #text").hide();
+		$(".form-create-news-container .tagstags").hide();
+		$(".form-create-news-container .datedate").hide();
+		$(".form-create-news-container .form-actions").hide();
+		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
+		$(".form-create-news-container .publiccheckbox").hide();
+	}
+}
 
 
 </script>

@@ -14,7 +14,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left",'showAjaxPanel',"Person Details : ".$person['name'],'user','/person/detail/id/'.$id,"person","detail");
+        self::entry('showAjaxPanel',"Person Details : ".$person['name'],'user','/person/detail/id/'.$id,"person","detail");
         
         //SEND MESSAGE
         //-----------------------------
@@ -27,21 +27,19 @@ class Menu {
         
         //DIRECTORY
         //-----------------------------
-        self::entry("left",'showAjaxPanel','Directory','users','/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"person","directory");
+        self::entry('showAjaxPanel','DIRECTORY','users','/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"person","directory");
         
         //FOLLOW BUTTON
         //-----------------------------
         if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && $person["_id"] != Yii::app()->session["userId"]){
             //Link button
             if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && Link::isConnected( Yii::app()->session['userId'] , Person::COLLECTION , (string)$person["_id"] , Person::COLLECTION ))
-                $htmlFollowBtn = array('tooltip' => "Unfollow this Person",
-                                       'position' => "right", 
+                $htmlFollowBtn = array('tooltip' => "Unfollow this Person", 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
                                         "href"=>"<a href='javascript:;' class='unfollowBtn text-red tooltips btn btn-default' data-name=\"".$person["name"]."\" data-id='".$person["_id"]."' data-type='".Person::COLLECTION."' data-ownerlink='".link::person2person."' ");
             else
                 $htmlFollowBtn = array('tooltip' => "Follow this Person", 
-                                        'position' => "right", 
-                                       "iconClass"=>"connectBtnIcon fa fa-unlink",
+                                        "iconClass"=>"connectBtnIcon fa fa-unlink",
                                         "href"=>"<a href='javascript:;' class='followBtn tooltips btn btn-default ' id='addKnowsRelation'  data-id='".$person["_id"]."' data-ownerlink='".link::person2person."' ");
             array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
         } 
@@ -51,10 +49,8 @@ class Menu {
             && $person["_id"] == Yii::app()->session["userId"] ){
             $onclick = "showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');";
             array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "Add Something to My Network",
-                                                                'position' => "right", 
-                                                                "label"     => " Add",
                                                                 "iconClass"=>"fa fa-plus",
-                                                                "href"=>"<a  class='tooltips btn btn-default pull-right' href='javascript:;' onclick=\"".$onclick."\"") );
+                                                                "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         }
     }
 
@@ -67,7 +63,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left",'showAjaxPanel','ORGANIZATION DETAIL','home','/organization/detail/id/'.$id,"organization","detail");
+        self::entry('showAjaxPanel','ORGANIZATION DETAIL','home','/organization/detail/id/'.$id,"organization","detail");
        
         //SEND MESSAGE
         //-----------------------------
@@ -79,7 +75,7 @@ class Menu {
         
         //SEE TIMELINE
         //-----------------------------
-        self::entry("left",'showAjaxPanel','TIMELINE : Organization Activity','rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id,"news","index");
+        self::entry('showAjaxPanel','TIMELINE : Organization Activity','rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id,"news","index");
         
         //ACTION ROOMS
         //-----------------------------
@@ -91,11 +87,11 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        self::entry("left",'showAjaxPanel','MEMBERS : Organization participants','users','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        self::entry('showAjaxPanel','MEMBERS : Organization participants','users','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
 
         // ADD MEMBER
         //-----------------------------
-        self::entry("left",'showAjaxPanel','ADD MEMBER : Organization participants','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+        self::entry('showAjaxPanel','ADD MEMBER : Organization participants','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -129,7 +125,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left",'showAjaxPanel','Details','university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
+        self::entry('showAjaxPanel','Details','university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
         
         //SEND MESSAGE
         //-----------------------------
@@ -156,11 +152,11 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        self::entry("left",'showAjaxPanel','Local network','users','/city/directory/insee/'.$insee.'?isNotSV=1',"city","directory");
+        self::entry('showAjaxPanel','LOCAL NETWORK','users','/city/directory/insee/'.$insee.'?isNotSV=1',"city","directory");
 
         //STATISTICS
         //-----------------------------
-        self::entry("left",'showAjaxPanel','Statistics','line-chart','/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
+        self::entry('showAjaxPanel','Statistics','line-chart','/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -192,23 +188,14 @@ class Menu {
         
         //FILTERs
         //-----------------------------
-        self::entry('left','filter','News','rss',null,"newsFeed",".news");
-        self::entry('left','filter','Network activity','exchange',null,"newsFeed",".activityStream");
-        self::entry('left','filter',"People",'user',null,"newsFeed",".citoyens");
-        self::entry('left','filter',"Organization",'users',null,"newsFeed",".organizations");
-        self::entry('left','filter',"Event",'calendar',null,"newsFeed",".events");
-        self::entry('left','filter',"Project",'lightbulb-o',null,"newsFeed",".projects");
-        self::entry('right','onclick',"tag",'tags',"toggleFilters('#tagFilters')",null,null);
-        self::entry('right','onclick',"scope",'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        
-        // self::entry('filter','SHOW NEWS ONLY','rss',null,"newsFeed",".news");
-        // self::entry('filter','SHOW NETWORK ACTIVITY','exchange',null,"newsFeed",".activityStream");
-        // self::entry('filter',"SHOW PEOPLE ENTRIES ONLY",'user',null,"newsFeed",".citoyens");
-        // self::entry('filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
-        // self::entry('filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
-        // self::entry('filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
-        // self::entry('onclick',"show tag filters",'tags',"toggleFilters('#tagFilters')",null,null);
-        // self::entry('onclick',"show scope filters",'circle-o',"toggleFilters('#scopeFilters')",null,null);
+       // self::entry('filter','SHOW NEWS ONLY','rss',null,"newsFeed",".news");
+        //self::entry('filter','SHOW NETWORK ACTIVITY','exchange',null,"newsFeed",".activityStream");
+        //self::entry('filter',"SHOW PEOPLE ENTRIES ONLY",'user',null,"newsFeed",".citoyens");
+        //self::entry('filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
+        //self::entry('filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
+        //self::entry('filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
+        self::entry('onclick',"show tag filters",'tags',"toggleFilters('#tagFilters')",null,null);
+        self::entry('onclick',"show scope filters",'circle-o',"toggleFilters('#scopeFilters')",null,null);
         
     }
 
@@ -229,19 +216,19 @@ class Menu {
 
         //HOME
         //-----------------------------
-        self::entry("left",'showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/'.$id,"project","detail");
+        self::entry('showAjaxPanel','PROJECT DETAIL','home','/project/detail/id/'.$id,"project","detail");
 
         //SEE TIMELINE
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id."?isNotSV=1","news","index",null );
+        self::entry( 'showAjaxPanel',"TIMELINE : Project Activity","rss","/news/index/type/projects/id/".$id."?isNotSV=1","news","index",null );
 
         //DIRECTORY
         //-----------------------------
-        self::entry("left",'showAjaxPanel',"PROJECT CONTRIBUTORS",'users','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+        self::entry('showAjaxPanel',"PROJECT CONTRIBUTORS",'users','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
     }
 
-    public static function entry($position,$type,$title,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
-    {   //$position = "left";
+    public static function entry($type,$title,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
+    {
         if( $type == 'showAjaxPanel')
         {
             $active = (Yii::app()->controller->id == $controllerid && Yii::app()->controller->action->id == $actionid ) ? "active" : "";
@@ -249,18 +236,14 @@ class Menu {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
                             "badge"     => $badge,
-                            "label"     => " ".$title,
-                            "position"  => $position,
-                            "href"      => "<a  class='tooltips pull-".$position."  ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
         } 
         else if( $type == 'filter')
         {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
                             "badge"     => $badge,
-                            "label"     => " ".$title,
-                            "position"  => $position,
-                            "href"      => "<a  class='tooltips pull-".$position." filter  btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
+                            "href"      => "<a  class='tooltips filter btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
         } 
         else if( $type == 'onclick')
         {
@@ -268,17 +251,13 @@ class Menu {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
                             "badge"     => $badge,
-                            "label"     => " ".$title,
-                            "position"  => $position,
-                            "href"      => "<a  class='tooltips  pull-".$position."  btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
         } 
         else 
         {
             $entry = array( 'tooltip'    => $title,
                             "iconClass" => "fa fa-".$icon,
-                            "label"     => " ".$title,
-                            "position"  => $position,
-                            "href"      => "<a href='javascript:;' class='".$class."  pull-".$position." coco tooltips btn btn-default' data-notsubview='1' ");
+                            "href"      => "<a href='javascript:;' class='".$class." coco tooltips btn btn-default' data-notsubview='1' ");
         }
         array_push( Yii::app()->controller->toolbarMBZ, $entry);
     }

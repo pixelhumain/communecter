@@ -294,12 +294,13 @@
 <?php
 	//var_dump($_GET); 
 	//préchargement des contacts pour la modal Scope
-	$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
-	$myFormContact = $myContacts; 
+	$myContacts = array();
+	if(isset(Yii::app()->session['userId']))
+		$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
 	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
 ?>
 <script type="text/javascript">
-var myContacts = <?php echo json_encode($myFormContact) ?>;
+var myContacts = <?php echo json_encode($myContacts) ?>;
 
 // console.log("myContacts"); 
 // console.dir(myContacts); 

@@ -27,7 +27,7 @@
 			<br/> Organize, develop and innovate 
 			<br/> Localy, socialy and massively.
 
-			<?php if( !isset( Yii::app()->session['userId']) ){?>
+			<?php if( false && !isset( Yii::app()->session['userId']) ){?>
 			<div class="space10"></div>
 			<div class="row radius-10 padding-20" style="background-color: black">
 				<iframe class=" col-sm-6" src="https://player.vimeo.com/video/133636468" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
