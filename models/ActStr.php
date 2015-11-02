@@ -37,8 +37,8 @@ class ActStr {
         $action = array(
             "type" => $params["type"],
             "verb" => $params["verb"],
-            "date" => date("Y-m-d H:i:s"),
-            "timestamp" => time()
+            "date" => new MongoDate(time()),
+            "timestamp" => new MongoDate(time())
         );
 
         if( isset( $params["actor"] )){

@@ -721,11 +721,11 @@ function bindEvent(){
 
 function updateNews(newsObj)
 {
-	var date = new Date( parseInt(newsObj.created)*1000 );
-	if(newsObj.date && newsObj.date != newsObj.created) {
-		d = newsObj.date.split("/");
-		month = parseInt(d[1])-1;
-		date = new Date( d[2], month,d[0] ) ;
+	var date = new Date( parseInt(newsObj.created.sec)*1000 );
+	if(newsObj.date.sec && newsObj.date.sec != newsObj.created.sec) {
+		date = new Date( parseInt(newsObj.date.sec)*1000 );
+		//month = parseInt(d[1])-1;
+		//date = new Date( d[2], month,d[0] ) ;
 	}
 	var newsTLLine = buildLineHTML(newsObj);
 	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
