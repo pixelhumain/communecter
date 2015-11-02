@@ -24,16 +24,18 @@ class TestController extends CommunecterController {
 	//Rest::Json($res);
 	$news=PHDB::find(News::COLLECTION);
 	foreach ($news as $key => $data){
-		if (is_int($data["created"])){
-		echo $data["created"];
-		$dateCreated= new MongoDate($data["created"]);
-		echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
-		$res = PHDB::update(News::COLLECTION,
-                            array("_id"=>new MongoId($key)), 
-                            array('$set' => array("created" => $dateCreated)));
-                      echo "</br>";
-                      print_r($res);
-                      echo '</br>';
+		if (@$data["created"]){	
+			if (is_int($data["created"])){
+			echo $data["created"];
+			$dateCreated= new MongoDate($data["created"]);
+			echo "::".date(DATE_ISO8601, $dateCreated->sec)."</br>";
+			$res = PHDB::update(News::COLLECTION,
+	                            array("_id"=>new MongoId($key)), 
+	                            array('$set' => array("created" => $dateCreated)));
+	                      echo "</br>";
+	                      print_r($res);
+	                      echo '</br>';
+	        }
         }
 		//echo $data["date"];
 		//$dateCreated= new MongoDate($data["date"]);
