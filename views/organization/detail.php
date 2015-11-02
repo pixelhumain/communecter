@@ -1,8 +1,8 @@
 <?php 
-	//if(!$alone){
+	if(!$alone){
 		Menu::organization($organization);
 		$this->renderPartial('../default/panels/toolbar'); 
-	//}
+	}
 ?>
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">

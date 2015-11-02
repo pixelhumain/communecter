@@ -27,9 +27,18 @@ $this->renderPartial('../default/panels/toolbar');
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
 
-    $rand = rand(0, sizeof($organizations)-1);
-    //echo "rand : " . $rand;
-    $randomOrganization = isset($organizations[$rand]) ? $organizations[$rand] : null;
+    $randomOrganization = findOrgaRandImg($organizations, 1);
+    function findOrgaRandImg($organizations, $try){
+      $rand = rand(0, sizeof($organizations)-1);
+      if(isset($organizations[$rand]) && isset($organizations[$rand]["profilImageUrl"])
+           && $organizations[$rand]["profilImageUrl"] != "" || $try>50){
+          //error_log("try : " .$try);
+        return isset($organizations[$rand]) ? $organizations[$rand] : null;
+      }else{
+        return findOrgaRandImg($organizations, $try+1);
+      }
+    }
+
     //var_dump($randomOrganization);
     //die();
     //var_dump($people);var_dump($projects);
@@ -75,6 +84,7 @@ $this->renderPartial('../default/panels/toolbar');
             COLLECTIVITÉ
           </li>
           <li class="list-group-item">
+            <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
             LOCAL CONNECTED CITIZENS
           </li>
@@ -93,7 +103,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
   <div class="col-sm-8 col-xs-12">
-        <?php if($randomOrganization != null) $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
+        <?php if($randomOrganization != null) $this->renderPartial('../pod/randomOrganization',array( "randomEntity" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
 
