@@ -67,7 +67,9 @@
 
 	jQuery(document).ready(function()
 	{
+		<?php if( !isset( Yii::app()->session['userId']) ) { ?>
 		initHTML5Localisation();
+		<?php } ?>
 	});
 	function initHTML5Localisation(){
 		if (navigator.geolocation)
