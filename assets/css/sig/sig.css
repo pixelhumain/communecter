@@ -25,6 +25,34 @@ svg{
  	min-width:280px;
  	padding-bottom:0px;
  }
+ .pod-local-actors{
+ 	padding: 10px;
+ }
+ .leaflet-popup-content .pod-local-actors h4{
+ 	text-align: center;
+	padding-top: 10px;
+	font-size: 25px;
+ }
+ .leaflet-popup-content .pod-local-actors h3{
+ 	text-align: center;
+ }
+
+ .leaflet-popup-content .pod-local-actors .panel-heading{
+ 	padding: 10px;
+ 	border: 0;
+	min-height: 0px !important;
+ }
+
+ .leaflet-popup-content .pod-local-actors .panel{
+ 	box-shadow: none !important;
+ }
+
+ .leaflet-popup-content .pod-local-actors .list-group{
+ 	margin-bottom: -10px;
+ }
+ .marker-cluster{
+ 	z-index:480;
+ }
 /*   ############################### */
 
 
@@ -228,6 +256,7 @@ creer des conflits : regle pas assez specfique
 	margin-left: 8px;
 	position: absolute;
 	margin-top:1px;
+	left: 0px;
 }
 
 .item_map_list .left-col .thumbnail-profil{

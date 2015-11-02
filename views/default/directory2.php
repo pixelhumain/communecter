@@ -114,9 +114,10 @@ if( isset($_GET["isNotSV"])) {
 							<a href="javascript:;" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o fa-2x"></i> Scopes </a>
 						</li>
 					</ul>
-
-					<br/>
-
+				</div>
+				<hr/>
+				<!-- GRID -->
+				<span class="col-md-12">
 					<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 					<div id="orgaTypesFilters" class="optionFilter pull-left center" style="display:none;width:100%;" >
@@ -125,12 +126,7 @@ if( isset($_GET["isNotSV"])) {
 						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".Group">Group</a>
 						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".GovernmentOrganization">Government Organization</a>
 					</div>
-
-					<div class="space10"></div>
-
-				</div>
-				<hr/>
-				<!-- GRID -->
+				</span>
 				<ul id="Grid" class="list-unstyled">
 					<?php 
 					$memberId = Yii::app()->session["userId"];
@@ -179,7 +175,7 @@ if( isset($_GET["isNotSV"])) {
 							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
 						}
 					}
-					/*
+					/* 
 					<li class="col-md-3 col-sm-6 col-xs-12 mix kiki gallery-img" data-cat="1" id="">
 						<div class="portfolio-item">
 							<a class="thumb-info" href="" data-title="Website"  data-lightbox="all">
@@ -220,7 +216,7 @@ if( isset($_GET["isNotSV"])) {
 						$tagsClasses = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
-								$tagsClasses .= ' '.str_replace(" ", "", $value) ;
+								$tagsClasses .= ' '.preg_replace("/[^A-Za-z0-9]/", "", $value) ;
 							}
 						}
 
@@ -237,7 +233,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/communecter/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
@@ -257,10 +253,10 @@ if( isset($_GET["isNotSV"])) {
 						$tagsHTML = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
-								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.str_replace(" ", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
 								if( $tags != "" && !in_array($value, $tags) ) {
 									array_push($tags, $value);
-									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.str_replace(" ", "", $value).'"><span>#'.$value.'</span></a>';
+									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span>#'.$value.'</span></a>';
 								}
 							}
 						}
@@ -317,7 +313,6 @@ if( isset($_GET["isNotSV"])) {
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
 							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
-
 					?>
 				</ul>
 			</div>
@@ -356,8 +351,10 @@ var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
 	
 jQuery(document).ready(function() {
-	$("#tagFilters").html('<?php echo $tagsHTMLFull ?>');
-	$("#scopeFilters").html('<?php echo $scopesHTMLFull ?>');
+	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
+	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
+	$("#tagFilters").html(tagFilters);
+	$("#scopeFilters").html(scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);

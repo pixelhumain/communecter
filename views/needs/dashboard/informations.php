@@ -61,7 +61,7 @@
 						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a></td>
 					</tr>
 					<tr>
-						<td><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?>Quantité</td>
+						<td><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?></td>
 						<td><a href="#" id="quantity" data-type="number" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["quantity"]))echo $need["quantity"];?></a></td>
 					</tr>
 					

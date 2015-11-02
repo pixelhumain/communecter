@@ -1,6 +1,8 @@
 <?php 
-Menu::organization($organization);
-$this->renderPartial('../default/panels/toolbar'); 
+	if(!$alone){
+		Menu::organization($organization);
+		$this->renderPartial('../default/panels/toolbar'); 
+	}
 ?>
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
@@ -24,13 +26,15 @@ $this->renderPartial('../default/panels/toolbar');
 	 </div>
 </div>
 
-
+<?php if(!$alone){ ?>	
 <!-- end: PAGE CONTENT-->
 <script>
 	jQuery(document).ready(function() {
+		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo $organization["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		if($(".tooltips").length) {
      		$('.tooltips').tooltip();
    		}
 	});
 
 </script>
+<?php } ?>

@@ -6,153 +6,29 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/j
 //$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okvideo.min.js' , CClientScript::POS_END);
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
+//FloopDrawer
+$cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClientScript::POS_END);
+$cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
+
+//JQUERY UI
+$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
+$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
+
+if( !isset( Yii::app()->session['userId']) ){
+    $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/introjs/introjs.css');
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/introjs/intro.js' , CClientScript::POS_END);
+}
+
 ?>
-<style>
-/*#menu-top-container{
-  z-index:1;
-  position:absolute; 
-  top:15px; 
-  left:25px;
-}*/
-#menu-top-container{
-  z-index:1;
-  position:fixed; 
-  top:0px; 
-  left:0px;
-  padding: 10px 0px 10px 18px;
-  width:100%;    
-  background-color: rgba(255, 255, 255, 0.56);
-}
 
-#menu-container{
-  background-color: rgba(255, 255, 255, 0.58) !important;
-  padding: 10px;
-  border-radius: 0px 0px 10px 0px;
-  z-index: 1;
-  position: fixed;
-  top: 56px;
-  left: 0px;
-  border: none;
-}
-#menu-container a.text-white {
-    color: rgba(17, 97, 104, 0.69);
-}
-#menu-container a.text-white:hover {
-    color: #FFF;
-}
-#searchBar{
-  height: 56px;
-  top: 0px;
-  position: absolute;
-  right: 60px;
-  border: 0;
-  background-color: rgba(255, 255, 255, 0.63) !important;
-  color: #116168 !important;
-  padding: 0px 20px;
-  width: 272px;
-}
 
-.box-white-round{
-  background-color:rgba(255, 255, 255, 0.5) !important;
-  border-radius:10px !important;
-}
-
-li.mix{
-  background:rgba(255, 255, 255, 0.7) !important;
-  border-radius: 2px;
-  box-shadow: none;
-  border: 1px solid rgba(187, 187, 187, 0.49);
-}
-.panel-body{
-  background:rgba(255, 255, 255, 0.6) !important;
-}
-#dropdown_searchTop .li-dropdown-scope ol{
-  padding: 5px !important;
-  color: #155869;
-  padding-left: 15px !important;
-}
-
-#dropdown_searchTop .li-dropdown-scope ol a{
-  color:inherit !important;
-}
-#dropdown_searchTop .li-dropdown-scope ol:hover{
-  background-color:#88BBC8;
-  color:white !important;
-}
-.timeline-scrubber{
-  z-index:1 !important;
-}
-#menu-top-container .dropdown-menu {
-    position: absolute;
-    top: 96%;
-    left: unset;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 153px;
-    padding: 5px 0px;
-    margin: 2px 0px 0px;
-    font-size: 14px;
-    text-align: left;
-    list-style: outside none none;
-    background-color: #FFF;
-    background-clip: padding-box;
-    border: 0px solid rgba(0, 0, 0, 0.15);
-    border-radius: 1px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176);
-    width: 333px;
-    padding: 10px 0px;
-    right: -1px !important;
-    max-height:520px;
-    overflow-y: auto; 
-}
-
-#menu-top-container .fa-search{
-  right: 332px;
-  position: absolute;
-  font-size: 18px;
-  padding: 8px 6px;
-  color: rgba(17, 97, 104, 0.66) !important;
-}
-
-#menu-top-container .btn-show-map{
-  right: 0px;
-  height: 56px;
-  width: 60px;
-  top: 0px;
-  position: absolute;
-  font-size: 18px;
-  padding: 8px 6px;
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: rgba(38, 88, 108, 0.73);
-  border: none;
-  border-radius: 0px;
-}
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-    color: #FFF;
-    background-color: #7BA4B1;
-}
-
-.city-search {
-  font-size: 0.95rem;
-  font-weight: 300;
-  line-height: 0.8125rem;
-}
-
-.searchEntry i.fa{
-  border-radius:30px;
-  /*background-color: white;*/
-  padding: 10px 13px;
-  vertical-align: middle;
-  margin-top: -5px;
-  /*color:#155869 !important;*/
-}
-.searchEntry i.fa:hover{
-}
-</style>
+<!-- <link href="jquery-ui.css" rel="stylesheet">
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+ -->
 
 <div class="pull-right" style="padding:20px;">
-  <a href="#" onclick="showHideMenu ()">
+  <a href="javascript:;" onclick="showHideMenu ()">
     <i class="menuBtn fa fa-bars fa-3x text-white "></i>
   </a>
 </div>
@@ -160,7 +36,7 @@ li.mix{
 
 <div class="row">
   <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 center">
-  <a class="byPHRight" href="#"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a>
+  <a class="byPHRight" href="javascript:;"><img style="height: 39px;position: fixed;left: 0px;bottom: 10px;z-index: 2000;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a>
     <!-- start: LOGIN BOX -->
     <?php 
     $this->renderPartial('menuTitle',array("topTitleExists"=>false));
@@ -182,15 +58,7 @@ li.mix{
     ?>
     
   </div>
-  <div class="col-xs-10 col-xs-offset-1 ">
-
-    
-    <style type="text/css">
-      #ajaxSV{top:85px;margin-top:0px;}
-      @media screen and (max-width: 768px) {
-        #ajaxSV,.box{top:-100px;}
-      }
-    </style>
+  <div class="col-xs-12 col-xs-offset-1 main-col">
     <h1 class="panelTitle text-extra-large text-bold" style="display:none"></h1>
     <div class="box-ajax box box-white-round" id="ajaxSV" style="min-height:500px">
       <form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>
@@ -225,112 +93,119 @@ li.mix{
 <?php /* **********************
   LEFT MENU
 **************************** */?>
-<style type="text/css">
-    .menuline{
-        line-height: 31px;
-        font-size: 1.5em;
-        color:#58879B;
-        float:right;
-        margin-left:5px;
-        min-width: 200px;
-        text-align: right;
-        
-    }
-    .menuline.hide{
-        min-width: 0px;
-    }
-    .menuIcon {
-        /*border:1px solid white;*/
-        display: block;
-        height: 45px;
-        padding: 9px 15px;
-        border-radius: 0px;
-    }
-    .menuIcon i {
-      margin-left: 5px;
-      width: 30px;
-    }
-    #menu-container{
-      padding:10px 0px !important;
-    }
-    .menuIcon:hover {
-        color:#58879B;
-        background-color: white;
-        border: 0px solid #CFDFE4;
-        -webkit-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-        -moz-box-shadow: 3px 3px 3px 0 rgba(88,135,155, 0.55);
-        box-shadow: 0px 2px 3px 0 rgba(88,135,155, 0.55);
-    }
-    .hoverRed:hover {
-      color:red;
-    }
-    .menuIcon i{
-        float:left;
-        margin-left:5px;
-    }
-    .main-title h2{
-      color:#58879B !important;
-      font-size:30px;
-      padding-top: 75px;
-      padding-bottom: 15px;
-    }
-    </style>
+
+
+
 <div class="center text-white" id="menu-container" >
-    <div class="center text-white pull-left menuContainer">
-        <?php 
+    <div class="center text-white pull-left menuContainer" >
+    <?php if( isset( Yii::app()->session['userId']) )
+    {
           $me = Person::getById(Yii::app()->session['userId']);
           if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
             $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
         ?>
-        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+        <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="showAjaxPanel( '/person/detail/id/<?php echo Yii::app()->session['userId']?>', '<?php echo Yii::app()->session['user']['name']?>','user' )" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
           <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <span  class="menuline hide homestead" style="padding-top:7px;">DETAIL</span>
         </a>
 
-        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu" ><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )" class="menuIcon btn-main-menu" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )" class=" menuIcon btn-main-menu" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
-        <a href="#" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )" class=" menuIcon btn-main-menu" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
+        <a href="#news.index.type.citoyen" onclick="showAjaxPanel( '/news/index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>?isNotSV=1', 'KESS KISS PASS ','rss' )" class=" menuIcon btn-main-menu no-floop-item"><i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> NEWS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' )"                   class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-people" ><i class="fa fa-user fa-2x"></i><span class="menuline hide homestead"> MY PEOPLE</a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS ','users' )"    class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-organizations" ><i class="fa fa-users fa-2x"></i><span class="menuline hide homestead"> MY ORGANIZATIONS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','calender' )"            class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-projects" ><i class="fa fa-lightbulb-o fa-2x"></i><span class="menuline hide homestead"> MY PROJECTS</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS ','calender' )"               class=" menuIcon btn-main-menu floop-item" id="btn-scroll-type-events" ><i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> MY EVENTS</span></a>
 
-        <a href="#panel.box-add" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
-        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
+        <a href="javascript:;" onclick="showAjaxPanel( '/city/detail/insee/<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', 'MY CITY ','university' )" class="menuIcon btn-main-menu no-floop-item" ><i class="fa fa-university fa-2x"></i><span class="menuline hide homestead">MY CITY</span></a>
+        <a href="#panel.box-add" onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" class="menuIcon btn-main-menu no-floop-item" ><i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> ADD SOMETHING</span></a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGOUT</span></a>
+        
     </div>
+    <div class="floopDrawer" id="floopDrawerDirectory"></div>
+    <?php } else {?>
+        <a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-home fa-2x"></i><span class="menuline hide homestead"> HOME</a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGIN</span></a>
+    </div>
+    <?php } ?>
 </div>
- <?php /* ?>
-        <br/><br/><a href="#person.directory" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&isNotSV=1', 'MY NETWORK ','share-alt' )" class=" tooltips" data-placement='right' data-original-title='MY CONTACTS'><i class="fa fa-share-alt fa-2x btn-main-menu"></i></a>
-        */?>
+
        
 
 <?php /* **********************
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"></span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELCOM MUNECT HEY !!!</span>
     
-      <button class="btn btn-default btn-show-map pull-right"><i class="fa fa-map-marker"></i></button>  
+      <?php if( isset( Yii::app()->session['userId']) ){?>
+      <button id="btn-show-notification" class="btn btn-default btn-corner-top-left btn-menu-top pull-right">
+        <i class="fa fa-bell-o"></i>
+        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+      </button>
+      <?php } else { ?>
+      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-question-circle fa-2x"></i></a>
+      <?php } ?>
+    
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
-          <ol class="li-dropdown-scope">-</ol>
+          <ol class="li-dropdown-scope">Recherche en cours</ol>
         </ul>
       </input>
       </form>
       <i class="fa fa-search"></i>
-      <?php if( empty( $this->notifications )  ){?>
-        <a href="#" onclick="$('#notificationPanel').slideToggle()" >
-          <i class="fa fa-bell-o fa-2x"></i>
-          <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
-        </a>
-        <?php } ?>
+
+      <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
       
 </div>
-
+<style type="text/css">
+  .box-ajaxTools .btn.tooltips{
+    margin-right: -1px;
+    margin-bottom: -1px;
+    font-size: 13px;
+    height: 40px;
+    transition: all 0.1s ease 0s !important;
+    padding: 10px 10px;
+    color: #315C6E;
+    font-weight: 500;
+    border-radius: 0px;
+    border-top-width: 0px;
+  }
+  .box-ajaxTools .btn.tooltips:hover{
+    border-bottom: 3px solid #719FAB !important;
+    background-color: rgba(49, 92, 110, 0.74);
+    color:white;
+    /*height: 45px;*/
+  }
+  .box-ajaxTools .btn.tooltips.active{
+    border-bottom: 3px solid #337793;
+    background-color: #315C6E;
+    color:white;
+  }
+  .box-ajaxTools .btnSpacer{
+    margin-right: 0px;
+  }
+  .box-ajaxTools{
+    z-index: 1;
+    text-align: center;
+    float: left !important;
+    width: 100%;
+    top: 56px;
+    left: 0px;
+    position: fixed;
+    background-color: #FFF;
+    padding: 0px 0px 0px 69px;
+    -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
+   
+  }
+</style>
 <?php /* **********************
   PARTNER LOGOS
 **************************** ?>
@@ -350,48 +225,24 @@ li.mix{
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
 <img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
 
-<?php  */ /* ?>
-
-http://habibhadi.com/lab/svgPathAnimation/demo/
-http://jonobr1.github.io/two.js/#basic-usage
-http://rvlasveld.github.io/blog/2013/07/02/creating-interactive-graphs-with-svg-part-1/
-
-<style type="text/css">
-svg.graph {
-  position: absolute;
-  top:0px;
-  left: 0px;
-  height: 1000px;
-  width: 1000px;
-}
-
-svg.graph .line {
-  stroke: white;
-  stroke-width: 1;
-}
-</style>
-
-<svg class="graph">
-  <circle cx="0" cy="0" stroke="white" fill="white" r="5"></circle>
-  <path class="line" d=" M 0 0 L 600 100"></path>
-  <path class="line" d=" M 0 0 L 150 150"></path>
-  <path class="line" d=" M 0 0 L 330 100"></path>
-</svg>
 */?>
 
 <?php 
     //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
     //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    if( isset( Yii::app()->session['userId']) ){
+      foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+      foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+      foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+      foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+      
+      
+      if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+      if(isset($people))          $contextMap = array_merge($contextMap, $people);
+      if(isset($events))          $contextMap = array_merge($contextMap, $events);
+      if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    }
 
     function random_pic()
     {
@@ -405,120 +256,70 @@ svg.graph .line {
         } else
           return array();
     }
+
+    if(isset(Yii::app()->session['userId'])){
+      $myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
+      $myFormContact = $myContacts; 
+      $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
+    }else{
+      $myFormContact = null;
+
+    }
 ?>
 <script type="text/javascript">
 var timeout;
 var mapIconTop = {
     "default" : "fa-arrow-circle-right",
-    "citoyen":"fa-user", 
-    "NGO":"fa-users",
-    "LocalBusiness" :"fa-industry",
-    "Group" : "fa-circle-o",
-    "group" : "fa-users",
-    "association" : "fa-users",
-    "GovernmentOrganization" : "fa-university",
-    "event":"fa-calendar",
-    "project":"fa-lightbulb-o",
-    "city":"fa-university"
+    "citoyen":"<?php echo Person::ICON ?>", 
+    "NGO":"<?php echo Organization::ICON ?>",
+    "LocalBusiness" :"<?php echo Organization::ICON_BIZ ?>",
+    "Group" : "<?php echo Organization::ICON_GROUP ?>",
+    "group" : "<?php echo Organization::ICON ?>",
+    "association" : "<?php echo Organization::ICON ?>",
+    "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
+    "event":"<?php echo Event::ICON ?>",
+    "project":"<?php echo Project::ICON ?>",
+    "city": "<?php echo City::ICON ?>"
   };
 var images = []; 
 var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
+var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
-  jQuery(document).ready(function() {
+
+jQuery(document).ready(function() {
     console.dir(proverbs);
-    $(window).on("popstate", function(e) {
-      if( "onhashchange" in window && location.hash){
-        var url = e.state;
-        //console.log("popstate",url);
-        //loadByHash(location.hash);
-      }
-    });
+    
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
     }
 
-    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() { 
-      $(".menuline").removeClass("hide");
-    });
-   $(".menuContainer,#menu-container").mouseout(function() { 
-      $(".menuline").addClass("hide");
-    });
-    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
-      showPanel('box-event',null,"EVENTS");
-    });
-    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
-      showPanel('box-city',null,"CITY");
-    });
-    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
-      showPanel('box-projects',null,"PROJECTS");
-    });
-    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-orga',null,"ORGANIZATIONS");
-    });
-    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-people',null,"PEOPLE");
-    });
-    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-menu');
-    });
-
-    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
-    $(".btn-main-menu").click(function(){
-      showMap(false);
-    });
-
-    $('#searchBar').keyup(function(e){
-        var name = $('#searchBar').val();
-        $(this).css("color", "#58879B");
-        if(name.length>=3){
-          clearTimeout(timeout);
-          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
-        }else{
-          $("#dropdown_searchTop").css("display", "none");
-        }   
-    });
-
-    $('#searchBar').focusin(function(e){
-      if($("#searchBar").val() != "")
-      $('#dropdown_searchTop').css("display" , "inline");
-    });
+    bindEvents();
     
-    $('.mapCanvas').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-    });
-    
-    $('#ajaxSV').click(function(e){
-      $("#dropdown_searchTop").css("display", "none");
-    });
-    
-    $('.btn-show-map').click(function(e){
-      showMap();
-    });
-
-    $("#searchForm").off().on("click", function(){
-      $("#dropdown_searchTop").css("display", "none");
-    });
 
     //preload directory data
-
+    /*$(window).on("popstate", function(e) {
+      if( "onhashchange" in window && location.hash){
+        var url = e.state;
+        console.log("popstate",url);
+        //loadByHash(location.hash);
+      }
+    });*/
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
     else{
-      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); ///index/type/citoyens/id/<?php echo Yii::app()->session['userId']?>
-
+      loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
     }
 
-    $(".tooltips.annuaire").click(function (){
-      Sig.changeFilter($(this).data("sig-type"), Sig.map, "types");
-      showMap(false);
-    });
-
     initMap();
+    resizeInterface();
+    $(window).resize(function(){
+      resizeInterface();
+    })
+});
 
-  });
 var typesLabels = {
   "<?php echo Organization::COLLECTION ?>":"Organization",
   "<?php echo Event::COLLECTION ?>":"Event",
@@ -535,8 +336,13 @@ function loadByHash( hash ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
     else if( hash.indexOf("#project.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
-    else if( hash  == "#panel.box-add" )
-        showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');
+    else if( hash.indexOf("#panel") >= 0 ){
+        if(hash.substr(7) == "box-add")
+            title = 'ADD SOMETHING TO MY NETWORK';
+        else
+            title = "WELCOM MUNECT HEY !!!";
+        showPanel(hash.substr(7),null,title);
+    }
     
     else if( hash.indexOf("#person.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DETAIL ','user' );
@@ -546,6 +352,8 @@ function loadByHash( hash ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT DETAIL ','lightbulb-o' );
     else if( hash.indexOf("#organization.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DETAIL ','users' );
+    else if( hash.indexOf("#city.detail") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'CITY ','university' );
     
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )
@@ -564,10 +372,12 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#news.index.type") >= 0 ){
       hashT = hash.split(".");
       showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
-    } else
+    } else if(userId != "")
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+    else
+        showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
-    //location.hash = hash;
+    location.hash = hash;
     //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
 }
 
@@ -653,9 +463,8 @@ function autoCompleteSearch(name){
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='#' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           "<span>"+ htmlIco +"</span>  " + o.name;
 
@@ -670,14 +479,21 @@ function autoCompleteSearch(name){
               })
             }
             }); 
-            if(str == "") str = "<ol class='li-dropdown-scope'>Aucun résultat</ol>";
+            if(str == "") str = "<ol class='li-dropdown-scope'><i class='fa fa-ban'></i> Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
+            $('#notificationPanel').hide("fast");
+
  
             addEventOnSearch(); 
           }
       } 
     });
+
+    str = "<ol class='li-dropdown-scope'><i class='fa fa-circle-o-notch fa-spin'></i> Recherche en cours</ol>";
+    $("#dropdown_searchTop").html(str);
+    $("#dropdown_searchTop").css({"display" : "inline" });
+                    
   }
 
   function addEventOnSearch() {
@@ -714,39 +530,39 @@ function autoCompleteSearch(name){
     //affichage des éléments sur la carte
     Sig.clearMap();
     Sig.showMapElements(mapBg, mapData);
+    //alert("stop !");
 
-
-    $("li.filter .label-danger").click(function(){ alert($(this).html());
+    $("li.filter .label-danger").click(function(){
       $("#right_tool_map").hide("false");
-      var mapData = <?php echo json_encode($projects) ?>;
+      var mapData = <?php echo ( isset($projects) ) ? json_encode($projects) : "{}" ?>;
       Sig.showMapElements(mapBg, mapData);
     });
     //EVENT MENU PANEL
-    $(".filterorganizations").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("organizations", Sig.map, "types");
-    });
-    $(".filterpersons").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("people", Sig.map, "types");
-    });
-    $(".filterevents").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("events", Sig.map, "types");
-    });
-    $(".filterprojects").click(function(){
-      $("#right_tool_map").hide("false");
-      thisSig.currentMarkerPopupOpen = null;  
-      Sig.changeFilter("projects", Sig.map, "types");
-    });
+    // $(".filterorganizations").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("organizations", Sig.map, "types");
+    // });
+    // $(".filterpersons").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("people", Sig.map, "types");
+    // });
+    // $(".filterevents").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("events", Sig.map, "types");
+    // });
+    // $(".filterprojects").click(function(){
+    //   $("#right_tool_map").hide("false");
+    //   thisSig.currentMarkerPopupOpen = null;  
+    //   Sig.changeFilter("projects", Sig.map, "types");
+    // });
     //EVENT MENU PANEL - ALL
     $(".filter").click(function(){
       if($(this).attr("data-filter") == "all"){
         $("#right_tool_map").hide("false");
-        var mapData = <?php echo json_encode($contextMap) ?>;
+        var mapData = <?php echo ( isset($contextMap) ) ? json_encode($contextMap) : "{}" ?>;
         thisSig.currentMarkerPopupOpen = null;  
         Sig.showMapElements(mapBg, mapData);
       }
@@ -766,4 +582,225 @@ function togglePanel(activeClass) {
   $(activeClass).slideDown();
 }
 
+function resizeInterface(){
+  var height = $("#mapCanvasBg").height() - 55;
+  $("#ajaxSV").css({"minHeight" : height});
+  $("#menu-container").css({"minHeight" : height});
+  var heightDif = $("#search-contact").height();
+  console.log("heightDif", heightDif);
+  $(".floopScroll").css({"minHeight" : height-heightDif});
+  $(".floopScroll").css({"maxHeight" : height-heightDif});
+  $("ul.notifList").css({"maxHeight" : height-heightDif});
+
+}
+
+function bindEvents() { 
+    $(".menuContainer,#menu-container,.menuIcon,.menuline").mouseover(function() {
+      $(".menuline").removeClass("hide");
+    });
+   
+
+    $(".menuContainer,#menu-container").mouseout(function() { 
+      $(".menuline").addClass("hide");
+    });
+    
+    //console.log("myContacts");
+    //console.dir(myContacts);
+    if(myContacts != null){
+      var floopDrawerHtml = buildListContactHtml(myContacts);
+      $("#floopDrawerDirectory").html(floopDrawerHtml);
+      $("#floopDrawerDirectory").hide();
+      
+      bindEventFloopDrawer();
+    }
+
+    $(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+      showPanel('box-event',null,"EVENTS");
+    });
+    $(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+      showPanel('box-city',null,"CITY");
+    });
+    $(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+      showPanel('box-projects',null,"PROJECTS");
+    });
+    $(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-orga',null,"ORGANIZATIONS");
+    });
+    $(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-people',null,"PEOPLE");
+    });
+    $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+      showPanel('box-menu');
+    });
+
+    //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal
+    $(".btn-main-menu").click(function(){
+      showMap(false);
+    });
+
+    $('#searchBar').keyup(function(e){
+        var name = $('#searchBar').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
+    $('#searchBar').focusin(function(e){
+      if($("#searchBar").val() != ""){
+        $('#dropdown_searchTop').css("display" , "inline");
+        $('#notificationPanel').hide("fast");
+      }
+    });
+    
+    $('.mapCanvas').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#ajaxSV').click(function(e){
+      $("#dropdown_searchTop").css("display", "none");
+      $('#notificationPanel').hide("fast");
+    });
+    
+    $('#btn-show-notification').click(function(){
+      if($("#notificationPanel").css("display") == "none")
+        $('#notificationPanel').show("fast");
+      else
+        $('#notificationPanel').hide("fast");
+        
+    });
+
+    $('#btn-show-map').click(function(e){
+      showMap();
+    });
+
+    $("#searchForm").off().on("click", function(){
+      $("#dropdown_searchTop").css("display", "none");
+    });
+
+    
+    $('#communectMe').keyup(function(e){
+        $("#searchBar").val( $('#communectMe').val() );
+        var name = $('#communectMe').val();
+        $(this).css("color", "#58879B");
+        if(name.length>=3){
+          clearTimeout(timeout);
+          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
+        }else{
+          $("#dropdown_searchTop").css("display", "none");
+          $('#notificationPanel').hide("fast");
+        }   
+    });
+
+}
+
+function startIntro(){
+    loadByHash("#city.detail.insee.97414");
+var intro = introJs();
+  intro.setOptions({
+    showProgress : true,
+    showBullets:false,
+    scrollToElement:true,
+    steps: [
+      {
+        element: '#menu-container',
+        intro: "<b> Menu </b>: Access everything easily.",
+        position: 'right'
+      },
+      {
+        element: '#searchBar',
+        intro: "<b>Your Search</b> "+
+                "<br/>direct access to everything that's on your mind"+
+                "<br/>Search People, Organizations, Events, Projects, Cities",
+        position: 'bottom'
+      },
+      /*{
+        element: '#dropdown_searchTop',
+        intro: "<h1>Click here <i class='fa fa-arrow-up'></i></h1> ",
+        position: 'bottom'
+      },*/
+      
+      {
+        element: '.moduleLabel',
+        intro: '<h1>Discover a city </h1>',
+        position: 'bottom'
+      },
+      {
+        element: '#cityDetail_events ',
+        intro: "<h1>Local Events </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_organizations ',
+        intro: "<h1>Local Organizations </h1> ",
+        position: 'right'
+      },
+      {
+        element: '#cityDetail_projects ',
+        intro: "<h1>Local Projects </h1> ",
+        position: 'left'
+      },
+       
+      {
+        element: '#btn-center-city',
+        intro: "<h1>Click here </h1> ",
+        position: 'bottom'
+      },
+      {
+        element: '#btn-show-map',
+        intro: "<h1>Click here </h1> ",
+        position: 'bottom'
+      },
+      /*{
+        element: '#right_tool_map',
+        intro: "Search and find stuff in the map "+
+                "People, Organizations, Events, Projects",
+        position: 'left'
+      },*/
+      {
+        element: '.pod-local-actors',
+        intro: "<h1>See your city on the the Map</h1> ",
+        position: 'left'
+      },
+      
+      
+      /*,
+      {
+        intro: "The Background Map always shows what is in the foreground",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },
+      {
+        intro: "Visit a city's activity",
+        onbeforechange(function(targetElement) {
+          showMap();
+        }),
+      },*/
+      
+    ]/*,
+    onbeforechange(function(targetElement) {
+          console.dir(targetElement);
+        })*/
+  });
+
+  intro.onbeforechange( function(targetElement) {
+        console.dir(targetElement);
+        $(".box-whatisit").hide();
+        /*if(targetElement.id == "searchBar")
+        {
+            $("#searchBar").val("97421").trigger("keyup");
+            //loadByHash("#city.detail.insee.97414");
+        } 
+        else */
+        if(targetElement.id == "btn-center-city" || targetElement.id == "btn-show-map"){
+            showMap();
+        }
+    }).start();
+}
 </script>

@@ -1,16 +1,10 @@
-
-Département > depName
-Région > regionName
-Statut > structure
-Altitude Moyenne > avgAltitude
-Superficie > surface
-geo_shape > geoShape
-Code Commune > commune
-Code Canton > canton
-Code Arrondissement > arrond
-Code Département > dep
-Code Région > region
-
+Développer des "commons transition party" où l'on pourrait "être aidé pour passer : 
+- non seulement son ordinateur sous un commun (linux, libre office), 
+- passer son compte en banque à la NEF, 
+- son fournisseur d'électricité chez Enercoop, 
+- sa connexion internet chez le fournisseur d'accès associatif Tetaneutral
+- son approvisionnement en légumes auprès d'une AMAP locale…
+	
 CINOR 
 	Christopha ANnette 
 	0692272212

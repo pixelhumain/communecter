@@ -93,7 +93,7 @@
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopupSimple = function(data){
-
+			
 			var type = data['typeSig'] ? data['typeSig'] : data['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
@@ -101,30 +101,31 @@
 			var ico = this.getIcoByType(data);
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
-
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
-			//var prop = feature.properties;
-			//console.log("PROPRIETES : ");
-			//console.dir(data);
-
-			//showMap(false);
-
-			//var type = data.typeSig;
 			var typeElement = "";
 			if(type == "people") 		typeElement = "person";
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-
-			var url = '/'+typeElement+'/detail/id/'+id;
-			var title = data.typeSig + ' : ' + data.name;
-			title = title.replace("'", "");
-			title = title.replace('"', "");
-
+			//console.log("type", type);
+			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");'>";
+			var onclick = "";
+			if(isNotSV){
+				var url = '/'+typeElement+'/detail/id/'+id;
+				var title = data.typeSig + ' : ' + data.name;
+				title = title.replace("'", "");
+				title = title.replace('"', "");
+
+				onclick = "openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");";
+			}else{
+				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
+				onclick = 'window.location.href = "'+url+'"';
+			}
+
+			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='"+onclick+"'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
@@ -199,7 +200,6 @@
 			title = title.replace('"', "");
 
 			var icon = 'fa-'+ this.getIcoByType(data);
-
 			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");'>";
 										
 			popupContent += 
@@ -327,8 +327,16 @@
 		};
 
 		Sig.getPopupCity = function(dataTxt){
-							
-			var popupContent = "<h1>"+dataTxt+"</h1></br>";
+			var localActors = "";
+			if($("#pod-local-actors").length > 0){ console.log("try to catch local actors");
+				localActors = $("#pod-local-actors").html();
+			}
+			var popupContent = '<div class="pod-local-actors">' +
+									"<h4 class='panel-title text-blue'>"+
+										"<i class='fa fa-university'></i> "+dataTxt+
+									"</h4>" + 
+									localActors +
+								'</div>';
 			return popupContent;
 		};
 

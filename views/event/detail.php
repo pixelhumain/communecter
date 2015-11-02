@@ -18,16 +18,14 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 	<div class="col-md-4 col-sm-12">
 		<?php $this->renderPartial('dashboard/attendees', array(  "event"=> $event,
-																	
-																	"attending" => $attending,
-	
-																	"isDetailView" => 1																));
+																  "attending" => $attending,
+																  "isDetailView" => 1	));
 					?>
 	</div>
 </div>
 <script type="text/javascript">
 	
 	jQuery(document).ready(function() {
-		
+		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo $event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	});
 </script>

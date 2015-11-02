@@ -42,7 +42,9 @@ jQuery(document).ready(function() {
 	var images = <?php echo json_encode($images) ?>;
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
-	})
+	});
+	$(".moduleLabel").html("<i class='fa fa-user'></i> PERSON : <?php echo $person["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+
 });
 
 

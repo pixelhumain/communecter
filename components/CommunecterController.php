@@ -79,46 +79,46 @@ class CommunecterController extends Controller
 
   public $pages = array(
     "admin" => array(
-      "index"   => array("href" => "/ph/communecter/admin"),
+      "index"     => array("href" => "/ph/communecter/admin"),
       "directory" => array("href" => "/ph/communecter/admin/directory"),
-      "switchto" => array("href" => "/ph/communecter/admin/switchto"),
-      "delete" => array("href" => "/ph/communecter/admin/delete"),
+      "switchto"  => array("href" => "/ph/communecter/admin/switchto"),
+      "delete"    => array("href" => "/ph/communecter/admin/delete"),
     ),
 
     "default" => array(
-      "index"   => array("href" => "/ph/communecter","api"=>""),
-      "about"   => array("href" => "/ph/communecter/default/about"),
-      "help"    => array("href" => "/ph/communecter/default/help"),
-      "contact" => array("href" => "/ph/communecter/default/contact"),
-      "view"    => array("href" => "/ph/communecter/default/view", "public" => true),
+      "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
+      "about"     => array("href" => "/ph/communecter/default/about"),
+      "help"      => array("href" => "/ph/communecter/default/help"),
+      "contact"   => array("href" => "/ph/communecter/default/contact"),
+      "view"      => array("href" => "/ph/communecter/default/view", "public" => true),
       "directory" => array("href" => "/ph/communecter/default/directory"),
-      "simple" => array("href" => "/ph/communecter/default/simple"),
+      "simple"    => array("href" => "/ph/communecter/default/simple"),
     ),
 
     "city"=> array(
-    	"index"               => array("href" => "/ph/communecter/city/index"),
-      "detail"               => array("href" => "/ph/communecter/city/detail"),
-      "dashboard"           => array("href" => "/ph/communecter/city/dashboard"),
-    	"directory"           => array("href" => "/ph/communecter/city/directory", "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
-    	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation"),
-    	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata"),
-      'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity"),
+    	"index"               => array("href" => "/ph/communecter/city/index", "public" => true),
+      "detail"              => array("href" => "/ph/communecter/city/detail", "public" => true),
+      "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true), 
+    	"directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
+    	'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation", "public" => true),
+    	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
+      'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
       'opendata'            => array("href" => "/ph/communecter/city/opendata"),
-      'getoptiondata'            => array("href" => "/ph/communecter/city/getoptiondata"),
-      'getlistoption'            => array("href" => "/ph/communecter/city/getlistoption"),
-      'getpodopendata'            => array("href" => "/ph/communecter/city/getpodopendata"),
-      'addpodopendata'            => array("href" => "/ph/communecter/city/addpodopendata"),
-      'getlistcities'            => array("href" => "/ph/communecter/city/getlistcities"),
-      'creategraph'            => array("href" => "/ph/communecter/city/creategraph"),
-      'graphcity'            => array("href" => "/ph/communecter/city/graphcity"),
+      'getoptiondata'       => array("href" => "/ph/communecter/city/getoptiondata"),
+      'getlistoption'       => array("href" => "/ph/communecter/city/getlistoption"),
+      'getpodopendata'      => array("href" => "/ph/communecter/city/getpodopendata"),
+      'addpodopendata'      => array("href" => "/ph/communecter/city/addpodopendata"),
+      'getlistcities'       => array("href" => "/ph/communecter/city/getlistcities"),
+      'creategraph'         => array("href" => "/ph/communecter/city/creategraph"),
+      'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
 
     ),
 
     "news"=> array(
-      "index" => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
+      "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
-      "save"  => array( "href" => "/ph/communecter/news/save"),
+      "save"    => array( "href" => "/ph/communecter/news/save"),
     ),
 
     "search"=> array(
@@ -126,21 +126,22 @@ class CommunecterController extends Controller
     ),
 
     "rooms"=> array(
-      "index" => array("href" => "/ph/communecter/rooms/index"),
+      "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
     ),
     "gantt"=> array(
-    	"index" => array("href" => "/ph/communecter/gantt/index"),
-		"savetask" => array("href" => "/ph/communecter/gantt/savetask"),
-		"removetask"      => array("href" => "/ph/communecter/gantt/removetask"),
-		"generatetimeline"      => array("href" => "/ph/communecter/gantt/generatetimeline"),
-		"addtimesheetsv"      => array("href" => "/ph/communecter/gantt/addtimesheetsv"),
+    	"index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
+  		"savetask"         => array("href" => "/ph/communecter/gantt/savetask"),
+  		"removetask"       => array("href" => "/ph/communecter/gantt/removetask"),
+  		"generatetimeline" => array("href" => "/ph/communecter/gantt/generatetimeline"),
+  		"addtimesheetsv"   => array("href" => "/ph/communecter/gantt/addtimesheetsv"),
     ),
   	"needs"=> array(
-        "index" => array("href" => "/ph/communecter/needs/index"),
+        "index" => array("href" => "/ph/communecter/needs/index", "public" => true),
         "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
         "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
+        "detail" => array("href" => "/ph/communecter/needs/detail", "public" => true),
         "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
         "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
         "addhelpervalidation" => array("href" => "/ph/communecter/needs/addhelpervalidation"),
@@ -152,7 +153,7 @@ class CommunecterController extends Controller
         "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
         "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
-        "detail"          => array("href" => "/ph/communecter/person/detail"),
+        "detail"          => array("href" => "/ph/communecter/person/detail", "public" => true),
         "connect"         => array("href" => "/ph/communecter/person/connect"),
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
         "register"        => array("href" => "/ph/communecter/person/register"),
@@ -185,7 +186,7 @@ class CommunecterController extends Controller
         "importmydata"            => array("href" =>"'/ph/communecter/person/importmydata'"),
         "about"                   => array("href" => "/person/about"),
         "data"                    => array("href" => "/person/scopes"),
-        "directory"               => array("href" => "/ph/communecter/city/directory", "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
     ),
 
     "organization"=> array(
@@ -202,24 +203,24 @@ class CommunecterController extends Controller
       "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
-      "directory"           => array("href"=>"/ph/communecter/organization/directory"),
+      "directory"           => array("href"=>"/ph/communecter/organization/directory", "public" => true),
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
-      "detail"              => array("href"=>"/ph/communecter/organization/detail"),
+      "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember")
     ),
 
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
-      "removeattendee"   => array("href" => "/ph/communecter/event/removeattendee"),
+      "removeattendee"  => array("href" => "/ph/communecter/event/removeattendee"),
       "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),
-      "detail"          => array("href" => "/ph/communecter/event/detail"),
+      "detail"          => array("href" => "/ph/communecter/event/detail", "public" => true),
       "delete"          => array("href" => "ph/communecter/event/delete"),
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
-      "eventsv"         => array("href" => "ph/communecter/event/eventsv", "public" => true),
-      "directory"       => array("href"=>"/ph/communecter/event/directory"),
-      "addattendeesv"       => array("href"=>"/ph/communecter/event/addattendeesv"),
+      "eventsv"         => array("href" => "ph/communecter/event/eventsv" , "public" => true),
+      "directory"       => array("href"=>"/ph/communecter/event/directory", "public" => true),
+      "addattendeesv"   => array("href"=>"/ph/communecter/event/addattendeesv")
     ),
 
     "project"=> array(
@@ -228,14 +229,14 @@ class CommunecterController extends Controller
       "save"            => array("href" => "/ph/communecter/project/save"),
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
       "dashboard"       => array("href" => "/ph/communecter/project/dashboard"),
-      "detail"          => array("href" => "/ph/communecter/project/detail"),
+      "detail"          => array("href" => "/ph/communecter/project/detail", "public" => true),
   	  "removeproject"   => array("href" => "/ph/communecter/project/removeproject"),
   	  "editchart"       => array("href" => "/ph/communecter/project/editchart"),
   	  "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
-      "addcontributorsv"    => array("href" => "/ph/communecter/project/addcontributorsv"),
-      "addchartsv"    => array("href" => "/ph/communecter/project/addchartsv"),
-      "directory"       => array("href"=>"/ph/communecter/project/directory"),
+      "addcontributorsv" => array("href" => "/ph/communecter/project/addcontributorsv"),
+      "addchartsv"      => array("href" => "/ph/communecter/project/addchartsv"),
+      "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true)
     ),
 
     "job"=> array(
@@ -247,7 +248,7 @@ class CommunecterController extends Controller
     ),
 
     "pod" => array(
-    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda"),
+    	"slideragenda" => array("href" => "/ph/communecter/pod/slideragenda", "public" => true),
     	"photovideo"   => array("href" => "ph/communecter/pod/photovideo"),
     	"fileupload"   => array("href" => "ph/communecter/pod/fileupload"),
     ),
@@ -263,7 +264,7 @@ class CommunecterController extends Controller
     ),
 
     "document" => array(
-      "resized"             => array("href"=> "/ph/communecter/document/resized"),
+      "resized"             => array("href"=> "/ph/communecter/document/resized", "public" => true),
       "list"                => array("href"=> "/ph/communecter/document/list"),
       "save"                => array("href"=> "/ph/communecter/document/save"),
       "deleteDocumentById"  => array("href"=> "/ph/communecter/document/deleteDocumentById"),
@@ -274,8 +275,8 @@ class CommunecterController extends Controller
     ),
 
     "survey" => array(
-      "index"       => array("href" => "/ph/communecter/survey/index"),
-      "entries"     => array("href" => "/ph/communecter/survey/entries"),
+      "index"       => array("href" => "/ph/communecter/survey/index", "public" => true),
+      "entries"     => array("href" => "/ph/communecter/survey/entries", "public" => true),
       "savesession" => array("href" => "/ph/communecter/survey/savesession"),
       "savesurvey"  => array("href" => "/ph/communecter/survey/savesurvey"),
       "delete"      => array("href" => "/ph/communecter/survey/delete"),
@@ -286,18 +287,18 @@ class CommunecterController extends Controller
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
-      "close"    => array("href" => "/ph/communecter/survey/close")
+      "close"       => array("href" => "/ph/communecter/survey/close")
     ),
 
     "discuss"=> array(
-      "index" => array( "href" => "/ph/communecter/discuss/index"),
+      "index" => array( "href" => "/ph/communecter/discuss/index", "public" => true),
     ),
 
     "comment"=> array(
-      "index" => array( "href" => "/ph/communecter/comment/index", "public" => true),
-      "save" => array( "href" => "/ph/communecter/comment/save"),
+      "index"        => array( "href" => "/ph/communecter/comment/index", "public" => true),
+      "save"         => array( "href" => "/ph/communecter/comment/save"),
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
-      "testpod" => array("href" => "/ph/communecter/comment/testpod")
+      "testpod"      => array("href" => "/ph/communecter/comment/testpod")
     ),
 
     "action"=> array(
@@ -305,8 +306,8 @@ class CommunecterController extends Controller
     ),
 
     "notification"=> array(
-      "getnotifications" => array("href" => "/ph/communecter/notification/get"),
-      "marknotificationasread" => array("href" => "/ph/communecter/notification/remove"),
+      "getnotifications"          => array("href" => "/ph/communecter/notification/get"),
+      "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
     ),
 
@@ -327,7 +328,11 @@ class CommunecterController extends Controller
 
     $pagesWithoutLogin = array(
                             //Login Page
-                            "person/login", "person/register", "person/authenticate", "person/activate", "person/sendemail",
+                            "person/login", 
+                            "person/register", 
+                            "person/authenticate", 
+                            "person/activate", 
+                            "person/sendemail",
                             //Document Resizer
                             "document/resized");
 

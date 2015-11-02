@@ -11,29 +11,53 @@
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
+
+
+<?php 
+    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
+    //et pour ouvrir le panel info correctement
+    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    
+    $contextMap = array();
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
+    if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($events))          $contextMap = array_merge($contextMap, $events);
+    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+
+    $randomOrganization = findOrgaRandImg($organizations, 1);
+    function findOrgaRandImg($organizations, $try){
+      $rand = rand(0, sizeof($organizations)-1);
+      if(isset($organizations[$rand]) && isset($organizations[$rand]["profilImageUrl"])
+           && $organizations[$rand]["profilImageUrl"] != "" || $try>50){
+          //error_log("try : " .$try);
+        return isset($organizations[$rand]) ? $organizations[$rand] : null;
+      }else{
+        return findOrgaRandImg($organizations, $try+1);
+      }
+    }
+
+    //var_dump($randomOrganization);
+    //die();
+    //var_dump($people);var_dump($projects);
+?>
+
+
 <style type="text/css">
   .panel-title{
     font-family: "Homestead";
   }
-  #btn-center-city{
-    padding: 5px 16px;
-    border-radius: 25px;
-    background: rgba(252, 252, 252, 0.75);
-    margin-left: 10px;
-  }
-  #btn-center-city:hover{
-    background: #58879B;
-    color:white;
-  }
 </style>
 <!-- start: PAGE CONTENT -->
-<div class="row">
+<div class="row" id="cityDetail">
 
-  <div class="col-sm-4 col-xs-12">
+  <div class="col-sm-4 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h4 class="panel-title text-blue">LOCAL ACTORS </h4>
-		    <div class="panel-tools">
+        <h3 class="panel-title text-blue">LOCAL ACTORS </h3>
+		    <div class="panel-tools" style="display:block">
         	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
         </div>
       </div>
@@ -60,6 +84,7 @@ $this->renderPartial('../default/panels/toolbar');
             COLLECTIVITÉ
           </li>
           <li class="list-group-item">
+            <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
             LOCAL CONNECTED CITIZENS
           </li>
@@ -78,18 +103,18 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
   <div class="col-sm-8 col-xs-12">
-        <?php $this->renderPartial('../pod/randomOrganization',array( "randomOrganization" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
+        <?php if($randomOrganization != null) $this->renderPartial('../pod/randomOrganization',array( "randomEntity" => (isset($randomOrganization)) ? $randomOrganization : null )); ?>
     </div>
 </div>
 
-<div class="row">
-  <div class="col-md-4 col-sm-12 col-xs-12">
+<div class="row"  >
+  <div class="col-md-4 col-sm-12 col-xs-12" id="cityDetail_events" data-position="top" data-intro="Find Local Events">
     <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
   </div>
-  <div class="col-md-4 col-sm-6  col-xs-12">
+  <div class="col-md-4 col-sm-6  col-xs-12"  id="cityDetail_organizations" data-position="top" data-intro="Find Local  Organizations" >
     <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
   </div>
-  <div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="col-md-4 col-sm-6 col-xs-12"  id="cityDetail_projects" data-position="top" data-intro="Find Local Projects">
     <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
           "userId" => (string)$person["_id"])); ?>
   </div>
@@ -120,23 +145,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 
 <!-- end: PAGE CONTENT-->
-
-<?php 
-    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-    //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
-    $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
-
-    //var_dump($people);var_dump($projects);
-?>
 
 <script>
 
@@ -180,12 +188,10 @@ jQuery(document).ready(function() {
 
 
 function initCityMap(){
-  //console.dir(contextMap);
-  //Sig.clearMap();
-  //console.log(contextMap);
+  
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
-  //return;
+  
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
 
@@ -198,14 +204,22 @@ function initCityMap(){
   Sig.allowMouseoverMaker = false;
   
   markerCity.openPopup();
+  Sig.map.setZoom(13, {animate:false});
   Sig.map.panTo(latlng, {animate:false});
-  Sig.centerSimple(latlng, 13);
-  Sig.currentMarkerPopupOpen = null;//markerCity;  
+  //Sig.centerSimple(latlng, 13);
+  Sig.currentMarkerPopupOpen = markerCity;  
   
+  if(typeof city["geoShape"] != "undefined"){
+    var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
+    Sig.showPolygon(geoShape);
+    Sig.map.setZoom(20, {animate:false});
+    Sig.map.fitBounds(geoShape);
+  }
+
   $("#btn-center-city").click(function(){
     Sig.currentMarkerPopupOpen = null;//markerCity;  
     //markerCity.openPopup();
-    showMap(true);
+    showMap();
     markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});

@@ -25,9 +25,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		width:100%;
 	}
 </style>
-<?php 
-if( isset($_GET["isNotSV"])) 
+<?php if( @$isNotSV ){ 
 	$this->renderPartial('../default/panels/toolbar'); 
+}?>
+<?php 
 
 if( !isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/mapFormSV'); 
@@ -82,10 +83,9 @@ if( !isset($_GET["isNotSV"]))
 								<select name="type" id="type" class="form-control" >
 									<option value=""></option>
 									<?php
-									foreach ($types as $key=>$value) 
-									{
+									foreach ($types as $key=>$value) {
 									?>
-									<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
+										<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
 									<?php 
 									}
 									?>
@@ -98,11 +98,23 @@ if( !isset($_GET["isNotSV"]))
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
+							<div class="form-group organizationCategory categoryNGO">
+								<label class="control-label">
+									<?php echo Yii::t("common","Category") ?>
+								</label>
+			        		    <input id="categoryNGO" type="hidden" name="categoryNGO" style="width:100%; height:35px;">
+							</div>
+							<div class="form-group organizationCategory categoryLocalBusiness">
+								<label class="control-label">
+									<?php echo Yii::t("common","Category") ?>
+								</label>
+			        		    <input id="categoryLocalBusiness" type="hidden" name="categoryLocalBusiness" style="width:100%; height:35px;">
+							</div>
 							<div class="form-group">
 								<label class="control-label">
-									<?php echo Yii::t("common","Interests") ?>
+									<?php echo Yii::t("common","Key Words") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="display: none;width:100%; height:35px;">		        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
 							</div>
 						</div>
 						<div class="col-md-6 col-sd-6 ">
@@ -141,6 +153,20 @@ if( !isset($_GET["isNotSV"]))
 
 							<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
 							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
+
+
+							<div class="form-group">
+								<div class="form-group">
+									<label class="control-label">
+										What's your role inside this new organization ? <span class="symbol required"></span>
+									</label>
+									<select name="role" id="role" class="form-control" >
+										<option value="admin">Administrator</option>
+										<option value="member">Member</option>
+										<option value="creator">Just a citizen wanting to give visibility to it :)</option>
+									</select>
+								</div>
+							</div>
 						</div>
 
 							
@@ -152,7 +178,7 @@ if( !isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="row">
 							<div class="col-md-12">
 								<div>
@@ -260,11 +286,25 @@ var citiesByPostalCode = null;
 
 jQuery(document).ready(function() {
 	var countries = getCountries("select2");
-	//very strange BUg this only works when declaring it twice, no idea and no time to loose
-	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
-	$('#tagsOrganization').select2({ tags: <?php echo $tags?> });
+	var NGOcategories = formatDataForSelect(<?php echo empty($NGOCategories) ? "[]" : json_encode($NGOCategories); ?>, "select2");
+	var localBusinessCategories = formatDataForSelect(<?php echo empty($localBusinessCategories) ? "[]" : json_encode($localBusinessCategories); ?>, "select2");
+	console.log(countries, NGOcategories);
+	$('#tagsOrganization').select2({ tags: <?php echo empty($tags) ? "''" : $tags; ?> });
+	
+	$('#categoryNGO').select2({ 
+		data : NGOcategories,
+		multiple: true,
+		maximumSelectionSize: 2
+	});
+
+	$('#categoryLocalBusiness').select2({ 
+		data : localBusinessCategories,
+		multiple: true,
+		maximumSelectionSize: 2
+	});
+	
 	$('#organizationCountry').select2({
-		data : countries
+		data : countries,
 	});
 
 	<?php if( isset($_GET["isNotSV"])){?>
@@ -281,13 +321,16 @@ jQuery(document).ready(function() {
 
 	function initForm() {
 		$("#information-icon").hide();
+		manageOrganizationCategory("");
 		$('#organizationName').off().on("blur", function(){
 	    	var search = $('#organizationName').val();
 	    	if (search.length > 3) {
 	    		autoCompleteOrganizationName(encodeURI(search));
 	    	}
 		});
-
+		$('#addOrganization #type').off().on("change", function() {
+			manageOrganizationCategory($(this).val());
+		})
 		$("#similarOrganizationLink").off().on("click", function() {
             $.blockUI({ message: $('#infoOrgaSameName'), css: { width: '400px', top: '20%' } }); 
 		});
@@ -361,6 +404,7 @@ jQuery(document).ready(function() {
 		//cas particulier du select2
 		$("#addOrganization #tagsOrganization").select2('val', "");
 		$("#addOrganization #organizationCountry").select2('val', "");
+		$("#addOrganization #categoryNGO").select2('val', "");
 	}
 
 	function runShowCity(searchValue) {
@@ -436,7 +480,10 @@ jQuery(document).ready(function() {
 		Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
 	}
 
-	
+	function manageOrganizationCategory(type) {
+		$(".organizationCategory").hide();
+		$(".category"+type).show();
+	}
 
 </script>	
 

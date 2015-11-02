@@ -3,7 +3,7 @@
 	var SigLoader = new Array();
 
 		SigLoader.getSig = function (){
-
+			
 			this.Sig = new Array();
 
 			this.Sig.map = null;
@@ -326,6 +326,8 @@
 
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
+				console.log("showPolygon");
+				console.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
 				//puis on charge le nouveau polygone
@@ -336,7 +338,19 @@
 										fillOpacity:0.6,  
 										weight:'2px', 
 										smoothFactor:0.5}).addTo(this.map);
-			}
+			};
+
+			this.Sig.inversePolygon = function(polygon){
+				var inversedPoly = new Array();
+				console.log("inversePolygon");
+				$.each(polygon, function(key, value){
+					var lat = value[0];
+					var lng = value[1];
+					inversedPoly.push(new Array(lng, lat));
+				});
+				console.dir(inversedPoly);
+				return inversedPoly;
+			};
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{
@@ -622,20 +636,22 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 	 		
-			//console.warn("--------------- loadMap ---------------------");
+			console.warn("--------------- loadMap ---------------------");
 			canvasId += initParams.sigKey;
+			if(this.map == null){
+				$("#"+canvasId).html("");
+				$("#"+canvasId).css({"background-color": this.mapColor});
 
-			$("#"+canvasId).html("");
-			$("#"+canvasId).css({"background-color": this.mapColor});
-
-			//initialisation des variables de départ de la carte
-			if(canvasId != "")
-			var map = L.map(canvasId, { "zoomControl" : false,
-										"scrollWheelZoom":true,
-										"center" : [51.505, -0.09],
-										"zoom" : 4,
-										"worldCopyJump" : false });
-
+				//initialisation des variables de départ de la carte
+				if(canvasId != "")
+				var map = L.map(canvasId, { "zoomControl" : false,
+											"scrollWheelZoom":true,
+											"center" : [51.505, -0.09],
+											"zoom" : 4,
+											"worldCopyJump" : false });
+			}else{
+				var map = this.map;
+			}
 			//initialisation de l'interface
 			Sig.initEnvironnement(map, initParams);
 			if(canvasId == "") return;

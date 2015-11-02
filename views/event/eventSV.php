@@ -56,9 +56,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <!-- *** NEW EVENT *** -->
-<?php /*if( @$isNotSV ){ ?>
-<a class="text-red pull-right" href="#" onclick="showPanel('box-login')"><i class="fa fa-times"></i></a>
-<?php }*/ 
+<?php if( @$isNotSV )
+	$this->renderPartial('../default/panels/toolbar'); 
 
 if( !isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/mapFormSV'); 
@@ -232,7 +231,7 @@ if( !isset($_GET["isNotSV"]))
 				<?php if( @$isNotSV ){ ?>
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn btn-primary" onclick="$('.form-event').submit();">Enregistrer</button>
+						<button class="pull-right btn btn-primary" onclick="">Enregistrer</button>
 					</div>
 					<?php } else {  ?>
 						<div class= "row  col-xs-12">
