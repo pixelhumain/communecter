@@ -39,6 +39,22 @@ btnOrganization:hover{
 	color:#8C5AA1;
 	border-left: 5px solid #8C5AA1;
 }
+.timeline-scrubber{
+	min-width: 115px;
+}
+.timeline{
+	float: left;
+}
+.date_separator span{
+	font-family: "homestead";
+	font-size: 21px;
+	background-color: white !important;
+	color: #315C6E !important;
+	border: none !important;
+	border-radius: 0px !important;
+	border-bottom: 1px dashed #315C6E !important;
+
+}
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
@@ -88,7 +104,7 @@ btnOrganization:hover{
 		        </ul>
 			</div>
 			<div class="panel-body panel-white">
-				<div class="center filterNewsActivity" style="margin-right:100px;">
+				<div class="center filterNewsActivity col-md-10" style="margin-right:100px;">
 					<div class="btn-group">
 						<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:100px;">
 							<i class="fa fa-rss"></i> News
@@ -101,9 +117,8 @@ btnOrganization:hover{
 				<ul class="timeline-scrubber inner-element newsTLmonthsList">
 					
 				</ul>
-				<div id="timeline">
+				<div id="timeline" class="col-md-10">
 					<div class="timeline newsTL">
-											
 					</div>
 				</div>
 				
@@ -764,13 +779,13 @@ function showFormBlock(bool){
 		$(".form-create-news-container .form-actions").show("fast");
 		$(".form-create-news-container .publiccheckbox").show("fast");
 		if($("input#public").prop('checked') != true)
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").show("fast");	
+		$(".form-create-news-container .scopescope").show("fast");	
 	}else{
 		$(".form-create-news-container #text").hide();
 		$(".form-create-news-container .tagstags").hide();
 		$(".form-create-news-container .datedate").hide();
 		$(".form-create-news-container .form-actions").hide();
-		$(".form-create-news-container #s2id_scope.select2ScopeUsersInput").hide();
+		$(".form-create-news-container .scopescope").hide();
 		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }

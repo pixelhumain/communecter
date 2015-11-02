@@ -161,7 +161,51 @@ if( !isset( Yii::app()->session['userId']) ){
       <button class="btn btn-default btn-menu-top pull-left" id="btn-show-map"><i class="fa fa-map"></i></button>  
       
 </div>
-
+<style type="text/css">
+  .box-ajaxTools .btn.tooltips{
+    margin-right: -1px;
+    margin-bottom: -1px;
+    font-size: 13px;
+    height: 40px;
+    transition: all 0.1s ease 0s !important;
+    padding: 10px 10px;
+    color: #315C6E;
+    font-weight: 500;
+    border-radius: 0px;
+    border-top-width: 0px;
+  }
+  .box-ajaxTools .btn.tooltips:hover{
+    border-bottom: 3px solid #719FAB !important;
+    background-color: rgba(49, 92, 110, 0.74);
+    color:white;
+    /*height: 45px;*/
+  }
+  .box-ajaxTools .btn.tooltips.active{
+    border-bottom: 3px solid #337793;
+    background-color: #315C6E;
+    color:white;
+  }
+  .box-ajaxTools .btnSpacer{
+    margin-right: 0px;
+  }
+  .box-ajaxTools{
+    z-index: 1;
+    text-align: center;
+    float: left !important;
+    width: 100%;
+    top: 56px;
+    left: 0px;
+    position: fixed;
+    background-color: #FFF;
+    padding: 0px 0px 0px 69px;
+    -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
+   
+  }
+</style>
 <?php /* **********************
   PARTNER LOGOS
 **************************** ?>
