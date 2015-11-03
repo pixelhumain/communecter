@@ -96,7 +96,7 @@ if( !isset( Yii::app()->session['userId']) ){
 
 
 
-<div class="center text-white" id="menu-container" >
+<div class="center text-white no-padding" id="menu-container" >
     <div class="center text-white pull-left menuContainer" >
     <?php if( isset( Yii::app()->session['userId']) )
     {
@@ -144,7 +144,7 @@ if( !isset( Yii::app()->session['userId']) ){
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-question-circle fa-2x"></i></a>
+      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left" style="display:block"><i class="fa fa-question-circle fa-2x"></i></a>
       <?php } ?>
     
       <form class="inner pull-right">
@@ -166,9 +166,9 @@ if( !isset( Yii::app()->session['userId']) ){
     margin-right: -1px;
     margin-bottom: -1px;
     font-size: 13px;
-    height: 40px;
+    height: 46px;
     transition: all 0.1s ease 0s !important;
-    padding: 10px 10px;
+    padding: 13px;
     color: #315C6E;
     font-weight: 500;
     border-radius: 0px;
@@ -196,14 +196,17 @@ if( !isset( Yii::app()->session['userId']) ){
     top: 56px;
     left: 0px;
     position: fixed;
+    padding:0px 35px 0px 105px
+  }
+  .bg-box-ajaxTools{
     background-color: #FFF;
-    padding: 0px 0px 0px 69px;
+    float:left;
+    width:100%;
     -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
-   
   }
 </style>
 <?php /* **********************
@@ -299,19 +302,19 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    /*$(window).on("popstate", function(e) {
+    $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
         console.log("popstate",url);
         //loadByHash(location.hash);
       }
-    });*/
+    });/*
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
     else{
       loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
-    }
+    }*/
 
     initMap();
     resizeInterface();
@@ -378,7 +381,7 @@ function loadByHash( hash ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
+    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
 }
 
 function runShowCity(searchValue) {

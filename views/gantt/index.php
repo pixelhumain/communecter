@@ -70,8 +70,8 @@ if(isset($_GET["isDetailView"]))
 		</ul>
 		<?php
 		//***** GENERATE TIMESHEET MODULE *****//
-		$alpha =[];
-		$data=[];
+		$alpha =array();
+		$data=array();
 		$firstYear="";
 		$endYear="";
 		$nbYear=0;

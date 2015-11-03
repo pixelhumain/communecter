@@ -125,6 +125,9 @@ var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>;
 
 <script>
 var d3data = [];
+var contextDatafile = {};
+var contextDataType = null;
+var contextDataId = null;
 
 jQuery(document).ready(function() {
 
@@ -139,11 +142,10 @@ jQuery(document).ready(function() {
     }, 200);
   });
 
-  //Graph
-  var datafile = getDataFile(viewerMap);
+  datafile = getDataContext(viewerMap);
 
-  if (datafile != null) {
-    d3data = createFluidGraph(type, contextId, datafile)
+  if (datafile != null && typeof contextDataType != "undefined") {
+    d3data = createFluidGraph(contextDataType, contextDataId, datafile)
     // var myGraph = new FluidGraph("#ajaxSV #chart", d3data)
     var myGraph = new FluidGraph("#chart", d3data)
 
@@ -205,24 +207,23 @@ jQuery(document).ready(function() {
 
 });
 
-
-function getDataFile(dataMap) {
+function getDataContext(dataMap) {
   console.log("getDataFile");
   var map = null;
   if (typeof dataMap != "undefined") {
     map = dataMap;
     if (typeof dataMap.person != "undefined") {
-      contextId = dataMap.person["_id"]["$id"];
-      type = 'person';
+      contextDataId = dataMap.person["_id"]["$id"];
+      contextDataType = 'person';
     } else if (typeof dataMap.organization != "undefined") {
-      contextId = dataMap.organization["_id"]["$id"];
-      type = 'organization';
+      contextDataId = dataMap.organization["_id"]["$id"];
+      contextDataType = 'organization';
     } else if (typeof dataMap.event != "undefined") {
-      contextId = dataMap.event["_id"]["$id"];
-      type = "event";
+      contextDataId = dataMap.event["_id"]["$id"];
+      contextDataType = "event";
     } else if (typeof dataMap.project != "undefined") {
-      contextId = dataMap.project["_id"]["$id"];
-      type = "project";
+      contextDataId = dataMap.project["_id"]["$id"];
+      contextDataType = "project";
     }
 
   }
@@ -246,19 +247,8 @@ function createFluidGraph(type, contextId, datafile) {
   var nodes= [];
   var edges= [];
 
-  // var sousTypeMap = {
-  //   "NGO" : "organizations",
-  //   "Group" : "organizations",
-  //   "LocalBusiness" : "organizations",
-  //   "GovernmentOrganization" : "organizations",
-  //   "getTogether" : "events",
-  //   "projects" : "projects",
-  //   "person" : "person",
-  // };
-
   var index = 0;
   $.each(datafile, function(type, obj) {
-    console.log("index = " + index + " ,type = " + type + ", obj = " + obj + ", typeOf obj = " + typeof obj);
 
     var typeMap = {
       "organization" : "organizations",
@@ -302,14 +292,19 @@ function createFluidGraph(type, contextId, datafile) {
   var index = 0;
   //links
   $.each(datafile, function(type, obj) {
-    if (!obj["_id"])
+    // console.log("Début type : " + type);
+
+    if (!obj["_id"] && obj.length)
     {
-      if (obj.length)
+      obj.forEach(function(sousobj, i)
       {
-        obj.forEach(function(sousobj, i)
+        // console.log("Début sousobj : " + sousobj.name);
+
+        var linkIndex = {};
+        var indexSource = searchIndexOfNodeId(nodes,sousobj._id.$id)
+
+        if (sousobj.links)
         {
-          var linkIndex = {};
-          var indexSource = searchIndexOfNodeId(nodes,sousobj._id.$id)
           $.each(sousobj.links, function(linkType, linkObj)
           {
             var linkIndexTemp = [];
@@ -320,18 +315,24 @@ function createFluidGraph(type, contextId, datafile) {
             linkIndex[linkType] = linkIndexTemp;
           });
 
+          var indexTarget;
           $.each(linkIndex, function(linkIndexType, linkIndexTargetTab)
           {
             linkIndexTargetTab.forEach(function(linkIndexTarget, i)
             {
               indexTarget = searchIndexOfNodeId(nodes,linkIndexTarget)
               if (indexTarget != -1)
-                edges.push({source : indexSource, target : indexTarget})
+              {
+                edges.push({source : indexSource, target : indexTarget});
+                // console.log("source = " + indexSource + " ,target = " + indexTarget + ", obj = " + sousobj);
+              }
             });
           });
-        });
-      }
+        }
+        // console.log("Fin sousobj : " + sousobj.name);
+      });
     }
+    // console.log("Fin type : " + type);
   });
 
   d3data.nodes = nodes;
