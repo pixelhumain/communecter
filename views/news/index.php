@@ -55,6 +55,12 @@ btnOrganization:hover{
 	border-bottom: 1px dashed #315C6E !important;
 
 }
+#newsHistory{
+	overflow: scroll;
+	position:fixed;
+	top:100px;
+	bottom:0px;
+}
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
@@ -64,7 +70,7 @@ btnOrganization:hover{
 </div>
 			
 
-<div id="newsHistory">
+<div id="newsHistory" style="">
 	<div class="space20"></div>
 	<div class="col-md-12">
 
@@ -104,7 +110,14 @@ btnOrganization:hover{
 		        </ul>
 			</div>
 			<div class="panel-body panel-white">
-				<div class="center filterNewsActivity col-md-10" style="margin-right:100px;">
+								<ul class="timeline-scrubber inner-element newsTLmonthsList">
+					
+				</ul>
+				<div id="timeline" class="col-md-10">
+					
+
+					<div class="timeline">
+						<div class="center filterNewsActivity">
 					<div class="btn-group">
 						<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:100px;">
 							<i class="fa fa-rss"></i> News
@@ -114,11 +127,8 @@ btnOrganization:hover{
 						</a>
 					</div>
 				</div>
-				<ul class="timeline-scrubber inner-element newsTLmonthsList">
-					
-				</ul>
-				<div id="timeline" class="col-md-10">
-					<div class="timeline newsTL">
+						<div class="newsTL">
+						</div>
 					</div>
 				</div>
 				
@@ -169,13 +179,15 @@ var lastoffset="";
 var streamType="news";
 jQuery(document).ready(function() 
 {
+	//$('#newsHistory').height($(window).height());
+	//alert($(window).height());
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 		Sig = SigLoader.getSig();
 		Sig.loadIcoParams();
 	<?php } ?>	
 
 	buildDynForm();
-	if(contextParentType!="citoyens"){
+	if(contextParentType!="citoyens" || contextParentType=="projects"){
 		buildTimeLine (news);
 	}
 	<?php if( isset($_GET["isNotSV"]) ) { ?>
@@ -183,25 +195,31 @@ jQuery(document).ready(function()
 		Sig.showMapElements(Sig.map, news);
 	<?php } ?>
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
-	if(contextParentType=="citoyens"){
+	if(contextParentType=="citoyens" || contextParentType=="projects"){
 		setTimeout(function(){chargementActu()},0);
 		if (streamType=="news")
-			minusOffset=500;
-		else if (streamType=="activity")
-			minusOffset=336;
-		$(window).off().on("scroll",function(){ 
-					console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$(window).scrollTop());				
-					if(offset.top - minusOffset <= $(window).scrollTop()) {
+			minusOffset=630;
+		else if (streamType=="activity"){
+			if(contextParentType=="citoyens")
+			minusOffset=450;
+			else
+			minusOffset=630;
+		}
+		//if(jQuery.isEmptyObject(news)==false){
+		//	alert();
+			$("#newsHistory").off().on("scroll",function(){ 
+					console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$("#newsHistory").scrollTop());				
+					if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
 						if (lastoffset != offset.top){
 							lastoffset=offset.top;
 							chargementActu();
 						}
 					}
 			});
+		//}
  	}
- 	//$(".filter").click(function(){
-	//	  	}); 
 });
+
 var chargementActu = function(){
 	$.ajax({
         type: "POST",
@@ -229,11 +247,13 @@ function buildTimeLine (news)
 {
 	if (dateLimit==0){
 		$(".newsTL").html('<div class="spine"></div>');
+		if (contextParentType=="citoyens"){
 		btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
 			'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
 			'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
 			'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
 		$(".newsTLmonthsList").html(btnFilterSpecific);
+		}
 	}
 	console.log("buildTimeLine",Object.keys(news).length);
 	//FIN A REMETTRE ET RETRAVAILLER */
@@ -246,18 +266,15 @@ function buildTimeLine (news)
 	
 	$.each( news , function(key,newsObj)
 	{
-		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
+
+		//if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
+		if(newsObj.created)
 		{
-			//console.dir(newsObj);
-			//alert(typeof(newsObj.created));
 			if(typeof(newsObj.created) == "object")
 				var date = new Date( parseInt(newsObj.created.sec)*1000 );
 			else
 				var date = new Date( parseInt(newsObj.created)*1000 );
-			//alert(date);
-			//if(newsObj.date != null) 
-			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
-			//console.dir(newsObj);
+
 			var newsTLLine = buildLineHTML(newsObj);
 			if(countEntries == 0 && dateLimit == 0){
 				$(".newsTL"+date.getMonth()).append(
@@ -274,8 +291,8 @@ function buildTimeLine (news)
 			countEntries++;
 		}
 	});
-		offset=$('.newsFeed:last').offset(); 
-		console.log(offset);
+	offset=$('.newsFeed:last').offset(); 
+	console.log(offset);
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);
 	if( scopesFilterListHTML != "" )
@@ -289,6 +306,7 @@ function buildTimeLine (news)
 			$("#newFeedForm").append(formCreateNews);
 			//$("#formCreateNews").append(formCreateNews);
 			$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+			$(".stream-processing").hide();
 		}
 		else {
 			if($("#backToTop").length <= 0){
@@ -351,7 +369,8 @@ function buildLineHTML(newsObj)
 		$(".spine").css("bottom","0px");
 	}
 	else{
-			$(".spine").css('bottom',"-"+(offset.top)+"px");
+		$(".spine").css("bottom","30px");
+			//$(".spine").css('bottom',"-"+(offset.top)+"px");
 	}
 	var color = "white";
 	var icon = "fa-user";
