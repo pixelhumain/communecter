@@ -129,8 +129,8 @@ btnOrganization:hover{
 			        <?php */?>
 		        </ul>
 			</div>
-			<div class="panel-body panel-white">
-								<ul class="timeline-scrubber inner-element newsTLmonthsList">
+			<div id="top" class="panel-body panel-white">
+				<ul class="timeline-scrubber inner-element newsTLmonthsList">
 					
 				</ul>
 				<div id="timeline" class="col-md-10">
@@ -228,7 +228,7 @@ jQuery(document).ready(function()
 		//if(jQuery.isEmptyObject(news)==false){
 		//	alert();
 			$("#newsHistory").off().on("scroll",function(){ 
-					console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$("#newsHistory").scrollTop());				
+					//console.log("offset:"+(offset.top - minusOffset)+"/scroll:"+$("#newsHistory").scrollTop());				
 					if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
 						if (lastoffset != offset.top){
 							lastoffset=offset.top;
@@ -331,7 +331,7 @@ function buildTimeLine (news)
 		else {
 			if($("#backToTop").length <= 0){
 				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:100px;">'+
-						'<a href="#">'+
+						'<a href="#top" class="smoothScroll">'+
 							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
 						'</a>'+
 					'</div>';
@@ -378,7 +378,7 @@ function buildLineHTML(newsObj)
 	{
 		currentMonth = date.getMonth();
 		linkHTML =  '<li class="">'+
-						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
+						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'" class="smoothScroll">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
 		$(".newsTLmonthsList").append(linkHTML);
 		titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
@@ -428,6 +428,11 @@ function buildLineHTML(newsObj)
 				typeId="id";
 				urlParent="";
 			} 
+			if(newsObj.type=="gantts"){
+				redirectTypeUrl="project";
+				typeId="id";
+				urlParent="";
+			}
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.id+'\', \''+redirectTypeUrl+' : '+newsObj.name+'\',\''+newsObj.icon+'\', \''+newsObj.id+'\')"';
 		<?php } else{ ?>
@@ -477,7 +482,7 @@ function buildLineHTML(newsObj)
 	//END Image Background
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
-	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens"){
+	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens" && newsObj.type!="gantts"){
 		if(newsObj.target.type=="projects")
 			var iconBlank="fa-lightbulb-o";
 		else if (newsObj.target.type=="organizations")
@@ -491,7 +496,7 @@ function buildLineHTML(newsObj)
 		}
 	}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
-			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(newsObj.verb) != "undefined"){
+			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(newsObj.verb) != "undefined" && newsObj.type!="gantts"){
 				if(typeof newsObj.target.profilImageUrl !== "undefined" && newsObj.target.profilImageUrl != ""){ 
 					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+newsObj.target.profilImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
@@ -562,7 +567,7 @@ function buildLineHTML(newsObj)
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	// HOST NAME AND REDIRECT URL
-	if (typeof(newsObj.target) != "undefined" && newsObj.target && newsObj.type!="needs"){
+	if (typeof(newsObj.target) != "undefined" && newsObj.target && newsObj.type!="needs" && newsObj.type!="gantts"){
 		redirectTypeUrl=newsObj.target.type.substring(0,newsObj.target.type.length-1);
 		if (newsObj.target.type=="citoyens")
 			redirectTypeUrl="person";
@@ -697,16 +702,23 @@ function bindEvent(){
 
 	$('.filter').off().on("click",function(){
 	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
-		 	 htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
+		 	//$(".newsTL").fadeOut();
+		 	//$("#formCreateNewsTemp").hide();
+		 	/*htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
 		 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
-			 		<?php } ?>
-		 	$.blockUI({message : htmlMessage});
+			<?php } ?>
+		 	$.blockUI({message : htmlMessage});*/
+		 /*	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
++'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
++ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+});*/
 			offset="";
 			dateLimit = 0;	
 			lastoffset="";
-			$(".stream-processing").show();
+
+			
 			if ($(this).data("filter")== ".news"){
 				streamType="news";
 				$(this).removeClass("btn-green").addClass("btn-dark-green");
@@ -719,7 +731,7 @@ function bindEvent(){
 				$(this).removeClass("btn-green").addClass("btn-dark-green");
 				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
 			}
-			$(".newsTL").empty();
+
 			formCreateNews = "<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
 										"<div class='no-padding form-create-news-container'>"+
 											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
@@ -727,10 +739,13 @@ function bindEvent(){
 												"<form id='ajaxForm'></form>"+
 										"</div>"+
 									"</div>";
-			$('.box-ajax').append(formCreateNews);					
+			$(".newsTL").empty();
 			chargementActu();
+			$(".stream-processing").show();
+			$(".newsTL").fadeIn();
+			$('.box-ajax').append(formCreateNews);					
 			buildDynForm();
-			$.unblockUI();
+			//$.unblockUI();
 		}
 		else{
 
@@ -744,7 +759,26 @@ function bindEvent(){
 	$(".form-create-news-container #name").focus(function(){
 		showFormBlock(true);	
 	});
+	$('.smoothScroll').off().on("click",function() {
+    	if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) 		{
+			var target = $(this.hash);
 
+			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+			if (target.length) {
+				//console.log($("#newsHistory").offset()+"//height"+$(".newsTL").height());
+				
+				if(target.offset().top < 0)
+					targetOffset=target.offset().top;
+				else
+					targetOffset=target.offset().top;
+				console.log(targetOffset);
+			$("#newsHistory").animate({
+			  scrollTop: targetOffset
+			}, 1000, 'swing'); // The number here represents the speed of the scroll in milliseconds
+			return false;
+			}
+    	}
+	});
 	// $(".timeline_element").click(function(){
 	// 	if($(".form-create-news-container #name").val() == "" &&
 	// 		$(".form-create-news-container #text").val() == ""){
