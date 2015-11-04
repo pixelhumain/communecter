@@ -6,22 +6,6 @@
 
 	function showPanel(box,bgStyle,title,icon){
 		
-		/*if( navHistory != null)
-			prevNav = {
-				func : "showPanel",
-				box : navHistory.box,
-				bgStyle :navHistory.bgStyle ,
-				title : navHistory.title ,
-				icon : navHistory.icon 
-			};
-		navHistory = {
-			func : "showPanel",
-			box : box,
-			bgStyle :bgStyle ,
-			title : title ,
-			icon : icon 
-		};*/
-
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
 		$('.'+activePanel+", .panelTitle, .box-ajax").hide();
@@ -112,7 +96,7 @@
 		//maybe a conflict with some libs that automatically overide the location hash 
 		//setTimeout( function(){
 			location.hash = hashUrl;
-			//history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
+			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
 		//},500 );
 		
 		console.warn("pushState",hashUrl);

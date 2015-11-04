@@ -97,7 +97,7 @@ function bindEventFloopDrawer(){
     $(".floopDrawer,.floopDrawer #search-contact").mouseover(function() {
       showFloopDrawer(true);
     });
-    $(".menuIcon.no-floop-item").mouseover(function() {
+    $(".menuIcon.no-floop-item, .box-add, .blockUI").mouseover(function() {
       	showFloopDrawer(false);
     });
 

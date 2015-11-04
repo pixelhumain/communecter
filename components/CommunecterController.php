@@ -116,7 +116,7 @@ class CommunecterController extends Controller
     ),
 
     "news"=> array(
-      "index"   => array( "href" => "/ph/communecter/news/index",'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
+      "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"    => array( "href" => "/ph/communecter/news/save"),
     ),
@@ -203,7 +203,7 @@ class CommunecterController extends Controller
       "dashboard"           => array("href"=>"/ph/communecter/organization/dashboard"),
       "dashboardmember"     => array("href"=>"/ph/communecter/organization/dashboardMember"),
       "dashboard1"          => array("href"=>"/ph/communecter/organization/dashboard1"),
-      "directory"           => array("href"=>"/ph/communecter/organization/directory"),
+      "directory"           => array("href"=>"/ph/communecter/organization/directory", "public" => true),
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember")

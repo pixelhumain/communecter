@@ -27,7 +27,7 @@
 			<br/> Organize, develop and innovate 
 			<br/> Localy, socialy and massively.
 
-			<?php if( !isset( Yii::app()->session['userId']) ){?>
+			<?php if( false && !isset( Yii::app()->session['userId']) ){?>
 			<div class="space10"></div>
 			<div class="row radius-10 padding-20" style="background-color: black">
 				<iframe class=" col-sm-6" src="https://player.vimeo.com/video/133636468" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -62,3 +62,74 @@
 	<div class="space20"></div>
 	<a href="#" onclick="showPanel('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function()
+	{
+		<?php if( !isset( Yii::app()->session['userId']) ) { ?>
+		initHTML5Localisation();
+		<?php } ?>
+	});
+	function initHTML5Localisation(){
+		if (navigator.geolocation)
+		{
+		  navigator.geolocation.getCurrentPosition(
+			function(position){ //success
+			    mapBg.panTo([position.coords.latitude, position.coords.longitude], {animate:false});
+			    mapBg.setZoom(13, {animate:false});
+			    console.log("position :::");
+			    console.dir(position);
+			    toastr.success("Votre position géographique a été trouvée");
+			    getCityInseeByGeoPos(position.coords);
+			},
+			function (error){	//error
+				var info = "Erreur lors de la géolocalisation : ";
+			    switch(error.code) {
+				    case error.TIMEOUT:
+				    	info += "Timeout !";
+				    break;
+				    case error.PERMISSION_DENIED:
+				    info += "Vous n’avez pas donné la permission";
+				    break;
+				    case error.POSITION_UNAVAILABLE:
+				    	info += "La position n’a pu être déterminée";
+				    break;
+				    case error.UNKNOWN_ERROR:
+				    	info += "Erreur inconnue";
+				    break;
+				}
+				toastr.error(info);
+			});
+		}
+		/*else{
+		  toastr.error("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+		}*/
+	}
+
+
+	function getCityInseeByGeoPos(coords){
+		$.ajax({
+			url: moduleId+"/sig/getinseebylatlng",
+			type: 'POST',
+    		dataType: 'json',
+    		data:coords,
+    		complete: function () {},
+			success: function (obj)
+			{
+				if (obj != null && obj.length > 0) {
+					if(typeof obj.address.postalCode != "undefined"){
+						toastr.info("Vous allez être redirigé vers la page de votre ville");
+						showAjaxPanel("/city/detail/insee/" + obj.address.codeInsee + "?isNotSV=1", 'Details', 'university');
+					}	
+				}
+				showAjaxPanel("/city/detail/insee/98800?isNotSV=1", 'Details', 'university');
+			},
+			error: function (error) {
+				console.dir(error);
+				toastr.error(error.responseText);
+				//alert('erreur nominatim ajax jquery (map_findPlace.js)');
+			}
+		});
+	}
+</script>
