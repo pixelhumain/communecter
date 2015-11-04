@@ -168,6 +168,8 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
+
+
         self::entry("left", 'showAjaxPanel','Local nework', 'Directory','users','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
 
         //STATISTICS

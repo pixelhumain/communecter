@@ -144,7 +144,7 @@ if( !isset( Yii::app()->session['userId']) ){
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left"><i class="fa fa-question-circle fa-2x"></i></a>
+      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left" style="display:block"><i class="fa fa-question-circle fa-2x"></i></a>
       <?php } ?>
     
       <form class="inner pull-right">
@@ -299,19 +299,19 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    /*$(window).on("popstate", function(e) {
+    $(window).on("popstate", function(e) {
       if( "onhashchange" in window && location.hash){
         var url = e.state;
         console.log("popstate",url);
         //loadByHash(location.hash);
       }
-    });*/
+    });/*
     if( "onhashchange" in window && location.hash){
       loadByHash(location.hash);
     }
     else{
       loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
-    }
+    }*/
 
     initMap();
     resizeInterface();
@@ -378,7 +378,7 @@ function loadByHash( hash ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    //history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
+    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
 }
 
 function runShowCity(searchValue) {
