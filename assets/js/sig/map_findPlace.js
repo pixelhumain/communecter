@@ -484,5 +484,134 @@ SigLoader.getSigFindPlace = function (Sig){
 		
 	};
 
+
+	Sig.markerModifyPosition = null;
+	Sig.entityTypeModifyPosition = null;
+	Sig.entityIdModifyPosition = null;
+	Sig.tempDataMap = null;
+
+	Sig.startModifyGeoposition = function (entityId, entityType, entity){
+		//vérifie si l'entité donné à bien une position geo
+		var coordinates = this.getCoordinates(entity, "markerSingle");
+		//si elle n'en a pas on sort
+		if(typeof coordinates == "undefined") return;
+
+		//sauvegarde les données courantes affichées sur la carte
+		this.tempDataMap = this.dataMap;
+		//vide la carte
+		this.clearMap();
+		//supprime myMarker
+		this.map.removeLayer(this.myMarker);
+
+		this.entityIdModifyPosition = entityId;
+		this.entityTypeModifyPosition = entityType;
+		
+
+		//recupere toutes les info pour construire le marker à déplacer
+		var profilMarkerImageUrl = typeof entity.profilMarkerImageUrl != "undefined"  ? entity.profilMarkerImageUrl : "";
+		var popupContent = this.getPopupModifyPosition(entity);
+		var properties = { 	id : "0",
+							icon : this.getIcoMarkerMap({type:entityType, profilMarkerImageUrl:profilMarkerImageUrl}),
+							type : entityType,
+							typeSig : entityType,
+							faIcon : this.getIcoByType(entityType),
+							content: popupContent//"<h1>Modify the position of this entity in the map</h1><br/>" 
+						};
+		
+		//creation du nouveau marker que l'on va pouvoir déplacer
+		this.markerModifyPosition = this.getMarkerSingle(this.map, properties, coordinates);
+		//activation du déplacement du marker par la souris
+		this.markerModifyPosition.dragging.enable();
+		this.markerModifyPosition.openPopup();
+		//effet bounce
+		this.markerToBounce = this.markerModifyPosition;
+		this.bounceMarker(0, { duration: 500, 	//va effectuer un saut pendant 500 miliemes de secondes
+							  height: 15,		//d'une hauteur de 15px
+							  interval: 5000,	//toutes les 2 secondes
+							  occurence:5 });	//5 fois de suite
+
+		//désactive le bounce quand on click sur la marker
+		this.markerToBounce.on("click", function(){
+			Sig.markerToBounce = null;
+			if(typeof Sig.timerbounce != "undefined") clearTimeout(Sig.timerbounce);
+			console.log("marker disabled", Sig.markerToBounce);
+		});
+		//désactive le bounce quand on le déplace
+		this.markerToBounce.on("dragstart", function(){
+			Sig.markerToBounce = null;
+			if(typeof Sig.timerbounce != "undefined") clearTimeout(Sig.timerbounce);
+			console.log("marker disabled", Sig.markerToBounce);
+		});
+		//lorsqu'on vient de déplacer le marker, on ré-ouvre la popup
+		this.markerToBounce.on("dragend", function(){
+			if(Sig.markerModifyPosition != null)
+				Sig.markerModifyPosition.openPopup();
+		});
+		//lorsqu'on vient de déplacer la map, on ré-ouvre la popup
+		this.map.on("dragend", function(){
+			if(Sig.markerModifyPosition != null)
+				Sig.markerModifyPosition.openPopup();
+		});
+
+		//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
+		this.markerToBounce.on("popupopen", function(){
+			$("#btn-validate-new-mosition").click(function(){
+				console.log('validate position');
+				var position = Sig.markerModifyPosition.getLatLng();
+
+				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
+										Sig.entityTypeModifyPosition, 
+										position.lat, 
+										position.lng);
+
+				console.log("position :", position);
+				//showMap(false);
+			});
+		});
+		
+		$("#btn-validate-new-mosition").click(function(){
+			console.log('validate position');
+			var position = Sig.markerModifyPosition.getLatLng();
+
+				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
+										Sig.entityTypeModifyPosition, 
+										position.lat, 
+										position.lng);
+			console.log("position :", position);
+			
+		});
+
+		//zoom sur le nouveau marker
+		this.map.setView(coordinates, 13);
+	};
+
+	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
+		console.log("start save geopos");
+		//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",
+			type: 'POST',
+			data: "entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude,
+    		success: function (obj){
+    			if(entityType == "citoyens" && userId == entityId){
+    				console.log("modify Sig.myposition");
+    				Sig.myPosition.position.latitude = latitude;
+    				Sig.myPosition.position.longitude = longitude;
+    			}
+    			Sig.map.removeLayer(Sig.markerModifyPosition);
+    			Sig.markerModifyPosition = null;
+
+    			Sig.showMapElements(Sig.map, Sig.tempDataMap);
+    			//Sig.showMyPosition();
+    			toastr.success("La position a été mise à jour avec succès");
+    			
+    			showMap(false);
+			},
+			error: function(error){
+
+			}
+		});
+	};
+
 	return Sig;
 };

@@ -20,6 +20,12 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 	//My profil page or visitor ?
 	$canEdit = Yii::app()->session['userId'] == (string)$person["_id"];
+	$contextMapPerson = null;
+	if(isset($person["_id"])){
+		$personId = $person["_id"];
+		$contextMapPerson = Person::getPersonLinksByPersonId($personId);
+		//var_dump($contextMapPerson);
+	}
 ?>
 <style>
 .socialIcon{
@@ -36,7 +42,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
  	<div class="panel-tools">
  		<?php    
 				if ( $canEdit ) { ?>
-					<a href="#" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i></a>
+					<a href="javascript:" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
+					<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>
   	</div>
   	<div class="panel-body" style="padding-top: 0px">
@@ -167,6 +174,7 @@ var countries = <?php echo json_encode($countries) ?>;
 var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 var tags = <?php echo json_encode($tags)?>;
 var imagesD = <?php echo(isset($imagesD)  ) ? json_encode($imagesD) : "null"; ?>;
+var contextMapPerson = <?php echo(isset($contextMapPerson)  ) ? json_encode($contextMapPerson) : "null"; ?>;
 if(imagesD != null){
 	var images = imagesD;
 }
@@ -179,6 +187,21 @@ jQuery(document).ready(function()
     initXEditable();
 	manageModeContext();
 	debugMap.push(personData);
+
+	console.dir(contextMapPerson);
+
+	if(contextMapPerson != null){
+		var elementsMap = new Array();
+		$.each(contextMapPerson, function (key, value){
+			$.each(value, function (key2, value2){
+				elementsMap.push(value2);
+			});
+		});
+		console.log("start show elementsMap");
+		console.dir(elementsMap);
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, elementsMap);
+	}
 
 });
 
@@ -199,7 +222,15 @@ function bindAboutPodEvents()
 {
 	$("#editProfil").on("click", function(){
 		switchMode();
-	})
+	});
+
+	console.log("personData");
+	console.dir(personData);
+
+	$("#editGeoPosition").click(function(){
+		Sig.startModifyGeoposition(personId, "citoyens", personData);
+		showMap(true);
+	});
 
 	$('.exportMyDataBtn').off().on("click",function () { 
     	console.log("exportMyDataBtn");
