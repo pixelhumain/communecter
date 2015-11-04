@@ -550,7 +550,6 @@ function buildLineHTML(newsObj)
 						"</div>"+
 					'</div>'+
 				'</li>';
-
 	return newsTLLine;
 }
 function buildHtmlUrlObject(obj){
