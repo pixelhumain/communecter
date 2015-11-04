@@ -340,6 +340,76 @@
 			return popupContent;
 		};
 
+		Sig.getPopupModifyPosition = function(data){
+			var type = data['typeSig'] ? data['typeSig'] : data['type'];
+			var id = data["_id"]["$id"];
+			var popupContent = "<div class='popup-marker'>";
+	
+			var ico = this.getIcoByType(data);
+			var color = this.getIcoColorByType(data);
+			var imgProfilPath =  Sig.getThumbProfil(data);
+			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
+
+			var typeElement = "";
+			if(type == "people") 		typeElement = "person";
+			if(type == "organizations") typeElement = "organization";
+			if(type == "events") 		typeElement = "event";
+			if(type == "projects") 		typeElement = "project";
+			//console.log("type", type);
+			
+			var icon = 'fa-'+ this.getIcoByType(data);
+
+			var onclick = "";
+			if(isNotSV){
+				var url = '/'+typeElement+'/detail/id/'+id;
+				var title = data.typeSig + ' : ' + data.name;
+				title = title.replace("'", "");
+				title = title.replace('"', "");
+
+				//onclick = "openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");";
+			}else{
+				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
+				//onclick = 'window.location.href = "'+url+'"';
+			}
+
+			
+			popupContent += "<div class='item_map_list popup-marker padding-5'>";
+										
+			popupContent += "<div class='left-col'>"
+	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
+	    				+ 	"<div class='ico-type-account'>"+icons+"</div>"					
+	    				+ "</div>"
+
+						+ "<div class='right-col'>";
+						
+						if("undefined" != typeof data['name'])
+						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
+						
+						if("undefined" != typeof data['tags']){
+							popupContent	+= 	"<div class='info_item items_map_list'>";
+							$.each(data['tags'], function(index, value){
+								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
+							});
+							popupContent	+= 	"</div>";
+						}
+
+						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
+						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
+						
+			popupContent += '</div>'; //right-col
+
+			var hStyle = "margin-bottom: 5px !important; width:100%; font-weight: 500; border:0px solid rgba(0, 0, 0, 0.2); border-top-width:1px; border-radius:0px; margin-top:5px !important;";
+			popupContent += "<div id='btn-bounce-marker-modify' class='alert pull-left no-margin padding-10' style='"+hStyle+"'><i class='fa fa-question-circle'></i> Déplacez l'icon sur sa nouvelle position</div>";
+			
+			popupContent += '<div id="btn-validate-new-mosition" class="btn btn-sm btn-success center col-md-12">'+
+								'<i class="fa fa-check" style="float:none !important;"></i> Valider'+
+							'</div>';
+
+			popupContent += '</div>';
+				
+
+			return popupContent;
+		};
 
 		return Sig;
 	};

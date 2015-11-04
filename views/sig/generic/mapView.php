@@ -112,6 +112,11 @@
 		
 			
 
+			<?php if($sigParams['useSatelliteTiles']){ ?>
+				<div class="btn-group btn-group-lg">
+					<button type="button" class="btn btn-map" id="btn-satellite"><i class="fa fa-magic"></i></button>
+				</div>
+			<?php } ?>	
 			<?php if($sigParams['useZoomButton']){ ?>
 				<div class="btn-group btn-group-lg">		
 					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
