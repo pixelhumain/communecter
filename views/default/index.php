@@ -196,17 +196,14 @@ if( !isset( Yii::app()->session['userId']) ){
     top: 56px;
     left: 0px;
     position: fixed;
-    padding:0px 35px 0px 105px
-  }
-  .bg-box-ajaxTools{
     background-color: #FFF;
-    float:left;
-    width:100%;
+    padding: 0px 0px 0px 69px;
     -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
+   
   }
 </style>
 <?php /* **********************

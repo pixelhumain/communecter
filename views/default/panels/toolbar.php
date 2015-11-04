@@ -14,7 +14,6 @@ if(!isset($toolbarStyle)) $toolbarStyle = "";//width:90%";
 if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
  ?>
 <div class="<?php echo $toolbarFloat ?> center box-ajaxTools" style="<?php echo $toolbarStyle ?>">
-<div class="bg-box-ajaxTools">
 	<?php 
     
     $colLeft = "<div class='col-md-8 col-sm-8 col-xs-8 text-left no-padding pull-left'>";
@@ -55,7 +54,6 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
 
 		?>
 
-</div>
 </div>
 <div class="space20"></div>
 <script type="text/javascript">
