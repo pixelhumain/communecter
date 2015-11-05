@@ -123,7 +123,7 @@
 						showAjaxPanel("/city/detail/insee/" + obj.address.codeInsee + "?isNotSV=1", 'Details', 'university');
 					}
 				}else{
-					toastr.danger("Position introuvable");
+					toastr.error("Position introuvable");
 				}
 				//showAjaxPanel("/city/detail/insee/98800?isNotSV=1", 'Details', 'university');
 			},
