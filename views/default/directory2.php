@@ -18,7 +18,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 	.mix{ 
-		min-height: 110px;
+		min-height: 105px;
 		width: 23.5%;
 		background-color: white;
 		display: inline-block;
@@ -31,13 +31,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.mix a{
 		color:black;
-		font-weight: bold;
+		/*font-weight: bold;*/
 	}
 	.mix .imgDiv{
 		float:left;
 		width:30%;
 		background: ;
-		margin-top:25px;
+		margin-top:28px;
 	}
 	.mix .detailDiv{
 		float:right;
@@ -45,8 +45,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-top:25px;
 		padding-left:10px;
 		text-align: left;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
-	.mix .text-xss{ font-size: 10px; }
+	.mix .text-xss{ font-size: 11px; }
 	#btn-close-panell {
 	    position: absolute;
 	    right: 25px;
@@ -67,6 +70,34 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		display: inline-block;
 		margin-bottom : 5px;
 	}
+	.tagblock{
+		width: 100%;
+		max-width: 100%;
+		padding: 5px;
+		/*float: left;*/
+		text-align: left;
+		max-height: 28px;
+		height: 28px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		position: absolute;
+		top: -2px;
+		left: 9px;
+	}
+	.label.address.text-dark{
+		padding:0.4em 0.1em 0.4em 0em !important;
+	}
+	.detailDiv a.thumb-info.item_map_list_panel{
+		font-weight:500 !important;
+	}
+	
+	/*.detailDiv .scopes {
+	    display: inline-block;
+	    float: left;
+	    padding-left: 10px;
+	    text-align: left;
+	}*/
 </style>
 
 <?php 
@@ -137,6 +168,7 @@ if( isset($_GET["isNotSV"])) {
 						"codeInsee"=>array(),
 						"codePostal"=>array(),
 						"region"=>array(),
+						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
 					
@@ -249,7 +281,6 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* TAGS
 						***************************************** */
-						$strHTML .= '</div>';
 						$tagsHTML = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
@@ -267,42 +298,50 @@ if( isset($_GET["isNotSV"])) {
 						$strHTML .= '<br/>';
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label address text-dark text-xss">'.$e["address"]['codePostal'].'</span></a>';
 							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) {
 								array_push($scopes['codePostal'], $e["address"]['codePostal'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>cp '.$e["address"]['codePostal'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label address text-dark text-xss">'.$e["address"]['region'].'</span></a>';
 							if( !in_array($e["address"]['region'], $scopes['region']) ) {
 								array_push($scopes['region'], $e["address"]['region'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
 							}
 						}
+						if( isset($e["address"]) && isset( $e["address"]['addressLocality']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$e["address"]['addressLocality'].'</span></a>';
+							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
+								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>region '.$e["address"]['addressLocality'].'</span></a>';
+							}
+						}
 
 						//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
-						$strHTML .= "<br/><div class='pull-right'>";//$tagsHTML."<br/>".$scopeHTML;
 						$featuresHTML = "";
-						if( isset( $e["tags"]) ){
-							$strHTML .= '<div class="hide tags'.$id.$type.' features">'.$tagsHTML.'</div>';
-							$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
-						}
 						if( $scopeHTML != "" ){
-							$strHTML .= '<div class="hide scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
-							$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+							$strHTML .= '<div class=" scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
+							//$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+						}
+						$strHTML .= '</div>';
+						$strHTML .= "<br/><div>";//$tagsHTML."<br/>".$scopeHTML;
+						if( isset( $e["tags"]) ){
+							$strHTML .= '<div class="tags'.$id.$type.' features tagblock">'.$tagsHTML.'</div>';
+							//$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
 						}
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
-							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
+							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
-
+						
 						$color = "";
 						if($icon == "fa-users") $color = "green";
 						if($icon == "fa-user") $color = "yellow";

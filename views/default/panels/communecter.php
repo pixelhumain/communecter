@@ -133,9 +133,11 @@
 					if(typeof obj.address.postalCode != "undefined"){
 						toastr.info("Vous allez être redirigé vers la page de votre ville");
 						showAjaxPanel("/city/detail/insee/" + obj.address.codeInsee + "?isNotSV=1", 'Details', 'university');
-					}	
+					}
+				}else{
+					toastr.error("Position introuvable");
 				}
-				showAjaxPanel("/city/detail/insee/98800?isNotSV=1", 'Details', 'university');
+				//showAjaxPanel("/city/detail/insee/98800?isNotSV=1", 'Details', 'university');
 			},
 			error: function (error) {
 				console.dir(error);
