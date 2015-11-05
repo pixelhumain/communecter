@@ -276,22 +276,13 @@ if( @$isNotSV ) {
 			},
 			ignore : "",
 			rules : {
-				contributorName : {
+				needName : {
 					minlength : 2,
 					required : true
-				},
-				contributorType : {
-					required : true
-				},
-				contributorEmail: {
-					required : true
-				}
+				}			
 			},
 			messages : {
-				contributorName : "* Please specify your first name",
-				contributorType : "* Please select a type",
-				contributorEmail : "* Please enter an email"
-
+				needName : "* Please specify a name for your need"
 			},
 			invalidHandler : function(contributor, validator) {//display error alert on form submit
 				successHandler2.hide();

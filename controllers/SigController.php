@@ -29,6 +29,7 @@ class SigController extends CommunecterController {
           'ShowLocalState'     => 'citizenToolKit.controllers.sig.ShowLocalStateAction',
           'ShowLocalEvents'		 => 'citizenToolKit.controllers.sig.ShowLocalEventsAction',
           'initDatanetworkmapping' => 'citizenToolKit.controllers.sig.InitDataNetworkMappingAction',
+          'updateentitygeoposition' => 'citizenToolKit.controllers.sig.UpdateEntityGeopositionAction',
 
       );
   	}

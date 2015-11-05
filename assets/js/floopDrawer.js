@@ -27,7 +27,8 @@ function buildListContactHtml(contacts){
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
 											var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
-											var path = "openMainPanelFromPanel( '/"+openPanelType[type.name]+"/detail/id/"+value._id.$id+"', '" + openPanelType[type.name] + " : " + value.name+"', 'fa-"+ type.icon + "', '"+value._id.$id+"' )";
+											var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
+											var path = "openMainPanelFromPanel( '/"+openPanelType[type.name]+"/detail/id/"+id+"', '" + openPanelType[type.name] + " : " + value.name+"', 'fa-"+ type.icon + "', '"+id+"' )";
 		HTML += 							'<li>' +
 												'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+key2+'">' +
 												'<div class="btn-chk-contact inline" idcontact="'+key2+'">' +
@@ -97,7 +98,7 @@ function bindEventFloopDrawer(){
     $(".floopDrawer,.floopDrawer #search-contact").mouseover(function() {
       showFloopDrawer(true);
     });
-    $(".menuIcon.no-floop-item, .box-add, .blockUI").mouseover(function() {
+    $(".menuIcon.no-floop-item, .box-add, .blockUI, .mapCanvas").mouseover(function() {
       	showFloopDrawer(false);
     });
 

@@ -8,6 +8,7 @@ $cssAnsScriptFilesTheme = array(
   '/assets/plugins/fluidlog/js/mynodes.js',
   '/assets/plugins/fluidlog/js/mylinks.js',
   '/assets/plugins/fluidlog/js/mybackground.js',
+  '/assets/plugins/fluidlog/js/extensionCommunecter.js',
   '/assets/plugins/fluidlog/js/semantic2.1.2.js',
   '/assets/plugins/fluidlog/css/loglink4.6.css',
   '/assets/plugins/fluidlog/css/semantic2.1.2.css',
@@ -152,40 +153,36 @@ jQuery(document).ready(function() {
     myGraph.initSgvContainer("bgElement");
     myGraph.config.force = "On";
     myGraph.config.elastic = "Off";
-    myGraph.config.displayExternGraph = true;
-    myGraph.config.linkDistance = 300;
-    myGraph.config.charge = -500;
+    myGraph.config.editGraphMode = false;
+    myGraph.config.editMode = false;
+    myGraph.config.linkDistance = 100;
+    myGraph.config.charge = -2000;
     myGraph.activateForce();
     myGraph.customNodes.displayId = true;
-    myGraph.customNodes.listType = ["projects", "person", "organizations", "events", "citoyens"];
+    myGraph.customNodes.listType = ["project", "organization", "event", "person"];
     myGraph.customNodes.colorType = {
-                  "projects" : "#89A5E5",
-                  "person" : "#F285B9",
-                  "organizations" : "#FFD98D",
-                  "events" : "#CDF989",
-                  "citoyens" : "#999",
-                  "xxx" : "gray"};
+                  "project" : "#8C5AA1", //"#89A5E5"
+                  "organization" : "#94C01B", //"#FFD98D"
+                  "event" : "#FFC704", //"#CDF989"
+                  "person" : "#F285B9"};
 
     myGraph.customNodes.colorTypeRgba = {
-                      "projects" : "137,165,229",
-                      "person" : "242,133,185",
-                      "organizations" : "255,217,141",
-                      "events" : "205,249,137",
-                      "citoyens" : "255,255,255",
-                      "xxx" : "200,200,200"};
+                      "project" : "140, 90, 161", //"137,165,229"
+                      "organization" : "148, 192, 27", //"255,217,141",
+                      "event" : "255, 199, 4", //"205,249,137",
+                      "person" : "242,133,185"};
 
-    myGraph.customNodes.imageType = {"citoyens" : "child",
-                                    "events" : "calendar",
-                                    "organizations" : "world",
-                                    "person" : "user",
-                                    "projects" : "lab"};
+    myGraph.customNodes.imageType = {
+                      "project" : "idea",
+                      "organization" : "users",
+                      "event" : "calendar",
+                      "person" : "user"};
 
-    myGraph.customNodes.strokeColorType = {"projects" : "#CCC",
-                  "person" : "#CCC",
-                  "organizations" : "#CCC",
-                  "events" : "#CCC",
-                  "citoyens" : "#CCC",
-                  "xxx" : "CCC"}
+    myGraph.customNodes.strokeColorType = {
+                      "project" : "#CCC",
+                      "organization" : "#CCC",
+                      "event" : "#CCC",
+                      "person" : "#CCC"};
 
     myGraph.drawGraph();
 
@@ -247,42 +244,38 @@ function createFluidGraph(type, contextId, datafile) {
   var nodes= [];
   var edges= [];
 
+  var typeMap = {
+    "NGO" : "organization",
+    "Group" : "organization",
+    "LocalBusiness" : "organization",
+    "getTogether" : "organization",
+    "competition" : "event",
+    "concert" : "event",
+    "concours" : "event",
+    "exposition" : "event",
+    "festival" : "event",
+    "getTogether" : "event",
+    "market" : "event",
+    "meeting" : "event",
+    "person" : "person",
+    "projects" : "project",
+  };
+
   var index = 0;
   $.each(datafile, function(type, obj) {
 
-    var typeMap = {
-      "organization" : "organizations",
-      "event" : "events",
-      "project" : "projects",
-      "person" : "person",
-    };
-
     if (obj["_id"])
     {
-      nodes.push({id : index, type : typeMap[type], label : obj.name, identifier : obj._id.$id})
+      nodes.push({id : index, type : type, label : obj.name, identifier : obj["_id"]["$id"]})
       index++;
     }
     else {
       if (obj.length)
       {
-        obj.forEach(function(sousobj, i)
+        obj.forEach(function(objChild, i)
         {
-          var soustype;
-
-          switch (sousobj.type)
-          {
-            case "NGO" : soustype = "organizations"; break;
-            case "Group" : soustype = "organizations"; break;
-            case "LocalBusiness" : soustype = "organizations"; break;
-            case "GovernmentOrganization" : soustype = "organizations"; break;
-            case "getTogether" : soustype = "events"; break;
-            case "citoyens" : soustype = "citoyens"; break;
-            case "projects" : soustype = "projects"; break;
-            case "person" : soustype = "person"; break;
-            default : soustype = "xxx"; break;
-          }
-
-          nodes.push({id : index, type : soustype, label : sousobj.name, identifier : sousobj._id.$id})
+          nodes.push({id : index, type : typeMap[objChild.type], label : objChild.name, identifier : objChild["_id"]["$id"]})
+          console.log("objChild.type : " + objChild.type + " move to : " + typeMap[objChild.type]);
           index++;
         });
       }
@@ -296,16 +289,16 @@ function createFluidGraph(type, contextId, datafile) {
 
     if (!obj["_id"] && obj.length)
     {
-      obj.forEach(function(sousobj, i)
+      obj.forEach(function(objChild, i)
       {
-        // console.log("Début sousobj : " + sousobj.name);
+        console.log("Début objChild : " + objChild.name);
 
         var linkIndex = {};
-        var indexSource = searchIndexOfNodeId(nodes,sousobj._id.$id)
+        var indexSource = searchIndexOfNodeId(nodes,objChild._id.$id)
 
-        if (sousobj.links)
+        if (objChild.links)
         {
-          $.each(sousobj.links, function(linkType, linkObj)
+          $.each(objChild.links, function(linkType, linkObj)
           {
             var linkIndexTemp = [];
             $.each(linkObj, function(id, object)
@@ -324,19 +317,20 @@ function createFluidGraph(type, contextId, datafile) {
               if (indexTarget != -1)
               {
                 edges.push({source : indexSource, target : indexTarget});
-                // console.log("source = " + indexSource + " ,target = " + indexTarget + ", obj = " + sousobj);
+                console.log("source = " + indexSource + " ,target = " + indexTarget + ", obj = " + objChild);
               }
             });
           });
         }
-        // console.log("Fin sousobj : " + sousobj.name);
+        console.log("Fin objChild : " + objChild.name);
       });
     }
-    // console.log("Fin type : " + type);
+    console.log("Fin type : " + type);
   });
 
   d3data.nodes = nodes;
   d3data.edges = edges;
   return d3data;
 }
+
 </script>

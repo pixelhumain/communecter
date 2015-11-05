@@ -212,9 +212,22 @@ class Menu {
         //self::entry("left", 'filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
         //self::entry("left", 'filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
         //self::entry("left", 'filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
-        self::entry("left", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
-        self::entry("left", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        
+        if ($_GET["type"]=="projects"){
+	         self::entry("left", 'showAjaxPanel','General information about this project','Details', 'home','/project/detail/id/'.$_GET["id"],"project","detail");
+	        //SEE TIMELINE
+	        //-----------------------------
+	        self::entry("left",  'showAjaxPanel',"Read all news publicated by this project", 'Activity', "rss","/news/index/type/projects/id/".$_GET["id"]."?isNotSV=1","news","index",null );
+	
+	        //DIRECTORY
+	        //-----------------------------
+	        self::entry("left", 'showAjaxPanel',"Discover who contributes to this project", 'Contributors', 'users','/project/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"project","directory");
+	         self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+        }
+        else{
+	        self::entry("left", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("left", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+        }
     }
 
     public static function project($project)
