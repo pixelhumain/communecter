@@ -270,8 +270,10 @@ public function actionSimple()
       }
       
     }
-    public function actionView($page) 
+    public function actionView($page,$dir=null) 
     {
+      if(@$dir)
+        $page = $dir."/".$page;
       if(Yii::app()->request->isAjaxRequest){
         $this->layout = "//layouts/empty";
         echo $this->renderPartial($page, null,true);

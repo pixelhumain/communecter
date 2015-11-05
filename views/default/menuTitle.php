@@ -6,6 +6,7 @@
 
 	function showPanel(box,bgStyle,title,icon){
 		
+		lastUrl = null;
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
 		console.log("showPanel",box, bgcolorClass );
 		$('.'+activePanel+", .panelTitle, .box-ajax").hide();
@@ -70,6 +71,7 @@
 		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
 		$(".box-ajaxTools").html("");
 
+		lastUrl = null;
 		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
 			/*if(!userId){
 				window.location.href = baseUrl+'/'+moduleId+"/person/login";

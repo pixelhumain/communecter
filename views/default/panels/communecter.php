@@ -41,25 +41,37 @@
 				<br/>
 				<a href="#todo" class="text-red btn btn-xs btn-default">St Pierre</a> 
 				<a href="#todo" class="text-red btn btn-xs btn-default">St Denis</a> 
-				<a href="#todo" class="text-red btn btn-xs btn-default">Lilles</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Lille</a> 
 				<a href="#todo" class="text-red btn btn-xs btn-default">Toulouse</a> 
 				<a href="#todo" class="text-red btn btn-xs btn-default">Paris</a>
 				<a href="#todo" class="text-red btn btn-xs btn-default">Montpellier</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Nouméa</a>
 				<a href="#todo" class="text-red btn btn-xs btn-default">Perpignan</a>
 			</div>
 			<div class="col-sm-6">
 				Connected People
 				<br/>
-				<a href="#todo" class="text-red btn btn-xs btn-default">Tibor</a> 
-				<a href="#todo" class="text-red btn btn-xs btn-default">Sylvain</a> 
-				<a href="#todo" class="text-red btn btn-xs btn-default">Clement</a> 
-				<a href="#todo" class="text-red btn btn-xs btn-default">Mathieu</a> 
-				<a href="#todo" class="text-red btn btn-xs btn-default">Guillaume</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Tango</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Maroual</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Mr Green</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Oceatoon</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Jeronimo</a> 
+				<a href="#todo" class="text-red btn btn-xs btn-default">Dori</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Rap pha</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Xabi</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Pierrot</a>
+				<a href="#todo" class="text-red btn btn-xs btn-default">Pif</a>     
+				<a href="#todo" class="text-red btn btn-xs btn-default">Chlorofib</a>    
+				<a href="#todo" class="text-red btn btn-xs btn-default">JR</a>   
+				<a href="#todo" class="text-red btn btn-xs btn-default">Costa</a>   
+				<a href="#todo" class="text-red btn btn-xs btn-default">Ontologist</a>   
 			</div>
 		</div>
 		
 	</section>
 	<div class="space20"></div>
+	<hl/>
+	<a href="#"  onclick="startIntro()" class="homestead nextBtns pull-left"><i class="fa fa-arrow-circle-o-left"></i> GUIDED TOUR  </a>
 	<a href="#" onclick="showPanel('box-why','bggreen')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
 

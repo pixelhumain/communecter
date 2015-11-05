@@ -14,6 +14,12 @@ CINOR
 	 	lafine Morice  
 	 	Bertrand de bois villier (DGS)
 
+Think Tank 
+any news 
+	> ask what people think 
+	> submit to vote 
+	> select a scope 
+
 
 * CONTACT
 	* projet Tangue (application mobile - mobilité durable)
