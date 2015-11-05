@@ -488,16 +488,15 @@ SigLoader.getSigFindPlace = function (Sig){
 	Sig.markerModifyPosition = null;
 	Sig.entityTypeModifyPosition = null;
 	Sig.entityIdModifyPosition = null;
-	Sig.tempDataMap = null;
+	
 
 	Sig.startModifyGeoposition = function (entityId, entityType, entity){
 		//vérifie si l'entité donné à bien une position geo
 		var coordinates = this.getCoordinates(entity, "markerSingle");
 		//si elle n'en a pas on sort
 		if(typeof coordinates == "undefined") return;
-
-		//sauvegarde les données courantes affichées sur la carte
-		this.tempDataMap = this.dataMap;
+		
+		
 		//vide la carte
 		this.clearMap();
 		//supprime myMarker
@@ -506,7 +505,6 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.entityIdModifyPosition = entityId;
 		this.entityTypeModifyPosition = entityType;
 		
-
 		//recupere toutes les info pour construire le marker à déplacer
 		var profilMarkerImageUrl = typeof entity.profilMarkerImageUrl != "undefined"  ? entity.profilMarkerImageUrl : "";
 		var popupContent = this.getPopupModifyPosition(entity);
@@ -534,13 +532,11 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.markerToBounce.on("click", function(){
 			Sig.markerToBounce = null;
 			if(typeof Sig.timerbounce != "undefined") clearTimeout(Sig.timerbounce);
-			console.log("marker disabled", Sig.markerToBounce);
 		});
 		//désactive le bounce quand on le déplace
 		this.markerToBounce.on("dragstart", function(){
 			Sig.markerToBounce = null;
 			if(typeof Sig.timerbounce != "undefined") clearTimeout(Sig.timerbounce);
-			console.log("marker disabled", Sig.markerToBounce);
 		});
 		//lorsqu'on vient de déplacer le marker, on ré-ouvre la popup
 		this.markerToBounce.on("dragend", function(){
@@ -556,28 +552,22 @@ SigLoader.getSigFindPlace = function (Sig){
 		//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
 		this.markerToBounce.on("popupopen", function(){
 			$("#btn-validate-new-mosition").click(function(){
-				console.log('validate position');
 				var position = Sig.markerModifyPosition.getLatLng();
 
 				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
 										Sig.entityTypeModifyPosition, 
 										position.lat, 
 										position.lng);
-
-				console.log("position :", position);
-				//showMap(false);
 			});
 		});
 		
 		$("#btn-validate-new-mosition").click(function(){
-			console.log('validate position');
 			var position = Sig.markerModifyPosition.getLatLng();
 
-				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
-										Sig.entityTypeModifyPosition, 
-										position.lat, 
-										position.lng);
-			console.log("position :", position);
+			Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
+									Sig.entityTypeModifyPosition, 
+									position.lat, 
+									position.lng);
 			
 		});
 
@@ -594,15 +584,30 @@ SigLoader.getSigFindPlace = function (Sig){
 			data: "entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude,
     		success: function (obj){
     			if(entityType == "citoyens" && userId == entityId){
-    				console.log("modify Sig.myposition");
     				Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
     			}
+    			else{
+					//repositionnement du marker coorespondant à l'id et au type demandé
+					//s'il existe
+					var typeMarker = (entityType != "citoyens") ? entityType : "people";
+					$.each(Sig.dataMap, function(key, value){
+						if(typeof value.typeSig != "undefined" && 
+						 	typeof value._id 	 != "undefined" && 
+						 	typeof value._id.$id != "undefined" && 
+						 	value.typeSig == typeMarker &&
+						 	value._id.$id == entityId)
+						 	{
+							 	Sig.dataMap[key].geo.latitude = latitude;
+							 	Sig.dataMap[key].geo.longitude = longitude;
+						 	}
+					});
+    			}
+
     			Sig.map.removeLayer(Sig.markerModifyPosition);
     			Sig.markerModifyPosition = null;
 
-    			Sig.showMapElements(Sig.map, Sig.tempDataMap);
-    			//Sig.showMyPosition();
+    			Sig.showMapElements(Sig.map, Sig.dataMap);
     			toastr.success("La position a été mise à jour avec succès");
     			
     			showMap(false);
