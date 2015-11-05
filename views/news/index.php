@@ -781,7 +781,6 @@ function bindEvent(){
 				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
 console.log(newsReferror);
-alert(lastOffset);
 						//$(".newsTL").empty();
 			if(dateLimit==0){
 				if(streamType=="activity"){
