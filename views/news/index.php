@@ -557,7 +557,7 @@ function buildHtmlUrlObject(obj){
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined"){
+	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && contextParentType=="projects")){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		<?php } else{ ?>
@@ -592,7 +592,7 @@ function buildHtmlUrlObject(obj){
 				urlParent="";
 			}
 		<?php if (isset($_GET["isNotSV"])){ ?> 
-			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
+			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/'+typeId+'/'+obj.id+urlParent+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+obj.id+urlParent+'"';
 		<?php } ?>

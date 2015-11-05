@@ -33,9 +33,14 @@
 			//mémorise la liste des éléments non clusturisés
 			thisSig.notClusteredTag = params.notClusteredTag;
 
+			thisSig.tileMode = "terrain";
+
 			//initialise la position de la carte
 			thisMap.setView(params.firstView.coordinates, params.firstView.zoom);
 			
+			thisSig.maxZoom = 20;
+			thisSig.minZoom = 3;
+
 			this.loadIcoParams();
 			
 
@@ -50,8 +55,12 @@
 
 			//initialise les boutons zoom-in et zoom-out
 			if(params.useZoomButton){
-				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ thisMap.zoomIn(); });
-				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ thisMap.zoomOut(); });
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ 
+					if(thisMap.getZoom() < thisSig.maxZoom) thisMap.zoomIn(); 
+				});
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ 
+					if(thisMap.getZoom() > thisSig.minZoom) thisMap.zoomOut(); 
+				});
 			}
 
 			//initialise les boutons zoom-in et zoom-out
@@ -156,7 +165,29 @@
 				this.initFindPlace();
 			}
 
-
+			if(params.useSatelliteTiles){
+				$(this.cssModuleName + " #btn-satellite").click(function(){
+					if(thisSig.tileMode == "terrain"){
+						thisSig.tileMode = "satellite";
+						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
+						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
+														{maxZoom:17,
+														 minZoom:3}).addTo(Sig.map);
+						thisSig.map.minZoom = 0;
+						thisSig.map.maxZoom = 17;
+					}else if(thisSig.tileMode == "satellite"){
+						thisSig.tileMode = "terrain";
+						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
+						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
+												{maxZoom:20,
+												 minZoom:3}).addTo(Sig.map);
+						thisSig.map.minZoom = 0;
+						thisSig.map.maxZoom = 20;
+					}
+					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
+						thisSig.map.setZoom(thisSig.map.getMaxZoom());
+				});
+			}
 		};
 
 		Sig.loadIcoParams = function(){

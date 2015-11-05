@@ -8,7 +8,7 @@
 
 			this.Sig.map = null;
 			this.Sig.markersLayer = "";
-
+			this.Sig.tileLayer = null;
 			this.Sig.geoJsonCollection = "";
 
 			this.Sig.initParameters = "";
@@ -87,15 +87,28 @@
 			};
 
 			this.Sig.timerbounce = null;
-			this.Sig.bounceMarker = function(i){
+			// EXEMPLE : 
+			// Sig.bounceMarker(0, { duration: 500, 	//va effectuer un saut pendant 500 miliemes de secondes
+			// 				  height: 15,				//d'une hauteur de 15px
+			// 				  interval: 2000,			//toutes les 2 secondes
+			// 				  occurence:5 });			//5 fois de suite
+			this.Sig.bounceMarker = function(i, options){
 				//Sig.markerToBounce.bounce({duration: 500, height: 30});
+				if(typeof Sig.markerToBounce === "undefined" || Sig.markerToBounce === null) {
+					if(typeof this.timerbounce != "undefined")
+						clearTimeout(this.timerbounce);
+					return;
+				}
+
 				i++;
 				//console.log(i);
-				if(i < 5){
+				if(i < options.occurence){
 					this.timerbounce = setTimeout(function(){ 
-							Sig.markerToBounce.bounce({duration: 500, height: 30}); 
-							Sig.bounceMarker(i); 
-						}, 1000);
+						if(typeof Sig.markerToBounce != "undefined" && Sig.markerToBounce != null){
+							Sig.markerToBounce.bounce({duration: options.duration, height: options.height}); 
+							Sig.bounceMarker(i, options); 
+						}
+					}, options.interval);
 				}else{
 					clearTimeout(this.timerbounce);
 				}
@@ -145,6 +158,9 @@
 				if(typeof this.myMarker != "undefined") 
 					this.map.removeLayer(this.myMarker);
 				
+				if(this.markerModifyPosition != null) 
+					this.map.removeLayer(this.markerModifyPosition);
+
 				var thisSig = this;
 				$.each(this.markerSingleList, function(){
 					thisSig.map.removeLayer(this);
@@ -196,10 +212,10 @@
 					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
 					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
 
-					$( "#btn-home" ).click(function (){ 
+					$( "#btn-home" ).off().click(function (){ 
 							thisSig.map.setView(center, 16);
 					});
-					$( ".btn-home" ).click(function (){ 
+					$( ".btn-home" ).off().click(function (){ 
 							thisSig.centerSimple(center, 16);
 					});
 				}
@@ -656,7 +672,7 @@
 			Sig.initEnvironnement(map, initParams);
 			if(canvasId == "") return;
 
-			var tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				//subdomains: 'abc',
@@ -664,7 +680,7 @@
 				maxZoom: 20
 			});
 
-			tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
 			return map;
