@@ -85,7 +85,7 @@ class Menu {
         
         //SEE TIMELINE
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Read all news publicated by this organization', 'Activity', 'rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id,"news","index");
+        self::entry("left", 'showAjaxPanel','Read all news publicated by this organization', 'Activity', 'rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
         
         //ACTION ROOMS
         //-----------------------------
@@ -221,6 +221,22 @@ class Menu {
 	        //DIRECTORY
 	        //-----------------------------
 	        self::entry("left", 'showAjaxPanel',"Discover who contributes to this project", 'Contributors', 'users','/project/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"project","directory");
+	         self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+        }
+        if ($_GET["type"]=="organizations"){
+	         self::entry("left", 'showAjaxPanel','General information about this project','Details', 'home','/organization/detail/id/'.$_GET["id"],"project","detail");
+	        //SEE TIMELINE
+	        //-----------------------------
+	        self::entry("left",  'showAjaxPanel',"Read all news publicated by this project", 'Activity', "rss","/news/index/type/organization/id/".$_GET["id"]."?isNotSV=1","news","index",null );
+	
+	        //DIRECTORY
+	        //-----------------------------
+	         self::entry("left", 'showAjaxPanel','Participants list', 'Members' ,'connectedevelop','/organization/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"organization","directory");
+        // ADD MEMBER
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel','Add a participant to this organization', 'Add member','plus','/organization/addmember/id/'.$_GET["id"].'?isNotSV=1',"organization","addmember");
+
 	         self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
 	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
