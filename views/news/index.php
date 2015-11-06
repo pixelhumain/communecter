@@ -206,7 +206,6 @@ var newsReferror={
 	};
 
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
-alert(contextParentType);
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
 var offset="";
