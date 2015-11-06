@@ -206,6 +206,7 @@ var newsReferror={
 	};
 
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
+alert(contextParentType);
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
 var offset="";
@@ -242,7 +243,8 @@ jQuery(document).ready(function()
 	<?php } ?>
 	
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
-	if(contextParentType=="citoyens" || contextParentType=="projects"){
+	//alert(contextParentType);
+	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations"){
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news")
@@ -254,12 +256,12 @@ jQuery(document).ready(function()
 				minusOffset=630;
 		}
 		$("#newsHistory").off().on("scroll",function(){ 
-				if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
-					if (lastOffset != offset.top){
-						lastOffset=offset.top;
-						loadStream();
-					}
+			if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
+				if (lastOffset != offset.top){
+					lastOffset=offset.top;
+					loadStream();
 				}
+			}
 		});
  	}
 });
@@ -301,11 +303,31 @@ function buildTimeLine (news)
 		var formCreateNews = $("#formCreateNewsTemp");
 	else {
 		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
-											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
-												"<i class='fa fa-pencil'></i> Add your project </h2>"+
-										"</div>"+
-"</div>";
-
+			"<h2 class='padding-10 partition-light no-margin text-left'>"+
+				"<i class='fa fa-pencil'></i> Add something to share your activity </h2>"+
+			'<div class="form-group box-add row partition-white" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+                   '<button type="button" class="btn btn-yellow col-md-12 col-xs-12">'+
+				   	'<a title="" href="#" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> People</a>'+
+				   '</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+                	'<button type="button" class="btn btn-green col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> Organization</a>'+
+					'</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+					'<button type="button" class="btn btn-orange col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> Event</a>'+
+					'</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+					'<button type="button" class="btn btn-purple col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> Project</a>'+
+					'</button>'+
+				'</div>'+
+			'</div>'+
+		'</div>';
 	}
 	console.log(formCreateNews);
 	currentMonth = null;
@@ -584,7 +606,7 @@ function buildHtmlUrlObject(obj){
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && contextParentType=="projects")){
+	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && (contextParentType=="projects" || contextParentType=="organizations"))){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		<?php } else{ ?>
@@ -783,10 +805,10 @@ function bindEvent(){
 console.log(newsReferror);
 						//$(".newsTL").empty();
 			if(dateLimit==0){
-				if(streamType=="activity"){
+				/*if(streamType=="activity"){
 				formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
 											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
-												"<i class='fa fa-pencil'></i> Add your project </h2>"+
+												"<i class='fa fa-pencil'></i> add a project, an event, an organization,... </h2>"+
 										"</div>"+
 "</div>";
 	console.log(formCreateNews);
@@ -800,7 +822,7 @@ console.log(newsReferror);
 
 			//$('.timeline').append(formCreateNews);			
 			//buildDynForm();
-				}
+				//}
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
