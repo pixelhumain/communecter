@@ -22,7 +22,6 @@
 
 			//mémorise les identifiants des éléments de chaque carte
 			this.Sig.listId = new Array();
-
 			this.Sig.listPanel = new Array();
 			this.Sig.listPanel.tags = new Array();
 			this.Sig.listPanel.types = new Array();

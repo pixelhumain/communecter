@@ -42,8 +42,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div class="panel panel-white" id="globProchEvent">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-left ficheInfoTitle">
-			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-			</a>
+			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required"></a>
 			<span> - </span>
 			<a href="#" id="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" >
 				<?php if(isset($event["name"])) echo $event["name"];?>
@@ -57,8 +56,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
 				if($edit){
 			?>
-				<a href="#" id="editEventDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i></a>
-				<a href="#" id="removeEvent" class="btn btn-xs btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i></a>
+				<a href="javascript:" id="editEventDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
+				<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+				<a href="javascript:" id="removeEvent" class="btn btn-xs btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
         		<?php } ?>
 			</div>
 		</div>
@@ -95,9 +95,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="col-sm-12">
 					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
+						 echo "<a href=".Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]).$organizer["name"]."</a>";
 					 } else { 
 						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
-					 } ?> : <a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]);?>" ><?php echo $organizer["name"]; ?></a>
+					 } ?> : 
 				</div>
 			</div>
 			<div class="row padding-20">
@@ -145,7 +146,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$("#editEventDetail").on("click", function(){
 			switchMode();
 		})
-
+		$("#editGeoPosition").click(function(){
+		Sig.startModifyGeoposition(itemId, "events", event);
+		showMap(true);
+	});
 		activateEditable();
 		manageModeContext();
 
