@@ -106,9 +106,9 @@ progress[value]::-moz-progress-bar {
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECT INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
-				<?php 
-					if ($isAdmin){ ?>
-				<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i></a>
+				<?php if ($isAdmin){ ?>
+					<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i> Éditer</a>
+        			<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
         		<?php } ?>
 			</div>
 		</div>
@@ -209,7 +209,13 @@ jQuery(document).ready(function()
 function bindAboutPodProjects() {
 	$("#editProjectDetail").on("click", function(){
 		switchMode();
-	})
+	});
+
+	$("#editGeoPosition").click(function(){
+		Sig.startModifyGeoposition(projectId, "projects", projectData);
+		showMap(true);
+	});
+
 }
 
 function initXEditable() {
