@@ -97,7 +97,7 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Participants list', 'Members' ,'connectedevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        self::entry("left", 'showAjaxPanel','Participants list', 'Participants' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
 
         // ADD MEMBER
         //-----------------------------
