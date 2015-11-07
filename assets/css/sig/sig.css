@@ -327,7 +327,7 @@ creer des conflits : regle pas assez specfique
 	float:none !important;
 }
 
-.item_map_list{
+.element-right-list .item_map_list{
 	float:left;
 	width:100%;
 	padding-top:6px;
@@ -337,7 +337,7 @@ creer des conflits : regle pas assez specfique
 	background-color:white;
 	border:0px white;
 }
-.item_map_list:hover{
+.element-right-list .item_map_list:hover{
 	background-color:#EFEFEF;
 }
 
