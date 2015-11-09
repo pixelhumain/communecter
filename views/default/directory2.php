@@ -18,35 +18,44 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 	.mix{ 
-		min-height: 110px;
-		width: 23.5%;
+		min-height: 85px;
+		/*width: 31.5%;*/
 		background-color: white;
 		display: inline-block;
 		border:1px solid #bbb;
 		margin-right : 1.5%;
 		border-radius: 10px;
+		padding:1%;
+		margin:-1px;
 		-webkit-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 		-moz-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 		box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 	}
+
 	.mix a{
 		color:black;
-		font-weight: bold;
+		/*font-weight: bold;*/
 	}
 	.mix .imgDiv{
 		float:left;
 		width:30%;
 		background: ;
-		margin-top:25px;
+		margin-top:0px;
 	}
 	.mix .detailDiv{
 		float:right;
 		width:70%;
-		margin-top:25px;
+		margin-top:0px;
 		padding-left:10px;
 		text-align: left;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
-	.mix .text-xss{ font-size: 10px; }
+	
+	.mix .text-xss{ font-size: 11px; }
+
+
 	#btn-close-panell {
 	    position: absolute;
 	    right: 25px;
@@ -54,8 +63,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	    font-size: 20px;
 	}
 
+	#Grid{
+		/*margin-top: 20px;*/
+		background-color: transparent;
+		padding: 15px;
+		border-radius: 4px;
+		/*border-right: 1px solid #474747;*/
+		padding: 0px;
+	}
+	#Grid .mix{
+		margin-bottom: -1px !important;
+	}
 	#Grid .item_map_list{
-		padding:0px !important; 
+		padding:10px 10px 10px 10px !important; 
+		margin-top:0px;
+		text-decoration:none;
+		background-color:white;
+		border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	}
+	#Grid .item_map_list .left-col .thumbnail-profil{
+		width: 60px;
+		height: 60px;
 	}
 	#Grid .ico-type-account i.fa{
 		margin-left:11px !important;
@@ -65,7 +93,104 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.marginbot{
 		display: inline-block;
-		margin-bottom : 5px;
+		margin-bottom: -1px;
+		font-weight: 500;
+		padding: 6px 7px;
+		float: left;
+		margin-right: -1px;
+		border-radius: 0px;
+
+	}
+	.tagblock{
+		width: 100%;
+		max-width: 100%;
+		padding: 5px;
+		/*float: left;*/
+		text-align: left;
+		max-height: 28px;
+		height: 28px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		position: absolute;
+		top: -2px;
+		left: 9px;
+	}
+	.label.address.text-dark{
+		padding:0.4em 0.1em 0.4em 0em !important;
+	}
+	.detailDiv a.thumb-info.item_map_list_panel{
+		font-weight:500 !important;
+	}
+	.container_menu_directory{
+		margin-right: -2px;
+	}
+	.menu_directory{
+		background-color: transparent;
+	    margin-right: 20px;
+		margin-bottom: 20px;
+	}
+	.menu_directory li{
+		width:100%;
+		margin-left:2px;
+	}
+	.menu_directory li a{
+		font-size:17px;
+		background-color: white;
+		border-radius: 0px !important;
+		margin-bottom: 0px;
+		/*border: 1px solid #FFF;*/
+		-moz-box-shadow: 0px 0px 3px 0px #D1C5C5;
+		-webkit-box-shadow: 0px 0px 3px 0px #D1C5C5;
+		-o-box-shadow: 0px 0px 3px 0px #D1C5C5;
+		box-shadow: 0px 0px 3px 0px #D1C5C5;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#D1C5C5, Direction=NaN, Strength=3);
+	}
+	.menu_directory .badge{
+		color: #315C6E !important;
+		background-color: #E9E9E9 !important;
+	}
+	.menu_directory .filter.active a{
+		background-color: #E9E9E9 !important;
+	}
+	.menu_directory .filter.active a:hover{
+		/*color: #FFF !important;
+		background-color: #315C6E !important;*/
+		/*border: 1px solid #315C6E;
+		background-color: #FFF !important;*/
+		background-color: #E9E9E9 !important;
+		/*-moz-box-shadow: 0px 0px 5px 0px #315C6E;
+		-webkit-box-shadow: 0px 0px 5px 0px #315C6E;
+		-o-box-shadow: 0px 0px 5px 0px #315C6E;
+		box-shadow: 0px 0px 5px 0px #315C6E;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#315C6E, Direction=NaN, Strength=3);*/
+	}
+	.menu_directory .filter.active a.text-dark{
+		color:#3C5665 !important;
+	}
+	.menu_directory .filter.active .badge {
+		background-color: #FFF !important;
+		color: #315C6E !important;
+	}
+	.menu_directory i.fa{
+		width:20px;
+	}
+	.menu_directory .badge {
+	    position: absolute;
+	    right: 5px;
+	    top: 14px;
+	}
+	/*.detailDiv .scopes {
+	    display: inline-block;
+	    float: left;
+	    padding-left: 10px;
+	    text-align: left;
+	}*/
+
+	#tagsFilter{
+		font-weight: 300;
+		border-radius: 0px;
+		padding: 3px 7px;
 	}
 </style>
 
@@ -90,44 +215,48 @@ if( isset($_GET["isNotSV"])) {
 	<div class="col-md-12">
 		<div class="panel panel-transparent">
 			<div class="panel-body">
-				<div class="controls">
-					<ul class="nav nav-pills">
-						<li class="filter active" data-filter="all">
-							<a href="#"><i class="fa fa-lists fa-2x"></i> Show All</a>
-						</li>
-						<li class="filter " data-filter=".citoyens">
-							<a href="javascript:;" class="filtercitoyens" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2x"></i> People <?php echo "(".count($people).")";  ?></a>
-						</li>
-						<li class="filter" data-filter=".organizations">
-							<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations"><i class="fa fa-users fa-2x"></i> Organizations <?php echo "(".count($organizations).")";  ?></a>
-						</li>
-						<li class="filter" data-filter=".events">
-							<a href="javascript:;"  class="filterevents" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2x"></i> Events <?php echo "(".count($events).")";  ?></a>
-						</li>
-						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2x"></i> Project <?php echo "(".count($projects).")";  ?></a>
-						</li>
-						<li >
-							<a href="javascript:;" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags fa-2x"></i> Tags </a>
-						</li>
-						<li >
-							<a href="javascript:;" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o fa-2x"></i> Scopes </a>
-						</li>
-					</ul>
-				</div>
-				<hr/>
-				<!-- GRID -->
-				<span class="col-md-12">
-					<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
-					<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
-					<div id="orgaTypesFilters" class="optionFilter pull-left center" style="display:none;width:100%;" >
-						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".NGO"><span>N.G.O</span></a>
-						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".LocalBusiness">Business</a>
-						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".Group">Group</a>
-						<a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".GovernmentOrganization">Government Organization</a>
-					</div>
-				</span>
-				<ul id="Grid" class="list-unstyled">
+				<!-- <div class="col-md-12">
+					Details proprietaire directory
+				</div> -->
+				
+				
+				<div class="col-md-12 col-sm-12 col-xs-12">
+				<ul id="Grid" class="pull-left  list-unstyled">
+					<li class="container_menu_directory no-padding controls col-md-4 col-sm-6 col-xs-12">
+						<ul class="nav nav-pills menu_directory">
+							<li class="filter active homestead" data-filter="all">
+								<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="homestead">Show </span>All</a>
+							</li>
+							<li class="filter" data-filter=".citoyens">
+								<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" homestead">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
+							</li>
+							<li class="filter" data-filter=".organizations">
+								<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="homestead">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
+							</li>
+							<li class="filter" data-filter=".events">
+								<a href="javascript:;"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="homestead">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
+							</li>
+							<li class="filter" data-filter=".projects">
+								<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="homestead">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
+							</li>
+							<li  class="homestead" style="margin-top:20px;margin-bottom:20px;  width:48%;">
+								<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> Tags </a>
+							</li>
+							<li class="homestead" style="margin-top:20px; margin-bottom:20px; width:48%; float:right;">
+								<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Scopes </a>
+							</li>
+							
+							<div id="tagFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
+							<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
+							<div id="orgaTypesFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" >
+								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span>N.G.O</span></a>
+								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness">Business</a>
+								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group">Group</a>
+								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization">Government Organization</a>
+							</div>
+						</ul>
+					</li>
+
 					<?php 
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
@@ -137,6 +266,7 @@ if( isset($_GET["isNotSV"])) {
 						"codeInsee"=>array(),
 						"codePostal"=>array(),
 						"region"=>array(),
+						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
 					
@@ -237,7 +367,7 @@ if( isset($_GET["isNotSV"])) {
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
-						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-3 col-sm-6 col-xs-12 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
+						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
 							'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
@@ -249,7 +379,6 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* TAGS
 						***************************************** */
-						$strHTML .= '</div>';
 						$tagsHTML = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
@@ -267,47 +396,55 @@ if( isset($_GET["isNotSV"])) {
 						$strHTML .= '<br/>';
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label label-danger text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label label-danger text-xss">'.$e["address"]['codePostal'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label address text-dark text-xss">'.$e["address"]['codePostal'].'</span></a>';
 							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) {
 								array_push($scopes['codePostal'], $e["address"]['codePostal'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>cp '.$e["address"]['codePostal'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label label-danger text-xss">'.$e["address"]['region'].'</span></a>';
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label address text-dark text-xss">'.$e["address"]['region'].'</span></a>';
 							if( !in_array($e["address"]['region'], $scopes['region']) ) {
 								array_push($scopes['region'], $e["address"]['region'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
 							}
 						}
+						if( isset($e["address"]) && isset( $e["address"]['addressLocality']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$e["address"]['addressLocality'].'</span></a>';
+							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
+								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>region '.$e["address"]['addressLocality'].'</span></a>';
+							}
+						}
 
 						//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
-						$strHTML .= "<br/><div class='pull-right'>";//$tagsHTML."<br/>".$scopeHTML;
 						$featuresHTML = "";
-						if( isset( $e["tags"]) ){
-							$strHTML .= '<div class="hide tags'.$id.$type.' features">'.$tagsHTML.'</div>';
-							$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
-						}
 						if( $scopeHTML != "" ){
-							$strHTML .= '<div class="hide scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
-							$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+							$strHTML .= '<div class=" scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
+							//$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+						}
+						$strHTML .= '</div>';
+						$strHTML .= "<br/><div>";//$tagsHTML."<br/>".$scopeHTML;
+						if( isset( $e["tags"]) ){
+							$strHTML .= '<div class="hide tags'.$id.$type.' features tagblock">'.$tagsHTML.'</div>';
+							//$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
 						}
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
-							$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
+							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
-
+						
 						$color = "";
 						if($icon == "fa-users") $color = "green";
 						if($icon == "fa-user") $color = "yellow";
 						if($icon == "fa-calendar") $color = "orange";
-						if($icon == "fa-lightbulb-o") $color = "yellow";
+						if($icon == "fa-lightbulb-o") $color = "purple";
 						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
@@ -315,6 +452,8 @@ if( isset($_GET["isNotSV"])) {
 					}
 					?>
 				</ul>
+				</div>
+				
 			</div>
 		</div>
 	</div>

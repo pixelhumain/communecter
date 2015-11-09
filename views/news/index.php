@@ -140,7 +140,10 @@ btnOrganization:hover{
 		        </ul>
 			</div>
 			<div id="top" class="panel-body panel-white">
-				<ul class="timeline-scrubber inner-element newsTLmonthsList">
+				<ul class="timeline-scrubber inner-element newsTLmonthsListnews">
+					
+				</ul>
+				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity">
 					
 				</ul>
 				<div id="timeline" class="col-md-10">
@@ -155,7 +158,9 @@ btnOrganization:hover{
 								</a>
 							</div>
 						</div>
-						<div class="newsTL">
+						<div class="newsTLnews">
+						</div>
+						<div class="newsTLactivity">
 						</div>
 					</div>
 				</div>
@@ -187,6 +192,19 @@ foreach($news as $key => $oneNews){
 	- dateLimit => date to know until when get new news
 */
 var news = <?php echo json_encode($news)?>;
+var newsReferror={
+		"news":{
+			"offset":"",
+			"dateLimit":0,
+			"lastOffset":""
+			},
+		"activity":{
+			"offset":"",
+			"dateLimit":0,
+			"lastOffset":""
+			},
+	};
+
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
@@ -204,7 +222,7 @@ var contextMap = {
 		addressLocality : []
 	},
 };
-
+var formCreateNews;
 <?php if( !isset($_GET["isNotSV"]) ) { ?>
 	var Sig = null;
 <?php } ?>
@@ -224,24 +242,25 @@ jQuery(document).ready(function()
 	<?php } ?>
 	
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
-	if(contextParentType=="citoyens" || contextParentType=="projects"){
+	//alert(contextParentType);
+	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations"){
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news")
 			minusOffset=630;
 		else if (streamType=="activity"){
 			if(contextParentType=="citoyens")
-				minusOffset=450;
+				minusOffset=550;
 			else
 				minusOffset=630;
 		}
 		$("#newsHistory").off().on("scroll",function(){ 
-				if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
-					if (lastOffset != offset.top){
-						lastOffset=offset.top;
-						loadStream();
-					}
+			if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
+				if (lastOffset != offset.top){
+					lastOffset=offset.top;
+					loadStream();
 				}
+			}
 		});
  	}
 });
@@ -252,9 +271,7 @@ var loadStream = function(){
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
        	dataType: "json",
     	success: function(data){
-	    	console.log(data);
 	    	if(data){
-	    		console.log(data);
 				buildTimeLine (data.news);
 				if(typeof(data.limitDate.created) == "object")
 					dateLimit=data.limitDate.created.sec;
@@ -270,19 +287,48 @@ var scopesFilterListHTML = "";
 function buildTimeLine (news)
 {
 	if (dateLimit==0){
-		$(".newsTL").html('<div class="spine"></div>');
-		if (contextParentType=="citoyens"){
+		$(".newsTL"+streamType).html('<div class="spine"></div>');
+		if (streamType=="activity"){
 			btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
 				'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
 				'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
 				'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
-			$(".newsTLmonthsList").html(btnFilterSpecific);
+			$(".newsTLmonthsList"+streamType).html(btnFilterSpecific);
 		}
 	}
 
 	//insertion du formulaire CreateNews dans le stream
-	var formCreateNews = $("#formCreateNewsTemp");
-	
+	if (streamType=="news")
+		var formCreateNews = $("#formCreateNewsTemp");
+	else {
+		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
+			"<h2 class='padding-10 partition-light no-margin text-left'>"+
+				"<i class='fa fa-pencil'></i> Add something to share your activity </h2>"+
+			'<div class="form-group box-add row partition-white" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+                   '<button type="button" class="btn btn-yellow col-md-12 col-xs-12">'+
+				   	'<a title="" href="#" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> People</a>'+
+				   '</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+                	'<button type="button" class="btn btn-green col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> Organization</a>'+
+					'</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+					'<button type="button" class="btn btn-orange col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> Event</a>'+
+					'</button>'+
+				'</div>'+
+				'<div class="col-md-6 col-xs-12 padding-10">'+
+					'<button type="button" class="btn btn-purple col-md-12 col-xs-12">'+
+						'<a title="" href="#" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> Project</a>'+
+					'</button>'+
+				'</div>'+
+			'</div>'+
+		'</div>';
+	}
+	console.log(formCreateNews);
 	currentMonth = null;
 	countEntries = 0;
 	
@@ -297,17 +343,17 @@ function buildTimeLine (news)
 
 			var newsTLLine = buildLineHTML(newsObj);
 			if(countEntries == 0 && dateLimit == 0){
-				$(".newsTL"+date.getMonth()).append(
+				$(".newsTL"+streamType+date.getMonth()).append(
 					"<li class='newsFeed'>"+
-						"<div id='newFeedForm' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
+						"<div id='newFeedForm"+streamType+"' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
 					"</li>");
-				$("#newFeedForm").append(formCreateNews);
+				$("#newFeedForm"+streamType).append(formCreateNews);
 			}
-			$(".newsTL"+date.getMonth()).append(newsTLLine);
+			$(".newsTL"+streamType+date.getMonth()).append(newsTLLine);
 			countEntries++;
 		}
 	});
-	offset=$('.newsFeed:last').offset(); 
+	offset=$('.newsTL'+streamType+' .newsFeed:last').offset(); 
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);
 	if( scopesFilterListHTML != "" )
@@ -316,37 +362,38 @@ function buildTimeLine (news)
 	if(!countEntries){
 		if( dateLimit == 0){
 			var date = new Date(); 
-			$(".newsTL").html("<div id='newFeedForm' class='col-md-7 text-extra-large'></div>");
-			$("#newFeedForm").append(formCreateNews);
-			$(".newsTL").append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
+			$("#newFeedForm"+streamType).append(formCreateNews);
+			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 			$(".stream-processing").hide();
 		}
 		else {
-			if($("#backToTop").length <= 0){
-				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
+			if($("#backToTop"+streamType).length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="#top" class="smoothScroll">'+
 							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
 						'</a>'+
 					'</div>';
-					$(".newsTL").append(titleHTML);
+					$(".newsTL"+streamType).append(titleHTML);
 					$(".spine").css('bottom',"0px");
 			}
 			$(".stream-processing").hide();
-
 		}
+		//dateLimit="end";
 	}else{
 		
 		if(countEntries < 5){
-			if($("#backToTop").length <= 0){
-				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
+			if($("#backToTop"+streamType).length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="#top" class="smoothScroll">'+
 							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
 						'</a>'+
 					'</div>';
-					$(".newsTL").append(titleHTML);
+					$(".newsTL"+streamType).append(titleHTML);
 					$(".spine").css('bottom',"0px");
 			}
 			$(".stream-processing").hide();
+			//dateLimit="end";
 		}
 		else{
 		//deplacement du formulaire dans le stream
@@ -356,7 +403,8 @@ function buildTimeLine (news)
 	
 	bindEvent();
 	//Unblock message when click to change type stream
-	setTimeout(function(){$.unblockUI()},1);
+	if (dateLimit==0)
+		setTimeout(function(){$.unblockUI()},1);
 }
 
 var currentMonth = null;
@@ -374,18 +422,18 @@ function buildLineHTML(newsObj)
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
 
-	if( currentMonth != date.getMonth() && $('.newsTL'+date.getMonth()).length == 0)
+	if( currentMonth != date.getMonth() && $('.newsTL'+streamType+date.getMonth()).length == 0)
 	{
 		currentMonth = date.getMonth();
 		linkHTML =  '<li class="">'+
-						'<a href="#month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
+						'<a href="#'+streamType+'month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
-		$(".newsTLmonthsList").append(linkHTML);
-		titleHTML = '<div class="date_separator" id="month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+		$(".newsTLmonthsList"+streamType).append(linkHTML);
+		titleHTML = '<div class="date_separator" id="'+streamType+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 					'</div>'+
-					'<ul class="columns newsTL'+date.getMonth()+'"></ul>';
-		$(".newsTL").append(titleHTML);
+					'<ul class="columns newsTL'+streamType+date.getMonth()+'"></ul>';
+		$(".newsTL"+streamType).append(titleHTML);
 		$(".spine").css("bottom","0px");
 	}
 	else{
@@ -557,7 +605,7 @@ function buildHtmlUrlObject(obj){
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && contextParentType=="projects")){
+	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && (contextParentType=="projects" || contextParentType=="organizations"))){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		<?php } else{ ?>
@@ -721,7 +769,7 @@ function bindEvent(){
 	});
 
 	$('.filter').off().on("click",function(){
-	 	if($(this).data("filter")== ".news" || $(this).data("filter")==".activityStream"){
+	 	if($(this).data("filter") == ".news" || $(this).data("filter")==".activityStream"){
 		 	//$(".newsTL").fadeOut();
 		 	//$("#formCreateNewsTemp").hide();
 		 	htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
@@ -729,42 +777,74 @@ function bindEvent(){
 				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
 			<?php } ?>
-		 	$.blockUI({message : htmlMessage});
-		 $.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+	
+		/* $.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 +'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 + '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-});
-			offset="";
-			dateLimit = 0;	
-			lastOffset="";
-			$(".newsTLmonthsList").html("");
+});*/
+			//offset="";
+			//dateLimit = 0;	
+			//lastOffset="";
+			//$(".newsTLmonthsList").html("");
+			console.log(newsReferror);
 			if ($(this).data("filter")== ".news"){
+				newsReferror.activity.offset=offset,
+				newsReferror.activity.lastOffset=lastOffset,
+				newsReferror.activity.dateLimit=dateLimit;
+				offset=newsReferror.news.offset;
+				dateLimit = newsReferror.news.dateLimit;	
+				lastOffset=newsReferror.news.lastOffset;
 				streamType="news";
 				$(this).removeClass("btn-green").addClass("btn-dark-green");
 				
 				$("#btnActivity").removeClass("btn-dark-green").addClass("btn-green");
+				$(".newsTLactivity, .newsTLmonthsListactivity").fadeOut();
 				//$("#newNeed #btnServices, #newNeed #btnMaterials").addClass("btn-green");
 
 			}else if ($(this).data("filter")== ".activityStream"){
+				newsReferror.news.offset=offset,
+				newsReferror.news.lastOffset=lastOffset,
+				newsReferror.news.dateLimit=dateLimit;
+				offset=newsReferror.activity.offset;
+				dateLimit = newsReferror.activity.dateLimit;	
+				lastOffset=newsReferror.activity.lastOffset;
 				streamType="activity";
 				$(this).removeClass("btn-green").addClass("btn-dark-green");
 				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
+				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
-
-						$(".newsTL").empty();
-			loadStream();
-			$(".stream-processing").show();
-			$(".newsTL").fadeIn();
-			formCreateNews = "<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
+console.log(newsReferror);
+						//$(".newsTL").empty();
+			if(dateLimit==0){
+				/*if(streamType=="activity"){
+				formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
+											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
+												"<i class='fa fa-pencil'></i> add a project, an event, an organization,... </h2>"+
+										"</div>"+
+"</div>";
+	console.log(formCreateNews);
+			/*"<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
 										"<div class='no-padding form-create-news-container'>"+
 											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
 												"<i class='fa fa-pencil'></i> Share a thought, an idea </h2>"+
 												"<form id='ajaxForm'></form>"+
 										"</div>"+
-									"</div>";
+									"</div>";"*/
 
-			$('.timeline').append(formCreateNews);			
-			buildDynForm();
+			//$('.timeline').append(formCreateNews);			
+			//buildDynForm();
+				//}
+				$.blockUI({message : htmlMessage});
+				loadStream();
+			}
+			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
+			//alert(dateLimit);
+			if ($("#backToTop"+streamType).length > 0)
+				$(".stream-processing").hide();	
+			else
+				$(".stream-processing").show();	
+			//$(".newsTL").fadeIn();
+			
 		}
 		else{
 			console.warn("filter",$(this).data("filter"));
@@ -812,7 +892,7 @@ function updateNews(newsObj)
 		date = new Date( parseInt(newsObj.date.sec)*1000 );
 	}
 	var newsTLLine = buildLineHTML(newsObj);
-	$(".newsTL"+date.getMonth()).prepend(newsTLLine);
+	$(".newsTLnews"+date.getMonth()).prepend(newsTLLine);
 }
 
 

@@ -22,6 +22,7 @@ class SigController extends CommunecterController {
           'events'      	     => 'citizenToolKit.controllers.sig.EventsAction',
           'getmyposition'      => 'citizenToolKit.controllers.sig.GetMyPositionAction',
           'getinseebylatlng'   => 'citizenToolKit.controllers.sig.GetInseeByLatLngAction',
+          'getcodeinseebycityname' => 'citizenToolKit.controllers.sig.GetCodeInseeByCityNameAction',
           'getcountrybylatlng' => 'citizenToolKit.controllers.sig.GetCountryByLatLngAction',
           'showmynetwork'      => 'citizenToolKit.controllers.sig.ShowMyNetworkAction',
           'ShowNetworkMapping' => 'citizenToolKit.controllers.sig.ShowNetworkMappingAction',
