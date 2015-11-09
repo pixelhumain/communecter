@@ -601,6 +601,7 @@ function buildLineHTML(newsObj)
 	return newsTLLine;
 }
 function buildHtmlUrlObject(obj){
+	console.log(obj);
 	if(typeof(obj.type) != "undefined")
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
@@ -613,7 +614,7 @@ function buildHtmlUrlObject(obj){
 		<?php } ?>
 	}
 	else{
-		if (contextParentType=="projects"){
+		if (contextParentType=="projects" || contextParentType=="organizations"){
 			if(obj.type=="needs"){
 				redirectTypeUrl=obj.type;
 				typeId="idNeed";

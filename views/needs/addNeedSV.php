@@ -47,7 +47,10 @@ if (isset($isNotSV)){
 </style>
 <?php 
 if( @$isNotSV ) {
-	Menu::project($project);
+	if(@$project)
+		Menu::project($project);
+	else 
+		Menu::organization($organization);
 	$this->renderPartial('../default/panels/toolbar'); 
 }
 ?>
