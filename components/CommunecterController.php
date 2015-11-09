@@ -83,6 +83,7 @@ class CommunecterController extends Controller
       "directory" => array("href" => "/ph/communecter/admin/directory"),
       "switchto"  => array("href" => "/ph/communecter/admin/switchto"),
       "delete"    => array("href" => "/ph/communecter/admin/delete"),
+      "activateuser" => array("href" => "/ph/communecter/admin/activateuser"),
     ),
 
     "default" => array(
