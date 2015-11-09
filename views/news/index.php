@@ -720,12 +720,24 @@ function bindEvent(){
 		separator = $(this).attr("id");
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
-	$('.newsAddComment').off().on("click",function(){
-		alert("/comment/index/type/news/id/"+$(this).data("id"));
-		if(isNotSV)
-			showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
-		else
-			window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
+	$('.newsAddComment').off().on("click",function() {
+		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
+		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
+							 '<div class="commentContent"></div></div>'});
+
+		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
+			/*if(!userId){
+				window.location.href = baseUrl+'/'+moduleId+"/person/login";
+			} else{*/
+				//$(".ajaxForm").slideDown(); 
+				//$.unblockUI();
+			//}
+		},"html");
+
+		// if(isNotSV)
+		// 	showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
+		// else
+		// 	window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
 		/*
 		toastr.info('TODO : COMMENT this news Entry');
 		console.log("newsAddComment",$(this).data("id"));

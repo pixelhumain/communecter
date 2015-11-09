@@ -121,7 +121,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<div class="row">
 			<div class="col-sm-6 col-xs-6 padding-20">
 				<h3><i class="fa fa-angle-down"></i> Activités</h3>
-				<a href="#" id="typeIntervention" data-title="Types d'intervention" data-type="checklist" data-emptytext="Type d'intervention" class="editable editable-click"></a>
+				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
 			</div>
 			<div class="col-sm-6 col-xs-6 padding-20">
 				<h3><i class="fa fa-angle-down"></i> Thématiques</h3>
@@ -143,7 +143,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var types = <?php echo json_encode($organizationTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var publics = <?php echo json_encode($publics) ?>;
-	var typeInterventionList = <?php echo json_encode($typeIntervention) ?>;
+	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
+	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
@@ -300,7 +301,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
-			$('#typeIntervention').editable('toggleDisabled');
+			$('#category').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -310,7 +311,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('option', 'pk', contextId);
 			$('#addressCountry').editable('option', 'pk', contextId);
 			$('#tags').editable('option', 'pk', contextId);
-			$('#typeIntervention').editable('option', 'pk', contextId);
+			$('#category').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
@@ -319,7 +320,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
-			$('#typeIntervention').editable('toggleDisabled');
+			$('#category').editable('toggleDisabled');
 		}
 	}
 
@@ -355,13 +356,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			}
 		});
 
-		$('#typeIntervention').editable({
+		$('#category').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			value: <?php echo (isset($organization["typeIntervention"])) ? json_encode(implode(",", $organization["typeIntervention"])) : "''"; ?>,
+			value: <?php echo (isset($organization["category"])) ? json_encode(implode(",", $organization["category"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
-				$.each(typeInterventionList, function(i,value) {
+				var categorySource;
+				if (contextData.type == "NGO") categorySource = NGOCategoriesList;
+				if (contextData.type == "localBusiness") categorySource = localBusinessCategoriesList
+				console.log(categorySource);
+				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
 				})
 				return result;

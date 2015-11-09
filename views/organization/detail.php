@@ -16,6 +16,8 @@
 						"organizationTypes" => $organizationTypes,
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
+						"NGOCategories" => $NGOCategories,
+						"localBusinessCategories" => $localBusinessCategories,
 	    				"publics" => $public,
 	    				"contentKeyBase" => $contentKeyBase
 	    			);
