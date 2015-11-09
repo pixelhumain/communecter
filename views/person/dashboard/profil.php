@@ -116,7 +116,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="col-md-12 border-light" style="border-width: 1px">
 				Description
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-					<?php echo (isset($context["shortDescription"])) ? $context["shortDescription"] : null; ?>
+					<?php echo (isset($person["shortDescription"])) ? $person["shortDescription"] : null; ?>
 				</a>
 			</div>
 			<div class="col-md-12">
