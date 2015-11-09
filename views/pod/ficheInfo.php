@@ -356,6 +356,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			value: <?php echo (isset($organization["category"])) ? json_encode(implode(",", $organization["category"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
+				var categorySource;
 				if (contextData.type == "NGO") categorySource = NGOCategoriesList;
 				if (contextData.type == "localBusiness") categorySource = localBusinessCategoriesList
 				console.log(categorySource);
