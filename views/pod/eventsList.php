@@ -5,7 +5,7 @@
 	<div class="panel-tools">
 		<?php if( @$authorised ) { 
 			if(@$isNotSV){ ?>
-			<a href="#" onclick="showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
+			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>?isNotSV=1', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
 		<?php } else { ?>
 		<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
 		<?php
