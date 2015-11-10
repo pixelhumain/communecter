@@ -176,10 +176,18 @@ if( !isset( Yii::app()->session['userId']) ){
     font-weight: 500;
     border-radius: 0px;
     border-top-width: 0px;
+    border-bottom: 3px solid #337793;
+    box-shadow: 0px -1px 2px #C3C3C3;
   }
+
+  .box-ajaxTools .text-right .btn.tooltips{
+    border-radius: 0px 10px 0px 10px;
+    margin-right: 5px;
+  }
+
   .box-ajaxTools .btn.tooltips:hover{
     border-bottom: 3px solid #719FAB !important;
-    background-color: rgba(49, 92, 110, 0.74);
+    background-color: rgba(49, 92, 110, 1);
     color:white;
     /*height: 45px;*/
   }
@@ -191,22 +199,20 @@ if( !isset( Yii::app()->session['userId']) ){
   .box-ajaxTools .btnSpacer{
     margin-right: 0px;
   }
+  .box-ajaxTools i.fa{
+    min-width: 18px;
+    width:auto;
+    font-size: 17px;
+  }
   .box-ajaxTools{
     z-index: 1;
     text-align: center;
     float: left !important;
     width: 100%;
-    top: 56px;
+    top: 48px;
     left: 0px;
-    position: fixed;
-    background-color: #FFF;
-    padding: 0px 0px 0px 69px;
-    -moz-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
-    -o-box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
-    box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, 0.4);
-    filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=1);
-   
+    padding: 0px 20px 0px 20px;
+    margin-bottom:20px;
   }
 </style>
 <?php /* **********************

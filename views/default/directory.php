@@ -343,7 +343,7 @@ function bindAdminBtnEvents(){
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var type = $(this).data("type");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/activate/user/"+id;
+	        var urlToSend = baseUrl+"/"+moduleId+"/admin/activateuser/user/"+id;
 	        
 	        bootbox.confirm("confirm please !!",
         	function(result) 

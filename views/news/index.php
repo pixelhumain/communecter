@@ -61,7 +61,7 @@ btnOrganization:hover{
 #newsHistory{
 	overflow: scroll;
 	position:fixed;
-	top:100px;
+	top:130px;
 	bottom:0px;
 	right:0px;
 	left:70px;
@@ -93,6 +93,12 @@ btnOrganization:hover{
     top: 200px;
     left: 1057px;
 }
+
+.btn-add-something{
+	border-radius: 0px;
+	padding: 13px 0px;
+}
+
 </style>
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
@@ -101,7 +107,6 @@ btnOrganization:hover{
 	 </div>
 </div>
 <div id="newsHistory" class="padding-20">
-	<div class="space20"></div>
 	<div class="col-md-12">
 
 		<!-- start: TIMELINE PANEL -->
@@ -304,24 +309,24 @@ function buildTimeLine (news)
 		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
 			"<h2 class='padding-10 partition-light no-margin text-left'>"+
 				"<i class='fa fa-pencil'></i> Add something to share your activity </h2>"+
-			'<div class="form-group box-add row partition-white" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
-				'<div class="col-md-6 col-xs-12 padding-10">'+
-                   '<button type="button" class="btn btn-yellow col-md-12 col-xs-12">'+
+			'<div class="form-group box-add row partition-white no-padding" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+                   '<button type="button" class="btn-add-something btn btn-yellow col-md-12 col-xs-12">'+
 				   	'<a title="" href="#" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> People</a>'+
 				   '</button>'+
 				'</div>'+
-				'<div class="col-md-6 col-xs-12 padding-10">'+
-                	'<button type="button" class="btn btn-green col-md-12 col-xs-12">'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+                	'<button type="button" class="btn-add-something btn btn-green col-md-12 col-xs-12">'+
 						'<a title="" href="#" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> Organization</a>'+
 					'</button>'+
 				'</div>'+
-				'<div class="col-md-6 col-xs-12 padding-10">'+
-					'<button type="button" class="btn btn-orange col-md-12 col-xs-12">'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+					'<button type="button" class="btn-add-something btn btn-orange col-md-12 col-xs-12">'+
 						'<a title="" href="#" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> Event</a>'+
 					'</button>'+
 				'</div>'+
-				'<div class="col-md-6 col-xs-12 padding-10">'+
-					'<button type="button" class="btn btn-purple col-md-12 col-xs-12">'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+					'<button type="button" class="btn-add-something btn btn-purple col-md-12 col-xs-12">'+
 						'<a title="" href="#" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> Project</a>'+
 					'</button>'+
 				'</div>'+
@@ -601,6 +606,7 @@ function buildLineHTML(newsObj)
 	return newsTLLine;
 }
 function buildHtmlUrlObject(obj){
+	console.log(obj);
 	if(typeof(obj.type) != "undefined")
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
@@ -613,7 +619,7 @@ function buildHtmlUrlObject(obj){
 		<?php } ?>
 	}
 	else{
-		if (contextParentType=="projects"){
+		if (contextParentType=="projects" || contextParentType=="organizations"){
 			if(obj.type=="needs"){
 				redirectTypeUrl=obj.type;
 				typeId="idNeed";
@@ -720,12 +726,24 @@ function bindEvent(){
 		separator = $(this).attr("id");
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
-	$('.newsAddComment').off().on("click",function(){
-		alert("/comment/index/type/news/id/"+$(this).data("id"));
-		if(isNotSV)
-			showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
-		else
-			window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
+	$('.newsAddComment').off().on("click",function() {
+		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
+		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
+							 '<div class="commentContent"></div></div>'});
+
+		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
+			/*if(!userId){
+				window.location.href = baseUrl+'/'+moduleId+"/person/login";
+			} else{*/
+				//$(".ajaxForm").slideDown(); 
+				//$.unblockUI();
+			//}
+		},"html");
+
+		// if(isNotSV)
+		// 	showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
+		// else
+		// 	window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
 		/*
 		toastr.info('TODO : COMMENT this news Entry');
 		console.log("newsAddComment",$(this).data("id"));

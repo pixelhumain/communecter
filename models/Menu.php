@@ -29,7 +29,7 @@ class Menu {
         
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Directory','Directory','users','/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"person","directory");
+        self::entry("left", 'showAjaxPanel','Directory','Directory','bookmark fa-rotate-270','/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"person","directory");
         
         //FOLLOW BUTTON
         //-----------------------------
@@ -170,7 +170,7 @@ class Menu {
         //-----------------------------
 
 
-        self::entry("left", 'showAjaxPanel','Local nework', 'Directory','users','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
+        self::entry("left", 'showAjaxPanel','Local nework', 'Directory','bookmark fa-rotate-270','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
 
         //STATISTICS
         //-----------------------------
@@ -221,8 +221,8 @@ class Menu {
 	        //DIRECTORY
 	        //-----------------------------
 	        self::entry("left", 'showAjaxPanel',"Discover who contributes to this project", 'Contributors', 'users','/project/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"project","directory");
-	         self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+	        //self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
+	        //self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
         if ($_GET["type"]=="organizations"){
 	         self::entry("left", 'showAjaxPanel','General information about this project','Details', 'home','/organization/detail/id/'.$_GET["id"],"project","detail");
@@ -232,7 +232,7 @@ class Menu {
 	
 	        //DIRECTORY
 	        //-----------------------------
-	         self::entry("left", 'showAjaxPanel','Participants list', 'Members' ,'connectedevelop','/organization/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"organization","directory");
+	         self::entry("left", 'showAjaxPanel','Participants list', 'Members' ,'connectdevelop','/organization/directory/id/'.$_GET["id"].'?tpl=directory2&isNotSV=1',"organization","directory");
         // ADD MEMBER
         //-----------------------------
         self::entry("left", 'showAjaxPanel','Add a participant to this organization', 'Add member','plus','/organization/addmember/id/'.$_GET["id"].'?isNotSV=1',"organization","addmember");
@@ -241,8 +241,8 @@ class Menu {
 	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
         else{
-	        self::entry("left", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("left", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+	        self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
     }
 
@@ -271,7 +271,7 @@ class Menu {
 
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',"Discover who contributes to this project", 'Contributors', 'users','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+        self::entry("left", 'showAjaxPanel',"Project contributors", 'Contributors', 'users','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
     }
 
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
