@@ -123,8 +123,8 @@ if( !isset($_GET["isNotSV"]))
                        <!-- </div>-->
                     </div>
                     
-                    <input class="hide" type="text" id="newEventOrgaId" name="newEventOrgaId">
-                    <input class="hide" type="text" id="newEventOrgaType" name="newEventOrgaType">
+                    <input type="hidden" id="newEventOrgaId" name="newEventOrgaId" value="<?php if (@$_GET["contextId"]) echo  $_GET["contextId"] ?>">
+                    <input type="hidden" id="newEventOrgaType" name="newEventOrgaType" value="<?php if (@$_GET["contextType"]) echo $_GET["contextType"]."s"; ?>">
 
 				</div>
 				<div class="form-group">
@@ -255,7 +255,9 @@ if( !isset($_GET["isNotSV"]))
 	var parentOrga = [];
 	var defaultHours;
 	var citiesByPostalCode;
-
+	var organizerParentType = "<?php if (@$_GET["contextType"]) echo $_GET["contextType"]; ?>";
+	var organizerParentId = "<?php if (@$_GET["contextId"]) echo $_GET["contextId"]; ?>";
+	//var organizerParentName = "<?php if (@$_GET["organizerParentName"]) echo $_GET["organizerParentName"]; ?>"; 
 	if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
 	}
@@ -560,7 +562,17 @@ if( !isset($_GET["isNotSV"]))
 			//$(".selectpicker").addClass("col-md-6");
 			//$(".categoryOrgaEvent").addClass("col-md-12");
 		}
-
+		if(organizerParentType.length > 0){
+			if (organizerParentType=="organizations"){
+				titleName="Organization";
+				contextName=listOrgaAdmin[organizerParentId]["name"];
+			}	
+			else{
+				titleName="Project";
+				contextName=listProjectAdmin[organizerParentId]["name"];
+			}
+			$("#labelOrga").text(titleName+" : "+contextName);
+		}
 		$(".dropOrg").click(function() {
 			console.log(this);
 			if ($(this).parents().eq(1).attr("id")=="organization"){

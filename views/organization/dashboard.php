@@ -31,6 +31,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery.puls
 						"countries" => $countries,
 						"typeIntervention" => $typeIntervention,
 	    				"publics" => $public,
+	    				"NGOCategories" => $NGOCategories,
+	    				"localBusinessCategories" => $localBusinessCategories
 	    			);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
