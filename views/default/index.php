@@ -308,19 +308,19 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    $(window).on("popstate", function(e) {
+    /*$(window).on("popstate", function(e) {
       if( lastUrl && "onhashchange" in window && location.hash){
         console.log("popstate",location.hash);
         loadByHash(location.hash);
       }
       lastUrl = location.hash;
-    });/*
-    if( "onhashchange" in window && location.hash){
+    });*/
+    if( userId == "" || ("onhashchange" in window && location.hash ) ){
       loadByHash(location.hash);
     }
-    else{
-      loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
-    }*/
+    else
+      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
+    
 
     initMap();
     resizeInterface();
