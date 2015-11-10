@@ -63,7 +63,11 @@
 	{ 
 		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
 		rand = Math.floor((Math.random() * 8) + 1);
-		showFloopDrawer(false);
+		
+		if(typeof showFloopDrawer != "undefined")
+			showFloopDrawer(false);
+		
+		if(typeof proverbs != "undefined")
 		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
