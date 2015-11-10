@@ -124,8 +124,9 @@ if( !isset( Yii::app()->session['userId']) ){
     </div>
     <div class="floopDrawer" id="floopDrawerDirectory"></div>
     <?php } else {?>
-        <a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-home fa-2x"></i><span class="menuline hide homestead"> HOME</a>
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGIN</span></a>
+        <?php /* ?><a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-home fa-2x"></i><span class="menuline hide homestead"> HOME</a>*/?>
+        <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-question-circle fa-2x"></i><span class="menuline hide homestead"> WHAT IS IT</a>
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login') ?>" class="menuIcon btn-main-menu hoverRed no-floop-item"><i class="fa fa-sign-in fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> LOGIN</span></a>
     </div>
     <?php } ?>
 </div>
@@ -144,7 +145,9 @@ if( !isset( Yii::app()->session['userId']) ){
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
       <?php } else { ?>
-      <a href="#panel.box-whatisit" onclick="showPanel('box-whatisit',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left" style="display:block"><i class="fa fa-question-circle fa-2x"></i></a>
+      <a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);"  class="btn btn-default btn-menu-top pull-right btn-corner-top-left" style="display:block">
+          <img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+      </a>
       <?php } ?>
     
       <form class="inner pull-right">
@@ -310,7 +313,7 @@ var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
-
+var lastUrl = null;
 jQuery(document).ready(function() {
     console.dir(proverbs);
     
@@ -322,19 +325,19 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    $(window).on("popstate", function(e) {
-      if( "onhashchange" in window && location.hash){
-        var url = e.state;
-        console.log("popstate",url);
-        //loadByHash(location.hash);
+    /*$(window).on("popstate", function(e) {
+      if( lastUrl && "onhashchange" in window && location.hash){
+        console.log("popstate",location.hash);
+        loadByHash(location.hash);
       }
-    });/*
-    if( "onhashchange" in window && location.hash){
+      lastUrl = location.hash;
+    });*/
+    if( userId == "" || ("onhashchange" in window && location.hash ) ){
       loadByHash(location.hash);
     }
-    else{
-      loadByHash(location.hash);//showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
-    }*/
+    else
+      showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' ); 
+    
 
     initMap();
     resizeInterface();
@@ -388,13 +391,13 @@ function loadByHash( hash ) {
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )
 
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
-      hashT = hash.split(".");
-      showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
+        hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }  
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
-      hashT = hash.split(".");
-      showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+        hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } else if(userId != "")
         showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
     else
@@ -653,7 +656,7 @@ function bindEvents() {
       showPanel('box-people',null,"PEOPLE");
     });
     $(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
-      showPanel('box-menu');
+      showPanel('box-communecter');
     });
 
     //efface les outils SIG à chaque fois que l'on click sur un bouton du menu principal

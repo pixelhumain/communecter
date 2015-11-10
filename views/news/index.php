@@ -11,8 +11,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
-if( isset($_GET["isNotSV"])) {
-	Menu::news();
+if( isset($_GET["isNotSV"])) 
+{
+	Menu::news( @$_GET["id"] , @$_GET["type"] );
 	$this->renderPartial('../default/panels/toolbar'); 
 	?>
 	<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>

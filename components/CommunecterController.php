@@ -105,7 +105,7 @@ class CommunecterController extends Controller
     	'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
-      'opendata'            => array("href" => "/ph/communecter/city/opendata"),
+      'opendata'            => array("href" => "/ph/communecter/city/opendata","public" => true),
       'getoptiondata'       => array("href" => "/ph/communecter/city/getoptiondata"),
       'getlistoption'       => array("href" => "/ph/communecter/city/getlistoption"),
       'getpodopendata'      => array("href" => "/ph/communecter/city/getpodopendata"),
