@@ -51,7 +51,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
 </style>
 <!-- start: PAGE CONTENT -->
-<div class="row" id="cityDetail">
+<div class="row  pull-left padding-20" id="cityDetail">
 
   <div class="col-sm-4 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
     <div class="panel panel-white">

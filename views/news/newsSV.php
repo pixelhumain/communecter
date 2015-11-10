@@ -15,7 +15,7 @@
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#C8C8C8, Direction=NaN, Strength=5);
 }
 
-#formCreateNewsTemp .form-create-news-container{
+#formCreateNewsTemp .form-create-news-container, #formActivity{
 	-moz-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
 	-webkit-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
 	-o-box-shadow: 0px 0px 5px 1px rgba(200, 200, 200, 0.8);
@@ -559,7 +559,7 @@ function buildDynForm(){
 					//$("#ajaxSV").html('');
 					$.hideSubview();
 					toastr.success('Saved successfully!');
-					$("#ajaxForm").reset();
+					//$("#ajaxForm").reset();
 	    		}
 	    		else 
 	    		{

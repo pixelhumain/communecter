@@ -75,6 +75,9 @@
 			/*if(!userId){
 				window.location.href = baseUrl+'/'+moduleId+"/person/login";
 			} else{*/
+				if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
+				icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
+				$(".panelLabel").html( icon+title );
 				$(".ajaxForm").slideDown(); 
 				$.unblockUI();
 			//}
@@ -114,9 +117,9 @@
 			title : title ,
 			icon : icon };*/
 		showPanel('box-ajax');
-		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
-		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
-		$(".moduleLabel").html( icon+title );
+		//if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
+		//icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
+		//$(".panelLabel").html( icon+title );
 		//$(".box-ajaxTitle").html( icon + title );
 	}
 	function gotToPrevNav()

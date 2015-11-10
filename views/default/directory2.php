@@ -75,7 +75,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-bottom: -1px !important;
 	}
 	#Grid .item_map_list{
-		padding:10px 10px 10px 10px !important; 
+		padding:10px 10px 10px 0px !important; 
 		margin-top:0px;
 		text-decoration:none;
 		background-color:white;
@@ -90,6 +90,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	#Grid .thumbnail-profil{
 		margin-left:10px;
+	}
+	#Grid .detailDiv a.text-xss{
+		font-size: 12px;
+		font-weight: 300;
 	}
 	.marginbot{
 		display: inline-block;
@@ -135,11 +139,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-left:2px;
 	}
 	.menu_directory li a{
-		font-size:17px;
-		background-color: white;
+		font-size: 13px;
 		border-radius: 0px !important;
 		margin-bottom: 0px;
-		/*border: 1px solid #FFF;*/
+		font-weight: 600;
+		background-color: #FCFCFC !important;
+		padding: 20px  10px;
 		-moz-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-webkit-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-o-box-shadow: 0px 0px 3px 0px #D1C5C5;
@@ -149,11 +154,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	.menu_directory .badge{
 		color: #315C6E !important;
 		background-color: #E9E9E9 !important;
+		float: left;
+		width: 35px;
+		margin-right: 10px;
 	}
 	.menu_directory .filter.active a{
 		background-color: #E9E9E9 !important;
 	}
-	.menu_directory .filter.active a:hover{
+	.menu_directory li a:hover{
 		/*color: #FFF !important;
 		background-color: #315C6E !important;*/
 		/*border: 1px solid #315C6E;
@@ -175,11 +183,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	.menu_directory i.fa{
 		width:20px;
 	}
-	.menu_directory .badge {
-	    position: absolute;
-	    right: 5px;
-	    top: 14px;
-	}
+
 	/*.detailDiv .scopes {
 	    display: inline-block;
 	    float: left;
@@ -192,18 +196,55 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		border-radius: 0px;
 		padding: 3px 7px;
 	}
+
+	#tagFilters h4, #scopeFilters h4, #orgaTypesFilters h4{
+		text-align: left;
+		text-weight:;
+	}
+	#tagFilters i.fa, #scopeFilters i.fa, #orgaTypesFilters i.fa {
+		width:auto !important;
+	}
+
+	#scopeFilters a{
+		float:right;
+	}
+	#scopeFilters h4{
+		text-align:right;
+	}
+	.panelLabel{
+		margin-bottom:10px;
+		margin-left:25px;
+		color:#58879B;
+		font-size:25px
+	}
 </style>
 
 <?php 
 if( isset($_GET["isNotSV"])) {
 	/*
 	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
-	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) )
+	$fatherName = "";
+	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 		Menu::organization( $organization );
-	else if( isset($type) && $type == City::CONTROLLER && isset($city) )
+		$thisOrga = Organization::getById($organization["_id"]);
+		$contextName = "Organization : ".$thisOrga["name"];
+		$contextIcon = "users";
+	}
+	else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
 		Menu::city( $city );
-	else if( isset($type) && $type == Person::CONTROLLER && isset($person) )
+		$contextName = "City : ".$city["name"];
+		$contextIcon = "university";
+	}
+	else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
 		Menu::person( $person );
+		$contextName = "Person : ".$person["name"];
+		$contextIcon = "user";
+	}
+	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
+		//Menu::project( $person );
+		$contextName = "Project : ".$project["name"];
+		$contextIcon = "lightbulb-o";
+	}
 	/*else
 		$this->toolbarMBZ = array(
 		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
@@ -219,36 +260,44 @@ if( isset($_GET["isNotSV"])) {
 					Details proprietaire directory
 				</div> -->
 				
+				<span class="homestead panelLabel pull-left"> 
+					<i class="fa fa-bookmark fa-rotate-270"></i> DIRECTORY 
+				</span>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12">
 				<ul id="Grid" class="pull-left  list-unstyled">
 					<li class="container_menu_directory no-padding controls col-md-4 col-sm-6 col-xs-12">
 						<ul class="nav nav-pills menu_directory">
-							<li class="filter active homestead" data-filter="all">
-								<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="homestead">Show </span>All</a>
+							<li class="filter active " data-filter="all">
+								<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="">Show </span>All <span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?></a>
 							</li>
 							<li class="filter" data-filter=".citoyens">
-								<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" homestead">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
+								<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" ">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
 							</li>
 							<li class="filter" data-filter=".organizations">
-								<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="homestead">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
+								<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
 							</li>
 							<li class="filter" data-filter=".events">
-								<a href="javascript:;"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="homestead">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
+								<a href="javascript:;"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
 							</li>
 							<li class="filter" data-filter=".projects">
-								<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="homestead">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
-							</li>
-							<li  class="homestead" style="margin-top:20px;margin-bottom:20px;  width:48%;">
-								<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> Tags </a>
-							</li>
-							<li class="homestead" style="margin-top:20px; margin-bottom:20px; width:48%; float:right;">
-								<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Scopes </a>
+								<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
 							</li>
 							
+						</ul>
+					</li>
+					<li class="no-padding controls col-md-8 col-sm-6 col-xs-12">
+						<ul class="nav nav-pills menu_directory">
+							<li  class="" style="width:48%;">
+								<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> About what ?</a>
+							</li>
+							<li class="" style="width:48%; float:right;">
+								<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Where ?</a>
+							</li>
 							<div id="tagFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
 							<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
-							<div id="orgaTypesFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" >
+							<div id="orgaTypesFilters" class="  pull-left center" style="display:none;width:100%;text-align:center;" >
+								<h4 class='text-dark'><i class='fa fa-angle-down'></i> Filter by organization type</h4>
 								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span>N.G.O</span></a>
 								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness">Business</a>
 								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group">Group</a>
@@ -420,7 +469,7 @@ if( isset($_GET["isNotSV"])) {
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$e["address"]['addressLocality'].'</span></a>';
 							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
 								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>region '.$e["address"]['addressLocality'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
 							}
 						}
 
@@ -488,12 +537,16 @@ var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'fa
 var images = [];
 var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
-	
+var contextName = "<?php echo $contextName; ?>";	
+var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
+
+	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
-	$("#tagFilters").html(tagFilters);
-	$("#scopeFilters").html(scopeFilters);
+	$("#tagFilters").html("<h4 class='text-dark'><i class='fa fa-angle-down'></i> Filter by tags</h4>" + tagFilters);
+	$("#scopeFilters").html("<h4 class='text-dark text-right'>Filter by places <i class='fa fa-angle-down'></i></h4>" + scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);

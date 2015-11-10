@@ -55,7 +55,7 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
 		?>
 
 </div>
-<div class="space20"></div>
+<!-- <div class="space20"></div> -->
 <script type="text/javascript">
 jQuery(document).ready(function() 
 {
