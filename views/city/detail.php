@@ -79,10 +79,10 @@ $this->renderPartial('../default/panels/toolbar');
             <span class="badge"><?php echo $cnt;?></span>
             GROUPES
           </li>
-          <li class="list-group-item">
+          <!-- <li class="list-group-item">
             <span class="badge"><?php echo $cnt;?></span>
             COLLECTIVITÉ
-          </li>
+          </li> -->
           <li class="list-group-item">
             <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
@@ -206,6 +206,7 @@ function initCityMap(){
   markerCity.openPopup();
   Sig.map.setZoom(13, {animate:false});
   Sig.map.panTo(latlng, {animate:false});
+  Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
   
@@ -223,6 +224,7 @@ function initCityMap(){
     markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
+    Sig.map.panBy([0, -100]);
     //Sig.centerSimple(latlng, 13);
   });
   

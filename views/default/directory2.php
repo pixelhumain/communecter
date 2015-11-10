@@ -64,7 +64,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 	#Grid{
-		/*margin-top: 20px;*/
+		margin-top: 20px;
 		background-color: transparent;
 		padding: 15px;
 		border-radius: 4px;
@@ -131,11 +131,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.menu_directory{
 		background-color: transparent;
-	    margin-right: 20px;
+	    /*margin-right: 20px;*/
 		margin-bottom: 20px;
 	}
 	.menu_directory li{
-		width:100%;
+		/*width:100%;*/
 		margin-left:2px;
 	}
 	.menu_directory li a{
@@ -144,7 +144,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-bottom: 0px;
 		font-weight: 600;
 		background-color: #FCFCFC !important;
-		padding: 20px  10px;
+		padding: 15px  10px;
+		margin-bottom: 1px;
+		margin-left: -1px;
 		-moz-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-webkit-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-o-box-shadow: 0px 0px 3px 0px #D1C5C5;
@@ -154,9 +156,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	.menu_directory .badge{
 		color: #315C6E !important;
 		background-color: #E9E9E9 !important;
-		float: left;
-		width: 35px;
-		margin-right: 10px;
+		/*float: left;*/
+		/*width: 35px;*/
+		/*margin-right: 10px;*/
 	}
 	.menu_directory .filter.active a{
 		background-color: #E9E9E9 !important;
@@ -181,7 +183,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		color: #315C6E !important;
 	}
 	.menu_directory i.fa{
-		width:20px;
+		/*width:20px;*/
 	}
 
 	/*.detailDiv .scopes {
@@ -199,23 +201,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	#tagFilters h4, #scopeFilters h4, #orgaTypesFilters h4{
 		text-align: left;
-		text-weight:;
+		/*text-weight:;*/
 	}
 	#tagFilters i.fa, #scopeFilters i.fa, #orgaTypesFilters i.fa {
 		width:auto !important;
 	}
 
 	#scopeFilters a{
-		float:right;
+		/*float:right;*/
 	}
 	#scopeFilters h4{
-		text-align:right;
+		/*text-align:right;*/
 	}
 	.panelLabel{
 		margin-bottom:10px;
 		margin-left:25px;
 		color:#58879B;
 		font-size:25px
+	}
+
+	ul{
+		list-style: none;
 	}
 </style>
 
@@ -260,52 +266,49 @@ if( isset($_GET["isNotSV"])) {
 					Details proprietaire directory
 				</div> -->
 				
-				<span class="homestead panelLabel pull-left"> 
+			<!-- 	<span class="homestead panelLabel pull-left"> 
 					<i class="fa fa-bookmark fa-rotate-270"></i> DIRECTORY 
-				</span>
+				</span> -->
 				
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-12 col-sm-12 col-xs-12 row">
+					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
+						<li class="filter active" data-filter="all">
+							<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="">Show </span>All <span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?></a>
+						</li>
+						<li class="filter" data-filter=".citoyens">
+							<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" ">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
+						</li>
+						<li class="filter" data-filter=".organizations">
+							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
+						</li>
+						<li class="filter" data-filter=".events">
+							<a href="javascript:"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
+						</li>
+						<li class="filter" data-filter=".projects">
+							<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
+						</li>
+						<li  class="" style="">
+							<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> About what ?</a>
+						</li>
+						<li class="" style="">
+							<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Where ?</a>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="col-md-12 pull-right">
+					<div id="tagFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
+					<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
+					<div id="orgaTypesFilters" class="optionFilter  pull-left center" style="display:none;width:100%;text-align:center;" >
+						<h4 class='text-dark'><i class='fa fa-angle-down'></i> Select organization type</h4>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span>N.G.O</span></a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness">Business</a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group">Group</a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization">Government Organization</a>
+					</div>
+				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
-					<li class="container_menu_directory no-padding controls col-md-4 col-sm-6 col-xs-12">
-						<ul class="nav nav-pills menu_directory">
-							<li class="filter active " data-filter="all">
-								<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="">Show </span>All <span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?></a>
-							</li>
-							<li class="filter" data-filter=".citoyens">
-								<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" ">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
-							</li>
-							<li class="filter" data-filter=".organizations">
-								<a href="javascript:;" onclick="toggleFilters('#orgaTypesFilters')" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
-							</li>
-							<li class="filter" data-filter=".events">
-								<a href="javascript:;"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
-							</li>
-							<li class="filter" data-filter=".projects">
-								<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
-							</li>
-							
-						</ul>
-					</li>
-					<li class="no-padding controls col-md-8 col-sm-6 col-xs-12">
-						<ul class="nav nav-pills menu_directory">
-							<li  class="" style="width:48%;">
-								<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> About what ?</a>
-							</li>
-							<li class="" style="width:48%; float:right;">
-								<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Where ?</a>
-							</li>
-							<div id="tagFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
-							<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
-							<div id="orgaTypesFilters" class="  pull-left center" style="display:none;width:100%;text-align:center;" >
-								<h4 class='text-dark'><i class='fa fa-angle-down'></i> Filter by organization type</h4>
-								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span>N.G.O</span></a>
-								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness">Business</a>
-								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group">Group</a>
-								<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization">Government Organization</a>
-							</div>
-						</ul>
-					</li>
-
+					
 					<?php 
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
@@ -541,12 +544,12 @@ var contextName = "<?php echo $contextName; ?>";
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
 
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+	//$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
 
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
-	$("#tagFilters").html("<h4 class='text-dark'><i class='fa fa-angle-down'></i> Filter by tags</h4>" + tagFilters);
-	$("#scopeFilters").html("<h4 class='text-dark text-right'>Filter by places <i class='fa fa-angle-down'></i></h4>" + scopeFilters);
+	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> Select tags</h4>" + tagFilters);
+	$("#scopeFilters").html("<h4 class='text-dark '>Select places <i class='fa fa-angle-down'></i></h4>" + scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);
@@ -570,6 +573,13 @@ jQuery(document).ready(function() {
  	if( !$(what).is(":visible") )
  		$('.optionFilter').hide();
  	$(what).slideToggle();
+ }
+ function showFilters(what, show){
+ 	if(show){
+ 		$(what).show('fast');
+ 	}else{
+ 		$(what).hide('fast');
+ 	}
  }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
