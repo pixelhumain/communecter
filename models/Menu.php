@@ -34,7 +34,7 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'showAjaxPanel', 
-                    Yii::t("common", 'Directory'), 
+                    Yii::t("common", 'Show his directory'), 
                     Yii::t("common", 'Directory'),
                     'bookmark fa-rotate-270',
                     '/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',

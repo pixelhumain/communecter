@@ -141,13 +141,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	.menu_directory li a{
 		font-size: 13px;
-		border-radius: 0px !important;
-		margin-bottom: 0px;
 		font-weight: 600;
-		background-color: #FCFCFC !important;
-		padding: 15px  10px;
 		margin-bottom: 1px;
 		margin-left: -1px;
+		padding: 8px 12px;
+		border-radius: 0px !important;
 		-moz-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-webkit-box-shadow: 0px 0px 3px 0px #D1C5C5;
 		-o-box-shadow: 0px 0px 3px 0px #D1C5C5;
@@ -162,14 +160,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		/*margin-right: 10px;*/
 	}
 	.menu_directory .filter.active a{
-		background-color: #E9E9E9 !important;
+		/*background-color: #E9E9E9 !important;*/
+
 	}
 	.menu_directory li a:hover{
 		/*color: #FFF !important;
 		background-color: #315C6E !important;*/
 		/*border: 1px solid #315C6E;
 		background-color: #FFF !important;*/
-		background-color: #E9E9E9 !important;
+		/*background-color: #E9E9E9 !important;*/
+		text-decoration: underline !important;
 		/*-moz-box-shadow: 0px 0px 5px 0px #315C6E;
 		-webkit-box-shadow: 0px 0px 5px 0px #315C6E;
 		-o-box-shadow: 0px 0px 5px 0px #315C6E;
@@ -180,8 +180,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		color:#3C5665 !important;
 	}
 	.menu_directory .filter.active .badge {
-		background-color: #FFF !important;
-		color: #315C6E !important;
+		/*background-color: #FFF !important;
+		color: #315C6E !important;*/
 	}
 	.menu_directory i.fa{
 		/*width:20px;*/
@@ -221,22 +221,35 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		font-size:25px
 	}
 
-	.badge.bg-yellow{
+	.bg-yellow{
 		color:white !important;
 		background-color:#FFC600 !important;
 	}
-	.badge.bg-green{
+	.bg-green{
 		color:white !important;
 		background-color:#93C020 !important;
 	}
-	.badge.bg-orange{
+	.bg-orange{
 		color:white !important;
 		background-color:#FFA200 !important;
 	}
-	.badge.bg-purple{
+	.bg-purple{
 		color:white !important;
 		background-color:#8C5AA1 !important;
 	}
+	.bg-dark{
+		color:white !important;
+		background-color:#3C5665 !important;
+	}
+	.bg-red{
+		color:white !important;
+		background-color:#E33551 !important;
+	}
+	.active .bg-yellow, .active .bg-green, .active .bg-orange, 
+	.active .bg-purple, .active .bg-dark, .active .bg-red{
+		/*color:#3C5665 !important;*/
+	}
+	
 	ul{
 		list-style: none;
 	}
@@ -297,42 +310,43 @@ if( isset($_GET["isNotSV"])) {
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
+						<li  class="" style="">
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
+						</li>
+						<li class="" style="margin-right:30px;">
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
+						</li>
 						<li class="filter active" data-filter="all">
-							<a href="#" class="text-dark">
-								<i class="fa fa-th-list"></i> <span class="">Show </span>All 
+							<a href="#" class="bg-dark">
+								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
 							</a>
 						</li>
 						<li class="filter" data-filter=".citoyens">
-							<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();">
-								<i class="fa fa-user fa-2"></i> <span class=" ">People</span> 
+							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();">
+								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
 								<span class="badge bg-yellow"><?php echo count($people);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".organizations">
-							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations text-green">
-								<i class="fa fa-users fa-2"></i> <span class="">Organizations</span> 
+							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
+								<i class="fa fa-users fa-2"></i> <span class=""><?php echo Yii::t("common","Organizations") ?></span> 
 								<span class="badge bg-green"><?php echo count($organizations);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".events">
-							<a href="javascript:"  class="filterevents text-orange" onclick="$('.optionFilter').hide();">
-								<i class="fa fa-calendar fa-2"></i> <span class="">Events</span> 
+							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();">
+								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
 								<span class="badge bg-orange"><?php echo count($events);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> 
-								<i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> 
+							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();"> 
+								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg-purple"><?php echo count($projects);  ?></span>
 							</a>
 						</li>
-						<li class="pull-right" style="">
-							<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
-						</li>
-						<li  class="pull-right" style="">
-							<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
-						</li>
+						
 						
 					</ul>
 				</div>
@@ -340,11 +354,11 @@ if( isset($_GET["isNotSV"])) {
 					<div id="tagFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
 					<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
 					<div id="orgaTypesFilters" class="optionFilter  pull-left center" style="display:none;width:100%;text-align:center;" >
-						<h4 class='text-dark'><i class='fa fa-angle-down'></i> Select organization type</h4>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span>N.G.O</span></a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness">Business</a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group">Group</a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization">Government Organization</a>
+						<h4 class='text-dark'><i class='fa fa-angle-down'></i> <?php echo Yii::t("common","Organizations types") ?></h4>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span><?php echo Yii::t("common","NGO") ?></span></a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness"><?php echo Yii::t("common","Local Business") ?></a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group"><?php echo Yii::t("common","Group") ?></a>
+						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization"><?php echo Yii::t("common","Government Organization") ?></a>
 					</div>
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
@@ -588,8 +602,8 @@ jQuery(document).ready(function() {
 
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
-	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> Select tags</h4>" + tagFilters);
-	$("#scopeFilters").html("<h4 class='text-dark '>Select places <i class='fa fa-angle-down'></i></h4>" + scopeFilters);
+	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','What are you looking for ?') ?></h4>" + tagFilters);
+	$("#scopeFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','Where are you looking ?') ?></h4>" + scopeFilters);
 	initGrid();
 
 	console.log("change filter " + activeType);
