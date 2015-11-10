@@ -310,12 +310,6 @@ if( isset($_GET["isNotSV"])) {
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
-						<li  class="" style="">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
-						</li>
-						<li class="" style="margin-right:30px;">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
-						</li>
 						<li class="filter active" data-filter="all">
 							<a href="#" class="bg-dark">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
@@ -345,6 +339,12 @@ if( isset($_GET["isNotSV"])) {
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg-purple"><?php echo count($projects);  ?></span>
 							</a>
+						</li>
+						<li  class="" style="margin-left:30px;">
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
+						</li>
+						<li class="" style="margin-right:0px;">
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
 						</li>
 						
 						
