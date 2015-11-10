@@ -221,6 +221,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		font-size:25px
 	}
 
+	.badge.bg-yellow{
+		color:white !important;
+		background-color:#FFC600 !important;
+	}
+	.badge.bg-green{
+		color:white !important;
+		background-color:#93C020 !important;
+	}
+	.badge.bg-orange{
+		color:white !important;
+		background-color:#FFA200 !important;
+	}
+	.badge.bg-purple{
+		color:white !important;
+		background-color:#8C5AA1 !important;
+	}
 	ul{
 		list-style: none;
 	}
@@ -230,27 +246,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 if( isset($_GET["isNotSV"])) {
 	/*
 	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
-	$fatherName = "";
+	$contextName = "";
+	$contextIcon = "bookmark fa-rotate-270";
+	$contextTitle = "";
 	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 		Menu::organization( $organization );
 		$thisOrga = Organization::getById($organization["_id"]);
-		$contextName = "Organization : ".$thisOrga["name"];
+		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
 		$contextIcon = "users";
+		$contextTitle = Yii::t("common","Participants");
 	}
 	else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
 		Menu::city( $city );
-		$contextName = "City : ".$city["name"];
+		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
+		$contextTitle = "Local network";
 	}
 	else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
 		Menu::person( $person );
-		$contextName = "Person : ".$person["name"];
+		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
+		$contextTitle = "";
 	}
 	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 		//Menu::project( $person );
-		$contextName = "Project : ".$project["name"];
+		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
+		$contextTitle = "Contributors";
 	}
 	/*else
 		$this->toolbarMBZ = array(
@@ -267,32 +289,49 @@ if( isset($_GET["isNotSV"])) {
 					Details proprietaire directory
 				</div> -->
 				
-			<!-- 	<span class="homestead panelLabel pull-left"> 
-					<i class="fa fa-bookmark fa-rotate-270"></i> DIRECTORY 
-				</span> -->
+				<span class="homestead panelLabel pull-left"> 
+					<i class="fa fa-bookmark fa-rotate-270"></i> 
+					<?php echo Yii::t("common", "DIRECTORY ".$contextTitle) ?>
+					 
+				</span>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="#" class="text-dark"><i class="fa fa-th-list"></i> <span class="">Show </span>All <span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?></a>
+							<a href="#" class="text-dark">
+								<i class="fa fa-th-list"></i> <span class="">Show </span>All 
+								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
+							</a>
 						</li>
 						<li class="filter" data-filter=".citoyens">
-							<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();"><i class="fa fa-user fa-2"></i> <span class=" ">People</span> <span class="badge"><?php echo count($people);  ?></span></a>
+							<a href="javascript:;" class="filtercitoyens text-yellow" onclick="$('.optionFilter').hide();">
+								<i class="fa fa-user fa-2"></i> <span class=" ">People</span> 
+								<span class="badge bg-yellow"><?php echo count($people);  ?></span>
+							</a>
 						</li>
 						<li class="filter" data-filter=".organizations">
-							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations text-green"><i class="fa fa-users fa-2"></i> <span class="">Organizations</span> <span class="badge"><?php echo count($organizations);  ?></span></a>
+							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations text-green">
+								<i class="fa fa-users fa-2"></i> <span class="">Organizations</span> 
+								<span class="badge bg-green"><?php echo count($organizations);  ?></span>
+							</a>
 						</li>
 						<li class="filter" data-filter=".events">
-							<a href="javascript:"  class="filterevents text-orange" onclick="$('.optionFilter').hide();"><i class="fa fa-calendar fa-2"></i> <span class="">Events</span> <span class="badge"><?php echo count($events);  ?></span></a>
+							<a href="javascript:"  class="filterevents text-orange" onclick="$('.optionFilter').hide();">
+								<i class="fa fa-calendar fa-2"></i> <span class="">Events</span> 
+								<span class="badge bg-orange"><?php echo count($events);  ?></span>
+							</a>
 						</li>
 						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> <i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> <span class="badge"><?php echo count($projects);  ?></span></a>
+							<a href="javascript:;" class="filterprojects text-purple" onclick="$('.optionFilter').hide();"> 
+								<i class="fa fa-lightbulb-o fa-2"></i> <span class="">Project</span> 
+								<span class="badge bg-purple"><?php echo count($projects);  ?></span>
+							</a>
 						</li>
-						<li  class="" style="">
-							<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> About what ?</a>
+						<li class="pull-right" style="">
+							<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
 						</li>
-						<li class="" style="">
-							<a href="javascript:;" class="text-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> Where ?</a>
+						<li  class="pull-right" style="">
+							<a href="javascript:;" class="text-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
 						</li>
 						
 					</ul>
@@ -545,7 +584,7 @@ var contextName = "<?php echo $contextName; ?>";
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
 
-	//$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
 
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;

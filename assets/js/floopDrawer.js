@@ -12,13 +12,13 @@ var openPanelType = { 	"people" 		 : "person",
 
 function buildListContactHtml(contacts){
 
-	var HTML = 		'<input type="text" id="search-contact" class="form-control" placeholder="Search name, postal code, city ...">';
+	var HTML = 		'<input type="text" id="search-contact" class="form-control" placeholder="'+t('Search name, postal code, city ...')+'">';
 		HTML += 		'<div class="floopScroll">' ;
 							
 							$.each(floopContactTypes, function(key, type){
 		HTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
 								'<div class="panel-heading">'+
-									'<h4 class="homestead text-'+type.color+'"><i class="fa fa-'+type.icon+'"></i> My '+type.name+'</h4>'+			
+									'<h4 class="homestead text-'+type.color+'"><i class="fa fa-'+type.icon+'"></i> '+t('My '+type.name)+'</h4>'+			
 								'</div>'+
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group no-padding">'+
@@ -56,6 +56,19 @@ function buildListContactHtml(contacts){
 		return HTML;
 }
 
+var translation = {
+		"My people" 		: "Mes contacts",
+		"My organizations" 	: "Mes organisations",
+		"My projects" 		: "Mes projets",
+		"My events" 		: "Mes événements",
+		"Search name, postal code, city ..." : "Rechercher par nom, code postal, ville ..."
+}
+
+function t(string){
+	if(typeof translation[string] != "undefined"){
+		return translation[string];
+	}else { return string; }
+}
 function showFloopDrawer(show){ 
 	if(show){
 		if($(".floopDrawer" ).css("display") == "none"){

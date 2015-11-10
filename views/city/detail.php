@@ -56,7 +56,7 @@ $this->renderPartial('../default/panels/toolbar');
   <div class="col-sm-4 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
-        <h3 class="panel-title text-blue">LOCAL ACTORS </h3>
+        <h3 class="panel-title text-blue"><?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
 		    <div class="panel-tools" style="display:block">
         	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
         </div>
@@ -65,37 +65,37 @@ $this->renderPartial('../default/panels/toolbar');
 
         <ul class="list-group">
           <li class="list-group-item">
+            <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
+            <span class="badge"><?php echo $cnt;?></span>
+            <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
+          </li>
+          <li class="list-group-item">
             <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="association")$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
-            ASSOCIATIONS
+            <?php echo Yii::t("common", "ASSOCIATIONS"); ?>
           </li>
           <li class="list-group-item">
             <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="entreprise")$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
-            ENTREPRISES
+            <?php echo Yii::t("common", "ENTREPRISES"); ?>
           </li>
           <li class="list-group-item">
             <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="group")$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
-            GROUPES
+            <?php echo Yii::t("common", "GROUPES"); ?>
           </li>
           <!-- <li class="list-group-item">
             <span class="badge"><?php echo $cnt;?></span>
             COLLECTIVITÉ
           </li> -->
           <li class="list-group-item">
-            <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            LOCAL CONNECTED CITIZENS
-          </li>
-          <li class="list-group-item">
             <span class="badge"><?php echo count($events);?></span>
-            LOCAL EVENTS
+            <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
           </li>
           <li class="list-group-item">
             <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="project")$cnt++;} ?>
             <span class="badge"><?php echo $cnt;?></span>
-            LOCAL PROJECTS
+            <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
           </li>
         </ul>
        
@@ -161,7 +161,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-  $(".moduleLabel").html("<i class='fa fa-university'></i> MY CITY : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+  $(".moduleLabel").html("<i class='fa fa-university'></i> <?php echo Yii::t('common', 'MY CITY'); ?> : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
