@@ -260,13 +260,13 @@ if( isset($_GET["isNotSV"])) {
 		Menu::city( $city );
 		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
-		$contextTitle = "Local network";
+		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 	}
 	else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
 		Menu::person( $person );
 		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
-		$contextTitle = "";
+		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];;
 	}
 	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 		//Menu::project( $person );
@@ -291,7 +291,7 @@ if( isset($_GET["isNotSV"])) {
 				
 				<span class="homestead panelLabel pull-left"> 
 					<i class="fa fa-bookmark fa-rotate-270"></i> 
-					<?php echo Yii::t("common", "DIRECTORY ".$contextTitle) ?>
+					<?php echo $contextTitle; ?>
 					 
 				</span>
 				

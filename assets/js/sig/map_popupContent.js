@@ -113,6 +113,7 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
+			var isNotSV = true;
 			if(isNotSV){
 				var url = '/'+typeElement+'/detail/id/'+id;
 				var title = data.typeSig + ' : ' + data.name;
