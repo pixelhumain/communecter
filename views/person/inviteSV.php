@@ -24,6 +24,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     font-weight: 300;
     line-height: 0.8125rem;
 }
+
+#newInvite{
+		float: left;
+		padding: 10px;
+		background-color: rgba(242, 242, 242, 0.9);
+		width: 100%;
+		-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		box-shadow: 1px 1px 5px 3px #cfcfcf;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+	}
 </style>
 
 <?php if( @$isNotSV ){ 
@@ -31,7 +43,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }?>
 
 <div id="newInvite">
-	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Person</h2>
+	<h2 class='radius-10 padding-10 text-yellow text-bold'><i class="fa fa-plus"></i> <i class="fa fa-user fa-2x"></i> <?php echo Yii::t("person","Add a Person") ?></h2>
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
 	?>
@@ -40,9 +52,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
        		
         	<div class="panel-heading border-light">
         		<?php if( !@$isNotSV ){ ?>
-					<h1>Connect people to your network</h1>
+					<h1><?php echo Yii::t("common","Connect people to your network") ?></h1>
 				<?php } ?>	
-			    <p>  Find people you know by name or email. </p>
+			    <p>  <?php echo Yii::t("person","Find people you know by name or email") ?>. </p>
 			</div>
 			
 		<div class="panel-body">

@@ -161,30 +161,33 @@ SigLoader.getSigFindPlace = function (Sig){
 					str += $("#cp").val();
 				
 
-				if(nbTentative < 1)
+				if(nbTentative < 1 && nbTentative < 2)
 				if($("#fullStreet").length>0 && $("#fullStreet").val() != null){
 					if(str != "") str += " ";
 						str += $("#fullStreet").val();
 				}
 				
-				// var cityInsee = "";
-				// console.dir($("#city").attr("city-name"));
-				// if($("#city").length>0 && $("#city").val() != null){
-				// 	if(str != "") str += " ";
-				// 		cityInsee = $("#city").val();
-				
-				// 	console.dir(this.citiesByPostalCode);
-				// 	if(cityInsee != ""){ console.log(" insee : " + cityInsee);
-				// 		$.each(this.citiesByPostalCode, function(key, data){
-				// 			console.log("item data");
-				// 			console.dir(data);
-				// 			if(data.value == cityInsee) cityInsee = data.text;
-				// 		});
-				// 		console.log(" insee : " + cityInsee);
-						
-				// 	}
-				// }
-
+				if($("#city").length>0 && nbTentative < 3){
+					var textVal = $("#city option:selected").text();
+					//toastr.info(textVal);
+					if(textVal != null){
+						if(str != "") str += " ";
+							str += textVal;
+					}
+				}
+				if(nbTentative < 4){
+					var textVal = "";
+					if($("#organizationCountry")) textVal = $("#organizationCountry").attr("value");
+					if($("#projectCountry")) 	  textVal = $("#projectCountry").attr("value");
+					
+					if(typeof textVal != "undefined" && typeof textVal != ""){
+						//toastr.info("country : " + textVal);
+						if(textVal != null){
+							if(str != "") str += " ";
+								str += textVal;
+						}
+					}
+				}
 				console.log("nominatim external research : " + "?q=" + transform(str));
 				return "?q=" + transform(str);
 			}

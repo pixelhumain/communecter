@@ -26,6 +26,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 #newEvent{
 	display: block;
+	float: left;
+	padding: 10px;
+	background-color: rgba(242, 242, 242, 0.9);
+	width: 100%;
+	-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	box-shadow: 1px 1px 5px 3px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
 }
 
 .no-padding-left {
@@ -53,6 +62,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
     max-height: 250px;
     overflow-x: hidden;
 }
+#newEvent input, #newEvent button.dropdown-toogle, #newEvent textarea{
+	border: 1px solid #CCC !important;
+}
+#newEvent .bootstrap-switch{
+	width: 100%;
+}
+
+#newEvent h3{
+	font-weight: 300;
+}
 </style>
 
 <!-- *** NEW EVENT *** -->
@@ -67,7 +86,7 @@ if( !isset($_GET["isNotSV"]))
 
 <div id="newEvent">
 	<?php if( @$isNotSV ){ ?>
-	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Event</h2>
+	<h2 class='radius-10 padding-10 text-orange text-bold'><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-2x"></i> <?php echo Yii::t("event","Add an Event"); ?></h2>
 	<?php } ?>
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-8 col-md-offset-2" : "col-md-12"
@@ -77,7 +96,7 @@ if( !isset($_GET["isNotSV"]))
 			<h1><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h1>
 		<?php } ?>
 		<div class="row">
-		<div class="col-md-11">
+		<div class="col-md-12">
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
@@ -85,7 +104,7 @@ if( !isset($_GET["isNotSV"]))
 			<div class="col-md-6">
 				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
-						
+						<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Informations générales") ?></h3>
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
                         </a>
@@ -144,8 +163,9 @@ if( !isset($_GET["isNotSV"]))
 			</div>
 
 			<div class="col-md-6">
-					
-					<div class="col-md-12">
+					<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Où") ?> ?</h3>
+                        
+					<div class="col-md-6">
 						<div class="form-group">
 							<span class="input-icon">
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet"  placeholder="<?php echo Yii::t("common","Adresse") ?>" >
@@ -183,51 +203,52 @@ if( !isset($_GET["isNotSV"]))
 						
 			</div>
 			
-			<div class="col-md-12">				
-				<div class="col-sm-3">
-					<div class="form-group">
-						<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
-					</div>
-				</div>
-				<div class="no-all-day-range">
-					<div class="col-sm-9">
+			<div class="col-md-12">			
+				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Quand") ?> ?</h3>
+                        	
+				<div class="col-md-6">				
+					<div class="row">
 						<div class="form-group">
+							<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
+						</div>
+					</div>
+					<div class="no-all-day-range">
+						<div class="row">
 							<div class="form-group">
-								<span class="input-icon">
-									<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
-									<i class="fa fa-clock-o"></i> </span>
+								<div class="form-group">
+									<span class="input-icon">
+										<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
+										<i class="fa fa-clock-o"></i> </span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="all-day-range ">
-					<div class="col-md-9">
-						<div class="form-group">
+					<div class="all-day-range ">
+						<div class="col-md-9">
 							<div class="form-group">
-								<span class="input-icon">
-									<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
-									<i class="fa fa-calendar"></i> </span>
+								<div class="form-group">
+									<span class="input-icon">
+										<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
+										<i class="fa fa-calendar"></i> </span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="hide">
-					<input type="text" class="event-start-date" name="eventStartDate"/>
-					<input type="text" class="event-end-date" name="eventEndDate"/>
+					<div class="hide">
+						<input type="text" class="event-start-date" name="eventStartDate"/>
+						<input type="text" class="event-end-date" name="eventEndDate"/>
+					</div>
 				</div>
 			</div>
 			
 
-			<div class="row col-md-12">
+			<div class="col-md-12">
 				
-				<div class="col-md-12">
-					
-				</div>
-				<div class="col-md-12">
+				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
+                        
 					<div class="form-group">
 						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
 					</div>
-				</div>
 				<?php if( @$isNotSV ){ ?>
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
@@ -281,8 +302,7 @@ if( !isset($_GET["isNotSV"]))
 
 	function runShowCity(searchValue) {
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		Sig.execFullSearchNominatim(0);
-
+		
 		var oneValue = "";
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
@@ -299,6 +319,8 @@ if( !isset($_GET["isNotSV"]))
 	        $("#cityDiv").slideUp("medium");
 	      }
 
+	     Sig.execFullSearchNominatim(0);
+
 	    
 	}
 
@@ -308,6 +330,12 @@ if( !isset($_GET["isNotSV"]))
 		});
 		$('.form-event #postalCode').keyup(function(e){
 			searchCity();
+		});
+		$('.form-event #city').change(function(e){ //toastr.info("city change");
+			Sig.execFullSearchNominatim(0);
+		});
+		$('.form-event #eventCountry').change(function(e){ //toastr.info("city change");
+			Sig.execFullSearchNominatim(0);
 		});
 	}
 

@@ -221,30 +221,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		font-size:25px
 	}
 
-	.bg-yellow{
-		color:white !important;
-		background-color:#FFC600 !important;
-	}
-	.bg-green{
-		color:white !important;
-		background-color:#93C020 !important;
-	}
-	.bg-orange{
-		color:white !important;
-		background-color:#FFA200 !important;
-	}
-	.bg-purple{
-		color:white !important;
-		background-color:#8C5AA1 !important;
-	}
-	.bg-dark{
-		color:white !important;
-		background-color:#3C5665 !important;
-	}
-	.bg-red{
-		color:white !important;
-		background-color:#E33551 !important;
-	}
+	
 	.active .bg-yellow, .active .bg-green, .active .bg-orange, 
 	.active .bg-purple, .active .bg-dark, .active .bg-red{
 		/*color:#3C5665 !important;*/
@@ -279,13 +256,13 @@ if( isset($_GET["isNotSV"])) {
 		Menu::person( $person );
 		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
-		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];;
+		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
 	}
 	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 		//Menu::project( $person );
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
-		$contextTitle = "Contributors";
+		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
 	/*else
 		$this->toolbarMBZ = array(

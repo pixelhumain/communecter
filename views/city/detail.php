@@ -215,6 +215,7 @@ function initCityMap(){
     Sig.showPolygon(geoShape);
     Sig.map.setZoom(20, {animate:false});
     Sig.map.fitBounds(geoShape);
+   
   }
 
   $("#btn-center-city").click(function(){

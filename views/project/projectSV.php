@@ -20,7 +20,23 @@
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>
 <style>
-
+#newProject{
+	float: left;
+	padding: 10px;
+	background-color: rgba(242, 242, 242, 0.9);
+	width: 100%;
+	-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
+	box-shadow: 1px 1px 5px 3px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+}
+#newProject input, #newProject button.dropdown-toogle, #newProject textarea{
+	border: 1px solid #CCC !important;
+}
+#newProject .select2-input{
+	border:none !important;
+}
 </style>
 
 
@@ -35,7 +51,7 @@ if( !isset($_GET["isNotSV"]))
 ?>
 <div id="newProject">
 <?php if( @$isNotSV ){ ?>
-<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?></h2>
+<h2 class='radius-10 padding-10 text-purple text-bold'><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-2x"></i> <?php echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?></h2>
 <?php } ?>
 <?php 
 	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
@@ -65,14 +81,14 @@ if( !isset($_GET["isNotSV"]))
 					<div class="col-md-6 col-sd-6" >
 						<input class="project-id hide" type="text">
 						<div class="form-group">
-							<label class="control-label">
-								<?php echo Yii::t("common","Name") ?><span class="symbol required"></span>
+							<label class="control-label text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Name") ?><span class="symbol required"></span>
 							</label>
 							<input class="project-name form-control" name="projectName" value=""/>
 						</div>
 						<div class="form-group">
-							<label for="projectRangeDate">
-								<span><?php echo Yii::t("project","Project duration",null,Yii::app()->controller->module->id) ?></span>
+							<label for="projectRangeDate" class="text-purple">
+								<i class="fa fa-angle-down"></i> <span><?php echo Yii::t("project","Project duration",null,Yii::app()->controller->module->id) ?></span>
 							</label>
 							<span class="input-icon">
 								<input type="text" class="project-range-date form-control" name="ad_projectRangeDate" placeholder="Range date"/>
@@ -84,8 +100,8 @@ if( !isset($_GET["isNotSV"]))
 							</div>
 						</div>
 						<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Tags") ?>
+								<label class="control-label text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?>
 								</label>
 			        		    <input id="tagsProject" type="" data-type="select2" name="tagsProject" value="" style="display: none;width:100%; height:35px;">		        		    
 						</div>
@@ -106,24 +122,24 @@ if( !isset($_GET["isNotSV"]))
 
 					<div class="col-md-6 col-sd-6 ">
 						<div class="form-group">
-							<label class="control-label">
-								<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
+							<label class="control-label text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 							</label>
 							<input type="hidden" name="projectCountry" id="projectCountry" style="width: 100%; height:35px;"/>								
 						</div>
 						<div class="form-group">
-							<label class="control-label">
-								<?php echo Yii::t("common","Adresse") ?> <span class="symbol required"></span>
+							<label class="control-label text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Adresse") ?> <span class="symbol required"></span>
 							</label>
-							<span class="input-icon">
-								<input type="text" class="form-control" name="streetAddress" id="fullStreet" >
+							<span class="input-icon text-purple">
+								<i class="fa fa-angle-down"></i> <input type="text" class="form-control" name="streetAddress" id="fullStreet" >
 								<i class="fa fa-road"></i>
 							</span>
 						</div>
 						<div class="row">
 							<div class="col-md-4 form-group">
-								<label for="postalCode">
-									<?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
+								<label for="postalCode" class="text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
 								</label>
 								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >	
 							</div>
@@ -147,7 +163,8 @@ if( !isset($_GET["isNotSV"]))
 					</div>
 					<div class="form-group col-md-12">
 							<div>
-								<label for="form-field-24" class="control-label"> Description </label>
+								<label for="form-field-24" class="control-label text-purple">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
 								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
 							</div>
 					</div>
@@ -379,8 +396,7 @@ function initProjectForm(el) {
 //*************** Postal Code Management ****************************/
 function runShowCity(searchValue) {
 	citiesByPostalCode = getCitiesByPostalCode(searchValue);
-	Sig.execFullSearchNominatim(0);
-
+	
 
 	var oneValue = "";
 	$.each(citiesByPostalCode,function(i, value) {
@@ -393,10 +409,13 @@ function runShowCity(searchValue) {
 	}
 
 	if (citiesByPostalCode.length >0) {
-        $("#cityDiv").slideDown("medium");
-      } else {
-        $("#cityDiv").slideUp("medium");
-      }
+	    $("#cityDiv").slideDown("medium");
+	} else {
+	    $("#cityDiv").slideUp("medium");
+	}
+
+	Sig.execFullSearchNominatim(0);
+
 }
 
 function bindPostalCodeAction() {
@@ -406,6 +425,12 @@ function bindPostalCodeAction() {
 
 	$('.form-project #postalCode').change(function(e){
 		searchCity();
+	});
+	$('.form-project #city').change(function(e){ //toastr.info("city change");
+		Sig.execFullSearchNominatim(0);
+	});
+	$('.form-project #projectCountry').change(function(e){ //toastr.info("city change");
+		Sig.execFullSearchNominatim(0);
 	});
 }
 
