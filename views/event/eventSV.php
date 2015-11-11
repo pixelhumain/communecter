@@ -309,9 +309,9 @@ if( !isset($_GET["isNotSV"]))
 	    	oneValue = value.value;
 		});
 		
-		if (citiesByPostalCode.length == 1) {
+		//if (citiesByPostalCode.length == 1) {
 			$("#city").val(oneValue);
-		}
+		//}
 
 		if (citiesByPostalCode.length >0) {
 	        $("#cityDiv").slideDown("medium");

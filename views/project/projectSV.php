@@ -404,9 +404,9 @@ function runShowCity(searchValue) {
     	oneValue = value.value;
 	});
 	
-	if (citiesByPostalCode.length == 1) {
-		$("#city").val(oneValue);
-	}
+	//if (citiesByPostalCode.length == 1) {
+	$("#city").val(oneValue);
+	//}
 
 	if (citiesByPostalCode.length >0) {
 	    $("#cityDiv").slideDown("medium");
