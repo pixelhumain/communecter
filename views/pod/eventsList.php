@@ -32,9 +32,6 @@
 							<?php } ?>
 						</td>
 						<td>
-							<?php 
-							$url = '#event.detail.id.'.$e["_id"];
-							?>
 							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
