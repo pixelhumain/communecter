@@ -469,7 +469,7 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/communecter/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
