@@ -24,7 +24,8 @@
 					foreach ($organizations as $e) { ?>
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine" style="padding-left: 18px;">
-								<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>">
+								<?php $url = '#organization.detail.id.'.$e["_id"];?>
+								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')">
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 									<?php } else { ?>
@@ -32,7 +33,11 @@
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a class="text-dark" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.$e["_id"]);?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td >							
+								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')">
+									<?php if(isset($e["name"]))echo $e["name"]?>
+								</a>
+							</td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<td class="center">
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>

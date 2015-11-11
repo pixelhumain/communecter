@@ -35,16 +35,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					?>
 					<tr id="project<?php echo (string)$e["_id"];?>" style="padding:5px 0px;">
 						<td class="center" style="padding-left: 15px;">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+							<?php $url = '#project.detail.id.'.$e["_id"];?>
+							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
 								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
 							<?php } else { ?>
 								<i class="fa fa-lightbulb-o fa-2x text-purple"></i>
 							<?php } ?>
-						</a>
+							</a>
 						</td>
 						<td>
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/project/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
 						</td>

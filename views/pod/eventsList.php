@@ -23,7 +23,8 @@
 					?>
 					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 						<td class="center" style="padding-left: 18px;">
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+							<?php  $url = '#event.detail.id.'.$e["_id"]; ?>
+							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
 								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 							<?php } else { ?>
@@ -31,7 +32,10 @@
 							<?php } ?>
 						</td>
 						<td>
-							<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/event/dashboard/id/'.$e["_id"]);?>" class="text-dark">
+							<?php 
+							$url = '#event.detail.id.'.$e["_id"];
+							?>
+							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
 						</td>
