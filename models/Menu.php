@@ -22,13 +22,11 @@ class Menu {
         //SEND MESSAGE
         //-----------------------------
         if(isset($person["_id"]) && isset(Yii::app()->session["userId"]) && $person["_id"] != Yii::app()->session["userId"]){
-            array_push( Yii::app()->controller->toolbarMBZ , 
-                array('tooltip' => Yii::t( "common", "Send a message to this Person"), 
-                        'position'   => "right",
-                        "label" => Yii::t( "common", "Contact"),
-                        "iconClass"=>"fa fa-envelope-o",
-                        "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Person::COLLECTION."' data-name='".$person['name']."'") );
-        
+            self::entry("right", 'onclick',
+                        Yii::t( "common", "Send a message to this Person"), 
+                        Yii::t( "common", "Contact"),
+                        'envelope-o',
+                        "loadByHash( '#news.index.type.citoyens.id.".$id."')",null,null);
         }
         
         //DIRECTORY
@@ -85,11 +83,11 @@ class Menu {
         //SEND MESSAGE
         //-----------------------------
         if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
-            array_push( Yii::app()->controller->toolbarMBZ , array('tooltip' => Yii::t( "common", "Send a message to this Organization"),
-                                                                   'position'   => "right",
-                                                                    'label' => Yii::t( "common", "Contact"),
-                                                                    "iconClass"=>"fa fa-envelope-o",
-                                                                    "href"=>"<a href='javascript:;' class='new-news tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
+            self::entry("right", 'onclick',
+                        Yii::t( "common", "Send a message to this Organization"), 
+                        Yii::t( "common", "Contact"),
+                        'envelope-o',
+                        "loadByHash( '#news.index.type.organizations.id.".$id."')",null,null);
         }
         
         //SEE TIMELINE
