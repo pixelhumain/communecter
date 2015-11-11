@@ -102,9 +102,11 @@
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
+			console.log("type de donnée sig : ",type);
 
 			var typeElement = "";
 			if(type == "people") 		typeElement = "person";
+			if(type == "citoyens") 		typeElement = "person";
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
@@ -169,7 +171,7 @@
 			var allData = data;
 			data = data.author;
 			console.log("typeSig : " + allData['typeSig']);
-			var type = allData['typeSig'] ? allData['typeSig'] : "news"; //allData['type'];
+			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
 	
@@ -181,13 +183,13 @@
 
 			//var prop = feature.properties;
 			//console.log("PROPRIETES : ");
-			//console.dir(data);
-
+			
 			//showMap(false);
 
 			//var type = data.typeSig;
 			var typeElement = "";
 			if(type == "people") 		typeElement = "person";
+			if(type == "citoyens") 		typeElement = "person";
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
