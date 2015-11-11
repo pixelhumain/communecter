@@ -242,6 +242,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
+							if( isNotSV )
+								loadByHash(location.hash);
 						} else {
 						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}
@@ -285,6 +287,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 												'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 							bindFicheInfoBtn();
 							toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+							if( isNotSV )
+								loadByHash(location.hash);
 						}
 						else
 							toastr.error(data.msg);

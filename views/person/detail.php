@@ -1,3 +1,10 @@
+<?php
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
 <style>
 
 .thumbnail {
@@ -34,11 +41,10 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 </div>
 
-
-
 <script>
 
 jQuery(document).ready(function() {
+	bindBtnFollow();
 	var images = <?php echo json_encode($images) ?>;
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
@@ -46,6 +52,28 @@ jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-user'></i> PERSON : <?php echo $person["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 
 });
+
+function bindBtnFollow() {
+	$(".followBtn").off().on("click", function() {
+		console.log($(this).data("id"));
+		connectPerson($(this).data("id"), function(user) {
+			console.log(user);
+			if( isNotSV )
+				loadByHash(location.hash);
+		});
+	});
+
+	$(".unfollowBtn").off().on("click", function() {
+		var id = $(this).data("id");
+		var type = $(this).data("type");
+		var name = $(this).data("name");
+		console.log(id, type, name);
+		disconnectPerson(id,type,name, function(id, type, name) {
+			if( isNotSV )
+				loadByHash(location.hash);
+		});
+	});
+}
 
 
 </script>
