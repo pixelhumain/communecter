@@ -242,6 +242,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
+							if( isNotSV )
+								loadByHash(location.hash);
 						} else {
 						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}
@@ -285,6 +287,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 												'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 							bindFicheInfoBtn();
 							toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+							if( isNotSV )
+								loadByHash(location.hash);
 						}
 						else
 							toastr.error(data.msg);
@@ -363,8 +367,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				var result = new Array();
 				var categorySource;
-				if (contextData.type == "NGO") categorySource = NGOCategoriesList;
-				if (contextData.type == "localBusiness") categorySource = localBusinessCategoriesList
+				console.log("contextData.type",contextData.type);
+				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
+				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
 				console.log(categorySource);
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
