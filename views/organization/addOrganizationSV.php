@@ -441,7 +441,7 @@ jQuery(document).ready(function() {
 		});
 		
 		//if (citiesByPostalCode.length == 1) {
-			toastr.success("value city insee : " + oneValue);
+			//toastr.success("value city insee : " + oneValue);
 			$("#city").val(oneValue);
 			//$("#city [value='"+oneValue.value+"']").attr("selected", "selected");
 		//}
