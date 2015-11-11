@@ -363,8 +363,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				var result = new Array();
 				var categorySource;
-				if (contextData.type == "NGO") categorySource = NGOCategoriesList;
-				if (contextData.type == "localBusiness") categorySource = localBusinessCategoriesList
+				console.log("contextData.type",contextData.type);
+				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
+				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
 				console.log(categorySource);
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
