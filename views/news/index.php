@@ -370,8 +370,8 @@ function buildTimeLine (news)
 			var date = new Date(); 
 			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
 			$("#newFeedForm"+streamType).append(formCreateNews);
-			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
-			$(".stream-processing").hide();
+			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+
 		}
 		else {
 			if($("#backToTop"+streamType).length <= 0){
@@ -383,9 +383,8 @@ function buildTimeLine (news)
 					$(".newsTL"+streamType).append(titleHTML);
 					$(".spine").css('bottom',"0px");
 			}
-			$(".stream-processing").hide();
 		}
-		//dateLimit="end";
+			$(".stream-processing").hide();
 	}else{
 		
 		if(countEntries < 5){
@@ -821,37 +820,15 @@ function bindEvent(){
 				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
 console.log(newsReferror);
-						//$(".newsTL").empty();
 			if(dateLimit==0){
-				/*if(streamType=="activity"){
-				formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
-											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
-												"<i class='fa fa-pencil'></i> add a project, an event, an organization,... </h2>"+
-										"</div>"+
-"</div>";
-	console.log(formCreateNews);
-			/*"<div id='formCreateNewsTemp' style='float: none;' class='center-block'>"+
-										"<div class='no-padding form-create-news-container'>"+
-											"<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'>"+
-												"<i class='fa fa-pencil'></i> Share a thought, an idea </h2>"+
-												"<form id='ajaxForm'></form>"+
-										"</div>"+
-									"</div>";"*/
-
-			//$('.timeline').append(formCreateNews);			
-			//buildDynForm();
-				//}
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
 			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
-			//alert(dateLimit);
-			if ($("#backToTop"+streamType).length > 0)
+			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType))
 				$(".stream-processing").hide();	
 			else
 				$(".stream-processing").show();	
-			//$(".newsTL").fadeIn();
-			
 		}
 		else{
 			console.warn("filter",$(this).data("filter"));
