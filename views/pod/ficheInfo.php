@@ -132,10 +132,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		
 	</div>
 </div>
-
+<?php  ?>
 <script type="text/javascript">
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
+	var contextMap = <?php echo json_encode($contextMap)?>;
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
@@ -149,11 +150,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
-		})
+		});
+		
 		activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
-
+		
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
@@ -183,6 +185,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			  },
 			});
 		}));
+
+		
 
 		bindFicheInfoBtn();
 	});
@@ -330,7 +334,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	function activateEditableContext() {
 		$.fn.editable.defaults.mode = 'popup';
-
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),
@@ -366,11 +369,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			value: <?php echo (isset($organization["category"])) ? json_encode(implode(",", $organization["category"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
-				var categorySource;
+				var categorySource = null;
+
 				console.log("contextData.type",contextData.type);
 				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
 				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
-				console.log(categorySource);
+				
+				if(categorySource != null)
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
 				})
@@ -410,7 +415,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				video: false
 			}
 		});
-
 		//Validation Rules
 		//Mandotory field
 		$('.required').editable('option', 'validate', function(v) {
