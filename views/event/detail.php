@@ -24,10 +24,15 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 </div>
 <script type="text/javascript">
+	<?php $attending[] = $event; ?>
+	var contextMap = <?php echo json_encode($attending)?>;
 	
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo $event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, contextMap);
 	});
 
 	function bindBtnFollow(){
