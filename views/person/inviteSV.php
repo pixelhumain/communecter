@@ -157,10 +157,13 @@ function bindInviteSubViewInvites() {
 	$(".connectBtn").off().on("click", function() {
 		connectPerson($('#newInvite #inviteId').val(), function(user){
 			console.log('callback connectPerson')
-			if(updateInvite != undefined && typeof updateInvite == "function"){
+			if( isNotSV )
+				loadByHash( "#person.directory" );
+			else if(updateInvite != undefined && typeof updateInvite == "function"){
 				updateInvite(user, false, false);
 			}
 			$.hideSubview();
+
 		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
@@ -169,7 +172,9 @@ function bindInviteSubViewInvites() {
 		var nameToDisconnect = $("#newInvite #ficheName").text();
 		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, function(id) {
 			console.log('callback disconnectPerson')
-			if(updateInvite != undefined && typeof updateInvite == "function"){
+			if( isNotSV )
+				loadByHash( "#person.directory" );
+			else if(updateInvite != undefined && typeof updateInvite == "function"){
 				updateInvite(id, false, true);
 			}
 			$.hideSubview();
