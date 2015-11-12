@@ -24,6 +24,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	.select2-input {
 		width:100%;
 	}
+	#addOrganization{
+		float: left;
+		padding: 10px;
+		background-color: rgba(242, 242, 242, 0.9);
+		width: 100%;
+		-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
+		box-shadow: 1px 1px 5px 3px #cfcfcf;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+	}
+
+#addOrganization input, #addOrganization button.dropdown-toogle, #addOrganization textarea{
+	border: 1px solid #CCC !important;
+}
+#addOrganization .select2-input{
+	border:none !important;
+}
 </style>
 <?php if( @$isNotSV ){ 
 	$this->renderPartial('../default/panels/toolbar'); 
@@ -35,7 +53,7 @@ if( !isset($_GET["isNotSV"]))
 ?>
 <div id="addOrganization" >
 	<?php if( isset($_GET["isNotSV"])){?>
-	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add an Organization</h2>
+	<h2 class='radius-10 padding-10 text-green text-bold'><i class="fa fa-plus"></i> <i class="fa fa-users fa-2x"></i> <?php echo Yii::t("common","Add an Organization") ?></h2>
 	<?php
 	} 
 	
@@ -52,7 +70,7 @@ if( !isset($_GET["isNotSV"]))
 
 			</div>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" style="background-color:transparent !important;">
 			<form id="organizationForm" role="form">
 				<div class="row">
 					<div class="col-md-12">
@@ -67,8 +85,8 @@ if( !isset($_GET["isNotSV"]))
 						<div class="col-md-6 col-sd-6" >
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
+								<label class="control-label text-green">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
 								<span id="organizationNameInput">
 									<input id="organizationName" class="form-control" name="organizationName" value="<?php if($organization && isset($organization['name']) ) echo $organization['name']; else $organization["name"]; ?>">
@@ -77,8 +95,8 @@ if( !isset($_GET["isNotSV"]))
 							</div>
 
 							<div class="form-group">
-								<label class="control-label">
-									Type <span class="symbol required"></span>
+								<label class="control-label text-green">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Type") ?> <span class="symbol required"></span>
 								</label>
 								<select name="type" id="type" class="form-control" >
 									<option value=""></option>
@@ -93,8 +111,8 @@ if( !isset($_GET["isNotSV"]))
 							</div>
 							
 							<div class="form-group">
-								<label class="control-label">
-									Email
+								<label class="control-label text-green">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Email") ?>
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
@@ -111,30 +129,30 @@ if( !isset($_GET["isNotSV"]))
 			        		    <input id="categoryLocalBusiness" type="hidden" name="categoryLocalBusiness" style="width:100%; height:35px;">
 							</div>
 							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Key Words") ?>
+								<label class="control-label text-green">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Key Words") ?>
 								</label>
 			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
 							</div>
 						</div>
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
-								<label for="address">
-									<?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
+								<label for="address" class="text-green">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
 								</label>
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
 							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
-									<label for="postalCode">
-										<?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
+									<label for="postalCode" class="text-green">
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
-									<label for="city">
-										<?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
+									<label for="city" class="text-green">
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
@@ -155,15 +173,15 @@ if( !isset($_GET["isNotSV"]))
 							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
 
 
-							<div class="form-group">
+							<div class="form-group pull-left">
 								<div class="form-group">
-									<label class="control-label">
-										What's your role inside this new organization ? <span class="symbol required"></span>
+									<label class="control-label text-green">
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","What's your role inside this new organization ?") ?> <span class="symbol required"></span>
 									</label>
 									<select name="role" id="role" class="form-control" >
-										<option value="admin">Administrator</option>
-										<option value="member">Member</option>
-										<option value="creator">Just a citizen wanting to give visibility to it :)</option>
+										<option value="admin"><?php echo Yii::t("common","Administrator") ?></option>
+										<option value="member"><?php echo Yii::t("common","Member") ?></option>
+										<option value="creator"><?php echo Yii::t("common","Just a citizen wanting to give visibility to it :)") ?></option>
 									</select>
 								</div>
 							</div>
@@ -173,8 +191,10 @@ if( !isset($_GET["isNotSV"]))
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<label for="form-field-24" class="control-label"> Description <span class="symbol required"></span> </label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<label for="form-field-24" class="control-label text-green">
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <span class="symbol required"></span> 
+									</label>
+									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; min-height: 160px; max-height: 360px; overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -187,7 +207,7 @@ if( !isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
+						<button class="btn btn-primary pull-right" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
 					</div>
 					<div id="infoOrgaSameName" style='display:none'>
 						<a class="pull-right btn-close-panel" onclick="$.unblockUI();" href="#">
@@ -411,19 +431,20 @@ jQuery(document).ready(function() {
 		
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
 		Sig.citiesByPostalCode = citiesByPostalCode;
-		Sig.execFullSearchNominatim(0);
 		
 		var oneValue = "";
-		console.dir(citiesByPostalCode);
-		console.table(citiesByPostalCode);
+		//console.dir(citiesByPostalCode);
+		//console.table(citiesByPostalCode);
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
 	    	oneValue = value.value;
 		});
 		
-		if (citiesByPostalCode.length == 1) {
+		//if (citiesByPostalCode.length == 1) {
+			//toastr.success("value city insee : " + oneValue);
 			$("#city").val(oneValue);
-		}
+			//$("#city [value='"+oneValue.value+"']").attr("selected", "selected");
+		//}
 
 		if (citiesByPostalCode.length >0) {
 	        $("#cityDiv").slideDown("medium");
@@ -431,7 +452,8 @@ jQuery(document).ready(function() {
 	        $("#cityDiv").slideUp("medium");
 	      }
 
-	    
+	    Sig.execFullSearchNominatim(0);
+		
 	}
 
 	function bindPostalCodeAction() {
@@ -453,8 +475,11 @@ jQuery(document).ready(function() {
 			searchCity();
 		});
 
-		$('#city').change(function(e){
-			searchCity();
+		$('#city').change(function(e){ //toastr.info("city change");
+			Sig.execFullSearchNominatim(0);
+		});
+		$('#organizationCountry').change(function(e){ //toastr.info("city change");
+			Sig.execFullSearchNominatim(0);
 		});
 	}
 

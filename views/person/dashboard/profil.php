@@ -174,10 +174,14 @@ var countries = <?php echo json_encode($countries) ?>;
 var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 var tags = <?php echo json_encode($tags)?>;
 var imagesD = <?php echo(isset($imagesD)  ) ? json_encode($imagesD) : "null"; ?>;
+
+
 var contextMapPerson = <?php echo(isset($contextMapPerson)  ) ? json_encode($contextMapPerson) : "null"; ?>;
+
 if(imagesD != null){
 	var images = imagesD;
 }
+
 //By default : view mode
 var mode = "view";
 
@@ -188,10 +192,11 @@ jQuery(document).ready(function()
 	manageModeContext();
 	debugMap.push(personData);
 
-	console.dir(contextMapPerson);
+	//console.dir(contextMapPerson);
 
 	if(contextMapPerson != null){
 		var elementsMap = new Array();
+		elementsMap.push(personData);
 		$.each(contextMapPerson, function (key, value){
 			$.each(value, function (key2, value2){
 				elementsMap.push(value2);

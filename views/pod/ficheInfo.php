@@ -132,10 +132,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		
 	</div>
 </div>
-
+<?php  ?>
 <script type="text/javascript">
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
+	var contextMap = <?php echo json_encode($contextMap)?>;
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
@@ -149,11 +150,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
-		})
+		});
+		
 		activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
-
+		
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
@@ -183,6 +185,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			  },
 			});
 		}));
+
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, contextMap);
 
 		bindFicheInfoBtn();
 	});
@@ -240,6 +245,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
+							if( isNotSV )
+								loadByHash(location.hash);
 						} else {
 						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}
@@ -283,6 +290,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 												'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 							bindFicheInfoBtn();
 							toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+							if( isNotSV )
+								loadByHash(location.hash);
 						}
 						else
 							toastr.error(data.msg);
@@ -324,7 +333,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	function activateEditableContext() {
 		$.fn.editable.defaults.mode = 'popup';
-
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),
@@ -360,10 +368,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			value: <?php echo (isset($organization["category"])) ? json_encode(implode(",", $organization["category"])) : "''"; ?>,
 			source: function() {
 				var result = new Array();
-				var categorySource;
-				if (contextData.type == "NGO") categorySource = NGOCategoriesList;
-				if (contextData.type == "localBusiness") categorySource = localBusinessCategoriesList
-				console.log(categorySource);
+				var categorySource = null;
+
+				console.log("contextData.type",contextData.type);
+				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
+				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
+				
+				if(categorySource != null)
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
 				})
@@ -403,7 +414,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				video: false
 			}
 		});
-
 		//Validation Rules
 		//Mandotory field
 		$('.required').editable('option', 'validate', function(v) {

@@ -97,8 +97,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$this->renderPartial('addContributorSV', array( "project" => $project, "organizationTypes" => $organizationTypes ));
  ?>
  <script type="text/javascript">
+ 	<?php $contributors[] = $project; ?>
+ 	var projectContributors = <?php echo json_encode($contributors)?>;
+ 	console.log("projectContributors");
+ 	console.dir(projectContributors);
 	jQuery(document).ready(function() {
 		bindBtnContributor();
+
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, projectContributors);
 	});
 
 	function updateContributor(newContributor,type)

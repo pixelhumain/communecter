@@ -45,7 +45,7 @@
 
   <div class="panel panel-white">
     <div class="panel-heading border-light">
-      <h4 class="panel-title text-blue"><i class="fa fa-random"></i> au hasard</h4>
+      <h4 class="panel-title text-blue"><i class="fa fa-random"></i> <?php echo Yii::t("common", "HAPHAZARD"); ?></h4>
     </div>
     <div class="panel-body" id="orgaDetails">
       <!-- <i class='fa fa-spinner fa-pulse fa-4x center-block'></i> -->
@@ -76,7 +76,7 @@
           <?php } ?>
         </div> 
         <div class='col-md-4 pull-left'>
-          <h3 class="panel-title entityTitle"><?php echo $faIcon." ".$type." : ".$name; ?></h3>
+          <h3 class="panel-title entityTitle"><?php echo $faIcon." ".Yii::t("common", $type)." : ".$name; ?></h3>
           <div class="entityDetails text-dark">
             <?php if(isset($randomEntity["email"])){ ?>
               <span><i class="fa fa-envelope"></i> <?php echo $randomEntity["email"]; ?></span></br>

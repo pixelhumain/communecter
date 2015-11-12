@@ -121,7 +121,7 @@
 
 	function getCityInseeByGeoPos(coords){
 		$.ajax({
-			url: moduleId+"/sig/getinseebylatlng",
+			url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
 			type: 'POST',
     		dataType: 'json',
     		data:{"latitude" : coords.latitude, "longitude" : coords.longitude },
@@ -167,7 +167,7 @@
 	function getInseeByCityName(cityName){
 		toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Merci de patienter ...");
 		$.ajax({
-			url: moduleId+"/sig/getcodeinseebycityname",
+			url: baseUrl + "/" + moduleId+"/sig/getcodeinseebycityname",
 			type: 'POST',
     		dataType: 'json',
     		contentType: "application/x-www-form-urlencoded; charset=UTF-8",

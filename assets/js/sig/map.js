@@ -621,8 +621,10 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds()._northEast )
+					if("undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
+						thisMap.zoomOut();
+					}
 
 					thisSig.constructUI();
 
