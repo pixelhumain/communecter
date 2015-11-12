@@ -41,6 +41,7 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 </div>
 
+
 <script>
 
 jQuery(document).ready(function() {

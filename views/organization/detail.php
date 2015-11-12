@@ -29,6 +29,7 @@
 						"typeIntervention" => $typeIntervention,
 						"NGOCategories" => $NGOCategories,
 						"localBusinessCategories" => $localBusinessCategories,
+	    				"contextMap" => $contextMap,
 	    				"publics" => $public,
 	    				"contentKeyBase" => $contentKeyBase
 	    			);
@@ -39,12 +40,12 @@
 				<div class="col-md-12 needsPod">
 				</div>
 				<div class="col-md-12 col-xs-12">
-					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
-																	"contextId" => (String) $organization["_id"],
-																	"contextType" => Organization::CONTROLLER,
-																	"authorised" => $admin,
-																	"isNotSV" => 1
-																  )); ?>
+					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+																			"contextId" => (String) $organization["_id"],
+																			"contextType" => Organization::CONTROLLER,
+																			"authorised" => $admin,
+																			"isNotSV" => 1
+																		  )); ?>
 				</div>
 			</div>
 	    </div>

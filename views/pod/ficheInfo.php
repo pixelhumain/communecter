@@ -186,7 +186,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			});
 		}));
 
-		
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, contextMap);
 
 		bindFicheInfoBtn();
 	});

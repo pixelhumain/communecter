@@ -11,12 +11,15 @@
 		<?php if (isset($isDetailView)){ ?>
 			<?php foreach ($attending as $member) { 
 			?>
-				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">
+				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/detail/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn block text-left">
 				<?php if($member && isset($member["imagePath"])) { ?>
 					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
 				<?php } else{ ?>
-					<i class="fa fa-smile-o fa-2x"></i>					
+					<i class="fa fa-user fa-2x"></i>					
 				<?php } ?>
+					<?php if(isset($member["name"])) echo $member["name"]; ?>
+					<?php if(isset($member["address"]["postalCode"])) echo ", <small>".$member["address"]["postalCode"]."</span>"; ?>
+										
 				</a>					
 			<?php } ?>
 		<?php }
@@ -41,12 +44,14 @@
 									<td class="center">
 									<?php if($member && isset($member["imagePath"])) { ?>
 										<img width="50" height="50"  alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$member["imagePath"]) ?>">
-									</td>
 									<?php } else{ ?>
-										<i class="fa fa-smile-o fa-2x"></i></td>
+										<i class="fa fa-user fa-2x"></i> 
 									<?php } ?>
+										<?php if(isset($member["name"])) echo $member["name"]; ?>
+									</td>
+									
 									<td>
-										<span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
+										<span class="text-large"><?php echo $member["name"]; ?></span><a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".$member['_id'])?>" class="btn block text-left"><i class="fa fa-chevron-circle-right"></i></a>
 									</td>
 								</tr>
 								<?php } ?>
