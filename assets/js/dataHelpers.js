@@ -95,4 +95,32 @@ function addCustomValidators() {
 	    	return false;
 	    }
 	}, "Unknown Postal Code");
+
+	jQuery.validator.addMethod("validUserName", function(value, element) {
+	    //Check authorized caracters
+		var usernameRegex = /^[a-zA-Z0-9]+$/;
+    	var validUsername = value.match(usernameRegex);
+    	if (validUsername == null) {
+        	return false;
+    	} else {
+    		return true;
+    	}
+    }, "Invalid username : Only characters A-Z, a-z, 0-9 and '-' are  acceptable.");
+
+	jQuery.validator.addMethod("uniqueUserName", function(value, element) {
+	    //Check unique username
+	   	var response;
+	    $.ajax({
+			url: baseUrl+'/'+moduleId+"/person/checkusername/",
+			data: {username: value},
+			type: 'post',
+			global: false,
+			async: false,
+			dataType: 'json',
+			success: function(data) {
+			    response = data;
+			}
+		});
+		return response;
+	}, "A user with the same username already exists. Please choose an other one.");
 }

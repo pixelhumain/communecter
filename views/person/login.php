@@ -142,6 +142,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js'
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
+							<input type="text" class="form-control" id="username" name="username" placeholder="Nom utilisateur">
+							<i class="fa fa-user"></i> </span>
+					</div>
+					<div class="form-group">
+						<span class="input-icon">
 							<input type="email" class="form-control" id="email3" name="email3" placeholder="Email">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
@@ -658,6 +663,12 @@ var Login = function() {
 				name : {
 					required : true
 				},
+				username : {
+					required : true,
+					validUserName : true,
+					uniqueUserName : true,
+					rangelength : [8, 20]
+				},
 				email3 : {
 					required : { 
 						depends:function(){
@@ -687,6 +698,7 @@ var Login = function() {
 				createBtn.start();
 				var params = { 
 				   "name" : $("#name").val(),
+				   "username" : $("#username").val(),
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "cp" : $("#cp").val(),
