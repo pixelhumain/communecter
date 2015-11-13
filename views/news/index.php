@@ -186,10 +186,10 @@ div.timeline .date_separator span{
 						<div class="center filterNewsActivity">
 							<div class="btn-group">
 								<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:140px;">
-									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News",null,Yii::app()->controller->module->id) ?>
+									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News") ?>
 								</a>
 								<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:140px;">
-									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity",null,Yii::app()->controller->module->id) ?>
+									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity") ?>
 								</a>
 							</div>
 						</div>
