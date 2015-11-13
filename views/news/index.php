@@ -135,7 +135,7 @@ div.timeline .date_separator span{
 
 <div id="formCreateNewsTemp" style="float: none; display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea") ?> </h5>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='ajaxForm'></form>
 	 </div>
 </div>
@@ -149,7 +149,7 @@ div.timeline .date_separator span{
 				<ul class="panel-heading-tabs border-light">
 		        	<?php if( !isset($_GET["isNotSV"])) { ?>
 		        	<li>
-		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
+		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1"><?php echo Yii::t("common","Add");?> <i class="fa fa-plus"></i></a>
 		        	</li>
 		        	<?php } 
 		        	/* ?>
@@ -186,10 +186,10 @@ div.timeline .date_separator span{
 						<div class="center filterNewsActivity">
 							<div class="btn-group">
 								<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:140px;">
-									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News") ?>
+									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News",null,Yii::app()->controller->module->id) ?>
 								</a>
 								<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:140px;">
-									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity") ?>
+									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity",null,Yii::app()->controller->module->id) ?>
 								</a>
 							</div>
 						</div>
@@ -341,7 +341,7 @@ function buildTimeLine (news)
 	else {
 		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
 			"<h5 class='padding-10 partition-light no-margin text-left'>"+
-				"<i class='fa fa-pencil'></i> Add something to share your activity"+
+				"<i class='fa fa-pencil'></i> <?php echo Yii::t("news","Add something to share your activity",null,Yii::app()->controller->module->id) ?>"+
 			"</h5>"+
 			'<div class="form-group box-add row partition-white no-padding no-margin" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
 				'<div class="no-padding col-md-6 col-xs-12">'+

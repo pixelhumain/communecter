@@ -326,7 +326,7 @@ var formDefinition = {
             },
             "name" :{
             	"inputType" : "text",
-            	"placeholder" : "<?php echo Yii::t('news','In a few words') ?> ... ",
+            	"placeholder" : "<?php echo Yii::t('news','In a few words',null,Yii::app()->controller->module->id) ?> ... ",
             	"rules" : {
 						"required" : true
 					}
