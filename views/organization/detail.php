@@ -33,6 +33,7 @@
 	    				"publics" => $public,
 	    				"contentKeyBase" => $contentKeyBase
 	    			);
+	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 	    	</div>
@@ -55,6 +56,7 @@
 <?php if(!$alone){ ?>	
 <!-- end: PAGE CONTENT-->
 <script>
+
 	jQuery(document).ready(function() {
 		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Organization::COLLECTION ?>/id/<?php echo $organization["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 

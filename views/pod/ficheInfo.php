@@ -194,8 +194,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	function bindFicheInfoBtn(){
-
-		
 		$("#disableOrganization").off().on("click",function () {
 			console.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
