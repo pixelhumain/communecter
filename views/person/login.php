@@ -5,13 +5,13 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
+$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
 	
 ?>
 <style>
 	fieldset{
-		padding-top:15px; 
-		padding-left:70px;
-		padding-right:70px; 
+		padding: 20px;
+		background-color: white;
 	}
 </style>
 
@@ -91,7 +91,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 					</div>
 					<div class="new-account">
 						Don't have an account yet?
-						<a href="#" class="register">
+						<a href="javascript:" onclick="initHTML5Localisation('prefill');" class="register">
 							Create an account
 						</a>
 						<br/>
@@ -788,7 +788,7 @@ function bindPostalCodeAction() {
 	});
 
 	$('#city').change(function(e){
-		searchCity();
+		Sig.execFullSearchNominatim(0);
 	});
 }
 
@@ -808,7 +808,7 @@ function searchCity() { console.log("searchCity");
 }
 
 function callBackFullSearch(resultNominatim){
-	//console.log("callback ok");
+	console.log("callback ok");
 	Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
 	$(".topLogoAnim").hide();
 
@@ -818,4 +818,7 @@ function setMapPositionregister(){ console.log("setMapPositionregister");
 	Sig.map.panTo(Sig.markerNewData.getLatLng(), {animate:false}); 
 	Sig.map.panBy([300, 0]);
 }
+
+
+
 </script>
