@@ -417,8 +417,8 @@ if( isset($_GET["isNotSV"])) {
 						* TYPE + ICON
 						***************************************** */
 						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-						if ($e && isset($e["imagePath"])){ 
-							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						if ($e && !empty($e["profilThumbImageUrl"])){ 
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
 						}else{
 							$img = "<div class='thumbnail-profil'></div>";
 						}
@@ -446,19 +446,34 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".$name."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".addslashes($name)."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
-							'<div class="portfolio-item">';
+										'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
 						/* **************************************
 						* EMAIL for admin use only
 						***************************************** */
-						$strHTML .= '<br/><a class="text-xss" '.$url.'>'.((isset($e["email"]))? $e["email"]:"").'</a>';
+						$strHTML .= isset($e["email"]) ? '<br/><a class="text-xss" '.$url.'>'.$e["email"].'</a>' : "";
 
+						/* **************************************
+						* DATE for Event use only
+						***************************************** */
+						//if(isset($e["startDate"])) { var_dump($e["startDate"]); echo $name."</br></br></br>"; }
+						if(isset($e["startDate"])){
+						 	if(isset($e["startDate"]->sec)){
+						 		$strHTML .=  '<br/><div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+						 		//if($e["startDate"]->sec != $e["endDate"]->sec)
+						 			//$strHTML .=  " jusqu'au ".'<div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+							}else{
+								$strHTML .=  '<br/><a class="" '.$url.'>'.$e["startDate"].'</a>';
+								//if($e["startDate"] != $e["endDate"])
+									//$strHTML .=  '<br/><a class="" '.$url.'>'.$e["endDate"].'</a>';
+							}
+						}
 						/* **************************************
 						* TAGS
 						***************************************** */

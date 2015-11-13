@@ -13,6 +13,7 @@
 			////console.dir(params);
 
 	    	var thisSig = this;
+	    	thisSig.userData = null;
 
 	    	//memorise les paramètres dans une variable globale de l'instance SIG
 	    	if(params != "restart")

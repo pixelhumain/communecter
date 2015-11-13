@@ -11,8 +11,12 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClient
 $cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
 
 //JQUERY UI
-$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
-$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
+//$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
+//$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
+
+//localisation HTML5
+$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
+
 
 if( !isset( Yii::app()->session['userId']) ){
     $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/introjs/introjs.css');
@@ -26,7 +30,6 @@ if( !isset( Yii::app()->session['userId']) ){
 <script src="external/jquery/jquery.js"></script>
 <script src="jquery-ui.js"></script>
  -->
-
 <div class="pull-right" style="padding:20px;">
   <a href="javascript:;" onclick="showHideMenu ()">
     <i class="menuBtn fa fa-bars fa-3x text-white "></i>
@@ -291,7 +294,10 @@ jQuery(document).ready(function() {
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
     }
-
+    <?php if( !isset( Yii::app()->session['userId']) ) { ?>
+      initHTML5Localisation("showCity");
+    <?php } ?>
+    
     bindEvents();
     
 

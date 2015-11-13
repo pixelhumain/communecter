@@ -28,6 +28,7 @@
         "useFilterType" 	 => false,
         "useRightList" 		 => false,
         "useZoomButton" 	 => true,
+        "useSatelliteTiles"	 => true,
         "useHomeButton" 	 => false,
         "useFullScreen" 	 => true,
         "useFullPage" 	 	 => false,
