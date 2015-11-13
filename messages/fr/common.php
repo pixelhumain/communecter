@@ -1,8 +1,5 @@
 <?php
 
 return array(
-	"ADD SOMETHING" => "AJOUTER",
-	
-	
-	
+	"ADD SOMETHING" => "AJOUTER",			
 );

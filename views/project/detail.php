@@ -71,7 +71,6 @@ function bindBtnFollow(){
 	        	var targetLink = $(this).data("targetlink");
 	        	urlToSend += "/targetLink/"+targetLink;
 	        }
-
 	        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
 	        	function(result) {
 					if (!result) {
@@ -109,7 +108,6 @@ function bindBtnFollow(){
 	        	var targetLink = $(this).data("targetlink");
 	        	urlToSend += "/targetLink/"+targetLink;
 	        }
-
 			$.ajax({
 		        type: "POST",
 		        url: urlToSend,
@@ -118,7 +116,7 @@ function bindBtnFollow(){
 		    .done(function (data)
 		    {
 		        if ( data && data.result ) {               
-		        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
+		        	toastr.info("RELATION APPLIED SUCCESFULLY!! ");
 		        	if( isNotSV )
 						loadByHash(location.hash);
 		        } else {
