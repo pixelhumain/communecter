@@ -104,11 +104,11 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Participants list', 'Participants' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        self::entry("left", 'showAjaxPanel','Member list', 'Members' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
 
         // ADD MEMBER
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Add a participant to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+        self::entry("left", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
 
         //FOLLOW BUTTON
         //-----------------------------

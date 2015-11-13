@@ -38,8 +38,10 @@
 	    		?>
 	    	</div>
 	    	<div class="col-md-4 no-padding">
-				<div class="col-md-12 needsPod">
+		    	<?php if ($organization["type"]=="NGO" || $organization["type"]=="Group"){ ?>
+				<div class="col-md-12 needsPod">	
 				</div>
+				<?php } ?>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $organization["_id"],
