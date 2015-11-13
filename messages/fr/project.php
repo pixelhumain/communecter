@@ -43,5 +43,6 @@ return array(
 	"Add project's properties" => "Ajouter des propriétés au projet",
 	"Degree of project's openness (0% = very closed, 100% = very opened)" => "Degré d'ouverture du projet (0% = très fermé, 100% = très ouvert)",
 	"Add<br/>A new<br/>Property" => "Ajouter<br/>Une nouvelle<br/>Propriété",
+	"No contributor for this project" => "Pas de contributeur sur le projet"
 );
 ?>

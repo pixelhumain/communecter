@@ -20,9 +20,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title  text-purple"><i class="fa <?php echo Project::ICON ?> fa-2x"></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised ) { ?>
+		<?php if( @$authorised ) {
+			if(@$isNotSV){ ?>
+			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> </a>
+		<?php } else { ?>
 			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
-		<?php } ?>
+		<?php } } ?>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">			
@@ -58,11 +61,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</td>
 					</tr>
 					<?php
-						};}
+						}}
 					?>
 				</tbody>
 			</table>
+			<?php if(isset($projects) && count($projects) > 0 ){ ?>
 			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<?php } ?>
 		<?php if(isset($projects) && count($projects) == 0) {?>
 			<div id="info" class="padding-10">
 				<blockquote> 
