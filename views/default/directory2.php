@@ -451,14 +451,29 @@ if( isset($_GET["isNotSV"])) {
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
-							'<div class="portfolio-item">';
+										'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
 						/* **************************************
 						* EMAIL for admin use only
 						***************************************** */
-						$strHTML .= '<br/><a class="text-xss" '.$url.'>'.((isset($e["email"]))? $e["email"]:"").'</a>';
+						$strHTML .= isset($e["email"]) ? '<br/><a class="text-xss" '.$url.'>'.$e["email"].'</a>' : "";
 
+						/* **************************************
+						* DATE for Event use only
+						***************************************** */
+						//if(isset($e["startDate"])) { var_dump($e["startDate"]); echo $name."</br></br></br>"; }
+						if(isset($e["startDate"])){
+						 	if(isset($e["startDate"]->sec)){
+						 		$strHTML .=  '<br/><div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+						 		//if($e["startDate"]->sec != $e["endDate"]->sec)
+						 			//$strHTML .=  " jusqu'au ".'<div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+							}else{
+								$strHTML .=  '<br/><a class="" '.$url.'>'.$e["startDate"].'</a>';
+								//if($e["startDate"] != $e["endDate"])
+									//$strHTML .=  '<br/><a class="" '.$url.'>'.$e["endDate"].'</a>';
+							}
+						}
 						/* **************************************
 						* TAGS
 						***************************************** */

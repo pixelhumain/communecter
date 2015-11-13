@@ -49,56 +49,90 @@ $this->renderPartial('../default/panels/toolbar');
   .panel-title{
     font-family: "Homestead";
   }
+  .link-to-directory{
+    cursor:pointer;
+  }
+  .link-to-directory:hover{
+    text-decoration: underline;
+  }
+  .btn-to-directory{
+    width:100%;
+    margin-top: 10px;
+    font-weight: 500;
+  }
 </style>
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
 
   <div class="col-sm-4 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
     <div class="panel panel-white">
-      <div class="panel-heading border-light">
-        <h3 class="panel-title text-blue"><?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
-		    <div class="panel-tools" style="display:block">
-        	<a href="<?php echo Yii::app()->createUrl("/".$this->module->id.'/city/directory/insee/'.$insee);?>" class="btn btn-xs btn-light-blue" title="Show Directory" alt=""><i class="fa fa-globe"></i> Show Directory </a>
+      <div id="local-actors-popup-sig">
+        <div class="panel-heading border-light">
+          <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
+  		    <div class="panel-tools" style="display:block">
+          	</div>
+        </div>
+        <div class="panel-body padding-10 no-padding center">
+
+          <ul class="list-group text-left no-margin">
+            <li class="list-group-item text-yellow">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
+                <span class="badge pull-right bg-yellow"><?php echo $cnt;?></span>
+                <i class="fa fa-user"></i> <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
+              </div>
+            </li>
+            <li class="list-group-item text-orange">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="project")$cnt++;} ?>
+                <span class="badge pull-right bg-orange"><?php echo $cnt;?></span>
+                <i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
+              </div>
+            </li>
+            <li class="list-group-item text-azure">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="entreprise")$cnt++;} ?>
+                <span class="badge pull-right bg-azure"><?php echo $cnt;?></span>
+                <i class="fa fa-industry"></i> <?php echo Yii::t("common", "ENTREPRISES"); ?>
+              </div>
+            </li>
+            <li class="list-group-item text-green">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="association")$cnt++;} ?>
+                <span class="badge pull-right bg-green"><?php echo $cnt;?></span>
+                <i class="fa fa-users"></i> <?php echo Yii::t("common", "ASSOCIATIONS"); ?>
+              </div>
+            </li>
+            <li class="list-group-item text-prune">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="group")$cnt++;} ?>
+                <span class="badge pull-right bg-prune"><?php echo $cnt;?></span>
+                <i class="fa fa-users"></i> <?php echo Yii::t("common", "GROUPES"); ?>
+              </div>
+            </li>
+            <!-- <li class="list-group-item">
+              <span class="badge"><?php echo $cnt;?></span>
+              COLLECTIVITÉ
+            </li> -->
+            <li class="list-group-item text-purple">
+              <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <span class="badge pull-right bg-purple"><?php echo count($events);?></span>
+                <i class="fa fa-calendar"></i> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
+              </div>
+            </li>
+            
+          </ul>
+          
         </div>
       </div>
-      <div class="panel-body no-padding center">
-
-        <ul class="list-group">
-          <li class="list-group-item">
-            <?php $cnt=0;foreach($people as $person){$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
-          </li>
-          <li class="list-group-item">
-            <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="association")$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            <?php echo Yii::t("common", "ASSOCIATIONS"); ?>
-          </li>
-          <li class="list-group-item">
-            <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="entreprise")$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            <?php echo Yii::t("common", "ENTREPRISES"); ?>
-          </li>
-          <li class="list-group-item">
-            <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="group")$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            <?php echo Yii::t("common", "GROUPES"); ?>
-          </li>
-          <!-- <li class="list-group-item">
-            <span class="badge"><?php echo $cnt;?></span>
-            COLLECTIVITÉ
-          </li> -->
-          <li class="list-group-item">
-            <span class="badge"><?php echo count($events);?></span>
-            <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
-          </li>
-          <li class="list-group-item">
-            <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]=="project")$cnt++;} ?>
-            <span class="badge"><?php echo $cnt;?></span>
-            <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
-          </li>
-        </ul>
-       
+      <div class="panel-footer text-right">
+        <a class="btn btn-sm btn-default" 
+            href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>' 
+            class="btn btn-sm btn-light-blue" 
+            title="<?php echo Yii::t("common","Show Directory") ?>" 
+            alt="">
+            <i class="fa fa-bookmark fa-rotate-270"></i> <?php echo Yii::t("common","Show Directory") ?>
+        </a>
       </div>
     </div>
   </div>
@@ -107,18 +141,18 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
 </div>
 
-<div class="row"  >
+<!-- <div class="row"  >
   <div class="col-md-4 col-sm-12 col-xs-12" id="cityDetail_events" data-position="top" data-intro="Find Local Events">
-    <?php $this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+    <?php //$this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
   </div>
   <div class="col-md-4 col-sm-6  col-xs-12"  id="cityDetail_organizations" data-position="top" data-intro="Find Local  Organizations" >
-    <?php $this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
+    <?php //$this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
   </div>
   <div class="col-md-4 col-sm-6 col-xs-12"  id="cityDetail_projects" data-position="top" data-intro="Find Local Projects">
-    <?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-          "userId" => (string)$person["_id"])); ?>
+    <?php //$this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+          //"userId" => (string)$person["_id"])); ?>
   </div>
-</div>
+</div> -->
 
 <div class="row">
 
@@ -195,7 +229,7 @@ function initCityMap(){
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
 
-  var content = Sig.getPopupCity(city.name);
+  var content = Sig.getPopupCity(city.name, city.insee);
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),
                       content: content };

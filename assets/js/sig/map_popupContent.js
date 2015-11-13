@@ -27,7 +27,7 @@
 		Sig.getPopupCitoyen = function(data){
 
 			var type = data['type'] ? data['type'] : "";
-			var imgProfilPath =  Sig.getThumbProfil(element);
+			var imgProfilPath =  Sig.getThumbProfil(data);
 
 			var popupContent = "";
 			//if(data['thumb_path'] != null)
@@ -329,16 +329,20 @@
 			return popupContent;
 		};
 
-		Sig.getPopupCity = function(dataTxt){
+		Sig.getPopupCity = function(dataTxt, insee){
 			var localActors = "";
-			if($("#pod-local-actors").length > 0){ console.log("try to catch local actors");
-				localActors = $("#pod-local-actors").html();
+			if($("#local-actors-popup-sig").length > 0){ //console.log("try to catch local actors");
+				localActors = $("#local-actors-popup-sig").html();
 			}
-			var popupContent = '<div class="pod-local-actors">' +
+			var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
+			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-blue'>"+
 										"<i class='fa fa-university'></i> "+dataTxt+
 									"</h4>" + 
 									localActors +
+										"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
+											"<i class='fa fa-plus'></i> En savoir plus"+
+										"</button>" +
 								'</div>';
 			return popupContent;
 		};

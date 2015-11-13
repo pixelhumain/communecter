@@ -201,12 +201,14 @@
 					//console.dir(thisSig.myPosition);
 					var center = [thisSig.myPosition.position.latitude, 
 								  thisSig.myPosition.position.longitude];
+
+					var popup = Sig.getPopupSimple(Sig.userData);
 					var properties = { 	id : "0",
 										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
 										type : thisSig.myPosition["type"],
 										typeSig : thisSig.myPosition["typeSig"],
 										faIcon : this.getIcoByType(thisSig.myPosition),
-										content: "<h1>Vous êtes ici</h1><br/>" };
+										content: popup };
 
 					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
 					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
