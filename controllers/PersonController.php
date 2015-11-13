@@ -1,12 +1,4 @@
 <?php
-/**
- * EventController.php
- * 
- * contient tous ce qui concerne les utilisateurs / clietns TEEO
- *
- * @author: Tibor Katelbach <tibor@pixelhumain.com>
- * Date: 18/07/2014
- */
 class PersonController extends CommunecterController {
 
   public $hasSocial = false;
@@ -57,6 +49,7 @@ class PersonController extends CommunecterController {
           'saisir'             => 'citizenToolKit.controllers.person.SaisirAction',
           'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
           'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction',
+          'checkusername'      => 'citizenToolKit.controllers.person.CheckUsernameAction',
 	    );
 	}
 

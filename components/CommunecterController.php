@@ -164,6 +164,7 @@ class CommunecterController extends Controller
         'getnotification' => array("href" => "/person/getNotification"),
         'changepassword'  => array("href" => "/person/changepassword"),
         'changerole'      => array("href" => "/person/changerole"),
+        'checkusername'   => array("href" => "/person/checkusername"),
 
         "invite"          => array("href" => "/ph/communecter/person/invite"),
         "invitesv"        => array("href" => "/ph/communecter/person/invitesv", "public" => true),
@@ -334,6 +335,7 @@ class CommunecterController extends Controller
                             "person/authenticate", 
                             "person/activate", 
                             "person/sendemail",
+                            "person/checkusername",
                             //Document Resizer
                             "document/resized");
 

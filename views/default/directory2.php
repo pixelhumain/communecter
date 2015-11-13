@@ -417,8 +417,8 @@ if( isset($_GET["isNotSV"])) {
 						* TYPE + ICON
 						***************************************** */
 						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-						if ($e && isset($e["imagePath"])){ 
-							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">';
+						if ($e && !empty($e["profilThumbImageUrl"])){ 
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
 						}else{
 							$img = "<div class='thumbnail-profil'></div>";
 						}
