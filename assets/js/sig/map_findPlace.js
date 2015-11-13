@@ -580,7 +580,8 @@ SigLoader.getSigFindPlace = function (Sig){
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
 		console.log("start save geopos");
-		//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
+		toastr.info("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position");
+    	//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",
 			type: 'POST',

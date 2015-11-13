@@ -1,5 +1,7 @@
 <?php
 
 return array(
-	"ADD SOMETHING" => "AJOUTER",			
+	"Searching" => "Recherche en cours",
+	"WELCOME" => "BIENVENUE",
+	"ADD SOMETHING" => "AJOUTER",
 );

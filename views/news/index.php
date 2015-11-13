@@ -16,8 +16,6 @@ if( isset($_GET["isNotSV"]))
 	Menu::news( @$_GET["id"] , @$_GET["type"] );
 	$this->renderPartial('../default/panels/toolbar'); 
 	?>
-	<div id="tagFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
-	<div id="scopeFilters" class="optionFilter pull-left center" style="display:none;width:100%;" ></div>
 	<?php 
 }
 else 
@@ -43,6 +41,9 @@ else
 .timeline-scrubber{
 	min-width: 115px;
 	top:125px;
+	.optionFilter{
+		margin-bottom:20px;
+	}
 }
 .timeline{
 	float: left;
@@ -61,17 +62,28 @@ else
 
 #newsHistory{
 	overflow: scroll;
+	overflow-x: hidden;
 	position:fixed;
-	top:130px;
+	top:100px;
+	padding-top:100px !important;
 	bottom:0px;
 	right:0px;
 	left:70px;
 }
 
-#tagFilters a.filter{
+#tagFilters a.filter, #scopeFilters a.filter{
 	background-color: rgba(245, 245, 245, 0.7);
 	font-size: 14px;
-	padding: 4px;
+	padding: 5px;
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	border-radius: 0px;
+	-moz-box-shadow: -1px 1px 3px -2px #656565;
+	-webkit-box-shadow: -1px 1px 3px -2px #656565;
+	-o-box-shadow: -1px 1px 3px -2px #656565;
+	box-shadow: -1px 1px 3px -2px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=224, Strength=3);
 }
 .filterNewsActivity{
 	margin-bottom: 10px;
@@ -89,21 +101,41 @@ else
 	border-color: #315C6E;
 }
 .timeline-scrubber{
-	    right: 50px;
+	right: 65px;
     position: fixed;
-    top: 200px;
-    left: 1057px;
+    top: 215px;
 }
 
 .btn-add-something{
 	border-radius: 0px;
-	padding: 13px 0px;
+	padding: 7px 0px;
+	font-size: 12px;
 }
 
+.optionFilter{
+	margin-bottom:20px;
+}
+
+.bg-yellow, .bg-green, .bg-orange, .bg-purple{
+	border-bottom: 3px solid transparent;
+}
+
+.bg-yellow:hover, .bg-green:hover, .bg-orange:hover, .bg-purple:hover{
+border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+}
+div.timeline .spine{
+	border-radius:0px;
+	z-index: 2;
+
+}
+div.timeline .date_separator span{
+	z-index: 3;
+}
 </style>
-<div id="formCreateNewsTemp" style="float: none;" class="center-block">
+
+<div id="formCreateNewsTemp" style="float: none; display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
-		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea") ?> </h5>
 		<form id='ajaxForm'></form>
 	 </div>
 </div>
@@ -111,8 +143,8 @@ else
 	<div class="col-md-12">
 
 		<!-- start: TIMELINE PANEL -->
-		<div class="panel panel-white">
-			<div class="panel-heading border-light">
+		<div class="panel panel-white" style="padding-top:10px;">
+			<div class="panel-heading border-light  <?php if( isset($_GET["isNotSV"])) echo "hidden"; ?>">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
 		        	<?php if( !isset($_GET["isNotSV"])) { ?>
@@ -146,21 +178,18 @@ else
 		        </ul>
 			</div>
 			<div id="top" class="panel-body panel-white">
-				<ul class="timeline-scrubber inner-element newsTLmonthsListnews">
-					
-				</ul>
-				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity">
-					
-				</ul>
+				<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
+				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
+	
 				<div id="timeline" class="col-md-10">
 					<div class="timeline">
 						<div class="center filterNewsActivity">
 							<div class="btn-group">
-								<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:100px;">
-									<i class="fa fa-rss"></i> News
+								<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:140px;">
+									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News") ?>
 								</a>
-								<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:100px;">
-									<i class="fa fa-exchange"></i> Activity
+								<a id="btnActivity" href="javascript:;" class="filter btn btn-green" data-filter=".activityStream" style="width:140px;">
+									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity") ?>
 								</a>
 							</div>
 						</div>
@@ -170,6 +199,8 @@ else
 						</div>
 					</div>
 				</div>
+				<ul class="timeline-scrubber inner-element newsTLmonthsListnews col-md-2"></ul>
+				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity col-md-2"></ul>
 				
 
 			</div>
@@ -261,6 +292,7 @@ jQuery(document).ready(function()
 				minusOffset=630;
 		}
 		$("#newsHistory").off().on("scroll",function(){ 
+			//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
 			if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
 				if (lastOffset != offset.top){
 					lastOffset=offset.top;
@@ -308,27 +340,24 @@ function buildTimeLine (news)
 		var formCreateNews = $("#formCreateNewsTemp");
 	else {
 		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
-			"<h2 class='padding-10 partition-light no-margin text-left'>"+
-				"<i class='fa fa-pencil'></i> Add something to share your activity </h2>"+
-			'<div class="form-group box-add row partition-white no-padding" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
+			"<h5 class='padding-10 partition-light no-margin text-left'>"+
+				"<i class='fa fa-pencil'></i> Add something to share your activity"+
+			"</h5>"+
+			'<div class="form-group box-add row partition-white no-padding no-margin" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
 				'<div class="no-padding col-md-6 col-xs-12">'+
-                   '<button type="button" class="btn-add-something btn btn-yellow col-md-12 col-xs-12">'+
-				   	'<a title="" href="#" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> People</a>'+
+                   '<button type="button" class="btn-add-something btn bg-yellow col-md-12 col-xs-12" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> <?php echo Yii::t("common","person") ?>'+
 				   '</button>'+
 				'</div>'+
 				'<div class="no-padding col-md-6 col-xs-12">'+
-                	'<button type="button" class="btn-add-something btn btn-green col-md-12 col-xs-12">'+
-						'<a title="" href="#" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> Organization</a>'+
+                	'<button type="button" class="btn-add-something btn bg-green col-md-12 col-xs-12" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> <?php echo Yii::t("common","organizations") ?>'+
 					'</button>'+
 				'</div>'+
 				'<div class="no-padding col-md-6 col-xs-12">'+
-					'<button type="button" class="btn-add-something btn btn-orange col-md-12 col-xs-12">'+
-						'<a title="" href="#" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> Event</a>'+
+					'<button type="button" class="btn-add-something btn bg-orange col-md-12 col-xs-12" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> <?php echo Yii::t("common","events") ?>'+
 					'</button>'+
 				'</div>'+
 				'<div class="no-padding col-md-6 col-xs-12">'+
-					'<button type="button" class="btn-add-something btn btn-purple col-md-12 col-xs-12">'+
-						'<a title="" href="#" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> Project</a>'+
+					'<button type="button" class="btn-add-something btn bg-purple col-md-12 col-xs-12" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> <?php echo Yii::t("common","projects") ?>'+
 					'</button>'+
 				'</div>'+
 			'</div>'+
@@ -354,6 +383,7 @@ function buildTimeLine (news)
 						"<div id='newFeedForm"+streamType+"' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
 					"</li>");
 				$("#newFeedForm"+streamType).append(formCreateNews);
+				$("#formCreateNewsTemp").css("display", "inline");
 			}
 			$(".newsTL"+streamType+date.getMonth()).append(newsTLLine);
 			countEntries++;
@@ -370,6 +400,7 @@ function buildTimeLine (news)
 			var date = new Date(); 
 			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
 			$("#newFeedForm"+streamType).append(formCreateNews);
+			$("#formCreateNewsTemp").css("display", "inline");
 			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 
 		}
@@ -415,6 +446,9 @@ function buildTimeLine (news)
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
+	console.log("buildLineHTML");
+	console.dir(newsObj);
+
 	if(typeof(newsObj.created) == "object")
 		var date = new Date( parseInt(newsObj.created.sec)*1000 );
 	else
@@ -496,7 +530,8 @@ function buildLineHTML(newsObj)
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
 
-	if( newsObj.address )
+	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
+	if( author != null && typeof author.address != "undefined" )
 	{
 		/*if( newsObj.address.codeInsee )
 		{
@@ -505,22 +540,22 @@ function buildLineHTML(newsObj)
 			if( $.inArray(newsObj.address.codeInsee, contextMap.scopes.codeInsee )  == -1)
 				contextMap.scopes.codeInsee.push(newsObj.address.codeInsee);
 		}*/
-		if( newsObj.address.postalCode)
+		if( typeof author.address.postalCode != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+newsObj.address.postalCode+"</span> ";
-			scopeClass += newsObj.address.postalCode+" ";
-			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(newsObj.address.postalCode);
+			scopes += "<span class='label label-danger'>"+author.address.postalCode+"</span> ";
+			scopeClass += author.address.postalCode+" ";
+			if( $.inArray(author.address.postalCode, contextMap.scopes.codePostal )  == -1){
+				contextMap.scopes.codePostal.push(author.address.postalCode);
 				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
 			}
 		}
-		if( newsObj.address.addressLocality)
+		if( typeof author.address.addressLocality != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+newsObj.address.addressLocality+"</span> ";
-			scopeClass += newsObj.address.addressLocality+" ";
-			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
-				contextMap.scopes.addressLocality.push(newsObj.address.addressLocality);
-				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.addressLocality+'"><span class="text-red text-xss">'+newsObj.address.addressLocality+'</span></a>';
+			scopes += "<span class='label label-danger'>"+author.address.addressLocality+"</span> ";
+			scopeClass += author.address.addressLocality+" ";
+			if( $.inArray(author.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
+				contextMap.scopes.addressLocality.push(author.address.addressLocality);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+author.address.addressLocality+'"><span class="text-red text-xss">'+author.address.addressLocality+'</span></a>';
 			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
