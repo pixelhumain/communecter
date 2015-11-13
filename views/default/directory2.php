@@ -143,39 +143,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		font-size: 13px;
 		font-weight: 600;
 		margin-bottom: 1px;
-		margin-left: -1px;
-		padding: 8px 12px;
+		margin-left: -2px;
+		padding: 12px 12px 9px 12px;
 		border-radius: 0px !important;
-		-moz-box-shadow: 0px 0px 3px 0px #D1C5C5;
-		-webkit-box-shadow: 0px 0px 3px 0px #D1C5C5;
-		-o-box-shadow: 0px 0px 3px 0px #D1C5C5;
-		box-shadow: 0px 0px 3px 0px #D1C5C5;
+		box-shadow: 1px 1px 5px -2px #000;
+		-moz-box-shadow: 1px 1px 5px -2px #000;
+		-webkit-box-shadow: 1px 1px 5px -2px #000;
+		-o-box-shadow: 1px 1px 5px -2px #000;
+		box-shadow: 1px 1px 5px -2px #000;
 		filter:progid:DXImageTransform.Microsoft.Shadow(color=#D1C5C5, Direction=NaN, Strength=3);
 	}
 	.menu_directory .badge{
 		color: #315C6E !important;
 		background-color: #E9E9E9 !important;
-		/*float: left;*/
-		/*width: 35px;*/
-		/*margin-right: 10px;*/
+		
 	}
-	.menu_directory .filter.active a{
-		/*background-color: #E9E9E9 !important;*/
-
-	}
-	.menu_directory li a:hover{
-		/*color: #FFF !important;
-		background-color: #315C6E !important;*/
-		/*border: 1px solid #315C6E;
-		background-color: #FFF !important;*/
-		/*background-color: #E9E9E9 !important;*/
-		text-decoration: underline !important;
-		/*-moz-box-shadow: 0px 0px 5px 0px #315C6E;
-		-webkit-box-shadow: 0px 0px 5px 0px #315C6E;
-		-o-box-shadow: 0px 0px 5px 0px #315C6E;
-		box-shadow: 0px 0px 5px 0px #315C6E;
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#315C6E, Direction=NaN, Strength=3);*/
-	}
+	
+	
 	.menu_directory .filter.active a.text-dark{
 		color:#3C5665 !important;
 	}
@@ -224,11 +208,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	
 	.active .bg-yellow, .active .bg-green, .active .bg-orange, 
 	.active .bg-purple, .active .bg-dark, .active .bg-red{
-		/*color:#3C5665 !important;*/
+		border-bottom: 3px solid rgba(96, 96, 96, 0.65);
 	}
 	
-	ul{
-		list-style: none;
+	.bg-red, .bg-dark, .bg-yellow, .bg-green, .bg-orange, .bg-purple{
+		padding-top:10px;
+		border-bottom: 3px solid transparent;
+	}
+
+	.bg-red:hover, .bg-dark:hover, .bg-yellow:hover, .bg-green:hover, .bg-orange:hover, .bg-purple:hover{
+		border-bottom: 3px solid rgba(255, 255, 255, 0.8);
 	}
 </style>
 
@@ -296,25 +285,25 @@ if( isset($_GET["isNotSV"])) {
 						<li class="filter" data-filter=".citoyens">
 							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
-								<span class="badge bg-yellow"><?php echo count($people);  ?></span>
+								<span class="badge"><?php echo count($people);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class=""><?php echo Yii::t("common","Organizations") ?></span> 
-								<span class="badge bg-green"><?php echo count($organizations);  ?></span>
+								<span class="badge"><?php echo count($organizations);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
-								<span class="badge bg-orange"><?php echo count($events);  ?></span>
+								<span class="badge bg"><?php echo count($events);  ?></span>
 							</a>
 						</li>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
-								<span class="badge bg-purple"><?php echo count($projects);  ?></span>
+								<span class="badge bg"><?php echo count($projects);  ?></span>
 							</a>
 						</li>
 						<li  class="" style="margin-left:30px;">
