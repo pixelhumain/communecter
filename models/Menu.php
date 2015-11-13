@@ -78,7 +78,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', 'Contact information', "Details",'home','/organization/detail/id/'.$id,"organization","detail");
+        self::entry("left", 'showAjaxPanel', Yii::t("organization","Contact information"), Yii::t("common","Details"),'home','/organization/detail/id/'.$id,"organization","detail");
        
         //SEND MESSAGE
         //-----------------------------
@@ -148,7 +148,7 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', 'City Home page', 'Details', 'university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
+        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'City Home page'), Yii::t( "common", 'Details'), 'university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
         
         //SEND MESSAGE
         //-----------------------------
@@ -177,7 +177,7 @@ class Menu {
         //-----------------------------
 
 
-        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Local nework'), Yii::t( "common", 'Directory'),'bookmark fa-rotate-270','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
+        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Local network'), Yii::t( "common", 'Directory'),'bookmark fa-rotate-270','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
 
         //STATISTICS
         //-----------------------------
