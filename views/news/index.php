@@ -61,8 +61,10 @@ else
 
 #newsHistory{
 	overflow: scroll;
+	overflow-x: hidden;
 	position:fixed;
-	top:130px;
+	top:100px;
+	padding-top:100px !important;
 	bottom:0px;
 	right:0px;
 	left:70px;
@@ -101,7 +103,7 @@ else
 }
 
 </style>
-<div id="formCreateNewsTemp" style="float: none;" class="center-block">
+<div id="formCreateNewsTemp" style="float: none; display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h2 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> Share a thought, an idea </h2>
 		<form id='ajaxForm'></form>
@@ -354,6 +356,7 @@ function buildTimeLine (news)
 						"<div id='newFeedForm"+streamType+"' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
 					"</li>");
 				$("#newFeedForm"+streamType).append(formCreateNews);
+				$("#formCreateNewsTemp").css("display", "inline");
 			}
 			$(".newsTL"+streamType+date.getMonth()).append(newsTLLine);
 			countEntries++;
@@ -370,6 +373,7 @@ function buildTimeLine (news)
 			var date = new Date(); 
 			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
 			$("#newFeedForm"+streamType).append(formCreateNews);
+			$("#formCreateNewsTemp").css("display", "inline");
 			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
 
 		}
@@ -415,6 +419,9 @@ function buildTimeLine (news)
 var currentMonth = null;
 function buildLineHTML(newsObj)
 {
+	console.log("buildLineHTML");
+	console.dir(newsObj);
+
 	if(typeof(newsObj.created) == "object")
 		var date = new Date( parseInt(newsObj.created.sec)*1000 );
 	else
@@ -496,7 +503,8 @@ function buildLineHTML(newsObj)
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
 
-	if( newsObj.address )
+	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
+	if( author != null && typeof author.address != "undefined" )
 	{
 		/*if( newsObj.address.codeInsee )
 		{
@@ -505,22 +513,22 @@ function buildLineHTML(newsObj)
 			if( $.inArray(newsObj.address.codeInsee, contextMap.scopes.codeInsee )  == -1)
 				contextMap.scopes.codeInsee.push(newsObj.address.codeInsee);
 		}*/
-		if( newsObj.address.postalCode)
+		if( typeof author.address.postalCode != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+newsObj.address.postalCode+"</span> ";
-			scopeClass += newsObj.address.postalCode+" ";
-			if( $.inArray(newsObj.address.postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(newsObj.address.postalCode);
+			scopes += "<span class='label label-danger'>"+author.address.postalCode+"</span> ";
+			scopeClass += author.address.postalCode+" ";
+			if( $.inArray(author.address.postalCode, contextMap.scopes.codePostal )  == -1){
+				contextMap.scopes.codePostal.push(author.address.postalCode);
 				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
 			}
 		}
-		if( newsObj.address.addressLocality)
+		if( typeof author.address.addressLocality != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+newsObj.address.addressLocality+"</span> ";
-			scopeClass += newsObj.address.addressLocality+" ";
-			if( $.inArray(newsObj.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
-				contextMap.scopes.addressLocality.push(newsObj.address.addressLocality);
-				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.addressLocality+'"><span class="text-red text-xss">'+newsObj.address.addressLocality+'</span></a>';
+			scopes += "<span class='label label-danger'>"+author.address.addressLocality+"</span> ";
+			scopeClass += author.address.addressLocality+" ";
+			if( $.inArray(author.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
+				contextMap.scopes.addressLocality.push(author.address.addressLocality);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+author.address.addressLocality+'"><span class="text-red text-xss">'+author.address.addressLocality+'</span></a>';
 			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
