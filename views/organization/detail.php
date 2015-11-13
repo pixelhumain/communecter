@@ -48,6 +48,14 @@
 																			"isNotSV" => 1
 																		  )); ?>
 				</div>
+				<div class="col-md-12 col-xs-12">
+		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+															"contextId" => (String) $organization["_id"],
+															"contextType" => "organization",
+															"authorised" =>	$admin,
+															"isNotSV" => 1
+					)); ?>
+				</div>
 			</div>
 	    </div>
 	 </div>
