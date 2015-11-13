@@ -94,8 +94,8 @@
 		//création du contenu de la popup d'un data
 		Sig.getPopupSimple = function(data){
 			
-			var type = data['typeSig'] ? data['typeSig'] : data['type'];
-			var id = data["_id"]["$id"];
+			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
+			var id = typeof data["_id"]["$id"] != "undefined" ? data['_id"]["$id'] : null;
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(data);
