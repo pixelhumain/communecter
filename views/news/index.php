@@ -133,7 +133,7 @@ div.timeline .date_separator span{
 }
 </style>
 
-<div id="formCreateNewsTemp" style="float: none; display:none;" class="center-block">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='ajaxForm'></form>

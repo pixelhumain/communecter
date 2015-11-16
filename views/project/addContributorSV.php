@@ -45,6 +45,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	display: none;
 }
 </style>
+<?php
+	if( @$isNotSV ) {
+	if(@$project)
+		Menu::project($project);
+		$this->renderPartial('../default/panels/toolbar'); 
+	}
+
+?>
 <div id="newContributors">
 	<?php if( @$isNotSV ){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
