@@ -436,7 +436,7 @@ if( isset($_GET["isNotSV"])) {
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
 						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".addslashes($name)."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-						$url = ( isset($_GET["isNotSV"]))  ? 'href="#" onclick="'.$url.'"' : 'href="'.$url.'"';
+						$url = ( isset($_GET["isNotSV"]))  ? 'href="javascript:;" onclick="'.$url.'"' : 'href="'.$url.'"';
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
