@@ -287,7 +287,7 @@ jQuery(document).ready(function()
 			minusOffset=630;
 		else if (streamType=="activity"){
 			if(contextParentType=="citoyens")
-				minusOffset=550;
+				minusOffset=530;
 			else
 				minusOffset=630;
 		}
@@ -854,14 +854,15 @@ function bindEvent(){
 				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
 				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
-console.log(newsReferror);
+			console.log(newsReferror);
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
 			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
-			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType))
+			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType).length > 0){
 				$(".stream-processing").hide();	
+			}
 			else
 				$(".stream-processing").show();	
 		}
