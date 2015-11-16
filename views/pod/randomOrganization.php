@@ -132,12 +132,13 @@
 
           </div>
           <?php } ?>
-         
-
     </div>
     <div class="panel-footer text-right"  >
-    <?php //var_dump($randomEntity); ?>
-      <a class="btn btn-default btn-sm" href="<?php echo (isset($randomEntity['_id']) ? Yii::app()->createUrl('/'.$this->module->id.'/organization/dashboard/id/'.(string)$randomEntity['_id']) : '#')?>">
+    <?php 
+      $url = ( isset($randomEntity['_id']) ) ? "javascript:;" : '#';
+      $onclick = (isset($randomEntity['_id']) ) ? "onclick='loadByHash(\"#organization.detail.id.".$randomEntity['_id']."\")'" : "";
+    ?>
+      <a class="btn btn-default btn-sm" href="<?php echo $url ?>" <?php echo $onclick ?> >
         En savoir <i class="fa fa-plus"></i>
       </a>
     </div>
