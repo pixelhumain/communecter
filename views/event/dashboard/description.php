@@ -95,10 +95,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="col-sm-12">
 					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
-						 echo "<a href=".Yii::app()->createUrl("/".$this->module->id.'/'.$organizer["type"].'/dashboard/id/'.$organizer["id"]).$organizer["name"]."</a>";
-					 } else { 
+						 $icon="fa-lightbulb-o";
+					} else { 
 						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
-					 } ?> : 
+						 if($organizer["type"]=="organization")
+						 	$icon="fa-users";
+						 else 
+						 	$icon="fa-user";
+					 } ?> : <a href="#" onclick="openMainPanelFromPanel('/<?php echo $organizer["type"]; ?>/detail/id/<?php echo $organizer["id"]; ?>', '<?php echo $organizer["type"]; ?> : <?php echo $organizer["name"]; ?>','<?php echo $icon; ?>', '<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
 			<div class="row padding-20">
