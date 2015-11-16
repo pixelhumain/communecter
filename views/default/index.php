@@ -109,7 +109,7 @@ if( !isset( Yii::app()->session['userId']) ){
   HEADER : CONTEXT TITLE + SEARCH 
 **************************** */?>
 <div class="center pull-left" id="menu-top-container" style="" >
-    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i>WELCOM MUNECT HEY !!!</span>
+    <span class="homestead moduleLabel pull-left" style="color:#58879B;font-size:25px"><i class="fa fa-smile"></i><?php echo Yii::t("common","WELCOME",null,Yii::app()->controller->module->id) ?> !!!</span>
     
       <?php if( isset( Yii::app()->session['userId']) ){?>
       <button id="btn-show-notification" class="btn btn-default btn-corner-top-left btn-menu-top pull-right">
@@ -127,7 +127,7 @@ if( !isset( Yii::app()->session['userId']) ){
         <input class='hide' id="searchType" name="searchType"/>
         <input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
         <ul class="dropdown-menu" id="dropdown_searchTop" style="">
-          <ol class="li-dropdown-scope">Recherche en cours</ol>
+          <ol class="li-dropdown-scope"><?php echo Yii::t("common","Searching",null,Yii::app()->controller->module->id) ?>Recherche en cours</ol>
         </ul>
       </input>
       </form>
@@ -366,7 +366,7 @@ function loadByHash( hash ) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-    
+
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );

@@ -64,7 +64,7 @@
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $_GET["id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	})
-	var bindBtnFollow = function(){
+	function bindBtnFollow(){
 
 		$(".disconnectBtn").off().on("click",function () {
 	        

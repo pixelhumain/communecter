@@ -18,28 +18,34 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</a>
 			</div>
 		</div>
-		<?php if (isset($isDetailView)){ ?>
-			<?php foreach ($contributors as $member) { 
-				if ($member["type"]=="citoyen"){
-					$icon="<i class=\"fa fa-smile-o fa-2x\"></i></td>";
-					$refIcon="fa-user";
-					$redirect="person";
-				}
-				else{
-					$icon="<i class=\"fa fa-group fa-2x\"></i></td>";
-					$redirect="organization";
-					$refIcon="fa-group";
-				}
-			?>
-				<a href="#" onclick="openMainPanelFromPanel('/<?php echo $redirect; ?>/detail/id/<?php echo $member['_id']?>', '<?php echo $redirect; ?> : <?php echo $member["name"]?>','<?php echo $refIcon ?>', '<?php echo $member['_id']?>')" title="<?php echo $member["name"];?>" class="btn">
-				<!--<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">-->
-				<?php if($member && isset($member["imagePath"])) { ?>
-					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
-				<?php } else{ 
-						echo $icon;
-					} ?>
-				</a>					
-			<?php } ?>
+		<?php if (isset($isDetailView)){ 
+			if(empty($contributors)){ ?>
+				<div class="padding-10"><blockquote class="no-margin"><?php echo Yii::t("project","No contributor for this project",null,Yii::app()->controller->module->id); ?></blockquote></div>
+			<?php }
+			else{
+				foreach ($contributors as $member) { 
+					if ($member["type"]=="citoyen"){
+						$icon="<i class=\"fa fa-smile-o fa-2x\"></i></td>";
+						$refIcon="fa-user";
+						$redirect="person";
+					}
+					else{
+						$icon="<i class=\"fa fa-group fa-2x\"></i></td>";
+						$redirect="organization";
+						$refIcon="fa-group";
+					}
+				?>
+					<a href="#" onclick="openMainPanelFromPanel('/<?php echo $redirect; ?>/detail/id/<?php echo $member['_id']?>', '<?php echo $redirect; ?> : <?php echo $member["name"]?>','<?php echo $refIcon ?>', '<?php echo $member['_id']?>')" title="<?php echo $member["name"];?>" class="btn">
+					<!--<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/".$redirect."/dashboard/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn">-->
+					<?php if($member && isset($member["imagePath"])) { ?>
+						<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
+					<?php } else{ 
+							echo $icon;
+						} ?>
+					</a>					
+				<?php 
+				}	
+			} ?>
 		<?php }
 		else { ?>
 		<div class="panel-body no-padding">

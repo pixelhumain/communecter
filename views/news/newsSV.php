@@ -326,7 +326,7 @@ var formDefinition = {
             },
             "name" :{
             	"inputType" : "text",
-            	"placeholder" : "In a few words ... ",
+            	"placeholder" : "<?php echo Yii::t('news','In a few words',null,Yii::app()->controller->module->id) ?> ... ",
             	"rules" : {
 						"required" : true
 					}
@@ -334,7 +334,7 @@ var formDefinition = {
             
             "text" :{
             	"inputType" : "textarea",
-            	"placeholder" : "Details ",
+            	"placeholder" : "<?php echo Yii::t('news','Details') ?> ",
             	"rules" : {
 						"required" : true,
 						"maxlength" : 1000
@@ -353,7 +353,7 @@ var formDefinition = {
 	        "date" :{
 	        	"icon" : "fa fa-calendar",
             	"inputType" : "date",
-            	"placeholder" : "When ?",
+            	"placeholder" : "<?php echo Yii::t('common','When') ?> ?",
             },
 	        "scope" :{
 	            	"inputType" : "scope",

@@ -104,11 +104,11 @@ class Menu {
         */
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Participants list', 'Participants' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        self::entry("left", 'showAjaxPanel','Member list', 'Members' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
 
         // ADD MEMBER
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Add a participant to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+        self::entry("left", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -248,8 +248,8 @@ class Menu {
 	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
         else{
-	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+	        self::entry("left", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("left", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         }
     }
 
