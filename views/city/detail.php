@@ -127,7 +127,7 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
       <div class="panel-footer text-right">
         <a class="btn btn-sm btn-default" 
-            href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>' 
+            href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university")',
             class="btn btn-sm btn-light-blue" 
             title="<?php echo Yii::t("common","Show Directory") ?>" 
             alt="">
