@@ -120,7 +120,7 @@ progress[value]::-moz-progress-bar {
 																	  "type" => Project::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_SLIDER,
-																	  "editMode" => 			Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
+																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
 				?>
 			</div>
 			<table class="table-condensed table-hover" >

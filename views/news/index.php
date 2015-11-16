@@ -764,7 +764,7 @@ function bindEvent(){
 	$('.newsAddComment').off().on("click",function() {
 		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
 		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-							 '<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
+			'<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
 
 		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
 			/*if(!userId){
