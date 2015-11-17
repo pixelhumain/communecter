@@ -280,6 +280,10 @@ function initXEditable() {
     //username of the person
 	$('#username').editable('option', 'validate', function(v) {
     	if (!v) return 'Required field!';
+    	//Check if dirty
+    	if (personData["username"] != null && personData["username"] != v) {
+    		if (! isUniqueUsername(v)) {return 'This username is already used by another citizen !';}
+    	}
 	});
 
     //name of the person

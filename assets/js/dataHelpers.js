@@ -73,6 +73,22 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 	});
 	return result;
 }
+function isUniqueUsername(username) {
+	var response;
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/person/checkusername/",
+		data: {username: username},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: function(data) {
+		    response = data;
+		}
+	});
+	console.log("isUniqueUsername=", response);
+	return response;
+}
 
 function addCustomValidators() {
 	//Validate a postalCode
@@ -109,18 +125,6 @@ function addCustomValidators() {
 
 	jQuery.validator.addMethod("uniqueUserName", function(value, element) {
 	    //Check unique username
-	   	var response;
-	    $.ajax({
-			url: baseUrl+'/'+moduleId+"/person/checkusername/",
-			data: {username: value},
-			type: 'post',
-			global: false,
-			async: false,
-			dataType: 'json',
-			success: function(data) {
-			    response = data;
-			}
-		});
-		return response;
+	   	return isUniqueUsername(value);
 	}, "A user with the same username already exists. Please choose an other one.");
 }
