@@ -50,8 +50,12 @@ jQuery(document).ready(function() {
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	});
-	$(".moduleLabel").html("<i class='fa fa-user'></i> PERSON : <?php echo $person["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+	$(".moduleLabel").html("<i class='fa fa-user'></i> PERSON : <?php echo $person["name"] ?> <a href='javascript:' id='btn-center-person'> <i class='fa fa-map-marker'></i></a>");
 
+	$("#btn-center-person").click(function(){
+		showMap(true);
+	    $(".item_map_list_<?php echo $person['_id'] ?>").click();
+	});
 });
 
 function bindBtnFollow() {

@@ -253,10 +253,10 @@ function initCityMap(){
   }
 
   $("#btn-center-city").click(function(){
-    Sig.currentMarkerPopupOpen = null;//markerCity;  
+    Sig.currentMarkerPopupOpen = markerCity;  
     //markerCity.openPopup();
-    showMap();
-    markerCity.closePopup();
+    showMap(true);
+    markerCity.openPopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
     Sig.map.panBy([0, -150]);
