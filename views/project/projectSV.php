@@ -430,7 +430,8 @@ function bindPostalCodeAction() {
 		Sig.execFullSearchNominatim(0);
 	});
 	$('.form-project #projectCountry').change(function(e){ //toastr.info("city change");
-		Sig.execFullSearchNominatim(0);
+		if($('.form-project #postalCode').val() != "" && $('.form-project #postalCode').val() != null)
+				Sig.execFullSearchNominatim(0);
 	});
 }
 

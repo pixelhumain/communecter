@@ -539,10 +539,12 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
-		    		  	if(url)
+		    		  	if(url) {
+		    		  		console.log(url);
 		    		  		window.location.href = url;
-		        		else
+		        		} else {
 		        			window.location.reload();
+		        		}
 		    		  } else {
 		    		  	var msg;
 		    		  	if (data.msg == "notValidatedEmail") {

@@ -95,7 +95,7 @@
 		Sig.getPopupSimple = function(data){
 			
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
-			var id = typeof data["_id"]["$id"] != "undefined" ? data['_id"]["$id'] : null;
+			var id = typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(data);
@@ -122,7 +122,7 @@
 				title = title.replace("'", "");
 				title = title.replace('"', "");
 
-				onclick = "openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");";
+				onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
 			}else{
 				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
 				onclick = 'window.location.href = "'+url+'"';

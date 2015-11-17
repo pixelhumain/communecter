@@ -127,7 +127,7 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
       <div class="panel-footer text-right">
         <a class="btn btn-sm btn-default" 
-            href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>' 
+            href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university")',
             class="btn btn-sm btn-light-blue" 
             title="<?php echo Yii::t("common","Show Directory") ?>" 
             alt="">
@@ -238,12 +238,12 @@ function initCityMap(){
   Sig.allowMouseoverMaker = false;
   
   markerCity.openPopup();
-  Sig.map.setZoom(13, {animate:false});
-  Sig.map.panTo(latlng, {animate:false});
+  Sig.map.setView(13, latlng, {animate:false});
   Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
-  
+  // console.log("latlng");
+  // console.dir(latlng);
   if(typeof city["geoShape"] != "undefined"){
     var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
     Sig.showPolygon(geoShape);
@@ -253,13 +253,13 @@ function initCityMap(){
   }
 
   $("#btn-center-city").click(function(){
-    Sig.currentMarkerPopupOpen = null;//markerCity;  
+    Sig.currentMarkerPopupOpen = markerCity;  
     //markerCity.openPopup();
-    showMap();
-    markerCity.closePopup();
+    showMap(true);
+    markerCity.openPopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
-    Sig.map.panBy([0, -100]);
+    Sig.map.panBy([0, -150]);
     //Sig.centerSimple(latlng, 13);
   });
   
