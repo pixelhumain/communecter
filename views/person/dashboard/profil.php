@@ -64,10 +64,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="col-sm-7 col-xs-7">
 				<div class="padding-10">
 					<h2>
-						<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-							<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
+						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
+							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
 						</a>
 					</h2>
+					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
+						<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
+					</a>
+					<br>
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
 					<br>
@@ -273,9 +277,14 @@ function initXEditable() {
 		mode: 'popup'
 	})
 
-    //make jobTitle required
+    //username of the person
+	$('#username').editable('option', 'validate', function(v) {
+    	if (!v) return 'Required field!';
+	});
+
+    //name of the person
 	$('#name').editable('option', 'validate', function(v) {
-    	if(!v) return 'Required field!';
+    	if (!v) return 'Required field!';
 	});
 
 	//Select2 tags
