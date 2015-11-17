@@ -75,9 +75,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <!-- *** NEW EVENT *** -->
-<?php if( @$isNotSV )
+<?php if( @$isNotSV ){
+	if(@$project)
+		Menu::project($project);			
+	else if (@$organization){
+		Menu::organization($organization);	
+	}else {
+		Menu::person($person);		
+	}
 	$this->renderPartial('../default/panels/toolbar'); 
-
+}
 if( !isset($_GET["isNotSV"])) 
 	$this->renderPartial('../default/mapFormSV'); 
 
@@ -272,6 +279,7 @@ if( !isset($_GET["isNotSV"]))
 
 	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
 	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
+	console.log(listOrgaAdmin);
 	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var parentOrga = [];
 	var defaultHours;
@@ -591,7 +599,7 @@ if( !isset($_GET["isNotSV"]))
 			//$(".categoryOrgaEvent").addClass("col-md-12");
 		}
 		if(organizerParentType.length > 0){
-			if (organizerParentType=="organizations"){
+			if (organizerParentType=="organization"){
 				titleName="Organization";
 				contextName=listOrgaAdmin[organizerParentId]["name"];
 			}	

@@ -675,9 +675,14 @@ function buildHtmlUrlObject(obj){
 				typeId="id";
 				urlParent="";
 			} 
-			if(obj.type=="gantts"){
+			else if(obj.type=="gantts"){
 				redirectTypeUrl="project";
 				typeId="id";
+				urlParent="";
+			}
+			else if (obj.type =="projects"){
+				typeId="id";
+				redirectTypeUrl="project";
 				urlParent="";
 			}
 		<?php if (isset($_GET["isNotSV"])){ ?> 
