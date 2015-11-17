@@ -479,7 +479,8 @@ jQuery(document).ready(function() {
 			Sig.execFullSearchNominatim(0);
 		});
 		$('#organizationCountry').change(function(e){ //toastr.info("city change");
-			Sig.execFullSearchNominatim(0);
+			if($('#organizationForm #postalCode').val() != "" && $('#organizationForm #postalCode').val() != null)
+				Sig.execFullSearchNominatim(0);
 		});
 	}
 

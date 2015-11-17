@@ -238,12 +238,12 @@ function initCityMap(){
   Sig.allowMouseoverMaker = false;
   
   markerCity.openPopup();
-  Sig.map.setZoom(13, {animate:false});
-  Sig.map.panTo(latlng, {animate:false});
+  Sig.map.setView(13, latlng, {animate:false});
   Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
-  
+  // console.log("latlng");
+  // console.dir(latlng);
   if(typeof city["geoShape"] != "undefined"){
     var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
     Sig.showPolygon(geoShape);
@@ -259,7 +259,7 @@ function initCityMap(){
     markerCity.closePopup();
     Sig.map.setZoom(13, {animate:false});
     Sig.map.panTo(latlng, {animate:true});
-    Sig.map.panBy([0, -100]);
+    Sig.map.panBy([0, -150]);
     //Sig.centerSimple(latlng, 13);
   });
   

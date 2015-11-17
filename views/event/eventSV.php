@@ -336,12 +336,15 @@ if( !isset($_GET["isNotSV"]))
 		$('.form-event #city').change(function(e){ //toastr.info("city change");
 			Sig.execFullSearchNominatim(0);
 		});
-		$('.form-event #eventCountry').change(function(e){ //toastr.info("city change");
+		$('.form-event #eventCountry').change(function(e){ 
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null)
 			Sig.execFullSearchNominatim(0);
 		});
-		$('#eventCountry').change(function(e){ //toastr.info("city change");
+		
+		$('.form-event #fullStreet').change(function(e){ //toastr.info("city change");
 			Sig.execFullSearchNominatim(0);
 		});
+		
 	}
 
 	function searchCity() {
