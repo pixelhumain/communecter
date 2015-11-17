@@ -543,15 +543,13 @@ function buildDynForm(){
 	    		if(data.result)
 	    		{
 	    			if(countEntries == 0){
-
-	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSv=1', 'KESS KISS PASS ','rss' )
+	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSV=1', 'KESS KISS PASS ','rss' )
 					}
 					else {
-		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){		
+		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){	
 		            		updateNews(data.object);
 		            	}else {
-			          
-		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSv=1', 'KESS KISS PASS ','rss' )
+		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSV=1', 'KESS KISS PASS ','rss' )
 		            	}
 					}
 					//console.dir(data);

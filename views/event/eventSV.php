@@ -146,11 +146,15 @@ if( !isset($_GET["isNotSV"]))
                     <input type="hidden" id="newEventOrgaType" name="newEventOrgaType" value="<?php if (@$_GET["contextType"]) echo $_GET["contextType"]."s"; ?>">
 
 				</div>
+				
+				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
 				<div class="form-group">
 					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
 					<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
 				</div>
-				<div class="form-group">
+
+				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Categories") ?></h3>
+                <div class="form-group">
 					<select class="form-control selectpicker event-categories">
 						<?php if(isset($lists) && isset($lists["eventTypes"])) {
 							foreach ($lists["eventTypes"] as $key => $value) { ?>
@@ -160,29 +164,58 @@ if( !isset($_GET["isNotSV"]))
 						?>
 					</select>
 				</div>
+
+				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Duration") ?> ?</h3>
+                <div class="form-group">
+					<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">				
+				</div>
+				<div class="form-group">
+					<div class="no-all-day-range">
+							<span class="input-icon">
+								<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
+								<i class="fa fa-clock-o"></i> 
+							</span>
+						
+					</div>
+					<div class="all-day-range">
+							<span class="input-icon">
+								<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
+								<i class="fa fa-calendar"></i> 
+							</span>
+						
+					</div>
+					<div class="hide">
+						<input type="text" class="event-start-date" name="eventStartDate"/>
+						<input type="text" class="event-end-date" name="eventEndDate"/>
+					</div>
+				</div>
+					
 			</div>
 
 			<div class="col-md-6">
-					<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Où") ?> ?</h3>
+					<div class="form-group">
+						<h3 class="text-orange">
+							<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
+						</h3>
+						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
+					</div>
+
+					<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
                         
-					<div class="col-md-6">
-						<div class="form-group">
-							<span class="input-icon">
-								<input type="text" class="form-control" name="streetAddress" id="fullStreet"  placeholder="<?php echo Yii::t("common","Adresse") ?>" >
-								<i class="fa fa-road"></i>
-							</span>
-						</div>
+					<div class="form-group">
+						<span class="input-icon">
+							<input type="text" class="form-control" name="streetAddress" id="fullStreet"  placeholder="<?php echo Yii::t("common","Adresse") ?>" >
+							<i class="fa fa-road"></i>
+						</span>
 					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<span class="input-icon">
-								<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
-								<i class="fa fa-home"></i>
-							</span>
-						</div>
+					
+					<div class="form-group col-md-6 no-padding">
+						<span class="input-icon">
+							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
+							<i class="fa fa-home"></i>
+						</span>
 					</div>
-
+				
 					
 					<div class="col-md-6">
 						<div class="form-group" id="cityDiv" style="display: none;">
@@ -192,53 +225,21 @@ if( !isset($_GET["isNotSV"]))
 							</span>		
 						</div>
 					</div>
-
-					<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
-						<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
-						<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+					<div class="col-md-12">
+						<div class="alert alert-success inline-block hidden" id="alert-city-found" style="font-family:inherit;">
+							<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
+							<div class="btn btn-success pull-right" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
+						</div>
 					</div>
 
 					<input type="hidden" name="geoPosLatitude" id="geoPosLatitude">
 					<input type="hidden" name="geoPosLongitude" id="geoPosLongitude">
 						
-			</div>
+			<!-- </div>
 			
-			<div class="col-md-12">			
-				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Quand") ?> ?</h3>
-                        	
-				<div class="col-md-6">				
-					<div class="row">
-						<div class="form-group">
-							<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">
-						</div>
-					</div>
-					<div class="no-all-day-range">
-						<div class="row">
-							<div class="form-group">
-								<div class="form-group">
-									<span class="input-icon">
-										<input type="text" class="event-range-date form-control" name="eventRangeDate" placeholder="Range date"/>
-										<i class="fa fa-clock-o"></i> </span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="all-day-range ">
-						<div class="col-md-9">
-							<div class="form-group">
-								<div class="form-group">
-									<span class="input-icon">
-										<input type="text" class="event-range-date form-control" name="ad_eventRangeDate" placeholder="Range date"/>
-										<i class="fa fa-calendar"></i> </span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="hide">
-						<input type="text" class="event-start-date" name="eventStartDate"/>
-						<input type="text" class="event-end-date" name="eventEndDate"/>
-					</div>
-				</div>
+			<div class="col-md-6 row pull-left">			 -->
+				
+				<!-- </div> -->
 			</div>
 			
 
@@ -273,6 +274,7 @@ if( !isset($_GET["isNotSV"]))
 	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
 	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
 	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
+	var countries = getCountries("select2");
 	var parentOrga = [];
 	var defaultHours;
 	var citiesByPostalCode;
@@ -334,9 +336,15 @@ if( !isset($_GET["isNotSV"]))
 		$('.form-event #city').change(function(e){ //toastr.info("city change");
 			Sig.execFullSearchNominatim(0);
 		});
-		$('.form-event #eventCountry').change(function(e){ //toastr.info("city change");
+		$('.form-event #eventCountry').change(function(e){ 
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null)
 			Sig.execFullSearchNominatim(0);
 		});
+		
+		$('.form-event #fullStreet').change(function(e){ //toastr.info("city change");
+			Sig.execFullSearchNominatim(0);
+		});
+		
 	}
 
 	function searchCity() {
@@ -359,6 +367,10 @@ if( !isset($_GET["isNotSV"]))
 		$(".close-subview-button").off().on("click", function(e) {
 			$(".close-subviews").trigger("click");
 			e.preventDefault();
+		});
+
+		$('#eventCountry').select2({
+			data : countries,
 		});
 	};
 
@@ -385,6 +397,9 @@ if( !isset($_GET["isNotSV"]))
 			},
 			ignore : "",
 			rules : {
+				eventCountry : {
+					required : true
+				},
 				eventName : {
 					minlength : 2,
 					required : true
@@ -445,11 +460,13 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.city = $(".form-event #city ").val();
+				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
-				console.log(newEvent)			
+				console.log("newEvent");		
+				console.dir(newEvent);			
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -578,6 +595,9 @@ if( !isset($_GET["isNotSV"]))
 	//----------------------------Function for event SV--------------------
 
 	function initMyOrganization(){
+
+		$("#eventCountry").select2('val', "");
+
 		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
 			//$(".selectpicker").addClass("col-md-12");
 			//$(".categoryOrgaEvent").addClass("col-md-4");

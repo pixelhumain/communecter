@@ -40,6 +40,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
   border-radius: 25px;
 }
 </style>
+<?php
+	if( @$isNotSV ) {
+	if(@$project)
+		Menu::project($project);
+		$this->renderPartial('../default/panels/toolbar'); 
+	}
+?>
 <div id="editProjectChart">
 	<div class="noteWrap <?php if (@$isNotSV) echo "panel-white col-md-12"; else echo "col-md-8 col-md-offset-2"?>">
 		<h3><?php echo Yii::t("project","Add project's properties",null,Yii::app()->controller->module->id) ?></h3>

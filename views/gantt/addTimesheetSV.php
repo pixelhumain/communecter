@@ -29,9 +29,7 @@ $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
 ?>
-
 <style>
 <?php if(!isset($isNotSV)){ ?>
 #editTimesheet{
@@ -39,7 +37,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 <?php } ?>
 </style>
-
+<?php
+if( @$isNotSV ) {
+	if(@$project)
+		Menu::project($project);
+	$this->renderPartial('../default/panels/toolbar'); 
+}
+?>
 <div id="editTimesheet">
 	<?php if( @$isNotSV ){ ?>
 <h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
@@ -313,7 +317,7 @@ function initValidationTaskTable(){
 			if (!is_array($val["key"])){
 		?>
 			color=nameTimesheetClass("<?php echo $val["color"];?>");
-			strHTML += "<tr class='task<?php echo $key;?>'>"
+			strHTML += "<tr class='task<?php echo $val["key"];?>'>"
 				+"<td><?php echo $val["name"];?></td>"
 				+"<td><?php echo $val["startDate"];?></td>"
 				+"<td><?php echo $val["endDate"];?></td>"

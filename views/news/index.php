@@ -133,7 +133,7 @@ div.timeline .date_separator span{
 }
 </style>
 
-<div id="formCreateNewsTemp" style="float: none; display:none;" class="center-block">
+<div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='ajaxForm'></form>
@@ -287,7 +287,7 @@ jQuery(document).ready(function()
 			minusOffset=630;
 		else if (streamType=="activity"){
 			if(contextParentType=="citoyens")
-				minusOffset=550;
+				minusOffset=530;
 			else
 				minusOffset=630;
 		}
@@ -764,7 +764,7 @@ function bindEvent(){
 	$('.newsAddComment').off().on("click",function() {
 		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
 		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-							 '<div class="commentContent"></div></div>'});
+			'<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
 
 		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
 			/*if(!userId){
@@ -854,14 +854,15 @@ function bindEvent(){
 				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
 				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
-console.log(newsReferror);
+			console.log(newsReferror);
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
 			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
-			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType))
+			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType).length > 0){
 				$(".stream-processing").hide();	
+			}
 			else
 				$(".stream-processing").show();	
 		}

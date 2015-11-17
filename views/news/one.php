@@ -30,7 +30,7 @@ $this->renderPartial('newsSV');
 								<div class="timeline_title text-blue">
 									<i class="fa fa-rss fa-2x <?php echo $iconNews ?> fa-border"></i>
 									<h4 class="light-text no-margin padding-5">type : News</h4>
-									<span class="block month text-small text-light"><?php echo date('d F Y H:i', $value["created"]); ?></span>
+									<span class="block month text-small text-light"><?php // echo date('d F Y H:i', $value["created"]); ?></span>
 								</div>
 								<div class="space10"></div>
 								<?php echo ((strlen($value["text"]) > 250 ) ? substr($value["text"],0,250)."..." : $value["text"]).'<a href="javascipt:;" class=" openNewsEntry '.$gotoNews.'"><i class="fa '.$gotoNewsIcon.'"></i></a>';?>

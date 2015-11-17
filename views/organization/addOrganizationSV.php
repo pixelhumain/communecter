@@ -137,6 +137,12 @@ if( !isset($_GET["isNotSV"]))
 						</div>
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
+								<label class="control-label text-green">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
+								</label>
+								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
+							</div>
+							<div class="form-group">
 								<label for="address" class="text-green">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
 								</label>
@@ -157,12 +163,6 @@ if( !isset($_GET["isNotSV"]))
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label">
-									<?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
-								</label>
-								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
 							<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
 								<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
@@ -479,7 +479,8 @@ jQuery(document).ready(function() {
 			Sig.execFullSearchNominatim(0);
 		});
 		$('#organizationCountry').change(function(e){ //toastr.info("city change");
-			Sig.execFullSearchNominatim(0);
+			if($('#organizationForm #postalCode').val() != "" && $('#organizationForm #postalCode').val() != null)
+				Sig.execFullSearchNominatim(0);
 		});
 	}
 

@@ -179,6 +179,7 @@ SigLoader.getSigFindPlace = function (Sig){
 					var textVal = "";
 					if($("#organizationCountry")) textVal = $("#organizationCountry").attr("value");
 					if($("#projectCountry")) 	  textVal = $("#projectCountry").attr("value");
+					if($("#eventCountry")) 	  	  textVal = $("#eventCountry").attr("value");
 					
 					if(typeof textVal != "undefined" && typeof textVal != ""){
 						//toastr.info("country : " + textVal);
