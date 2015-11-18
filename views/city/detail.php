@@ -103,6 +103,9 @@ $this->renderPartial('../default/panels/toolbar');
   .btn-discover-more {
     font-size:17px;
   }
+  .info-why{
+    font-weight: 300;
+  }
   @media screen and (max-width: 1024px) {
     #btn-communecter{
       font-size:15px;
@@ -120,7 +123,7 @@ $this->renderPartial('../default/panels/toolbar');
   #profilImageRand{
       max-height:300px;
       max-width:100%;
-      border-radius: 3px;
+      border-radius: 3px 3px 0px 0px;
       /*border:3px solid #93C020;*/
       /*margin-bottom:10px;*/
     }
@@ -133,10 +136,11 @@ $this->renderPartial('../default/panels/toolbar');
       color: #FFF;
       /*margin-left: -200px;*/
       margin-bottom: 10px;
-      border-radius: 3px;
-      margin-top: -10px;
+      border-radius: 0px;
+      margin-top: 0px;
       overflow-x: hidden; 
     }
+
     .entityDetails span{
       font-weight: 300;
       font-size:15px;
@@ -145,7 +149,7 @@ $this->renderPartial('../default/panels/toolbar');
     .entityDetails{
       padding-bottom:10px;
       margin-bottom:10px;
-      border-bottom:1px solid #DDD;
+      border-bottom:0px solid #DDD;
 
     }
     .entityDetails.bottom{
@@ -172,7 +176,7 @@ $this->renderPartial('../default/panels/toolbar');
   if(count($projects) < $minCount) $minCount = count($projects);
   //$minCount =100;
   $minCountOrga = $minCount;
-  //if($minCount<10) $minCount=10;
+  //if($minCount>6) $minCount=6;
 ?>
 
 
@@ -194,14 +198,14 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="panel-body">
         <h2 class="homestead text-blue center no-margin"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
         <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span></br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span></br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
         </div>
       </div>
     </div>
-    <?php $minCountOrga = $minCount-3; } ?>
+    <?php $minCountOrga = $minCount-2; } ?>
 
     <h3 class='homestead bg-green padding-10 no-margin'><i class="fa fa-angle-down"></i> Organisations au hasard</h3> 
     <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
