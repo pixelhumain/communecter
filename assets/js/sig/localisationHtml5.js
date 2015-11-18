@@ -6,6 +6,14 @@ function initHTML5Localisation(role){
 	{
 	  navigator.geolocation.getCurrentPosition(
 		function(position){ //success
+			
+			// var position = {
+			// 		coords : {
+			// 		 latitude : -20.9190923,
+			// 		 longitude : 55.4859363
+			// 		}
+			// 	};
+			// console.log(position.coords);
 		    mapBg.panTo([position.coords.latitude, position.coords.longitude], {animate:false});
 		    mapBg.setZoom(13, {animate:false});
 		    
@@ -58,7 +66,8 @@ function getCityInseeByGeoPos(coords){
 					searchCity();
 				}
 			}else{
-				getCityByLatLngNominatim(coords.latitude, coords.longitude);
+				toastr.info("Nous n'avons pas trouvé votre code postal : merci de vous localiser manuellement en remplissant le formulaire.");
+				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
 			}
 		},
 		error: function (error) {
@@ -114,7 +123,7 @@ function getInseeByCityName(cityName){
 				}
 				else if (currentRoleLoc == "prefill"){
 					if(typeof obj.cp != "undefined") {
-						toastr.success("Nous avons trouvé votre code postal : "+obj.cp);
+						toastr.success("Nous avons trouvé votre code postal à partir de notre bdd+nominatim name (getcodeinseebycityname) : "+obj.cp);
 						$(".form-group #cp").val(obj.cp);
 						searchCity();
 					}else{
