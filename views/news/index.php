@@ -934,7 +934,6 @@ function actionOnNews(news, action) {
 		type="news";
 	else 
 		type=news.data("type");
-		alert(type);
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: {
