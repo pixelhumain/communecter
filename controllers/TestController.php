@@ -436,4 +436,17 @@ class TestController extends CommunecterController {
     var_dump(Document::getGeneratedImageUrl($itemId, $itemType, Document::GENERATED_MARKER));
   }
 
+  public function actionTestMailAdmin() {
+   var_dump(Utils::getServerInformation());
+    $person = Person::getById("55c0c1a72336f213040041ee");
+    $organization = Organization::getById("55797ceb2336f25c0c0041a8");
+    var_dump($organization);
+    $params = array(  "organization" => $organization,
+                      "newPendingAdmin"   => $person ,
+                       "title" => Yii::app()->name ,
+                       "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
+  }  
+
 }

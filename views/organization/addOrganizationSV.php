@@ -109,13 +109,6 @@ if( !isset($_GET["isNotSV"]))
 									?>
 								</select>
 							</div>
-							
-							<div class="form-group">
-								<label class="control-label text-green">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Email") ?>
-								</label>
-								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
-							</div>
 							<div class="form-group organizationCategory categoryNGO">
 								<label class="control-label">
 									<?php echo Yii::t("common","Category") ?>
@@ -127,6 +120,12 @@ if( !isset($_GET["isNotSV"]))
 									<?php echo Yii::t("common","Category") ?>
 								</label>
 			        		    <input id="categoryLocalBusiness" type="hidden" name="categoryLocalBusiness" style="width:100%; height:35px;">
+							</div>
+							<div class="form-group">
+								<label class="control-label text-green">
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Email") ?>
+								</label>
+								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
 							<div class="form-group">
 								<label class="control-label text-green">
