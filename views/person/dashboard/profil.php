@@ -142,13 +142,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<div class="row">
 			<div class="col-md-12">
 				<?php 
+				/*
 				if ( $canEdit ) { ?>
 				<div class="dropdown">
 					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown" onclick="buildBgClassesList()">Backgrounds</a>	
 					<div class="dropdown-menu bgClassesContainer" style="display: none;"></div>
 				</div>
 				<br/>
-				<?php } ?>
+				<?php }*/ ?>
 				<div>
 					<?php
 					//if connected user and pageUser are allready connected
@@ -164,7 +165,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 					*/ ?>
 				</div>
-
 			</div>
 		</div>
 	</div>
