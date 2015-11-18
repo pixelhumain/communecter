@@ -46,6 +46,14 @@ $this->renderPartial('../default/panels/toolbar');
 
 
 <style type="text/css">
+
+  #cityDetail .col-sm-4,#cityDetail .col-sm-8{
+    padding:5px !important;
+  }
+  #cityDetail .panel{
+    margin-bottom:10px !important;
+  }
+
   .panel-title{
     font-family: "Homestead";
   }
@@ -79,8 +87,8 @@ $this->renderPartial('../default/panels/toolbar');
     background-color: rgb(95, 130, 149);
     color: rgb(255, 255, 255) !important;
     padding: 10px;
-    border-radius: 3px;
-    margin: 0px;
+    border-radius: 0px;
+    margin: -5px;
     margin-bottom:5px;
     font-weight: 100 !important;
   }
@@ -91,6 +99,9 @@ $this->renderPartial('../default/panels/toolbar');
   }
   .margin-top-20{
     margin-top:20px !important;
+  }
+  .btn-discover-more {
+    font-size:17px;
   }
   @media screen and (max-width: 1024px) {
     #btn-communecter{
@@ -104,6 +115,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 
   /*view randomOrga*/
+
+
   #profilImageRand{
       max-height:300px;
       max-width:100%;
@@ -121,7 +134,7 @@ $this->renderPartial('../default/panels/toolbar');
       /*margin-left: -200px;*/
       margin-bottom: 10px;
       border-radius: 3px;
-      margin-top: 15px;
+      margin-top: -10px;
       overflow-x: hidden; 
     }
     .entityDetails span{
@@ -142,9 +155,13 @@ $this->renderPartial('../default/panels/toolbar');
       margin-top: 10px;
       margin-bottom: -13px;
     }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+
     @media screen and (max-width: 1000px) {
-      .entityTitle{
-        /*margin-left: 0px;*/
+      .entityDetails span{
+        font-size: 1em;
       }
     }
 </style>
@@ -153,6 +170,7 @@ $this->renderPartial('../default/panels/toolbar');
   $minCount = count($people);
   if(count($organizations) < $minCount) $minCount = count($organizations);
   if(count($projects) < $minCount) $minCount = count($projects);
+  //$minCount =100;
   $minCountOrga = $minCount;
   //if($minCount<10) $minCount=10;
 ?>
@@ -191,8 +209,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-green homestead">
-      Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -282,8 +300,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-yellow homestead">
-      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -294,8 +312,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-orange homestead">
-      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
     
