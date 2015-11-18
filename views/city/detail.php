@@ -46,6 +46,14 @@ $this->renderPartial('../default/panels/toolbar');
 
 
 <style type="text/css">
+
+  #cityDetail .col-sm-4,#cityDetail .col-sm-8{
+    padding:5px !important;
+  }
+  #cityDetail .panel{
+    margin-bottom:10px !important;
+  }
+
   .panel-title{
     font-family: "Homestead";
   }
@@ -79,8 +87,8 @@ $this->renderPartial('../default/panels/toolbar');
     background-color: rgb(95, 130, 149);
     color: rgb(255, 255, 255) !important;
     padding: 10px;
-    border-radius: 3px;
-    margin: 0px;
+    border-radius: 0px;
+    margin: -5px;
     margin-bottom:5px;
     font-weight: 100 !important;
   }
@@ -91,6 +99,12 @@ $this->renderPartial('../default/panels/toolbar');
   }
   .margin-top-20{
     margin-top:20px !important;
+  }
+  .btn-discover-more {
+    font-size:17px;
+  }
+  .info-why{
+    font-weight: 300;
   }
   @media screen and (max-width: 1024px) {
     #btn-communecter{
@@ -104,10 +118,12 @@ $this->renderPartial('../default/panels/toolbar');
 
 
   /*view randomOrga*/
+
+
   #profilImageRand{
       max-height:300px;
       max-width:100%;
-      border-radius: 3px;
+      border-radius: 3px 3px 0px 0px;
       /*border:3px solid #93C020;*/
       /*margin-bottom:10px;*/
     }
@@ -120,10 +136,11 @@ $this->renderPartial('../default/panels/toolbar');
       color: #FFF;
       /*margin-left: -200px;*/
       margin-bottom: 10px;
-      border-radius: 3px;
-      margin-top: 15px;
+      border-radius: 0px;
+      margin-top: 0px;
       overflow-x: hidden; 
     }
+
     .entityDetails span{
       font-weight: 300;
       font-size:15px;
@@ -132,7 +149,7 @@ $this->renderPartial('../default/panels/toolbar');
     .entityDetails{
       padding-bottom:10px;
       margin-bottom:10px;
-      border-bottom:1px solid #DDD;
+      border-bottom:0px solid #DDD;
 
     }
     .entityDetails.bottom{
@@ -142,9 +159,13 @@ $this->renderPartial('../default/panels/toolbar');
       margin-top: 10px;
       margin-bottom: -13px;
     }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+
     @media screen and (max-width: 1000px) {
-      .entityTitle{
-        /*margin-left: 0px;*/
+      .entityDetails span{
+        font-size: 1em;
       }
     }
 </style>
@@ -153,8 +174,9 @@ $this->renderPartial('../default/panels/toolbar');
   $minCount = count($people);
   if(count($organizations) < $minCount) $minCount = count($organizations);
   if(count($projects) < $minCount) $minCount = count($projects);
+  //$minCount =100;
   $minCountOrga = $minCount;
-  //if($minCount<10) $minCount=10;
+  //if($minCount>6) $minCount=6;
 ?>
 
 
@@ -165,10 +187,10 @@ $this->renderPartial('../default/panels/toolbar');
 
     <?php if(!isset(Yii::app()->session["userId"])){ ?>
     <div class="panel panel-white">
-      <div id="local-actors-popup-sig">
+      <div>
         <div class="panel-heading border-light padding-5">
           <h1 class="homestead text-blue center you-live">Vous habitez à <b><?php echo $city["name"]; ?> ?</b></h1>
-          <a href="javascript:communecter();" class="btn homestead text-red no-margin" id="btn-communecter">
+          <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login?register=1'); ?>" class="btn homestead text-red no-margin" id="btn-communecter">
             COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -176,14 +198,14 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="panel-body">
         <h2 class="homestead text-blue center no-margin"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
         <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span></br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
-          <label class="margin-top-20"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span></br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
         </div>
       </div>
     </div>
-    <?php $minCountOrga = $minCount-3; } ?>
+    <?php $minCountOrga = $minCount-2; } ?>
 
     <h3 class='homestead bg-green padding-10 no-margin'><i class="fa fa-angle-down"></i> Organisations au hasard</h3> 
     <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
@@ -191,8 +213,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-green homestead">
-      Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -282,8 +304,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-orange homestead">
-      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -294,8 +316,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-yellow homestead">
-      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
+    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+      Découvrir + <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
     

@@ -298,6 +298,7 @@ svg.graph .line {
 <script type="text/javascript">
 	var geoPositionCity = null;
 	var citiesByPostalCode = null;
+	var register = <?php echo isset($_GET["register"]) ? "true" : "false"; ?>;
 	jQuery(document).ready(function() {
 		userId = null;
 		Main.init();
@@ -374,6 +375,18 @@ svg.graph .line {
 			showPanel('box-ph');
 		});
 	
+
+		if(register == true){
+			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).hide().removeClass("animated bounceOutRight");
+
+			});
+			$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+				$(this).show().removeClass("animated bounceInLeft");
+
+			});
+			activePanel = "box-register";
+		}
 	});
 
 var email = '<?php echo @$_GET["email"]; ?>';

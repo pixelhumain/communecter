@@ -6,7 +6,7 @@
    <!--  <div class="panel-heading border-light">
       <h4 class="panel-title text-blue"><i class="fa fa-random"></i> <?php echo Yii::t("common", "HAPHAZARD"); ?></h4>
     </div> -->
-    <div class="panel-body" id="orgaDetails">
+    <div class="panel-body no-padding" class="entityShortDetails">
       <!-- <i class='fa fa-spinner fa-pulse fa-4x center-block'></i> -->
       
         <?php 
@@ -52,8 +52,8 @@
             <!-- <i class="fa fa-group fa-4x"></i> -->
           <?php } ?>
        <div class='col-md-12 pull-left no-padding'>
-          <h3 class="panel-title entityTitle text-<?php echo $color; ?>" style=" <?php if($imgPath == ""){ echo "margin-top:0px !important;"; } ?>"><?php echo $faIcon/*." ".Yii::t("common", $type)." : "*/.$name; ?></h3>
-          <div class="entityDetails text-dark" >
+          <h3 class="panel-title entityTitle text-<?php echo $color; ?>" style=" <?php //if($imgPath == ""){ echo "margin-top:0px !important;"; } ?>"><?php echo $faIcon/*." ".Yii::t("common", $type)." : "*/.$name; ?></h3>
+          <div class="entityDetails text-dark padding-15" >
             <?php if(isset($randomEntity["email"])){ ?>
               <span><i class="fa fa-envelope"></i> <?php echo $randomEntity["email"]; ?></span></br>
             <?php } ?>
@@ -71,17 +71,18 @@
             <?php if(isset($randomEntity["address"]["codeInsee"])){ ?>
               <span><i class="fa fa-bullseye"></i> Insee <?php echo $randomEntity["address"]["codeInsee"]; ?></span></br>
             <?php } ?>  
+          
+          <?php if(isset($randomEntity["shortDescription"])){ ?>
+          <div class="text-blue margin-top-15">
+            <?php echo substr($randomEntity["shortDescription"], 0, 100); echo (strlen($randomEntity["shortDescription"])>300) ? " ..." : ""; ?>
+          </div>
+          <?php } else if(isset($randomEntity["description"])){ ?>
+          <div class="text-blue margin-top-15">
+            <?php echo substr($randomEntity["description"], 0, 100); echo(strlen($randomEntity["description"])>300) ? " ..." : ""; ?>
+          </div>
+          <?php } ?>
           </div>
 
-          <?php if(isset($randomEntity["shortDescription"])){ ?>
-              <span>
-                <?php echo substr($randomEntity["shortDescription"], 0, 100); echo (strlen($randomEntity["shortDescription"])>300) ? " ..." : ""; ?>
-              </span>
-              <?php } else if(isset($randomEntity["description"])){ ?>
-              <span>
-                <?php echo substr($randomEntity["description"], 0, 100); echo(strlen($randomEntity["description"])>300) ? " ..." : ""; ?>
-              </span>
-              <?php } ?>
         </div>
         
        <!--  <?php if(isset($randomEntity["shortDescription"])){ ?>
@@ -97,7 +98,7 @@
         <?php } ?> -->
 
           <?php if(isset($randomEntity["links"]["members"])){ ?>
-          <div class="entityDetails bottom col-md-12 text-dark">
+          <div class="entityDetails bottom col-md-12 text-dark padding-10 no-margin">
             <span class="pull-left col-md-6 no-padding"><i class="fa fa-link"></i> <?php echo count($randomEntity["links"]["members"]); ?> membre(s)</span>
             <?php if(isset($randomEntity["tags"])) { ?>
             <span class="pull-right col-md-6 no-padding">
