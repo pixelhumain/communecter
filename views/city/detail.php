@@ -165,7 +165,7 @@ $this->renderPartial('../default/panels/toolbar');
 
     <?php if(!isset(Yii::app()->session["userId"])){ ?>
     <div class="panel panel-white">
-      <div id="local-actors-popup-sig">
+      <div>
         <div class="panel-heading border-light padding-5">
           <h1 class="homestead text-blue center you-live">Vous habitez à <b><?php echo $city["name"]; ?> ?</b></h1>
           <a href="javascript:communecter();" class="btn homestead text-red no-margin" id="btn-communecter">
@@ -282,8 +282,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-orange homestead">
-      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
+    <a href="javascript:" class="btn btn-default pull-right text-yellow homestead">
+      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -294,8 +294,8 @@ $this->renderPartial('../default/panels/toolbar');
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
-    <a href="javascript:" class="btn btn-default pull-right text-yellow homestead">
-      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
+    <a href="javascript:" class="btn btn-default pull-right text-orange homestead">
+      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
     
