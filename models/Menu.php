@@ -108,8 +108,9 @@ class Menu {
 
         // ADD MEMBER
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
-
+        if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
+        	self::entry("left", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+		}
         //FOLLOW BUTTON
         //-----------------------------
         if( !isset( $organization["disabled"] ) ){
