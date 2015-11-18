@@ -8,6 +8,17 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Update username on citizen collection.
+To launch with mongodb
+
+db.citoyens.find().forEach(function(doc){
+    if(doc.username == null) { 
+        var username = doc.email.substr(0, doc.email.indexOf('@'));
+        print(doc.name+" :  "+doc.email+": "+username);
+        db.citoyens.update({"_id":doc._id},{'$set':{'username':username}})
+    }
+});
+
 ----------------------------------------------------
 Init scripts
 

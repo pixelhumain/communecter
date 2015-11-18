@@ -11,7 +11,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id) ?></h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
-				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel( '/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>&projectName=<?php echo $project["name"] ?>', 'ADD CONTRIBUTORS','users' )" <?php } ?>><i class="fa fa-plus"></i></a>
+				<a href="#newContributors" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel( '/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>&projectName=<?php echo addslashes($project["name"])?>', 'ADD CONTRIBUTORS','users' )" <?php } ?>><i class="fa fa-plus"></i></a>
 				<?php } ?>
 				<a href="#" class="btn btn-xs btn-link panel-close">
 					<i class="fa fa-times"></i>
