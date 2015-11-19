@@ -20,7 +20,10 @@ any news
 	> submit to vote 
 	> select a scope 
 
-sustainable social initiative
+openId
+	https://wwelves.org/perpetual-tripper/
+	https://indieauth.com/setup
+	http://openid.net/developers/specs/
 
 
 * CONTACT
