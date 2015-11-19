@@ -17,7 +17,7 @@ if( isset($_GET["isNotSV"])) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
-	$type=$_GET["type"];
+	if(@$_GET["type"]) $type=$_GET["type"];
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
 		Menu::organization( $organization );
 		$thisOrga = Organization::getById($organization["_id"]);
@@ -33,7 +33,7 @@ if( isset($_GET["isNotSV"])) {
 	}
 	else if( isset($type) && $type == Person::COLLECTION && isset($person) ){
 		Menu::person( $person );
-		$contextName = Yii::t("common","Que passa around me");
+		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
 		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
 	}

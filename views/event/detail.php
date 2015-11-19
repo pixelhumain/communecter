@@ -2,6 +2,11 @@
 //if( isset($_GET["isNotSV"])) 
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
+<?php
+$admin = false;
+	if(isset(Yii::app()->session["userId"]) && isset($event["_id"]))
+		$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
+?>
 <div class="row">
 	<div class="col-md-8 col-sm-12">
 		<?php $this->renderPartial('dashboard/description',array(
@@ -17,9 +22,13 @@ $this->renderPartial('../default/panels/toolbar');
 
 	</div>
 	<div class="col-md-4 col-sm-12">
-		<?php $this->renderPartial('dashboard/attendees', array(  "event"=> $event,
-																  "attending" => $attending,
-																  "isDetailView" => 1	));
+		<?php  //print_r($attending); 
+			$this->renderPartial('../pod/usersList', array(  "event"=> $event,
+															"users" => $attending,
+															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
+															"contentType" => Event::COLLECTION,
+															"admin" => $admin,
+															"isNotSV" => 1	));
 					?>
 	</div>
 </div>
