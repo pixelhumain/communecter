@@ -1,5 +1,4 @@
-
-	<div class="panel panel-white">
+<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("event","Attendees",null,Yii::app()->controller->module->id); ?></h4>
 		</div>
@@ -92,7 +91,7 @@
 					}
 				});
 			} else {
-				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id")+"&eventName=<?php echo $event["name"] ?>", 'ADD ATTENDEE','users' )
+				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id"), 'ADD ATTENDEE','users' )
 			}
 		});
 	});

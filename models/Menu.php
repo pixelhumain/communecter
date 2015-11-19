@@ -68,7 +68,17 @@ class Menu {
                                                                 "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         }
     }
-
+	 public static function event($event)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
+        $id = (string)$event["_id"];
+        
+        //HOME
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel', Yii::t("event","Contact information"), Yii::t("common","Details"),'home','/event/detail/id/'.$id,"event","detail");
+     }
     public static function organization($organization)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
