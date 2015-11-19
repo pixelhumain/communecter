@@ -48,7 +48,7 @@
     </a>
 
     <a  href="#panel.box-add" 
-        onclick="showPanel('box-add',null,'<?php echo Yii::t("common","ADD SOMETHING TO MY NETWORK") ?>')" 
+        onclick="showPanel('box-add',null,'<?php echo Yii::t("common", "ADD SOMETHING"); ?>')" 
         class="menuIcon btn-main-menu no-floop-item" >
         <i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "ADD SOMETHING"); ?></span>
     </a>
@@ -60,7 +60,7 @@
 <?php } else {?>
     <?php /* ?><a href="#panel.box-communecter" onclick="showPanel('box-communecter',null,null,null);" class=" menuIcon btn-main-menu" ><i class="fa fa-home fa-2x"></i><span class="menuline hide homestead"> HOME</a>*/?>
     <a  href="#panel.box-whatisit" 
-        onclick="showPanel('box-whatisit',null,null,null);" 
+        onclick="showPanel('box-whatisit');" 
         class=" menuIcon btn-main-menu" >
         <i class="fa fa-question-circle fa-2x"></i><span class="menuline hide homestead"> WHAT IS IT
     </a>
