@@ -449,4 +449,23 @@ class TestController extends CommunecterController {
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
   }  
 
+  public function actionTestBecomeAnAdmin() {
+    $person = Person::getById("55c0c1a72336f213040041ee");
+    $organization = Organization::getById("55797ceb2336f25c0c0041a8");
+    var_dump($organization);
+    $params = array(  "organization" => $organization,
+                      "newPendingAdmin"   => $person ,
+                       "title" => Yii::app()->name ,
+                       "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
+  }
+
+  public function actionTestAddPersonAdmin() {
+    $organizationId = "55797ceb2336f25c0c0041a8";
+    $personId = "5577d525a1aa1458540041b0";
+    var_dump(Organization::addPersonAsAdmin($organizationId, $personId, $personId));
+
+  }
+
 }
