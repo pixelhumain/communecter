@@ -160,6 +160,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	var projectId=$(".form-contributor #projectID").val();
 	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	jQuery(document).ready(function() {
+		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();
 	 	runContributorFormValidation();
 	 	$('#contributorEmail').keyup(function(e){

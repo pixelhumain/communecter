@@ -42,6 +42,7 @@
 				<div class="col-md-12 needsPod">	
 				</div>
 				<?php } ?>
+				<?php if ($admin == 1 || !empty($events)){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $organization["_id"],
@@ -50,6 +51,8 @@
 																			"isNotSV" => 1
 																		  )); ?>
 				</div>
+				<?php } ?>
+				<?php if ($admin == 1 || !empty($projects)){ ?>
 				<div class="col-md-12 col-xs-12">
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
 															"contextId" => (String) $organization["_id"],
@@ -58,6 +61,7 @@
 															"isNotSV" => 1
 					)); ?>
 				</div>
+				<?php } ?>
 			</div>
 	    </div>
 	 </div>

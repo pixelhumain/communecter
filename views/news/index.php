@@ -11,15 +11,45 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
-if( isset($_GET["isNotSV"])) 
-{
-	Menu::news( @$_GET["id"] , @$_GET["type"] );
+if( isset($_GET["isNotSV"])) {
+	/*
+	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
+	$contextName = "";
+	$contextIcon = "bookmark fa-rotate-270";
+	$contextTitle = "";
+	if(@$_GET["type"]) $type=$_GET["type"];
+	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
+		Menu::organization( $organization );
+		$thisOrga = Organization::getById($organization["_id"]);
+		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
+		$contextIcon = "users";
+		$contextTitle = Yii::t("common","Participants");
+	}
+	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
+		Menu::city( $city );
+		$contextName = Yii::t("common","City")." : ".$city["name"];
+		$contextIcon = "university";
+		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+	}
+	else if( isset($type) && $type == Person::COLLECTION && isset($person) ){
+		Menu::person( $person );
+		$contextName = Yii::t("common","Person")." : ".$person["name"];
+		$contextIcon = "user";
+		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+	}
+	else if( isset($type) && $type == PROJECT::COLLECTION && isset($project) ){
+		Menu::project( $project );
+		$contextName = Yii::t("common","Project")." : ".$project["name"];
+		$contextIcon = "lightbulb-o";
+		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+	}
+	/*else
+		$this->toolbarMBZ = array(
+		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+		);*/
+	Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
-	?>
-	<?php 
 }
-else 
-	$this->renderPartial('../sig/generic/mapLibs');
 ?>
 <style>
 #btnCitoyens:hover{
@@ -65,7 +95,7 @@ else
 	overflow-x: hidden;
 	position:fixed;
 	top:100px;
-	padding-top:100px !important;
+	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
 	left:70px;
@@ -266,6 +296,7 @@ var formCreateNews;
 
 jQuery(document).ready(function() 
 {
+	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 		Sig = SigLoader.getSig();
 		Sig.loadIcoParams();
@@ -601,8 +632,20 @@ function buildLineHTML(newsObj)
 		authorLine="";
 	//END OF CREATED BY OR INVITED BY
 	var commentCount = 0;
+	if (streamType=="news"){
+		idVote=newsObj._id['$id'];
+	}
+	else
+		idVote=newsObj.id;
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
+	var voteUpCount = 0;
+	if ("undefined" != typeof newsObj.voteUpCount){ 
+		voteUpCount = newsObj.voteUpCount;
+	}
+	var voteDownCount = 0;
+	if ("undefined" != typeof newsObj.voteDownCount) 
+		voteDownCount = newsObj.voteDownCount;
 
 	newsTLLine = '<li class="newsFeed '+''/*tagsClass*/+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
@@ -630,10 +673,10 @@ function buildLineHTML(newsObj)
 						
 						'<hr>'+
 						"<div class='bar_tools_post pull-left'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-							"<a href='javascript:;' class='newsVoteUp' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-up'></i></span></a> "+
-							"<a href='javascript:;' class='newsVoteDown' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-thumbs-down'></i></span></a> "+
-							"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteUp' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+							"<a href='javascript:;' class='newsVoteDown' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+							//"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
 							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 						"</div>"+
 					'</div>'+
@@ -770,8 +813,12 @@ function bindEvent(){
 		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
 		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
 			'<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
-
-		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
+		if(streamType=="news"){
+			type="news";
+		}
+		else
+			type=$(this).data("type");
+		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
 			/*if(!userId){
 				window.location.href = baseUrl+'/'+moduleId+"/person/login";
 			} else{*/
@@ -794,16 +841,20 @@ function bindEvent(){
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		toastr.info('TODO : VOTE UP this news Entry');
+		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
+		//disableOtherAction($(this).data("id"), '.commentVoteUp');
 		console.log("newsVoteUp",$(this).data("id"));
 		count = parseInt($(this).data("count"));
-		$(this).data( "count" , count+1 );
+		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 	});
 	$('.newsVoteDown').off().on("click",function(){
-		toastr.info('TODO : VOTE DOWN this news Entry');
+		toastr.info('VOTE DOWN this news: add a comment');
+		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
+		disableOtherAction($(this), '.commentVoteDown');
 		console.log("newsVoteDown",$(this).data("id"));
-		count = parseInt($(this).data("count"));
-		$(this).data( "count" , count+1 );
+		//count = parseInt($(this).data("count"));
+		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	});
 	$('.newsShare').off().on("click",function(){
@@ -909,7 +960,56 @@ function bindEvent(){
 	 //	}
 	 //});
 }
-
+function actionOnNews(news, action) {
+	if (streamType=="news")
+		type="news";
+	else 
+		type=news.data("type");
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/action/addaction/",
+		data: {
+			id: news.data("id"),
+			collection : ''+type+'',
+			action : action
+		},
+		type: 'post',
+		global: false,
+		async: false,
+		dataType: 'json',
+		success: 
+			function(data) {
+    			if(!data.result){
+                    toastr.error(data.msg);
+                    console.log(data);
+               	}
+                else { 
+                    if (data.userAllreadyDidAction) {
+                    	toastr.info("You already vote on this comment.");
+                    } else {
+	                    toastr.success(data.msg);
+	                    count = parseInt(news.data("count"));
+						news.data( "count" , count+1 );
+						icon = news.children(".label").children(".fa").attr("class");
+						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
+					}
+                }
+            },
+        error: 
+        	function(data) {
+        		toastr.error("Error calling the serveur : contact your administrator.");
+        	}
+		});
+}
+function disableOtherAction(commentId, action) {
+	if (action != ".commentVoteUp") {
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-green").addClass("label-inverse");
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").off();
+	}
+	if (action != ".commentVoteDown") {
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-orange").addClass("label-inverse");	
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").off();
+	}	
+}
 function updateNews(newsObj)
 {
 	var date = new Date( parseInt(newsObj.created.sec)*1000 );

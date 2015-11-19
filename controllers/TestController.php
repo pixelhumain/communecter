@@ -4,7 +4,10 @@ class TestController extends CommunecterController {
   protected function beforeAction($action) {
 	return parent::beforeAction($action);
   }
-
+  public function actionIndex() {
+    $userNotifcations = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );//PHDB::find( ActivityStream::COLLECTION,array("notify.id"  => Yii::app()->session["userId"] ));
+    echo count($userNotifcations);
+  }
   public function actionTest() {
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 
 	  //"5374fc91f6b95c9c1b000871", PHType::TYPE_CITOYEN, Yii::app()->session["userId"], true));
@@ -21,8 +24,44 @@ class TestController extends CommunecterController {
 	var_dump(Link::isConnected("54fed0eca1aa1411180041ae", PHType::TYPE_CITOYEN, 
 	  "5374fc91f6b95c9c1b000871", PHType::TYPE_CITOYEN));
 	*/
+	/*$person=PHDB::find(Person::COLLECTION);
+	foreach($person as $key => $data){
+		if(@$data["geoPosition"]){
+			echo $data["name"]."//";
+			print_r($data["geoPosition"]);
+			$geoPosition=array("type"=> "Point", "coordinates" => array("0" => $data["geoPosition"]["coordinates"][1], "1" => $data["geoPosition"]["coordinates"][0]));
+			print_r($geoPosition);
+			$res = PHDB::update(Person::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("geoPosition" => $geoPosition)));
+		                            echo "</br>";
+				print_r($res);
+				echo '</br>';
+		}
+	}*/
+	/*$index=PHDB::createIndex (Person::COLLECTION) ;
+	$res=$index::find(Person::COLLECTION,array('geoPosition.coordinates' => array ('$nearSphere' => array(
+               '$geometry' => array(
+                   "type" => "Point",
+                   "coordinates" => array(3.06388688609426, 50.6333596221436)
+               ),
+               '$maxDistance' => 5000
+           )
+)));*///.createIndex( { 'geoPosition.coordinates' : "2dsphere" } );
+//print_r($res);
+/*	.getCollection('citoyens').createIndex( { 'geoPosition.coordinates' : "2dsphere" } );
+db.getCollection('citoyens').find({'geoPosition.coordinates': {
+           $nearSphere: {
+               $geometry: {
+                   type: "Point",
+                   coordinates: [3.06388688609426, 50.6333596221436]
+               },
+               $maxDistance: 5000
+           }
+       }
+   })*/
 	//Rest::Json($res);
-	$news=PHDB::find(News::COLLECTION);
+	/*$news=PHDB::find(News::COLLECTION);
 	foreach ($news as $key => $data){
 		if (@$data["created"]){	
 			if (is_int($data["created"])){
@@ -125,7 +164,7 @@ class TestController extends CommunecterController {
 				echo '</br>';
 			}
 		}
-	}
+	}*/
 }
 
   public function actionInsertNewPerson() {

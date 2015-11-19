@@ -1,5 +1,4 @@
-
-	<div class="panel panel-white">
+<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("event","Attendees",null,Yii::app()->controller->module->id); ?></h4>
 		</div>
@@ -11,7 +10,7 @@
 		<?php if (isset($isDetailView)){ ?>
 			<?php foreach ($attending as $member) { 
 			?>
-				<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/detail/id/".$member['_id'])?>" title="<?php echo $member["name"];?>" class="btn block text-left">
+				<a href="javascript:;" onclick="loadByHash( '#person.detail.id.<?php echo $member['_id']?>')" title="<?php echo $member["name"];?>" class="btn block text-left">
 				<?php if($member && isset($member["imagePath"])) { ?>
 					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
 				<?php } else{ ?>
@@ -19,7 +18,6 @@
 				<?php } ?>
 					<?php if(isset($member["name"])) echo $member["name"]; ?>
 					<?php if(isset($member["address"]["postalCode"])) echo ", <small>".$member["address"]["postalCode"]."</span>"; ?>
-										
 				</a>					
 			<?php } ?>
 		<?php }
@@ -93,7 +91,7 @@
 					}
 				});
 			} else {
-				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id")+"&eventName=<?php echo $event["name"] ?>", 'ADD ATTENDEE','users' )
+				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id"), 'ADD ATTENDEE','users' )
 			}
 		});
 	});
