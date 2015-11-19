@@ -51,7 +51,7 @@
           <?php }else{ ?>
             <!-- <i class="fa fa-group fa-4x"></i> -->
           <?php } ?>
-       <div class='col-md-12 pull-left no-padding'>
+       <div class='col-md-12 no-padding'>
           <h3 class="panel-title entityTitle text-<?php echo $color; ?>" style=" <?php //if($imgPath == ""){ echo "margin-top:0px !important;"; } ?>"><?php echo $faIcon/*." ".Yii::t("common", $type)." : "*/.$name; ?></h3>
           <div class="entityDetails text-dark padding-15" >
             <?php if(isset($randomEntity["email"])){ ?>
