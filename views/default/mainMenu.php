@@ -48,7 +48,7 @@
     </a>
 
     <a  href="#panel.box-add" 
-        onclick="showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK')" 
+        onclick="showPanel('box-add',null,'<?php echo Yii::t("common","ADD SOMETHING TO MY NETWORK") ?>')" 
         class="menuIcon btn-main-menu no-floop-item" >
         <i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "ADD SOMETHING"); ?></span>
     </a>
