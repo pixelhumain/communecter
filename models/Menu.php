@@ -207,7 +207,7 @@ class Menu {
         } */
     }
 
-    public static function news($id,$type)
+    public static function news()
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
@@ -220,7 +220,7 @@ class Menu {
         //self::entry("left", 'filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
         //self::entry("left", 'filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
         //self::entry("left", 'filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
-        if ( @$id && $type=="projects"){
+        /*if ( @$id && $type=="projects"){
 	         self::entry("left", 'showAjaxPanel', Yii::t( "common", 'General information about this project'), Yii::t( "common", 'Details'), 'home','/project/detail/id/'.$id,"project","detail");
 	        //SEE TIMELINE
 	        //-----------------------------
@@ -247,11 +247,11 @@ class Menu {
 
 	         self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
 	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        }
-        else{
-	        self::entry("left", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("left", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        }
+        }*/
+       // else{
+	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
+	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+        //}
     }
 
     public static function project($project)
