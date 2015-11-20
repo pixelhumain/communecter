@@ -160,7 +160,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
     <?php $minCountOrga = $minCount-2; } ?>
 
-    <h3 class='homestead bg-green padding-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
+    <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
     <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
     <?php if($randomEntity != null && $cnt<$minCountOrga){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
@@ -251,7 +251,7 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
     
   <div class="col-sm-4 col-xs-12 pull-right">
-    <h3 class='homestead bg-yellow padding-10'><i class="fa fa-angle-down"></i> Des citoyens au hasard</h3> 
+    <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des citoyens au hasard</h3> 
     <?php $cnt=0; foreach($people as $randomEntity){ ?>
     <?php if($randomEntity != null && $cnt<$minCount){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
@@ -263,7 +263,7 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 
   <div class="col-sm-4 col-xs-12 pull-right">
-  <h3 class='homestead bg-orange padding-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
+  <h3 class='homestead bg-orange padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
     <?php $cnt=0; foreach($projects as $randomEntity){ ?>
       <?php if($randomEntity != null && $cnt<$minCount){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
