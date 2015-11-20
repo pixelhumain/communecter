@@ -27,13 +27,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	padding-right: 20px;
 	padding-top: 10px;
 }
+
 </style>
 <?php 
 Menu::person($person);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
 		<?php $this->renderPartial('dashboard/profil', array("person" => $person, 
 															 "tags" => $tags, 
 															 "countries" => $countries, 

@@ -282,30 +282,38 @@ if( isset($_GET["isNotSV"])) {
 								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
 							</a>
 						</li>
+						<?php if(count($people) > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
 							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
 								<span class="badge"><?php echo count($people);  ?></span>
 							</a>
 						</li>
+						<?php } ?>
+						<?php if(count($organizations) > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class=""><?php echo Yii::t("common","Organizations") ?></span> 
 								<span class="badge"><?php echo count($organizations);  ?></span>
 							</a>
 						</li>
+						<?php } ?>
+						<?php if(count($events) > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
 								<span class="badge bg"><?php echo count($events);  ?></span>
 							</a>
 						</li>
+						<?php } ?>
+						<?php if(count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg"><?php echo count($projects);  ?></span>
 							</a>
 						</li>
+						<?php } ?>
 						<li  class="" style="margin-left:30px;">
 							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
 						</li>
