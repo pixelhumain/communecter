@@ -32,26 +32,142 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	padding-right: 10px;
 }
 
+/* from randomOrga */
+
+	.panel-white .border-light{
+		border:0 !important;
+	}
+
+  	#profil_imgPreview{
+      max-height:400px;
+      width:100%;
+      border-radius: 4px 4px 0px 0px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
+      margin-bottom:0px;
+     
+
+    }
+    .panel-green{
+      background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
+    }
+    .entityTitle{
+      padding: 10px 20px;
+      background-color: #EFEFEF; /*#2A3A45;* /
+      color: #FFF;
+      /*margin-left: -200px;*/
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: 0px;
+      overflow-x: hidden; 
+      font-weight: 200;
+      font-size: 20px;
+      -moz-box-shadow: 0px 3px 5px -2px #656565;
+	  -webkit-box-shadow: 0px 3px 5px -2px #656565;
+	  -o-box-shadow: 0px 3px 5px -2px #656565;
+	  box-shadow: 0px 3px 5px -2px #656565;
+	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+    }
+
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
+
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+      font-size: 15px;
+	  font-weight: 300;
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+    .entityDetails i.fa{
+      margin-right:7px;
+      font-size: 17px;
+		margin-top: 5px;
+    }
+
+    .fileupload{
+    	margin-bottom:0px !important;
+    }
+
+    .lbl-betatest{
+    	margin:10px;
+    	position: absolute;
+		right: 5px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 21px;
+    	font-family: "homestead";
+    }
+    #fileuploadContainer{
+    	z-index:0 !important;
+    }
+    .tag_group{
+    	font-size:14px;
+    	font-weight: 300;
+    }
+
+    .editable-pre-wrapped {
+	    white-space: normal;
+	    padding:30px; 
+	}
+
+    @media screen and (max-width: 1000px) {
+      .entityDetails span{
+        font-size: 1em;
+      }
+    }
+
 </style>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-        <h4 class="panel-title"><i class="fa fa-user fa-2x text-blue"></i>   Account info</h4>
+        <h4 class="panel-title text-dark"><i class="fa fa-info-circle text-dark"></i> <?php echo Yii::t("common","Account info") ?></h4>
     </div>
 	
  	<div class="panel-tools">
+ 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+					<a href="javascript:;" class="btn btn-xs bg-red" style="color:white !important;" ><i class="fa"></i>Beta Tester</a>
+		<?php 	} ?>
+ 		<?php
+			//if connected user and pageUser are allready connected
+			$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+			if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+			{  /* ?>
+				<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+			<?php */ } 
+			if (Person::logguedAndValid() && $canEdit) {
+			?>
+				<a href='javascript:;' class='btn btn-sm btn-red changePasswordBtn'><i class='fa fa-key'></i> <span class="hidden-sm hidden-xs"><?php echo Yii::t("common","Change password") ?></span></a>
+			<?php } /*?>
+			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+			*/ 
+		?>
+
  		<?php    
 				if ( $canEdit ) { ?>
-					<a href="javascript:" id="editProfil" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="right" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+					<a href="javascript:" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
+					<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="right" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>
+		
+	
+			
   	</div>
   	<div class="panel-body" style="padding-top: 0px">
-		<div class="row" style="height: 190px">
-			<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
- 						<a href="javascript:;" class="btn btn-xs btn-red pull-right" ><i class="fa"></i>Beta Tester</a>
- 			<?php 	} ?>
-			<div class="col-sm-5 col-xs-5 no-padding border-light" style="border-width: 1px; border-style: solid;">
+		<div class="row" style="">
+			<div class="col-sm-6 col-md-5 padding-15 border-light" style="border-width: 1px; border-style: solid;">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
@@ -60,35 +176,44 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "show" => true,
 																	  "editMode" => $canEdit )); 
 				?>
+				<h2 class="entityTitle text-yellow homestead">
+					<i class="fa fa-user fa_username"></i> 
+					<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class=" text-yellow editable-person editable editable-click">
+						<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+					</a>
+				</h2>
+					
 			</div>
-			<div class="col-sm-7 col-xs-7">
-				<div class="padding-10">
-					<h2>
-						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
-							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
-						</a>
-					</h2>
+			<div class="col-sm-6 col-md-7 margin-top-20">
+				<div class="padding-10 entityDetails text-dark">
+					<i class="fa fa-smile-o fa_name hidden"></i> 
 					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-						<?php if(isset($person["name"]))echo $person["name"]; else echo "";?>
+						<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
 					</a>
 					<br>
+					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
 					<br>
+					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
 						<?php echo (isset($person["email"])) ? $person["email"] : null; ?>
 					</a>
 					<br>
+					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
 						<?php echo (isset( $person["address"]["streetAddress"])) ? $person["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
+					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
+					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
+					<i class="fa fa-phone fa_telephone hidden"></i> 
 					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
 						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
 					</a>
@@ -96,9 +221,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				Socials
+		
+		<div class="row text-dark">
+			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
+				<!-- Description -->
+				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
+					<?php echo (isset($person["shortDescription"])) ? $person["shortDescription"] : null; ?>
+				</a>
+			</div>
+		</div>
+		<div class="padding-10 row text-dark">
+			<div class="pull-left col-sm-7 col-md-8 tag_group">
+				<?php echo Yii::t("common","Socials") ?> :
 				<a href="#" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
 					<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
 				</a>
@@ -115,21 +249,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
 				</a>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 border-light" style="border-width: 1px">
-				Description
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-					<?php echo (isset($person["shortDescription"])) ? $person["shortDescription"] : null; ?>
-				</a>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group">
-					<label class="control-label">
-						Tags : 
+			
+			<div class="pull-right text-right col-sm-5 col-md-4">
+				<div class="form-group tag_group no-margin">
+					<label class="control-label  text-red">
+						<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 					</label>
 					
-					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click">
+					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
 						<?php if(isset($person["tags"])){
 							foreach ($person["tags"] as $tag) {
 								//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
@@ -139,7 +266,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>	
 			</div>
 		</div>
-		<div class="row">
+		<div class="row text-dark">
 			<div class="col-md-12">
 				<?php 
 				/*
@@ -150,21 +277,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 				<br/>
 				<?php }*/ ?>
-				<div>
-					<?php
-					//if connected user and pageUser are allready connected
-					$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
-    				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
-					{  /* ?>
-						<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
-					<?php */ } 
-					if (Person::logguedAndValid() && $canEdit) {
-					?>
-						<a href='javascript:;' class='btn btn-xs btn-red changePasswordBtn'><i class='fa fa-key'></i> Change password</a>
-					<?php } /*?>
-					<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
-					*/ ?>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -258,6 +371,8 @@ function bindAboutPodEvents()
 	        }
 	    });
     });
+
+
 }
 
 function initXEditable() {
@@ -337,6 +452,19 @@ function initXEditable() {
         	addressLocality : '<?php echo (isset( $person["address"]["addressLocality"])) ? $person["address"]["addressLocality"] : ""; ?>'
     	}
 	});
+
+
+	if(<?php echo isset($person["name"]) 						? "true" : "false"; ?>){ $(".fa_name").removeClass("hidden"); }
+	if(<?php echo isset($person["birthDate"]) 					? "true" : "false"; ?>){ $(".fa_birthDate").removeClass("hidden"); }
+	if(<?php echo isset($person["email"]) 						? "true" : "false"; ?>){ $(".fa_email").removeClass("hidden"); }
+	if(<?php echo isset($person["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
+	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
+	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+
+	
+
+
 }
 
 function manageModeContext() {

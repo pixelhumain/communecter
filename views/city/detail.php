@@ -102,6 +102,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
   .btn-discover-more {
     font-size:17px;
+    white-space: unset;
   }
   .info-why{
     font-weight: 300;
@@ -120,61 +121,13 @@ $this->renderPartial('../default/panels/toolbar');
   /*view randomOrga*/
 
 
-  #profilImageRand{
-      max-height:300px;
-      max-width:100%;
-      border-radius: 3px 3px 0px 0px;
-      /*border:3px solid #93C020;*/
-      /*margin-bottom:10px;*/
-    }
-    .panel-green{
-      background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
-    }
-    .entityTitle{
-      padding: 10px 20px;
-      background-color: #2A3A45;
-      color: #FFF;
-      /*margin-left: -200px;*/
-      margin-bottom: 10px;
-      border-radius: 0px;
-      margin-top: 0px;
-      overflow-x: hidden; 
-    }
-
-    .entityDetails span{
-      font-weight: 300;
-      font-size:15px;
-
-    }
-    .entityDetails{
-      padding-bottom:10px;
-      margin-bottom:10px;
-      border-bottom:0px solid #DDD;
-
-    }
-    .entityDetails.bottom{
-      /*border-top:1px solid #DDD;*/
-      border-bottom:0px solid #DDD;
-      padding: 5px;
-      margin-top: 10px;
-      margin-bottom: -13px;
-    }
-    .entityDetails i.fa-tag{
-      margin-left:10px;
-    }
-
-    @media screen and (max-width: 1000px) {
-      .entityDetails span{
-        font-size: 1em;
-      }
-    }
 </style>
 
 <?php 
   $minCount = count($people);
   if(count($organizations) < $minCount) $minCount = count($organizations);
   if(count($projects) < $minCount) $minCount = count($projects);
-  //$minCount =100;
+  $minCount =100;
   $minCountOrga = $minCount;
   //if($minCount>6) $minCount=6;
 ?>
@@ -207,14 +160,14 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
     <?php $minCountOrga = $minCount-2; } ?>
 
-    <h3 class='homestead bg-green padding-10 no-margin'><i class="fa fa-angle-down"></i> Organisations au hasard</h3> 
+    <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
     <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
     <?php if($randomEntity != null && $cnt<$minCountOrga){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
     <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir + <i class="fa fa-arrow-circle-right"></i>
+      Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
@@ -298,26 +251,26 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
     
   <div class="col-sm-4 col-xs-12 pull-right">
-    <h3 class='homestead bg-yellow padding-10 no-margin'><i class="fa fa-angle-down"></i> Citoyens au hasard</h3> 
+    <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des citoyens au hasard</h3> 
     <?php $cnt=0; foreach($people as $randomEntity){ ?>
     <?php if($randomEntity != null && $cnt<$minCount){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
     <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir + <i class="fa fa-arrow-circle-right"></i>
+      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
 
   <div class="col-sm-4 col-xs-12 pull-right">
-  <h3 class='homestead bg-orange padding-10 no-margin'><i class="fa fa-angle-down"></i> Projets au hasard</h3> 
+  <h3 class='homestead bg-orange padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
     <?php $cnt=0; foreach($projects as $randomEntity){ ?>
       <?php if($randomEntity != null && $cnt<$minCount){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
                     array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
     <?php } ?>
     <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir + <i class="fa fa-arrow-circle-right"></i>
+      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
     

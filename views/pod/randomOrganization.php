@@ -1,5 +1,53 @@
 <style>
     
+    #profilImageRand{
+      height:100%;
+      width:100%;
+      border-radius: 10px;
+      /*border:3px solid #93C020;*/
+      /*margin-bottom:10px;*/
+    }
+    .panel-green{
+      background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
+    }
+    .entityTitle{
+      padding: 10px 20px;
+      background-color: #EFEFEF; /*#2A3A45;*/
+      color: #FFF;
+      /*margin-left: -200px;*/
+      margin-bottom: 10px;
+      border-radius: 0px;
+      margin-top: 0px;
+      overflow-x: hidden; 
+    }
+
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
+
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+
+    @media screen and (max-width: 1000px) {
+      .entityDetails span{
+        font-size: 1em;
+      }
+    }
 </style>
 
   <div class="panel panel-white">
@@ -30,8 +78,10 @@
             $faIcon = "";
             $type = "";
             $color = "white";
+            //var_dump($randomEntity);
             //echo $randomEntity["typeSig"];
-            $name = isset($randomEntity["name"]) ? $randomEntity["name"] : "";
+            $name = isset($randomEntity["username"]) ? $randomEntity["username"] : "";
+            if(isset($randomEntity["name"])) $name = $name != "" ? $name : $randomEntity["name"];
             if(isset($randomEntity["typeSig"])){
               $type = $randomEntity["typeSig"];
               $faIcon = isset($iconsEntityType[$type]) ? "<i class='fa fa-".$iconsEntityType[$type]."'></i> " : "";
@@ -43,17 +93,21 @@
             $imgPath = Yii::app()->createUrl('/'.$this->module->id).$randomEntity["profilImageUrl"];
         ?>
 
+          
+       <div class='col-md-12 no-padding bg-white'>
+          <h3 class="panel-title entityTitle text-<?php echo $color; ?>" style=" <?php //if($imgPath == ""){ echo "margin-top:0px !important;"; } ?>"><?php echo $faIcon/*." ".Yii::t("common", $type)." : "*/.$name; ?></h3>
+          
           <?php if($imgPath != ""){ ?>
-            <div class='col-lg-12 col-md-12 col-xs-12 col-sm-12 pull-left no-padding center <?php if($imgPath == ""){ echo "panel-green"; } ?>'>
-              <img id="profilImageRand" src='<?php echo $imgPath; ?>'>
+            <div class='col-lg-5 col-md-5 col-xs-12 col-sm-12 pull-left padding-15 center <?php if($imgPath == ""){ echo "panel-green"; } ?>'>
+              <img id="profilImageRand" class="" src='<?php echo $imgPath; ?>'>
             </div> 
         
           <?php }else{ ?>
             <!-- <i class="fa fa-group fa-4x"></i> -->
           <?php } ?>
-       <div class='col-md-12 no-padding'>
-          <h3 class="panel-title entityTitle text-<?php echo $color; ?>" style=" <?php //if($imgPath == ""){ echo "margin-top:0px !important;"; } ?>"><?php echo $faIcon/*." ".Yii::t("common", $type)." : "*/.$name; ?></h3>
-          <div class="entityDetails text-dark padding-15" >
+
+
+          <div class="col-lg-7 col-md-7 col-xs-12 col-sm-12 entityDetails text-dark padding-15" >
             <?php if(isset($randomEntity["email"])){ ?>
               <span><i class="fa fa-envelope"></i> <?php echo $randomEntity["email"]; ?></span></br>
             <?php } ?>
@@ -83,7 +137,7 @@
           <?php } ?>
           </div>
 
-        </div>
+        
         
        <!--  <?php if(isset($randomEntity["shortDescription"])){ ?>
         <div class='col-md-12 col-lg-8 pull-left text-dark'>
@@ -109,6 +163,8 @@
 
           </div>
           <?php } ?>
+
+      </div>
     </div>
     <div class="panel-footer text-right"  >
     <?php 

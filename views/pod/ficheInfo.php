@@ -26,26 +26,90 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.panelDetails .row{
 		margin:0px !important;
 	}
-	.info-coordonnees a{
-		font-size:14px;
-		font-weight: 500;
-	}
+	
 	.info-shortDescription a{
 		font-size:14px;
-		font-weight: 500;
+		font-weight: 300;
 	}
+	a#shortDescription{
+		font-size:15px !important;
+	}
+	#profil_imgPreview{
+      max-height:400px;
+      width:100%;
+      border-radius: 4px 4px 0px 0px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
+      margin-bottom:0px;
+     
+
+    }
+	.entityTitle{
+      padding: 10px 20px;
+      background-color: #EFEFEF; /*#2A3A45;* /
+      color: #FFF;
+      /*margin-left: -200px;*/
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: -10px;
+      overflow-x: hidden; 
+      font-weight: 200;
+      -moz-box-shadow: 0px 3px 5px -2px #656565;
+	  -webkit-box-shadow: 0px 3px 5px -2px #656565;
+	  -o-box-shadow: 0px 3px 5px -2px #656565;
+	  box-shadow: 0px 3px 5px -2px #656565;
+	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+    }
+    .entityTitle h2{
+    	font-size: 20px;
+      	margin:0px !important;
+      	text-align: left;
+    }
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
+
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+      font-size: 15px;
+	  font-weight: 300;
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+    .entityDetails i.fa{
+      margin-right:7px;
+      font-size: 17px;
+		margin-top: 5px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 21px;
+    	font-family: "homestead";
+    }
+    #fileuploadContainer{
+    	z-index:0 !important;
+    }
+    .tag_group{
+    	font-size:14px;
+    	font-weight: 300;
+    }
 
 </style>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"> 
-			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-			</a>
-			<span> - </span>
-			<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
-				class="editable-context editable editable-click required">
-				<?php echo (isset($organization)) ? $organization["name"] : null; ?>
-			</a>
+		<h4 class="panel-title text-dark"> 
+			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
 		
 		<div class="panel-tools">
@@ -53,9 +117,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
 					if(!isset($organization["disabled"])){
 				 	?>
-					<a href="javascript:" id="editFicheInfo" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-					<a href="javascript:" id="disableOrganization" class="btn btn-xs btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i> <span class="hidden-sm hidden-xs"> Disable</span></a>
+					<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="left" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-sm hidden-xs"> Editer</span></a>
+					<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+					<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i> <span class="hidden-sm hidden-xs"> Désactiver</span></a>
 			<?php } else {?>
 					<span class="label label-danger">DISABLED</span>
 			<?php }} ?>
@@ -63,7 +127,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
-			<div class="col-sm-6 col-xs-6">
+			<div class="col-sm-6 col-md-6">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $organization["_id"],
 																	  "type" => Organization::COLLECTION,
@@ -71,45 +135,65 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
 				?>
+				<div class="entityTitle text-green">
+				<h2>
+					<i class="fa fa-users"></i> 
+					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="homestead text-green editable editable-click required">
+					</a>
+					<span> - </span>
+					<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+						class="homestead text-green editable-context editable editable-click required">
+						<?php echo (isset($organization)) ? $organization["name"] : null; ?>
+					</a>
+				</h2>
+					<div class="row info-shortDescription">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
+						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
+					</a>
+				</div>
+				</div>
 			</div>
-			<div class="col-sm-6 col-xs-6">
-				<div class="row padding-20 info-coordonnees">
+			<div class="col-sm-6 col-md-6 ">
+				<div class="row padding-20 info-coordonnees entityDetails text-dark">
+					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
 						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
 				
+					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
 					</a>
 					<br>
+					
+					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 					</a>
 					<br>
 				
+					<i class="fa fa-phone fa_telephone  hidden"></i> 
 					<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
 					</a>
 					<br>
 				
+					<i class="fa fa-envelope fa_email  hidden"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 						<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 					</a>
 					<br>
 				
+					<i class="fa fa-desktop fa_url  hidden"></i> 
 					<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 					</a>
 				</div>
-				<div class="row padding-20 info-shortDescription" style="background-color:#E6E6E6;">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click">
-						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
-					</a>
-				</div>
+				
 			</div>
 		</div>
 		<div class="row">
@@ -118,14 +202,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-6 col-xs-6 padding-20">
+		<div class="row tag_group">
+			<!-- <div class="col-sm-6 col-xs-6 padding-20 text-dark">
 				<h3><i class="fa fa-angle-down"></i> Activités</h3>
 				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
-			</div>
-			<div class="col-sm-6 col-xs-6 padding-20">
-				<h3><i class="fa fa-angle-down"></i> Thématiques</h3>
-				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click">
+			</div> -->
+			<div class="col-sm-6 col-xs-6 padding-20 text-red text-right pull-right">
+				<!-- <h3><i class="fa fa-angle-down"></i> Thématiques</h3> -->
+				<i class="fa fa-tags"></i> Tags : 
+				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click">
 				</a>
 			</div>
 		</div>
@@ -329,6 +414,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#tags').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
 		}
+		
 	}
 
 	function activateEditableContext() {
@@ -421,6 +507,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			if (!v)
 				return 'Field is required !';
 		});
+
+		if(<?php echo isset($organization["name"]) 						? "true" : "false"; ?>){ $(".fa_name").removeClass("hidden"); }
+		if(<?php echo isset($organization["url"]) 						? "true" : "false"; ?>){ $(".fa_url").removeClass("hidden"); }
+		if(<?php echo isset($organization["email"]) 					? "true" : "false"; ?>){ $(".fa_email").removeClass("hidden"); }
+		if(<?php echo isset($organization["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
+		if(<?php echo isset($organization["address"]["postalCode"]) 	? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
+		if(<?php echo isset($organization["address"]["addressCountry"]) ? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
+		if(<?php echo isset($organization["telephone"]) 				? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+
 	} 
 
 	function switchMode() {
