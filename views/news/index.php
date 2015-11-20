@@ -771,7 +771,7 @@ function builHtmlAuthorImageObject(obj){
 	}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
 			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined" && obj.type!="gantts"){
-				if(typeof obj.target.profilImageUrl !== "undefined" && obj.target.profilImageUrl != ""){ 
+				if(typeof obj.target.profilImageUrl != "undefined" && obj.target.profilImageUrl != ""){ 
 					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+obj.target.profilImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 				}else {
