@@ -11,15 +11,45 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
-if( isset($_GET["isNotSV"])) 
-{
-	Menu::news( @$_GET["id"] , @$_GET["type"] );
+if( isset($_GET["isNotSV"])) {
+	/*
+	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
+	$contextName = "";
+	$contextIcon = "bookmark fa-rotate-270";
+	$contextTitle = "";
+	if(@$_GET["type"]) $type=$_GET["type"];
+	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
+		Menu::organization( $organization );
+		$thisOrga = Organization::getById($organization["_id"]);
+		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
+		$contextIcon = "users";
+		$contextTitle = Yii::t("common","Participants");
+	}
+	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
+		Menu::city( $city );
+		$contextName = Yii::t("common","City")." : ".$city["name"];
+		$contextIcon = "university";
+		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+	}
+	else if( isset($type) && $type == Person::COLLECTION && isset($person) ){
+		Menu::person( $person );
+		$contextName = Yii::t("common","Person")." : ".$person["name"];
+		$contextIcon = "user";
+		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+	}
+	else if( isset($type) && $type == PROJECT::COLLECTION && isset($project) ){
+		Menu::project( $project );
+		$contextName = Yii::t("common","Project")." : ".$project["name"];
+		$contextIcon = "lightbulb-o";
+		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+	}
+	/*else
+		$this->toolbarMBZ = array(
+		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+		);*/
+	Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
-	?>
-	<?php 
 }
-else 
-	$this->renderPartial('../sig/generic/mapLibs');
 ?>
 <style>
 #btnCitoyens:hover{
@@ -65,7 +95,7 @@ else
 	overflow-x: hidden;
 	position:fixed;
 	top:100px;
-	padding-top:100px !important;
+	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
 	left:70px;
@@ -125,7 +155,7 @@ border-bottom: 3px solid rgba(255, 255, 255, 0.8);
 }
 div.timeline .spine{
 	border-radius:0px;
-	z-index: 0;
+	z-index: 2;
 
 }
 div.timeline .date_separator span{
@@ -266,6 +296,7 @@ var formCreateNews;
 
 jQuery(document).ready(function() 
 {
+	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 		Sig = SigLoader.getSig();
 		Sig.loadIcoParams();

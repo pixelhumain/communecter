@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
@@ -20,13 +20,13 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="col-md-4 no-padding">
 				<div class="col-md-12">
-					<?php $this->renderPartial('pod/contributors', array( "project" => $project, 
-																	
-																	"admin"=> $admin,
-																	
-																	"contributors" => $contributors,
-	
-																	"isDetailView" => 1																));
+					<?php  //print_r($attending); 
+						$this->renderPartial('../pod/usersList', array(  "project"=> $project,
+															"users" => $contributors,
+															"userCategory" => Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id), 
+															"contentType" => Project::COLLECTION,
+															"admin" => $admin,
+															"isNotSV" => 1	));
 					?>
 					<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 				</div>

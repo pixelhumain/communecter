@@ -22,6 +22,7 @@ return array(
 	"this event" => "cet évènement",
 	//Attendees
 	"Attendees" => "Participants",
+	"ATTENDEES" => "PARTICIPANTS",
 	"Attending" => "attendus",
 	"Add an attendee" => "Ajouter un participant",
 	"Add me as attendee" => "M'ajouter en tant que participant",

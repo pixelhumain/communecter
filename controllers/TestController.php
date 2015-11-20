@@ -24,8 +24,44 @@ class TestController extends CommunecterController {
 	var_dump(Link::isConnected("54fed0eca1aa1411180041ae", PHType::TYPE_CITOYEN, 
 	  "5374fc91f6b95c9c1b000871", PHType::TYPE_CITOYEN));
 	*/
+	/*$person=PHDB::find(Person::COLLECTION);
+	foreach($person as $key => $data){
+		if(@$data["geoPosition"]){
+			echo $data["name"]."//";
+			print_r($data["geoPosition"]);
+			$geoPosition=array("type"=> "Point", "coordinates" => array("0" => $data["geoPosition"]["coordinates"][1], "1" => $data["geoPosition"]["coordinates"][0]));
+			print_r($geoPosition);
+			$res = PHDB::update(Person::COLLECTION,
+		                            array("_id"=>new MongoId($key)), 
+		                            array('$set' => array("geoPosition" => $geoPosition)));
+		                            echo "</br>";
+				print_r($res);
+				echo '</br>';
+		}
+	}*/
+	/*$index=PHDB::createIndex (Person::COLLECTION) ;
+	$res=$index::find(Person::COLLECTION,array('geoPosition.coordinates' => array ('$nearSphere' => array(
+               '$geometry' => array(
+                   "type" => "Point",
+                   "coordinates" => array(3.06388688609426, 50.6333596221436)
+               ),
+               '$maxDistance' => 5000
+           )
+)));*///.createIndex( { 'geoPosition.coordinates' : "2dsphere" } );
+//print_r($res);
+/*	.getCollection('citoyens').createIndex( { 'geoPosition.coordinates' : "2dsphere" } );
+db.getCollection('citoyens').find({'geoPosition.coordinates': {
+           $nearSphere: {
+               $geometry: {
+                   type: "Point",
+                   coordinates: [3.06388688609426, 50.6333596221436]
+               },
+               $maxDistance: 5000
+           }
+       }
+   })*/
 	//Rest::Json($res);
-	$news=PHDB::find(News::COLLECTION);
+	/*$news=PHDB::find(News::COLLECTION);
 	foreach ($news as $key => $data){
 		if (@$data["created"]){	
 			if (is_int($data["created"])){
@@ -128,7 +164,7 @@ class TestController extends CommunecterController {
 				echo '</br>';
 			}
 		}
-	}
+	}*/
 }
 
   public function actionInsertNewPerson() {
@@ -437,6 +473,38 @@ class TestController extends CommunecterController {
     $itemType = Person::COLLECTION;
     var_dump(Document::getGeneratedImageUrl($itemId, $itemType, Document::GENERATED_THUMB_PROFIL));
     var_dump(Document::getGeneratedImageUrl($itemId, $itemType, Document::GENERATED_MARKER));
+  }
+
+  public function actionTestMailAdmin() {
+   var_dump(Utils::getServerInformation());
+    $person = Person::getById("55c0c1a72336f213040041ee");
+    $organization = Organization::getById("55797ceb2336f25c0c0041a8");
+    var_dump($organization);
+    $params = array(  "organization" => $organization,
+                      "newPendingAdmin"   => $person ,
+                       "title" => Yii::app()->name ,
+                       "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
+  }  
+
+  public function actionTestBecomeAnAdmin() {
+    $person = Person::getById("55c0c1a72336f213040041ee");
+    $organization = Organization::getById("55797ceb2336f25c0c0041a8");
+    var_dump($organization);
+    $params = array(  "organization" => $organization,
+                      "newPendingAdmin"   => $person ,
+                       "title" => Yii::app()->name ,
+                       "logo"  => "/images/logo.png");
+    
+    $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
+  }
+
+  public function actionTestAddPersonAdmin() {
+    $organizationId = "55797ceb2336f25c0c0041a8";
+    $personId = "5577d525a1aa1458540041b0";
+    var_dump(Organization::addPersonAsAdmin($organizationId, $personId, $personId));
+
   }
 
 }

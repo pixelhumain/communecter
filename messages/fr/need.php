@@ -21,6 +21,7 @@ return array(
 	"NEED INFORMATIONS" => "INFORMATIONS DU BESOIN",
 	"Quantity" => "Quantité",
 	"Benefits" => "Nature",
+	"Add need to find energies to help you" => "Ajouter des besoins pour trouver des énergies",
 	"Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need" => "Créez des besoins<br/>Matériels<br/>Savoirs<br/>Compétences<br/>Pour avoir les ressources qu'il vous manque",
 );
 ?>
