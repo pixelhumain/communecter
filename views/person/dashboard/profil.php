@@ -109,6 +109,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     .panel-title{
     	font-weight: 200;
     	font-size: 21px;
+    	font-family: "homestead";
     }
     #fileuploadContainer{
     	z-index:0 !important;
@@ -133,7 +134,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-        <h4 class="panel-title"><i class="fa fa-info-circle text-dark"></i> <?php echo Yii::t("common","Account info") ?></h4>
+        <h4 class="panel-title text-dark"><i class="fa fa-info-circle text-dark"></i> <?php echo Yii::t("common","Account info") ?></h4>
     </div>
 	
  	<div class="panel-tools">
