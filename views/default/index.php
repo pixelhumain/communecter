@@ -372,7 +372,12 @@ function loadByHash( hash ) {
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
-    }  
+    } else if ( hash.indexOf("#survey.entry.id") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'VOTE LOCAL ','legal' );
+    }  else if ( hash.indexOf("#rooms") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTION ROOMS ','cubes' );
+    }   
+
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");

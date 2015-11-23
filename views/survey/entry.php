@@ -63,7 +63,7 @@ if(isset( Yii::app()->session["userId"]) )
 		if(!(isset($survey[Action::ACTION_FOLLOW]) 
 		    && is_array($survey[Action::ACTION_FOLLOW]) 
 		    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) {
-	    	?>
+?>
 		<br/>
 		<?php /* ?>
 		<a class="btn btn-xs btn-default" href="#" onclick="addaction('<?php echo (string)$survey["_id"]?>','<?php echo Action::ACTION_FOLLOW ?>')">
@@ -86,6 +86,7 @@ if(isset( Yii::app()->session["userId"]) )
 
 <?php /* ?>
 <a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
+
 
 
 <br/>Views : <?php echo @$survey["viewCount"]; ?>

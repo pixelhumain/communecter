@@ -383,7 +383,7 @@ if( isset($_GET["isNotSV"])) {
 		 					} else if (key == "organizations") {
 		 						icon = mapIcon[v.type];
 		 					}
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:;" class="selectAddMember" data-id="'+v._id["$id"]+'" data-name="'+v.name+'" data-email="'+v.email+'" data-key="'+key+'" data-type="'+v.type+'"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
+		  					str += '<li class="li-dropdown-scope"><a href="javascript:;" class="selectAddMember" data-id="'+v.id+'" data-name="'+v.name+'" data-email="'+v.email+'" data-key="'+key+'" data-type="'+v.type+'"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
 		  				});
 		  			}); 
 

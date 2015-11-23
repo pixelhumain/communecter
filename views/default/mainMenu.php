@@ -52,9 +52,18 @@
         class="menuIcon btn-main-menu no-floop-item" >
         <i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "ADD SOMETHING"); ?></span>
     </a>
+
+    <a  href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->params['adminUserId']?>')" 
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-bullhorn fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common","HELP US : BUGS, IDEAS"); ?></span>
+    </a>
+
     <a  href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout') ?>" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
-        <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span></a>    
+        <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
+    </a> 
+
+    
 </div>
 <div class="floopDrawer" id="floopDrawerDirectory"></div>
 <?php } else {?>
