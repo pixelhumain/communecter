@@ -336,6 +336,7 @@ var events = <?php echo json_encode($events) ?>;
 jQuery(document).ready(function() {
 	bindBtnFollow();
   $(".moduleLabel").html("<i class='fa fa-university'></i> <?php echo Yii::t('common', 'MY CITY'); ?> : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+ 
   initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
@@ -366,10 +367,14 @@ jQuery(document).ready(function() {
 function communecter(){ toastr.info('TODO : redirect to form register || OR || slide to form register');
 }
 
+var markerCity;
 function initCityMap(){
   
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
+  
+  //console.log("city");
+  //console.dir(city);
   
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [city.geo.latitude, city.geo.longitude];
@@ -378,17 +383,18 @@ function initCityMap(){
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),
                       content: content };
-
-  var markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
+  
+  markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
   Sig.allowMouseoverMaker = false;
   
   markerCity.openPopup();
-  Sig.map.setView(13, latlng, {animate:false});
+  
+  Sig.map.setView(latlng, 13, {animate:false});
   Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
-  // console.log("latlng");
-  // console.dir(latlng);
+  console.log("geoShape");
+  console.dir(city["geoShape"]);
   if(typeof city["geoShape"] != "undefined"){
     var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
     Sig.showPolygon(geoShape);
