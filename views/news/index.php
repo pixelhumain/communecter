@@ -155,7 +155,7 @@ border-bottom: 3px solid rgba(255, 255, 255, 0.8);
 }
 div.timeline .spine{
 	border-radius:0px;
-	z-index: 2;
+	z-index: 0;
 
 }
 div.timeline .date_separator span{

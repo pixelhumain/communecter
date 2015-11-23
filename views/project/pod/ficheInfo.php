@@ -100,10 +100,16 @@ progress[value]::-moz-progress-bar {
         rgba(0,0,0,.2)),
     -webkit-linear-gradient( left, #09c, #ff0);
 }
+
+.panel-title{
+	font-weight: 200;
+	font-size: 21px;
+	font-family: "homestead";
+}
 </style>
 
 	<div class="panel-heading border-light margin-bottom-10">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECT INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
+		<h4 class="panel-title text-dark"><span><i class="fa fa-info-circle"></i> <?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php if ($isAdmin){ ?>

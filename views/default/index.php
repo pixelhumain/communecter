@@ -294,7 +294,9 @@ jQuery(document).ready(function() {
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
     }
-    <?php if( !isset( Yii::app()->session['userId']) ) { ?>
+    <?php if( !isset( Yii::app()->session['userId']) && 
+              !isset( Yii::app()->request->cookies['user_geo_latitude']) 
+            ) { ?>
       initHTML5Localisation("showCity");
     <?php } ?>
     
