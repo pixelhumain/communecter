@@ -39,16 +39,16 @@
 						</div>
 						<label for="remember" class="checkbox-inline">
 							<input type="checkbox" class="grey remember" id="remember" name="remember">
-							Keep me signed in
+							Keep me signed in onnnn
 						</label>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button pull-right">
 							<span class="ladda-label">Login</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 					<div class="new-account">
-						Don't have an account yet?
+						<?php echo Yii::t("login","Don't have an account yet?") ?>
 						<a href="#" class="register">
-							Create an account
+							<?php echo Yii::t("login","Create an account") ?>
 						</a>
 						<br/>
 						<a class="forgot" href="#">I forgot my password</a> 
@@ -98,34 +98,34 @@
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="email" class="form-control" id="email3" name="email3" placeholder="Email">
+							<input type="email" class="form-control" id="email3" name="email3" placeholder="<?php echo Yii::t("login","Email") ?>">
 							<i class="fa fa-envelope"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" id="password3" name="password3" placeholder="Password">
+							<input type="password" class="form-control" id="password3" name="password3" placeholder="<?php echo Yii::t("login","Password") ?>">
 							<i class="fa fa-lock"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="Password again">
+							<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="<?php echo Yii::t("login","Password again") ?>">
 							<i class="fa fa-lock"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" name="streetAddress" id="fullStreet" placeholder="Full Street" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+							<input type="text" class="form-control" name="streetAddress" id="fullStreet" placeholder="<?php echo Yii::t("login","Full Street") ?>" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
 							<i class="fa fa-road"></i>
 						</span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="text" class="form-control" id="cp" name="cp" placeholder="Postal Code">
+							<input type="text" class="form-control" id="cp" name="cp" placeholder="<?php echo Yii::t("login","Postal Code") ?>">
 							<i class="fa fa-home"></i>
 						</span>
 					</div>
 					<div class="form-group" id="cityDiv" style="display: none;">
 						<span class="input-icon">
-							<select class="selectpicker form-control" id="city" name="city" title='Select your City...'>
+							<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("login","Select your City...") ?>'>
 							</select>
 						</span>
 						<div class="alert alert-success pull-left col-md-12" id="alert-city-found" style="text-align:center;font-family:inherit; border-radius:0px; margin-top:10px;">
@@ -141,24 +141,24 @@
 						<div>
 							<label for="agree" class="checkbox-inline">
 								<input type="checkbox" class="grey agree" id="agree" name="agree">
-								I agree to the Terms of <a href="#" class="bootbox-spp">Service and Privacy Policy</a>
+								<?php echo Yii::t("login","I agree to the Terms of ") ?><a href="#" class="bootbox-spp"><?php echo Yii::t("login","Service and Privacy Policy") ?></a>
 							</label>
 						</div>
 					</div>
 
 					<div class="form-actions">
 						<div class="errorHandler alert alert-danger no-display registerResult">
-							<i class="fa fa-remove-sign"></i> Please verify your entries.
+							<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Please verify your entries.") ?>
 						</div>
 						<div class="errorHandler alert alert-success no-display pendingProcess">
-							<i class="fa fa-check"></i> Please fill your personal information in order to log in.
+							<i class="fa fa-check"></i> <?php echo Yii::t("login","Please fill your personal information in order to log in.") ?>
 						</div>
-						Already have an account?
+						<?php echo Yii::t("login","Already have an account?") ?>
 						<a href="#" class="go-back">
-							Log-in
+							<?php echo Yii::t("login","Log-in") ?>
 						</a>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="createBtn ladda-button pull-right">
-							<span class="ladda-label">Submit</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
+							<span class="ladda-label"><?php echo Yii::t("login","Submit") ?></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 						</button>
 					</div>
 				</fieldset>
