@@ -94,7 +94,7 @@ if( @$isNotSV ) {
 	var isNotSV = <?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo $event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo @$event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
 	 	$('#attendeesSearch').keyup(function(e){

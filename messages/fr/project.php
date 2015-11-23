@@ -13,6 +13,7 @@ return array(
 	"PROJECTS" => "PROJET",
 	"PROJECT TIMELINE" => "VIE DU PROJET",
 	"PROJECT INFORMATIONS" => "INFORMATIONS DU PROJET",
+	"PROJECT DESCRIPTION" => "DESCRIPTION DU PROJET",
 	"CHART" => "CHARTE",
 	//Informations 
 	"Maturity" => "Maturité",

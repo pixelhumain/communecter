@@ -38,6 +38,15 @@
 	    		?>
 	    	</div>
 	    	<div class="col-md-4 no-padding">
+		    	<div class="col-md-12">
+					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
+															"users" => $members,
+															"userCategory" => Yii::t("organisation","MEMBERS",null,Yii::app()->controller->module->id), 
+															"contentType" => Organization::COLLECTION,
+															"admin" => $admin,
+															"isNotSV" => 1	));
+					?>
+		    	</div>
 		    	<?php if ($organization["type"]=="NGO" || $organization["type"]=="Group"){ ?>
 				<div class="col-md-12 needsPod">	
 				</div>

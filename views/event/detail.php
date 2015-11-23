@@ -1,5 +1,9 @@
 <?php 
-//if( isset($_GET["isNotSV"])) 
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <?php

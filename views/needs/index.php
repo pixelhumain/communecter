@@ -3,13 +3,11 @@
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-left"><i class="fa fa-cubes fa-2x text-blue"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
 		<?php if($isAdmin) { ?>
-		<ul class="panel-heading-tabs border-light">
-	    	<li>
-	    		<a class="new-need btn btn-info" href="#newNeed" <?php if (@$_GET["isDetailView"]){ ?> onclick="showAjaxPanel('/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )" <?php } ?>>
-		    		<i class="fa fa-plus"></i> <?php echo Yii::t("need","Need",null,Yii::app()->controller->module->id); ?>
+			<div class="panel-tools">
+	    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="showAjaxPanel('/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )">
+		    		<i class="fa fa-plus"></i>
 		    	</a>
-	    	</li>
-		</ul>
+			</div>
 		<?php } ?>
 	</div>
 	<div class="<?php if (!@$_GET["isDetailView"]) echo 'panel-body'; ?>">

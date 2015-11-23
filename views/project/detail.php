@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">

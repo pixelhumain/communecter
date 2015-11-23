@@ -263,7 +263,8 @@ class CommunecterController extends Controller
     "link" => array(
       "savemember"          => array("href" => "/ph/communecter/link/savemember"),
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
-      "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor")
+      "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
+      "removeuser"   => array("href" => "/ph/communecter/link/removeuser")
     ),
 
     "document" => array(
