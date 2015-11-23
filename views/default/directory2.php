@@ -52,6 +52,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		white-space: nowrap;
 		overflow: hidden;
 	}
+
+	.mix .toolsDiv{
+		float:right;
+		width:20%;
+		margin-top:0px;
+		padding-left:10px;
+		text-align: left;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		color:white;
+	}
 	
 	.mix .text-xss{ font-size: 11px; }
 
@@ -228,12 +240,20 @@ if( isset($_GET["isNotSV"])) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
+	$manage="";
 	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 		Menu::organization( $organization );
 		$thisOrga = Organization::getById($organization["_id"]);
 		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
 		$contextIcon = "users";
-		$contextTitle = Yii::t("common","Participants");
+		$contextTitle = Yii::t("common","Members of organization");
+		if(@$_GET["admin"] && $_GET["admin"] == 1){
+			$manage=1;
+		}
+		$parentId=$organization["_id"];
+		$parentType=Organization::COLLECTION;
+		$connectType="members";
+		$projects=array();
 	}
 	else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
 		Menu::city( $city );
@@ -252,6 +272,14 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+		if(@$_GET["admin"] && $_GET["admin"] == 1){
+			$manage=1;
+		}
+		$parentId=$project["_id"];
+		$parentType=Project::COLLECTION;
+		$connectType="contributors";
+		$projects=array();
+		$events=array();
 	}
 	/*else
 		$this->toolbarMBZ = array(
@@ -336,7 +364,11 @@ if( isset($_GET["isNotSV"])) {
 					</div>
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
-					
+					<?php	if (@$manage){ ?> 
+						<input type="hidden" id="parentType" value="<?php echo $parentType ?>"/>
+						<input type="hidden" id="parentId" value="<?php echo $parentId ?>"/>
+						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
+					<?php } ?>
 					<?php 
 					$memberId = Yii::app()->session["userId"];
 					$memberType = Person::COLLECTION;
@@ -349,13 +381,12 @@ if( isset($_GET["isNotSV"])) {
 						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
-					
 					/* ************ ORGANIZATIONS ********************** */
 					if(isset($organizations)) 
 					{ 
 						foreach ($organizations as $e) 
-						{ 
-							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
+						{ 	
+							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						};
 					}
 
@@ -364,7 +395,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($people as $e) 
 						{ 
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						}
 					}
 
@@ -373,7 +404,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($events as $e) 
 						{ 
-							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
+							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
 						}
 					}
 	
@@ -382,7 +413,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($projects as $e) 
 						{ 
-							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull);
+							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
 						}
 					}
 					/* 
@@ -402,9 +433,8 @@ if( isset($_GET["isNotSV"])) {
 						</div>
 					</li>
 					*/
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull )
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage)
 					{
-							
 						if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
 							return;
 						$actions = "";
@@ -534,7 +564,11 @@ if( isset($_GET["isNotSV"])) {
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
 							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
-						
+						if($manage==1){
+							$disconnectBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class=" disconnectBtnIcon fa fa-unlink" style="color:white;"></i></a>';
+						}
+						else
+							$disconnectBtn="";
 						$color = "";
 						if($icon == "fa-users") $color = "green";
 						if($icon == "fa-user") $color = "yellow";
@@ -543,7 +577,7 @@ if( isset($_GET["isNotSV"])) {
 						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
-							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
+							'<div class="detailDiv">'.$strHTML.'</div><div class="toolsDiv">'.$disconnectBtn.'</div></div></li>';
 					}
 					?>
 				</ul>
@@ -650,6 +684,36 @@ function initGrid(){
 }
 
 function bindBtnEvents(){
+	$(".disconnectBtn").off().on("click",function () {
+	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	        var userId = $(this).data("id");
+	        var userType = $(this).data("type");
+	        var parentType = $("#parentType").val();
+	        var parentId = $("#parentId").val();
+	        var connectType = $("#connectType").val();
+	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your "+connectType+" ?", 
+				function(result) {
+					if (result) {
+						$.ajax({
+					        type: "POST",
+					        url: baseUrl+"/"+moduleId+"/link/removeuser",
+					       	dataType: "json",
+					       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"connectType":connectType},
+				        	success: function(data){
+					        	if ( data && data.result ) {               
+						       	 	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+						        	$("#"+data.collection+userId).remove();
+						        } else {
+						           toastr.info("something went wrong!! please try again.");
+						           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+						        }
+						    }
+						});
+					}
+				}
+			)
+	});
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");
 		var imageName= $(this).data("name");

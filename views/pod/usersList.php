@@ -40,11 +40,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo $userCategory ?></h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
-				<?php if ($contentType == "projects"){ ?>
-				<a class="btn btn-xs btn-light-blue tooltips" href="javascript:;" onclick="showAjaxPanel( '/project/directory/id/<?php echo (string)$project["_id"]; ?>?tpl=directory2&amp;isNotSV=1', 'Les contributeurs du projet','connectdevelop' )" data-placement="bottom" data-original-title="Les contributeurs du projet"><i class="fa fa-cog "></i> Manage</a>
-									<a href="javascript:;" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>', 'ADD CONTRIBUTORS','users' )"> <?php } else if ($contentType == "events"){ ?>
-					<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
-				<?php }?><i class="fa fa-plus"></i></a>
+					<?php if ($contentType == "projects"){ ?>
+						<a class="btn btn-xs btn-light-blue tooltips" href="javascript:;" onclick="showAjaxPanel( '/project/directory/id/<?php echo (string)$project["_id"]; ?>?tpl=directory2&amp;isNotSV=1&admin=1', 'Les contributeurs du projet','connectdevelop' )" data-placement="bottom" data-original-title="Les contributeurs du projet"><i class="fa fa-cog "></i> Manage</a>
+						<a href="javascript:;" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>', 'ADD CONTRIBUTORS','users' )"> 
+					<?php } else if ($contentType == "organizations"){ ?>
+						<a class="btn btn-xs btn-light-blue tooltips" href="javascript:;" onclick="showAjaxPanel( '/organization/directory/id/<?php echo (string)$organization["_id"]; ?>?tpl=directory2&amp;isNotSV=1&admin=1', 'Les membres de l\'organisation','connectdevelop' )" data-placement="bottom" data-original-title="Les membres de l'organisation"><i class="fa fa-cog "></i> Manage</a>
+						<a href="javascript:;" class="new-member btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/organization/addmember/id/<?php echo (string)$organization["_id"];?>?isNotSV=1', 'Add a member to this organization','users' )"> 
+					<?php } else if ($contentType == "events"){ ?>
+						<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
+					<?php }?><i class="fa fa-plus"></i></a>
 				<?php } ?>
 				<a href="#" class="btn btn-xs btn-link panel-close">
 					<i class="fa fa-times"></i>
