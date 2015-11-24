@@ -230,35 +230,7 @@ class Menu {
         //self::entry("left", 'filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
         //self::entry("left", 'filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
         //self::entry("left", 'filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
-        /*if ( @$id && $type=="projects"){
-	         self::entry("left", 'showAjaxPanel', Yii::t( "common", 'General information about this project'), Yii::t( "common", 'Details'), 'home','/project/detail/id/'.$id,"project","detail");
-	        //SEE TIMELINE
-	        //-----------------------------
-	        self::entry("left",  'showAjaxPanel', Yii::t( "common", "Read all news publicated by this project"), Yii::t( "common", 'Activity'), "rss","/news/index/type/projects/id/".$id."?isNotSV=1","news","index",null );
-	
-	        //DIRECTORY
-	        //-----------------------------
-	        self::entry("left", 'showAjaxPanel', Yii::t( "common", "Discover who contributes to this project"),  Yii::t( "common", 'Contributors'), 'connectdevelop','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
-	        //self::entry("right", 'onclick',"show tag filters", 'Search by tag','tags',"toggleFilters('#tagFilters')",null,null);
-	        //self::entry("right", 'onclick',"show scope filters", 'Search by place', 'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        }
-        if ( @$id && $type=="organizations"){
-	         self::entry("left", 'showAjaxPanel',Yii::t( "common", 'General information about this organization'),  Yii::t( "common", 'Details'), 'home','/organization/detail/id/'.$id,"project","detail");
-	        //SEE TIMELINE
-	        //-----------------------------
-	        self::entry("left",  'showAjaxPanel',Yii::t( "common", "Read all news publicated by this organization"),  Yii::t( "common", 'Activity'), "rss","/news/index/type/organization/id/".$id."?isNotSV=1","news","index",null );
-	
-	        //DIRECTORY
-	        //-----------------------------
-	         self::entry("left", 'showAjaxPanel',Yii::t( "common", 'Participants list'), Yii::t("common",  'Members') ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
-        // ADD MEMBER
-        //-----------------------------
-        self::entry("left", 'showAjaxPanel',Yii::t( "common", 'Add a participant to this organization'), Yii::t( "common", 'Add member'),'plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
 
-	         self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
-        }*/
-       // else{
 	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
 	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
         //}

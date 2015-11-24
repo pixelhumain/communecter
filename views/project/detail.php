@@ -19,7 +19,7 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 			</div>
 			<div class="col-md-4 no-padding">
-				<div class="col-md-12">
+				<div class="col-md-12 col-xs-12">
 					<?php  //print_r($attending); 
 						$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
@@ -30,7 +30,7 @@ $this->renderPartial('../default/panels/toolbar');
 					?>
 					<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 				</div>
-				<div class="col-md-12 needsPod">
+				<div class="col-md-12 col-xs-12 needsPod">
 				</div>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
