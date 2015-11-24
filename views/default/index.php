@@ -472,8 +472,8 @@ function autoCompleteSearch(name){
                   //insee = o.address.insee;
                 }
                 
-                if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
-                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilImageUrl+"'/>"
+                if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                 }
 
                 var insee      = o.insee ? o.insee : "";
