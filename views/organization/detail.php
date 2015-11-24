@@ -38,7 +38,7 @@
 	    		?>
 	    	</div>
 	    	<div class="col-md-4 no-padding">
-		    	<div class="col-md-12">
+		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
 															"userCategory" => Yii::t("organisation","MEMBERS",null,Yii::app()->controller->module->id), 
@@ -48,7 +48,7 @@
 					?>
 		    	</div>
 		    	<?php if ($organization["type"]=="NGO" || $organization["type"]=="Group"){ ?>
-				<div class="col-md-12 needsPod">	
+				<div class="col-md-12 col-xs-12 needsPod">	
 				</div>
 				<?php } ?>
 				<?php if ($admin == 1 || !empty($events)){ ?>

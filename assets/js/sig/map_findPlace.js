@@ -285,7 +285,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.map.setZoom(10);
 	};
 
-	Sig.showPlace = function (id){
+	Sig.showPlace = function (id){ 
 		var thisSig = this;
 		var bounds = this.currentResultResearch[id].boundingbox;
 	   	var southWest = L.latLng(bounds[0], bounds[2]),
@@ -574,14 +574,14 @@ SigLoader.getSigFindPlace = function (Sig){
 									position.lng);
 			
 		});
-
+		
 		//zoom sur le nouveau marker
 		this.map.setView(coordinates, 13);
 	};
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
 		console.log("start save geopos");
-		toastr.info("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position");
+		toastr.info("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position en cours... Merci de patienter...");
     	//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",

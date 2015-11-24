@@ -67,8 +67,8 @@
             $iconsEntityColor = array("organizations"=>"green", 
                                      "people"=>"yellow",
                                      "citoyens"=>"yellow",
-                                     "projects"=>"orange",
-                                     "events"=>"purple");
+                                     "projects"=>"purple",
+                                     "events"=>"orange");
             
             $entityTypeUrl = array("organizations"=>"organization", 
                                      "people"=>"person",

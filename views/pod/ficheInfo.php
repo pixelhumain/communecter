@@ -32,7 +32,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		font-weight: 300;
 	}
 	a#shortDescription{
-		font-size:15px !important;
+		font-size:17px !important;
+		font-weight: 400;
 	}
 	#profil_imgPreview{
       max-height:400px;
@@ -106,6 +107,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     }
 
 </style>
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
@@ -136,22 +138,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
 				?>
 				<div class="entityTitle text-green">
-				<h2>
-					<i class="fa fa-users"></i> 
-					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="homestead text-green editable editable-click required">
-					</a>
-					<span> - </span>
-					<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
-						class="homestead text-green editable-context editable editable-click required">
-						<?php echo (isset($organization)) ? $organization["name"] : null; ?>
-					</a>
-				</h2>
-					<div class="row info-shortDescription">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
-						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
-					</a>
-				</div>
+					<h2>
+						<i class="fa fa-users"></i> 
+						<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="homestead text-green editable editable-click required">
+						</a>
+						<span> - </span>
+						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+							class="homestead text-green editable-context editable editable-click required">
+							<?php echo (isset($organization)) ? $organization["name"] : null; ?>
+						</a>
+					</h2>
+					
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 ">
@@ -173,7 +170,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 					</a>
 					<br>
-				
+
+					<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+					</a>
+					<hr style="margin:10px 0px;">
 					<i class="fa fa-phone fa_telephone  hidden"></i> 
 					<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
@@ -192,12 +193,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
 						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 					</a>
+
+					<div class="hidden" id="entity-insee-value" 
+						 insee-val="<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>">
+					</div>
 				</div>
 				
 			</div>
 		</div>
 		<div class="row">
+
 			<div class="col-sm-12 col-xs-12 padding-20">
+				<div class="row info-shortDescription">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
+						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
+					</a>
+				</div>
 				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 				</a>
 			</div>
@@ -217,8 +229,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		
 	</div>
 </div>
-<?php  ?>
-<script type="text/javascript">
+
+<script type="text/javascript"> 
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	var contextMap = <?php echo json_encode($contextMap)?>;
@@ -236,7 +248,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		});
-		
 		activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
@@ -260,23 +271,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				cache: false, 
 				processData: false,
 				success: function(data){
-					if(data.result)
+					if(data.result){
 						toastr.success(data.msg);
 						if('undefined' != typeof data.imagePath){
 							$("#imgView").attr("src", data.imagePath);
 						}
-					else
+					}else{
 						toastr.error(data.msg);
+					}
 			  },
 			});
 		}));
+
+		$("#btn-update-geopos").click(function(){
+				findGeoPosByAddress();
+		});
 
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
 
 		bindFicheInfoBtn();
 	});
-
 
 	function bindFicheInfoBtn(){
 		$("#disableOrganization").off().on("click",function () {
@@ -395,6 +410,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
+
+			$("#btn-update-geopos").addClass("hidden");
+		
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
@@ -413,11 +431,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
+
+			$("#btn-update-geopos").removeClass("hidden");
 		}
+		//alert($('#url').html() );
+		if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
+		if($('#url').html() != "")				{ $(".fa_url").removeClass("hidden"); } else { $(".fa_url").addClass("hidden"); }
+		if($('#email').html() != "")			{ $(".fa_email").removeClass("hidden"); } else { $(".fa_email").addClass("hidden"); }
+		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
+		if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
+		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
+		if($('#telephone').html() != "")		{ $(".fa_telephone").removeClass("hidden"); } else { $(".fa_telephone").addClass("hidden"); }
 		
 	}
 
 	function activateEditableContext() {
+
+		
 		$.fn.editable.defaults.mode = 'popup';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
@@ -436,6 +466,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				return types;
 			},
 		});
+
 		//Select2 tags
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
@@ -463,7 +494,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				if(categorySource != null)
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
-				})
+				});
 				return result;
 			},
 		});
@@ -481,6 +512,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			mode: 'popup',
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
+				console.dir(newValue);
+				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
             	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
@@ -500,6 +534,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				video: false
 			}
 		});
+
 		//Validation Rules
 		//Mandotory field
 		$('.required').editable('option', 'validate', function(v) {
@@ -507,15 +542,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			if (!v)
 				return 'Field is required !';
 		});
-
-		if(<?php echo isset($organization["name"]) 						? "true" : "false"; ?>){ $(".fa_name").removeClass("hidden"); }
-		if(<?php echo isset($organization["url"]) 						? "true" : "false"; ?>){ $(".fa_url").removeClass("hidden"); }
-		if(<?php echo isset($organization["email"]) 					? "true" : "false"; ?>){ $(".fa_email").removeClass("hidden"); }
-		if(<?php echo isset($organization["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
-		if(<?php echo isset($organization["address"]["postalCode"]) 	? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
-		if(<?php echo isset($organization["address"]["addressCountry"]) ? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
-		if(<?php echo isset($organization["telephone"]) 				? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
-
+	
+		
 	} 
 
 	function switchMode() {
@@ -527,5 +555,86 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			manageModeContext();
 		}
 	}
+
+	
+	//modification de la position geographique	
+
+	function findGeoPosByAddress(){
+		//si la streetAdress n'est pas renseignée
+		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		//si on a une streetAddress
+		}else{
+			var request = "";
+
+			//recuperation des données de l'addresse
+			var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
+			var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
+			var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
+			
+			//construction de la requete
+			request = addToRequest(request, street);
+			request = addToRequest(request, address);
+			request = addToRequest(request, addressCountry);
+
+			request = transformNominatimUrl(request);
+			request = "?q=" + request;
+			
+			findGeoposByNominatim(request);
+		}
+	
+	}
+
+	//quand la recherche nominatim a fonctionné
+	function callbackNominatimSuccess(obj){
+		console.log("callbackNominatimSuccess");
+		//si nominatim a trouvé un/des resultats
+		if (obj.length > 0) {
+			//on utilise les coordonnées du premier resultat
+			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//et on affiche le marker sur la carte à cette position
+			showGeoposFound(coords, contextId, "organizations", contextData);
+		}
+		//si nominatim n'a pas trouvé de résultat
+		else {
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		}
+	}
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError");
+	}
+
+	//quand la recherche par code insee a fonctionné
+	function callbackFindByInseeSuccess(obj){
+		console.log("callbackFindByInseeSuccess");
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			//on affiche le marker sur la carte
+			showGeoposFound(coords, contextId, "organizations", contextData);
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
+	//quand la recherche par code insee n'a pas fonctionné
+	function callbackFindByInseeError(){
+		console.log("erreur getlatlngbyinsee");
+	}
+	
 
 </script>
