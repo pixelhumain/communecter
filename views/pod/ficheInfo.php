@@ -107,6 +107,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     }
 
 </style>
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
@@ -228,8 +229,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		
 	</div>
 </div>
-<?php  ?>
-<script type="text/javascript">
+
+<script type="text/javascript"> 
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	var contextMap = <?php echo json_encode($contextMap)?>;
@@ -247,7 +248,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		});
-		
 		activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
@@ -271,13 +271,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				cache: false, 
 				processData: false,
 				success: function(data){
-					if(data.result)
+					if(data.result){
 						toastr.success(data.msg);
 						if('undefined' != typeof data.imagePath){
 							$("#imgView").attr("src", data.imagePath);
 						}
-					else
+					}else{
 						toastr.error(data.msg);
+					}
 			  },
 			});
 		}));
@@ -291,7 +292,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		bindFicheInfoBtn();
 	});
-
 
 	function bindFicheInfoBtn(){
 		$("#disableOrganization").off().on("click",function () {
@@ -446,6 +446,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	function activateEditableContext() {
+
+		
 		$.fn.editable.defaults.mode = 'popup';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
@@ -464,6 +466,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				return types;
 			},
 		});
+
 		//Select2 tags
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
@@ -491,7 +494,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				if(categorySource != null)
 				$.each(categorySource, function(i,value) {
 					result.push({"value" : value, "text" : value}) ;
-				})
+				});
 				return result;
 			},
 		});
@@ -502,13 +505,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return countries;
 			},
-		});
-
-		$('#streetAddress').editable({
-			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-			value: '<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : ""; ?>',
-			
-			
 		});
 
 		$('#address').editable({
@@ -538,6 +534,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				video: false
 			}
 		});
+
 		//Validation Rules
 		//Mandotory field
 		$('.required').editable('option', 'validate', function(v) {
@@ -545,7 +542,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			if (!v)
 				return 'Field is required !';
 		});
-
+	
 		
 	} 
 
@@ -560,42 +557,84 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	
-	/**  **/
+	//modification de la position geographique	
 
 	function findGeoPosByAddress(){
-		//toastr.success($("#entity-insee-value").html());
+		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
-			if($("#entity-insee-value").html() != "")
-				findGeoposByInsee($("#entity-insee-value").attr("insee-val"));
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		//si on a une streetAddress
 		}else{
 			var request = "";
 
-			/* recuperation des données de l'addresse */
+			//recuperation des données de l'addresse
 			var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
 			var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
 			var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
 			
-			/* construction de la requete */
-			request = addToRequest(request, street);toastr.info(street+"|");
-			request = addToRequest(request, address);toastr.success(request+"|");
-			request = addToRequest(request, addressCountry);toastr.error(request+"|" + " - " + addressCountry);
+			//construction de la requete
+			request = addToRequest(request, street);
+			request = addToRequest(request, address);
+			request = addToRequest(request, addressCountry);
 
 			request = transformNominatimUrl(request);
-			//toastr.success(request);
-		
 			request = "?q=" + request;
-			toastr.success("Recherche en cours... Merci de patienter...");
+			
 			findGeoposByNominatim(request);
 		}
 	
 	}
 
-
+	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		toastr.success("callback success");
+		console.log("callbackNominatimSuccess");
+		//si nominatim a trouvé un/des resultats
+		if (obj.length > 0) {
+			//on utilise les coordonnées du premier resultat
+			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//et on affiche le marker sur la carte à cette position
+			showGeoposFound(coords, contextId, "organizations", contextData);
+		}
+		//si nominatim n'a pas trouvé de résultat
+		else {
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		}
 	}
-	function callbackNominatimError(){
-		toastr.error("callback error");
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError");
 	}
+
+	//quand la recherche par code insee a fonctionné
+	function callbackFindByInseeSuccess(obj){
+		console.log("callbackFindByInseeSuccess");
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			//on affiche le marker sur la carte
+			showGeoposFound(coords, contextId, "organizations", contextData);
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
+	//quand la recherche par code insee n'a pas fonctionné
+	function callbackFindByInseeError(){
+		console.log("erreur getlatlngbyinsee");
+	}
+	
 
 </script>

@@ -161,7 +161,7 @@
 				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
-				
+
 
 			return popupContent;
 		};
@@ -385,11 +385,11 @@
 			popupContent += "<div class='item_map_list popup-marker padding-5'>";
 										
 			popupContent += "<div class='left-col'>"
-	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
-	    				+ 	"<div class='ico-type-account'>"+icons+"</div>"					
-	    				+ "</div>"
+	    				 + 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
+	    				 + 	"<div class='ico-type-account'>"+icons+"</div>"					
+	    				 +  "</div>"
 
-						+ "<div class='right-col'>";
+						 + "<div class='right-col'>";
 						
 						if("undefined" != typeof data['name'])
 						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
@@ -402,8 +402,8 @@
 							popupContent	+= 	"</div>";
 						}
 
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
-						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
+						//if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
+						//popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
 						
 			popupContent += '</div>'; //right-col
 
