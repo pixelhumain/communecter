@@ -10,6 +10,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 $cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClientScript::POS_END);
 $cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
 
+//
+$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
+
 //JQUERY UI
 //$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
 //$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');

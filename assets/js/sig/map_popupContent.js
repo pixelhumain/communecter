@@ -161,6 +161,8 @@
 				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
+				
+
 			return popupContent;
 		};
 

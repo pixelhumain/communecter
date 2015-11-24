@@ -13,7 +13,6 @@
     margin-bottom: 5px;
     width: 96%;
     border-radius: 3px;
-    border: none;
     border: 2px solid transparent;
   }
   .btn-add-something:hover{
