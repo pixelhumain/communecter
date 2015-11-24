@@ -145,7 +145,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js'
 					<div class="form-group">
 						<span class="input-icon">
 							<input type="text" class="form-control" id="username" name="username" placeholder="<?php echo Yii::t("login","Username") ?>">
-							<i class="fa fa-user"></i> </span>
+							<i class="fa fa-user-secret"></i> </span>
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
@@ -391,6 +391,10 @@ svg.graph .line {
 			});
 			activePanel = "box-register";
 		}
+
+		$('.form-register #username').keyup(function(e) {
+			validateUserName();
+		})
 	});
 
 var email = '<?php echo @$_GET["email"]; ?>';
@@ -685,7 +689,6 @@ var Login = function() {
 				username : {
 					required : true,
 					validUserName : true,
-					uniqueUserName : true,
 					rangelength : [8, 20]
 				},
 				email3 : {
@@ -780,7 +783,6 @@ var Login = function() {
 function runShowCity(searchValue) {
 	citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	Sig.citiesByPostalCode = citiesByPostalCode;
-	Sig.execFullSearchNominatim(0);
 
 	var oneValue = "";
 	console.table(citiesByPostalCode);
@@ -809,13 +811,18 @@ function bindPostalCodeAction() {
 	});
 
 	$('.form-register #fullStreet').keyup(function(e){
-		if($('.form-register #cp').val() != "")
-		searchCity();
+		if($('.form-register #cp').val() != "") {
+			clearTimeout(timeout);
+			timeout = setTimeout(function() {
+				Sig.execFullSearchNominatim(0);
+			}, 200);
+		}
 	});
 
 	$('.form-register #fullStreet').change(function(e){
-		if($('.form-register #cp').val() != "")
-		searchCity();
+		if($('.form-register #cp').val() != "") {
+			Sig.execFullSearchNominatim(0);
+		}
 	});
 
 	$('#city').change(function(e){
@@ -823,18 +830,35 @@ function bindPostalCodeAction() {
 	});
 }
 
-function searchCity() { console.log("searchCity");
+function searchCity() { 
+	console.log("searchCity");
 	var searchValue = $('.form-register #cp').val();
 	if(searchValue.length == 5) {
 		$("#city").empty();
 		clearTimeout(timeout);
-		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+		timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
 		clearTimeout(timeout);
-		timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+		timeout = setTimeout('runShowCity("'+searchValue+'")', 500); 
 	} else {
 		$("#cityDiv").slideUp("medium");
 		$("#city").val("");
 		$("#city").empty();
+	}
+}
+
+function validateUserName() {
+	var username = $('.form-register #username').val();
+	if(username.length >= 8) {
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+				console.log("bing !");
+				if (! isUniqueUsername(username)) {
+					var validator = $( '.form-register' ).validate();
+					validator.showErrors({
+  						"username": "The user name is not unique : please change it."
+					});
+				}
+			}, 200);
 	}
 }
 
