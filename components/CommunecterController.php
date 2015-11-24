@@ -208,7 +208,8 @@ class CommunecterController extends Controller
       "directory"           => array("href"=>"/ph/communecter/organization/directory", "public" => true),
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
-      "addmember"           => array("href"=>"/ph/communecter/organization/addmember")
+      "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
+      "declaremeadmin"      => array("href"=>"/ph/communecter/organization/declaremeadmin"),
     ),
 
     "event"=> array(
@@ -262,7 +263,8 @@ class CommunecterController extends Controller
     "link" => array(
       "savemember"          => array("href" => "/ph/communecter/link/savemember"),
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
-      "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor")
+      "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
+      "removeuser"   => array("href" => "/ph/communecter/link/removeuser")
     ),
 
     "document" => array(

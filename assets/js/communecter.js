@@ -3,13 +3,6 @@
 
 function connectPerson(connectUserId, callback) {
 	console.log("connect Person");
-	$.blockUI({
-		message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-	            '<blockquote>'+
-	              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
-	              '<cite title="Hegel">Hegel</cite>'+
-	            '</blockquote> '
-	});
 	$.ajax({
 		type: "POST",
 		url: baseUrl+"/"+moduleId+'/person/connect',
@@ -61,3 +54,25 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 		}
 	);
 }
+
+function declareMeAsAdmin(organizationId, personId) {
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+'/organization/declareMeAdmin',
+		dataType : "json",
+		data : {
+			idOrganization : organizationId, 
+			idPerson : personId
+		}
+	})
+	.done(function (data) {
+		//$.unblockUI();
+		if (data &&  data.result) {
+			toastr.success(data.msg);
+		} else {
+			toastr.error('Something Went Wrong ! ' + data.msg);
+		}
+		
+	});
+}
+

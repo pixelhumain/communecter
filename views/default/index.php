@@ -371,6 +371,8 @@ function loadByHash( hash ) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
+    else if( hash.indexOf("#project.addcontributorsv") >= 0 )    
+        showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
 
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
@@ -391,7 +393,7 @@ function loadByHash( hash ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
+    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+hash );
 }
 
 function runShowCity(searchValue) {

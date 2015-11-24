@@ -1,6 +1,11 @@
 <?php
 class Menu {
 
+    function __construct() {
+        $cs = Yii::app()->getClientScript();
+        //$cs->registerScriptFile($moduleAssetsUrl.'/js/communecter.js');
+    }
+
     public static $infoMenu = array();
 
 	public static $sectionMenu = array();
@@ -79,8 +84,12 @@ class Menu {
         //-----------------------------
         self::entry("left", 'showAjaxPanel', Yii::t("event","Contact information"), Yii::t("common","Details"),'home','/event/detail/id/'.$id,"event","detail");
      }
+    
     public static function organization($organization)
     {
+        $cs = Yii::app()->getClientScript();
+        $cs->registerScriptFile(Yii::app()->controller->module->assetsUrl.'/js/communecter.js');
+        
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
         //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
@@ -90,6 +99,28 @@ class Menu {
         //-----------------------------
         self::entry("left", 'showAjaxPanel', Yii::t("organization","Contact information"), Yii::t("common","Details"),'home','/organization/detail/id/'.$id,"organization","detail");
        
+        //SEE TIMELINE
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Read all news publicated by this organization'), Yii::t( "common", 'Activity'), 'rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
+
+        //DIRECTORY
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel','Member list', 'Members' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        
+        //ACTION ROOMS
+        //-----------------------------
+        /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
+        $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
+        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
+                                                              "iconClass"=>"fa fa-legal",
+                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        */
+        // ADD MEMBER
+        //-----------------------------
+        if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
+            self::entry("right", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+        }
+
         //SEND MESSAGE
         //-----------------------------
         if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
@@ -100,32 +131,12 @@ class Menu {
                         "loadByHash( '#news.index.type.organizations.id.".$id."')",null,null);
         }
         
-        //SEE TIMELINE
-        //-----------------------------
-        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Read all news publicated by this organization'), Yii::t( "common", 'Activity'), 'rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
-        
-        //ACTION ROOMS
-        //-----------------------------
-        /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
-        $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
-                                                              "iconClass"=>"fa fa-legal",
-                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
-        */
-        //DIRECTORY
-        //-----------------------------
-        self::entry("left", 'showAjaxPanel','Member list', 'Members' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
-
-        // ADD MEMBER
-        //-----------------------------
-        if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
-        	self::entry("left", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
-		}
         //FOLLOW BUTTON
         //-----------------------------
         if( !isset( $organization["disabled"] ) ){
             //Link button
-            if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked((string)$organization["_id"], Organization::COLLECTION , Yii::app()->session["userId"]))
+            if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && 
+                Link::isLinked((string)$organization["_id"], Organization::COLLECTION, Yii::app()->session["userId"]))
                 $htmlFollowBtn = array('tooltip' => Yii::t( "common", "Leave this Organization"), 
                                        'position'   => "right",
                                        'label' => Yii::t( "common", "Leave"), 
@@ -141,11 +152,11 @@ class Menu {
             
             //Ask Admin button
             if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id)) {
-                array_push(Yii::app()->controller->toolbarMBZ, array('tooltip' => Yii::t( "common", "Declare me as admin of this organization"),   
-                                                                     'position'   => "right",
-                                                                     'label' => "Become admin",   
-                                                                     "iconClass"=>"fa fa-user-plus",
-                                                                     "href"=>"<a href='javascript:;' class='declare-me-admin tooltips btn btn-default' data-id='".$id."' data-type='".Organization::COLLECTION."' data-name='".$organization['name']."'") );
+                 self::entry("right", 'onclick',
+                        Yii::t( "common", "Declare me as admin of this organization"),
+                        Yii::t( "common", "Become admin"),
+                        'fa fa-user-plus',
+                        "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."')",null,null);                      
             }
         } 
     }
