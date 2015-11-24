@@ -190,10 +190,10 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-user"></i> <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
               </div>
             </li>
-            <li class="list-group-item text-orange">
+            <li class="list-group-item text-purple">
               <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                <span class="badge pull-right bg-orange"><?php echo $cnt;?></span>
+                <span class="badge pull-right bg-purple"><?php echo $cnt;?></span>
                 <i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
               </div>
             </li>
@@ -263,7 +263,7 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 
   <div class="col-sm-4 col-xs-12 pull-right">
-  <h3 class='homestead bg-orange padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
+  <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
     <?php $cnt=0; foreach($projects as $randomEntity){ ?>
       <?php if($randomEntity != null && $cnt<$minCount){ 
             $cnt++; $this->renderPartial('../pod/randomOrganization',
