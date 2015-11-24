@@ -208,7 +208,8 @@ class CommunecterController extends Controller
       "directory"           => array("href"=>"/ph/communecter/organization/directory", "public" => true),
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
-      "addmember"           => array("href"=>"/ph/communecter/organization/addmember")
+      "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
+      "declaremeadmin"      => array("href"=>"/ph/communecter/organization/declaremeadmin"),
     ),
 
     "event"=> array(

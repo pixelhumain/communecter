@@ -360,11 +360,13 @@
 			this.Sig.inversePolygon = function(polygon){
 				var inversedPoly = new Array();
 				console.log("inversePolygon");
-				$.each(polygon, function(key, value){
-					var lat = value[0];
-					var lng = value[1];
-					inversedPoly.push(new Array(lng, lat));
-				});
+				if(typeof polygon != "undefined" && polygon != null){
+					$.each(polygon, function(key, value){
+						var lat = value[0];
+						var lng = value[1];
+						inversedPoly.push(new Array(lng, lat));
+					});
+				}
 				console.dir(inversedPoly);
 				return inversedPoly;
 			};
@@ -417,8 +419,6 @@
 							var content = this.getPopup(thisData);
 
 							//création de l'icon sur la carte
-							//console.log("THISDATA");
-							//console.dir(thisData);
 							var theIcon = this.getIcoMarkerMap(thisData);
 							var properties = { 	id : objectId,
 												icon : theIcon,
@@ -623,7 +623,8 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds()._northEast ){
+					if("undefined" != typeof this.markersLayer.getBounds() &&
+					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 						thisMap.zoomOut();
 					}

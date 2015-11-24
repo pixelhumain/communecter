@@ -10,6 +10,9 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 $cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawer.js' , CClientScript::POS_END);
 $cs->registerCssFile($this->module->assetsUrl. '/css/floopDrawer.css');
 
+//
+$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
+
 //JQUERY UI
 //$cs->registerScriptFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.js' , CClientScript::POS_END);
 //$cs->registerCssFile($this->module->assetsUrl. '/js/jquery-ui-1.11.4/jquery-ui.css');
@@ -368,6 +371,8 @@ function loadByHash( hash ) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
+    else if( hash.indexOf("#project.addcontributorsv") >= 0 )    
+        showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
 
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
@@ -388,7 +393,7 @@ function loadByHash( hash ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple"+hash );
+    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+hash );
 }
 
 function runShowCity(searchValue) {
