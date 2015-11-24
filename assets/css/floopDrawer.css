@@ -23,7 +23,6 @@
     overflow-x:hidden;
     scroll-behavior: smooth; /*only for firefox*/
 }
-
 .floopDrawer input#search-contact{
 	width: 296px;
 	margin-right: 0px;
@@ -43,9 +42,14 @@
 .floopDrawer .panel-heading{
 	padding: 0px;
 	min-height: auto;
-	background-color: transparent;
+	background-color: #EAEAEA !important;
 	border: none;
 	width: 102%;
+	 -moz-box-shadow:      0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+	  -webkit-box-shadow:  0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+	  -o-box-shadow:       0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+	  box-shadow:          0px 2px 2px -2px rgba(0, 0, 0, 0.4);
+	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
 }
 
 .floopDrawer .panel-heading h4{
@@ -161,3 +165,37 @@
 	margin: 0;
 	margin-bottom: 10px;
 }
+.floopDrawer .btn_shortcut_add{
+	margin-top: 5px;
+	color:white;
+	border:0px;
+}
+
+
+.floopDrawer .bg-yellow, .floopDrawer .bg-green, 
+.floopDrawer .bg-orange, .floopDrawer .bg-purple{
+	padding-bottom:2px;
+	padding-top:5px;
+	border-bottom: 3px solid transparent;
+	margin-top: -4px;
+	margin-left: 3px;
+}
+
+.floopDrawer .bg-yellow:hover, .floopDrawer .bg-green:hover, 
+.floopDrawer .bg-orange:hover, .floopDrawer .bg-purple:hover{
+	border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+}
+
+.floopDrawer label.no-element{
+	padding: 0px 10px;
+	color: rgb(177, 177, 177);
+}
+
+
+
+
+
+
+
+
+

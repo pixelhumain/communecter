@@ -146,11 +146,13 @@ if( isset($_GET["isNotSV"])) {
 	margin-bottom:20px;
 }
 
-.bg-yellow, .bg-green, .bg-orange, .bg-purple{
+#formActivity .bg-yellow, #formActivity .bg-green, 
+#formActivity .bg-orange, #formActivity .bg-purple{
 	border-bottom: 3px solid transparent;
 }
 
-.bg-yellow:hover, .bg-green:hover, .bg-orange:hover, .bg-purple:hover{
+#formActivity .bg-yellow:hover, #formActivity .bg-green:hover, 
+#formActivity .bg-orange:hover, #formActivity .bg-purple:hover{
 border-bottom: 3px solid rgba(255, 255, 255, 0.8);
 }
 div.timeline .spine{

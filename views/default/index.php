@@ -289,7 +289,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 var isNotSV = true;
 var proverbs = <?php echo json_encode(random_pic()) ?>;
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-
+var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 var lastUrl = null;
 jQuery(document).ready(function() {
     console.dir(proverbs);
@@ -622,9 +622,12 @@ function bindEvents() {
     //console.log("myContacts");
     //console.dir(myContacts);
     if(myContacts != null){
-      var floopDrawerHtml = buildListContactHtml(myContacts);
+      var floopDrawerHtml = buildListContactHtml(myContacts, myId);
       $("#floopDrawerDirectory").html(floopDrawerHtml);
       $("#floopDrawerDirectory").hide();
+      if($(".tooltips").length) {
+        $('.tooltips').tooltip();
+      }
       
       bindEventFloopDrawer();
     }
