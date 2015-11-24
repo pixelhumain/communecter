@@ -247,8 +247,10 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Members of organization");
-		if(@$_GET["admin"] && $_GET["admin"] == 1){
-			$manage=1;
+		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+			if(!isset($organization["disabled"]))
+				$manage=1;
 		}
 		$parentId=$organization["_id"];
 		$parentType=Organization::COLLECTION;
@@ -272,7 +274,8 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
-		if(@$_GET["admin"] && $_GET["admin"] == 1){
+		if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
+				 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 			$manage=1;
 		}
 		$parentId=$project["_id"];
@@ -394,7 +397,7 @@ if( isset($_GET["isNotSV"])) {
 					if(isset($people)) 
 					{ 
 						foreach ($people as $e) 
-						{ 
+						{
 							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						}
 					}
@@ -565,19 +568,27 @@ if( isset($_GET["isNotSV"])) {
 							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 						if($manage==1){
-							$disconnectBtn = '<a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class=" disconnectBtnIcon fa fa-unlink" style="color:white;"></i></a>';
+							$strHTML .= '<div class="dropdown">'.
+											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'.
+											'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'.
+												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class=" disconnectBtnIcon fa fa-unlink" style="color:white;"></i>Unlink</a></li>'.
+											'</ul></div>';
+							//$disconnectBtn = ;
 						}
-						else
-							$disconnectBtn="";
+						//else
+						//	$disconnectBtn="";
 						$color = "";
 						if($icon == "fa-users") $color = "green";
 						if($icon == "fa-user") $color = "yellow";
 						if($icon == "fa-calendar") $color = "orange";
 						if($icon == "fa-lightbulb-o") $color = "purple";
-						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
+						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i>';
+						if(@$e["isAdmin"])
+							$flag .= "<i class='fa fa-bookmark fa-rotate-270 fa-red' style='left:15px;'></i>";
+						$flag.="</div>";
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
-							'<div class="detailDiv">'.$strHTML.'</div><div class="toolsDiv">'.$disconnectBtn.'</div></div></li>';
+							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
 					}
 					?>
 				</ul>
