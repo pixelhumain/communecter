@@ -10,19 +10,46 @@ var openPanelType = { 	"people" 		 : "person",
 						"events" 		 : "event",
 					};
 
-function buildListContactHtml(contacts){
+var tooltips_lbl = { 	"people" 		 : "Ajouter quelqu'un à votre répertoire.",
+						"organizations"  : "Créer une nouvelle organisation",
+						"projects" 	 	 : "Créer un nouveau projet",
+						"events" 		 : "Créer un nouvel événement",
+					};
+
+function buildListContactHtml(contacts, myId){
 
 	var HTML = 		'<input type="text" id="search-contact" class="form-control" placeholder="'+t('Search name, postal code, city ...')+'">';
 		HTML += 		'<div class="floopScroll">' ;
 							
 							$.each(floopContactTypes, function(key, type){
+
+							var urlBtnAdd = "";
+							if(type.name == "people") 		 urlBtnAdd = "showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt')";
+							if(type.name == "organizations") urlBtnAdd = "showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )";
+							if(type.name == "events") 		 urlBtnAdd = "showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )";
+							if(type.name == "projects") 	 urlBtnAdd = "showAjaxPanel( '/project/projectsv/id/"+myId+"/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )";
+
+
 		HTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
-								'<div class="panel-heading">'+
-									'<h4 class="homestead text-'+type.color+'"><i class="fa fa-'+type.icon+'"></i> '+t('My '+type.name)+'</h4>'+			
+								'<div class="panel-heading">';
+		HTML += 					'<h4 class="text-'+type.color+'">'+
+										//'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
+										//	'<i class="fa fa-search"></i>'+
+										//'</button>' +		
+										'<i class="fa fa-'+type.icon+'"></i> <span class="homestead">'+t('My '+type.name)+"</span>";
+									if(myId != ""){
+		HTML += 					'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
+										'<i class="fa fa-plus"></i>'+
+									'</button>';		
+									}
+		HTML += 					'</h4>'+
 								'</div>'+
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group no-padding">'+
 										'<ul>';
+										if($(contacts[type.name]).size() == 0){
+		HTML += 							'<label class="no-element"><i class="fa fa-angle-right"></i> Aucun élément</label>';									
+										}
 										$.each(contacts[type.name], function(key2, value){ 
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
