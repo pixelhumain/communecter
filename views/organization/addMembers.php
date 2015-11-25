@@ -12,9 +12,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 		margin-left:2%; 
 		width:96%;
 	}
-	.li-dropdown-scope{
-		padding: 8px 3px;
+	#dropdown_search .li-dropdown-scope ol {
+    	color: #155869;
+    	padding: 5px 5px 5px 15px !important;
 	}
+
 	#addMemberSection{
 		display: none;
 	}
@@ -378,12 +380,35 @@ if( isset($_GET["isNotSV"])) {
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
-		 					if (key == "citoyens") {
+		 					if (v.address != null) {
+            			      city = v.address.addressLocality;
+                			}
+                
+                			if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl != ""){
+                  				var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilThumbImageUrl+"'/>"
+                			}
+
+							if (key == "citoyens") {
 		 						icon = mapIcon[key];
 		 					} else if (key == "organizations") {
 		 						icon = mapIcon[v.type];
 		 					}
-		  					str += '<li class="li-dropdown-scope"><a href="javascript:;" class="selectAddMember" data-id="'+v.id+'" data-name="'+v.name+'" data-email="'+v.email+'" data-key="'+key+'" data-type="'+v.type+'"><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
+
+                			var insee = v.insee ? v.insee : "";
+                			var postalCode = v.cp ? v.cp : v.address.postalCode ? v.address.postalCode : "";
+                			str +=  //"<div class='searchList li-dropdown-scope' >"+
+                          		"<a href='javascript:;' data-id='"+ v.id +"' data-key='"+key+"' data-type='"+v.type+"' data-name='"+ v.name +"' data-email='"+v.email+"' data-icon='"+ icon +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope selectAddMember'>"+
+                          		"<ol>";
+                          	
+                          	if ("undefined" != typeof htmlIco) {
+                          		str += "<span>"+ htmlIco +"</span>  " + v.name;
+                          	} else {
+								str += '<span><i class="fa '+icon +' fa-2x"></i>' + v.name + '</span>';
+                          	}
+
+                          	str +=  "</ol></a>";
+
+		  					//str += '<li class="li-dropdown-scope"><a href="javascript:;"  ><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
 		  				});
 		  			}); 
 
