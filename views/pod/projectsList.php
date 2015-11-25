@@ -10,7 +10,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 
 	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	//'/assets/js/ui-sliders.js',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -66,7 +66,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</tbody>
 			</table>
 			<?php if(isset($projects) && count($projects) > 0 ){ ?>
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+				<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
 			<?php } ?>
 		<?php if(isset($projects) && count($projects) == 0) {?>
 			<div id="info" class="padding-10">

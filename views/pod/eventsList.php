@@ -1,3 +1,12 @@
+<?php
+
+$cssAnsScriptFilesTheme = array(
+
+'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-orange">
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
@@ -51,7 +60,7 @@
 				</tbody>
 			</table>
 			<?php if(isset($events) && count($events)>0 ){ ?>
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
 			<?php } ?>
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >

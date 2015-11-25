@@ -57,12 +57,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
 					<?php }?><i class="fa fa-plus"></i></a>
 				<?php } ?>
-<<<<<<< HEAD
-=======
-				<a href="#" class="btn btn-xs btn-light-blue panel-close">
-					<i class="fa fa-times"></i>
-				</a>
->>>>>>> 448cbecadf8091c5680d0ad65e046ef10335b711
 			</div>
 		</div> 
 		<div class="padding-10">
