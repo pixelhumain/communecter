@@ -71,7 +71,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						$name=$e["name"];
 					}
 					if ($e["type"]=="citoyen"){
-						$icon='<img height="50" width="50" class="tooltips" src="/pixelhumain/ph/assets/866ca41a/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
+						$icon='<img height="50" width="50" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
 						$refIcon="fa-user";
 						$redirect="person";
 					}
