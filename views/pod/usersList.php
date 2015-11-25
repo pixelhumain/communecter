@@ -36,7 +36,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 </style>
 	<div class="panel panel-white user-list">
-		<div class="panel-heading border-light text-dark">
+		<div class="panel-heading border-light text-white bg-yellow">
 			<h4 class="panel-title"><i class="fa fa-users"></i> <?php echo $userCategory ?></h4>
 			<div class="panel-tools">
 				<?php if ($admin){ ?>
@@ -50,9 +50,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<a href="javascript:;" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
 					<?php }?><i class="fa fa-plus"></i></a>
 				<?php } ?>
-				<a href="#" class="btn btn-xs btn-link panel-close">
-					<i class="fa fa-times"></i>
-				</a>
 			</div>
 		</div> 
 		<div class="padding-10">
