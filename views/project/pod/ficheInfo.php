@@ -157,6 +157,15 @@ progress[value]::-moz-progress-bar {
     	font-size:14px;
     	font-weight: 300;
     }
+    .info-shortDescription a{
+		font-size:14px;
+		font-weight: 300;
+	}
+	a#shortDescription{
+		font-size:17px !important;
+		font-weight: 400;
+	}
+
 </style>
 
 	<div class="panel-heading border-light margin-bottom-10">
@@ -171,7 +180,8 @@ progress[value]::-moz-progress-bar {
 		</div>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="col-sm-6 col-xs-6 text-dark ">
+		<div class="row">
+			<div class="col-sm-6 col-xs-6 text-dark ">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																	  "type" => Project::COLLECTION,
@@ -257,12 +267,17 @@ progress[value]::-moz-progress-bar {
 			<div class="hidden" id="entity-insee-value" 
 				 insee-val="<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>">
 			</div>
-
-		<div class="col-md-12" style="background-color:#E6E6E6">
-			<h3> Description</h3>
 		</div>
-		<div class="col-md-12 padding-20">
-			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
+		<div class="row">
+			<div class="col-sm-12 col-xs-12 padding-20">
+				<div class="row info-shortDescription">
+					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-project editable editable-click text-dark">
+						<?php echo (isset($project["shortDescription"])) ? $project["shortDescription"] : null; ?>
+					</a>
+				</div>
+				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
+			</div>
 		</div>
 	</div>
 
