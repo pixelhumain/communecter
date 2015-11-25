@@ -21,8 +21,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <div class="panel panel-white">
-	<div class="panel-heading border-light">
-		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece fa-2x text-blue"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>
+	<div class="panel-heading border-light bg-dark">
+		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
 			
 				<?php if ($admin){
@@ -32,7 +32,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						$urlArray = '&properties={'.$propertiesSerialize.'}';
 					} 
 				?>
-				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel( '/project/addchartsv/id/<?php echo $itemId ?>?isNotSV=1<?php echo $urlArray ?>&projectName=<?php if(@$itemName) echo addslashes($itemName) ?>', 'EDIT CHARTE','charte' )" <?php } ?>><i class="fa fa-pencil"></i>
+				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
+					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> 
+					onclick="showAjaxPanel( '/project/addchartsv/id/<?php echo $itemId ?>?isNotSV=1<?php echo $urlArray ?>&projectName=<?php if(@$itemName) echo addslashes($itemName) ?>', 'EDIT CHARTE','charte' )" <?php } ?>>
+					<i class="fa fa-pencil"></i> Editer la charte 
 				</a>
 				<?php } ?>
 			<!--<div class="dropdown">
@@ -40,9 +43,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-cog"></i>
 				</a>
 			</div>-->
-			<a href="#" class="btn btn-xs btn-link panel-close">
+			<!-- <a href="#" class="btn btn-xs btn-link panel-close">
 				<i class="fa fa-times"></i>
-			</a>
+			</a> -->
 		</div>
 	</div>
 	<?php if(isset($properties) && !empty($properties)){ ?>

@@ -157,114 +157,151 @@ progress[value]::-moz-progress-bar {
     	font-size:14px;
     	font-weight: 300;
     }
+    .lbl-info-details{
+    	font-weight: 600;
+	    border-bottom: 1px solid lightgray;
+	    padding-bottom: 7px;
+	    margin-bottom: 5px;
+	    width:100%;
+	    float:left;
+	}
+	 
+    .panel-tools{
+    	position: relative;
+		width: 100%;
+		opacity: 1 !important;
+		margin: 10px 0px -5px;
+		text-align: left;
+		right: 0px;
+		top: 0px;
+    }
+    .panel-tools a{
+    	background-color: rgba(255, 255, 255, 0.7) !important;
+    	color:#3C5665 !important;
+    	margin-bottom:3px;
+    }
+    .panel-tools .btn-xs{
+    	border-color: rgba(255, 255, 255, 0) !important;
+    }
+    .panel-tools .btn-xs:hover{
+    	background-color: rgba(255, 255, 255, 1) !important;
+    	color:#3C5665 !important;
+    }
+    
 </style>
 
 	<div class="panel-heading border-light margin-bottom-10">
-		<h4 class="panel-title text-dark"><span><i class="fa fa-info-circle"></i> <?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?></span></h4>
-		<div class="navigator padding-0 text-right">
+		<h4 class="panel-title text-dark">
+				<i class="fa fa-info-circle"></i> 
+				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
+		</h4>
+		<!-- <div class="navigator padding-0 text-right"> -->
 			<div class="panel-tools">
 				<?php if ($isAdmin){ ?>
-					<a href="#" id="editProjectDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i> Éditer</a>
-        			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+					<a href="#" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
+        			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
         		<?php } ?>
 			</div>
-		</div>
+		<!-- </div> -->
+	</div>
+	<div class="panel-body no-padding">
 	</div>
 	<div class="panel-body no-padding">
 		<div class="col-sm-6 col-xs-6 text-dark ">
-				<?php 
-					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
-																	  "type" => Project::COLLECTION,
-																	  "resize" => false,
-																	  "contentId" => Document::IMG_SLIDER,
-																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
-				?>
-				<!-- <h4>Avancement du projet :</h4> -->
+			<?php 
+				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
+																  "type" => Project::COLLECTION,
+																  "resize" => false,
+																  "contentId" => Document::IMG_SLIDER,
+																  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
+			?>
+			<div class="col-md-7 col-sm-8 col-xs-10 text-dark ">
 				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-								data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" 
-								class="entityDetails editable editable-click">
-								<?php if(isset($project["properties"]["avancement"])){ 
-									//idea => concept => Started => development => testing => mature
-									if($project["properties"]["avancement"]=="idea")
-										$val=5;
-									else if($project["properties"]["avancement"]=="concept")
-										$val=20;
-									else if ($project["properties"]["avancement"]== "started")
-										$val=40;
-									else if ($project["properties"]["avancement"] == "development")
-										$val=60;
-									else if ($project["properties"]["avancement"] == "testing")
-										$val=80;
-									else 
-										$val=100;
-									echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
-								} ?>
-							</a>
-							<?php if(isset($project["properties"]["avancement"])){ ?>
-							<progress max="100" value="<?php echo $val;?>" class="progressStyle">
-							</progress>
-							<?php } ?>
+					data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" 
+					class="entityDetails editable editable-click">
+					<?php if(isset($project["properties"]["avancement"])){ 
+						//idea => concept => Started => development => testing => mature
+						if($project["properties"]["avancement"]=="idea")
+							$val=5;
+						else if($project["properties"]["avancement"]=="concept")
+							$val=20;
+						else if ($project["properties"]["avancement"]== "started")
+							$val=40;
+						else if ($project["properties"]["avancement"] == "development")
+							$val=60;
+						else if ($project["properties"]["avancement"] == "testing")
+							$val=80;
+						else 
+							$val=100;
+						echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
+					} ?>
+				</a>
+				<?php if(isset($project["properties"]["avancement"])){ ?>
+				<progress max="100" value="<?php echo $val;?>" class="progressStyle">
+				</progress>
+				<?php } ?>
 			</div>
-			<table class="table-condensed table-hover text-dark entityDetails" >
-				<tbody>
-					<tr>
-						<td>
-							<a href="#" id="name" data-type="text" 
-							  data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" 
-							  class="entityTitle editable-project editable editable-click">
-								<?php if(isset($project["name"]))echo $project["name"];?>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<i class="fa fa-bullseye"></i> 
-							<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
-							<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
-								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
-							</a>
-							<hr style="margin:10px 0px;">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<i class="fa fa-calendar"></i> 
-							<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
-							<?php echo Yii::t("common","To") ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<i class="fa fa-file-text-o"></i> Licence : 
-							<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
-					</tr>
-					<tr>
-						<td>
-							<i class="fa fa-desktop"></i> 
-							<a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a>
-						</td>
-					</tr>	
-					<tr>
-						<td>
-							<i class="fa fa-tag text-red"></i> 
-							<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click"></a>
-						</td>
-					</tr>
-					
-				</tbody>
-			</table>
-
-			<div class="hidden" id="entity-insee-value" 
-				 insee-val="<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>">
-			</div>
-
-		<div class="col-md-12" style="background-color:#E6E6E6">
-			<h3> Description</h3>
 		</div>
-		<div class="col-md-12 padding-20">
-			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
+		<table class="table-condensed table-hover text-dark entityDetails" >
+			<tbody>
+				<tr>
+					<td>
+						<a href="#" id="name" data-type="text" 
+						  data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" 
+						  class="entityTitle editable-project editable editable-click">
+							<?php if(isset($project["name"]))echo $project["name"];?>
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i class="fa fa-bullseye"></i> 
+						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
+						<br>
+						<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+						</a>
+						<hr style="margin:10px 0px 0px 0px;">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i class="fa fa-calendar"></i> 
+						<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
+						<?php echo Yii::t("common","To") ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<i class="fa fa-file-text-o"></i> Licence : 
+						<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
+				</tr>
+				<tr>
+					<td>
+						<i class="fa fa-desktop"></i> 
+						<a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<i class="fa fa-tag text-red"></i> 
+						<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click"></a>
+					</td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+		<div class="hidden" id="entity-insee-value" 
+			 insee-val="<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>">
 		</div>
+
+	<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+				
+	<div class="col-md-12 padding-20">
+		<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
 	</div>
+</div>
 
 
 		
@@ -412,21 +449,24 @@ function initXEditable() {
 	$('#address').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield",
 		mode: 'popup',
-		success: function(response, newValue) {
-			console.log("success update postal Code : "+newValue);
-			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
-			findGeoPosByAddress();
-		},
+		// success: function(response, newValue) {
+		// 	console.log("success update postal Code : "+newValue);
+			
+		// },
 		value : {
         	//postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
         	codeInsee: '<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>',
         	addressLocality : '<?php echo (isset( $project["address"]["addressLocality"])) ? $project["address"]["addressLocality"] : ""; ?>'
     	},
-    	success : function(data) {
-			if(data.result) 
+    	success : function(data, newValue) {
+			if(data.result) {
 				toastr.success(data.msg);
-			else 
+				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				findGeoPosByAddress();
+			}
+			else {
 				return data.msg;
+			}
 	    }
 	});
 
