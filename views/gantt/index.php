@@ -30,10 +30,11 @@ if(isset($_GET["isDetailView"]))
 				$tasksSerialize = str_replace('"','/"',$tasksSerialize);
 				$urlArray = '&tasks={'.$tasksSerialize.'}';
 			} ?> 
-			<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel('/gantt/addtimesheetsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1<?php echo $urlArray ?>', 'EDIT TIMELINE','tasks' )" <?php } ?>>
-				<i class="fa fa-pencil"></i> <?php echo Yii::t("common","Edit"); ?>
+			<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel('/gantt/addtimesheetsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1<?php echo $urlArray ?>', 'EDIT TIMELINE','tasks' )" <?php } ?>
+				<i class="fa fa-pencil"></i> Ajouter / modifier des tâches
 			</a>
 			<?php } ?>
+
 		</div>
 	</div>
 	<?php if(isset($tasks) && !empty($tasks)){ ?>
