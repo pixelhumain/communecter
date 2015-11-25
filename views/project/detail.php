@@ -46,13 +46,20 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 <script type="text/javascript">
-	
+
+var contributors = <?php echo(isset($contributors)) ? json_encode($contributors) : null; ?>;
+
 jQuery(document).ready(function() {
 	 bindBtnFollow();
 	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
+
+	Sig.restartMap();
+	if(contributors != null)
+	Sig.showMapElements(Sig.map, contributors);
+
 });
 
 

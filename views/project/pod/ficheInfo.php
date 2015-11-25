@@ -106,6 +106,57 @@ progress[value]::-moz-progress-bar {
 	font-size: 21px;
 	font-family: "homestead";
 }
+
+	.entityTitle{
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: -10px;
+      overflow-x: hidden; 
+      font-size: 30px;
+	  font-weight: 200;
+  	  margin:0px !important;
+  	  text-align: left;
+    }
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
+
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+      font-size: 15px;
+	  font-weight: 300;
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    /*.entityDetails i.fa-tag{
+      margin-left:10px;
+    }*/
+    .entityDetails i.fa{
+      margin-right:7px;
+      font-size: 17px;
+		margin-top: 5px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 21px;
+    	font-family: "homestead";
+    }
+    #fileuploadContainer{
+    	z-index:0 !important;
+    }
+    .tag_group{
+    	font-size:14px;
+    	font-weight: 300;
+    }
 </style>
 
 	<div class="panel-heading border-light margin-bottom-10">
@@ -113,14 +164,14 @@ progress[value]::-moz-progress-bar {
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
 				<?php if ($isAdmin){ ?>
-					<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i> Éditer</a>
-        			<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+					<a href="#" id="editProjectDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i> Éditer</a>
+        			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
         		<?php } ?>
 			</div>
 		</div>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="col-sm-6 col-xs-6">
+		<div class="col-sm-6 col-xs-6 text-dark ">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																	  "type" => Project::COLLECTION,
@@ -128,17 +179,12 @@ progress[value]::-moz-progress-bar {
 																	  "contentId" => Document::IMG_SLIDER,
 																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
 				?>
-			</div>
-			<table class="table-condensed table-hover" >
-				<tbody>
-					<tr>
-						<td><a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["name"]))echo $project["name"];?></a></td>
-					</tr>
-					<tr>
-						<td>
-							<a href="#" id="avancement" data-type="select" data-title="avancement" data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" class="editable editable-click">
-							<?php if(isset($project["properties"]["avancement"])){ 
-								//idea => concept => Started => development => testing => mature
+				<!-- <h4>Avancement du projet :</h4> -->
+				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
+								data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" 
+								class="entityDetails editable editable-click">
+								<?php if(isset($project["properties"]["avancement"])){ 
+									//idea => concept => Started => development => testing => mature
 									if($project["properties"]["avancement"]=="idea")
 										$val=5;
 									else if($project["properties"]["avancement"]=="concept")
@@ -152,31 +198,66 @@ progress[value]::-moz-progress-bar {
 									else 
 										$val=100;
 									echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
-							} ?>
+								} ?>
 							</a>
 							<?php if(isset($project["properties"]["avancement"])){ ?>
 							<progress max="100" value="<?php echo $val;?>" class="progressStyle">
 							</progress>
 							<?php } ?>
+			</div>
+			<table class="table-condensed table-hover text-dark entityDetails" >
+				<tbody>
+					<tr>
+						<td>
+							<a href="#" id="name" data-type="text" 
+							  data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" 
+							  class="entityTitle editable-project editable editable-click">
+								<?php if(isset($project["name"]))echo $project["name"];?>
+							</a>
 						</td>
 					</tr>
 					<tr>
-						<td><?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> <?php echo Yii::t("common","To") ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a></td>
+						<td>
+							<i class="fa fa-bullseye"></i> 
+							<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
+							<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+							</a>
+							<hr style="margin:10px 0px;">
+						</td>
 					</tr>
 					<tr>
-						<td><a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="editable editable-click"></a></td>
+						<td>
+							<i class="fa fa-calendar"></i> 
+							<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
+							<?php echo Yii::t("common","To") ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
+						</td>
 					</tr>
 					<tr>
-						<td> In <a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a></td>
+						<td>
+							<i class="fa fa-file-text-o"></i> Licence : 
+							<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
 					</tr>
 					<tr>
-						<td>Licence  <a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a></td>
-					</tr>
-					<tr>
-						<td><a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a></td>
+						<td>
+							<i class="fa fa-desktop"></i> 
+							<a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a>
+						</td>
 					</tr>	
+					<tr>
+						<td>
+							<i class="fa fa-tag text-red"></i> 
+							<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click"></a>
+						</td>
+					</tr>
+					
 				</tbody>
 			</table>
+
+			<div class="hidden" id="entity-insee-value" 
+				 insee-val="<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>">
+			</div>
+
 		<div class="col-md-12" style="background-color:#E6E6E6">
 			<h3> Description</h3>
 		</div>
@@ -207,6 +288,13 @@ jQuery(document).ready(function()
 	initXEditable();
 	manageModeContext();
 	debugMap.push(projectData);
+
+	console.dir(projectData);
+	$("#btn-update-geopos").click(function(){
+		findGeoPosByAddress();
+	});
+
+		
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });
 
@@ -326,6 +414,8 @@ function initXEditable() {
 		mode: 'popup',
 		success: function(response, newValue) {
 			console.log("success update postal Code : "+newValue);
+			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+			findGeoPosByAddress();
 		},
 		value : {
         	//postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
@@ -400,7 +490,8 @@ function manageModeContext() {
 		$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
-		})
+		});
+		$("#btn-update-geopos").removeClass("hidden");
 	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-project').editable('option', 'pk', projectId);
@@ -410,8 +501,90 @@ function manageModeContext() {
 			//alert(listXeditables[i]);
 			$(value).editable('option', 'pk', projectId);
 			$(value).editable('toggleDisabled');
-		})
+		});
+		
+		$("#btn-update-geopos").addClass("hidden");
 	}
 }
 
+	
+	//modification de la position geographique	
+
+	function findGeoPosByAddress(){
+		//si la streetAdress n'est pas renseignée
+		//if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		//si on a une streetAddress
+		// }else{
+		// 	var request = "";
+
+		// 	//recuperation des données de l'addresse
+		// 	//var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
+		// 	var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
+		// 	var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
+			
+		// 	//construction de la requete
+		// 	//request = addToRequest(request, street);
+		// 	request = addToRequest(request, address);
+		// 	request = addToRequest(request, addressCountry);
+
+		// 	request = transformNominatimUrl(request);
+		// 	request = "?q=" + request;
+			
+		// 	findGeoposByNominatim(request);
+		// }
+	
+	}
+
+	//quand la recherche nominatim a fonctionné
+	function callbackNominatimSuccess(obj){
+		console.log("callbackNominatimSuccess");
+		//si nominatim a trouvé un/des resultats
+		if (obj.length > 0) {
+			//on utilise les coordonnées du premier resultat
+			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//et on affiche le marker sur la carte à cette position
+			showGeoposFound(coords, projectId, "projects", contextData);
+		}
+		//si nominatim n'a pas trouvé de résultat
+		else {
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		}
+	}
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError");
+	}
+
+	//quand la recherche par code insee a fonctionné
+	function callbackFindByInseeSuccess(obj){
+		console.log("callbackFindByInseeSuccess");
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			//on affiche le marker sur la carte
+			showGeoposFound(coords, projectId, "projects", projectData);
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
+	//quand la recherche par code insee n'a pas fonctionné
+	function callbackFindByInseeError(){
+		console.log("erreur getlatlngbyinsee");
+	}
+	
 </script>
