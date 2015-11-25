@@ -20,9 +20,9 @@ if(isset($_GET["isDetailView"]))
 	<?php } ?>
 </style>
 <div class="parentTimeline">
-<div class="<?php if (!isset($isDetailView)){ ?>panel<?php } ?> panel-white">
-	<div class="panel-heading border-light">
-		<h4 class="panel-title text-dark"><span><i class="fa fa-tasks"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
+<div class="<?php if (!isset($isDetailView)){ ?>panel<?php } ?> panel panel-white">
+	<div class="panel-heading border-light bg-dark" <?php if (isset($isDetailView)){ ?> style="" <?php } ?>>
+		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
 			<?php if ($edit) {
 				if (@$isDetailView){

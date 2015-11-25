@@ -15,10 +15,10 @@ $this->renderPartial('../default/panels/toolbar');
 																	//"events" => $events
 																	));
 				?>
-				<div class="timesheetphp">
-				</div>
 			</div>
-			<div class="col-md-4 no-padding">
+
+			
+			<div class="col-md-4 no-padding pull-right">
 				<div class="col-md-12 col-xs-12">
 					<?php  //print_r($attending); 
 						$this->renderPartial('../pod/usersList', array(  "project"=> $project,
@@ -30,8 +30,7 @@ $this->renderPartial('../default/panels/toolbar');
 					?>
 					<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
 				</div>
-				<div class="col-md-12 col-xs-12 needsPod">
-				</div>
+				<div class="col-md-12 col-xs-12 needsPod"></div>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
@@ -41,6 +40,10 @@ $this->renderPartial('../default/panels/toolbar');
 																  )); ?>
 				</div>
 			</div>
+
+			<div class="col-md-8 no-padding timesheetphp pull-left"></div>
+			
+
 		</div>	
 	</div>
 </div>
