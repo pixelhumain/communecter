@@ -46,23 +46,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
     }
 	.entityTitle{
-      padding: 10px 20px;
-      background-color: #EFEFEF; /*#2A3A45;* /
-      color: #FFF;
-      /*margin-left: -200px;*/
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
       margin-top: -10px;
       overflow-x: hidden; 
       font-weight: 200;
-      -moz-box-shadow: 0px 3px 5px -2px #656565;
-	  -webkit-box-shadow: 0px 3px 5px -2px #656565;
-	  -o-box-shadow: 0px 3px 5px -2px #656565;
-	  box-shadow: 0px 3px 5px -2px #656565;
-	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
     }
     .entityTitle h2{
-    	font-size: 20px;
+    	font-size: 30px;
+    	font-weight: 200;
       	margin:0px !important;
       	text-align: left;
     }
@@ -137,22 +130,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
 				?>
-				<div class="entityTitle text-green">
-					<h2>
-						<i class="fa fa-users"></i> 
-						<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="homestead text-green editable editable-click required">
-						</a>
-						<span> - </span>
-						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
-							class="homestead text-green editable-context editable editable-click required">
-							<?php echo (isset($organization)) ? $organization["name"] : null; ?>
-						</a>
-					</h2>
-					
-				</div>
+				
 			</div>
 			<div class="col-sm-6 col-md-6 ">
 				<div class="row padding-20 info-coordonnees entityDetails text-dark">
+					<div class="entityTitle">
+						<h2>
+							<!-- <i class="fa fa-circle text-green"></i>  -->
+							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required" style="font-weight:100;">
+							</a>
+							<!-- <span> - </span> -->
+							<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+								class="editable-context editable editable-click required">
+								<?php echo (isset($organization)) ? $organization["name"] : null; ?>
+							</a>
+						</h2>						
+					</div>
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
 						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
@@ -284,7 +277,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}));
 
 		$("#btn-update-geopos").click(function(){
-				findGeoPosByAddress();
+			findGeoPosByAddress();
 		});
 
 		Sig.restartMap();

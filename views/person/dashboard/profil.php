@@ -52,21 +52,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
     }
     .entityTitle{
-      padding: 10px 20px;
-      background-color: #EFEFEF; /*#2A3A45;* /
-      color: #FFF;
-      /*margin-left: -200px;*/
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
-      margin-top: 0px;
-      overflow-x: hidden; 
+      margin-top: -10px;
       font-weight: 200;
-      font-size: 20px;
-      -moz-box-shadow: 0px 3px 5px -2px #656565;
-	  -webkit-box-shadow: 0px 3px 5px -2px #656565;
-	  -o-box-shadow: 0px 3px 5px -2px #656565;
-	  box-shadow: 0px 3px 5px -2px #656565;
-	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+      margin:0px !important;
+      font-size: 30px;
+      text-align: left;
     }
 
     .entityDetails span{
@@ -176,30 +169,37 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "show" => true,
 																	  "editMode" => $canEdit )); 
 				?>
-				<h2 class="entityTitle text-yellow homestead">
-					<i class="fa fa-user fa_username"></i> 
-					<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class=" text-yellow editable-person editable editable-click">
-						<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
-					</a>
-				</h2>
+				
 					
 			</div>
 			<div class="col-sm-6 col-md-7 margin-top-20">
 				<div class="padding-10 entityDetails text-dark">
+					<h2 class="entityTitle">
+						<!-- <i class="fa fa-user fa_username"></i>  -->
+						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
+							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+						</a>
+					</h2>
+
 					<i class="fa fa-smile-o fa_name hidden"></i> 
 					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
 						<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
 					</a>
 					<br>
+
 					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
 					<br>
+
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
 						<?php echo (isset($person["email"])) ? $person["email"] : null; ?>
 					</a>
 					<br>
+
+					<hr style="margin:10px 0px 3px 0px;">
+					
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
 						<?php echo (isset( $person["address"]["streetAddress"])) ? $person["address"]["streetAddress"] : null; ?>
@@ -218,6 +218,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
 					</a>
 					<br>
+					<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+					</a>
+					<div class="hidden" id="entity-insee-value" 
+						 insee-val="<?php echo (isset( $person["address"]["codeInsee"])) ? $person["address"]["codeInsee"] : ""; ?>">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -319,8 +325,11 @@ jQuery(document).ready(function()
 				elementsMap.push(value2);
 			});
 		});
-		console.log("start show elementsMap");
-		console.dir(elementsMap);
+		
+		$("#btn-update-geopos").click(function(){
+			findGeoPosByAddress();
+		});
+
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
@@ -445,6 +454,7 @@ function initXEditable() {
 		mode: 'popup',
 		success: function(response, newValue) {
 			console.log("success update postal Code : "+newValue);
+			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',
@@ -474,7 +484,8 @@ function manageModeContext() {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
-		})
+		});
+		$("#btn-update-geopos").addClass("hidden");
 	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-person').editable('option', 'pk', personId);
@@ -484,6 +495,7 @@ function manageModeContext() {
 			$(value).editable('option', 'pk', personId);
 			$(value).editable('toggleDisabled');
 		})
+		$("#btn-update-geopos").removeClass("hidden");
 	}
 }
 
@@ -510,5 +522,89 @@ function manageSocialNetwork(iconObject, value) {
 	} 
 	console.log(iconObject);
 }
+
+
+
+	//modification de la position geographique	
+
+	function findGeoPosByAddress(){
+		//si la streetAdress n'est pas renseignée
+		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		//si on a une streetAddress
+		}else{
+			var request = "";
+
+			//recuperation des données de l'addresse
+			var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
+			var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
+			var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
+			
+			//construction de la requete
+			request = addToRequest(request, street);
+			request = addToRequest(request, address);
+			request = addToRequest(request, addressCountry);
+
+			request = transformNominatimUrl(request);
+			request = "?q=" + request;
+			
+			findGeoposByNominatim(request);
+		}
+	
+	}
+
+	//quand la recherche nominatim a fonctionné
+	function callbackNominatimSuccess(obj){
+		console.log("callbackNominatimSuccess");
+		//si nominatim a trouvé un/des resultats
+		if (obj.length > 0) {
+			//on utilise les coordonnées du premier resultat
+			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//et on affiche le marker sur la carte à cette position
+			showGeoposFound(coords, personId, "person", personData);
+		}
+		//si nominatim n'a pas trouvé de résultat
+		else {
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			console.log("recherche by insee", insee);
+			if(insee != "") findGeoposByInsee(insee);
+		}
+	}
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError");
+	}
+
+	//quand la recherche par code insee a fonctionné
+	function callbackFindByInseeSuccess(obj){
+		console.log("callbackFindByInseeSuccess");
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			//on affiche le marker sur la carte
+			showGeoposFound(coords, personId, "person", personData);
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
+	//quand la recherche par code insee n'a pas fonctionné
+	function callbackFindByInseeError(){
+		console.log("erreur getlatlngbyinsee");
+		toastr.error('');
+	}
+
 
 </script>
