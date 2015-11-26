@@ -140,6 +140,9 @@ if( isset($_GET["isNotSV"])) {
 	border-radius: 0px;
 	padding: 7px 0px;
 	font-size: 12px;
+	margin:0px;  
+	width:100% !important;
+	font-family: "homestead";
 }
 
 .optionFilter{

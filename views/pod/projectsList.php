@@ -10,7 +10,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 
 	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	//'/assets/js/ui-sliders.js',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -22,9 +22,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	<div class="panel-tools">
 		<?php if( @$authorised ) {
 			if(@$isNotSV){ ?>
-			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> </a>
+			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
 		<?php } else { ?>
-			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
+			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
 		<?php } } ?>
 	</div>
 	<div class="panel-body no-padding">
@@ -55,7 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						<td class="center">
 						<div class="visible-md visible-lg visible-lg" >
 							<?php if( @$authorised ) { ?>
-							<a href="#" class="removeProjectbtn btn btn-xs btn-grey tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+							<a href="#" class="removeProjectbtn btn btn-xs btn-grey tooltips delBtn" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 							<?php }; ?>
 						</div>
 						</td>
@@ -66,7 +66,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</tbody>
 			</table>
 			<?php if(isset($projects) && count($projects) > 0 ){ ?>
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+				<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
 			<?php } ?>
 		<?php if(isset($projects) && count($projects) == 0) {?>
 			<div id="info" class="padding-10">

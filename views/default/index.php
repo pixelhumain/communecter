@@ -60,6 +60,7 @@ if( !isset( Yii::app()->session['userId']) ){
     $this->renderPartial('panels/projects');
     $this->renderPartial('panels/ph');
     $this->renderPartial('panels/communecter');
+    $this->renderPartial('panels/connectedCity');
     $this->renderPartial('panels/dashboard');    
     ?>
     

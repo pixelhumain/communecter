@@ -38,26 +38,26 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
     echo $colLeft . $colRight;
     
 		function buildToolBarEntry($item)
-          {
-            $onclick = (isset($item["onclick"])) ? 'onclick="'.$item["onclick"].'"' :  "" ;
+    {
+      $onclick = (isset($item["onclick"])) ? 'onclick="'.$item["onclick"].'"' :  "" ;
 
-            $href = ( isset( $item["href"] ) ) ? $item["href"]  : "" ;
-            $class = (isset($item["class"])) ? 'class="'.$item["class"].'"' : "";
-            $iconSize = (isset($item["iconSize"])) ? 'class="'.$item["iconSize"].'"' : "";//"fa-2x";
-            $icon = (isset($item["iconClass"])) ? '<i class="'.$item["iconClass"].' '.$iconSize.'"></i>' : '';
-            $badge = ( isset( $item["badge"] ) ) ? $item["badge"] : "";
-            $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
-            $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";
-            //$position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
-            $html = $href.$tooltip.">".$badge.$icon.' '.$label.'</a>';
+      $href = ( isset( $item["href"] ) ) ? $item["href"]  : "" ;
+      $class = (isset($item["class"])) ? 'class="'.$item["class"].'"' : "";
+      $iconSize = (isset($item["iconSize"])) ? 'class="'.$item["iconSize"].'"' : "";//"fa-2x";
+      $icon = (isset($item["iconClass"])) ? '<i class="'.$item["iconClass"].' '.$iconSize.'"></i>' : '';
+      $badge = ( isset( $item["badge"] ) ) ? $item["badge"] : "";
+      $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
+      $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";
+      //$position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
+      $html = $href.$tooltip.">".$badge.$icon.' <span class="hidden-xs">'.$label.'</span></a>';
 
-            if( isset( $item["parent"] ) && isset( $item["parentId"] ) ) {
-            	$html = '<'.$item["parent"].' id="'.$item["parentId"].'">'.$html.'</'.$item["parent"].'>';
-            }
-            return $html."<span class='btnSpacer'></span>";
-          }
+      if( isset( $item["parent"] ) && isset( $item["parentId"] ) ) {
+      	$html = '<'.$item["parent"].' id="'.$item["parentId"].'">'.$html.'</'.$item["parent"].'>';
+      }
+      return $html."<span class='btnSpacer'></span>";
+    }
 
-		?>
+	?>
 
 </div>
 <!-- <div class="space20"></div> -->

@@ -153,7 +153,17 @@ $this->renderPartial('../default/panels/toolbar');
         <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
-          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span></br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
+          <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span> 
+          <?php if(@$city["communected"]){ ?>
+          <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn btn-azure homestead no-margin">
+            EST COMMUNECTÉ <i class="fa fa-thumbs-o-up"></i>
+          </a>
+          <?php } else { ?>
+          <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn homestead text-red no-margin">
+            N'EST PAS CONNECTÉ <i class="fa fa-thumbs-o-down"></i>
+          </a>
+          <?php } ?>
+          </br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
         </div>
       </div>
@@ -177,8 +187,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div id="local-actors-popup-sig">
         <div class="panel-heading border-light">
           <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
-  		    <div class="panel-tools" style="display:block">
-          	</div>
+  		    <!-- <div class="panel-tools" style="display:block"> </div> -->
         </div>
         <div class="panel-body padding-10 no-padding center">
 

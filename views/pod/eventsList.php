@@ -1,3 +1,12 @@
+<?php
+
+$cssAnsScriptFilesTheme = array(
+
+'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-orange">
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
@@ -5,13 +14,14 @@
 	<div class="panel-tools">
 		<?php if( @$authorised ) { 
 			if(@$isNotSV){ ?>
-			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>?isNotSV=1', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
+			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>?isNotSV=1', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
 		<?php } else { ?>
-		<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> </a>
+			<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
 		<?php
 			}
 		 } ?>
 	</div>
+	
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover" id="events">
@@ -51,7 +61,7 @@
 				</tbody>
 			</table>
 			<?php if(isset($events) && count($events)>0 ){ ?>
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
+			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
 			<?php } ?>
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >

@@ -136,7 +136,7 @@
 				callbackFindByInseeSuccess(obj);	
 			},
 			error: function (error) {
-				callbackFindByInseeError(obj);	
+				callbackFindByInseeError(error);	
 			}
 		});
 	}

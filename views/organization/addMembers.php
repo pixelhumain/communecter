@@ -32,7 +32,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	}
 	#formNewMember{
 		display: none;
-	};
+	}
+	#addMembers{
+		display: block;
+		float: left;
+		padding: 10px;
+		background-color: rgba(242, 242, 242, 0.9);
+		width: 100%;
+		box-shadow: 1px 1px 5px 3px #CFCFCF;
+	}
+	.li-dropdown-scope a{
+		padding:15px 25px !important;
+	}
 </style>
 <?php 
 $visible = "";
@@ -46,7 +57,10 @@ if( isset($_GET["isNotSV"])) {
 <div <?php echo $visible; ?> id="addMembers" >
     <!-- start: PAGE CONTENT -->
     <?php if( isset($_GET["isNotSV"])){?>
-	<h2 class='radius-10 padding-10 partition-blue text-bold'> Add a Member ( Person, Organization ) </h2>
+	<h2 class='radius-10 padding-10 text-bold text-dark'> 
+		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
+		<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>
+	</h2>
 	<?php
 	} 
 	$size = ( !@$isNotSV ) ? " col-md-6 col-md-offset-3" : "col-md-12"
@@ -59,20 +73,22 @@ if( isset($_GET["isNotSV"])) {
         	<?php if( !isset($_GET["isNotSV"])){?>
         		<h1>Add a Member ( Person, Organization )</h1>
         	<?php } ?>
-        		<p>An Organization can have People as members or Organizations</p>
+        		<blockquote>
+        			<?php echo Yii::t("organisation","An Organization can have People as members or Organizations",null,Yii::app()->controller->module->id) ?>
+        		</blockquote>
         	</div>
         	<div class="panel-body">
-		    	<form id="addMemberForm" style="line-height:40px;" autocomplete="off" submit='false'>
+		    	<form id="addMemberForm" style="line-height:40px; padding:0px;" autocomplete="off" submit='false'>
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
-		    	    <div class="form-group" id="searchMemberSection">
+		    	    <div class="form-group" id="searchMemberSection" style="margin:0px;">
 		    	    	<div class='row'>
 							<div class="col-md-1">	
 				           		<i class="fa fa-search fa-2x"></i> 
 				           	</div>
 				           	<div class="col-md-11">
 				           		<span class="input-icon input-icon-right">
-						           	<input class="member-search form-control" placeholder="Search By name, email" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
+						           	<input class="member-search form-control" placeholder="<?php echo Yii::t("organisation","Search by name, email",null,Yii::app()->controller->module->id) ?>" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 						        		<ul class="dropdown-menu" id="dropdown_search" style="">
 											<li class="li-dropdown-scope">-</li>
@@ -84,12 +100,13 @@ if( isset($_GET["isNotSV"])) {
 					</div>
 		            <div class="form-group" id="addMemberSection">
 		            	<div class='row center'>
+		            		<h4>Est-ce un citoyen ou une association ?</h4>
 		            		<input type="hidden" id="memberType"/>
 		            		<div class="btn-group ">
-								<a id="btnCitoyen" href="javascript:;" onclick="switchType('citoyens')" class="btn btn-green">
+								<a id="btnCitoyen" href="javascript:;" onclick="switchType('citoyens')" class="btn btn-default btn-green">
 									Citoyen
 								</a>
-								<a id="btnOrganization" href="javascript:;" onclick="switchType('organizations')" class="btn btn-green">
+								<a id="btnOrganization" href="javascript:;" onclick="switchType('organizations')" class="btn btn-default btn-green">
 									Organisation
 								</a>
 							</div>
@@ -125,13 +142,13 @@ if( isset($_GET["isNotSV"])) {
 			               		</div>
 			               	</div>
 			               	<div class="row">
-								<div class="col-md-5">
+								<div class="center">
 									<div id="divAdmin" class="form-group">
 						    	    	<label class="control-label">
 											Administrateur :
-										</label>
+										</label><br>
 										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input type="checkbox" data-on-text="YES" data-off-text="NO" name="my-checkbox"></input>
+										<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
 									</div>
 								</div>
 							</div>
@@ -144,14 +161,15 @@ if( isset($_GET["isNotSV"])) {
 			               		</div>
 			               	</div>
 			               	<div class ="row">
-				               	<div class="col-md-10  col-md-offset-1">	
-									<a href="javascript:showSearch()"><i class="fa fa-search"></i> Search</a>
+				               	<div class="col-md-10  col-md-offset-1 padding-10">	
+									<button class="btn btn-primary pull-right" style="margin-left:10px;">Enregistrer</button>
+									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> Search</a>
 								</div>
 							</div>
 							
 							<div class="form-group">
 								<div class="row">
-					    	        <button class="btn btn-primary" >Enregistrer</button>
+					    	        
 					    	    </div>
 					    	</div>
 				    	</div>
@@ -376,7 +394,7 @@ if( isset($_GET["isNotSV"])) {
 	        		toastr.error(data.content);
 	        	}else{
 	        		var icon = "fa-question-circle";
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'>Non trouvé ? Cliquez ici.</a></li>";
+					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'><i class='fa fa-plus'></i> Non trouvé ? Envoyer une invitation.</a></li>";
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){

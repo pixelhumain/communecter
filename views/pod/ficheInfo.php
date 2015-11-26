@@ -32,13 +32,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		font-weight: 300;
 	}
 	a#shortDescription{
-		font-size:17px !important;
-		font-weight: 400;
+		font-size: 15px !important;
+		font-weight: 200;
+		/*color: white;*/
 	}
 	#profil_imgPreview{
       max-height:400px;
       width:100%;
-      border-radius: 4px 4px 0px 0px;
+      border-radius: 5px;
       /*border:3px solid #93C020;*/
       /*border-radius:  4px 4px 0px 0px;*/
       margin-bottom:0px;
@@ -46,23 +47,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
     }
 	.entityTitle{
-      padding: 10px 20px;
-      background-color: #EFEFEF; /*#2A3A45;* /
-      color: #FFF;
-      /*margin-left: -200px;*/
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
       margin-top: -10px;
-      overflow-x: hidden; 
       font-weight: 200;
-      -moz-box-shadow: 0px 3px 5px -2px #656565;
-	  -webkit-box-shadow: 0px 3px 5px -2px #656565;
-	  -o-box-shadow: 0px 3px 5px -2px #656565;
-	  box-shadow: 0px 3px 5px -2px #656565;
-	  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
     }
     .entityTitle h2{
-    	font-size: 20px;
+    	font-size: 30px;
+    	font-weight: 200;
       	margin:0px !important;
       	text-align: left;
     }
@@ -105,6 +98,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     	font-size:14px;
     	font-weight: 300;
     }
+    .info-coordonnees{
+    	/*background-color: rgb(239, 239, 239);*/
+    }
+    .lbl-info-details{
+    	font-weight: 600;
+	    border-bottom: 1px solid lightgray;
+	    padding-bottom: 7px;
+	    margin-bottom: 5px;
+	    width:100%;
+	    float:left;
+	}
 
 </style>
 
@@ -113,19 +117,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
-		
-		<div class="panel-tools">
-			<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
-					if(!isset($organization["disabled"])){
-				 	?>
-					<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="left" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-					<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="top" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i> <span class="hidden-sm hidden-xs"> Désactiver</span></a>
-			<?php } else {?>
-					<span class="label label-danger">DISABLED</span>
-			<?php }} ?>
-		</div>
+	</div>
+	<div class="panel-tools">
+		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+				if(!isset($organization["disabled"])){
+			 	?>
+				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
+				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php } else {?>
+				<span class="label label-danger">DISABLED</span>
+		<?php }} ?>
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
@@ -137,79 +140,89 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
 				?>
-				<div class="entityTitle text-green">
-					<h2>
-						<i class="fa fa-users"></i> 
-						<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="homestead text-green editable editable-click required">
-						</a>
-						<span> - </span>
-						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
-							class="homestead text-green editable-context editable editable-click required">
-							<?php echo (isset($organization)) ? $organization["name"] : null; ?>
-						</a>
-					</h2>
-					
-				</div>
 			</div>
-			<div class="col-sm-6 col-md-6 ">
-				<div class="row padding-20 info-coordonnees entityDetails text-dark">
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
-						<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
-					</a>
-					<br>
-				
-					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
-					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
-					</a>
-					<br>
-					
-					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
-					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
-					</a>
-					<br>
-
-					<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
-						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
-					</a>
-					<hr style="margin:10px 0px;">
-					<i class="fa fa-phone fa_telephone  hidden"></i> 
-					<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
-						<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
-					</a>
-					<br>
-				
-					<i class="fa fa-envelope fa_email  hidden"></i> 
-					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-						<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
-					</a>
-					<br>
-				
-					<i class="fa fa-desktop fa_url  hidden"></i> 
-					<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
-						<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
-					</a>
-
-					<div class="hidden" id="entity-insee-value" 
-						 insee-val="<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>">
+			<div class="col-sm-6 col-md-6 pull-right margin-bottom-15">
+				<div class="row text-dark" style="margin-top:10px !important;">
+					<div class="entityTitle">
+						<h2  style="font-weight:100; font-size:19px;">
+							<i class="fa fa-angle-right"></i> 
+							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
+							</a>
+						</h2>
+						<h2><!-- <span> - </span> -->
+							<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+								class="editable-context editable editable-click required">
+								<?php echo (isset($organization)) ? $organization["name"] : null; ?>
+							</a>
+						</h2>						
+					</div>
+					<div class="row info-shortDescription">
+						<a href="#" id="shortDescription" data-placement="bottom" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
+							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
+						</a>
 					</div>
 				</div>
-				
 			</div>
+			
+			<div class="col-md-12">	
+				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Coordonnées</div>
+				<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
+					<div class="col-md-6 col-sm-6">	
+						<i class="fa fa-road fa_streetAddress hidden"></i> 
+						<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
+							<?php echo (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : null; ?>
+						</a>
+						<br>
+					
+						<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
+						<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
+						</a>
+						<br>
+						
+						<i class="fa fa-globe fa_addressCountry  hidden"></i> 
+						<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
+						</a>
+						<br>
+
+						<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+						</a>
+						<!-- <hr style="margin:10px 0px;"> -->
+					</div>
+					<div class="col-md-6 col-sm-6">				
+						<i class="fa fa-phone fa_telephone  hidden"></i> 
+						<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
+							<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
+						</a>
+						<br>
+					
+						<i class="fa fa-envelope fa_email  hidden"></i> 
+						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
+							<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
+						</a>
+						<br>
+					
+						<i class="fa fa-desktop fa_url  hidden"></i> 
+						<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
+							<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
+						</a>
+
+						<div class="hidden" id="entity-insee-value" 
+							 insee-val="<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>">
+						</div>
+					</div>			
+				</div>			
+			</div>
+			
 		</div>
 		<div class="row">
-
-			<div class="col-sm-12 col-xs-12 padding-20">
-				<div class="row info-shortDescription">
-					<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
-						<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
-					</a>
-				</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 				</a>
 			</div>
@@ -284,7 +297,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}));
 
 		$("#btn-update-geopos").click(function(){
-				findGeoPosByAddress();
+			findGeoPosByAddress();
 		});
 
 		Sig.restartMap();
@@ -583,7 +596,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			request = transformNominatimUrl(request);
 			request = "?q=" + request;
-			
+			console.log(request);
 			findGeoposByNominatim(request);
 		}
 	
@@ -609,11 +622,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}
 	}
 
-	//en cas d'erreur nominatim
-	function callbackNominatimError(error){
-		console.log("callbackNominatimError");
-	}
-
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
 		console.log("callbackFindByInseeSuccess");
@@ -631,9 +639,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}
 	}
 
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError", error);
+	}
+
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee");
+		console.log("erreur getlatlngbyinsee", error);
 	}
 	
 

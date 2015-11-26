@@ -99,14 +99,12 @@ progress[value]::-moz-progress-bar {
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("project","PROJECT INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
-		<div class="navigator padding-0 text-right">
-			<div class="panel-tools">
-				<?php 
-					if ($isAdmin){ ?>
-				<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i></a>
-        		<?php } ?>
-			</div>
-		</div>
+	</div>
+	<div class="panel-tools">
+		<?php 
+			if ($isAdmin){ ?>
+		<a href="#" id="editProjectDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le projet" alt=""><i class="fa fa-pencil"></i></a>
+		<?php } ?>
 	</div>
 	<div class="panel-body no-padding">
 			<table class="table table-condensed table-hover" >

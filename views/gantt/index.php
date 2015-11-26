@@ -20,24 +20,21 @@ if(isset($_GET["isDetailView"]))
 	<?php } ?>
 </style>
 <div class="parentTimeline">
-<div class="<?php if (!isset($isDetailView)){ ?>panel<?php } ?> panel-white">
-	<div class="panel-heading border-light" <?php if (isset($isDetailView)){ ?> style="background-color:#E6E6E6;border-radius:inherit;" <?php } ?>>
-		<h4 class="panel-title"><span><i class="fa fa-tasks fa-2x text-blue"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
-		<div class="panel-tools">
-			<?php if ($edit) {
-				if (@$isDetailView){
-				$tasksSerialize = base64_encode(serialize($tasks));
-				$tasksSerialize = str_replace('"','/"',$tasksSerialize);
-				$urlArray = '&tasks={'.$tasksSerialize.'}';
-			} ?> 
-			<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel('/gantt/addtimesheetsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1<?php echo $urlArray ?>', 'EDIT TIMELINE','tasks' )" <?php } ?>>
-				<i class="fa fa-pencil"></i>
-			</a>
-			<?php } ?>
-			<a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
+<div class="<?php if (!isset($isDetailView)){ ?>panel<?php } ?> panel panel-white">
+	<div class="panel-heading border-light bg-dark" <?php if (isset($isDetailView)){ ?> style="" <?php } ?>>
+		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
+	</div>
+	<div class="panel-tools">
+		<?php if ($edit) {
+			if (@$isDetailView){
+			$tasksSerialize = base64_encode(serialize($tasks));
+			$tasksSerialize = str_replace('"','/"',$tasksSerialize);
+			$urlArray = '&tasks={'.$tasksSerialize.'}';
+		} ?> 
+		<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel('/gantt/addtimesheetsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>?isNotSV=1<?php echo $urlArray ?>', 'EDIT TIMELINE','tasks' )" <?php } ?>
+			<i class="fa fa-pencil"></i> Ajouter / modifier des tâches
+		</a>
+		<?php } ?>
 	</div>
 	<?php if(isset($tasks) && !empty($tasks)){ ?>
 	<div class="panel-body no-padding partition-dark">
