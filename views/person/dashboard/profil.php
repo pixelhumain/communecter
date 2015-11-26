@@ -35,20 +35,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 /* from randomOrga */
 
 	.panel-white .border-light{
-		border:0 !important;
+		/*border:0 !important;*/
 	}
-
+/*
   	#profil_imgPreview{
       max-height:400px;
       width:100%;
       border-radius: 4px 4px 0px 0px;
-      /*border:3px solid #93C020;*/
-      /*border-radius:  4px 4px 0px 0px;*/
+      border:3px solid #93C020;
+      border-radius:  4px 4px 0px 0px;
       margin-bottom:0px;
      
 
     }
-    .panel-green{
+*/    
+	.panel-green{
       background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
     }
     .entityTitle{

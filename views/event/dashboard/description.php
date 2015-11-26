@@ -38,15 +38,91 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	.selectEv{
 		min-width: 200px;
 	}
+
+	
+	.entityTitle{
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: -10px;
+      font-weight: 200;
+    }
+    .entityTitle h2{
+    	font-size: 30px;
+    	font-weight: 200;
+      	margin:0px !important;
+      	text-align: left;
+    }
+
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
+
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+      font-size: 15px;
+	  font-weight: 300;
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+    .entityDetails i.fa{
+      margin-right:7px;
+      font-size: 17px;
+		margin-top: 5px;
+    }
+
+    .fileupload{
+    	margin-bottom:0px !important;
+    }
+
+    .lbl-betatest{
+    	margin:10px;
+    	position: absolute;
+		right: 5px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 21px;
+    	font-family: "homestead";
+    }
+    #fileuploadContainer{
+    	z-index:0 !important;
+    }
+    .tag_group{
+    	font-size:14px;
+    	font-weight: 300;
+    }
+
+    .editable-pre-wrapped {
+	    white-space: normal;
+	    padding:30px; 
+	}
+
+	 .lbl-info-details{
+    	font-weight: 600;
+	    border-bottom: 1px solid lightgray;
+	    padding-bottom: 7px;
+	    margin-bottom: 5px;
+	    width:100%;
+	    float:left;
+	}
+
 </style>
 <div class="panel panel-white" id="globProchEvent">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title text-left ficheInfoTitle">
-			<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required"></a>
-			<span> - </span>
-			<a href="#" id="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" >
-				<?php if(isset($event["name"])) echo $event["name"];?>
-			</a>
+		<h4 class="panel-title text-left text-dark ficheInfoTitle">
+			<i class="fa fa-info-circle"></i> Infos générales
 		</h4>
 		<div class="navigator padding-0 text-right">
 			<div class="panel-tools">
@@ -56,15 +132,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
 				if($edit){
 			?>
-				<a href="javascript:" id="editEventDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
-				<a href="javascript:" id="editGeoPosition" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-				<a href="javascript:" id="removeEvent" class="btn btn-xs btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
+				<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
+				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+				<a href="javascript:" id="removeEvent" class="btn btn-sm btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
         		<?php } ?>
 			</div>
 		</div>
 	</div>
 	<div class="panel-body no-padding">
-		<div class="col-sm-6 col-xs-12 no-padding">
+		<div class="col-sm-6 col-xs-12 padding-10">
 			<div class="item" id="imgAdherent">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $itemId,
@@ -77,8 +153,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 		<div class="col-sm-6 col-xs-12 sectionBlockAdherent" id="infoEvent">
 			<div class="row padding-20" >
-				<div class="col-sm-12"><i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?</div>
-				<div class="col-sm-12">
+				<div class="entityTitle">
+					<h2 style="font-weight:100; font-size:19px;">
+						<i class="fa fa-angle-right"></i> 
+						<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required"></a><br>
+					</h2>
+					<h2>
+						<a href="#" id="name" data-type="text" data-title="Event name" data-emptytext="Event name" class="editable-event editable editable-click" >
+							<?php if(isset($event["name"])) echo $event["name"];?>
+						</a>
+					</h2>
+				</div>
+				<div class="col-sm-12 no-padding text-dark lbl-info-details">
+					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
+				</div>
+				<div class="col-sm-12 entityDetails no-padding">
 					<div class="col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
 					</div>
@@ -90,9 +179,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</div>
 				</div>
 			</div>
-			<div class="row padding-20">
-				<div class="col-sm-12"><i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?</div>
-				<div class="col-sm-12">
+		</div>
+		<div class="col-sm-12 col-xs-12">
+			<div class="col-md-6">
+				<div class="col-sm-12 no-padding text-dark lbl-info-details">
+					<i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?
+				</div>
+				<div class="col-sm-12 entityDetails no-padding">
 					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
 						 $icon="fa-lightbulb-o";
@@ -105,9 +198,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					 } ?> : <a href="#" onclick="openMainPanelFromPanel('/<?php echo $organizer["type"]; ?>/detail/id/<?php echo $organizer["id"]; ?>', '<?php echo $organizer["type"]; ?> : <?php echo $organizer["name"]; ?>','<?php echo $icon; ?>', '<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
-			<div class="row padding-20">
-				<div class="col-sm-12"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?</div>
-				<div class="col-sm-12">
+			<div class="col-md-6">
+				<div class="col-sm-12 no-padding text-dark lbl-info-details">
+					<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?
+				</div>
+				<div class="col-sm-12 entityDetails no-padding">
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-event editable editable-click">
 						<?php echo (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : null; ?>
 					</a>
@@ -121,8 +216,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 		</div>
 		<div class="col-sm-12">
-            <hr/>
-            <h4 class="panel-title text-left">Description</h4>
+            <!-- <hr/> -->
+            <div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
         </div>
 		<div class="col-sm-12 hidden-xs padding-20">
 			<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">

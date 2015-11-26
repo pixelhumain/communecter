@@ -4,6 +4,10 @@
 		position: relative;
 		width: 100%;
 		z-index: 8;
+		background-color: #F2F2F2;
+		margin: 3%;
+		border: #E0E0E0 solid 1px;
+		margin:0px 10px 0px 10px;
 	}
 	.fileupload-new .thumbnail, .fileupload-exists .thumbnail{
 		height: auto;
@@ -28,9 +32,16 @@
 	.fileupload-preview img{
 		max-height:100%; 
 	}
+
+	#profil_imgPreview, #slider_imgPreview{
+		background-color:#E7EBEF;
+		padding-top: 35px;
+		background-color: transparent !important;
+		border: 0;
+	}
 </style>
 
-	<div class ="center" id="fileuploadContainer">
+	<div class="center" id="fileuploadContainer">
 		<form  method="post" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_fileUpload">
@@ -216,8 +227,8 @@
 				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}else{
 				imageUrl = "<div class='center'>"+
-								"<i class='fa fa-picture-o fa-5x text-green'></i>"+
-								"<br>Click on <i class='fa fa-plus'></i> to add a pictures"+
+								"<i class='fa fa-picture-o fa-5x text-dark'></i>"+
+								//"<br>Click on <i class='fa fa-plus'></i> to add a pictures"+
 							"</div>";
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html(imageUrl);
@@ -226,7 +237,7 @@
 			//if(debug)console.log("initFileUpload", images, imagesPath);
 			if(j == 0 || resize ){
 				if(editFile){
-					var textBlock =  "<br><?php echo Yii::t('fileUpload','Click on',null,Yii::app()->controller->module->id) ?> <i class='fa fa-plus text-green'></i> <?php echo Yii::t('fileUpload','for share your pictures',null,Yii::app()->controller->module->id) ?>";
+					var textBlock = "<br><?php echo Yii::t('fileUpload','Click on',null,Yii::app()->controller->module->id) ?> <i class='fa fa-plus text-green'></i> <?php echo Yii::t('fileUpload','for share your pictures',null,Yii::app()->controller->module->id) ?>";
 					
 					var defautText = "<li>" +
 										"<div class='center'>"+

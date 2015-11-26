@@ -188,7 +188,7 @@ progress[value]::-moz-progress-bar {
 	<div class="panel-body no-padding">
 	</div>
 	<div class="panel-body no-padding">
-		<div class="col-sm-6 col-xs-6 text-dark ">
+		<div class="col-sm-6 col-xs-6 text-dark padding-10">
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																  "type" => Project::COLLECTION,

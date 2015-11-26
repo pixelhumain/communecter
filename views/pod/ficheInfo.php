@@ -109,7 +109,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    width:100%;
 	    float:left;
 	}
-	
+
 </style>
 
 <div class="panel panel-white">
@@ -147,11 +147,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="col-sm-6 col-md-6 pull-right margin-bottom-15">
 				<div class="row text-dark" style="margin-top:10px !important;">
 					<div class="entityTitle">
-						<h2>
-							<!-- <i class="fa fa-circle text-green"></i>  -->
-							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required" style="font-weight:100;">
+						<h2  style="font-weight:100; font-size:19px;">
+							<i class="fa fa-angle-right"></i> 
+							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
 							</a>
-							<!-- <span> - </span> -->
+						</h2>
+						<h2><!-- <span> - </span> -->
 							<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
 								class="editable-context editable editable-click required">
 								<?php echo (isset($organization)) ? $organization["name"] : null; ?>
