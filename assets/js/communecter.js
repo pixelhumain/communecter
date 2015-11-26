@@ -55,24 +55,28 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-function declareMeAsAdmin(organizationId, personId) {
-	$.ajax({
-		type: "POST",
-		url: baseUrl+"/"+moduleId+'/organization/declareMeAdmin',
-		dataType : "json",
-		data : {
-			idOrganization : organizationId, 
-			idPerson : personId
-		}
-	})
-	.done(function (data) {
-		//$.unblockUI();
-		if (data &&  data.result) {
-			toastr.success(data.msg);
-		} else {
-			toastr.error('Something Went Wrong ! ' + data.msg);
-		}
-		
-	});
+function declareMeAsAdmin(organizationId, personId, organizationName, callback) {
+	bootbox.confirm("You are going to ask to become an admin of the organization <span class='text-red'>"+organizationName+"</span>. Please confirm ?", 
+		function(result) {
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+'/organization/declareMeAdmin',
+				dataType : "json",
+				data : {
+					idOrganization : organizationId, 
+					idPerson : personId
+				}
+			})
+			.done(function (data) {
+				//$.unblockUI();
+				if (data &&  data.result) {
+					toastr.success(data.msg);
+					if (typeof callback == "function") callback(organizationId, personId, organizationName);
+				} else {
+					toastr.error('Something Went Wrong ! ' + data.msg);
+				}
+				
+			});
+		})
 }
 

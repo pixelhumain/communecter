@@ -156,7 +156,7 @@ class Menu {
                         Yii::t( "common", "Declare me as admin of this organization"),
                         Yii::t( "common", "Become admin"),
                         'fa fa-user-plus',
-                        "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."')",null,null);                      
+                        "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."','".$organization["name"]."')",null,null);                      
             }
         } 
     }
