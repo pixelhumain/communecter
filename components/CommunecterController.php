@@ -348,7 +348,7 @@ class CommunecterController extends Controller
     { 
       $host = "meteor.communecter.org";
       if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
-        if( Authorisation::isMeteorConnected( $_SERVER["X-Auth-Token"] ) ){
+        if( isset( $_SERVER["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_SERVER["X-Auth-Token"] ) ){
           $prepareData = false;
         }
       } 
@@ -369,7 +369,6 @@ class CommunecterController extends Controller
       $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
       $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
-
 
       $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
       $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
