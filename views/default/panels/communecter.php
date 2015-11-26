@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-sm-6">
 				Connected People
-				<br/>box-communectedCity
+				<br/>
 				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Tango</a> 
 				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Maroual</a> 
 				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Mr Green</a> 

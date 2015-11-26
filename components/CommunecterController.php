@@ -341,7 +341,18 @@ class CommunecterController extends Controller
                             //Document Resizer
                             "document/resized");
 
-    if( (!isset( $page["public"] ) )
+
+    
+    $prepareData = true;
+    if (isset($_SERVER["HTTP_ORIGIN"])) //this is an outside call 
+    { 
+      $host = "meteor.communecter.org";
+      if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
+        if( Authorisation::isMeteorConnected( $_SERVER["X-Auth-Token"] ) ){
+          $prepareData = false;
+        }
+      } 
+    } else if( (!isset( $page["public"] ) )
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
@@ -354,18 +365,20 @@ class CommunecterController extends Controller
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
 
-    $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
+    if( $prepareData ){
+      $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
-    $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
+      $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);
 
 
-    $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
-    $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
-    $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
+      $this->title = (isset($page["title"])) ? $page["title"] : $this->title;
+      $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
+      $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
 
-    $this->notifications = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );
+      $this->notifications = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );
 
-    CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
+      CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
+    }
   }
 
   protected function beforeAction($action){
