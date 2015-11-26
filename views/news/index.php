@@ -58,7 +58,7 @@ if( isset($_GET["isNotSV"])) {
 }
 #btnOrganization:hover{
 	color:#93C020;
-	border-left: 5px solid #93C020;
+	/*border-left: 5px solid #93C020;*/
 }
 #btnEvent:hover{
 	color:#F9B21A;
@@ -151,12 +151,12 @@ if( isset($_GET["isNotSV"])) {
 
 #formActivity .bg-yellow, #formActivity .bg-green, 
 #formActivity .bg-orange, #formActivity .bg-purple{
-	border-bottom: 3px solid transparent;
+	/*border-bottom: 3px solid transparent;*/
 }
 
 #formActivity .bg-yellow:hover, #formActivity .bg-green:hover, 
 #formActivity .bg-orange:hover, #formActivity .bg-purple:hover{
-border-bottom: 3px solid rgba(255, 255, 255, 0.8);
+/*border-bottom: 3px solid rgba(255, 255, 255, 0.8);*/
 }
 div.timeline .spine{
 	border-radius:0px;
