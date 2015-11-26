@@ -32,7 +32,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	left: 0px;
 	background-color: red;
 	width: 15px;
-	border-radius: 0 0 6px 0px;
+	border-radius: 0 0 5px 0px;
 }
 
 </style>

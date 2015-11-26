@@ -17,7 +17,7 @@ $this->renderPartial('../default/panels/toolbar');
 				?>
 			</div>
 
-			
+
 			<div class="col-md-4 no-padding pull-right">
 				<div class="col-md-12 col-xs-12">
 					<?php  //print_r($attending); 
@@ -41,7 +41,7 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 			</div>
 
-			<div class="col-md-8 no-padding timesheetphp pull-left"></div>
+			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
 			
 
 		</div>	

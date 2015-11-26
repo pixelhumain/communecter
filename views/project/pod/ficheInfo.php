@@ -166,27 +166,8 @@ progress[value]::-moz-progress-bar {
 	    float:left;
 	}
 	 
-    .panel-tools{
-    	position: relative;
-		width: 100%;
-		opacity: 1 !important;
-		margin: 10px 0px -5px;
-		text-align: left;
-		right: 0px;
-		top: 0px;
-    }
-    .panel-tools a{
-    	background-color: rgba(255, 255, 255, 0.7) !important;
-    	color:#3C5665 !important;
-    	margin-bottom:3px;
-    }
-    .panel-tools .btn-xs{
-    	border-color: rgba(255, 255, 255, 0) !important;
-    }
-    .panel-tools .btn-xs:hover{
-    	background-color: rgba(255, 255, 255, 1) !important;
-    	color:#3C5665 !important;
-    }
+    
+    
     
 </style>
 

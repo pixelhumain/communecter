@@ -128,36 +128,41 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
         <h4 class="panel-title text-dark"><i class="fa fa-info-circle text-dark"></i> <?php echo Yii::t("common","Account info") ?></h4>
-    </div>
-	
- 	<div class="panel-tools">
- 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
-					<a href="javascript:;" class="btn btn-xs bg-red" style="color:white !important;" ><i class="fa"></i>Beta Tester</a>
-		<?php 	} ?>
- 		<?php
-			//if connected user and pageUser are allready connected
-			$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
-			if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
-			{  /* ?>
-				<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
-			<?php */ } 
-			if (Person::logguedAndValid() && $canEdit) {
+    
+	 	<div class="panel-tools">
+	 		<?php
+				//if connected user and pageUser are allready connected
+				$base = 'upload'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.Yii::app()->session["userId"].DIRECTORY_SEPARATOR;
+				if( Yii::app()->session["userId"] && file_exists ( $base.Yii::app()->session["userId"].".json" ) )
+				{  /* ?>
+					<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
+				<?php */ } 
+				if (Person::logguedAndValid() && $canEdit) {
+				?>
+					<a href='javascript:' class='btn btn-sm btn-red changePasswordBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
+						<i class='fa fa-key'></i> 
+						<span class="hidden-sm hidden-xs">
+						<?php echo Yii::t("common","Change password") ?>
+						</span>
+					</a>
+				<?php } /*?>
+				<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
+				*/ 
 			?>
-				<a href='javascript:;' class='btn btn-sm btn-red changePasswordBtn'><i class='fa fa-key'></i> <span class="hidden-sm hidden-xs"><?php echo Yii::t("common","Change password") ?></span></a>
-			<?php } /*?>
-			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
-			*/ 
-		?>
 
- 		<?php    
-				if ( $canEdit ) { ?>
-					<a href="javascript:" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="right" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="right" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-		<?php } ?>
-		
-	
-			
+	 		<?php    
+					if ( $canEdit ) { ?>
+						<a href="javascript:" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
+						<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+			<?php } ?>	
+
+			<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+						<div class="badge badge-danger"><i class="fa"></i>Beta Tester</div>
+			<?php 	} ?>
+	 				
+	  	</div>
   	</div>
+	
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15 border-light" style="border-width: 1px; border-style: solid;">
@@ -517,7 +522,7 @@ function manageSocialNetwork(iconObject, value) {
 	console.log(value);
 	iconObject.empty();
 	if (value != "") {
-		iconObject.tooltip({title: value, placement: "top"});
+		iconObject.tooltip({title: value, placement: "bottom"});
 		iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
 	} 
 	console.log(iconObject);

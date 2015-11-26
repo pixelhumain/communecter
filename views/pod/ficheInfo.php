@@ -109,28 +109,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    width:100%;
 	    float:left;
 	}
-	 .panel-tools{
-    	position: relative;
-		width: 100%;
-		opacity: 1 !important;
-		margin: 10px 0px -5px;
-		text-align: left;
-		right: 0px;
-		top: 0px;
-    }
-    .panel-tools a{
-    	background-color: rgba(255, 255, 255, 0.7) !important;
-    	color:#3C5665 !important;
-    	margin-bottom:3px;
-    }
-    .panel-tools .btn-xs{
-    	border-color: rgba(255, 255, 255, 0) !important;
-    }
-    .panel-tools .btn-xs:hover{
-    	background-color: rgba(255, 255, 255, 1) !important;
-    	color:#3C5665 !important;
-    }
-    
+	
 </style>
 
 <div class="panel panel-white">
@@ -147,7 +126,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					 	?>
 						<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
 						<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
-						<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class=" text-red fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+						<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
 				<?php } else {?>
 						<span class="label label-danger">DISABLED</span>
 				<?php }} ?>

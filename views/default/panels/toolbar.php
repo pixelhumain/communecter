@@ -49,7 +49,7 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
             $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
             $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";
             //$position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
-            $html = $href.$tooltip.">".$badge.$icon.' '.$label.'</a>';
+            $html = $href.$tooltip.">".$badge.$icon.' <span class="hidden-xs">'.$label.'</span></a>';
 
             if( isset( $item["parent"] ) && isset( $item["parentId"] ) ) {
             	$html = '<'.$item["parent"].' id="'.$item["parentId"].'">'.$html.'</'.$item["parent"].'>';
