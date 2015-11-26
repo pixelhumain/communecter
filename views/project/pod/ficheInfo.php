@@ -171,23 +171,22 @@ progress[value]::-moz-progress-bar {
     
 </style>
 
-	<div class="panel-heading border-light margin-bottom-10">
+	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark">
 				<i class="fa fa-info-circle"></i> 
 				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
 		</h4>
 		<!-- <div class="navigator padding-0 text-right"> -->
-			<div class="panel-tools">
-				<?php if ($isAdmin){ ?>
-					<a href="#" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
-        			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
-        		<?php } ?>
-			</div>
+			
 		<!-- </div> -->
 	</div>
-	<div class="panel-body no-padding">
+	<div class="panel-tools">
+		<?php if ($isAdmin){ ?>
+			<a href="#" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
+			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
+		<?php } ?>
 	</div>
-	<div class="panel-body no-padding">
+	<div class="panel-body padding-20">
 		<div class="col-sm-6 col-xs-6 text-dark padding-10">
 			<?php 
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],

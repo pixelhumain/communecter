@@ -187,8 +187,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div id="local-actors-popup-sig">
         <div class="panel-heading border-light">
           <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
-  		    <div class="panel-tools" style="display:block">
-          	</div>
+  		    <!-- <div class="panel-tools" style="display:block"> </div> -->
         </div>
         <div class="panel-body padding-10 no-padding center">
 

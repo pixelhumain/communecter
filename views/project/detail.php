@@ -4,7 +4,7 @@ $this->renderPartial('../default/panels/toolbar');
 <div class="row">
 	<div class=" col-md-12">
 		<div class="col-md-12">
-			<div class="panel panel-white col-md-8">
+			<div class="panel panel-white col-md-8 no-padding">
 				<?php 
 				$this->renderPartial('pod/ficheInfo', array( "project" => $project, 
 																	"tags" => $tags, 

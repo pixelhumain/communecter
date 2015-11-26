@@ -124,19 +124,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
 			<i class="fa fa-info-circle"></i> Infos générales
 		</h4>
-		<div class="navigator padding-0 text-right">
-			<div class="panel-tools">
-			<?php 
-				$edit = false;
-				if(isset(Yii::app()->session["userId"]) && isset($type) && isset($itemId))
-					$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
-				if($edit){
-			?>
-				<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
-				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-				<a href="javascript:" id="removeEvent" class="btn btn-sm btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
-        		<?php } ?>
-			</div>
+	</div>
+	<div class="navigator padding-0 text-right">
+		<div class="panel-tools">
+		<?php 
+			$edit = false;
+			if(isset(Yii::app()->session["userId"]) && isset($type) && isset($itemId))
+				$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
+			if($edit){
+		?>
+			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
+			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
+    		<?php } ?>
 		</div>
 	</div>
 	<div class="panel-body no-padding">

@@ -117,21 +117,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
-		
-		<!-- <div class="navigator padding-0 text-right"> -->
-			<div class="panel-tools">
-				<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-					 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
-						if(!isset($organization["disabled"])){
-					 	?>
-						<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
-						<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
-						<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
-				<?php } else {?>
-						<span class="label label-danger">DISABLED</span>
-				<?php }} ?>
-			</div>
-		<!-- </div> -->
+	</div>
+	<div class="panel-tools">
+		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+				if(!isset($organization["disabled"])){
+			 	?>
+				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
+				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php } else {?>
+				<span class="label label-danger">DISABLED</span>
+		<?php }} ?>
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">

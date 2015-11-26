@@ -10,16 +10,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-dark">
-
 		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
-		<?php if($isAdmin) { ?>
-			<div class="panel-tools">
-	    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="showAjaxPanel('/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )">
-		    		<i class="fa fa-plus"></i> Ajouter un besoin
-		    	</a>
-			</div>
-		<?php } ?>
 	</div>
+	<?php if($isAdmin) { ?>
+		<div class="panel-tools">
+    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="showAjaxPanel('/needs/addneedsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )">
+	    		<i class="fa fa-plus"></i> Ajouter un besoin
+	    	</a>
+		</div>
+	<?php } ?>
 	<div class="panel-body no-padding <?php if (!@$_GET["isDetailView"]) echo 'panel-body'; ?>">
 		<div class="panel-scroll height-230 ps-container">
 			<table class="table table-striped table-hover <?php if (!@$_GET["isDetailView"]) echo "table-bordered table-need directoryTable"; if (empty($needs)) echo " hide"; ?>">

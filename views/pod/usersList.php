@@ -39,7 +39,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="panel panel-white user-list">
 		<div class="panel-heading border-light text-white bg-yellow">
 			<h4 class="panel-title"><i class="fa fa-users"></i> <?php echo $userCategory ?></h4>
-			<div class="panel-tools">
+			
+		</div> 
+		<div class="panel-tools">
 				<?php if ($admin){ ?>
 					<?php if ($contentType == "projects"){ ?>
 						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showAjaxPanel( '/project/directory/id/<?php echo (string)$project["_id"]; ?>?tpl=directory2&amp;isNotSV=1', 'Les contributeurs du projet','connectdevelop' )" data-placement="bottom" data-original-title="Les contributeurs du projet"><i class="fa fa-cog "></i> Administrer</a>
@@ -49,11 +51,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<a href="javascript:;" class="new-member btn btn-xs btn-light-blue tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/organization/addmember/id/<?php echo (string)$organization["_id"];?>?isNotSV=1', 'Add a member to this organization','users' )"> 
 					<?php } else if ($contentType == "events"){ ?>
 						<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
-					<?php }?><i class="fa fa-plus"></i> Envoyer des invitations</a>
+							
+					<?php }?>
+					<i class="fa fa-plus"></i> Envoyer des invitations
+						</a>
+					
 				<?php } ?>
 
 			</div>
-		</div> 
 		<div class="padding-10">
 		<?php	if(empty($users)){ ?>
 				<div class="padding-10"><blockquote class="no-margin"><?php echo Yii::t("project","No contributor for this project",null,Yii::app()->controller->module->id); ?></blockquote></div>
