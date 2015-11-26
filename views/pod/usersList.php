@@ -52,9 +52,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<?php }?><i class="fa fa-plus"></i> Envoyer des invitations</a>
 				<?php } ?>
 
-				<!-- <a href="#" class="btn btn-xs btn-light-blue panel-close">
-					<i class="fa fa-times"></i>
-				</a> -->
 			</div>
 		</div> 
 		<div class="padding-10">

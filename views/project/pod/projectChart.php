@@ -21,6 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <div class="panel panel-white">
+
 	<div class="panel-heading border-light bg-dark">
 		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="panel-tools">
@@ -38,14 +39,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-pencil"></i> Editer la charte 
 				</a>
 				<?php } ?>
-			<!--<div class="dropdown">
-				<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-					<i class="fa fa-cog"></i>
-				</a>
-			</div>-->
-			<!-- <a href="#" class="btn btn-xs btn-link panel-close">
-				<i class="fa fa-times"></i>
-			</a> -->
 		</div>
 	</div>
 	<?php if(isset($properties) && !empty($properties)){ ?>
