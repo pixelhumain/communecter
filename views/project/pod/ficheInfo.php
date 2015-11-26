@@ -223,6 +223,7 @@ progress[value]::-moz-progress-bar {
 				<?php } ?>
 			</div>
 		</div>
+		<div class="col-sm-6 col-xs-6 text-dark padding-20" style="padding-top:0px!important;">
 		<table class="table-condensed table-hover text-dark entityDetails" >
 			<tbody>
 				<tr>
@@ -272,6 +273,7 @@ progress[value]::-moz-progress-bar {
 				
 			</tbody>
 		</table>
+		</div>
 
 		<div class="hidden" id="entity-insee-value" 
 			 insee-val="<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>">

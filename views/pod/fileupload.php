@@ -7,7 +7,9 @@
 		background-color: #F2F2F2;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
-		margin:0px 10px 0px 10px;
+		margin: 0px 10px 10px 10px;
+		border-radius: 5px;
+
 	}
 	.fileupload-new .thumbnail, .fileupload-exists .thumbnail{
 		height: auto;
@@ -18,6 +20,7 @@
 		max-width: 100%;
 		max-height: 100%;
 		padding : 0px;
+		margin:0px !important;
 	}
 
 	.photoUploading{
@@ -35,7 +38,6 @@
 
 	#profil_imgPreview, #slider_imgPreview{
 		background-color:#E7EBEF;
-		padding-top: 35px;
 		background-color: transparent !important;
 		border: 0;
 	}
@@ -52,7 +54,7 @@
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-azure btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i></span>
+					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> Photo</span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
 						<input class="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_isSubmit hidden" value="true"/>
 					</span>
@@ -226,7 +228,7 @@
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}else{
-				imageUrl = "<div class='center'>"+
+				imageUrl = "<div class='center' style='padding-top: 35px;'>"+
 								"<i class='fa fa-picture-o fa-5x text-dark'></i>"+
 								//"<br>Click on <i class='fa fa-plus'></i> to add a pictures"+
 							"</div>";

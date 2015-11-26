@@ -166,7 +166,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
-			<div class="col-sm-6 col-md-5 padding-15 border-light" style="border-width: 1px; border-style: solid;">
+			<div class="col-sm-6 col-md-5 padding-15">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
