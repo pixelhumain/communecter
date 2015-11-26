@@ -438,10 +438,13 @@ if( isset($_GET["isNotSV"])) {
 					*/
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage)
 					{
-						if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
+						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
 							return;
 						$actions = "";
-						$id = @$e['_id'];
+						if(@$e['_id'])
+							$id = $e["_id"];
+						else
+							$id = $e["id"];
 
 						/* **************************************
 						* TYPE + ICON
@@ -450,6 +453,9 @@ if( isset($_GET["isNotSV"])) {
 						if ($e && !empty($e["profilThumbImageUrl"])){ 
 							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
 						}else{
+							if(!empty($e["profilImageUrl"]))
+								$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$e['profilImageUrl']).'">';
+							else
 							$img = "<div class='thumbnail-profil'></div>";
 						}
 						
