@@ -182,7 +182,9 @@
 						
 						if("undefined" != typeof allElement['tags']){
 							button	+= 	"<div class='info_item items_map_list'>";
-							$.each(allElement['tags'], function(index, value){
+							var totalTags = 0;
+							$.each(allElement['tags'], function(index, value){ totalTags++;
+								if(totalTags<4)
 								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
 							});
 							button	+= 	"</div>";

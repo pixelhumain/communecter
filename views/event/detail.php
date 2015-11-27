@@ -43,6 +43,7 @@ $admin = false;
 	jQuery(document).ready(function() {
 		bindBtnFollow();
 		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo $event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		console.dir(contextMap);
 		
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);

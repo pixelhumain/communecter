@@ -239,7 +239,7 @@ progress[value]::-moz-progress-bar {
 						<i class="fa fa-bullseye"></i> 
 						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
 						<br>
-						<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<a href="javascript:;" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 						</a>
 						<hr style="margin:10px 0px 0px 0px;">
@@ -313,7 +313,7 @@ jQuery(document).ready(function()
 		findGeoPosByAddress();
 	});
 
-		
+	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });
 
@@ -570,7 +570,7 @@ function manageModeContext() {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
 			//et on affiche le marker sur la carte à cette position
-			showGeoposFound(coords, projectId, "projects", contextData);
+			showGeoposFound(coords, projectId, "projects", projectData);
 		}
 		//si nominatim n'a pas trouvé de résultat
 		else {

@@ -47,15 +47,22 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>	
 	</div>
 </div>
-
+<?php 
+	//var_dump($project);
+	$contextMap = array_merge($events, $contributors);
+	$contextMap["thisProject"] = array($project);
+?>
 <script type="text/javascript">
-	
+var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
-	 bindBtnFollow();
+	bindBtnFollow();
 	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
+
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, contextMap);		
 });
 
 

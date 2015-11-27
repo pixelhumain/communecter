@@ -108,6 +108,7 @@
 	//il faut définir les callback en fonction du context
 	function findGeoposByNominatim(requestPart){
 		console.log('findGeoposByNominatim');
+		toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
 		$.ajax({
 			url: "//nominatim.openstreetmap.org/search" + requestPart + "&format=json&polygon=0&addressdetails=1",
 			type: 'POST',
@@ -126,6 +127,7 @@
 	//et appel les fonction callback en cas de success/error
 	//il faut définir les callback en fonction du context
 	function findGeoposByInsee(codeInsee){
+		toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 			type: 'POST',

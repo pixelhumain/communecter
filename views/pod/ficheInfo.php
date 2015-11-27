@@ -265,7 +265,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		manageModeContext();
 		debugMap.push(contextData);
 		
-		Sig.currentContextData = contextData;
+		//Sig.contextData = contextData;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
 
@@ -274,7 +274,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 		$("#editGeoPosition").click(function(){
-			Sig.startModifyGeoposition(contextId, "organizations", Sig.currentContextData);
+			Sig.startModifyGeoposition(contextId, "organizations", contextData);
 			showMap(true);
 		});
 

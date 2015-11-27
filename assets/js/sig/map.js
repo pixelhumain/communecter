@@ -212,7 +212,17 @@
 
 					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
 					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
+					thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
 
+					var objectId = thisSig.getObjectId(thisSig.userData);
+					this.listId = new Array(objectId);
+
+					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
+					{	thisSig.map.panTo(center, {"animate" : true });
+						thisSig.checkListElementMap(thisSig.map);
+						thisSig.myMarker.openPopup();
+					});
+					
 					$( "#btn-home" ).off().click(function (){ 
 							thisSig.map.setView(center, 16);
 					});
@@ -411,62 +421,64 @@
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
-					if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
-						("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
-						if(this.verifyPanelFilter(thisData))
-						{
-							//préparation du contenu de la bulle
-							var content = this.getPopup(thisData);
+					if($.inArray(objectId, this.listId) == -1)
+					{	
+						if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
+							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
+							if(this.verifyPanelFilter(thisData))
+							{
+								//préparation du contenu de la bulle
+								var content = this.getPopup(thisData);
 
-							//création de l'icon sur la carte
-							var theIcon = this.getIcoMarkerMap(thisData);
-							var properties = { 	id : objectId,
-												icon : theIcon,
-												type : thisData["type"],
-												typeSig : (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"],
-												name : thisData["name"],
-												faIcon : this.getIcoByType(thisData),
-												content: content };
+								//création de l'icon sur la carte
+								var theIcon = this.getIcoMarkerMap(thisData);
+								var properties = { 	id : objectId,
+													icon : theIcon,
+													type : thisData["type"],
+													typeSig : (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"],
+													name : thisData["name"],
+													faIcon : this.getIcoByType(thisData),
+													content: content };
 
-							var marker;
-							var coordinates;
+								var marker;
+								var coordinates;
 
-							//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
-							//on créé un marker simple
-							//TODO : refactor notClusteredTag > notClusteredType
-							if($.inArray(thisData['type'], this.notClusteredTag) > -1){
-								coordinates = this.getCoordinates(thisData, "markerSingle");
-								marker = this.getMarkerSingle(thisMap, properties, coordinates);
+								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
+								//on créé un marker simple
+								//TODO : refactor notClusteredTag > notClusteredType
+								if($.inArray(thisData['type'], this.notClusteredTag) > -1){
+									coordinates = this.getCoordinates(thisData, "markerSingle");
+									marker = this.getMarkerSingle(thisMap, properties, coordinates);
+								}
+								//sinon on crée un nouveau marker pour cluster
+								else {
+									coordinates = this.getCoordinates(thisData, "markerGeoJson");
+									marker = this.getGeoJsonMarker(properties, coordinates);
+									this.geoJsonCollection['features'].push(marker);
+								}
+								//console.dir(this.listId);
+								//console.log("inarray ? " + objectId);
+								//console.log($.inArray(objectId, this.listId));
+								//si l'élément n'est pas déjà dans la liste, on l'enregistre
+								
+									//console.log("push " + objectId);
+									this.elementsMap.push(thisData);
+									this.listId.push(objectId);
+									this.populatePanel(thisData, objectId); //["tags"]
+									this.createItemRigthListMap(thisData, marker, thisMap);
+								
+
+
+								//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
+								//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
+								if($.inArray(thisData['typeSig'], this.notClusteredTag) > -1)
+								$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
+								{	thisMap.panTo(coordinates, {"animate" : true });
+									thisSig.checkListElementMap(thisMap);
+									marker.openPopup();
+								});
+
 							}
-							//sinon on crée un nouveau marker pour cluster
-							else {
-								coordinates = this.getCoordinates(thisData, "markerGeoJson");
-								marker = this.getGeoJsonMarker(properties, coordinates);
-								this.geoJsonCollection['features'].push(marker);
-							}
-							//console.dir(this.listId);
-							//console.log("inarray ? " + objectId);
-							//console.log($.inArray(objectId, this.listId));
-							//si l'élément n'est pas déjà dans la liste, on l'enregistre
-							if($.inArray(objectId, this.listId) == -1)
-							{	
-								//console.log("push " + objectId);
-								this.elementsMap.push(thisData);
-								this.listId.push(objectId);
-								this.populatePanel(thisData, objectId); //["tags"]
-								this.createItemRigthListMap(thisData, marker, thisMap);
-							}
-
-
-							//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
-							//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
-							if($.inArray(thisData['type'], this.notClusteredTag) > -1)
-							$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-							{	thisMap.panTo(coordinates, {"animate" : true });
-								thisSig.checkListElementMap(thisMap);
-								marker.openPopup();
-							});
-
 						}
 					}
 

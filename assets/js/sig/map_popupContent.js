@@ -143,7 +143,9 @@
 						
 						if("undefined" != typeof data['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(data['tags'], function(index, value){
+							var totalTags = 0;
+							$.each(data['tags'], function(index, value){ totalTags++;
+								if(totalTags<4)
 								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
 							});
 							popupContent	+= 	"</div>";
@@ -220,7 +222,9 @@
 						
 						if("undefined" != typeof allData['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(allData['tags'], function(index, value){
+							var totalTags = 0;
+							$.each(allData['tags'], function(index, value){ totalTags++;
+								if(totalTags < 4)
 								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
 							});
 							popupContent	+= 	"</div>";
@@ -397,7 +401,9 @@
 						
 						if("undefined" != typeof data['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
-							$.each(data['tags'], function(index, value){
+							var totalTags = 0;
+							$.each(data['tags'], function(index, value){  totalTags++;
+								if(totalTags<4)
 								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
 							});
 							popupContent	+= 	"</div>";
@@ -415,7 +421,8 @@
 								'<i class="fa fa-check" style="float:none !important;"></i> Valider'+
 							'</div>';
 
-			popupContent += '</div>';
+			popupContent += '</div>' +
+							'<div id="lbl-loading-saving" class="alert alert-success hidden" style="margin:10px;"></div>';
 				
 
 			return popupContent;

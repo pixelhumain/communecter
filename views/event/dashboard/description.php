@@ -117,6 +117,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	    width:100%;
 	    float:left;
 	}
+	#profil_imgPreview{
+      max-height:400px;
+      width:100%;
+      border-radius: 5px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
+      margin-bottom:0px;
+     
+
+    }
 
 </style>
 <div class="panel panel-white" id="globProchEvent">
@@ -212,6 +222,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<br>
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
+					<br>
+					<a href="javascript:;" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+					</a>
+					<div class="hidden" id="entity-insee-value" 
+						 insee-val="<?php echo (isset( $event["address"]["codeInsee"])) ? $event["address"]["codeInsee"] : ""; ?>">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -246,9 +263,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			switchMode();
 		})
 		$("#editGeoPosition").click(function(){
-		Sig.startModifyGeoposition(itemId, "events", event);
-		showMap(true);
-	});
+			Sig.startModifyGeoposition(itemId, "events", event);
+			showMap(true);
+		});
+
+		$("#btn-update-geopos").click(function(){ console.log("findGeoPosByAddress");
+			findGeoPosByAddress();
+		});
+
 		activateEditable();
 		manageModeContext();
 
@@ -328,6 +350,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			mode: 'popup',
 			success: function(response, newValue) {
 				if(debug)console.log("success update postal Code",newValue);
+				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				
 			},
 			value : {
             	postalCode: '<?php echo (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : null; ?>',
@@ -389,6 +413,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
+
+			$("#btn-update-geopos").addClass("hidden");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-event').editable('option', 'pk', itemId);
@@ -408,6 +434,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
+
+			$("#btn-update-geopos").removeClass("hidden");
 		}
 	}
 
@@ -505,5 +533,88 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 		$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 	}
+
+
+	//modification de la position geographique	
+
+	function findGeoPosByAddress(){ console.log("allo");
+		//si la streetAdress n'est pas renseignée
+		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+			console.log(insee);
+		//si on a une streetAddress
+		}else{
+			var request = "";
+
+			//recuperation des données de l'addresse
+			var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
+			var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
+			var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
+			
+			//construction de la requete
+			request = addToRequest(request, street);
+			request = addToRequest(request, address);
+			request = addToRequest(request, addressCountry);
+
+			request = transformNominatimUrl(request);
+			request = "?q=" + request;
+			console.log(request);
+			findGeoposByNominatim(request);
+		}
+	
+	}
+
+	//quand la recherche nominatim a fonctionné
+	function callbackNominatimSuccess(obj){
+		console.log("callbackNominatimSuccess");
+		//si nominatim a trouvé un/des resultats
+		if (obj.length > 0) {
+			//on utilise les coordonnées du premier resultat
+			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//et on affiche le marker sur la carte à cette position
+			showGeoposFound(coords, itemId, "events", event);
+		}
+		//si nominatim n'a pas trouvé de résultat
+		else {
+			//on récupère la valeur du code insee s'il existe
+			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+						 $("#entity-insee-value").attr("insee-val") : "";
+			//si on a un codeInsee, on lance la recherche de position par codeInsee
+			if(insee != "") findGeoposByInsee(insee);
+		}
+	}
+
+	//quand la recherche par code insee a fonctionné
+	function callbackFindByInseeSuccess(obj){
+		console.log("callbackFindByInseeSuccess");
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			//on affiche le marker sur la carte
+			showGeoposFound(coords, itemId, "events", event);
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
+
+	//en cas d'erreur nominatim
+	function callbackNominatimError(error){
+		console.log("callbackNominatimError", error);
+	}
+
+	//quand la recherche par code insee n'a pas fonctionné
+	function callbackFindByInseeError(){
+		console.log("erreur getlatlngbyinsee", error);
+	}
+	
 
 </script>

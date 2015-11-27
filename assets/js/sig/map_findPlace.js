@@ -541,6 +541,10 @@ SigLoader.getSigFindPlace = function (Sig){
 							  interval: 5000,	//toutes les 2 secondes
 							  occurence:5 });	//5 fois de suite
 
+		//zoom sur le nouveau marker
+		this.map.panTo(coordinates);
+		this.map.setView(coordinates, 13);
+
 		//désactive le bounce quand on click sur la marker
 		this.markerToBounce.on("click", function(){
 			Sig.markerToBounce = null;
@@ -584,63 +588,39 @@ SigLoader.getSigFindPlace = function (Sig){
 			
 		});
 		
-		//zoom sur le nouveau marker
-		this.map.setView(coordinates, 13);
+		
 	};
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
 		console.log("start save geopos");
-		$("#btn-bounce-marker-modify").html("<center><i class='fa fa-refresh fa-2x fa-spin'></i> Enregistrement de la nouvelle position en cours...<br>Merci de patienter...</center>");
-    	//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
-		$.ajax({
+		clearTimeout(Sig.timerbounce);
+		$("#lbl-loading-saving").removeClass("hidden");
+		$("#lbl-loading-saving").html("<center><i class='fa fa-refresh fa-2x center fa-spin'></i></br>Enregistrement de la nouvelle position...<br>Merci de patienter...</center>");
+       	$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",
 			type: 'POST',
 			data: "entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude,
     		success: function (obj){
-    			if(entityType == "citoyens" && userId == entityId){
+    			//alert(entityType);
+    			if( (entityType == "citoyens" || entityType == "person") && userId == entityId){
+    				//actualise myPosition pour que le bouton "home" de la carto centre sur la nouvelle position
     				Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
-    				Sig.currentPersonData.geo = { "latitude" : latitude, "longitude" : longitude };
-    				Sig.showMapElements(Sig.map, Sig.contextData);
-    				showMap(false);
+    				loadByHash(location.hash);
     			}
     			else{
     				//recharge la fiche info ouverte
-    				//$(".box-ajaxTools .tooltips.active").click();
-    				//toastr.success("La position a été mise à jour avec succès");
     				loadByHash(location.hash);
-    				//return;
-					//location.reload();
-    				//repositionnement du marker coorespondant à l'id et au type demandé
-					//s'il existe
-					/*var typeMarker = (entityType != "citoyens") ? entityType : "people";
-					$.each(Sig.dataMap, function(key, value){
-						if(typeof value.typeSig != "undefined" && 
-						 	typeof value._id 	 != "undefined" && 
-						 	typeof value._id.$id != "undefined" && 
-						 	value.typeSig == typeMarker &&
-						 	value._id.$id == entityId)
-						 	{
-						 		alert("change dataMap[key]");
-						 		Sig.currentContextData.geo = { "latitude" : latitude, "longitude" : longitude };
-							 	//Sig.dataMap[key].geo.latitude = latitude;
-							 	//Sig.dataMap[key].geo.longitude = longitude;
-							 	//location.reload();
-						 	}
-					});
-					*/
     			}
 
     			Sig.map.removeLayer(Sig.markerModifyPosition);
     			Sig.markerModifyPosition = null;
 
     			toastr.success("La position a été mise à jour avec succès");
-    			//toastr.info("");
-    			
-    			
 			},
 			error: function(error){
-
+				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle position");
+				console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 			}
 		});
 	};

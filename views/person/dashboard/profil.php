@@ -37,18 +37,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.panel-white .border-light{
 		/*border:0 !important;*/
 	}
-/*
-  	#profil_imgPreview{
+	#profil_imgPreview{
       max-height:400px;
       width:100%;
-      border-radius: 4px 4px 0px 0px;
-      border:3px solid #93C020;
-      border-radius:  4px 4px 0px 0px;
+      border-radius: 5px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
       margin-bottom:0px;
      
 
     }
-*/    
 	.panel-green{
       background-image: linear-gradient(to bottom, #93C020 0px, #83AB1D 100%) !important;
     }
@@ -133,8 +131,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-tools">
  		<?php    
 				if ( $canEdit ) { ?>
-					<a href="javascript:" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
+					<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>	
 
 		<?php
@@ -223,7 +221,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
 					</a>
 					<br>
-					<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+					<a href="javascript:;" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
 					<div class="hidden" id="entity-insee-value" 
@@ -296,7 +294,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 <script type="text/javascript">
 var personData = <?php echo json_encode($person)?>;
-Sig.currentPersonData = personData;
 var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
 var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 var countries = <?php echo json_encode($countries) ?>;
@@ -336,6 +333,8 @@ jQuery(document).ready(function()
 			findGeoPosByAddress();
 		});
 
+		Sig.currentPersonData = personData;
+		Sig.contextData = contextMapPerson;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
