@@ -164,13 +164,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15">
-				<?php 
-					$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
+				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "show" => true,
-																	  "editMode" => $canEdit )); 
+																	  "editMode" => $canEdit,
+																	  "image" => $imagesD )); 
 				?>
 				
 					
@@ -300,19 +300,18 @@ var countries = <?php echo json_encode($countries) ?>;
 var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 var tags = <?php echo json_encode($tags)?>;
 var imagesD = <?php echo(isset($imagesD)  ) ? json_encode($imagesD) : "null"; ?>;
-
-
 var contextMapPerson = <?php echo(isset($contextMapPerson)  ) ? json_encode($contextMapPerson) : "null"; ?>;
-
-if(imagesD != null){
-	var images = imagesD;
-}
+	
 
 //By default : view mode
 var mode = "view";
 
 jQuery(document).ready(function() 
 {
+	if(imagesD != null){
+		var images = imagesD;
+	}
+
     bindAboutPodEvents();
     initXEditable();
 	manageModeContext();
