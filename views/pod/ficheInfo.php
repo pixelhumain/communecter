@@ -265,12 +265,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		manageModeContext();
 		debugMap.push(contextData);
 		
+		Sig.currentContextData = contextData;
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, contextMap);
+
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
 
 		$("#editGeoPosition").click(function(){
-			Sig.startModifyGeoposition(contextId, "organizations", contextData);
+			Sig.startModifyGeoposition(contextId, "organizations", Sig.currentContextData);
 			showMap(true);
 		});
 
@@ -300,9 +304,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			findGeoPosByAddress();
 		});
 
-		Sig.restartMap();
-		Sig.showMapElements(Sig.map, contextMap);
-
+		
 		bindFicheInfoBtn();
 	});
 

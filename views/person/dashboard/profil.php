@@ -296,6 +296,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 <script type="text/javascript">
 var personData = <?php echo json_encode($person)?>;
+Sig.currentPersonData = personData;
 var personId = "<?php echo isset($person["_id"]) ? $person["_id"] : ""; ?>";
 var personConnectId = "<?php echo Yii::app()->session["userId"]; ?>"
 var countries = <?php echo json_encode($countries) ?>;
@@ -364,7 +365,7 @@ function bindAboutPodEvents()
 	console.dir(personData);
 
 	$("#editGeoPosition").click(function(){
-		Sig.startModifyGeoposition(personId, "citoyens", personData);
+		Sig.startModifyGeoposition(personId, "citoyens", Sig.currentPersonData);
 		showMap(true);
 	});
 
