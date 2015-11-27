@@ -87,11 +87,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 				?>
 				
-					<a href="#" onclick="openMainPanelFromPanel('/<?php echo $redirect; ?>/detail/id/<?php echo $e['_id']?>', '<?php echo $redirect; ?> : <?php echo $name ?>','<?php echo $refIcon ?>', '<?php echo $e['_id']?>')" title="<?php echo $name ?>" class="btn no-padding" style="margin-top:3px;height:50px;">
+					<a href="#" onclick="openMainPanelFromPanel('/<?php echo $redirect; ?>/detail/id/<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>', '<?php echo $redirect; ?> : <?php echo $name ?>','<?php echo $refIcon ?>', '<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"] ?>')" title="<?php echo $name ?>" class="btn no-padding" style="margin-top:3px;height:50px;">
 
 					<?php if($e && isset($e["imagePath"])) { ?>
-						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>" data-placement="top" data-original-title="<?php echo $name ?>"></td>
-					<?php } else{ 
+						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
+					<?php } else if ($e && isset($e["profilImageUrl"]) && !empty($e["profilImageUrl"])){ ?>
+						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['profilImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
+					<?php }else{ 
 						echo $icon;
 					} ?>
 					<?php echo $adminFlag; ?>
@@ -109,6 +111,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
  	console.log("projectContributors");
  	//console.dir(projectContributors);
 	jQuery(document).ready(function() {
+		var usersLinks = <?php echo isset($users) ? json_encode($users) : "''"; ?>;
 		//bindBtnContributor();
 	//	Sig.restartMap();
 	//	Sig.showMapElements(Sig.map, projectContributors);

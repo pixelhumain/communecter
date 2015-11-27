@@ -55,7 +55,7 @@ function getCityInseeByGeoPos(coords){
 		data:{"latitude" : coords.latitude, "longitude" : coords.longitude },
 		complete: function () {},
 		success: function (obj) {
-			if (obj != null && obj.length > 0) {
+			if (obj != null) {
 				if(currentRoleLoc == "showCity" && typeof obj.insee != "undefined"){
 					toastr.success("Vous allez être redirigé vers la page de votre commune ...");
 					showAjaxPanel("/city/detail/insee/" + obj.insee + "?isNotSV=1", 'Details', 'university');

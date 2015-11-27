@@ -12,17 +12,17 @@ db.cities.find().forEach(function(doc)
 {
     if(doc.insee.indexOf("971")>=0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'GP'}});
-    else if(doc.insee.indexOf("972")>=0 )
+    else if(doc.insee.indexOf("972")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'MQ'}});
-    else if(doc.insee.indexOf("973")>=0 )
+    else if(doc.insee.indexOf("973")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'GF'}});
-    else if(doc.insee.indexOf("974")>=0 )
+    else if(doc.insee.indexOf("974")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'RE'}});
-    else if(doc.insee.indexOf("975")>=0 )
+    else if(doc.insee.indexOf("975")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'PM'}});
-    else if(doc.insee.indexOf("976")>=0 )
+    else if(doc.insee.indexOf("976")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'YT'}});
-    else if(doc.insee.indexOf("988")>=0 )
+    else if(doc.insee.indexOf("988")==0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'NC'}});
     else
         db.cities.update({"_id":doc._id},{'$set':{'country':'FR'}});
