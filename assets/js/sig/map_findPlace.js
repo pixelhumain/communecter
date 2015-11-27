@@ -149,6 +149,9 @@ SigLoader.getSigFindPlace = function (Sig){
 		});
 	};
 
+	if(typeof getCountries != "undefined")
+	Sig.countryName = getCountries("select2");
+
 	Sig.getNominatimRequest = function(nbTentative){
 		
 		if(this.fullTextResearch == true){
@@ -177,15 +180,20 @@ SigLoader.getSigFindPlace = function (Sig){
 				}
 				if(nbTentative < 4){
 					var textVal = "";
-					if($("#organizationCountry")) textVal = $("#organizationCountry").attr("value");
-					if($("#projectCountry")) 	  textVal = $("#projectCountry").attr("value");
-					if($("#eventCountry")) 	  	  textVal = $("#eventCountry").attr("value");
-					
-					if(typeof textVal != "undefined" && typeof textVal != ""){
-						//toastr.info("country : " + textVal);
+					if($("#organizationCountry").length)  textVal = $("#organizationCountry").attr("value");
+					if($("#projectCountry").length) 	  textVal = $("#projectCountry").attr("value");
+					if($("#eventCountry").length) 	  	  textVal = $("#eventCountry").attr("value");
+							
+					if(typeof textVal != "undefined" && textVal != ""){
 						if(textVal != null){
 							if(str != "") str += " ";
-								str += textVal;
+							//transforme l'id du pays en string pour nominatim
+							if(typeof this.countryName != "undefined"){
+								$.each(this.countryName, function(key, value){
+									if(value.id == textVal) textVal = value.text;
+								});
+							}
+							str += textVal;
 						}
 					}
 				}
@@ -197,6 +205,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			}
 		}
 
+		
 		function transform(str){ //alert(newValue);
 			var res = "";
 			//remplace les espaces par des +
@@ -555,7 +564,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
 		this.markerToBounce.on("popupopen", function(){
-			$("#btn-validate-new-mosition").click(function(){
+			$("#btn-validate-new-position").click(function(){
 				var position = Sig.markerModifyPosition.getLatLng();
 
 				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
@@ -565,7 +574,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			});
 		});
 		
-		$("#btn-validate-new-mosition").click(function(){
+		$("#btn-validate-new-position").click(function(){
 			var position = Sig.markerModifyPosition.getLatLng();
 
 			Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
@@ -581,7 +590,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
 		console.log("start save geopos");
-		toastr.info("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position en cours... Merci de patienter...");
+		$("#btn-bounce-marker-modify").html("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position en cours... Merci de patienter...");
     	//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",
@@ -589,13 +598,19 @@ SigLoader.getSigFindPlace = function (Sig){
 			data: "entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude,
     		success: function (obj){
     			if(entityType == "citoyens" && userId == entityId){
-    				Sig.myPosition.position.latitude = latitude;
+    				alert("change Sig.myPosition");
+					Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
+    				Sig.currentPersonData.geo = { "latitude" : latitude, "longitude" : longitude };
     			}
     			else{
-					//repositionnement du marker coorespondant à l'id et au type demandé
+    				//recharge la fiche info ouverte
+    				$(".box-ajaxTools .tooltips.active").click();
+    				return;
+					//location.reload();
+    				//repositionnement du marker coorespondant à l'id et au type demandé
 					//s'il existe
-					var typeMarker = (entityType != "citoyens") ? entityType : "people";
+					/*var typeMarker = (entityType != "citoyens") ? entityType : "people";
 					$.each(Sig.dataMap, function(key, value){
 						if(typeof value.typeSig != "undefined" && 
 						 	typeof value._id 	 != "undefined" && 
@@ -603,17 +618,22 @@ SigLoader.getSigFindPlace = function (Sig){
 						 	value.typeSig == typeMarker &&
 						 	value._id.$id == entityId)
 						 	{
-							 	Sig.dataMap[key].geo.latitude = latitude;
-							 	Sig.dataMap[key].geo.longitude = longitude;
+						 		alert("change dataMap[key]");
+						 		Sig.currentContextData.geo = { "latitude" : latitude, "longitude" : longitude };
+							 	//Sig.dataMap[key].geo.latitude = latitude;
+							 	//Sig.dataMap[key].geo.longitude = longitude;
+							 	//location.reload();
 						 	}
 					});
+					*/
     			}
 
     			Sig.map.removeLayer(Sig.markerModifyPosition);
     			Sig.markerModifyPosition = null;
 
-    			Sig.showMapElements(Sig.map, Sig.dataMap);
+    			Sig.showMapElements(Sig.map, Sig.contextData);
     			toastr.success("La position a été mise à jour avec succès");
+    			//toastr.info("");
     			
     			showMap(false);
 			},
