@@ -127,6 +127,8 @@
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
+
+		showMap(false);
 		//$(".box-ajaxTitle").html( icon + title );
 	}
 	function gotToPrevNav()
@@ -211,7 +213,7 @@
 </script>
 <?php if(!isset($topTitleExists)){ ?>
 <div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
-	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in september, early registration open ) </span>
+	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta testing till january, early registration open ) </span>
 	<br/>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>

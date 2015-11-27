@@ -254,7 +254,7 @@
 		Sig.getPopupNewData = function(){
 							
 			var popupContent = //'<img style="width:100%" class="pull-right" src="'+assetPath+'/images/logoL.jpg"/>' +
-							   "<h1><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon sur votre position</h1>" +
+							   "<h1><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon<br>pour un placement<br>plus précis</h1>" +
 				  			   "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
 
 			return popupContent;
@@ -350,7 +350,8 @@
 		};
 
 		Sig.getPopupModifyPosition = function(data){
-			var type = data['typeSig'] ? data['typeSig'] : data['type'];
+			console.dir(data);
+			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
 	
@@ -410,7 +411,7 @@
 			var hStyle = "margin-bottom: 5px !important; width:100%; font-weight: 500; border:0px solid rgba(0, 0, 0, 0.2); border-top-width:1px; border-radius:0px; margin-top:5px !important;";
 			popupContent += "<div id='btn-bounce-marker-modify' class='alert pull-left no-margin padding-10' style='"+hStyle+"'><i class='fa fa-question-circle'></i> Déplacez l'icon sur sa nouvelle position</div>";
 			
-			popupContent += '<div id="btn-validate-new-mosition" class="btn btn-sm btn-success center col-md-12">'+
+			popupContent += '<div id="btn-validate-new-position" class="btn btn-sm btn-success center col-md-12">'+
 								'<i class="fa fa-check" style="float:none !important;"></i> Valider'+
 							'</div>';
 
