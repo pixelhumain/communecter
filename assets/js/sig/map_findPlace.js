@@ -590,7 +590,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
 		console.log("start save geopos");
-		$("#btn-bounce-marker-modify").html("<i class='fa fa-spin fa-reload'></i> Enregistrement de votre nouvelle position en cours... Merci de patienter...");
+		$("#btn-bounce-marker-modify").html("<center><i class='fa fa-refresh fa-2x fa-spin'></i> Enregistrement de la nouvelle position en cours...<br>Merci de patienter...</center>");
     	//updateGeoPositionEntity($entityType, $entityId, $latitude, longitude)
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/updateentitygeoposition",
@@ -598,15 +598,18 @@ SigLoader.getSigFindPlace = function (Sig){
 			data: "entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude,
     		success: function (obj){
     			if(entityType == "citoyens" && userId == entityId){
-    				alert("change Sig.myPosition");
-					Sig.myPosition.position.latitude = latitude;
+    				Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
     				Sig.currentPersonData.geo = { "latitude" : latitude, "longitude" : longitude };
+    				Sig.showMapElements(Sig.map, Sig.contextData);
+    				showMap(false);
     			}
     			else{
     				//recharge la fiche info ouverte
-    				$(".box-ajaxTools .tooltips.active").click();
-    				return;
+    				//$(".box-ajaxTools .tooltips.active").click();
+    				//toastr.success("La position a été mise à jour avec succès");
+    				loadByHash(location.hash);
+    				//return;
 					//location.reload();
     				//repositionnement du marker coorespondant à l'id et au type demandé
 					//s'il existe
@@ -631,11 +634,10 @@ SigLoader.getSigFindPlace = function (Sig){
     			Sig.map.removeLayer(Sig.markerModifyPosition);
     			Sig.markerModifyPosition = null;
 
-    			Sig.showMapElements(Sig.map, Sig.contextData);
     			toastr.success("La position a été mise à jour avec succès");
     			//toastr.info("");
     			
-    			showMap(false);
+    			
 			},
 			error: function(error){
 
