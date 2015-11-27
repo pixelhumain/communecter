@@ -138,7 +138,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]))); 
+																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]),
+																	  "image" => $images)); 
 				?>
 			</div>
 			<div class="col-sm-6 col-md-6 pull-right margin-bottom-15">
@@ -256,7 +257,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
-
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
 			switchMode();

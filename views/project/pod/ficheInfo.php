@@ -193,7 +193,8 @@ progress[value]::-moz-progress-bar {
 																  "type" => Project::COLLECTION,
 																  "resize" => false,
 																  "contentId" => Document::IMG_SLIDER,
-																  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]))); 
+																  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]),
+																  "image" => $imagesD)); 
 			?>
 			<div class="col-md-7 col-sm-8 col-xs-10 text-dark ">
 				<a  href="#" id="avancement" data-type="select" data-title="avancement" 

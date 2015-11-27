@@ -148,7 +148,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 																		  "contentId" =>Document::IMG_PROFIL,
 																		  "show" => "true" ,
 																		  "resize" => false,
-																		  "editMode" => $edit )); ?>
+																		  "editMode" => $edit,
+																		  "image" => $imagesD )); ?>
 			</div>
 		</div>
 		<div class="col-sm-6 col-xs-12 sectionBlockAdherent" id="infoEvent">

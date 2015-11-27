@@ -88,18 +88,20 @@
 		var imageName= "";
 		var imageId= "";
 		var imagesPath = [];
+		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
 		if("undefined" != typeof(contentKeyBase))
 			var contentKey = contentKeyBase+"."+contentIdtoSend;
 		else
 			contentKey = contentIdtoSend;
-		if("undefined" != typeof(images[contentId])){
+		if("undefined" != typeof(image[contentId])){
 			initFileUpload();
 		}else{
 			setTimeout(function(){
 			    initFileUpload();
 			}, 1000);
 		}
-		
+		console.log(baseUrl+"/imageTableu:");
+		console.log(image[contentId.toLowerCase()]);
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
 			
@@ -223,8 +225,8 @@
 
 		function initFileUpload(){
 			var j = 0;
-			if("undefined" != typeof(images[contentId.toLowerCase()]) && images[contentId.toLowerCase()].length>0 ){
-				imageUrl = baseUrl+images[contentId.toLowerCase()][0];
+			if("undefined" != typeof(image[contentId.toLowerCase()]) && image[contentId.toLowerCase()].length>0 ){
+				imageUrl = baseUrl+image[contentId.toLowerCase()][0];
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}else{
