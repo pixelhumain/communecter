@@ -65,8 +65,9 @@
 				var contentString = options.content;
 				if(options.content == null) contentString = "info window";
 
-				var markerOptions = { icon : options.icon
-									};
+				var markerOptions = { icon : options.icon };
+				if(typeof options.zIndexOffset != "undefined") 
+					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
 				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
@@ -208,6 +209,7 @@
 										type : thisSig.myPosition["type"],
 										typeSig : thisSig.myPosition["typeSig"],
 										faIcon : this.getIcoByType(thisSig.myPosition),
+										zIndexOffset: 10000,
 										content: popup };
 
 					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
@@ -456,16 +458,11 @@
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
 								}
-								//console.dir(this.listId);
-								//console.log("inarray ? " + objectId);
-								//console.log($.inArray(objectId, this.listId));
-								//si l'élément n'est pas déjà dans la liste, on l'enregistre
 								
-									//console.log("push " + objectId);
-									this.elementsMap.push(thisData);
-									this.listId.push(objectId);
-									this.populatePanel(thisData, objectId); //["tags"]
-									this.createItemRigthListMap(thisData, marker, thisMap);
+								this.elementsMap.push(thisData);
+								this.listId.push(objectId);
+								this.populatePanel(thisData, objectId); //["tags"]
+								this.createItemRigthListMap(thisData, marker, thisMap);
 								
 
 

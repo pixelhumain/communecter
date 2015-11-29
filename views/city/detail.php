@@ -391,6 +391,7 @@ function initCityMap(){
   var content = Sig.getPopupCity(city.name, city.insee);
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),
+                      zIndexOffset: 100001,
                       content: content };
   
   markerCity = Sig.getMarkerSingle(Sig.map, properties, latlng);
