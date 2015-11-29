@@ -233,7 +233,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<h3><i class="fa fa-angle-down"></i> Activités</h3>
 				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
 			</div> -->
-			<div class="col-sm-6 col-xs-6 padding-20 text-red text-right pull-right">
+			<div class="col-md-12 padding-20 text-red text-right pull-right">
 				<!-- <h3><i class="fa fa-angle-down"></i> Thématiques</h3> -->
 				<i class="fa fa-tags"></i> Tags : 
 				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click">

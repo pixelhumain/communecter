@@ -170,15 +170,25 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
     <?php $minCountOrga = $minCount-2; } ?>
 
-    <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
-    <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
-    <?php if($randomEntity != null && $cnt<$minCountOrga){ 
-            $cnt++; $this->renderPartial('../pod/randomOrganization',
-                    array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
+    <?php if(count($projects) > 0){ ?>
+      <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
+      <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
+      <?php if($randomEntity != null && $cnt<$minCountOrga){ 
+              $cnt++; $this->renderPartial('../pod/randomOrganization',
+                      array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
+      <?php } ?>
+      <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
+        Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    <?php }else{ ?>
+      <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucune organisation dans cette commune</h3> 
+      <button onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" 
+              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-green" data-placement="left" 
+              data-original-title="Créer une nouvelle organisation">
+              <i class="fa fa-plus"></i> Créer
+      </button>
     <?php } ?>
-    <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
-    </a>
+
   </div>
 
   <div class="col-sm-8 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
@@ -259,6 +269,7 @@ $this->renderPartial('../default/panels/toolbar');
 
   </div>
     
+  <?php if(count($people) > 0){ ?>
   <div class="col-sm-4 col-xs-12 pull-right">
     <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des citoyens au hasard</h3> 
     <?php $cnt=0; foreach($people as $randomEntity){ ?>
@@ -270,7 +281,19 @@ $this->renderPartial('../default/panels/toolbar');
       Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
+  <?php }else{ ?>
+    <div class="col-sm-4 col-xs-12 pull-right">
+      <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun citoyens connecté dans cette commune</h3> 
+      <button onclick="showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt')" 
+              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-yellow" data-placement="left" 
+              data-original-title="Inviter quelqu'un">
+              <i class="fa fa-plus"></i> Inviter
+      </button>
+    </div>
+  <?php } ?>
+    
 
+  <?php if(count($projects) > 0){ ?>
   <div class="col-sm-4 col-xs-12 pull-right">
   <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
     <?php $cnt=0; foreach($projects as $randomEntity){ ?>
@@ -282,6 +305,16 @@ $this->renderPartial('../default/panels/toolbar');
       Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
+  <?php }else{ ?>
+    <div class="col-sm-4 col-xs-12 pull-right">
+      <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun project dans cette commune</h3> 
+      <button onclick="showAjaxPanel( '/project/projectsv/id/54265d58c0461fcf528e8d04/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" 
+              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-purple" data-placement="left" 
+              data-original-title="Créer un nouveau projet">
+              <i class="fa fa-plus"></i> Créer
+      </button>
+    </div>
+  <?php } ?>
     
   
 
