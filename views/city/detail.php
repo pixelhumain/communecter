@@ -234,16 +234,16 @@ $this->renderPartial('../default/panels/toolbar');
               <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
                 <span class="badge pull-right bg-prune"><?php echo $cnt;?></span>
-                <i class="fa fa-users"></i> <?php echo Yii::t("common", "GROUPES"); ?>
+                <i class="fa fa-male"></i><i class="fa fa-female"></i> <?php echo Yii::t("common", "GROUPES"); ?>
               </div>
             </li>
             <!-- <li class="list-group-item">
               <span class="badge"><?php echo $cnt;?></span>
               COLLECTIVITÉ
             </li> -->
-            <li class="list-group-item text-purple">
+            <li class="list-group-item text-orange">
               <div class="link-to-directory" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <span class="badge pull-right bg-purple"><?php echo count($events);?></span>
+                <span class="badge pull-right bg-orange"><?php echo count($events);?></span>
                 <i class="fa fa-calendar"></i> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
               </div>
             </li>
