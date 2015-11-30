@@ -332,8 +332,10 @@ function runProjectFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success('Project Created success');
 		        	$.unblockUI();
-		        	if( isNotSV )	
-				        showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','lightbulb-o' );
+		        	if( isNotSV )	{
+		        		addFloopEntity(data.id, "projects", newProject);
+						showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','lightbulb-o' );
+		        	}
 		        	else if( 'undefined' != typeof updateProject && typeof updateProject == "function" )
 		        		updateProject( newProject, data.id );
 						

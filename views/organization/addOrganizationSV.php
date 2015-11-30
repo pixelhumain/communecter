@@ -270,10 +270,13 @@ var formValidator = function() {
 	                   	}
 	                    else { 
 	                        toastr.success(data.msg);
-	                        if( isNotSV )	
-				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS','users' );
-				        	else if( "undefined" != typeof updateMyOrganization )
+	                        if( isNotSV )	{
+	                        	addFloopEntity(data.id, "organizations", data.newOrganization);
+								showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS','users' );
+	                        }
+				        	else if( "undefined" != typeof updateMyOrganization ){
 		        				updateMyOrganization(data.newOrganization, data.id);
+				        	}
 							$.hideSubview();
 							$.unblockUI();
 	                    }
