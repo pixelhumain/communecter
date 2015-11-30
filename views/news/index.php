@@ -652,7 +652,7 @@ function buildLineHTML(newsObj)
 	if ("undefined" != typeof newsObj.voteDownCount) 
 		voteDownCount = newsObj.voteDownCount;
 
-	newsTLLine = '<li class="newsFeed '+''/*tagsClass*/+' '+scopeClass+' '+newsObj.type+' ">'+
+	newsTLLine = '<li class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						scopes+
