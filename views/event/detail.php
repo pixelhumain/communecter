@@ -18,7 +18,7 @@ $admin = false;
 								"organizer" =>$organizer,
 								"itemId" => (string)$event["_id"],
 								"eventTypes" => $eventTypes,
-								"type" => PHType::TYPE_EVENTS,
+								"type" => Event::COLLECTION,
 								"countries" => $countries,
 								"imagesD" => $images ));
 								?>

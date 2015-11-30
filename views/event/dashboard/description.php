@@ -287,7 +287,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					success: function(data){
 						if ( data && data.result ) {               
 							toastr.info(data.msg);
-							document.location.href= baseUrl+"/"+moduleId+"/person";
+							showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=events', 'MES ÉVÉNEMENTS','calender' );
 						}else{
 							toastr.error("Something went wrong");
 						}
