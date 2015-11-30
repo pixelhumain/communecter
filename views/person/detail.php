@@ -61,11 +61,13 @@ jQuery(document).ready(function() {
 
 function bindBtnFollow() {
 	$(".followBtn").off().on("click", function() {
-		console.log($(this).data("id"));
+		var id = $(this).data("id");
 		connectPerson($(this).data("id"), function(user) {
 			console.log(user);
-			if( isNotSV )
+			if( isNotSV ){
+				addFloopEntity(id, "people", user);
 				loadByHash(location.hash);
+			}
 		});
 	});
 
@@ -73,10 +75,11 @@ function bindBtnFollow() {
 		var id = $(this).data("id");
 		var type = $(this).data("type");
 		var name = $(this).data("name");
-		console.log(id, type, name);
-		disconnectPerson(id,type,name, function(id, type, name) {
-			if( isNotSV )
+		disconnectPerson(id, type,name, function(id, type, name) {
+			if( isNotSV ){
+				removeFloopEntity(id, "people");
 				loadByHash(location.hash);
+			}
 		});
 	});
 }

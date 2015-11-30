@@ -97,8 +97,10 @@ function bindBtnFollow(){
 				    {
 				        if ( data && data.result ) {               
 				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-				        	if( isNotSV )
+				        	if( isNotSV ){
+				        		removeFloopEntity(idToDisconnect, "projects");
 								loadByHash(location.hash);
+				        	}
 				        } else {
 				           toastr.info("something went wrong!! please try again.");
 				          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
@@ -127,8 +129,10 @@ function bindBtnFollow(){
 		    {
 		        if ( data && data.result ) {               
 		        	toastr.info("RELATION APPLIED SUCCESFULLY!! ");
-		        	if( isNotSV )
+		        	if( isNotSV ){
+		        		addFloopEntity(idConnect, "projects", contextMap["thisProject"][0]);
 						loadByHash(location.hash);
+		        	}
 		        } else {
 		           toastr.info("something went wrong!! please try again.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");

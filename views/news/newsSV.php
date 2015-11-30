@@ -437,6 +437,7 @@ jQuery(document).ready(function() {
 				// });
 			}
 
+			//$("#formCreateNewsTemp button#btn-submit-form").html("Publier <i class='fa fa-arrow-circle-right'></i>");
 		//});
 });
 

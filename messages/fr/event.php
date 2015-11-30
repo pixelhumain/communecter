@@ -21,6 +21,7 @@ return array(
 	"Event Name" => "Nom de l'évènement",
 	//Description
 	"Organized by the project" => "Organisé par le projet",
+	"By the project" => "Par le projet",
 	"Organizer" => "Organisateur",
 	"this event" => "cet évènement",
 	//Attendees

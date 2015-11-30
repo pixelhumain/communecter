@@ -39,6 +39,7 @@ $admin = false;
 <script type="text/javascript">
 	<?php $attending[] = $event; ?>
 	var contextMap = <?php echo json_encode($attending)?>;
+	var thisEvent = <?php echo json_encode($event)?>;
 	
 	jQuery(document).ready(function() {
 		bindBtnFollow();
@@ -75,9 +76,11 @@ $admin = false;
 				    .done(function (data)
 				    {
 				        if ( data && data.result ) {
-				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-				        	if( isNotSV )
+				        	toastr.info("Vous ne participez plus à cet événement");
+				        	if( isNotSV ){
+								removeFloopEntity(idToDisconnect, "events");
 								loadByHash(location.hash);
+				        	}
 				        } else {
 				           toastr.info("something went wrong!! please try again.");
 				          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
@@ -102,8 +105,10 @@ $admin = false;
 		    {
 		        if ( data && data.result ) {
 		        	toastr.info(data.msg);
-		        	if( isNotSV )
+		        	if( isNotSV ){
+		        		addFloopEntity(idEvent, "events", thisEvent);
 						loadByHash(location.hash);
+		        	}
 		        } else {
 		           toastr.info("something went wrong!! please try again.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");

@@ -143,9 +143,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
 			if($edit){
 		?>
-			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i> Éditer</a>
-			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="left" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
-			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="top" title="Delete this event" alt=""><i class="fa fa-times"></i> Annuler</a>
+			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
+			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>
+			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>
     		<?php } ?>
 		</div>
 	</div>
@@ -194,19 +194,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<div class="col-sm-12 col-xs-12">
 			<div class="col-md-6">
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
-					<i class="fa fa-users"></i> <?php echo Yii::t("common","Who") ?> ?
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
 				</div>
 				<div class="col-sm-12 entityDetails no-padding">
 					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
-						 echo Yii::t("event","Organized by the project",null,Yii::app()->controller->module->id);
+						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
 						 $icon="fa-lightbulb-o";
 					} else { 
-						 echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
+						 //echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
 						 if($organizer["type"]=="organization")
 						 	$icon="fa-users";
 						 else 
 						 	$icon="fa-user";
-					 } ?> : <a href="#" onclick="openMainPanelFromPanel('/<?php echo $organizer["type"]; ?>/detail/id/<?php echo $organizer["id"]; ?>', '<?php echo $organizer["type"]; ?> : <?php echo $organizer["name"]; ?>','<?php echo $icon; ?>', '<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a>
+					 } ?> <a href="#" onclick="openMainPanelFromPanel('/<?php echo $organizer["type"]; ?>/detail/id/<?php echo $organizer["id"]; ?>', '<?php echo $organizer["type"]; ?> : <?php echo $organizer["name"]; ?>','<?php echo $icon; ?>', '<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a>
 				</div>
 			</div>
 			<div class="col-md-6">

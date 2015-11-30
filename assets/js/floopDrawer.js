@@ -18,7 +18,7 @@ var tooltips_lbl = { 	"people" 		 : "Ajouter quelqu'un à votre répertoire.",
 
 function buildListContactHtml(contacts, myId){
 
-	var HTML = 		'<input type="text" id="search-contact" class="form-control" placeholder="'+t('Search name, postal code, city ...')+'">';
+	var HTML = 			'<input type="text" id="search-contact" class="form-control" placeholder="'+t('Search name, postal code, city ...')+'">';
 		HTML += 		'<div class="floopScroll">' ;
 							
 							$.each(floopContactTypes, function(key, type){
@@ -32,46 +32,29 @@ function buildListContactHtml(contacts, myId){
 
 		HTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
 								'<div class="panel-heading">';
-		HTML += 					'<h4 class="text-'+type.color+'">'+
+		HTML += 					'<h4 class="bg-'+type.color+'">'+
 										//'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
 										//	'<i class="fa fa-search"></i>'+
 										//'</button>' +		
 										'<i class="fa fa-'+type.icon+'"></i> <span class="homestead">'+t('My '+type.name)+"</span>";
-									if(myId != ""){
-		HTML += 					'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
-										'<i class="fa fa-plus"></i>'+
-									'</button>';		
-									}
+										if(myId != ""){
+		HTML += 						'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add text-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
+											'<i class="fa fa-plus"></i>'+
+										'</button>';		
+										}
 		HTML += 					'</h4>'+
 								'</div>'+
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group no-padding">'+
-										'<ul>';
+										'<ul id="floopType-'+type.name+'">';
 										if($(contacts[type.name]).size() == 0){
 		HTML += 							'<label class="no-element"><i class="fa fa-angle-right"></i> Aucun élément</label>';									
 										}
 										$.each(contacts[type.name], function(key2, value){ 
-											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
-											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
-											var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
-											var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
-											var path = "openMainPanelFromPanel( '/"+openPanelType[type.name]+"/detail/id/"+id+"', '" + openPanelType[type.name] + " : " + value.name+"', 'fa-"+ type.icon + "', '"+id+"' )";
-		HTML += 							'<li>' +
-												'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+key2+'">' +
-												'<div class="btn-chk-contact inline" idcontact="'+key2+'">' +
-													'<img src="'+ profilImageUrl+'" class="thumb-send-to" height="35" width="35">'+
-													'<span class="info-contact">' +
-														'<span class="name-contact text-dark text-bold" idcontact="'+key2+'">' + value.name + '</span>'+
-														'<br/>'+
-														'<span class="cp-contact text-light" idcontact="'+key2+'">' + cp + ' </span>'+
-														'<span class="city-contact text-light" idcontact="'+key2+'">' + city + '</span>'+
-													'</span>' +
-												'</div>' +
-											'</div>' +
-										'</li>';
+		HTML += 							getFloopItem(key2, type, value);
 										});									
-		HTML += 					'</ul>' +	
-									'</div>'+
+		HTML += 						'</ul>' +	
+									'</div>'+	
 								'</div>'+
 							'</div>';
 							});									
@@ -81,6 +64,30 @@ function buildListContactHtml(contacts, myId){
 					  '</div>';
 
 		return HTML;
+}
+
+
+//création HTML d'un élément
+function getFloopItem(id, type, value){
+	var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
+	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
+	var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
+	//var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
+	var path = "openMainPanelFromPanel( '/"+openPanelType[type.name]+"/detail/id/"+id+"', '" + openPanelType[type.name] + " : " + value.name+"', 'fa-"+ type.icon + "', '"+id+"' )";
+	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
+					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
+						'<div class="btn-chk-contact inline" idcontact="'+id+'">' +
+							'<img src="'+ profilImageUrl+'" class="thumb-send-to" height="35" width="35">'+
+							'<span class="info-contact">' +
+								'<span class="name-contact text-dark text-bold" idcontact="'+id+'">' + value.name + '</span>'+
+								'<br/>'+
+								'<span class="cp-contact text-light" idcontact="'+id+'">' + cp + ' </span>'+
+								'<span class="city-contact text-light" idcontact="'+id+'">' + city + '</span>'+
+							'</span>' +
+						'</div>' +
+					'</div>' +
+				'</li>';
+	return HTML;
 }
 
 var translation = {
@@ -107,7 +114,15 @@ function showFloopDrawer(show){
 		$(".floopDrawer").hide("fast");
 	}
 }
-
+function getFloopContactTypes(type){
+	var goodType = null;
+	$.each(floopContactTypes, function(key, value){
+		if(value.name == type) {
+			goodType = value;
+		}
+	});
+	return goodType;
+}
 
 
 function bindEventFloopDrawer(){
@@ -144,6 +159,10 @@ function bindEventFloopDrawer(){
 
 }
 
+
+
+
+//recherche text par nom, cp et city
 function filterFloopDrawer(searchVal){
 	//masque/affiche tous les contacts présents dans la liste
 	if(searchVal != "")	$(".floopDrawer .btn-select-contact").hide();
@@ -162,4 +181,19 @@ function checkFloopSearch(thisElement, searchVal, type){
 		var id = thisElement.attr("idcontact");
 		$(".floopDrawer #contact"+id).show();
 	}
+}
+
+//ajout d'un élément dans la liste
+function addFloopEntity(entityId, entityType, entityValue){
+	var type = getFloopContactTypes(entityType);
+	//console.log("getFloopContactTypes", entityType, type);
+	var html = getFloopItem(entityId, type, entityValue);
+	$("ul#floopType-"+entityType).append(html);
+	//toastr.success("ajout de l'element floop ok");
+}
+
+//ajout d'un élément dans la liste
+function removeFloopEntity(entityId, entityType){
+	$('#floopItem-'+entityType+'-'+entityId).remove();
+	//toastr.success("remove de l'element floop ok");
 }

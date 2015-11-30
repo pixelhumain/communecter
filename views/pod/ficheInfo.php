@@ -360,8 +360,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
-							if( isNotSV )
+							if( isNotSV ){
+								removeFloopEntity(idMemberOf, "organizations");
 								loadByHash(location.hash);
+							}
 						} else {
 						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}
@@ -386,12 +388,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				"memberRoles" : ""
 			};
 			bootbox.confirm("<?php echo Yii::t('organization','Do you really want to become a member of the organization : ') ?><span class='text-red'>"+contextData.name+"</span> ?", 
-				function(result) {
-					if (!result) {
-						$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-						return;
+			function(result) {
+				if (!result) {
+					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					return;
 				}
-			
+		
 				$.ajax({
 					type: "POST",
 					url: baseUrl+"/"+moduleId+"/link/saveMember",
@@ -399,6 +401,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					dataType: "json",
 					success: function(data) {
 						if(data.result){
+							console.log("saveMembre");
+							addFloopEntity(contextData["_id"]["$id"], "organizations", contextData);
 							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'"'+ 
 												'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
 												'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
