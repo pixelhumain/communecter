@@ -414,8 +414,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		if(position == null) position = geoPosition[0];
 		//console.log("position"); console.dir(position);
 		 
-		$("#geoPosLongitude").attr("value", position["lat"]);
-		$("#geoPosLatitude").attr("value", position["lon"]);
+		$("#geoPosLongitude").attr("value", position["lon"]);
+		$("#geoPosLatitude").attr("value", position["lat"]);
 
 		var latlng = [position["lat"], position["lon"]];
 		//thisSig.map.setView(latlng, 15);
