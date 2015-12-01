@@ -505,7 +505,13 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $organizationId = "55797ceb2336f25c0c0041a8";
     $personId = "5577d525a1aa1458540041b0";
     var_dump(Organization::addPersonAsAdmin($organizationId, $personId, $personId));
-
   }
 
+  public function actionTestUpdateOrganization() {
+    $organizationId = "55794e302336f240060041a8";
+    $userId = "55c0c1a72336f213040041ee";
+    $organization = array("name" => "Ekopratik");
+
+    var_dump(Organization::update($organizationId, $organization, $userId));
+  }
 }
