@@ -97,12 +97,8 @@
             $imgPath = "";
             if(isset($randomEntity["profilImageUrl"]) && $randomEntity["profilImageUrl"] != ""){
               $profilImageUrl = $randomEntity["profilImageUrl"];
-              if( strpos("/", $profilImageUrl) == 0) 
-                $profilImageUrl = substr($profilImageUrl, 1, strlen($profilImageUrl));
-
-              $imgPath = Yii::app()->createUrl('/'.$this->module->id).$profilImageUrl;
+              $imgPath = Yii::app()->createUrl("/".$profilImageUrl);
             }
-           
         ?>
 
         <?php 
