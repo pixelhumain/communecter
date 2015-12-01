@@ -113,13 +113,13 @@ if( !isset($_GET["isNotSV"]))
 								<label class="control-label">
 									<?php echo Yii::t("common","Category") ?>
 								</label>
-			        		    <input id="categoryNGO" type="hidden" name="categoryNGO" style="width:100%; height:35px;">
+			        		    <input id="categoryNGO" type="hidden" name="category" style="width:100%; height:35px;">
 							</div>
 							<div class="form-group organizationCategory categoryLocalBusiness">
 								<label class="control-label">
 									<?php echo Yii::t("common","Category") ?>
 								</label>
-			        		    <input id="categoryLocalBusiness" type="hidden" name="categoryLocalBusiness" style="width:100%; height:35px;">
+			        		    <input id="categoryLocalBusiness" type="hidden" name="category" style="width:100%; height:35px;">
 							</div>
 							<div class="form-group">
 								<label class="control-label text-green">
