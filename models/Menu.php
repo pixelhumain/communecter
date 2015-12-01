@@ -242,8 +242,8 @@ class Menu {
         //self::entry("left", 'filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
         //self::entry("left", 'filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
 
-	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null);
-	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null);
+	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null,"tagFilter");
+	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null,"scopeFilter");
         //}
     }
 
@@ -299,14 +299,19 @@ class Menu {
         } 
         else if( $type == 'onclick')
         {
+	     //   if(@$class && $class!= null){
+			//	$class;
+        	//} 
             $onclick = $url;
             $entry = array( 'tooltip'    => $title,
                             'position'   => $position,
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"");
-        } 
+                            "href"      => "<a  class='tooltips btn btn-default ".$class."' href='javascript:;' onclick=\"".$onclick."\"");
+						
+
+        }
         else 
         {
             $entry = array( 'tooltip'    => $title,
