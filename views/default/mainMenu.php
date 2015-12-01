@@ -53,7 +53,7 @@
         <i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "ADD SOMETHING"); ?></span>
     </a>
 
-    <a  href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->params['adminUserId']?>')" 
+    <a  href="https://github.com/pixelhumain/communecter/issues/new" target="_blank" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-bullhorn fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common","HELP US : BUGS, IDEAS"); ?></span>
     </a>

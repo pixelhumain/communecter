@@ -375,7 +375,6 @@ function actionOnComment(comment, action) {
 		},
 		type: 'post',
 		global: false,
-		async: false,
 		dataType: 'json',
 		success: 
 			function(data) {
@@ -427,7 +426,6 @@ function actionAbuseComment(comment, action, reason) {
 		},
 		type: 'post',
 		global: false,
-		async: false,
 		dataType: 'json',
 		success: 
 			function(data) {
@@ -572,7 +570,6 @@ function validateComment(commentId, parentCommentId) {
 		},
 		type: 'post',
 		global: false,
-		async: false,
 		dataType: 'json',
 		success: 
 			function(data) {

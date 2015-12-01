@@ -979,7 +979,6 @@ function actionOnNews(news, action) {
 		},
 		type: 'post',
 		global: false,
-		async: false,
 		dataType: 'json',
 		success: 
 			function(data) {
