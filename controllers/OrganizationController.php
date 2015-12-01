@@ -28,6 +28,7 @@ class OrganizationController extends CommunecterController {
 		'addorganizationform'			=> 'citizenToolKit.controllers.organization.AddOrganizationFormAction',
 		'savenew'						=> 'citizenToolKit.controllers.organization.SaveNewAction',
 		'updatefield'					=> 'citizenToolKit.controllers.organization.UpdateFieldAction',
+		'update'						=> 'citizenToolKit.controllers.organization.UpdateAction',
 		'disabled'						=> 'citizenToolKit.controllers.organization.DisableAction',
 		'join'							=> 'citizenToolKit.controllers.organization.JoinAction',
 		'addneworganizationasmember'	=> 'citizenToolKit.controllers.organization.AddNewOrganizationAsMemberAction',
