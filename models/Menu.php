@@ -155,7 +155,7 @@ class Menu {
                  self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as admin of this organization"),
                         Yii::t( "common", "Become admin"),
-                        'fa fa-user-plus',
+                        'fa fa-user-plus becomeAdminBtn',
                         "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."','".$organization["name"]."')",null,null);                      
             }
         } 
@@ -298,10 +298,7 @@ class Menu {
                             "href"      => "<a  class='tooltips filter btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
         } 
         else if( $type == 'onclick')
-        {
-	     //   if(@$class && $class!= null){
-			//	$class;
-        	//} 
+        { 
             $onclick = $url;
             $entry = array( 'tooltip'    => $title,
                             'position'   => $position,

@@ -333,7 +333,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 		$(".removeMemberBtn").off().on("click",function () {
 			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-			
+			 //$(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
 			var idMemberOf = $(this).data("memberof-id");
 			var idMember = $(this).data("member-id");
 			var typeMember = $(this).data("member-type");
@@ -371,12 +371,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				});
 			});
 
-			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			//$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 		});
 
 
 		//Add Me as member Of Button
 		$('#addMeAsMemberInfo').off().on("click", function(e) {
+			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			e.preventDefault();
 			var formData = {
 	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
