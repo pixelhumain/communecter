@@ -8,6 +8,7 @@ function getCountries(selectType) {
 		url: baseUrl+'/'+moduleId+"/opendata/getcountries",
 		type: 'post',
 		global: false,
+		async: false,
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(i,value) {
@@ -41,6 +42,7 @@ function getCitiesByPostalCode(postalCode, selectType) {
 		data: {postalCode: postalCode},
 		type: 'post',
 		global: false,
+		async: false,
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(key,value) {
@@ -63,6 +65,7 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 		data: {postalCode: postalCode},
 		type: 'post',
 		global: false,
+		async: false,
 		dataType: 'json',
 		success: function(data) { console.dir(data);
 			result.push(data);
@@ -77,6 +80,7 @@ function isUniqueUsername(username) {
 		data: {username: username},
 		type: 'post',
 		global: false,
+		async: false,
 		dataType: 'json',
 		success: function(data) {
 		    response = data;
@@ -95,6 +99,7 @@ function addCustomValidators() {
 			data: {postalCode: value},
 			type: 'post',
 			global: false,
+			async: false,
 			dataType: 'json',
 			success: function(data) {
 			    response = data;
@@ -123,3 +128,4 @@ function addCustomValidators() {
 	   	return isUniqueUsername(value);
 	}, "A user with the same username already exists. Please choose an other one.");
 }
+
