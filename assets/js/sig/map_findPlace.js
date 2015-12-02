@@ -158,24 +158,31 @@ SigLoader.getSigFindPlace = function (Sig){
 			if(this.useExternalSearchPlace){
 				var str = "";
 				
-				if($("#postalCode").length>0 && $("#postalCode").val() != null)
-					str += $("#postalCode").val();
-				else if($("#cp").length>0 && $("#cp").val() != null)
-					str += $("#cp").val();
-				
-
+				//recupere le nom de la rue
 				if(nbTentative < 1 && nbTentative < 2)
 				if($("#fullStreet").length>0 && $("#fullStreet").val() != null){
-					if(str != "") str += " ";
-						str += $("#fullStreet").val();
+					str += $("#fullStreet").val();
 				}
 				
+				//recupere le code postal
+				if($("#postalCode").length>0 && $("#postalCode").val() != null){
+					if(str != "") str += ",";
+					str += $("#postalCode").val();
+				}
+				else if($("#cp").length>0 && $("#cp").val() != null){
+					if(str != "") str += ",";
+					str += $("#cp").val();
+				}
+				
+				//recupere le nom de la ville
 				if($("#city").length>0 && nbTentative < 3){
 					var textVal = $("#city option:selected").text();
 					//toastr.info(textVal);
-					if(textVal != null){
-						if(str != "") str += " ";
-							str += textVal;
+					if(typeof textVal != "undefined" && textVal != ""){
+						if(textVal != null){
+							if(str != "") str += " ";
+								str += textVal;
+						}
 					}
 				}
 				if(nbTentative < 4){

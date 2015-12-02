@@ -228,7 +228,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
 					<div class="hidden" id="entity-insee-value" 
-						 insee-val="<?php echo (isset( $event["address"]["codeInsee"])) ? $event["address"]["codeInsee"] : ""; ?>">
+						 insee-val="<?php echo isset($event["address"]["codeInsee"]) ? $event["address"]["codeInsee"] : ""; ?>">
 					</div>
 				</div>
 			</div>
@@ -538,9 +538,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	//modification de la position geographique	
 
-	function findGeoPosByAddress(){ console.log("allo");
+	function findGeoPosByAddress(){ //console.log("allo 1");
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+			//console.log("allo 2");
 			//on récupère la valeur du code insee s'il existe
 			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
 						 $("#entity-insee-value").attr("insee-val") : "";
@@ -549,6 +550,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			console.log(insee);
 		//si on a une streetAddress
 		}else{
+			//console.log("allo 3");
 			var request = "";
 
 			//recuperation des données de l'addresse

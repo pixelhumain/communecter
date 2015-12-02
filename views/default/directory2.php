@@ -379,7 +379,7 @@ if( isset($_GET["isNotSV"])) {
 					$tagsHTMLFull = "";
 					$scopes = array(
 						"codeInsee"=>array(),
-						"codePostal"=>array(),
+						"postalCode"=>array(),
 						"region"=>array(),
 						"addressLocality"=>array(),
 					);
@@ -475,8 +475,8 @@ if( isset($_GET["isNotSV"])) {
 						$scopesClasses = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) )
 							$scopesClasses .= ' '.$e["address"]['codeInsee'];
-						if( isset($e["address"]) && isset( $e["address"]['codePostal']) )
-							$scopesClasses .= ' '.$e["address"]['codePostal'];
+						if( isset($e["address"]) && isset( $e["address"]['postalCode']) )
+							$scopesClasses .= ' '.$e["address"]['postalCode'];
 						if( isset($e["address"]) && isset( $e["address"]['region']) )
 							$scopesClasses .= ' '.$e["address"]['region'];
 
@@ -530,17 +530,18 @@ if( isset($_GET["isNotSV"])) {
 						$strHTML .= '<br/>';
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+							//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
 							}
 						}
-						if( isset($e["address"]) && isset( $e["address"]['codePostal']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codePostal'].'"><span class="label address text-dark text-xss">'.$e["address"]['codePostal'].'</span></a>';
-							if( !in_array($e["address"]['codePostal'], $scopes['codePostal']) ) {
-								array_push($scopes['codePostal'], $e["address"]['codePostal'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>cp '.$e["address"]['codePostal'].'</span></a>';
+						if( isset($e["address"]) && isset( $e["address"]['postalCode']) ){
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
+							if( !in_array($e["address"]['postalCode'], $scopes['postalCode']) ) {
+								$insee = isset($e["address"]['codeInsee']) ? $e["address"]['codeInsee'] : $e["address"]['postalCode'];
+								array_push($scopes['postalCode'], $e["address"]['postalCode'] );
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$insee.'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){

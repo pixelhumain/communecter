@@ -433,6 +433,7 @@ function buildTimeLine (news)
 
 	if(!countEntries){
 		if( dateLimit == 0){
+			$(".tagFilter, .scopeFilter").hide();
 			var date = new Date(); 
 			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
 			$("#newFeedForm"+streamType).append(formCreateNews);
@@ -453,7 +454,7 @@ function buildTimeLine (news)
 		}
 			$(".stream-processing").hide();
 	}else{
-		
+		$(".tagFilter, .scopeFilter").show();
 		if(countEntries < 5){
 			if($("#backToTop"+streamType).length <= 0){
 				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
@@ -915,17 +916,24 @@ function bindEvent(){
 				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
 				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
 			}
-			console.log(newsReferror);
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
 			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
 			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType).length > 0){
+				if($("#backToTop"+streamType).length > 0){
+					$(".tagFilter, .scopeFilter").show();
+				}
+				else{
+					$(".tagFilter, .scopeFilter").hide();
+				}
+				//$(".tagFilter, .scopeFilter").hide();
 				$(".stream-processing").hide();	
 			}
-			else
+			else{
 				$(".stream-processing").show();	
+			}
 		}
 		else{
 			console.warn("filter",$(this).data("filter"));

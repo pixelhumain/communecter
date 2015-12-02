@@ -274,6 +274,7 @@
 		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
 			showPanel('box-ph');
 		});
+		
 	
 	});
 
