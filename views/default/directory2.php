@@ -539,8 +539,9 @@ if( isset($_GET["isNotSV"])) {
 						if( isset($e["address"]) && isset( $e["address"]['postalCode']) ){
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
 							if( !in_array($e["address"]['postalCode'], $scopes['postalCode']) ) {
+								$insee = isset($e["address"]['codeInsee']) ? $e["address"]['codeInsee'] : $e["address"]['postalCode'];
 								array_push($scopes['postalCode'], $e["address"]['postalCode'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$insee.'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){
