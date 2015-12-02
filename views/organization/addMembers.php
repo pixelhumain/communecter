@@ -90,7 +90,7 @@ if( isset($_GET["isNotSV"])) {
 				           		<span class="input-icon input-icon-right">
 						           	<input class="member-search form-control" placeholder="<?php echo Yii::t("organisation","Search by name, email",null,Yii::app()->controller->module->id) ?>" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-						        		<ul class="dropdown-menu" id="dropdown_search" style="">
+						        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:200px;overflow:scroll;">
 											<li class="li-dropdown-scope">-</li>
 										</ul>
 									</input>
