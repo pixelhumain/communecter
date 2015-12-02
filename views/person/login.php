@@ -6,6 +6,8 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/okvideo/okv
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 
 $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
+//geolocalisation nominatim et byInsee
+$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
 	
 ?>
 <style>
@@ -378,9 +380,10 @@ svg.graph .line {
 		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
 			showPanel('box-ph');
 		});
-	
+		
 
 		if(register == true){
+			//masque la box login
 			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				$(this).hide().removeClass("animated bounceOutRight");
 
@@ -389,6 +392,10 @@ svg.graph .line {
 				$(this).show().removeClass("animated bounceInLeft");
 
 			});
+			$('#btn-show-city').click(function(){
+				//showMap(true);
+			});
+
 			activePanel = "box-register";
 		}
 
@@ -800,6 +807,17 @@ function runShowCity(searchValue) {
       } else {
         $("#cityDiv").slideUp("medium");
       }
+
+    //si l'utilisateur a déjà donné sa fullStreet
+    if($('.form-register #fullStreet').val() != ""){
+    	//on fait une recherche nominatim
+    	clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			Sig.execFullSearchNominatim(0);
+		}, 200);
+    }else{ //sinon : on a que le CP et on recherche par le codeInsee de la première ville de la liste
+    	findGeoposByInsee(citiesByPostalCode[0].value);
+    }
 }
 
 function bindPostalCodeAction() {
@@ -864,7 +882,7 @@ function validateUserName() {
 
 function callBackFullSearch(resultNominatim){
 	console.log("callback ok");
-	Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+	Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
 	$(".topLogoAnim").hide();
 
 	//setTimeout("setMapPositionregister();", 1000);
@@ -874,6 +892,27 @@ function setMapPositionregister(){ console.log("setMapPositionregister");
 	Sig.map.panBy([300, 0]);
 }
 
+//quand la recherche par code insee a fonctionné
+function callbackFindByInseeSuccess(obj){
+	console.log("callbackFindByInseeSuccess");
+	//si on a bien un résultat
+	if (typeof obj != "undefined" && obj != "") {
+		//récupère les coordonnées
+		var coords = Sig.getCoordinates(obj, "markerSingle");
+		//si on a une geoShape on l'affiche
+		if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+		//on affiche le marker sur la carte
+		Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+		//showGeoposFound(coords, projectId, "projects", projectData);
+	}
+	else {
+		console.log("Erreur getlatlngbyinsee vide");
+	}
+}
 
+//quand la recherche par code insee n'a pas fonctionné
+function callbackFindByInseeError(){
+	console.log("erreur getlatlngbyinsee");
+}
 
 </script>
