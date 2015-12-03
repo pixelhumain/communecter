@@ -55,7 +55,7 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-function declareMeAsAdmin(organizationId, personId, organizationName, callback,contextData) {
+function declareMeAsAdmin(organizationId, personId, organizationName, callback) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	bootbox.confirm("You are going to ask to become an admin of the organization <span class='text-red'>"+organizationName+"</span>. Please confirm ?", 
 		function(result) {
