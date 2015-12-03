@@ -583,8 +583,8 @@ if( isset($_GET["isNotSV"])) {
 							$strHTML .= '<div class="dropdown" style="position:absolute;right: -8px;bottom: -11px;">'.
 											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog text-white"></i> <span class="caret"></span></a>'.
 											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">'.
-												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class="disconnectBtnIcon fa fa-unlink"></i>Unlink</a></li>'.
-											'</ul></div>';
+												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class="disconnectBtnIcon fa fa-unlink"></i>'.Yii::t("common","Unlink").'</a></li>'.
+							'</ul></div>';
 							//$disconnectBtn = ;
 						}
 						//else
@@ -714,6 +714,7 @@ function bindBtnEvents(){
 	        var parentType = $("#parentType").val();
 	        var parentId = $("#parentId").val();
 	        var connectType = $("#connectType").val();
+
 	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your "+connectType+" ?", 
 				function(result) {
@@ -725,7 +726,7 @@ function bindBtnEvents(){
 					       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"connectType":connectType},
 				        	success: function(data){
 					        	if ( data && data.result ) {               
-						       	 	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
 						        	$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
@@ -742,10 +743,13 @@ function bindBtnEvents(){
 									else{
     									badge.fadeIn().text(count - 1);
     								}
+    								if(data.removeMeAsAdmin){
+	    								$(".dropdown").remove();
+    								}
   //  $(this).toggleClass('active');
 	//					        	alert(nbItem);
 						        } else {
-						           toastr.info("something went wrong!! please try again.");
+						           toastr.error("something went wrong!! please try again.");
 						           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 						        }
 						    }
