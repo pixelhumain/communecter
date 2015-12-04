@@ -734,8 +734,7 @@ function bindBtnEvents(){
 						        	count=Number(badge.text());
 						        	countAll=Number(badgeAll.text());
 						        	//    active = $(this).hasClass('active');
-
-//    $label.text(active ? 'Like' : 'Liked');
+									//    $label.text(active ? 'Like' : 'Liked');
 									badgeAll.fadeIn().text(countAll - 1);
 									if((count-1)==0){
 										$(".menu_directory li[data-filter='."+userType+"']").fadeOut();
@@ -744,12 +743,13 @@ function bindBtnEvents(){
     									badge.fadeIn().text(count - 1);
     								}
     								if(data.removeMeAsAdmin){
-	    								$(".dropdown").remove();
+										loadByHash(location.hash);
     								}
-  //  $(this).toggleClass('active');
-	//					        	alert(nbItem);
+									//  $(this).toggleClass('active');
+									//	alert(nbItem);
 						        } else {
-						           toastr.error("something went wrong!! please try again.");
+						            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
+
 						           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 						        }
 						    }

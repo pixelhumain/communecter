@@ -96,13 +96,14 @@ function bindBtnFollow(){
 				    .done(function (data) 
 				    {
 				        if ( data && data.result ) {               
-				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+				        	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
 				        	if( isNotSV ){
 				        		removeFloopEntity(idToDisconnect, "projects");
 								loadByHash(location.hash);
 				        	}
 				        } else {
-				           toastr.info("something went wrong!! please try again.");
+					        console.log(data);
+				           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
 				          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
 				        }
 				    });
@@ -128,13 +129,13 @@ function bindBtnFollow(){
 		    .done(function (data)
 		    {
 		        if ( data && data.result ) {               
-		        	toastr.info("RELATION APPLIED SUCCESFULLY!! ");
+		        	toastr.success("<?php echo Yii::t("common", "Relation applied succesfully") ?> !!");
 		        	if( isNotSV ){
 		        		addFloopEntity(idConnect, "projects", contextMap["thisProject"][0]);
 						loadByHash(location.hash);
 		        	}
 		        } else {
-		           toastr.info("something went wrong!! please try again.");
+		           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 		        }
 		    });       
