@@ -353,15 +353,16 @@ class CommunecterController extends Controller
 
     
     $prepareData = true;
-    if (true)//(isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 
-    { 
-      $host = "meteor.communecter.org";
+    //if (true)//(isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 
+    //{ 
+      //$host = "meteor.communecter.org";
       //if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
-        if( isset( $_SERVER["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_SERVER["X-Auth-Token"] ) ){
-          $prepareData = false;
-        }
+    if( isset( $_POST["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_POST["X-Auth-Token"] ) ){
+      $prepareData = false;
+    }
       //} 
-    } else if( (!isset( $page["public"] ) )
+    //}
+     else if( (!isset( $page["public"] ) )
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
