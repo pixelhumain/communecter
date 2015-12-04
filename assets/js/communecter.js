@@ -72,7 +72,6 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 			.done(function (data) {
 				//$.unblockUI();
 				if (data &&  data.result) {
-					alert();
 					toastr.success(data.msg);
 					addFloopEntity(parentId, "organizations", data.parent);
 					loadByHash(location.hash);
