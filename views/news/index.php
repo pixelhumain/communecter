@@ -320,7 +320,7 @@ jQuery(document).ready(function()
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news")
-			minusOffset=630;
+			minusOffset=730;
 		else if (streamType=="activity"){
 			if(contextParentType=="citoyens")
 				minusOffset=530;

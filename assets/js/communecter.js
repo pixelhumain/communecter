@@ -55,24 +55,26 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-function declareMeAsAdmin(organizationId, personId, organizationName, callback) {
+function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
-	bootbox.confirm("You are going to ask to become an admin of the organization <span class='text-red'>"+organizationName+"</span>. Please confirm ?", 
+	bootbox.confirm("You are going to ask to become an admin of the "+parentType+" <span class='text-red'>"+parentName+"</span>. Please confirm ?", 
 		function(result) {
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+'/organization/declareMeAdmin',
+				url: baseUrl+"/"+moduleId+'/link/declaremeadmin',
 				dataType : "json",
 				data : {
-					idOrganization : organizationId, 
+					parentId : parentId, 
+					parentType : parentType,
 					idPerson : personId
 				}
 			})
 			.done(function (data) {
 				//$.unblockUI();
 				if (data &&  data.result) {
+					alert();
 					toastr.success(data.msg);
-					addFloopEntity(organizationId, "organizations", data.organization);
+					addFloopEntity(parentId, "organizations", data.parent);
 					loadByHash(location.hash);
 					//if (typeof callback == "function") callback(organizationId, personId, organizationName);
 				} else {

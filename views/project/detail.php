@@ -116,15 +116,28 @@ function bindBtnFollow(){
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			var idConnect = "<?php echo (string)$project['_id'] ?>";
 			var ownerLink = $(this).data("ownerlink");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
-	        if("undefined" != typeof $(this).data("targetlink")){
-	        	var targetLink = $(this).data("targetlink");
-	        	urlToSend += "/targetLink/"+targetLink;
-	        }
+				newContributor = new Object;
+				newContributor.id = idConnect;
+				newContributor.type = "citoyens";
+				newContributor.contribId = "<?php echo Yii::app() -> session["userId"]; ?>";
+				newContributor.email = "<?php echo Yii::app() -> session["userEmail"]; ?>";
+				console.log(newContributor);
+				//newContibutor.name = $(".form-contributor .contributor-name").val();
+				//newContibutor.email = $('.form-contributor .contributor-email').val();
+				//newContibutor.organizationType=$('.form-contributor #organizationType').val();
+				//newContibutor.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
+			//var data =
+			var urlToSend = "/project/savecontributor";
+	        //var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
+	        //if("undefined" != typeof $(this).data("targetlink")){
+	        	//var targetLink = $(this).data("targetlink");
+	        	//urlToSend += "/targetLink/"+targetLink;
+	        //}
 			$.ajax({
 		        type: "POST",
-		        url: urlToSend,
-		        dataType : "json"
+		        url: baseUrl+"/"+moduleId+"/"+urlToSend,
+		        dataType : "json",
+		        data : newContributor,
 		    })
 		    .done(function (data)
 		    {

@@ -21,6 +21,7 @@ class LinkController extends CommunecterController {
 	        "removerole"		=> 'citizenToolKit.controllers.link.RemoveRoleAction',
 			'removecontributor' => 'citizenToolKit.controllers.link.RemoveContributorAction',
 			'removeuser' => 'citizenToolKit.controllers.link.RemoveUserAction',
+			'declaremeadmin' => 'citizenToolKit.controllers.link.DeclareMeAdminAction',
 	    );
 	}
 

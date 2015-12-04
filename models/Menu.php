@@ -156,7 +156,7 @@ class Menu {
                         Yii::t( "common", "Declare me as admin of this organization"),
                         Yii::t( "common", "Become admin"),
                         'fa fa-user-plus becomeAdminBtn',
-                        "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."','".$organization["name"]."')",null,null);                      
+                        "declareMeAsAdmin('".$id."','organizations','".Yii::app()->session["userId"]."','".addslashes($organization["name"])."')",null,null);                      
             }
         } 
     }
@@ -273,6 +273,13 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'showAjaxPanel',Yii::t( "common", "Project contributors"), Yii::t( "common", 'Contributors'), 'connectdevelop','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+        if (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
+				self::entry("right", 'onclick',
+                        Yii::t( "common", "Declare me as admin of this project"),
+                        Yii::t( "common", "Become admin"),
+                        'fa fa-user-plus becomeAdminBtn',
+                        "declareMeAsAdmin('".$id."','".Project::COLLECTION."','".Yii::app()->session["userId"]."','".$project["name"]."')",null,null);                      
+            }
     }
 
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
