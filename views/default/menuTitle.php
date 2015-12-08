@@ -26,7 +26,8 @@
 		}
 		else{
 			bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
-			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
+			//commenté pour ne pas changer la couleur de fond
+			//$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			$(".connectMarker").fadeIn();
 		}
 		if( icon || title ){
@@ -35,7 +36,7 @@
 		}
 		if(!box)
 			box = "box-login";
-		$('.box-menu').slideUp();
+		//$('.box-menu').slideUp();
 		$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 			$(this).show().removeClass("animated bounceInRight");
 		});
@@ -74,6 +75,12 @@
 				});
 		}
 		$(".ajaxForm").hide();
+		$("#main-title-public2").hide(400);
+		$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours");
+		$("#main-title-public1").show(400);
+		$(".box").hide(400);
+		$(".box-ajax").show(600);
+		//$(".box-ajax").html("<i class='fa fa-refresh fa-2x fa-spin'></i>");
 		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
 		$(".box-ajaxTools").html("");
 
@@ -87,6 +94,9 @@
 				//$(".panelLabel").html( icon+title );
 				$(".ajaxForm").slideDown(); 
 				$.unblockUI();
+				$("#main-title-public1").html("");
+				$("#main-title-public1").hide(400);
+		
 			//}
 		},"html");
 
@@ -212,9 +222,8 @@
 	}
 </script>
 <?php if(!isset($topTitleExists)){ ?>
-<div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
-	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta testing till january, early registration open ) </span>
-	<br/>
+	<span class="badge badge-danger" style="border-radius:10px 10px 0px 0px; font-weight:300; width:100%; line-height: 1.2;"> PRE-ALPHA-invites-only </br>( beta testing till january, early registration open ) </span>
+	<div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
 	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
@@ -223,7 +232,7 @@
 	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
 </div>
 <?php } ?>
-<div class="box-menu box">
+<!-- <div class="box-menu box">
 	<ul class="text-white text-bold" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
 		<li style="margin-left:50px"><i class="fa fa-share-alt"></i> <a href="#" style="color:white" onclick="showPanel('box-whatisit','bgyellow')">WHAT</a></li>
 		<li style="margin-left:50px"><i class="fa fa-heart"></i> <a href="#" style="color:white" onclick="showPanel('box-why','bggreen')">WHY</a></li>
@@ -233,9 +242,9 @@
 		<li style="margin-left:50px">&nbsp;<i class="fa fa-map-marker"></i> <a href="#" style="color:white" onclick="showPanel('box-where','bgblue')">WHERE</a></li>
 		<li style="margin-left:50px">&nbsp;<i class="fa fa-lightbulb-o"></i> <a href="#" style="color:white" onclick="showPanel('box-help')">HELP US</a></li>
 		<li style="margin-left:50px"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <a href="#" style="color:white" onclick="showPanel('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
-		<li><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 64px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+		<li style="margin-left:50px"><i class="fa fa-youtube-play"></i> <a href="#" onclick="showVideo('74212373')"><img style="height: 64px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 	</ul>
-</div>
+</div> -->
 <style type="text/css">
 	.nextBtns{color:#E33551; font-size:2.5em;}
 	.nextBtns:hover{color:white; }

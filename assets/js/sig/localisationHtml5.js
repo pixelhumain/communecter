@@ -1,12 +1,19 @@
 
 /* géolocalisation HTML5 */
 var currentRoleLoc = "";
+var locationHTML5Found = false;
 function initHTML5Localisation(role){
 	if (navigator.geolocation)
 	{
+	  if(!locationHTML5Found)
 	  navigator.geolocation.getCurrentPosition(
 		function(position){ //success
-			
+			//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
+	  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
+			//$("#main-title-public1").show(400);
+			locationHTML5Found = true;
+			$(".box-discover").hide(400);
+			$(".box-menu").hide(400);
 			// var position = {
 			// 		coords : {
 			// 		 latitude : -20.9190923,
@@ -17,7 +24,7 @@ function initHTML5Localisation(role){
 		    mapBg.panTo([position.coords.latitude, position.coords.longitude], {animate:false});
 		    mapBg.setZoom(13, {animate:false});
 		    
-		    toastr.info("Votre position géographique a été trouvée");
+		    //toastr.info("Votre position géographique a été trouvée");
 		    currentRoleLoc = role;
 		    getCityInseeByGeoPos(position.coords);
 		},
@@ -47,7 +54,9 @@ function initHTML5Localisation(role){
 
 
 function getCityInseeByGeoPos(coords){
-	toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche des données de votre commune");
+	//toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche des données de votre commune");
+	showLoadingMsg("Position trouvée");
+				
 	$.ajax({
 		url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
 		type: 'POST',
@@ -56,9 +65,24 @@ function getCityInseeByGeoPos(coords){
 		complete: function () {},
 		success: function (obj) {
 			if (obj != null) {
-				if(currentRoleLoc == "showCity" && typeof obj.insee != "undefined"){
+				if(currentRoleLoc == "showCityMap" && typeof obj.insee != "undefined"){
+					console.log("donne city : ");
+					console.dir(obj);
+					//toastr.success("Mapping des acteurs par code insee : " + obj.insee);
+					if($("#main-title-public1").length){
+						showLoadingMsg("Chargement des données en cours");
+						$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
+						$("#main-title-public2").show(400);	
+						if(typeof obj.cp != "undefined")
+							$(".form-group #cp").val(obj.cp);
+					}
+					
+					setTimeout(function() { showDataByInsee(obj.insee) }, 1000);
+				}
+				else if(currentRoleLoc == "showCity" && typeof obj.insee != "undefined"){
 					toastr.success("Vous allez être redirigé vers la page de votre commune ...");
 					showAjaxPanel("/city/detail/insee/" + obj.insee + "?isNotSV=1", 'Details', 'university');
+					
 				}
 				else if(currentRoleLoc == "prefill" && typeof obj.cp != "undefined"){
 					toastr.success("Nous avons trouvé votre code postal : "+obj.cp);
@@ -66,7 +90,7 @@ function getCityInseeByGeoPos(coords){
 					searchCity();
 				}
 			}else{
-				toastr.info("Nous n'avons pas trouvé votre code postal : merci de vous localiser manuellement en remplissant le formulaire.");
+				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
 			}
 		},

@@ -293,7 +293,7 @@ var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContac
 var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 var lastUrl = null;
 jQuery(document).ready(function() {
-    console.dir(proverbs);
+    //console.dir(proverbs);
     
     if($(".tooltips").length) {
       $('.tooltips').tooltip();
@@ -303,6 +303,7 @@ jQuery(document).ready(function() {
             ) { ?>
       initHTML5Localisation("showCity");
     <?php } ?>
+
     
     bindEvents();
     

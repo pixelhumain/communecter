@@ -129,3 +129,13 @@ function addCustomValidators() {
 	}, "A user with the same username already exists. Please choose an other one.");
 }
 
+
+
+function showLoadingMsg(msg){
+	$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> "+msg+" ...");
+	$("#main-title-public1").show(300);
+}
+function hideLoadingMsg(){
+	$("#main-title-public1").html("");
+	$("#main-title-public1").hide(300);
+}
