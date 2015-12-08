@@ -205,7 +205,8 @@ function buildLineHTML(commentObj, withActions) {
 	var icon = "fa-user";
 	
 	var name = commentObj.author.name;
-	var city = commentObj.author.address.addressLocality;
+	if(commentObj.author.address != "undefined")
+		var city = commentObj.author.address.addressLocality;
 	var text = commentObj.text;
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {

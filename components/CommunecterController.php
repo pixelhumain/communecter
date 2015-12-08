@@ -274,7 +274,8 @@ class CommunecterController extends Controller
       "savemember"          => array("href" => "/ph/communecter/link/savemember"),
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
       "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
-      "removeuser"   => array("href" => "/ph/communecter/link/removeuser")
+      "removeuser"   => array("href" => "/ph/communecter/link/removeuser"),
+      "declaremeadmin"   => array("href" => "/ph/communecter/link/declaremeadmin")
     ),
 
     "document" => array(
@@ -354,15 +355,16 @@ class CommunecterController extends Controller
 
     
     $prepareData = true;
-    if (isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 
-    { 
-      $host = "meteor.communecter.org";
-      if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
-        if( isset( $_SERVER["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_SERVER["X-Auth-Token"] ) ){
-          $prepareData = false;
-        }
-      } 
-    } else if( (!isset( $page["public"] ) )
+    //if (true)//(isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 
+    //{ 
+      //$host = "meteor.communecter.org";
+      //if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
+    if( isset( $_POST["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_POST["X-Auth-Token"] ) ){
+      $prepareData = false;
+    }
+      //} 
+    //}
+     else if( (!isset( $page["public"] ) )
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {

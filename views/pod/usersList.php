@@ -73,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						$adminFlag="";
 						$name=$e["name"];
 					}
-					if ($e["type"]=="citoyen"){
+					if ($e["type"]==Person::COLLECTION){
 						$icon='<img height="50" width="50" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
 						$refIcon="fa-user";
 						$redirect="person";

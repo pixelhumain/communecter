@@ -96,13 +96,14 @@ function bindBtnFollow(){
 				    .done(function (data) 
 				    {
 				        if ( data && data.result ) {               
-				        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+				        	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
 				        	if( isNotSV ){
 				        		removeFloopEntity(idToDisconnect, "projects");
 								loadByHash(location.hash);
 				        	}
 				        } else {
-				           toastr.info("something went wrong!! please try again.");
+					        console.log(data);
+				           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
 				          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
 				        }
 				    });
@@ -115,26 +116,39 @@ function bindBtnFollow(){
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			var idConnect = "<?php echo (string)$project['_id'] ?>";
 			var ownerLink = $(this).data("ownerlink");
-	        var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
-	        if("undefined" != typeof $(this).data("targetlink")){
-	        	var targetLink = $(this).data("targetlink");
-	        	urlToSend += "/targetLink/"+targetLink;
-	        }
+				newContributor = new Object;
+				newContributor.id = idConnect;
+				newContributor.type = "citoyens";
+				newContributor.contribId = "<?php echo Yii::app() -> session["userId"]; ?>";
+				newContributor.email = "<?php echo Yii::app() -> session["userEmail"]; ?>";
+				console.log(newContributor);
+				//newContibutor.name = $(".form-contributor .contributor-name").val();
+				//newContibutor.email = $('.form-contributor .contributor-email').val();
+				//newContibutor.organizationType=$('.form-contributor #organizationType').val();
+				//newContibutor.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
+			//var data =
+			var urlToSend = "/project/savecontributor";
+	        //var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
+	        //if("undefined" != typeof $(this).data("targetlink")){
+	        	//var targetLink = $(this).data("targetlink");
+	        	//urlToSend += "/targetLink/"+targetLink;
+	        //}
 			$.ajax({
 		        type: "POST",
-		        url: urlToSend,
-		        dataType : "json"
+		        url: baseUrl+"/"+moduleId+"/"+urlToSend,
+		        dataType : "json",
+		        data : newContributor,
 		    })
 		    .done(function (data)
 		    {
 		        if ( data && data.result ) {               
-		        	toastr.info("RELATION APPLIED SUCCESFULLY!! ");
+		        	toastr.success("<?php echo Yii::t("common", "Relation applied succesfully") ?> !!");
 		        	if( isNotSV ){
 		        		addFloopEntity(idConnect, "projects", contextMap["thisProject"][0]);
 						loadByHash(location.hash);
 		        	}
 		        } else {
-		           toastr.info("something went wrong!! please try again.");
+		           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");
 		        }
 		    });       

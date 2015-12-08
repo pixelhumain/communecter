@@ -487,6 +487,7 @@ if( isset($_GET["isNotSV"])) {
 
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
+							'<div style="position:relative;">'.
 										'<div class="portfolio-item">';
 						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
 						
@@ -529,14 +530,14 @@ if( isset($_GET["isNotSV"])) {
 						***************************************** */
 						$strHTML .= '<br/>';
 						$scopeHTML = "";
-						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) ){
+						if( isset($e["address"]) && isset( $e["address"]['codeInsee'])){
 							//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
 							}
 						}
-						if( isset($e["address"]) && isset( $e["address"]['postalCode']) ){
+						if( isset($e["address"]) && isset( $e["address"]['postalCode'])){
 							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
 							if( !in_array($e["address"]['postalCode'], $scopes['postalCode']) ) {
 								$insee = isset($e["address"]['codeInsee']) ? $e["address"]['codeInsee'] : $e["address"]['postalCode'];
@@ -551,8 +552,12 @@ if( isset($_GET["isNotSV"])) {
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
 							}
 						}
-						if( isset($e["address"]) && isset( $e["address"]['addressLocality']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$e["address"]['addressLocality'].'</span></a>';
+						if( isset($e["address"]) && isset( $e["address"]['addressLocality'])){
+							if ($e["address"]['addressLocality']=="Unknown")
+								$adresseLocality="Adresse non renseignée";
+							else
+								$adresseLocality=$e["address"]['addressLocality'];
+							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
 							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
 								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
 								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
@@ -575,11 +580,11 @@ if( isset($_GET["isNotSV"])) {
 							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 						if($manage==1){
-							$strHTML .= '<div class="dropdown">'.
-											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'.
-											'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'.
-												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs btn-red tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class=" disconnectBtnIcon fa fa-unlink" style="color:white;"></i>Unlink</a></li>'.
-											'</ul></div>';
+							$strHTML .= '<div class="dropdown" style="position:absolute;right: -8px;bottom: -11px;">'.
+											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog text-white"></i> <span class="caret"></span></a>'.
+											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">'.
+												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class="disconnectBtnIcon fa fa-unlink"></i>'.Yii::t("common","Unlink").'</a></li>'.
+							'</ul></div>';
 							//$disconnectBtn = ;
 						}
 						//else
@@ -595,7 +600,7 @@ if( isset($_GET["isNotSV"])) {
 						$flag.="</div>";
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
-							'<div class="detailDiv">'.$strHTML.'</div></div></li>';
+							'<div class="detailDiv">'.$strHTML.'</div></div></div></li>';
 					}
 					?>
 				</ul>
@@ -709,6 +714,7 @@ function bindBtnEvents(){
 	        var parentType = $("#parentType").val();
 	        var parentId = $("#parentId").val();
 	        var connectType = $("#connectType").val();
+
 	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your "+connectType+" ?", 
 				function(result) {
@@ -720,10 +726,30 @@ function bindBtnEvents(){
 					       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"connectType":connectType},
 				        	success: function(data){
 					        	if ( data && data.result ) {               
-						       	 	toastr.info("LINK DIVORCED SUCCESFULLY!!");
+						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
 						        	$("#"+data.collection+userId).remove();
+						        	//if(userType == "organizations")
+						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
+						        	badgeAll=$(".menu_directory li[data-filter='all']").find(".badge");
+						        	count=Number(badge.text());
+						        	countAll=Number(badgeAll.text());
+						        	//    active = $(this).hasClass('active');
+									//    $label.text(active ? 'Like' : 'Liked');
+									badgeAll.fadeIn().text(countAll - 1);
+									if((count-1)==0){
+										$(".menu_directory li[data-filter='."+userType+"']").fadeOut();
+									}
+									else{
+    									badge.fadeIn().text(count - 1);
+    								}
+    								if(data.removeMeAsAdmin){
+										loadByHash(location.hash);
+    								}
+									//  $(this).toggleClass('active');
+									//	alert(nbItem);
 						        } else {
-						           toastr.info("something went wrong!! please try again.");
+						            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
+
 						           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 						        }
 						    }

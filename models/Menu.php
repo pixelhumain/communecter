@@ -155,8 +155,8 @@ class Menu {
                  self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as admin of this organization"),
                         Yii::t( "common", "Become admin"),
-                        'fa fa-user-plus',
-                        "declareMeAsAdmin('".$id."','".Yii::app()->session["userId"]."','".$organization["name"]."')",null,null);                      
+                        'fa fa-user-plus becomeAdminBtn',
+                        "declareMeAsAdmin('".$id."','organizations','".Yii::app()->session["userId"]."','".addslashes($organization["name"])."')",null,null);                      
             }
         } 
     }
@@ -273,6 +273,13 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'showAjaxPanel',Yii::t( "common", "Project contributors"), Yii::t( "common", 'Contributors'), 'connectdevelop','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+        if (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
+				self::entry("right", 'onclick',
+                        Yii::t( "common", "Declare me as admin of this project"),
+                        Yii::t( "common", "Become admin"),
+                        'fa fa-user-plus becomeAdminBtn',
+                        "declareMeAsAdmin('".$id."','".Project::COLLECTION."','".Yii::app()->session["userId"]."','".$project["name"]."')",null,null);                      
+            }
     }
 
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
@@ -298,10 +305,7 @@ class Menu {
                             "href"      => "<a  class='tooltips filter btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
         } 
         else if( $type == 'onclick')
-        {
-	     //   if(@$class && $class!= null){
-			//	$class;
-        	//} 
+        { 
             $onclick = $url;
             $entry = array( 'tooltip'    => $title,
                             'position'   => $position,
