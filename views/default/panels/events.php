@@ -1,12 +1,11 @@
 <div class="box-event box">
 	<h1 class="event"><i class="fa fa-calendar"></i> EVENTS</h1>
 	<section>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-		<u><a class="text-white" href="#" onclick="showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )"> Add a Local Event </a></u> sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+		Things happen all the time around us, we are society 
+		<br/> Society is Social Activity
+		<br/> People are most efficient at sharing local happenings 
+		<br/> making them easier to find, always be informed 
+		<br/> People and Organizations can create events and communicate them on the local territory. 
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showPanel('box-orga')">
-		<?php echo (isset($actionTitle)) ? $actionTitle : "ORGANISATIONS" ?>
-	</a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showPanel('box-projects')">PROJECTS</a>
 </div>

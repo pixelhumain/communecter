@@ -173,8 +173,10 @@
 		$("body.login").removeClass("bggreen bgblack bgblue bgyellow");
 		$('.box-menu,.topLogoAnim').slideUp();
 		$.okvideo({ source: id,
-                    volume: 10,
-                    loop: false,
+                    volume: 100,
+                    loop: true,
+                    disablekeyControl : false,
+                    controls : true,
                     //hd:true,
                     //adproof: true,
                     //annotations: false,

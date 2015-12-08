@@ -141,8 +141,8 @@ label.checkbox-inline{
 	top:330px;
 }
 .big-button img, .big-button i{
-	height: 70px;
-	width: 70px;
+	height: 67px;
+	width: 67px;
 	border-radius: 50%;
 	padding: 10px;
 	font-size:47px;
@@ -489,8 +489,9 @@ label.checkbox-inline{
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-how','bggreen')"><i class="fa fa-laptop"></i> HOW</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> WHEN</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> WHERE</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-lightbulb-o"></i> HELP US</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> HELP US</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
+			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>
@@ -520,8 +521,6 @@ label.checkbox-inline{
 	<div class="main-login col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-4 col-md-offset-4 pull-right">
 	<a class="byPHRight" href="#"><img style="" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 	
-	
-
 		<div class="box-login box box-white-round no-padding" style="margin-top:-20px !important;">
 			<?php 
 				$this->renderPartial('../default/menuTitle');
@@ -1540,7 +1539,7 @@ function showDiscover(){
 	$(".box-discover .box").hide();
 	$("#main-title-public2").hide();
 	showSearchBar(false);
-	showPanel('box-why');
+	showPanel('box-whatisit');
 	$(".box-discover").show(400);
 	$(".box-login").hide(400);
 	$(".box-menu").slideDown();
