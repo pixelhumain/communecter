@@ -1527,8 +1527,10 @@ function showDiscover(){
 }
 function showSearchBar(show){
 	if(show && !$(".searchBarForm").is(":visible")){
-		$(".searchBarForm").show(400);
 		$("#main-title-public2").hide(400);
+		$(".box-discover").hide(400);
+		$(".box-menu").hide(400);
+		$(".searchBarForm").show(400);
 	}else if(!show && $(".searchBarForm").is(":visible")){
 		$(".searchBarForm").hide(400);
 		if($("#main-title-public2").html() != "") $("#main-title-public2").show(400);
