@@ -1,5 +1,5 @@
 <div class="box-city box">
-	<h1><i class="fa fa-university"></i> CITIES</h1>
+	<h1 class="city"><i class="fa fa-university"></i> CITIES</h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

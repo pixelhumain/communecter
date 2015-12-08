@@ -232,6 +232,12 @@ label.checkbox-inline{
     font-weight: 100;
     font-family: "homestead";
 }
+.box-discover .box h1.person {color:<?php echo Person::COLOR; ?> !important;}
+.box-discover .box h1.orga {color:<?php echo Organization::COLOR; ?> !important;}
+.box-discover .box h1.event {color:<?php echo Event::COLOR; ?> !important;}
+.box-discover .box h1.project {color:<?php echo Project::COLOR; ?> !important;}
+.box-discover .box h1.city {color:<?php echo City::COLOR; ?> !important;}
+
 .box-discover .box section {
     color: #FFF !important;
     font-size: 25px;
@@ -724,31 +730,38 @@ label.checkbox-inline{
 
 </div>
 
+<style type="text/css">
+	.elementIcons{
+  z-index:0;
+  display:none;
+  position:absolute;
+  bottom:0px; 
+  cursor:pointer;
+}
 
-<div class="eventMarker" style="z-index:-1;display:none;position:absolute; top:500px; left:100px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
-	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS</span>
-</div>
-<div class="cityMarker" style="z-index:-1;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" >
-	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
-</div>
-<div class="projectMarker" style="z-index:-1;display:none;position:absolute; top:620px; left:240px;cursor:pointer;" >
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
-	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS</span>
-</div>
-<div class="assoMarker" style="z-index:-1;display:none;position:absolute; top:750px; right:750px; cursor:pointer;" >
-	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS</span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
-</div>
-<div class="userMarker" style="z-index:-1;display:none;position:absolute; top:600px; right:200px;cursor:pointer;" >
-	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE</span>
+</style>
+<div class="userMarker elementIcons" style="left:60px;" >
+	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE<br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
 </div>
-<!-- <div class="connectMarker text-white" style="z-index:-1;display:none;position:absolute; top:25px; left:25px;cursor:pointer;" >
-	<i class="fa fa-sign-in fa-2x"></i> 
-	<span class="homestead connectlabel" style="display:none;color:white;font-size:25px"> CONNECT</span>
-</div> -->
+<div class="assoMarker elementIcons" style="left:140px; " >
+	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS<br/></span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
+</div>
+<div class="eventMarker elementIcons " style="left:220px;" >
+	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS<br/></span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
+</div>
+<div class="projectMarker elementIcons" style="left:300px;" >
+	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS<br/></span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
+</div>
+<div class="cityMarker elementIcons" style="left:380px;" >
+	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES<br/></span>
+	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
+</div>
+
+
 
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />

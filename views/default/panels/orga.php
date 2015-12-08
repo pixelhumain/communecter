@@ -1,5 +1,5 @@
 <div class="box-orga box">
-	<h1><i class="fa fa-users"></i> ORGANIZATIONS</h1>
+	<h1 class="orga"><i class="fa fa-users"></i> ORGANIZATIONS</h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		<u><a class="text-white" href="#" onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )"> Add a Local Organization </a> </u>

@@ -1,5 +1,5 @@
 <div class="box-people box">
-	<h1><i class="fa fa-user"></i> PEOPLE </h1>
+	<h1 class="person"><i class="fa fa-user"></i> PEOPLE </h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. 

@@ -1,5 +1,5 @@
 <div class="box-projects box">
-	<h1><i class="fa fa-lightbulb-o"></i> PROJECTS</h1>
+	<h1 class="project"><i class="fa fa-lightbulb-o"></i> PROJECTS</h1>
 	<section>
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
