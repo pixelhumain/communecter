@@ -816,13 +816,16 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function() {
-		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
-		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-			'<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
+		//$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
+		$.blockUI({
+			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
+							'<div class="commentContent"></div></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
 		if(streamType=="news"){
 			type="news";
-		}
-		else
+		} else
 			type=$(this).data("type");
 		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
 			/*if(!userId){
