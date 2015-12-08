@@ -254,7 +254,7 @@ var formValidator = function() {
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+
-	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu..</p>"+
+	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu.</p>"+
 	              '<cite title="Einstein">Einstein</cite>'+
 	            '</blockquote> '
 			});
@@ -272,7 +272,7 @@ var formValidator = function() {
 	                        toastr.success(data.msg);
 	                        if( isNotSV )	{
 	                        	addFloopEntity(data.id, "organizations", data.newOrganization);
-								showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS','users' );
+								openMainPanelFromPanel('/organization/detail/id/'+data.id, data.newOrganization.name, 'fa-group', data.id );
 	                        }
 				        	else if( "undefined" != typeof updateMyOrganization ){
 		        				updateMyOrganization(data.newOrganization, data.id);
