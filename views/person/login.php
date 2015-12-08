@@ -479,9 +479,7 @@ label.checkbox-inline{
 		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
 	</a>
 
-
-
-	<div class="box-menu box">
+	<div class="box-menu box-menu-what box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-whatisit','bgyellow')"><i class="fa fa-share-alt"></i> WHAT</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-why','bggreen')"><i class="fa fa-heart"></i> WHY</a></li>
@@ -490,11 +488,25 @@ label.checkbox-inline{
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> WHEN</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> WHERE</a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> HELP US</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-<?php echo (isset($actionIcon)) ? $actionIcon : "globe" ?>"></i> <?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> CONNECT</a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>
+
+	<div class="box-menu box-menu-elements box">
+		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-people','bgyellow')"><i class="fa fa-user"></i> PEOPLE</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-orga','bggreen')"><i class="fa fa-users"></i> ORGANIZATIONS</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-event','bgblue')"><i class="fa fa-calendar"></i> EVENTS</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-projects','bggreen')"><i class="fa fa-lightbulb-o"></i> PROJECTS</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-city','bgyellow')"><i class="fa fa-university"></i> CITIES</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> CONNECT</a></li>
+			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
+			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+		</ul>
+	</div>
+
 	<div class="box-discover">
 		<!-- start: LOGIN BOX -->
 		<?php 
@@ -738,15 +750,15 @@ label.checkbox-inline{
 </div>
 
 <style type="text/css">
-	.elementIcons{
+.elementIcons{
   z-index:0;
   display:none;
   position:absolute;
   bottom:0px; 
   cursor:pointer;
 }
-
 </style>
+
 <div class="userMarker elementIcons" style="left:60px;" >
 	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE<br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
@@ -767,8 +779,6 @@ label.checkbox-inline{
 	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES<br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
 </div>
-
-
 
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
 <img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
@@ -887,6 +897,7 @@ svg.graph .line {
 		}
 
 		$(".eventMarker").show().addClass("animated slideInDown").off().on("click",function() { 
+			showElements();
 			showPanel('box-event');
 		}).on('mouseover',function() { 
 			$(".eventMarkerlabel").show();
@@ -894,6 +905,7 @@ svg.graph .line {
 			$(".eventMarkerlabel").hide();
 		});
 		$(".cityMarker").show().addClass("animated slideInUp").off().on("click",function() { 
+			showElements();
 			showPanel('box-city');
 		}).on('mouseover',function() { 
 			$(".cityMarkerlabel").show();
@@ -901,6 +913,7 @@ svg.graph .line {
 			$(".cityMarkerlabel").hide();
 		});
 		$(".projectMarker").show().addClass("animated zoomInRight").off().on("click",function() { 
+			showElements();
 			showPanel('box-projects');
 		}).on('mouseover',function() { 
 			$(".projectMarkerlabel").show();
@@ -908,6 +921,7 @@ svg.graph .line {
 			$(".projectMarkerlabel").hide();
 		});
 		$(".assoMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showElements();
 			showPanel('box-orga');
 		}).on('mouseover',function() { 
 			$(".assoMarkerlabel").show();
@@ -915,6 +929,7 @@ svg.graph .line {
 			$(".assoMarkerlabel").hide();
 		});
 		$(".userMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showElements();
 			showPanel('box-people');
 		}).on('mouseover',function() { 
 			$(".userMarkerlabel").show();
@@ -922,6 +937,7 @@ svg.graph .line {
 			$(".userMarkerlabel").hide();
 		});
 		$(".connectMarker").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			$(".box-menu").slideUp();
 			showPanel('box-login');
 		}).on('mouseover',function() { 
 			$(".connectlabel").show();
@@ -929,6 +945,7 @@ svg.graph .line {
 			$(".connectlabel").hide();
 		});
 		$(".byPHRight").show().addClass("animated zoomInLeft").off().on("click",function() { 
+			showElements();
 			showPanel('box-ph');
 		});
 		
@@ -1542,9 +1559,19 @@ function showDiscover(){
 	showPanel('box-whatisit');
 	$(".box-discover").show(400);
 	$(".box-login").hide(400);
-	$(".box-menu").slideDown();
-	
-	
+	if( $(".box-menu-elements").is(':visible') )
+		$(".box-menu-elements").slideUp();
+	$(".box-menu-what").slideDown();
+}
+function showElements(){
+	$(".box-discover .box").hide();
+	$("#main-title-public2").hide();
+	showSearchBar(false);
+	$(".box-login").hide(400);
+	if( !$(".box-menu-elements").is(':visible') ){
+		$(".box-menu-what").slideUp();
+		$(".box-menu-elements").slideDown();
+	}
 }
 function showSearchBar(show){
 	if(show && !$(".searchBarForm").is(":visible")){

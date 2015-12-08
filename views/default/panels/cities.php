@@ -3,10 +3,11 @@
 	<section>
 		People have walked quite a path since they started building tools 
 		<br/> Cities are the largest of all man's creations
-		<br/> Constantly evolving with technology, social movements
-		<br/> It's a living organism made of a variety of layers, just like forests
-		<br/> But Forests seem to have very natural little impact
-		<br/> We still need to find a way the be more Naturaly Efficient and reduce our global impact
+		<br/> Constantly evolving with technology and social movements
+		<br/> Cities are living organisms made of layers, just like forests
+		<br/> But Forests seem to have very little impact on nature
+		<br/> We need to move towards Natural Efficiency to reduce our global impact
+		<br/> while communicating massively and building everything smarter.
 	</section>
 	<a href="#" class="homestead nextBtns pull-right" onclick="showPanel('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
 </div>
