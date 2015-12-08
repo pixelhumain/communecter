@@ -468,6 +468,11 @@ label.checkbox-inline{
 		<i class="fa fa-plus-circle"></i> 
 	</a>
 
+	<a href="javascript:" class="big-button btn4 tooltips" onclick="showPublicMap();"
+		data-toggle="tooltip" data-placement="right" title="Afficher/Masquer la carte" alt="">
+		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
+	</a>
+
 
 
 	<div class="box-menu box">
@@ -1538,6 +1543,20 @@ function showSearchBar(show){
 	}else if(!show && $(".searchBarForm").is(":visible")){
 		$(".searchBarForm").hide(400);
 		if($("#main-title-public2").html() != "") $("#main-title-public2").show(400);
+	}
+}
+
+function showPublicMap(){
+	var show = $("#mapCanvasBg").css("display") == "none";
+	if(show){
+		if($("#main-title-public2").html() != "") $("#main-title-public2").show(400);
+		$(".box-discover").hide(400);
+		$(".box-menu").hide(400);
+		$(".searchBarForm").hide(400);
+		$("#mapCanvasBg").show(400);
+	}else{
+		$("#main-title-public2").hide(400);
+		$("#mapCanvasBg").hide(400);
 	}
 }
 
