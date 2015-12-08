@@ -357,7 +357,7 @@ label.checkbox-inline{
 	height: 90px;
 	border-radius: 50px !important;
 	width: 400px;
-	position: absolute;
+	position: fixed;
 	top: 50px !important;
 	display: none;
   }
@@ -376,11 +376,11 @@ label.checkbox-inline{
 
   #dropdown_searchTop{
   	margin-left: 65px;
-	width: 500px;
+	width: 700px;
 	background-color: transparent;
 	box-shadow: none;
 	border: medium none;
-	max-height: 510px;
+	max-height: 320px;
 	overflow-y: hidden;
 	padding-right: 20px;
 	margin-top: -4px;
@@ -438,10 +438,12 @@ label.checkbox-inline{
 	</a>
 </div>
  -->
-	<a href="javascript:" class="big-button searchBar">
+	<a href="javascript:" class="big-button tooltips searchBar" onclick="showDiscover();"
+		data-toggle="tooltip" data-placement="top" title="Cliquez pour en savoir +" alt="">
 		<img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
 	</a>
+	
 	<form class="inner searchBarForm">
 		<input class='hide' id="searchId" name="searchId"/>
 		<input class='hide' id="searchType" name="searchType"/>
@@ -450,23 +452,24 @@ label.checkbox-inline{
 		  <ol class="li-dropdown-scope"><?php echo Yii::t("common","Searching",null,Yii::app()->controller->module->id) ?>Recherche en cours</ol>
 		</ul>
 		<!-- </input> -->
-	</form>
+	</form><!-- 
+	<a href="javascript:" class="big-button btn2  ">
+		<i class="fa fa-search" style="font-size:40px"></i>
+	</a> -->
+	
 
-	<!-- onclick="$('#mapCanvasBg').hide(400);" -->
 	<a href="javascript:" class="big-button btn2 tooltips go-back go-login" 
 		data-toggle="tooltip" data-placement="right" title="<?php echo Yii::t("login","Login") ?>" alt="">
 		<i class="fa fa-sign-in"></i> 
 	</a>
-	<!--  onclick="showFormRegister();" -->
+	
 	<a href="javascript:" class="big-button btn3 tooltips register" onclick="showFormRegister();"
 		data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="">
 		<i class="fa fa-plus-circle"></i> 
 	</a>
-	<!--  onclick="showFormRegister();" -->
-	<a href="javascript:" class="big-button btn4 tooltips" onclick="showDiscover();"
-		data-toggle="tooltip" data-placement="right" title="Découvrir" alt="">
-		<i class="fa fa-info-circle"></i> 
-	</a>
+
+
+
 	<div class="box-menu box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-whatisit','bgyellow')"><i class="fa fa-share-alt"></i> WHAT</a></li>
@@ -1518,6 +1521,7 @@ function showFormRegister(){
 function showDiscover(){
 	$(".box-discover .box").hide();
 	$("#main-title-public2").hide();
+	showSearchBar(false);
 	showPanel('box-why');
 	$(".box-discover").show(400);
 	$(".box-login").hide(400);
