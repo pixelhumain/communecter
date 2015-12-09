@@ -231,8 +231,11 @@ label.checkbox-inline{
     background-color: rgba(0, 0, 0, 0.2);
     
 }
+body.login .box h1{
+	color:#E33551;
+}
 .box-discover .box h1 {
-	color:#7ECEDB;
+	color:#E33551;
     font-weight: 100;
     font-family: "homestead";
     font-size: 40px;
@@ -284,6 +287,8 @@ label.checkbox-inline{
 }
 .box.box-menu ul li a{
 	color:#3C5665;
+	width:100%;
+	display: block;
 }
 .box.box-menu ul li:hover{
 	color: #608092 !important;
@@ -307,13 +312,18 @@ label.checkbox-inline{
 	box-shadow: 0px 2px 5px 5px rgba(24, 24, 24, 0.5);
 }
 .box.box-menu ul li:hover{
+	color:rgba(207, 1, 1, 0.62) !important;
+	-moz-box-shadow: 0px 2px 5px 4px rgba(207, 1, 1, 0.62);
+	-webkit-box-shadow: 0px 2px 5px 4px rgba(207, 1, 1, 0.62);
+	-o-box-shadow: 0px 2px 5px 4px rgba(207, 1, 1, 0.62);
+	box-shadow: 0px 2px 5px 4px rgba(207, 1, 1, 0.62);
+}
+.box.box-menu-elements ul li:hover{
+	color:white !important;
 	-moz-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
 	-webkit-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
 	-o-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
 	box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
-}
-.box.box-menu-elements li:hover{
-	color:white !important;
 }
 </style>
 
@@ -523,15 +533,15 @@ label.checkbox-inline{
 
 	<div class="box-menu box-menu-what box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
+			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-whatisit','bgyellow')"><i class="fa fa-share-alt"></i> <?php echo Yii::t("common","WHAT",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-why','bggreen')"><i class="fa fa-heart"></i> <?php echo Yii::t("common","WHY",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-4who','bgblue')"><i class="fa fa-group"></i> <?php echo Yii::t("common","WHO",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-how','bggreen')"><i class="fa fa-laptop"></i> <?php echo Yii::t("common","HOW",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","WHEN",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","WHERE",null,Yii::app()->controller->module->id) ?></a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> <?php echo Yii::t("common","HELP US",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> <?php echo Yii::t("common","GET INVOLVED",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo Yii::t("common","CONNECT",null,Yii::app()->controller->module->id) ?></a></li>
-			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>

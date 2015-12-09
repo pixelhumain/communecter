@@ -16,11 +16,14 @@ return array(
 	"LOGOUT" 			=> "DÉCONNECTER",
 
 	"WHAT"		=> "C'EST QUOI ?",
-	"WHY"		=> "POURQUOI",
-	"WHO"		=> "QUI",
-	"HOW"		=> "COMMENT",
-	"WHEN"		=> "QUAND",
-	"WHERE"		=> "OÙ",
-	"HELP US"	=> "AIDEZ-NOUS",
+	"WHY"		=> "POURQUOI ?",
+	"WHO"		=> "QUI ?",
+	"FOR WHO"	=> "POUR QUI ?",
+	"BY WHO" 	=> "PAR QUI ?",
+	"HOW"		=> "COMMENT ?",
+	"WHEN"		=> "QUAND ?",
+	"WHERE"		=> "OÙ ?",
+	"HELP US"	=> "AIDEZ-NOUS ?",
+	"GET INVOLVED" => "PARTICIPEZ !",
 	
 );

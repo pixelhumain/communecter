@@ -13,5 +13,5 @@
 		<br/> 
 	</section>
 	<hl/>
-	<a href="#" onclick="showPanel('box-why')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
+	<a href="#" onclick="showPanel('box-why')" class="homestead nextBtns pull-right"><?php echo Yii::t("common","WHY",null,Yii::app()->controller->module->id) ?> <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>

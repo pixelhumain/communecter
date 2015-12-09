@@ -1,5 +1,5 @@
 <div class="box-help box">
-	<h1><i class="fa fa-lightbulb-o"></i> GET INVOLVED</h1>
+	<h1><i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common","GET INVOLVED",null,Yii::app()->controller->module->id) ?></h1>
 	<section>
 		Innovate Locally and Socially
 		<br/> Become an Active Pixel

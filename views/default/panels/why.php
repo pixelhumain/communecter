@@ -1,5 +1,5 @@
 <div class="box-why box">
-	<h1><i class="fa fa-heart"></i> WHY</h1>
+	<h1><i class="fa fa-heart"></i> <?php echo Yii::t("common","WHY",null,Yii::app()->controller->module->id) ?></h1>
 	<section class="">
 		Because We Love you, Nothings Happens just like that 
 		<br/> the state of things, build the future you want to live in
@@ -8,5 +8,5 @@
 		<br/> Copy Freely and enhance, Cooperate & Distribute Massively 
 		<br/> Get Together not hide alone, Discover and not Ignore
 	</section>
-	<a href="#" onclick="showPanel('box-4who','bgblue')" class="homestead nextBtns pull-right">WHO <i class="fa fa-arrow-circle-o-right"></i></a>
+	<a href="#" onclick="showPanel('box-4who','bgblue')" class="homestead nextBtns pull-right"><?php echo Yii::t("common","WHO",null,Yii::app()->controller->module->id) ?> <i class="fa fa-arrow-circle-o-right"></i></a>
 </div>

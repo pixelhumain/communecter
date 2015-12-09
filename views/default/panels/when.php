@@ -1,5 +1,5 @@
 <div class="box-when box">
-	<h1><i class="fa fa-calendar"></i> WHEN</h1>
+	<h1><i class="fa fa-calendar"></i> <?php echo Yii::t("common","WHEN",null,Yii::app()->controller->module->id) ?></h1>
 	
 	<section>
 		If it's not now
