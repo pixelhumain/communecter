@@ -181,11 +181,18 @@
 
 	//affiche le marker à déplacer sur la carte (ne pas utiliser pour créer une nouvelle donnée)
 	function showGeoposFound(coords, contextId, contextType, contextData){
-		Sig.startModifyGeoposition(contextId, contextType, contextData);
-		Sig.markerModifyPosition.setLatLng(coords);
-		Sig.map.panTo(coords);
-		Sig.map.setZoom(13);
 		showMap(true);
-		Sig.map.invalidateSize(false);
+		toastr.success('position trouvée');
+		Sig.startModifyGeoposition(contextId, contextType, contextData);
+		Sig.map.setZoom(17);
+			// Sig.markerModifyPosition.setLatLng(coords);
+		
+		setTimeout(function() { 
+			Sig.map.panTo(coords);
+			Sig.map.setZoom(13);
+			Sig.map.invalidateSize(false);
+			toastr.success('mise à jour de la carte ok');
+		
+		 },2000);
 		Sig.markerModifyPosition.dragging.enable();
 	}

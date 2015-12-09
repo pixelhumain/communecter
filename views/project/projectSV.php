@@ -420,24 +420,41 @@ function runShowCity(searchValue) {
 
 }
 
+var timeoutGeopos;
 function bindPostalCodeAction() {
+
 	$('.form-project #postalCode').keyup(function(e){
-		searchCity();
+		clearTimeout(timeoutGeopos);
+		timeoutGeopos = setTimeout(function() {
+			searchCity();
+		}, 1500);
 	});
 
-	$('.form-project #postalCode').change(function(e){
-		searchCity();
-	});
-	$('.form-project #city').change(function(e){ //toastr.info("city change");
-		Sig.execFullSearchNominatim(0);
-	});
-	$('.form-project #projectCountry').change(function(e){ //toastr.info("city change");
-		if($('.form-project #postalCode').val() != "" && $('.form-project #postalCode').val() != null)
+	$('.form-project  #fullStreet').keyup(function(e){
+		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			//setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+			clearTimeout(timeoutGeopos);
+			timeoutGeopos = setTimeout(function() {
 				Sig.execFullSearchNominatim(0);
+			}, 1500);
+		}
+	});
+
+	$('.form-project #city').change(function(e){ //toastr.info("city change");
+		clearTimeout(timeoutGeopos);
+		timeoutGeopos = setTimeout(function() {
+			Sig.execFullSearchNominatim(0);
+		}, 1500);
+	});
+	$('.form-project  #projectCountry').change(function(e){ //toastr.info("city change");
+		if($('.form-project#postalCode').val() != "" && $('.form-project #postalCode').val() != null)
+			Sig.execFullSearchNominatim(0);
 	});
 }
 
 function searchCity() {
+	$("#alert-city-found").addClass("hidden");
+		
 	var searchValue = $('.form-project #postalCode').val();
 	if(searchValue.length == 5) {
 		$("#city").empty();

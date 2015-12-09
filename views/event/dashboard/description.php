@@ -578,6 +578,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//met à jour la nouvelle position dans la donnée
+			event["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
 			showGeoposFound(coords, itemId, "events", event);
 		}
@@ -600,6 +602,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			
+			event["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, itemId, "events", event);
 		}

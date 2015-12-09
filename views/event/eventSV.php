@@ -334,28 +334,42 @@ if( !isset($_GET["isNotSV"]))
 	    
 	}
 
+	var timeoutGeopos;
 	function bindPostalCodeAction() {
-		$('.form-event #postalCode').change(function(e){
-			searchCity();
-		});
 		$('.form-event #postalCode').keyup(function(e){
-			searchCity();
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+				clearTimeout(timeoutGeopos);
+				timeoutGeopos = setTimeout(function() {
+					searchCity();
+				}, 1500);
+			}
 		});
-		$('.form-event #city').change(function(e){ //toastr.info("city change");
-			Sig.execFullSearchNominatim(0);
+		$('.form-event #city').keyup(function(e){ //toastr.info("city change");
+			clearTimeout(timeoutGeopos);
+			timeoutGeopos = setTimeout(function() {
+				Sig.execFullSearchNominatim(0);
+			}, 1500);
 		});
 		$('.form-event #eventCountry').change(function(e){ 
-			if($('#postalCode').val() != "" && $('#postalCode').val() != null)
-			Sig.execFullSearchNominatim(0);
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+				Sig.execFullSearchNominatim(0);	
+			}
 		});
 		
-		$('.form-event #fullStreet').change(function(e){ //toastr.info("city change");
-			Sig.execFullSearchNominatim(0);
+		$('.form-event #fullStreet').keyup(function(e){ //toastr.info("city change");
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+				clearTimeout(timeoutGeopos);
+				timeoutGeopos = setTimeout(function() {
+					Sig.execFullSearchNominatim(0);
+				}, 1500);
+			}
 		});
-		
+
 	}
 
 	function searchCity() {
+		$("#alert-city-found").addClass("hidden");
+		
 		var searchValue = $('.form-event #postalCode').val();
 		if(searchValue.length == 5) {
 			$("#city").empty();

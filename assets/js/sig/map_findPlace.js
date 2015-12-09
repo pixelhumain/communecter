@@ -362,6 +362,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		console.warn("--------------- execFullSearchNominatim ---------------------");
 		var thisSig = this;
 
+		$("#alert-city-found").addClass("hidden");
+		
 		this.useExternalSearchPlace = true;
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		//console.log(urlRequest);
@@ -543,7 +545,11 @@ SigLoader.getSigFindPlace = function (Sig){
 		//vérifie si l'entité donné à bien une position geo
 		var coordinates = this.getCoordinates(entity, "markerSingle");
 		//si elle n'en a pas on sort
-		if(typeof coordinates == "undefined") return;
+		console.log("startModifyGeoposition coordinates", coordinates);
+		if(typeof coordinates == "undefined" || coordinates == null) {
+			findGeoPosByAddress();
+			return;
+		}
 		
 		
 		//vide la carte
@@ -578,7 +584,7 @@ SigLoader.getSigFindPlace = function (Sig){
 							  occurence:5 });	//5 fois de suite
 
 		//zoom sur le nouveau marker
-		this.map.panTo(coordinates);
+		//this.map.panTo(coordinates);
 		this.map.setView(coordinates, 13);
 
 		//désactive le bounce quand on click sur la marker
@@ -596,8 +602,8 @@ SigLoader.getSigFindPlace = function (Sig){
 			if(Sig.markerModifyPosition != null)
 				Sig.markerModifyPosition.openPopup();
 				//et on enregistre les coordonnées
-				$("#geoPosLongitude").attr("value", Sig.markerNewData.getLatLng().lng);
-				$("#geoPosLatitude").attr("value", Sig.markerNewData.getLatLng().lat);
+				$("#geoPosLongitude").attr("value", Sig.markerModifyPosition.getLatLng().lng);
+				$("#geoPosLatitude").attr("value", Sig.markerModifyPosition.getLatLng().lat);
 		});
 		//lorsqu'on vient de déplacer la map, on ré-ouvre la popup
 		this.map.on("dragend", function(){
