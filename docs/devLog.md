@@ -151,11 +151,16 @@ Etape 3 : Sur la page "login", cliquer sur le bouton "Mettre à jour la bdd" dan
 Etape 4 : Boire son thé ou son café en scrollant bêtement sur Facebook
 
 Etape 5 : (10 minutes plus tard) Chouette la mise à jour est terminée !
+----------------------------------------------------
 => Executer la commande suivante dans un terminal Mongo (robotmongo pour ceux qui ont)
+----------------------------------------------------
 => db.cities.createIndex({"geoPosition.coordinates": "2dsphere"})
+----------------------------------------------------
 
 Etape 5bis : (10 minutes plus tard) Vous schtroumfez une erreur bisarre ! Mais qu'est-ce qui s'est fichtrement passé ?
+----------------------------------------------------
 ==> https://github.com/pixelhumain/communecter/issues/438
+----------------------------------------------------
 
 Etape 6 : Applaudir à deux main : vous avez une base de données toute propre !
 
