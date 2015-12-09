@@ -13,6 +13,5 @@
 		<br/> 
 	</section>
 	<hl/>
-	<a href="#"  onclick="startIntro()" class="homestead nextBtns pull-left"><i class="fa fa-arrow-circle-o-left"></i> GUIDED TOUR  </a>
 	<a href="#" onclick="showPanel('box-why')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>
