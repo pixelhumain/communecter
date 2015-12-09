@@ -209,11 +209,13 @@
 			success: function (obj){
 				console.log("success updatecitiesgeoformat");
 				console.dir(obj);
-				hideLoadingMsg();
+				showLoadingMsg("<span class='text-dark'>Votre base de donnée est à jour</span>");
+				setTimeout( "hideLoadingMsg()", 3000);
 			},
 			error: function (error) {
 				console.log("error updatecitiesgeoformat");
-				hideLoadingMsg();
+				showLoadingMsg("<span class='text-green'>Une erreur s'est produite pendant la MAJ</span>");
+				setTimeout( "hideLoadingMsg()", 3000);
 			}
 		});
 	}

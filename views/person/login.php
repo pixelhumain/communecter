@@ -529,7 +529,7 @@ body.login .box h1{
 		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
 	</a>
 	
-	<a href="javascript:" class="big-button btn4 tooltips go-back go-login" 
+	<a href="javascript:" class="big-button btn4 tooltips" onclick="showPanel('box-login');"
 		data-toggle="tooltip" data-placement="right" title="<?php echo Yii::t("login","Login") ?>" alt="">
 		<i class="fa fa-sign-in"></i> 
 	</a>
@@ -828,44 +828,44 @@ body.login .box h1{
   cursor:pointer;
 }
 </style>
-
+<!-- 
 <div class="userMarker elementIcons" style="left:60px;" >
 	<span class="homestead markerLabels userMarkerlabel text-yellow" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","PEOPLE",null,Yii::app()->controller->module->id) ?><br/></span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
+	<img src="<?php //echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
 </div>
 <div class="assoMarker elementIcons" style="left:140px; " >
 	<span class="homestead markerLabels assoMarkerlabel text-green" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","ORGANIZATIONS",null,Yii::app()->controller->module->id) ?><br/></span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
+	<img src="<?php //echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
 </div>
 <div class="eventMarker elementIcons " style="left:220px;" >
 	<span class="homestead markerLabels eventMarkerlabel text-orange" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","EVENTS",null,Yii::app()->controller->module->id) ?><br/></span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
+	<img src="<?php //echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
 </div>
 <div class="projectMarker elementIcons" style="left:300px;" >
 	<span class="homestead markerLabels projectMarkerlabel text-purple" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","PROJECTS",null,Yii::app()->controller->module->id) ?><br/></span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
+	<img src="<?php //echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
 </div>
 <div class="cityMarker elementIcons" style="left:380px;" >
 	<span class="homestead markerLabels cityMarkerlabel text-red" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","CITIES",null,Yii::app()->controller->module->id) ?><br/></span>
-	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
+	<img src="<?php //echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
 </div>
 
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
-<img class="partnerLogosLeft" src="<?php echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
+<img class="partnerLogosLeft" src="<?php //echo $this->module->assetsUrl?>/images/partners/Logo_Bis-01.png" style="width:90px;position:absolute; top:500px; left:400px;display:none;" />
+<img class="partnerLogosLeft" src="<?php //echo $this->module->assetsUrl?>/images/partners/logo-cn.png" style="display:none;position:absolute; top:150px; left:150px;" />
+<img class="partnerLogosLeft" src="<?php //echo $this->module->assetsUrl?>/images/partners/logo_lc.png" style="width:120px;display:none;position:absolute; top:350px; right:100px;cursor:pointer;" />
 
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top5:0px; left:50px; cursor:pointer;" />
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
-<img class="partnerLogosRight" src="<?php echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php //echo $this->module->assetsUrl?>/images/partners/demosalithia.png" style="display:none;position:absolute; top5:0px; left:50px; cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php //echo $this->module->assetsUrl?>/images/partners/ggouv.png" style="display:none;position:absolute; top:600px; right:200px;cursor:pointer;" />
+<img class="partnerLogosRight" src="<?php //echo $this->module->assetsUrl?>/images/partners/SENSORICA.jpg" style="width:120px;display:none;position:absolute; top:150px; right:200px; cursor:pointer;" />
 
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
-<img class="partnerLogosDown" src="<?php echo $this->module->assetsUrl?>/images/partners/smartCitizen.png" style="display:none;position:absolute; top:750px; right:400px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php //echo $this->module->assetsUrl?>/images/partners/DO.png" style="width:120px;display:none;position:absolute; top:330px; left:100px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php //echo $this->module->assetsUrl?>/images/partners/fab-lab1.png" style="width:80px;display:none;position:absolute; top:610px; left:90px; cursor:pointer;" />
+<img class="partnerLogosDown" src="<?php //echo $this->module->assetsUrl?>/images/partners/smartCitizen.png" style="display:none;position:absolute; top:750px; right:400px; cursor:pointer;" />
 
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
-<img class="partnerLogosUp" src="<?php echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
-
+<img class="partnerLogosUp" src="<?php //echo $this->module->assetsUrl?>/images/logo_region_reunion.png" style="width:80px;display:none;position:absolute; bottom:20px; left:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php //echo $this->module->assetsUrl?>/images/technopole.jpg" style="display:none;position:absolute; bottom:20px; right:20px; cursor:pointer;" />
+<img class="partnerLogosUp" src="<?php //echo $this->module->assetsUrl?>/images/partners/imaginSocial.jpg" style="display:none; position:absolute; top:600px; right:550px; cursor:pointer;" />
+ -->
 <?php /* ?>
 http://habibhadi.com/lab/svgPathAnimation/demo/
 http://jonobr1.github.io/two.js/#basic-usage
@@ -1634,7 +1634,10 @@ function showDiscover(){
 	$(".box-menu-what").slideDown();
 }
 function showDiscoverCluster(){
+	$(".box").hide();
+	$("#main-title-public2").hide(400);
 	$(".box-menu-elements").show(400);
+	$(".box-discover").show(400);
 	showPanel('box-people','bgyellow');
 
 }
