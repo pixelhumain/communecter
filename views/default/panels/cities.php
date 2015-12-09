@@ -1,5 +1,5 @@
 <div class="box-city box">
-	<h1 class="city"><i class="fa fa-university"></i> CITIES</h1>
+	<h1 class="city text-red"><i class="fa fa-university"></i> CITIES</h1>
 	<section>
 		People have walked quite a path since they started building tools 
 		<br/> Cities are the largest of all man's creations
@@ -9,5 +9,5 @@
 		<br/> We need to move towards Natural Efficiency to reduce our global impact
 		<br/> while communicating massively and building everything smarter.
 	</section>
-	<a href="#" class="homestead nextBtns pull-right" onclick="showPanel('box-login')"><?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?></a>
+	<a href="#" class="homestead nextBtns pull-right" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo (isset($actionTitle)) ? $actionTitle : "CONNECT" ?> <i class="fa fa-arrow-circle-right"></i></a>
 </div>

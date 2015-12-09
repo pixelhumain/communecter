@@ -140,6 +140,9 @@ label.checkbox-inline{
 .big-button.btn4{
 	top:330px;
 }
+.big-button.btn5{
+	top:420px;
+}
 .big-button img, .big-button i{
 	height: 67px;
 	width: 67px;
@@ -193,7 +196,7 @@ label.checkbox-inline{
 .box-discover{
 	position: absolute;
 	top: 60px;
-	left: 430px;
+	left: 530px;
 	display: block;
 }
 
@@ -202,6 +205,7 @@ label.checkbox-inline{
 	background-color: rgba(35, 35, 35, 0.9);
 	border-radius: 10px;
 	padding-bottom: 90px;
+	max-width: 500px;
 	-moz-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
 	-webkit-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
 	-o-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
@@ -223,14 +227,15 @@ label.checkbox-inline{
     text-align: right;
 }
 .box-discover .box .nextBtns:hover {
-	color: #FFF;
-    background-color: rgba(227, 53, 81, 0.5);
+	/*color: #FFF;*/
+    background-color: rgba(0, 0, 0, 0.2);
     
 }
 .box-discover .box h1 {
-	color:#7ECEDB !important;
+	color:#7ECEDB;
     font-weight: 100;
     font-family: "homestead";
+    font-size: 40px;
 }
 /*.box-discover .box h1.person {color:<?php //echo Person::COLOR; ?> !important;}
 .box-discover .box h1.orga {color:<?php //echo Organization::COLOR; ?> !important;}
@@ -284,9 +289,38 @@ label.checkbox-inline{
 	color: #608092 !important;
 }
 .box.box-menu ul li a:hover{
-	color: inherit !important;
+	color: inherit;
+}
+
+.box.box-menu-elements li a{
+	color:white !important;
+}
+.box.box-menu-elements li a:hover{
+	color:white !important;
+}
+.box.box-menu ul li{
+	padding: 5px 25px 5px 15px;
+	color:white !important;
+	-moz-box-shadow: 0px 2px 5px 5px rgba(24, 24, 24, 0.5);
+	-webkit-box-shadow: 0px 2px 5px 5px rgba(24, 24, 24, 0.5);
+	-o-box-shadow: 0px 2px 5px 5px rgba(24, 24, 24, 0.5);
+	box-shadow: 0px 2px 5px 5px rgba(24, 24, 24, 0.5);
+}
+.box.box-menu ul li:hover{
+	-moz-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
+	-webkit-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
+	-o-box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
+	box-shadow: 0px 2px 5px 7px rgba(255, 255, 255, 0.5);
+}
+.box.box-menu-elements li:hover{
+	color:white !important;
 }
 </style>
+
+<!-- ---__________________________---__________________________---__________________________ -->
+
+<!-- ---__________________________---__________________________---__________________________ -->
+
 <style type="text/css">
 .box-ajax{
 	top: 40px !important;
@@ -431,6 +465,14 @@ label.checkbox-inline{
   .bgcity {
 	background-attachment: fixed;
   }
+
+  .markerLabels{
+  	font-size: 25px;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.56);
+    padding: 4px 15px;
+    border-radius: 30px;
+  }
 </style>
 
 <h2 class="main-title-public homestead text-dark" id="main-title-public1"></h2>
@@ -444,12 +486,10 @@ label.checkbox-inline{
 	</a>
 </div>
  -->
-	<a href="javascript:" class="big-button tooltips searchBar" onclick="showDiscover();"
-		data-toggle="tooltip" data-placement="top" title="Cliquez pour en savoir +" alt="">
-		<img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
-	</a>
 	
+	<a href="javascript:" class="big-button searchBar">
+		<i class="fa fa-search" style="font-size:30px; padding-top: 16px !important;"></i>
+	</a>
 	<form class="inner searchBarForm">
 		<input class='hide' id="searchId" name="searchId"/>
 		<input class='hide' id="searchType" name="searchType"/>
@@ -458,37 +498,39 @@ label.checkbox-inline{
 		  <ol class="li-dropdown-scope"><?php echo Yii::t("common","Searching",null,Yii::app()->controller->module->id) ?>Recherche en cours</ol>
 		</ul>
 		<!-- </input> -->
-	</form><!-- 
-	<a href="javascript:" class="big-button btn2  ">
-		<i class="fa fa-search" style="font-size:40px"></i>
-	</a> -->
+	</form>
 	
-
-	<a href="javascript:" class="big-button btn2 tooltips go-back go-login" 
+	<a href="javascript:" class="big-button btn2 tooltips" onclick="showDiscover();"
+		data-toggle="tooltip" data-placement="right" title="Communecter ?" alt="">
+		<img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
+	</a>
+	
+	<a href="javascript:" class="big-button btn3 tooltips go-back go-login" 
 		data-toggle="tooltip" data-placement="right" title="<?php echo Yii::t("login","Login") ?>" alt="">
 		<i class="fa fa-sign-in"></i> 
 	</a>
 	
-	<a href="javascript:" class="big-button btn3 tooltips register" onclick="showFormRegister();"
+	<a href="javascript:" class="big-button btn4 tooltips register" onclick="showFormRegister();"
 		data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="">
 		<i class="fa fa-plus-circle"></i> 
 	</a>
 
-	<a href="javascript:" class="big-button btn4 tooltips" onclick="showPublicMap();"
+	<a href="javascript:" class="big-button btn5 tooltips" onclick="showPublicMap();"
 		data-toggle="tooltip" data-placement="right" title="Afficher/Masquer la carte" alt="">
 		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
 	</a>
 
 	<div class="box-menu box-menu-what box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-whatisit','bgyellow')"><i class="fa fa-share-alt"></i> WHAT</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-why','bggreen')"><i class="fa fa-heart"></i> WHY</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-4who','bgblue')"><i class="fa fa-group"></i> WHO</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-how','bggreen')"><i class="fa fa-laptop"></i> HOW</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> WHEN</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> WHERE</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> HELP US</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> CONNECT</a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-whatisit','bgyellow')"><i class="fa fa-share-alt"></i> <?php echo Yii::t("common","WHAT",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-why','bggreen')"><i class="fa fa-heart"></i> <?php echo Yii::t("common","WHY",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-4who','bgblue')"><i class="fa fa-group"></i> <?php echo Yii::t("common","WHO",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-how','bggreen')"><i class="fa fa-laptop"></i> <?php echo Yii::t("common","HOW",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","WHEN",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","WHERE",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> <?php echo Yii::t("common","HELP US",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo Yii::t("common","CONNECT",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
@@ -496,14 +538,14 @@ label.checkbox-inline{
 
 	<div class="box-menu box-menu-elements box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-people','bgyellow')"><i class="fa fa-user"></i> PEOPLE</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-orga','bggreen')"><i class="fa fa-users"></i> ORGANIZATIONS</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-event','bgblue')"><i class="fa fa-calendar"></i> EVENTS</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-projects','bggreen')"><i class="fa fa-lightbulb-o"></i> PROJECTS</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-city','bgyellow')"><i class="fa fa-university"></i> CITIES</a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> CONNECT</a></li>
-			<li style="margin-left:50px"><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
-			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
+			<li style="margin-left:50px" ><a href="#" onclick="showVideo('133636468')"><i class="fa fa-youtube-play text-dark"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/DRAPEAU_COMMUNECTER.png"/></a></li>
+			<li style="margin-left:50px" class="bg-yellow"><a href="#" style=""onclick="showPanel('box-people','bgyellow')"><i class="fa fa-user"></i> <?php echo Yii::t("common","PEOPLE",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-green"><a href="#" style="" onclick="showPanel('box-orga','bggreen')"><i class="fa fa-users"></i> <?php echo Yii::t("common","ORGANIZATIONS",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-orange"><a href="#" style="" onclick="showPanel('box-event','bgblue')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","EVENTS",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-purple"><a href="#" style="" onclick="showPanel('box-projects','bggreen')"><i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common","PROJECTS",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-red"><a href="#" style="" onclick="showPanel('box-city','bgyellow')"><i class="fa fa-university"></i> <?php echo Yii::t("common","CITIES",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-dark"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo Yii::t("common","CONNECT",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" ><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play text-dark"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>
 
@@ -760,23 +802,23 @@ label.checkbox-inline{
 </style>
 
 <div class="userMarker elementIcons" style="left:60px;" >
-	<span class="homestead userMarkerlabel" style="display:none;color:white;font-size:25px">PEOPLE<br/></span>
+	<span class="homestead markerLabels userMarkerlabel text-yellow" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","PEOPLE",null,Yii::app()->controller->module->id) ?><br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/citizen-marker-default.png" style="width:72px;" />
 </div>
 <div class="assoMarker elementIcons" style="left:140px; " >
-	<span class="homestead assoMarkerlabel" style="display:none;color:white;font-size:25px">ORGANIZATIONS<br/></span>
+	<span class="homestead markerLabels assoMarkerlabel text-green" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","ORGANIZATIONS",null,Yii::app()->controller->module->id) ?><br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/ngo-marker-default.png" style="width:72px;" />
 </div>
 <div class="eventMarker elementIcons " style="left:220px;" >
-	<span class="homestead eventMarkerlabel" style="display:none;color:white;font-size:25px">EVENTS<br/></span>
+	<span class="homestead markerLabels eventMarkerlabel text-orange" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","EVENTS",null,Yii::app()->controller->module->id) ?><br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/event-marker-default.png" style="width:72px;" />
 </div>
 <div class="projectMarker elementIcons" style="left:300px;" >
-	<span class="homestead projectMarkerlabel" style="display:none;color:white;font-size:25px">PROJECTS<br/></span>
+	<span class="homestead markerLabels projectMarkerlabel text-purple" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","PROJECTS",null,Yii::app()->controller->module->id) ?><br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/project-marker-default.png" style="width:72px;" />
 </div>
 <div class="cityMarker elementIcons" style="left:380px;" >
-	<span class="homestead cityMarkerlabel" style="display:none;color:white;font-size:25px">CITIES<br/></span>
+	<span class="homestead markerLabels cityMarkerlabel text-red" style="display:none;color:white;font-size:25px"><?php echo Yii::t("common","CITIES",null,Yii::app()->controller->module->id) ?><br/></span>
 	<img src="<?php echo $this->module->assetsUrl?>/images/sig/markers/icons_carto/city-marker-default.png" style="width:72px;" />
 </div>
 

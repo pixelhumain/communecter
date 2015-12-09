@@ -278,6 +278,7 @@
 }
 .form-create-news-container .modal .text-light{
 	font-weight:500;
+	color:#8C8C8C !important;
 }
 .form-create-news-container .modal #menu-type h4 {
     background-color: rgba(35, 83, 96, 0.15);
