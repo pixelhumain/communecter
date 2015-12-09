@@ -232,11 +232,11 @@ label.checkbox-inline{
     font-weight: 100;
     font-family: "homestead";
 }
-.box-discover .box h1.person {color:<?php echo Person::COLOR; ?> !important;}
-.box-discover .box h1.orga {color:<?php echo Organization::COLOR; ?> !important;}
-.box-discover .box h1.event {color:<?php echo Event::COLOR; ?> !important;}
-.box-discover .box h1.project {color:<?php echo Project::COLOR; ?> !important;}
-.box-discover .box h1.city {color:<?php echo City::COLOR; ?> !important;}
+/*.box-discover .box h1.person {color:<?php //echo Person::COLOR; ?> !important;}
+.box-discover .box h1.orga {color:<?php //echo Organization::COLOR; ?> !important;}
+.box-discover .box h1.event {color:<?php //echo Event::COLOR; ?> !important;}
+.box-discover .box h1.project {color:<?php //echo Project::COLOR; ?> !important;}
+.box-discover .box h1.city {color:<?php //echo City::COLOR; ?> !important;}*/
 
 .box-discover .box section {
     color: #FFF !important;
