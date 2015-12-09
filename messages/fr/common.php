@@ -15,8 +15,8 @@ return array(
 	"CONNECT" 			=> "CONNECTER",
 	"LOGOUT" 			=> "DÉCONNECTER",
 	"REGISTER"			=> "S'INSCRIRE",
-	
-	"WHAT"		=> "C'EST QUOI ?",
+
+	"WHAT"		=> "COMMUNECTER ?",
 	"WHY"		=> "POURQUOI ?",
 	"WHO"		=> "QUI ?",
 	"FOR WHO"	=> "POUR QUI ?",

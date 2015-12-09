@@ -127,27 +127,31 @@ label.checkbox-inline{
 
 .big-button{
 	position:fixed;
-	top:60px;
-	left:60px;
+	top:80px;
+	left:40px;
 	z-index: 100;
 }
+.big-button.btn-1{
+	top: 20px;
+	left: 56px;
+}
 .big-button.btn2{
-	top:150px;
+	top:170px;
 }
 .big-button.btn3{
-	top:240px;
+	top:260px;
 }
 .big-button.btn4{
-	top:330px;
+	top:350px;
 }
 .big-button.btn5{
-	top:420px;
+	top:440px;
 }
 .big-button.btn6{
-	top:510px;
+	top:530px;
 }
 .big-button.btn7{
-	top:600px;
+	top:620px;
 }
 .big-button img, .big-button i{
 	height: 67px;
@@ -164,6 +168,14 @@ label.checkbox-inline{
 	box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 }
+.big-button.btn-1 i{
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	padding: 5px;
+	font-size: 23px;
+}
+
 .big-button img:hover, .big-button i:hover{
 	-moz-box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
 	-webkit-box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
@@ -409,13 +421,13 @@ body.login .box h1{
   }
 
   .searchBarForm{
-  	left: 50px !important;
+  	left: 25px !important;
 	background-color: rgba(255, 255, 255, 0.86) !important;
 	height: 90px;
 	border-radius: 50px !important;
 	width: 400px;
 	position: fixed;
-	top: 50px !important;
+	top: 68px !important;
 	display: none;
   }
 
@@ -504,6 +516,10 @@ body.login .box h1{
 </div>
  -->
 	
+	<a href="javascript:" class="big-button btn-1" onclick="initHTML5Localisation();"
+		data-toggle="tooltip" data-placement="right" title="Se localiser" alt="">
+		<i class="fa fa-crosshairs" style=""></i>
+	</a>
 	<a href="javascript:" class="big-button searchBar">
 		<i class="fa fa-search" style="font-size:30px; padding-top: 16px !important;"></i>
 	</a>
@@ -524,7 +540,7 @@ body.login .box h1{
 	</a>
 	
 	<a href="javascript:" class="big-button btn3 tooltips" onclick="showDiscoverCluster();"
-		data-toggle="tooltip" data-placement="right" title="Les Pixel Humains" alt="">
+		data-toggle="tooltip" data-placement="right" title="Les Pixels Humains" alt="">
 		<img src="<?php echo $this->module->assetsUrl?>/css/sig/marker_cluster.png"/>
 		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
 	</a>
@@ -558,7 +574,7 @@ body.login .box h1{
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-how','bggreen')"><i class="fa fa-laptop"></i> <?php echo Yii::t("common","HOW",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","WHEN",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","WHERE",null,Yii::app()->controller->module->id) ?></a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> <?php echo Yii::t("common","GET INVOLVED",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common","GET INVOLVED",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-register')"><i class="fa fa-plus-circle"></i> <?php echo Yii::t("common","REGISTER",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
