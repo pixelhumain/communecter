@@ -386,11 +386,11 @@ var dataBind = {
    "#ajaxForm #type" : "type",
    "#ajaxForm #date" : "date",
 
-   "#ajaxForm .chk-scope-people" 		: "scope.citoyens",
-   "#ajaxForm .chk-scope-organizations" : "scope.organizations",
-   "#ajaxForm .chk-scope-projects" 		: "scope.projects",
-   "#ajaxForm .chk-scope-events" 		: "scope.events", 
-   "#ajaxForm #scope-postal-code" 		: "scope.cities",
+   "#modal_scope_extern .chk-scope-people" 		: "scope.citoyens",
+   "#modal_scope_extern .chk-scope-organizations" : "scope.organizations",
+   "#modal_scope_extern .chk-scope-projects" 		: "scope.projects",
+   "#modal_scope_extern .chk-scope-events" 		: "scope.events", 
+   "#modal_scope_extern #scope-postal-code" 		: "scope.cities",
   /* "#latitude" : "from.latitude",
    "#longitude" : "from.longitude"*/
 };
