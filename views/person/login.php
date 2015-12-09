@@ -146,6 +146,9 @@ label.checkbox-inline{
 .big-button.btn6{
 	top:510px;
 }
+.big-button.btn7{
+	top:600px;
+}
 .big-button img, .big-button i{
 	height: 67px;
 	width: 67px;
@@ -236,6 +239,7 @@ label.checkbox-inline{
 }
 body.login .box h1{
 	color:#E33551;
+	font-size:40px;
 }
 .box-discover .box h1 {
 	color:#E33551;
@@ -519,22 +523,28 @@ body.login .box h1{
 		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
 	</a>
 	
-	<a href="javascript:" class="big-button btn3 tooltips go-back go-login" 
+	<a href="javascript:" class="big-button btn3 tooltips" onclick="showDiscoverCluster();"
+		data-toggle="tooltip" data-placement="right" title="Les Pixel Humains" alt="">
+		<img src="<?php echo $this->module->assetsUrl?>/css/sig/marker_cluster.png"/>
+		<!-- <i class="fa fa-search" style="font-size:40px"></i>  -->
+	</a>
+	
+	<a href="javascript:" class="big-button btn4 tooltips go-back go-login" 
 		data-toggle="tooltip" data-placement="right" title="<?php echo Yii::t("login","Login") ?>" alt="">
 		<i class="fa fa-sign-in"></i> 
 	</a>
 	
-	<a href="javascript:" class="big-button btn4 tooltips register" onclick="showFormRegister();"
+	<a href="javascript:" class="big-button btn5 tooltips register" onclick="showFormRegister();"
 		data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="">
 		<i class="fa fa-plus-circle"></i> 
 	</a>
 
-	<a href="javascript:" class="big-button btn5 tooltips" onclick="showPublicMap();"
+	<a href="javascript:" class="big-button btn6 tooltips" onclick="showPublicMap();"
 		data-toggle="tooltip" data-placement="right" title="Afficher/Masquer la carte" alt="">
 		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
 	</a>
 
-	<a href="javascript:" class="big-button btn6 tooltips" onclick="updateCitiesGeoFormat();"
+	<a href="javascript:" class="big-button btn7 tooltips" onclick="updateCitiesGeoFormat();"
 		data-toggle="tooltip" data-placement="right" title="Mettre à jour la base de données (Cities)" alt="">
 		<i class="fa fa-database" style="font-size: 30px; padding-top: 20px;"></i> 
 	</a>
@@ -549,7 +559,7 @@ body.login .box h1{
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-when','bgyellow')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","WHEN",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-where','bgblue')"><i class="fa fa-map-marker"></i> <?php echo Yii::t("common","WHERE",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-help')"><i class="fa fa-recycle "></i> <?php echo Yii::t("common","GET INVOLVED",null,Yii::app()->controller->module->id) ?></a></li>
-			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo Yii::t("common","CONNECT",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px"><a href="#" style="" onclick="showPanel('box-register')"><i class="fa fa-plus-circle"></i> <?php echo Yii::t("common","REGISTER",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px"><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>
@@ -562,7 +572,7 @@ body.login .box h1{
 			<li style="margin-left:50px" class="bg-orange"><a href="#" style="" onclick="showPanel('box-event','bgblue')"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","EVENTS",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px" class="bg-purple"><a href="#" style="" onclick="showPanel('box-projects','bggreen')"><i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common","PROJECTS",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px" class="bg-red"><a href="#" style="" onclick="showPanel('box-city','bgyellow')"><i class="fa fa-university"></i> <?php echo Yii::t("common","CITIES",null,Yii::app()->controller->module->id) ?></a></li>
-			<li style="margin-left:50px" class="bg-dark"><a href="#" style="" onclick="showPanel('box-login')"><i class="fa fa-sign-in"></i> <?php echo Yii::t("common","CONNECT",null,Yii::app()->controller->module->id) ?></a></li>
+			<li style="margin-left:50px" class="bg-dark"><a href="#" style="" onclick="showPanel('box-register')"><i class="fa fa-plus-circle"></i> <?php echo Yii::t("common","REGISTER",null,Yii::app()->controller->module->id) ?></a></li>
 			<li style="margin-left:50px" ><a href="#" onclick="showVideo('74212373')"><i class="fa fa-youtube-play text-dark"></i> <img style="height: 35px;" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a></li>
 		</ul>
 	</div>
@@ -1622,6 +1632,11 @@ function showDiscover(){
 	if( $(".box-menu-elements").is(':visible') )
 		$(".box-menu-elements").slideUp();
 	$(".box-menu-what").slideDown();
+}
+function showDiscoverCluster(){
+	$(".box-menu-elements").show(400);
+	showPanel('box-people','bgyellow');
+
 }
 function showElements(){
 	$(".box-discover .box").hide();

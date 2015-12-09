@@ -14,7 +14,8 @@ return array(
 	"HELP US : BUGS, IDEAS" => "AIDEZ NOUS : BUG, IDEE",
 	"CONNECT" 			=> "CONNECTER",
 	"LOGOUT" 			=> "DÉCONNECTER",
-
+	"REGISTER"			=> "S'INSCRIRE",
+	
 	"WHAT"		=> "C'EST QUOI ?",
 	"WHY"		=> "POURQUOI ?",
 	"WHO"		=> "QUI ?",
