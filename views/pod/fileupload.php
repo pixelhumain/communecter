@@ -299,8 +299,14 @@
 			}).done( function(data){
 		        if(typeof data.profilImageUrl != "undefined"){
 		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
 		        }
+
+		        console.log(Sig.userData.profilImageUrl);
 		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
+		        console.log(Sig.userData.profilImageUrl);
+		        
 		    });
 		}
 		
