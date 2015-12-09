@@ -143,6 +143,9 @@ label.checkbox-inline{
 .big-button.btn5{
 	top:420px;
 }
+.big-button.btn6{
+	top:510px;
+}
 .big-button img, .big-button i{
 	height: 67px;
 	width: 67px;
@@ -529,6 +532,11 @@ body.login .box h1{
 	<a href="javascript:" class="big-button btn5 tooltips" onclick="showPublicMap();"
 		data-toggle="tooltip" data-placement="right" title="Afficher/Masquer la carte" alt="">
 		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
+	</a>
+
+	<a href="javascript:" class="big-button btn6 tooltips" onclick="updateCitiesGeoFormat();"
+		data-toggle="tooltip" data-placement="right" title="Mettre à jour la base de données (Cities)" alt="">
+		<i class="fa fa-database" style="font-size: 30px; padding-top: 20px;"></i> 
 	</a>
 
 	<div class="box-menu box-menu-what box">

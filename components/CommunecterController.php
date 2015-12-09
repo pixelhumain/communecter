@@ -114,6 +114,7 @@ class CommunecterController extends Controller
       'getlistcities'       => array("href" => "/ph/communecter/city/getlistcities"),
       'creategraph'         => array("href" => "/ph/communecter/city/creategraph"),
       'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
+      'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true), 
 
     ),
 

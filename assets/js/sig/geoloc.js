@@ -196,3 +196,24 @@
 		 },2000);
 		Sig.markerModifyPosition.dragging.enable();
 	}
+
+
+	function updateCitiesGeoFormat(){
+		showLoadingMsg("Mise à jour de la bdd en cours");
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/city/updatecitiesgeoformat",
+			type: 'POST',
+			async:false,
+			dataType: "json",
+			complete: function () {},
+			success: function (obj){
+				console.log("success updatecitiesgeoformat");
+				console.dir(obj);
+				hideLoadingMsg();
+			},
+			error: function (error) {
+				console.log("error updatecitiesgeoformat");
+				hideLoadingMsg();
+			}
+		});
+	}

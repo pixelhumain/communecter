@@ -33,7 +33,9 @@ class CityController extends CommunecterController {
 	        'addpodopendata'		=> 'citizenToolKit.controllers.city.AddPodOpenDataAction',
 	        'getlistcities'			=> 'citizenToolKit.controllers.city.GetListCitiesAction',
 	        'creategraph'			=> 'citizenToolKit.controllers.city.CreateGraphAction',
-	        'graphcity'				=> 'citizenToolKit.controllers.city.GraphCityAction'
+	        'graphcity'				=> 'citizenToolKit.controllers.city.GraphCityAction',
+	        'updatecitiesgeoformat' => 'citizenToolKit.controllers.city.UpdateCitiesGeoFormatAction', 
+
 	    );
 	}
 }
