@@ -469,7 +469,7 @@ label.checkbox-inline{
   .markerLabels{
   	font-size: 25px;
     display: none;
-    background-color: rgba(255, 255, 255, 0.56);
+    background-color: rgba(39, 39, 39, 0.63);
     padding: 4px 15px;
     border-radius: 30px;
   }
