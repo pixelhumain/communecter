@@ -547,8 +547,8 @@ body.login .box h1{
  -->
 	
 <div class="big-button-container">
-	<a href="javascript:" class="big-button btn-1" onclick="initHTML5Localisation('showCityMap');"
-		data-toggle="tooltip" data-placement="right" title="Se localiser" alt="">
+	<a href="javascript:" class="big-button tooltips btn-1" onclick="initHTML5Localisation('showCityMap');"
+		data-toggle="tooltip" data-placement="top" title="Se localiser" alt="">
 		<i class="fa fa-crosshairs" style=""></i>
 	</a>
 	<a href="javascript:" class="big-button searchBar">
