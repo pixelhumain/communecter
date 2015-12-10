@@ -145,8 +145,7 @@ Etape 1 : Ouvrir son fichier php_error.log, afin de suivre l'évolution du proce
 
 Etape 2 : Se préparer un thé ou un café allongé, et s'installer confortablement devant son écran.
 
-Etape 3 : Sur la page "login", cliquer sur le bouton "Mettre à jour la bdd" dans le menu principal
-(le dernier bouton)
+Etape 3 : Sur la page "login", cliquer sur le bouton "Mettre à jour la bdd" dans le coin en haut à droite de l'écran
 
 Etape 4 : Boire son thé ou son café en scrollant bêtement sur Facebook
 

@@ -124,48 +124,60 @@ label.checkbox-inline{
     margin-top: 0px !important;
     padding-top: 0px !important;
 }
-
-.big-button{
-	position:fixed;
-	top:80px;
+.big-button-container{
+	position: fixed;
+	top:45px;
 	left:40px;
+	width: 300px;
+}
+.big-button{
+	position:absolute;
+	top:85px;
+	left:0px;
 	z-index: 100;
 }
 .big-button.btn-1{
 	top: 20px;
-	left: 56px;
+	left: 14px;
 }
 .big-button.btn2{
 	top:170px;
 }
 .big-button.btn3{
-	top:260px;
+	top:240px;
 }
 .big-button.btn4{
-	top:350px;
+	top:310px;
 }
 .big-button.btn5{
-	top:440px;
+	top:380px;
 }
 .big-button.btn6{
-	top:530px;
+	top:450px;
 }
 .big-button.btn7{
-	top:620px;
+	top:520px;
 }
+.big-button.btn-corner-top-right{
+	position:fixed;
+	top:0px;
+	right:0px;
+	left:unset;
+}
+
 .big-button img, .big-button i{
-	height: 67px;
-	width: 67px;
+	height: 60px;
+	width: 60px;
 	border-radius: 50%;
 	padding: 10px;
-	font-size:47px;
+	font-size:39px;
 	text-align:center;
 	color:#3C5665;
 	background-color: #FFF;
-	-moz-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
-	-webkit-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
-	-o-box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
-	box-shadow: 0px 0px 5px 7px rgba(41, 41, 41, 0.56);
+	-moz-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+	-o-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+	box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 }
 .big-button.btn-1 i{
@@ -175,12 +187,19 @@ label.checkbox-inline{
 	padding: 5px;
 	font-size: 23px;
 }
+.big-button.btn-corner-top-right i{
+	border-radius:0px 0px 0px 30% !important;
+	font-size: 19px;
+	padding-top: 10px;
+	height: 45px;
+	width: 45px;
+}
 
 .big-button img:hover, .big-button i:hover{
-	-moz-box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
-	-webkit-box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
-	-o-box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
-	box-shadow: 0px 0px 5px 7px rgba(54, 210, 94, 0.6);
+	-moz-box-shadow: 0px 0px 5px 5px rgba(54, 210, 94, 0.6);
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(54, 210, 94, 0.6);
+	-o-box-shadow: 0px 0px 5px 5px rgba(54, 210, 94, 0.6);
+	box-shadow: 0px 0px 5px 5px rgba(54, 210, 94, 0.6);
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 }
 .big-button.btn2:hover, .big-button.btn3:hover{
@@ -190,7 +209,7 @@ label.checkbox-inline{
 .main-title-public{
 	display: none;
 	position: fixed;
-	left: 150px;
+	left: 125px;
 	background-color: rgba(255, 255, 255, 0.91);
 	padding: 10px 40px;
 	z-index: 100;
@@ -207,13 +226,24 @@ label.checkbox-inline{
 	border-radius: 0px 0px 10px 10px;
 }
 #main-title-public2{
-	font-size: 45px;
-	top: 40px;
+	font-size: 35px;
+	top: 35px;
+	color: #E33551 !important;
+	padding: 7px 30px;
+	padding-left: 60px;
+	left: 43px;
 }
+#main-title-public2 a{
+	color:#E33551 !important;
+}
+#main-title-public2 a:hover{
+	color:rgba(227, 53, 81, 0.74) !important;
+}
+
 
 .box-discover{
 	position: absolute;
-	top: 60px;
+	top: 130px;
 	left: 530px;
 	display: block;
 }
@@ -267,14 +297,14 @@ body.login .box h1{
 
 .box-discover .box section {
     color: #FFF !important;
-    font-size: 25px;
+    font-size: 22px !important;
     font-weight: 300 !important;
 }
 .box.box-menu{
 	display:hidden;
 	position: absolute !important;
 	left: 160px !important;
-	top: 10px !important;
+	top: 80px !important;
 	background-color: transparent;
 }
 .box.box-menu ul{
@@ -291,7 +321,7 @@ body.login .box h1{
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 }
 .box.box-menu ul li{
-	font-size: 0.8em !important;
+	font-size: 0.7em !important;
 	font-weight: 100 !important;
 	font-family: "homestead";
 	padding: 2px 10px;
@@ -421,20 +451,20 @@ body.login .box h1{
   }
 
   .searchBarForm{
-  	left: 25px !important;
+  	left: -10px !important;
 	background-color: rgba(255, 255, 255, 0.86) !important;
-	height: 90px;
+	height: 80px;
 	border-radius: 50px !important;
 	width: 400px;
-	position: fixed;
-	top: 68px !important;
+	position: absolute;
+	top: 75px !important;
 	display: none;
   }
 
   #searchBar{
   	background-color: transparent !important;
 	border: 10px solid #FFF !important;
-	height: 90px;
+	height: 80px;
 	border-radius: 50px !important;
 	padding-left: 90px;
 	font-size: 21px;
@@ -505,7 +535,7 @@ body.login .box h1{
 </style>
 
 <h2 class="main-title-public homestead text-dark" id="main-title-public1"></h2>
-<h1 class="main-title-public homestead text-red" id="main-title-public2"></h1>
+<h1 class="main-title-public homestead" id="main-title-public2"></h1>
 
 
 
@@ -516,12 +546,13 @@ body.login .box h1{
 </div>
  -->
 	
-	<a href="javascript:" class="big-button btn-1" onclick="initHTML5Localisation();"
+<div class="big-button-container">
+	<a href="javascript:" class="big-button btn-1" onclick="initHTML5Localisation('showCityMap');"
 		data-toggle="tooltip" data-placement="right" title="Se localiser" alt="">
 		<i class="fa fa-crosshairs" style=""></i>
 	</a>
 	<a href="javascript:" class="big-button searchBar">
-		<i class="fa fa-search" style="font-size:30px; padding-top: 16px !important;"></i>
+		<i class="fa fa-search" style="font-size:25px; padding-top: 16px !important;"></i>
 	</a>
 	<form class="inner searchBarForm">
 		<input class='hide' id="searchId" name="searchId"/>
@@ -556,14 +587,16 @@ body.login .box h1{
 	</a>
 
 	<a href="javascript:" class="big-button btn6 tooltips" onclick="showPublicMap();"
-		data-toggle="tooltip" data-placement="right" title="Afficher/Masquer la carte" alt="">
-		<i class="fa fa-map" style="font-size: 30px; padding-top: 20px;"></i> 
+		data-toggle="tooltip" data-placement="right" title="Afficher / masquer la carte" alt="">
+		<i class="fa fa-map" style="font-size: 25px; padding-top: 17px;"></i> 
 	</a>
 
-	<a href="javascript:" class="big-button btn7 tooltips" onclick="updateCitiesGeoFormat();"
-		data-toggle="tooltip" data-placement="right" title="Mettre à jour la base de données (Cities)" alt="">
-		<i class="fa fa-database" style="font-size: 30px; padding-top: 20px;"></i> 
+	<a href="javascript:" class="big-button btn-corner-top-right tooltips" onclick="updateCitiesGeoFormat();"
+		data-toggle="tooltip" data-placement="left" title="Mettre à jour la base de données (Cities)" alt="">
+		<i class="fa fa-database"></i> 
 	</a>
+</div>
+
 
 	<div class="box-menu box-menu-what box">
 		<ul class="text-white text-bold homestead" style="list-style: none; font-size: 3.1em; margin-top:50px; ">
@@ -616,7 +649,7 @@ body.login .box h1{
 		
 	</div>	
 <div class="row">
-	<div class="main-login col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-4 col-md-offset-4 pull-right">
+	<div class="main-login col-xs-10 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-4 pull-right">
 	<a class="byPHRight" href="#"><img style="" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a>
 	
 		<div class="box-login box box-white-round no-padding" style="margin-top:-20px !important;">
@@ -716,10 +749,10 @@ body.login .box h1{
 		</div>
 		<!-- end: FORGOT BOX -->
 		<!-- start: REGISTER BOX -->
-		<div class="box-register box box-white-round no-padding">
+		<div class="box-register box box-white-round no-padding" style=" margin-top:-25px !important;">
 			
-			<form class="form-register">
-				<img style="width:100%; border: 10px solid white;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
+			<form class="form-register center" style="background-color:white !important;">
+				<img style="width:70%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 				
 				<fieldset>
 					<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> Je crée mon compte</h2>
@@ -948,13 +981,15 @@ svg.graph .line {
 
 		 		<?php if(isset( Yii::app()->request->cookies['cityName']) 
             	 ) { ?>
-	    			$("#main-title-public2").html("<i class='fa fa-university'></i> "+"<?php echo Yii::app()->request->cookies['cityName']->value; ?>");
+            	 	var onclick = "showAjaxPanel( '/city/detail/insee/"+"<?php echo Yii::app()->request->cookies['insee']->value; ?>"+"?isNotSV=1', '<?php echo Yii::app()->request->cookies['cityName']->value; ?>','university' )";
+							
+	    			$("#main-title-public2").html('<a href="javascript:" onclick="'+onclick+'">'+"<i class='fa fa-university'></i> "+"<?php echo Yii::app()->request->cookies['cityName']->value; ?></a>");
 		 		 	$("#main-title-public2").show(400);
 		 		 <?php } ?>
 
+	      		$("#mapCanvasBg").show(400);
 	      		showDataByInsee(<?php echo Yii::app()->request->cookies['insee']->value; ?>);
 	      		Sig.map.panBy([200, 0]);
-	      		$("#mapCanvasBg").show(400);
 	      		locationHTML5Found = true;
 
 	    <?php }else{ ?>
@@ -1056,6 +1091,10 @@ svg.graph .line {
 	    });
 
 	    $(".searchBar").mouseover(function(){
+	    	showSearchBar(true);
+	    });
+
+		$(".searchBar").click(function(){
 	    	showSearchBar(true);
 	    });
 
@@ -1640,7 +1679,7 @@ function showFormRegister(){
 }
 function showDiscover(){
 	$(".box-discover .box").hide();
-	$("#main-title-public2").hide();
+	//$("#main-title-public2").hide();
 	showSearchBar(false);
 	showPanel('box-whatisit');
 	$(".box-discover").show(400);
@@ -1651,7 +1690,7 @@ function showDiscover(){
 }
 function showDiscoverCluster(){
 	$(".box").hide();
-	$("#main-title-public2").hide(400);
+	//$("#main-title-public2").hide(400);
 	$(".box-menu-elements").show(400);
 	$(".box-discover").show(400);
 	showPanel('box-people','bgyellow');
@@ -1659,7 +1698,7 @@ function showDiscoverCluster(){
 }
 function showElements(){
 	$(".box-discover .box").hide();
-	$("#main-title-public2").hide();
+	//$("#main-title-public2").hide();
 	showSearchBar(false);
 	$(".box-login").hide(400);
 	if( !$(".box-menu-elements").is(':visible') ){
@@ -1669,7 +1708,7 @@ function showElements(){
 }
 function showSearchBar(show){
 	if(show && !$(".searchBarForm").is(":visible")){
-		$("#main-title-public2").hide(400);
+		//$("#main-title-public2").hide(400);
 		$(".box-discover").hide(400);
 		$(".box-menu").hide(400);
 		$(".searchBarForm").show(400);

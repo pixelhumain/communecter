@@ -157,6 +157,7 @@
 	//et affiche les résultat sur la carte
 	function showDataByInsee(insee){
 		//toastr.success('recherche des éléments de la ville');
+				
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/city/getcityjsondata",
 			type: 'POST',
@@ -169,7 +170,6 @@
 				console.dir(obj);
 				hideLoadingMsg();
 				Sig.showMapElements(Sig.map, obj);
-				$("#mapCanvasBg").show(400);
 				setTimeout(function() { Sig.map.panBy[10,10]; },2000);
 			},
 			error: function (error) {

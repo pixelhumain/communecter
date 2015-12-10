@@ -55,7 +55,7 @@ function initHTML5Localisation(role){
 
 function getCityInseeByGeoPos(coords){
 	//toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche des données de votre commune");
-	showLoadingMsg("Position trouvée");
+	showLoadingMsg("Identification de votre commune");
 				
 	$.ajax({
 		url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
@@ -71,13 +71,15 @@ function getCityInseeByGeoPos(coords){
 					//toastr.success("Mapping des acteurs par code insee : " + obj.insee);
 					if($("#main-title-public1").length){
 						showLoadingMsg("Chargement des données en cours");
-						$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
+						var onclick = "showAjaxPanel( '/city/detail/insee/"+obj.insee+"?isNotSV=1', '"+obj.name+"','university' )";
+						$("#main-title-public2").html('<a href="javascript:" onclick="'+onclick+'">'+"<i class='fa fa-university'></i> "+obj.name+"</a>");
 						$("#main-title-public2").show(400);	
 						if(typeof obj.cp != "undefined")
 							$(".form-group #cp").val(obj.cp);
 					}
 					
-					setTimeout(function() { showDataByInsee(obj.insee) }, 1000);
+					$("#mapCanvasBg").show(400);
+	      			setTimeout(function() { showDataByInsee(obj.insee) }, 1000);
 				}
 				else if(currentRoleLoc == "showCity" && typeof obj.insee != "undefined"){
 					toastr.success("Vous allez être redirigé vers la page de votre commune ...");
