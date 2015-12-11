@@ -254,7 +254,7 @@ var formValidator = function() {
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+
-	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu..</p>"+
+	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu.</p>"+
 	              '<cite title="Einstein">Einstein</cite>'+
 	            '</blockquote> '
 			});
@@ -272,7 +272,7 @@ var formValidator = function() {
 	                        toastr.success(data.msg);
 	                        if( isNotSV )	{
 	                        	addFloopEntity(data.id, "organizations", data.newOrganization);
-								showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'MY ORGANIZATIONS','users' );
+								openMainPanelFromPanel('/organization/detail/id/'+data.id, data.newOrganization.name, 'fa-group', data.id );
 	                        }
 				        	else if( "undefined" != typeof updateMyOrganization ){
 		        				updateMyOrganization(data.newOrganization, data.id);
@@ -458,27 +458,30 @@ jQuery(document).ready(function() {
 		
 	}
 
+	var timeoutGeopos;
 	function bindPostalCodeAction() {
 		$('#organizationForm #postalCode').keyup(function(e){
-			searchCity();
-		});
-
-		$('#organizationForm #postalCode').change(function(e){
-			searchCity();
+			clearTimeout(timeoutGeopos);
+			timeoutGeopos = setTimeout(function() {
+				searchCity();
+			}, 1500);
 		});
 
 		$('#organizationForm #fullStreet').keyup(function(e){
-			if($('#organizationForm #postalCode').val() != "")
-			searchCity();
-		});
-
-		$('#organizationForm #fullStreet').change(function(e){
-			if($('#organizationForm #postalCode').val() != "")
-			searchCity();
+			if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+				//setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+				clearTimeout(timeoutGeopos);
+				timeoutGeopos = setTimeout(function() {
+					Sig.execFullSearchNominatim(0);
+				}, 1500);
+			}
 		});
 
 		$('#city').change(function(e){ //toastr.info("city change");
-			Sig.execFullSearchNominatim(0);
+			clearTimeout(timeoutGeopos);
+			timeoutGeopos = setTimeout(function() {
+				Sig.execFullSearchNominatim(0);
+			}, 1500);
 		});
 		$('#organizationCountry').change(function(e){ //toastr.info("city change");
 			if($('#organizationForm #postalCode').val() != "" && $('#organizationForm #postalCode').val() != null)
@@ -486,13 +489,14 @@ jQuery(document).ready(function() {
 		});
 	}
 
-	function searchCity() {
+	function searchCity() { console.log("searchCity");
+		
+		$("#alert-city-found").addClass("hidden");
+		
 		var searchValue = $('#organizationForm #postalCode').val();
-
-		$("#sig_position").addClass("hidden");
-
 		if(searchValue.length == 5) {
 			$("#city").empty();
+
 			clearTimeout(timeout);
 			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
 			clearTimeout(timeout);

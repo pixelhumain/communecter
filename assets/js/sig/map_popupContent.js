@@ -258,7 +258,18 @@
 		Sig.getPopupNewData = function(){
 							
 			var popupContent = //'<img style="width:100%" class="pull-right" src="'+assetPath+'/images/logoL.jpg"/>' +
-							   "<h1><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon<br>pour un placement<br>plus précis</h1>" +
+							   "<h1>Cette position est-elle exacte ?</h1>" +
+				  			   "<h2><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon<br>pour un placement plus précis</h2>" +
+				  			   "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
+
+			return popupContent;
+		};
+
+		Sig.getPopupNewPerson = function(){
+							
+			var popupContent = //'<img style="width:100%" class="pull-right" src="'+assetPath+'/images/logoL.jpg"/>' +
+							   "<h1>Vous habitez ici ?</h1>" +
+				  			   "<h2><i class='fa fa-hand-pointer-o fa-2x'></i><br/>Déplacez l'icon<br>pour un placement plus précis</h2>" +
 				  			   "<button class='btn btn-success center-block' id='btn-validate-geopos'><i class='fa fa-check'></i> Valider</button>";
 
 			return popupContent;

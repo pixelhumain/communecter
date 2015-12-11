@@ -108,13 +108,14 @@
 	//il faut définir les callback en fonction du context
 	function findGeoposByNominatim(requestPart){
 		console.log('findGeoposByNominatim');
-		toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
+		showLoadingMsg("Recherche de la position en cours");
 		$.ajax({
 			url: "//nominatim.openstreetmap.org/search" + requestPart + "&format=json&polygon=0&addressdetails=1",
 			type: 'POST',
 			dataType: 'json',
 			complete: function () {},
 			success: function (obj){	
+				hideLoadingMsg();
 				callbackNominatimSuccess(obj);
 			},
 			error: function (error) {
@@ -125,31 +126,96 @@
 
 	//execute la requete nominatim 
 	//et appel les fonction callback en cas de success/error
-	//il faut définir les callback en fonction du context
-	function findGeoposByInsee(codeInsee){
-		toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
+	//il faut définir les callback en fonction du context 
+	function findGeoposByInsee(codeInsee, callbackSuccess){
+		//toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
+		showLoadingMsg("Recherche de la position en cours");
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 			type: 'POST',
 			data: "insee="+codeInsee,
+			async:false,
 			dataType: "json",
 			complete: function () {},
 			success: function (obj){
-				callbackFindByInseeSuccess(obj);	
+				console.log("success findGeoposByInsee", typeof callbackSuccess);
+				obj.insee = codeInsee;
+				if(typeof callbackSuccess != "undefined" && callbackSuccess != null)
+					callbackSuccess(obj);
+				else
+					callbackFindByInseeSuccess(obj);	
 			},
 			error: function (error) {
+				console.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
 			}
 		});
 	}
 
-	//affiche le marker à déplacer sur la carte
+
+	//recupere les citoyen, orga, events, projets de la city par son code insee
+	//et affiche les résultat sur la carte
+	function showDataByInsee(insee){
+		//toastr.success('recherche des éléments de la ville');
+				
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/city/getcityjsondata",
+			type: 'POST',
+			data: "insee="+insee,
+			async:false,
+			dataType: "json",
+			complete: function () {},
+			success: function (obj){
+				console.log("success showDataByInsee");
+				console.dir(obj);
+				hideLoadingMsg();
+				Sig.showMapElements(Sig.map, obj);
+				setTimeout(function() { Sig.map.panBy[10,10]; },2000);
+			},
+			error: function (error) {
+				$("#loader-city").html("");
+				console.log("error showDataByInsee");
+			}
+		});
+	}
+
+	//affiche le marker à déplacer sur la carte (ne pas utiliser pour créer une nouvelle donnée)
 	function showGeoposFound(coords, contextId, contextType, contextData){
-		Sig.startModifyGeoposition(contextId, contextType, contextData);
-		Sig.markerModifyPosition.setLatLng(coords);
-		Sig.map.panTo(coords);
-		Sig.map.setZoom(13);
 		showMap(true);
-		Sig.map.invalidateSize(false);
+		toastr.success('position trouvée');
+		Sig.startModifyGeoposition(contextId, contextType, contextData);
+		Sig.map.setZoom(17);
+			// Sig.markerModifyPosition.setLatLng(coords);
+		
+		setTimeout(function() { 
+			Sig.map.panTo(coords);
+			Sig.map.setZoom(13);
+			Sig.map.invalidateSize(false);
+			toastr.success('mise à jour de la carte ok');
+		
+		 },2000);
 		Sig.markerModifyPosition.dragging.enable();
+	}
+
+
+	function updateCitiesGeoFormat(){
+		showLoadingMsg("Mise à jour de la bdd en cours");
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/city/updatecitiesgeoformat",
+			type: 'POST',
+			async:false,
+			dataType: "json",
+			complete: function () {},
+			success: function (obj){
+				console.log("success updatecitiesgeoformat");
+				console.dir(obj);
+				showLoadingMsg("<span class='text-dark'>Votre base de donnée est à jour</span>");
+				setTimeout( "hideLoadingMsg()", 3000);
+			},
+			error: function (error) {
+				console.log("error updatecitiesgeoformat");
+				showLoadingMsg("<span class='text-green'>Une erreur s'est produite pendant la MAJ</span>");
+				setTimeout( "hideLoadingMsg()", 3000);
+			}
+		});
 	}

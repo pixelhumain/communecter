@@ -1,10 +1,6 @@
 <?php 
 
 $cssAnsScriptFilesTheme = array(
-	//Select2
-'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-
 //X-editable...
 '/assets/plugins/x-editable/css/bootstrap-editable.css',
 '/assets/plugins/x-editable/js/bootstrap-editable.js',
@@ -19,11 +15,21 @@ $cssAnsScriptFilesTheme = array(
 '/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
 '/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 
-'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-'/assets/plugins/wysihtml5/wysihtml5.js' ,
+//Wysihtml5
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/assets/plugins/wysihtml5/wysihtml5.js',
+
 '/assets/plugins/moment/min/moment.min.js' , 
 );
+
+$cssAnsScriptFilesModule = array(
+	
+	
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 $cssAnsScriptFilesModule = array(
@@ -578,6 +584,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//met à jour la nouvelle position dans la donnée
+			event["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
 			showGeoposFound(coords, itemId, "events", event);
 		}
@@ -600,6 +608,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			
+			event["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, itemId, "events", event);
 		}

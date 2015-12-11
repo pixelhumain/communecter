@@ -1,3 +1,4 @@
+ 
  <?php /* ?>
  <div class="col-md-12 main-title">
   <h2 class="panel-title">
@@ -175,7 +176,9 @@ $this->renderPartial('../default/panels/toolbar');
       <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
       <?php if($randomEntity != null && $cnt<$minCountOrga){ 
               $cnt++; $this->renderPartial('../pod/randomOrganization',
-                      array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); } ?>
+                      array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
+            } 
+      ?>
       <?php } ?>
       <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
         Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>

@@ -182,7 +182,7 @@ progress[value]::-moz-progress-bar {
 	</div>
 	<div class="panel-tools">
 		<?php if ($isAdmin){ ?>
-			<a href="#" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
+			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
 		<?php } ?>
 	</div>
@@ -240,7 +240,7 @@ progress[value]::-moz-progress-bar {
 						<i class="fa fa-bullseye"></i> 
 						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
 						<br>
-						<a href="javascript:;" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 						</a>
 						<hr style="margin:10px 0px 0px 0px;">
@@ -570,6 +570,8 @@ function manageModeContext() {
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//met à jour la nouvelle position dans la donnée
+			projectData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
 			showGeoposFound(coords, projectId, "projects", projectData);
 		}
@@ -597,6 +599,8 @@ function manageModeContext() {
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			
+			projectData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, projectId, "projects", projectData);
 		}

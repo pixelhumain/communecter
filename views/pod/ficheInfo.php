@@ -188,7 +188,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</a>
 						<br>
 
-						<a href="#" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+						<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 						</a>
 						<!-- <hr style="margin:10px 0px;"> -->
@@ -268,7 +268,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//Sig.contextData = contextData;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
-
+		console.log("contextMap");
+		console.dir(contextMap);
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
@@ -504,6 +505,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
 			//et on affiche le marker sur la carte à cette position
+			console.log("showGeoposFound coords", coords);
+			console.dir("showGeoposFound obj", obj);
+
+			//si la donné n'est pas geolocalisé
+			//on lui rajoute les coordonées trouvés
+			//if(typeof contextData["geo"] == "undefined")
+			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
+
 			showGeoposFound(coords, contextId, "organizations", contextData);
 		}
 		//si nominatim n'a pas trouvé de résultat
@@ -525,6 +534,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			
+			contextData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, contextId, "organizations", contextData);
 		}

@@ -286,6 +286,8 @@
 			}
 
 		}
+
+		Sig.vMarker = 1;
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home 
 			var thisSig = this;
@@ -296,11 +298,12 @@
 						dataType : "json",
 						success: function(data){ 
 							
-							thisSig.myPosition = data;
-
 							if(data != null){
 								if(data.profilMarkerExists == true)
-								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;
+								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;// + "?v="+thisSig.vMarker;
+								thisSig.vMarker++;
+								thisSig.myPosition = data;
+
 								thisSig.showMyPosition();
 							}
 							else{

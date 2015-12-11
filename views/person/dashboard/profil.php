@@ -1,3 +1,49 @@
+
+<?php 
+  /* COOKIE GEO POSITION */
+
+  /*  LISTE DES COOKIES
+    -----------------
+    -user_geo_latitude
+    -user_geo_longitude
+    -insee
+    -cityName
+  */
+  if(isset(Yii::app()->session['userId'])){
+    
+    $user = Person::getById(Yii::app()->session['userId']);
+
+    $cookies = Yii::app()->request->cookies;
+    $coockieDuration = time() + (3600*24*365);
+
+    if(isset($user["geo"]) && 
+       isset($user["geo"]["latitude"]) && isset($user["geo"]["longitude"]))
+    {
+      setcookie('user_geo_latitude', $user["geo"]["latitude"], $coockieDuration, "/ph/");
+      setcookie('user_geo_longitude', $user["geo"]["longitude"], $coockieDuration, "/ph/");
+    }
+
+    if(isset($user["address"]) && isset($user["address"]["codeInsee"]))
+      setcookie('insee', $user["address"]["codeInsee"], $coockieDuration, "/ph/");
+    
+
+    if(isset($user["address"]) && isset($user["address"]["addressLocality"]))
+      setcookie('cityName', $user["address"]["addressLocality"], $coockieDuration, "/ph/");
+
+  }else{ //user not connected
+    if(isset($cookies['user_geo_longitude'])){
+        $sigParams["firstView"] = array(  "coordinates" => array( $cookies['user_geo_latitude']->value, 
+                                      $cookies['user_geo_longitude']->value),
+                          "zoom" => 13);
+      
+    }else{
+      //error_log("aucun cookie geopos trouvé");
+    }
+  }
+
+?>
+
+
 <?php 
 	
 
@@ -221,7 +267,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
 					</a>
 					<br>
-					<a href="javascript:;" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
 					<div class="hidden" id="entity-insee-value" 
@@ -568,6 +614,8 @@ function manageSocialNetwork(iconObject, value) {
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
+			//met à jour la nouvelle position dans la donnée
+			personData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
 			showGeoposFound(coords, personId, "person", personData);
 		}
@@ -596,6 +644,8 @@ function manageSocialNetwork(iconObject, value) {
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			
+			personData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, personId, "person", personData);
 		}

@@ -362,6 +362,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		console.warn("--------------- execFullSearchNominatim ---------------------");
 		var thisSig = this;
 
+		$("#alert-city-found").addClass("hidden");
+		
 		this.useExternalSearchPlace = true;
 		var urlRequest = this.getNominatimRequest(nbTentative);
 		//console.log(urlRequest);
@@ -396,29 +398,44 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		$("#alert-city-found").removeClass("hidden");
 		var cp = $("#postalCode").val();
+		if(typeof cp == "undefined") cp = $("#cp").val();
 
+		console.dir(geoPosition);
 		var position = null;
-		$.each(geoPosition, function (key, value){
-			//console.log((citiesByPostalCode));
-			$.each(citiesByPostalCode, function (key2, value2){
+		console.log("typof geoPosition.geo", typeof geoPosition.geo);
+		if(typeof geoPosition.geo == "undefined"){
+			$.each(geoPosition, function (key, value){
 
-				var addressCp = value.address.postcode ? value.address.postcode : "";
-				var city = value.address.city != null ? value.address.city : 
-							value.address.village ? value.address.village : "";
-
-				if(city != "" && value2.text != null){
+				var addressCp = typeof value.address.postcode != "undefined" ? value.address.postcode : "";
 					
-					//console.log(value2.text); console.log(value.address.city);
-					if(thisSig.clearStr(value2.text) == thisSig.clearStr(city) 
-						&& cp == addressCp
-						&& position == null) 
-						position = value;
-				}
+				//console.log((citiesByPostalCode));
+				//$.each(citiesByPostalCode, function (key2, value2){
+
+					var city =  typeof value.address.city 	 != "undefined" ? value.address.city : 
+								typeof value.address.village != "undefined" ? value.address.village : "";
+					var countryCode = typeof value.address.country_code != "undefined" ? value.address.country_code : "";
+					
+					console.log("cp", cp, "addressCp", addressCp);
+					if(cp == addressCp && countryCode == "fr" && position == null)  position = value;
+					// if(city != "" && value2.text != null){				
+					// 	//console.log(value2.text); console.log(value.address.city);
+					// 	if(//thisSig.clearStr(value2.text) == thisSig.clearStr(city) 
+					// 		//|| 
+					// 		cp == addressCp
+					// 		&& position == null) 
+					// 		position = value;
+					// }
+				//});
 			});
-		});
+		}else{
+			console.log("pos geo found");
+			position = { "lat" : geoPosition.geo.latitude,
+						 "lon" : geoPosition.geo.longitude
+					    };
+		}
 
-
-		if(position == null) position = geoPosition[0];
+		console.log('position found ? ', position);
+		if(position == null) return false; //position = geoPosition.geo;
 		//console.log("position"); console.dir(position);
 		 
 		$("#geoPosLongitude").attr("value", position["lon"]);
@@ -431,6 +448,9 @@ SigLoader.getSigFindPlace = function (Sig){
 		//console.log("center ok");
 
 		var content = thisSig.getPopupNewData();
+		console.log("this type", type);
+		if(type=="person") content = thisSig.getPopupNewPerson();
+
 		var properties = { 	id : "0",
 							icon : thisSig.getIcoMarkerMap({"type" : type}),
 							content: content };
@@ -448,6 +468,16 @@ SigLoader.getSigFindPlace = function (Sig){
 		markerNewData.openPopup();
 		markerNewData.dragging.enable();
 		
+		if(typeof geoPosition.geoShape != "undefined"){
+			var geoShape = Sig.inversePolygon(geoPosition.geoShape.coordinates[0]);
+			thisSig.showPolygon(geoShape);
+			thisSig.map.fitBounds(geoShape);
+		}
+
+		var timeout = setTimeout(function() {
+				Sig.map.panBy([260, 0]);
+			}, 1000);
+
 		$("#btn-validate-geopos").click(function(){
 			btnValidateClick(isNotSV);
 		});
@@ -487,7 +517,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		function btnValidateClick(isNotSV){ //alert("yepaé");
 			//console.log("btnValidateClick");
 			Sig.markerNewData.closePopup();
-			Sig.centerSimple(Sig.markerNewData.getLatLng(), 15);
+			Sig.map.panTo(Sig.markerNewData.getLatLng());
+			Sig.map.panBy([260, 0]);
 
 			if(isNotSV) $("#ajaxSV").show(400);
 			else {
@@ -501,7 +532,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			Sig.markerNewData.openPopup();
 		}
 		
-		
+		return true;
 	};
 
 
@@ -514,7 +545,11 @@ SigLoader.getSigFindPlace = function (Sig){
 		//vérifie si l'entité donné à bien une position geo
 		var coordinates = this.getCoordinates(entity, "markerSingle");
 		//si elle n'en a pas on sort
-		if(typeof coordinates == "undefined") return;
+		console.log("startModifyGeoposition coordinates", coordinates);
+		if(typeof coordinates == "undefined" || coordinates == null) {
+			findGeoPosByAddress();
+			return;
+		}
 		
 		
 		//vide la carte
@@ -549,7 +584,7 @@ SigLoader.getSigFindPlace = function (Sig){
 							  occurence:5 });	//5 fois de suite
 
 		//zoom sur le nouveau marker
-		this.map.panTo(coordinates);
+		//this.map.panTo(coordinates);
 		this.map.setView(coordinates, 13);
 
 		//désactive le bounce quand on click sur la marker
@@ -566,6 +601,9 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.markerToBounce.on("dragend", function(){
 			if(Sig.markerModifyPosition != null)
 				Sig.markerModifyPosition.openPopup();
+				//et on enregistre les coordonnées
+				$("#geoPosLongitude").attr("value", Sig.markerModifyPosition.getLatLng().lng);
+				$("#geoPosLatitude").attr("value", Sig.markerModifyPosition.getLatLng().lat);
 		});
 		//lorsqu'on vient de déplacer la map, on ré-ouvre la popup
 		this.map.on("dragend", function(){

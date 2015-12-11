@@ -237,13 +237,15 @@ div.timeline .date_separator span{
 				<ul class="timeline-scrubber inner-element newsTLmonthsListnews col-md-2"></ul>
 				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity col-md-2"></ul>
 				
-
 			</div>
 			<div class="title-processing homestead stream-processing center fa-2x" style="margin-right:100px;"><i class="fa fa-spinner fa-spin"></i> Processing... </div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
 </div>
+
+<div id="modal_scope_extern" class="form-create-news-container"></div>
+
 <style type="text/css">
 	div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 	.timeline_element {padding: 10px;}
@@ -337,6 +339,9 @@ jQuery(document).ready(function()
 			}
 		});
  	}
+
+ 	//déplace la modal scope à l'exterieur du formulaire
+ 	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
 
 var loadStream = function(){
@@ -816,13 +821,16 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function() {
-		$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
-		$.blockUI({message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-			'<div class="commentContent"></div></div>', onOverlayClick: $.unblockUI});
+		//$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
+		$.blockUI({
+			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
+							'<div class="commentContent"></div></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
 		if(streamType=="news"){
 			type="news";
-		}
-		else
+		} else
 			type=$(this).data("type");
 		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
 			/*if(!userId){

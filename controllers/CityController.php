@@ -23,6 +23,7 @@ class CityController extends CommunecterController {
 	        'calendar'      		=> 'citizenToolKit.controllers.city.CalendarAction',
 	        'statisticpopulation' 	=> 'citizenToolKit.controllers.city.StatisticPopulationAction',
 	        'getcitydata'     		=> 'citizenToolKit.controllers.city.GetCityDataAction',
+	        'getcityjsondata'     	=> 'citizenToolKit.controllers.city.GetCityJsonDataAction',
 	        'getcitiesdata'     	=> 'citizenToolKit.controllers.city.GetCitiesDataAction',
 	        'statisticcity'			=> 'citizenToolKit.controllers.city.statisticCityAction',
 	        'opendata'				=> 'citizenToolKit.controllers.city.OpenDataAction',
@@ -32,7 +33,9 @@ class CityController extends CommunecterController {
 	        'addpodopendata'		=> 'citizenToolKit.controllers.city.AddPodOpenDataAction',
 	        'getlistcities'			=> 'citizenToolKit.controllers.city.GetListCitiesAction',
 	        'creategraph'			=> 'citizenToolKit.controllers.city.CreateGraphAction',
-	        'graphcity'				=> 'citizenToolKit.controllers.city.GraphCityAction'
+	        'graphcity'				=> 'citizenToolKit.controllers.city.GraphCityAction',
+	        'updatecitiesgeoformat' => 'citizenToolKit.controllers.city.UpdateCitiesGeoFormatAction', 
+
 	    );
 	}
 }

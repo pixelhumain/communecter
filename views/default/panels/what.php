@@ -1,6 +1,6 @@
 <div class="box-whatisit box">
 	
-	<h1><i class="fa fa-share-alt"></i> WHAT</h1>
+	<h1><i class="fa fa-share-alt"></i> <?php echo Yii::t("common","WHAT",null,Yii::app()->controller->module->id) ?></h1>
 	<section>
 		A new way to live in society
 		<br/> Together to make it better
@@ -13,6 +13,5 @@
 		<br/> 
 	</section>
 	<hl/>
-	<a href="#"  onclick="startIntro()" class="homestead nextBtns pull-left"><i class="fa fa-arrow-circle-o-left"></i> GUIDED TOUR  </a>
-	<a href="#" onclick="showPanel('box-why')" class="homestead nextBtns pull-right">WHY <i class="fa fa-arrow-circle-o-right"></i> </a>
+	<a href="#" onclick="showPanel('box-why')" class="homestead nextBtns pull-right"><?php echo Yii::t("common","WHY",null,Yii::app()->controller->module->id) ?> <i class="fa fa-arrow-circle-o-right"></i> </a>
 </div>

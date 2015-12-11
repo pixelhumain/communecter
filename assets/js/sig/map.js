@@ -364,7 +364,7 @@
 										color: '#FFF', 
 										opacity:0.7,
 										fillColor: '#71A4B4', 
-										fillOpacity:0.6,  
+										fillOpacity:0.3,  
 										weight:'2px', 
 										smoothFactor:0.5}).addTo(this.map);
 			};
@@ -689,11 +689,23 @@
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				//subdomains: 'abc',
-				minZoom: 0,
+				minZoom: 3,
 				maxZoom: 20
 			});
 
 			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			
+			var roadTileLayer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+							type: 'hyb',
+							ext: 'png',
+							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+							subdomains: '1234',
+							opacity: 0.7,
+							minZoom:12,
+							maxZoom: 20
+						});
+			roadTileLayer.addTo(map);
+			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
 			return map;

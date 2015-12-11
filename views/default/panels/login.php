@@ -1,5 +1,5 @@
 
-	<div class="main-login col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 center">
+	<div class="main-login col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 pull-right">
 
 		<div class="box-login box box-white-round" style="display:none">
 
