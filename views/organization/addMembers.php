@@ -281,6 +281,7 @@ if( isset($_GET["isNotSV"])) {
 				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
 				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
+			console.log(params);
 	    	$.ajax({
 	            type: "POST",
 	            url: baseUrl+"/communecter/link/savemember",
