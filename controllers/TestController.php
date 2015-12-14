@@ -515,4 +515,8 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
     var_dump(Organization::update($organizationId, $organization, $userId));
   }
+
+  public function actionTestIsAdminOrganization($id) {
+    var_dump(Authorisation::isOrganizationAdmin("55c0c1a72336f213040041ee", $id));
+  }
 }
