@@ -83,6 +83,16 @@
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;							
 				});
+				marker.on('mouseover', function(e) {
+					if(thisSig.map.getZoom() != thisSig.map.getMaxZoom()){
+						marker.openPopup();
+
+						//Sig.markerToBounce = marker;
+						//Sig.bounceMarker(0);
+						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
+						thisSig.currentMarkerPopupOpen = this;	
+					}						
+				});
 				return marker;
 			};
 
@@ -566,7 +576,12 @@
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
-								if(thisSig.allowMouseoverMaker == false) return;
+
+								//si le mouseover n'est pas autorisé
+								//ou si le zoom de la carte est = au zoom maximum (== ouverture cluster spiral)
+								if(thisSig.allowMouseoverMaker == false  || 
+								   thisSig.map.getZoom() == thisSig.map.getMaxZoom()) return;
+
 								layer.openPopup(); 
 								thisSig.currentMarkerPopupOpen = layer;
 							});
