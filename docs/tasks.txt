@@ -5,6 +5,27 @@ Développer des "commons transition party" où l'on pourrait "être aidé pour p
 - sa connexion internet chez le fournisseur d'accès associatif Tetaneutral
 - son approvisionnement en légumes auprès d'une AMAP locale…
 	
+* annuaire demandeur services / besoins - ressources
+	system de validation 
+	mise en relation entre demandeur et referant 
+	mise en relation d'un reseau d'emploi et formation 
+	prise en charge 24h 
+	gestion dossier 
+	securisation de la mise en relation & la recherche 
+	region midi pyreene 
+	proto : engagement citoyen 10 - 15K€
+		timeilne
+			fevrier
+		clone livin coop 
+		formulaire d'inscirption 
+		openinteractive.fr/wp
+		donnéur SGAR prefet 
+			fluide simplifié
+	GIP : Groupement d'interet pulib 
+		ressources et territoire
+
+openinteractive
+
 CINOR 
 	Christopha ANnette 
 	0692272212
@@ -13,12 +34,6 @@ CINOR
 	Sainte Suzanne
 	 	lafine Morice  
 	 	Bertrand de bois villier (DGS)
-
-Think Tank 
-any news 
-	> ask what people think 
-	> submit to vote 
-	> select a scope 
 
 openId
 	https://wwelves.org/perpetual-tripper/

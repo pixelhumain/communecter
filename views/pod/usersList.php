@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 </style>
 	<div class="panel panel-white user-list">
 		<div class="panel-heading border-light text-white bg-yellow">
-			<h4 class="panel-title"><i class="fa fa-users"></i> <?php echo $userCategory ?></h4>
+			<h4 class="panel-title"><i class="fa fa-connectdevelop"></i> <?php echo $userCategory ?></h4>
 			
 		</div> 
 		<div class="panel-tools">

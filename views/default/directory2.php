@@ -308,7 +308,7 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="#" class="bg-dark">
+							<a href="javascript:;" class="bg-dark">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
 							</a>
@@ -483,13 +483,25 @@ if( isset($_GET["isNotSV"])) {
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
 						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".addslashes($name)."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-						$url = ( isset($_GET["isNotSV"]))  ? 'href="javascript:;" onclick="'.$url.'"' : 'href="'.$url.'"';
-
+						$url = ( isset($_GET["isNotSV"]))  ? 'href="javascript:;" onclick="'.$url.'"' : 'href="'.$url.'"';	
+						$process = "";
+						if(@$e["toBeValidated"])
+							$process = " <color class='text-red'>(en atente de confirmation)</color>";
+						else if(@$e["isAdminPending"])
+							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
+						
+						if(@$e["pending"]){
+							$process= " (Non inscrit)";
+							$processStyle='style="filter:grayscale(100%);-webkit-filter:grayscale(100%);"';
+						}
+						else{
+							$processStyle="";
+						}
 						$entryType = ( isset($e["type"])) ? $e["type"] : "";
-						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" >'.
+						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" '.$processStyle.'>'.
 							'<div style="position:relative;">'.
 										'<div class="portfolio-item">';
-						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
+						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.$process.'</a>';
 						
 						/* **************************************
 						* EMAIL for admin use only
@@ -581,21 +593,42 @@ if( isset($_GET["isNotSV"])) {
 						}
 						if($manage==1){
 							$strHTML .= '<div class="dropdown" style="position:absolute;right: -8px;bottom: -11px;">'.
-											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog text-white"></i> <span class="caret"></span></a>'.
-											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">'.
-												'<li><a href="javascript:;" class="disconnectBtn btn btn-xs tooltips " data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" ><i class="disconnectBtnIcon fa fa-unlink"></i>'.Yii::t("common","Unlink").'</a></li>'.
-							'</ul></div>';
-							//$disconnectBtn = ;
+											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm">'.
+												'<i class="fa fa-cog text-white"></i> <span class="caret"></span>'.
+											'</a>'.
+											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">';
+							if(@$e["toBeValidated"]){
+								$strHTML .= 	'<li>'.
+													'<a href="javascript:;" class="acceptAsMemberBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
+														'<i class="confirmPendingUserBtnIcon fa fa-link"></i>'.
+														Yii::t("common","Accept this ".$type."").
+													'</a>'.
+												'</li>';
+							}
+							if(@$e["isAdminPending"]){
+								$strHTML .= 	'<li>'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
+														Yii::t("common","Accept as admin").
+													'</a>'.
+												'</li>';
+							}
+							$strHTML .=			'<li>'.
+													'<a href="javascript:;" class="disconnectBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
+														'<i class="disconnectBtnIcon fa fa-unlink"></i>'.
+														Yii::t("common","Unlink").
+													'</a>'.
+												'</li>';
+							$strHTML .= 	'</ul>'.
+							'			</div>';
 						}
-						//else
-						//	$disconnectBtn="";
 						$color = "";
 						if($icon == "fa-users") $color = "green";
 						if($icon == "fa-user") $color = "yellow";
 						if($icon == "fa-calendar") $color = "orange";
 						if($icon == "fa-lightbulb-o") $color = "purple";
 						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i>';
-						if(@$e["isAdmin"])
+						if(@$e["isAdmin"] && !@$e["isAdminPending"])
 							$flag .= "<i class='fa fa-bookmark fa-rotate-270 fa-red' style='left:15px;'></i>";
 						$flag.="</div>";
 						echo $panelHTML.
@@ -757,6 +790,70 @@ function bindBtnEvents(){
 					}
 				}
 			)
+	});
+	$(".acceptAsAdminBtn").off().on("click",function () {
+        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+        var userId = $(this).data("id");
+        var userType = $(this).data("type");
+        var parentType = $("#parentType").val();
+        var parentId = $("#parentId").val();
+        var userName = $(this).data("name");
+
+        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/");
+        bootbox.confirm("Are you sure you want to confirm <span class='text-red'>"+$(this).data("name")+"</span> as admin ?", 
+			function(result) {
+				if (result) {
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/link/addasadmin",
+				       	dataType: "json",
+				       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"userName":userName},
+			        	success: function(data){
+				        	if ( data && data.result ) {               
+								toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
+								loadByHash(location.hash);
+					        } else {
+					            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
+
+					           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					        }
+					    }
+					});
+				}
+			}
+		)
+	});
+	$(".acceptAsMemberBtn").off().on("click",function () {
+        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+        var userId = $(this).data("id");
+        var userType = $(this).data("type");
+        var parentType = $("#parentType").val();
+        var parentId = $("#parentId").val();
+        var userName = $(this).data("name");
+
+        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/");
+        bootbox.confirm("Are you sure you want to confirm <span class='text-red'>"+$(this).data("name")+"</span> as member ?", 
+			function(result) {
+				if (result) {
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/link/addasmember",
+				       	dataType: "json",
+				       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"userName":userName},
+			        	success: function(data){
+				        	if ( data && data.result ) {               
+								toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
+								loadByHash(location.hash);
+					        } else {
+					            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
+
+					           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					        }
+					    }
+					});
+				}
+			}
+		)
 	});
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");

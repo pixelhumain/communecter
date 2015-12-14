@@ -84,7 +84,6 @@
 		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
 		$(".box-ajaxTools").html("");
 
-		lastUrl = null;
 		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
 			/*if(!userId){
 				window.location.href = baseUrl+'/'+moduleId+"/person/login";
@@ -100,39 +99,6 @@
 			//}
 		},"html");
 
-		//show hash
-		var urlT = [];
-		urlT = url.split("/");
-		paramsT = url.split("?");
-		hashUrl = urlT[1]+"."+urlT[2];
-		if(urlT[3] != undefined)
-			hashUrl += "."+urlT[3]+"."+urlT[4];
-		if(urlT[5] != undefined)
-			hashUrl += "."+urlT[5]+"."+urlT[6];
-		/*if( paramsT[1] )
-			hashUrl += "?"+paramsT[1];*/
-
-		//adds hash to the url 
-		//timeout is a hack : dont understand why the hash is empty in some cases
-		//maybe a conflict with some libs that automatically overide the location hash 
-		//setTimeout( function(){
-			location.hash = hashUrl;
-			history.pushState({hash:baseUrl+'/'+moduleId+"/default/simple#"+hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl );
-		//},500 );
-		
-		console.warn("pushState",hashUrl);
-		//console.dir({hash:hashUrl}, null, baseUrl+'/'+moduleId+"/default/simple#"+hashUrl);
-		/*if( navHistory != null)
-			prevNav = {
-			func : "showAjaxPanel",
-			url : navHistory.url , 
-			title : navHistory.title ,
-			icon : navHistory.icon };
-		navHistory = {
-			func : "showAjaxPanel",
-			url : url , 
-			title : title ,
-			icon : icon };*/
 		showPanel('box-ajax');
 		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";

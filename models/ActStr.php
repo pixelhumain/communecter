@@ -17,6 +17,7 @@ class ActStr {
     const VERB_DELETE = "delete";
       
     const VERB_JOIN = "join";
+    const VERB_WAIT = "wait";
     const VERB_LEAVE = "leave";
     const VERB_INVITE = "invite";
     const VERB_ACCEPT = "accept";
