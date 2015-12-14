@@ -308,7 +308,7 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="#" class="bg-dark">
+							<a href="javascript:;" class="bg-dark">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
 							</a>
