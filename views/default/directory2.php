@@ -308,7 +308,7 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="#" class="bg-dark">
+							<a href="javascript:;" class="bg-dark">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
 							</a>
@@ -360,10 +360,10 @@ if( isset($_GET["isNotSV"])) {
 					<div id="scopeFilters" class="optionFilter  pull-left center" style="display:none;width:100%;" ></div>
 					<div id="orgaTypesFilters" class="optionFilter  pull-left center" style="display:none;width:100%;text-align:center;" >
 						<h4 class='text-dark'><i class='fa fa-angle-down'></i> <?php echo Yii::t("common","Organizations types") ?></h4>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span><?php echo Yii::t("common","NGO") ?></span></a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness"><?php echo Yii::t("common","Local Business") ?></a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group"><?php echo Yii::t("common","Group") ?></a>
-						<a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization"><?php echo Yii::t("common","Government Organization") ?></a>
+						<a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".NGO"><span><?php echo Yii::t("common","NGO") ?></span></a>
+						<a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".LocalBusiness"><?php echo Yii::t("common","Local Business") ?></a>
+						<a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".Group"><?php echo Yii::t("common","Group") ?></a>
+						<a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".GovernmentOrganization"><?php echo Yii::t("common","Government Organization") ?></a>
 					</div>
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
@@ -529,10 +529,10 @@ if( isset($_GET["isNotSV"])) {
 						$tagsHTML = "";
 						if(isset($e["tags"])){
 							foreach ($e["tags"] as $key => $value) {
-								$tagsHTML .= ' <a href="#" class="filter" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+								$tagsHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
 								if( $tags != "" && !in_array($value, $tags) ) {
 									array_push($tags, $value);
-									$tagsHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span>#'.$value.'</span></a>';
+									$tagsHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span>#'.$value.'</span></a>';
 								}
 							}
 						}
@@ -546,22 +546,22 @@ if( isset($_GET["isNotSV"])) {
 							//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
 							if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
 								array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['postalCode'])){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
+							$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
 							if( !in_array($e["address"]['postalCode'], $scopes['postalCode']) ) {
 								$insee = isset($e["address"]['codeInsee']) ? $e["address"]['codeInsee'] : $e["address"]['postalCode'];
 								array_push($scopes['postalCode'], $e["address"]['postalCode'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$insee.'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$insee.'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['region']) ){
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label address text-dark text-xss">'.$e["address"]['region'].'</span></a>';
+							$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label address text-dark text-xss">'.$e["address"]['region'].'</span></a>';
 							if( !in_array($e["address"]['region'], $scopes['region']) ) {
 								array_push($scopes['region'], $e["address"]['region'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
 							}
 						}
 						if( isset($e["address"]) && isset( $e["address"]['addressLocality'])){
@@ -569,10 +569,10 @@ if( isset($_GET["isNotSV"])) {
 								$adresseLocality="Adresse non renseignée";
 							else
 								$adresseLocality=$e["address"]['addressLocality'];
-							$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
+							$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
 							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
 								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
-								$scopesHTMLFull .= ' <a href="#" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
 							}
 						}
 
@@ -592,9 +592,9 @@ if( isset($_GET["isNotSV"])) {
 							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
 						if($manage==1){
-							$strHTML .= '<div class="dropdown" style="position:absolute;right: -8px;bottom: -11px;">'.
-											'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm">'.
-												'<i class="fa fa-cog text-white"></i> <span class="caret"></span>'.
+							$strHTML .= '<div class="dropdown" style="position:absolute;right: 0px;top: 0px;">'.
+											'<a href="javascript:;" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm" style="padding:0px;">'.
+												'<i class="fa fa-cog text-white"></i> <span class="caret" style="margin-right:4px;"></span>'.
 											'</a>'.
 											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">';
 							if(@$e["toBeValidated"]){
@@ -629,7 +629,7 @@ if( isset($_GET["isNotSV"])) {
 						if($icon == "fa-lightbulb-o") $color = "purple";
 						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i>';
 						if(@$e["isAdmin"] && !@$e["isAdminPending"])
-							$flag .= "<i class='fa fa-bookmark fa-rotate-270 fa-red' style='left:15px;'></i>";
+							$flag .= "<i class='fa fa-bookmark fa-rotate-270 fa-red' style='left:-5px;'></i>";
 						$flag.="</div>";
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.

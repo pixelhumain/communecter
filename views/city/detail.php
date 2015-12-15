@@ -171,7 +171,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
     <?php $minCountOrga = $minCount-2; } ?>
 
-    <?php if(count($projects) > 0){ ?>
+    <?php if(count($organizations) > 0){ ?>
       <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
       <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
       <?php if($randomEntity != null && $cnt<$minCountOrga){ 
@@ -183,7 +183,7 @@ $this->renderPartial('../default/panels/toolbar');
       <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
         Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
       </a>
-    <?php }else{ ?>
+    <?php }else if(isset(Yii::app()->session["userId"])){ ?>
       <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucune organisation dans cette commune</h3> 
       <button onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" 
               class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-green" data-placement="left" 
@@ -264,12 +264,8 @@ $this->renderPartial('../default/panels/toolbar');
             <i class="fa fa-bookmark fa-rotate-270"></i> <?php echo Yii::t("common","Show Directory") ?>
         </a>
       </div>
-
-     
+  
     </div>
-
-    
-
   </div>
     
   <?php if(count($people) > 0){ ?>
@@ -284,7 +280,7 @@ $this->renderPartial('../default/panels/toolbar');
       Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
-  <?php }else{ ?>
+  <?php }else  if(isset(Yii::app()->session["userId"])){ ?>
     <div class="col-sm-4 col-xs-12 pull-right">
       <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun citoyens connecté dans cette commune</h3> 
       <button onclick="showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt')" 
@@ -308,7 +304,7 @@ $this->renderPartial('../default/panels/toolbar');
       Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>
-  <?php }else{ ?>
+  <?php }else if(isset(Yii::app()->session["userId"])){ ?>
     <div class="col-sm-4 col-xs-12 pull-right">
       <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun project dans cette commune</h3> 
       <button onclick="showAjaxPanel( '/project/projectsv/id/54265d58c0461fcf528e8d04/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" 
@@ -380,7 +376,15 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
 	bindBtnFollow();
-  $(".moduleLabel").html("<i class='fa fa-university'></i> <?php echo Yii::t('common', 'MY CITY'); ?> : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+  var iconCity = "<i class='fa fa-university'></i>";
+
+  <?php if( @$city["communected"] ){ ?>
+  iconCity = "<span class='fa-stack'>"+
+                  "<i class='fa fa-university fa-stack-1x'></i>";                  
+                  "<i class='fa fa-circle-thin fa-stack-2x' style='color:#93C020'></i>"+
+                "</span>";
+  <?php } ?>
+  $(".moduleLabel").html(iconCity+" <?php echo Yii::t('common', 'MY CITY'); ?> : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
  
   initCityMap();
 /*  $('.pulsate').pulsate({
@@ -418,12 +422,13 @@ function initCityMap(){
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
   
-  //console.log("city");
-  //console.dir(city);
+  console.log("city");
+  console.dir(city.geo);
   
   Sig.showMapElements(Sig.map, contextMap);
-  var latlng = [city.geo.latitude, city.geo.longitude];
-
+  var latlng = [parseFloat(city.geo.latitude)+0.0003, parseFloat(city.geo.longitude)+0.0003];
+   console.dir(latlng);
+ 
   var content = Sig.getPopupCity(city.name, city.insee);
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),

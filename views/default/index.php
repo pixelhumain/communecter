@@ -309,13 +309,14 @@ jQuery(document).ready(function() {
     
 
     //preload directory data
-    /*$(window).on("popstate", function(e) {
+    $(window).bind("popstate", function(e) {
+      console.warn("--------------------- pop",e);
       if( lastUrl && "onhashchange" in window && location.hash){
-        console.log("popstate",location.hash);
-        loadByHash(location.hash);
+        console.warn("poped state",location.hash);
+        loadByHash(location.hash,true);
       }
       lastUrl = location.hash;
-    });*/
+    });
     if( userId == "" || ("onhashchange" in window && location.hash ) ){
       loadByHash(location.hash);
     }
@@ -336,7 +337,7 @@ var typesLabels = {
   "<?php echo Project::COLLECTION ?>":"Project",
 };
 
-function loadByHash( hash ) { 
+function loadByHash( hash , back) { 
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
@@ -395,7 +396,10 @@ function loadByHash( hash ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    history.pushState({hash:hashUrl}, null, baseUrl+'/'+moduleId+hash );
+    if( !back )
+      history.pushState( { "hash" :hash} , null, hash );
+    console.warn("pushState",hash);
+
 }
 
 function runShowCity(searchValue) {
