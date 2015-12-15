@@ -422,12 +422,13 @@ function initCityMap(){
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
   
-  //console.log("city");
-  //console.dir(city);
+  console.log("city");
+  console.dir(city.geo);
   
   Sig.showMapElements(Sig.map, contextMap);
-  var latlng = [city.geo.latitude, city.geo.longitude];
-
+  var latlng = [parseFloat(city.geo.latitude)+0.0003, parseFloat(city.geo.longitude)+0.0003];
+   console.dir(latlng);
+ 
   var content = Sig.getPopupCity(city.name, city.insee);
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),
