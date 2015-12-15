@@ -142,7 +142,7 @@ function bindBtnFollow(){
 		    .done(function (data)
 		    {
 		        if ( data && data.result ) {               
-		        	toastr.success("<?php echo Yii::t("common", "Relation applied succesfully") ?> !!");
+		        	toastr.success("<?php echo Yii::t("common", "Relation applied successfully") ?> !!");
 		        	if( isNotSV ){
 		        		addFloopEntity(idConnect, "projects", contextMap["thisProject"][0]);
 						loadByHash(location.hash);
