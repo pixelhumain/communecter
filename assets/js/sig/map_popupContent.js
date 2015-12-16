@@ -102,8 +102,8 @@
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
-			console.log("type de donnée sig : ",type);
-
+			//console.log("type de donnée sig : ",type);
+			
 			var typeElement = "";
 			if(type == "people") 		typeElement = "person";
 			if(type == "citoyens") 		typeElement = "person";
@@ -111,6 +111,12 @@
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
 			//console.log("type", type);
+			
+			if(typeElement == "event"){
+				//console.log("DONNEE EVENT");
+				//console.log(data.startDate);
+				//console.dir(data);
+			}
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -160,7 +166,39 @@
 						if("undefined" != typeof data['telephone'])
 						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
-				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+						
+				popupContent += '</div>';
+
+				var dataType = ("undefined" != typeof data['typeSig']) ? data['typeSig'] : "";
+
+				if(dataType == "event" || dataType == "events"){				
+					if("undefined" != typeof data['startDate'] && "undefined" == typeof data['endDate'])
+					popupContent	+= 	"<div class='info_item startDate_item_map_list'><i class='fa fa-caret-right'></i> " + dateToStr(data['startDate'], "fr", false) + "</div>";
+					
+					if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
+						var start = dateToStr(data['startDate'], "fr", true);
+						var end = dateToStr(data['endDate'], "fr", true);
+
+						//si la date de debut == la date de fin
+						if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
+							var date1 = start.substr(0, start.indexOf("-"));
+							var hour1 = start.substr(start.indexOf("-")+2, start.length);
+							var hour2 = end.substr(end.indexOf("-")+2, end.length);
+							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
+							console.log('hour1', hour1, "hour2", hour2);
+							if(hour1 == "00h00" && hour2 == "23h59") 
+								popupContent += "</br><i class='fa fa-caret-right'></i> Toute la journée";
+							else
+								popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
+
+							popupContent += "</div>";
+						}else{
+							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
+								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
+						}
+					}
+				}
+				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
 

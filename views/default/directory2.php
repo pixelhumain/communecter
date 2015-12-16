@@ -436,6 +436,22 @@ if( isset($_GET["isNotSV"])) {
 						</div>
 					</li>
 					*/
+					function dateToStr($date, $lang, $inline){
+						//echo $date;
+						$year 	= substr($date, 0, 4);
+						$month 	= substr($date, 5, 2);//getMonthStr(date.substr(5, 2), lang);
+						$day 	= substr($date, 8, 2);
+						$hours 	= substr($date, 11, 2);
+						$minutes = substr($date, 14, 2);
+						
+						$str = $day . "/" . $month . "/" . $year;
+						if(!$inline) $str .= "</br>";
+						else $str .= " - ";
+						$str .= $hours . "h" . $minutes;
+						//echo "[[".$str."]]";
+						return $str;
+					}
+
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage)
 					{
 						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
@@ -509,20 +525,48 @@ if( isset($_GET["isNotSV"])) {
 						$strHTML .= isset($e["email"]) ? '<br/><a class="text-xss" '.$url.'>'.$e["email"].'</a>' : "";
 
 						/* **************************************
-						* DATE for Event use only
+						* DATE for Event and PROJECT uses
 						***************************************** */
-						//if(isset($e["startDate"])) { var_dump($e["startDate"]); echo $name."</br></br></br>"; }
-						if(isset($e["startDate"])){
+						
+						if(isset($e["startDate"]) && !isset($e["endDate"]) && $type == "event"){
 						 	if(isset($e["startDate"]->sec)){
-						 		$strHTML .=  '<br/><div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
-						 		//if($e["startDate"]->sec != $e["endDate"]->sec)
-						 			//$strHTML .=  " jusqu'au ".'<div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+						 		$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a>';
 							}else{
-								$strHTML .=  '<br/><a class="" '.$url.'>'.$e["startDate"].'</a>';
-								//if($e["startDate"] != $e["endDate"])
-									//$strHTML .=  '<br/><a class="" '.$url.'>'.$e["endDate"].'</a>';
+								$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.$e["startDate"].'</a>';
 							}
 						}
+						if(isset($e["startDate"]) && isset($e["endDate"]) && $type == "event"){
+						 	if(isset($e["startDate"]->sec)){
+						 		$strHTML .=  '<br/>'.
+						 					 '<a class="startDateEvent start double" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a></br>';
+						 		$strHTML .=  '<a class="startDateEvent end double" '.$url.'>'.date('m/d/Y', $e["endDate"]->sec).'</a>';
+						 		
+							}else{
+								$start = dateToStr($e["startDate"], "fr", true);
+								$end = dateToStr($e["endDate"], "fr", true);
+
+								if(substr($start, 0, 10) != substr($end, 0, 10)){
+									$strHTML .=  '<br/>'.
+												 '<a class="startDateEvent start double" '.$url.'>'.$e["startDate"].'</a></br>';
+									$strHTML .=  '<a class="startDateEvent end   double" '.$url.'>'.$e["endDate"].'</a>';
+								}else{
+									$hour1 = substr($start, strpos($start, "-")+2, strlen($start));
+									$hour2 = substr($end,   strpos($end,   "-")+2, strlen($end));
+									
+									if($hour1 == "00h00" && $hour2 == "23h59") {
+										$strHTML .=  '<br/>'.
+													 '<a class="startDateEvent double" '.$url.' allday="true"><i class="fa fa-caret-right"></i> Le '.substr($start, 0, 10).'</a></br>';
+										$strHTML .=  '<a class="startDateEvent double" '.$url.'><i class="fa fa-caret-right"></i> '.Yii::t("event","All day",null,Yii::app()->controller->module->id).'</a>';
+									}else{
+										$strHTML .=  '<br/>'.
+													 '<a class="startDateEvent double" '.$url.' allday="true"><i class="fa fa-caret-right"></i> Le '.substr($start, 0, 10).'</a></br>';
+										$strHTML .=  '<a class="startDateEvent double" '.$url.'><i class="fa fa-caret-right"></i> '.$hour1. " - ".$hour2.'</a>';
+									}
+								}
+							}
+						}
+
+
 						/* **************************************
 						* TAGS
 						***************************************** */
@@ -540,7 +584,6 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* SCOPES
 						***************************************** */
-						$strHTML .= '<br/>';
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee'])){
 							//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
@@ -654,8 +697,8 @@ if( isset($_GET["isNotSV"])) {
     foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
+    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
 ?>
@@ -696,12 +739,30 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 	
+	convertAllStartDateEvent();
+
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
 
 
 	
 });
+
+ function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
+ 	$.each($(".startDateEvent.start"), function(){
+ 		var date = dateToStr($(this).html(), "fr", true);
+ 		if($(this).attr("allday") == "true"){
+ 			$(this).html("<i class='fa fa-caret-right'></i> Le " + date);
+ 		}else{
+	 		$(this).html("<i class='fa fa-caret-right'></i> Du " + date);
+	 	}
+ 	});
+ 	$.each($(".startDateEvent.end"), function(){
+ 		var date = dateToStr($(this).html(), "fr", true);
+ 		$(this).html("<i class='fa fa-caret-right'></i> Au " + date);
+ 	});
+ }
+
  function toggleFilters(what){
  	if( !$(what).is(":visible") )
  		$('.optionFilter').hide();

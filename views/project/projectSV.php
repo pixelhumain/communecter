@@ -416,7 +416,7 @@ function runShowCity(searchValue) {
 	    $("#cityDiv").slideUp("medium");
 	}
 
-	Sig.execFullSearchNominatim(0);
+	searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 
 }
 
@@ -435,7 +435,7 @@ function bindPostalCodeAction() {
 			//setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
 			clearTimeout(timeoutGeopos);
 			timeoutGeopos = setTimeout(function() {
-				Sig.execFullSearchNominatim(0);
+				searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 			}, 1500);
 		}
 	});
@@ -443,12 +443,12 @@ function bindPostalCodeAction() {
 	$('.form-project #city').change(function(e){ //toastr.info("city change");
 		clearTimeout(timeoutGeopos);
 		timeoutGeopos = setTimeout(function() {
-			Sig.execFullSearchNominatim(0);
+			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 		}, 1500);
 	});
 	$('.form-project  #projectCountry').change(function(e){ //toastr.info("city change");
 		if($('.form-project#postalCode').val() != "" && $('.form-project #postalCode').val() != null)
-			Sig.execFullSearchNominatim(0);
+			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 	});
 }
 
@@ -489,9 +489,50 @@ function convertDate2(date, num){
 	return dateTab[num].split(" ")[0+num]+" "+hourRes;
 }
 
+	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
-		//console.log("callback ok");
-		Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+		console.log("callback ok");
+		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+		if(!show && currentCityByInsee != null) 
+			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
 	}
+
+	function searchAddressInGeoShape(){
+		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
+		}
+	}
+
+	function callbackFindByInseeSuccessAdd(obj){
+		console.log("callbackFindByInseeSuccessAdd");
+		console.dir(obj);
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			currentCityByInsee = obj;
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une street dans le form
+			if($('#fullStreet').val() != "" && $('#fullStreet').val() != null){
+				//si on a une geoShape dans la reponse obj
+				if(typeof obj.geoShape != "undefined") {
+					//on recherche avec une limit bounds
+					var polygon = L.polygon(obj.geoShape.coordinates);
+					var bounds = polygon.getBounds();
+					Sig.execFullSearchNominatim(0, bounds);
+				}
+				else{
+					//on recherche partout
+					Sig.execFullSearchNominatim(0);
+				}
+			}
+			else{
+				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+			}
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+
 	
 </script>
