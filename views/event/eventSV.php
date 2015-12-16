@@ -689,9 +689,9 @@ if( !isset($_GET["isNotSV"]))
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
-		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
 		if(!show && currentCityByInsee != null) 
-			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
 	}
 
 	function searchAddressInGeoShape(){
@@ -723,7 +723,7 @@ if( !isset($_GET["isNotSV"]))
 				}
 			}
 			else{
-				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
 			}
 		}
 		else {
