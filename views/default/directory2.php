@@ -514,11 +514,11 @@ if( isset($_GET["isNotSV"])) {
 						//if(isset($e["startDate"])) { var_dump($e["startDate"]); echo $name."</br></br></br>"; }
 						if(isset($e["startDate"])){
 						 	if(isset($e["startDate"]->sec)){
-						 		$strHTML .=  '<br/><div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
+						 		$strHTML .=  '<br/><div class="startDateEvent" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
 						 		//if($e["startDate"]->sec != $e["endDate"]->sec)
 						 			//$strHTML .=  " jusqu'au ".'<div class="" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</div>';
 							}else{
-								$strHTML .=  '<br/><a class="" '.$url.'>'.$e["startDate"].'</a>';
+								$strHTML .=  '<br/><div class="startDateEvent" '.$url.'>'.$e["startDate"].'</div>';
 								//if($e["startDate"] != $e["endDate"])
 									//$strHTML .=  '<br/><a class="" '.$url.'>'.$e["endDate"].'</a>';
 							}
@@ -540,7 +540,6 @@ if( isset($_GET["isNotSV"])) {
 						/* **************************************
 						* SCOPES
 						***************************************** */
-						$strHTML .= '<br/>';
 						$scopeHTML = "";
 						if( isset($e["address"]) && isset( $e["address"]['codeInsee'])){
 							//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
@@ -696,12 +695,22 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 	
+	convertAllStartDateEvent();
+
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
 
 
 	
 });
+
+ function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
+ 	$.each($(".startDateEvent"), function(){
+ 		var date = dateToStr($(this).html(), "fr", true);
+ 		$(this).html(date);
+ 	});
+ }
+
  function toggleFilters(what){
  	if( !$(what).is(":visible") )
  		$('.optionFilter').hide();

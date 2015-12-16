@@ -102,8 +102,8 @@
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
-			console.log("type de donnée sig : ",type);
-
+			//console.log("type de donnée sig : ",type);
+			
 			var typeElement = "";
 			if(type == "people") 		typeElement = "person";
 			if(type == "citoyens") 		typeElement = "person";
@@ -111,6 +111,12 @@
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
 			//console.log("type", type);
+			
+			if(typeElement == "event"){
+				console.log("DONNEE EVENT");
+				console.log(data.startDate);
+				//console.dir(data);
+			}
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -160,7 +166,13 @@
 						if("undefined" != typeof data['telephone'])
 						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
-				popupContent += '</div><div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+						
+				popupContent += '</div>';
+
+				if("undefined" != typeof data['startDate'])
+				popupContent	+= 	"<div class='info_item startDate_item_map_list'>" + dateToStr(data['startDate'], "fr", false) + "</div>";
+				
+				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
 

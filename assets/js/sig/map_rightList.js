@@ -180,6 +180,10 @@
 						if("undefined" != typeof name)
 						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
 						
+						if("undefined" != typeof element['startDate'])
+						button += "<div class='info_item startDate_item_map_list'>" + dateToStr(element['startDate'], "fr") + "</div>";
+					
+
 						if("undefined" != typeof allElement['tags']){
 							button	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
@@ -199,7 +203,7 @@
 						if("undefined" != typeof element['telephone'])
 						button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
 								
-				
+						
 				button += 	'</div>';
 
 				if("undefined" != typeof allElement['text']){

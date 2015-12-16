@@ -326,7 +326,15 @@ creer des conflits : regle pas assez specfique
 	margin:0px !important;
 	float:none !important;
 }
-
+.item_map_list .info_item.startDate_item_map_list{
+	font-weight: 200 !important;
+	font-size: 25px;
+	color: #5C6D78;
+	display: inline-block;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
 .element-right-list .item_map_list{
 	float:left;
 	width:100%;
@@ -341,16 +349,26 @@ creer des conflits : regle pas assez specfique
 	background-color:#EFEFEF;
 }
 
+.element-right-list .info_item.startDate_item_map_list{
+	font-weight: 300 !important;
+	font-size: 16px;
+	color: #5C6D78;
+	display: inline-block;
+	margin-left: 0px;
+}
+
+
 .item_map_list.popup-marker{
 	width:100%;
 	text-decoration:none;
-	background-color:white;
+	background-color:transparent;
 	border:0px white;
 	float:unset;
 	display: inline-block;
 }
 .item_map_list.popup-marker:hover{
-	background-color:#FFF !important;
+	/*background-color:#FFF !important;*/
+	background-color:transparent !important;
 }
 
 .ico_item_map_list{
