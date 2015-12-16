@@ -141,6 +141,9 @@ function hideLoadingMsg(){
 }
 function dateToStr(date, lang, inline){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
 
+	if(typeof date == "undefined") return;
+
+	//console.log("convert format date 1", date);
 	if(typeof date.sec != "undefined"){
 		date = new Date(date.sec);
 		var yyyy = date.getFullYear().toString();
@@ -154,14 +157,14 @@ function dateToStr(date, lang, inline){ //work with date formated : yyyy-mm-dd h
 
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
-		console.log("convert format date", date);
+		//console.log("convert format date", date);
 		var year 	= date.substr(0, 4);
-		var month 	= getMonthStr(date.substr(5, 2), lang);
+		var month 	= date.substr(5, 2);//getMonthStr(date.substr(5, 2), lang);
 		var day 	= date.substr(8, 2);
 		var hours 	= date.substr(11, 2);
 		var minutes = date.substr(14, 2);
 		
-		var str = day + " " + month + " " + year;
+		var str = day + "/" + month + "/" + year;
 		if(!inline) str += "</br>";
 		else str += " - ";
 		str += hours + "h" + minutes;

@@ -180,10 +180,7 @@
 						if("undefined" != typeof name)
 						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
 						
-						if("undefined" != typeof element['startDate'])
-						button += "<div class='info_item startDate_item_map_list'>" + dateToStr(element['startDate'], "fr") + "</div>";
-					
-
+						
 						if("undefined" != typeof allElement['tags']){
 							button	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
@@ -205,6 +202,36 @@
 								
 						
 				button += 	'</div>';
+
+				var elemType = ("undefined" != typeof element['typeSig']) ? element['typeSig'] : "";
+
+				if(elemType == "event" || elemType == "events"){				
+					if("undefined" != typeof element['startDate'] && "undefined" == typeof element['endDate'])
+					button += "<div class='info_item startDate_item_map_list'><i class='fa fa-caret-right'></i> " + dateToStr(element['startDate'], "fr", false) + "</div></br>";
+					
+					if("undefined" != typeof element['startDate'] && "undefined" != typeof element['endDate']){
+						var start = dateToStr(element['startDate'], "fr", true);
+						var end = dateToStr(element['endDate'], "fr", true);
+
+						//si la date de debut == la date de fin
+						if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
+							var date1 = start.substr(0, start.indexOf("-"));
+							var hour1 = start.substr(start.indexOf("-")+2, start.length);
+							var hour2 = end.substr(end.indexOf("-")+2, end.length);
+							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
+							
+							if(hour1 == "00h00" && hour2 == "23h59") 
+								button += "</br><i class='fa fa-caret-right'></i> Toute la journée";
+							else
+								button += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
+
+							button += "</div>";
+						}else{
+							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
+								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
+						}
+					}
+				}
 
 				if("undefined" != typeof allElement['text']){
 					if("undefined" != typeof allElement['name']){

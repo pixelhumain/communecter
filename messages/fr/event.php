@@ -33,6 +33,6 @@ return array(
 	"Allready attending for this event" => "Participe déjà à l'évènement",
 	"ATTENDEE SUCCESSFULLY ADD!!" => "Participant ajouté avec succès !!",
 	"Attendee well registered and invite!!" => "Participant enregistré et invité avec succès ",
-	
+	"All day" => "Toute la journée",
 );
 ?>

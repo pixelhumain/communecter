@@ -270,7 +270,8 @@ creer des conflits : regle pas assez specfique
 	border-radius:4px;
 }
 .item_map_list .right-col{
-	float:right;
+	float:left;
+	margin-left:10px;
 	width:190px;
 	margin-bottom:4px;
 	max-width:190px;
@@ -334,6 +335,11 @@ creer des conflits : regle pas assez specfique
 	text-align: left;
 	float: left;
 	margin-left: 15px;
+}
+.item_map_list .info_item.startDate_item_map_list.double{
+	font-size:14px;
+	margin-left: 14px;
+	margin-top: -3px;
 }
 .element-right-list .item_map_list{
 	float:left;
