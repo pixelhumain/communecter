@@ -17,7 +17,9 @@ class NewsController extends CommunecterController {
 	    return array(
 	        'index'       	=> 'citizenToolKit.controllers.news.IndexAction',
 	        'latest'     	=> 'citizenToolKit.controllers.news.LatestAction',
-	        'save'     		=> 'citizenToolKit.controllers.news.SaveAction'
+	        'save'     		=> 'citizenToolKit.controllers.news.SaveAction',
+	        'delete'     	=> 'citizenToolKit.controllers.news.DeleteAction',
+	        'updatefield'   => 'citizenToolKit.controllers.news.UpdateFieldAction',
 	    );
 	}
 }

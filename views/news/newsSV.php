@@ -413,6 +413,7 @@ jQuery(document).ready(function() {
 			if( notSubview ) {
 				//$(".box-ajaxTitle").html("Share a thought, an idea "+contextName);
 				buildDynForm();
+				
 			} else {
 				// $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
 				// 			"<div class='space20'></div>"+

@@ -759,7 +759,7 @@ function bindBtnEvents(){
 					       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"connectType":connectType},
 				        	success: function(data){
 					        	if ( data && data.result ) {               
-						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
+						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");
 						        	$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");

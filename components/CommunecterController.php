@@ -122,6 +122,8 @@ class CommunecterController extends Controller
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"    => array( "href" => "/ph/communecter/news/save"),
+      "delete"    => array( "href" => "/ph/communecter/news/delete"),
+       "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
     ),
 
     "search"=> array(
