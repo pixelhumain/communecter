@@ -295,7 +295,7 @@ function runProjectFormValidation(el) {
 			errorHandler2.hide();
 			
 			startDateSubmitProj = moment($(".form-project .project-start-date").val()).format('YYYY/MM/DD HH:mm');
-			endDateSubmitProj = moment($(".form-project .project-start-date").val()).format('YYYY/MM/DD HH:mm');
+			endDateSubmitProj = moment($(".form-project .project-end-date").val()).format('YYYY/MM/DD HH:mm');
 			
 			//alert(startDateSubmitProj);
 			newProject = new Object;
