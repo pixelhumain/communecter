@@ -129,7 +129,9 @@
 	//il faut définir les callback en fonction du context 
 	function findGeoposByInsee(codeInsee, callbackSuccess){
 		//toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
+		console.log("codeInsee", codeInsee);
 		showLoadingMsg("Recherche de la position en cours");
+		
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 			type: 'POST',

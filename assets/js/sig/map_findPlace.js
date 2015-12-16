@@ -350,7 +350,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 
-	Sig.execFullSearchNominatim = function (nbTentative){
+	Sig.execFullSearchNominatim = function (nbTentative, geoShape){
 	/*	var oldFullText = this.fullTextResearch;
 		this.fullTextResearch = true;
 		this.useExternalSearchPlace = true;
@@ -366,7 +366,13 @@ SigLoader.getSigFindPlace = function (Sig){
 		
 		this.useExternalSearchPlace = true;
 		var urlRequest = this.getNominatimRequest(nbTentative);
-		//console.log(urlRequest);
+		if(geoShape != null){
+			//viewbox=<left>,<top>,<right>,<bottom>
+			//http://wiki.openstreetmap.org/wiki/Nominatim#Parameters
+			urlRequest += "&viewbox="+geoShape.getWest()+","+geoShape.getNorth()+","
+									 +geoShape.getEast()+","+geoShape.getSouth();
+		}
+		console.log("urlRequest", urlRequest);
 		$.ajax({
 			url: "//nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
