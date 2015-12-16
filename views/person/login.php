@@ -1542,7 +1542,7 @@ function runShowCity(searchValue) {
     	//on fait une recherche nominatim
     	clearTimeout(timeout);
 		timeout = setTimeout(function() {
-			Sig.execFullSearchNominatim(0);
+			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 		}, 200);
     }else{ //sinon : on a que le CP et on recherche par le codeInsee de la première ville de la liste
     	findGeoposByInsee(citiesByPostalCode[0].value, callbackFindByInseeSuccessRegister);
@@ -1561,14 +1561,14 @@ function bindPostalCodeAction() {
 		if($('.form-register #cp').val() != "") {
 			clearTimeout(timeout);
 			timeout = setTimeout(function() {
-				Sig.execFullSearchNominatim(0);
+				searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 			}, 500);
 		}
 	});
 
 	$('.form-register #fullStreet').change(function(e){
 		if($('.form-register #cp').val() != "") {
-			Sig.execFullSearchNominatim(0);
+			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 		}
 	});
 
@@ -1660,7 +1660,48 @@ function callbackFindByInseeSuccessRegister(obj){
 		console.log("Erreur getlatlngbyinsee vide");
 	}
 }
+	function searchAddressInGeoShape(){
+		if($('#cp').val() != "" && $('#cp').val() != null){
+			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
+		}
+	}
 
+	function callbackFindByInseeSuccessAdd(obj){
+		console.log("callbackFindByInseeSuccessAdd");
+		console.dir(obj);
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			currentCityByInsee = obj;
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une street dans le form
+			if($('#fullStreet').val() != "" && $('#fullStreet').val() != null){
+				//si on a une geoShape dans la reponse obj
+				if(typeof obj.geoShape != "undefined") {
+					//on recherche avec une limit bounds
+					var polygon = L.polygon(obj.geoShape.coordinates);
+					var bounds = polygon.getBounds();
+					Sig.execFullSearchNominatim(0, bounds);
+				}
+				else{
+					//on recherche partout
+					Sig.execFullSearchNominatim(0);
+				}
+			}
+			else{
+				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+			}
+
+			if(typeof obj.name != "undefined"){
+				$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
+				$("#main-title-public2").show();
+			}
+			hideLoadingMsg();
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
 //quand la recherche par code insee n'a pas fonctionné
 function callbackFindByInseeError(){
 	console.log("erreur getlatlngbyinsee");
