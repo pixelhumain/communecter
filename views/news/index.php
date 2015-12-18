@@ -312,22 +312,24 @@ var contextMap = {
 };
 var formCreateNews;
 <?php if( !isset($_GET["isNotSV"]) ) { ?>
-	var Sig = null;
+	//var Sig = null;
 <?php } ?>
 
 jQuery(document).ready(function() 
 {
 	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
-		Sig = SigLoader.getSig();
-		Sig.loadIcoParams();
+	//	Sig = SigLoader.getSig();
+	//	Sig.loadIcoParams();
 	<?php } ?>	
 
-
-	<?php if( isset($_GET["isNotSV"]) ) { ?>
+//console.log("NEWS :");
+//console.dir(news);
+	<?php //if( isset($_GET["isNotSV"]) ) { ?>
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
-	<?php } ?>
+//		return;
+	<?php //} ?>
 
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	//alert(contextParentType);
@@ -526,8 +528,8 @@ function buildLineHTML(newsObj)
 				/**** End of construct *****/
 			}
 
-	console.log("buildLineHTML");
-	console.dir(newsObj);
+	//console.log("buildLineHTML");
+	//console.dir(newsObj);
 	actionOnNews = "";
 	if (newsObj.author.id=="<?php echo Yii::app() -> session["userId"] ?>" && streamType=="news"){
 		actionOnNews='<div class="dropdown pull-right" style="padding-left:10px;">'+

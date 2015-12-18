@@ -396,7 +396,7 @@
 			this.Sig.getCoordinates = function(thisData, type)
 			{
 				//console.warn("--------------- getCoordinates ---------------------");
-
+				//console.dir(thisData);
 				//si la donnée est une news, on doit afficher la position de l'auteur
 				if( typeof thisData.typeSig !== "undefined"){
 					if(thisData.typeSig == "news" && typeof thisData.author !== "undefined"){
@@ -434,14 +434,13 @@
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1)
-					{	
+					{			
 						if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
 							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
 							if(this.verifyPanelFilter(thisData))
 							{
 								//préparation du contenu de la bulle
 								var content = this.getPopup(thisData);
-
 								//création de l'icon sur la carte
 								var theIcon = this.getIcoMarkerMap(thisData);
 								var properties = { 	id : objectId,

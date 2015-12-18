@@ -185,7 +185,7 @@
 							var hour1 = start.substr(start.indexOf("-")+2, start.length);
 							var hour2 = end.substr(end.indexOf("-")+2, end.length);
 							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
-							console.log('hour1', hour1, "hour2", hour2);
+							//console.log('hour1', hour1, "hour2", hour2);
 							if(hour1 == "00h00" && hour2 == "23h59") 
 								popupContent += "</br><i class='fa fa-caret-right'></i> Toute la journée";
 							else
@@ -214,7 +214,7 @@
 			data = data.author;
 			console.log("typeSig : " + allData['typeSig']);
 			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
-			var id = data["_id"]["$id"];
+			var id = this.getObjectId(data);
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(allData);
@@ -403,7 +403,7 @@
 		};
 
 		Sig.getPopupModifyPosition = function(data){
-			console.dir(data);
+			//console.dir(data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
