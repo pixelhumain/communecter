@@ -56,9 +56,9 @@
     }
 </style>
 
-  <div class="panel panel-white">
+<div class="panel panel-white">
    <!--  <div class="panel-heading border-light">
-      <h4 class="panel-title text-blue"><i class="fa fa-random"></i> <?php echo Yii::t("common", "HAPHAZARD"); ?></h4>
+      <h4 class="panel-title text-blue"><i class="fa fa-random"></i> <?php //echo Yii::t("common", "HAPHAZARD"); ?></h4>
     </div> -->
     <div class="panel-body no-padding" class="entityShortDetails">
       <!-- <i class='fa fa-spinner fa-pulse fa-4x center-block'></i> -->
@@ -130,8 +130,7 @@
           <?php } ?>
 
 
-          <div class="col-lg-7 col-md-7 col-xs-12 col-sm-12 no-margin entityDetails text-dark padding-15" >
-            
+          <div class="col-lg-7 col-md-7 col-xs-12 col-sm-12 no-margin entityDetails text-dark padding-15" >            
             <?php if(isset($randomEntity["telephone"])){ ?>
               <span><i class="fa fa-phone"></i> <?php echo $randomEntity["telephone"]; ?></span></br>
             <?php } ?>
@@ -140,37 +139,37 @@
               <?php if(isset($randomEntity["address"]["postalCode"])){ ?>
                 <span><?php echo $randomEntity["address"]["postalCode"]; ?></span>
               <?php } ?>
-              <?php echo $randomEntity["address"]["addressLocality"]; ?></span></br>
+              <?php echo $randomEntity["address"]["addressLocality"]; ?>
+              </span></br>
             <?php } ?>
             
             <?php if(isset($randomEntity["address"]["codeInsee"])){ ?>
               <span><i class="fa fa-bullseye"></i> Insee <?php echo $randomEntity["address"]["codeInsee"]; ?></span></br>
             <?php } ?>  
             <?php if(isset($randomEntity["links"]["members"])){ ?>
-            <span class="pull-left col-md-12 no-padding">
-              <i class="fa fa-link"></i> <?php echo count($randomEntity["links"]["members"]); ?> membre(s)
-            </span>
-          <?php } ?>
+              <span class="pull-left col-md-12 no-padding">
+                <i class="fa fa-link"></i> <?php echo count($randomEntity["links"]["members"]); ?> membre(s)
+              </span>
+            <?php } ?>
           </div>
 
           <div class="entityDetails col-md-12">       
              <?php if(isset($randomEntity["shortDescription"])){ ?>
               <div class="text-blue margin-top-15">
-                <?php echo substr($randomEntity["shortDescription"], 0, 100); echo (strlen($randomEntity["shortDescription"])>300) ? " ..." : ""; ?>
+                <?php echo substr($randomEntity["shortDescription"], 0, 200); echo (strlen($randomEntity["shortDescription"])>200) ? " ..." : ""; ?>
               </div>
               <?php } if(isset($randomEntity["description"])){ ?>
               <div class="text-dark margin-top-15">
-                <?php echo substr($randomEntity["description"], 0, 100); echo(strlen($randomEntity["description"])>300) ? " ..." : ""; ?>
+                <?php echo substr($randomEntity["description"], 0, 500); echo(strlen($randomEntity["description"])>500) ? " ..." : ""; ?>
               </div>
               <?php } ?>
           </div>
    
-          <div class="entityDetails pull-right  col-md-12 bottom text-dark padding-10 no-margin">
-          
+          <div class="entityDetails pull-right  col-md-12 bottom text-dark padding-10 no-margin"> 
           <?php if(isset($randomEntity["tags"])) { ?>
             <div class="pull-right col-md-12 no-padding" style="margin-top:5px;">
               <?php $total=0; 
-                  foreach ($randomEntity["tags"] as $tag) { $total++;
+              foreach ($randomEntity["tags"] as $tag) { $total++;
                   if($total<8){
               ?>
               <span class="pull-right text-red lbl-tag"><i class="fa fa-tag"></i> <?php echo $tag; ?></span>
@@ -187,8 +186,3 @@
       </a>
     </div>
   </div>
-
-  <script type="text/javascript">
-  	
-
-  </script>

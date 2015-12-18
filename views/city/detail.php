@@ -154,17 +154,20 @@ $this->renderPartial('../default/panels/toolbar');
         <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
+         
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span> 
-          <?php if(@$city["communected"]){ ?>
-          <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn btn-azure homestead no-margin">
-            EST COMMUNECTÉ <i class="fa fa-thumbs-o-up"></i>
-          </a>
-          <?php } else { ?>
-          <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn homestead text-red no-margin">
-            N'EST PAS CONNECTÉ <i class="fa fa-thumbs-o-down"></i>
-          </a>
-          <?php } ?>
-          </br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.</label>
+            <?php if(@$city["communected"]){ ?>
+            <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn btn-azure homestead no-margin">
+              EST COMMUNECTÉ <i class="fa fa-thumbs-o-up"></i>
+            </a>
+            <?php } else { ?>
+            <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn homestead text-red no-margin">
+              N'EST PAS CONNECTÉ <i class="fa fa-thumbs-o-down"></i>
+            </a>
+            <?php } ?>
+            </br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.
+          </label>
+          
           <label class="margin-top-20 info-why"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> NOS PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
         </div>
       </div>
@@ -174,11 +177,11 @@ $this->renderPartial('../default/panels/toolbar');
     <?php if(count($organizations) > 0){ ?>
       <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
       <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
-      <?php if($randomEntity != null && $cnt<$minCountOrga){ 
-              $cnt++; $this->renderPartial('../pod/randomOrganization',
-                      array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
-            } 
-      ?>
+        <?php if($randomEntity != null && $cnt<$minCountOrga){ 
+                $cnt++; $this->renderPartial('../pod/randomOrganization',
+                        array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
+              } 
+        ?>
       <?php } ?>
       <a href='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
         Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
