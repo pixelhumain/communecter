@@ -120,7 +120,7 @@
 				//si l'item n'existe pas deja
 				if(!$(thisSig.cssModuleName + ' #item_panel_filter_' + valueId).length){ //on le rajoute...
 					var newItem = "<button class='item_panel_map' id='item_panel_filter_" + valueId + "'>" +
-											     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + value + //hidden-xs
+											     "<i class='fa fa-"+ ico + ' fa-'+ color + "'></i> " + Sig.t(value) + //hidden-xs
 											  "</button>";
 
 					$(thisSig.cssModuleName + ' #panel_filter').append(newItem);

@@ -223,6 +223,7 @@
 										  	"news" 				: { ico : "rss", color : "blue" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
+										  	"citoyens" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
@@ -414,5 +415,50 @@
 			$("#popup"+id+" .title_news_item_map_list").hide(100);
 			$("#popup"+id+" .text_news_item_map_list").hide(100);
 		}
+
+		Sig.translation = {
+			"People" 	: "Citoyen",
+			"Citoyen" 	: "Citoyen",
+			"Citoyens" 	: "Citoyens",
+			"citoyen" 	: "Citoyen",
+			"citoyens" 	: "Citoyens",
+			"CITOYEN" 	: "Citoyen",
+			"CITOYENS" 	: "Citoyens",
+
+			"organization"  : "Organisation",
+			"organizations" : "Organisations",
+			"Organization"  : "Organisation",
+			"Organizations" : "Organisations",
+			"ORGANIZATION"  : "Organisation",
+			"ORGANIZATIONS" : "Organisations",
+
+			"event"   : "Événement",
+			"events"  : "Événements",
+			"Event"   : "Événement",
+			"Events"  : "Événements",
+			"EVENT"   : "Événement",
+			"EVENTS"  : "ÉvénementS",
+			
+			"project"   : "Projet",
+			"projects"  : "Projets",
+			"Project"   : "Projet",
+			"Projects"  : "Projets",
+			"PROJECT"   : "Projet",
+			"PROJECTS"  : "Projets",
+			
+			"news"   : "Actualités",
+			"News"   : "Actualités",
+			"NEWS"   : "Actualités",
+			
+		}
+
+		//translation
+		Sig.t = function(string){
+			return this.translation[string];
+		};
+
+
+
+
 		return Sig;
 	};
