@@ -417,7 +417,8 @@
 		}
 
 		Sig.translation = {
-			"People" 	: "Citoyen",
+			"people" 	: "Citoyens",
+			"People" 	: "Citoyens",
 			"Citoyen" 	: "Citoyen",
 			"Citoyens" 	: "Citoyens",
 			"citoyen" 	: "Citoyen",
@@ -454,7 +455,7 @@
 
 		//translation
 		Sig.t = function(string){
-			return this.translation[string];
+			return typeof this.translation[string] != "undefined" ? this.translation[string] : string;
 		};
 
 
