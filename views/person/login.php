@@ -10,15 +10,74 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js'
 $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
 	
 ?>
-<style>
-
-</style>
-
-<!-- ---__________________________---__________________________---__________________________ -->
-
-<!-- ---__________________________---__________________________---__________________________ -->
 
 <style type="text/css">
+.container-lbl-info-search{
+	position: absolute;
+	width: 290px;
+	top: -25px;
+	background-color: rgba(58, 89, 111, 0.79); /*rgba(76, 98, 117, 0.74);*/	
+	border-radius: 50%;
+	height: 290px;
+	left: 235px;
+}
+.container-lbl-info-search .lbl-info-search{
+	height: 20px;
+	position: absolute;
+	width: 100%;
+	color: #FFF;
+	font-weight: 700;
+	font-size: 12px;
+	margin-left: 133px;
+	margin-top: 65px;
+	z-index: 10;
+}
+.container-lbl-info-search .lbl-info-search span{
+	padding:3px 7px;
+	background-color: transparent;
+	
+}
+
+.lbl-info-search.lbl1{
+	-ms-transform: rotate(340deg); /* IE 9 */
+    -webkit-transform: rotate(340deg); /* Chrome, Safari, Opera */
+    transform: rotate(340deg);
+    top: -21px !important;
+	left: -19px;
+}
+
+.lbl-info-search.lbl2{
+	-ms-transform: rotate(350deg); /* IE 9 */
+    -webkit-transform: rotate(350deg); /* Chrome, Safari, Opera */
+    transform: rotate(350deg);
+    top: 16px;
+	left: 8px;
+}
+
+.lbl-info-search.lbl3{
+	-ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+    transform: rotate(0deg);
+    left: 17px;
+	top: 65px;
+}
+
+.lbl-info-search.lbl4{
+	-ms-transform: rotate(10deg); /* IE 9 */
+    -webkit-transform: rotate(10deg); /* Chrome, Safari, Opera */
+    transform: rotate(10deg);
+    top: 113px;
+	left: 8px;
+}
+.lbl-info-search.lbl5{
+	-ms-transform: rotate(20deg); /* IE 9 */
+    -webkit-transform: rotate(20deg); /* Chrome, Safari, Opera */
+    transform: rotate(20deg);
+    left: -19px;
+	top: 152px;
+}
+
+
 
 </style>
 
@@ -42,13 +101,22 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientS
 	<a href="javascript:" class="big-button searchBar">
 		<i class="fa fa-search" style="font-size:25px; padding-top: 16px !important;"></i>
 	</a>
+	<div class="container-lbl-info-search">
+			<label class="lbl-info-search lbl1"><i class="fa fa-circle text-yellow"></i> <span>Une personne ?</span></label>
+			<label class="lbl-info-search lbl2"><i class="fa fa-circle text-green"></i> <span>Une organisation ?</span></label>
+			<label class="lbl-info-search lbl3"><i class="fa fa-circle text-purple"></i> <span>Un projet ?</span></label>
+			<label class="lbl-info-search lbl4"><i class="fa fa-circle text-orange"></i> <span>Un événement ?</span></label>
+			<label class="lbl-info-search lbl5"><i class="fa fa-circle text-red"></i> <span>Une commune ?</span></label>
+		</div>
 	<form class="inner searchBarForm">
+		
 		<input class='hide' id="searchId" name="searchId"/>
 		<input class='hide' id="searchType" name="searchType"/>
 		<input id="searchBar" name="searchBar" type="text" placeholder="Que recherchez-vous ?" style="background-color:#58879B; color:white">
 		<ul class="dropdown-menu" id="dropdown_searchTop" style="">
 		  <ol class="li-dropdown-scope"><?php echo Yii::t("common","Searching",null,Yii::app()->controller->module->id) ?>Recherche en cours</ol>
 		</ul>
+		
 		<!-- </input> -->
 	</form>
 	
@@ -79,10 +147,10 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientS
 		<i class="fa fa-map" style="font-size: 25px; padding-top: 17px;"></i> 
 	</a>
 
-	<a href="javascript:" class="big-button btn-corner-top-right tooltips" onclick="updateCitiesGeoFormat();"
+	<!-- <a href="javascript:" class="big-button btn-corner-top-right tooltips" onclick="updateCitiesGeoFormat();"
 		data-toggle="tooltip" data-placement="left" title="Mettre à jour la base de données (Cities)" alt="">
 		<i class="fa fa-database"></i> 
-	</a>
+	</a> -->
 </div>
 
 
@@ -1241,8 +1309,10 @@ function showSearchBar(show){
 		$(".box-discover").hide(400);
 		$(".box-menu").hide(400);
 		$(".searchBarForm").show(400);
+		$(".container-lbl-info-search").show(400);
 	}else if(!show && $(".searchBarForm").is(":visible")){
 		$(".searchBarForm").hide(400);
+		$(".container-lbl-info-search").hide(400);
 		if($("#main-title-public2").html() != "") $("#main-title-public2").show(400);
 	}
 }
