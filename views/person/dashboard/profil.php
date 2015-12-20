@@ -660,5 +660,28 @@ function manageSocialNetwork(iconObject, value) {
 		toastr.error('');
 	}
 
+	function openChangePasswordSV(){
+		//showAjaxPanel( '/person/changePassword?mode=initSV&userId='+personId+'&isNotSV=1', '<?php echo Yii::t("person","Change your password",null,Yii::app()->controller->module->id) ?>','key');
+	
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/changePassword",
+	        dataType : "json",
+	        data: { mode : "initSV", userId : personId }
+	    })
+	    .done(function (data) 
+	    {
+	        if (data.result) {               
+	        	//toastr.success('Your password have been updated successfully');
+	        	$(".ajaxForm").hide(200);
+	        	setTimeout(function(){
+	        			$(".ajaxForm").html(data.content);
+	        			$(".ajaxForm").show(400);
+	        	}, 500);
+	        } else {
+	           toastr.error('Something Went Wrong : ' . data.msg);
+	        }
+	    });
+	}
 
 </script>

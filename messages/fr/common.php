@@ -26,5 +26,8 @@ return array(
 	"WHERE"		=> "OÙ ?",
 	"HELP US"	=> "AIDEZ-NOUS ?",
 	"GET INVOLVED" => "PARTICIPEZ !",
+
+	"Required Fields" => "Champs obligatoires",
+	"Change password" => "Changez le mot de passe"
 	
 );
