@@ -243,7 +243,7 @@ button.btn-geolocate{
 	margin-left:auto;
 	margin-right: auto;
 }
-#dropdown_searchTop .li-dropdown-scope ol i.fa{
+#dropdown_searchTop .li-dropdown-scope ol i.fa, #dropdown_searchTop .li-dropdown-scope ol img.img-circle{
 	margin-left:10px !important;
 	margin-right: -55px;
 }
