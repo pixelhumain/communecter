@@ -169,23 +169,63 @@ button.btn-start-search{
 button.btn-start-search:hover{
 	background-color: white !important;
 	color:#3C5665;
-	
 }
+
+/* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
+button.menu-button{
+	position: fixed;
+	height: 35px;
+	width: 35px;
+	border-radius: 25px;
+	border: none;
+}
+button.btn-login{
+	right: 100px;
+	top: 40px;
+	background-color: #E33551;
+	color: #FFF;
+	font-size: 17px;
+	-moz-box-shadow: 0px 0px 5px 0px #CC3939 !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #CC3939 !important;
+	-o-box-shadow: 0px 0px 5px 0px #CC3939 !important;
+	box-shadow: 0px 0px 5px 0px #CC3939 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#CC3939, Direction=NaN, Strength=5) !important;
+}
+button.btn-geolocate{
+	left: 110px;
+	top: 50px;
+	background-color: #54B736;
+	color: #FFF;
+	font-size: 17px;
+	-moz-box-shadow: 0px 0px 5px 0px #54B736 !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #54B736 !important;
+	-o-box-shadow: 0px 0px 5px 0px #54B736 !important;
+	box-shadow: 0px 0px 5px 0px #54B736 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#54B736, Direction=NaN, Strength=5) !important;
+}
+/* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 
 .main-col-search{
 	padding-top: 10px;
 	margin-bottom: 100px;
 	padding-bottom: 40px;
 	background-color: white !important;
-	-moz-box-shadow: 0px 0px 5px -2px #656565 !important;
-	-webkit-box-shadow: 0px 0px 5px -2px #656565 !important;
-	-o-box-shadow: 0px 0px 5px -2px #656565 !important;
-	box-shadow: 0px 0px 5px -2px #656565 !important;
+	-moz-box-shadow: 0px 5px 5px -2px #656565 !important;
+	-webkit-box-shadow: 0px 5px 5px -2px #656565 !important;
+	-o-box-shadow: 0px 5px 5px -2px #656565 !important;
+	box-shadow: 0px -5px 5px -2px #656565 !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
 }
 #dropdown_searchTop .li-dropdown-scope ol{
-	width:100%;
+	width:50%;
+	font-size: 17px;
+	font-weight: 400;
 }
+#dropdown_searchTop .li-dropdown-scope ol .light{
+	font-size: 14px;
+	font-weight: 300;
+}
+
 #dropdown_searchTop .li-dropdown-scope ol:hover{
 	background-color: transparent !important;
 	color:inherit !important;
@@ -199,8 +239,13 @@ button.btn-start-search:hover{
 
 .li-dropdown-scope{
 	width:100%;
+	text-align: right;
 	margin-left:auto;
 	margin-right: auto;
+}
+#dropdown_searchTop .li-dropdown-scope ol i.fa{
+	margin-left:10px !important;
+	margin-right: -55px;
 }
 @media screen and (max-width: 1024px) {
 	.img-logo{
@@ -239,7 +284,7 @@ button.btn-start-search:hover{
 
 	button.btn-start-search{
 		margin-top: 45px;
-		margin-left: 34%;
+		margin-left: 45%;
 		background-color: #3C5665 !important;
 		color:white;
 		border-color: #3C5665 !important;
@@ -248,14 +293,22 @@ button.btn-start-search:hover{
 		font-size: 15px;
 	}
 }
-
 </style>
+
+
+<button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="bottom" title="Se connecter" alt="Se connecter">
+	<i class="fa fa-sign-in"></i>
+</button>
+<button class="menu-button btn-geolocate tooltips" data-toggle="tooltip" data-placement="bottom" title="Localisation automatique" alt="Localisation automatique">
+	<i class="fa fa-crosshairs"></i>
+</button>
+
 <div class="col-sm-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
 	<h1 class="homestead text-dark text-center" 
 		style="font-size:25px;margin-bottom: 0px; margin-left: -112px;">L'annuaire</span></h1>
 
 	<h1 class="homestead text-red  text-center" 
-		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
+		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
 	
 	<div class="img-logo bgpixeltree_little">
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
@@ -272,6 +325,8 @@ button.btn-start-search:hover{
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
+	$('.tooltips').tooltip();
+
 	var timeout = null;
 	$('#searchBarText').keyup(function(e){
 	        var name = $('#searchBarText').val();
@@ -302,6 +357,19 @@ var mapIconTop = {
     "project":"<?php echo Project::ICON ?>",
     "city": "<?php echo City::ICON ?>"
   };
+var mapColorIconTop = {
+    "default" : "dark",
+    "citoyen":"yellow", 
+    "NGO":"green",
+    "LocalBusiness" :"green",
+    "Group" : "green",
+    "group" : "green",
+    "association" : "green",
+    "GovernmentOrganization" : "green",
+    "event":"orange",
+    "project":"purple",
+    "city": "red"
+  };
 
 function autoCompleteSearch(name){
     var data = {"name" : name};
@@ -319,17 +387,20 @@ function autoCompleteSearch(name){
           $.each(data, function(i, v) {
             var typeIco = i;
             var ico = mapIconTop["default"];
+            var color = mapColorIconTop["default"];
             if(v.length!=0){
               $.each(v, function(k, o){
                 
                 typeIco = o.type;
                 ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                htmlIco ="<i class='fa "+ ico +" fa-2x'></i>";
+                color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+                
+                htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
                
-                //console.dir(o);
+                console.dir(o);
                   
                 if (o.address != null) {
-                  console.dir(o.address);
+                  //console.dir(o.address);
                   city = o.address.addressLocality;
                   //postalCode = o.address.postalCode;
                   //insee = o.address.insee;
@@ -344,15 +415,15 @@ function autoCompleteSearch(name){
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
-                          "<span>"+ htmlIco +"</span>  " + o.name;
+                          o.name ;
 
                 var cityComplete = "";
                 //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
                 if("undefined" != typeof city && city != "Unknown") cityComplete += city;
                 if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
-                str +=   "<span class='city-search'> "+cityComplete+"</span>";
-
+                str +=   "<span class='light'> "+cityComplete+"</span>";
+                str +=   "<span>"+ htmlIco +"</span>  "
                 str +=  "</ol></a>";//</div>";
               })
             }
