@@ -10,7 +10,7 @@
 class SearchController extends CommunecterController {
 
   protected function beforeAction($action) {
-		  return parent::beforeAction($action);
+      return parent::beforeAction($action);
   }
 
   public function actions()
@@ -19,6 +19,7 @@ class SearchController extends CommunecterController {
           'globalautocomplete'      	=> 'citizenToolKit.controllers.search.GlobalAutoCompleteAction',
           'searchmemberautocomplete'	=> 'citizenToolKit.controllers.search.SearchMembersAutoCompleteAction',
           'searchbycriteria'          => 'citizenToolKit.controllers.search.SearchByCriteriaAction',
+          'index'                     => 'citizenToolKit.controllers.search.IndexAction',
       );
   }
   

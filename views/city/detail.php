@@ -144,7 +144,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div>
         <div class="panel-heading border-light padding-5">
           <h1 class="homestead text-blue center you-live">Vous habitez à <b><?php echo $city["name"]; ?> ?</b></h1>
-          <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/login?register=1'); ?>" class="btn homestead text-red no-margin" id="btn-communecter">
+          <a href="javascript:;" class="btn homestead text-red no-margin register" id="btn-communecter" onclick="communecter();">
             COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -416,7 +416,14 @@ jQuery(document).ready(function() {
 });
 
 
-function communecter(){ toastr.info('TODO : redirect to form register || OR || slide to form register');
+function communecter(){ //toastr.info('TODO : redirect to form register || OR || slide to form register');
+    $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+      $(this).show().removeClass("animated bounceInLeft");
+
+    });
+    $(".box-ajax").hide(400);
+    activePanel = "box-register";
+
 }
 
 var markerCity;

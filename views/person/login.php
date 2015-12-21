@@ -20,6 +20,12 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientS
 	border-radius: 50%;
 	height: 290px;
 	left: 235px;
+	display: none;
+	-moz-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+    -webkit-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+    -o-box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+    box-shadow: 0px 0px 5px 5px rgba(41, 41, 41, 0.56);
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 }
 .container-lbl-info-search .lbl-info-search{
 	height: 20px;
@@ -268,7 +274,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientS
 					<!-- <h2 class="text-red  no-margin padding-bottom-5 text-center bg-white"><i class="fa fa-angle-down"></i> Je m'inscris</h2> -->
 					<?php //echo Yii::t("login","Don't have an account yet?") ?>
 					<a href="javascript:" onclick="showFormRegister();" class="btn btn-default btn-sm register text-dark">
-						<i class="fa fa-plus"></i> <i class="fa fa-user"></i> <?php echo Yii::t("login","Create an account") ?>
+						<i class="fa fa-plus"></i> <i class="fa fa-user"></i> <?php echo Yii::t("login", "Create an account") ?>
 					</a>
 					
 				</div>
@@ -627,7 +633,7 @@ svg.graph .line {
 		});
 		
 
-		 $('#searchBar').keyup(function(e){
+		$('#searchBar').keyup(function(e){
 	        var name = $('#searchBar').val();
 	        $(this).css("color", "#58879B");
 	        if(name.length>=3){
@@ -657,6 +663,10 @@ svg.graph .line {
 		$(".sigModuleBg").mouseover(function(){
 	    	showSearchBar(false);
 	    });
+
+		// $(".big-button").mousein(function(){
+	 //    	Sig.currentMarkerPopupOpen.closePopup();
+	 //    });
 
 
 		if(register == true){
@@ -1271,9 +1281,9 @@ function showFormRegister(){
 	$(".box-ajax").hide(400);
 	if($(".form-group #cp").val() != "")
 		searchCity();
-	
-	
+	if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.closePopup();
 }
+
 function showDiscover(){
 	$(".box-discover .box").hide();
 	//$("#main-title-public2").hide();
@@ -1284,6 +1294,7 @@ function showDiscover(){
 	if( $(".box-menu-elements").is(':visible') )
 		$(".box-menu-elements").slideUp();
 	$(".box-menu-what").slideDown();
+	if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.closePopup();
 }
 function showDiscoverCluster(){
 	$(".box").hide();
@@ -1291,7 +1302,7 @@ function showDiscoverCluster(){
 	$(".box-menu-elements").show(400);
 	$(".box-discover").show(400);
 	showPanel('box-people','bgyellow');
-
+	if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.closePopup();
 }
 function showElements(){
 	$(".box-discover .box").hide();
@@ -1310,10 +1321,12 @@ function showSearchBar(show){
 		$(".box-menu").hide(400);
 		$(".searchBarForm").show(400);
 		$(".container-lbl-info-search").show(400);
+		if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.closePopup();
 	}else if(!show && $(".searchBarForm").is(":visible")){
 		$(".searchBarForm").hide(400);
 		$(".container-lbl-info-search").hide(400);
 		if($("#main-title-public2").html() != "") $("#main-title-public2").show(400);
+		if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.openPopup();
 	}
 }
 
