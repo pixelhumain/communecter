@@ -220,6 +220,8 @@ button.btn-geolocate{
 	width:50%;
 	font-size: 17px;
 	font-weight: 400;
+	line-height: 1.3;
+	margin-top: 10px;
 }
 #dropdown_searchTop .li-dropdown-scope ol .light{
 	font-size: 14px;
@@ -242,11 +244,58 @@ button.btn-geolocate{
 	text-align: right;
 	margin-left:auto;
 	margin-right: auto;
+	margin-top:6px;
 }
 #dropdown_searchTop .li-dropdown-scope ol i.fa, #dropdown_searchTop .li-dropdown-scope ol img.img-circle{
 	margin-left:10px !important;
 	margin-right: -55px;
+	float: right;
+	margin-top: -50px;
 }
+#dropdown_searchTop .li-dropdown-scope ol .tags, #dropdown_searchTop .li-dropdown-scope ol .tags:hover{
+	color:red !important;
+	font-size:13px;
+}
+.tags {
+  display: inline;
+  background: #E9E9E9;
+  color: white !important;
+  transition: all .25s linear;
+  white-space: nowrap;
+  line-height: 21px; 
+  padding-bottom:5px;
+	}
+  .tags:before {
+    content: "";
+    border-style: solid;
+    border-color: transparent #E9E9E9 transparent transparent;
+    border-width: 12px 13px 12px 0;
+    position: absolute;
+    left: -13px;
+    top: 0;
+    transition: all .25s linear; }
+  .tags:hover {
+    background-color: #E9E9E9;
+    color: red; }
+  .tags:hover:before {
+    border-color: transparent #E9E9E9 transparent transparent; }
+  .tags:after {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 50% 50% 50% 50%;
+    content: "";
+    height: 5px;
+    left: -1px;
+    position: absolute;
+    top: 10px;
+    width: 5px; }
+
+    .elipsis{
+    	text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		max-width: 98%;
+		height: 40px;
+    }
 @media screen and (max-width: 1024px) {
 	.img-logo{
 		width: 400px;
@@ -292,6 +341,17 @@ button.btn-geolocate{
 		font-weight: 300;
 		font-size: 15px;
 	}
+
+	#dropdown_searchTop .li-dropdown-scope ol{
+		width:50%;
+		font-size: 17px;
+		font-weight: 400;
+	}
+	#dropdown_searchTop .li-dropdown-scope ol .light{
+		font-size: 14px;
+		font-weight: 300;
+	}
+
 }
 </style>
 
@@ -414,7 +474,7 @@ function autoCompleteSearch(name){
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
-                          "<ol>"+
+                          "<ol><div class='elipsis'>"+
                           o.name ;
 
                 var cityComplete = "";
@@ -423,7 +483,21 @@ function autoCompleteSearch(name){
                 if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
                 str +=   "<span class='light'> "+cityComplete+"</span>";
-                str +=   "<span>"+ htmlIco +"</span>  "
+
+
+                //str +=   "</br><span class='tags_list'>";
+                //str +=   getUrlElement(o.id, i, insee);
+                
+                if(typeof o.tags != "undefined" && o.tags != null){
+					str +=   "<span class='tags'>";
+		                $.each(o.tags, function(key, value){
+		                	str +=   " #" + value;
+		                });
+	                str += "</span>";
+                }
+                //str +=   "</span>";
+                
+                str +=   "</div><span>"+ htmlIco +"</span>";
                 str +=  "</ol></a>";//</div>";
               })
             }
@@ -462,7 +536,7 @@ function autoCompleteSearch(name){
     });
   }
 
-  function setSearchInput(id, type,name,icon, insee){
+  function setSearchInput(id, type, name, icon, insee){
     if(type=="citoyen"){
       type = "person";
     }
@@ -477,6 +551,18 @@ function autoCompleteSearch(name){
     $("#searchId").val(id);
     $("#searchType").val(type);
     $("#dropdown_searchTop").css({"display" : "none" });*/  
+  }
+
+  function getUrlElement(id, type, insee){
+  	if(type=="citoyen"){
+      type = "person";
+    }
+    url = "/"+type+"/detail/id/"+id;
+    
+    if(type=="cities")
+        url = "/city/detail/insee/"+insee;
+
+   	return "http://communecter.org" + url;
   }
 </script>
 
