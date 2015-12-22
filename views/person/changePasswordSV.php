@@ -13,12 +13,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 <div id="changePassword" >
 	<!-- start: PAGE CONTENT -->
-	<div class="noteWrap col-md-8 col-md-offset-2">
-	    <div class="panel panel-white">
-        	<div class="panel-heading border-light">
-				<h1>Changer votre mot de passe</h1>
-			</div>
-		</div>
+	<div class="noteWrap col-md-6 col-md-offset-3">
+	    <!-- <div class="panel panel-white"> -->
+        	<!-- <div class="panel-heading border-light"> -->
+				<h1 class="text-red" style="font-size:20px;"><i class="fa fa-key"></i> Changer votre mot de passe</h1>
+			<!-- </div> -->
+		<!-- </div> -->
 		<div class="panel-body">
 			<form id="passwordForm" role="form">
 				<div class="row">
@@ -31,7 +31,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</div>
 					</div>
 					<div>
-						<div class="col-md-6 col-xs-12">
+						<div class="col-md-12 col-xs-12">
 							<div class="form-group">
 								<label class="control-label">
 									Ancien mot de passe <span class="symbol required"></span>
@@ -56,12 +56,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						<div class="row">
 							<div class="col-md-12">
 								<div>
-									<span class="symbol required"></span>Required Fields
+									<span class="symbol required"></span><?php echo Yii::t("common","Required Fields",null,Yii::app()->controller->module->id) ?>
 									<hr>
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary" id="btnChangePassword">Change password</button>
+						<button class="btn btn-success" id="btnChangePassword"><i class="fa fa-save"></i> <?php echo Yii::t("common","Change password",null,Yii::app()->controller->module->id) ?></button>
 					</div>
 				</div>
 			</form>
@@ -117,6 +117,7 @@ var formValidator = function() {
 	                        toastr.success(data.msg);
 							$.hideSubview();
 							$.unblockUI();
+							loadByHash(location.hash);
 	                    }
 		    	  },
 		    	  error: function(data) {

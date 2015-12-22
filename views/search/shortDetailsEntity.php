@@ -56,7 +56,7 @@
     }
 </style>
 
-<div class="panel panel-white">
+<div class="panel panel-white no-margin">
    <!--  <div class="panel-heading border-light">
       <h4 class="panel-title text-blue"><i class="fa fa-random"></i> <?php //echo Yii::t("common", "HAPHAZARD"); ?></h4>
     </div> -->
@@ -71,7 +71,7 @@
                                      "events"=>"calendar");
 
             $iconsEntityColor = array("organizations"=>"green", 
-                                     "people"=>"yellow",
+                       "people"=>"yellow",
                                      "citoyens"=>"yellow",
                                      "projects"=>"purple",
                                      "events"=>"orange");
@@ -84,26 +84,26 @@
             $faIcon = "";
             $type = "";
             $color = "white";
-            //var_dump($randomEntity);
-            //echo $randomEntity["typeSig"];
-            $name = isset($randomEntity["username"]) ? $randomEntity["username"] : "";
-            if(isset($randomEntity["name"])) $name = $name != "" ? $name : $randomEntity["name"];
-            if(isset($randomEntity["typeSig"])){
-              $type = $randomEntity["typeSig"];
+            //var_dump($entity);
+            //echo $entity["typeSig"];
+            $name = isset($entity["username"]) ? $entity["username"] : "";
+            if(isset($entity["name"])) $name = $name != "" ? $name : $entity["name"];
+            if(isset($entity["typeSig"])){
+              $type = $entity["typeSig"];
               $faIcon = isset($iconsEntityType[$type]) ? "<i class='fa fa-".$iconsEntityType[$type]."'></i> " : "";
               $color = isset($iconsEntityColor[$type]) ? $iconsEntityColor[$type] : "white";
             }
             
             $imgPath = "";
-            if(isset($randomEntity["profilImageUrl"]) && $randomEntity["profilImageUrl"] != ""){
-              $profilImageUrl = $randomEntity["profilImageUrl"];
+            if(isset($entity["profilImageUrl"]) && $entity["profilImageUrl"] != ""){
+              $profilImageUrl = $entity["profilImageUrl"];
               $imgPath = Yii::app()->createUrl("/".$profilImageUrl);
             }
         ?>
 
         <?php 
-          $url = ( isset($randomEntity['_id']) ) ? "javascript:;" : '#';
-          $onclick = (isset($randomEntity['_id']) ) ? "onclick='loadByHash(\"#".$entityTypeUrl[$type].".detail.id.".$randomEntity['_id']."\")'" : "";
+          $url = ( isset($entity['_id']) ) ? "javascript:;" : '#';
+          $onclick = (isset($entity['_id']) ) ? "onclick='loadByHash(\"#".$entityTypeUrl[$type].".detail.id.".$entity['_id']."\")'" : "";
         ?>
          
 
@@ -115,8 +115,8 @@
           </a>
 
          <div class='col-md-12'>
-          <?php if(isset($randomEntity["email"])){ ?>
-              <span><i class="fa fa-envelope"></i> <?php echo $randomEntity["email"]; ?></span></br>
+          <?php if(isset($entity["email"])){ ?>
+              <span><i class="fa fa-envelope"></i> <?php echo $entity["email"]; ?></span></br>
             <?php } ?>
           </div>
 
@@ -131,45 +131,45 @@
 
 
           <div class="col-lg-7 col-md-7 col-xs-12 col-sm-12 no-margin entityDetails text-dark padding-15" >            
-            <?php if(isset($randomEntity["telephone"])){ ?>
-              <span><i class="fa fa-phone"></i> <?php echo $randomEntity["telephone"]; ?></span></br>
+            <?php if(isset($entity["telephone"])){ ?>
+              <span><i class="fa fa-phone"></i> <?php echo $entity["telephone"]; ?></span></br>
             <?php } ?>
-            <?php if(isset($randomEntity["address"]["addressLocality"])){ ?>
+            <?php if(isset($entity["address"]["addressLocality"])){ ?>
               <span><i class="fa fa-home"></i> 
-              <?php if(isset($randomEntity["address"]["postalCode"])){ ?>
-                <span><?php echo $randomEntity["address"]["postalCode"]; ?></span>
+              <?php if(isset($entity["address"]["postalCode"])){ ?>
+                <span><?php echo $entity["address"]["postalCode"]; ?></span>
               <?php } ?>
-              <?php echo $randomEntity["address"]["addressLocality"]; ?>
+              <?php echo $entity["address"]["addressLocality"]; ?>
               </span></br>
             <?php } ?>
             
-            <?php if(isset($randomEntity["address"]["codeInsee"])){ ?>
-              <span><i class="fa fa-bullseye"></i> Insee <?php echo $randomEntity["address"]["codeInsee"]; ?></span></br>
+            <?php if(isset($entity["address"]["codeInsee"])){ ?>
+              <span><i class="fa fa-bullseye"></i> Insee <?php echo $entity["address"]["codeInsee"]; ?></span></br>
             <?php } ?>  
-            <?php if(isset($randomEntity["links"]["members"])){ ?>
+            <?php if(isset($entity["links"]["members"])){ ?>
               <span class="pull-left col-md-12 no-padding">
-                <i class="fa fa-link"></i> <?php echo count($randomEntity["links"]["members"]); ?> membre(s)
+                <i class="fa fa-link"></i> <?php echo count($entity["links"]["members"]); ?> membre(s)
               </span>
             <?php } ?>
           </div>
 
           <div class="entityDetails col-md-12">       
-             <?php if(isset($randomEntity["shortDescription"])){ ?>
+             <?php if(isset($entity["shortDescription"])){ ?>
               <div class="text-blue margin-top-15">
-                <?php echo substr($randomEntity["shortDescription"], 0, 200); echo (strlen($randomEntity["shortDescription"])>200) ? " ..." : ""; ?>
+                <?php echo substr($entity["shortDescription"], 0, 200); echo (strlen($entity["shortDescription"])>200) ? " ..." : ""; ?>
               </div>
-              <?php } if(isset($randomEntity["description"])){ ?>
+              <?php } if(isset($entity["description"])){ ?>
               <div class="text-dark margin-top-15">
-                <?php echo substr($randomEntity["description"], 0, 500); echo(strlen($randomEntity["description"])>500) ? " ..." : ""; ?>
+                <?php echo substr($entity["description"], 0, 500); echo(strlen($entity["description"])>500) ? " ..." : ""; ?>
               </div>
               <?php } ?>
           </div>
    
           <div class="entityDetails pull-right  col-md-12 bottom text-dark padding-10 no-margin"> 
-          <?php if(isset($randomEntity["tags"])) { ?>
+          <?php if(isset($entity["tags"])) { ?>
             <div class="pull-right col-md-12 no-padding" style="margin-top:5px;">
               <?php $total=0; 
-              foreach ($randomEntity["tags"] as $tag) { $total++;
+              foreach ($entity["tags"] as $tag) { $total++;
                   if($total<8){
               ?>
               <span class="pull-right text-red lbl-tag"><i class="fa fa-tag"></i> <?php echo $tag; ?></span>

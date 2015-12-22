@@ -346,10 +346,10 @@ if( isset($_GET["isNotSV"])) {
 						</li>
 						<?php } ?>
 						<li  class="" style="margin-left:30px;">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Search what"); ?> ?</a>
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Tags"); ?></a>
 						</li>
 						<li class="" style="margin-right:0px;">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Search where"); ?> ?</a>
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Places"); ?></a>
 						</li>
 						
 						
