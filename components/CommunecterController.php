@@ -123,7 +123,8 @@ class CommunecterController extends Controller
       "latest"  => array( "href" => "/ph/communecter/news/latest"),
       "save"    => array( "href" => "/ph/communecter/news/save"),
       "delete"    => array( "href" => "/ph/communecter/news/delete"),
-       "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
+      "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
+      "extractprocess" => array( "href" => "/ph/communecter/news/extractprocess"),
     ),
 
     "search"=> array(
