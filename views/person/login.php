@@ -1436,6 +1436,8 @@ function autoCompleteSearch(name){
     
     if(type=="cities")
         url = "/city/detail/insee/"+insee+"?isNotSV=1";
+
+    
     //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
     openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*

@@ -12,6 +12,10 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 <style type="text/css">
 
 
+ html, body {
+  min-height: 100%;
+  height: 100%;
+}
 
 .container-lbl-info-search{
 	position: absolute;
@@ -148,9 +152,10 @@ input.input-search.postalCode:focus{
 
 button.btn-start-search{
 	margin-top: 70px;
+	margin-bottom: 20px;
 	/*width: 25%;*/
 	margin-left: 47%;
-	background-color: #3C5665 !important;
+	/*background-color: #3C5665 !important;*/
 	color:white;
 	border-color: #3C5665 !important;
 	border-radius: 30px;
@@ -168,7 +173,7 @@ button.btn-start-search{
 
 button.btn-start-search:hover{
 	background-color: white !important;
-	color:#3C5665;
+	color:#3C5665 !important;
 }
 
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
@@ -207,8 +212,8 @@ button.btn-geolocate{
 
 .main-col-search{
 	padding-top: 10px;
-	margin-bottom: 100px;
 	padding-bottom: 40px;
+	min-height: 100%;
 	background-color: white !important;
 	-moz-box-shadow: 0px 5px 5px -2px #656565 !important;
 	-webkit-box-shadow: 0px 5px 5px -2px #656565 !important;
@@ -216,12 +221,16 @@ button.btn-geolocate{
 	box-shadow: 0px -5px 5px -2px #656565 !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
 }
+#dropdown_searchTop{
+	padding-left: 0px;
+	margin-left: 0px;
+}
 #dropdown_searchTop .li-dropdown-scope ol{
 	width:50%;
 	font-size: 17px;
 	font-weight: 400;
 	line-height: 1.3;
-	margin-top: 10px;
+	margin-top: -10px;
 }
 #dropdown_searchTop .li-dropdown-scope ol .light{
 	font-size: 14px;
@@ -245,6 +254,7 @@ button.btn-geolocate{
 	margin-left:auto;
 	margin-right: auto;
 	margin-top:6px;
+	display: inline-block;
 }
 #dropdown_searchTop .li-dropdown-scope ol i.fa, #dropdown_searchTop .li-dropdown-scope ol img.img-circle{
 	margin-left:10px !important;
@@ -296,6 +306,21 @@ button.btn-geolocate{
 		max-width: 98%;
 		height: 40px;
     }
+
+    #shortDetailsEntity{
+    	position: absolute;
+		right: 10px;
+		top: 480px;
+		/*min-height: 100px;*/
+		border: 1px solid #E1E1E1;
+		border-radius: 4px;    
+		display: none;
+	}
+
+	.fa.loader_short_details{
+		margin:10px;
+	}
+
 @media screen and (max-width: 1024px) {
 	.img-logo{
 		width: 400px;
@@ -334,12 +359,13 @@ button.btn-geolocate{
 	button.btn-start-search{
 		margin-top: 45px;
 		margin-left: 45%;
-		background-color: #3C5665 !important;
+		/*background-color: #3C5665 !important;*/
 		color:white;
 		border-color: #3C5665 !important;
 		border-radius: 30px;
 		font-weight: 300;
 		font-size: 15px;
+		margin-bottom: 20px;
 	}
 
 	#dropdown_searchTop .li-dropdown-scope ol{
@@ -373,12 +399,14 @@ button.btn-geolocate{
 	<div class="img-logo bgpixeltree_little">
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
 		<input id="searchBarPostalCode" type="text" placeholder="un code postal ?" class="input-search postalCode">
-		<button class="btn btn-primary btn-start-search "><i class="fa fa-search"></i></button>
+		<button class="btn btn-primary btn-start-search bg-dark"><i class="fa fa-search"></i></button>
 	</div>
 
-	<ul class="" id="dropdown_searchTop" style="">
+	<div class="" id="dropdown_searchTop" style="">
 	  <!-- <ol class="li-dropdown-scope"><?php echo Yii::t("common","Searching",null,Yii::app()->controller->module->id) ?></ol> -->
-	</ul>
+	</div>
+
+	
 </div>
 
 
@@ -390,7 +418,7 @@ jQuery(document).ready(function() {
 	var timeout = null;
 	$('#searchBarText').keyup(function(e){
 	        var name = $('#searchBarText').val();
-	        $(this).css("color", "#58879B");
+	        //$(this).css("color", "#58879B");
 	        if(name.length>=3){
 	          clearTimeout(timeout);
 	          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
@@ -433,6 +461,7 @@ var mapColorIconTop = {
 
 function autoCompleteSearch(name){
     var data = {"name" : name};
+    $("#shortDetailsEntity").hide();
     $.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -508,11 +537,15 @@ function autoCompleteSearch(name){
             	$("#dropdown_searchTop").css({"display" : "none" });
             
             }else{
+            	str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
+
 	            $("#dropdown_searchTop").html(str);
 	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
 	        	$("#dropdown_searchTop").css({"display" : "inline" });
-            
 	        }
+	        $(".btn-start-search").removeClass("bg-azure");
+    		$(".btn-start-search").addClass("bg-dark");
+    
 
             addEventOnSearch(); 
           }
@@ -521,6 +554,8 @@ function autoCompleteSearch(name){
 
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
+    $(".btn-start-search").addClass("bg-azure");
+    $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_searchTop").html("");
     $("#dropdown_searchTop").css({"display" : "inline" });
                     
@@ -528,24 +563,45 @@ function autoCompleteSearch(name){
 
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
-      setSearchInput($(this).data("id"), $(this).data("type"),
-                     $(this).data("name"), $(this).data("icon"), 
-                     $(this).data("insee") );
+      
+      //toastr.success($("#dropdown_searchTop").position().top);
+      var top = $(this).position().top;// + $("#dropdown_searchTop").position().top;
 
-      $('#dropdown_searchTop').css("display" , "none");
+      setSearchInput($(this).data("id"), $(this).data("type"),
+                     $(this).data("insee"), top );
     });
   }
 
-  function setSearchInput(id, type, name, icon, insee){
-    if(type=="citoyen"){
-      type = "person";
-    }
-    url = "/"+type+"/detail/id/"+id;
+  function setSearchInput(id, type, insee, top){
+    if(type=="citoyen"){ type = "person"; }
+    
+    $("#shortDetailsEntity").hide();
+    $("#shortDetailsEntity").html("<center><i class='fa fa-2x fa-circle-o-notch fa-spin loader_short_details'></i></center>");
+    $("#shortDetailsEntity").css({"top":top-10});
+    $("#shortDetailsEntity").show(400);
+    
+    $.ajax({
+		url: baseUrl+'/'+moduleId+"/search/getshortdetailsentity/",
+		data: {id : id, type : type },
+		type: 'post',
+		global: false,
+		async: true,
+		success: function(data) { 
+			$("#shortDetailsEntity").html(data);
+			
+		},
+		error: function(error){
+			console.dir(error);
+			toastr.error('error!');
+		}
+	});
+
+    /*url = "/"+type+"/detail/id/"+id;
     
     if(type=="cities")
         url = "/city/detail/insee/"+insee+"?isNotSV=1";
     //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    openMainPanelFromPanel( url, type+" : "+name,icon, id);
+    */
     /*
     $("#searchBar").val(name);
     $("#searchId").val(id);
@@ -562,7 +618,7 @@ function autoCompleteSearch(name){
     if(type=="cities")
         url = "/city/detail/insee/"+insee;
 
-   	return "http://communecter.org" + url;
+   	return url;
   }
 </script>
 
