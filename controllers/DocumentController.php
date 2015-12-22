@@ -29,8 +29,7 @@ class DocumentController extends CommunecterController {
 	            'class'   => 'ext.resizer.ResizerAction',
 	            'options' => array(
 	                // Tmp dir to store cached resized images 
-	                'cache_dir'   => Yii::getPathOfAlias('webroot') . '/assets/',
-	 
+	                'cache_dir'   => Yii::getPathOfAlias('webroot') . '/assets/',	 
 	                // Web root dir to search images from
 	                'base_dir'    => Yii::getPathOfAlias('webroot') . '/',
 	            )

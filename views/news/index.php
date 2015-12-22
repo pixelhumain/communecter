@@ -15,7 +15,8 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/moment/min/moment.min.js',
 	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
 	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-	'/plugins/jquery.appear/jquery.appear.js'
+	'/plugins/jquery.appear/jquery.appear.js',
+	'/plugins/jquery.elastic/elastic.js',
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -180,12 +181,117 @@ div.timeline .date_separator span{
 .editable-news{
 	
 }
+.extract_url {
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+}
+.extracted_url{
+	min-height:100px;
+}
+#get_url{
+	max-width:100%; 
+	resize: none;
+}
+#get_url:focus{
+	background-color: white !important;
+}
+.get_url_input {
+	width: 100%;
+	border: 1px solid #8E9CA4;
+	height: 25px;
+	padding-left: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-right: 30px;
+	min-height: 50px;
+}
+.extracted_thumb {
+	float: left;
+	margin-right: 10px;
+}
+
+#loading_indicator{
+	position: absolute;
+    right: 10px;
+    margin-top: 5px;
+    display: none;
+}
+#results{
+	display:none;
+    border: 1px solid #eee;
+}
+a:link {
+	color: #0066CC;
+}
+.thumb_sel {
+	float: left;
+	height: 22px;
+	width: 55px;
+}
+.thumb_sel .prev_thumb {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -50px 0px;
+	float: left;
+	width: 26px;
+	height: 22px;
+	cursor: hand;
+	cursor: pointer;
+}
+.thumb_sel .prev_thumb:hover {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat 0px 0px;
+}
+.thumb_sel .next_thumb {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -76px 0px;
+	float: left;
+	width: 24px;
+	height: 22px;
+	cursor: hand; 
+	cursor: pointer;
+}
+.thumb_sel .next_thumb:hover {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -26px 0px;
+}
+.small_text{
+	font-size: 10px;
+}
 </style>
 
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news'><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
-		<form id='ajaxForm'></form>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
+		<form id=''>
+			<div class="extract_url">
+				<div class="padding-10 bg-white">
+					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
+					<textarea id="get_url" placeholder="Enter an URL here and your idea" class="get_url_input form-control textarea" style="border:none;" spellcheck="false" ></textarea>
+					<div id="results" class="padding-10 bg-white">
+					</div>
+				</div>
+			</div>
+
+
+			<div class="form-actions" style="display: block;">
+				<div class="dropdown">
+					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li>
+							<a href="#" id="scope-my-wall" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
+								<!--<div class="small" style="padding-left:12px;">-->
+							<p class="list-group-item-text small">Ouvert au public et votre localité</p><!--</div>-->
+							</a>
+						</li>
+						<li>
+							<a href="#" id="scope-my-network" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
+								<p class="list-group-item-text small">Le réseau auquel vous êtes connecté</p>
+							</a>
+						</li>
+						<!--<li>
+							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
+						</li>-->
+					</ul>
+				</div>	
+				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Submit <i class="fa fa-arrow-circle-right"></i></button>
+			
+			</div>
+		</form>
 	 </div>
 </div>
 <div id="newsHistory" class="padding-20">
@@ -232,7 +338,7 @@ div.timeline .date_separator span{
 	
 				<div id="timeline" class="col-md-10">
 					<div class="timeline">
-						<div class="center filterNewsActivity">
+						<!--<div class="center filterNewsActivity">
 							<div class="btn-group">
 								<a id="btnNews" href="javascript:;"  class="filter btn btn-dark-green" data-filter=".news" style="width:140px;">
 									<i class="fa fa-rss"></i> <?php echo Yii::t("news","News") ?>
@@ -241,7 +347,7 @@ div.timeline .date_separator span{
 									<i class="fa fa-exchange"></i> <?php echo Yii::t("news","Activity") ?>
 								</a>
 							</div>
-						</div>
+						</div>-->
 						<div class="newsTLnews">
 						</div>
 						<div class="newsTLactivity">
@@ -356,6 +462,7 @@ jQuery(document).ready(function()
  	}
  		//Construct the first NewsForm
 	buildDynForm();
+	getUrlContent();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
@@ -864,6 +971,12 @@ function builHtmlAuthorImageObject(obj){
 
 function bindEvent(){
 	var separator, anchor;
+	$("#get_url").elastic();
+	$(".scopeShare").click(function() {
+		console.log(this);
+		replaceText=$(this).find("h4").html();
+		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down"></i>');
+	});
 	//$('.timeline-scrubber').scrollToFixed({
 	//	marginTop: $('header').outerHeight() + 200
 	//}).find("a").on("click", function(e){			
@@ -1251,19 +1364,96 @@ function showFormBlock(bool){
 		$(".form-create-news-container #text").show("fast");
 		$(".form-create-news-container .tagstags").show("fast");
 		$(".form-create-news-container .datedate").show("fast");
-		$(".form-create-news-container .form-actions").show("fast");
+		//$(".form-create-news-container .form-actions").show("fast");
 		$(".form-create-news-container .publiccheckbox").show("fast");
-		if($("input#public").prop('checked') != true)
-		$(".form-create-news-container .scopescope").show("fast");	
+		//if($("input#public").prop('checked') != true)
+		//$(".form-create-news-container .scopescope").show("fast");	
 	}else{
 		$(".form-create-news-container #text").hide();
 		$(".form-create-news-container .tagstags").hide();
 		$(".form-create-news-container .datedate").hide();
-		$(".form-create-news-container .form-actions").hide();
-		$(".form-create-news-container .scopescope").hide();
+		//$(".form-create-news-container .form-actions").hide();
+		//$(".form-create-news-container .scopescope").hide();
 		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }
+function getUrlContent(){
+    //user clicks previous thumbail
+    $("body").on("click","#thumb_prev", function(e){        
+        if(img_arr_pos>0) 
+        {
+            img_arr_pos--; //thmubnail array position decrement
+            
+            //replace with new thumbnail
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">');
+            
+            //replace thmubnail position text
+            $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
+        }
+    });
+    
+    //user clicks next thumbail
+    $("body").on("click","#thumb_next", function(e){        
+        if(img_arr_pos<total_images)
+        {
+            img_arr_pos++; //thmubnail array position increment
+            
+            //replace with new thumbnail
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">');
+            
+            //replace thmubnail position text
+            $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
+        }
+    });
+//	});
+    var getUrl  = $('#get_url'); //url to extract from text field
+    
+    getUrl.keyup(function() { //user types url in text field        
+        
+        //url to match in the text field
+        var match_url = /\b(https?):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i;
+        //continue if matched url is found in text field
+        if (match_url.test(getUrl.val())) {
+                $("#results").hide();
+                $("#loading_indicator").show(); //show loading indicator image
+                
+                var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
+             
+                //ajax request to be sent to extract-process.php
+              //  $.post('extract-process.php',{'url': extracted_url},
+                $.ajax({
+					url: baseUrl+'/'+moduleId+"/news/extractprocess",
+					data: {
+					'url': extracted_url},
+					type: 'post',
+	
+					dataType: 'json',
+					success: function(data){        
+	         
+	                 console.log(data); 
+                    extracted_images = data.images;
+                    total_images = parseInt(data.images.length-1);
+                    //img_arr_pos = total_images;
+                    img_arr_pos=1;
+                   // alert(total_images);
+                    console.log(data.images);
+                    if(total_images>0){
+                        inc_image = '<div class="extracted_thumb" id="extracted_thumb"><img src="'+data.images[img_arr_pos]+'" width="100" height="100"></div>';
+                    }else{
+                        inc_image ='';
+                    }
+                    //content to be loaded in #results element
+                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank">'+data.title+'</a></h4><p>'+data.content+'</p><div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div><span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span></div></div>';
+                    
+                    //load results in the element
+                    $("#results").html(content); //append received data into the element
+                    $("#results").slideDown(); //show results with slide down effect
+                    $("#loading_indicator").hide(); //hide loading indicator image
+                	}	
+                });//,'json');
+        }
+    });
 
+}
 
 </script>
