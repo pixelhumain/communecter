@@ -54,6 +54,14 @@
         font-size: 1em;
       }
     }
+
+    .corner-fa{
+      left: -10px;
+      font-size: 30px;
+      position: absolute;
+      color: #BABABA;
+      top: 5px;
+    }
 </style>
 
 <div class="panel panel-white no-margin">
@@ -106,7 +114,7 @@
           $onclick = (isset($entity['_id']) ) ? "onclick='loadByHash(\"#".$entityTypeUrl[$type].".detail.id.".$entity['_id']."\")'" : "";
         ?>
          
-
+       <i class="fa fa-caret-left corner-fa"></i>
        <div class='col-md-12 no-padding bg-white'>
           <a href="<?php echo $url ?>" <?php echo $onclick ?> >
             <h3 class="panel-title entityTitle text-<?php echo $color; ?>">

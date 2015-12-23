@@ -309,7 +309,7 @@ button.btn-geolocate{
 
     #shortDetailsEntity{
     	position: absolute;
-		right: 10px;
+		right: 15px;
 		top: 480px;
 		/*min-height: 100px;*/
 		border: 1px solid #E1E1E1;
@@ -320,6 +320,14 @@ button.btn-geolocate{
 	.fa.loader_short_details{
 		margin:10px;
 	}
+
+	.corner-fa{
+      left: -10px;
+      font-size: 30px;
+      position: absolute;
+      color: #BABABA;
+      top: 5px;
+    }
 
 @media screen and (max-width: 1024px) {
 	.img-logo{
@@ -576,8 +584,8 @@ function autoCompleteSearch(name){
     if(type=="citoyen"){ type = "person"; }
     
     $("#shortDetailsEntity").hide();
-    $("#shortDetailsEntity").html("<center><i class='fa fa-2x fa-circle-o-notch fa-spin loader_short_details'></i></center>");
-    $("#shortDetailsEntity").css({"top":top-10});
+    $("#shortDetailsEntity").html("<i class='fa fa-caret-left corner-fa'></i><center><i class='fa fa-2x fa-circle-o-notch fa-spin loader_short_details'></i></center>");
+    $("#shortDetailsEntity").css({"top":top-5});
     $("#shortDetailsEntity").show(400);
     
     $.ajax({
