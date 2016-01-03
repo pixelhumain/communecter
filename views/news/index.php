@@ -206,9 +206,14 @@ div.timeline .date_separator span{
 }
 .extracted_thumb {
 	float: left;
+	position:relative;
 	margin-right: 10px;
 }
-
+.extracted_thumb_large{
+	position:relative;
+	max-height: 250px;
+	overflow: hidden;
+}
 #loading_indicator{
 	position: absolute;
     right: 10px;
@@ -219,16 +224,27 @@ div.timeline .date_separator span{
 	display:none;
     border: 1px solid #eee;
 }
-a:link {
-	color: #0066CC;
+
+.videoSignal{
+	position: absolute;
+    width: 100px;
+    line-height: 100px;
+    height: 100px;
+    left: 4px;
+    border: 3px solid;
+    background-color: rgba(0,0,0,0.2);
+    padding-top: 5px;
 }
+
 .thumb_sel {
-	float: left;
-	height: 22px;
-	width: 55px;
+	position: absolute;
+    height: 22px;
+    width: 55px;
+    top: 0;
 }
 .thumb_sel .prev_thumb {
 	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -50px 0px;
+	background-color: rgba(250,250,250,0.5);
 	float: left;
 	width: 26px;
 	height: 22px;
@@ -240,6 +256,7 @@ a:link {
 }
 .thumb_sel .next_thumb {
 	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -76px 0px;
+	background-color: rgba(250,250,250,0.5);
 	float: left;
 	width: 24px;
 	height: 22px;
@@ -1385,7 +1402,7 @@ function getUrlContent(){
             img_arr_pos--; //thmubnail array position decrement
             
             //replace with new thumbnail
-            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">');
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
             
             //replace thmubnail position text
             $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
@@ -1399,7 +1416,7 @@ function getUrlContent(){
             img_arr_pos++; //thmubnail array position increment
             
             //replace with new thumbnail
-            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">');
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
             
             //replace thmubnail position text
             $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
@@ -1437,13 +1454,51 @@ function getUrlContent(){
                     img_arr_pos=1;
                    // alert(total_images);
                     console.log(data.images);
-                    if(total_images>0){
-                        inc_image = '<div class="extracted_thumb" id="extracted_thumb"><img src="'+data.images[img_arr_pos]+'" width="100" height="100"></div>';
-                    }else{
-                        inc_image ='';
+                    if(data.size){
+	                    if (data.video){
+		                		extractClass="extracted_thumb";
+			                    width="100";
+			                    height="100";
+			                    aVideo='<a href="'+extracted_url+'" class="videoSignal text-white center" target="_blank"><i class="fa fa-2x fa-play-circle-o"></i></a>"';
+
+						}
+		                else{
+			                aVideo="";
+			                endAVideo="";
+		                    if(data.size[0] > 350 ){
+			                    extractClass="extracted_thumb_large";
+			                    width="100%";
+			                    height="";
+		                    }
+		                    else{
+			                    extractClass="extracted_thumb";
+			                    width="100";
+			                    height="100";
+		                    }
+						}
                     }
+                    if (data.imageMedia){
+	                    inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
+	                    countThumbail='';
+                    }
+                    else {
+	                    if(total_images>0){
+		                    if(total_images > 1){
+			                    selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
+			                    countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
+		                    }
+	                        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[img_arr_pos]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+	                        
+	                    }else{
+	                        inc_image ='';
+		                    countThumbail='';
+	                    }
+                    }
+                    
                     //content to be loaded in #results element
-                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank">'+data.title+'</a></h4><p>'+data.content+'</p><div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div><span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span></div></div>';
+					if(data.content==null)
+						data.content="";
+                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>';
                     
                     //load results in the element
                     $("#results").html(content); //append received data into the element
