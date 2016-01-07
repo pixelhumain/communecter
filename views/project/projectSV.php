@@ -101,7 +101,7 @@ if( !isset($_GET["isNotSV"]))
 						</div>
 						<div class="form-group">
 								<label class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?>
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?>
 								</label>
 			        		    <input id="tagsProject" type="" data-type="select2" name="tagsProject" value="" style="display: none;width:100%; height:35px;">		        		    
 						</div>

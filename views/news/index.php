@@ -17,6 +17,9 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
 	'/plugins/jquery.appear/jquery.appear.js',
 	'/plugins/jquery.elastic/elastic.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
+
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -230,7 +233,6 @@ div.timeline .date_separator span{
     width: 100px;
     line-height: 100px;
     height: 100px;
-    left: 4px;
     border: 3px solid;
     background-color: rgba(0,0,0,0.2);
     padding-top: 5px;
@@ -274,17 +276,18 @@ div.timeline .date_separator span{
 <div id="formCreateNewsTemp" style="float: none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
-		<form id=''>
+		<form id='form-news'>
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<textarea id="get_url" placeholder="Enter an URL here and your idea" class="get_url_input form-control textarea" style="border:none;" spellcheck="false" ></textarea>
+					<textarea id="get_url" placeholder="Enter an URL here and your idea" class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
 					<div id="results" class="padding-10 bg-white">
 					</div>
 				</div>
 			</div>
-
-
+			<div class="form-group tagstags" style="">
+			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
+			</div>
 			<div class="form-actions" style="display: block;">
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
@@ -440,6 +443,8 @@ var formCreateNews;
 
 jQuery(document).ready(function() 
 {
+	$('#tags').select2({tags:["construction","avion"]});
+	$("#tags").select2('val', "");
 	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 	//	Sig = SigLoader.getSig();
@@ -480,6 +485,7 @@ jQuery(document).ready(function()
  		//Construct the first NewsForm
 	buildDynForm();
 	getUrlContent();
+	saveNews();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
@@ -726,9 +732,16 @@ function buildLineHTML(newsObj)
 			var iconBlank="fa-group";
 		}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
+	media="";
+	title="";
 	if (streamType=="news"){
-		title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a>";
+		if("undefined" != typeof newsObj.name){
+			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a>";
+		}
 		text='<a href="#" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding" style="color:#719FAB;">'+newsObj.text+"</span></a>";
+		if("undefined" != typeof newsObj.media){
+			media=newsObj.media;
+		}
 	}
 	else{
 		title = '<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span>';
@@ -807,7 +820,6 @@ function buildLineHTML(newsObj)
 			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+authorId+'"';
 		<?php } ?>
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
-		//var personName = newsObj.author.name;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
@@ -859,7 +871,7 @@ function buildLineHTML(newsObj)
 							'</div>'+
 							'<div class="space5"></div>'+
 							//'<span class="timeline_text">'+ 
-							text + //+ '</span>' +	
+							text + media//+ '</span>' +	
 						'</a>'+
 						'<div class="space5"></div>'+
 						'<span class="timeline_text">'+ authorLine + '</span>' +
@@ -1375,11 +1387,18 @@ function toggleFilters(what){
  		$('.optionFilter').hide();
  	$(what).slideToggle();
  }
-
+/*
+* Save news and url generate
+*
+*
+*
+*
+*
+*/
 function showFormBlock(bool){
 	if(bool){
 		$(".form-create-news-container #text").show("fast");
-		$(".form-create-news-container .tagstags").show("fast");
+		//$(".form-create-news-container .tagstags").show("fast");
 		$(".form-create-news-container .datedate").show("fast");
 		//$(".form-create-news-container .form-actions").show("fast");
 		$(".form-create-news-container .publiccheckbox").show("fast");
@@ -1387,7 +1406,7 @@ function showFormBlock(bool){
 		//$(".form-create-news-container .scopescope").show("fast");	
 	}else{
 		$(".form-create-news-container #text").hide();
-		$(".form-create-news-container .tagstags").hide();
+		//$(".form-create-news-container .tagstags").hide();
 		$(".form-create-news-container .datedate").hide();
 		//$(".form-create-news-container .form-actions").hide();
 		//$(".form-create-news-container .scopescope").hide();
@@ -1422,45 +1441,35 @@ function getUrlContent(){
             $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
         }
     });
-//	});
     var getUrl  = $('#get_url'); //url to extract from text field
-    
     getUrl.keyup(function() { //user types url in text field        
-        
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i;
         //continue if matched url is found in text field
         if (match_url.test(getUrl.val())) {
+	        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href") != getUrl.val().match(match_url)[0]){
+	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
-                
-                var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-             
                 //ajax request to be sent to extract-process.php
-              //  $.post('extract-process.php',{'url': extracted_url},
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
 					'url': extracted_url},
 					type: 'post',
-	
 					dataType: 'json',
 					success: function(data){        
-	         
-	                 console.log(data); 
+	                console.log(data); 
                     extracted_images = data.images;
                     total_images = parseInt(data.images.length-1);
                     //img_arr_pos = total_images;
                     img_arr_pos=1;
-                   // alert(total_images);
-                    console.log(data.images);
                     if(data.size){
 	                    if (data.video){
 		                		extractClass="extracted_thumb";
 			                    width="100";
 			                    height="100";
-			                    aVideo='<a href="'+extracted_url+'" class="videoSignal text-white center" target="_blank"><i class="fa fa-2x fa-play-circle-o"></i></a>"';
-
+			                    aVideo='<a href="'+extracted_url+'" class="videoSignal text-white center" target="_blank"><i class="fa fa-2x fa-play-circle-o"></i></a>';
 						}
 		                else{
 			                aVideo="";
@@ -1477,17 +1486,21 @@ function getUrlContent(){
 		                    }
 						}
                     }
-                    if (data.imageMedia){
+                    if (data.imageMedia!=""){
 	                    inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
-	                    countThumbail='';
+	                    countThumbail="";
                     }
                     else {
-	                    if(total_images>0){
+	                    if(total_images > 0){
 		                    if(total_images > 1){
 			                    selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
 			                    countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
 		                    }
-	                        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[img_arr_pos]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+		                    else{
+			                    selectThumb="";
+			                    countThumbail="";
+		                    }
+	                        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
 	                        
 	                    }else{
 	                        inc_image ='';
@@ -1498,17 +1511,96 @@ function getUrlContent(){
                     //content to be loaded in #results element
 					if(data.content==null)
 						data.content="";
-                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>';
-                    
+                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>';
                     //load results in the element
                     $("#results").html(content); //append received data into the element
                     $("#results").slideDown(); //show results with slide down effect
                     $("#loading_indicator").hide(); //hide loading indicator image
                 	}	
-                });//,'json');
+                });
+			}
         }
     });
-
 }
+function saveNews(){
+	var formNews = $('#form-news');
+	var errorHandler2 = $('.errorHandler', formNews);
+	var successHandler2 = $('.successHandler', formNews);
+	formNews.validate({
+		errorElement : "span", // contain the error msg in a span tag
+		errorClass : 'help-block',
+		errorPlacement : function(error, element) {// render error placement for each input type
+			if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {// for chosen elements, need to insert the error after the chosen container
+				error.insertAfter($(element).closest('.form-group').children('div').children().last());
+			} else if (element.parent().hasClass("input-icon")) {
+				error.insertAfter($(element).parent());
+			} else {
+				error.insertAfter(element);
+				// for other inputs, just perform default behavior
+			}
+		},
+		ignore : "",
+		rules : {
+			getUrl : {
+				minlength : 10,
+				required : true
+			},
+		},
+		messages : {
+			getUrl : "* Please write something"
 
+		},
+		submitHandler : function(form) {
+			successHandler2.show();
+			errorHandler2.hide();
+			newNews = new Object;
+			if($("#form-news #results").html() != ""){
+				newNews.mediaContent=$("#form-news #results").html();	
+			}
+			if ($("#tags").val() != ""){
+				newNews.tags = $("#form-news #tags").val().split(",");	
+			}
+			newNews.typeId = '<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId']; ?>',
+			newNews.type = '<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>',
+			newNews.scope = "public",
+			newNews.text = $("#form-news #get_url").val();
+			console.log(newNews);
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/news/save",
+		        dataType: "json",
+		        data: newNews,
+				type: "POST",
+		    })
+		    .done(function (data) {
+		        console.log(data);
+	    		if(data.result)
+	    		{
+	    			if(countEntries == 0){
+	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSV=1', 'KESS KISS PASS ','rss' )
+					}
+					else {
+		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){	
+		            		updateNews(data.object);
+		            	}else {
+		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSV=1', 'KESS KISS PASS ','rss' )
+		            	}
+					}
+					//console.dir(data);
+					$.unblockUI();
+					//$("#ajaxSV").html('');
+					$.hideSubview();
+					toastr.success('Saved successfully!');
+					//$("#ajaxForm").reset();
+	    		}
+	    		else 
+	    		{
+	    			$.unblockUI();
+					toastr.error('Something went wrong!');
+	    		}
+				return false;
+		    });
+		}
+	});
+}
 </script>
