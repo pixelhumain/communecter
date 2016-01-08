@@ -667,8 +667,8 @@ function buildLineHTML(newsObj)
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
 			'<ul class="dropdown-menu">'+
-				'<li><a href="#deleteNews'+newsObj._id.$id+'" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>'+
-				'<li><a href="#modifyNews'+newsObj._id.$id+'" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>'+
+				'<li><a href="#" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>'+
+				'<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>'+
 			'</ul>'+
 		'</div>';
 	}
@@ -1190,7 +1190,6 @@ function bindEvent(){
 	});
 	$(".modifyNews").off().on("click", function(){
 		idNews=$(this).data("id");
-		alert(idNews);
 		switchModeEdit(idNews);
 	});
 	$(".videoSignal").click(function(){
