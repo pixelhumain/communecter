@@ -660,9 +660,9 @@ function buildLineHTML(newsObj)
 
 	//console.log("buildLineHTML");
 	//console.dir(newsObj);
-	actionOnNews = "";
+	manageMenu = "";
 	if (newsObj.author.id=="<?php echo Yii::app() -> session["userId"] ?>" && streamType=="news"){
-		actionOnNews='<div class="dropdown pull-right" style="padding-left:10px;">'+
+		manageMenu='<div class="dropdown pull-right" style="padding-left:10px;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
@@ -853,7 +853,7 @@ function buildLineHTML(newsObj)
 	newsTLLine = '<li class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
-						actionOnNews+
+						manageMenu+
 						scopes+
 						'<div class="space1"></div>'+ 
 						imageBackground+
@@ -871,12 +871,11 @@ function buildLineHTML(newsObj)
 							'</div>'+
 							'<div class="space5"></div>'+
 							//'<span class="timeline_text">'+ 
-							text + media//+ '</span>' +	
+							text + media +//+ '</span>' +	
 						'</a>'+
 						'<div class="space5"></div>'+
-						'<span class="timeline_text">'+ authorLine + '</span>' +
-						'<div class="space10"></div>'+
-						
+						//'<span class="timeline_text">'+ authorLine + '</span>' +
+						//'<div class="space10"></div>'+
 						'<hr>'+
 						"<div class='bar_tools_post pull-left'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
