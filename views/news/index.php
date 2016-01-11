@@ -1465,7 +1465,7 @@ function getUrlContent(){
 					success: function(data){        
 	                console.log(data); 
                     extracted_images = data.images;
-                    total_images = parseInt(data.images.length-1);
+                    total_images = parseInt(data.images.length);
                     //img_arr_pos = total_images;
                     img_arr_pos=1;
                     if(data.size){
