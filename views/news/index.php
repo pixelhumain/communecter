@@ -443,7 +443,7 @@ var formCreateNews;
 
 jQuery(document).ready(function() 
 {
-	$('#tags').select2({tags:["construction","avion"]});
+	$('#tags').select2({tags:<?php echo json_encode($tags); ?>});
 	$("#tags").select2('val', "");
 	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
