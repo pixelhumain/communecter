@@ -10,7 +10,6 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js'
 $cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
 	
 ?>
-
 <style type="text/css">
 .container-lbl-info-search{
 	position: absolute;
