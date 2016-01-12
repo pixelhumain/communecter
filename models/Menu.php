@@ -118,7 +118,7 @@ class Menu {
         // ADD MEMBER
         //-----------------------------
         if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
-            self::entry("right", 'showAjaxPanel','Add a member to this organization', 'Add member','plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+            self::entry("right", 'showAjaxPanel',Yii::t('common','Add a member to this organization'), Yii::t("common",'Add member'),'plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
         }
 
         //SEND MESSAGE
