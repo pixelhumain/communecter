@@ -1,10 +1,30 @@
+* contact metamaps for Ecosystem 
+* ouvrir les compteLONDRES
+	mikemetz.coop@gmail.com
+	malle.baie@gmail.com
+* Cities details when no content add.specific msg,  be the first citizen to join xxxx and start a new era !! 
+	Special ponts ? , Explain creating links,  value by usage 
+* open Communecter
+	Au reseau proche , Commencer a communecter la famille 
+* Objectifs Communecter : Simple liste des objectifs
+* Test a brand new user 
+* REST project pour Thomas
+* Communecter: quel interet
+* Traduction : crowdfunding
+* Ubiquity nano station m5 : [[http://www.ldlc.com/fiche/PB00142273.html#utm_source=Google%2BShopping&utm_medium=cpc&utm_campaign=LDLC%2B-%2BGoogle%2BShopping]]
+* install smartGit
+* appeler la NEF
+* Follow a tag
+* Crowdfunding
+	- ecrire une lzttre type pour les artistes pour leur dzmabder leur soutien et lzur reseau coyé, waro, jeremy, wojtek
+
 Développer des "commons transition party" où l'on pourrait "être aidé pour passer : 
 - non seulement son ordinateur sous un commun (linux, libre office), 
 - passer son compte en banque à la NEF, 
 - son fournisseur d'électricité chez Enercoop, 
 - sa connexion internet chez le fournisseur d'accès associatif Tetaneutral
 - son approvisionnement en légumes auprès d'une AMAP locale…
-	
+
 CINOR 
 	Christopha ANnette 
 	0692272212
