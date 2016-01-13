@@ -21,18 +21,14 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/select2/select2.min.js',
 
 );
-
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
 if( isset($_GET["isNotSV"])) {
-	/*
-	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
-	if(@$_GET["type"]) $type=$_GET["type"];
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
 		Menu::organization( $organization );
 		$thisOrga = Organization::getById($organization["_id"]);
@@ -58,10 +54,6 @@ if( isset($_GET["isNotSV"])) {
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
-	/*else
-		$this->toolbarMBZ = array(
-		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-		);*/
 	Menu::news();
 	$this->renderPartial('../default/panels/toolbar'); 
 }
@@ -277,6 +269,8 @@ div.timeline .date_separator span{
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
+			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
+			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
@@ -289,6 +283,7 @@ div.timeline .date_separator span{
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
+				<?php if(@$type && $type==Person::COLLECTION){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -308,8 +303,8 @@ div.timeline .date_separator span{
 						</li>-->
 					</ul>
 				</div>	
+				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Submit <i class="fa fa-arrow-circle-right"></i></button>
-			
 			</div>
 		</form>
 	 </div>
@@ -326,30 +321,7 @@ div.timeline .date_separator span{
 		        	<li>
 		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1"><?php echo Yii::t("common","Add");?> <i class="fa fa-plus"></i></a>
 		        	</li>
-		        	<?php } 
-		        	/* ?>
-		        	<!-- <li>
-		        		<a class="new-news btn btn-info" href="#new-News" data-notsubview="1">Add <i class="fa fa-plus"></i></a>
-		        	</li> -->
-		        	<?php /* ?>
-			        <li class="panel-tools">
-			          <div class="dropdown">
-			            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey">
-			              <i class="fa fa-cog"></i>
-			            </a>
-			            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-			              <li>
-			                <a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>Collapse</span> </a>
-			              </li>
-			              <li>
-			                <a class="panel-expand" href="#">
-			                  <i class="fa fa-expand"></i> <span>Fullscreen</span>
-			                </a>
-			              </li>
-			              </ul>
-		          	  </div>
-			        </li>
-			        <?php */?>
+		        	<?php } ?>
 		        </ul>
 			</div>
 			<div id="top" class="panel-body panel-white">
@@ -1545,8 +1517,15 @@ function saveNews(){
 		ignore : "",
 		rules : {
 			getUrl : {
-				minlength : 10,
-				required : true
+				required:{
+					depends: function() {
+					alert($("#results").html());
+					if($("#results").html() !="")
+						return false;
+					else
+						return true;
+					}
+				}
 			},
 		},
 		messages : {
@@ -1554,6 +1533,7 @@ function saveNews(){
 
 		},
 		submitHandler : function(form) {
+			$("#btn-submit-form i").removeClass("fa-arrow-circle-right").addClass("fa-spinner fa-spin");
 			successHandler2.show();
 			errorHandler2.hide();
 			newNews = new Object;
@@ -1563,8 +1543,8 @@ function saveNews(){
 			if ($("#tags").val() != ""){
 				newNews.tags = $("#form-news #tags").val().split(",");	
 			}
-			newNews.typeId = '<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId']; ?>',
-			newNews.type = '<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>',
+			newNews.typeId = $("#form-news #parentId").val(),
+			newNews.type = $("#form-news #parentType").val(),
 			newNews.scope = "public",
 			newNews.text = $("#form-news #get_url").val();
 			console.log(newNews);
@@ -1601,6 +1581,7 @@ function saveNews(){
 	    			$.unblockUI();
 					toastr.error('Something went wrong!');
 	    		}
+	    		$("#btn-submit-form i").removeClass("fa-spinner fa-spin").addClass("fa-arrow-circle-right");
 				return false;
 		    });
 		}
