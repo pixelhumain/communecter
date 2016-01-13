@@ -1,7 +1,4 @@
 * contact metamaps for Ecosystem 
-* ouvrir les compteLONDRES
-	mikemetz.coop@gmail.com
-	malle.baie@gmail.com
 * Cities details when no content add.specific msg,  be the first citizen to join xxxx and start a new era !! 
 	Special ponts ? , Explain creating links,  value by usage 
 * open Communecter
@@ -12,8 +9,6 @@
 * Communecter: quel interet
 * Traduction : crowdfunding
 * Ubiquity nano station m5 : [[http://www.ldlc.com/fiche/PB00142273.html#utm_source=Google%2BShopping&utm_medium=cpc&utm_campaign=LDLC%2B-%2BGoogle%2BShopping]]
-* install smartGit
-* appeler la NEF
 * Follow a tag
 * Crowdfunding
 	- ecrire une lzttre type pour les artistes pour leur dzmabder leur soutien et lzur reseau coyé, waro, jeremy, wojtek
