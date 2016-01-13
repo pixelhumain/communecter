@@ -302,7 +302,6 @@ if( isset($_GET["isNotSV"])) {
 				<span class="homestead panelLabel pull-left"> 
 					<i class="fa fa-bookmark fa-rotate-270"></i> 
 					<?php echo $contextTitle; ?>
-					 
 				</span>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
@@ -502,8 +501,8 @@ if( isset($_GET["isNotSV"])) {
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".addslashes($name)."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-						$url = ( isset($_GET["isNotSV"]))  ? 'href="javascript:;" onclick="'.$url.'"' : 'href="'.$url.'"';	
+						$url = "loadByHash('#".$type.".detail.id.".$id."')";
+						$url = 'href="javascript:;" onclick="'.$url.'"';	
 						$process = "";
 						if(@$e["toBeValidated"])
 							$process = " <color class='text-red'>(en attente de confirmation)</color>";

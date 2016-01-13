@@ -15,9 +15,7 @@ class DefaultController extends CommunecterController {
 
       parent::initPage();
 
-      /*if(!Yii::app()->session["userId"])
-        $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
-      else  */
+      
 		  return parent::beforeAction($action);
   	}
 
@@ -26,6 +24,11 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
+        if(!Yii::app()->session["userId"]) 
+          $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
+        else{
+
+
         $this->layout = "//layouts/mainSimple";
 
          $params = array();
@@ -129,7 +132,8 @@ class DefaultController extends CommunecterController {
           $params["people"] = $people;
         }
 
-        $this->render("index",$params);      
+        $this->render("index",$params); 
+        }     
     }
 
 public function actionSimple() 
