@@ -28,9 +28,14 @@ $this->renderPartial('../default/panels/toolbar');
 															"admin" => $admin,
 															"isNotSV" => 1	));
 					?>
-					<?php $this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); ?>
+					<?php 
+						if(!empty($properties) || $admin==true){
+							$this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); 
+						}
+					?>
 				</div>
 				<div class="col-md-12 col-xs-12 needsPod"></div>
+				<?php if((@$project["links"]["events"] && !empty($project["links"]["events"])) || $admin==true){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
@@ -39,11 +44,10 @@ $this->renderPartial('../default/panels/toolbar');
 																	"isNotSV" => 1
 																  )); ?>
 				</div>
+				<?php } ?>
 			</div>
 
 			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
-			
-
 		</div>	
 	</div>
 </div>
@@ -58,9 +62,12 @@ jQuery(document).ready(function() {
 	bindBtnFollow();
 	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
+	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
+	<?php } ?>
+	<?php if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?>
 	getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
-
+	<?php } ?>
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, contextMap);		
 });
