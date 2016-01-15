@@ -371,7 +371,7 @@ if( !isset($_GET["isNotSV"]))
 		$("#alert-city-found").addClass("hidden");
 		
 		var searchValue = $('.form-event #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length >= 4 && searchValue.length <= 5) {
 			$("#city").empty();
 			setTimeout(function(){
 	   			$("#iconeChargement").css("visibility", "visible");
@@ -427,6 +427,7 @@ if( !isset($_GET["isNotSV"]))
 					required : true
 				},
 				postalCode : {
+					rangelength : [4, 5],
 					required : true
 				},
 				city : {

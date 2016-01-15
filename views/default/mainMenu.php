@@ -53,7 +53,7 @@
         <i class="fa fa-plus fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "ADD SOMETHING"); ?></span>
     </a>
 
-    <a  href="https://github.com/pixelhumain/communecter/issues/new" target="_blank" 
+    <a  href="#news.index.type.pixels" onclick="loadByHash('#news.index.type.pixels?isNotSV=1')"
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-bullhorn fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common","HELP US : BUGS, IDEAS"); ?></span>
     </a>
@@ -62,8 +62,12 @@
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
     </a> 
-
-    
+    <?php //if(Yii::app()->session['isAdmin']){?>
+    <a  href="#admin.importdata" onclick="loadByHash('#admin.importdata?isNotSV=1')" 
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
+    </a> 
+    <?php //} ?>
 </div>
 <div class="floopDrawer" id="floopDrawerDirectory"></div>
 <?php } else {?>

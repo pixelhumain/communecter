@@ -54,7 +54,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							
 					<?php }?>
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Sent invitations") ?>						</a>
-					
 				<?php } ?>
 
 			</div>

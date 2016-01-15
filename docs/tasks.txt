@@ -1,3 +1,34 @@
+* contact metamaps for Ecosystem 
+* Cities details when no content add.specific msg,  be the first citizen to join xxxx and start a new era !! 
+	Special ponts ? , Explain creating links,  value by usage 
+* open Communecter
+	Au reseau proche , Commencer a communecter la famille 
+* Objectifs Communecter : Simple liste des objectifs
+	V0.1 BREATH
+		linking system 
+		annuaire 
+		Wall d'information
+	V0.2 EAT
+		Vote
+		Besoin et Competence 
+		scope quartier pour les communes inscrite
+		Librairie video : memoire du territoire
+	V0.3 WALK 
+		Full mobile
+		Discussion
+		Action Rooms
+	toujours avoir 3 milestone d'annoncé	
+* Test a brand new user 
+* REST project pour Thomas
+* Communecter: quel interet
+* Traduction : crowdfunding
+* Ubiquity nano station m5 : [[http://www.ldlc.com/fiche/PB00142273.html#utm_source=Google%2BShopping&utm_medium=cpc&utm_campaign=LDLC%2B-%2BGoogle%2BShopping]]
+* Follow a tag
+* Crowdfunding
+	- ecrire une lzttre type pour les artistes pour leur dzmabder leur soutien et lzur reseau coyé, waro, jeremy, wojtek
+* Assemblée des communs 
+	 
+
 Développer des "commons transition party" où l'on pourrait "être aidé pour passer : 
 - non seulement son ordinateur sous un commun (linux, libre office), 
 - passer son compte en banque à la NEF, 
@@ -24,6 +55,7 @@ Développer des "commons transition party" où l'on pourrait "être aidé pour p
 		de besoin
 		d'ambassadeur
 	- Debat 
+
 
 CINOR 
 	Christopha ANnette 

@@ -18,7 +18,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 
 	.mix{ 
-		min-height: 85px;
+		min-height: 100px;
 		/*width: 31.5%;*/
 		background-color: white;
 		display: inline-block;
@@ -95,8 +95,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
 	}
 	#Grid .item_map_list .left-col .thumbnail-profil{
-		width: 60px;
-		height: 60px;
+		width: 75px;
+		height: 75px;
 	}
 	#Grid .ico-type-account i.fa{
 		margin-left:11px !important;
@@ -302,7 +302,6 @@ if( isset($_GET["isNotSV"])) {
 				<span class="homestead panelLabel pull-left"> 
 					<i class="fa fa-bookmark fa-rotate-270"></i> 
 					<?php echo $contextTitle; ?>
-					 
 				</span>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
@@ -495,14 +494,18 @@ if( isset($_GET["isNotSV"])) {
 							$scopesClasses .= ' '.$e["address"]['postalCode'];
 						if( isset($e["address"]) && isset( $e["address"]['region']) )
 							$scopesClasses .= ' '.$e["address"]['region'];
+						if( isset($e["address"]) && isset( $e["address"]['addressLocality']) ){
+							$locality = str_replace( " ", "", $e["address"]['addressLocality']);
+							$scopesClasses .= ' '.$locality;
+						}
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
-						$url = ( isset($_GET["isNotSV"]))  ? "openMainPanelFromPanel( '/".$type."/detail/id/".$id."', '".$type." : ".addslashes($name)."','".$icon."', '".$id."' )" : Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-						$url = ( isset($_GET["isNotSV"]))  ? 'href="javascript:;" onclick="'.$url.'"' : 'href="'.$url.'"';	
+						$url = "loadByHash('#".$type.".detail.id.".$id."')";
+						$url = 'href="javascript:;" onclick="'.$url.'"';	
 						$process = "";
 						if(@$e["toBeValidated"])
-							$process = " <color class='text-red'>(en atente de confirmation)</color>";
+							$process = " <color class='text-red'>(en attente de confirmation)</color>";
 						else if(@$e["isAdminPending"])
 							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
 						
@@ -612,10 +615,10 @@ if( isset($_GET["isNotSV"])) {
 								$adresseLocality="Adresse non renseignée";
 							else
 								$adresseLocality=$e["address"]['addressLocality'];
-							$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['addressLocality'].'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
+							$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.str_replace( " ", "", $e["address"]['addressLocality']).'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
 							if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
 								array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
-								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['addressLocality'].'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
+								$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.str_replace( " ", "", $e["address"]['addressLocality']).'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
 							}
 						}
 

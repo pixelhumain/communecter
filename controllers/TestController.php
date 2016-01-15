@@ -442,7 +442,7 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $params = array(   "newPendingAdmin"   => $person ,
                         "title" => Yii::app()->name ,
                         "parent"  => $parent,
-                        "parentType" => "projects",
+                        "parentType" => "organizations",
                         "typeOfDemand" => "admin");
     
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);

@@ -81,8 +81,9 @@
 <script>
 
 	jQuery(document).ready(function() {
-		getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Organization::COLLECTION ?>/id/<?php echo $organization["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
-
+		<?php if ((@$organization["links"]["needs"] && !empty($organization["links"]["needs"])) || $admin == true){ ?>
+			getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Organization::COLLECTION ?>/id/<?php echo $organization["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
+		<?php } ?>
 		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo $organization["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		//if($(".tooltips").length) {
      	//	$('.tooltips').tooltip();

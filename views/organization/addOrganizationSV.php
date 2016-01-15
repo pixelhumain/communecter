@@ -191,7 +191,7 @@ if( !isset($_GET["isNotSV"]))
 							<div class="form-group">
 								<div>
 									<label for="form-field-24" class="control-label text-green">
-										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <span class="symbol required"></span> 
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 									</label>
 									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; min-height: 160px; max-height: 360px; overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
@@ -235,9 +235,6 @@ var formValidator = function() {
 			organizationCountry : {
 				required : true
 			},
-			description : {
-				required : true
-			},
 			organizationName : {
 				required : true
 			},
@@ -245,7 +242,7 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				rangelength : [5, 5],
+				rangelength : [4, 5],
 				required : true,
 				validPostalCode : true
 			}
@@ -494,7 +491,7 @@ jQuery(document).ready(function() {
 		$("#alert-city-found").addClass("hidden");
 		
 		var searchValue = $('#organizationForm #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length >= 4 && searchValue.length <= 5) {
 			$("#city").empty();
 
 			clearTimeout(timeout);
