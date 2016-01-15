@@ -386,6 +386,9 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTION ROOMS ','cubes' );
     }   
 
+    else if ( hash.indexOf("#admin.importdata") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
+    }   
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
