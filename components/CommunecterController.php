@@ -340,6 +340,10 @@ class CommunecterController extends Controller
     "graph"=> array(
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
+
+    "tools"=> array(
+        "index"           => array("href" => "/ph/communecter/tools/index",'title' => "Tools"),
+    ),
   );
 
   function initPage(){
