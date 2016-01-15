@@ -25,6 +25,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
+	
 if( isset($_GET["isNotSV"])) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
@@ -42,7 +43,7 @@ if( isset($_GET["isNotSV"])) {
 		$contextIcon = "university";
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 	}
-	else if( isset($type) && $type == Person::COLLECTION && isset($person) ){
+	else if( (isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type) ){
 		Menu::person( $person );
 		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
@@ -52,6 +53,9 @@ if( isset($_GET["isNotSV"])) {
 		Menu::project( $project );
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
+		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+	}else if( isset($type) && $type == "pixels"){
+		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
 	Menu::news();
@@ -414,8 +418,14 @@ var formCreateNews;
 <?php } ?>
 
 jQuery(document).ready(function() 
-{
-	$('#tags').select2({tags:<?php echo json_encode($tags); ?>});
+{	
+	if(contextParentType=="pixels"){
+		tagsNews=["bug","idea"];
+	}
+	else {
+		tagsNews = <?php echo json_encode($tags); ?>
+	}
+	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
@@ -433,7 +443,7 @@ jQuery(document).ready(function()
 
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	//alert(contextParentType);
-	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations"){
+	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations" || contextParentType=="pixels"){
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news")
@@ -1519,12 +1529,11 @@ function saveNews(){
 			getUrl : {
 				required:{
 					depends: function() {
-					alert($("#results").html());
-					if($("#results").html() !="")
-						return false;
-					else
-						return true;
-					}
+						if($("#results").html() !="")
+							return false;
+						else
+							return true;
+						}
 				}
 			},
 		},
