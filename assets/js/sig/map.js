@@ -63,7 +63,7 @@
 				//console.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
-				if(options.content == null) contentString = "info window";
+				if(options.content == null) contentString = "";
 
 				var markerOptions = { icon : options.icon };
 				if(typeof options.zIndexOffset != "undefined") 
@@ -486,6 +486,19 @@
 
 							}
 						}
+						else{
+							if(this.verifyPanelFilter(thisData) && typeof thisData.name != "undefined"){
+								this.elementsMap.push(thisData);
+								this.listId.push(objectId);
+								this.populatePanel(thisData, objectId); //["tags"]
+								this.createItemRigthListMap(thisData);	
+								$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
+									//toastr.success('click on element not in map');
+									//console.dir(thisData);
+									thisSig.showModalItemNotLocated(thisData);
+								});	
+							}	
+						}
 					}
 
 					//affiche les MEMBERS
@@ -725,6 +738,22 @@
 			return map;
 		};
 
+		//show a modal when an item in the right list has no geoLocation on the map
+		this.Sig.showModalItemNotLocated = function(data){
+			$("#modalItemNotLocated").modal('show');
+			$("#modalItemNotLocated .modal-body").html("<i class='fa fa-spin fa-reload'></i>");
+
+			var objectId = this.getObjectId(data);
+			var popup = this.getPopupSimple(data);
+			$("#modalItemNotLocated .modal-body").html(popup);
+			$("#modalItemNotLocated #btn-open-details").click(function(){
+				$("#popup"+objectId).click();
+			});
+
+			$("#modalItemNotLocated #popup"+objectId).click(function(){
+				$("#modalItemNotLocated").modal('hide');
+			});
+		}
 
 		this.Sig = this.getSigInitializer(this.Sig);
 

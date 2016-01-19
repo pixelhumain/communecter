@@ -74,7 +74,26 @@
 			<!-- <label id="lbl-chk-scope" class="hidden">
 				<input style="" value="" style="margin-left:0px;" type="checkbox" id="chk-scope"> Filtrer dans la zone visible
 			</label> -->
+
 		</div>
+		<div id="modalItemNotLocated" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+
+			    <!-- Modal content-->
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title text-dark"><i class="fa fa-map-marker"></i></i> Cette donnée n'est pas géolocalisée</h4>
+			      </div>
+			      <div class="modal-body"></div>
+			      <div class="modal-footer">
+			        <button type="button" id="btn-open-details" class="btn btn-default btn-sm btn-success" data-dismiss="modal"><i class="fa fa-plus"></i> Afficher les détails</button>
+			      	<button type="button" class="btn btn-default btn-sm btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Fermer</button>
+			      </div>
+			    </div>
+
+			  </div>
+			</div>
 	<?php } ?>
 
 

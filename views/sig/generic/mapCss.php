@@ -105,6 +105,11 @@
 	.leaflet-tile-container{
 
 	}
+
+	.<?php echo $moduleName; ?>
+	#modalItemNotLocated .modal-body .btn-more{
+		display: none !important;
+	}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {
