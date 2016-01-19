@@ -1316,10 +1316,13 @@ function showElements(){
 function showSearchBar(show){
 	if(show && !$(".searchBarForm").is(":visible")){
 		//$("#main-title-public2").hide(400);
-		$(".box-discover").hide(400);
-		$(".box-menu").hide(400);
+		//$(".box-discover").hide(400);
+		$(".box").hide(400);
 		$(".searchBarForm").show(400);
+
+		if($("#dropdown_searchTop").css("display") == "none")
 		$(".container-lbl-info-search").show(400);
+
 		if(Sig.currentMarkerPopupOpen != null) Sig.currentMarkerPopupOpen.closePopup();
 	}else if(!show && $(".searchBarForm").is(":visible")){
 		$(".searchBarForm").hide(400);
@@ -1401,6 +1404,8 @@ function autoCompleteSearch(name){
             }
             }); 
             if(str == "") str = "<div class='li-dropdown-scope'><ol><i class='fa fa-ban'></i> Aucun résultat</ol></div>";
+            
+            $(".container-lbl-info-search").hide(400);
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
             $('#notificationPanel').hide("fast");
