@@ -503,7 +503,12 @@ function initXEditable() {
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
 		mode: 'popup',
 		success: function(response, newValue) {
-			console.log("success update postal Code : "+newValue);
+			console.log("success update postal Code : ");
+			console.dir(newValue);
+			
+			$.cookie("insee", 	 newValue.codeInsee, 	   { path : '/ph/' });
+			$.cookie("cityName", newValue.addressLocality, { path : '/ph/' });
+
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 		},
 		value : {
