@@ -289,6 +289,13 @@ if( isset($_GET["isNotSV"])) {
 		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
 		);*/
 	$this->renderPartial('../default/panels/toolbar'); 
+
+	$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0;
+
+	foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;	}
+	foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
+	foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
+	foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
 }
 ?>
 <div class="row">
@@ -309,14 +316,14 @@ if( isset($_GET["isNotSV"])) {
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
-								<span class="badge"><?php echo (count($people) + count($organizations) + count($events) + count($projects));  ?>
+								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
 							</a>
 						</li>
 						<?php if(count($people) > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
 							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
-								<span class="badge"><?php echo count($people);  ?></span>
+								<span class="badge"><?php echo $countPeople;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
@@ -324,7 +331,7 @@ if( isset($_GET["isNotSV"])) {
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class=""><?php echo Yii::t("common","Organizations") ?></span> 
-								<span class="badge"><?php echo count($organizations);  ?></span>
+								<span class="badge"><?php echo $countOrga;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
@@ -332,7 +339,7 @@ if( isset($_GET["isNotSV"])) {
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
-								<span class="badge bg"><?php echo count($events);  ?></span>
+								<span class="badge bg"><?php echo $countEvent;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
@@ -340,7 +347,7 @@ if( isset($_GET["isNotSV"])) {
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
-								<span class="badge bg"><?php echo count($projects);  ?></span>
+								<span class="badge bg"><?php echo $countProject;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
@@ -743,7 +750,7 @@ jQuery(document).ready(function() {
 	});
 	
 	convertAllStartDateEvent();
-
+	console.dir(mapData);
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
 

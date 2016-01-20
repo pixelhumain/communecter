@@ -156,11 +156,7 @@
           <div class="entityDetails col-md-12">       
              <?php if(isset($randomEntity["shortDescription"])){ ?>
               <div class="text-blue margin-top-15">
-                <?php echo substr($randomEntity["shortDescription"], 0, 200); echo (strlen($randomEntity["shortDescription"])>200) ? " ..." : ""; ?>
-              </div>
-              <?php } if(isset($randomEntity["description"])){ ?>
-              <div class="text-dark margin-top-15">
-                <?php echo substr($randomEntity["description"], 0, 500); echo(strlen($randomEntity["description"])>500) ? " ..." : ""; ?>
+                <?php echo $randomEntity["shortDescription"]; ?>
               </div>
               <?php } ?>
           </div>
