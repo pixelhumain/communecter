@@ -824,14 +824,8 @@ function buildLineHTML(newsObj)
 		idVote=newsObj.id;
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
-	var voteUpCount = 0;
-	if ("undefined" != typeof newsObj.voteUpCount){ 
-		voteUpCount = newsObj.voteUpCount;
-	}
-	var voteDownCount = 0;
-	if ("undefined" != typeof newsObj.voteDownCount) 
-		voteDownCount = newsObj.voteDownCount;
-
+	vote=voteCheckAction(idVote,newsObj);
+	
 	newsTLLine = '<li class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
@@ -861,8 +855,7 @@ function buildLineHTML(newsObj)
 						'<hr>'+
 						"<div class='bar_tools_post pull-left'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
-							"<a href='javascript:;' class='newsVoteUp' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-							"<a href='javascript:;' class='newsVoteDown' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+							vote+
 							//"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
 							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 						"</div>"+
@@ -1036,22 +1029,42 @@ function bindEvent(){
 		*/
 	});
 	$('.newsVoteUp').off().on("click",function(){
-		toastr.info('TODO : VOTE UP this news Entry');
-		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
-		//disableOtherAction($(this).data("id"), '.commentVoteUp');
+		if($(".newsVoteDown[data-id='"+$(this).data("id")+"']").children(".label").hasClass("text-orange"))
+			toastr.info('Remove your negative vote before!');
+		else{	
+		toastr.info('This vote has been well registred');
+		if($(this).children(".label").hasClass("text-green")){
+			method = true;
+		}
+		else{
+			method = false;
+		}
+		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_UP ?>',method);
+		disableOtherAction($(this), '.commentVoteUp', method);
 		console.log("newsVoteUp",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
+		}
 	});
 	$('.newsVoteDown').off().on("click",function(){
-		toastr.info('VOTE DOWN this news: add a comment');
-		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
-		disableOtherAction($(this), '.commentVoteDown');
+		if($(".newsVoteUp[data-id='"+$(this).data("id")+"']").children(".label").hasClass("text-green"))
+			toastr.info('Remove your positive vote before!');
+		else{	
+		toastr.info('This vote has been well registred');
+		if($(this).children(".label").hasClass("text-orange")){
+			method = true;
+		}
+		else{
+			method = false;
+		}
+		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>',method);
+		disableOtherAction($(this), '.commentVoteDown', method);
 		console.log("newsVoteDown",$(this).data("id"));
 		//count = parseInt($(this).data("count"));
 		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+		}
 	});
 	$('.newsShare').off().on("click",function(){
 		toastr.info('TODO : SHARE this news Entry');
@@ -1260,18 +1273,21 @@ function initXEditable() {
 
 
 }
-function actionOnNews(news, action) {
+function actionOnNews(news, action,method) {
 	if (streamType=="news")
 		type="news";
 	else 
 		type=news.data("type");
+	params=new Object,
+	params.id=news.data("id"),
+	params.collection=type,
+	params.action=action;
+	if(method){
+		params.unset=method;
+	}
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
-		data: {
-			id: news.data("id"),
-			collection : ''+type+'',
-			action : action
-		},
+		data: params,
 		type: 'post',
 		global: false,
 		dataType: 'json',
@@ -1286,8 +1302,9 @@ function actionOnNews(news, action) {
                     	toastr.info("You already vote on this comment.");
                     } else {
 	                    toastr.success(data.msg);
-	                    count = parseInt(news.data("count"));
-						news.data( "count" , count+1 );
+	                    console.log(data)
+;						count = parseInt(news.data("count"));
+						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
 						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
 					}
@@ -1299,15 +1316,54 @@ function actionOnNews(news, action) {
         	}
 		});
 }
-function disableOtherAction(commentId, action) {
-	if (action != ".commentVoteUp") {
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-green").addClass("label-inverse");
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").off();
+function voteCheckAction(idVote, newsObj) {
+	var voteUpCount = 0;
+	textUp="text-dark";
+	textDown="text-dark";
+	if ("undefined" != typeof newsObj.voteUpCount){ 
+		voteUpCount = newsObj.voteUpCount;
+		if (newsObj.voteUp.indexOf("<?php echo Yii::app() -> session["userId"] ?>") != -1){
+			textUp= "text-green";
+			$(".newsVoteDown[data-id="+idVote+"]").off();
+		}
 	}
-	if (action != ".commentVoteDown") {
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-orange").addClass("label-inverse");	
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").off();
-	}	
+	var voteDownCount = 0;
+	if ("undefined" != typeof newsObj.voteDownCount) {
+		voteDownCount = newsObj.voteDownCount;
+		if (newsObj.voteDown.indexOf("<?php echo Yii::app() -> session["userId"] ?>") != -1){
+			textDown= "text-orange";
+			$(".newsVoteUp[data-id="+idVote+"]").off();
+		}
+	}
+	voteHtml = "<a href='javascript:;' class='newsVoteUp' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+			"<a href='javascript:;' class='newsVoteDown' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>";
+	return voteHtml;
+}
+function disableOtherAction($this,action,method){
+	if(method){
+		if (action != ".commentVoteUp") {
+			$this.children(".label").removeClass("text-orange").addClass("text-dark");
+			//$(".newsVoteUp[data-id="+idVote+"]").children(".label").removeClass("label-green").addClass("label-inverse");
+		//	$(".newsVoteUp[data-id="+$this.data("id")+"]").on("click");
+		}
+		if (action != ".commentVoteDown") {
+			$this.children(".label").removeClass("text-green").addClass("text-dark");
+			//$(".newsVoteDown[data-id="+idVote+"]").children(".label").removeClass("label-orange").addClass("label-inverse");	
+		//	$(".newsVoteDown[data-id="+$this.data("id")+"]").on("click");
+		}	
+	}
+	else{
+		if (action != ".commentVoteUp") {
+			$this.children(".label").removeClass("text-dark").addClass("text-orange");
+			//$(".newsVoteUp[data-id="+idVote+"]").children(".label").removeClass("label-green").addClass("label-inverse");
+		//	$(".newsVoteUp[data-id="+$this.data("id")+"]").off();
+		}
+		if (action != ".commentVoteDown") {
+			$this.children(".label").removeClass("text-dark").addClass("text-green");
+			//$(".newsVoteDown[data-id="+idVote+"]").children(".label").removeClass("label-orange").addClass("label-inverse");	
+		//	$(".newsVoteDown[data-id="+$this.data("id")+"]").off();
+		}	
+	}
 }
 function updateNews(newsObj)
 {
