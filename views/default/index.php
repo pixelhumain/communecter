@@ -195,7 +195,7 @@ if( !isset( Yii::app()->session['userId']) ){
   }*/
 
   .box-ajaxTools{
-    z-index: 1;
+    z-index: 2;
     text-align: center;
     float: left !important;
     width: 100%;
