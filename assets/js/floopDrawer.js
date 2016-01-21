@@ -24,10 +24,10 @@ function buildListContactHtml(contacts, myId){
 							$.each(floopContactTypes, function(key, type){
 
 							var urlBtnAdd = "";
-							if(type.name == "people") 		 urlBtnAdd = "showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt')";
-							if(type.name == "organizations") urlBtnAdd = "showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )";
-							if(type.name == "events") 		 urlBtnAdd = "showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )";
-							if(type.name == "projects") 	 urlBtnAdd = "showAjaxPanel( '/project/projectsv/id/"+myId+"/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )";
+							if(type.name == "people") 		 urlBtnAdd = "loadByHash( '#person.invitesv')";
+							if(type.name == "organizations") urlBtnAdd = "loadByHash( '#organization.addorganizationform')";
+							if(type.name == "events") 		 urlBtnAdd = "loadByHash( '#event.eventsv')";
+							if(type.name == "projects") 	 urlBtnAdd = "loadByHash( '#project.projectsv.id."+myId+".type.citoyen')";
 
 
 		HTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
@@ -73,7 +73,7 @@ function getFloopItem(id, type, value){
 	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
 	var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
 	//var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
-	var path = "openMainPanelFromPanel( '/"+openPanelType[type.name]+"/detail/id/"+id+"', '" + openPanelType[type.name] + " : " + value.name+"', 'fa-"+ type.icon + "', '"+id+"' )";
+	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
 	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
 						'<div class="btn-chk-contact inline" idcontact="'+id+'">' +
