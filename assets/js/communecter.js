@@ -1,6 +1,5 @@
 //In this javascript file you can find a bunk of functional functions
 //Calling Actions in ajax. Can be used easily on views
-
 function connectPerson(connectUserId, callback) {
 	console.log("connect Person");
 	$.ajax({
@@ -29,7 +28,7 @@ function connectPerson(connectUserId, callback) {
 
 function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) {
 
-	bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+nameToDisconnect+"</span> connection ?", 
+	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> connection ?", 
 		function(result) {
 			if (!result) {
 				return;
@@ -55,8 +54,13 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
+function declareMeAsAdmin(parentId, parentType, personId, parentName, callback, actionFromAdmin=null) {
+	if(actionFromAdmin){
+		
+	}else{
+		$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");	
+		boxContent =  	
+	}
 	bootbox.confirm("You are going to ask to become an admin of the "+parentType+" <span class='text-red'>"+parentName+"</span>. Please confirm ?", 
 		function(result) {
 			$.ajax({
@@ -82,7 +86,8 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 				}
 				
 			});
-		})
+		}
+	)
 }
 
 

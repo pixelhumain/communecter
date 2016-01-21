@@ -980,14 +980,7 @@ function bindEvent(){
 		replaceText=$(this).find("h4").html();
 		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down"></i>');
 	});
-	//$('.timeline-scrubber').scrollToFixed({
-	//	marginTop: $('header').outerHeight() + 200
-	//}).find("a").on("click", function(e){			
-	//	anchor = $(this).data("separator");
-		//$("body").scrollTo(anchor, 300);
-	//	e.preventDefault();
-	//});
-	//$('.timeline-scrubber').css("right","50px");
+
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
@@ -996,7 +989,6 @@ function bindEvent(){
 		$('.timeline-scrubber').find("a").find("a[href = '" + separator + "']").parent().removeClass("selected");
 	});
 	$('.newsAddComment').off().on("click",function() {
-		//$.blockUI.defaults.css = {"text-align": "left", "cursor":"default"};
 		$.blockUI({
 			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
 							'<div class="commentContent"></div></div>', 
@@ -1007,26 +999,8 @@ function bindEvent(){
 			type="news";
 		} else
 			type=$(this).data("type");
-		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
-			/*if(!userId){
-				window.location.href = baseUrl+'/'+moduleId+"/person/login";
-			} else{*/
-				//$(".ajaxForm").slideDown(); 
-				//$.unblockUI();
-			//}
+			getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
 		},"html");
-
-		// if(isNotSV)
-		// 	showAjaxPanel( "/comment/index/type/news/id/"+$(this).data("id"), 'ADD A COMMENT','comment' )
-		// else
-		// 	window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
-		/*
-		toastr.info('TODO : COMMENT this news Entry');
-		console.log("newsAddComment",$(this).data("id"));
-		count = parseInt($(this).data("count"));
-		$(this).data( "count" , count+1 );
-		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");
-		*/
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		if($(".newsVoteDown[data-id='"+$(this).data("id")+"']").children(".label").hasClass("text-orange"))
@@ -1041,9 +1015,7 @@ function bindEvent(){
 		}
 		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_UP ?>',method);
 		disableOtherAction($(this), '.commentVoteUp', method);
-		console.log("newsVoteUp",$(this).data("id"));
 		count = parseInt($(this).data("count"));
-		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 		}
 	});
@@ -1060,9 +1032,6 @@ function bindEvent(){
 		}
 		actionOnNews($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>',method);
 		disableOtherAction($(this), '.commentVoteDown', method);
-		console.log("newsVoteDown",$(this).data("id"));
-		//count = parseInt($(this).data("count"));
-		//$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 		}
 	});
@@ -1141,8 +1110,6 @@ function bindEvent(){
 
 			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
 			if (target.length) {
-				//console.log($("#newsHistory").offset()+"//height"+$(".newsTL").height());
-				
 				if(target.offset().top < 0)
 					targetOffset=target.offset().top;
 				else
@@ -1215,23 +1182,16 @@ function manageModeContext(id) {
 	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-news').editable('option', 'pk', id);
-		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
-			//add primary key to the x-editable field
-			//alert(listXeditables[i]);
 			$(value).editable('option', 'pk', id);
 			$(value).editable('toggleDisabled');
 		});
-		
-		//$("#btn-update-geopos").addClass("hidden");
 	}
 }
 function initXEditable() {
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-news').editable({
     	url: baseUrl+"/"+moduleId+"/news/updatefield", //this url will not be used for creating new job, it is only for update
-    	//value : <?php echo (isset($project["name"]))?json_encode($project["name"]) : "''";?> ,
-    	//onblur: 'submit',
     	textarea: {
 			html: true,
 			video: true,
@@ -1242,11 +1202,9 @@ function initXEditable() {
 	        if(data.result) {
 	        	toastr.success(data.msg);
 				console.log(data);
-				//alert();
 	        }
 	        else{
 	        	toastr.error(data.msg);  
-				//alert();
 	        }
 	    }
 	});
@@ -1341,28 +1299,16 @@ function voteCheckAction(idVote, newsObj) {
 }
 function disableOtherAction($this,action,method){
 	if(method){
-		if (action != ".commentVoteUp") {
+		if (action != ".commentVoteUp")
 			$this.children(".label").removeClass("text-orange").addClass("text-dark");
-			//$(".newsVoteUp[data-id="+idVote+"]").children(".label").removeClass("label-green").addClass("label-inverse");
-		//	$(".newsVoteUp[data-id="+$this.data("id")+"]").on("click");
-		}
-		if (action != ".commentVoteDown") {
+		if (action != ".commentVoteDown")
 			$this.children(".label").removeClass("text-green").addClass("text-dark");
-			//$(".newsVoteDown[data-id="+idVote+"]").children(".label").removeClass("label-orange").addClass("label-inverse");	
-		//	$(".newsVoteDown[data-id="+$this.data("id")+"]").on("click");
-		}	
 	}
 	else{
-		if (action != ".commentVoteUp") {
+		if (action != ".commentVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-orange");
-			//$(".newsVoteUp[data-id="+idVote+"]").children(".label").removeClass("label-green").addClass("label-inverse");
-		//	$(".newsVoteUp[data-id="+$this.data("id")+"]").off();
-		}
-		if (action != ".commentVoteDown") {
+		if (action != ".commentVoteDown")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
-			//$(".newsVoteDown[data-id="+idVote+"]").children(".label").removeClass("label-orange").addClass("label-inverse");	
-		//	$(".newsVoteDown[data-id="+$this.data("id")+"]").off();
-		}	
 	}
 }
 function updateNews(newsObj)
@@ -1634,12 +1580,9 @@ function saveNews(){
 		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSV=1', 'KESS KISS PASS ','rss' )
 		            	}
 					}
-					//console.dir(data);
 					$.unblockUI();
-					//$("#ajaxSV").html('');
 					$.hideSubview();
 					toastr.success('Saved successfully!');
-					//$("#ajaxForm").reset();
 	    		}
 	    		else 
 	    		{
