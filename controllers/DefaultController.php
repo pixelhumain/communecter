@@ -274,11 +274,16 @@ public function actionSimple()
       }
       
     }
-    public function actionView($page,$dir=null) 
+    public function actionView($page,$dir=null,$layout=null) 
     {
-      if(@$dir)
+      if(@$dir){
+        if(strpos($dir,"|")){
+	        $dir=str_replace("|", "/", $dir);
+        }
         $page = $dir."/".$page;
-      if(Yii::app()->request->isAjaxRequest){
+		
+      }
+      if(Yii::app()->request->isAjaxRequest || $layout=="empty"){
         $this->layout = "//layouts/empty";
         echo $this->renderPartial($page, null,true);
       }
