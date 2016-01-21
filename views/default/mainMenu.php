@@ -41,7 +41,7 @@
         <i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "MY EVENTS"); ?></span>
     </a>
 
-    <a  href="javascript:;" 
+    <a  href="javascript:;" id="menu-city"
         onclick="loadByHash( '#city.detail.insee.<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', '<?php echo Yii::t("common", 'MY CITY'); ?>','university' )" 
         class="menuIcon btn-main-menu no-floop-item" >
         <i class="fa fa-university fa-2x"></i><span class="menuline hide homestead"><?php echo Yii::t("common", "MY CITY"); ?></span>

@@ -123,12 +123,13 @@
 			var onclick = "";
 			var isNotSV = true;
 			if(isNotSV){
-				var url = '/'+typeElement+'/detail/id/'+id;
-				var title = data.typeSig + ' : ' + data.name;
-				title = title.replace("'", "");
-				title = title.replace('"', "");
+				var url = '#'+typeElement+'.detail.id.'+id;
+				//var title = data.typeSig + ' : ' + data.name;
+				//title = title.replace("'", "");
+				//title = title.replace('"', "");
 
-				onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
+				//onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
+				onclick = 'loadByHash("'+url+'");';
 			}else{
 				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
 				onclick = 'window.location.href = "'+url+'"';

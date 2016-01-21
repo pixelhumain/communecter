@@ -510,6 +510,7 @@ function initXEditable() {
 			$.cookie("cityName", newValue.addressLocality, { path : '/ph/' });
 
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"?isNotSV=1', 'MA COMMUNE','university' )");
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',
