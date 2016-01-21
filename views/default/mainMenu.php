@@ -8,12 +8,12 @@
         $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
     ?>
 
-    <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="loadByHash( '#person.detail.id.<?php echo Yii::app()->session['userId']?>')" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+    <a href="javascript:;" onclick="loadByHash( '#person.detail.id.<?php echo Yii::app()->session['userId']?>')" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
       <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
       <span  class="menuline hide homestead" style="padding-top:7px;"> <?php echo Yii::t("common", 'MY DETAIL'); ?></span>
     </a>
 
-    <a  href="#news.index.type.citoyen" 
+    <a  href="javascript:;" 
         onclick="loadByHash( '#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isNotSV=1' )" 
         class=" menuIcon btn-main-menu no-floop-item">
         <i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", 'NEWS'); ?></span>
