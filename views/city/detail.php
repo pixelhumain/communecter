@@ -71,10 +71,12 @@ $this->renderPartial('../default/panels/toolbar');
   }
 
   #btn-communecter{
-    width: 50%;
+    width: 60%;
     font-size: 30px;
     margin-bottom: 20px !important;
-    margin-left: 25% !important;
+    margin-left: 20% !important;
+    border-radius: 10px;
+    border: none;
   }
   #btn-communecter small{
     font-size:16px;
@@ -106,7 +108,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
   .info-why{
     font-weight: 300;
-    height: 60px;
+    height: 80px;
   }
   @media screen and (max-width: 1024px) {
     #btn-communecter{
@@ -120,12 +122,12 @@ $this->renderPartial('../default/panels/toolbar');
 
   #pod-local-actors .list-group-item {
       position: relative;
-      padding: 10px 15px;
+      padding: 10px 5px;
       margin-bottom: -1px;
       background-color: #FFF;
       border: 1px solid #DDD;
       display: inline-block;
-      height: 130px;
+      height: 100px;
       text-align: center;
       font-family: "homestead";
       font-size: 20px;
@@ -144,14 +146,44 @@ $this->renderPartial('../default/panels/toolbar');
   filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
 }
   #pod-local-actors .list-group-item .badge {
-    font-size: 20px;
+    font-size: 16px;
     font-family: Helvetica;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    /*width: 45px;*/
+    height: 26px;
+    border-radius: 0px 0px 0px 8px;
     padding-top: 6px;
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    text-align: center;
   }
 
+
+  .pod-local-actors .list-group-item .badge {
+    font-size: 13px;
+    font-family: Helvetica;
+    /*width: 25px;*/
+    height: 25px;
+    border-radius: 0px 0px 0px 8px;
+    padding-top: 6px;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    text-align: center;
+  }
+
+  .leaflet-popup-content .pod-local-actors .list-group-item {
+      position: relative;
+      display: block;
+      padding: 10px 5px;
+      margin-bottom: -1px;
+      background-color: #FFF;
+      width: 50%;
+      text-align: center;
+      height: 60px;
+      border: 1px solid #DDD;
+      font-weight: 500;
+  }
   /*view randomOrga*/
 
 
@@ -190,30 +222,39 @@ $this->renderPartial('../default/panels/toolbar');
     </h2> -->
 </div>
 
-<!-- <div class="col-sm-12 col-xs-12">
 
-    <div class="col-sm-4">
-    <?php   
-            $rand = rand(0, count($organizations)-1);
-            //if(isset($organizations[$rand]))
-            //$this->renderPartial('../pod/randomOrganization',
-                        //array( "randomEntity" => $organizations[$rand] ) ); ?>
+  <div class="col-sm-12 col-xs-12">
+
+    <?php if(!isset(Yii::app()->session["userId"]) || $countTotal >= 0 ){ // ?>
+    <h1 class="homestead text-blue center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
+    <a href="javascript:;" class="btn homestead text-red no-margin register" id="btn-communecter" onclick="communecter();">
+      COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
+    </a>    
+    <div class="panel panel-white">
+      <div>
+        <div class="panel-heading border-light padding-5">
+          <h2 class="homestead text-blue center"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
+         
+          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
+         
+          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</br>Participez aux discussions locales, proposez vos idées ...</label>
+         
+          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA COMMUNE</span> 
+            
+            </br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.
+          </label>
+          
+          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
+        
+        </div>
+      </div>
     </div>
-    <div class="col-sm-4">
-    <?php   
-            $rand = rand(0, count($organizations)-1);
-            //if(isset($organizations[$rand]))
-            //$this->renderPartial('../pod/randomOrganization',
-                        //array( "randomEntity" => $organizations[$rand] ) ); ?>
-    </div>
-    <div class="col-sm-4">
-    <?php   
-            $rand = rand(0, count($organizations)-1);
-            //if(isset($organizations[$rand]))
-            //$this->renderPartial('../pod/randomOrganization',
-                       // array( "randomEntity" => $organizations[$rand] ) ); ?>
-    </div>
-</div> -->
+    <?php } ?>
+  </div>
 
 <div class="col-sm-12 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
 
@@ -228,43 +269,45 @@ $this->renderPartial('../default/panels/toolbar');
           <ul class="list-group text-left no-margin">
             <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <i class="fa fa-user fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
+                <i class="fa fa-user fa-2x"></i>
                 <?php $cnt= (isset($people)) ? count($people): 0; ?>
-                </br><span class="badge bg-yellow"><?php echo $cnt;?></span>
+                <span class="badge bg-yellow"><?php echo $cnt;?></span></br> 
+                <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
+                
               </div>
             </li>
             <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                </br><span class="badge bg-purple"><?php echo $cnt;?></span>
+                <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-azure col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <i class="fa fa-industry fa-2x"></i></br> <?php echo Yii::t("common", "ENTREPRISES"); ?>
                 <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
-                </br><span class="badge bg-azure"><?php echo $cnt;?></span>
+                <span class="badge bg-azure"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <i class="fa fa-users fa-2x"></i></br> <?php echo Yii::t("common", "ORGANIZATIONS"); ?>
                 <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
-                </br><span class="badge bg-green"><?php echo $cnt;?></span>
+                <span class="badge bg-green"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-prune col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <i class="fa fa-male"></i><i class="fa fa-male fa-2x"></i><i class="fa fa-male"></i></br> <?php echo Yii::t("common", "GROUPES"); ?>
                 <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
-                </br><span class="badge bg-prune"><?php echo $cnt;?></span>
+                <span class="badge bg-prune"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-directory">
               <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
                 <i class="fa fa-calendar fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
-                </br><span class="badge bg-orange"><?php echo count($events);?></span>
+                <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
             <!-- <li class="list-group-item">
@@ -290,37 +333,7 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 
 
-  <div class="col-sm-12 col-xs-12">
-
-    <?php if(!isset(Yii::app()->session["userId"]) || $countTotal == 0){ ?>
-    <h1 class="homestead text-blue center you-live">Vous habitez à <?php echo $city["name"]; ?> ?</h1>
-    <a href="javascript:;" class="btn homestead text-red no-margin register" id="btn-communecter" onclick="communecter();">
-      COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
-    </a>    
-    <div class="panel panel-white">
-      <div>
-        <div class="panel-heading border-light padding-5">
-          <h2 class="homestead text-blue center"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="" style="padding:0px 40px 0px 40px; text-align:center;">
-         
-          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-bookmark fa-rotate-270"></i> RÉPERTOIRE</span></br> Retrouvez facilement tous vos contacts grace à votre <b>répertoire personnel</b>.</label>
-         
-          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-rss"></i> ACTUS</span></br> Ne ratez rien de l'actualité de vos contacts grace au <b>fil d'actualités</b>.</label>
-         
-          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-university"></i> MA VILLE</span> 
-            
-            </br> Gardez un oeil sur l'actualité de votre <b>commune</b> à chaque instant.
-          </label>
-          
-          <label class="margin-top-20 info-why col-md-6"><span class="why-communect homestead text-dark"><i class="fa fa-lightbulb-o"></i> PROJETS</span></br> Faites connaître vos <b>projets personnels</b>, et découvrez ceux qui existent autour de vous.</label>
-        
-        </div>
-      </div>
-    </div>
-    <?php $minCountOrga = $minCount-2; } ?>
+    <?php //$minCountOrga = $minCount-2; } ?>
 
     <!-- 
     <?php if(count($organizations) > 0){ ?>
@@ -344,7 +357,8 @@ $this->renderPartial('../default/panels/toolbar');
       </button>
     <?php } ?>
  -->
-  </div>
+  
+
 
   <!-- <div class="col-sm-8 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
 
@@ -569,6 +583,10 @@ jQuery(document).ready(function() {
 
 
 function communecter(){ //toastr.info('TODO : redirect to form register || OR || slide to form register');
+
+    var cp = "<?php echo $city['cp']; ?>";
+    $(".form-register #cp").val(cp);
+    
     $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
       $(this).show().removeClass("animated bounceInLeft");
 
