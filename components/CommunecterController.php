@@ -344,6 +344,7 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
+
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
@@ -360,8 +361,6 @@ class CommunecterController extends Controller
                             "person/checkusername",
                             //Document Resizer
                             "document/resized");
-
-
     
     $prepareData = true;
     //if (true)//(isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 

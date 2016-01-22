@@ -62,7 +62,7 @@
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
     </a> 
-    <?php //if(Yii::app()->session['isAdmin']){?>
+    <?php //if( Person::isAdmin() ){?>
     <a  href="#admin.importdata" onclick="loadByHash('#admin.importdata?isNotSV=1')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>

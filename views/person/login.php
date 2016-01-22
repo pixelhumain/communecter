@@ -88,6 +88,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClient
 
 </style>
 
+<script type="text/javascript">
+if( "<?php echo Yii::app()->session['userId']?>" == "" && window.location.href.indexOf( "/person/login" ) < 0 )
+	window.location.href = baseUrl+"/"+moduleId+"/person/login";
+</script>
+
 <h2 class="main-title-public homestead text-dark" id="main-title-public1"></h2>
 <h1 class="main-title-public homestead" id="main-title-public2"></h1>
 
@@ -527,6 +532,7 @@ svg.graph .line {
 
 
 	jQuery(document).ready(function() {
+
 		userId = null;
 		Main.init();
 		Login.init();	
