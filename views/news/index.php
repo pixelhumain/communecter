@@ -26,7 +26,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 	
-if( isset($_GET["isNotSV"])) {
+if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
@@ -104,14 +104,20 @@ if( isset($_GET["isNotSV"])) {
 #newsHistory{
 	overflow: scroll;
 	overflow-x: hidden;
+	<?php if($type!="city") { ?>
 	position:fixed;
 	top:100px;
+	<?php } ?>
 	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
 	left:70px;
 }
-
+.fixedTop{
+	position:fixed;
+	top:100px;
+	padding:40px !important;
+}
 #tagFilters a.filter, #scopeFilters a.filter{
 	background-color: rgba(245, 245, 245, 0.7);
 	font-size: 14px;
@@ -142,11 +148,18 @@ if( isset($_GET["isNotSV"])) {
 	border-color: #315C6E;
 }
 .timeline-scrubber{
+	<?php if($type!="city") { ?>
 	right: 65px;
     position: fixed;
     top: 215px;
+    <?php } ?>
 }
 
+.fixScrubber{
+	right: 65px;
+	position: fixed;
+    top: 215px;
+}
 .btn-add-something{
 	border-radius: 0px;
 	padding: 7px 0px;
@@ -269,7 +282,7 @@ div.timeline .date_separator span{
 }
 </style>
 
-<div id="formCreateNewsTemp" style="float: none;" class="center-block">
+<div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
@@ -314,8 +327,7 @@ div.timeline .date_separator span{
 	 </div>
 </div>
 <div id="newsHistory" class="padding-20">
-	<div class="col-md-12">
-
+	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;">
 			<div class="panel-heading border-light  <?php if( isset($_GET["isNotSV"])) echo "hidden"; ?>">
@@ -333,6 +345,11 @@ div.timeline .date_separator span{
 				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 	
 				<div id="timeline" class="col-md-10">
+					<?php if($type=="city"){ ?>
+					<div class="panel-heading text-center">
+						<h3 class="panel-title text-blue"><i class="fa fa-rss"></i> Les actualités locales</h3>
+		  			</div>
+		  			<?php } ?>
 					<div class="timeline">
 						<!--<div class="center filterNewsActivity">
 							<div class="btn-group">
@@ -427,7 +444,9 @@ jQuery(document).ready(function()
 	}
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
-	$(".moduleLabel").html("<i class='fa fa-<?php echo $contextIcon ?>'></i> <?php echo $contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+	if(contextParentType!="city"){
+		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+	}
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 	//	Sig = SigLoader.getSig();
 	//	Sig.loadIcoParams();
@@ -440,21 +459,21 @@ jQuery(document).ready(function()
 		Sig.showMapElements(Sig.map, news);
 //		return;
 	<?php //} ?>
-
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	//alert(contextParentType);
-	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations" || contextParentType=="pixels"){
+	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations" || contextParentType=="pixels" || contextParentType=="city"){
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news")
-			minusOffset=730;
+			minusOffset=930;
 		else if (streamType=="activity"){
 			if(contextParentType=="citoyens")
 				minusOffset=530;
 			else
 				minusOffset=630;
 		}
-		$("#newsHistory").off().on("scroll",function(){ 
+		$("#newsHistory").off().on("scroll",function(){
+			//console.log($("#newsHistory").scrollTop());
 			//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
 			if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
 				if (lastOffset != offset.top){
@@ -465,7 +484,7 @@ jQuery(document).ready(function()
 		});
  	}
  		//Construct the first NewsForm
-	buildDynForm();
+	//buildDynForm();
 	getUrlContent();
 	saveNews();
 	//déplace la modal scope à l'exterieur du formulaire

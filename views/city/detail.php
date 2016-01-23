@@ -289,6 +289,7 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
 
+  <?php //$this->renderPartial('../news/index', array ("type"=>"city", "codeInsee" => $city["insee"],"isNotSV"=>1)); ?>
 
   <div class="col-sm-12 col-xs-12">
 
@@ -489,7 +490,9 @@ $this->renderPartial('../default/panels/toolbar');
           //"userId" => (string)$person["_id"])); ?>
   </div>
 </div> -->
-
+  <div id="newsCity">
+	  <input type="text" value="value">
+  </div>
 <div class="row">
 
 	<div class="col-sm-7 col-xs-12">
@@ -530,6 +533,7 @@ var events = <?php echo json_encode($events) ?>;
 
 
 jQuery(document).ready(function() {
+	getAjax("#newsCity",baseUrl+"/"+moduleId+"/news/index/type/city/insee/<?php echo $city["insee"]?>?isNotSV=1",null,"html");
 	bindBtnFollow();
   var iconCity = "<i class='fa fa-university'></i>";
 
@@ -559,7 +563,26 @@ jQuery(document).ready(function() {
       //initAddEventBtn ();
     }, "html");
 
-    
+	var lastValue=0;
+	$(window).on("scroll", function(e) {
+		var scroller_anchor = $("#pod-local-actors").offset().top;
+		scroller_anchor += $("#pod-local-actors").height();
+		topScroll=$(this).scrollTop();
+		console.log(window.scrollY+" // "+lastValue );
+		
+		if (topScroll > (scroller_anchor-100)) {
+			$("#pod-local-actors").css("margin-bottom","300px");
+	    	$("#newsHistory").addClass("fixedTop").children().addClass("col-md-12");
+	    	$(".timeline-scrubber").addClass("fixScrubber");
+	    	lastValue=window.scrollY;
+		} 
+		if (window.scrollY < lastValue-1) { 
+		 lastValue=0;
+		 $("#pod-local-actors").css("margin-bottom","0px");
+		 $(".timeline-scrubber").removeClass("fixScrubber");
+		 $("#newsHistory").removeClass("fixedTop").children().removeClass("col-md-12");
+		}
+	});
 
 		//getAjax(".photoVideoPod", baseUrl+"/"+moduleId+"/pod/photovideo/insee/<?php echo $_GET["insee"]?>/type/<?php echo City::COLLECTION ?>", function(){bindPhotoSubview();}, "html");
 
