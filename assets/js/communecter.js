@@ -56,16 +56,9 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-
-function declareMeAsAdmin(parentId, parentType, personId, parentName, callback, actionFromAdmin=null) 
-{
-	if(actionFromAdmin){
-		
-	}else{
+function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");	
-		//boxContent =  	
-	}
-	bootbox.confirm("You are going to ask to become an admin of the "+parentType+" <span class='text-red'>"+parentName+"</span>. Please confirm ?",
+	bootbox.confirm(trad["askadmin"+parentType]+" <span class='text-red'>"+parentName+"</span>. "+trad.confirm+" ?", 
 		function(result) {
 			$.ajax({
 				type: "POST",
