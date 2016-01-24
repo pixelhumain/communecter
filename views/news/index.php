@@ -1522,7 +1522,12 @@ function getUrlContent(){
                     $("#results").html(content); //append received data into the element
                     $("#results").slideDown(); //show results with slide down effect
                     $("#loading_indicator").hide(); //hide loading indicator image
-                	}	
+                	},
+					error : function(){
+						$.unblockUI();
+						toastr.error("<?php echo yii::t("common","Something went wrong with the url"); ?>!");
+						$("#loading_indicator").hide();
+					}	
                 });
 			}
         }
