@@ -402,7 +402,6 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		var thisSig = this;
 
-		$("#alert-city-found").removeClass("hidden");
 		var cp = $("#postalCode").val();
 		if(typeof cp == "undefined") cp = $("#cp").val();
 
@@ -441,7 +440,11 @@ SigLoader.getSigFindPlace = function (Sig){
 		}
 
 		console.log('position found ? ', position);
-		if(position == null) return false; //position = geoPosition.geo;
+		if(position == null) {
+			$("#iconeChargement").hide();
+			return false; //position = geoPosition.geo;
+		}
+
 		//console.log("position"); console.dir(position);
 		 
 		$("#geoPosLongitude").attr("value", position["lon"]);
@@ -537,6 +540,9 @@ SigLoader.getSigFindPlace = function (Sig){
 			Sig.map.invalidateSize(false);
 			Sig.markerNewData.openPopup();
 		}
+		
+		$("#alert-city-found").removeClass("hidden");
+		$("#iconeChargement").hide();
 		
 		return true;
 	};

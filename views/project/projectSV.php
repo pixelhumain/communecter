@@ -37,6 +37,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 #newProject .select2-input{
 	border:none !important;
 }
+#iconeChargement{
+		display: none;
+	}
 </style>
 
 
@@ -140,8 +143,9 @@ if( !isset($_GET["isNotSV"]))
 							<div class="col-md-4 form-group">
 								<label for="postalCode" class="text-purple">
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
+								<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 								</label>
-								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >	
+								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >
 							</div>
 							<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 								<label for="city">
@@ -459,12 +463,13 @@ function searchCity() {
 	if(searchValue.length >= 4 && searchValue.length <= 5) {
 		$("#city").empty();
 		setTimeout(function(){
-			$("#iconeChargement").css("visibility", "visible");
+			$("#iconeChargement").css("display", "inline-block");
 			runShowCity(searchValue);
 		}, 100); 
 	} else {
 		$("#cityDiv").slideUp("medium");
 		$("#city").empty();
+		$("#iconeChargement").hide();
 	}
 }
 
@@ -493,12 +498,14 @@ function convertDate2(date, num){
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
 		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
-		if(!show && currentCityByInsee != null) 
+		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+		}
 	}
 
 	function searchAddressInGeoShape(){
 		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			$("#iconeChargement").css("display", "inline-block");
 			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
 		}
 	}
