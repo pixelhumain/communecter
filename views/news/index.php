@@ -727,15 +727,15 @@ function buildLineHTML(newsObj)
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
 	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens" && newsObj.type!="gantts"){
-	if(newsObj.target.type=="projects")
+	if(newsObj.target.objectType=="projects")
 			var iconBlank="fa-lightbulb-o";
-		else if (newsObj.target.type=="organizations")
+		else if (newsObj.target.objectType=="organizations")
 			var iconBlank="fa-group";
 		}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
-	if (streamType=="news"){
+	if (streamType=="news" && newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a>";
 		}
@@ -745,7 +745,7 @@ function buildLineHTML(newsObj)
 		}
 	}
 	else{
-		title = '<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span>';
+		title = '<a '+url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
 		text = '<span class="timeline_text">'+newsObj.text+'</span>';
 	}
 	
@@ -769,13 +769,6 @@ function buildLineHTML(newsObj)
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if( author != null && typeof author.address != "undefined" )
 	{
-		/*if( newsObj.address.codeInsee )
-		{
-			scopes += "<span class='label label-danger'>codeInsee : "+newsObj.address.codeInsee+"</span> ";
-			scopeClass += newsObj.address.codeInsee+" ";
-			if( $.inArray(newsObj.address.codeInsee, contextMap.scopes.codeInsee )  == -1)
-				contextMap.scopes.codeInsee.push(newsObj.address.codeInsee);
-		}*/
 		if( typeof author.address.postalCode != "undefined")
 		{
 			scopes += "<span class='label label-danger'>"+author.address.postalCode+"</span> ";
@@ -799,15 +792,12 @@ function buildLineHTML(newsObj)
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 	// HOST NAME AND REDIRECT URL
-	if (typeof(newsObj.target) != "undefined" && newsObj.target && newsObj.type!="needs" && newsObj.type!="gantts"){
-		redirectTypeUrl=newsObj.target.type.substring(0,newsObj.target.type.length-1);
-		if (newsObj.target.type=="citoyens")
+	if (typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id  && newsObj.type!="needs" && newsObj.type!="gantts"){
+		redirectTypeUrl=newsObj.target.objectType.substring(0,newsObj.target.objectType.length-1);
+		if (newsObj.target.objectType=="citoyens")
 			redirectTypeUrl="person";
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+newsObj.target.id+'\', \''+redirectTypeUrl+' : '+newsObj.target.name+'\',\''+iconBlank+'\', \''+newsObj.target.id+'\')"';
-		<?php } else{ ?>
-			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+newsObj.target.id+'"';
-		<?php } ?>
+
+		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
 	}
 	else {
@@ -815,11 +805,7 @@ function buildLineHTML(newsObj)
 			authorId=newsObj.author.id;
 		else
 			authorId=newsObj.author._id.$id;
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlTarget = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+authorId+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+authorId+'\')"';
-		<?php } else{ ?>
-			urlTarget = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+authorId+'"';
-		<?php } ?>
+			urlTarget = 'href="#" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
 	}
 	// END HOST NAME AND REDIRECT URL
@@ -888,7 +874,7 @@ function buildHtmlUrlObject(obj){
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || (streamType =="news" && (contextParentType=="projects" || contextParentType=="organizations"))){
+	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || obj.type !="activityStream"){
 		<?php if (isset($_GET["isNotSV"])){ ?> 
 			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		<?php } else{ ?>
@@ -896,50 +882,32 @@ function buildHtmlUrlObject(obj){
 		<?php } ?>
 	}
 	else{
-		if (contextParentType=="projects" || contextParentType=="organizations"){
-			if(obj.type=="needs"){
-				redirectTypeUrl=obj.type;
-				typeId="idNeed";
-				urlParent="/type/"+contextParentType+"/id/"+contextParentId;
-			}
-			else if(obj.type =="citoyens"){
-				redirectTypeUrl="person";
-				typeId="id";
-				urlParent="";
-			} 
-			else if(obj.type =="organizations"){
-				redirectTypeUrl="organization";
-				typeId="id";
-				urlParent="";
-			} 
-			else if(obj.type =="events"){
-				redirectTypeUrl="event";
-				typeId="id";
-				urlParent="";
-			} 
-			else if(obj.type=="gantts"){
-				redirectTypeUrl="project";
-				typeId="id";
-				urlParent="";
-			}
-			else if (obj.type =="projects"){
-				typeId="id";
-				redirectTypeUrl="project";
-				urlParent="";
-			}
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/'+typeId+'/'+obj.id+urlParent+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
-		<?php } else{ ?>
-			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/'+typeId+'/'+obj.id+urlParent+'"';
-		<?php } ?>
+		if(obj.object.objectType=="needs"){
+			redirectTypeUrl=obj.type;
+			id=obj.object.id;
+			urlParent="/type/"+contextParentType+"/id/"+contextParentId;
 		}
-		else{
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			url = 'href="#" onclick="openMainPanelFromPanel(\'/'+redirectTypeUrl+'/detail/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
-			<?php } else{ ?>
-			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/dashboard/id/'+obj.id+'"';
-		<?php } ?>
+		else if(obj.object.objectType =="citoyens"){
+			redirectTypeUrl="person";
+			id=obj.object.id;
+			urlParent="";
+		} 
+		else if(obj.object.objectType =="organizations"){
+			redirectTypeUrl="organization";
+			id=obj.object.id;
+			urlParent="";
+		} 
+		else if(obj.object.objectType =="events"){
+			redirectTypeUrl="event";
+			id=obj.object.id;
+			urlParent="";
+		} 
+		else if(obj.object.objectType == "gantts" || obj.object.objectType =="projects"){
+			redirectTypeUrl="project";
+			id=obj.object.id;
+			urlParent="";
 		}
+		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
 	return url; 
 }

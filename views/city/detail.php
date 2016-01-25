@@ -505,7 +505,6 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 </div> -->
   <div id="newsCity">
-	  <input type="text" value="value">
   </div>
 <div class="row">
 
