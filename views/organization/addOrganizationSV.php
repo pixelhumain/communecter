@@ -35,6 +35,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		box-shadow: 1px 1px 5px 3px #cfcfcf;
 		filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
 	}
+	#iconeChargement{
+		display: none;
+		float: right;
+		margin-top: -23px;
+		margin-right: 10px;
+	}
 
 #addOrganization input, #addOrganization button.dropdown-toogle, #addOrganization textarea{
 	border: 1px solid #CCC !important;
@@ -153,7 +159,7 @@ if( !isset($_GET["isNotSV"]))
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
-									
+									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city" class="text-green">
@@ -495,12 +501,14 @@ jQuery(document).ready(function() {
 			$("#city").empty();
 
 			clearTimeout(timeout);
-			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 100);
+			timeout = setTimeout($("#iconeChargement").show(200));
 			clearTimeout(timeout);
 			timeout = setTimeout('runShowCity("'+searchValue+'")', 100); 
+			$("#iconeChargement").css("display", "inline-block");
 		} else {
 			$("#cityDiv").slideUp("medium");
 			$("#city").empty();
+			$("#iconeChargement").hide();
 		}
 	}
 
@@ -508,12 +516,14 @@ jQuery(document).ready(function() {
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
 		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
-		if(!show && currentCityByInsee != null) 
-			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+		if(!show && currentCityByInsee != null) {
+			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");	
+		}
 	}
 
 	function searchAddressInGeoShape(){
 		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			$("#iconeChargement").css("display", "inline-block");
 			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
 		}
 	}

@@ -402,7 +402,7 @@ button.btn-geolocate{
 		style="font-size:25px;margin-bottom: 0px; margin-left: -112px;">L'annuaire</span></h1>
 
 	<h1 class="homestead text-red  text-center" 
-		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
+		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
 	
 	<div class="img-logo bgpixeltree_little">
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
@@ -423,21 +423,34 @@ jQuery(document).ready(function() {
 	
 	$('.tooltips').tooltip();
 
-	var timeout = null;
 	$('#searchBarText').keyup(function(e){
-	        var name = $('#searchBarText').val();
-	        //$(this).css("color", "#58879B");
-	        if(name.length>=3){
-	          clearTimeout(timeout);
-	          timeout = setTimeout('autoCompleteSearch("'+name+'")', 500);
-	        }else{
-	          //$("#dropdown_searchTop").css("display", "none");
-	          //$('#notificationPanel').hide("fast");
-	        }   
-	    });
+        startSearch();
+    });
+    $('#searchBarPostalCode').keyup(function(e){
+        startSearch();
+    });
 
 });
 
+var timeout = null;
+function startSearch(){
+	var name = $('#searchBarText').val();
+    var locality = $('#searchBarPostalCode').val();
+
+    //verification si c'est un nombre
+    if(!isNaN(parseInt(locality))){
+        if(locality.length == 0 || locality.length > 5) locality = "";
+    }
+
+    //$(this).css("color", "#58879B");
+    if(name.length>=3 || name.length == 0){
+      clearTimeout(timeout);
+      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
+    }else{
+      //$("#dropdown_searchTop").css("display", "none");
+      //$('#notificationPanel').hide("fast");
+    }   
+}
 
 /*SEARCH BAR*/
 var mapIconTop = {
@@ -467,15 +480,22 @@ var mapColorIconTop = {
     "city": "red"
   };
 
-function autoCompleteSearch(name){
-    var data = {"name" : name};
+function autoCompleteSearch(name, locality){
+    var data = {"name" : name, "locality" : locality };
     $("#shortDetailsEntity").hide();
     $.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
           data: data,
           dataType: "json",
+          error: function (data){
+             console.log("error");
+          	console.dir(data);
+            
+          },
           success: function(data){
+          	console.log("error");
+          	console.dir(data);
             if(!data){
               toastr.error(data.content);
             }else{
@@ -496,6 +516,7 @@ function autoCompleteSearch(name){
                
                 console.dir(o);
                   
+                city="";
                 if (o.address != null) {
                   //console.dir(o.address);
                   city = o.address.addressLocality;
