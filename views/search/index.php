@@ -387,6 +387,83 @@ button.btn-geolocate{
 	}
 
 }
+
+.searchEntity{
+	margin-bottom:10px;
+	margin-left:7px;
+}
+.searchEntity .entityLeft{
+	text-align: right;
+	padding-top:30px;
+	margin-right: -3%;
+	margin-left: 3%;
+}
+.searchEntity .entityLeft .badge{
+	margin:2px;
+}
+.searchEntity .entityCenter{
+	text-align: center;
+}
+.searchEntity .entityCenter i.fa, 
+.searchEntity .entityCenter img{
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	font-size: 33px;
+	padding: 19px 21px;
+}
+.searchEntity .entityCenter img{
+	padding: 10px;
+	/*background-color: #CADDE9 !important;*/
+}
+.searchEntity .entityCenter i.fa.fa-calendar{
+	font-size: 28px;
+	padding: 21px;
+}
+.searchEntity .entityCenter i.fa.fa-user{
+	font-size: 32px;
+	padding: 17px;
+}
+.searchEntity .entityCenter i.fa.fa-users{
+	font-size: 27px;
+	padding: 21px 20px;
+}
+.searchEntity .entityCenter i.fa.fa-university{
+	font-size: 27px;
+	padding: 20px 21px;
+}
+.searchEntity .entityCenter i.fa.fa-lightbulb-o{
+	font-size: 30px;
+	padding: 20px 27px;
+}
+.searchEntity .entityRight{
+	text-align: left;
+	padding-top:6px;
+	margin-left: -3%;
+}
+
+.searchEntity .entityRight .entityName{
+	font-size:18px;
+	line-height: 20px;
+	font-weight: 300;
+	width:100%;
+	display: block;
+}
+.searchEntity .entityRight .entityLocality{
+	font-size: 13px;
+	line-height: 17px;
+	font-weight: 600;
+	width:100%;
+	display: block;
+}
+.searchEntity .entityRight .entityDescription{
+	font-size: 14px;
+	line-height: 17px;
+	width: 100%;
+	display: block;
+	font-weight: 300;
+}
+
 </style>
 
 
@@ -406,7 +483,7 @@ button.btn-geolocate{
 	
 	<div class="img-logo bgpixeltree_little">
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
-		<input id="searchBarPostalCode" type="text" placeholder="un code postal ?" class="input-search postalCode">
+		<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode">
 		<button class="btn btn-primary btn-start-search bg-dark"><i class="fa fa-search"></i></button>
 	</div>
 
@@ -461,6 +538,7 @@ var mapIconTop = {
     "Group" : "<?php echo Organization::ICON_GROUP ?>",
     "group" : "<?php echo Organization::ICON ?>",
     "association" : "<?php echo Organization::ICON ?>",
+    "organization" : "<?php echo Organization::ICON ?>",
     "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
     "event":"<?php echo Event::ICON ?>",
     "project":"<?php echo Project::ICON ?>",
@@ -474,6 +552,7 @@ var mapColorIconTop = {
     "Group" : "green",
     "group" : "green",
     "association" : "green",
+    "organization" : "green",
     "GovernmentOrganization" : "green",
     "event":"orange",
     "project":"purple",
@@ -513,7 +592,10 @@ function autoCompleteSearch(name, locality){
                 color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                 
                 htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-               
+               	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                }
+
                 console.dir(o);
                   
                 city="";
@@ -524,12 +606,55 @@ function autoCompleteSearch(name, locality){
                   //insee = o.address.insee;
                 }
                 
-                if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                }
+                
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+                var url = baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + o.id;
+
+                var tags = "";
+                if(typeof o.tags != "undefined" && o.tags != null){
+					$.each(o.tags, function(key, value){
+						if(value != "")
+		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+		            });
+                }
+
+                var name = typeof o.name != "undefined" ? o.name : "";
+                var postalCode = (typeof o.address != "undefined" &&
+                				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+                
+                if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+                var cityName = (typeof o.address != "undefined" &&
+                				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+                
+                var fullLocality = postalCode + " " + cityName;
+
+                var description = (typeof o.shortDescription != "undefined" &&
+                					o.shortDescription != null) ? o.shortDescription : "";
+                if(description == "") description = (typeof o.description != "undefined" &&
+                									 o.description != null) ? o.description : "";
+                
+                str += "<div class='col-md-12 searchEntity'>";
+	                str += "<div class='col-md-5 entityLeft'>";
+						str += tags;
+	                str += "</div>";
+
+	                str += "<div class='col-md-2 entityCenter'>";
+						str += htmlIco;
+	                str += "</div>";
+					
+	                str += "<div class='col-md-5 entityRight'>";
+	                	str += "<a href='"+url+"' target='_blank' class='entityName text-dark'>" + name + "</a>";
+	                	if(fullLocality != "")
+	                	str += "<a href='"+url+"' target='_blank' class='entityLocality'>" + fullLocality + "</a>";
+	                	if(description != "")
+	                	str += "<a href='"+url+"' target='_blank' class='entityDescription'>" + description + "</a>";
+	                str += "</div>";
+					
+				str += "</div>";
+
+				/*
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol><div class='elipsis'>"+
@@ -557,6 +682,7 @@ function autoCompleteSearch(name, locality){
                 
                 str +=   "</div><span>"+ htmlIco +"</span>";
                 str +=  "</ol></a>";//</div>";
+                */
               })
             }
             }); 
@@ -576,7 +702,7 @@ function autoCompleteSearch(name, locality){
     		$(".btn-start-search").addClass("bg-dark");
     
 
-            addEventOnSearch(); 
+            //addEventOnSearch(); 
           }
       } 
     });
