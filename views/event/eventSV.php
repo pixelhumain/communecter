@@ -489,7 +489,7 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.startDate = startDateSubmit; 
 				newEvent.endDate = endDateSubmit;
 				newEvent.description = $(".form-event .eventDetail ").val();
-				newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
+				//newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.city = $(".form-event #city ").val();
 				newEvent.country = $(".form-event #eventCountry ").val();
