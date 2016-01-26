@@ -464,13 +464,12 @@ jQuery(document).ready(function()
 	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations" || contextParentType=="pixels" || contextParentType=="city"){
 		// SetTimeout => Problem of sequence in js script reader
 		setTimeout(function(){loadStream()},0);
-		if (streamType=="news")
-			minusOffset=930;
-		else if (streamType=="activity"){
-			if(contextParentType=="citoyens")
-				minusOffset=530;
-			else
-				minusOffset=630;
+		if (streamType=="news"){
+			if(contextParentType=="city"){
+				minusOffset=1030;
+			} else {
+				minusOffset=730;
+			}
 		}
 		$("#newsHistory").off().on("scroll",function(){
 			//console.log($("#newsHistory").scrollTop());
@@ -704,7 +703,7 @@ function buildLineHTML(newsObj)
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
-	url=buildHtmlUrlObject(newsObj);
+	urlAction=buildHtmlUrlAndActionObject(newsObj);
 	var imageBackground = "";
 	if(typeof newsObj.author != "undefined"){
 		if(typeof newsObj.author.type == "undefined") {
@@ -745,7 +744,7 @@ function buildLineHTML(newsObj)
 		}
 	}
 	else{
-		title = '<a '+url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
+		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
 		text = '<span class="timeline_text">'+newsObj.text+'</span>';
 	}
 	
@@ -790,7 +789,7 @@ function buildLineHTML(newsObj)
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
 	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
-	var objectLink = (newsObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
+	var objectLink = (newsObj.object) ? ' <a '+urlAction.url+'>'+iconStr+'</a>' : iconStr;
 	// HOST NAME AND REDIRECT URL
 	if (typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id  && newsObj.type!="needs" && newsObj.type!="gantts"){
 		redirectTypeUrl=newsObj.target.objectType.substring(0,newsObj.target.objectType.length-1);
@@ -798,7 +797,7 @@ function buildLineHTML(newsObj)
 			redirectTypeUrl="person";
 
 		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a>";
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")
@@ -806,7 +805,7 @@ function buildLineHTML(newsObj)
 		else
 			authorId=newsObj.author._id.$id;
 			urlTarget = 'href="#" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a>";
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a> "+urlAction.titleAction;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
@@ -816,7 +815,7 @@ function buildLineHTML(newsObj)
 		<?php } else{ ?>
 			urlAuthor = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
 		<?php } ?>
-		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a>";
+		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a> "+urlAction.titleAction;
 	}
 	else 
 		authorLine="";
@@ -840,11 +839,11 @@ function buildLineHTML(newsObj)
 						imageBackground+
 						'<div class="timeline_author_block">'+
 							objectLink+
-							'<span class="light-text timeline_author padding-5 margin-top-5 text-dark text-bold">'+personName+'</span>'+
+							'<span class="light-text timeline_author padding-5 margin-top-5 text-bold">'+personName+'</span>'+
 							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
 						'</div>'+
 						'<div class="space5"></div>'+
-						'<a '+url+'>'+
+						'<a '+urlAction.url+'>'+
 							'<div class="timeline_title">'+
 								//'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+
 								title+
@@ -868,7 +867,7 @@ function buildLineHTML(newsObj)
 				'</li>';
 	return newsTLLine;
 }
-function buildHtmlUrlObject(obj){
+function buildHtmlUrlAndActionObject(obj){
 	console.log(obj);
 	if(typeof(obj.type) != "undefined")
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
@@ -880,6 +879,10 @@ function buildHtmlUrlObject(obj){
 		<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+obj.id+'"';
 		<?php } ?>
+		if(obj.text.length == 0 && obj.media.length)
+			titleAction = "a partagé un lien";
+		else 
+			titleAction = "";
 	}
 	else{
 		if(obj.object.objectType=="needs"){
@@ -896,25 +899,31 @@ function buildHtmlUrlObject(obj){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
+			titleAction = "a créé une organization";
 		} 
 		else if(obj.object.objectType =="events"){
 			redirectTypeUrl="event";
 			id=obj.object.id;
 			urlParent="";
+			titleAction = "a posté un évènement";
 		} 
 		else if(obj.object.objectType == "gantts" || obj.object.objectType =="projects"){
 			redirectTypeUrl="project";
 			id=obj.object.id;
 			urlParent="";
+			titleAction = "a créé un projet";
 		}
 		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
-	return url; 
+	object=new Object;
+	object.url= url,
+	object.titleAction= titleAction;
+	return object; 
 }
 function builHtmlAuthorImageObject(obj){
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		var colorIcon = Sig.getIcoColorByType({type : obj.type});
+		var colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
 		if (icon == "fa-circle")
 			icon = obj.icon;
 	}else{ 
@@ -923,17 +932,16 @@ function builHtmlAuthorImageObject(obj){
 	}
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
-	if(typeof(obj.target) != "undefined" && obj.target.type != "citoyens" && obj.type!="gantts"){
-		if(obj.target.type=="projects")
+	if(typeof(obj.target) != "undefined" && obj.target.objectType != "citoyens" && obj.type!="gantts"){
+		if(obj.target.objectType=="projects")
 			var iconBlank="fa-lightbulb-o";
-		else if (obj.target.type=="organizations")
+		else if (obj.target.objectType=="organizations")
 			var iconBlank="fa-group";
 		if(typeof obj.target.profilImageUrl !== "undefined" && obj.target.profilImageUrl != ""){ 
 			imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+obj.target.profilImageUrl;
-		
 		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 		}else {
-			var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
+			var iconStr = "<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
 	}else{
 			var imgProfilPath =  "<?php echo $this->module->assetsUrl.'/images/news/profile_default_l.png';?>";
@@ -942,7 +950,7 @@ function builHtmlAuthorImageObject(obj){
 					imgProfilPath = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'); ?>"+obj.target.profilImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 				}else {
-					if(obj.type=="organizations")
+					if(obj.object.objectType=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
 						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
