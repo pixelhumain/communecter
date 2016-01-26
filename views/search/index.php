@@ -100,7 +100,7 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	width: 600px;
 	max-width: 600px;
 	min-width: 600px;
-	height: 350px;
+	height: 380px;
 	/*top: 150px;*/
 	margin-left: auto;
 	margin-right: auto;
@@ -153,12 +153,13 @@ input.input-search.postalCode:focus{
 
 button.btn-start-search{
 	margin-top: 70px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	/*width: 25%;*/
 	margin-left: 47%;
 	/*background-color: #3C5665 !important;*/
+	background-color: rgb(122, 207, 91);
 	color:white;
-	border-color: #3C5665 !important;
+	border-color: rgba(180, 180, 180, 0.77) !important;
 	border-radius: 30px;
 	font-weight: 300;
 	font-size: 18px;
@@ -174,7 +175,7 @@ button.btn-start-search{
 
 button.btn-start-search:hover{
 	background-color: white !important;
-	color:#3C5665 !important;
+	color:#68AE4E !important;
 }
 
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
@@ -201,23 +202,50 @@ button.btn-login{
 button.btn-menu{
 	color: #FFF;
 	font-size: 17px;
-	-moz-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
-	-webkit-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
-	-o-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
-	box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
+	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
+button.btn-menu0{
+	left: 14px;
+	top: 16px;
+	font-size: 25px;
+	width: 50px;
+	height: 50px;
+	padding: 6px;
+}
 button.btn-menu1{
-	left: 90px;
-	top: 100px;
+	left: 83px;
+	top: 12px;
 }
 
 button.btn-menu2{
 	left: 110px;
 	top: 50px;
-	font-size: 18px;
+	
+}
+
+button.btn-menu3{
+	left: 88px;
+	top: 100px;
+}
+button.btn-menu4{
+	left: 47px;
+	top: 131px;
+	font-size: 17px;
+	padding-left: 8px;
+}
+button.btn-menu5{
+	right: 44px;
+	top: 221px;
 	padding-left: 10px;
+	font-size: 24px;
+	width: 45px;
+	height: 45px;
+	padding: 5px;
 }
 button.btn-geolocate{
 	font-size: 18px;
@@ -402,9 +430,7 @@ button.btn-infos{
 	button.btn-start-search{
 		margin-top: 45px;
 		margin-left: 45%;
-		/*background-color: #3C5665 !important;*/
 		color:white;
-		border-color: #3C5665 !important;
 		border-radius: 30px;
 		font-weight: 300;
 		font-size: 15px;
@@ -538,12 +564,27 @@ button.btn-infos{
 <button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="left" title="Se connecter" alt="Se connecter">
 	<i class="fa fa-sign-in"></i>
 </button>
-<button class="menu-button btn-menu btn-menu1 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter quelque chose" alt="Localisation automatique">
+<button class="menu-button btn-menu btn-menu0 bg-red tooltips" data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
+	<i class="fa fa-home"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu1 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter quelque chose dans l'annuaire ..." alt="Localisation automatique">
 	<i class="fa fa-plus-circle"></i>
 </button>
 
-<button class="menu-button btn-menu btn-menu2 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Actu communectée" alt="Localisation automatique">
+<button class="menu-button btn-menu btn-menu2 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Annuaire Communecté" alt="Localisation automatique">
+	<i class="fa fa-connectdevelop"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu3 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Agenda Communecté" alt="Localisation automatique">
+	<i class="fa fa-calendar"></i>
+</button>
+<button class="menu-button btn-menu btn-menu4 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="Localisation automatique">
 	<i class="fa fa-rss"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu5 bg-azure tooltips" data-toggle="tooltip" data-placement="left" title="Afficher la carte géographique" alt="Localisation automatique">
+	<i class="fa fa-map-marker"></i>
 </button>
 
 <div class="col-sm-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
@@ -557,14 +598,15 @@ button.btn-infos{
 		<button class="menu-button btn-geolocate bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
 			<i class="fa fa-crosshairs"></i>
 		</button>
-		<button class="menu-button btn-infos bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?" alt="Comment ça marche ?">
+		<button class="menu-button btn-infos bg-dark tooltips" data-toggle="tooltip" data-placement="right" title="Comment ça marche ?" alt="Comment ça marche ?">
 			<i class="fa fa-question-circle"></i>
 		</button>
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
 		<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode" 
 			   value="<?php echo isset( Yii::app()->request->cookies['cityName'] ) ? 
 			   					 Yii::app()->request->cookies['cityName'] : ""; ?>" >
-		<button class="btn btn-primary btn-start-search bg-dark"><i class="fa fa-search"></i></button>
+		<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
+		<center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center>
 	</div>
 
 	<div class="" id="dropdown_searchTop" style="">
@@ -584,6 +626,12 @@ jQuery(document).ready(function() {
         startSearch();
     });
     $('#searchBarPostalCode').keyup(function(e){
+        startSearch();
+    });
+    $('#btn-start-search').click(function(e){
+        startSearch();
+    });
+    $('#link-start-search').click(function(e){
         startSearch();
     });
 
@@ -767,7 +815,7 @@ function autoCompleteSearch(name, locality){
 	        	$("#dropdown_searchTop").css({"display" : "inline" });
 	        }
 	        $(".btn-start-search").removeClass("bg-azure");
-    		$(".btn-start-search").addClass("bg-dark");
+    		//$(".btn-start-search").addClass("bg-dark");
           }
       } 
     });
@@ -775,7 +823,7 @@ function autoCompleteSearch(name, locality){
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
-    $(".btn-start-search").removeClass("bg-dark");
+   // $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_searchTop").html("");
     $("#dropdown_searchTop").css({"display" : "inline" });
                     
