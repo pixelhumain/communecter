@@ -100,10 +100,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	width: 600px;
 	max-width: 600px;
 	min-width: 600px;
-	height: 350px;
-	top: 150px;
+	height: 380px;
+	/*top: 150px;*/
 	margin-left: auto;
 	margin-right: auto;
+	position:relative;
 }
 input.input-search{
 	margin-top: 100px;
@@ -152,12 +153,13 @@ input.input-search.postalCode:focus{
 
 button.btn-start-search{
 	margin-top: 70px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	/*width: 25%;*/
 	margin-left: 47%;
 	/*background-color: #3C5665 !important;*/
+	background-color: rgb(122, 207, 91);
 	color:white;
-	border-color: #3C5665 !important;
+	border-color: rgba(180, 180, 180, 0.77) !important;
 	border-radius: 30px;
 	font-weight: 300;
 	font-size: 18px;
@@ -173,7 +175,7 @@ button.btn-start-search{
 
 button.btn-start-search:hover{
 	background-color: white !important;
-	color:#3C5665 !important;
+	color:#68AE4E !important;
 }
 
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
@@ -196,18 +198,78 @@ button.btn-login{
 	box-shadow: 0px 0px 5px 0px #CC3939 !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#CC3939, Direction=NaN, Strength=5) !important;
 }
-button.btn-geolocate{
-	left: 110px;
-	top: 50px;
-	background-color: #54B736;
+
+button.btn-menu{
 	color: #FFF;
 	font-size: 17px;
-	-moz-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	-webkit-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	-o-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	box-shadow: 0px 0px 5px 0px #54B736 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#54B736, Direction=NaN, Strength=5) !important;
+	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
+
+button.btn-menu0{
+	left: 14px;
+	top: 16px;
+	font-size: 25px;
+	width: 50px;
+	height: 50px;
+	padding: 6px;
+}
+button.btn-menu1{
+	left: 83px;
+	top: 12px;
+}
+
+button.btn-menu2{
+	left: 110px;
+	top: 50px;
+	
+}
+
+button.btn-menu3{
+	left: 88px;
+	top: 100px;
+}
+button.btn-menu4{
+	left: 47px;
+	top: 131px;
+	font-size: 17px;
+	padding-left: 8px;
+}
+button.btn-menu5{
+	right: 44px;
+	top: 221px;
+	padding-left: 10px;
+	font-size: 24px;
+	width: 45px;
+	height: 45px;
+	padding: 5px;
+}
+button.btn-geolocate{
+	font-size: 18px;
+	position: absolute;
+	top: 160px;
+	left: 10px;
+	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
+	box-shadow: 0px 0px 5px 0px #14424A !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+button.btn-infos{
+	font-size: 17px;
+	position: absolute;
+	top: 160px;
+	right: 10px;
+	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
+	box-shadow: 0px 0px 5px 0px #14424A !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 
 .main-col-search{
@@ -335,9 +397,10 @@ button.btn-geolocate{
 		max-width: 400px;
 		min-width: 400px;
 		height: 350px;
-		top: 150px;
+		/*top: 150px;*/
 		margin-left: auto;
 		margin-right: auto;
+		position: relative;
 	}
 
 	input.input-search{
@@ -367,9 +430,7 @@ button.btn-geolocate{
 	button.btn-start-search{
 		margin-top: 45px;
 		margin-left: 45%;
-		/*background-color: #3C5665 !important;*/
 		color:white;
-		border-color: #3C5665 !important;
 		border-radius: 30px;
 		font-weight: 300;
 		font-size: 15px;
@@ -386,15 +447,144 @@ button.btn-geolocate{
 		font-weight: 300;
 	}
 
+	.searchEntity .entityLeft{
+		text-align: center !important;
+	}
+	.searchEntity .entityRight{
+		text-align: center !important;
+	}
+
+
+	button.btn-geolocate{
+		top: 103px;
+		left: 0px;
+	}
+	button.btn-infos{
+		top: 103px;
+		right: 0px;
+	}
 }
+
+.searchEntity{
+	margin-bottom:10px;
+	margin-left:7px;
+}
+.searchEntity .entityLeft{
+	text-align: right;
+	padding-top:30px;
+	/*margin-right: -3%;
+	margin-left: 3%;*/
+}
+.searchEntity .entityLeft .badge{
+	margin:2px;
+}
+.searchEntity .entityCenter{
+	text-align: center;
+}
+.searchEntity .entityCenter i.fa, 
+.searchEntity .entityCenter img{
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	font-size: 33px;
+	padding: 19px 21px;
+}
+.searchEntity .entityCenter img{
+	padding: 10px;
+	/*background-color: #CADDE9 !important;*/
+}
+.searchEntity .entityCenter i.fa.fa-calendar{
+	font-size: 28px;
+	padding: 21px;
+}
+.searchEntity .entityCenter i.fa.fa-user{
+	font-size: 32px;
+	padding: 17px;
+}
+.searchEntity .entityCenter i.fa.fa-users{
+	font-size: 27px;
+	padding: 21px 20px;
+}
+.searchEntity .entityCenter i.fa.fa-university{
+	font-size: 27px;
+	padding: 20px 21px;
+}
+.searchEntity .entityCenter i.fa.fa-lightbulb-o{
+	font-size: 30px;
+	padding: 20px 27px;
+}
+.searchEntity .entityRight{
+	text-align: left;
+	padding-top: 10px !important;
+	margin-left: -1%;
+}
+
+.searchEntity .entityRight .entityName{
+	font-size:18px;
+	line-height: 20px;
+	font-weight: 300;
+	width:100%;
+	display: block;
+}
+.searchEntity .entityRight .entityLocality{
+	font-size: 13px;
+	line-height: 17px;
+	font-weight: 600;
+	width:100%;
+	display: block;
+	margin-bottom: 2px;
+}
+.searchEntity .entityRight .entityDescription{
+	font-size: 14px;
+	line-height: 17px;
+	width: 100%;
+	display: block;
+	font-weight: 300;
+	max-height: 205px;
+	overflow: hidden;
+}
+
+.searchEntity .entityRight .entityDate{
+	font-size: 12px;
+	line-height: 17px;
+	margin-right:4px;
+	display: inline-block;
+	max-height: 205px;
+	overflow: hidden;
+	text-align: left;
+	padding: 2px 9px;
+	background-color: rgb(190, 223, 228) !important;
+	color: rgb(45, 99, 125) !important;
+	font-weight: 500;
+}
+
 </style>
 
 
-<button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="bottom" title="Se connecter" alt="Se connecter">
+<button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="left" title="Se connecter" alt="Se connecter">
 	<i class="fa fa-sign-in"></i>
 </button>
-<button class="menu-button btn-geolocate tooltips" data-toggle="tooltip" data-placement="bottom" title="Localisation automatique" alt="Localisation automatique">
-	<i class="fa fa-crosshairs"></i>
+<button class="menu-button btn-menu btn-menu0 bg-red tooltips" data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
+	<i class="fa fa-home"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu1 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter quelque chose dans l'annuaire ..." alt="Localisation automatique">
+	<i class="fa fa-plus-circle"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu2 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Annuaire Communecté" alt="Localisation automatique">
+	<i class="fa fa-connectdevelop"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu3 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Agenda Communecté" alt="Localisation automatique">
+	<i class="fa fa-calendar"></i>
+</button>
+<button class="menu-button btn-menu btn-menu4 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="Localisation automatique">
+	<i class="fa fa-rss"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu5 bg-azure tooltips" data-toggle="tooltip" data-placement="left" title="Afficher la carte géographique" alt="Localisation automatique">
+	<i class="fa fa-map-marker"></i>
 </button>
 
 <div class="col-sm-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
@@ -405,9 +595,18 @@ button.btn-geolocate{
 		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
 	
 	<div class="img-logo bgpixeltree_little">
+		<button class="menu-button btn-geolocate bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
+			<i class="fa fa-crosshairs"></i>
+		</button>
+		<button class="menu-button btn-infos bg-dark tooltips" data-toggle="tooltip" data-placement="right" title="Comment ça marche ?" alt="Comment ça marche ?">
+			<i class="fa fa-question-circle"></i>
+		</button>
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
-		<input id="searchBarPostalCode" type="text" placeholder="un code postal ?" class="input-search postalCode">
-		<button class="btn btn-primary btn-start-search bg-dark"><i class="fa fa-search"></i></button>
+		<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode" 
+			   value="<?php echo isset( Yii::app()->request->cookies['cityName'] ) ? 
+			   					 Yii::app()->request->cookies['cityName'] : ""; ?>" >
+		<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
+		<center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center>
 	</div>
 
 	<div class="" id="dropdown_searchTop" style="">
@@ -427,6 +626,12 @@ jQuery(document).ready(function() {
         startSearch();
     });
     $('#searchBarPostalCode').keyup(function(e){
+        startSearch();
+    });
+    $('#btn-start-search').click(function(e){
+        startSearch();
+    });
+    $('#link-start-search').click(function(e){
         startSearch();
     });
 
@@ -461,6 +666,7 @@ var mapIconTop = {
     "Group" : "<?php echo Organization::ICON_GROUP ?>",
     "group" : "<?php echo Organization::ICON ?>",
     "association" : "<?php echo Organization::ICON ?>",
+    "organization" : "<?php echo Organization::ICON ?>",
     "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
     "event":"<?php echo Event::ICON ?>",
     "project":"<?php echo Project::ICON ?>",
@@ -474,6 +680,7 @@ var mapColorIconTop = {
     "Group" : "green",
     "group" : "green",
     "association" : "green",
+    "organization" : "green",
     "GovernmentOrganization" : "green",
     "event":"orange",
     "project":"purple",
@@ -513,50 +720,85 @@ function autoCompleteSearch(name, locality){
                 color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                 
                 htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-               
+               	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                }
+
                 console.dir(o);
                   
                 city="";
+
+                var postalCode = o.cp
                 if (o.address != null) {
-                  //console.dir(o.address);
                   city = o.address.addressLocality;
-                  //postalCode = o.address.postalCode;
-                  //insee = o.address.insee;
+                  postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                 }
                 
-                if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                
+                var id = getObjectId(o);
+                var insee = o.insee ? o.insee : "";
+                var url = baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+                var onclick = "";
+                var onclickCp = "";
+                var target = " target='_blank'";
+                if(o.type == "city"){
+                	url = "#main-col-search";
+                	onclick = 'setScopeValue("'+o.name+'");';
+                	onclickCp = 'setScopeValue("'+o.cp+'");';
+                	target = "";
                 }
 
-                var insee      = o.insee ? o.insee : "";
-                var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
-                          "<ol><div class='elipsis'>"+
-                          o.name ;
-
-                var cityComplete = "";
-                //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
-                if("undefined" != typeof city && city != "Unknown") cityComplete += city;
-                if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
-                if("undefined" != typeof postalCode) cityComplete += postalCode;
-                str +=   "<span class='light'> "+cityComplete+"</span>";
-
-
-                //str +=   "</br><span class='tags_list'>";
-                //str +=   getUrlElement(o.id, i, insee);
-                
+                var tags = "";
                 if(typeof o.tags != "undefined" && o.tags != null){
-					str +=   "<span class='tags'>";
-		                $.each(o.tags, function(key, value){
-		                	str +=   " #" + value;
-		                });
-	                str += "</span>";
+					$.each(o.tags, function(key, value){
+						if(value != "")
+		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+		            });
                 }
-                //str +=   "</span>";
+
+                var name = typeof o.name != "undefined" ? o.name : "";
+                var postalCode = (typeof o.address != "undefined" &&
+                				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
                 
-                str +=   "</div><span>"+ htmlIco +"</span>";
-                str +=  "</ol></a>";//</div>";
+                if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+                var cityName = (typeof o.address != "undefined" &&
+                				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+                
+                var fullLocality = postalCode + " " + cityName;
+
+                var description = (typeof o.shortDescription != "undefined" &&
+                					o.shortDescription != null) ? o.shortDescription : "";
+                if(description == "") description = (typeof o.description != "undefined" &&
+                									 o.description != null) ? o.description : "";
+         
+                var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+                var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+
+                //template principal
+                str += "<div class='col-md-12 searchEntity'>";
+	                str += "<div class='col-md-5 entityLeft'>";
+						str += tags;
+	                str += "</div>";
+
+	                str += "<div class='col-md-2 entityCenter'>";
+						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+	                str += "</div>";
+					
+	                str += "<div class='col-md-5 entityRight no-padding'>";
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+	                	if(fullLocality != "" && fullLocality != " ")
+	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+	                	if(startDate != null)
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
+	                	if(endDate != null)
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
+	                	if(description != "")
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</a>";
+	                str += "</div>";
+	                					
+				str += "</div>";
+
+			
               })
             }
             }); 
@@ -573,10 +815,7 @@ function autoCompleteSearch(name, locality){
 	        	$("#dropdown_searchTop").css({"display" : "inline" });
 	        }
 	        $(".btn-start-search").removeClass("bg-azure");
-    		$(".btn-start-search").addClass("bg-dark");
-    
-
-            addEventOnSearch(); 
+    		//$(".btn-start-search").addClass("bg-dark");
           }
       } 
     });
@@ -584,7 +823,7 @@ function autoCompleteSearch(name, locality){
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
-    $(".btn-start-search").removeClass("bg-dark");
+   // $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_searchTop").html("");
     $("#dropdown_searchTop").css({"display" : "inline" });
                     
@@ -625,30 +864,13 @@ function autoCompleteSearch(name, locality){
 		}
 	});
 
-    /*url = "/"+type+"/detail/id/"+id;
-    
-    if(type=="cities")
-        url = "/city/detail/insee/"+insee+"?isNotSV=1";
-    //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    */
-    /*
-    $("#searchBar").val(name);
-    $("#searchId").val(id);
-    $("#searchType").val(type);
-    $("#dropdown_searchTop").css({"display" : "none" });*/  
   }
 
-  function getUrlElement(id, type, insee){
-  	if(type=="citoyen"){
-      type = "person";
-    }
-    url = "/"+type+"/detail/id/"+id;
-    
-    if(type=="cities")
-        url = "/city/detail/insee/"+insee;
-
-   	return url;
+  function setScopeValue(value){
+  	$("#searchBarPostalCode").val(value);
+  	startSearch();
   }
+
 </script>
 
 
