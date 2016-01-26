@@ -101,9 +101,10 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 	max-width: 600px;
 	min-width: 600px;
 	height: 350px;
-	top: 150px;
+	/*top: 150px;*/
 	margin-left: auto;
 	margin-right: auto;
+	position:relative;
 }
 input.input-search{
 	margin-top: 100px;
@@ -196,18 +197,51 @@ button.btn-login{
 	box-shadow: 0px 0px 5px 0px #CC3939 !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#CC3939, Direction=NaN, Strength=5) !important;
 }
-button.btn-geolocate{
-	left: 110px;
-	top: 50px;
-	background-color: #54B736;
+
+button.btn-menu{
 	color: #FFF;
 	font-size: 17px;
-	-moz-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	-webkit-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	-o-box-shadow: 0px 0px 5px 0px #54B736 !important;
-	box-shadow: 0px 0px 5px 0px #54B736 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#54B736, Direction=NaN, Strength=5) !important;
+	-moz-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
+	-o-box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
+	box-shadow: 0px 0px 5px 0px #2BB0C6 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
+
+button.btn-menu1{
+	left: 90px;
+	top: 100px;
+}
+
+button.btn-menu2{
+	left: 110px;
+	top: 50px;
+	font-size: 18px;
+	padding-left: 10px;
+}
+button.btn-geolocate{
+	font-size: 18px;
+	position: absolute;
+	top: 160px;
+	left: 10px;
+	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
+	box-shadow: 0px 0px 5px 0px #14424A !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+button.btn-infos{
+	font-size: 17px;
+	position: absolute;
+	top: 160px;
+	right: 10px;
+	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
+	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
+	box-shadow: 0px 0px 5px 0px #14424A !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 
 .main-col-search{
@@ -335,9 +369,10 @@ button.btn-geolocate{
 		max-width: 400px;
 		min-width: 400px;
 		height: 350px;
-		top: 150px;
+		/*top: 150px;*/
 		margin-left: auto;
 		margin-right: auto;
+		position: relative;
 	}
 
 	input.input-search{
@@ -386,6 +421,22 @@ button.btn-geolocate{
 		font-weight: 300;
 	}
 
+	.searchEntity .entityLeft{
+		text-align: center !important;
+	}
+	.searchEntity .entityRight{
+		text-align: center !important;
+	}
+
+
+	button.btn-geolocate{
+		top: 103px;
+		left: 0px;
+	}
+	button.btn-infos{
+		top: 103px;
+		right: 0px;
+	}
 }
 
 .searchEntity{
@@ -395,8 +446,8 @@ button.btn-geolocate{
 .searchEntity .entityLeft{
 	text-align: right;
 	padding-top:30px;
-	margin-right: -3%;
-	margin-left: 3%;
+	/*margin-right: -3%;
+	margin-left: 3%;*/
 }
 .searchEntity .entityLeft .badge{
 	margin:2px;
@@ -438,8 +489,8 @@ button.btn-geolocate{
 }
 .searchEntity .entityRight{
 	text-align: left;
-	padding-top:6px;
-	margin-left: -3%;
+	padding-top: 10px !important;
+	margin-left: -1%;
 }
 
 .searchEntity .entityRight .entityName{
@@ -455,6 +506,7 @@ button.btn-geolocate{
 	font-weight: 600;
 	width:100%;
 	display: block;
+	margin-bottom: 2px;
 }
 .searchEntity .entityRight .entityDescription{
 	font-size: 14px;
@@ -462,16 +514,36 @@ button.btn-geolocate{
 	width: 100%;
 	display: block;
 	font-weight: 300;
+	max-height: 205px;
+	overflow: hidden;
+}
+
+.searchEntity .entityRight .entityDate{
+	font-size: 12px;
+	line-height: 17px;
+	margin-right:4px;
+	display: inline-block;
+	max-height: 205px;
+	overflow: hidden;
+	text-align: left;
+	padding: 2px 9px;
+	background-color: rgb(190, 223, 228) !important;
+	color: rgb(45, 99, 125) !important;
+	font-weight: 500;
 }
 
 </style>
 
 
-<button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="bottom" title="Se connecter" alt="Se connecter">
+<button class="menu-button btn-login tooltips" data-toggle="tooltip" data-placement="left" title="Se connecter" alt="Se connecter">
 	<i class="fa fa-sign-in"></i>
 </button>
-<button class="menu-button btn-geolocate tooltips" data-toggle="tooltip" data-placement="bottom" title="Localisation automatique" alt="Localisation automatique">
-	<i class="fa fa-crosshairs"></i>
+<button class="menu-button btn-menu btn-menu1 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter quelque chose" alt="Localisation automatique">
+	<i class="fa fa-plus-circle"></i>
+</button>
+
+<button class="menu-button btn-menu btn-menu2 bg-azure tooltips" data-toggle="tooltip" data-placement="right" title="L'Actu communectée" alt="Localisation automatique">
+	<i class="fa fa-rss"></i>
 </button>
 
 <div class="col-sm-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
@@ -482,8 +554,16 @@ button.btn-geolocate{
 		style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
 	
 	<div class="img-logo bgpixeltree_little">
+		<button class="menu-button btn-geolocate bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
+			<i class="fa fa-crosshairs"></i>
+		</button>
+		<button class="menu-button btn-infos bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?" alt="Comment ça marche ?">
+			<i class="fa fa-question-circle"></i>
+		</button>
 		<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
-		<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode">
+		<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode" 
+			   value="<?php echo isset( Yii::app()->request->cookies['cityName'] ) ? 
+			   					 Yii::app()->request->cookies['cityName'] : ""; ?>" >
 		<button class="btn btn-primary btn-start-search bg-dark"><i class="fa fa-search"></i></button>
 	</div>
 
@@ -599,18 +679,26 @@ function autoCompleteSearch(name, locality){
                 console.dir(o);
                   
                 city="";
+
+                var postalCode = o.cp
                 if (o.address != null) {
-                  //console.dir(o.address);
                   city = o.address.addressLocality;
-                  //postalCode = o.address.postalCode;
-                  //insee = o.address.insee;
+                  postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                 }
                 
                 
-
-                var insee      = o.insee ? o.insee : "";
-                var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                var url = baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + o.id;
+                var id = getObjectId(o);
+                var insee = o.insee ? o.insee : "";
+                var url = baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+                var onclick = "";
+                var onclickCp = "";
+                var target = " target='_blank'";
+                if(o.type == "city"){
+                	url = "#main-col-search";
+                	onclick = 'setScopeValue("'+o.name+'");';
+                	onclickCp = 'setScopeValue("'+o.cp+'");';
+                	target = "";
+                }
 
                 var tags = "";
                 if(typeof o.tags != "undefined" && o.tags != null){
@@ -634,55 +722,35 @@ function autoCompleteSearch(name, locality){
                 					o.shortDescription != null) ? o.shortDescription : "";
                 if(description == "") description = (typeof o.description != "undefined" &&
                 									 o.description != null) ? o.description : "";
-                
+         
+                var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+                var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+
+                //template principal
                 str += "<div class='col-md-12 searchEntity'>";
 	                str += "<div class='col-md-5 entityLeft'>";
 						str += tags;
 	                str += "</div>";
 
 	                str += "<div class='col-md-2 entityCenter'>";
-						str += htmlIco;
+						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
 	                str += "</div>";
 					
-	                str += "<div class='col-md-5 entityRight'>";
-	                	str += "<a href='"+url+"' target='_blank' class='entityName text-dark'>" + name + "</a>";
-	                	if(fullLocality != "")
-	                	str += "<a href='"+url+"' target='_blank' class='entityLocality'>" + fullLocality + "</a>";
+	                str += "<div class='col-md-5 entityRight no-padding'>";
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+	                	if(fullLocality != "" && fullLocality != " ")
+	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+	                	if(startDate != null)
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
+	                	if(endDate != null)
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
 	                	if(description != "")
-	                	str += "<a href='"+url+"' target='_blank' class='entityDescription'>" + description + "</a>";
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</a>";
 	                str += "</div>";
-					
+	                					
 				str += "</div>";
 
-				/*
-                str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
-                          "<ol><div class='elipsis'>"+
-                          o.name ;
-
-                var cityComplete = "";
-                //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
-                if("undefined" != typeof city && city != "Unknown") cityComplete += city;
-                if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
-                if("undefined" != typeof postalCode) cityComplete += postalCode;
-                str +=   "<span class='light'> "+cityComplete+"</span>";
-
-
-                //str +=   "</br><span class='tags_list'>";
-                //str +=   getUrlElement(o.id, i, insee);
-                
-                if(typeof o.tags != "undefined" && o.tags != null){
-					str +=   "<span class='tags'>";
-		                $.each(o.tags, function(key, value){
-		                	str +=   " #" + value;
-		                });
-	                str += "</span>";
-                }
-                //str +=   "</span>";
-                
-                str +=   "</div><span>"+ htmlIco +"</span>";
-                str +=  "</ol></a>";//</div>";
-                */
+			
               })
             }
             }); 
@@ -700,9 +768,6 @@ function autoCompleteSearch(name, locality){
 	        }
 	        $(".btn-start-search").removeClass("bg-azure");
     		$(".btn-start-search").addClass("bg-dark");
-    
-
-            //addEventOnSearch(); 
           }
       } 
     });
@@ -751,30 +816,13 @@ function autoCompleteSearch(name, locality){
 		}
 	});
 
-    /*url = "/"+type+"/detail/id/"+id;
-    
-    if(type=="cities")
-        url = "/city/detail/insee/"+insee+"?isNotSV=1";
-    //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    */
-    /*
-    $("#searchBar").val(name);
-    $("#searchId").val(id);
-    $("#searchType").val(type);
-    $("#dropdown_searchTop").css({"display" : "none" });*/  
   }
 
-  function getUrlElement(id, type, insee){
-  	if(type=="citoyen"){
-      type = "person";
-    }
-    url = "/"+type+"/detail/id/"+id;
-    
-    if(type=="cities")
-        url = "/city/detail/insee/"+insee;
-
-   	return url;
+  function setScopeValue(value){
+  	$("#searchBarPostalCode").val(value);
+  	startSearch();
   }
+
 </script>
 
 
