@@ -23,6 +23,9 @@ class AdminController extends CommunecterController {
 	        'delete'      => 'citizenToolKit.controllers.admin.DeleteAction',
 	        'activateuser'=> 'citizenToolKit.controllers.admin.ActivateUserAction',
 	        'importdata'  => 'citizenToolKit.controllers.admin.ImportDataAction',
+	        'previewdata'  => 'citizenToolKit.controllers.admin.PreviewDataAction',
+	        'importinmongo'  => 'citizenToolKit.controllers.admin.ImportInMongoAction',
+	        'checkdataimport'  => 'citizenToolKit.controllers.admin.CheckDataImportAction',
 	    );
 	}
 }

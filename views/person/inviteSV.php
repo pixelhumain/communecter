@@ -307,6 +307,7 @@ function autoCompleteInviteSearch(search){
 		"searchMode" : "personOnly"
 	};
 	
+	
 	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
 		function (data){
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
@@ -331,7 +332,8 @@ function autoCompleteInviteSearch(search){
 	  						"</li>";
 	  				compt++;
   				}
-			}); 
+			});
+			
 			$("#newInvite #dropdown_searchInvite").html(str);
 			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
 		}
