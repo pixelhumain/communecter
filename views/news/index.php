@@ -879,10 +879,18 @@ function buildHtmlUrlAndActionObject(obj){
 		<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+obj.id+'"';
 		<?php } ?>
-		if(obj.text.length == 0 && obj.media.length)
-			titleAction = "a partagé un lien";
-		else 
-			titleAction = "";
+		if(typeof(obj.postOn) != "undefined"){
+			if(obj.type == "organizations"){
+				color="green";
+			}else
+				color="purple";
+			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+obj.id+'\')"><span class="text-'+color+'">'+obj.postOn.name+"</span></a>";
+		} else {
+			if(obj.text.length == 0 && obj.media.length)
+				titleAction = "a partagé un lien";
+			else 
+				titleAction = "";
+		}
 	}
 	else{
 		if(obj.object.objectType=="needs"){
