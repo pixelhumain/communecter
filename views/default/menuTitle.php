@@ -5,119 +5,119 @@
 	var prevNav = null;
 
 	function showPanel(box,bgStyle,title,icon){
-		
-		lastUrl = null;
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		console.log("showPanel",box, bgcolorClass );
-		$('.'+activePanel+", .panelTitle, .box-ajax").hide();
-		$(".byPHRight").fadeOut();
-		$("body.login").removeClass("bgred bggreen bgblack bgblue");
+	
+	lastUrl = null;
+	$("body.login").removeClass("bgred bggreen bgblack bgblue");
+	console.log("showPanel",box, bgcolorClass );
+	$('.'+activePanel+", .panelTitle, .box-ajax").hide();
+	$(".byPHRight").fadeOut();
+	$("body.login").removeClass("bgred bggreen bgblack bgblue");
 
-		if( !box || box == "box-login" || box == "box-forget" || box == "box-register" || box == "box-add" ){
-			$(".byPHRight").fadeIn();
-			$(".connectMarker").fadeOut();
-			$("body.login").addClass("bgCity");
-			bgcolorClass = "bgCity";
+	if( !box || box == "box-login" || box == "box-forget" || box == "box-register" || box == "box-add" ){
+		$(".byPHRight").fadeIn();
+		$(".connectMarker").fadeOut();
+		$("body.login").addClass("bgCity");
+		bgcolorClass = "bgCity";
 
-			if(box == "box-add"){
-				Sig.clearMap();
-				Sig.map.setView([23.32517767999296, -31.9921875], 2);
-			}
-		}
-		else{
-			bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
-			//commenté pour ne pas changer la couleur de fond
-			//$("body.login").removeClass("bgCity").addClass(bgcolorClass);
-			$(".connectMarker").fadeIn();
-		}
-		if( icon || title ){
-			icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
-			$(".moduleLabel").html( icon+title );
-		}
-		if(!box)
-			box = "box-login";
-		//$('.box-menu').slideUp();
-		$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).show().removeClass("animated bounceInRight");
-		});
-		activePanel = box;
-		if( box != "box-ph" && box != "box-who" ){
-			$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
-			$(".eventMarker").show().addClass("animated slideInDown");
-			$(".cityMarker").show().addClass("animated slideInUp");
-			$(".projectMarker").show().addClass("animated zoomInRight");
-			$(".assoMarker").show().addClass("animated zoomInLeft");
-			$(".userMarker").show().addClass("animated zoomInLeft");
-		}else{
-			$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
-			$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
-			$(".partnerLogosRight").show().addClass("animated zoomInRight");
-			$(".partnerLogosDown").show().addClass("animated zoomInDown");
-			$(".partnerLogosUp").show().addClass("animated zoomInUp");
+		if(box == "box-add"){
+			Sig.clearMap();
+			Sig.map.setView([23.32517767999296, -31.9921875], 2);
 		}
 	}
-	var hashUrl = null
-	function openAjaxPanel (url,title,icon)  { 
-		
+	else{
+		bgcolorClass = (bgStyle) ? bgStyle : "bgblack";
+		//commenté pour ne pas changer la couleur de fond
+		//$("body.login").removeClass("bgCity").addClass(bgcolorClass);
+		$(".connectMarker").fadeIn();
 	}
-	function showAjaxPanel (url,title,icon) 
-	{ 
-		console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
-		rand = Math.floor((Math.random() * 8) + 1);
-		
-		if(typeof showFloopDrawer != "undefined")
-			showFloopDrawer(false);
-		
-		if(typeof proverbs != "undefined"){
-			$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
-				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
-				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-				});
-		}
-		$(".ajaxForm").hide();
-		$("#main-title-public2").hide(400);
-		$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours");
-		$("#main-title-public1").show(400);
-		$(".box").hide(400);
-		$(".box-ajax").show(600);
-		//$(".box-ajax").html("<i class='fa fa-refresh fa-2x fa-spin'></i>");
-		$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
-		$(".box-ajaxTools").html("");
-
-		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
-			/*if(!userId){
-				window.location.href = baseUrl+'/'+moduleId+"/person/login";
-			} else{*/
-				//if( icon && icon != "" && icon.indexOf('fa-') != 0) icon = "fa-"+icon;
-				//icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
-				//$(".panelLabel").html( icon+title );
-				$(".ajaxForm").slideDown(); 
-				$.unblockUI();
-				$("#main-title-public1").html("");
-				$("#main-title-public1").hide(400);
-		
-			//}
-		},"html");
-
-		showPanel('box-ajax');
-		if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
-		icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
+	if( icon || title ){
+		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 		$(".moduleLabel").html( icon+title );
+	}
+	if(!box)
+		box = "box-login";
+	//$('.box-menu').slideUp();
+	$('.'+box).show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		$(this).show().removeClass("animated bounceInRight");
+	});
+	activePanel = box;
+	if( box != "box-ph" && box != "box-who" ){
+		$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
+		$(".eventMarker").show().addClass("animated slideInDown");
+		$(".cityMarker").show().addClass("animated slideInUp");
+		$(".projectMarker").show().addClass("animated zoomInRight");
+		$(".assoMarker").show().addClass("animated zoomInLeft");
+		$(".userMarker").show().addClass("animated zoomInLeft");
+	}else{
+		$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
+		$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
+		$(".partnerLogosRight").show().addClass("animated zoomInRight");
+		$(".partnerLogosDown").show().addClass("animated zoomInDown");
+		$(".partnerLogosUp").show().addClass("animated zoomInUp");
+	}
+}
+var hashUrl = null
+function openAjaxPanel (url,title,icon)  { 
+	
+}
+function showAjaxPanel (url,title,icon) 
+{ 
+	console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
+	rand = Math.floor((Math.random() * 8) + 1);
+	
+	if(typeof showFloopDrawer != "undefined")
+		showFloopDrawer(false);
+	
+	if(typeof proverbs != "undefined"){
+		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+			});
+	}
+	$(".ajaxForm").hide();
+	$("#main-title-public2").hide(400);
+	$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours");
+	$("#main-title-public1").show(400);
+	$(".box").hide(400);
+	$(".box-ajax").show(600);
+	//$(".box-ajax").html("<i class='fa fa-refresh fa-2x fa-spin'></i>");
+	$(".ajaxForm").html('<form class="form-login ajaxForm" style="display:none" action="" method="POST"></form>');
+	$(".box-ajaxTools").html("");
 
-		showMap(false);
-		//$(".box-ajaxTitle").html( icon + title );
-	}
-	function gotToPrevNav()
+	getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ 
+		/*if(!userId){
+			window.location.href = baseUrl+'/'+moduleId+"/person/login";
+		} else{*/
+			//if( icon && icon != "" && icon.indexOf('fa-') != 0) icon = "fa-"+icon;
+			//icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
+			//$(".panelLabel").html( icon+title );
+			$(".ajaxForm").slideDown(); 
+			$.unblockUI();
+			$("#main-title-public1").html("");
+			$("#main-title-public1").hide(400);
+	
+		//}
+	},"html");
+
+	showPanel('box-ajax');
+	if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
+	icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
+	$(".moduleLabel").html( icon+title );
+
+	showMap(false);
+	//$(".box-ajaxTitle").html( icon + title );
+}
+function gotToPrevNav()
+{
+	console.dir( prevNav );
+	if(prevNav != null)
 	{
-		console.dir( prevNav );
-		if(prevNav != null)
-		{
-			if( prevNav.func == "showAjaxPanel" )
-				showAjaxPanel( prevNav.url, prevNav.title, prevNav.icon );
-			else if( prevNav.func == "showPanel" )
-				showPanel( prevNav.box, prevNav.bgStyle, prevNav.title, prevNav.icon );
-		}
+		if( prevNav.func == "showAjaxPanel" )
+			showAjaxPanel( prevNav.url, prevNav.title, prevNav.icon );
+		else if( prevNav.func == "showPanel" )
+			showPanel( prevNav.box, prevNav.bgStyle, prevNav.title, prevNav.icon );
 	}
+}
 	function showHideMenu () { 
 		console.log("open showHideMenu" );
 		$("body.login").removeClass("bggreen bgblack bgblue bgyellow bgCity").addClass(bgcolorClass);

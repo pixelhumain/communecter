@@ -1,7 +1,7 @@
 //In this javascript file you can find a bunk of functional functions
 //Calling Actions in ajax. Can be used easily on views
-
-function connectPerson(connectUserId, callback) {
+function connectPerson(connectUserId, callback) 
+{
 	console.log("connect Person");
 	$.ajax({
 		type: "POST",
@@ -27,9 +27,10 @@ function connectPerson(connectUserId, callback) {
 }
 
 
-function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) {
+function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
+{
 
-	bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+nameToDisconnect+"</span> connection ?", 
+	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?", 
 		function(result) {
 			if (!result) {
 				return;
@@ -56,8 +57,8 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 }
 
 function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
-	bootbox.confirm("You are going to ask to become an admin of the "+parentType+" <span class='text-red'>"+parentName+"</span>. Please confirm ?", 
+	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");	
+	bootbox.confirm(trad["askadmin"+parentType]+" <span class='text-red'>"+parentName+"</span>. "+trad.confirm+" ?", 
 		function(result) {
 			$.ajax({
 				type: "POST",
@@ -66,7 +67,8 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 				data : {
 					parentId : parentId, 
 					parentType : parentType,
-					idPerson : personId
+					userId : personId,
+					adminAction : false
 				}
 			})
 			.done(function (data) {
@@ -82,7 +84,8 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 				}
 				
 			});
-		})
+		}
+	)
 }
 
 

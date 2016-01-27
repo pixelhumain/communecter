@@ -65,12 +65,17 @@ class ActStr {
 
         if( isset( $params["ip"] ))
         	$action["actor"]["ip"] = $params["ip"];
-
-        if( isset( $params["codeInsee"] ))
-        	$action["codeInsee"] = $params["codeInsee"];
-		if( isset( $params["geo"] ))
-        	$action["geo"] = $params["geo"];
-
+        	
+		if( $params["verb"]==self::VERB_CREATE){
+			$param["scope"] = "public";
+	        if( isset( $params["codeInsee"] ))
+	        	$action["scope"]["codeInsee"] = $params["codeInsee"];
+			if( isset( $params["geo"] ))
+	        	$action["scope"]["geo"] = $params["geo"];
+		}
+		else{
+			$param["scope"] = "private";			
+		}
         if( isset( $params["label"] ))
         	$action["object"]["displayName"] = $params["label"];
 		if (isset ($params["tags"]))

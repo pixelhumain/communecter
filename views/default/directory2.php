@@ -516,7 +516,7 @@ if( isset($_GET["isNotSV"])) {
 						else if(@$e["isAdminPending"])
 							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
 						
-						if(@$e["pending"]){
+						if(@$e["tobeactivated"]){
 							$process= " (Non inscrit)";
 							$processStyle='style="filter:grayscale(100%);-webkit-filter:grayscale(100%);"';
 						}
@@ -660,9 +660,16 @@ if( isset($_GET["isNotSV"])) {
 							}
 							if(@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Accept as admin").
+													'</a>'.
+												'</li>';
+							} else{
+								$strHTML .= 	'<li>'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="true" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
+														Yii::t("common","Add as admin").
 													'</a>'.
 												'</li>';
 							}
@@ -864,21 +871,28 @@ function bindBtnEvents(){
 	});
 	$(".acceptAsAdminBtn").off().on("click",function () {
         //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-        var userId = $(this).data("id");
-        var userType = $(this).data("type");
-        var parentType = $("#parentType").val();
-        var parentId = $("#parentId").val();
-        var userName = $(this).data("name");
-
-        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/");
-        bootbox.confirm("Are you sure you want to confirm <span class='text-red'>"+$(this).data("name")+"</span> as admin ?", 
+        params = new Object;
+        params.userId = $(this).data("id"),
+        params.userType = $(this).data("type"),
+        params.parentType = $("#parentType").val(),
+        params.parentId = $("#parentId").val(),
+        params.userName = $(this).data("name");
+		
+		actionAdmin = $(this).data("admin");
+		if (actionAdmin){
+			params.adminAction = actionAdmin;
+			urlAction = "declaremeadmin";
+		} else
+			urlAction = "addasadmin";
+		console.log(params);
+        bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
 				if (result) {
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/link/addasadmin",
+				        url: baseUrl+"/"+moduleId+"/link/"+urlAction,
 				       	dataType: "json",
-				       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"userName":userName},
+				       	data: params,
 			        	success: function(data){
 				        	if ( data && data.result ) {               
 								toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");

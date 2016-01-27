@@ -139,9 +139,10 @@ function hideLoadingMsg(){
 	$("#main-title-public1").html("");
 	$("#main-title-public1").hide(300);
 }
-function dateToStr(date, lang, inline){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
+function dateToStr(date, lang, inline, fullMonth){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
 
 	if(typeof date == "undefined") return;
+	if(fullMonth != true) fullMonth = false;
 
 	//console.log("convert format date 1", date);
 	if(typeof date.sec != "undefined"){
@@ -164,7 +165,12 @@ function dateToStr(date, lang, inline){ //work with date formated : yyyy-mm-dd h
 		var hours 	= date.substr(11, 2);
 		var minutes = date.substr(14, 2);
 		
+
 		var str = day + "/" + month + "/" + year;
+
+		if(fullMonth) str = day + " " + getMonthStr(month, "fr") + " " + year;
+
+
 		if(!inline) str += "</br>";
 		else str += " - ";
 		str += hours + "h" + minutes;
@@ -189,3 +195,11 @@ function dateToStr(date, lang, inline){ //work with date formated : yyyy-mm-dd h
 		}
 	}
 }
+
+function getObjectId(object){
+	if(object === null) return null;
+	if("undefined" != typeof object._id) 	return object._id.$id.toString();
+	if("undefined" != typeof object.id) 	return object.id;
+	if("undefined" != typeof object.$id) 	return object.$id;
+	return null;
+};

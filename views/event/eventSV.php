@@ -72,6 +72,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 #newEvent h3{
 	font-weight: 300;
 }
+#iconeChargement{
+		display: none;
+		float: right;
+		margin-top: -35px;
+		margin-right: 10px;
+		position: relative;
+	}
 </style>
 
 <!-- *** NEW EVENT *** -->
@@ -220,6 +227,7 @@ if( !isset($_GET["isNotSV"]))
 						<span class="input-icon">
 							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 							<i class="fa fa-home"></i>
+							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 						</span>
 					</div>
 				
@@ -374,13 +382,14 @@ if( !isset($_GET["isNotSV"]))
 		if(searchValue.length >= 4 && searchValue.length <= 5) {
 			$("#city").empty();
 			setTimeout(function(){
-	   			$("#iconeChargement").css("visibility", "visible");
+				$("#iconeChargement").css("display", "inline-block");
 	   			runShowCity(searchValue);
 	   		}, 100);
 		} else {
 			$("#cityDiv").slideUp("medium");
 			$("#city").val("");
 			$("#city").empty();
+			$("#iconeChargement").hide();
 		}
 	}
 
@@ -480,7 +489,7 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.startDate = startDateSubmit; 
 				newEvent.endDate = endDateSubmit;
 				newEvent.description = $(".form-event .eventDetail ").val();
-				newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
+				//newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.city = $(".form-event #city ").val();
 				newEvent.country = $(".form-event #eventCountry ").val();
@@ -691,12 +700,14 @@ if( !isset($_GET["isNotSV"]))
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
 		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
-		if(!show && currentCityByInsee != null) 
+		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
+		}
 	}
 
 	function searchAddressInGeoShape(){
 		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			$("#iconeChargement").css("display", "inline-block");
 			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
 		}
 	}

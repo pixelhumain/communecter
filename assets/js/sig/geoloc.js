@@ -109,6 +109,8 @@
 	function findGeoposByNominatim(requestPart){
 		console.log('findGeoposByNominatim');
 		showLoadingMsg("Recherche de la position en cours");
+		$("#iconeChargement").css("display", "inline-block");
+
 		$.ajax({
 			url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
 			type: 'POST',
@@ -122,6 +124,7 @@
 			},
 			error: function (error) {
 				callbackNominatimError(error);
+				$("#iconeChargement").hide();
 			}
 		});
 	}
@@ -133,7 +136,8 @@
 		//toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
 		console.log("codeInsee", codeInsee);
 		showLoadingMsg("Recherche de la position en cours");
-		
+		$("#iconeChargement").css("display", "inline-block");
+
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 			type: 'POST',
@@ -144,14 +148,17 @@
 			success: function (obj){
 				console.log("success findGeoposByInsee", typeof callbackSuccess);
 				obj.insee = codeInsee;
-				if(typeof callbackSuccess != "undefined" && callbackSuccess != null)
+				if(typeof callbackSuccess != "undefined" && callbackSuccess != null){
 					callbackSuccess(obj);
-				else
-					callbackFindByInseeSuccess(obj);	
+				}
+				else{
+					callbackFindByInseeSuccess(obj);
+				}
 			},
 			error: function (error) {
 				console.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
+				$("#iconeChargement").hide();	
 			}
 		});
 	}

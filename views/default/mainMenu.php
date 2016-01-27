@@ -8,11 +8,12 @@
         $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
     ?>
 
-    <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" onclick="loadByHash( '#person.detail.id.<?php echo Yii::app()->session['userId']?>')" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
+    <a href="javascript:;" onclick="loadByHash( '#person.detail.id.<?php echo Yii::app()->session['userId']?>')" class="menuIcon no-floop-item" style="padding: 2px 15px;"><span class="menu-count badge badge-danger animated bounceIn" style="position:absolute;left:8px;"></span>
       <img class="img-circle" id="menu-thumb-profil" width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
       <span  class="menuline hide homestead" style="padding-top:7px;"> <?php echo Yii::t("common", 'MY DETAIL'); ?></span>
     </a>
 
+<<<<<<< HEAD
     <?php if(Role::isDeveloper($me['roles'])){?>
     <a  href="#person.invitecontact" onclick="loadByHash('#person.invitecontact?isNotSV=1')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
@@ -23,6 +24,9 @@
     ?>
 
     <a  href="#news.index.type.citoyen" 
+=======
+    <a  href="javascript:;" 
+>>>>>>> 44f23969abf2880abf86ba96817321a299503618
         onclick="loadByHash( '#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isNotSV=1' )" 
         class=" menuIcon btn-main-menu no-floop-item">
         <i class="fa fa-rss fa-2x "></i><span class="menuline hide homestead"> <?php echo Yii::t("common", 'NEWS'); ?></span>
@@ -50,7 +54,7 @@
         <i class="fa fa-calendar fa-2x"></i><span class="menuline hide homestead"> <?php echo Yii::t("common", "MY EVENTS"); ?></span>
     </a>
 
-    <a  href="javascript:;" 
+    <a  href="javascript:;" id="menu-city"
         onclick="loadByHash( '#city.detail.insee.<?php echo Yii::app()->session['user']['codeInsee']?>?isNotSV=1', '<?php echo Yii::t("common", 'MY CITY'); ?>','university' )" 
         class="menuIcon btn-main-menu no-floop-item" >
         <i class="fa fa-university fa-2x"></i><span class="menuline hide homestead"><?php echo Yii::t("common", "MY CITY"); ?></span>
@@ -71,6 +75,7 @@
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
     </a> 
+    
     <?php if(Role::isDeveloper($me['roles'])){?>
     <a  href="#admin.importdata" onclick="loadByHash('#admin.importdata?isNotSV=1')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">

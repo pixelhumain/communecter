@@ -88,6 +88,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClient
 
 </style>
 
+<script type="text/javascript">
+if( "<?php echo Yii::app()->session['userId']?>" == "" && window.location.href.indexOf( "/person/login" ) < 0 )
+	window.location.href = baseUrl+"/"+moduleId+"/person/login";
+</script>
+
 <h2 class="main-title-public homestead text-dark" id="main-title-public1"></h2>
 <h1 class="main-title-public homestead" id="main-title-public2"></h1>
 
@@ -527,6 +532,7 @@ svg.graph .line {
 
 
 	jQuery(document).ready(function() {
+
 		userId = null;
 		Main.init();
 		Login.init();	
@@ -1370,7 +1376,7 @@ function autoCompleteSearch(name){
             if(v.length!=0){
               $.each(v, function(k, o){
                 
-                typeIco = o.type;
+               typeIco = o.type;
                 ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                 htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
                
@@ -1392,22 +1398,20 @@ function autoCompleteSearch(name){
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
-                          "<span>"+ htmlIco +"</span>  " + o.name;
+                          htmlIco + "<div class='lbl-info-search'> " + o.name;
 
                 var cityComplete = "";
                 //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
                 if("undefined" != typeof city && city != "Unknown") cityComplete += city;
                 if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
-                str +=   "<span class='city-search'> "+cityComplete+"</span>";
+                str +=   "</br><span class='city-search'> "+cityComplete+"</span></div>";
 
                 str +=  "</ol></a>";//</div>";
               })
             }
             }); 
-            if(str == "") str = "<div class='li-dropdown-scope'><ol><i class='fa fa-ban'></i> Aucun résultat</ol></div>";
-            
-            $(".container-lbl-info-search").hide(400);
+            if(str == "") str = "<div  class='li-dropdown-scope searchEntry searchList '><ol><i class='fa fa-ban'></i> <div class='lbl-info-search' style='margin-top:13px;'>Aucun résultat</div></ol></div>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
             $('#notificationPanel').hide("fast");

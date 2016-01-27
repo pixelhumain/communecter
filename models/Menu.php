@@ -133,8 +133,12 @@ class Menu {
         
         //FOLLOW BUTTON
         //-----------------------------
+        /*
+	    *   If disabled there are no interactive buttons
+	    *	If not connected, hide admin btn and link join btn to login form
+        */
         if( !isset( $organization["disabled"] ) ){
-            //Link button
+            //Link button 
             if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && 
                 Link::isLinked((string)$organization["_id"], Organization::COLLECTION, Yii::app()->session["userId"]))
                 $htmlFollowBtn = array('tooltip' => Yii::t( "common", "Leave this Organization"), 
@@ -142,16 +146,22 @@ class Menu {
                                        'label' => Yii::t( "common", "Leave"), 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
                                         "href"=>"<a href='javascript:;' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
-            else
+            else{
+	            if (@Yii::app()->session["userId"]){
+			        $href = "<a href='javascript:;' class='connectBtn tooltips btn btn-default ' id='addMeAsMemberInfo'";
+		        }
+		        else{
+					$href = "<a href='javascript:;' class='tooltips btn btn-default' onclick='showPanel(\"box-login\");'";
+		        }
                 $htmlFollowBtn = array('tooltip' => Yii::t( "common", "Join this Organization"), 
                                         'position'   => "right",
                                         'label' => Yii::t( "common", "Join"), 
                                         "iconClass"=> "connectBtnIcon fa fa-unlink",
-                                        "href"=>"<a href='javascript:;' class='connectBtn tooltips btn btn-default ' id='addMeAsMemberInfo'");
-            array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
-            
+                                        "href"=> $href);
+				array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
+            }
             //Ask Admin button
-            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id)) {
+            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"]) {
                  self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as admin of this organization"),
                         Yii::t( "common", "Become admin"),

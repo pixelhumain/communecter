@@ -195,7 +195,7 @@ if( !isset( Yii::app()->session['userId']) ){
   }*/
 
   .box-ajaxTools{
-    z-index: 1;
+    z-index: 2;
     text-align: center;
     float: left !important;
     width: 100%;
@@ -418,7 +418,7 @@ function autoCompleteSearch(name){
                 }
                 
                 if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                  var htmlIco= "<img width='35' height='35' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                 }
 
                 var insee      = o.insee ? o.insee : "";
@@ -426,14 +426,14 @@ function autoCompleteSearch(name){
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
                           "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
-                          "<span>"+ htmlIco +"</span>  " + o.name;
+                          htmlIco + "<div class='lbl-info-search'> " + o.name;
 
                 var cityComplete = "";
                 //console.log("POSTAL CODE : " + postalCode + " - " + insee + " - " + city);
                 if("undefined" != typeof city && city != "Unknown") cityComplete += city;
                 if("undefined" != typeof postalCode && postalCode != "Unknown" && cityComplete != "") cityComplete += " ";
                 if("undefined" != typeof postalCode) cityComplete += postalCode;
-                str +=   "<span class='city-search'> "+cityComplete+"</span>";
+                str +=   "</br><span class='city-search'> "+cityComplete+"</span></div>";
 
                 str +=  "</ol></a>";//</div>";
               })

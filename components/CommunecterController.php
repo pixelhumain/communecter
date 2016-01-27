@@ -101,7 +101,7 @@ class CommunecterController extends Controller
     ),
 
     "city"=> array(
-    	"index"               => array("href" => "/ph/communecter/city/index", "public" => true),
+      "index"               => array("href" => "/ph/communecter/city/index", "public" => true),
       "detail"              => array("href" => "/ph/communecter/city/detail", "public" => true),
       "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true), 
     	"directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
@@ -252,6 +252,7 @@ class CommunecterController extends Controller
       "edit"            => array("href" => "/ph/communecter/project/edit"),
       "public"          => array("href" => "/ph/communecter/project/public"),
       "save"            => array("href" => "/ph/communecter/project/save"),
+      "update"            => array("href" => "/ph/communecter/project/update"),
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
       "dashboard"       => array("href" => "/ph/communecter/project/dashboard"),
       "detail"          => array("href" => "/ph/communecter/project/detail", "public" => true),
@@ -350,6 +351,7 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
+
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
@@ -366,8 +368,6 @@ class CommunecterController extends Controller
                             "person/checkusername",
                             //Document Resizer
                             "document/resized");
-
-
     
     $prepareData = true;
     //if (true)//(isset($_SERVER["HTTP_ORIGIN"]) )//&& $_SERVER["REMOTE_ADDR"] == "52.30.32.155" ) //this is an outside call 
