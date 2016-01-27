@@ -13,6 +13,15 @@
       <span  class="menuline hide homestead" style="padding-top:7px;"> <?php echo Yii::t("common", 'MY DETAIL'); ?></span>
     </a>
 
+    <?php if(Role::isDeveloper($me['roles'])){?>
+    <a  href="#person.invitecontact" onclick="loadByHash('#person.invitecontact?isNotSV=1')" 
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "INVITECONTACT"); ?></span>
+    </a>
+    <?php
+    }
+    ?>
+
     <a  href="#news.index.type.citoyen" 
         onclick="loadByHash( '#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isNotSV=1' )" 
         class=" menuIcon btn-main-menu no-floop-item">
@@ -62,12 +71,16 @@
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
     </a> 
-    <?php //if(Yii::app()->session['isAdmin']){?>
+    <?php if(Role::isDeveloper($me['roles'])){?>
     <a  href="#admin.importdata" onclick="loadByHash('#admin.importdata?isNotSV=1')" 
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ImportData"); ?></span>
+    </a> 
+    <a  href="#admin.directory" onclick="loadByHash('#admin.directory')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
     </a> 
-    <?php //} ?>
+    <?php } ?>
 </div>
 <div class="floopDrawer" id="floopDrawerDirectory"></div>
 <?php } else {?>

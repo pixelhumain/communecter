@@ -85,6 +85,9 @@ class CommunecterController extends Controller
       "delete"    => array("href" => "/ph/communecter/admin/delete"),
       "activateuser"  => array("href" => "/ph/communecter/admin/activateuser"),
       "importdata"    => array("href" => "/ph/communecter/admin/importdata"),
+      "previewdata"    => array("href" => "/ph/communecter/admin/previewdata"),
+      "importinmongo"    => array("href" => "/ph/communecter/admin/importinmongo"),
+      "checkdataimport"    => array("href" => "/ph/communecter/admin/checkdataimport"),
     ),
 
     "default" => array(
@@ -115,7 +118,8 @@ class CommunecterController extends Controller
       'getlistcities'       => array("href" => "/ph/communecter/city/getlistcities"),
       'creategraph'         => array("href" => "/ph/communecter/city/creategraph"),
       'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
-      'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true), 
+      'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true),
+      'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
 
     ),
 
@@ -184,6 +188,7 @@ class CommunecterController extends Controller
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
 
+        "invitecontact"=> array('href'    => "/ph/communecter/person/invitecontact"),
         "network"=> array('href'    => "/ph/communecter/person/network"),
         "google"=> array('href'     => "/ph/communecter/person/google"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
@@ -342,9 +347,6 @@ class CommunecterController extends Controller
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
 
-    "tools"=> array(
-        "index"           => array("href" => "/ph/communecter/tools/index",'title' => "Tools"),
-    ),
   );
 
   function initPage(){

@@ -197,7 +197,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<i class="fa fa-phone fa_telephone  hidden"></i> 
 						<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
 							data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
-							<?php echo (isset($organization["telephone"])) ? $organization["telephone"] : null; ?>
+							<?php 
+
+							$telephone = "" ;
+							if(isset($organization["telephone"]))
+							{
+								if(is_array($organization["telephone"]))
+								{
+
+									if(@$organization["telephone"]["fixe"])
+									{
+										foreach ($organization["telephone"]["fixe"] as $key => $value) {
+											if(!empty($telephone))
+												$telephone .= "/" ;
+											$telephone .= $value ;
+										}
+									}
+
+									if(@$organization["telephone"]["mobile"])
+									{
+										foreach ($organization["telephone"]["mobile"] as $key => $value) {
+											if(!empty($telephone))
+												$telephone .= "/" ;
+											$telephone .= $value ;
+										}
+									}
+								}
+								else
+								{
+									$telephone = $organization["telephone"];
+								}
+							}
+
+							echo $telephone ;?>
 						</a>
 						<br>
 					
@@ -428,7 +460,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
             	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $organization["address"]["addressLocality"])) ? $organization["address"]["addressLocality"] : ""; ?>'
-        	}
+            }
 		});
 
 	

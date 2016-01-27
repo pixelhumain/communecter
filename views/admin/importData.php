@@ -4,7 +4,9 @@ if(!Yii::app()->request->isAjaxRequest)
 {
 	$cssAnsScriptFilesModule = array(
 		'/assets/plugins/jsonview/jquery.jsonview.js',
-		'/assets/plugins/jsonview/jquery.jsonview.css'
+		'/assets/plugins/jsonview/jquery.jsonview.css',
+		'/assets/js/sig/geoloc.js',
+		'/assets/js/dataHelpers.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 }
@@ -17,7 +19,7 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Import Data</h4>
 		</div>
 		<div class="panel-body">
-			<form id="formfile" method="POST" action="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/tools/importData/';?>" enctype="multipart/form-data">
+			<form id="formfile" method="POST" action="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/admin/importData';?>" enctype="multipart/form-data">
 				<div class="col-sm-3 col-xs-12">
 					<label for="chooseCollection">Collection : </label>
 					<?php
@@ -34,8 +36,8 @@ $userId = Yii::app()->session["userId"] ;
 					</select>
 				</div>
 				<div class="col-sm-3 col-xs-12">
-					<label for="fileImport">Fichier (csv) :</label>
-					<input type="file" id="fileImport" name="fileImport" accept=".csv">
+					<label for="fileImport">Fichier (CSV,JSON) :</label>
+					<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js">
 				</div>
 				<div class="col-sm-3 col-xs-12">
 					<label> Séparateur de données :</label>
@@ -65,25 +67,48 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Assignation des données</h4>
 		</div>
 		<div class="panel-body">
-			<div class="col-sm-12 col-xs-12">
-				<label for="subFile">Fichier : </label>
-				<select id="subFile">
-					<?php
-						if($createLink)
-						{
-							$arrayNameFile = explode(".", $nameFile);
-							$subfiles = scandir("../../modules/cityData/filesImportData/".$arrayNameFile[0]);
-							foreach ($subfiles as $key => $value){
-				                if(strpos($value, $arrayNameFile[0]) !== false) 
-				                	echo '<option value="'.$value.'">'.$value.'</option>';
-				            }
-				        }
-					?>
-				</select>
-				
-			</div>
+			<?php
+				if(!empty($createLink))
+				{
+					$arrayNameFile = explode(".", $nameFile);
+					if(!empty($typeFile) && $typeFile == "csv")
+					{
+			?>
+				<div class="col-sm-12 col-xs-12">
+					<label for="subFile">Fichier : </label>
+					<select id="subFile">
+						<?php
+								
+									$subfiles = scandir(sys_get_temp_dir()."/filesImportData/".$arrayNameFile[0]);
+									foreach ($subfiles as $key => $value){
+						                if(strpos($value, $arrayNameFile[0]) !== false) 
+						                	echo '<option value="'.$value.'">'.$value.'</option>';
+						            }
+						     
+						?>
+					</select>
+					
+				</div>
+
+			<?php
+					}
+				}
+			?>
 			<br/> <br/>
 			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-4 col-xs-12">
+					<label for="selectCreator">Créateur : </label>
+					<select id="selectCreator">
+						<option value="you">Vous-même</option>
+						<option value="other">Autre</option>
+					</select>
+				</div>
+				<div id="divSearchCreator">
+					<div class="col-sm-4 col-xs-12">
+						<input class="" placeholder="Saisir l'ID du creator de données" id="creatorID" name="creatorID" value="">
+						<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
+					</div>
+				</div>
 				<div class="col-sm-4 col-xs-12">
 					<label for="selectRole">Role : </label>
 					<select id="selectRole">
@@ -92,7 +117,11 @@ $userId = Yii::app()->session["userId"] ;
 						<option value="member">Member</option>
 					</select>
 				</div>
-				<div id="divSearchMember">
+			</div>
+			<br/> <br/>
+			<div class="col-sm-12 col-xs-12">
+				
+				<!--<div id="divSearchMember">
 					<div class="col-sm-3 col-xs-12">
 						<input class="invite-search form-control" placeholder="Choisir une personne qui sera relié au données" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
 			        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
@@ -104,18 +133,23 @@ $userId = Yii::app()->session["userId"] ;
 					<div class="col-sm-4 col-xs-12">
 						People : <div id="namePeople"></div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 			<br/> <br/>
 			<div id="divtab" class="table-responsive">
 				<input type="hidden" id="nbLigneMapping" value="0"/>
 				<?php
-					if($createLink)
-					{
-
+					if(!empty($createLink)){
 						echo '<input type="hidden" id="idCollection" value="'.$idCollection.'"/>';
 						echo '<input type="hidden" id="nameFile" value="'.$arrayNameFile[0].'"/>';
-						echo '<input type="hidden" id="jsonCSV" value="'.json_encode($arrayCSV).'"/>';
+						echo '<input type="hidden" id="typeFile" value="'.$typeFile.'"/>';
+						//var_dump(json_encode($json_origine));
+						if(!empty($typeFile) && $typeFile == "csv")
+							echo '<input type="hidden" id="jsonCSV" value="'.json_encode($arrayCSV).'"/>';
+						if(!empty($typeFile) && $typeFile == "json")
+							echo "<input type='hidden' id='jsonJSON' value='".json_encode($json_origine)."' />";
+							//echo '<input type="hidden" id="jsonJSON" value="'.json_encode($json_origine).'"/>';
+						
 					}
 				?>
 		    	<table id="tabcreatemapping" class="table table-striped table-bordered table-hover">
@@ -131,12 +165,20 @@ $userId = Yii::app()->session["userId"] ;
 			    			<td>
 			    				<select id="selectHeadCSV" class="col-sm-12">
 			    					<?php
-			    						if($createLink)
-			    						{
-			    							foreach ($arrayCSV[0] as $key => $value) 
-											{
-												echo '<option value="'.$key.'">'.$value.'</option>' ;
+			    						if(!empty($createLink)){
+			    							if(!empty($typeFile) && $typeFile == "csv"){
+				    							foreach ($arrayCSV[0] as $key => $value) 
+												{
+													echo '<option value="'.$key.'">'.$value.'</option>' ;
+												}
 											}
+											else if(!empty($arbre)  && $typeFile == "json"){
+												foreach ($arbre as $key => $value) 
+												{
+													echo '<option value="'.$value.'">'.$value.'</option>';
+												}
+											}
+											
 			    						}
 			    					?>
 			    				</select>
@@ -144,7 +186,7 @@ $userId = Yii::app()->session["userId"] ;
 			    			<td>
 			    				<select id="selectLinkCollection" class="col-sm-12">
 									<?php
-			    						if($createLink)
+			    						if(!empty($createLink))
 			    						{
 			    							$params = array("_id"=>new MongoId($idCollection));
 											$fields = array("mappingFields");
@@ -186,24 +228,34 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Vérification avant l'import</h4>
 		</div>
 		<div class="panel-body">
-			<div class="col-xs-12 col-sm-6">
-				<label>Données importés :</label>	
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div id="divJsonImport" class="panel-scroll height-300">
-							<input type="hidden" id="jsonImport" value="">
-						    <div class="col-md-12" id="divJsonImportView"></div>
+			<div class="col-xs-12 col-sm-12">
+				<div class="panel-scroll row-fluid height-300">
+					<table id="representation" class="table table-striped table-hover">
+
+					</table>
+				</div>
+				
+			</div>
+			<div class="col-xs-12 col-sm-12">
+				<div class="col-xs-12 col-sm-6">
+					<label>Données importés :</label>	
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div id="divJsonImport" class="panel-scroll height-300">
+								<input type="hidden" id="jsonImport" value="">
+							    <div class="col-md-12" id="divJsonImportView"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-xs-12 col-sm-6">
-				<label>Données rejetées :</label>	
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div id="divJsonError" class="panel-scroll height-300">
-							<input type="hidden" id="jsonError" value="">
-						    <div class="col-md-12" id="divJsonErrorView"></div>
+				<div class="col-xs-12 col-sm-6">
+					<label>Données rejetées :</label>	
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div id="divJsonError" class="panel-scroll height-300">
+								<input type="hidden" id="jsonError" value="">
+							    <div class="col-md-12" id="divJsonErrorView"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -231,12 +283,25 @@ jQuery(document).ready(function()
 	if(createLink == false)
 		$("#createLink").hide();
 	$("#verifBeforeImport").hide();
-	$("#divSearchMember").hide();
+	$("#divSearchCreator").hide();
 
 });
 
 function bindEvents()
 {
+
+	$("#sumitVerification").off().on('click', function()
+  	{
+  		var nameFile = $("#fileImport").val().split("."); 
+  		console.log("type",nameFile[nameFile.length-1])
+  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" )
+  		{
+  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
+  			return false ;
+  		}
+  		
+  	});
+
 
 	$('#inviteSearch').keyup(function(e){
 	    var search = $('#inviteSearch').val();
@@ -248,7 +313,9 @@ function bindEvents()
 		 }	
 	});
 
-	$("#selectRole").change( function (){
+
+
+	/*$("#selectRole").change( function (){
 		var role = $("#selectRole").val();
 		if(role == "creator")
 		{
@@ -257,13 +324,27 @@ function bindEvents()
 		}	
 		else
 			$("#divSearchMember").show();
+	});*/
+
+
+	$("#selectCreator").change( function (){
+		var creator = $("#selectCreator").val();
+		if(creator == "you")
+		{
+			$("#divSearchCreator").hide();
+			$("#creatorID").html(userId);
+		}	
+		else
+		{
+			$("#divSearchCreator").show();
+			$("#creatorID").html("");
+		}	
 	});
 
 
 	$("#addMapping").off().on('click', function()
   	{
   		var nbLigneMapping = parseInt($("#nbLigneMapping").val()) + 1;
-  		var inc = 1;
   		var error = false ;
   		var msgError = "" ;
 
@@ -271,12 +352,20 @@ function bindEvents()
   		var selectIdHeadCSV = $("#selectHeadCSV option:selected").val() ;
   		var selectLinkCollection = $("#selectLinkCollection option:selected").text() ;
 
+
+  		var inc = 1;
   		while(error == false && inc <= nbLigneMapping)
   		{
-  			if($("#valueheadCSV"+inc).text() == selectValueHeadCSV || $("#labelMapping"+inc).text() == selectLinkCollection)
+  			if($("#valueHeadCSV"+inc).text() == selectValueHeadCSV )
   			{
   				error = true;
-  				msgError = "Vous avez déja ajouter un des éléments."
+  				msgError += "Vous avez déja ajouter l'éléments de la colonne CSV. "
+  			}
+
+  			if($("#valueLinkCollection"+inc).text() == selectLinkCollection)
+  			{
+  				error = true;
+  				msgError += "Vous avez déja ajouter l'éléments de la colonne du Mapping. "
   			}
   			inc++;
   		}
@@ -289,7 +378,6 @@ function bindEvents()
   				var newOptionSelect = addNewMappingForSelecte(arrayLinkCollection, false);
 	  			var arrayOption = [];
 	  			getOptionHTML(arrayOption, newOptionSelect, "");
-	  			//console.log("arrayOption", arrayOption);
 	  			verifBeforeAddSelect(arrayOption);
 	  			chaine = "" ;
 	  			$.each(arrayOption, function(key, value){
@@ -300,12 +388,10 @@ function bindEvents()
   			}
 
   			
-
-  			
 	  		ligne = '<tr id="lineMapping'+nbLigneMapping+'"> ';
-	  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'"><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ selectIdHeadCSV +'"/>' + selectValueHeadCSV + '</td>';
+	  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'">' + selectValueHeadCSV + '</td>';
 	  		ligne =	 ligne + '<td id="valueLinkCollection'+nbLigneMapping+'">' + selectLinkCollection + '</td>';
-	  		ligne =	 ligne + '<td><a href="#" class="deleteLineMapping btn btn-primary">X</a></td></tr>';
+	  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ selectIdHeadCSV +'"/><a href="#" class="deleteLineMapping btn btn-primary">X</a></td></tr>';
 	  		$("#nbLigneMapping").val(nbLigneMapping);
 	  		$("#LineAddMapping").before(ligne);
 	  		bindEvents();
@@ -314,6 +400,8 @@ function bindEvents()
 	  	{
 	  		toastr.error(msgError);
 	  	}
+
+	  	bindEvents();
   		return false;
   	});
 
@@ -331,62 +419,128 @@ function bindEvents()
 		             '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
 		             '<cite title="Hegel">Hegel</cite>'+
 		           '</blockquote> '
-		});*/
+		});
+		$.blockUI({
+				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+	            '<blockquote>'+
+	              '<p>Get up Stand up ! Stand up for your right !</p>'+
+	              '<cite title="Bob Marley">Bob Marley</cite>'+
+	            '</blockquote> '
+			});*/
+
+		var creator = "" ;
+  		if($("#selectCreator").val() == "you")
+  			creator = userId ;
+  		else if($("#selectCreator").val() == "other")
+  			creator = $('#creatorID').val() ;
 		var nbLigneMapping = $("#nbLigneMapping").val();
+		
 		var infoCreateData = [] ;
 
-		for (i = 1; i <= nbLigneMapping; i++) 
-  		{
-  			if($('#lineMapping'+i).length)
-  			{
-  				var valuesCreateData = {};
-				valuesCreateData['valueLinkCollection'] = $("#valueLinkCollection"+i).text();
-				valuesCreateData['idHeadCSV'] = $("#idHeadCSV"+i).val();
-				infoCreateData.push(valuesCreateData);
-  			}
-			
-  		}
-
-  		if(infoCreateData != [])
-  		{
-  			$.ajax({
-		        type: 'POST',
-		        data: {
-		        		infoCreateData : infoCreateData, 
-		        		idCollection : $("#idCollection").val(),
-		        		jsonCSV :  $("#jsonCSV").val(),
-		        		subFile : $("#subFile").val(),
-		        		nameFile : $("#nameFile").val(),
-		        		role : $("#selectRole").val()
-		        },
-		        url: baseUrl+'/tools/previewData/',
-		        dataType : 'json',
-		        success: function(data)
-		        {
-		        	console.log("data",data);
-		        	if(data.result)
-		        	{
-		        		//console.log("data",data);
-		        		$("#divJsonImportView").JSONView(data.jsonImport);
-		        		$("#jsonImport").val(data.jsonImport);
-		        		$("#divJsonErrorView").JSONView(data.jsonError);
-		        		$("#jsonError").val(data.jsonError);
-		        		$("#verifBeforeImport").show();
-		        	}
-		        }
-		    });
-  		}
-  		else
+		if(nbLigneMapping == 0)
 		{
-			toastr.error("Vous devez ajouter des éléments au mapping.");
+			$.unblockUI();
+			toastr.error("Vous devez faire au moins une assignation de données");
+  			return false ;
 		}
-  		console.log("infoCreateData", infoCreateData);
+		else
+		{
+			for (i = 1; i <= nbLigneMapping; i++) 
+	  		{
+	  			if($('#lineMapping'+i).length)
+	  			{
+	  				var valuesCreateData = {};
+					valuesCreateData['valueLinkCollection'] = $("#valueLinkCollection"+i).text();
+					valuesCreateData['idHeadCSV'] = $("#idHeadCSV"+i).val();
+					infoCreateData.push(valuesCreateData);
+	  			}
+				
+	  		}
+
+	  		var jsonFile = "" ;
+
+	  		if($("#typeFile").val() == "csv")
+	  			jsonFile = $("#jsonCSV").val() ;
+	  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js")
+	  			jsonFile = $("#jsonJSON").val() ;
+
+	  		//console.log("type", $("#typeFile").val());
+	  		//console.log("jsonFile", jsonFile, $("#jsonJSON").val());
+	  		if(infoCreateData != [])
+	  		{
+	  			$.ajax({
+			        type: 'POST',
+			        data: {
+			        		infoCreateData : infoCreateData, 
+			        		idCollection : $("#idCollection").val(),
+			        		jsonFile :  jsonFile,
+			        		subFile : $("#subFile").val(),
+			        		nameFile : $("#nameFile").val(),
+			        		typeFile : $("#typeFile").val(),
+			        		role : $("#selectRole").val(),
+			        		creatorID : creator,
+			        		creatorEmail : $('#creatorEmail').val(),
+			        },
+			        url: baseUrl+'/communecter/admin/previewData/',
+			        dataType : 'json',
+			        success: function(data)
+			        {
+			        	console.log("data",data);
+			        	if(data.result)
+			        	{
+			        		//console.log("data.jsonImport",data.jsonImport);
+			        		$("#divJsonImportView").JSONView(data.jsonImport);
+			        		$("#jsonImport").val(data.jsonImport);
+			        		$("#divJsonErrorView").JSONView(data.jsonError);
+			        		$("#jsonError").val(data.jsonError);
+
+			        		console.log("csvContenu", data.csvContenu);
+							var chaine = "" ;
+			        		$.each(data.csvContenu, function(keyCsvContenu, valueCsvContenu){
+			        			chaine += "<tr>" ;
+			        			if(keyCsvContenu == 0)
+			        			{
+			        				$.each(valueCsvContenu, function(key, value){
+			        					chaine += "<th>"+value+"</th>";
+			        				});
+			        			}else{
+									$.each(valueCsvContenu, function(key, value){
+			        					chaine += "<td>"+value+"</td>";
+			        				});
+			        			}
+			        			chaine += "</tr>" ;
+			        		});
+			        		$("#representation").html(chaine);
+			        		$("#verifBeforeImport").show();
+
+
+
+
+			        		$.unblockUI();
+			        	}
+			        }
+			    });
+	  		}
+	  		else
+			{
+				toastr.error("Vous devez ajouter des éléments au mapping.");
+			}
+	  		console.log("infoCreateData", infoCreateData);
+		}
+		$.unblockUI();
   		return false;
   	});
 
 
 	$("#sumitImport").off().on('click', function()
   	{
+  		var creator = "" ;
+  		if($("#selectCreator").val() == "you")
+  			creator = userId ;
+  		else if($("#selectCreator").val() == "other")
+  			creator = $('#creatorID').val() ;
+
+  		console.log("creator", creator);
   		/*$.blockUI({
 		message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
   	            '<blockquote>'+
@@ -395,12 +549,13 @@ function bindEvents()
   	            '</blockquote> '
 		});*/
   		$.ajax({
-	        type: 'POST',
+	        type: 'POST', 
 	        data: { jsonImport : $('#jsonImport').val(), 
 	        		nameFile : $('#nameFile').val(),
 	        		jsonError : $('#jsonError').val(),
-	        		memberId : $('#memberId').html()},
-	        url: baseUrl+'/tools/importmongo2/',
+	        		creatorID : creator,
+	        		idCollection : $("#idCollection").val()},
+	        url: baseUrl+'/communecter/admin/importinmongo/',
 	        dataType : 'json',
 	        success: function(data)
 	        {
@@ -419,29 +574,266 @@ function bindEvents()
 
   	$("#sumitGeo").off().on('click', function()
   	{
+  		var dataGood = [];
+  		var dataBad = jQuery.parseJSON($('#jsonError').val()) ;
+
+  		var nbNominatim = 0;
+  		var nbGoogle = 0;
+
   		var json = jQuery.parseJSON($('#jsonImport').val()) ;
-  		console.log("here", json);
   		$.each( json, function( key, org ) {
-			$.each( json, function( org, orgVal ) {
-		    	console.log("Address", orgVal.address);
-		    	// ICI TRISTAN
-		    	// Tu peux appeler ta fonction avec nominatime 
-		    	// orgVal.address :  te donne un objet de type { "streetAddress" : "...", "codePstal" : "..." , ...}
-		  		
-		  		//fonction appelé lorsque le résultat nominatim est trouvé dans findGeoposByNominatim(address) (sig/geoloc.js l.109)
-		  		function callbackNominatimSuccess(obj){
-		  			console.dir(obj);
-		  		}
+  			//console.log("org", org);
+			
+		   	var adressLong = "" ;
+		   	var adressShort = "" ;
 
-		  		//remplace les espaces par des +
-		  		var address = transformNominatimUrl(orgVal.address);
+	  		if(org.address.streetAddress.trim() != "")
+	  			adressLong = adressLong + org.address.streetAddress ;
+
+	  		if(org.address.postalCode.trim() != "")
+	  		{
+	  			adressLong = adressLong + ", " + org.address.postalCode;
+	  			adressShort += org.address.postalCode;
+	  		}	
+	  		if(org.address.addressLocality.trim() != "")
+	  		{
+	  			adressLong = adressLong + ", " +  org.address.addressLocality;
+	  			adressShort += ", " + org.address.addressLocality
+	  		}	
+
+			
+	  		var address = transformNominatimUrl(adressLong);
 		  		//lance la requette nominatim (sig/geoloc.js l.109)
-				findGeoposByNominatim(address);
+		  	var objNominatim = findGeoposByNominatim(address);
+				
+			var geo = {};
+			var address2 = org.address;
 
-		  	});
+			if(objNominatim.length != 0){
+				valNominatim = objNominatim[0];
+				//$.each(objNominatim, function( keyNominatim, valNominatim ){
+					geo["@type"] = "GeoCoordinates";
+					geo["latitude"] = valNominatim.lat;
+					geo["longitude"] = valNominatim.lon;
+					nbNominatim = nbNominatim + 1 ;
+				//});
+			}else{
+				address = transformNominatimUrl(adressLong);
+				objGoogleMaps = findGeoposByGoogleMaps(address);
+				console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.length, objGoogleMaps.size);
+				if(objGoogleMaps.results.length != 0){	
+					var valGoogleMaps = objGoogleMaps.results[0] ;
+					geo["@type"] = "GeoCoordinates";
+					geo["latitude"] = valGoogleMaps.geometry.location.lat;
+					geo["longitude"] = valGoogleMaps.geometry.location.lng;
+					nbGoogle = nbGoogle + 1 ;
+				}else{
+					address = transformNominatimUrl(adressShort);
+					objNominatim = findGeoposByNominatim(address);
+					if(objNominatim.length != 0){
+						valNominatim = objNominatim[0];
+						//$.each(objNominatim, function( keyNominatim, valNominatim ){
+							geo["@type"] = "GeoCoordinates";
+							geo["latitude"] = valNominatim.lat;
+							geo["longitude"] = valNominatim.lon;
+							org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+							nbNominatim = nbNominatim + 1 ;
+						//});
+
+					}else{
+						address = transformNominatimUrl(adressShort);
+						objGoogleMaps = findGeoposByGoogleMaps(address);
+						console.log("objGoogleMaps", objGoogleMaps);
+						if(objGoogleMaps.results.length != 0 && objGoogleMaps.status != "ZERO_RESULTS"){	
+							var valGoogleMaps = objGoogleMaps.results[0] ;
+							geo["@type"] = "GeoCoordinates";
+							geo["latitude"] = valGoogleMaps.geometry.location.lat;
+							geo["longitude"] = valGoogleMaps.geometry.location.lng;
+							org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+							nbGoogle = nbGoogle + 1 ;
+						}
+						else
+							org["msgError"] = "Nous n'avons pas pu faire la Géolocalisation" ;
+			  		}
+			  	}
+			}
+
+
+		  	if(address2["codeInsee"].trim().length == 0 && geo["latitude"].length != 0 && geo["longitude"].length != 0)
+	  		{
+	  			address2["codeInsee"] = getInseeWithLatLon(geo["latitude"], geo["longitude"]);
+	  			if(address2["codeInsee"].trim().length != 0)
+	  				address2["addressLocality"] = getInfoAdressByInsee(address2["codeInsee"], address2["postalCode"]);
+	  			else
+	  				org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
+	  		}
+			
+			org["geo"] = geo ;
+			org["address"] = address2 ;
+
+			if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
+			{
+				console.log("dataGood", typeof org["Warning"]);
+				dataGood.push(org) ;
+			}	
+			else
+			{
+				console.log("dataBad", typeof org["Warning"]);
+				dataBad.push(org) ;
+			}	
+		
+
 		});
+
+		console.log("nbNominatim", nbNominatim);
+		console.log("nbGoogle", nbGoogle);
+		$("#divJsonImportView").JSONView(JSON.stringify(dataGood));
+		$("#jsonImport").val(JSON.stringify(dataGood));
+		$("#divJsonErrorView").JSONView(dataBad);
+		$("#jsonError").val(dataBad);
+		
+		var list = dataGood;
+		$.each(dataBad, function(key, value){
+			list.push(value)
+		});		
+
+		$.ajax({
+	        type: 'POST', 
+	        data: { list : list },
+	        url: baseUrl+'/communecter/admin/checkdataimport/',
+	        dataType : 'json',
+	        success: function(data)
+	        {
+	            var chaine = "" ;
+        		$.each(data, function(keyCsvContenu, valueCsvContenu){
+        			chaine += "<tr>" ;
+        			if(keyCsvContenu == 0)
+        			{
+        				$.each(valueCsvContenu, function(key, value){
+        					chaine += "<th>"+value+"</th>";
+        				});
+        			}else{
+						$.each(valueCsvContenu, function(key, value){
+        					chaine += "<td>"+value+"</td>";
+        				});
+        			}
+        			chaine += "</tr>" ;
+        		});
+        		$("#representation").html(chaine);
+	        }
+	    });
+		
   	});
 }
+
+
+
+function getInseeWithLatLon(lat, lon){
+	var insee = "" ;
+	$.ajax({
+		type: 'POST',
+		data: { 
+			latitude : lat,
+			longitude : lon
+		},
+		async:false,
+		url: baseUrl+'/communecter/sig/getinseebylatlng/',
+		dataType : 'json',
+		success: function(data){
+			insee = data.insee ;
+		}
+	});
+
+	return insee ;
+	
+}
+
+function getInfoAdressByInsee(insee,cp){
+	var alternateName = "" ;
+	$.ajax({
+		type: 'POST',
+		data: { 
+			insee : insee,
+			cp : cp
+		},
+		async:false,
+		url: baseUrl+'/communecter/city/getinfoadressbyinsee/',
+		dataType : 'json',
+		success: function(data){
+			//console.log(data);
+			$.each(data, function( key, val ) {
+				console.log(val);
+				alternateName = val.alternateName ;
+			});
+			
+		}
+	});
+
+	return alternateName ;	
+}
+
+
+
+
+
+function callbackNominatimSuccess(obj){
+	return obj ;
+}
+//https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
+
+function findGeoposByGoogleMaps(requestPart){
+	var objnominatim = {} ;
+	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM");
+	showLoadingMsg("Recherche de la position en cours");
+	$.ajax({
+		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM",
+		type: 'POST',
+		dataType: 'json',
+		async:false,
+		crossDomain:true,
+		complete: function () {},
+		success: function (obj){
+			console.log('success');	
+			hideLoadingMsg();
+			objnominatim = callbackNominatimSuccess(obj);
+		},
+		error: function (error) {
+			console.log('error');	
+			return callbackNominatimError(error);
+		}
+	});
+
+	return objnominatim ;
+
+}
+
+
+function findGeoposByNominatim(requestPart){
+	var objnominatim = {} ;
+	//console.log('findGeoposByNominatim');
+	showLoadingMsg("Recherche de la position en cours");
+	$.ajax({
+		url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
+		type: 'POST',
+		dataType: 'json',
+		async:false,
+		crossDomain:true,
+		complete: function () {},
+		success: function (obj){
+			//console.log('success');	
+			hideLoadingMsg();
+			objnominatim = callbackNominatimSuccess(obj);
+		},
+		error: function (error) {
+			//console.log('error');	
+			return callbackNominatimError(error);
+		}
+	});
+
+	return objnominatim ;
+
+}
+
 
 function addNewMappingForSelecte(arrayMap, subArray)
 {
@@ -494,6 +886,10 @@ function addNewMappingForSelecte(arrayMap, subArray)
 	return newSelect ;
 }
 
+function callbackNominatimSuccess(obj){
+	//console.log("obj" , obj);
+	return obj ;
+}
 
 function getOptionHTML(arrayOption, objectOption, father)
 {
