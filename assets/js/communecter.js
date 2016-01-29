@@ -100,6 +100,8 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
     else if( hash.indexOf("#project.directory") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
+	else if( hash.indexOf("#city.directory") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'CITY DIRECTORY ','bookmark fa-rotate-270' );
     else if( hash.indexOf("#panel") >= 0 ){
         if(hash.substr(7) == "box-add")
             title = 'ADD SOMETHING TO MY NETWORK';
@@ -107,7 +109,8 @@ function loadByHash( hash , back) {
             title = "WELCOM MUNECT HEY !!!";
         showPanel(hash.substr(7),null,title);
     }
-    
+    else if( hash.indexOf("#city.opendata") >= 0 )
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'STATISTICS ','line-chart' );
     else if( hash.indexOf("#person.detail") >= 0 )
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DETAIL ','user' );
     else if( hash.indexOf("#event.detail") >= 0 )
