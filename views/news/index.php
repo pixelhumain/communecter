@@ -444,18 +444,17 @@ jQuery(document).ready(function()
 	}
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
-	//if(contextParentType!="city"){
+	if(contextParentType!="city"){
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
-
-//	}
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, news);
+	}
 
 
 //console.log("NEWS :");
 //console.dir(news);
 	<?php //if( isset($_GET["isNotSV"]) ) { ?>
-		Sig.restartMap();
-		Sig.showMapElements(Sig.map, news);
-//		return;
+		//		return;
 	<?php //} ?>
 	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
 	//alert(contextParentType);
