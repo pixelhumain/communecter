@@ -222,6 +222,8 @@
 
 										  	"news" 				: { ico : "rss", color : "blue" 	},
 
+										  	"city" 				: { ico : "university", color : "red" 	},
+
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"citoyens" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
@@ -357,6 +359,7 @@
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
+			if("undefined" != typeof object.id) 	return object.id;
 			return null;
 		};
 		Sig.getThumbProfil = function (element){

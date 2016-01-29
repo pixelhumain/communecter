@@ -88,7 +88,7 @@
 		//if($(".tooltips").length) {
      	//	$('.tooltips').tooltip();
    		//}
-   		bindFicheInfoBtn()
+   		bindFicheInfoBtn();
 	});
 	function bindFicheInfoBtn(){
 		$("#disableOrganization").off().on("click",function () {

@@ -18,7 +18,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.appear/jquery.appear.js',
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
+	//'/plugins/select2/select2.min.js',
 
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -444,9 +444,9 @@ jQuery(document).ready(function()
 	}
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
-	if(contextParentType!="city"){
+	//if(contextParentType!="city"){
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
-	}
+	//}
 	<?php if( !isset($_GET["isNotSV"]) ) { ?>
 	//	Sig = SigLoader.getSig();
 	//	Sig.loadIcoParams();

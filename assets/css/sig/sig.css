@@ -464,6 +464,7 @@ creer des conflits : regle pas assez specfique
     text-align: center;
     color: #3C3C3C;
     font-weight: 500;
+    border-radius: 0px 0px 10px 10px !important;
 }
 
 .item_map_list .btn-more i{

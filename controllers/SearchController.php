@@ -21,6 +21,12 @@ class SearchController extends CommunecterController {
           'getshortdetailsentity'     => 'citizenToolKit.controllers.search.GetShortDetailsEntityAction',
           'searchbycriteria'          => 'citizenToolKit.controllers.search.SearchByCriteriaAction',
           'index'                     => 'citizenToolKit.controllers.search.IndexAction',
+          'agenda'                    => 'citizenToolKit.controllers.search.AgendaAction',
+          'news'                      => 'citizenToolKit.controllers.search.NewsAction',
+          'directory'                 => 'citizenToolKit.controllers.search.DirectoryAction',
+          'login'                 => 'citizenToolKit.controllers.search.LoginAction',
+          'home'                 => 'citizenToolKit.controllers.search.HomeAction',
+          'add'                 => 'citizenToolKit.controllers.search.AddAction',
       );
   }
   

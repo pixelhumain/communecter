@@ -181,7 +181,7 @@
 						button	+= 	"<div class='info_item pseudo_item_map_list'>" + name + "</div>";
 						
 						
-						if("undefined" != typeof allElement['tags']){
+						if("undefined" != typeof allElement['tags'] && allElement['tags'] != null){
 							button	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
 							$.each(allElement['tags'], function(index, value){ totalTags++;
