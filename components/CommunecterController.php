@@ -215,7 +215,7 @@ class CommunecterController extends Controller
                                      'title' => "Organization", 
                                      "subTitle"=>"Découvrez les organization locales",
                                      "pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
-      "savenew"             => array("href" => "/ph/communecter/organization/saveNew",
+      "save"             => array("href" => "/ph/communecter/organization/save",
                                      'title' => "Organization", 
                                      "subTitle"=>"Découvrez les organization locales",
                                      "pageTitle"=>"Organization : Association, Entreprises, Groupes locales"),
