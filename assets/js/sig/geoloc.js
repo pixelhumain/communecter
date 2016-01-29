@@ -112,11 +112,13 @@
 		$("#iconeChargement").css("display", "inline-block");
 
 		$.ajax({
-			url: "//nominatim.openstreetmap.org/search" + requestPart + "&format=json&polygon=0&addressdetails=1",
+			url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
 			type: 'POST',
 			dataType: 'json',
+			async:false,
+			crossDomain:true,
 			complete: function () {},
-			success: function (obj){	
+			success: function (obj){
 				hideLoadingMsg();
 				callbackNominatimSuccess(obj);
 			},
