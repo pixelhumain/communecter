@@ -6,7 +6,10 @@ if(!Yii::app()->request->isAjaxRequest)
 		'/assets/plugins/jsonview/jquery.jsonview.js',
 		'/assets/plugins/jsonview/jquery.jsonview.css',
 		'/assets/js/sig/geoloc.js',
-		'/assets/js/dataHelpers.js'
+		'/assets/js/dataHelpers.js',
+		//'/plugins/DataTables/media/css/DT_bootstrap.css',
+		//'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
+    	//'/plugins/DataTables/media/js/DT_bootstrap.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 }
@@ -284,6 +287,7 @@ jQuery(document).ready(function()
 		$("#createLink").hide();
 	$("#verifBeforeImport").hide();
 	$("#divSearchCreator").hide();
+	//$("#representation").DataTable();
 
 });
 
