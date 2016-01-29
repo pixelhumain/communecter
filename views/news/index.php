@@ -447,10 +447,7 @@ jQuery(document).ready(function()
 	if(contextParentType!="city"){
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	}
-	<?php if( !isset($_GET["isNotSV"]) ) { ?>
-	//	Sig = SigLoader.getSig();
-	//	Sig.loadIcoParams();
-	<?php } ?>	
+
 
 //console.log("NEWS :");
 //console.dir(news);
@@ -496,6 +493,7 @@ var loadStream = function(){
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
        	dataType: "json",
     	success: function(data){
+	    	console.log(data.news)
 	    	if(data){
 				buildTimeLine (data.news);
 				if(typeof(data.limitDate.created) == "object")
@@ -552,7 +550,7 @@ function buildTimeLine (news)
 	console.log(formCreateNews);
 	//currentMonth = null;
 	countEntries = 0;
-	
+	console.log(news);
 	$.each( news , function(key,newsObj)
 	{
 		if(newsObj.created)
@@ -567,7 +565,6 @@ function buildTimeLine (news)
 			if(countEntries == 0 && dateLimit == 0){
 				/**Construct the first month actual month separator***/
 								/**** End of construct *****/
-				
 				$(".newsTL"+streamType+d.getMonth()).append(
 					"<li class='newsFeed'>"+
 						"<div id='newFeedForm"+streamType+"' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
