@@ -15,7 +15,7 @@
 </button>
 <?php if(!isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-register btn-menu btn-menu1 tooltips <?php echo ($page == 'add') ? 'selected':'';?>" 
-		data-toggle="tooltip" data-placement="right" title="Ajouter quelque chose dans l'annuaire ..." alt="Localisation automatique">
+		data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="Localisation automatique">
 		<i class="fa fa-plus-circle"></i>
 </button>
 <?php } ?>

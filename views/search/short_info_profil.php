@@ -84,7 +84,7 @@
     jQuery(document).ready(function() {
       // $('#dropdownMenuinMenu').dropdown();
       // $('#dropdownMenumain').dropdown();
-      // $('.dropdown-toggle').dropdown();
+      $('.dropdown-toggle').dropdown();
     });
   </script>
 
