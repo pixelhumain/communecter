@@ -640,6 +640,8 @@ function bindEvents() {
 
     $('#btn-show-map').click(function(e){
       showMap();
+      if(contextParentType=="city")
+      	$("#newsHistory").removeClass("fixedTop");
     });
 
     $("#searchForm").off().on("click", function(){
