@@ -61,19 +61,19 @@
 			if("undefined" != typeof data["typeSig"]) typeSig = new Array(data["typeSig"]);
 			else typeSig = new Array(data["type"]);
 
-			//console.log("LIST PANEL DATA");
-			//console.dir(data);
 			
+			if("undefined" != typeof tags && tags != null)
 			$.each(tags, function(index, value){
+				console.log(value);
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
-
+			
+			//if("undefined" != typeof typeSig)
 			$.each(typeSig, function(index, value){
 				thisSig.listPanel["types"].push(value); //new Array(objectId);
 			});
 
 			//thisSig.listPanel["types"].push(typeSig);
-			//console.log("LIST PANEL");
 			//console.dir(thisSig.listPanel);
 			
 		};

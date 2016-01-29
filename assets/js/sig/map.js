@@ -161,7 +161,7 @@
 			//supprime tous les marker de la carte
 			this.Sig.clearMap = function(thisMap)
 			{
-				//console.warn("--------------- clearMap ---------------------");
+				console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
@@ -366,7 +366,7 @@
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
 				console.log("showPolygon");
-				console.dir(polygonPoints);
+				//console.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
 				//puis on charge le nouveau polygone
@@ -404,7 +404,7 @@
 					}
 				}
 
-				if( typeof thisData.geo !== "undefined" && typeof thisData.geo.longitude !== "undefined"){
+				if( typeof thisData.geo !== "undefined" && thisData.geo != null && typeof thisData.geo.longitude !== "undefined"){
 					if(type == "markerSingle")
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
 					else if(type == "markerGeoJson")
@@ -427,18 +427,20 @@
 
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
 				//console.warn("--------------- showOneElementOnMap ---------------------");
+				//console.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
-
+				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1)
 					{			
-						if("undefined" != typeof thisData['geo'] || "undefined" != typeof thisData['geoPosition'] ||
+						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
 							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
 							if(this.verifyPanelFilter(thisData))
 							{
+								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
 								//préparation du contenu de la bulle
 								var content = this.getPopup(thisData);
 								//création de l'icon sur la carte
@@ -446,7 +448,7 @@
 								var properties = { 	id : objectId,
 													icon : theIcon,
 													type : thisData["type"],
-													typeSig : (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"],
+													typeSig : type,
 													name : thisData["name"],
 													faIcon : this.getIcoByType(thisData),
 													content: content };
@@ -457,7 +459,8 @@
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
 								//TODO : refactor notClusteredTag > notClusteredType
-								if($.inArray(thisData['type'], this.notClusteredTag) > -1){
+								
+								if($.inArray(type, this.notClusteredTag) > -1){
 									coordinates = this.getCoordinates(thisData, "markerSingle");
 									marker = this.getMarkerSingle(thisMap, properties, coordinates);
 								}
@@ -473,16 +476,16 @@
 								this.populatePanel(thisData, objectId); //["tags"]
 								this.createItemRigthListMap(thisData, marker, thisMap);
 								
-
-
 								//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 								//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
-								if($.inArray(thisData['typeSig'], this.notClusteredTag) > -1)
+								if($.inArray(type, this.notClusteredTag) > -1)
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 								{	thisMap.panTo(coordinates, {"animate" : true });
 									thisSig.checkListElementMap(thisMap);
 									marker.openPopup();
 								});
+								//console.log("ok888");
+
 
 							}
 						}
@@ -499,7 +502,11 @@
 								});	
 							}	
 						}
+
+
+				
 					}
+					
 
 					//affiche les MEMBERS
 					var thisSig = this;
@@ -510,22 +517,25 @@
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-				}else {
-					if(thisData == null) return false;
 
-					//console.warn("--------------- PAS D'ID ---------------------");
-					//console.dir(thisData);
+					}else {
+						if(thisData == null) return false;
 
-					if("undefined" != typeof thisData["chartOptions"]){
-						//console.warn("--------------- LOAD CHART ---------------------");
-						this.addChart(thisData)
+						//console.warn("--------------- PAS D'ID ---------------------");
+						//console.dir(thisData);
+
+						if("undefined" != typeof thisData["chartOptions"]){
+							//console.warn("--------------- LOAD CHART ---------------------");
+							this.addChart(thisData)
+						}
+						return false;
 					}
-					return false;
-				}
+					
+
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
 				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
 				
@@ -545,7 +555,7 @@
 
 			this.Sig.showMapElements = function(thisMap, data)
 			{
-				//console.warn("--------------- showMapElements ---------------------");
+				console.warn("--------------- showMapElements ---------------------");
 
 				if(data == null) return;
 
@@ -578,17 +588,16 @@
 							oneData = key.author;
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
+					
 				}else{
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
-
-				//alert("fin");
+				
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
-
 								//si le mouseover n'est pas autorisé
 								//ou si le zoom de la carte est = au zoom maximum (== ouverture cluster spiral)
 								if(thisSig.allowMouseoverMaker == false  || 
@@ -603,10 +612,10 @@
 								layer.openPopup(); 
 								
 							});
+							
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisSig.allowMouseoverMaker = false;
-								
 								var coordinates =  [feature.geometry.coordinates[1], 
 													feature.geometry.coordinates[0]];
 								thisMap.panTo(coordinates, {"animate" : false });
@@ -641,8 +650,9 @@
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;
 								setTimeout("Sig.openCurrentMarker()", 700);
-							});							
+							});						
 						}
+
 					});
 					////console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
