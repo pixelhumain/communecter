@@ -504,8 +504,8 @@ $this->renderPartial('../default/panels/toolbar');
           //"userId" => (string)$person["_id"])); ?>
   </div>
 </div> -->
-  <div id="newsCity">
-  </div>
+<div id="newsCity">
+ </div>
 <div class="row">
 
 	<div class="col-sm-7 col-xs-12">
@@ -581,16 +581,20 @@ jQuery(document).ready(function() {
 		var scroller_anchor = $("#pod-local-actors").offset().top;
 		scroller_anchor += $("#pod-local-actors").height();
 		topScroll=$(this).scrollTop();
-		//console.log(window.scrollY+" // "+lastValue );
+		console.log(window.scrollY+" // "+lastValue );
 		
 		if (topScroll > (scroller_anchor-100)) {
-			$("#pod-local-actors").css("margin-bottom","300px");
+			$("#pod-local-actors").css("margin-bottom","550px");
+			//$("#cityDetail").fadeOut();
 	    	$("#newsHistory").addClass("fixedTop").children().addClass("col-md-12");
 	    	$(".timeline-scrubber").addClass("fixScrubber");
 	    	lastValue=window.scrollY;
+	    	//$(window).off('scroll');
 		} 
 		if (window.scrollY < lastValue-1) { 
 			lastValue=0;
+			//$("#cityDetail").fadeIn();
+			//	    	$(window).on('scroll');
 			$("#pod-local-actors").css("margin-bottom","0px");
 			$(".timeline-scrubber").removeClass("fixScrubber");
 			$("#newsHistory").removeClass("fixedTop").children().removeClass("col-md-12");

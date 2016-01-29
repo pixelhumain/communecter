@@ -463,7 +463,7 @@ jQuery(document).ready(function()
 		setTimeout(function(){loadStream()},0);
 		if (streamType=="news"){
 			if(contextParentType=="city"){
-				minusOffset=1030;
+				minusOffset=1130;
 			} else {
 				minusOffset=730;
 			}
