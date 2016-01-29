@@ -136,6 +136,12 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
+      "directory"             => array("href" => "/ph/communecter/search/directory"),
+      "agenda"                => array("href" => "/ph/communecter/search/agenda"),
+      "news"                  => array("href" => "/ph/communecter/search/news"),
+      "login"                  => array("href" => "/ph/communecter/search/news"),
+      "home"                  => array("href" => "/ph/communecter/search/home"),
+      "add"                  => array("href" => "/ph/communecter/search/add"),
     ),
 
     "rooms"=> array(

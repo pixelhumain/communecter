@@ -203,3 +203,4 @@ function getObjectId(object){
 	if("undefined" != typeof object.$id) 	return object.$id;
 	return null;
 };
+

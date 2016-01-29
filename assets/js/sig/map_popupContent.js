@@ -8,9 +8,11 @@
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopup = function(data){
-
+			console.log("typeSIG POPUP" + data["typeSig"]);
 			if(typeof(data.typeSig) != "undefined" && data.typeSig == "news"){
 				return this.getPopupSimpleNews(data);
+			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
+				return this.getPopupSimpleCity(data);
 			}else{
 				return this.getPopupSimple(data);
 			}
@@ -95,7 +97,7 @@
 		Sig.getPopupSimple = function(data){
 			
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
-			var id = typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
+			var id = this.getObjectId(data); //typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(data);
@@ -112,11 +114,7 @@
 			if(type == "projects") 		typeElement = "project";
 			//console.log("type", type);
 			
-			if(typeElement == "event"){
-				//console.log("DONNEE EVENT");
-				//console.log(data.startDate);
-				//console.dir(data);
-			}
+			
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -151,10 +149,12 @@
 						if("undefined" != typeof data['tags']){
 							popupContent	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
-							$.each(data['tags'], function(index, value){ totalTags++;
-								if(totalTags<4)
-								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
-							});
+							if(data.length > 0){
+								$.each(data['tags'], function(index, value){ totalTags++;
+									if(totalTags<4)
+									popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
+								});
+							}
 							popupContent	+= 	"</div>";
 						}
 
@@ -399,6 +399,24 @@
 										"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
 											"<i class='fa fa-plus'></i> En savoir plus"+
 										"</button>" +
+								'</div>';
+			return popupContent;
+		};
+
+		Sig.getPopupSimpleCity = function(data){
+			var dataTxt = data["name"];
+			var insee = data["insee"];
+			var cp = data["cp"];
+			//var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
+			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
+			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
+									"<h4 class='panel-title text-red homestead'>"+
+										"<i class='fa fa-university'></i> "+dataTxt+
+									"</h4>" + 
+									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
+									"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
+										"<i class='fa fa-plus'></i> En savoir plus"+
+									"</button>" +
 								'</div>';
 			return popupContent;
 		};
