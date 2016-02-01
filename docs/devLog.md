@@ -105,7 +105,7 @@ mongoimport --db pixelhumain --collection cities PATH_TO_MY_FILE\cities.js --jso
 execute composer update to install Captcha libs
 and add the secret key to your paramsconfig.php
 ----------------------------------------------------
-//TKA : 28/04/2015  : mettre a jour les cp dans cities
+#TKA : 28/04/2015  : mettre a jour les cp dans cities
 
 db.cities.find().forEach(function(doc){
     if(doc.insee.length == 4){ 
