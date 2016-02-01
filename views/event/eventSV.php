@@ -315,7 +315,7 @@ if( !isset($_GET["isNotSV"]))
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-
+	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
 	});
 
 	function runShowCity(searchValue) {
@@ -378,6 +378,11 @@ if( !isset($_GET["isNotSV"]))
 	function searchCity() {
 		$("#alert-city-found").addClass("hidden");
 		
+		$("#btn-show-city").click(function(){
+			showMap(true);
+			Sig.hideTools();
+		});
+			
 		var searchValue = $('.form-event #postalCode').val();
 		if(searchValue.length >= 4 && searchValue.length <= 5) {
 			$("#city").empty();

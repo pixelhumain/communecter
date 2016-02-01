@@ -342,6 +342,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	bindPostalCodeAction();
+	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-group'></i> Référencer votre organisation");
  }); 
 
 	function initForm() {
@@ -496,6 +497,11 @@ jQuery(document).ready(function() {
 		
 		$("#alert-city-found").addClass("hidden");
 		
+		$("#btn-show-city").click(function(){
+			showMap(true);
+			Sig.hideTools();
+		});
+
 		var searchValue = $('#organizationForm #postalCode').val();
 		if(searchValue.length >= 4 && searchValue.length <= 5) {
 			$("#city").empty();

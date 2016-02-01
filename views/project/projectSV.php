@@ -222,6 +222,8 @@ jQuery(document).ready(function() {
     $(".daterangepicker").on("hide.daterangepicker", function(){
  		console.log("ok");
  	});
+
+ 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i> Créer un projet");
 });
 
 function bindProjectSubViewProjects() {
@@ -458,7 +460,12 @@ function bindPostalCodeAction() {
 
 function searchCity() {
 	$("#alert-city-found").addClass("hidden");
-		
+	
+	$("#btn-show-city").click(function(){
+		showMap(true);
+		Sig.hideTools();
+	});
+
 	var searchValue = $('.form-project #postalCode').val();
 	if(searchValue.length >= 4 && searchValue.length <= 5) {
 		$("#city").empty();

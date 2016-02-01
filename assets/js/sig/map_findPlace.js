@@ -466,7 +466,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		//console.dir(properties);
 		//console.log("before getMarkerSingle");
-		thisSig.clearMap();
+		thisSig.clearMap(thisSig.map, false);
 		var markerNewData = thisSig.getMarkerSingle(thisSig.map, properties, latlng);
 		//console.dir(markerNewData);
 		thisSig.map.panTo(markerNewData.getLatLng(), {animate:false});
