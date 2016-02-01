@@ -264,7 +264,7 @@ var formValidator = function() {
 
 	        $.ajax({
 		    	  type: "POST",
-		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/savenew",
+		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
 		    	  data: $("#organizationForm").serialize(),
 		    	  success: function(data){
 		    			if(!data.result){

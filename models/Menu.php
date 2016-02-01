@@ -36,12 +36,11 @@ class Menu {
         
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', 
+        self::entry("left", 'onclick', 
                     Yii::t("common", 'Show his directory'), 
                     Yii::t("common", 'Directory'),
                     'bookmark fa-rotate-270',
-                    '/person/directory/id/'.$id.'?tpl=directory2&isNotSV=1',
-                    "person","directory");
+                    "loadByHash('#person.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
         
         //FOLLOW BUTTON
         //-----------------------------
@@ -97,15 +96,28 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', Yii::t("organization","Contact information"), Yii::t("common","Details"),'home','/organization/detail/id/'.$id,"organization","detail");
+        self::entry("left", 'onclick',
+        			Yii::t("organization","Contact information"), 
+        			Yii::t("common","Details"),'home',
+        			"loadByHash('#organization.detail.id.".$id."')",null,null);
+//        			'/organization/detail/id/'.$id,"organization","detail");
        
         //SEE TIMELINE
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Read all news publicated by this organization'), Yii::t( "common", 'Activity'), 'rss','/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
+        self::entry("left", 'onclick', 
+        		Yii::t( "common", 'Read all news publicated by this organization'), 
+        		Yii::t( "common", 'Activity'), 
+        		'rss',
+        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
+//        		'/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
 
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel','Member list', 'Members' ,'connectdevelop','/organization/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"organization","directory");
+        self::entry("left", 'onclick',
+        			'Member list',
+        			'Members' ,
+        			'connectdevelop',
+        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
         
         //ACTION ROOMS
         //-----------------------------
@@ -180,7 +192,10 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'City Home page'), Yii::t( "common", 'Details'), 'university','/city/detail/insee/'.$insee.'?isNotSV=1',"city","detail");
+        self::entry("left", 'onclick', 
+        			Yii::t( "common", 'City Home page'),
+					Yii::t( "common", 'Details'), 'university',
+					"loadByHash('#city.detail.insee.".$insee."?isNotSV=1')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -209,11 +224,19 @@ class Menu {
         //-----------------------------
 
 
-        self::entry("left", 'showAjaxPanel', Yii::t( "common", 'Local network'), Yii::t( "common", 'Directory'),'bookmark fa-rotate-270','/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
+        self::entry("left", 'onclick',
+        			Yii::t( "common", 'Local network'), 
+        			Yii::t( "common", 'Directory'),'bookmark fa-rotate-270',
+        			"loadByHash('#city.directory.insee.".$insee."?tpl=directory2&isNotSV=1')",null,null);
+        			//'/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
 
         //STATISTICS
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',Yii::t( "common", 'Show some statistics about this city'), Yii::t( "common", 'Statistics'), 'line-chart','/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
+        self::entry("left", 'onclick',
+        			Yii::t( "common", 'Show some statistics about this city'),
+        			Yii::t( "common", 'Statistics'), 'line-chart',
+        			"loadByHash('#city.opendata.insee.".$insee."?isNotSV=1')",null,null);
+//        			'/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
 
         //FOLLOW BUTTON
         //-----------------------------
@@ -274,15 +297,25 @@ class Menu {
 
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',Yii::t( "common", 'General information about this project'),Yii::t( "common", 'Details'), 'home','/project/detail/id/'.$id,"project","detail");
+        self::entry("left", 'onclick',
+        			Yii::t( "common", 'General information about this project'),
+        			Yii::t( "common", 'Details'), 'home',
+        			"loadByHash( '#project.detail.id.".$id."')",null,null);
 
         //SEE TIMELINE
         //-----------------------------
-        self::entry("left",  'showAjaxPanel',Yii::t( "common", "Read all news publicated by this project"), Yii::t( "common", 'Activity'), "rss","/news/index/type/projects/id/".$id."?isNotSV=1","news","index",null );
+        self::entry("left",  'onclick',
+        			Yii::t( "common", "Read all news publicated by this project"),
+        			Yii::t( "common", 'Activity'), "rss",
+        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
 
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',Yii::t( "common", "Project contributors"), Yii::t( "common", 'Contributors'), 'connectdevelop','/project/directory/id/'.$id.'?tpl=directory2&isNotSV=1',"project","directory");
+        self::entry("left", 'onclick',
+        Yii::t( "common", "Project contributors"), 
+        Yii::t( "common", 'Contributors'), 'connectdevelop',
+        "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
+
         if (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
 				self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as admin of this project"),
