@@ -177,6 +177,7 @@ creer des conflits : regle pas assez specfique
 	float:left;
 	background-color:white;
 	padding:0px;
+	text-align: left;
 }
 #input_name_filter{
 	font-size:13px;

@@ -67,7 +67,7 @@
 		}
 
 		#img-network-for-all{
-			max-width: 800px;
+			/*max-width: 800px;*/
 			padding:25px;
 		}
 </style>
@@ -94,7 +94,7 @@
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
 
 	<h1 class="homestead text-red no-margin text-center" id="main-title-communect"
-		style="font-size:40px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span>.org</h1>
+		style="font-size:40px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
 
 	<h3 class="text-dark text-center no-margin subtitle">
 		Le réseau social citoyen libre 
@@ -102,14 +102,12 @@
 	</h3>
 
 	<h3 class="text-dark information center" style="margin-top:30px; ">
+		<i class="fa fa-2x fa-angle-down"></i></br>
 		<strong><span class="text-red">Communecter</span> c'est simple : un email, un code postal et c'est parti !</strong></br>
 		Je suis communecté : j'ai accès à ma ville et à tout mon réseau !
 	</h3>
 
-	<h2 class="center text-dark">
-		<i class="fa fa-2x fa-angle-down"></i></br>
-		En savoir plus
-	</h2>
+	
 	
 	<div class="section-content section-no-top-padding section-video">
 		<div class="textProjectSlider">
@@ -125,19 +123,19 @@
 	</h2>
 
 	<div class="col-md-12" style="margin-bottom:40px">
-		<div class="col-md-4 center text-azure" style="font-size:20px; font-weight: 300;">
+		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 				target="_blank" class="btn btn-discover bg-azure">
 				<i class="fa fa-connectdevelop"></i>
 			</a></br>L'annuaire</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 		</div>
-		<div class="col-md-4 center text-azure" style="font-size:20px; font-weight: 300;">
+		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.agenda'); ?>" 
 				target="_blank" class="btn btn-discover bg-azure">
 				<i class="fa fa-calendar"></i>
 			</a></br>L'agenda</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 		</div>
-		<div class="col-md-4 center text-azure" style="font-size:20px; font-weight: 300;">
+		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.news'); ?>" 
 				target="_blank" 
 				class="btn btn-discover bg-azure">
@@ -182,12 +180,40 @@
 		</h2>
 
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			Le Pixel Humain réunit et fédère les principaux acteurs de la vie locale</br>
+			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale</br>
 			pour valoriser le territoire et le bien commun.  
 		</h3>
 
 		<center><img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/></center>
 	</div>
+
+	<?php if(!isset(Yii::app()->session['userId'])){ ?>
+	<div class="col-lg-6 col-md-12" style="margin-bottom:20px">
+		<h2 class="center text-dark">
+			<i class="fa fa-2x fa-angle-down"></i></br>
+			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+		</h2>
+		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:300;">
+			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?</br>
+			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?</br>
+			Le réseau <span class="text-red"><strong>Communecter</strong></span> est fait pour vous !
+		</h3>
+	</div>
+	<?php } ?>
+
+	<div class="col-lg-6 col-md-12" style="margin-bottom:40px">
+		<h2 class="center text-dark">
+			<i class="fa fa-2x fa-angle-down"></i></br>
+			<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
+		</h2>
+
+		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
+			<a href="/ph/vitrine" target="_blank" class="text-red">Pixel Humain</a> est un collectif qui regroupe des acteurs réunionnais
+et métropolitains partageant les valeurs d'open innovation et de partage, pour le bien commun.</br></br>
+			<a href="/ph/vitrine" target="_blank" class="text-red btn btn-default">En savoir <i class="fa fa-plus-circle"></i></a> 
+		</h3>
+	</div>
+
 </div>
 
 

@@ -112,7 +112,7 @@
 	width: 600px;
 	max-width: 600px;
 	min-width: 600px;
-	height: 380px;
+	height: 295px;
 	/*top: 150px;*/
 	margin-left: auto;
 	margin-right: auto;
@@ -198,10 +198,9 @@ input[type="text"].input-search.postalCode:focus{
 }
 
 button.btn-start-search{
-	margin-top: 80px;
+	margin-top: -24px;
 	margin-bottom: 5px;
-	/*width: 25%;*/
-	margin-left: 47%;
+	margin-left: 76.5%;
 	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color:white;
@@ -293,6 +292,37 @@ button.btn-menu3{
 button.btn-menu4{
 	left: 65px;
 	top: 203px;
+}
+
+button.btn-menu5{
+	right: 27px;
+	top: 70px;
+	background-color: #32454E !important;
+	font-size: 21px;
+	width: 42px;
+	height: 43px;
+	padding-left: 4px;
+}
+
+button.btn-menu6{
+	right: 40px;
+	top: 215px;
+	background-color: #32454E !important;
+	font-size: 21px;
+	width: 42px;
+	height: 43px;
+}
+button.btn-menu-notif{
+	background-color: rgba(163, 116, 188, 0) !important;
+	font-size: 18px;
+	border: 0px solid #d13434;
+	box-shadow: 0px 0px !important;
+	float: right;
+	position: relative;
+	border-radius: 0px;
+}
+.main-top-menu  button.btn-menu-notif{
+	z-index: 20;
 }
 
 button#btn-toogle-map{
@@ -528,19 +558,57 @@ button.btn-infos{
       top: 5px;
     }
 
+
+#scope-list{
+
+}
+.dropdown.dropdown-scope .btn-scope-list{
+	/*border-radius: 30px;*/
+	text-transform: uppercase;
+	font-size:20px;
+	padding-left: 10px;
+	text-align: center;
+	line-height: 0.7;
+	padding-top: 0px;
+	padding-bottom: 8px;
+}
+
+.dropdown.dropdown-scope .btn-scope-list:hover{
+	background-color: #f2e1e1 !important;
+}
+.dropdown.dropdown-scope{
+	position: absolute;
+	top: 146px;
+	left: 24%;
+	border-radius: 30px;
+
+}
+.dropdown.dropdown-scope button.dropdown-toggle{
+	border-radius: 30px;
+	height: 37px;
+	width: 37px;
+	background-color: white;
+}
+.dropdown.dropdown-scope .dropdown-menu{
+	margin-left: -2px;
+	margin-top: -1px;
+	border-radius: 9px;
+	width: 314px;
+}
+
 @media screen and (max-width: 1024px) {
 	.img-logo{
 		width: 400px;
 		max-width: 400px;
 		min-width: 400px;
-		height: 350px;
+		height: 265px;
 		/*top: 150px;*/
 		margin-left: auto;
 		margin-right: auto;
 		position: relative;
 	}
 
-	input.input-search{
+	input[type="text"].input-search{
 		margin-top: 65px;
 		margin-left: 16%;
 		width: 70%;
@@ -553,13 +621,13 @@ button.btn-infos{
 		border-color: #C5C5C5 !important;
 	}
 
-	input.input-search.postalCode{
+	input[type="text"].input-search.postalCode{
 		margin-top: 10px;
 		margin-left: 34%;
 		width: 36%;
 		height: 30px;
 		font-size: 14px !important;
-		padding: 0px !important;
+		padding: 0px 11px 0px 40px !important;
 		
 	}
 
@@ -627,7 +695,7 @@ button.btn-infos{
 	padding: 19px 21px;
 }
 .searchEntity .entityCenter img{
-	padding: 10px;
+	padding: 3px;
 	/*background-color: #CADDE9 !important;*/
 }
 .searchEntity .entityCenter i.fa.fa-calendar{
@@ -708,6 +776,10 @@ button.btn-infos{
 	height: 470px;
 	margin-top:50px;*/
 }
-.img-video-communecter{
+#img-video-communecter{
+	cursor: pointer;
+}
 
+#panel-first-step{
+	
 }

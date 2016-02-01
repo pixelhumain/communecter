@@ -1,4 +1,7 @@
 
+<div class="" id="scope-list">
+	
+</div>
 
 <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-connectdevelop"></i> L'Annuaire</h1>
@@ -21,15 +24,28 @@
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
+	<?php 
+		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		   			    Yii::app()->request->cookies['cityName'] : "";
+		if($where == "") 
+				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
+			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+	?>
 	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
-		   value="<?php echo isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   					 Yii::app()->request->cookies['cityName'] : ""; ?>" >
+		   value="<?php echo $where; ?>" >
+
+	<?php $this->renderPartial("dropdown_scope"); ?> 
+
+
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
-	<center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center>
+	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 </div>
 
-<div class="" id="dropdown_searchTop" style=""></div>
 
+
+<div class="" id="dropdown_searchTop"></div>
+
+<?php $this->renderPartial("first_step_directory"); ?> 
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -57,6 +73,14 @@ jQuery(document).ready(function() {
         startSearch();
     });
 
+    $(".btn-geolocate").click(function(e){
+		if(geolocHTML5Done == false)
+    		initHTML5Localisation('prefillSearch');
+    	else
+    		$("#modal-select-scope").modal("show");
+    });
+
+    initBtnScopeList();
     startSearch();
 });
 
@@ -113,6 +137,8 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
+	        	$("#dropdown_searchTop").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
+    			$("#dropdown_searchTop").show();
 	        	toastr.error('Aucune donnée');
 	        }
 
@@ -191,7 +217,7 @@ function autoCompleteSearch(name, locality){
                 var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                 //template principal
-                str += "<div class='col-md-12 searchEntity'>";
+                str += "<div class='col-md-11 searchEntity'>";
 	                str += "<div class='col-md-5 entityLeft'>";
 						str += tags;
 	                str += "</div>";
@@ -219,9 +245,9 @@ function autoCompleteSearch(name, locality){
             }
             }); 
             if(str == "") {
-            	$("#dropdown_searchTop").html("");
+            	//$("#dropdown_searchTop").html("");
             	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-            	$("#dropdown_searchTop").css({"display" : "none" });	             
+            	//$("#dropdown_searchTop").css({"display" : "none" });	             
             }else{
             	str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
 
@@ -250,7 +276,7 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     $("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_searchTop").html("");
+    $("#dropdown_searchTop").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
     $("#dropdown_searchTop").css({"display" : "inline" });
                     
   }

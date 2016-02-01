@@ -234,6 +234,7 @@ jQuery(document).ready(function() {
 	userId = null;
 	Main.init();
 	Login.init();
+	console.log("register", register);
 
 	if(register == true){
 		//masque la box login
@@ -245,12 +246,15 @@ jQuery(document).ready(function() {
 			$(this).show().removeClass("animated bounceInLeft");
 
 		});
-		$('#btn-show-city').click(function(){
-			//showMap(true);
-		});
-
+		
 		activePanel = "box-register";
 	}
+
+	$('#btn-show-city').click(function(){
+			showMap(true);
+			$(".sigModuleBg #right_tool_map, .sigModuleBg .btn-group").hide();
+		});
+
 
 	$('.form-register #username').keyup(function(e) {
 		validateUserName();
@@ -313,6 +317,7 @@ var Login = function() {
 		});
 	};
 	var runLoginButtons = function() {
+		/*
 		$('.forgot').on('click', function() {
 			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				$(this).hide().removeClass("animated bounceOutRight");
@@ -373,6 +378,7 @@ var Login = function() {
 		$('.big-button').click(function() {
 			$(".box-ajax").hide(400);
 		});
+	*/
 		
 	};
 	//function to return the querystring parameter with a given name.
@@ -623,12 +629,13 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
-		    		  	$.blockUI({
-    		  				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
-    		  			});
+		    		  	// $.blockUI({
+    		  			// 	message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
+    		  			// });
 		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
+		        		loadByHash("#search.directory");
 		        		//window.location.reload();
-		        		setTimeout(function() { $.unblockUI(); showPanel(); },5000);
+		        		//setTimeout(function() { $.unblockUI(); showPanel(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
@@ -666,6 +673,40 @@ var Login = function() {
 }();
 
 
+
+function runShowCity(searchValue) {
+	citiesByPostalCode = getCitiesByPostalCode(searchValue);
+	Sig.citiesByPostalCode = citiesByPostalCode;
+
+	var oneValue = "";
+	console.table(citiesByPostalCode);
+	$.each(citiesByPostalCode,function(i, value) {
+    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+    	oneValue = value.value;
+	});
+	
+	if (citiesByPostalCode.length == 1) {
+		$("#city").val(oneValue);
+	}
+
+	if (citiesByPostalCode.length >0) {
+        $("#cityDiv").slideDown("medium");
+      } else {
+        $("#cityDiv").slideUp("medium");
+      }
+
+    //si l'utilisateur a déjà donné sa fullStreet
+    if($('.form-register #fullStreet').val() != ""){
+    	//on fait une recherche nominatim
+    	clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
+		}, 200);
+    }else{ //sinon : on a que le CP et on recherche par le codeInsee de la première ville de la liste
+    	findGeoposByInsee(citiesByPostalCode[0].value, callbackFindByInseeSuccessRegister);
+    }
+}
+
 function bindPostalCodeAction() {
 	$('.form-register #cp').change(function(e){
 		//searchCity();
@@ -696,6 +737,133 @@ function bindPostalCodeAction() {
 	});
 }
 
+var oldCp = "";
+function searchCity() { 
+	console.log("searchCity");
+	var searchValue = $('.form-register #cp').val();
+	if(searchValue.length == 5) {
+		if(oldCp != searchValue){
+			$("#city").empty();
+			clearTimeout(timeout);
+			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
+			clearTimeout(timeout);
+			timeout = setTimeout('runShowCity("'+searchValue+'")', 500); 
+		}
+	} else {
+		$("#cityDiv").slideUp("medium");
+		$("#city").val("");
+		$("#city").empty();
+	}
+	oldCp = searchValue;
+}
+
+function validateUserName() {
+	var username = $('.form-register #username').val();
+	if(username.length >= 8) {
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+				console.log("bing !");
+				if (! isUniqueUsername(username)) {
+					var validator = $( '.form-register' ).validate();
+					validator.showErrors({
+  						"username": "The user name is not unique : please change it."
+					});
+				}
+			}, 200);
+	}
+}
+
+function callBackFullSearch(resultNominatim){
+	console.log("callback ok");
+	var ok = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+	if(!ok){
+		if($('#city').val() != "") {
+			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessRegister);
+		}
+	}
+	//$(".topLogoAnim").hide();
+
+	//setTimeout("setMapPositionregister();", 1000);
+}
+// function setMapPositionregister(){ console.log("setMapPositionregister");
+// 	Sig.map.panTo(Sig.markerNewData.getLatLng(), {animate:false}); 
+// 	Sig.map.panBy([300, 0]);
+// }
+
+//quand la recherche par code insee a fonctionné
+function callbackFindByInseeSuccessRegister(obj){
+	console.log("callbackFindByInseeSuccess");
+	//si on a bien un résultat
+	if (typeof obj != "undefined" && obj != "") {
+		//récupère les coordonnées
+		var coords = Sig.getCoordinates(obj, "markerSingle");
+		//si on a une geoShape on l'affiche
+		if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+		//on affiche le marker sur la carte
+		$("#alert-city-found").show();
+		//console.log("verification contenue obj");
+		//console.dir(obj);
+		Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+
+		if(typeof obj.name != "undefined"){
+			$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
+			$("#main-title-public2").show();
+		}
+
+		hideLoadingMsg();
+				
+		//showGeoposFound(coords, projectId, "projects", projectData);
+	}
+	else {
+		console.log("Erreur getlatlngbyinsee vide");
+	}
+}
+	function searchAddressInGeoShape(){
+		if($('#cp').val() != "" && $('#cp').val() != null){
+			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
+		}
+	}
+
+	function callbackFindByInseeSuccessAdd(obj){
+		console.log("callbackFindByInseeSuccessAdd");
+		console.dir(obj);
+		//si on a bien un résultat
+		if (typeof obj != "undefined" && obj != "") {
+			currentCityByInsee = obj;
+			//récupère les coordonnées
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une street dans le form
+			if($('#fullStreet').val() != "" && $('#fullStreet').val() != null){
+				//si on a une geoShape dans la reponse obj
+				if(typeof obj.geoShape != "undefined") {
+					//on recherche avec une limit bounds
+					var polygon = L.polygon(obj.geoShape.coordinates);
+					var bounds = polygon.getBounds();
+					Sig.execFullSearchNominatim(0, bounds);
+				}
+				else{
+					//on recherche partout
+					Sig.execFullSearchNominatim(0);
+				}
+			}
+			else{
+				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+			}
+
+			if(typeof obj.name != "undefined"){
+				$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
+				$("#main-title-public2").show();
+			}
+			hideLoadingMsg();
+		}
+		else {
+			console.log("Erreur getlatlngbyinsee vide");
+		}
+	}
+//quand la recherche par code insee n'a pas fonctionné
+function callbackFindByInseeError(){
+	console.log("erreur getlatlngbyinsee");
+}
 
 
 </script>

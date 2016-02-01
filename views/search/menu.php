@@ -34,6 +34,18 @@
 	<i class="fa fa-calendar"></i>
 </button>
 
+<?php if(isset(Yii::app()->session['userId'])){ ?>
+<button class="menu-button btn-menu btn-menu5 tooltips " 
+		data-toggle="tooltip" data-placement="left" title="Mon répertoire" alt="Mon répertoire">
+	<i class="fa fa-bookmark fa-rotate-270"></i>
+</button>
+<?php } ?>
+
+<!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
+		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
+	<i class="fa fa-envelope"></i>
+</button> -->
+
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -42,6 +54,7 @@ jQuery(document).ready(function() {
     $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  });
     $('.btn-menu3').click(function(e){ loadByHash("#search.news"); 		 });
    	$('.btn-menu4').click(function(e){ loadByHash("#search.agenda");	 });
+    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 });
     
     $(".btn-login").click(function(){
 		showPanel("box-login");

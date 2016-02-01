@@ -1,5 +1,10 @@
 <?php 
 	$cs = Yii::app()->getClientScript();
+
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
+
 	//Data helper
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 	//Data helper
@@ -9,12 +14,16 @@
 	//select2
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.min.js' , CClientScript::POS_END);
 
-	//$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
+	//FloopDrawer
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawerRight.js' , CClientScript::POS_END);
+	
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
 	//geolocalisation nominatim et byInsee
-	//$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
 
 	$cssAnsScriptFilesModule = array(
 		'/css/search.css',
+		'/css/floopDrawerRight.css',
 		'/css/sig/sig.css'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -40,12 +49,23 @@
 
 ?>
 
+<?php //get all my link to put in floopDrawer
+	if(isset(Yii::app()->session['userId'])){
+      $myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
+      $myFormContact = $myContacts; 
+      $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
+    }else{
+      $myFormContact = null;
+
+    }
+?>
+
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-top-menu">
 	
 	<img id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
-		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; ">
+		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
 		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu">L'Annuaire</span> <span class="text-red">COMMUNE</span>CTÉ</h1>
 
 	<?php $this->renderPartial("short_info_profil"); ?> 
@@ -56,7 +76,7 @@
 	</button>
 
 </div>
-	
+
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
 	<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
@@ -64,11 +84,32 @@
 	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
 	</div>
 
+	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
 	<?php if(!isset(Yii::app()->session['userId'])) $this->renderPartial("login_register"); ?>
 
+	
 </div>
 
+
+<div class="modal fade" id="modal-select-scope" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-red">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title homestead"><i class="fa fa-crosshairs"></i> Communection</h4>
+      </div>
+      <div class="modal-body text-dark">
+      	<h3 style="margin-top:0px;"><i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?</h3>
+        <div id="list-scope"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Annuler</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script type="text/javascript">
 
@@ -102,6 +143,9 @@
 	    "city": "red"
 	  };
 
+	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
+	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
+
 	var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
 	var isNotSV = true;
@@ -120,7 +164,17 @@
 	    $(".my-main-container").scroll(function(){
 	    	checkScroll();
 	    });
+
+
+		initFloopDrawer();
 	    
+	    $(window).resize(function(){
+	      resizeInterface();
+	    });
+
+	    resizeInterface();
+	    showFloopDrawer();
+
 	    console.log("hash", location.hash);
 	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash);
@@ -131,6 +185,20 @@
 
 		checkScroll();
 	});
+
+	function resizeInterface(){
+		console.log("resize");
+	  var height = $("#mapCanvasBg").height() - 55;
+	  $("#ajaxSV").css({"minHeight" : height});
+	  //$("#menu-container").css({"minHeight" : height});
+	  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 77 /* top */ + 30 /* bottom */;
+	  console.log("heightDif", heightDif);
+	  $(".floopScroll").css({"minHeight" : height-heightDif});
+	  $(".floopScroll").css({"maxHeight" : height-heightDif});
+	  //$("ul.notifList").css({"maxHeight" : height-heightDif});
+
+	}
+
 
 	function checkScroll(){
 		//console.log("checkScroll");
@@ -145,17 +213,19 @@
 		}
 
 		if($(".my-main-container").scrollTop() < 90 && hideScrollTop){
-			if($(".main-top-menu").css("opacity") == 1)
+			if($(".main-top-menu").css("opacity") == 1){
 				$(".main-top-menu").animate({
 	         							top: -60,
 	         							opacity:0
 								      }, 500 );
+			}
 		}else{
-			if($(".main-top-menu").css("opacity") == 0)
+			if($(".main-top-menu").css("opacity") == 0){
 				$(".main-top-menu").animate({
 	         							top: 0,
 	         							opacity:1
 								      }, 500 );
+			}
 		}
 	}
 	function showMap(show){
@@ -265,6 +335,42 @@
 		else{
 			$(".main-top-menu").animate({ top: -60, opacity:0 }, 500 );
 		}
+	}
+
+
+	function initFloopDrawer(){
+		console.log("initFloopDrawer");
+		console.dir(myContacts);
+		if(myContacts != null){
+	      var floopDrawerHtml = buildListContactHtml(myContacts, myId);
+	      $("#floopDrawerDirectory").html(floopDrawerHtml);
+	      initFloopScrollByType();
+
+	      //$("#floopDrawerDirectory").hide();
+	      if($(".tooltips").length) {
+	        $('.tooltips').tooltip();
+	      }
+	      $("#btnFloopClose").click(function(){
+	      	showFloopDrawer(false);
+	      });
+	      $(".main-col-search").mouseenter(function(){
+	      	showFloopDrawer(false);
+	      });
+
+	      bindEventFloopDrawer();
+	    }
+	}
+
+	function initBtnScopeList(){
+		$(".btn-scope-list").click(function(){
+			setInputPlaceValue(this);
+		});
+	}
+
+	function setInputPlaceValue(thisBtn){
+		$("#searchBarPostalCode").val($(thisBtn).attr("val"));
+		$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
+		startSearch();
 	}
 
 </script>
