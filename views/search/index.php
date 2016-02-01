@@ -187,7 +187,7 @@
 	});
 
 	function resizeInterface(){
-		console.log("resize");
+	  console.log("resize");
 	  var height = $("#mapCanvasBg").height() - 55;
 	  $("#ajaxSV").css({"minHeight" : height});
 	  //$("#menu-container").css({"minHeight" : height});
@@ -195,6 +195,8 @@
 	  console.log("heightDif", heightDif);
 	  $(".floopScroll").css({"minHeight" : height-heightDif});
 	  $(".floopScroll").css({"maxHeight" : height-heightDif});
+	  $(".my-main-container").css("min-height", $(".sigModuleBg").height());
+	  $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 	  //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
 	}
@@ -296,8 +298,7 @@
 		var rand = Math.floor((Math.random() * 7) + 1); 
 		var urlImgRand = proverbs[rand];
 		
-		setTimeout(function(){
-
+		
 			$(".main-col-search").html(
 			"<div class='loader text-dark '>"+
 				"<span style='font-size:35px;' class='homestead'>"+
@@ -311,14 +312,20 @@
 			$(".main-col-search").show();
 
 			$(".main-col-search").animate({ top: 0, opacity:1 }, 300 );
-		}, 400);
+		//
+		//
 
-		showPanel('box-ajax');
+		$(".box").hide(200);
+		//showPanel('box-ajax');
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 		$(".panelTitle").html(icon+title).fadeIn();
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ $(".main-col-search").slideDown(); },"html");
+		console.log("GETAJAX");
+		
 		showTopMenu(true);
 
+		setTimeout(function(){
+			getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ $(".main-col-search").slideDown(); },"html");
+		}, 800);
 		
 	}
 

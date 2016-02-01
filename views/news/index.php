@@ -347,7 +347,7 @@ div.timeline .date_separator span{
 				<div id="timeline" class="col-md-10">
 					<?php if($type=="city"){ ?>
 					<div class="panel-heading text-center">
-						<h3 class="panel-title text-blue"><i class="fa fa-rss"></i> Les actualités locales</h3>
+						<h3 class="panel-title text-blue lbl-title-newsstream"><i class="fa fa-rss"></i> Les actualités locales</h3>
 		  			</div>
 		  			<?php } ?>
 					<div class="timeline">
