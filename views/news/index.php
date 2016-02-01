@@ -292,8 +292,7 @@ div.timeline .date_separator span{
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="Enter an URL here and your idea" class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
-					<div id="results" class="padding-10 bg-white">
-					</div>
+					<div id="results" class="padding-10 bg-white"></div>
 				</div>
 			</div>
 			<div class="form-group tagstags" style="">
@@ -1592,7 +1591,7 @@ function saveNews(){
 	    		else 
 	    		{
 	    			$.unblockUI();
-					toastr.error('Something went wrong!');
+					toastr.error(data.msg);
 	    		}
 	    		$("#btn-submit-form i").removeClass("fa-spinner fa-spin").addClass("fa-arrow-circle-right");
 				return false;
