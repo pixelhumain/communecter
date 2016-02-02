@@ -15,7 +15,7 @@
 
 
     <?php if(Role::isDeveloper($me['roles'])){?>
-    <a  href="#person.invitecontact" onclick="loadByHash('#person.invitecontact?isNotSV=1')" 
+    <a  href="#person.invitecontact" onclick="loadByHash('#person.invitecontact.id.<?php echo Yii::app()->session['userId']?>')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "INVITECONTACT"); ?></span>
     </a>
