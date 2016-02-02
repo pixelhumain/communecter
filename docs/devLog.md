@@ -162,3 +162,14 @@ Etape 6 : Applaudir à deux main : vous avez une base de données toute propre !
 
 Etape 7 : https://github.com/pixelhumain/communecter/issues/438
 
+---------------------------------------------------
+
+Modifier un mail
+db.organizations.find().forEach(function(doc){ 
+    if(doc.email == "vanespen.amaury@gmail.com"){ 
+        print(doc.name+" :: " + doc.email); 
+        db.organizations.update({"_id":doc._id},{
+            '$set':{'email':""}
+        }) 
+    } 
+});
