@@ -26,7 +26,7 @@ class OrganizationController extends CommunecterController {
 		),
 		'getbyid'       				=> 'citizenToolKit.controllers.organization.GetByIdAction',
 		'addorganizationform'			=> 'citizenToolKit.controllers.organization.AddOrganizationFormAction',
-		'savenew'						=> 'citizenToolKit.controllers.organization.SaveNewAction',
+		'save'						=> 'citizenToolKit.controllers.organization.SaveAction',
 		'updatefield'					=> 'citizenToolKit.controllers.organization.UpdateFieldAction',
 		'update'						=> 'citizenToolKit.controllers.organization.UpdateAction',
 		'disabled'						=> 'citizenToolKit.controllers.organization.DisableAction',

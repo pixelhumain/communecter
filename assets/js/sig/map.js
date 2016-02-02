@@ -159,8 +159,10 @@
 
 			//##
 			//supprime tous les marker de la carte
-			this.Sig.clearMap = function(thisMap)
+			this.Sig.clearMap = function(thisMap, showMe)
 			{
+				if(typeof showMe == "undefined") showMe = true;
+
 				console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
@@ -182,6 +184,7 @@
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
+				if(showMe)
 				this.showMyPosition();
 
 			};

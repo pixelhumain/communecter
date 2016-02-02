@@ -14,23 +14,34 @@
 </button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-geolocate bg-dark tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
+	<button class="menu-button btn-geolocate bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
 		<i class="fa fa-crosshairs"></i>
 	</button>
-	<button class="menu-button btn-infos bg-dark tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
-	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="input-search postalCode text-red" 
-		   value="<?php echo isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   					 Yii::app()->request->cookies['cityName'] : ""; ?>" >
+	<?php 
+		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		   			    Yii::app()->request->cookies['cityName'] : "";
+		if($where == "") 
+				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
+			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+	?>
+	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
+		   value="<?php echo $where; ?>" >
+
+	<?php $this->renderPartial("dropdown_scope"); ?> 
+
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
-	<center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center>
+	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 </div>
 
-<div class="" id="dropdown_searchTop" style="">
-</div>
 
+<div class="" id="dropdown_searchTop"></div>
+
+
+<?php $this->renderPartial("first_step_agenda"); ?> 
 
 
 <script type="text/javascript">
@@ -58,7 +69,11 @@ jQuery(document).ready(function() {
     $('#link-start-search').click(function(e){
         startSearch();
     });
+    $(".btn-geolocate").click(function(e){
+    	initHTML5Localisation('prefillSearch');
+    });
     
+    initBtnScopeList();
     startSearch();
 });
 
@@ -210,7 +225,7 @@ function autoCompleteSearch(name, locality){
 	                	if(endDate != null)
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
 	                	if(description != "")
-	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</a>";
+	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
 	                str += "</div>";
 	                					
 				str += "</div>";

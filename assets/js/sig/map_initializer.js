@@ -411,6 +411,12 @@
 		  return str;
 		};
 
+		Sig.hideTools = function(){
+			$(".sigModuleBg .tools-btn").hide();
+			$(".sigModuleBg #right_tool_map").hide();
+
+		};
+
 		Sig.hidePopupContent = function(id){
 			$("#popup"+id+" .city_item_map_list").hide(100);
 			$("#popup"+id+" .country_item_map_list").hide(100);

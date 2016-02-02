@@ -466,7 +466,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		//console.dir(properties);
 		//console.log("before getMarkerSingle");
-		thisSig.clearMap();
+		thisSig.clearMap(thisSig.map, false);
 		var markerNewData = thisSig.getMarkerSingle(thisSig.map, properties, latlng);
 		//console.dir(markerNewData);
 		thisSig.map.panTo(markerNewData.getLatLng(), {animate:false});
@@ -524,7 +524,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		if(!isNotSV) $(".form-add-data").css("top" , "200px");
 
 		function btnValidateClick(isNotSV){ //alert("yepaé");
-			//console.log("btnValidateClick");
+			console.log("btnValidateClick");
 			Sig.markerNewData.closePopup();
 			Sig.map.panTo(Sig.markerNewData.getLatLng());
 			Sig.map.panBy([260, 0]);
@@ -539,11 +539,15 @@ SigLoader.getSigFindPlace = function (Sig){
 			$("#geoPosLatitude").attr("value", Sig.markerNewData.getLatLng().lat);
 			Sig.map.invalidateSize(false);
 			Sig.markerNewData.openPopup();
+
+			showMap(false);
+		
 		}
 		
 		$("#alert-city-found").removeClass("hidden");
 		$("#iconeChargement").hide();
 		
+
 		return true;
 	};
 

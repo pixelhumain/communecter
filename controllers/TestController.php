@@ -437,15 +437,15 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
   public function actionTestEmail() {    
     var_dump(Utils::getServerInformation());
-    $person = Person::getById("555a124b126e9a6f6600000d");
-    $parent = Organization::getById("561cca0f126e9ad24eb7ace8");
-    $params = array(   "newPendingAdmin"   => $person ,
-                        "title" => Yii::app()->name ,
-                        "parent"  => $parent,
-                        "parentType" => "organizations",
-                        "typeOfDemand" => "admin");
+    //$person = Person::getById("555a124b126e9a6f6600000d");
+    $text = "yes mamamamamamamammamama";
+    $params = array(   
+                       "title" => Yii::app()->session["user"]["username"] ,
+                        "logo"  => "/images/logo.png",
+                        "url" => "href='javascript:;' onclick='loadByHash(\'#news.index.type.pixels?isNotSV=1\')'",
+                        "content"=> $text);
     
-    $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
+    $this->renderPartial('application.views.emails.helpAndDebugNews', $params);
   }
 
   public function actionImageMarker() {

@@ -65,6 +65,10 @@ function getCityInseeByGeoPos(coords){
 		complete: function () {},
 		success: function (obj) {
 			if (obj != null) {
+				
+				console.log("cities found : ");
+				console.dir(obj);
+					
 				if(currentRoleLoc == "showCityMap" && typeof obj.insee != "undefined"){
 					console.log("donne city : ");
 					console.dir(obj);
@@ -90,6 +94,14 @@ function getCityInseeByGeoPos(coords){
 					toastr.success("Nous avons trouvé votre code postal : "+obj.cp);
 					$(".form-group #cp").val(obj.cp);
 					searchCity();
+				}
+				else if(currentRoleLoc == "prefillSearch"){ // && typeof obj.name != "undefined"){
+					//toastr.success("Nous avons trouvé votre position actuelle : "+obj.name);
+					//$("#searchBarPostalCode").val(obj.name);
+					//$.cookie("HTML5CityName", 	 obj.name, 	   { path : '/ph/' });
+					//startSearch();
+					//searchCity();
+					showModalSelectScope(obj);
 				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
@@ -163,4 +175,16 @@ function getInseeByCityName(cityName){
 		}
 	});
 }
+
+var geolocHTML5Done = false;
+function showModalSelectScope(obj){
+	var HTML = "";
+	$.each(obj, function(key, value){
+		HTML += "<button class='btn bg-red btn-scope-list' val='"+value.name+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+value.name+"</button>";
+	});
+	$("#modal-select-scope #list-scope").html(HTML); initBtnScopeList();
+	$("#modal-select-scope").modal("show");
+	geolocHTML5Done = true;
+}
+
 /* géolocalisation HTML5 */
