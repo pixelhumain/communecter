@@ -1,7 +1,16 @@
+<style>
+	.btn-add-to-directory{
+		font-size: 15px;
+		margin-right: -30px;
+		border-radius: 20px;
+		color: #453131;
+		border: 1px solid #bcb9b9;
+		padding-top: 5px;
+		margin-left: 3px;
+		float: right;
+	}
+</style>
 
-<div class="" id="scope-list">
-	
-</div>
 
 <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-connectdevelop"></i> L'Annuaire</h1>
@@ -163,7 +172,7 @@ function autoCompleteSearch(name, locality){
                 
                 htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
                	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                  var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                 }
 
                 city="";
@@ -218,15 +227,20 @@ function autoCompleteSearch(name, locality){
 
                 //template principal
                 str += "<div class='col-md-11 searchEntity'>";
-	                str += "<div class='col-md-5 entityLeft'>";
+	                str += "<div class='col-md-5 col-lg-6 entityLeft'>";
+	                	if(type!="city")
+						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white' title='Ajouter dans votre répertoire' data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+								"</a>";
 						str += tags;
+						
 	                str += "</div>";
 
 	                str += "<div class='col-md-2 entityCenter'>";
 						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
 	                str += "</div>";
 					target = "";
-	                str += "<div class='col-md-5 entityRight no-padding'>";
+	                str += "<div class='col-md-5 col-lg-4 entityRight no-padding'>";
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
 	                	if(fullLocality != "" && fullLocality != " ")
 	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
@@ -235,7 +249,7 @@ function autoCompleteSearch(name, locality){
 	                	if(endDate != null)
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
 	                	if(description != "")
-	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</a>";
+	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
 	                str += "</div>";
 	                					
 				str += "</div>";
@@ -249,13 +263,16 @@ function autoCompleteSearch(name, locality){
             	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
             	//$("#dropdown_searchTop").css({"display" : "none" });	             
             }else{
-            	str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
+            	//str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
 
 	            $("#dropdown_searchTop").html(str);
 	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
 	            $("#dropdown_searchTop").css({"display" : "inline" });
 	           	$(".my-main-container").scrollTop(95);
-	           	$("#link-start-search").html("Rechercher");
+	            //$("#link-start-search").html("Rechercher");
+
+	            initBtnLink();
+
 	            //$("#link-start-search").removeClass("badge");
 	        }
 	        $(".btn-start-search").removeClass("bg-azure");
@@ -292,5 +309,68 @@ function autoCompleteSearch(name, locality){
     });
   }
 
+  function initBtnLink(){
 
+  	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
+  	$.each($(".followBtn"), function(index, value){
+    	var id = $(value).attr("data-id");
+   		var type = $(value).attr("data-type");
+   		if(type == "person") type = "people";
+   		else type = type + "s";
+
+   		//console.log("#floopItem-"+type+"-"+id);
+   		if($("#floopItem-"+type+"-"+id).length){
+   			//console.log("I FOLLOW THIS");
+   			$(value).html("<i class='fa fa-chain text-green'></i>");
+   			$(value).attr("title", "Supprimer de votre répertoire");
+   		}
+   	});
+
+  	//on click sur les boutons link
+   	$(".followBtn").click(function(){
+   		var id = $(this).attr("data-id");
+   		var type = $(this).attr("data-type");
+   		var name = $(this).attr("data-name");
+
+   		//traduction du type pour le floopDrawer
+   		var typeOrigine = type + "s";
+   		if(typeOrigine != "person") typeOrigine + "s";
+   		
+   		if(type == "person") type = "people";
+   		else type = type + "s";
+
+   		//si l'entité n'existe pas dans le floopDrawer == on l'ajoute
+   		if(!$("#floopItem-"+type+"-"+id).length){
+   			//cas du type people
+   			if(type == "people"){
+   				var thiselement = this;
+   				$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>")
+				connectPerson(id, function(entityValue){
+           			console.log("connecting entity");
+           			console.log(entityValue);
+           			$(thiselement).html("<i class='fa fa-chain text-green'></i>")
+           			addFloopEntity(id, type, entityValue);
+           			showFloopDrawer(true);
+           		});
+			}
+			//cas du type orga
+			else if(type == "organizations"){
+				toastr.info('TODO : link with orga');
+			}
+			//cas du type project
+			else if(type == "projects"){
+				toastr.info('TODO : link with projects');
+			}
+		}
+		//si l'entité existe déjà dans le floopDrawer == on la supprime
+		else{
+			disconnectPerson(id, typeOrigine, name, function(entityValue){
+       			console.log("disconnect");
+       			console.log(entityValue);
+       			removeFloopEntity(id, type, entityValue);
+       			showFloopDrawer(true);
+       		});
+		}
+   	});
+  }
 </script>

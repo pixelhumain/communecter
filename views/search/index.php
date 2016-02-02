@@ -143,6 +143,13 @@
 	    "city": "red"
 	  };
 
+	var trad = {"areyousure" : "<?php echo Yii::t("common", "Are you sure you want to delete") ?>", 
+			"connection" : "<?php echo Yii::t("common", "connexion") ?>",
+			"askadminprojects" : "<?php echo Yii::t("common", "You are going to ask to become an admin of the project") ?>",
+			"askadminorganizations" : "<?php echo Yii::t("common", "You are going to ask to become an admin of the organization") ?>",
+			"confirm" : "<?php echo Yii::t("common", "Please confirm") ?>"
+	};
+
 	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
@@ -376,7 +383,7 @@
 
 	function setInputPlaceValue(thisBtn){
 		$("#searchBarPostalCode").val($(thisBtn).attr("val"));
-		$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
+		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
 		startSearch();
 	}
 

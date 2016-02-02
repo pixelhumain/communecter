@@ -225,7 +225,7 @@ function autoCompleteSearch(name, locality){
 	                	if(endDate != null)
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
 	                	if(description != "")
-	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</a>";
+	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
 	                str += "</div>";
 	                					
 				str += "</div>";
