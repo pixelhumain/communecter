@@ -105,7 +105,7 @@ mongoimport --db pixelhumain --collection cities PATH_TO_MY_FILE\cities.js --jso
 execute composer update to install Captcha libs
 and add the secret key to your paramsconfig.php
 ----------------------------------------------------
-//TKA : 28/04/2015  : mettre a jour les cp dans cities
+#TKA : 28/04/2015  : mettre a jour les cp dans cities
 
 db.cities.find().forEach(function(doc){
     if(doc.insee.length == 4){ 
@@ -162,3 +162,14 @@ Etape 6 : Applaudir à deux main : vous avez une base de données toute propre !
 
 Etape 7 : https://github.com/pixelhumain/communecter/issues/438
 
+---------------------------------------------------
+
+Modifier un mail
+db.organizations.find().forEach(function(doc){ 
+    if(doc.email == "vanespen.amaury@gmail.com"){ 
+        print(doc.name+" :: " + doc.email); 
+        db.organizations.update({"_id":doc._id},{
+            '$set':{'email':""}
+        }) 
+    } 
+});

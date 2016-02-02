@@ -126,6 +126,8 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invitesv") >= 0 )
         showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' );
+    else if( hash.indexOf("#person.invitecontact") >= 0 )
+        showAjaxPanel( '/person/invitecontact?isNotSV=1', 'INVITE SOMEONE','share-alt' );
     else if( hash.indexOf("#event.eventsv") >= 0 )
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
@@ -144,10 +146,16 @@ function loadByHash( hash , back) {
 
     else if ( hash.indexOf("#admin.importdata") >= 0 ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
-    }   
+    }  
+    else if ( hash.indexOf("#admin.index") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
+    } 
+    else if ( hash.indexOf("#admin.directory") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
+    }
 
     else if ( hash.indexOf("#search.directory") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED DIRECTORY', 'connectdevelop' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isNotSV=1', 'COMMUNECTED DIRECTORY', 'connectdevelop' );
     }   
     else if ( hash.indexOf("#search.news") >= 0 ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED NEWS ','rss' );

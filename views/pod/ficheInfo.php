@@ -191,48 +191,113 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 						</a>
+						<br>
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
-					<div class="col-md-6 col-sm-6">				
-						<i class="fa fa-phone fa_telephone  hidden"></i> 
-						<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ?>" 
-							data-emptytext="<?php echo Yii::t("common","Phone number") ?>" class="editable-context editable editable-click">
-							<?php 
+					<div class="col-md-6 col-sm-6">
+						<?php
+							$nbFixe = 0 ;
+							$nbMobile = 0 ; 
 
-							$telephone = "" ;
 							if(isset($organization["telephone"]))
 							{
+								$telephone = "" ;
+
 								if(is_array($organization["telephone"]))
 								{
 
 									if(@$organization["telephone"]["fixe"])
 									{
+										//.fixe.'.$nbFixe.'
 										foreach ($organization["telephone"]["fixe"] as $key => $value) {
 											if(!empty($telephone))
-												$telephone .= "/" ;
+												$telephone .= ", ";
 											$telephone .= $value ;
 										}
 									}
 
 									if(@$organization["telephone"]["mobile"])
 									{
+										//telephone.mobile.'.$nbMobile.'
 										foreach ($organization["telephone"]["mobile"] as $key => $value) {
 											if(!empty($telephone))
-												$telephone .= "/" ;
+												$telephone .= ", ";
 											$telephone .= $value ;
 										}
 									}
 								}
 								else
 								{
-									$telephone = $organization["telephone"];
+									if(@$organization["telephone"])
+									{
+										if(!empty($telephone))
+												$telephone .= ", ";
+											$telephone .= $organization["telephone"] ;
+									}
 								}
+								
+								echo '<i class="fa fa-phone fa_telephone  hidden"></i>
+														<a href="#" id="telephone" data-type="select2" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
+							data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">'.$telephone . "</a><br>" ;
+
+								
 							}
 
-							echo $telephone ;?>
-						</a>
-						<br>
-					
+
+
+							/*if(isset($organization["telephone"]))
+							{
+								$telephone = "" ;
+
+								if(is_array($organization["telephone"]))
+								{
+
+									if(@$organization["telephone"]["fixe"])
+									{
+										//.fixe.'.$nbFixe.'
+										foreach ($organization["telephone"]["fixe"] as $key => $value) {
+											$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
+														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
+							data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">';
+											$telephone .= $value . "</a><br>" ;
+											$nbFixe++;
+										}
+									}
+
+									if(@$organization["telephone"]["mobile"])
+									{
+										//telephone.mobile.'.$nbMobile.'
+										foreach ($organization["telephone"]["mobile"] as $key => $value) {
+											$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
+														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
+							data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">';
+											$telephone .= $value . "</a><br>" ;
+											$nbMobile++;
+										}
+									}
+								}
+								/*else
+								{
+									$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
+														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
+							data-emptytext="'. Yii::t("common","Phone number") .'"" class="editable-context editable editable-click">';
+											$telephone .= $value . "</a><br>" ;
+								}
+
+								echo $telephone ;
+							}*/
+							
+
+						?>
+						<!-- <div id="add-phone">
+							<i class="fa fa-phone fa_telephone  hidden"></i>
+							<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ;?>" 
+							data-emptytext="<?php echo Yii::t("common","Phone number") ;?>" class="tel editable editable-click">
+							
+							</a>
+							<br>
+						</div> -->
+
 						<i class="fa fa-envelope fa_email  hidden"></i> 
 						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 							<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
@@ -286,9 +351,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var images = <?php echo json_encode($images) ?>;
 	var types = <?php echo json_encode($organizationTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
+
 	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
+	
 	jQuery(document).ready(function() {
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
@@ -350,8 +417,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
+			$('#telephone').editable('toggleDisabled');
 
 			$("#btn-update-geopos").addClass("hidden");
+			$("#add-phone").addClass("hidden");
 		
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -363,6 +432,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#tags').editable('option', 'pk', contextId);
 			$('#category').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
+			$('#telephone').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
@@ -371,8 +441,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
+			$('#telephone').editable('toggleDisabled');
 
 			$("#btn-update-geopos").removeClass("hidden");
+			$("#add-phone").removeClass("hidden");
 		}
 		//alert($('#url').html() );
 		if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
@@ -394,6 +466,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			title : $(this).data("title"),
 			onblur: 'submit',
 			success: function(response, newValue) {
+				console.log("yo");
         		if(! response.result) return response.msg; //msg will be shown in editable form
     		}
 		});
@@ -411,13 +484,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
 			mode: 'popup',
-			value: <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>,
+			value: returnttag(),
 			select2: {
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 				tokenSeparators: [","],
 				width: 200
 			}
 		});
+
+
+		$('#telephone').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
+			mode: 'popup',
+			value: returntel(),
+			select2: {
+				tags:  <?php if(isset($telephone)) echo json_encode($telephone); else echo json_encode(array())?>,
+				tokenSeparators: [",", "/", " "],
+				width: 200,
+			}
+		});
+
+		
 
 		$('#category').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
@@ -463,7 +550,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
             }
 		});
 
-	
+		
 
 		$('#description').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield", 
@@ -496,7 +583,31 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}
 	}
 
-	
+	function returnttag() {
+		var tel = <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>;
+		
+
+	    console.log("trefreevfre", tel);
+		return tel ;
+	}
+
+	function returntel() {
+		var tel = "";
+		$(".tel").each(function(){
+			
+			if($(this).text().trim() != "")
+	        {
+	        	if(tel != "")
+	        		tel += ", ";
+
+	        	tel += $(this).text().trim();
+	        }	
+	        	
+	    });
+
+	    console.log(tel);
+		return tel ;
+	}
 	//modification de la position geographique	
 
 	function findGeoPosByAddress(){

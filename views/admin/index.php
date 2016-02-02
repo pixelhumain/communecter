@@ -3,9 +3,36 @@ $cs = Yii::app()->getClientScript();
 	
 ?>
 <!-- start: PAGE CONTENT -->
+<div class="col-sm-12 col-xs-12" id="">
+  <div class="panel panel-white">
+      <div class="panel-heading text-center border-light">
+        <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> Admin
 
-<div class="row">
-  
+      </div>
+
+      <div class="panel-body no-padding center">
+        <ul class="list-group text-left no-margin">
+          <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
+            <div class="" onclick="loadByHash('#admin.directory?isNotSV=1')">
+              <i class="fa fa-user fa-2x"></i>
+                
+              <?php echo Yii::t("common", "DIRECTORY"); ?>
+              
+            </div>
+          </li>
+          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+            <div class="" onclick="loadByHash('#admin.importdata?isNotSV=1')">
+              <i class="fa fa-user fa-2x"></i>
+                
+              <?php echo Yii::t("common", "IMPORT DATA"); ?>
+              
+            </div>
+          </li>
+        </ul>
+      </div>
+  </div>
+</div>
+<!--<div class="row">
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
@@ -1284,7 +1311,7 @@ $cs = Yii::app()->getClientScript();
 
 
 
-</div>
+</div>-->
 <!-- end: PAGE CONTENT-->
 <script>
   jQuery(document).ready(function() {
