@@ -219,7 +219,7 @@
 	         							opacity:0
 								      }, 500 );
 			}
-		}else{
+		} else {
 			if($(".main-top-menu").css("opacity") == 0){
 				$(".main-top-menu").animate({
 	         							top: 0,
@@ -313,10 +313,11 @@
 			$(".main-col-search").animate({ top: 0, opacity:1 }, 300 );
 		}, 400);
 
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ $(".main-col-search").slideDown(); },"html");
 		showPanel('box-ajax');
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 		$(".panelTitle").html(icon+title).fadeIn();
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ $(".main-col-search").slideDown(); },"html");
+		
 		showTopMenu(true);
 
 		

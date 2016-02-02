@@ -242,6 +242,7 @@ class CommunecterController extends Controller
 
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
+      "update"          => array("href" => "/ph/communecter/event/update"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
       "removeattendee"  => array("href" => "/ph/communecter/event/removeattendee"),
       "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),

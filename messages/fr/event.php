@@ -34,5 +34,6 @@ return array(
 	"ATTENDEE SUCCESSFULLY ADD!!" => "Participant ajouté avec succès !!",
 	"Attendee well registered and invite!!" => "Participant enregistré et invité avec succès ",
 	"All day" => "Toute la journée",
+	"Your event has been connected." => "Votre evenement est communecté"
 );
 ?>

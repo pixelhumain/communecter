@@ -62,7 +62,5 @@ jQuery(document).ready(function() {
     $(".btn-register").click(function(){
 		showPanel("box-register");
 	});
-
-
 });
 </script>

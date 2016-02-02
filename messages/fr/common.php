@@ -28,6 +28,9 @@ return array(
 	"GET INVOLVED" => "PARTICIPEZ !",
 
 	"Required Fields" => "Champs obligatoires",
-	"Change password" => "Changez le mot de passe"
+	"Change password" => "Changez le mot de passe",
+
+	"The current user is not valid : please login." => "Cet utilisateur n'est pas loggué",
+	"Incomplete Request." => "Demande Incomplète"
 	
 );

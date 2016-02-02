@@ -22,15 +22,16 @@ class EventController extends CommunecterController {
           'dashboard' 					  => 'citizenToolKit.controllers.event.DashboardAction',
           'detail'                => 'citizenToolKit.controllers.event.DetailAction',
           'save'          				=> 'citizenToolKit.controllers.event.SaveAction',
+          'update'                => 'citizenToolKit.controllers.event.UpdateAction',
           'getcalendar'   				=> 'citizenToolKit.controllers.event.GetCalendarAction',
           'delete' 						    => 'citizenToolKit.controllers.event.DeleteAction',
           'updatefield' 				  => 'citizenToolKit.controllers.event.UpdateFieldAction',
           'eventsv' 					    => 'citizenToolKit.controllers.event.EventSVAction',
           'calendarview'				  => 'citizenToolKit.controllers.event.CalendarViewAction',
           'removeattendee'			 	=> 'citizenToolKit.controllers.event.RemoveAttendeeAction',
-          'saveattendee'          => 'citizenToolKit.controllers.link.SaveAttendeeAction',
+          //'saveattendee'          => 'citizenToolKit.controllers.link.SaveAttendeeAction',
           'directory'             => 'citizenToolKit.controllers.event.DirectoryAction',
-          'addattendeesv'             => 'citizenToolKit.controllers.event.AddAttendeeSvAction',
+          'addattendeesv'         => 'citizenToolKit.controllers.event.AddAttendeeSvAction',
       );
   }
 }
