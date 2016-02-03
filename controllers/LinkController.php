@@ -24,7 +24,7 @@ class LinkController extends CommunecterController {
 			'declaremeadmin' => 'citizenToolKit.controllers.link.DeclareMeAdminAction',
 			'addasadmin' => 'citizenToolKit.controllers.link.AddAsAdminAction',
 			'addasmember' => 'citizenToolKit.controllers.link.AddAsMemberAction',
-			'connectmeas' => 'citizenToolKit.controllers.link.ConnectMeAsAction'
+			'connectmeas' => 'citizenToolKit.controllers.link.ConnectAction'
 	    );
 	}
 
