@@ -70,14 +70,22 @@
 			/*max-width: 800px;*/
 			padding:25px;
 		}
+		.menu-home-btn-ins{
+			position: fixed;
+			top: 0px;
+			padding: 5px;
+			right: 2%;
+			z-index: 30;
+			border-radius: 30px 30px 30px 30px;
+		}
 </style>
 
 <div class="home_page">
 
 <?php if(!isset( Yii::app()->session['userId'] )) { ?>
-	<div class="col-md-12 text-right">
-		<button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		<button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button>
+	<div class="menu-home-btn-ins text-right">
+		<button class="btn-top btn btn-success" style="margin-bottom:5px;" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+		</br><button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button>
 	</div>
 <?php }else{
 		$this->renderPartial("short_info_profil", array("type" => "main")); 
@@ -101,21 +109,6 @@
 		<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
 	</h3>
 
-	<h3 class="text-dark information center" style="margin-top:30px; ">
-		<i class="fa fa-2x fa-angle-down"></i></br>
-		<strong><span class="text-red">Communecter</span> c'est simple : un email, un code postal et c'est parti !</strong></br>
-		Je suis communecté : j'ai accès à ma ville et à tout mon réseau !
-	</h3>
-
-	
-	
-	<div class="section-content section-no-top-padding section-video">
-		<div class="textProjectSlider">
-		</div>
-		<div class="imageSection imageSectionVideo text-center">
-			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
-		</div>
-	</div>
 
 	<h2 class="center text-dark" style="margin-bottom:20px; margin-top:30px;">
 		<i class="fa fa-2x fa-angle-down"></i></br>
@@ -143,6 +136,23 @@
 			</a></br>L'actualité</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 		</div>
 	</div>
+
+	<h3 class="text-dark information center" style="margin-top:30px; ">
+		<i class="fa fa-2x fa-angle-down"></i></br>
+		<strong><span class="text-red">Communecter</span> c'est simple : un email, un code postal et c'est parti !</strong></br>
+		Je suis communecté : j'ai accès à ma ville et à tout mon réseau !
+	</h3>
+
+	
+	
+	<div class="section-content section-no-top-padding section-video">
+		<div class="textProjectSlider">
+		</div>
+		<div class="imageSection imageSectionVideo text-center">
+			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
+		</div>
+	</div>
+
 	
 
 

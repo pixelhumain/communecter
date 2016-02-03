@@ -9,7 +9,7 @@
 }
 
 .my-main-container{
-	background-color: rgba(255, 255, 255, 0.8) !important;
+	background-color: rgba(240, 240, 240, 0.93) !important;
 	margin-left: 0px !important;
 }
 .container-lbl-info-search{
@@ -227,9 +227,14 @@ button.btn-start-search:hover{
 button.menu-button{
 	position: fixed;
 	height: 35px;
-	width: 35px;
+	min-width: 35px;
 	border-radius: 25px;
 	border: none;
+	z-index: 1;
+}
+button.menu-button-title.large{
+	padding-left:10px;
+	padding-right:10px;
 }
 button.btn-login, button.btn-logout{
 	left: 83px;
@@ -280,18 +285,18 @@ button.btn-menu1{
 }
 
 button.btn-menu2{
-	left: 88px;
-	top: 100px;
+	left: 40px;
+	top: 105px;
 }
 button.btn-menu3{
-	left: 47px;
-	top: 131px;
-	font-size: 17px;
-	padding-left: 8px;
+	left: 45px;
+	top: 165px;
 }
 button.btn-menu4{
 	left: 65px;
-	top: 203px;
+	top: 246px;
+	font-size: 17px;
+	padding-left: 8px;
 }
 
 button.btn-menu5{
@@ -302,6 +307,7 @@ button.btn-menu5{
 	width: 42px;
 	height: 43px;
 	padding-left: 4px;
+	z-index:0 !important;
 }
 
 button.btn-menu6{
@@ -314,12 +320,13 @@ button.btn-menu6{
 }
 button.btn-menu-notif{
 	background-color: rgba(163, 116, 188, 0) !important;
-	font-size: 18px;
+	font-size: 20px;
 	border: 0px solid #d13434;
 	box-shadow: 0px 0px !important;
 	float: right;
 	position: relative;
 	border-radius: 0px;
+	margin-right: 6px;
 }
 .main-top-menu  button.btn-menu-notif{
 	z-index: 20;
@@ -697,9 +704,9 @@ button.btn-infos{
 }
 .searchEntity .entityLeft{
 	text-align: right;
-	padding-top:20px;
-	/*margin-right: -3%;
-	margin-left: 3%;*/
+	padding-top: 20px;
+	margin-right: 0%;
+	padding-right: 0px;
 }
 .searchEntity .entityLeft .badge{
 	margin:2px;
@@ -806,3 +813,19 @@ button.btn-infos{
 #panel-first-step{
 	
 }
+
+
+/* NOTIFICATIONS */
+
+
+
+
+
+
+
+
+
+
+
+
+

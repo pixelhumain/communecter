@@ -129,6 +129,8 @@ jQuery(document).ready(function() {
 
 function autoCompleteSearch(name, locality){
     var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ]  };
+    var countData = 0;
+    var oneElement = null;
     $("#shortDetailsEntity").hide();
     $.ajax({
       type: "POST",
@@ -147,10 +149,10 @@ function autoCompleteSearch(name, locality){
               toastr.error(data.content);
             }else{
 
-            var countData = 0;
-          	$.each(data, function(i, v) {
+            $.each(data, function(i, v) {
 	            if(v.length!=0){
 	              $.each(v, function(k, o){
+	              	oneElement = o;
 	              	countData++;
 	              });
 	            }
@@ -252,6 +254,9 @@ function autoCompleteSearch(name, locality){
 			
               })
             }
+
+
+
             }); 
             if(str == "") {
             	//$("#dropdown_search").html("");
@@ -266,6 +271,12 @@ function autoCompleteSearch(name, locality){
 	           	$(".my-main-container").scrollTop(95);
 	           	$("#link-start-search").html("Rechercher");
 	            //$("#link-start-search").removeClass("badge");
+
+	             if(countData == 1){
+	            	console.log("only one");
+	            	$("#dropdown_search").css({"display" : "none" });
+	            	setScopeValue(oneElement.name, oneElement.insee);
+	            }
 	        }
 	        $(".btn-start-search").removeClass("bg-azure");
     		//$(".btn-start-search").addClass("bg-dark");
@@ -280,7 +291,7 @@ function autoCompleteSearch(name, locality){
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
-    $("#link-start-search").html("Recherche en cours ...");
+    //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
     $("#dropdown_search").css({"display" : "inline" });
@@ -346,7 +357,7 @@ function showNewsStream(insee){
 					"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
 		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isNotSV=1",null,"html");
-		
+		$("#dropdown_search").hide(300);
 	}
 }
 </script>

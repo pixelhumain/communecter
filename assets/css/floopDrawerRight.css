@@ -19,7 +19,7 @@
 	-o-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
 	box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
-	z-index: 0;
+	z-index: 1;
 	border-radius: 10px 10px;
 }
 .floopDrawer .floopHeader{
@@ -142,8 +142,9 @@
 }
 .floopDrawer .btn-scroll-type{
 	border:none!important;
-    padding: 3px;
-    text-align: left;
+    padding: 0px 3px;
+	text-align: left;
+	margin-top: -4px;
 }
 .floopDrawer .btn-select-contact{
 	min-width:102% !important;
@@ -191,11 +192,12 @@
     font-size: 12px;
 }
 .floopDrawer .thumb-send-to {
-    width: 50px;
-	height: 50px;
+    width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	margin: 5px;
 	padding: 3px;
+	margin-top: 7px;
 }
 .floopDrawer .text-light{
 	font-weight:500;

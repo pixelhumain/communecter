@@ -1,13 +1,15 @@
 <style>
 	.btn-add-to-directory{
-		font-size: 15px;
-		margin-right: -30px;
-		border-radius: 20px;
-		color: #453131;
-		border: 1px solid #bcb9b9;
-		padding-top: 5px;
+		font-size: 14px;
+		margin-right: 0px;
+		border-radius: 6px;
+		color: #666;
+		border: 1px solid rgba(188, 185, 185, 0.69);
 		margin-left: 3px;
 		float: right;
+		padding: 1px;
+		width: 24px;
+		margin-top: 4px;
 	}
 </style>
 
@@ -228,10 +230,15 @@ function autoCompleteSearch(name, locality){
                 //template principal
                 str += "<div class='col-md-11 searchEntity'>";
 	                str += "<div class='col-md-5 col-lg-6 entityLeft'>";
+	                	
+	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
 	                	if(type!="city")
-						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white' title='Ajouter dans votre répertoire' data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
+							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
+							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
 									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
 								"</a>";
+						<?php } ?>
 						str += tags;
 						
 	                str += "</div>";
