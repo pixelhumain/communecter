@@ -25,6 +25,7 @@ class AdminController extends CommunecterController {
 	        'importdata'  => 'citizenToolKit.controllers.admin.ImportDataAction',
 	        'previewdata'  => 'citizenToolKit.controllers.admin.PreviewDataAction',
 	        'importinmongo'  => 'citizenToolKit.controllers.admin.ImportInMongoAction',
+	        'assigndata'  => 'citizenToolKit.controllers.admin.AssignDataAction',
 	        'checkdataimport'  => 'citizenToolKit.controllers.admin.CheckDataImportAction',
 	    );
 	}

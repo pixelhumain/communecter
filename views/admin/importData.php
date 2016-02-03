@@ -31,6 +31,7 @@ $userId = Yii::app()->session["userId"] ;
 						$listCollection = ImportData::getMicroFormats($params, $fields);
 					?>
 					<select id="chooseCollection" name="chooseCollection">
+						<option></option>
 						<?php
 							foreach ($listCollection as $key => $value) {
 								echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
@@ -294,6 +295,17 @@ jQuery(document).ready(function()
 function bindEvents()
 {
 
+	$("#fileImport").change(function(e) {
+    	
+		var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
+		if($.inArray(ext, ["csv"]) == -1) {
+			alert('Upload CSV');
+			return false;
+		}  
+		
+
+	});
+
 	$("#sumitVerification").off().on('click', function()
   	{
   		var nameFile = $("#fileImport").val().split("."); 
@@ -303,6 +315,41 @@ function bindEvents()
   			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
   			return false ;
   		}
+
+  		if(e.target.files != undefined) {
+			var reader = new FileReader();
+			var arrayCSV = [];
+			reader.onload = function(e) {
+				console.log("csv : ", e.target.result )
+				
+				var csvval=e.target.result.split("\n");
+				console.log("csv : ", csvval )
+				$.each(csvval, function(key, value){
+	  				arrayCSV.push(value.split(";"));
+	  			});
+	  			console.log("arrayCSV : ", arrayCSV )
+
+			};
+			reader.readAsText(e.target.files.item(0));
+
+
+			$.ajax({
+			        type: 'POST',
+			        data: {
+			        		nameFile : 
+			        },
+			        url: baseUrl+'/communecter/admin/previewData/',
+			        dataType : 'json',
+			        success: function(data)
+			        {
+
+
+			        }
+			});
+
+		}
+		
+		return false;
   		
   	});
 
