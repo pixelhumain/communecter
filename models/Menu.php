@@ -183,7 +183,7 @@ class Menu {
                         Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
                         Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
-                        "connectUserTo('organizations','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($organization["name"])."')",null,null);                      
+                        "connectTo('organizations','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($organization["name"])."')",null,null);                      
             }
         } 
     }
@@ -330,7 +330,7 @@ class Menu {
                         Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
                         Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
-                        "connectUserTo('projects','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
+                        "connectTo('projects','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
            }
     }
 

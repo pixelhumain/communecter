@@ -92,12 +92,12 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 	)
 }
 
-function connectUserTo(parentType, parentId, userId, userType, connectType, parentName,actionAdmin) {
+function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();
 	var formData = {
-		"userId" : userId,
-		"userType" : userType, 
+		"childId" : childId,
+		"childType" : childType, 
 		"parentType" : parentType,
 		"parentId" : parentId,
 		"connectType" : connectType,
@@ -155,10 +155,10 @@ function connectUserTo(parentType, parentId, userId, userType, connectType, pare
 										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
 										//bindFicheInfoBtn();
 										//if (data.notification && data.notification=="toBeValidated")
-											toastr.success(data.msg);	
+										toastr.success(data.msg);	
 										//else
 										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-											loadByHash(location.hash);
+										loadByHash(location.hash);
 									}
 									else
 										toastr.error(data.msg);

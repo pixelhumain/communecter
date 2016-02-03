@@ -282,6 +282,9 @@ if( isset($_GET["isNotSV"])) {
 				"memberRoles" : $("#addMembers #memberRole").val() 
 			};
 			console.log(params);
+			
+			connectTo(parentType, parentId, userId, userType, connectType, parentName,actionAdmin);
+
 	    	$.ajax({
 	            type: "POST",
 	            url: baseUrl+"/communecter/link/savemember",
