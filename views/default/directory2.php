@@ -240,6 +240,8 @@ if( isset($_GET["isNotSV"])) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
+	$parentId="";
+	$parentType="";
 	$manage="";
 	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 		Menu::organization( $organization );
