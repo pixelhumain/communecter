@@ -7,7 +7,9 @@
     visibility: visible !important;
     /*z-index: -1;*/
 }
-
+#main-title{
+	margin-top:10px;
+}
 .my-main-container{
 	background-color: rgba(240, 240, 240, 0.93) !important;
 	margin-left: 0px !important;

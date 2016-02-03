@@ -83,9 +83,10 @@
 <div class="home_page">
 
 <?php if(!isset( Yii::app()->session['userId'] )) { ?>
-	<div class="menu-home-btn-ins text-right">
-		<button class="btn-top btn btn-success" style="margin-bottom:5px;" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		</br><button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button>
+	<div class="menu-home-btn-ins text-right" style="margin-right:8%;">
+		<button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
+		<button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+		
 	</div>
 <?php }else{
 		$this->renderPartial("short_info_profil", array("type" => "main")); 

@@ -29,7 +29,7 @@
 <div class="hover-menu">
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Connection" alt="Se connecter">
+	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
 			<i class="fa fa-sign-in"></i>
 	</button>
 	<?php }else{ ?>
