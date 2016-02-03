@@ -4,6 +4,7 @@
 		<h4 class="panel-title">Inviter des contacts et partager communecter sur vos réseaux sociaux</h4>
 	</div>
 	<div class="panel-body">
+		<input type="hidden" id="parentId" name="parentId" value="<?php echo Yii::app()->session['userId']; ?>"/>
 		<ul class="nav nav-tabs">
 		  	<!-- <li role="presentation" class="active"><a href="#" class="" id="buttonGmail">Gmail</a></li> -->
 		  	<li role="presentation"><a href="#" class="" id="buttonGmail">Gmail</a></li>
@@ -16,28 +17,29 @@
 		<div class="col-sm-12 col-xs-12">
 			<div id="viewGmail">
 				<div class="col-sm-12 col-xs-12">
-					<button id="contacts"
+					<a href="#" id="contacts"
 						class="btn btn-primary col-md-3 col-md-offset-1">
 						Récupérez vos contacts Gmail
-					</button>
+					</a>
 				</div>
 				
 			</div>
 			<div id="viewGooglePlus">
-			  <button
+			  <a 
+			  		href="#" 
 					class="g-interactivepost btn btn-primary col-md-3 col-md-offset-2"
-					data-clientid="608116136544-tqus0f4dpitr0f76fubutqqjq5nh96ca.apps.googleusercontent.com"
+					data-clientid="991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com"
 					data-contenturl="www.pixelhumain.com"
 					data-calltoactionlabel="INVITE"
 					data-calltoactionurl="http://www.pixelhumain.com"
 					data-cookiepolicy="single_host_origin"
 					data-prefilltext="Viens nous rejoindre!!!">
 					Partagez PixelHumain sur Google+
-				</button>
+				</a>
 			</div>
 
 			<div id="viewImportFile">
-				yo
+				Selectionner un ficher csv qui contient vos adress<input type="file" id="fileEmail" name="fileEmail" accept=".csv">
 			</div>
 
 
@@ -131,7 +133,36 @@ function bindEvents(){
                
     });
 
-    $("#submitAfficher").off().on('click', function()
+    $("#fileEmail").change(function(e) {
+    	$("#list-contact").html("");
+		var ext = $("input#fileEmail").val().split(".").pop().toLowerCase();
+		if($.inArray(ext, ["csv"]) == -1) {
+			alert('Upload CSV');
+			return false;
+		}  
+		if (e.target.files != undefined) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var csvval=e.target.result.split("\n");
+				var text = "" ;
+				$.each(csvval, function(keyMails, valueMails){
+					console.log("valueMails",valueMails);
+					if(valueMails.trim() != "")
+						text += '<span class="list-group-item"><input type="checkbox" aria-label="'+valueMails+'" value="'+valueMails+'">'+valueMails+'</span>';
+				
+
+				});
+				$("#list-contact").append(text);
+			};
+			reader.readAsText(e.target.files.item(0));
+
+		}
+		$("#validationMail").show();
+		return false;
+
+	});
+
+	$("#submitAfficher").off().on('click', function()
   	{
 
   		var listemail = $('#mailssaisie').val()
@@ -166,7 +197,49 @@ function bindEvents(){
     		toastr.error("Veuillez sélectionner une adresse mail.");
     	else{
     		var mailselected = $("input:checked").map(function () { return this.value; }).get();
-    		$.ajax({
+    		console.log("mailselected",mailselected);
+    		$.each(mailselected, function(key, value) {
+    			//console.log("value", value)
+    			if(value != "on")
+			  	{
+			  		nameUtil = 	value.split("@");
+				  	console.log(nameUtil[0], value);
+
+				  	$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+'/person/connect',
+				        dataType : "json",
+				        data: {
+				        	parentId : $("#parentId").val(),
+				        	invitedUserName : nameUtil[0],
+				        	invitedUserEmail : value,
+				        	msgEmail : $("#textmail").val()
+				        },
+						type:"POST",
+				    })
+				    .done(function (data) {
+				    	$.unblockUI();
+				        if (data &&  data.result) {               
+				        	toastr.success('The invitation has been sent with success !');
+				        	$.hideSubview();
+				        	if( isNotSV )	
+				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
+				        	else if(updateInvite != undefined && typeof updateInvite == "function"){
+				        		updateInvite(data.invitedUser, true);
+				        	} 
+				        } else {
+				        	$.unblockUI();
+							toastr.error(data.msg);
+				        }
+				    });
+				}
+
+    		});
+    		
+
+
+
+    		/*$.ajax({
 	        	type: 'POST',
 	        	data: {textmail : $('#textmail').val(), mails : mailselected},
 	        	url: baseUrl+'/communecter/person/sendmail/',
@@ -178,7 +251,7 @@ function bindEvents(){
 	            	else
 	                	toastr.error("error2"); 
 	        	}
-	    	});
+	    	});*/
     	}
   	});
 }
