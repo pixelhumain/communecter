@@ -91,6 +91,10 @@
 	
 </div>
 
+<?php  
+	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+	$this->renderPartial($layoutPath.'notifications2');
+?>
 
 <div class="modal fade" id="modal-select-scope" tabindex="-1" role="dialog">
   <div class="modal-dialog">
@@ -143,6 +147,21 @@
 	    "city": "red"
 	  };
 
+	var trad = {"areyousure" : "<?php echo Yii::t("common", "Are you sure you want to delete") ?>", 
+			"connection" : "<?php echo Yii::t("common", "connexion") ?>",
+			"askadminprojects" : "<?php echo Yii::t("common", "You are going to ask to become an admin of the project") ?>",
+			"askadminorganizations" : "<?php echo Yii::t("common", "You are going to ask to become an admin of the organization") ?>",
+			"confirm" : "<?php echo Yii::t("common", "Please confirm") ?>"
+	};
+
+
+var typesLabels = {
+  "<?php echo Organization::COLLECTION ?>":"Organization",
+  "<?php echo Event::COLLECTION ?>":"Event",
+  "<?php echo Project::COLLECTION ?>":"Project",
+};
+
+
 	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
@@ -164,8 +183,8 @@
 	    $(".my-main-container").scroll(function(){
 	    	checkScroll();
 	    });
-
-
+	    
+	    initNotifications();
 		initFloopDrawer();
 	    
 	    $(window).resize(function(){
@@ -174,6 +193,7 @@
 
 	    resizeInterface();
 	    showFloopDrawer();
+
 
 	    console.log("hash", location.hash);
 	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
@@ -187,7 +207,7 @@
 	});
 
 	function resizeInterface(){
-		console.log("resize");
+	  console.log("resize");
 	  var height = $("#mapCanvasBg").height() - 55;
 	  $("#ajaxSV").css({"minHeight" : height});
 	  //$("#menu-container").css({"minHeight" : height});
@@ -195,10 +215,32 @@
 	  console.log("heightDif", heightDif);
 	  $(".floopScroll").css({"minHeight" : height-heightDif});
 	  $(".floopScroll").css({"maxHeight" : height-heightDif});
+	  $(".my-main-container").css("min-height", $(".sigModuleBg").height());
+	  $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 	  //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
 	}
 
+	function initNotifications(){
+		console.log("init notification");
+		$('.main-top-menu .btn-menu-notif').off().click(function(){
+		  console.log("click notification main-top-menu");
+	      showNotif();
+	    });
+	    $('.my-main-container .btn-menu-notif').off().click(function(){
+		  console.log("click notification my-main-container");
+	      showNotif();
+	    });
+	}
+	function showNotif(show){
+		if(typeof show == "undefined"){
+			if($("#notificationPanel").css("display") == "none") show = true; 
+	    	else show = false;
+	    }
+
+	    if(show) $('#notificationPanel').show("fast");
+		else 	 $('#notificationPanel').hide("fast");
+	}
 
 	function checkScroll(){
 		//console.log("checkScroll");
@@ -232,7 +274,7 @@
 			console.log("showMap");
 			if(show === undefined) show = $("#right_tool_map").css("display") == "none";
 			if(show){
-			
+				showNotif(false);
 				showTopMenu(true);
 				if(Sig.currentMarkerPopupOpen != null){
 					Sig.currentMarkerPopupOpen.fire('click');
@@ -280,7 +322,8 @@
 
     function showPanel(box,bgStyle,title){ 	
 	  	$(".box").hide(200);
-
+	  	showNotif(false);
+				
 		console.log("showPanel");
 		showTopMenu(false);
 		$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
@@ -289,15 +332,18 @@
     }
 
     function showAjaxPanel (url,title,icon) { 
-		$(".main-col-search").css("opacity", 0);
+		//$(".main-col-search").css("opacity", 0);
 		
 		hideScrollTop = false;
 
 		var rand = Math.floor((Math.random() * 7) + 1); 
 		var urlImgRand = proverbs[rand];
 		
-		setTimeout(function(){
+		showNotif(false);
+				
+		$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
 
+		setTimeout(function(){
 			$(".main-col-search").html(
 			"<div class='loader text-dark '>"+
 				"<span style='font-size:35px;' class='homestead'>"+
@@ -308,17 +354,26 @@
 	
 			$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement en cours ...");
 
-			$(".main-col-search").show();
+			//$(".main-col-search").show();
 
-			$(".main-col-search").animate({ top: 0, opacity:1 }, 300 );
-		}, 400);
+			$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+		}, 800);
+		//
+		//
 
-		showPanel('box-ajax');
+		$(".box").hide(200);
+		//showPanel('box-ajax');
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 		$(".panelTitle").html(icon+title).fadeIn();
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ $(".main-col-search").slideDown(); },"html");
+		console.log("GETAJAX");
+		
 		showTopMenu(true);
 
+		setTimeout(function(){
+			getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+				$(".main-col-search").slideDown(); initNotifications(); 
+			},"html");
+		}, 800);
 		
 	}
 
@@ -369,7 +424,7 @@
 
 	function setInputPlaceValue(thisBtn){
 		$("#searchBarPostalCode").val($(thisBtn).attr("val"));
-		$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
+		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
 		startSearch();
 	}
 

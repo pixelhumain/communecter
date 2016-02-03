@@ -150,6 +150,8 @@ jQuery(document).ready(function() {
  	initSubView();
  	bindInviteSubViewInvites();
  	runinviteFormValidation();
+
+ 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
 });
 
 function bindInviteSubViewInvites() {	
@@ -267,7 +269,8 @@ function runinviteFormValidation(el) {
 		        data: {
 		        	parentId : parentId,
 		        	invitedUserName : invitedUserName,
-		        	invitedUserEmail : invitedUserEmail
+		        	invitedUserEmail : invitedUserEmail,
+		        	msgEmail : $("#inviteText").val()
 		        },
 				type:"POST",
 		    })

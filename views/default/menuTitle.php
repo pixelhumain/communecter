@@ -41,14 +41,17 @@
 		$(this).show().removeClass("animated bounceInRight");
 	});
 	activePanel = box;
-	if( box != "box-ph" && box != "box-who" ){
+	if( box != "box-ph" && box != "box-who" )
+	{
 		$(".partnerLogosUp,.partnerLogosDown,.partnerLogosRight,.partnerLogosLeft").hide();
 		$(".eventMarker").show().addClass("animated slideInDown");
 		$(".cityMarker").show().addClass("animated slideInUp");
 		$(".projectMarker").show().addClass("animated zoomInRight");
 		$(".assoMarker").show().addClass("animated zoomInLeft");
 		$(".userMarker").show().addClass("animated zoomInLeft");
-	}else{
+	}
+	else
+	{
 		$(".eventMarker, .cityMarker, .projectMarker, .assoMarker, .userMarker").fadeOut();
 		$(".partnerLogosLeft").show().addClass("animated zoomInLeft");
 		$(".partnerLogosRight").show().addClass("animated zoomInRight");

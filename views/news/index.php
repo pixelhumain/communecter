@@ -280,6 +280,29 @@ div.timeline .date_separator span{
 .small_text{
 	font-size: 10px;
 }
+
+<?php if (isset($_GET["isSearchDesign"]) ){ ?>
+/*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
+#newsHistory{
+	top:110px !important;
+	width: 75%;
+	left: 16.62% !important;
+	border-top: 1px solid #d4d4d4;
+	padding: 0px !important;
+}
+#newsHistory .panel.panel-white{
+	box-shadow: 0px 0px !important
+}
+#newsHistory #timeline {
+    width: 91.66666667%;
+}
+#newsHistory .timeline-scrubber {
+    right: 8%;
+    position: fixed;
+    top: 115px;
+}
+<?php } ?>
+
 </style>
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
@@ -346,7 +369,7 @@ div.timeline .date_separator span{
 				<div id="timeline" class="col-md-10">
 					<?php if($type=="city"){ ?>
 					<div class="panel-heading text-center">
-						<h3 class="panel-title text-blue"><i class="fa fa-rss"></i> Les actualités locales</h3>
+						<h3 class="panel-title text-blue lbl-title-newsstream"><i class="fa fa-rss"></i> Les actualités locales</h3>
 		  			</div>
 		  			<?php } ?>
 					<div class="timeline">

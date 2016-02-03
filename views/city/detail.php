@@ -283,11 +283,10 @@ $this->renderPartial('../default/panels/toolbar');
                 <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-azure col-md-4 col-sm-6 link-to-directory">
-              <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <i class="fa fa-industry fa-2x"></i></br> <?php echo Yii::t("common", "ENTREPRISES"); ?>
-                <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
-                <span class="badge bg-azure"><?php echo $cnt;?></span>
+            <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-directory">
+              <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <i class="fa fa-calendar fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
+                <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
             <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
@@ -304,10 +303,11 @@ $this->renderPartial('../default/panels/toolbar');
                 <span class="badge bg-prune"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-directory">
-              <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <i class="fa fa-calendar fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
-                <span class="badge bg-orange"><?php echo count($events);?></span>
+            <li class="list-group-item text-azure col-md-4 col-sm-6 link-to-directory">
+              <div class="" onclick='javascript:showAjaxPanel("/city/directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
+                <i class="fa fa-industry fa-2x"></i></br> <?php echo Yii::t("common", "ENTREPRISES"); ?>
+                <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
+                <span class="badge bg-azure"><?php echo $cnt;?></span>
               </div>
             </li>
             <!-- <li class="list-group-item">

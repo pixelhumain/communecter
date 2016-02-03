@@ -87,6 +87,7 @@ class CommunecterController extends Controller
       "importdata"    => array("href" => "/ph/communecter/admin/importdata"),
       "previewdata"    => array("href" => "/ph/communecter/admin/previewdata"),
       "importinmongo"    => array("href" => "/ph/communecter/admin/importinmongo"),
+      "assigndata"    => array("href" => "/ph/communecter/admin/assigndata"),
       "checkdataimport"    => array("href" => "/ph/communecter/admin/checkdataimport"),
     ),
 
@@ -200,7 +201,7 @@ class CommunecterController extends Controller
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
         "importfile"=> array('href' => "/ph/communecter/person/importfile"),
         "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
-
+        
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
         "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
@@ -242,6 +243,7 @@ class CommunecterController extends Controller
 
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
+      "update"          => array("href" => "/ph/communecter/event/update"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
       "removeattendee"  => array("href" => "/ph/communecter/event/removeattendee"),
       "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),
