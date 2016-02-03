@@ -6,7 +6,10 @@ if(!Yii::app()->request->isAjaxRequest)
 		'/assets/plugins/jsonview/jquery.jsonview.js',
 		'/assets/plugins/jsonview/jquery.jsonview.css',
 		'/assets/js/sig/geoloc.js',
-		'/assets/js/dataHelpers.js'
+		'/assets/js/dataHelpers.js',
+		//'/plugins/DataTables/media/css/DT_bootstrap.css',
+		//'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
+    	//'/plugins/DataTables/media/js/DT_bootstrap.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 }
@@ -28,6 +31,7 @@ $userId = Yii::app()->session["userId"] ;
 						$listCollection = ImportData::getMicroFormats($params, $fields);
 					?>
 					<select id="chooseCollection" name="chooseCollection">
+						<option></option>
 						<?php
 							foreach ($listCollection as $key => $value) {
 								echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
@@ -284,11 +288,23 @@ jQuery(document).ready(function()
 		$("#createLink").hide();
 	$("#verifBeforeImport").hide();
 	$("#divSearchCreator").hide();
+	//$("#representation").DataTable();
 
 });
 
 function bindEvents()
 {
+
+	$("#fileImport").change(function(e) {
+    	
+		var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
+		if($.inArray(ext, ["csv"]) == -1) {
+			alert('Upload CSV');
+			return false;
+		}  
+		
+
+	});
 
 	$("#sumitVerification").off().on('click', function()
   	{
@@ -299,6 +315,41 @@ function bindEvents()
   			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
   			return false ;
   		}
+
+  		if(e.target.files != undefined) {
+			var reader = new FileReader();
+			var arrayCSV = [];
+			reader.onload = function(e) {
+				console.log("csv : ", e.target.result )
+				
+				var csvval=e.target.result.split("\n");
+				console.log("csv : ", csvval )
+				$.each(csvval, function(key, value){
+	  				arrayCSV.push(value.split(";"));
+	  			});
+	  			console.log("arrayCSV : ", arrayCSV )
+
+			};
+			reader.readAsText(e.target.files.item(0));
+
+
+			$.ajax({
+			        type: 'POST',
+			        data: {
+			        		nameFile : 
+			        },
+			        url: baseUrl+'/communecter/admin/previewData/',
+			        dataType : 'json',
+			        success: function(data)
+			        {
+
+
+			        }
+			});
+
+		}
+		
+		return false;
   		
   	});
 

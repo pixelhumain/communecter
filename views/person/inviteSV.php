@@ -269,7 +269,8 @@ function runinviteFormValidation(el) {
 		        data: {
 		        	parentId : parentId,
 		        	invitedUserName : invitedUserName,
-		        	invitedUserEmail : invitedUserEmail
+		        	invitedUserEmail : invitedUserEmail,
+		        	msgEmail : $("#inviteText").val()
 		        },
 				type:"POST",
 		    })
