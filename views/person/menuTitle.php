@@ -122,7 +122,7 @@
 </script>
 <?php if(!isset($topTitleExists)){ ?>
 <div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
-	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in september, early registration open ) </span>
+	<span class="badge badge-danger "> PRE-ALPHA-invites-only ( beta in febuary, early registration open ) </span>
 	<br/>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>

@@ -164,7 +164,7 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
     }   
 	else if ( hash.indexOf("#search.home") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','home' );
     }   
 	else if ( hash.indexOf("#search.login") >= 0 ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
@@ -182,8 +182,8 @@ function loadByHash( hash , back) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    if( !back )
-      history.pushState( { "hash" :hash} , null, hash );
+    /*if( !back )
+      history.pushState( { "hash" :hash} , null, hash );*/
     console.warn("pushState",hash);
 
 }
