@@ -298,7 +298,8 @@ class CommunecterController extends Controller
       "removeuser"   => array("href" => "/ph/communecter/link/removeuser"),
       "declaremeadmin"   => array("href" => "/ph/communecter/link/declaremeadmin"),
       "addasadmin"   => array("href" => "/ph/communecter/link/addasadmin"),
-      "addasmember"   => array("href" => "/ph/communecter/link/addasmember")
+      "addasmember"   => array("href" => "/ph/communecter/link/addasmember"),
+       "connectmeas"   => array("href" => "/ph/communecter/link/connectmeas")
     ),
 
     "document" => array(

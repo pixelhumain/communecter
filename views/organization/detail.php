@@ -195,7 +195,6 @@
 								toastr.success("<?php echo Yii::t('common','Your request has been sent to other admins.')?>");	
 							else
 								toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-							if( isNotSV )
 								loadByHash(location.hash);
 						}
 						else
