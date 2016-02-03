@@ -23,7 +23,8 @@ class LinkController extends CommunecterController {
 			'removeuser' => 'citizenToolKit.controllers.link.RemoveUserAction',
 			'declaremeadmin' => 'citizenToolKit.controllers.link.DeclareMeAdminAction',
 			'addasadmin' => 'citizenToolKit.controllers.link.AddAsAdminAction',
-			'addasmember' => 'citizenToolKit.controllers.link.AddAsMemberAction'
+			'addasmember' => 'citizenToolKit.controllers.link.AddAsMemberAction',
+			'connectmeas' => 'citizenToolKit.controllers.link.ConnectMeAsAction'
 	    );
 	}
 

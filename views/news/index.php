@@ -429,9 +429,6 @@ var contextMap = {
 	},
 };
 var formCreateNews;
-<?php if( !isset($_GET["isNotSV"]) ) { ?>
-	//var Sig = null;
-<?php } ?>
 
 jQuery(document).ready(function() 
 {	
@@ -448,37 +445,26 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	}
-
-
-//console.log("NEWS :");
-//console.dir(news);
-	<?php //if( isset($_GET["isNotSV"]) ) { ?>
-		//		return;
-	<?php //} ?>
-	// If à enlever quand généralisé à toutes les parentType (Person/Project/Organization/Event)
-	//alert(contextParentType);
-	if(contextParentType=="citoyens" || contextParentType=="projects" || contextParentType=="organizations" || contextParentType=="pixels" || contextParentType=="city"){
-		// SetTimeout => Problem of sequence in js script reader
-		setTimeout(function(){loadStream()},0);
-		if (streamType=="news"){
-			if(contextParentType=="city"){
-				minusOffset=1130;
-			} else {
-				minusOffset=730;
+	
+	// SetTimeout => Problem of sequence in js script reader
+	setTimeout(function(){loadStream()},0);
+	if (streamType=="news"){
+		if(contextParentType=="city"){
+			minusOffset=1130;
+		} else {
+			minusOffset=730;
+		}
+	}
+	$("#newsHistory").off().on("scroll",function(){
+		//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
+		if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
+			if (lastOffset != offset.top){
+				lastOffset=offset.top;
+				loadStream();
 			}
 		}
-		$("#newsHistory").off().on("scroll",function(){
-			//console.log($("#newsHistory").scrollTop());
-			//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
-			if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
-				if (lastOffset != offset.top){
-					lastOffset=offset.top;
-					loadStream();
-				}
-			}
-		});
- 	}
- 		//Construct the first NewsForm
+	});
+ 	//Construct the first NewsForm
 	//buildDynForm();
 	getUrlContent();
 	saveNews();
@@ -486,10 +472,16 @@ jQuery(document).ready(function()
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
 
+/*
+* function loadStream() loads news for timeline: 5 news are download foreach call
+* @param string contextParentType indicates type of wall news
+* @param string contextParentId indicates the precise parent id 
+* @param strotime dateLimite indicates the date to load news
+*/
 var loadStream = function(){
 	$.ajax({
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"/streamType/"+streamType,
+        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit,
        	dataType: "json",
     	success: function(data){
 	    	console.log(data.news)

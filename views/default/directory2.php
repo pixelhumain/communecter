@@ -252,6 +252,7 @@ if( isset($_GET["isNotSV"])) {
 			if(!isset($organization["disabled"]))
 				$manage=1;
 		}
+		$parentName=$organization["name"];
 		$parentId=$organization["_id"];
 		$parentType=Organization::COLLECTION;
 		$connectType="members";
@@ -278,6 +279,7 @@ if( isset($_GET["isNotSV"])) {
 				 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 			$manage=1;
 		}
+		$parentName=$project["name"];
 		$parentId=$project["_id"];
 		$parentType=Project::COLLECTION;
 		$connectType="contributors";
@@ -404,7 +406,7 @@ if( isset($_GET["isNotSV"])) {
 					{ 
 						foreach ($people as $e) 
 						{
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
 						}
 					}
 
@@ -458,7 +460,7 @@ if( isset($_GET["isNotSV"])) {
 						return $str;
 					}
 
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage)
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$parentType=null,$parentId=null)
 					{
 						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
 							return;
@@ -665,13 +667,15 @@ if( isset($_GET["isNotSV"])) {
 														Yii::t("common","Accept as admin").
 													'</a>'.
 												'</li>';
-							} else{
+							} else {
+								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="true" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectUserTo(\''.$parentType.'\',\''.$parentId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
 												'</li>';
+								}
 							}
 							$strHTML .=			'<li>'.
 													'<a href="javascript:;" class="disconnectBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.

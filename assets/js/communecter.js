@@ -60,35 +60,151 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");	
 	bootbox.confirm(trad["askadmin"+parentType]+" <span class='text-red'>"+parentName+"</span>. "+trad.confirm+" ?", 
 		function(result) {
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+'/link/declaremeadmin',
-				dataType : "json",
-				data : {
-					parentId : parentId, 
-					parentType : parentType,
-					userId : personId,
-					adminAction : false
-				}
-			})
-			.done(function (data) {
-				//$.unblockUI();
-				if (data &&  data.result) {
-					toastr.success(data.msg);
-					addFloopEntity(parentId, "organizations", data.parent);
-					loadByHash(location.hash);
-					//if (typeof callback == "function") callback(organizationId, personId, organizationName);
-				} else {
-					$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
-					toastr.error('Something Went Wrong ! ' + data.msg);
-				}
-				
-			});
+			if(result){
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+'/link/declaremeadmin',
+					dataType : "json",
+					data : {
+						parentId : parentId, 
+						parentType : parentType,
+						userId : personId,
+						adminAction : false
+					}
+				})
+				.done(function (data) {
+					//$.unblockUI();
+					if (data &&  data.result) {
+						toastr.success(data.msg);
+						addFloopEntity(parentId, "organizations", data.parent);
+						loadByHash(location.hash);
+						//if (typeof callback == "function") callback(organizationId, personId, organizationName);
+					} else {
+						toastr.error('Something Went Wrong ! ' + data.msg);
+					}
+					
+				});
+			}
+			else{
+				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+			}
 		}
 	)
 }
 
-
+function connectUserTo(parentType, parentId, userId, userType, connectType, parentName,actionAdmin) {
+	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
+	//e.preventDefault();
+	var formData = {
+		"userId" : userId,
+		"userType" : userType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+		"connectType" : connectType,
+	};
+	if(actionAdmin=="true"){
+		formData.adminAction=true;
+	}
+	console.log(formData);
+	if(connectType!="admin"){
+		bootbox.dialog({
+                title: "Are you sure to join the "+parentType+" as "+connectType+" ?",
+                message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal"> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Ajouter un rôle</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="role" name="role" type="text" placeholder="Your Role" class="form-control input-md"> ' +
+                    '</div>'+
+                    '</div> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="awesomeness">Are you admin?</label> ' +
+                    '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-0" value="admin"> ' +
+                    'Yes </label> ' +
+                    '</div><div class="radio"> <label for="awesomeness-1"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-1" value="'+connectType+'" checked="checked"> No </label> ' +
+                    '</div> ' +
+                    '</div> </div>' +
+                    '</form></div></div>',
+                buttons: {
+                    success: {
+                        label: "Ok",
+                        className: "btn-primary",
+                        callback: function () {
+                            var role = $('#role').val();
+                            var answer = $("input[name='awesomeness']:checked").val();
+                            if(role!=""){
+	                            formData.roles=role;
+                            }
+                            formData.connectType=answer;
+                            console.log(formData);
+                            $.ajax({
+								type: "POST",
+								url: baseUrl+"/"+moduleId+"/link/connectmeas",
+								data: formData,
+								dataType: "json",
+								success: function(data) {
+									if(data.result){
+										//console.log("saveMembre");
+										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
+										//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
+										//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
+										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
+										//bindFicheInfoBtn();
+										//if (data.notification && data.notification=="toBeValidated")
+											toastr.success(data.msg);	
+										//else
+										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+											loadByHash(location.hash);
+									}
+									else
+										toastr.error(data.msg);
+								},
+							});  
+                        }
+                    }
+                }
+            }
+        );
+    }
+	else{
+		bootbox.confirm("Are you sure to join the "+parentType+" as "+connectType+" ?", 
+		function(result) {
+			if (!result) {
+				$(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+				return;
+			}
+			console.log(formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/connectmeas",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						//console.log("saveMembre");
+						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+						//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
+						//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
+						//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
+						//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
+						//bindFicheInfoBtn();
+						//if (data.notification && data.notification=="toBeValidated")
+							toastr.success(data.msg);	
+						//else
+						//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+							loadByHash(location.hash);
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});  
+		});             
+	}
+}		
 
 function loadByHash( hash , back) { 
     console.log("loadByHash",hash);

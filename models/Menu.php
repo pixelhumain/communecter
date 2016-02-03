@@ -136,11 +136,11 @@ class Menu {
         //SEND MESSAGE
         //-----------------------------
         if( Authorisation::isOrganizationMember(Yii::app()->session['userId'],$id) ){
-            self::entry("right", 'onclick',
+            /*self::entry("right", 'onclick',
                         Yii::t( "common", "Send a message to this Organization"), 
                         Yii::t( "common", "Contact"),
                         'envelope-o',
-                        "loadByHash( '#news.index.type.organizations.id.".$id."')",null,null);
+                        "loadByHash( '#news.index.type.organizations.id.".$id."')",null,null);*/
         }
         
         //FOLLOW BUTTON
@@ -152,13 +152,14 @@ class Menu {
         if( !isset( $organization["disabled"] ) ){
             //Link button 
             if(isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && 
-                Link::isLinked((string)$organization["_id"], Organization::COLLECTION, Yii::app()->session["userId"]))
+                Link::isLinked((string)$organization["_id"], Organization::COLLECTION, Yii::app()->session["userId"])){
                 $htmlFollowBtn = array('tooltip' => Yii::t( "common", "Leave this Organization"), 
                                        'position'   => "right",
                                        'label' => Yii::t( "common", "Leave"), 
                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
                                         "href"=>"<a href='javascript:;' class='removeMemberBtn text-red tooltips btn btn-default' data-name='".$organization["name"]."' data-memberof-id='".$organization["_id"]."' data-member-type='".Person::COLLECTION."' data-member-id='".Yii::app()->session["userId"]."'");
-            else{
+                    array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
+            }else{
 	            if (@Yii::app()->session["userId"]){
 			        $href = "<a href='javascript:;' class='connectBtn tooltips btn btn-default ' id='addMeAsMemberInfo'";
 		        }
@@ -174,11 +175,15 @@ class Menu {
             }
             //Ask Admin button
             if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"]) {
-                 self::entry("right", 'onclick',
-                        Yii::t( "common", "Declare me as admin of this organization"),
-                        Yii::t( "common", "Become admin"),
+	            $connectAs="admin";
+	            if(!@$organization["links"]["members"][Yii::app()->session["userId"]]){
+		            $connectAs="member";
+	            }
+                self::entry("right", 'onclick',
+                        Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
+                        Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
-                        "declareMeAsAdmin('".$id."','organizations','".Yii::app()->session["userId"]."','".addslashes($organization["name"])."')",null,null);                      
+                        "connectUserTo('organizations','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($organization["name"])."')",null,null);                      
             }
         } 
     }
@@ -317,12 +322,16 @@ class Menu {
         "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
 
         if (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
-				self::entry("right", 'onclick',
-                        Yii::t( "common", "Declare me as admin of this project"),
-                        Yii::t( "common", "Become admin"),
+	         $connectAs="admin";
+	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]){
+		            $connectAs="contributor";
+	            }
+                self::entry("right", 'onclick',
+                        Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
+                        Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
-                        "declareMeAsAdmin('".$id."','".Project::COLLECTION."','".Yii::app()->session["userId"]."','".$project["name"]."')",null,null);                      
-            }
+                        "connectUserTo('projects','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
+           }
     }
 
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
