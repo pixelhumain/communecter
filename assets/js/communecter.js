@@ -92,12 +92,12 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 	)
 }
 
-function connectUserTo(parentType, parentId, userId, userType, connectType, parentName,actionAdmin) {
+function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();
 	var formData = {
-		"userId" : userId,
-		"userType" : userType, 
+		"childId" : childId,
+		"childType" : childType, 
 		"parentType" : parentType,
 		"parentId" : parentId,
 		"connectType" : connectType,

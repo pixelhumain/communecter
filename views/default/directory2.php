@@ -670,7 +670,7 @@ if( isset($_GET["isNotSV"])) {
 							} else {
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectUserTo(\''.$parentType.'\',\''.$parentId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectTo(\''.$parentType.'\',\''.$parentId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
