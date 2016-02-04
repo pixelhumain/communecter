@@ -31,6 +31,12 @@ return array(
 	"Change password" => "Changez le mot de passe",
 
 	"The current user is not valid : please login." => "Cet utilisateur n'est pas loggué",
-	"Incomplete Request." => "Demande Incomplète"
+	"Incomplete Request." => "Demande Incomplète",
+
+	"Oops! You are stuck at " => "Oops! Vous etes bloqué en ",
+	"Unfortunately the page you were looking for could not be found." => "Malheureusement la page que vous cherchez est introuvable",
+	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut etre temporairement indisponible, déplacé ou n'existe plus.",
+	"Check the URL you entered for any mistakes and try again." => "Vérifier l'URL et rééssayez",
+	"Return home" => "Retour Acceuil",
 	
 );
