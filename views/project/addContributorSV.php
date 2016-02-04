@@ -288,15 +288,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			submitHandler : function(form) {
 				successHandler2.show();
 				errorHandler2.hide();
-				id=$("#projectID").val();
-				newProject = new Object;
-				newProject.id = projectId;
-				newProject.type = $(".form-contributor #contributorType").val();
-				newProject.contribId = $("#newContributors #contributorId").val();
-				newProject.name = $(".form-contributor .contributor-name").val();
-				newProject.email = $('.form-contributor .contributor-email').val();
-				newProject.organizationType=$('.form-contributor #organizationType').val();
-				newProject.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
+				var connectType = "contributor";
+				if ($("#newContributors #contributorIsAdmin").val() == true) connectType = "admin";
+				var params = {
+					"childId" : $("#newContributors #contributorId").val(),
+					"childName" : $(".form-contributor .contributor-name").val(),
+					"childEmail" : $(".form-contributor .contributor-email").val(),
+					"childType" : $(".form-contributor #contributorType").val(), 
+					"organizationType" : $(".form-contributor #organizationType").val(),
+					"parentType" : "<?php echo Project::COLLECTION;?>",
+					"parentId" : projectId,
+					"connectType" : connectType
+				};
+			console.log(params);
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -318,9 +322,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/project/savecontributor',
+				        url: baseUrl+"/"+moduleId+'/link/connect',
 				        dataType : "json",
-				        data:newProject,
+				        data:params,
 						type:"POST",
 				    })
 				    .done(function (data) 

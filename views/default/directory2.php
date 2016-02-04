@@ -838,9 +838,9 @@ function bindBtnEvents(){
 					if (result) {
 						$.ajax({
 					        type: "POST",
-					        url: baseUrl+"/"+moduleId+"/link/removeuser",
+					        url: baseUrl+"/"+moduleId+"/link/disconnect",
 					       	dataType: "json",
-					       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"connectType":connectType},
+					       	data: {"parentType": parentType, "parentId": parentId, "childId":userId, "childType": userType,"connectType":connectType},
 				        	success: function(data){
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");
