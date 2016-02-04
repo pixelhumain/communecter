@@ -16,7 +16,6 @@ class LinkController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'savemember'       	=> 'citizenToolKit.controllers.link.SaveMemberAction',
 	        'removemember'     	=> 'citizenToolKit.controllers.link.RemoveMemberAction',
 	        "removerole"		=> 'citizenToolKit.controllers.link.RemoveRoleAction',
 			'removecontributor' => 'citizenToolKit.controllers.link.RemoveContributorAction',

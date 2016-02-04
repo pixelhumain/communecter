@@ -112,13 +112,6 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
                 message: '<div class="row">  ' +
                     '<div class="col-md-12"> ' +
                     '<form class="form-horizontal"> ' +
-                    '<div class="form-group"> ' +
-                    '<label class="col-md-4 control-label" for="name">Ajouter un rôle</label> ' +
-                    '<div class="col-md-4"> ' +
-                    '<input id="role" name="role" type="text" placeholder="Your Role" class="form-control input-md"> ' +
-                    '</div>'+
-                    '</div> ' +
-                    '<div class="form-group"> ' +
                     '<label class="col-md-4 control-label" for="awesomeness">Are you admin?</label> ' +
                     '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
                     '<input type="radio" name="awesomeness" id="awesomeness-0" value="admin"> ' +

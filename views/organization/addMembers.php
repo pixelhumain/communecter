@@ -153,14 +153,6 @@ if( isset($_GET["isNotSV"])) {
 								</div>
 							</div>
 			               	<div class ="row">
-			    	        	<div class="col-md-1">	
-					           		<i class="fa fa-tags fa-2x"></i>
-					           	</div>
-			    	        	<div class="col-md-10">
-			               			<input type="hidden" style="min-width:100%" placeholder="Role" autocomplete = "off" id="memberRole" name="memberRole" value=""/>
-			               		</div>
-			               	</div>
-			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1 padding-10">	
 									<button class="btn btn-primary pull-right" style="margin-left:10px;">Enregistrer</button>
 									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> Search</a>
@@ -186,7 +178,6 @@ if( isset($_GET["isNotSV"])) {
 	                    <th class="hidden-xs">Type</th>
 	                    <th>Name</th>
 	                    <th class="hidden-xs center">Email</th>
-	                    <th>Roles</th>
 	                    <th>Admin</th>
 	                    <th>Status</th>
 	                </tr>
@@ -252,12 +243,6 @@ if( isset($_GET["isNotSV"])) {
 		});
 	};
 	function initFormAddMember(){
-		if(typeof(organization["roles"])!="undefined"){
-			$('#memberRole').select2({ tags: organization["roles"]});
-			//$('#memberRole').select2({ tags: organization["roles"]});
-		}else{
-			$('#memberRole').select2({ tags: []});
-		}
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
@@ -271,23 +256,24 @@ if( isset($_GET["isNotSV"])) {
 		}); 
 		$("#addMemberForm").off().on("submit",function(event){
 	    	event.preventDefault();
-	    	var params = { 
-	    		"memberId" : $("#addMembers #memberId").val(),
-				"memberName" : $("#addMembers #memberName").val(),
-				"memberEmail" : $("#addMembers #memberEmail").val(),
-				"memberType" : $("#addMembers #memberType").val(),
+	    	
+	    	var connectType = "member";
+	    	if ($("#addMembers #memberIsAdmin").val() == true) connectType = "admin";
+	    	var params = {
+				"childId" : $("#addMembers #memberId").val(),
+				"childName" : $("#addMembers #memberName").val(),
+				"childEmail" : $("#addMembers #memberEmail").val(),
+				"childType" : $("#addMembers #memberType").val(), 
 				"organizationType" : $("#addMembers #organizationType").val(),
-				"parentOrganisation" : $("#addMembers #parentOrganisation").val(),
-				"memberIsAdmin" : $("#addMembers #memberIsAdmin").val(),
-				"memberRoles" : $("#addMembers #memberRole").val() 
+				"parentType" : "<?php echo Organization::COLLECTION;?>",
+				"parentId" : $("#addMembers #parentOrganisation").val(),
+				"connectType" : connectType
 			};
 			console.log(params);
-			
-			connectTo(parentType, parentId, userId, userType, connectType, parentName,actionAdmin);
-
+	    	
 	    	$.ajax({
 	            type: "POST",
-	            url: baseUrl+"/communecter/link/savemember",
+	            url: baseUrl+"/communecter/link/connect",
 	            data: params,
 	            dataType: "json",
 	            success: function(data){
@@ -298,31 +284,13 @@ if( isset($_GET["isNotSV"])) {
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();
-		               if($("#addMembers #memberRole").val() != ""){
-			               	if(typeof(organization["roles"])!="undefined"){
-			               		var tabStrRole = $("#addMembers #memberRole").val().split(",");
-			               		for(var i = 0; i<tabStrRole.length; i++){
-			               			if($.inArray(tabStrRole[i], organization["roles"])==-1){
-			               				organization["roles"].push(tabStrRole[i]);
-			               			}
-			               		}
-			               		
-								$('#memberRole').select2({ tags: organization["roles"]});
-								//$('#memberRole').select2({ tags: organization["roles"]});
-							}else{
-								var tabStrRole = $("#addMembers #memberRole").val().split(",");
-								$('#memberRole').select2({ tags: tabStrRole});
-							}
-		               }
-		               
+
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
 		                $("#addMembers #memberIsAdmin").val("");
-		                $("#addMembers #memberRole").val("");
 		                $('#addMembers #organizationType').val("");
 						$("#addMembers #memberIsAdmin").val("false");
-						$("#memberRole").select2("val", "");
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		                showSearch();
 	            	}
@@ -458,7 +426,6 @@ if( isset($_GET["isNotSV"])) {
 		$('#addMembers #memberEmail').val("");
 		$('#addMembers #memberEmail').removeAttr("disabled");
 		$('#addMembers #organizationType').removeAttr("disabled");
-		$("#addMembers #memberRole").val("");
 		$("#addMembers #memberIsAdmin").val("0");
 		$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -515,7 +482,6 @@ if( isset($_GET["isNotSV"])) {
 		strHTML = "<tr><td>"+type+"</td><td>"
        						+$("#addMembers #memberName").val()+"</td><td>"
        						+$("#addMembers #memberEmail").val()+"</td><td>"
-       						+$("#addMembers #memberRole").val()+"</td><td>"
        						+admin+"</td><td>"+
        						"<span class='label label-info'>added</span></td> <tr>";
         $(".newMembersAdded").append(strHTML);
