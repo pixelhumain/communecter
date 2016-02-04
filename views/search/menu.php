@@ -103,6 +103,11 @@ jQuery(document).ready(function() {
 		$(".main-col-search").html("");
 	});
 
+	$(".btn-logout").click(function(){
+    	console.log("btn-logout");
+		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
+	});
+
 	var positionMouseMenu = "out";
 	$(".hover-menu").mouseenter(function(){
 		//console.log("enter all");

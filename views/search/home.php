@@ -318,6 +318,16 @@ jQuery(document).ready(function() {
         startSearch();
     });
     
+     $("#btn-geoloc-auto").click(function(e){
+		if(geolocHTML5Done == false){
+			$("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...</span></center>");		
+    		initHTML5Localisation('prefillSearch');
+		}
+    	else{
+    		$("#modal-select-scope").modal("show");
+    	}
+    });
+
 });
 
 function openVideo(){
@@ -390,7 +400,7 @@ function autoCompleteSearch(name, locality){
     			$("#dropdown_search").show();
 	        	toastr.error('Aucune donnée');
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé. </br>Vous êtes communecté !</span></center>");
+	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  </br>Vous êtes communecté !</span></center>");
     			$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
