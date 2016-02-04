@@ -11,18 +11,18 @@
 					if( isset($error["message"]) )
 						echo $error["message"];
 					else
-						echo "Oops! You are stuck at ".$error["code"];
+						echo Yii::t("common","Oops! You are stuck at",null,Yii::app()->controller->module->id).$error["code"];
 					?>
 				</h3>
 				<p>
-					Unfortunately the page you were looking for could not be found.
+					<?php echo Yii::t("common","Unfortunately the page you were looking for could not be found.",null,Yii::app()->controller->module->id);?>
 					<br>
-					It may be temporarily unavailable, moved or no longer exist.
+					<?php echo Yii::t("common","It may be temporarily unavailable, moved or no longer exist.",null,Yii::app()->controller->module->id);?>
 					<br>
-					Check the URL you entered for any mistakes and try again.
+					<?php echo Yii::t("common","Check the URL you entered for any mistakes and try again.",null,Yii::app()->controller->module->id);?>
 					<br>
 					<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id);?>" class="btn btn-red btn-return">
-						Return home
+						<?php echo Yii::t("common","Return home",null,Yii::app()->controller->module->id);?>
 					</a>
 				</p>
 				
