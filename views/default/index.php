@@ -257,7 +257,7 @@ if( !isset( Yii::app()->session['userId']) ){
           $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
           $res = array();
           for ($i=0; $i < 8; $i++) { 
-            array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
+            array_push( $res , str_replace( "../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl , $files[array_rand($files)] ) );
           }
           return $res;
         } else

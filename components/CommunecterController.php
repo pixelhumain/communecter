@@ -258,7 +258,7 @@ class CommunecterController extends Controller
 
     "project"=> array(
       "edit"            => array("href" => "/ph/communecter/project/edit"),
-      "public"          => array("href" => "/ph/communecter/project/public"),
+      "get"          => array("href" => "/ph/communecter/project/get"),
       "save"            => array("href" => "/ph/communecter/project/save"),
       "update"            => array("href" => "/ph/communecter/project/update"),
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
