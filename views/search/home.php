@@ -78,6 +78,58 @@
 			z-index: 30;
 			border-radius: 30px 30px 30px 30px;
 		}
+		#searchBarPostalCode{
+			margin-top: 10px;
+			width: 200px;
+			margin-left: 0px;
+			font-family: "homestead";
+			font-size: 22px !important;
+			border-radius: 3px !important;
+			height: 40px;
+		}
+		input[type="text"].input-search:focus{
+			/*border-color: #3C5665 !important;*/
+			-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+			-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+			-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+			box-shadow: 0px 0px 5px -1px #CF3838 !important;
+			filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+		}
+
+		#dropdown_search{
+			margin-top:30px;
+			margin-bottom:30px;
+		}
+
+		.btn-success.communected{
+			width: 50%;
+			margin-left: 25%;
+			padding: 10px;
+			border-radius: 20px;
+			background-color:#5cb85c;
+			color:white;
+		}
+
+.searchEntity{
+	margin-bottom:10px;
+	margin-left:5px;
+	display: inline-block;
+}
+.searchEntity .entityRight{
+	text-align: center;
+	padding: 6px 16px !important;
+	margin-left: -1%;
+	border-radius: 30px;
+}
+.searchEntity .entityRight .entityLocality{
+	color:white !important;
+	display: inline;
+}
+.searchEntity .entityRight .entityName{
+	color:white !important;
+	display: inline;
+}
+
 </style>
 
 <div class="home_page">
@@ -110,43 +162,62 @@
 		<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
 	</h3>
 
+	<hr> 
 
-	<h2 class="center text-dark" style="margin-bottom:20px; margin-top:30px;">
-		<i class="fa fa-2x fa-angle-down"></i></br>
-		Découvrir
-	</h2>
-
-	<div class="col-md-12" style="margin-bottom:40px">
-		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
-				target="_blank" class="btn btn-discover bg-azure">
-				<i class="fa fa-connectdevelop"></i>
-			</a></br>L'annuaire</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-		</div>
-		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.agenda'); ?>" 
-				target="_blank" class="btn btn-discover bg-azure">
-				<i class="fa fa-calendar"></i>
-			</a></br>L'agenda</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-		</div>
-		<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.news'); ?>" 
-				target="_blank" 
-				class="btn btn-discover bg-azure">
-				<i class="fa fa-rss"></i>
-			</a></br>L'actualité</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-		</div>
-	</div>
-
-	<h3 class="text-dark information center" style="margin-top:30px; ">
-		<i class="fa fa-2x fa-angle-down"></i></br>
-		<strong><span class="text-red">Communecter</span> c'est simple : un email, un code postal et c'est parti !</strong></br>
-		Je suis communecté : j'ai accès à ma ville et à tout mon réseau !
+	<h3 class="text-dark information center" style="margin-top:15px; ">
+		<!-- <i class="fa fa-2x fa-angle-down"></i></br> -->
+		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong></br>
+		Je suis communecté : j'ai accès à ma ville !</br>
 	</h3>
 
+	<div class="col-md-6" style="text-align:right;">
+		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button></br>
+		
+		<div class="" style="display:none;" id="div-param-postal-code">	
+			<i class="fa fa-2x fa-angle-right"></i> 
+			<input id="searchBarPostalCode" class="input-search text-red" style="margin-left:5px;" type="text" placeholder="...">
+		</div>
+	</div>
+	<div class="col-md-6">
+		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
+	</div>
+
+	<div id="dropdown_search" class="col-md-12">
+		
+	</div>
+
+	<div style="display:none;" class="col-md-12" id="div-discover">
+		<!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
+		<h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+			<i class="fa fa-2x fa-angle-down"></i></br>
+			Découvrir
+		</h2>
+		<div class="col-md-12" style="margin-bottom:40px">
+			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
+					target="_blank" class="btn btn-discover bg-azure">
+					<i class="fa fa-connectdevelop"></i>
+				</a></br>L'annuaire</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+			</div>
+			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.agenda'); ?>" 
+					target="_blank" class="btn btn-discover bg-azure">
+					<i class="fa fa-calendar"></i>
+				</a></br>L'agenda</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+			</div>
+			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.news'); ?>" 
+					target="_blank" 
+					class="btn btn-discover bg-azure">
+					<i class="fa fa-rss"></i>
+				</a></br>L'actualité</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+			</div>
+		</div>
+	</div>
 	
+	<hr>
 	
-	<div class="section-content section-no-top-padding section-video">
+	<div class="section-content section-video" style="margin-top:90px;">
 		<div class="textProjectSlider">
 		</div>
 		<div class="imageSection imageSectionVideo text-center">
@@ -238,6 +309,14 @@ jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER.Org");
 
 	$('.tooltips').tooltip();
+
+	$("#btn-param-postal-code").click(function(){
+		$("#div-param-postal-code").show(400);
+	});
+
+	$('#searchBarPostalCode').keyup(function(e){
+        startSearch();
+    });
     
 });
 
@@ -250,5 +329,224 @@ function openVideo(){
 	$("iframe").css("width", width);
 	$("iframe").css("height", height);
 }
+
+
+
+var timeout = null;
+function startSearch(){
+	var name = $('#searchBarPostalCode').val();
+    var locality = $('#searchBarPostalCode').val();
+
+    name = name.replace(/[^\w\s']/gi, '');
+    locality = locality.replace(/[^\w\s']/gi, '');
+
+    //verification si c'est un nombre
+    if(!isNaN(parseInt(locality))){
+        if(locality.length == 0 || locality.length > 5) locality = "";
+    }
+
+    if(name.length>=3 || name.length == 0){
+      clearTimeout(timeout);
+      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
+    }else{
+      
+    }   
+}
+
+
+function autoCompleteSearch(name, locality){
+    var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ]  };
+    var countData = 0;
+    var oneElement = null;
+    $("#shortDetailsEntity").hide();
+    $.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             console.log("error");
+          	console.dir(data);
+            
+          },
+          success: function(data){
+          	console.log("success, try to load sig");
+          	console.dir(data);
+            if(!data){
+              toastr.error(data.content);
+            }else{
+
+            $.each(data, function(i, v) {
+	            if(v.length!=0){
+	              $.each(v, function(k, o){
+	              	oneElement = o;
+	              	countData++;
+	              });
+	            }
+	        });
+
+	        if(countData == 0){
+	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
+    			$("#dropdown_search").show();
+	        	toastr.error('Aucune donnée');
+	        }else{
+	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé. </br>Vous êtes communecté !</span></center>");
+    			$("#dropdown_search").show();
+    			validatePostalcode(locality);
+	        }
+
+	      /*
+          var mapElements = new Array();  	
+          
+          str = "<div class='col-md-12 center'>";
+          str += "<h3 class='text-dark' style='margin-top:0px;'><i class='fa fa-angle-down fa-2x'></i></br> Sélectionnez la commune recherchée ...</h3>";
+          var city, postalCode = "";
+          $.each(data, function(i, v) {
+            var typeIco = i;
+            var ico = mapIconTop["default"];
+            var color = mapColorIconTop["default"];
+
+            
+            if(v.length!=0){
+              $.each(v, function(k, o){
+
+               mapElements.push(o);
+
+				typeIco = o.type;
+                ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+                color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+                
+                htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+               	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                }
+
+                city="";
+
+                var postalCode = o.cp
+                if (o.address != null) {
+                  city = o.address.addressLocality;
+                  postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+                }
+                
+                
+                var id = getObjectId(o);
+                var insee = o.insee ? o.insee : "";
+                type = o.type;
+                if(type=="citoyen") type = "person";
+                var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+                var	onclick = 'validatePostalcode("'+o.cp+'");';
+                var	onclickCp = 'validatePostalcode("'+o.cp+'");';
+                var	target = "";
+                
+
+                var tags = "";
+                if(typeof o.tags != "undefined" && o.tags != null){
+					$.each(o.tags, function(key, value){
+						if(value != "")
+		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+		            });
+                }
+
+                var name = typeof o.name != "undefined" ? o.name : "";
+                var postalCode = (typeof o.address != "undefined" &&
+                				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+                
+                if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+                var cityName = (typeof o.address != "undefined" &&
+                				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+                
+                var fullLocality = postalCode + " " + cityName;
+
+                var description = (typeof o.shortDescription != "undefined" &&
+                					o.shortDescription != null) ? o.shortDescription : "";
+                if(description == "") description = (typeof o.description != "undefined" &&
+                									 o.description != null) ? o.description : "";
+         
+                var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+                var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+
+                //template principal
+                str += "<div class='searchEntity'>";
+	     			target = "";
+	                str += "<div class='entityRight bg-red badge'>";
+	                	if(fullLocality != "" && fullLocality != " ")
+	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a> ";
+	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName'>" + name + "</a> ";
+	                	
+	                str += "</div>";
+	                					
+				str += "</div>";
+
+			
+              })
+            }
+
+			
+
+            }); 
+			*/
+			/*
+            if(str == "") {
+            	//$("#dropdown_search").html("");
+            	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
+            	//$("#dropdown_search").css({"display" : "none" });	             
+            }else{
+            	//str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
+            	str += '</div>';
+	            $("#dropdown_search").html(str);
+	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
+	            $("#dropdown_search").css({"display" : "inline" });
+	           	$(".my-main-container").scrollTop(95);
+	           	$("#link-start-search").html("Rechercher");
+	            //$("#link-start-search").removeClass("badge");
+
+	             if(countData == 1){
+	            	console.log("only one");
+	            	//$("#dropdown_search").css({"display" : "none" });
+	            	//setScopeValue(oneElement.name, oneElement.insee);
+	            }
+	        }
+	        $(".btn-start-search").removeClass("bg-azure");
+    		//$(".btn-start-search").addClass("bg-dark");
+    		*/
+          }
+
+          /*console.log("ALL MAP ELEMTN");
+          console.dir(mapElements);
+          Sig.showMapElements(Sig.map, mapElements);
+          */
+
+          
+      }
+    });
+
+    str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
+    $(".btn-start-search").html(str);
+    $(".btn-start-search").addClass("bg-azure");
+    //$("#link-start-search").html("Recherche en cours ...");
+    $(".btn-start-search").removeClass("bg-dark");
+    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
+    $("#dropdown_search").css({"display" : "inline" });
+                    
+  }
+
+  	function validatePostalcode(postalCode){
+  		var path = "/";
+		//console.log(location.hostname.indexOf("localhost") );
+		//console.dir(location);
+		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+	    console.log("mise à jour du cookie postalCode", path);
+		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
+		$("#div-discover").show(500);
+  	}
+
+	function setScopeValue(valText, insee){
+		$("#searchBarPostalCode").val(valText);
+		if(insee != "")
+		  	showNewsStream(insee);
+		else
+			startSearch();
+	}
 
 </script>

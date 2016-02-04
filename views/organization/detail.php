@@ -157,8 +157,8 @@
 		});
 		
 		
-		//Add Me as member Of Button
-		$('#addMeAsMemberInfo').off().on("click", function(e) {
+		//Add Me as member Of Button --- A supprimer (refactor links)
+		/*$('#addMeAsMemberInfo').off().on("click", function(e) {
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			e.preventDefault();
 			var formData = {
@@ -200,7 +200,7 @@
 					},
 				});  
 			});             
-		});	
+		});	*/
 	}
 </script>
 <?php } ?>

@@ -39,8 +39,8 @@
 		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
 		   			    Yii::app()->request->cookies['cityName'] : "";
 		if($where == "") 
-				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
-			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			  Yii::app()->request->cookies['postalCode'] : "";
 	?>
 	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
 		   value="<?php echo $where; ?>" >
@@ -64,7 +64,7 @@ jQuery(document).ready(function() {
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
-	
+
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
 	$('.tooltips').tooltip();
@@ -94,6 +94,11 @@ jQuery(document).ready(function() {
     initBtnScopeList();
     startSearch();
 });
+
+function setScopeValue(value){
+      $("#searchBarPostalCode").val(value);
+      startSearch();
+    }
 
 
 var timeout = null;
@@ -149,7 +154,7 @@ function autoCompleteSearch(name, locality){
 
 	        if(countData == 0){
 	        	$("#dropdown_searchTop").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_searchTop").show();
+    			  $("#dropdown_searchTop").show();
 	        	toastr.error('Aucune donnée');
 	        }
 
@@ -228,26 +233,26 @@ function autoCompleteSearch(name, locality){
                 var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                 //template principal
-                str += "<div class='col-md-11 searchEntity'>";
-	                str += "<div class='col-md-5 col-lg-6 entityLeft'>";
+                str += "<div class='col-md-12 searchEntity'>";
+	                str += "<div class='col-md-5 entityLeft'>";
 	                	
 	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
 	                	if(type!="city")
-						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
-							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
-									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-								"</a>";
-						<?php } ?>
-						str += tags;
+        						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
+            							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
+            							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+            									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+            								"</a>";
+        						<?php } ?>
+        						str += tags;
 						
 	                str += "</div>";
 
 	                str += "<div class='col-md-2 entityCenter'>";
-						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
 	                str += "</div>";
-					target = "";
-	                str += "<div class='col-md-5 col-lg-4 entityRight no-padding'>";
+					         target = "";
+	                str += "<div class='col-md-5 entityRight no-padding'>";
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
 	                	if(fullLocality != "" && fullLocality != " ")
 	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";

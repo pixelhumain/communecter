@@ -91,7 +91,38 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 		}
 	)
 }
-
+function disconnectTo(parentType,parentId,childId,childType,connectType){
+	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	var formData = {
+		"childId" : childId,
+		"childType" : childType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+		"connectType" : connectType,
+	};
+	bootbox.confirm("Are you sure you want to remove this connection", 
+		function(result) {
+			if (!result) {
+			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			return;
+		}
+		console.log(formData);
+		$.ajax({
+			type: "POST",
+			url: baseUrl+"/"+moduleId+"/link/disconnect",
+			data : formData,
+			dataType: "json",
+			success: function(data){
+				if ( data && data.result ) {
+					removeFloopEntity(data.parentId, data.parentType);
+					loadByHash(location.hash);
+				} else {
+				   toastr.error("You leave succesfully");
+				}
+			}
+		});
+	});
+}
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();
@@ -109,6 +140,9 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 	if(connectType!="admin"){
 		bootbox.dialog({
                 title: "Are you sure to join the "+parentType+" as "+connectType+" ?",
+                onEscape: function() {
+	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                },
                 message: '<div class="row">  ' +
                     '<div class="col-md-12"> ' +
                     '<form class="form-horizontal"> ' +
@@ -167,7 +201,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		bootbox.confirm("Are you sure to join the "+parentType+" as "+connectType+" ?", 
 		function(result) {
 			if (!result) {
-				$(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
 				return;
 			}
 			console.log(formData);
