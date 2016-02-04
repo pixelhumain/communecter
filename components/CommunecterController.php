@@ -295,11 +295,11 @@ class CommunecterController extends Controller
       "savemember"          => array("href" => "/ph/communecter/link/savemember"),
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
       "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
-      "removeuser"   => array("href" => "/ph/communecter/link/removeuser"),
-      "declaremeadmin"   => array("href" => "/ph/communecter/link/declaremeadmin"),
-      "addasadmin"   => array("href" => "/ph/communecter/link/addasadmin"),
-      "addasmember"   => array("href" => "/ph/communecter/link/addasmember"),
-       "connectmeas"   => array("href" => "/ph/communecter/link/connectmeas")
+      "disconnect"   		=> array("href" => "/ph/communecter/link/disconnect"),
+      "declaremeadmin"   	=> array("href" => "/ph/communecter/link/declaremeadmin"),
+      "addasadmin"   		=> array("href" => "/ph/communecter/link/addasadmin"),
+      "addasmember"   		=> array("href" => "/ph/communecter/link/addasmember"),
+       "connectmeas"  		=> array("href" => "/ph/communecter/link/connectmeas")
     ),
 
     "document" => array(
