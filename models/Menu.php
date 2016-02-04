@@ -327,6 +327,11 @@ class Menu {
         Yii::t( "common", "Project contributors"), 
         Yii::t( "common", 'Contributors'), 'connectdevelop',
         "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
+                // ADD MEMBER
+        //-----------------------------
+        if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
+            self::entry("right", 'showAjaxPanel',Yii::t('common','Add a contributor to this project'), Yii::t("common",'Add contributor'),'plus','/project/addcontributorsv/projectId/'.$id.'?isNotSV=1',"project","addcontributorsv");
+        }
 		if(isset($project["_id"]) && isset(Yii::app()->session["userId"]) && 
                 Link::isLinked((string)$project["_id"], Project::COLLECTION, Yii::app()->session["userId"])){
 	            
