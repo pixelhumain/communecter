@@ -103,6 +103,14 @@ function getCityInseeByGeoPos(coords){
 					//searchCity();
 					showModalSelectScope(obj);
 				}
+				else if(currentRoleLoc == "communexion"){ // && typeof obj.name != "undefined"){
+					//toastr.success("Nous avons trouvé votre position actuelle : "+obj.name);
+					//$("#searchBarPostalCode").val(obj.name);
+					//$.cookie("HTML5CityName", 	 obj.name, 	   { path : '/ph/' });
+					//startSearch();
+					//searchCity();
+					showModalSelectScope(obj);
+				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);

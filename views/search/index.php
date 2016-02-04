@@ -169,7 +169,7 @@ var typesLabels = {
 
 	var isNotSV = true;
 	var hideScrollTop = true;
-
+	
 	jQuery(document).ready(function() {
 		
 		$(".my-main-container").css("min-height", $(".sigModuleBg").height());
