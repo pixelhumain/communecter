@@ -16,14 +16,14 @@ class LinkController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'savemember'       	=> 'citizenToolKit.controllers.link.SaveMemberAction',
 	        'removemember'     	=> 'citizenToolKit.controllers.link.RemoveMemberAction',
 	        "removerole"		=> 'citizenToolKit.controllers.link.RemoveRoleAction',
 			'removecontributor' => 'citizenToolKit.controllers.link.RemoveContributorAction',
-			'removeuser'        => 'citizenToolKit.controllers.link.RemoveUserAction',
-			'declaremeadmin'    => 'citizenToolKit.controllers.link.DeclareMeAdminAction',
-			'addasadmin'        => 'citizenToolKit.controllers.link.AddAsAdminAction',
-			'addasmember'       => 'citizenToolKit.controllers.link.AddAsMemberAction'
+			'removeuser' 		=> 'citizenToolKit.controllers.link.RemoveUserAction',
+			'declaremeadmin' 	=> 'citizenToolKit.controllers.link.DeclareMeAdminAction',
+			'addasadmin' 		=> 'citizenToolKit.controllers.link.AddAsAdminAction',
+			'addasmember' 		=> 'citizenToolKit.controllers.link.AddAsMemberAction',
+			'connect' 			=> 'citizenToolKit.controllers.link.ConnectAction'
 	    );
 	}
 
