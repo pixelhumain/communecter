@@ -1,10 +1,11 @@
 <div class="row">
 	<div class="col-md-12">
-		<div class="page-error animated shake">
-			<div class="error-number text-azure">
-				<?php echo $error["code"]?>
-			</div>
-			<div class="error-details col-sm-6 col-sm-offset-3">
+		<div class="page-error animated shake ">
+			<div class="space20"></div>
+			<div class="error-details col-sm-6 col-sm-offset-3  panel-white padding-20">
+				<div class="error-number text-azure">
+					<?php echo $error["code"]?>
+				</div>
 				<h3>
 					<?php 
 					if( isset($error["message"]) )
