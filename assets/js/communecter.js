@@ -142,7 +142,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
                             console.log(formData);
                             $.ajax({
 								type: "POST",
-								url: baseUrl+"/"+moduleId+"/link/connectmeas",
+								url: baseUrl+"/"+moduleId+"/link/connect",
 								data: formData,
 								dataType: "json",
 								success: function(data) {
@@ -180,7 +180,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 			console.log(formData);
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/connectmeas",
+				url: baseUrl+"/"+moduleId+"/link/connect",
 				data: formData,
 				dataType: "json",
 				success: function(data) {
