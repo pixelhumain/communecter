@@ -258,7 +258,7 @@ class CommunecterController extends Controller
 
     "project"=> array(
       "edit"            => array("href" => "/ph/communecter/project/edit"),
-      "public"          => array("href" => "/ph/communecter/project/public"),
+      "get"          => array("href" => "/ph/communecter/project/get"),
       "save"            => array("href" => "/ph/communecter/project/save"),
       "update"            => array("href" => "/ph/communecter/project/update"),
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
@@ -292,14 +292,13 @@ class CommunecterController extends Controller
     ),
 
     "link" => array(
-      "savemember"          => array("href" => "/ph/communecter/link/savemember"),
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
       "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
       "disconnect"   		=> array("href" => "/ph/communecter/link/disconnect"),
-      "declaremeadmin"   	=> array("href" => "/ph/communecter/link/declaremeadmin"),
-      "addasadmin"   		=> array("href" => "/ph/communecter/link/addasadmin"),
-      "addasmember"   		=> array("href" => "/ph/communecter/link/addasmember"),
-       "connectmeas"  		=> array("href" => "/ph/communecter/link/connectmeas")
+      "declaremeadmin"   => array("href" => "/ph/communecter/link/declaremeadmin"),
+      "addasadmin"   => array("href" => "/ph/communecter/link/addasadmin"),
+      "addasmember"   => array("href" => "/ph/communecter/link/addasmember"),
+      "connect"   => array("href" => "/ph/communecter/link/connect")
     ),
 
     "document" => array(

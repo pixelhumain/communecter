@@ -12,11 +12,11 @@
 					Yii::app()->request->cookies['cityName'].'</a>'.
 				 '</li>';
 		}
-		if(isset( Yii::app()->request->cookies['HTML5CityName'] )){
+		if(isset( Yii::app()->request->cookies['postalCode'] )){
 			echo '<li>'.
-					'<a href="javascript:" class="btn-scope-list text-red homestead" val="'.Yii::app()->request->cookies['HTML5CityName'].'">'.
+					'<a href="javascript:" class="btn-scope-list text-red homestead" val="'.Yii::app()->request->cookies['postalCode'].'">'.
 					'<i class="fa fa-angle-down"></i></br>'.
-					Yii::app()->request->cookies['HTML5CityName'].'</a>'.
+					Yii::app()->request->cookies['postalCode'].'</a>'.
 				 '</li>';
 		}
 	?>
