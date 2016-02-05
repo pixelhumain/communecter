@@ -27,25 +27,6 @@
 	height:250px;
 }
 
-#newsHistory{
-	padding:1px !important;
-}
-#newsHistory .title-processing{
-	display: none;
-}
-
-#newsHistory .timeline-scrubber{
-	top:0px !important;
-}
-#newsHistory #timeline{
-	width:100%;
-}
-#newsHistory #top{
-	padding:0px !important;
-}
-#newsHistory .panel.panel-white{
-	box-shadow: 0px 0px;
-}
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
@@ -57,7 +38,7 @@
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte" alt="Localisation automatique">
+		data-toggle="tooltip" data-placement="right" title="Carte">
 		<i class="fa fa-map-marker"></i>
 </button>
 
@@ -87,7 +68,7 @@
 </div>
 
 
-<?php $this->renderPartial("first_step_agenda"); ?> 
+<?php $this->renderPartial("first_step_news"); ?> 
 
 <div class="" id="dropdown_search"></div>
 <div class="" id="newsstream"></div>
@@ -122,6 +103,17 @@ jQuery(document).ready(function() {
     	initHTML5Localisation('prefillSearch');
     });
 
+    $(".btn-geolocate").click(function(e){
+      if(geolocHTML5Done == false){
+          initHTML5Localisation('prefillSearch');
+          $("#modal-select-scope").modal("show");
+          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+      } else{
+          $("#modal-select-scope").modal("show");
+      }
+    });
+      
     initBtnScopeList();
 	startSearch();
 });
