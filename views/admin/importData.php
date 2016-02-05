@@ -272,6 +272,9 @@ $userId = Yii::app()->session["userId"] ;
 	</div>
 </div>
 <script type="text/javascript">
+
+$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+
 var tabObject = [];
 var userId = "<?php echo $userId; ?>" ;
 $("#memberId").html(userId);
@@ -336,7 +339,7 @@ function bindEvents()
 			$.ajax({
 			        type: 'POST',
 			        data: {
-			        		nameFile : 
+			        		nameFile : ""
 			        },
 			        url: baseUrl+'/communecter/admin/previewData/',
 			        dataType : 'json',

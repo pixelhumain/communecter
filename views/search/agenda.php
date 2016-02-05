@@ -9,7 +9,7 @@
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte" alt="Localisation automatique">
+		data-toggle="tooltip" data-placement="right" title="Carte">
 		<i class="fa fa-map-marker"></i>
 </button>
 
@@ -25,8 +25,8 @@
 		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
 		   			    Yii::app()->request->cookies['cityName'] : "";
 		if($where == "") 
-				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
-			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			Yii::app()->request->cookies['postalCode'] : "";
 	?>
 	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
 		   value="<?php echo $where; ?>" >
@@ -73,6 +73,17 @@ jQuery(document).ready(function() {
     	initHTML5Localisation('prefillSearch');
     });
     
+    $(".btn-geolocate").click(function(e){
+      if(geolocHTML5Done == false){
+          initHTML5Localisation('prefillSearch');
+          $("#modal-select-scope").modal("show");
+          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+      } else{
+          $("#modal-select-scope").modal("show");
+      }
+    });
+
     initBtnScopeList();
     startSearch();
 });
@@ -125,6 +136,8 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
+            $("#dropdown_searchTop").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
+            //$("#dropdown_searchTop").show();
 	        	toastr.error('Aucune donnée');
 	        }
 
@@ -147,7 +160,7 @@ function autoCompleteSearch(name, locality){
 
                mapElements.push(o);
 
-				typeIco = o.type;
+				        typeIco = o.type;
                 ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                 color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                 
@@ -235,9 +248,9 @@ function autoCompleteSearch(name, locality){
             }
             }); 
             if(str == "") {
-            	$("#dropdown_searchTop").html("");
+            	//$("#dropdown_searchTop").html("");
             	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-            	$("#dropdown_searchTop").css({"display" : "none" });
+            	//$("#dropdown_searchTop").css({"display" : "none" });
             
             }else{
             	str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
@@ -264,8 +277,9 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
    // $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_searchTop").html("");
+    $("#dropdown_searchTop").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
     $("#dropdown_searchTop").css({"display" : "inline" });
-                    
+                   
   }
 
   function addEventOnSearch() {

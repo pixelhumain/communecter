@@ -23,7 +23,7 @@
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte" alt="Localisation automatique">
+		data-toggle="tooltip" data-placement="right" title="Carte">
 		<i class="fa fa-map-marker"></i>
 </button>
 
@@ -39,22 +39,40 @@
 		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
 		   			    Yii::app()->request->cookies['cityName'] : "";
 		if($where == "") 
-				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
-			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			  Yii::app()->request->cookies['postalCode'] : "";
 	?>
 	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
 		   value="<?php echo $where; ?>" >
 
 	<?php $this->renderPartial("dropdown_scope"); ?> 
 
-
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
+
+  <div class="col-md-12 center" style="margin-top:45px;margin-bottom:0px;">
+    <div class="btn-group inline-block" id="menu-directory-type">
+      <!-- <button class="btn btn-default bg-dark"><i class="fa fa-angle-right fa-2x"></i> Filtrer</button> -->
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Tous" type="all">
+        <i class="fa fa-2x fa-asterisk"></i>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
+        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-2x fa-user"></i>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-2x fa-group"></i>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-2x fa-lightbulb-o"></i>
+      </button>
+    </div>
+  </div>
+
 </div>
 
 
 
-<div class="" id="dropdown_searchTop"></div>
+<div style="margin-top:30px;" class="col-md-12" id="dropdown_search"></div>
 
 <?php $this->renderPartial("first_step_directory"); ?> 
 
@@ -64,7 +82,7 @@ jQuery(document).ready(function() {
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
-	
+
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
 	$('.tooltips').tooltip();
@@ -85,20 +103,45 @@ jQuery(document).ready(function() {
     });
 
     $(".btn-geolocate").click(function(e){
-		if(geolocHTML5Done == false)
-    		initHTML5Localisation('prefillSearch');
-    	else
-    		$("#modal-select-scope").modal("show");
+  		if(geolocHTML5Done == false){
+      		initHTML5Localisation('prefillSearch');
+          $("#modal-select-scope").modal("show");
+          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+      }	else{
+      		$("#modal-select-scope").modal("show");
+      }
     });
+
+    $(".btn-filter-type").click(function(e){
+      var type = $(this).attr("type");
+      var index = searchType.indexOf(type);
+
+      if(type == "all" && searchType.length > 1){
+        $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+      }
+      if(type == "all" && searchType.length == 1){
+        $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+      }
+
+      if (index > -1) removeSearchType(type);
+      else addSearchType(type);
+    });
+   
 
     initBtnScopeList();
     startSearch();
 });
 
+function setScopeValue(value){
+      $("#searchBarPostalCode").val(value);
+      startSearch();
+    }
+
 
 var timeout = null;
 function startSearch(){
-	var name = $('#searchBarText').val();
+	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
 
     name = name.replace(/[^\w\s']/gi, '');
@@ -117,9 +160,37 @@ function startSearch(){
     }   
 }
 
+var searchType = [ "persons", "organizations", "projects", "cities" ];
+//var minSearchType = [ "cities" ];
+var allSearchType = [ "persons", "organizations", "projects" ];
+
+function addSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index == -1) {
+    searchType.push(type);
+    $(".search_"+type).removeClass("fa-circle-o");
+    $(".search_"+type).addClass("fa-check-circle-o");
+  }
+  console.log("addSearchType");
+  console.dir(searchType);
+}
+function removeSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index > -1) {
+    searchType.splice(index, 1);
+    $(".search_"+type).removeClass("fa-check-circle-o");
+    $(".search_"+type).addClass("fa-circle-o");
+  }
+  console.log("removeSearchType");
+  console.dir(searchType);
+}
 
 function autoCompleteSearch(name, locality){
-    var data = {"name" : name, "locality" : locality, "searchType" : [ "persons", "organizations", "projects", "cities" ]  };
+    
+    var data = {"name" : name, "locality" : locality, "searchType" : searchType  };
+    console.log("autocomplete searchType");
+    console.dir(searchType);
+
     $("#shortDetailsEntity").hide();
     $.ajax({
       type: "POST",
@@ -148,8 +219,8 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
-	        	$("#dropdown_searchTop").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_searchTop").show();
+	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
+    			  //$("#dropdown_search").show();
 	        	toastr.error('Aucune donnée');
 	        }
 
@@ -205,7 +276,7 @@ function autoCompleteSearch(name, locality){
                 if(typeof o.tags != "undefined" && o.tags != null){
 					$.each(o.tags, function(key, value){
 						if(value != "")
-		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
 		            });
                 }
 
@@ -228,26 +299,26 @@ function autoCompleteSearch(name, locality){
                 var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                 //template principal
-                str += "<div class='col-md-11 searchEntity'>";
-	                str += "<div class='col-md-5 col-lg-6 entityLeft'>";
+                str += "<div class='col-md-12 searchEntity'>";
+	                str += "<div class='col-md-5 entityLeft'>";
 	                	
 	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
 	                	if(type!="city")
-						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
-							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
-									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-								"</a>";
-						<?php } ?>
-						str += tags;
+        						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
+            							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
+            							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+            									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+            								"</a>";
+        						<?php } ?>
+        						str += tags;
 						
 	                str += "</div>";
 
 	                str += "<div class='col-md-2 entityCenter'>";
-						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
 	                str += "</div>";
-					target = "";
-	                str += "<div class='col-md-5 col-lg-4 entityRight no-padding'>";
+					         target = "";
+	                str += "<div class='col-md-5 entityRight no-padding'>";
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
 	                	if(fullLocality != "" && fullLocality != " ")
 	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
@@ -266,15 +337,15 @@ function autoCompleteSearch(name, locality){
             }
             }); 
             if(str == "") {
-            	//$("#dropdown_searchTop").html("");
+            	//$("#dropdown_search").html("");
             	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-            	//$("#dropdown_searchTop").css({"display" : "none" });	             
+            	//$("#dropdown_search").css({"display" : "none" });	             
             }else{
             	//str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
 
-	            $("#dropdown_searchTop").html(str);
+	            $("#dropdown_search").html(str);
 	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
-	            $("#dropdown_searchTop").css({"display" : "inline" });
+	            $("#dropdown_search").css({"display" : "inline" });
 	           	$(".my-main-container").scrollTop(95);
 	            //$("#link-start-search").html("Rechercher");
 
@@ -300,16 +371,16 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     $("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_searchTop").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_searchTop").css({"display" : "inline" });
+    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
+    $("#dropdown_search").css({"display" : "inline" });
                     
   }
 
   function addEventOnSearch() {
     $('.searchEntry').off().on("click", function(){
       
-      //toastr.success($("#dropdown_searchTop").position().top);
-      var top = $(this).position().top;// + $("#dropdown_searchTop").position().top;
+      //toastr.success($("#dropdown_search").position().top);
+      var top = $(this).position().top;// + $("#dropdown_search").position().top;
 
       setSearchInput($(this).data("id"), $(this).data("type"),
                      $(this).data("insee"), top );
@@ -379,5 +450,9 @@ function autoCompleteSearch(name, locality){
        		});
 		}
    	});
+
+    $(".btn-tag").click(function(){
+      setSearchValue($(this).html());
+    });
   }
 </script>

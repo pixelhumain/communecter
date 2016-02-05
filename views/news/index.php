@@ -108,6 +108,9 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 	position:fixed;
 	top:100px;
 	<?php } ?>
+	<?php if(isset($_GET["isNewsDesign"])) { ?>
+		position:absolute;
+	<?php } ?>
 	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;

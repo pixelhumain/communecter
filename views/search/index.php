@@ -71,7 +71,7 @@
 	<?php $this->renderPartial("short_info_profil"); ?> 
 
 	<button class="menu-button btn-menu btn-menu-top bg-azure tooltips" id="btn-toogle-map"
-			data-toggle="tooltip" data-placement="right" title="Carte" alt="Localisation automatique">
+			data-toggle="tooltip" data-placement="right" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>
 	</button>
 
@@ -92,8 +92,10 @@
 </div>
 
 <?php  
-	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
-	$this->renderPartial($layoutPath.'notifications2');
+	if(!isset(Yii::app()->session['userId'])) {
+		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+		$this->renderPartial($layoutPath.'notifications2');
+	}
 ?>
 
 <div class="modal fade" id="modal-select-scope" tabindex="-1" role="dialog">
@@ -104,7 +106,7 @@
         <h4 class="modal-title homestead"><i class="fa fa-crosshairs"></i> Communection</h4>
       </div>
       <div class="modal-body text-dark">
-      	<h3 style="margin-top:0px;"><i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?</h3>
+      	<h3 style="margin-top:0px;" id="main-title-modal-scope"></h3>
         <div id="list-scope"></div>
       </div>
       <div class="modal-footer">
@@ -291,11 +293,13 @@ var typesLabels = {
 				$(".btn-group-map").show( 700 );
 				$("#right_tool_map").show(700);
 				$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
+				$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 				$(".my-main-container").animate({
 	         							top: -1000,
-	         							opacity:0
+	         							opacity:0,
 								      }, 'slow' );
 
+				setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
 				var timer = setTimeout("Sig.constructUI()", 1000);
 				
 			}else{
@@ -304,10 +308,12 @@ var typesLabels = {
 				$("#right_tool_map").hide(700);
 				$(".panel_map").hide(1);
 				$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
+				$("#btn-toogle-map").attr("data-original-title", "Carte");
 				$(".my-main-container").animate({
 	         							top: 0,
 	         							opacity:1
 								      }, 'slow' );
+				setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
 				if(Sig.currentMarkerPopupOpen != null){
 					Sig.currentMarkerPopupOpen.closePopup();
@@ -324,6 +330,10 @@ var typesLabels = {
 
     function setScopeValue(value){
 	  	$("#searchBarPostalCode").val(value);
+	  	startSearch();
+    }
+    function setSearchValue(value){
+	  	$("#searchBarText").val(value);
 	  	startSearch();
     }
 

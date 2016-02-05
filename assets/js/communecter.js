@@ -91,7 +91,38 @@ function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) 
 		}
 	)
 }
-
+function disconnectTo(parentType,parentId,childId,childType,connectType){
+	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	var formData = {
+		"childId" : childId,
+		"childType" : childType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+		"connectType" : connectType,
+	};
+	bootbox.confirm("Are you sure you want to remove this connection", 
+		function(result) {
+			if (!result) {
+			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			return;
+		}
+		console.log(formData);
+		$.ajax({
+			type: "POST",
+			url: baseUrl+"/"+moduleId+"/link/disconnect",
+			data : formData,
+			dataType: "json",
+			success: function(data){
+				if ( data && data.result ) {
+					removeFloopEntity(data.parentId, data.parentType);
+					loadByHash(location.hash);
+				} else {
+				   toastr.error("You leave succesfully");
+				}
+			}
+		});
+	});
+}
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();
@@ -109,16 +140,12 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 	if(connectType!="admin"){
 		bootbox.dialog({
                 title: "Are you sure to join the "+parentType+" as "+connectType+" ?",
+                onEscape: function() {
+	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                },
                 message: '<div class="row">  ' +
                     '<div class="col-md-12"> ' +
                     '<form class="form-horizontal"> ' +
-                    '<div class="form-group"> ' +
-                    '<label class="col-md-4 control-label" for="name">Ajouter un rôle</label> ' +
-                    '<div class="col-md-4"> ' +
-                    '<input id="role" name="role" type="text" placeholder="Your Role" class="form-control input-md"> ' +
-                    '</div>'+
-                    '</div> ' +
-                    '<div class="form-group"> ' +
                     '<label class="col-md-4 control-label" for="awesomeness">Are you admin?</label> ' +
                     '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
                     '<input type="radio" name="awesomeness" id="awesomeness-0" value="admin"> ' +
@@ -174,7 +201,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		bootbox.confirm("Are you sure to join the "+parentType+" as "+connectType+" ?", 
 		function(result) {
 			if (!result) {
-				$(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
 				return;
 			}
 			console.log(formData);
