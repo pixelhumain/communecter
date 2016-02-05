@@ -27,25 +27,6 @@
 	height:250px;
 }
 
-#newsHistory{
-	padding:1px !important;
-}
-#newsHistory .title-processing{
-	display: none;
-}
-
-#newsHistory .timeline-scrubber{
-	top:0px !important;
-}
-#newsHistory #timeline{
-	width:100%;
-}
-#newsHistory #top{
-	padding:0px !important;
-}
-#newsHistory .panel.panel-white{
-	box-shadow: 0px 0px;
-}
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"

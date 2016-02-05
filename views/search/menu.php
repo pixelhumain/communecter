@@ -49,14 +49,12 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button>
 	<?php } ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>" 
-			data-toggle="tooltip" data-placement="right" title="L'Annuaire Communecté">
+	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-connectdevelop"></i>
 			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>" 
-			data-toggle="tooltip" data-placement="right" title="L'Agenda Communecté" alt="L'Agenda Communecté">
+	<button class="menu-button menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
 		<i class="fa fa-calendar"></i>
 			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
@@ -67,9 +65,44 @@
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 
+	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
+			<i class="fa fa-bookmark fa-rotate-270"></i>
+			<span class="lbl-btn-menu-name">Mon répertoire</span></span>
+	</button>
+
+	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isNewsDesign=1')">
+			<i class="fa fa-bullhorn"></i>
+			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
+	</button>
+
+	<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
+    <button class="menu-button menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
+			<i class="fa fa-cog"></i>
+			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
+	</button>
+	<?php } ?>
+	
+	<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+			<i class="fa fa-plus-circle"></i>
+			<span class="lbl-btn-menu-name">Ajouter</span></span>
+	</button>
+
+	
+	<!-- <a  href="javascript:;" onclick="loadByHash('#news.index.type.pixels?isNotSV=1')"
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-bullhorn fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common","HELP US : BUGS, IDEAS"); ?></span>
+    </a>
+
+    <?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
+    <a  href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" 
+        class="menuIcon btn-main-menu hoverRed no-floop-item">
+        <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
+    </a>
+    <?php } ?> -->
+
 </div>
 
-<?php if(isset(Yii::app()->session['userId'])){ ?>
+<?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
 		data-toggle="tooltip" data-placement="left" title="Mon répertoire" alt="Mon répertoire">
 	<i class="fa fa-bookmark fa-rotate-270"></i>
