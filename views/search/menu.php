@@ -24,6 +24,40 @@
 		overflow: visible;
 	}
 	
+	.drop-up-btn-add{
+		display:none;
+		position: fixed;
+		bottom: 75px;
+		right: 25px;
+		height: 200px;
+		background-color: transparente;
+		width: 300px;
+		z-index:10;
+	}
+	.drop-up-btn-add button{
+		padding-right:6px;
+	}	
+	.btn-menu-add1{
+		position:absolute !important;
+		top:0px;
+		right:15px;
+	}
+	.btn-menu-add2{
+		position:absolute !important;
+		top:50px;
+		right:15px;
+	}
+	.btn-menu-add3{
+		position:absolute !important;
+		top:100px;
+		right:15px;
+	}
+	.btn-menu-add4{
+		position:absolute !important;
+		top:150px;
+		right:15px;
+	}
+
 </style>
 
 <div class="hover-menu">
@@ -51,23 +85,24 @@
 	<?php } ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-connectdevelop"></i>
-			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span></span>
+			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span>
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
 		<i class="fa fa-calendar"></i>
-			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
+			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span>
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
 			<i class="fa fa-rss"></i>
-			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
+			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
+			<span class="lbl-btn-menu-name">Mon répertoire</span>
 			<i class="fa fa-bookmark fa-rotate-270"></i>
-			<span class="lbl-btn-menu-name">Mon répertoire</span></span>
+			
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isNewsDesign=1')">
@@ -81,26 +116,38 @@
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
 	<?php } ?>
-	
-	<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-			<i class="fa fa-plus-circle"></i>
-			<span class="lbl-btn-menu-name">Ajouter</span></span>
-	</button>
-
-	
-	<!-- <a  href="javascript:;" onclick="loadByHash('#news.index.type.pixels?isNotSV=1')"
-        class="menuIcon btn-main-menu hoverRed no-floop-item">
-        <i class="fa fa-bullhorn fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common","HELP US : BUGS, IDEAS"); ?></span>
-    </a>
-
-    <?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-    <a  href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" 
-        class="menuIcon btn-main-menu hoverRed no-floop-item">
-        <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
-    </a>
-    <?php } ?> -->
 
 </div>
+
+
+<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
+</button>
+
+<div class="drop-up-btn-add">
+	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-green" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-group"></i>
+		<span class="lbl-btn-menu-name">une organisation</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-purple" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-lightbulb-o"></i>
+		<span class="lbl-btn-menu-name">un projet</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-orange" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-calendar"></i>
+		<span class="lbl-btn-menu-name">un événement</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-yellow" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-user"></i>
+		<span class="lbl-btn-menu-name">inviter quelqu'un</span></span>
+	</button>
+</div>
+
 
 <?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
@@ -124,6 +171,14 @@ jQuery(document).ready(function() {
     $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 });
    	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 });
     $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 });
+    
+    $(".btn-menu-add").mouseenter(function(){
+    	$(".drop-up-btn-add").show(400);
+    	$(".drop-up-btn-add .lbl-btn-menu-name").css("display","inline");
+    	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");
+    	//$(".lbl-btn-menu-name-add").css("display", "inline");
+    });
+
     
     $(".btn-login").click(function(){
 		console.log("btn-login");
@@ -185,6 +240,7 @@ jQuery(document).ready(function() {
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
+		$(".drop-up-btn-add").hide(400);
 	});
 
 	function isLoginRegister(){
