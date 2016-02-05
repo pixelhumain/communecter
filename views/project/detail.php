@@ -60,7 +60,7 @@ $this->renderPartial('../default/panels/toolbar');
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
 	bindBtnFollow();
-	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?> ");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");

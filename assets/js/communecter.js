@@ -298,8 +298,8 @@ function loadByHash( hash , back) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    /*if( !back )
-      history.pushState( { "hash" :hash} , null, hash );*/
+    if( !back )
+      history.pushState( { "hash" :hash} , null, hash );
     console.warn("pushState",hash);
 
 }
