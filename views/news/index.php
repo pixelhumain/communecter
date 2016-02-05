@@ -1532,7 +1532,9 @@ function saveNews(){
 	var formNews = $('#form-news');
 	var errorHandler2 = $('.errorHandler', formNews);
 	var successHandler2 = $('.successHandler', formNews);
-	formNews.validate({
+	formNews.submit(function(e) {
+    		e.preventDefault();
+		}).validate({
 		errorElement : "span", // contain the error msg in a span tag
 		errorClass : 'help-block',
 		errorPlacement : function(error, element) {// render error placement for each input type
