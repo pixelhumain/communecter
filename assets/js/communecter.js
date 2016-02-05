@@ -301,7 +301,7 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isNotSV=1', 'COMMUNECTED DIRECTORY', 'connectdevelop' );
     }   
     else if ( hash.indexOf("#search.news") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED NEWS ','rss' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1&isSearchDesign', 'COMMUNECTED NEWS ','rss' );
     }   
     else if ( hash.indexOf("#search.agenda") >= 0 ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );

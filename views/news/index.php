@@ -104,12 +104,12 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 #newsHistory{
 	overflow: scroll;
 	overflow-x: hidden;
-	<?php if($type!="city") { ?>
+	<?php if($type!="city" && !isset($_GET["isSearchDesign"])) { ?>
 	position:fixed;
 	top:100px;
 	<?php } ?>
-	<?php if(isset($_GET["isNewsDesign"])) { ?>
-		position:absolute;
+	<?php if(isset($_GET["isSearchDesign"])) { ?>
+		/*position:absolute;*/
 	<?php } ?>
 	/*padding-top:100px !important;*/
 	bottom:0px;
@@ -288,9 +288,9 @@ div.timeline .date_separator span{
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
 #newsHistory{
 	top:110px !important;
-	width: 75%;
+	width: 100%;
 	left: 16.62% !important;
-	border-top: 1px solid #d4d4d4;
+	/*border-top: 1px solid #d4d4d4;*/
 	padding: 0px !important;
 }
 #newsHistory .panel.panel-white{
@@ -354,7 +354,7 @@ div.timeline .date_separator span{
 <div id="newsHistory" class="padding-20">
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
-		<div class="panel panel-white" style="padding-top:10px;">
+		<div class="panel panel-white" style="padding-top:10px;<?php if (isset($_GET["isSearchDesign"]) ){ ?>box-shadow:inherit;<?php } ?>">
 			<div class="panel-heading border-light  <?php if( isset($_GET["isNotSV"])) echo "hidden"; ?>">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
@@ -402,7 +402,7 @@ div.timeline .date_separator span{
 	</div>
 </div>
 
-<div id="modal_scope_extern" class="form-create-news-container"></div>
+<div id="modal_scope_extern" class="form-create-news-container hide"></div>
 
 <style type="text/css">
 	div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
@@ -464,6 +464,11 @@ jQuery(document).ready(function()
 	else {
 		tagsNews = <?php echo json_encode($tags); ?>
 	}
+	<?php if (isset($_GET["isSearchDesign"]) ){ ?>
+		var $scrollElement = $(".my-main-container");
+	<?php } else { ?>
+		var $scrollElement = $("#newsHistory");
+	<?php } ?>
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType!="city"){
@@ -481,9 +486,9 @@ jQuery(document).ready(function()
 			minusOffset=730;
 		}
 	}
-	$("#newsHistory").off().on("scroll",function(){
-		//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
-		if(offset.top - minusOffset <= $("#newsHistory").scrollTop()) {
+	$scrollElement.off().on("scroll",function(){
+		console.log((offset.top - minusOffset) + " <= " + $scrollElement.scrollTop());
+		if(offset.top - minusOffset <= $scrollElement.scrollTop()) {
 			if (lastOffset != offset.top){
 				lastOffset=offset.top;
 				loadStream();
@@ -867,17 +872,19 @@ function buildLineHTML(newsObj)
 							//'<span class="timeline_text">'+ 
 							text + media +//+ '</span>' +	
 						'</a>'+
-						'<div class="space5"></div>'+
+						'<div class="space5"></div>';
 						//'<span class="timeline_text">'+ authorLine + '</span>' +
 						//'<div class="space10"></div>'+
-						'<hr>'+
+						<?php if(isset(Yii::app()->session['userId'])){ ?>
+	newsTLLine +=		'<hr>'+
 						"<div class='bar_tools_post pull-left'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
 							vote+
 							//"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
 							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
-						"</div>"+
-					'</div>'+
+						"</div>";
+						<?php } ?>
+	newsTLLine +=	'</div>'+
 				'</li>';
 	return newsTLLine;
 }
@@ -893,7 +900,7 @@ function buildHtmlUrlAndActionObject(obj){
 		<?php } else{ ?>
 			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+obj.id+'"';
 		<?php } ?>
-		if(typeof(obj.postOn) != "undefined"){
+		if(typeof(obj.postOn) != "undefined" && obj.type != contextParentType){
 			if(obj.type == "organizations"){
 				color="green";
 			}else
@@ -1132,7 +1139,7 @@ function bindEvent(){
 				else
 					targetOffset=target.offset().top;
 				console.log(targetOffset);
-			$("#newsHistory").animate({
+			$scrollElement.animate({
 			  scrollTop: targetOffset
 			}, 1000, 'swing'); // The number here represents the speed of the scroll in milliseconds
 			return false;
@@ -1538,6 +1545,7 @@ function saveNews(){
 	formNews.submit(function(e) {
     		e.preventDefault();
 		}).validate({
+								<?php if(isset(Yii::app()->session['userId'])){ ?>
 		errorElement : "span", // contain the error msg in a span tag
 		errorClass : 'help-block',
 		errorPlacement : function(error, element) {// render error placement for each input type
@@ -1617,6 +1625,11 @@ function saveNews(){
 				return false;
 		    });
 		}
+		<?php }else{ ?>
+			submitHandler : function(form) {
+showPanel("box-login");
+			}
+		<?php } ?>
 	});
 }
 </script>
