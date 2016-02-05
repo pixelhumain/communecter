@@ -23,10 +23,88 @@
 		z-index: 1;
 		overflow: visible;
 	}
-	
+	.hover-info{
+		margin-top: 100px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 1;
+		overflow: visible;
+		display: none;
+		border: 4px solid #3C5665;
+	}
+	.explain ul{
+		list-style: none;
+		font-size: 1.5em;
+	}
 </style>
+<div class="hover-info col-md-6 col-md-offset-4 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 panel-white padding-20 radius-15">
+	<div class="explainHome explain hide">
+		<h1 class="homestead">En Savoir plus ?</h1>
+		<h1 class="homestead">Qui Sommes Nous ? </h1>
+		<h1 class="homestead">Pourquoi Communecter ?</h1>
+	</div>
+	<div class="explainDirectory explain hide">
+		<h1 class="homestead">L'annuaire : comment ca marche ?</h1>
+		<h1 class="homestead">Créer son popre répertoire</h1>
+	</div>
+	<div class="explainMyDirectory explain hide">
+		<h1 class="homestead">L'annuaire : comment ca marche ?</h1>
 
+		<h1 class="homestead">Créer son propre répertoire</h1>
+	</div>
+	<div class="explainNews explain hide">
+		<h1 class="homestead">L'actualité : comment ca marche ? </h1>
+	</div>
+	<div class="explainAgenda explain hide">
+		<h1 class="homestead">Les évennements : comment ca marche ? </h1>
+	</div>
+	<div class="explainHelpUs explain hide">
+
+		<h1 class="homestead">Pour un meilleur outil </h1>
+		<ul>
+			<li><a href="">Vous avez trouvé un bug ?</a></li>
+			<li><a href="">Vous avez une idée géniale ?</a></li>
+			<li><a href="">Vous voulez devenir Référant ? </a></li>
+			<li><a href="">Une communauté active ?</a></li>
+		</ul>
+	</div>
+	<div class="explainConnect explain hide">
+
+		<h1 class="homestead">En me logguant :</h1>
+		<ul>
+			<li>Je peux créer mon annuaire</li>
+			<li>des évennements</li>
+			<li>Créer mon réseau</li>
+			<li><a href="">Me Logguer</a></li>
+			<li><a href="">Créer un compte</a></li>
+		</ul>
+	</div>
+	<div class="explainRegister explain hide">
+
+		<h1 class="homestead">Pourquoi créer un compte </h1>
+		<ul>
+			<li>Parce j'ai des choses à partager localement</li>
+			<li>Je fait des évennements</li>
+			<li>J'ai des Projet a partager</li>
+			<li>Je suis membres ou je gère des associtions, des entreprises, de groupe locaux </li>
+			<li><a href="javascript:;" onclick='toggle(".explainLinking",".explain")'>Je veux me connecter à mon entourage</a></li>
+			<li>Plus on sera nombreux dans nos communes plus nos projets auront du point</li>
+			<li><a href="">Créer un compte</a></li>
+		</ul>
+	</div>
+	<div class="explainLinking explain hide">
+
+		<h1 class="homestead">Créer du lien localement :</h1>
+		<ul>
+			<li>C'est valoriser les acteurs de mon térritoire</li>
+			<li>C'est participer à construire un annuaire à <a href="javascript:;" onclick='toggle(".explainValueUsage",".explain")'>valeur par l'usage</a></li>
+			<li>C'est créer un térritoire connecté</li>
+		</ul>
+	</div>
+</div>
 <div class="hover-menu">
+	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
@@ -99,8 +177,10 @@
         <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
     </a>
     <?php } ?> -->
-
+	
 </div>
+
+
 
 <?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
@@ -119,22 +199,24 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
-	$('.btn-menu0').click(function(e){ loadByHash("#search.home");  	 });
-    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  });
-    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 });
-   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 });
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 });
+	$('.btn-menu0').click( function(e){ loadByHash("#search.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
+    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
+    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
+    $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
     
     $(".btn-login").click(function(){
 		console.log("btn-login");
 		showPanel("box-login");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainConnect",".explain");});
+
     $(".btn-register").click(function(){
     	console.log("btn-register");
 		showPanel("box-register");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
 
 	$(".btn-logout").click(function(){
     	console.log("btn-logout");
@@ -157,10 +239,11 @@ jQuery(document).ready(function() {
 		console.log(isLoginRegister());
 	    if(positionMouseMenu != "inBtn" && !isLoginRegister()){
 			$(".main-col-search").animate({ opacity:1 }, 0 );
-			$(".lbl-btn-menu-name").hide();
+			$(".lbl-btn-menu-name, .hover-info").hide();
 			$(".menu-button-title").removeClass("large");
 		}else{
 			positionMouseMenu = "in";
+			$(".hover-info").hide();
 		}
 	});
 
@@ -168,9 +251,8 @@ jQuery(document).ready(function() {
 		//console.log("enter btn");
 		positionMouseMenu = "inBtn";
 		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name").css("display", "inline");
+		$(".lbl-btn-menu-name, .hover-info").css("display", "inline");
 		$(".menu-button-title").addClass("large");
-
 	});
 
 	$(".main-col-search").mouseenter(function(){
