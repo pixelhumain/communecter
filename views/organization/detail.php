@@ -157,18 +157,16 @@
 		});
 		
 		
-		//Add Me as member Of Button
-		$('#addMeAsMemberInfo').off().on("click", function(e) {
+		//Add Me as member Of Button --- A supprimer (refactor links)
+		/*$('#addMeAsMemberInfo').off().on("click", function(e) {
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			e.preventDefault();
 			var formData = {
-	    		"memberId" : "<?php echo Yii::app()->session["userId"] ?>",
-				"memberName" : "",
-				"memberEmail" : "",
-				"memberType" : '<?php echo Person::COLLECTION ?>', 
-				"parentOrganisation" : contextId,
-				"memberIsAdmin" : false,
-				"memberRoles" : ""
+				"childId" : "<?php echo Yii::app()->session["userId"] ?>",
+				"childType" : '<?php echo Person::COLLECTION ?>', 
+				"parentType" : "<?php echo Organization::COLLECTION;?>",
+				"parentId" : contextId,
+				"connectType" : false
 			};
 			bootbox.confirm("<?php echo Yii::t('organization','Do you really want to become a member of the organization : ') ?><span class='text-red'>"+contextData.name+"</span> ?", 
 			function(result) {
@@ -179,7 +177,7 @@
 		
 				$.ajax({
 					type: "POST",
-					url: baseUrl+"/"+moduleId+"/link/saveMember",
+					url: baseUrl+"/"+moduleId+"/link/connect",
 					data: formData,
 					dataType: "json",
 					success: function(data) {
@@ -195,7 +193,6 @@
 								toastr.success("<?php echo Yii::t('common','Your request has been sent to other admins.')?>");	
 							else
 								toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-							if( isNotSV )
 								loadByHash(location.hash);
 						}
 						else
@@ -203,7 +200,7 @@
 					},
 				});  
 			});             
-		});	
+		});	*/
 	}
 </script>
 <?php } ?>

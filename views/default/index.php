@@ -128,7 +128,6 @@ if( !isset( Yii::app()->session['userId']) ){
           <img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
       </a>
       <?php } ?>
-    
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -257,7 +256,7 @@ if( !isset( Yii::app()->session['userId']) ){
           $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
           $res = array();
           for ($i=0; $i < 8; $i++) { 
-            array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
+            array_push( $res , str_replace( "../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl , $files[array_rand($files)] ) );
           }
           return $res;
         } else
@@ -423,8 +422,9 @@ function autoCompleteSearch(name){
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+                 var id = getObjectId(o);
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           htmlIco + "<div class='lbl-info-search'> " + o.name;
 
@@ -475,7 +475,8 @@ function autoCompleteSearch(name){
     if(type=="cities")
         url = "/city/detail/insee/"+insee+"?isNotSV=1";
     //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    openMainPanelFromPanel( url, type+" : "+name,icon, id);
+	loadByHash("#" + type + ".detail.id." + id);
+  //  openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
     $("#searchBar").val(name);
     $("#searchId").val(id);

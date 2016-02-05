@@ -255,6 +255,9 @@ $userId = Yii::app()->session["userId"] ;
 	</div>
 </div>
 <script type="text/javascript">
+
+$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+
 var tabObject = [];
 var arrayCSV = [];
 var userId = "<?php echo $userId; ?>" ;
@@ -303,8 +306,6 @@ function bindEvents()
 			reader.readAsText(e.target.files.item(0));
 
 		}
-
-
 		return false;
 
 	});

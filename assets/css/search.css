@@ -228,8 +228,8 @@ button.btn-start-search:hover{
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 button.menu-button{
 	position: fixed;
-	height: 35px;
-	min-width: 35px;
+	height: 40px;
+	min-width: 40px;
 	border-radius: 25px;
 	border: none;
 	z-index: 1;
@@ -253,7 +253,7 @@ button.btn-login, button.btn-logout{
 
 button.btn-menu{
 	color: #FFF;
-	font-size: 17px;
+	font-size: 19px;
 	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
@@ -287,18 +287,19 @@ button.btn-menu1{
 }
 
 button.btn-menu2{
-	left: 40px;
-	top: 105px;
+	left: 82px;
+	top: 124px;
 }
 button.btn-menu3{
 	left: 45px;
-	top: 165px;
+	top: 184px;
 }
 button.btn-menu4{
-	left: 65px;
-	top: 246px;
-	font-size: 17px;
+	left: 84px;
+	top: 245px;
+	font-size: 19px;
 	padding-left: 8px;
+	padding-top: 0px;
 }
 
 button.btn-menu5{
@@ -306,19 +307,32 @@ button.btn-menu5{
 	top: 70px;
 	background-color: #32454E !important;
 	font-size: 21px;
-	width: 42px;
+	min-width: 42px;
 	height: 43px;
 	padding-left: 4px;
 	z-index:0 !important;
 }
 
 button.btn-menu6{
-	right: 40px;
-	top: 215px;
+	left: 12px;
+	top: 302px;
 	background-color: #32454E !important;
-	font-size: 21px;
-	width: 42px;
-	height: 43px;
+	font-size: 17px;
+	height: 38px;
+}
+button.btn-menu7{
+	left: 113px;
+	top: 365px;
+	background-color: #32454E !important;
+	font-size: 18px;
+	height: 37px;
+}
+button.btn-menu-add{
+	right: 35px;
+	bottom: 35px;
+	background-color: #7ACF5B !important;
+	font-size: 18px;
+	height: 37px;
 }
 button.btn-menu-notif{
 	background-color: rgba(163, 116, 188, 0) !important;
@@ -425,7 +439,7 @@ button.btn-infos{
 
 
 .main-col-search{
-	padding-top: 10px;
+	padding-top: 60px;
 	padding-bottom: 40px;
 	min-height: 100%;
 	background-color: white !important;
@@ -578,7 +592,7 @@ button.btn-infos{
 	padding-left: 10px;
 	text-align: center;
 	line-height: 0.7;
-	padding-top: 0px;
+	padding-top: 10px;
 	padding-bottom: 8px;
 }
 
@@ -814,6 +828,14 @@ button.btn-infos{
 
 #panel-first-step{
 	
+}
+
+.modal{
+    background-color: rgba(0, 0, 0, 0.55) !important;
+    padding-top: 40px !important;
+}
+.modal-backdrop{
+	display:none !important;
 }
 
 

@@ -1322,8 +1322,10 @@ $cs = Yii::app()->getClientScript();
 </div>-->
 <!-- end: PAGE CONTENT-->
 <script>
+$(".moduleLabel").html("<i class='fa fa-cog'></i> <span id='main-title-menu'>Espace administrateur");
+
   jQuery(document).ready(function() {
-   
+    
    //Index.init();
   });
 

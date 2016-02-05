@@ -103,6 +103,14 @@ function getCityInseeByGeoPos(coords){
 					//searchCity();
 					showModalSelectScope(obj);
 				}
+				else if(currentRoleLoc == "communexion"){ // && typeof obj.name != "undefined"){
+					//toastr.success("Nous avons trouvé votre position actuelle : "+obj.name);
+					//$("#searchBarPostalCode").val(obj.name);
+					//$.cookie("HTML5CityName", 	 obj.name, 	   { path : '/ph/' });
+					//startSearch();
+					//searchCity();
+					showModalSelectScope(obj);
+				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
@@ -180,9 +188,10 @@ var geolocHTML5Done = false;
 function showModalSelectScope(obj){
 	var HTML = "";
 	$.each(obj, function(key, value){
-		HTML += "<button class='btn bg-red btn-scope-list' val='"+value.name+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+value.name+"</button>";
+		HTML += "<button class='btn bg-red btn-scope-list' val='"+value.cp+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+value.cp+ " " +value.name+"</button>";
 	});
-	$("#modal-select-scope #list-scope").html(HTML); initBtnScopeList();
+	$("#main-title-modal-scope").html('<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?'); 
+    $("#modal-select-scope #list-scope").html(HTML); initBtnScopeList();
 	$("#modal-select-scope").modal("show");
 	geolocHTML5Done = true;
 }

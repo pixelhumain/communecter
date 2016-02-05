@@ -1,4 +1,8 @@
-
+<?php 
+/******
+Documents à supprimer -- n'a plus lieu d'exister !! a confirmer
+***********/
+?>
 <style type="text/css">	
 	.organizationLine{cursor:pointer;}
 </style>

@@ -27,25 +27,6 @@
 	height:250px;
 }
 
-#newsHistory{
-	padding:1px !important;
-}
-#newsHistory .title-processing{
-	display: none;
-}
-
-#newsHistory .timeline-scrubber{
-	top:0px !important;
-}
-#newsHistory #timeline{
-	width:100%;
-}
-#newsHistory #top{
-	padding:0px !important;
-}
-#newsHistory .panel.panel-white{
-	box-shadow: 0px 0px;
-}
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
@@ -57,7 +38,7 @@
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte" alt="Localisation automatique">
+		data-toggle="tooltip" data-placement="right" title="Carte">
 		<i class="fa fa-map-marker"></i>
 </button>
 
@@ -68,13 +49,14 @@
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
+
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search text-red">
 	<?php 
 		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
 		   			    Yii::app()->request->cookies['cityName'] : "";
 		if($where == "") 
-				 isset( Yii::app()->request->cookies['HTML5CityName'] ) ? 
-			   			Yii::app()->request->cookies['HTML5CityName'] : "";
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			Yii::app()->request->cookies['postalCode'] : "";
 	?>
 	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
 		   value="<?php echo $where; ?>" >
@@ -86,7 +68,7 @@
 </div>
 
 
-<?php $this->renderPartial("first_step_agenda"); ?> 
+<?php $this->renderPartial("first_step_news"); ?> 
 
 <div class="" id="dropdown_search"></div>
 <div class="" id="newsstream"></div>
@@ -121,6 +103,17 @@ jQuery(document).ready(function() {
     	initHTML5Localisation('prefillSearch');
     });
 
+    $(".btn-geolocate").click(function(e){
+      if(geolocHTML5Done == false){
+          initHTML5Localisation('prefillSearch');
+          $("#modal-select-scope").modal("show");
+          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+      } else{
+          $("#modal-select-scope").modal("show");
+      }
+    });
+      
     initBtnScopeList();
 	startSearch();
 });
@@ -160,7 +153,7 @@ function autoCompleteSearch(name, locality){
 
 	        if(countData == 0){
 	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_search").show();
+    			  $("#dropdown_search").show();
 	        	toastr.error('Aucune donnée');
 	        }
 
@@ -180,7 +173,7 @@ function autoCompleteSearch(name, locality){
 
                mapElements.push(o);
 
-				typeIco = o.type;
+				        typeIco = o.type;
                 ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                 color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                 
@@ -215,10 +208,10 @@ function autoCompleteSearch(name, locality){
 
                 var tags = "";
                 if(typeof o.tags != "undefined" && o.tags != null){
-					$.each(o.tags, function(key, value){
-						if(value != "")
-		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
-		            });
+        					$.each(o.tags, function(key, value){
+        						if(value != "")
+        		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+  		            });
                 }
 
                 var name = typeof o.name != "undefined" ? o.name : "";
@@ -241,15 +234,14 @@ function autoCompleteSearch(name, locality){
 
                 //template principal
                 str += "<div class='searchEntity'>";
-	     			target = "";
+	     			    target = "";
 	                str += "<div class='entityRight bg-red badge'>";
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName'>" + name + "</a></br>";
 	                	if(fullLocality != "" && fullLocality != " ")
 	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a> ";
 	                	
 	                str += "</div>";
-	                					
-				str += "</div>";
+				        str += "</div>";
 
 			
               })
@@ -258,7 +250,7 @@ function autoCompleteSearch(name, locality){
 
 
             }); 
-            if(str == "") {
+            if(countData == 0) {
             	//$("#dropdown_search").html("");
             	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
             	//$("#dropdown_search").css({"display" : "none" });	             
