@@ -1,7 +1,7 @@
 <?php
 $cs = Yii::app()->getClientScript();
-if(!Yii::app()->request->isAjaxRequest)
-{
+//if(!Yii::app()->request->isAjaxRequest)
+//{
 	$cssAnsScriptFilesModule = array(
 		'/assets/plugins/jsonview/jquery.jsonview.js',
 		'/assets/plugins/jsonview/jquery.jsonview.css',
@@ -12,7 +12,7 @@ if(!Yii::app()->request->isAjaxRequest)
     	//'/plugins/DataTables/media/js/DT_bootstrap.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
-}
+//}
 
 $userId = Yii::app()->session["userId"] ;
 ?>
@@ -22,16 +22,15 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Import Data</h4>
 		</div>
 		<div class="panel-body">
-			<form id="formfile" method="POST" action="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/admin/importData';?>" enctype="multipart/form-data">
+			<!--<form id="formfile" method="POST" action="<?php //echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/admin/importData';?>" enctype="multipart/form-data"> -->
 				<div class="col-sm-3 col-xs-12">
 					<label for="chooseCollection">Collection : </label>
 					<?php
 						$params = array();
 						$fields = array("_id", "key");
-						$listCollection = ImportData::getMicroFormats($params, $fields);
+						$listCollection = Import::getMicroFormats($params, $fields);
 					?>
 					<select id="chooseCollection" name="chooseCollection">
-						<option></option>
 						<?php
 							foreach ($listCollection as $key => $value) {
 								echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
@@ -61,9 +60,10 @@ $userId = Yii::app()->session["userId"] ;
 				</div>
 				<br/><br/><br/><br/><br/>
 				<div class="col-sm-4 col-sm-offset-5 col-xs-12">
-					<input type="submit" class="btn btn-primary col-sm-3" id="sumitVerification" value="Vérification"/>
+					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
+					<!--<input type="submit" class="btn btn-primary col-sm-3" id="sumitVerification" value="Vérification"/> -->
 				</div>
-			</form>
+			<!--</form>-->
 		</div>
 	</div>
 	<div id="createLink">
@@ -71,33 +71,15 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Assignation des données</h4>
 		</div>
 		<div class="panel-body">
-			<?php
-				if(!empty($createLink))
-				{
-					$arrayNameFile = explode(".", $nameFile);
-					if(!empty($typeFile) && $typeFile == "csv")
-					{
-			?>
-				<div class="col-sm-12 col-xs-12">
-					<label for="subFile">Fichier : </label>
-					<select id="subFile">
-						<?php
-								
-									$subfiles = scandir(sys_get_temp_dir()."/filesImportData/".$arrayNameFile[0]);
-									foreach ($subfiles as $key => $value){
-						                if(strpos($value, $arrayNameFile[0]) !== false) 
-						                	echo '<option value="'.$value.'">'.$value.'</option>';
-						            }
-						     
-						?>
-					</select>
+			<div class="col-sm-12 col-xs-12">
+				<label for="subFile">Fichier : </label>
+				<select id="subFile">
 					
-				</div>
+				</select>
+				
+			</div>
 
-			<?php
-					}
-				}
-			?>
+			
 			<br/> <br/>
 			<div class="col-sm-12 col-xs-12">
 				<div class="col-sm-4 col-xs-12">
@@ -142,8 +124,9 @@ $userId = Yii::app()->session["userId"] ;
 			<br/> <br/>
 			<div id="divtab" class="table-responsive">
 				<input type="hidden" id="nbLigneMapping" value="0"/>
+				<div id="divInputHidden"></div>
 				<?php
-					if(!empty($createLink)){
+					/*if(!empty($createLink)){
 						echo '<input type="hidden" id="idCollection" value="'.$idCollection.'"/>';
 						echo '<input type="hidden" id="nameFile" value="'.$arrayNameFile[0].'"/>';
 						echo '<input type="hidden" id="typeFile" value="'.$typeFile.'"/>';
@@ -154,7 +137,7 @@ $userId = Yii::app()->session["userId"] ;
 							echo "<input type='hidden' id='jsonJSON' value='".json_encode($json_origine)."' />";
 							//echo '<input type="hidden" id="jsonJSON" value="'.json_encode($json_origine).'"/>';
 						
-					}
+					}*/
 				?>
 		    	<table id="tabcreatemapping" class="table table-striped table-bordered table-hover">
 		    		<thead>
@@ -169,7 +152,7 @@ $userId = Yii::app()->session["userId"] ;
 			    			<td>
 			    				<select id="selectHeadCSV" class="col-sm-12">
 			    					<?php
-			    						if(!empty($createLink)){
+			    						/*if(!empty($createLink)){
 			    							if(!empty($typeFile) && $typeFile == "csv"){
 				    							foreach ($arrayCSV[0] as $key => $value) 
 												{
@@ -183,18 +166,18 @@ $userId = Yii::app()->session["userId"] ;
 												}
 											}
 											
-			    						}
+			    						}*/
 			    					?>
 			    				</select>
 			    			</td>
 			    			<td>
 			    				<select id="selectLinkCollection" class="col-sm-12">
 									<?php
-			    						if(!empty($createLink))
+			    						/*if(!empty($createLink))
 			    						{
 			    							$params = array("_id"=>new MongoId($idCollection));
 											$fields = array("mappingFields");
-											$fieldsCollection = ImportData::getMicroFormats($params, $fields);
+											$fieldsCollection = Import::getMicroFormats($params, $fields);
 											
 			    							foreach ($fieldsCollection as $key => $value) 
 											{
@@ -209,7 +192,7 @@ $userId = Yii::app()->session["userId"] ;
 												}
 											}
 			    							
-			    						}
+			    						}*/
 			    					?>
 			    				</select>
 			    			</td>
@@ -276,6 +259,7 @@ $userId = Yii::app()->session["userId"] ;
 $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 
 var tabObject = [];
+var arrayCSV = [];
 var userId = "<?php echo $userId; ?>" ;
 $("#memberId").html(userId);
 
@@ -298,59 +282,71 @@ jQuery(document).ready(function()
 function bindEvents()
 {
 
+	
+
 	$("#fileImport").change(function(e) {
-    	
-		var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-		if($.inArray(ext, ["csv"]) == -1) {
-			alert('Upload CSV');
+    	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
+		if($.inArray(ext, ["csv"]) == -1 || $.inArray(ext, ["json"]) == -1 || $.inArray(ext, ["js"]) == -1) {
+			alert('Upload CSV or JSON');
 			return false;
 		}  
-		
+		if (e.target.files != undefined) {
+			var reader = new FileReader();
+			arrayCSV = [];
+			reader.onload = function(e) {
+				console.log("csv : ", e.target.result );
+				
+				var csvval=e.target.result.split("\n");
+				console.log("csv : ", csvval );
+				$.each(csvval, function(key, value){
+	  				arrayCSV.push(value.split(";"));
+	  			});
+	  			console.log("arrayCSV : ", arrayCSV );
+			};
+			reader.readAsText(e.target.files.item(0));
+
+		}
+		return false;
 
 	});
 
-	$("#sumitVerification").off().on('click', function()
+	$("#sumitVerification").off().on('click', function(e)
   	{
   		var nameFile = $("#fileImport").val().split("."); 
-  		console.log("type",nameFile[nameFile.length-1])
+  		console.log("type",nameFile[nameFile.length-1]);
   		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" )
   		{
   			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
   			return false ;
   		}
-
-  		if(e.target.files != undefined) {
-			var reader = new FileReader();
-			var arrayCSV = [];
-			reader.onload = function(e) {
-				console.log("csv : ", e.target.result )
-				
-				var csvval=e.target.result.split("\n");
-				console.log("csv : ", csvval )
-				$.each(csvval, function(key, value){
-	  				arrayCSV.push(value.split(";"));
-	  			});
-	  			console.log("arrayCSV : ", arrayCSV )
-
-			};
-			reader.readAsText(e.target.files.item(0));
-
-
 			$.ajax({
-			        type: 'POST',
-			        data: {
-			        		nameFile : ""
-			        },
-			        url: baseUrl+'/communecter/admin/previewData/',
-			        dataType : 'json',
-			        success: function(data)
-			        {
+		        type: 'POST',
+		        data: {
+		        		nameFile : nameFile[0],
+		        		typeFile : nameFile[nameFile.length-1],
+		        		arrayCSV : arrayCSV,
+		        		chooseCollection : $("#chooseCollection").val()
+		        	},
+		        url: baseUrl+'/communecter/admin/assigndata/',
+		        dataType : 'json',
+		        success: function(data)
+		        {
+		        	console.log("data",data);
+		        	if(data.createLink){
 
+		        		
+		        		
 
-			        }
+		        		$("#createLink").show();
+		        	}
+		        	else{
+
+		        	}
+
+		        }
 			});
 
-		}
+		
 		
 		return false;
   		
@@ -542,8 +538,9 @@ function bindEvents()
 			        	console.log("data",data);
 			        	if(data.result)
 			        	{
-			        		//console.log("data.jsonImport",data.jsonImport);
+			        		console.log("data.jsonImport",data.jsonImport);
 			        		$("#divJsonImportView").JSONView(data.jsonImport);
+			        		//$("#divJsonImportView").JSON.stringify(data.jsonImport)
 			        		$("#jsonImport").val(data.jsonImport);
 			        		$("#divJsonErrorView").JSONView(data.jsonError);
 			        		$("#jsonError").val(data.jsonError);
@@ -565,6 +562,7 @@ function bindEvents()
 			        			chaine += "</tr>" ;
 			        		});
 			        		$("#representation").html(chaine);
+
 			        		$("#verifBeforeImport").show();
 
 
@@ -779,6 +777,57 @@ function bindEvents()
 		
   	});
 }
+
+function resultAssignData(data){
+	chaineNameSubFile = "" ;
+	$.each(data.subFiles, function(key, value){
+
+		if(value.indexOf(data.nameFile) != -1 )
+				chaineNameSubFile += '<option value="' + value+'">'+value+'</option>';
+	});
+
+	$("#subFile").html(chaineNameSubFile);
+
+	console.log("JSON", JSON.stringify(data.arrayCSV));
+	chaineInputHidden = "" ;
+	chaineInputHidden += '<input type="hidden" id="idCollection" value="' + data.idCollection + '"/>';
+	chaineInputHidden += '<input type="hidden" id="nameFile" value="'+data.nameFile+'"/>';
+	chaineInputHidden += '<input type="hidden" id="typeFile" value="'+data.typeFile+'"/>';
+	
+	if(data.typeFile == "csv")
+		chaineInputHidden += '<input type="hidden" id="jsonCSV" value="'+ JSON.stringify(data.arrayCSV) + '"/>';
+	if(data.typeFile == "json")
+		chaineInputHidden += "<input type='hidden' id='jsonJSON' value='"+ JSON.stringify($json_origine) + "' />";
+		
+	$("#divInputHidden").html(chaineInputHidden);
+
+	chaineSelectCSVHidden = "" ;
+
+	if(data.typeFile == "csv"){
+		$.each(data.arrayCSV[0], function(key, value){
+			chaineSelectCSVHidden += '<option value="' + key+'">'+value+'</option>';
+			});
+	}else if(data.typeFile == "json"){
+		$.each(data.arbre, function(key, value){
+			chaineSelectCSVHidden += '<option value="' + value+'">'+value+'</option>';
+			});
+	}
+
+	$("#selectHeadCSV").html(chaineSelectCSVHidden);
+
+
+	//console.log("data.fieldsCollection",data.fieldsCollection);
+
+	chainePathMapping = "" ;
+	$.each(data.arrayPathMapping, function(key, value){
+		console.log("value",value);
+		chainePathMapping += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
+	});
+
+	$("#selectLinkCollection").html(chainePathMapping);
+}
+
+
 
 
 
