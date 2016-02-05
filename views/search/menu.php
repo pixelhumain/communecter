@@ -138,7 +138,7 @@
 			
 	</button>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isNewsDesign=1')">
+	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')">
 			<i class="fa fa-bullhorn"></i>
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>

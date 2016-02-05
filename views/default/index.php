@@ -273,7 +273,9 @@ if( !isset( Yii::app()->session['userId']) ){
     }
 ?>
 <script type="text/javascript">
+
 var timeout;
+
 var mapIconTop = {
     "default" : "fa-arrow-circle-right",
     "citoyen":"<?php echo Person::ICON ?>", 
@@ -294,6 +296,8 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 var lastUrl = null;
+
+
 jQuery(document).ready(function() {
     //console.dir(proverbs);
     
@@ -332,12 +336,6 @@ jQuery(document).ready(function() {
       resizeInterface();
     })
 });
-
-var typesLabels = {
-  "<?php echo Organization::COLLECTION ?>":"Organization",
-  "<?php echo Event::COLLECTION ?>":"Event",
-  "<?php echo Project::COLLECTION ?>":"Project",
-};
 
 
 function runShowCity(searchValue) {
