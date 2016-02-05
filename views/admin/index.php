@@ -28,6 +28,14 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
+          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+            <div class="" onclick="loadByHash('#person.invitecontact.id.<?php echo Yii::app()->session['userId']?>')">
+              <i class="fa fa-user fa-2x"></i>
+                
+              <?php echo Yii::t("common", "INVITECONTACT"); ?>
+              
+            </div>
+          </li>
         </ul>
       </div>
   </div>

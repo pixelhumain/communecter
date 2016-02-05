@@ -43,13 +43,59 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }?>
 
 <div id="newInvite">
-	<h2 class='radius-10 padding-10 text-yellow text-bold'><i class="fa fa-plus"></i> <i class="fa fa-user fa-2x"></i> <?php echo Yii::t("person","Add a Person") ?></h2>
+	<ul class="nav nav-tabs">
+		<li role="presentation">
+			<a href="#" class="" id="menuInviteSomeone">
+				<h4 id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-yellow text-bold'>
+					<i class="fa fa-plus"></i> 
+					<i class="fa fa-user fa-2x"></i> 
+					<?php echo Yii::t("person","Add a Person") ?>
+				</h4>
+			</a>
+		</li>
+	  	<li role="presentation">
+	  		<a href="#" class="" id="menuGmail">
+	  			<h4 id="titleGmail" class='radius-10 padding-10 text-grey text-bold'>
+	  				<i class="fa fa-plus"></i> 
+					<i class="fa fa-user fa-2x"></i> 
+					Gmail
+				</h4>
+	  		</a>
+	  	</li>
+	  	<li role="presentation">
+	  		<a href="#" class="" id="menuGooglePlus">
+	  			<h4 id="titleGooglePlus" class='radius-10 padding-10 text-grey text-bold'>
+	  				<i class="fa fa-plus"></i> 
+					<i class="fa fa-user fa-2x"></i> 
+					Google+
+				</h4>	  		
+	  		</a>
+	  	</li>
+	  	<li role="presentation">
+	  		<a href="#" class="" id="menuImportFile">
+	  			<h4 id="titleImportFile" class='radius-10 padding-10 text-grey text-bold'>
+	  				<i class="fa fa-plus"></i> 
+					<i class="fa fa-user fa-2x"></i> 
+					Importer un fichier
+				</h4>
+	  		</a>
+	  	</li>
+	  	<li role="presentation">
+	  		<a href="#" class="" id="menuWriteMails">
+	  			<h4 id="titleWriteMails" class='radius-10 padding-10 text-grey text-bold'>
+	  				<i class="fa fa-plus"></i> 
+					<i class="fa fa-user fa-2x"></i> 
+					Saisir
+				</h4>
+	  		</a>
+	  	</li>
+	</ul>	
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
 	?>
-	<div class="<?php echo $size ?>" >  
-       	<div class="panel panel-white">
-       		
+	<div class="<?php echo $size ?>" >
+		<!-- Partie "Invite Someone" -->
+       	<div class="panel panel-white" id="divInviteSomeone">
         	<div class="panel-heading border-light">
         		<?php if( !@$isNotSV ){ ?>
 					<h1><?php echo Yii::t("common","Connect people to your network") ?></h1>
@@ -57,84 +103,179 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <p>  <?php echo Yii::t("person","Find people you know by name or email") ?>. </p>
 			</div>
 			
-		<div class="panel-body">
-			<form class="form-invite" autocomplete="off">
-				<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
-				<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
-				<div class="row" id="step1">
-					<div class="col-md-1">	
-		           		<i class="fa fa-search fa-2x"></i> 
-		           	</div>
-					<div class="col-md-10">
-						<div class="form-group">
-							<input class="invite-search form-control" placeholder="Search Here" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
-				        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
-									<li class="li-dropdown-scope">-</li>
-								</ul>
-							</input>
-						</div>
-					</div>
-				</div>
-				<div class="row" id="step2">
-					<div class="form-group" id="ficheUser">
-						<div class="col-md-5 text-center">
-							<div class='photoInvited text-center'>
-							</div>
-							<a class='pending btn btn-xs btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="This user has been already invited but has not connected yet.">Pending User</a>
-						</div>
-						<div class="col-md-7">
-							<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Follow this person" ><i class=" connectBtnIcon fa fa-link "></i>  Follow this person</a>
-							<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
-							<hr>
-							<h2 id="ficheName" name="ficheName"></h2>
-							<span id="email" name="email" ></span><br><br>
-							<span id="address" name="address" ></span><br><br>
-							<span id="tags" name="tags" ></span><br>
-						</div>
-					</div>
-	               	<div class ="row">
-		               	<div class="col-md-10  col-md-offset-1">	
-							<a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a>
-						</div>
-					</div>
-				</div>
-				<div class="row" id="step3">
-					<div class="row margin-bottom-10">
-						<div class="col-md-1 col-md-offset-1" id="iconUser">	
-				           	<i class="fa fa-user fa-2x"></i>
-				       	</div>
-				       	<div class="col-md-9">
-							<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
-						</div>
-					</div>
-					<div class="row margin-bottom-10">
-						<div class="col-md-1 col-md-offset-1">	
-			           		<i class="fa fa-envelope-o fa-2x"></i>
+			<div class="panel-body">
+				<form class="form-invite" autocomplete="off">
+					<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
+					<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
+					<div class="row" id="step1">
+						<div class="col-md-1">	
+			           		<i class="fa fa-search fa-2x"></i> 
 			           	</div>
-	    	        	<div class="col-md-9">
-							<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
-						</div>
-					</div>
-					<div class="row margin-bottom-10">
-						<div class="col-md-1 col-md-offset-1">	
-			           		<i class="fa fa-align-justify fa-2x"></i>
-			           	</div>
-	    	        	<div class="col-md-9">
-							<textarea class="invite-text form-control" id="inviteText" name="inviteText" rows="4" />
-						</div>
-					</div>
-					<div class="row margin-bottom-10">
-						<div class="col-md-2 col-md-offset-1">
+						<div class="col-md-10">
 							<div class="form-group">
-					    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
-					    	</div>
+								<input class="invite-search form-control" placeholder="Search Here" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
+					        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
+										<li class="li-dropdown-scope">-</li>
+									</ul>
+								</input>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="step2">
+						<div class="form-group" id="ficheUser">
+							<div class="col-md-5 text-center">
+								<div class='photoInvited text-center'>
+								</div>
+								<a class='pending btn btn-xs btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="This user has been already invited but has not connected yet.">Pending User</a>
+							</div>
+							<div class="col-md-7">
+								<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Follow this person" ><i class=" connectBtnIcon fa fa-link "></i>  Follow this person</a>
+								<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
+								<hr>
+								<h2 id="ficheName" name="ficheName"></h2>
+								<span id="email" name="email" ></span><br><br>
+								<span id="address" name="address" ></span><br><br>
+								<span id="tags" name="tags" ></span><br>
+							</div>
+						</div>
+		               	<div class ="row">
+			               	<div class="col-md-10  col-md-offset-1">	
+								<a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="step3">
+						<div class="row margin-bottom-10">
+							<div class="col-md-1 col-md-offset-1" id="iconUser">	
+					           	<i class="fa fa-user fa-2x"></i>
+					       	</div>
+					       	<div class="col-md-9">
+								<input class="invite-name form-control" placeholder="Name" id="inviteName" name="inviteName" value="" />
+							</div>
+						</div>
+						<div class="row margin-bottom-10">
+							<div class="col-md-1 col-md-offset-1">	
+				           		<i class="fa fa-envelope-o fa-2x"></i>
+				           	</div>
+		    	        	<div class="col-md-9">
+								<input class="invite-email form-control" placeholder="Email" id="inviteEmail" name="inviteEmail" value="" />
+							</div>
+						</div>
+						<div class="row margin-bottom-10">
+							<div class="col-md-1 col-md-offset-1">	
+				           		<i class="fa fa-align-justify fa-2x"></i>
+				           	</div>
+		    	        	<div class="col-md-9">
+								<textarea class="invite-text form-control" id="inviteText" name="inviteText" rows="4" />
+							</div>
+						</div>
+						<div class="row margin-bottom-10">
+							<div class="col-md-2 col-md-offset-1">
+								<div class="form-group">
+						    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+						    	</div>
+						    </div>
 					    </div>
-				    </div>
-				</div>
-			</form>
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
+		<div class="panel panel-white" id="divGmail">
+        	<div class="panel-heading border-light">
+        		Inviter vos contacts Gmail
+			</div>
+			<div class="panel-body">
+				<form class="form-gmail" autocomplete="off">
+					<div class="col-sm-12 col-xs-12">
+						<a href="#" id="buttonContactsGmail"
+							class="btn btn-primary col-md-3">
+							Récupérez vos contacts Gmail
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="panel panel-white" id="divGooglePlus">
+        	<div class="panel-heading border-light">
+        		Publier sur Google +, pour inviter vos amis a rejoindre Communecter
+			</div>
+			<div class="panel-body">
+				<form class="form-googlePlus" autocomplete="off">
+					<div class="col-sm-12 col-xs-12">
+						<a  href="#" 
+							class="g-interactivepost btn btn-primary col-md-3"
+							data-clientid="991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com"
+							data-contenturl="www.communecter.org"
+							data-calltoactionlabel="INVITE"
+							data-calltoactionurl="www.communecter.org"
+							data-cookiepolicy="single_host_origin"
+							data-prefilltext="Viens nous rejoindre!!!">
+							Partagez PixelHumain sur Google+
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-white" id="divImportFile">
+        	<div class="panel-heading border-light">
+        		Selectionner un ficher csv qui contient les mails de vos contacts
+			</div>
+			<div class="panel-body">
+				<form class="form-importFile" autocomplete="off">
+					<div class="col-sm-12 col-xs-12">
+						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+		
+		<div class="panel panel-white" id="divWriteMails">
+        	<div class="panel-heading border-light">
+        		Copier vos emails, séparé par des points-virgules.
+			</div>
+			<div class="panel-body">
+				<form class="form-writeMails" autocomplete="off">
+					<div class="col-sm-12 col-xs-12">
+						<div class="col-sm-5 col-xs-12">
+							<textarea id="textareaMails" class="form-control col-sm-5" rows="5"></textarea>
+						</div>
+						<a href="#" class="btn btn-primary col-sm-2" id="submitAfficher">Afficher</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-white" id="divCheckMail">
+        	<div class="panel-body">
+        		<div id="checkMail" class="col-sm-12 col-xs-12">
+					<div class="list-group col-sm-5">
+						<span class="list-group-item active">Liste des contacts</span>
+						<span class="list-group-item">
+							<input type='checkbox' id='allchecked'/><label id="textallchecked" for="allchecked">Tout cocher</label>	
+						</span>
+						<div id="list-contact"> </div>
+		       		</div>
+		        	<div id="Messages" class="col-sm-5">
+		        		<label for="textmail" class="control-label">Votre Message :</label>
+		        		<textarea id="textmail" class="form-control" rows="5">Venez me rejoindre sur PixelHumain</textarea>
+		        		<div class="col-sm-12">&nbsp;</div>
+		        		<a href="#" class="btn btn-primary col-sm-2" id="submitInviter">Inviter</a>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
+<!-- Function utiliser pour faire des appels aux API de google -->
+<script type="text/javascript">
+(function(){
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/client:plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
 
 <script type="text/javascript">
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
@@ -155,6 +296,97 @@ jQuery(document).ready(function() {
 });
 
 function bindInviteSubViewInvites() {	
+	$("#menuInviteSomeone").click(function() {
+		fadeInView("divInviteSomeone");
+		$("#shareForm").hide();
+	});
+
+	$("#menuGmail").click(function() {
+		fadeInView("divGmail");
+		$("#shareForm").hide();
+	});
+
+	$("#menuGooglePlus").click(function() {
+		fadeInView("divGooglePlus");
+		$("#shareForm").hide();
+	});
+
+	$("#menuImportFile").click(function() {
+		fadeInView("divImportFile");
+		$("#shareForm").hide();
+	});
+	$("#menuWriteMails").click(function() {
+		fadeInView("divWriteMails");
+		$("#shareForm").hide();
+	});
+
+	$('#allchecked').change(function() { 
+		console.log("allchecked");          
+        var cases = $("#list-contact").find('[name=mailPersonInvite]'); // on cherche les checkbox qui dépendent de la liste 'list-contact'
+        if(this.checked)
+        { // si 'allchecked' est coché
+            cases.attr('checked', true); // on coche les cases
+            $('#textallchecked').html('Tout décocher'); // mise à jour du texte de cocheText
+        }else
+        { // si on décoche 'allchecked'
+            cases.attr('checked', false);// on coche les cases
+            $('#textallchecked').html('Tout cocher');// mise à jour du texte de cocheText
+        }          
+               
+    });
+
+	$("#buttonContactsGmail").off().on('click', function(){
+		console.log("buttonContactsGmail");
+    	var config = {
+	    	'client_id': '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com',
+	    	'scope': 'https://www.google.com/m8/feeds'
+	    };
+	    console.log("config", config);
+	    gapi.auth.authorize(config, function()
+	    {
+	    	fetch(gapi.auth.getToken());
+	    });
+	});
+
+	$(".form-writeMails #submitAfficher").off().on('click', function(){
+		var listemail = $('.form-writeMails #textareaMails').val().replace(/\s/g,"");
+  		arraymail = listemail.split(';');
+  		$("#list-contact").html("");
+  		var text = "" ;
+  		$.each(arraymail, function(keyMails, valueMails){
+        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+        	
+        });
+  		$("#list-contact").append(text);
+        $("#divCheckMail").show();
+  	});
+
+	$(".form-importFile #fileEmail").change(function(e) {
+		console.log("YOYOYO");
+    	$("#list-contact").html("");
+		var ext = $(".form-importFile input#fileEmail").val().split(".").pop().toLowerCase();
+		if($.inArray(ext, ["csv"]) == -1) {
+			alert('Upload CSV');
+			return false;
+		}  
+		if (e.target.files != undefined) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var csvval=e.target.result.split("\n");
+				var text = "" ;
+				$.each(csvval, function(keyMails, valueMails){
+					console.log("valueMails",valueMails);
+					if(valueMails.trim() != "")
+						text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+				});
+				$("#list-contact").append(text);
+			};
+			reader.readAsText(e.target.files.item(0));
+
+		}
+		$("#divCheckMail").show();
+		return false;
+	});
 
 	$(".connectBtn").off().on("click", function() {
 		connectPerson($('#newInvite #inviteId').val(), function(user){
@@ -192,6 +424,52 @@ function bindInviteSubViewInvites() {
 		 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 		 }	
 	});
+
+
+	$("#divCheckMail #submitInviter").off().on('click', function()
+	{
+		var mails = [];
+		$('input:checked[name=mailPersonInvite]').each(function() {
+		 	mails.push($(this).val());
+		});
+    	if(mails.length == 0)
+    		toastr.error("Veuillez sélectionner une adresse mail.");
+    	else{
+    		$.each(mails, function(key, value) {
+    			//console.log("value", value)
+    			if(value != "on"){
+			  		nameUtil = 	value.split("@");
+				  	$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+'/person/connect',
+				        dataType : "json",
+				        data: {
+				        	parentId : $("#parentId").val(),
+				        	invitedUserName : nameUtil[0],
+				        	invitedUserEmail : value,
+				        	msgEmail : $("#textmail").val()
+				        },
+						type:"POST",
+				    })
+				    .done(function (data){
+				    	$.unblockUI();
+				        if (data &&  data.result) {               
+				        	toastr.success('The invitation has been sent with success !');
+				        	$.hideSubview();
+				        	if( isNotSV )	
+				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
+				        	else if(updateInvite != undefined && typeof updateInvite == "function"){
+				        		updateInvite(data.invitedUser, true);
+				        	} 
+				        } else {
+				        	$.unblockUI();
+							toastr.error(data.msg);
+				        }
+				    });
+				}
+    		});
+    	}
+  	});
 };
 
 
@@ -299,6 +577,12 @@ function initSubView() {
 	$(".form-invite .invite-id").val("");
 	$(".form-invite .invite-name").val("");
 	$(".form-invite .invite-search").val("");
+	$("#divGmail").hide();
+	$("#divGooglePlus").hide();
+	$("#divCheckMail").hide();
+	$("#divImportFile").hide();
+	$("#divImportFile").hide();
+	$("#divWriteMails").hide();
 };
 
 
@@ -422,6 +706,103 @@ function backToSearch(){
 	$("#newInvite #step3").css({"display" : "none"});
 
 	autoCompleteInviteSearch($('#inviteSearch').val());
+}
+
+
+function fadeInView(inView){
+
+	if(inView == "divGmail")
+	{
+		$("#divGmail").fadeIn("slow", function() {});
+		$("#divInviteSomeone").hide();
+		$("#divGooglePlus").hide();
+		$("#divImportFile").hide();
+		$("#divWriteMails").hide();
+		$("#divCheckMail").hide();
+		changeFocus("titleGmail");
+	}
+	else if(inView == "divInviteSomeone")
+	{
+		$("#divInviteSomeone").fadeIn("slow", function() {});
+		$("#divGmail").hide();
+		$("#divGooglePlus").hide();
+		$("#divImportFile").hide();
+		$("#divWriteMails").hide();
+		$("#divCheckMail").hide();
+		changeFocus("titleInviteSomeone");
+
+	}
+	else if(inView == "divGooglePlus")
+	{
+		$("#divGooglePlus").fadeIn("slow", function() {});
+		$("#divInviteSomeone").hide();
+		$("#divGmail").hide();
+		$("#divImportFile").hide();
+		$("#divWriteMails").hide();
+		$("#divCheckMail").hide();
+		changeFocus("titleGooglePlus");
+	}
+	else if(inView == "divImportFile")
+	{
+		$("#divImportFile").fadeIn("slow", function() {});
+		$("#divInviteSomeone").hide();
+		$("#divGmail").hide();
+		$("#divGooglePlus").hide();
+		$("#divWriteMails").hide();
+		$("#divCheckMail").hide();
+		changeFocus("titleImportFile");
+	}
+	else if(inView == "divWriteMails")
+	{
+		$("#divWriteMails").fadeIn("slow", function() {});
+		$("#divInviteSomeone").hide();
+		$("#divGmail").hide();
+		$("#divGooglePlus").hide();
+		$("#divImportFile").hide();
+		$("#divCheckMail").hide();
+		changeFocus("titleWriteMails");
+	}
+
+}
+
+
+
+function changeFocus(newFocus){
+	console.log("changeFocus", newFocus);
+	var nameId = $(".titleInviteSV").attr('id');
+	console.log("nameId", nameId);
+	
+	$( "#"+nameId ).removeClass("titleInviteSV");
+	$( "#"+nameId ).removeClass("text-yellow");
+
+	$( "#"+newFocus ).removeClass("text-grey");
+	$( "#"+newFocus ).addClass("titleInviteSV");
+	$( "#"+newFocus ).addClass("text-yellow");
+	
+	
+}
+
+function fetch(token){
+	console.log("fetch");
+	$.ajax({
+  		url: "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json",
+  		dataType: "jsonp",
+  		success:function(data){
+    		console.log(data);
+    		$("#list-contact").html("");
+    		$.each(data.feed.entry, function(key, value){
+      			var text = "";
+      			if(value.gd$email){
+      				$.each(value.gd$email, function( keyMails, valueMails ){
+        				console.log("valueMails.address", valueMails.address);
+          				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">'+valueMails.address+'</span>';
+          			});
+        			$("#list-contact").append(text);
+      			}
+      			$("#divCheckMail").show();
+      		});
+  		}
+	});
 }
 
 
