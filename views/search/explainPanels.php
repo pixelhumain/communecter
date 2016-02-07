@@ -75,7 +75,15 @@
 			Reconnaitre et travailler pour un bien commun
 			C'est automatiquement ce tourner vers l'autre 
 			Construire ensemble pour un résultat partagé
-			Ne jamais 
+			Le résultat est souvent beaucoup plus riche 
+			qu'on ne se l'imaginait 
+		</ul>
+	</div>
+	
+	<div class="explainOpen explain hide">
+		<h1 class="homestead">Opensource et Opendata</h1>
+		<ul>
+			
 		</ul>
 	</div>
 
