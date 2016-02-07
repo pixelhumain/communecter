@@ -83,8 +83,8 @@
 
 		<h1 class="homestead">Pour un meilleur outil </h1>
 		<ul>
-			<li><a href="">Vous avez trouvé un bug ?</a></li>
-			<li><a href="">Vous avez une idée géniale ?</a></li>
+			<li><a href="">Vous avez trouvé un bug ? </a></li>
+			<li><a href="">Vous avez une idée géniale ? </a></li>
 			<li><a href="">Vous voulez devenir Référant ? </a></li>
 			<li><a href="">Une communauté active ?</a></li>
 		</ul>

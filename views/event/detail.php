@@ -95,7 +95,7 @@ $admin = false;
 			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
 			var idEvent = "<?php echo (string)$event['_id'] ?>";
 			var idAttendee = $(this).data("attendee-id");
-	        var urlToSend = baseUrl+"/"+moduleId+"/event/saveattendees/idEvent/"+idEvent+"/attendeeId/"+idAttendee;
+	        var urlToSend = baseUrl+"/"+moduleId+"/event/saveattendees/eventId/"+idEvent+"/attendeeId/"+idAttendee;
 			$.ajax({
 		        type: "POST",
 		        url: urlToSend,
