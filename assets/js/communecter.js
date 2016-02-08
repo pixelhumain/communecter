@@ -100,7 +100,7 @@ function disconnectTo(parentType,parentId,childId,childType,connectType){
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	bootbox.confirm("Are you sure you want to remove this connection", 
+	bootbox.confirm(trad["removeconnection"], 
 		function(result) {
 			if (!result) {
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -139,19 +139,19 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 	console.log(formData);
 	if(connectType!="admin"){
 		bootbox.dialog({
-                title: "Are you sure to join the "+parentType+" as "+connectType+" ?",
+                title: trad["suretojoin"+parentType]+" "+trad["as"+connectType]+" ?",
                 onEscape: function() {
 	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
                 },
                 message: '<div class="row">  ' +
                     '<div class="col-md-12"> ' +
                     '<form class="form-horizontal"> ' +
-                    '<label class="col-md-4 control-label" for="awesomeness">Are you admin?</label> ' +
+                    '<label class="col-md-4 control-label" for="awesomeness">'+trad["areyouadmin"]+'?</label> ' +
                     '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
                     '<input type="radio" name="awesomeness" id="awesomeness-0" value="admin"> ' +
-                    'Yes </label> ' +
+                    trad["yes"]+' </label> ' +
                     '</div><div class="radio"> <label for="awesomeness-1"> ' +
-                    '<input type="radio" name="awesomeness" id="awesomeness-1" value="'+connectType+'" checked="checked"> No </label> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-1" value="'+connectType+'" checked="checked"> '+trad["no"]+' </label> ' +
                     '</div> ' +
                     '</div> </div>' +
                     '</form></div></div>',
@@ -198,7 +198,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
         );
     }
 	else{
-		bootbox.confirm("Are you sure to join the "+parentType+" as "+connectType+" ?", 
+		bootbox.confirm(trad["suretojoin"+parentType]+" "+trad["as"+connectType]+" ?", 
 		function(result) {
 			if (!result) {
 				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
