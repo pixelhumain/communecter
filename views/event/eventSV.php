@@ -530,13 +530,10 @@ if( !isset($_GET["isNotSV"]))
 				        	toastr.success('Event Created success');
 				        	$("#newEventId").val(data.id["$id"]);
 				        	//$.hideSubview();
-				        	if( isNotSV )	{
 				        		addFloopEntity(data.id["$id"], "events", newEvent);
-								showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS','calendar' );
-				        	}
-				        	else 
-				        		document.location.href=baseUrl+"/"+moduleId+"/event/dashboard/id/"+data.id["$id"];
-				        } else {
+				        		loadByHash("#event.detail.id."+data.id["$id"]);
+								//showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS','calendar' );
+						} else {
 				           toastr.error(data.msg);
 				        }
 				    });
