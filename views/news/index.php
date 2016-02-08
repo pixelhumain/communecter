@@ -58,7 +58,7 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
-	Menu::news();
+	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 }
 ?>
