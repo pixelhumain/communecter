@@ -108,7 +108,7 @@ class Menu {
         		Yii::t( "common", 'Read all news publicated by this organization'), 
         		Yii::t( "common", 'Activity'), 
         		'rss',
-        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
+        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
 //        		'/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
 
         //DIRECTORY
@@ -319,7 +319,7 @@ class Menu {
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
         			Yii::t( "common", 'Activity'), "rss",
-        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
+        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
 
         //DIRECTORY
         //-----------------------------

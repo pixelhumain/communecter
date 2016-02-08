@@ -99,11 +99,13 @@
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
 	</button>
 
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
 			<i class="fa fa-bookmark fa-rotate-270"></i>
 			
 	</button>
+	<?php } ?>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isNewsDesign=1')">
 			<i class="fa fa-bullhorn"></i>
@@ -126,25 +128,26 @@
 </button>
 
 <div class="drop-up-btn-add">
-	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-green" onclick="">
+
+	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-yellow" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-user"></i>
+		<span class="lbl-btn-menu-name">inviter quelqu'un</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-green" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-group"></i>
 		<span class="lbl-btn-menu-name">une organisation</span></span>
 	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-purple" onclick="">
+	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-purple" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-lightbulb-o"></i>
 		<span class="lbl-btn-menu-name">un projet</span></span>
 	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-orange" onclick="">
+	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-orange" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-calendar"></i>
 		<span class="lbl-btn-menu-name">un événement</span></span>
-	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-yellow" onclick="">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-user"></i>
-		<span class="lbl-btn-menu-name">inviter quelqu'un</span></span>
 	</button>
 </div>
 

@@ -304,6 +304,9 @@ div.timeline .date_separator span{
     position: fixed;
     top: 115px;
 }
+.main-col-search{
+	padding-top:10px !important;
+}
 <?php } ?>
 
 </style>
