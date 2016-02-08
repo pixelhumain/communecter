@@ -23,6 +23,22 @@
 		z-index: 1;
 		overflow: visible;
 	}
+
+	.hover-info{
+		margin-top: 100px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 1;
+		overflow: visible;
+		display: none;
+		border: 4px solid #3C5665;
+	}
+	.explain ul{
+		list-style: none;
+		font-size: 1.5em;
+	}
+
 	
 	.drop-up-btn-add{
 		display:none;
@@ -30,7 +46,7 @@
 		bottom: 75px;
 		right: 25px;
 		height: 200px;
-		background-color: transparente;
+		background-color: transparent;
 		width: 300px;
 		z-index:10;
 	}
@@ -57,10 +73,33 @@
 		top:150px;
 		right:15px;
 	}
+	.hover-info{
+		margin-top: 100px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 1;
+		overflow: visible;
+		display: none;
+		border: 0px solid #3C5665;
+		border-radius:5px;
+		-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
+		-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
+		-o-box-shadow: 0px 0px 5px 0px #353535 !important;
+		box-shadow: 0px 0px 5px 0px #353535 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+	}
+	.explain ul{
+		list-style: none;
+		font-size: 1.3em;
+	}
 
 </style>
-
+<?php 
+    echo $this->renderPartial('explainPanels');
+?>
 <div class="hover-menu">
+	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
@@ -99,11 +138,13 @@
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
 	</button>
 
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
 			<i class="fa fa-bookmark fa-rotate-270"></i>
 			
 	</button>
+	<?php } ?>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')">
 			<i class="fa fa-bullhorn"></i>
@@ -126,28 +167,28 @@
 </button>
 
 <div class="drop-up-btn-add">
-	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-green" onclick="">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-group"></i>
-		<span class="lbl-btn-menu-name">une organisation</span></span>
-	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-purple" onclick="">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-lightbulb-o"></i>
-		<span class="lbl-btn-menu-name">un projet</span></span>
-	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-orange" onclick="">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-calendar"></i>
-		<span class="lbl-btn-menu-name">un événement</span></span>
-	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-yellow" onclick="">
+
+	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-yellow" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-user"></i>
 		<span class="lbl-btn-menu-name">inviter quelqu'un</span></span>
 	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-green" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-group"></i>
+		<span class="lbl-btn-menu-name">une organisation</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-purple" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-lightbulb-o"></i>
+		<span class="lbl-btn-menu-name">un projet</span></span>
+	</button>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-orange" onclick="">
+		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
+		<i class="fa fa-calendar"></i>
+		<span class="lbl-btn-menu-name">un événement</span></span>
+	</button>
 </div>
-
 
 <?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
@@ -166,11 +207,12 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
-	$('.btn-menu0').click(function(e){ loadByHash("#search.home");  	 });
-    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  });
-    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 });
-   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 });
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 });
+	$('.btn-menu0').click( function(e){ loadByHash("#search.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
+    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
+    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
+    $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
     
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
@@ -184,12 +226,13 @@ jQuery(document).ready(function() {
 		console.log("btn-login");
 		showPanel("box-login");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainConnect",".explain");});
+
     $(".btn-register").click(function(){
     	console.log("btn-register");
 		showPanel("box-register");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
 
 	$(".btn-logout").click(function(){
     	console.log("btn-logout");
@@ -206,29 +249,29 @@ jQuery(document).ready(function() {
 		$(".menu-button-title").addClass("large");
 	});
 
-	$(".hover-menu").mouseout(function(){
-		//console.log("out all");
-		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-		console.log(isLoginRegister());
-	    if(positionMouseMenu != "inBtn" && !isLoginRegister()){
-			$(".main-col-search").animate({ opacity:1 }, 0 );
-			$(".lbl-btn-menu-name").hide();
-			$(".menu-button-title").removeClass("large");
-		}else{
-			positionMouseMenu = "in";
-		}
-	});
+	// $(".hover-menu").mouseout(function(){
+	// 	//console.log("out all");
+	// 	//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+	// 	console.log(isLoginRegister());
+	//     if(positionMouseMenu != "inBtn" && !isLoginRegister()){
+	// 		$(".main-col-search").animate({ opacity:1 }, 0 );
+	// 		$(".lbl-btn-menu-name, .hover-info").hide();
+	// 		$(".menu-button-title").removeClass("large");
+	// 	}else{
+	// 		positionMouseMenu = "in";
+	// 		$(".hover-info").hide();
+	// 	}
+	// });
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
 		//console.log("enter btn");
 		positionMouseMenu = "inBtn";
 		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name").css("display", "inline");
+		$(".lbl-btn-menu-name, .hover-info").css("display", "inline");
 		$(".menu-button-title").addClass("large");
-
 	});
 
-	$(".main-col-search").mouseenter(function(){
+	$(".main-col-search").click(function(){
 		console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    var login_register = isLoginRegister();
@@ -240,9 +283,28 @@ jQuery(document).ready(function() {
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
+		$(".hover-info").hide();
 		$(".drop-up-btn-add").hide(400);
 	});
 
+	$(".menu-button").click(function(){
+		//console.log("login display", !isLoginRegister());
+		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+	    var login_register = isLoginRegister();
+	    
+	    console.log(isLoginRegister());
+	    if(!isLoginRegister()){
+			positionMouseMenu = "out";
+			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".lbl-btn-menu-name").hide();
+			$(".menu-button").removeClass("large");
+		}
+		$(".hover-info").hide();
+		$(".drop-up-btn-add").hide(400);
+	});
+
+
+	
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");

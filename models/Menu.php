@@ -60,17 +60,17 @@ class Menu {
                                         "href"=>"<a href='javascript:;' class='followBtn tooltips btn btn-default ' id='addKnowsRelation'  data-id='".$person["_id"]."' data-ownerlink='".link::person2person."' ");
             array_push(Yii::app()->controller->toolbarMBZ, $htmlFollowBtn);
         } 
-        if( Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "directory" 
-            && isset($person["_id"]) 
-            && isset(Yii::app()->session["userId"]) 
-            && $person["_id"] == Yii::app()->session["userId"] ){
-            $onclick = "showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');";
-            array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => Yii::t( "common", "Add Something to your network"),
-                                                                'position'   => "right",
-                                                                'label' => Yii::t( "common", "Add"),
-                                                                "iconClass"=>"fa fa-plus",
-                                                                "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
-        }
+        // if( Yii::app()->controller->id == "person" && Yii::app()->controller->action->id == "directory" 
+        //     && isset($person["_id"]) 
+        //     && isset(Yii::app()->session["userId"]) 
+        //     && $person["_id"] == Yii::app()->session["userId"] ){
+        //     $onclick = "showPanel('box-add',null,'ADD SOMETHING TO MY NETWORK');";
+        //     array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => Yii::t( "common", "Add Something to your network"),
+        //                                                         'position'   => "right",
+        //                                                         'label' => Yii::t( "common", "Add"),
+        //                                                         "iconClass"=>"fa fa-plus",
+        //                                                         "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        // }
     }
 	 public static function event($event)
     {
@@ -108,7 +108,7 @@ class Menu {
         		Yii::t( "common", 'Read all news publicated by this organization'), 
         		Yii::t( "common", 'Activity'), 
         		'rss',
-        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
+        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
 //        		'/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
 
         //DIRECTORY
@@ -319,7 +319,7 @@ class Menu {
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
         			Yii::t( "common", 'Activity'), "rss",
-        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isNotSV=1')",null,null);
+        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
 
         //DIRECTORY
         //-----------------------------
