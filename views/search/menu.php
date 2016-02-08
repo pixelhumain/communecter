@@ -23,7 +23,7 @@
 		z-index: 1;
 		overflow: visible;
 	}
-<<<<<<< HEAD
+
 	.hover-info{
 		margin-top: 100px;
 		position: fixed;
@@ -38,7 +38,7 @@
 		list-style: none;
 		font-size: 1.5em;
 	}
-=======
+
 	
 	.drop-up-btn-add{
 		display:none;
@@ -46,7 +46,7 @@
 		bottom: 75px;
 		right: 25px;
 		height: 200px;
-		background-color: transparente;
+		background-color: transparent;
 		width: 300px;
 		z-index:10;
 	}
@@ -81,11 +81,17 @@
 		z-index: 1;
 		overflow: visible;
 		display: none;
-		border: 4px solid #3C5665;
+		border: 0px solid #3C5665;
+		border-radius:5px;
+		-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
+		-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
+		-o-box-shadow: 0px 0px 5px 0px #353535 !important;
+		box-shadow: 0px 0px 5px 0px #353535 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 	}
 	.explain ul{
 		list-style: none;
-		font-size: 1.5em;
+		font-size: 1.3em;
 	}
 
 </style>

@@ -283,6 +283,9 @@ div.timeline .date_separator span{
 .small_text{
 	font-size: 10px;
 }
+.emptyNewsnews{
+	color:#3C5665;
+}
 
 <?php if (isset($_GET["isSearchDesign"]) ){ ?>
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
@@ -320,7 +323,7 @@ div.timeline .date_separator span{
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<textarea id="get_url" placeholder="Enter an URL here and your idea" class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
+					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
 					<div id="results" class="padding-10 bg-white"></div>
 				</div>
 			</div>
@@ -348,8 +351,10 @@ div.timeline .date_separator span{
 						</li>-->
 					</ul>
 				</div>	
+				<?php }else if($type=="city"){ ?>
+					<a class="btn btn-default" href="#"><i class="fa fa-university"></i> Nouméa</a>
 				<?php } ?>
-				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Submit <i class="fa fa-arrow-circle-right"></i></button>
+				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
 	 </div>
@@ -399,7 +404,7 @@ div.timeline .date_separator span{
 				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity col-md-2"></ul>
 				
 			</div>
-			<div class="title-processing homestead stream-processing center fa-2x" style="margin-right:100px;"><i class="fa fa-spinner fa-spin"></i> Processing... </div>
+			<div class="title-processing homestead stream-processing center fa-2x" style="margin-right:100px;"><i class="fa fa-circle-o-notch fa-spin"></i></div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
@@ -619,14 +624,14 @@ function buildTimeLine (news)
 			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
 			$("#newFeedForm"+streamType).append(formCreateNews);
 			$("#formCreateNewsTemp").css("display", "inline");
-			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-rss'></i> Sorry, no news available</br>Be the first to share something here !</div>");
+			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-ban'></i> Aucun message.<br/>Soyez le premier à publier ici.</div>");
 
 		}
 		else {
 			if($("#backToTop"+streamType).length <= 0){
 				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
-						'<a href="#top" class="smoothScroll">'+
-							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
+						'<a href="#top" class="smoothScroll" title="retour en haut de page">'+
+							'<span style="height:inherit;"><i class="fa fa-ban"></i><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL"+streamType).append(titleHTML);
@@ -640,7 +645,7 @@ function buildTimeLine (news)
 			if($("#backToTop"+streamType).length <= 0){
 				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="#top" class="smoothScroll">'+
-							'<span style="height:inherit;"><i class="fa fa-rss"></i> No more news available<br/>Back to top</span>'+
+							'<span style="height:inherit;"><i class="fa fa-ban"></i><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL"+streamType).append(titleHTML);
@@ -684,7 +689,7 @@ function buildLineHTML(newsObj)
 	//console.dir(newsObj);
 	manageMenu = "";
 	if (newsObj.author.id=="<?php echo Yii::app() -> session["userId"] ?>" && streamType=="news"){
-		manageMenu='<div class="dropdown pull-right" style="padding-left:10px;">'+
+		manageMenu='<div class="btn dropdown pull-right" style="padding-left:10px !important;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
@@ -1072,7 +1077,7 @@ function bindEvent(){
 
 	$('.filter').off().on("click",function(){
 	 	if($(this).data("filter") == ".news" || $(this).data("filter")==".activityStream"){
-		 	htmlMessage = '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>';
+		 	htmlMessage = '<div class="title-processing homestead"><i class="fa fa-circle-o-notch fa-spin"></i></div>';
 		 	<?php if( isset($_GET["isNotSV"]) ) { ?>
 				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
@@ -1579,7 +1584,7 @@ function saveNews(){
 
 		},
 		submitHandler : function(form) {
-			$("#btn-submit-form i").removeClass("fa-arrow-circle-right").addClass("fa-spinner fa-spin");
+			$("#btn-submit-form i").removeClass("fa-arrow-circle-right").addClass("fa-circle-o-notch fa-spin");
 			successHandler2.show();
 			errorHandler2.hide();
 			newNews = new Object;
@@ -1624,7 +1629,7 @@ function saveNews(){
 	    			$.unblockUI();
 					toastr.error(data.msg);
 	    		}
-	    		$("#btn-submit-form i").removeClass("fa-spinner fa-spin").addClass("fa-arrow-circle-right");
+	    		$("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 				return false;
 		    });
 		}
