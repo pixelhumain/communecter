@@ -57,7 +57,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  		<a href="#" class="" id="menuGmail">
 	  			<h4 id="titleGmail" class='radius-10 padding-10 text-grey text-bold'>
 	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-user fa-2x"></i> 
+					<i class="fa fa-envelope fa-2x"></i> 
 					Gmail
 				</h4>
 	  		</a>
@@ -66,7 +66,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  		<a href="#" class="" id="menuGooglePlus">
 	  			<h4 id="titleGooglePlus" class='radius-10 padding-10 text-grey text-bold'>
 	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-user fa-2x"></i> 
+					<i class="fa fa-google-plus-square fa-2x"></i> 
 					Google+
 				</h4>	  		
 	  		</a>
@@ -75,7 +75,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  		<a href="#" class="" id="menuImportFile">
 	  			<h4 id="titleImportFile" class='radius-10 padding-10 text-grey text-bold'>
 	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-user fa-2x"></i> 
+					<i class="fa fa-upload fa-2x"></i> 
 					Importer un fichier
 				</h4>
 	  		</a>
@@ -84,7 +84,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  		<a href="#" class="" id="menuWriteMails">
 	  			<h4 id="titleWriteMails" class='radius-10 padding-10 text-grey text-bold'>
 	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-user fa-2x"></i> 
+					<i class="fa fa-pencil-square-o fa-2x"></i> 
 					Saisir
 				</h4>
 	  		</a>
