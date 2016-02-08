@@ -20,7 +20,7 @@
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
-	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
+	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
 	<?php 
 		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
 		   			    Yii::app()->request->cookies['cityName'] : "";
@@ -33,7 +33,7 @@
 
 	<?php $this->renderPartial("dropdown_scope"); ?> 
 
-	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
+	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 </div>
 

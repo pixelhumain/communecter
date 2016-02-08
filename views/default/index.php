@@ -128,7 +128,6 @@ if( !isset( Yii::app()->session['userId']) ){
           <img src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
       </a>
       <?php } ?>
-    
       <form class="inner pull-right">
         <input class='hide' id="searchId" name="searchId"/>
         <input class='hide' id="searchType" name="searchType"/>
@@ -274,7 +273,9 @@ if( !isset( Yii::app()->session['userId']) ){
     }
 ?>
 <script type="text/javascript">
+
 var timeout;
+
 var mapIconTop = {
     "default" : "fa-arrow-circle-right",
     "citoyen":"<?php echo Person::ICON ?>", 
@@ -295,6 +296,8 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 var lastUrl = null;
+
+
 jQuery(document).ready(function() {
     //console.dir(proverbs);
     
@@ -333,12 +336,6 @@ jQuery(document).ready(function() {
       resizeInterface();
     })
 });
-
-var typesLabels = {
-  "<?php echo Organization::COLLECTION ?>":"Organization",
-  "<?php echo Event::COLLECTION ?>":"Event",
-  "<?php echo Project::COLLECTION ?>":"Project",
-};
 
 
 function runShowCity(searchValue) {
@@ -423,8 +420,9 @@ function autoCompleteSearch(name){
 
                 var insee      = o.insee ? o.insee : "";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+                 var id = getObjectId(o);
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='javascript:;' data-id='"+ o.id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           htmlIco + "<div class='lbl-info-search'> " + o.name;
 
@@ -475,7 +473,8 @@ function autoCompleteSearch(name){
     if(type=="cities")
         url = "/city/detail/insee/"+insee+"?isNotSV=1";
     //showAjaxPanel( '/'+type+'/detail/id/'+id, type+" : "+name,icon);
-    openMainPanelFromPanel( url, type+" : "+name,icon, id);
+	loadByHash("#" + type + ".detail.id." + id);
+  //  openMainPanelFromPanel( url, type+" : "+name,icon, id);
     /*
     $("#searchBar").val(name);
     $("#searchId").val(id);

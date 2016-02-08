@@ -171,6 +171,7 @@ var typesLabels = {
 
 	var isNotSV = true;
 	var hideScrollTop = true;
+	var lastUrl = null;
 
 	jQuery(document).ready(function() {
 		
@@ -196,7 +197,14 @@ var typesLabels = {
 	    resizeInterface();
 	    showFloopDrawer();
 
-
+	    $(window).bind("popstate", function(e) {
+	      console.warn("--------------------- pop",e);
+	      if( lastUrl && "onhashchange" in window && location.hash){
+	        console.warn("poped state",location.hash);
+	        loadByHash(location.hash,true);
+	      }
+	      lastUrl = location.hash;
+	    });
 	    console.log("hash", location.hash);
 	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash);

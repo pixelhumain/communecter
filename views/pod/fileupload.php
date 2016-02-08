@@ -42,7 +42,6 @@
 		border: 0;
 	}
 </style>
-	<?php echo Yii::app()->params['uploadUrl'] ; ?>
 	<div class="center" id="fileuploadContainer">
 		<form  method="post" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAdd" enctype="multipart/form-data">
 		

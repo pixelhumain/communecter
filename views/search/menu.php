@@ -23,6 +23,22 @@
 		z-index: 1;
 		overflow: visible;
 	}
+<<<<<<< HEAD
+	.hover-info{
+		margin-top: 100px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 1;
+		overflow: visible;
+		display: none;
+		border: 4px solid #3C5665;
+	}
+	.explain ul{
+		list-style: none;
+		font-size: 1.5em;
+	}
+=======
 	
 	.drop-up-btn-add{
 		display:none;
@@ -57,10 +73,27 @@
 		top:150px;
 		right:15px;
 	}
+	.hover-info{
+		margin-top: 100px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 1;
+		overflow: visible;
+		display: none;
+		border: 4px solid #3C5665;
+	}
+	.explain ul{
+		list-style: none;
+		font-size: 1.5em;
+	}
 
 </style>
-
+<?php 
+    echo $this->renderPartial('explainPanels');
+?>
 <div class="hover-menu">
+	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
@@ -107,7 +140,7 @@
 	</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isNewsDesign=1')">
+	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')">
 			<i class="fa fa-bullhorn"></i>
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>
@@ -151,7 +184,6 @@
 	</button>
 </div>
 
-
 <?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
 		data-toggle="tooltip" data-placement="left" title="Mon répertoire" alt="Mon répertoire">
@@ -169,11 +201,12 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
-	$('.btn-menu0').click(function(e){ loadByHash("#search.home");  	 });
-    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  });
-    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 });
-   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 });
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 });
+	$('.btn-menu0').click( function(e){ loadByHash("#search.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
+    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
+    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
+    $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
     
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
@@ -187,12 +220,13 @@ jQuery(document).ready(function() {
 		console.log("btn-login");
 		showPanel("box-login");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainConnect",".explain");});
+
     $(".btn-register").click(function(){
     	console.log("btn-register");
 		showPanel("box-register");
 		$(".main-col-search").html("");
-	});
+	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
 
 	$(".btn-logout").click(function(){
     	console.log("btn-logout");
@@ -215,10 +249,11 @@ jQuery(document).ready(function() {
 		console.log(isLoginRegister());
 	    if(positionMouseMenu != "inBtn" && !isLoginRegister()){
 			$(".main-col-search").animate({ opacity:1 }, 0 );
-			$(".lbl-btn-menu-name").hide();
+			$(".lbl-btn-menu-name, .hover-info").hide();
 			$(".menu-button-title").removeClass("large");
 		}else{
 			positionMouseMenu = "in";
+			$(".hover-info").hide();
 		}
 	});
 
@@ -226,9 +261,8 @@ jQuery(document).ready(function() {
 		//console.log("enter btn");
 		positionMouseMenu = "inBtn";
 		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name").css("display", "inline");
+		$(".lbl-btn-menu-name, .hover-info").css("display", "inline");
 		$(".menu-button-title").addClass("large");
-
 	});
 
 	$(".main-col-search").mouseenter(function(){

@@ -10,7 +10,7 @@ var keywords = [
 	{
 		"icon" : "fa-child",
 		"title":"ALPHA OPENING",
-		"date" : "september - 2015",
+		"date" : "febuary - 2016",
 		"body":"..."
 	},
 	{

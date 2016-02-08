@@ -223,7 +223,7 @@ if( @$isNotSV ) {
 
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/event/saveattendees/idEvent/"+idEvent+"/attendeeId/"+newAttendee.id,
+				        url: baseUrl+"/"+moduleId+"/event/saveattendees/eventId/"+idEvent+"/attendeeId/"+newAttendee.id,
 				        dataType : "json",
 				        data:newAttendee,
 						type:"POST",
