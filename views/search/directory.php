@@ -54,16 +54,16 @@
     <div class="btn-group inline-block" id="menu-directory-type">
       <!-- <button class="btn btn-default bg-dark"><i class="fa fa-angle-right fa-2x"></i> Filtrer</button> -->
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Tous" type="all">
-        <i class="fa fa-2x fa-asterisk"></i>
+        <i class="fa fa-asterisk"></i>
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
-        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-2x fa-user"></i>
+        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i>
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
-        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-2x fa-group"></i>
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i>
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
-        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-2x fa-lightbulb-o"></i>
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i>
       </button>
     </div>
   </div>
@@ -134,6 +134,7 @@ jQuery(document).ready(function() {
 });
 
 function setScopeValue(value){
+      value = value.replace("#", "'");
       $("#searchBarPostalCode").val(value);
       startSearch();
     }
@@ -145,7 +146,7 @@ function startSearch(){
     var locality = $('#searchBarPostalCode').val();
 
     name = name.replace(/[^\w\s']/gi, '');
-    locality = locality.replace(/[^\w\s']/gi, '');
+    //locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
     if(!isNaN(parseInt(locality))){
@@ -267,7 +268,7 @@ function autoCompleteSearch(name, locality){
                 var target = " target='_blank'";
                 if(type == "city"){
                 	url = "#main-col-search";
-                	onclick = 'setScopeValue("'+o.name+'");';
+                	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
                 	onclickCp = 'setScopeValue("'+o.cp+'");';
                 	target = "";
                 }
