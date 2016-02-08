@@ -232,19 +232,53 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		});             
 	}
 }		
-
+var urlParams = {
+	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
+	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
+	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
+	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
+	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
+    "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
+    "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
+    "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
+    "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+    "#search.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
+    "#search.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
+    "#search.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#search.home" : {title:'COMMUNECTED AGENDA ', icon : 'home'},
+	"#search.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+    "#vitrine" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
+};
+function replaceAndShow(hash,params){
+	res = false;
+	$.each( urlParams, function(urlIndex,urlObj)
+	{
+		console.log("replaceAndShow ",urlIndex);
+		if( hash.indexOf(urlIndex) >= 0 )
+		{
+			extraParams = (urlParams[urlIndex].urlExtraParam) ? urlParams[urlIndex].urlExtraParam : "";
+			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, urlParams[urlIndex].title,urlParams[urlIndex].icon );
+			res = true;
+			return false;
+		}
+	});
+	return res;
+}
 function loadByHash( hash , back) { 
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
-    if( hash.indexOf("#person.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DIRECTORY ','share-alt' );
-    else if( hash.indexOf("#organization.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION MEMBERS ','users' );
-    else if( hash.indexOf("#project.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT CONTRIBUTORS ','users' );
-	else if( hash.indexOf("#city.directory") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'CITY DIRECTORY ','bookmark fa-rotate-270' );
+
+    //
+    if( replaceAndShow(hash,params) )
+    	console.warn("loadByHash replaceAndShow",hash);
+   
     else if( hash.indexOf("#panel") >= 0 ){
         if(hash.substr(7) == "box-add")
             title = 'ADD SOMETHING TO MY NETWORK';
@@ -252,19 +286,7 @@ function loadByHash( hash , back) {
             title = "WELCOM MUNECT HEY !!!";
         showPanel(hash.substr(7),null,title);
     }
-    else if( hash.indexOf("#city.opendata") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'STATISTICS ','line-chart' );
-    else if( hash.indexOf("#person.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PERSON DETAIL ','user' );
-    else if( hash.indexOf("#event.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'EVENT DETAIL ','calendar' );
-    else if( hash.indexOf("#project.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'PROJECT DETAIL ','lightbulb-o' );
-    else if( hash.indexOf("#organization.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'ORGANIZATION DETAIL ','users' );
-    else if( hash.indexOf("#city.detail") >= 0 )
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params, 'CITY ','university' );
-    
+        
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invitesv") >= 0 )
@@ -281,40 +303,7 @@ function loadByHash( hash , back) {
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
-    } else if ( hash.indexOf("#survey.entry.id") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'VOTE LOCAL ','legal' );
-    }  else if ( hash.indexOf("#rooms") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTION ROOMS ','cubes' );
-    }   
-
-    else if ( hash.indexOf("#admin.importdata") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
-    }  
-    else if ( hash.indexOf("#admin.index") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
-    } 
-    else if ( hash.indexOf("#admin.directory") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','download' );
     }
-
-    else if ( hash.indexOf("#search.directory") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isNotSV=1', 'COMMUNECTED DIRECTORY', 'connectdevelop' );
-    }   
-    else if ( hash.indexOf("#search.news") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1&isSearchDesign', 'COMMUNECTED NEWS ','rss' );
-    }   
-    else if ( hash.indexOf("#search.agenda") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
-    }   
-	else if ( hash.indexOf("#search.home") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','home' );
-    }   
-	else if ( hash.indexOf("#search.login") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
-    }   
-    else if ( hash.indexOf("#vitrine") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'COMMUNECTED AGENDA ','calendar' );
-    }   
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
