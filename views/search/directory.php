@@ -146,7 +146,7 @@ function startSearch(){
     var locality = $('#searchBarPostalCode').val();
 
     name = name.replace(/[^\w\s']/gi, '');
-    //locality = locality.replace(/[^\w\s']/gi, '');
+    ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
     if(!isNaN(parseInt(locality))){
