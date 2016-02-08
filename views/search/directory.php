@@ -53,17 +53,17 @@
   <div class="col-md-12 center" style="margin-top:45px;margin-bottom:0px;">
     <div class="btn-group inline-block" id="menu-directory-type">
       <!-- <button class="btn btn-default bg-dark"><i class="fa fa-angle-right fa-2x"></i> Filtrer</button> -->
-      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Tous" type="all">
+     <!--  <button class="btn btn-default btn-filter-type tooltips text-azure" data-toggle="tooltip" data-placement="top" title="Tous" type="all">
         <i class="fa fa-asterisk"></i>
-      </button>
+      </button> -->
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
-        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i>
+        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i> Citoyens
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
-        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i>
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> Organisations
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
-        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i>
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> Projets
       </button>
     </div>
   </div>

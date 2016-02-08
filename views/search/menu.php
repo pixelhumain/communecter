@@ -249,19 +249,19 @@ jQuery(document).ready(function() {
 		$(".menu-button-title").addClass("large");
 	});
 
-	$(".hover-menu").mouseout(function(){
-		//console.log("out all");
-		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-		console.log(isLoginRegister());
-	    if(positionMouseMenu != "inBtn" && !isLoginRegister()){
-			$(".main-col-search").animate({ opacity:1 }, 0 );
-			$(".lbl-btn-menu-name, .hover-info").hide();
-			$(".menu-button-title").removeClass("large");
-		}else{
-			positionMouseMenu = "in";
-			$(".hover-info").hide();
-		}
-	});
+	// $(".hover-menu").mouseout(function(){
+	// 	//console.log("out all");
+	// 	//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+	// 	console.log(isLoginRegister());
+	//     if(positionMouseMenu != "inBtn" && !isLoginRegister()){
+	// 		$(".main-col-search").animate({ opacity:1 }, 0 );
+	// 		$(".lbl-btn-menu-name, .hover-info").hide();
+	// 		$(".menu-button-title").removeClass("large");
+	// 	}else{
+	// 		positionMouseMenu = "in";
+	// 		$(".hover-info").hide();
+	// 	}
+	// });
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
 		//console.log("enter btn");
@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 		$(".menu-button-title").addClass("large");
 	});
 
-	$(".main-col-search").mouseenter(function(){
+	$(".main-col-search").click(function(){
 		console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    var login_register = isLoginRegister();
@@ -283,9 +283,28 @@ jQuery(document).ready(function() {
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
+		$(".hover-info").hide();
 		$(".drop-up-btn-add").hide(400);
 	});
 
+	$(".menu-button").click(function(){
+		//console.log("login display", !isLoginRegister());
+		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+	    var login_register = isLoginRegister();
+	    
+	    console.log(isLoginRegister());
+	    if(!isLoginRegister()){
+			positionMouseMenu = "out";
+			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".lbl-btn-menu-name").hide();
+			$(".menu-button").removeClass("large");
+		}
+		$(".hover-info").hide();
+		$(".drop-up-btn-add").hide(400);
+	});
+
+
+	
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");
