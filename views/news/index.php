@@ -316,7 +316,7 @@ div.timeline .date_separator span{
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea",null,Yii::app()->controller->module->id) ?> </h5>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
 			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
@@ -352,7 +352,7 @@ div.timeline .date_separator span{
 					</ul>
 				</div>	
 				<?php }else if($type=="city"){ ?>
-					<a class="btn btn-default" href="#"><i class="fa fa-university"></i> Nouméa</a>
+					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>

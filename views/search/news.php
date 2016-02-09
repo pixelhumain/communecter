@@ -80,7 +80,8 @@ jQuery(document).ready(function() {
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
-	
+	var timeoutSearch = setTimeout(function(){ }, 100);
+
 	$('.tooltips').tooltip();
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
@@ -88,11 +89,14 @@ jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
 
 	$('#searchBarText').keyup(function(e){
-        startSearch();
-    });
-    $('#searchBarPostalCode').keyup(function(e){
-        startSearch();
-    });
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+  $('#searchBarPostalCode').keyup(function(e){
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+  
     $('#btn-start-search').click(function(e){
         startSearch();
     });

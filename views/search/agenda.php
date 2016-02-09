@@ -50,7 +50,8 @@ jQuery(document).ready(function() {
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
-	
+	var timeoutSearch = setTimeout(function(){ }, 100);
+
 	$('.tooltips').tooltip();
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
@@ -58,11 +59,15 @@ jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
 	$('#searchBarText').keyup(function(e){
-        startSearch();
-    });
-    $('#searchBarPostalCode').keyup(function(e){
-        startSearch();
-    });
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+  $('#searchBarPostalCode').keyup(function(e){
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+
+
     $('#btn-start-search').click(function(e){
         startSearch();
     });
@@ -149,14 +154,14 @@ function autoCompleteSearch(name, locality){
           
           str = "";
           var city, postalCode = "";
-          $.each(data, function(i, v) {
+          $.each(data, function(i, o) {
             var typeIco = i;
             var ico = mapIconTop["default"];
             var color = mapColorIconTop["default"];
 
             
-            if(v.length!=0){
-              $.each(v, function(k, o){
+            //if(v.length!=0){
+             // $.each(v, function(k, o){
 
                mapElements.push(o);
 
@@ -195,10 +200,10 @@ function autoCompleteSearch(name, locality){
 
                 var tags = "";
                 if(typeof o.tags != "undefined" && o.tags != null){
-					$.each(o.tags, function(key, value){
-						if(value != "")
-		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
-		            });
+        					$.each(o.tags, function(key, value){
+        						if(value != "")
+        		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
+  		            });
                 }
 
                 var name = typeof o.name != "undefined" ? o.name : "";
@@ -222,14 +227,16 @@ function autoCompleteSearch(name, locality){
                 //template principal
                 str += "<div class='col-md-12 searchEntity'>";
 	                str += "<div class='col-md-5 entityLeft'>";
-						str += tags;
+						      str += tags;
 	                str += "</div>";
 
 	                str += "<div class='col-md-2 entityCenter'>";
-						str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
 	                str += "</div>";
-					target = "";
-	                str += "<div class='col-md-5 entityRight no-padding'>";
+					        
+                  target = "";
+	                
+                  str += "<div class='col-md-5 entityRight no-padding'>";
 	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
 	                	if(fullLocality != "" && fullLocality != " ")
 	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
@@ -241,11 +248,11 @@ function autoCompleteSearch(name, locality){
 	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
 	                str += "</div>";
 	                					
-				str += "</div>";
+				          str += "</div>";
 
 			
-              })
-            }
+              //});
+            //}
             }); 
             if(str == "") {
             	//$("#dropdown_searchTop").html("");
