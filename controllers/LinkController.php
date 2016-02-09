@@ -20,15 +20,9 @@ class LinkController extends CommunecterController {
 	        "removerole"		=> 'citizenToolKit.controllers.link.RemoveRoleAction',
 			'removecontributor' => 'citizenToolKit.controllers.link.RemoveContributorAction',
 			'disconnect' 		=> 'citizenToolKit.controllers.link.DisconnectAction',
-			'declaremeadmin' 	=> 'citizenToolKit.controllers.link.DeclareMeAdminAction',
-			'addasadmin' 		=> 'citizenToolKit.controllers.link.AddAsAdminAction',
-			'addasmember' 		=> 'citizenToolKit.controllers.link.AddAsMemberAction',
-			'connect' 			=> 'citizenToolKit.controllers.link.ConnectAction'
+			//New Actions
+			'connect' 			=> 'citizenToolKit.controllers.link.ConnectAction',
+			'validate' 			=> 'citizenToolKit.controllers.link.ValidateAction',
 	    );
 	}
-
-	//public function actionDisconnect($id, $type, $idTo, $typeTo) {
-	//	throw new CommunecterException("TODO !");
-	//}
-
 }
