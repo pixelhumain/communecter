@@ -162,6 +162,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    padding:30px; 
 	}
 
+	.btn-default.selected{
+		background-color: rgb(182, 200, 210);
+	}
+
     @media screen and (max-width: 1000px) {
       .entityDetails span{
         font-size: 1em;
@@ -190,6 +194,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php */ } 
 			if (Person::logguedAndValid() && $canEdit) {
 			?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
+					</span>
+				</a>
 				<a href='javascript:' class='btn btn-sm btn-red changePasswordBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
 					<i class='fa fa-key'></i> 
 					<span class="hidden-sm hidden-xs">
@@ -207,6 +217,62 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
  		
  				
   	</div>
+  	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+	            <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon e-mail :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-email inline-block">
+		        		<button class="btn btn-default" type="email" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="email" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="email" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Ma localité :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-locality inline-block">
+		        		<button class="btn btn-default" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon téléphone :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-phone inline-block">
+		        		<button class="btn btn-default" type="phone" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="phone" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	        <button type="button" class="btn btn-success">Enregistrer</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15">
@@ -378,6 +444,14 @@ jQuery(document).ready(function()
 			findGeoPosByAddress();
 		});
 
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("selected");
+			$(this).addClass("selected");
+
+		});
+
 		Sig.currentPersonData = personData;
 		Sig.contextData = contextMapPerson;
 		Sig.restartMap();
@@ -429,6 +503,11 @@ function bindAboutPodEvents()
 	           toastr.error('Something Went Wrong');
 	        }
 	    });
+    });
+
+    $(".editConfidentialityBtn").click(function(){
+    	console.log("confidentiality");
+    	$("#modal-confidentiality").modal("show");
     });
 
 
