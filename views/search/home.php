@@ -130,6 +130,32 @@
 	display: inline;
 }
 
+
+.flex-direction-nav a{
+		color : #2a3945;
+	}
+
+	.btn-succes{
+		background: #f6e200 none repeat scroll 0 0;
+		border: medium none;
+		padding: 8px 16px 8px;
+	}
+
+	.flex-direction-nav .flex-prev { left: 250px; }
+	.flex-direction-nav .flex-next { right: 250px; text-align: right; }
+	.flexslider:hover .flex-prev { opacity: 0.7; left: 240px; }
+	.flexslider:hover .flex-next { opacity: 0.7; right: 240px; }
+	.flex-control-paging li a.flex-active{background-color:#dfe5e7 }
+	img{
+		max-width: 100%;
+	}
+	.popover{
+		opacity: 0.8;
+		filter : alpha(opacity=0.8);
+		border-radius: 8px;			
+    	pointer-events: none;	
+	}
+
 </style>
 
 <div class="home_page">
@@ -225,7 +251,69 @@
 		</div>
 	</div>
 
-	
+	<div class="flexslider" id="banFlex">
+			<ul class="slides">
+			<li>
+				<div class="imgSvg" id="slide0">
+					<div class="imgZone">
+						<a data-href="#description" ><img src="<?php echo $this->module->assetsUrl; ?>/images/slider/slide0.png" style="margin-left:'auto'; margin-right:'auto';"/></a>
+					</div>
+					<div class="textZone">
+						<h1 class="slideTitle_pix title_fontHome">Le projet <strong>Communecter</strong></h1>
+			            	<h3>
+			            		<strong>Communecter c'est simple : un email, un code postal et c'est parti !</strong>
+			            		<br> Je suis communecté: j'ai accès à ma ville à tout mon réseau !<br>
+			            		<a data-href="#description" class="btn btn-succes center pinkBtn">En savoir plus</a>
+			            	</h3>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="imgSvg" id="slide1">
+					<div class="imgZone">
+						<img src="<?php echo $this->module->assetsUrl; ?>/images/slider/slide1.png" style="margin-left:'auto'; margin-right:'auto';"/>
+					</div>
+					<div class="textZone">
+						<h1 class="slideTitle_pix title_fontHome">Découvrez <strong>Pixel Humain</strong></h1>
+			            	<h3><strong>Pixel Humain est un collectif qui regroupe des acteurs réunionnais <br>
+			            	et métropolitains partageant les valeurs de partage, d'open innovation pour le bien commun.</strong><br>
+									Vous êtes un citoyen, une association, une collectivité, une entreprise ?<br>
+										Vous rêvez d'un territoire connecté, interactif et dynamique ?<br>
+												Le réseau Communecter est fait pour vous !<br>
+							<a class="btn btn-succes center pinkBtn">Communectez-vous !</a></h3>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="imgSvg" id="slide1">
+					<div class="imgZone">
+						<a data-href="#services" ><img src="<?php echo $this->module->assetsUrl; ?>/images/slider/slide2.png" style="margin-left:'auto'; margin-right:'auto';"/></a>
+					</div>
+					<div class="textZone">
+						<h1 class="slideTitle_pix title_fontHome"><strong>Participez</strong> au projet</h1>
+			            	<h3>Vous partagez nos valeurs ?<br>
+			Vous souhaitez contribuer à un projet d’intérêt général, participatif et<br>
+			évolutif ?<br>
+			Alors,<strong> rejoignez-nous et devenez, vous aussi, Pixel Humain !</strong><br> <a data-href="#services" class="btn btn-succes center pinkBtn">Participez !</a></h3>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="imgSvg" id="slide1">
+					<div class="imgZone">
+						<a data-href="#team" ><img src="<?php echo $this->module->assetsUrl; ?>/images/slider/slide4.png" style="margin-left:'auto'; margin-right:'auto';"/></a>
+					</div>
+					<div class="textZone">
+						<h1 class="slideTitle_pix title_fontHome"><strong>Un réseau</strong> en mouvement</h1>
+			            <h3>Les actions pour le bien commun issues des communautés créent de l'intelligence collective<br>
+							<strong>Découvrez qui se cache derrière le changement en marche</strong><br>
+						<a data-href="#team" class="btn btn-succes center pinkBtn">Découvrir le réseau</a></h3>
+					</div>
+		
+				</div>
+			</li>
+			</ul>
+		</div> 
 
 
 	<div class="col-md-10 col-md-offset-1">
@@ -328,6 +416,8 @@ jQuery(document).ready(function() {
     	}
     });
 
+     var sliderSvg = $('#banFlex').flexslider();
+
 });
 
 function openVideo(){
@@ -405,121 +495,6 @@ function autoCompleteSearch(name, locality){
     			validatePostalcode(locality);
 	        }
 
-	      /*
-          var mapElements = new Array();  	
-          
-          str = "<div class='col-md-12 center'>";
-          str += "<h3 class='text-dark' style='margin-top:0px;'><i class='fa fa-angle-down fa-2x'></i></br> Sélectionnez la commune recherchée ...</h3>";
-          var city, postalCode = "";
-          $.each(data, function(i, v) {
-            var typeIco = i;
-            var ico = mapIconTop["default"];
-            var color = mapColorIconTop["default"];
-
-            
-            if(v.length!=0){
-              $.each(v, function(k, o){
-
-               mapElements.push(o);
-
-				typeIco = o.type;
-                ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                
-                htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-               	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                }
-
-                city="";
-
-                var postalCode = o.cp
-                if (o.address != null) {
-                  city = o.address.addressLocality;
-                  postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                }
-                
-                
-                var id = getObjectId(o);
-                var insee = o.insee ? o.insee : "";
-                type = o.type;
-                if(type=="citoyen") type = "person";
-                var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                var	onclick = 'validatePostalcode("'+o.cp+'");';
-                var	onclickCp = 'validatePostalcode("'+o.cp+'");';
-                var	target = "";
-                
-
-                var tags = "";
-                if(typeof o.tags != "undefined" && o.tags != null){
-					$.each(o.tags, function(key, value){
-						if(value != "")
-		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
-		            });
-                }
-
-                var name = typeof o.name != "undefined" ? o.name : "";
-                var postalCode = (typeof o.address != "undefined" &&
-                				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                
-                if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                var cityName = (typeof o.address != "undefined" &&
-                				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                
-                var fullLocality = postalCode + " " + cityName;
-
-                var description = (typeof o.shortDescription != "undefined" &&
-                					o.shortDescription != null) ? o.shortDescription : "";
-                if(description == "") description = (typeof o.description != "undefined" &&
-                									 o.description != null) ? o.description : "";
-         
-                var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
-                //template principal
-                str += "<div class='searchEntity'>";
-	     			target = "";
-	                str += "<div class='entityRight bg-red badge'>";
-	                	if(fullLocality != "" && fullLocality != " ")
-	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a> ";
-	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName'>" + name + "</a> ";
-	                	
-	                str += "</div>";
-	                					
-				str += "</div>";
-
-			
-              })
-            }
-
-			
-
-            }); 
-			*/
-			/*
-            if(str == "") {
-            	//$("#dropdown_search").html("");
-            	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-            	//$("#dropdown_search").css({"display" : "none" });	             
-            }else{
-            	//str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
-            	str += '</div>';
-	            $("#dropdown_search").html(str);
-	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
-	            $("#dropdown_search").css({"display" : "inline" });
-	           	$(".my-main-container").scrollTop(95);
-	           	$("#link-start-search").html("Rechercher");
-	            //$("#link-start-search").removeClass("badge");
-
-	             if(countData == 1){
-	            	console.log("only one");
-	            	//$("#dropdown_search").css({"display" : "none" });
-	            	//setScopeValue(oneElement.name, oneElement.insee);
-	            }
-	        }
-	        $(".btn-start-search").removeClass("bg-azure");
-    		//$(".btn-start-search").addClass("bg-dark");
-    		*/
           }
 
           /*console.log("ALL MAP ELEMTN");
