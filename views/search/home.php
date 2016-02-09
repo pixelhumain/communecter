@@ -1,114 +1,114 @@
 
 
 <style>
-		.home_page h3.subtitle{
-			font-weight: 300;
-			font-size:20px;
-		}
-		.home_page h3.information{
-			/*font-weight: 500;*/
-			font-size:16px;
-		}
+.home_page h3.subtitle{
+	font-weight: 300;
+	font-size:20px;
+}
+.home_page h3.information{
+	/*font-weight: 500;*/
+	font-size:16px;
+}
 
-		.home_page #main-logo-home{
-			max-height: 290px;
-			margin-top:30px;
-		}
+.home_page #main-logo-home{
+	max-height: 290px;
+	margin-top:30px;
+}
 
-		.home_page #img-video-communecter{
-			/*max-height: 440px;*/
-		}
-		.home_page .imageSectionVideo{
-			width:80%;
-			margin-left:10%;
-		}
-		.home_page .section-video{
-			margin-top: 40px;
-		}
+.home_page #img-video-communecter{
+	/*max-height: 440px;*/
+}
+.home_page .imageSectionVideo{
+	width:80%;
+	margin-left:10%;
+}
+.home_page .section-video{
+	margin-top: 40px;
+}
 
-		.home_page .btn-top{
-			border-radius: 50px;
-		}
+.home_page .btn-top{
+	border-radius: 50px;
+}
 
-		.home_page .btn-discover{
-			border-radius: 60px;
-			font-size: 50px;
-			font-weight: 200;
-			border: 1px solid transparent;
-			width: 90px;
-			height: 90px;
-		}
-		.home_page .btn-discover:hover{
-			background-color: white !important;
-			border-color: #2BB0C6 !important;
-			color: #2BB0C6 !important;
-		}
+.home_page .btn-discover{
+	border-radius: 60px;
+	font-size: 50px;
+	font-weight: 200;
+	border: 1px solid transparent;
+	width: 90px;
+	height: 90px;
+}
+.home_page .btn-discover:hover{
+	background-color: white !important;
+	border-color: #2BB0C6 !important;
+	color: #2BB0C6 !important;
+}
 
-		.home_page .discover-subtitle{
-			font-size:13px; 
-			margin-top: -6px; 
-			display: block;
-		}
-		
-		.home_page .pastille{
-			height: 100%;
-			width: 100%;
-			border-radius: 50px;
-			font-size: 45px;
-			padding: 13px 32px;
-		}
+.home_page .discover-subtitle{
+	font-size:13px; 
+	margin-top: -6px; 
+	display: block;
+}
 
-		.list-action{
-			/*width: 100%;*/
-			/*padding: 5px 10px;*/
-			margin-bottom:40px;
-			font-size: 15px;
-			font-weight: 300;
-		}
+.home_page .pastille{
+	height: 100%;
+	width: 100%;
+	border-radius: 50px;
+	font-size: 45px;
+	padding: 13px 32px;
+}
 
-		#img-network-for-all{
-			/*max-width: 800px;*/
-			padding:25px;
-		}
-		.menu-home-btn-ins{
-			position: fixed;
-			top: 0px;
-			padding: 5px;
-			right: 2%;
-			z-index: 30;
-			border-radius: 30px 30px 30px 30px;
-		}
-		#searchBarPostalCode{
-			margin-top: 10px;
-			width: 200px;
-			margin-left: 0px;
-			font-family: "homestead";
-			font-size: 22px !important;
-			border-radius: 3px !important;
-			height: 40px;
-		}
-		input[type="text"].input-search:focus{
-			/*border-color: #3C5665 !important;*/
-			-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
-			-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
-			-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
-			box-shadow: 0px 0px 5px -1px #CF3838 !important;
-			filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
-		}
+.list-action{
+	/*width: 100%;*/
+	/*padding: 5px 10px;*/
+	margin-bottom:40px;
+	font-size: 15px;
+	font-weight: 300;
+}
 
-		#dropdown_search{
-			margin-top:30px;
-			margin-bottom:30px;
-		}
+#img-network-for-all{
+	/*max-width: 800px;*/
+	padding:25px;
+}
+.menu-home-btn-ins{
+	position: fixed;
+	top: 0px;
+	padding: 5px;
+	right: 2%;
+	z-index: 30;
+	border-radius: 30px 30px 30px 30px;
+}
+#searchBarPostalCode{
+	margin-top: 10px;
+	width: 200px;
+	margin-left: 0px;
+	font-family: "homestead";
+	font-size: 22px !important;
+	border-radius: 3px !important;
+	height: 40px;
+}
+input[type="text"].input-search:focus{
+	/*border-color: #3C5665 !important;*/
+	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+}
 
-		.btn-success.communected{
-			width: 50%;
-			margin-left: 25%;
-			padding: 10px;
-			border-radius: 20px;
-			background-color:#5cb85c;
-			color:white;
-		}
+#dropdown_search{
+	margin-top:30px;
+	margin-bottom:30px;
+}
+
+.btn-success.communected{
+	width: 50%;
+	margin-left: 25%;
+	padding: 10px;
+	border-radius: 20px;
+	background-color:#5cb85c;
+	color:white;
+}
 
 .searchEntity{
 	margin-bottom:10px;
@@ -129,6 +129,20 @@
 	color:white !important;
 	display: inline;
 }
+.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/contact-map.jpg) top center no-repeat; background-size: 160% }
+.section-header{
+	text-align: center;
+	padding: 30px 0 10px 0;
+}
+.social-list{	padding: 0;}
+.social-list li{	list-style-type: none;	display:inline;margin-right:10px;}
+.social-list li a{ font-size:20px;}
+.section .social-list .btn{	margin-top: 15px;}
+.section a.btn.btn-social{	color: #FFF;	background-color: #2a3945; }
+.section a.btn.btn-social:hover{	background: none;}
+.section a.btn.btn-facebook:hover{	color: #3b5998;}
+.section a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
+.section a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 
 </style>
 
@@ -147,7 +161,7 @@
 
 
 	<center>
-		<img id="main-logo-home" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-home2.png"/></br>
+		<img id="main-logo-home" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-home2.png"/><br/>
 	</center>
 
 	
@@ -165,13 +179,13 @@
 	<hr> 
 
 	<h3 class="text-dark information center" style="margin-top:15px; ">
-		<!-- <i class="fa fa-2x fa-angle-down"></i></br> -->
-		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong></br>
-		Je suis communecté : j'ai accès à ma ville !</br>
+		<!-- <i class="fa fa-2x fa-angle-down"></i><br/> -->
+		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong><br/>
+		Je suis communecté : j'ai accès à ma ville !<br/>
 	</h3>
 
 	<div class="col-md-6" style="text-align:right;">
-		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button></br>
+		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
 		<div class="" style="display:none;" id="div-param-postal-code">	
 			<i class="fa fa-2x fa-angle-right"></i> 
@@ -189,7 +203,7 @@
 	<div style="display:none;" class="col-md-12" id="div-discover">
 		<!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
 		<h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
-			<i class="fa fa-2x fa-angle-down"></i></br>
+			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Découvrir
 		</h2>
 		<div class="col-md-12" style="margin-bottom:40px">
@@ -197,20 +211,20 @@
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-connectdevelop"></i>
-				</a></br>L'annuaire</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+				</a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.agenda'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-calendar"></i>
-				</a></br>L'agenda</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+				</a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.news'); ?>" 
 					target="_blank" 
 					class="btn btn-discover bg-azure">
 					<i class="fa fa-rss"></i>
-				</a></br>L'actualité</br><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+				</a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 		</div>
 	</div>
@@ -230,39 +244,39 @@
 
 	<div class="col-md-10 col-md-offset-1">
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<i class="fa fa-2x fa-angle-down"></i></br>
+			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
 		</h3>
 		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Périscolaire :</strong></span></br> Outils d’informations pour découvrir et utiliser les activités périscolaires locales</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Associatif :</strong></span></br> Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Economie :</strong></span></br> Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Périscolaire :</strong></span><br/> Outils d’informations pour découvrir et utiliser les activités périscolaires locales</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Associatif :</strong></span><br/> Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Economie :</strong></span><br/> Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale ...</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Territoire :</strong></span></br> Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Tourisme :</strong></span></br> Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Alimentation :</strong></span></br> Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Territoire :</strong></span><br/> Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Tourisme :</strong></span><br/> Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Alimentation :</strong></span><br/> Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques ...</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Agriculture :</strong></span></br> Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Culture :</strong></span></br> Partage d'information sur l'animation du territoire, création d'événements, échange de services (ex : cours de guitare contre des cours de chant) ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Emploi :</strong></span></br> Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Agriculture :</strong></span><br/> Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Culture :</strong></span><br/> Partage d'information sur l'animation du territoire, création d'événements, échange de services (ex : cours de guitare contre des cours de chant) ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Emploi :</strong></span><br/> Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Transport :</strong></span></br> Facilitateur de  covoiturage, changements de comportements, débats sur les transports et recueil des besoins des administrés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Logement :</strong></span></br> Service d'annonces interactives, recueil des besoins des administrés, interactions avec les collectivités locales, débats citoyens agrégés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Énergie :</strong></span></br> Sensibilisation à la dépense énergétique, consommation produits HQE, partage d'information, débats sur la consommation plus durable / biens énergivores et non durables …</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Transport :</strong></span><br/> Facilitateur de  covoiturage, changements de comportements, débats sur les transports et recueil des besoins des administrés ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Logement :</strong></span><br/> Service d'annonces interactives, recueil des besoins des administrés, interactions avec les collectivités locales, débats citoyens agrégés ...</div>
+			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Énergie :</strong></span><br/> Sensibilisation à la dépense énergétique, consommation produits HQE, partage d'information, débats sur la consommation plus durable / biens énergivores et non durables …</div>
 		</div>
 	</div>
 
 	<div class="col-md-12" style="margin-bottom:40px">
 		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i></br>
+			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Un réseau pour tous !
 		</h2>
 
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale</br>
+			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
 			pour valoriser le territoire et le bien commun.  
 		</h3>
 
@@ -272,28 +286,105 @@
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
 	<div class="col-lg-6 col-md-12" style="margin-bottom:20px">
 		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i></br>
+			<i class="fa fa-2x fa-angle-down"></i><br/>
 			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
 		</h2>
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:300;">
-			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?</br>
-			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?</br>
+			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?<br/>
+			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?<br/>
 			Le réseau <span class="text-red"><strong>Communecter</strong></span> est fait pour vous !
 		</h3>
 	</div>
 	<?php } ?>
 
-	<div class="col-lg-6 col-md-12" style="margin-bottom:40px">
+	<div class="col-md-12" style="margin-bottom:40px">
 		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i></br>
+			<i class="fa fa-2x fa-angle-down"></i><br/>
 			<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
 		</h2>
 
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
 			<a href="/ph/vitrine" target="_blank" class="text-red">Pixel Humain</a> est un collectif qui regroupe des acteurs réunionnais
-et métropolitains partageant les valeurs d'open innovation et de partage, pour le bien commun.</br></br>
-			<a href="/ph/vitrine" target="_blank" class="text-red btn btn-default">En savoir <i class="fa fa-plus-circle"></i></a> 
+et métropolitains partageant les valeurs d'open innovation et de partage, pour le bien commun.<br/><br/>
 		</h3>
+	</div>
+	
+	<div class="col-md-12">
+		<!-- SECTION TITLE -->
+		<div class="section-header with-arrow">
+			<h1 class="parnet title_fontHome homestead">SCREEN SHOT</h1>
+			
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+
+	<div class="col-md-12" style="background-color:#293A46 ">
+		<!-- SECTION TITLE -->
+		<div class="col-md-6">
+			<div class="section-header with-arrow">
+				<h1 class="parnet title_fontHome homestead">PENSéES D'AMIS</h1>
+				
+			</div>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div class="col-md-6">
+			<div class="section-header with-arrow">
+				<h1 class="parnet title_fontHome homestead">MOTS CLEFS</h1>
+				<center>
+					+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
+					<!-- SOCIAL BUTTTONS -->
+					<ul class="social-list">
+						<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
+						<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
+						<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
+					</ul>
+				</center>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12" style="background-color:#92BE1F ">
+		<!-- SECTION TITLE -->
+		<div class="section-header with-arrow">
+			<h1 class="parnet title_fontHome homestead"><img class="icon_section img_cont" src="<?php echo $this->module->assetsUrl; ?>/images/mapping.png"><br/>CROWDFUNDING</h1>
+			
+			<center>
+				+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
+				<!-- SOCIAL BUTTTONS -->
+				<ul class="social-list">
+					<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
+					<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
+					<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
+				</ul>
+			<center>
+		</div>
+	</div>
+	
+	<div class="col-md-12 contact-map" style="margin-bottom:40px">
+		<!-- SECTION TITLE -->
+		<div class="section-header with-arrow">
+			<h1 class="parnet title_fontHome homestead"><img class="icon_section img_cont" src="<?php echo $this->module->assetsUrl; ?>/images/mapping.png"><br/>CONTACT</h1>
+				
+				<center>
+					+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
+					<!-- SOCIAL BUTTTONS -->
+					<ul class="social-list">
+						<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
+						<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
+						<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
+					</ul>
+				<center>
+		</div>			
 	</div>
 
 </div>
@@ -400,7 +491,7 @@ function autoCompleteSearch(name, locality){
     			$("#dropdown_search").show();
 	        	toastr.error('Aucune donnée');
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  </br>Vous êtes communecté !</span></center>");
+	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !</span></center>");
     			$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
@@ -409,7 +500,7 @@ function autoCompleteSearch(name, locality){
           var mapElements = new Array();  	
           
           str = "<div class='col-md-12 center'>";
-          str += "<h3 class='text-dark' style='margin-top:0px;'><i class='fa fa-angle-down fa-2x'></i></br> Sélectionnez la commune recherchée ...</h3>";
+          str += "<h3 class='text-dark' style='margin-top:0px;'><i class='fa fa-angle-down fa-2x'></i><br/> Sélectionnez la commune recherchée ...</h3>";
           var city, postalCode = "";
           $.each(data, function(i, v) {
             var typeIco = i;
