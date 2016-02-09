@@ -56,7 +56,6 @@
 		</div>
 		<br/><br/>
 		<div id="validationMail" class="col-sm-12 col-xs-12">
-
 			<div class="list-group col-sm-5">
 				<span class="list-group-item active">Liste des contacts</span>
 				<span class="list-group-item">

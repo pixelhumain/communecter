@@ -89,6 +89,9 @@ class CommunecterController extends Controller
       "importinmongo"    => array("href" => "/ph/communecter/admin/importinmongo"),
       "assigndata"    => array("href" => "/ph/communecter/admin/assigndata"),
       "checkdataimport"    => array("href" => "/ph/communecter/admin/checkdataimport"),
+      "openagenda"    => array("href" => "/ph/communecter/admin/openagenda"),
+      "checkventsopenagendaindb"    => array("href" => "/ph/communecter/admin/checkventsopenagendaindb"),
+      "importeventsopenagendaindb"    => array("href" => "/ph/communecter/admin/importeventsopenagendaindb"),
     ),
 
     "default" => array(
