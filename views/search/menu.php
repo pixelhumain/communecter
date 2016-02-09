@@ -248,52 +248,61 @@ jQuery(document).ready(function() {
 		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	});
 
+
+	var timeoutHover = setTimeout(function(){}, 0);
+	var hoverPersist = false;
 	var positionMouseMenu = "out";
+
 	$(".hover-menu").mouseenter(function(){
 		//console.log("enter all");
 		positionMouseMenu = "in";
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
 		$(".lbl-btn-menu-name").show(200);
-		setTimeout(function(){$(".lbl-btn-menu-name").css("display", "inline");}, 200);
+		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
+
+		hoverPersist = false;
+		clearTimeout(timeoutHover);
+		timeoutHover = setTimeout(function(){
+			hoverPersist = true;
+		}, 1000);
 	});
 
-	// $(".hover-menu").mouseout(function(){
-	// 	//console.log("out all");
-	// 	//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-	// 	console.log(isLoginRegister());
-	//     if(positionMouseMenu != "inBtn" && !isLoginRegister()){
-	// 		$(".main-col-search").animate({ opacity:1 }, 0 );
-	// 		$(".lbl-btn-menu-name, .hover-info").hide();
-	// 		$(".menu-button-title").removeClass("large");
-	// 	}else{
-	// 		positionMouseMenu = "in";
-	// 		$(".hover-info").hide();
-	// 	}
-	// });
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
 		//console.log("enter btn");
-		positionMouseMenu = "inBtn";
-		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display", "inline");
-		$(".menu-button-title").addClass("large");
+		if(!isLoginRegister()){
+			positionMouseMenu = "inBtn";
+			$(".main-col-search").animate({ opacity:0.3 }, 200 );
+			$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
+			$(".menu-button-title").addClass("large");
+		}
 	});
 
 	$(".main-col-search").click(function(){
-		console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-	    var login_register = isLoginRegister();
-	    
-	    console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
+	});
+
+	$(".main-col-search").mouseenter(function(){
+			//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+		    if(!hoverPersist){
+				if(!isLoginRegister()){
+					positionMouseMenu = "out";
+					$(".main-col-search").animate({ opacity:1 }, 200 );
+					$(".lbl-btn-menu-name").hide();
+					$(".menu-button").removeClass("large");
+				}
+				$(".hover-info").hide();
+				$(".drop-up-btn-add").hide(400);
+			}
 	});
 
 	$(".menu-button").click(function(){
@@ -304,7 +313,7 @@ jQuery(document).ready(function() {
 	    console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
