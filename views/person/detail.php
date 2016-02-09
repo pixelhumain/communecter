@@ -37,6 +37,7 @@ $this->renderPartial('../default/panels/toolbar');
 	<div class="col-xs-12 col-sm-12 col-md-11 col-lg-9">
 		<?php $this->renderPartial('dashboard/profil', array("person" => $person, 
 															 "tags" => $tags, 
+															 "me" => $me,
 															 "countries" => $countries, 
 															 "imagesD" => $images )); ?>
 	</div>

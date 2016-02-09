@@ -58,7 +58,7 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
-	Menu::news();
+	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 }
 ?>
@@ -352,7 +352,7 @@ div.timeline .date_separator span{
 					</ul>
 				</div>	
 				<?php }else if($type=="city"){ ?>
-					<a class="btn btn-default" href="#"><i class="fa fa-university"></i> Nouméa</a>
+					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>

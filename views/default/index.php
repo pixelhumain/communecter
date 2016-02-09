@@ -273,7 +273,11 @@ if( !isset( Yii::app()->session['userId']) ){
     }
 ?>
 <script type="text/javascript">
-
+var typesLabels = {
+  "<?php echo Organization::COLLECTION ?>":"Organization",
+  "<?php echo Event::COLLECTION ?>":"Event",
+  "<?php echo Project::COLLECTION ?>":"Project",
+};
 var timeout;
 
 var mapIconTop = {

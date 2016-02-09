@@ -6,6 +6,17 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+benchmarkin mongo 
+
+var timeStart = new Date();
+for(var i = 0 ; i < 70000 ; i++){
+    //db.test.insert({name:"test"+i}); //prend 30s > 
+    db.test.insert({name:"test"+i,email:"test"+i,toto:"test"+i,coco:"test"+i});//prend 33s  > 7Mb
+    db.test.insert({name:"test"+i,email:"test"+i,toto:"test"+i,coco:"test"+i,namex:"test"+i,emailx:"test"+i,totox:"test"+i,cocox:"test"+i});   // 36s > 13Mb
+    //pour 200K entré : 108s et 38Mb
+}
+var timeEnd = new Date();
+print(timeEnd-timeStart);
 ----------------------------------------------------
 //adding countries to cities
 db.cities.find().forEach(function(doc)

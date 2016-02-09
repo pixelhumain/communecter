@@ -82,6 +82,7 @@ jQuery(document).ready(function() {
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
+  var timeoutSearch = setTimeout(function(){ }, 100);
 
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
@@ -90,47 +91,49 @@ jQuery(document).ready(function() {
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
 
 	$('#searchBarText').keyup(function(e){
-        startSearch();
-    });
-    $('#searchBarPostalCode').keyup(function(e){
-        startSearch();
-    });
-    $('#btn-start-search').click(function(e){
-        startSearch();
-    });
-    $('#link-start-search').click(function(e){
-        startSearch();
-    });
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+  $('#searchBarPostalCode').keyup(function(e){
+      clearTimeout(timeoutSearch);
+      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  });
+  $('#btn-start-search').click(function(e){
+      startSearch();
+  });
+  $('#link-start-search').click(function(e){
+      startSearch();
+  });
 
-    $(".btn-geolocate").click(function(e){
-  		if(geolocHTML5Done == false){
-      		initHTML5Localisation('prefillSearch');
-          $("#modal-select-scope").modal("show");
-          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
-          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
-      }	else{
-      		$("#modal-select-scope").modal("show");
-      }
-    });
+  $(".btn-geolocate").click(function(e){
+		if(geolocHTML5Done == false){
+    		initHTML5Localisation('prefillSearch');
+        $("#modal-select-scope").modal("show");
+        $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+        //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+    }	else{
+    		$("#modal-select-scope").modal("show");
+    }
+  });
 
-    $(".btn-filter-type").click(function(e){
-      var type = $(this).attr("type");
-      var index = searchType.indexOf(type);
+  $(".btn-filter-type").click(function(e){
+    var type = $(this).attr("type");
+    var index = searchType.indexOf(type);
 
-      if(type == "all" && searchType.length > 1){
-        $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
-      }
-      if(type == "all" && searchType.length == 1){
-        $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
-      }
+    if(type == "all" && searchType.length > 1){
+      $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+    }
+    if(type == "all" && searchType.length == 1){
+      $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+    }
 
-      if (index > -1) removeSearchType(type);
-      else addSearchType(type);
-    });
-   
+    if (index > -1) removeSearchType(type);
+    else addSearchType(type);
+  });
+ 
 
-    initBtnScopeList();
-    startSearch();
+  initBtnScopeList();
+  startSearch();
 });
 
 function setScopeValue(value){

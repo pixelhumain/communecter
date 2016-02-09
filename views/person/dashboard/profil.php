@@ -162,6 +162,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    padding:30px; 
 	}
 
+	.btn-default.selected{
+		background-color: rgb(182, 200, 210);
+	}
+
     @media screen and (max-width: 1000px) {
       .entityDetails span{
         font-size: 1em;
@@ -190,6 +194,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php */ } 
 			if (Person::logguedAndValid() && $canEdit) {
 			?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
+					</span>
+				</a>
 				<a href='javascript:' class='btn btn-sm btn-red changePasswordBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
 					<i class='fa fa-key'></i> 
 					<span class="hidden-sm hidden-xs">
@@ -207,6 +217,62 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
  		
  				
   	</div>
+  	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+	            <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon e-mail :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-email inline-block">
+		        		<button class="btn btn-default" type="email" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="email" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="email" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Ma localité :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-locality inline-block">
+		        		<button class="btn btn-default" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon téléphone :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-phone inline-block">
+		        		<button class="btn btn-default" type="phone" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default" type="phone" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	        <button type="button" class="btn btn-success">Enregistrer</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15">
@@ -229,10 +295,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
 						</a>
 					</h2>
-
+					<?php 
+					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
+					if( $name = Person::showField("name",$person, $isLinked) ){ ?>
 					<i class="fa fa-smile-o fa_name hidden"></i> 
 					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-						<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
+						<?php echo $name?>
 					</a>
 					<br>
 
@@ -240,19 +308,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
 					<br>
-
+					<?php } ?>
+					<?php if( $email = Person::showField("email",$person, $isLinked) ){ ?>
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
-						<?php echo (isset($person["email"])) ? $person["email"] : null; ?>
+						<?php echo $email?>
 					</a>
 					<br>
-
+					<?php } ?>
 					<hr style="margin:10px 0px 3px 0px;">
 					
+					<?php if( $street = Person::showField("address.streetAddress",$person, $isLinked) ){ ?>
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
-						<?php echo (isset( $person["address"]["streetAddress"])) ? $person["address"]["streetAddress"] : null; ?>
+						<?php echo $street?>
 					</a>
+					<?php } ?>
 					<br>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
@@ -262,11 +333,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
+					<?php if( $telephone = Person::showField("telephone",$person, $isLinked) ){ ?>
 					<i class="fa fa-phone fa_telephone hidden"></i> 
 					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
-						<?php echo (isset($person["telephone"])) ? $person["telephone"] : null; ?>
+						<?php echo $telephone?>
 					</a>
 					<br>
+					<?php } ?>
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
@@ -281,7 +354,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
 				<!-- Description -->
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-					<?php echo (isset($person["shortDescription"])) ? $person["shortDescription"] : null; ?>
+					<?php //echo Person::showField("shortDescription",$person)?>
 				</a>
 			</div>
 		</div>
@@ -378,6 +451,14 @@ jQuery(document).ready(function()
 			findGeoPosByAddress();
 		});
 
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("selected");
+			$(this).addClass("selected");
+
+		});
+
 		Sig.currentPersonData = personData;
 		Sig.contextData = contextMapPerson;
 		Sig.restartMap();
@@ -429,6 +510,11 @@ function bindAboutPodEvents()
 	           toastr.error('Something Went Wrong');
 	        }
 	    });
+    });
+
+    $(".editConfidentialityBtn").click(function(){
+    	console.log("confidentiality");
+    	$("#modal-confidentiality").modal("show");
     });
 
 
