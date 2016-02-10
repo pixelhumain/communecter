@@ -117,8 +117,8 @@ jQuery(document).ready(function() {
   });
 
   $(".my-main-container").scroll(function(){
-    if(!loadingData){
-      var heightContainer = $(".my-main-container")[0].scrollHeight;
+    if(!loadingData && !scrollEnd){
+        var heightContainer = $(".my-main-container")[0].scrollHeight;
         var heightWindow = $(window).height();
         //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
         if(scrollEnd == false){
@@ -169,6 +169,8 @@ var timeout = null;
 function startSearch(indexMin, indexMax){
     console.log("startSearch", indexMin, indexMax, indexStep);
 
+    if(loadingData) return;
+
     console.log("loadingData true");
     loadingData = true;
     indexStep = 15;
@@ -186,6 +188,8 @@ function startSearch(indexMin, indexMax){
       totalData = 0;
       mapElements = new Array(); 
     }
+    else{ if(scrollEnd) return; }
+    
     name = name.replace(/[^\w\s']/gi, '');
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
