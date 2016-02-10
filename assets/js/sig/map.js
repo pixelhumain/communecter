@@ -538,9 +538,9 @@
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
-				var dataFilter = data[thisFilter];	//alert(JSON.stringify(dataFilter));
+				var dataFilter = (data != null) ? data[thisFilter] : thisFilter;	//alert(JSON.stringify(dataFilter));
 				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {

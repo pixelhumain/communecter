@@ -64,7 +64,7 @@
 			
 			if("undefined" != typeof tags && tags != null)
 			$.each(tags, function(index, value){
-				console.log(value);
+				//console.log(value);
 				thisSig.listPanel["tags"].push(value); //new Array(objectId);
 			});
 			
