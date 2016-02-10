@@ -8,7 +8,7 @@
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopup = function(data){
-			console.log("typeSIG POPUP" + data["typeSig"]);
+			//console.log("typeSIG POPUP" + data["typeSig"]);
 			if(typeof(data.typeSig) != "undefined" && data.typeSig == "news"){
 				return this.getPopupSimpleNews(data);
 			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
@@ -213,7 +213,7 @@
 
 			var allData = data;
 			data = data.author;
-			console.log("typeSig : " + allData['typeSig']);
+			//console.log("typeSig : " + allData['typeSig']);
 			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
 			var id = this.getObjectId(data);
 			var popupContent = "<div class='popup-marker'>";

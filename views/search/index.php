@@ -4,7 +4,7 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 	$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/flexSlider/js/jquery.flexSlider-min.js' , CClientScript::POS_END);
+	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/flexSlider/js/jquery.flexSlider-min.js' , CClientScript::POS_END);
 
 	//Data helper
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
@@ -178,6 +178,7 @@ var typesLabels = {
 	    $("#mapCanvasBg").show();
 	    
 	    $(".my-main-container").scroll(function(){
+	    	//console.log("scrolling my-container");
 	    	checkScroll();
 	    });
 	    
@@ -211,12 +212,12 @@ var typesLabels = {
 	});
 
 	function resizeInterface(){
-	  console.log("resize");
+	  //console.log("resize");
 	  var height = $("#mapCanvasBg").height() - 55;
 	  $("#ajaxSV").css({"minHeight" : height});
 	  //$("#menu-container").css({"minHeight" : height});
 	  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 77 /* top */ + 30 /* bottom */;
-	  console.log("heightDif", heightDif);
+	  //console.log("heightDif", heightDif);
 	  $(".floopScroll").css({"minHeight" : height-heightDif});
 	  $(".floopScroll").css({"maxHeight" : height-heightDif});
 	  $(".my-main-container").css("min-height", $(".sigModuleBg").height());
@@ -247,9 +248,6 @@ var typesLabels = {
 	}
 
 	function checkScroll(){
-		//console.log("checkScroll");
-
-		console.log(location.hash);
 		if(location.hash == "#search.home") {
 			$(".main-top-menu").animate({
 	         							top: -60,
@@ -258,6 +256,7 @@ var typesLabels = {
 			return;
 		}
 
+		//console.log("checkScroll" , $(".my-main-container").scrollTop() , hideScrollTop);
 		if($(".my-main-container").scrollTop() < 90 && hideScrollTop){
 			if($(".main-top-menu").css("opacity") == 1){
 				$(".main-top-menu").animate({
