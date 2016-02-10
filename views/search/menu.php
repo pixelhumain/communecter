@@ -1,6 +1,6 @@
 
 <style>
-.lbl-btn-menu-name{
+.lbl-btn-menu-name, .lbl-btn-menu-name-add{
     display: none;
 	font-size: 17px;
 	text-align: left;
@@ -11,6 +11,10 @@
 	font-weight: 300;
 	font-family: "homestead";
 }
+.lbl-btn-menu-name-add{
+    display: inline;
+}
+
 .text-green-success{
 	color:#7ACF5B;
 }
@@ -24,16 +28,6 @@
 	overflow: visible;
 }
 
-.hover-info{
-	margin-top: 100px;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	z-index: 1;
-	overflow: visible;
-	display: none;
-	border: 4px solid #3C5665;
-}
 .explain ul{
 	list-style: none;
 	font-size: 1.5em;
@@ -75,7 +69,7 @@
 }
 .hover-info{
 	display: none;
-	margin-top: 100px;
+	margin-top: 130px;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -175,25 +169,25 @@
 
 <div class="drop-up-btn-add">
 
-	<button class="menu-button menu-button-title btn-menu btn-menu-add1 bg-yellow" onclick="">
+	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-user"></i>
-		<span class="lbl-btn-menu-name">inviter quelqu'un</span></span>
+		<span class="lbl-btn-menu-name-add">inviter quelqu'un</span></span>
 	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add2 bg-green" onclick="">
+	<button class="menu-button btn-menu btn-menu-add2 bg-green" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-group"></i>
-		<span class="lbl-btn-menu-name">une organisation</span></span>
+		<span class="lbl-btn-menu-name-add">une organisation</span></span>
 	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add3 bg-purple" onclick="">
+	<button class="menu-button btn-menu btn-menu-add3 bg-purple" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-lightbulb-o"></i>
-		<span class="lbl-btn-menu-name">un projet</span></span>
+		<span class="lbl-btn-menu-name-add">un projet</span></span>
 	</button>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add4 bg-orange" onclick="">
+	<button class="menu-button btn-menu btn-menu-add4 bg-orange" onclick="">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-calendar"></i>
-		<span class="lbl-btn-menu-name">un événement</span></span>
+		<span class="lbl-btn-menu-name-add">un événement</span></span>
 	</button>
 </div>
 <?php } ?>
@@ -228,9 +222,7 @@ jQuery(document).ready(function() {
     	$(".drop-up-btn-add").show(400);
     	$(".drop-up-btn-add .lbl-btn-menu-name").css("display","inline");
     	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");
-    	//$(".lbl-btn-menu-name-add").css("display", "inline");
     });
-
     
     $(".btn-login").click(function(){
 		console.log("btn-login");
@@ -319,10 +311,15 @@ jQuery(document).ready(function() {
 			$(".menu-button").removeClass("large");
 		}
 		$(".hover-info, .infoVersion").hide();
-		$(".drop-up-btn-add").hide(400);
+		//$(".drop-up-btn-add").hide(400);
 	});
 
-
+	$(".btn-menu-add").click(function(){
+    	$(".btn-menu-add .lbl-btn-menu-name").show(200);
+		$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");;
+    });
+    
+    
 	
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
