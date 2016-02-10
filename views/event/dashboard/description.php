@@ -133,7 +133,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
      
 
     }
-
+    .entityDetails .ico-type-account {
+    	margin-left: -10px;
+		border-radius: 3px 0px 0px 3px;
+	}
+	.entityDetails .thumbnail-profil {
+	   height:75px !important;
+	   width:75px !important;
+	}
 </style>
 <div class="panel panel-white" id="globProchEvent">
 	<div class="panel-heading border-light">
@@ -198,11 +205,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 		</div>
 		<div class="col-sm-12 col-xs-12">
-			<div class="col-md-6">
+			<div class="col-md-6 no-padding">
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
 				</div>
-				<div class="col-sm-12 entityDetails no-padding">
+				<div class="col-sm-12 entityDetails item_map_list">
 					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
 						 $icon="fa-lightbulb-o";
@@ -212,10 +219,27 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						 	$icon="fa-users";
 						 else 
 						 	$icon="fa-user";
-					 } ?> <a href="#" onclick="openMainPanelFromPanel('/<?php echo $organizer["type"]; ?>/detail/id/<?php echo $organizer["id"]; ?>', '<?php echo $organizer["type"]; ?> : <?php echo $organizer["name"]; ?>','<?php echo $icon; ?>', '<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a>
+					}
+					$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+						if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
+						}else{
+							if(!empty($organizer["profilImageUrl"]))
+								$img = '<img class="thumbnail-profil" width="75" height="75" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$organizer['profilImageUrl']).'">';
+							else
+								$img = "<div class='thumbnail-profil'></div>";
+					}
+					$color = "";
+					if($icon == "fa-users") $color = "green";
+					if($icon == "fa-user") $color = "yellow";
+					if($icon == "fa-lightbulb-o") $color = "purple";
+					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
+						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
+					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo $organizer["type"]; ?>.detail.id.<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a><br/>
+					 <span><?php echo ucfirst(Yii::t("common", $organizer["type"])); if ($organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6" style="padding-right:0px !important;">
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?
 				</div>
