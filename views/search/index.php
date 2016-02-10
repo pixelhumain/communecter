@@ -178,6 +178,7 @@ var typesLabels = {
 	    $("#mapCanvasBg").show();
 	    
 	    $(".my-main-container").scroll(function(){
+	    	//console.log("scrolling my-container");
 	    	checkScroll();
 	    });
 	    
@@ -255,6 +256,7 @@ var typesLabels = {
 			return;
 		}
 
+		//console.log("checkScroll" , $(".my-main-container").scrollTop() , hideScrollTop);
 		if($(".my-main-container").scrollTop() < 90 && hideScrollTop){
 			if($(".main-top-menu").css("opacity") == 1){
 				$(".main-top-menu").animate({
