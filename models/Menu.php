@@ -349,7 +349,7 @@ class Menu {
 		            $connectAs="contributor";
 	            }
                 self::entry("right", 'onclick',
-                        Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
+                        Yii::t( "common", "Declare me as ".$connectAs." of this project"),
                         Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('projects','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 

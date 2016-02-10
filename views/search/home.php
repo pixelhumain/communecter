@@ -130,20 +130,19 @@ input[type="text"].input-search:focus{
 	display: inline;
 }
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/contact-map.jpg) top center no-repeat; background-size: 160% }
-.section-header{
-	text-align: center;
-	padding: 30px 0 10px 0;
-}
+.keyword{margin-bottom: 3px;font-size:1.3em;}
+.fa-caret-down{font-size:56px;line-height: 10px;}
+.headerIcon{font-size: 1.6em;}
+
 .social-list{	padding: 0;}
 .social-list li{	list-style-type: none;	display:inline;margin-right:10px;}
 .social-list li a{ font-size:20px;}
-.section .social-list .btn{	margin-top: 15px;}
-.section a.btn.btn-social{	color: #FFF;	background-color: #2a3945; }
-.section a.btn.btn-social:hover{	background: none;}
-.section a.btn.btn-facebook:hover{	color: #3b5998;}
-.section a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
-.section a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
-
+.social-list .btn{	margin-top: 15px;}
+a.btn.btn-social{	color: #FFF;	background-color: #2a3945; }
+a.btn.btn-social:hover{	background: none;}
+a.btn.btn-facebook:hover{	color: #3b5998;}
+a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
+a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 </style>
 
 <div class="home_page">
@@ -245,7 +244,7 @@ input[type="text"].input-search:focus{
 	<div class="col-md-10 col-md-offset-1">
 		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
 			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
+			Dead Code ::: Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
 		</h3>
 		<div class="row">
 			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Périscolaire :</strong></span><br/> Outils d’informations pour découvrir et utiliser les activités périscolaires locales</div>
@@ -280,11 +279,14 @@ input[type="text"].input-search:focus{
 			pour valoriser le territoire et le bien commun.  
 		</h3>
 
-		<center><img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/></center>
+		<center>
+			<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss2.jpg"/>
+			<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+		</center>
 	</div>
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<div class="col-lg-6 col-md-12" style="margin-bottom:20px">
+	<div class="col-md-12" style="margin-bottom:20px">
 		<h2 class="center text-dark">
 			<i class="fa fa-2x fa-angle-down"></i><br/>
 			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
@@ -296,95 +298,135 @@ input[type="text"].input-search:focus{
 		</h3>
 	</div>
 	<?php } ?>
+	
+	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
+		<center>
+			<i class="fa fa-caret-down" style="color:white;"></i><br/>
+			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>L'application</h1>
+			<div class="space20"></div>
+			<div class="col-md-6 col-sm-12">
+				Plus qu'une simple application Communecter se présente sous differente forme :
+				<br/>Une projet open source
+				<br/>Une communauté riche et diversifié
+				<br/>Un site web qui vous tend les bras
+				<br/>Une application mobile encore en court 
+				<br/>Des interfaces tiers contribuant ou pas à une Base de donnée commune
+				<br/>Des instances indépendantes mais interopérantes par leurs sémantiques communes 
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screens.png"/>
+			</div>
+		</center>
+	</div>
 
-	<div class="col-md-12" style="margin-bottom:40px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
-		</h2>
+	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
+		
+		<!-- SECTION TITLE -->
+		<div class="col-md-6 col-sm-12">
 
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<a href="/ph/vitrine" target="_blank" class="text-red">Pixel Humain</a> est un collectif qui regroupe des acteurs réunionnais
-et métropolitains partageant les valeurs d'open innovation et de partage, pour le bien commun.<br/><br/>
-		</h3>
+			<center>
+				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
+				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera headerIcon" ></i><br/>USE CASE</h1>
+				<div class="space20"></div>
+				<div class="buttonArea">
+					Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
+					<br/>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainPériscolaire" >Périscolaire</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" >Associatif</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Economie</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" >Territoire</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Tourisme</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" >Alimentation</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Agriculture</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Culture</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Emploi</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Transport</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Logement</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Énergie</a>
+				</div>
+			</center>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			
+			<center>
+				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
+				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key headerIcon"></i><br/>MOTS CLEFS</h1>
+				<div class="space20"></div>
+				<div class="buttonArea">
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Cartographie de réseau</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
+					<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
+				</div>
+			</center>
+		</div>
+	</div>
+
+	<div class="col-md-12" style="margin-bottom:40px ">
+		
+		<div class="col-md-6 col-sm-12">
+			
+			<center>
+				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user headerIcon"></i><br/>Un AMI</h1>
+				<div class="space20"></div>
+				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/sylvain.PNG"/>
+				<br/>Sylvain Barbot
+			</center>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<center>
+				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o" style="font-size:2em "></i><br/>Une Pensée</h1>
+				<div class="space20"></div>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</center>
+		</div>
+		
 	</div>
 	
-	<div class="col-md-12">
-		<!-- SECTION TITLE -->
-		<div class="section-header with-arrow">
-			<h1 class="parnet title_fontHome homestead">SCREEN SHOT</h1>
-			
+	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
+		<center>
+			<i class="fa fa-caret-down" style="color:#FFF"></i><br/>
+			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</div>
-	</div>
-
-	<div class="col-md-12" style="background-color:#293A46 ">
-		<!-- SECTION TITLE -->
-		<div class="col-md-6">
-			<div class="section-header with-arrow">
-				<h1 class="parnet title_fontHome homestead">PENSéES D'AMIS</h1>
-				
-			</div>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</div>
-		<div class="col-md-6">
-			<div class="section-header with-arrow">
-				<h1 class="parnet title_fontHome homestead">MOTS CLEFS</h1>
-				<center>
-					+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
-					<!-- SOCIAL BUTTTONS -->
-					<ul class="social-list">
-						<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
-						<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
-						<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
-					</ul>
-				</center>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-12" style="background-color:#92BE1F ">
-		<!-- SECTION TITLE -->
-		<div class="section-header with-arrow">
-			<h1 class="parnet title_fontHome homestead"><img class="icon_section img_cont" src="<?php echo $this->module->assetsUrl; ?>/images/mapping.png"><br/>CROWDFUNDING</h1>
-			
-			<center>
-				+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
-				<!-- SOCIAL BUTTTONS -->
-				<ul class="social-list">
-					<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
-					<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
-					<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
-				</ul>
-			<center>
-		</div>
+		<center>
 	</div>
 	
-	<div class="col-md-12 contact-map" style="margin-bottom:40px">
-		<!-- SECTION TITLE -->
-		<div class="section-header with-arrow">
-			<h1 class="parnet title_fontHome homestead"><img class="icon_section img_cont" src="<?php echo $this->module->assetsUrl; ?>/images/mapping.png"><br/>CONTACT</h1>
-				
-				<center>
-					+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
-					<!-- SOCIAL BUTTTONS -->
-					<ul class="social-list">
-						<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="icon icon-facebook"></span></a></li>
-						<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="icon icon-twitter"></span></a></li>
-						<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="icon icon-google-plus"></span> </a></li>
-					</ul>
-				<center>
-		</div>			
+	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:40px " >	
+		<center>
+			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
+			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
+			<ul class="social-list">
+				<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
+				<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
+				<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
+			</ul>
+		<center>	
 	</div>
 
 </div>
@@ -417,6 +459,11 @@ jQuery(document).ready(function() {
     	else{
     		$("#modal-select-scope").modal("show");
     	}
+    });
+
+    $(".keyword").click(function() { 
+    	$(".hover-menu").trigger("mouseenter");
+    	toggle("."+$(this).data("id") ,".explain");
     });
 
 });
