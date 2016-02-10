@@ -122,8 +122,36 @@
 }
 
 .box-ajaxTools{
-	margin-top: 50px;
+	margin-top: -10px;
 }
+.box-ajaxTools .btn.tooltips {
+	border-radius: 0px 0px 10px 10px !important;
+	background-color: #FFF !important;
+	border-bottom: 0px solid #337793 !important;
+    moz-box-shadow: 0px 2px 4px 0px #656565;
+	-webkit-box-shadow: 0px 2px 4px 0px #656565;
+	-o-box-shadow: 0px 2px 4px 0px #656565;
+	box-shadow: 0px 2px 4px 0px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+}
+
+.box-ajaxTools .btn.tooltips:hover {
+	/*border-radius: 0px 0px 10px 10px !important;*/
+	/*background-color: rgba(59, 74, 80, 0.53) !important;*/
+	color:#315C6E !important;
+	border-bottom: 0px solid #337793 !important;
+    moz-box-shadow: 0px 2px 4px 0px #176386;
+	-webkit-box-shadow: 0px 2px 4px 0px #176386;
+	-o-box-shadow: 0px 2px 4px 0px #176386;
+	box-shadow: 0px 2px 4px 0px #176386;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+}
+.box-ajaxTools .btn.tooltips.active {
+    border-radius: 0px 0px 10px 10px !important;
+	border-bottom: 0px solid #337793 !important;
+    background-color: rgba(49, 92, 110, 0.73) !important;
+}
+
 .moduleLabel{
 	margin-left:0px !important;
 }

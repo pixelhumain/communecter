@@ -8,14 +8,14 @@
 		if(isset( Yii::app()->request->cookies['cityName'] )){
 			echo '<li>'.
 					'<a href="javascript:" class="btn-scope-list text-red homestead" val="'.Yii::app()->request->cookies['cityName'].'">'.
-					'<i class="fa fa-angle-right"></i> '.
+					//'<i class="fa fa-angle-right"></i> '.
 					Yii::app()->request->cookies['cityName'].'</a>'.
 				 '</li>';
 		}
 		if(isset( Yii::app()->request->cookies['postalCode'] )){
 			echo '<li>'.
 					'<a href="javascript:" class="btn-scope-list text-red homestead" val="'.Yii::app()->request->cookies['postalCode'].'">'.
-					'<i class="fa fa-angle-right"></i> '.
+					//'<i class="fa fa-angle-right"></i> '.
 					Yii::app()->request->cookies['postalCode'].'</a>'.
 				 '</li>';
 		}

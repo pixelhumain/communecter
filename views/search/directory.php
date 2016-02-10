@@ -77,8 +77,15 @@
 <?php $this->renderPartial("first_step_directory"); ?> 
 
 <script type="text/javascript">
+
+var searchType = [ "persons", "organizations", "projects", "cities" ];
+var allSearchType = [ "persons", "organizations", "projects" ];
+
 jQuery(document).ready(function() {
-	
+
+  searchType = [ "persons", "organizations", "projects", "cities" ];
+  allSearchType = [ "persons", "organizations", "projects" ];
+
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
@@ -116,6 +123,22 @@ jQuery(document).ready(function() {
     }
   });
 
+  $(".my-main-container").scroll(function(){
+    if(!loadingData && !scrollEnd){
+        var heightContainer = $(".my-main-container")[0].scrollHeight;
+        var heightWindow = $(window).height();
+        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
+        if(scrollEnd == false){
+          var heightContainer = $(".my-main-container")[0].scrollHeight;
+          var heightWindow = $(window).height();
+          if( ($(this).scrollTop() + heightWindow) == heightContainer){
+            console.log("scroll MAX");
+            startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
+          }
+        }
+    }
+  });
+
   $(".btn-filter-type").click(function(e){
     var type = $(this).attr("type");
     var index = searchType.indexOf(type);
@@ -131,13 +154,15 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
  
-
   initBtnScopeList();
   startSearch();
 });
 
 var indexStep = 15;
-
+var currentIndexMin = 0;
+var currentIndexMax = indexStep;
+var scrollEnd = false;
+var totalData = 0;
 
 function setScopeValue(value){
       value = value.replace("#", "'");
@@ -147,13 +172,31 @@ function setScopeValue(value){
 
 
 var timeout = null;
+
 function startSearch(indexMin, indexMax){
+    console.log("startSearch", indexMin, indexMax, indexStep);
+
+    if(loadingData) return;
+
+    console.log("loadingData true");
+    loadingData = true;
+    indexStep = 15;
+
 	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
 
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
+    currentIndexMin = indexMin;
+    currentIndexMax = indexMax;
+
+    if(indexMin == 0 && indexMax == indexStep) {
+      totalData = 0;
+      mapElements = new Array(); 
+    }
+    else{ if(scrollEnd) return; }
+    
     name = name.replace(/[^\w\s']/gi, '');
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
@@ -163,16 +206,12 @@ function startSearch(indexMin, indexMax){
     }
 
     if(name.length>=3 || name.length == 0){
-      clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'", '+indexMin+', '+indexMax+')', 200);
+      autoCompleteSearch(name, locality, indexMin, indexMax);
     }else{
       
     }   
 }
 
-var searchType = [ "persons", "organizations", "projects", "cities" ];
-//var minSearchType = [ "cities" ];
-var allSearchType = [ "persons", "organizations", "projects" ];
 
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -181,8 +220,6 @@ function addSearchType(type){
     $(".search_"+type).removeClass("fa-circle-o");
     $(".search_"+type).addClass("fa-check-circle-o");
   }
-  console.log("addSearchType");
-  console.dir(searchType);
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
@@ -191,204 +228,19 @@ function removeSearchType(type){
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
   }
-  console.log("removeSearchType");
-  console.dir(searchType);
 }
 
+var loadingData = false;
+var mapElements = new Array(); 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
     
     var data = {"name" : name, "locality" : locality, "searchType" : searchType, 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
-    console.log("autocomplete searchType");
-    console.dir(searchType);
-    //alert("index : " + indexMin + " " + indexMax);
-    //$("#shortDetailsEntity").hide();
-    $.ajax({
-      type: "POST",
-          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
-          data: data,
-          dataType: "json",
-          error: function (data){
-             console.log("error");
-          	console.dir(data);
-            
-          },
-          success: function(data){
-          	
-            if(!data){
-              toastr.error(data.content);
-            }
-            else
-            {
-              var countData = 0;
-            	$.each(data, function(i, v) {
-  	            if(v.length!=0){
-  	              	countData++;
-  	            }
-  	          });
-
-    	        if(countData == 0){
-                if(indexMin > 0){
-      	        	$("#dropdown_search").append("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i></span></center>");
-                  $("#btnShowMoreResult").remove();   
-                }
-                else{
-                  $("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-                }
-              }
-
-              var mapElements = new Array();  	
-              
-              str = "";
-              var city, postalCode = "";
-              $.each(data, function(i, o) {
-                var typeIco = i;
-                var ico = mapIconTop["default"];
-                var color = mapColorIconTop["default"];
-
-                   mapElements.push(o);
-
-    				        typeIco = o.type;
-                    ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                    color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                    
-                    htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-                   	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                      var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                    }
-
-                    city="";
-
-                    var postalCode = o.cp
-                    if (o.address != null) {
-                      city = o.address.addressLocality;
-                      postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                    }
-                    
-                    
-                    var id = getObjectId(o);
-                    var insee = o.insee ? o.insee : "";
-                    type = o.type;
-                    if(type=="citoyen") type = "person";
-                    var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                    var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
-                    var onclickCp = "";
-                    var target = " target='_blank'";
-                    if(type == "city"){
-                    	url = "#main-col-search";
-                    	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
-                    	onclickCp = 'setScopeValue("'+o.cp+'");';
-                    	target = "";
-                    }
-
-                    var tags = "";
-                    if(typeof o.tags != "undefined" && o.tags != null){
-            					$.each(o.tags, function(key, value){
-            						if(value != "")
-    		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
-    		              });
-                    }
-
-                    var name = typeof o.name != "undefined" ? o.name : "";
-                    var postalCode = (typeof o.address != "undefined" &&
-                    				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                    
-                    if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                    var cityName = (typeof o.address != "undefined" &&
-                    				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                    
-                    var fullLocality = postalCode + " " + cityName;
-
-                    var description = (typeof o.shortDescription != "undefined" &&
-                    					o.shortDescription != null) ? o.shortDescription : "";
-                    if(description == "") description = (typeof o.description != "undefined" &&
-                    									 o.description != null) ? o.description : "";
-             
-                    var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                    var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
-                    //template principal
-                    str += "<div class='col-md-12 searchEntity'>";
-    	                str += "<div class='col-md-5 entityLeft'>";
-    	                	
-    	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
-    	                	if(type!="city")
-            						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-                							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
-                							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
-                									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                								"</a>";
-            						<?php } ?>
-            						str += tags;
-    						
-    	                str += "</div>";
-
-    	                str += "<div class='col-md-2 entityCenter'>";
-    						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
-    	                str += "</div>";
-    					         target = "";
-    	                str += "<div class='col-md-5 entityRight no-padding'>";
-    	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
-    	                	if(fullLocality != "" && fullLocality != " ")
-    	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-    	                	if(startDate != null)
-    	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
-    	                	if(endDate != null)
-    	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
-    	                	if(description != "")
-    	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
-    	                str += "</div>";
-    	                					
-    				        str += "</div>";
-                  //});
-                //}
-
-              }); 
-              if(str == "") {
-              	//$("#dropdown_search").html("");
-              	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-              	//$("#dropdown_search").css({"display" : "none" });	             
-              }else{
-              	
-                str += '<center><button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-
-                if(indexMin > 0){
-                  $("#btnShowMoreResult").remove();
-                  var heightContainer = $(".my-main-container")[0].scrollHeight - 100;
-                  $("#dropdown_search").append(str);
-                  $(".my-main-container").scrollTop(heightContainer);
-                  //alert($(".my-main-container").height());
-                }else{
-                  $("#dropdown_search").html(str);
-                  $(".my-main-container").scrollTop(95);
-                }
-                $(".btn-start-search").html("<i class='fa fa-search'></i>");
-                $("#dropdown_search").css({"display" : "inline" });
-
-               	$("#btnShowMoreResult").mouseenter(function(){
-                  startSearch(indexMin+indexStep, indexMax+indexStep);
-                  $("#btnShowMoreResult").mouseenter(function(){});
-                });
-                
-                initBtnLink();
-    	        }
-    	        $(".btn-start-search").removeClass("bg-azure");
-        	  }
-
-              console.log("ALL MAP ELEMTN");
-              console.dir(mapElements);
-              Sig.showMapElements(Sig.map, mapElements);
-          }
-
-      
- 
-    });
 
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
-    //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
     $("#dropdown_search").css({"display" : "inline" });
 
@@ -397,6 +249,202 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     else
     $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
       
+
+    $.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             console.log("error"); console.dir(data);          
+          },
+          success: function(data){
+            if(!data){ toastr.error(data.content); }
+            else
+            {
+              var countData = 0;
+            	$.each(data, function(i, v) { if(v.length!=0){ countData++; } });
+              
+              totalData += countData;
+            
+              str = "";
+              var city, postalCode = "";
+              
+              //parcours la liste des résultats de la recherche
+              $.each(data, function(i, o) {
+                  var typeIco = i;
+                  var ico = mapIconTop["default"];
+                  var color = mapColorIconTop["default"];
+
+                  mapElements.push(o);
+
+  				        typeIco = o.type;
+                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+                  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+                  
+                  htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+                 	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                    var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                  }
+
+                  city="";
+
+                  var postalCode = o.cp
+                  if (o.address != null) {
+                    city = o.address.addressLocality;
+                    postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+                  }
+                  
+                  
+                  var id = getObjectId(o);
+                  var insee = o.insee ? o.insee : "";
+                  type = o.type;
+                  if(type=="citoyen") type = "person";
+                  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+                  var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
+                  var onclickCp = "";
+                  var target = " target='_blank'";
+                  if(type == "city"){
+                  	url = "#main-col-search";
+                  	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
+                  	onclickCp = 'setScopeValue("'+o.cp+'");';
+                  	target = "";
+                  }
+
+                  var tags = "";
+                  if(typeof o.tags != "undefined" && o.tags != null){
+          					$.each(o.tags, function(key, value){
+          						if(value != "")
+  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
+  		              });
+                  }
+
+                  var name = typeof o.name != "undefined" ? o.name : "";
+                  var postalCode = (typeof o.address != "undefined" &&
+                  				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+                  
+                  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+                  var cityName = (typeof o.address != "undefined" &&
+                  				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+                  
+                  var fullLocality = postalCode + " " + cityName;
+
+                  var description = (typeof o.shortDescription != "undefined" &&
+                  					o.shortDescription != null) ? o.shortDescription : "";
+                  if(description == "") description = (typeof o.description != "undefined" &&
+                  									 o.description != null) ? o.description : "";
+           
+                  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+                  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+
+                  //template principal
+                  str += "<div class='col-md-12 searchEntity'>";
+  	                str += "<div class='col-md-5 entityLeft'>";
+  	                	
+  	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
+  	                	if(type!="city")
+          						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
+              							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
+              							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+              									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+              								"</a>";
+          						<?php } ?>
+          						str += tags;
+  						
+  	                str += "</div>";
+
+  	                str += "<div class='col-md-2 entityCenter'>";
+  						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+  	                str += "</div>";
+  					         target = "";
+  	                str += "<div class='col-md-5 entityRight no-padding'>";
+  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+  	                	if(fullLocality != "" && fullLocality != " ")
+  	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+  	                	if(startDate != null)
+  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
+  	                	if(endDate != null)
+  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
+  	                	if(description != "")
+  	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
+  	                str += "</div>";
+  	                					
+  				        str += "</div>";
+              }); //end each
+
+              if(str == "") { $(".btn-start-search").html("<i class='fa fa-search'></i>"); }
+              else
+              {       
+                //ajout du footer      	
+                str += '<div class="center" id="footerDropdown">';
+                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;'>" + totalData + " résultats</label><br/>";
+                str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
+                str += "</div>";
+
+                //si on n'est pas sur une première recherche (chargement de la suite des résultat)
+                if(indexMin > 0){
+                  //on supprime l'ancien bouton "afficher plus de résultat"
+                  $("#btnShowMoreResult").remove();
+                  //on supprimer le footer (avec nb résultats)
+                  $("#footerDropdown").remove();
+
+                  //on calcul la valeur du nouveau scrollTop
+                  var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
+                  //on affiche le résultat à l'écran
+                  $("#dropdown_search").append(str);
+                  //on scroll pour afficher le premier résultat de la dernière recherche
+                  $(".my-main-container").animate({"scrollTop" : heightContainer}, 1700);
+                  //$(".my-main-container").scrollTop(heightContainer);
+
+                  
+                //si on est sur une première recherche
+                }else{
+                  //on affiche le résultat à l'écran
+                  $("#dropdown_search").html(str);
+                  //on scroll pour coller le haut de l'arbre au menuTop
+                  $(".my-main-container").scrollTop(115);
+                }
+                //remet l'icon "loupe" du bouton search
+                $(".btn-start-search").html("<i class='fa fa-search'></i>");
+                //affiche la dropdown
+                $("#dropdown_search").css({"display" : "inline" });
+
+                //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
+                //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
+               	$("#btnShowMoreResult").mouseenter(function(){
+                  // if(!loadingData){
+                  //   startSearch(indexMin+indexStep, indexMax+indexStep);
+                  //   $("#btnShowMoreResult").mouseenter(function(){});
+                  // }
+                });
+                
+                //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
+                initBtnLink();
+
+    	        } //end else (str=="")
+
+              //signal que le chargement est terminé
+              console.log("loadingData false");
+              loadingData = false;
+
+              //quand la recherche est terminé, on remet la couleur normal du bouton search
+    	        $(".btn-start-search").removeClass("bg-azure");
+        	  }
+
+            console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+            //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
+            if(indexMax - countData > indexMin){
+              $("#btnShowMoreResult").remove(); 
+              scrollEnd = true;
+            }else{
+              scrollEnd = false;
+            }
+
+            //affiche les éléments sur la carte
+            Sig.showMapElements(Sig.map, mapElements);
+          }
+    });
+
                     
   }
 
@@ -446,10 +494,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    			//cas du type people
    			if(type == "people"){
    				var thiselement = this;
-   				$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>")
-				connectPerson(id, function(entityValue){
-           			console.log("connecting entity");
-           			console.log(entityValue);
+   				$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+				    connectPerson(id, function(entityValue){
+           			//console.log("connecting entity");
+           			//console.log(entityValue);
            			$(thiselement).html("<i class='fa fa-chain text-green'></i>")
            			addFloopEntity(id, type, entityValue);
            			showFloopDrawer(true);
@@ -467,8 +515,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		//si l'entité existe déjà dans le floopDrawer == on la supprime
 		else{
 			disconnectPerson(id, typeOrigine, name, function(entityValue){
-       			console.log("disconnect");
-       			console.log(entityValue);
+       			//console.log("disconnect");
+       			//console.log(entityValue);
        			removeFloopEntity(id, type, entityValue);
        			showFloopDrawer(true);
        		});
