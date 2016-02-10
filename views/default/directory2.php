@@ -429,23 +429,6 @@ if( isset($_GET["isNotSV"])) {
 							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
 						}
 					}
-					/* 
-					<li class="col-md-3 col-sm-6 col-xs-12 mix kiki gallery-img" data-cat="1" id="">
-						<div class="portfolio-item">
-							<a class="thumb-info" href="" data-title="Website"  data-lightbox="all">
-								<i class="fa fa-user"></i>
-								<span class="thumb-info-title">Tihdfhd fghdfh dg dfgh tle</span>
-							</a>
-							<br/><br/><br/>
-							<div class="chkbox"></div>
-							<div class="tools tools-bottom">
-								<a href="#" class="btnRemove" data-id="" data-name="" data-key="" >
-									<i class="fa fa-trash-o"></i>
-								</a>
-							</div>
-						</div>
-					</li>
-					*/
 					function dateToStr($date, $lang, $inline){
 						//echo $date;
 						$year 	= substr($date, 0, 4);
@@ -876,101 +859,42 @@ function bindBtnEvents(){
 			)
 	});
 	$(".acceptAsAdminBtn").off().on("click",function () {
-        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-        params = new Object;
-        params.userId = $(this).data("id"),
-        params.userType = $(this).data("type"),
-        params.parentType = $("#parentType").val(),
-        params.parentId = $("#parentId").val(),
-        params.userName = $(this).data("name");
-		
+		var childId = $(this).data("id");
+        var childType = $(this).data("type");
 		actionAdmin = $(this).data("admin");
-		if (actionAdmin){
-			params.adminAction = actionAdmin;
-			urlAction = "declaremeadmin";
-		} else
-			urlAction = "addasadmin";
 		console.log(params);
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
 				if (result) {
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/link/"+urlAction,
-				       	dataType: "json",
-				       	data: params,
-			        	success: function(data){
-				        	if ( data && data.result ) {               
-								toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
-								loadByHash(location.hash);
-					        } else {
-					            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
-
-					           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-					        }
-					    }
-					});
+					linkOption = "<?php echo Link::IS_ADMIN_PENDING; ?>";
+					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
+						function() {
+							toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
+							loadByHash(location.hash);
+						}
+					);
 				}
 			}
 		)
 	});
 	$(".acceptAsMemberBtn").off().on("click",function () {
         //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-        var userId = $(this).data("id");
-        var userType = $(this).data("type");
-        var parentType = $("#parentType").val();
-        var parentId = $("#parentId").val();
-        var userName = $(this).data("name");
-
-        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/");
-        bootbox.confirm("Are you sure you want to confirm <span class='text-red'>"+$(this).data("name")+"</span> as member ?", 
+        var childId = $(this).data("id");
+        var childType = $(this).data("type");
+        var linkOption = "<?php echo Link::TO_BE_VALIDATED; ?>";
+        bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as member") ?> ?", 
 			function(result) {
 				if (result) {
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/link/addasmember",
-				       	dataType: "json",
-				       	data: {"parentType": parentType, "parentId": parentId, "userId":userId, "userType": userType,"userName":userName},
-			        	success: function(data){
-				        	if ( data && data.result ) {               
-								toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
-								loadByHash(location.hash);
-					        } else {
-					            toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
-
-					           //$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-					        }
-					    }
-					});
+					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
+						function() {
+							toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
+							loadByHash(location.hash);
+						}
+					);
 				}
 			}
 		)
 	});
-	$(".portfolio-item .btnRemove").on("click", function(e){
-		var imageId= $(this).data("id");
-		var imageName= $(this).data("name");
-		var key = $(this).data("key")
-		e.preventDefault();
-		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> ?", 
-			function(result) {
-				if(result){
-					$.ajax({
-						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
-						type: "POST",
-						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},
-						success: function(data){
-							if(data.result){
-								$("#"+imageId).remove();
-								toastr.success(data.msg);
-							}else{
-								toastr.error(data.error)
-							}
-						}
-					})
-				}
-			})
-	})
 }
 
 </script>

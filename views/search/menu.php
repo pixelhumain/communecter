@@ -1,99 +1,104 @@
 
 <style>
-	.lbl-btn-menu-name{
-	    display: none;
-		font-size: 17px;
-		text-align: left;
-		padding: 2px 2px;
-		border-radius: 26px;
-		z-index: 0;
-		width: 100px;
-		font-weight: 300;
-		font-family: "homestead";
-	}
-	.text-green-success{
-		color:#7ACF5B;
-	}
-	.hover-menu{
-		width: 17%;
-		height: 400px;
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		z-index: 1;
-		overflow: visible;
-	}
+.lbl-btn-menu-name{
+    display: none;
+	font-size: 17px;
+	text-align: left;
+	padding: 2px 2px;
+	border-radius: 26px;
+	z-index: 0;
+	width: 100px;
+	font-weight: 300;
+	font-family: "homestead";
+}
+.text-green-success{
+	color:#7ACF5B;
+}
+.hover-menu{
+	width: 17%;
+	height: 400px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	overflow: visible;
+}
 
-	.hover-info{
-		margin-top: 100px;
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		z-index: 1;
-		overflow: visible;
-		display: none;
-		border: 4px solid #3C5665;
-	}
-	.explain ul{
-		list-style: none;
-		font-size: 1.5em;
-	}
+.hover-info{
+	margin-top: 100px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	overflow: visible;
+	display: none;
+	border: 4px solid #3C5665;
+}
+.explain ul{
+	list-style: none;
+	font-size: 1.5em;
+}
 
-	
-	.drop-up-btn-add{
-		display:none;
-		position: fixed;
-		bottom: 75px;
-		right: 25px;
-		height: 200px;
-		background-color: transparent;
-		width: 300px;
-		z-index:10;
-	}
-	.drop-up-btn-add button{
-		padding-right:6px;
-	}	
-	.btn-menu-add1{
-		position:absolute !important;
-		top:0px;
-		right:15px;
-	}
-	.btn-menu-add2{
-		position:absolute !important;
-		top:50px;
-		right:15px;
-	}
-	.btn-menu-add3{
-		position:absolute !important;
-		top:100px;
-		right:15px;
-	}
-	.btn-menu-add4{
-		position:absolute !important;
-		top:150px;
-		right:15px;
-	}
-	.hover-info{
-		margin-top: 100px;
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		z-index: 1;
-		overflow: visible;
-		display: none;
-		border: 0px solid #3C5665;
-		border-radius:5px;
-		-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
-		-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
-		-o-box-shadow: 0px 0px 5px 0px #353535 !important;
-		box-shadow: 0px 0px 5px 0px #353535 !important;
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-	}
-	.explain ul{
-		list-style: none;
-		font-size: 1.3em;
-	}
 
+.drop-up-btn-add{
+	display:none;
+	position: fixed;
+	bottom: 75px;
+	right: 25px;
+	height: 200px;
+	background-color: transparent;
+	width: 300px;
+	z-index:10;
+}
+.drop-up-btn-add button{
+	padding-right:6px;
+}	
+.btn-menu-add1{
+	position:absolute !important;
+	top:0px;
+	right:15px;
+}
+.btn-menu-add2{
+	position:absolute !important;
+	top:50px;
+	right:15px;
+}
+.btn-menu-add3{
+	position:absolute !important;
+	top:100px;
+	right:15px;
+}
+.btn-menu-add4{
+	position:absolute !important;
+	top:150px;
+	right:15px;
+}
+.hover-info{
+	display: none;
+	margin-top: 100px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	overflow: visible;
+	border: 0px solid #3C5665;
+	border-radius:5px;
+	-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
+	-o-box-shadow: 0px 0px 5px 0px #353535 !important;
+	box-shadow: 0px 0px 5px 0px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+.explain ul{
+	list-style: none;
+	font-size: 1.3em;
+}
+.infoVersion{
+	display: none;
+	position: fixed;
+	bottom: 5px;
+	left : 5px;
+}
 </style>
 <?php 
     echo $this->renderPartial('explainPanels');
@@ -157,7 +162,9 @@
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
 	<?php } ?>
-
+	<div class="infoVersion">
+		update <?php echo $this->versionDate ?>
+	</div>
 </div>
 
 
@@ -196,6 +203,8 @@
 	<i class="fa fa-bookmark fa-rotate-270"></i>
 </button>
 <?php } ?>
+
+
 
 
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
@@ -239,52 +248,61 @@ jQuery(document).ready(function() {
 		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	});
 
+
+	var timeoutHover = setTimeout(function(){}, 0);
+	var hoverPersist = false;
 	var positionMouseMenu = "out";
+
 	$(".hover-menu").mouseenter(function(){
 		//console.log("enter all");
 		positionMouseMenu = "in";
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
 		$(".lbl-btn-menu-name").show(200);
-		setTimeout(function(){$(".lbl-btn-menu-name").css("display", "inline");}, 200);
+		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
+
+		hoverPersist = false;
+		clearTimeout(timeoutHover);
+		timeoutHover = setTimeout(function(){
+			hoverPersist = true;
+		}, 1000);
 	});
 
-	// $(".hover-menu").mouseout(function(){
-	// 	//console.log("out all");
-	// 	//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-	// 	console.log(isLoginRegister());
-	//     if(positionMouseMenu != "inBtn" && !isLoginRegister()){
-	// 		$(".main-col-search").animate({ opacity:1 }, 0 );
-	// 		$(".lbl-btn-menu-name, .hover-info").hide();
-	// 		$(".menu-button-title").removeClass("large");
-	// 	}else{
-	// 		positionMouseMenu = "in";
-	// 		$(".hover-info").hide();
-	// 	}
-	// });
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
 		//console.log("enter btn");
-		positionMouseMenu = "inBtn";
-		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name, .hover-info").css("display", "inline");
-		$(".menu-button-title").addClass("large");
+		if(!isLoginRegister()){
+			positionMouseMenu = "inBtn";
+			$(".main-col-search").animate({ opacity:0.3 }, 200 );
+			$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
+			$(".menu-button-title").addClass("large");
+		}
 	});
 
 	$(".main-col-search").click(function(){
-		console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
-	    var login_register = isLoginRegister();
-	    
-	    console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info").hide();
+		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
+	});
+
+	$(".main-col-search").mouseenter(function(){
+			//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
+		    if(!hoverPersist){
+				if(!isLoginRegister()){
+					positionMouseMenu = "out";
+					$(".main-col-search").animate({ opacity:1 }, 200 );
+					$(".lbl-btn-menu-name").hide();
+					$(".menu-button").removeClass("large");
+				}
+				$(".hover-info").hide();
+				$(".drop-up-btn-add").hide(400);
+			}
 	});
 
 	$(".menu-button").click(function(){
@@ -295,11 +313,11 @@ jQuery(document).ready(function() {
 	    console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 0 );
+			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info").hide();
+		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 	});
 

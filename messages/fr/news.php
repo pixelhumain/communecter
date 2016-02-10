@@ -10,7 +10,7 @@ return array(
 	"News" => "News",
 	"Actuality" => "Acitvity",
 	"Add something to share your activity" => "Ajoutez quelque chose à votre réseau",
-	"Share a thought, an idea" => "Partagez une pensée, une idée",
+	"Share a thought, an idea, a link" => "Partagez une pensée, une idée, un lien",
 	"In a few words" => "En quelques mots",
 	"Details" => "Détail"
 

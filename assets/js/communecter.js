@@ -56,41 +56,6 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 	);
 }
 
-function declareMeAsAdmin(parentId, parentType, personId, parentName, callback) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");	
-	bootbox.confirm(trad["askadmin"+parentType]+" <span class='text-red'>"+parentName+"</span>. "+trad.confirm+" ?", 
-		function(result) {
-			if(result){
-				$.ajax({
-					type: "POST",
-					url: baseUrl+"/"+moduleId+'/link/declaremeadmin',
-					dataType : "json",
-					data : {
-						parentId : parentId, 
-						parentType : parentType,
-						userId : personId,
-						adminAction : false
-					}
-				})
-				.done(function (data) {
-					//$.unblockUI();
-					if (data &&  data.result) {
-						toastr.success(data.msg);
-						addFloopEntity(parentId, "organizations", data.parent);
-						loadByHash(location.hash);
-						//if (typeof callback == "function") callback(organizationId, personId, organizationName);
-					} else {
-						toastr.error('Something Went Wrong ! ' + data.msg);
-					}
-					
-				});
-			}
-			else{
-				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
-			}
-		}
-	)
-}
 function disconnectTo(parentType,parentId,childId,childType,connectType){
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
@@ -123,6 +88,32 @@ function disconnectTo(parentType,parentId,childId,childType,connectType){
 		});
 	});
 }
+
+// Javascript function used to validate a link between parent and child (ex : member, admin...)
+function validateConnection(parentType, parentId, childId, childType, linkOption, callback) {
+	var formData = {
+		"childId" : childId,
+		"childType" : childType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+		"linkOption" : linkOption,
+	};
+
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+"/link/validate",
+		data: formData,
+		dataType: "json",
+		success: function(data) {
+			if (data.result) {
+				if (typeof callback == "function") callback(parentType, parentId, childId, childType, linkOption);
+			} else {
+				toastr.error(data.msg);
+			}
+		},
+	});  
+}
+
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();

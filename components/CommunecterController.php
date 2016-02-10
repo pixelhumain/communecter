@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.0.41";
-  public $versionDate = "21/08/2015";
+  public $version = "v0.091";
+  public $versionDate = "09/02/2016 10:50";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -242,7 +242,6 @@ class CommunecterController extends Controller
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
-      "declaremeadmin"      => array("href"=>"/ph/communecter/organization/declaremeadmin"),
     ),
 
     "event"=> array(
@@ -298,11 +297,9 @@ class CommunecterController extends Controller
     "link" => array(
       "removemember"        => array("href" => "/ph/communecter/link/removemember"),
       "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
-      "disconnect"   		=> array("href" => "/ph/communecter/link/disconnect"),
-      "declaremeadmin"   => array("href" => "/ph/communecter/link/declaremeadmin"),
-      "addasadmin"   => array("href" => "/ph/communecter/link/addasadmin"),
-      "addasmember"   => array("href" => "/ph/communecter/link/addasmember"),
-      "connect"   => array("href" => "/ph/communecter/link/connect")
+      "disconnect"        => array("href" => "/ph/communecter/link/disconnect"),
+      "connect"           => array("href" => "/ph/communecter/link/connect"),
+      "validate"          => array("href" => "/ph/communecter/link/validate"),
     ),
 
     "document" => array(
@@ -414,7 +411,6 @@ class CommunecterController extends Controller
       $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
 
       $this->notifications = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );
-
       CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
     }
   }

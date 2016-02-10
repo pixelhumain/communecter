@@ -396,15 +396,10 @@ function autoCompleteSearch(name){
           success: function(data){
             if(!data){
               toastr.error(data.content);
-            }else{
-          str = "";
-          var city, postalCode = "";
-          $.each(data, function(i, v) {
-            var typeIco = i;
-            var ico = mapIconTop["default"];
-            if(v.length!=0){
-              $.each(v, function(k, o){
-                
+            }else {
+              str = "";
+              var city, postalCode = "";
+              $.each(data, function(i, o) {
                 typeIco = o.type;
                 ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                 htmlIco ="<i class='fa "+ ico +" fa-2x'></i>"
@@ -422,11 +417,14 @@ function autoCompleteSearch(name){
                   var htmlIco= "<img width='35' height='35' alt='image' class='img-circle' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                 }
 
+
                 var insee      = o.insee ? o.insee : "";
+                type = o.type;
+                if(type=="citoyen") type = "person";
                 var postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                  var id = getObjectId(o);
                 str +=  //"<div class='searchList li-dropdown-scope' >"+
-                          "<a href='javascript:;' data-id='"+ id +"' data-type='"+ i +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
+                          "<a href='javascript:;' data-id='"+ id +"' data-type='"+ type +"' data-name='"+ o.name +"' data-icon='"+ ico +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope'>"+
                           "<ol>"+
                           htmlIco + "<div class='lbl-info-search'> " + o.name;
 
@@ -438,15 +436,11 @@ function autoCompleteSearch(name){
                 str +=   "</br><span class='city-search'> "+cityComplete+"</span></div>";
 
                 str +=  "</ol></a>";//</div>";
-              })
-            }
-            }); 
+              }); 
             if(str == "") str = "<ol class='li-dropdown-scope'><i class='fa fa-ban'></i> Aucun résultat</ol>";
             $("#dropdown_searchTop").html(str);
             $("#dropdown_searchTop").css({"display" : "inline" });
             $('#notificationPanel').hide("fast");
-
- 
             addEventOnSearch(); 
           }
       } 

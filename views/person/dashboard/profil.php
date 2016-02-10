@@ -297,10 +297,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</h2>
 					<?php 
 					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
-					if( $name = Person::showField("name",$person, $isLinked) ){ ?>
+					?>
 					<i class="fa fa-smile-o fa_name hidden"></i> 
 					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-						<?php echo $name?>
+						<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
 					</a>
 					<br>
 
@@ -308,7 +308,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
 					</a>
 					<br>
-					<?php } ?>
+
 					<?php if( $email = Person::showField("email",$person, $isLinked) ){ ?>
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
