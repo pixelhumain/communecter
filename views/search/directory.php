@@ -77,8 +77,15 @@
 <?php $this->renderPartial("first_step_directory"); ?> 
 
 <script type="text/javascript">
+
+var searchType = [ "persons", "organizations", "projects", "cities" ];
+var allSearchType = [ "persons", "organizations", "projects" ];
+
 jQuery(document).ready(function() {
-	
+
+  searchType = [ "persons", "organizations", "projects", "cities" ];
+  allSearchType = [ "persons", "organizations", "projects" ];
+
 	topMenuActivated = true;
 	hideScrollTop = true; 
 	checkScroll();
@@ -205,8 +212,6 @@ function startSearch(indexMin, indexMax){
     }   
 }
 
-var searchType = [ "persons", "organizations", "projects", "cities" ];
-var allSearchType = [ "persons", "organizations", "projects" ];
 
 function addSearchType(type){
   var index = searchType.indexOf(type);
