@@ -167,7 +167,7 @@
 	</div>
 </div>
 
-
+<?php if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
 		<span class="lbl-btn-menu-name">Ajouter</span></span>
 		<i class="fa fa-plus-circle"></i>
@@ -196,6 +196,7 @@
 		<span class="lbl-btn-menu-name">un événement</span></span>
 	</button>
 </div>
+<?php } ?>
 
 <?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button btn-menu btn-menu5 tooltips " 
