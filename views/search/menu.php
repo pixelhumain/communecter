@@ -20,7 +20,7 @@
 }
 .hover-menu{
 	width: 17%;
-	height: 400px;
+	height: 100%;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -91,8 +91,51 @@
 	display: none;
 	position: fixed;
 	bottom: 5px;
-	left : 5px;
+	left : 90px;
 }
+
+
+#btn-param-postal-code{
+	left: 56px;
+	bottom: 56px;
+	width: 55px !important;
+	height: 55px !important;
+	border-radius: 50%;
+}
+
+#btn-geoloc-auto{
+	left: 38px;
+	bottom: 14px;
+}
+
+#input-communexion{
+	display:none;
+}
+
+#autoGeoPostalCode{
+	position: absolute;
+	left: 52px;
+	bottom: 52px;
+	margin-top: 10px;
+	width: 350px;
+	margin-left: 0px;
+	font-family: "homestead";
+	font-size: 22px !important;
+	border-radius: 55px !important;
+	height: 63px;
+	padding-left: 69px !important;
+	text-align: left;
+}
+
+.search-loader{
+	position: absolute;
+	left: 75px;
+	bottom: 120px;
+	width: 350px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
 </style>
 <?php 
     echo $this->renderPartial('explainPanels');
@@ -156,10 +199,25 @@
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
 	<?php } ?>
+
+
+	<button class="menu-button menu-button-title btn-menu bg-red" id="btn-param-postal-code">
+		<i class="fa fa-university"></i>
+	</button> 
+	<div id="input-communexion">
+		<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
+		<input id="autoGeoPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+	</div>
+	<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+		<i class="fa fa-crosshairs"></i>
+	</button>
+
+
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
 	</div>
 </div>
+
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
 <button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
@@ -241,6 +299,27 @@ jQuery(document).ready(function() {
 		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	});
 
+	$("#btn-param-postal-code").mouseenter(function(e){
+		$("#autoGeoPostalCode").css("width", "0px");
+		$("#autoGeoPostalCode").animate({ width:"350px" }, 200 );
+		$("#input-communexion").show(400);
+	});
+
+	$('#autoGeoPostalCode').keyup(function(e){
+        startSearch();
+    });
+    
+    $("#btn-geoloc-auto").click(function(e){
+		if(geolocHTML5Done == false){
+			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+    		initHTML5Localisation('prefillSearch');
+		}
+    	else{
+    		$("#modal-select-scope").modal("show");
+    	}
+    });
+	
+
 
 	var timeoutHover = setTimeout(function(){}, 0);
 	var hoverPersist = false;
@@ -282,6 +361,7 @@ jQuery(document).ready(function() {
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
+		$("#input-communexion").hide(700);
 	});
 
 	$(".main-col-search").mouseenter(function(){
@@ -295,6 +375,7 @@ jQuery(document).ready(function() {
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
+				$("#input-communexion").hide(700);
 			}
 	});
 
