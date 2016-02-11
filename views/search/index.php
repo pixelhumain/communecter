@@ -157,6 +157,14 @@ var typesLabels = {
   "<?php echo Project::COLLECTION ?>":"Project",
 };
 
+	<?php 
+		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		   			    Yii::app()->request->cookies['cityName'] : "";
+		if($where == "") 
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			  		 Yii::app()->request->cookies['postalCode'] : "";
+	?>
+	var where = "<?php echo $where; ?>";
 
 	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
@@ -192,6 +200,10 @@ var typesLabels = {
 	    resizeInterface();
 	    showFloopDrawer();
 
+	    console.log("WHERE ? ", where);
+		//alert("ha");
+		setScopeValue(where);
+		
 	    $(window).bind("popstate", function(e) {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
@@ -200,7 +212,7 @@ var typesLabels = {
 	      }
 	      lastUrl = location.hash;
 	    });
-	    console.log("hash", location.hash);
+	    //console.log("hash", location.hash);
 	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash);
 			return;
@@ -210,6 +222,8 @@ var typesLabels = {
 
 		checkScroll();
 	});
+
+	function startSearch(){}
 
 	function resizeInterface(){
 	  //console.log("resize");
@@ -436,7 +450,12 @@ var typesLabels = {
 	}
 
 	function setInputPlaceValue(thisBtn){
-		$("#autoGeoPostalCode").val($(thisBtn).attr("val"));
+		//if(location.hash == "#search.home"){
+			//$("#autoGeoPostalCode").val($(thisBtn).attr("val"));
+		//}else{
+			$("#searchBarPostalCode").val($(thisBtn).attr("val"));
+			
+		//}
 		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
 		startSearch();
 	}

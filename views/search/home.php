@@ -79,7 +79,7 @@
 	z-index: 30;
 	border-radius: 30px 30px 30px 30px;
 }
-#searchBarPostalCode{
+/*#searchBarPostalCode{
 	margin-top: 10px;
 	width: 200px;
 	margin-left: 0px;
@@ -87,7 +87,7 @@
 	font-size: 22px !important;
 	border-radius: 3px !important;
 	height: 40px;
-}
+}*/
 input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -179,13 +179,12 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		Un réseau social citoyen libre 
 	</h3>
 */?>
-	<hr> 
+	<!-- <hr>  -->
 
-	<h3 class="text-dark information center" style="margin-top:15px; ">
-		<!-- <i class="fa fa-2x fa-angle-down"></i><br/> -->
+	<!-- <h3 class="text-dark information center" style="margin-top:15px; ">
 		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong><br/>
 		Je suis communecté : j'ai accès à ma ville !<br/>
-	</h3>
+	</h3> -->
 
 	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
@@ -234,7 +233,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	
 	<hr>
 
-	<div class="col-md-12">
+	<div class="col-md-12 no-padding">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
 			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
@@ -242,8 +241,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-sm-12">
-			<div class="col-sm-4">
+		<div class="col-sm-12 no-padding">
+			<div class="col-sm-4 no-padding">
 				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
 			</div>
 			
@@ -523,10 +522,9 @@ function openVideo(){
 
 var timeout = null;
 function startSearch(){
-	var name = $('#autoGeoPostalCode').val();
-    var locality = $('#autoGeoPostalCode').val();
+	//var name = ""; //$('#autoGeoPostalCode').val();
+    var locality = $('#searchBarPostalCode').val();
 
-    name = name.replace(/[^\w\s']/gi, '');
     locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
@@ -534,12 +532,11 @@ function startSearch(){
         if(locality.length == 0 || locality.length > 5) locality = "";
     }
 
-    if(name.length>=3 || name.length == 0){
       clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
-    }else{
+      timeout = setTimeout('autoCompleteSearch("", "'+locality+'")', 500);
+    //}else{
       
-    }   
+    //}   
 }
 
 
@@ -726,7 +723,10 @@ function autoCompleteSearch(name, locality){
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
 		$("#div-discover").show(500);
-		$(".my-main-container").animate({"scrollTop" : "840px"}, 1700);
+		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
+		$(".main-col-search").animate({ opacity:1 }, 200 );
+		$(".my-main-container").animate({"scrollTop" : "550px"}, 1000);
+
   	}
 
 	function setScopeValue(valText, insee){

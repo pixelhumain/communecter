@@ -20,7 +20,7 @@
 }
 .hover-menu{
 	width: 17%;
-	height: 100%;
+	height: 400px;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -101,6 +101,14 @@
 	width: 55px !important;
 	height: 55px !important;
 	border-radius: 50%;
+	z-index:2;
+	color: #FFF;
+	font-size: 19px;
+	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
 #btn-geoloc-auto{
@@ -110,9 +118,13 @@
 
 #input-communexion{
 	display:none;
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	z-index: 1;
 }
 
-#autoGeoPostalCode{
+#searchBarPostalCode{
 	position: absolute;
 	left: 52px;
 	bottom: 52px;
@@ -127,7 +139,7 @@
 	text-align: left;
 }
 
-.search-loader{
+#input-communexion .search-loader{
 	position: absolute;
 	left: 75px;
 	bottom: 120px;
@@ -135,6 +147,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
+
 
 </style>
 <?php 
@@ -201,22 +214,24 @@
 	<?php } ?>
 
 
-	<button class="menu-button menu-button-title btn-menu bg-red" id="btn-param-postal-code">
-		<i class="fa fa-university"></i>
-	</button> 
-	<div id="input-communexion">
-		<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
-		<input id="autoGeoPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
-	</div>
-	<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
-		<i class="fa fa-crosshairs"></i>
-	</button>
-
+	
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
 	</div>
 </div>
+
+<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
+	<i class="fa fa-university"></i>
+</button> 
+<div id="input-communexion">
+	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
+	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+</div>
+<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+	<i class="fa fa-crosshairs"></i>
+</button>
+
 
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -300,13 +315,15 @@ jQuery(document).ready(function() {
 	});
 
 	$("#btn-param-postal-code").mouseenter(function(e){
-		$("#autoGeoPostalCode").css("width", "0px");
-		$("#autoGeoPostalCode").animate({ width:"350px" }, 200 );
-		$("#input-communexion").show(400);
+		showInputCommunexion();
 	});
 
-	$('#autoGeoPostalCode').keyup(function(e){
-        startSearch();
+	var timeoutSearch = setTimeout(function(){}, 0);
+	$('#searchBarPostalCode').keyup(function(e){
+		if(location.hash == "#search.home"){
+	        clearTimeout(timeoutSearch);
+      		timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+	    }
     });
     
     $("#btn-geoloc-auto").click(function(e){
@@ -332,6 +349,8 @@ jQuery(document).ready(function() {
 		$(".lbl-btn-menu-name").show(200);
 		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
+
+		showInputCommunexion();
 
 		hoverPersist = false;
 		clearTimeout(timeoutHover);
@@ -361,7 +380,7 @@ jQuery(document).ready(function() {
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
-		$("#input-communexion").hide(700);
+		$("#input-communexion").hide(400);
 	});
 
 	$(".main-col-search").mouseenter(function(){
@@ -370,12 +389,13 @@ jQuery(document).ready(function() {
 				if(!isLoginRegister()){
 					positionMouseMenu = "out";
 					$(".main-col-search").animate({ opacity:1 }, 200 );
+					hoverPersist = false;
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
-				$("#input-communexion").hide(700);
+				$("#input-communexion").hide(400);
 			}
 	});
 
@@ -388,6 +408,7 @@ jQuery(document).ready(function() {
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );
+			hoverPersist = false;
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
@@ -405,6 +426,15 @@ jQuery(document).ready(function() {
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");
+	}
+
+	function showInputCommunexion(){
+		console.log("showCommunexion");
+		$(".main-col-search").animate({ opacity:0.3 }, 200 );
+		$("#searchBarPostalCode").css("width", "0px");
+		$("#input-communexion").show();
+		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
+		$(".hover-info").hide();
 	}
 
 
