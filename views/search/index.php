@@ -368,6 +368,8 @@ var typesLabels = {
 			//$(".main-col-search").show();
 
 			$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+			showMap(false);
+			
 		}, 800);
 		//
 		//
