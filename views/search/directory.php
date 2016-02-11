@@ -305,7 +305,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var onclickCp = "";
                   var target = " target='_blank'";
                   if(type == "city"){
-                  	url = "#main-col-search";
+                  	url = "javascript:"; //#main-col-search";
                   	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
                   	onclickCp = 'setScopeValue("'+o.cp+'");';
                   	target = "";
@@ -372,12 +372,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   				        str += "</div>";
               }); //end each
 
-              if(str == "") { $(".btn-start-search").html("<i class='fa fa-search'></i>"); }
+              if(str == "") { 
+                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
+                  if(indexMin == 0){
+                    //ajout du footer       
+                    str += '<div class="center" id="footerDropdown">';
+                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
+                    str += "</div>";
+                    $("#dropdown_search").html(str);
+                  }
+              }
               else
               {       
                 //ajout du footer      	
                 str += '<div class="center" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;'>" + totalData + " résultats</label><br/>";
+                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
 
