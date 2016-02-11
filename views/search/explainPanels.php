@@ -187,7 +187,6 @@
 		<h1 class="homestead yellowph">Emploi :</h1>
 		Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...
 	</div>
-explainCartographiedeReseau
 	<div class="explainOpendata explain hide">
 		<h1 class="homestead yellowph">Opendata</h1>
 		<ul>
@@ -225,6 +224,17 @@ explainCartographiedeReseau
 	</div>
 	<div class="explainCommunecter explain hide">
 		<h1 class="homestead yellowph">Communecter</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+	<div class="explainCommunecteur explain hide">
+		<h1 class="homestead yellowph">Communecteur</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

@@ -146,6 +146,7 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
+.information{font-size:15px;}
 </style>
 
 <div class="home_page">
@@ -238,42 +239,76 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="imageSection imageSectionVideo text-center">
 			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
 		</div>
+		<div class="space20"></div>
 	</div>
 
-	<div class="col-md-12" style="margin-bottom:40px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Un réseau pour tous !
-		</h2>
-
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
-			pour valoriser le territoire et le bien commun.  
-		</h3>
-
+	<div class="col-md-12">
+		
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
+			<h1 class="homestead text-white">POUR QUI ? <br/> POURQUOI FAIRE ?</h1>
+		</div>
 		<center>
-			<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss2.jpg"/>
-			<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-	</div>
+		<div class="col-sm-12">
+			<div class="col-sm-4">
+				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<div class="col-md-12" style="margin-bottom:20px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		</h2>
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:300;">
-			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?<br/>
-			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?<br/>
-			Le réseau <span class="text-red"><strong>Communecter</strong></span> est fait pour vous !
-		</h3>
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<br/>
+					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
+					pour valoriser le territoire et le bien commun.  
+			</div>
+			
+			<div class="col-sm-8">
+				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			</div>
+			
+		</div>
 	</div>
-	<?php } ?>
 	
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
-			<i class="fa fa-caret-down" style="color:white;"></i><br/>
+			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
 			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
 			<div class="space20"></div>
 			<div class="col-md-6 col-sm-12">
@@ -361,6 +396,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					<div class="space20"></div>
 					<div class="buttonArea">
 						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecteur" > Communecteur</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
