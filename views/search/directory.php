@@ -197,7 +197,7 @@ function startSearch(indexMin, indexMax){
     }
     else{ if(scrollEnd) return; }
     
-    name = name.replace(/[^\w\s']/gi, '');
+    //name = name.replace(/[^\w\s']/gi, '');
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
