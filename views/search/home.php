@@ -1,6 +1,10 @@
 
 
 <style>
+
+.main-col-search{
+	padding:0px !important;
+}
 .home_page h3.subtitle{
 	font-weight: 300;
 	font-size:20px;
@@ -15,9 +19,6 @@
 	margin-top:30px;
 }
 
-.home_page #img-video-communecter{
-	/*max-height: 440px;*/
-}
 .home_page .imageSectionVideo{
 	width:80%;
 	margin-left:10%;
@@ -78,7 +79,7 @@
 	z-index: 30;
 	border-radius: 30px 30px 30px 30px;
 }
-#searchBarPostalCode{
+/*#searchBarPostalCode{
 	margin-top: 10px;
 	width: 200px;
 	margin-left: 0px;
@@ -86,7 +87,7 @@
 	font-size: 22px !important;
 	border-radius: 3px !important;
 	height: 40px;
-}
+}*/
 input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -130,7 +131,8 @@ input[type="text"].input-search:focus{
 	display: inline;
 }
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/contact-map.jpg) top center no-repeat; background-size: 160% }
-.keyword{margin-bottom: 3px;font-size:1.3em;}
+.keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
+.keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
 .headerIcon{font-size: 1.6em;}
 
@@ -143,6 +145,10 @@ a.btn.btn-social:hover{	background: none;}
 a.btn.btn-facebook:hover{	color: #3b5998;}
 a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
+a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
+.yellowph{color:#F6E201;}
+.information{font-size:15px;}
+
 </style>
 
 <div class="home_page">
@@ -157,13 +163,12 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
+		
 
-
-	<center>
-		<img id="main-logo-home" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-home2.png"/><br/>
+	<center class="imageSection imageSectionVideo">
+		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
 	</center>
-
-	
+<?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
 
@@ -171,29 +176,27 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		style="font-size:40px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
 
 	<h3 class="text-dark text-center no-margin subtitle">
-		Le réseau social citoyen libre 
-		<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
+		Un réseau social citoyen libre 
 	</h3>
+*/?>
+	<!-- <hr>  -->
 
-	<hr> 
-
-	<h3 class="text-dark information center" style="margin-top:15px; ">
-		<!-- <i class="fa fa-2x fa-angle-down"></i><br/> -->
+	<!-- <h3 class="text-dark information center" style="margin-top:15px; ">
 		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong><br/>
 		Je suis communecté : j'ai accès à ma ville !<br/>
-	</h3>
+	</h3> -->
 
-	<div class="col-md-6" style="text-align:right;">
+	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
-		<div class="" style="display:none;" id="div-param-postal-code">	
+		<center class="" style="display:none;" id="div-param-postal-code">	
 			<i class="fa fa-2x fa-angle-right"></i> 
 			<input id="searchBarPostalCode" class="input-search text-red" style="margin-left:5px;" type="text" placeholder="...">
-		</div>
+		</center>
 	</div>
 	<div class="col-md-6">
 		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
-	</div>
+	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
 		
@@ -205,7 +208,7 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Découvrir
 		</h2>
-		<div class="col-md-12" style="margin-bottom:40px">
+		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
@@ -229,80 +232,75 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 	</div>
 	
 	<hr>
-	
-	<div class="section-content section-video" style="margin-top:90px;">
-		<div class="textProjectSlider">
-		</div>
-		<div class="imageSection imageSectionVideo text-center">
-			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
-		</div>
-	</div>
 
-	
-
-
-	<div class="col-md-10 col-md-offset-1">
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Dead Code ::: Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
-		</h3>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Périscolaire :</strong></span><br/> Outils d’informations pour découvrir et utiliser les activités périscolaires locales</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Associatif :</strong></span><br/> Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Economie :</strong></span><br/> Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale ...</div>
+	<div class="col-md-12 no-padding">
+		
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
+			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
 		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Territoire :</strong></span><br/> Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Tourisme :</strong></span><br/> Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Alimentation :</strong></span><br/> Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques ...</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Agriculture :</strong></span><br/> Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Culture :</strong></span><br/> Partage d'information sur l'animation du territoire, création d'événements, échange de services (ex : cours de guitare contre des cours de chant) ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Emploi :</strong></span><br/> Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Transport :</strong></span><br/> Facilitateur de  covoiturage, changements de comportements, débats sur les transports et recueil des besoins des administrés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Logement :</strong></span><br/> Service d'annonces interactives, recueil des besoins des administrés, interactions avec les collectivités locales, débats citoyens agrégés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Énergie :</strong></span><br/> Sensibilisation à la dépense énergétique, consommation produits HQE, partage d'information, débats sur la consommation plus durable / biens énergivores et non durables …</div>
-		</div>
-	</div>
-
-	<div class="col-md-12" style="margin-bottom:40px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Un réseau pour tous !
-		</h2>
-
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
-			pour valoriser le territoire et le bien commun.  
-		</h3>
-
 		<center>
-			<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss2.jpg"/>
-			<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-	</div>
+		<div class="col-sm-12 no-padding">
+			<div class="col-sm-4 no-padding">
+				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<div class="col-md-12" style="margin-bottom:20px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		</h2>
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:300;">
-			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?<br/>
-			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?<br/>
-			Le réseau <span class="text-red"><strong>Communecter</strong></span> est fait pour vous !
-		</h3>
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<br/>
+					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
+					pour valoriser le territoire et le bien commun.  
+			</div>
+			
+			<div class="col-sm-8">
+				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			</div>
+			
+		</div>
 	</div>
-	<?php } ?>
 	
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
-			<i class="fa fa-caret-down" style="color:white;"></i><br/>
-			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>L'application</h1>
+			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
 			<div class="space20"></div>
 			<div class="col-md-6 col-sm-12">
 				Plus qu'une simple application Communecter se présente sous differente forme :
@@ -319,58 +317,95 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		</center>
 	</div>
 
-	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
-		
-		<!-- SECTION TITLE -->
+	
+	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
+		<center>
+			<i class="fa fa-caret-down" style="color:#DFE5E7"></i><br/>
+			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
+		</center>
+		<div class="space20"></div>
 		<div class="col-md-6 col-sm-12">
-
+			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
+				<img class="img-responsive" style="border:4px solid #293A46;margin-top:40px" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+			</a>
+		</div>
+		<div class="col-md-6 col-sm-12">
 			<center>
-				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
-				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera headerIcon" ></i><br/>USE CASE</h1>
-				<div class="space20"></div>
-				<div class="buttonArea">
-					Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
-					<br/>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainPériscolaire" >Périscolaire</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" >Associatif</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Economie</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" >Territoire</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Tourisme</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" >Alimentation</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Agriculture</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Culture</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Emploi</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Transport</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Logement</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Énergie</a>
+				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
+				<br/><br/>
+				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
+				fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
+				plus grand nombre, nous souhaitons passer à l’étape suivante... Cette étape nécessite 40 000 € et
+				 nous l’atteindrons en gardant la philosophie du projet : c’est à dire avec un financement citoyen pour un projet citoyen !
+				<br/><br/>
+				Nous avons choisi la plateforme KissKissbankBank pour nous aider à atteindre notre objectif.
+				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
+				<br/><br/>
+				Notre campagne de crowdfounding va donc démarrer le ......
+			<center>
+		</div>
+	</div>
+
+	<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
+		<center>
+			<i class="fa fa-caret-down" style="color:#92BE1F"></i><br/>
+			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURS</h1>
+			<div class="space20"></div>
+			<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
+		<center>	
+	</div>
+
+	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
+		<div class="col-md-6 col-sm-12">
+			<center>
+				
+				<div class="keysUsages">
+					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera " ></i> USAGES</h1>
+					<div class="space20"></div>
+					<div class="buttonArea">
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainPeriscolaire" >Périscolaire</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAssociatif" >Associatif</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEconomie" > Economie</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTerritoire" >Territoire</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTourisme" > Tourisme</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAlimentation" >Alimentation</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAgriculture" > Agriculture</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainCulture" > Culture</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEmploi" > Emploi</a>
+					</div>
 				</div>
+				<div class="keywordExplain" style="margin-top:40px"></div>
 			</center>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			
 			<center>
-				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
-				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key headerIcon"></i><br/>MOTS CLEFS</h1>
-				<div class="space20"></div>
-				<div class="buttonArea">
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Cartographie de réseau</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
+				<div class="usageExplain"></div>
+				<div class="keysKeyWords">
+					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key "></i> MOTS CLEFS</h1>
+					<div class="space20"></div>
+					<div class="buttonArea">
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecteur" > Communecteur</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeReseau" > Cartographie de réseau</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
+					</div>
 				</div>
 			</center>
 		</div>
@@ -381,17 +416,15 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		<div class="col-md-6 col-sm-12">
 			
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user headerIcon"></i><br/>Un AMI</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
-				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/sylvain.PNG"/>
+				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"/>
 				<br/>Sylvain Barbot
 			</center>
 		</div>
 		<div class="col-md-6 col-sm-12">
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o" style="font-size:2em "></i><br/>Une Pensée</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o "></i> Une Pensée</h1>
 				<div class="space20"></div>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -404,30 +437,23 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		
 	</div>
 	
-	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
+	<hr>
+
+	<div class="col-md-12" style="color:#293A46;padding-bottom:40px " >	
 		<center>
-			<i class="fa fa-caret-down" style="color:#FFF"></i><br/>
-			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		<center>
-	</div>
-	
-	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:40px " >	
-		<center>
+			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
-				<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
-				<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
-				<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
+				<li><a target="_blank" href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
+				<li><a target="_blank" href="https://twitter.com/communecter" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
+				<li><a target="_blank" href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
+				<li><a target="_blank" href="https://github.com/pixelhumain/communecter" class="btn btn-github btn-social"><span class="fa fa-github"></span> </a></li>
 			</ul>
 		<center>	
 	</div>
+
+	
 
 </div>
 
@@ -453,19 +479,33 @@ jQuery(document).ready(function() {
     
      $("#btn-geoloc-auto").click(function(e){
 		if(geolocHTML5Done == false){
-			$("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...</span></center>");		
+			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
     		initHTML5Localisation('prefillSearch');
 		}
     	else{
     		$("#modal-select-scope").modal("show");
     	}
     });
-
+    
+    $(".explainLink").click(function() {  
+		showDefinition( $(this).data("id") );
+	});
+    
     $(".keyword").click(function() { 
-    	$(".hover-menu").trigger("mouseenter");
-    	toggle("."+$(this).data("id") ,".explain");
+    	$(".keysUsages").hide();
+    	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
+    	$(".keywordExplain").html( $("."+$(this).data("id")).html()+link ).fadeIn(400);
+    	 $(".showUsage").off().on("click",function() { $(".keywordExplain").slideUp(); $(".keysUsages").slideDown();}); 
     });
 
+    $(".keyword1").click(function() { 
+    	$(".keysKeyWords").hide();
+    	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
+    	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
+    	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
+    });
+
+    
 });
 
 function openVideo(){
@@ -482,10 +522,9 @@ function openVideo(){
 
 var timeout = null;
 function startSearch(){
-	var name = $('#searchBarPostalCode').val();
+	//var name = ""; //$('#autoGeoPostalCode').val();
     var locality = $('#searchBarPostalCode').val();
 
-    name = name.replace(/[^\w\s']/gi, '');
     locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
@@ -493,12 +532,11 @@ function startSearch(){
         if(locality.length == 0 || locality.length > 5) locality = "";
     }
 
-    if(name.length>=3 || name.length == 0){
       clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
-    }else{
+      timeout = setTimeout('autoCompleteSearch("", "'+locality+'")', 500);
+    //}else{
       
-    }   
+    //}   
 }
 
 
@@ -534,12 +572,10 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_search").show();
-	        	toastr.error('Aucune donnée');
+	        	$(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !</span></center>");
-    			$("#dropdown_search").show();
+	        	$(".search-loader").html("<i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !");
+    			//$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
 
@@ -674,8 +710,8 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_search").css({"display" : "inline" });
+    $(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    //$("#dropdown_search").css({"display" : "inline" });
                     
   }
 
@@ -687,6 +723,10 @@ function autoCompleteSearch(name, locality){
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
 		$("#div-discover").show(500);
+		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
+		$(".main-col-search").animate({ opacity:1 }, 200 );
+		$(".my-main-container").animate({"scrollTop" : "550px"}, 1000);
+
   	}
 
 	function setScopeValue(valText, insee){

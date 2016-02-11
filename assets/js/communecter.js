@@ -297,3 +297,9 @@ function loadByHash( hash , back) {
 
 }
 
+function showDefinition( id ){
+	$(".hover-menu").trigger("mouseenter");
+	$(".infoVersion").css("display" , "inline");
+	toggle( "."+id , ".explain" );
+}
+

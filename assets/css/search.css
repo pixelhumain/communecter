@@ -115,7 +115,7 @@
 	max-width: 600px;
 	min-width: 600px;
 	height: 295px;
-	/*top: 150px;*/
+	top: -21px;
 	margin-left: auto;
 	margin-right: auto;
 	position:relative;
@@ -152,15 +152,20 @@
     background-color: rgba(49, 92, 110, 0.73) !important;
 }
 
-.moduleLabel{
+.main-top-menu .moduleLabel{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 65%;
 	margin-left:0px !important;
 }
+
 input[type="text"].input-search{
-	margin-top: 73px;
+	margin-top: 74px;
 	margin-left: 15%;
 	width: 70%;
 	border-radius: 50px !important;
-	height: 65px;
+	height: 75px;
 	font-size: 20px !important;
 	padding: 10px !important;
 	text-align: center;
@@ -203,8 +208,8 @@ input[type="text"].input-search.postalCode{
 	margin-top: 8px;
 	margin-left: 24%;
 	width: 52%;
-	height: 37px;
-	font-size: 24px !important;
+	height: 35px;
+	font-size: 20px !important;
 	padding: 0px !important;
 	font-family: "homestead";
 	
@@ -228,12 +233,13 @@ input[type="text"].input-search.postalCode:focus{
 }
 
 button.btn-start-search{
-	margin-top: -24px;
+	position: relative;
 	margin-bottom: 5px;
-	margin-left: 76.5%;
+	top: 129px;
+	right: 42%;
 	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
-	color:white;
+	color: white;
 	border-color: rgba(180, 180, 180, 0.77) !important;
 	border-radius: 30px;
 	font-weight: 300;
@@ -731,6 +737,19 @@ button.btn-infos{
 	    left: 20%;
 	    border-radius: 30px;
 	}
+	.main-top-menu .moduleLabel{
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    max-width: 42%;
+	    max-height: 36px;
+	    font-size: 18px !important;
+	    height: 36px;
+	    padding-top: 5px;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	    font-weight: 200;
+	  }
+
 }
 
 @media screen and (max-width: 768px) {

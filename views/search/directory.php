@@ -11,6 +11,20 @@
 		width: 24px;
 		margin-top: 4px;
 	}
+
+  .lbl-scope-list{
+    position: absolute;
+    left: 59%;
+    z-index: 3;
+    top: 146px;
+    font-size: 25px;
+    font-weight: 300;
+    text-transform: capitalize;
+  }
+
+  .btn-filter-type{
+    height:44px;
+  }
 </style>
 
 
@@ -19,6 +33,8 @@
 
 <h1 class="homestead text-red  text-center" id="main-title-communect"
 	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
+
+<div class="lbl-scope-list text-red"></div>
 
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
@@ -42,15 +58,15 @@
 				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
 			   			  Yii::app()->request->cookies['postalCode'] : "";
 	?>
-	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
-		   value="<?php echo $where; ?>" >
+	<!-- <input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
+		   value="<?php echo $where; ?>" > -->
 
-	<?php $this->renderPartial("dropdown_scope"); ?> 
+	<?php //$this->renderPartial("dropdown_scope"); ?> 
 
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 
-  <div class="col-md-12 center" style="margin-top:45px;margin-bottom:0px;">
+  <div class="col-md-12 center" style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
     <div class="btn-group inline-block" id="menu-directory-type">
       <!-- <button class="btn btn-default bg-dark"><i class="fa fa-angle-right fa-2x"></i> Filtrer</button> -->
      <!--  <button class="btn btn-default btn-filter-type tooltips text-azure" data-toggle="tooltip" data-placement="top" title="Tous" type="all">
@@ -72,7 +88,7 @@
 
 
 
-<div style="margin-top:30px;" class="col-md-12" id="dropdown_search"></div>
+<div style="margin-top:0px;" class="col-md-12" id="dropdown_search"></div>
 
 <?php $this->renderPartial("first_step_directory"); ?> 
 
@@ -185,6 +201,8 @@ function startSearch(indexMin, indexMax){
 	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
 
+    $(".lbl-scope-list").html(locality.toLowerCase());
+      
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -197,7 +215,7 @@ function startSearch(indexMin, indexMax){
     }
     else{ if(scrollEnd) return; }
     
-    name = name.replace(/[^\w\s']/gi, '');
+    //name = name.replace(/[^\w\s']/gi, '');
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
@@ -305,7 +323,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var onclickCp = "";
                   var target = " target='_blank'";
                   if(type == "city"){
-                  	url = "#main-col-search";
+                  	url = "javascript:"; //#main-col-search";
                   	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
                   	onclickCp = 'setScopeValue("'+o.cp+'");';
                   	target = "";
@@ -372,12 +390,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   				        str += "</div>";
               }); //end each
 
-              if(str == "") { $(".btn-start-search").html("<i class='fa fa-search'></i>"); }
+              if(str == "") { 
+                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
+                  if(indexMin == 0){
+                    //ajout du footer       
+                    str += '<div class="center" id="footerDropdown">';
+                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
+                    str += "</div>";
+                    $("#dropdown_search").html(str);
+                  }
+              }
               else
               {       
                 //ajout du footer      	
                 str += '<div class="center" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;'>" + totalData + " résultats</label><br/>";
+                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
 
@@ -402,7 +429,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //on affiche le résultat à l'écran
                   $("#dropdown_search").html(str);
                   //on scroll pour coller le haut de l'arbre au menuTop
-                  $(".my-main-container").scrollTop(115);
+                  $(".my-main-container").scrollTop(95);
                 }
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
