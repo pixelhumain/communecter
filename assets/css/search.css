@@ -152,9 +152,14 @@
     background-color: rgba(49, 92, 110, 0.73) !important;
 }
 
-.moduleLabel{
+.main-top-menu .moduleLabel{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 65%;
 	margin-left:0px !important;
 }
+
 input[type="text"].input-search{
 	margin-top: 73px;
 	margin-left: 15%;
@@ -731,6 +736,19 @@ button.btn-infos{
 	    left: 20%;
 	    border-radius: 30px;
 	}
+	.main-top-menu .moduleLabel{
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    max-width: 42%;
+	    max-height: 36px;
+	    font-size: 18px !important;
+	    height: 36px;
+	    padding-top: 5px;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	    font-weight: 200;
+	  }
+
 }
 
 @media screen and (max-width: 768px) {
