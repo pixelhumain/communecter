@@ -1,6 +1,10 @@
 
 
 <style>
+
+.main-col-search{
+	padding:0px !important;
+}
 .home_page h3.subtitle{
 	font-weight: 300;
 	font-size:20px;
@@ -183,7 +187,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		Je suis communecté : j'ai accès à ma ville !<br/>
 	</h3>
 
-	<div class="col-md-6" style="text-align:right;">
+	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
 		<center class="" style="display:none;" id="div-param-postal-code">	
@@ -193,7 +197,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 	<div class="col-md-6">
 		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
-	</div>
+	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
 		
@@ -205,7 +209,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Découvrir
 		</h2>
-		<div class="col-md-12" style="margin-bottom:40px">
+		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
@@ -233,7 +237,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<div class="col-md-12">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
-			<h1 class="homestead text-white">POUR QUI ? <br/> POURQUOI FAIRE ?</h1>
+			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
 		</div>
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
@@ -476,7 +480,7 @@ jQuery(document).ready(function() {
     
      $("#btn-geoloc-auto").click(function(e){
 		if(geolocHTML5Done == false){
-			$("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...</span></center>");		
+			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
     		initHTML5Localisation('prefillSearch');
 		}
     	else{
@@ -519,8 +523,8 @@ function openVideo(){
 
 var timeout = null;
 function startSearch(){
-	var name = $('#searchBarPostalCode').val();
-    var locality = $('#searchBarPostalCode').val();
+	var name = $('#autoGeoPostalCode').val();
+    var locality = $('#autoGeoPostalCode').val();
 
     name = name.replace(/[^\w\s']/gi, '');
     locality = locality.replace(/[^\w\s']/gi, '');
@@ -571,12 +575,10 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_search").show();
-	        	toastr.error('Aucune donnée');
+	        	$(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !</span></center>");
-    			$("#dropdown_search").show();
+	        	$(".search-loader").html("<i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !");
+    			//$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
 
@@ -711,8 +713,8 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_search").css({"display" : "inline" });
+    $(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    //$("#dropdown_search").css({"display" : "inline" });
                     
   }
 
@@ -724,6 +726,7 @@ function autoCompleteSearch(name, locality){
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
 		$("#div-discover").show(500);
+		$(".my-main-container").animate({"scrollTop" : "840px"}, 1700);
   	}
 
 	function setScopeValue(valText, insee){
