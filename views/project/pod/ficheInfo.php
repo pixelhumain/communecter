@@ -192,7 +192,7 @@ progress[value]::-moz-progress-bar {
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																  "type" => Project::COLLECTION,
 																  "resize" => false,
-																  "contentId" => Document::IMG_SLIDER,
+																  "contentId" => Document::IMG_PROFIL,
 																  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]),
 																  "image" => $imagesD)); 
 			?>
@@ -298,6 +298,7 @@ var countries = <?php echo json_encode($countries); ?>;
 var startDate = '<?php if(isset($project["startDate"])) echo $project["startDate"]; else echo ""; ?>';
 var endDate = '<?php if(isset($project["endDate"])) echo $project["endDate"]; else echo "" ?>';
 var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : null; ?>;
+var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 if(imagesD != null){
 	var images = imagesD;
 }

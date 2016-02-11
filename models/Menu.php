@@ -82,6 +82,33 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry("left", 'showAjaxPanel', Yii::t("event","Contact information"), Yii::t("common","Details"),'home','/event/detail/id/'.$id,"event","detail");
+        if( isset($event["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
+	        self::entry("right", 'onclick',
+                        Yii::t( "common", "Leave this event"),
+                        Yii::t( "common", "Leave"),
+                        'fa fa-unlink disconnectBtnIcon',
+                        "disconnectTo('events','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
+          /*array_push($controller->toolbarMBZ, array('position'=>'right', 
+                                                    'label'=>Yii::t("common",'Leave'), 
+                                                    'tooltip' => Yii::t("event","Leave this Event"), 
+                                                    "parent"=>"span",
+                                                    "parentId"=>"linkBtns",
+                                                    "iconClass"=>"disconnectBtnIcon fa fa-unlink",
+                                                    "href"=>"<a href='javascript:;' class='disconnectBtn text-red tooltips btn btn-default'  data-name='".$event["name"]."' data-id='".$event["_id"]."' data-attendee-id='".Yii::app()->session['userId']."' data-type='".Event::COLLECTION."'") );*/
+    		}else{
+	    		 self::entry("right", 'onclick',
+                        Yii::t( "common", "Participate to this event"),
+                        Yii::t( "common", "Participate"),
+                        'fa fa-user-plus becomeAdminBtn',
+                        "connectTo('events','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
+    		}
+    		/*	array_push($controller->toolbarMBZ, array('position'=>'right', 
+                                                    'label'=>Yii::t("event",'Join'),
+                                                    'tooltip' => Yii::t("event","Join this Event"), 
+                                                    "parent"=>"span",
+                                                    "parentId"=>"linkBtns",
+                                                    "iconClass"=>"connectBtnIcon fa fa-unlink",
+                                                    "href"=>"<a href='javascript:;' class='connectBtn attendeeMeBtn tooltips  btn btn-default'   data-attendee-id='".Yii::app()->session['userId']."' data-placement='top'") );*/
      }
     
     public static function organization($organization)

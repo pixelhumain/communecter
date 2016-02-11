@@ -128,7 +128,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		formData.adminAction=true;
 	}
 	console.log(formData);
-	if(connectType!="admin"){
+	
+	if(connectType!="admin" && connectType !="attendee"){
 		bootbox.dialog({
                 title: trad["suretojoin"+parentType]+" "+trad["as"+connectType]+" ?",
                 onEscape: function() {
@@ -189,7 +190,10 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
         );
     }
 	else{
-		bootbox.confirm(trad["suretojoin"+parentType]+" "+trad["as"+connectType]+" ?", 
+		messageBox=trad["suretojoin"+parentType];
+		if (connectType=="admin")
+			messageBox += trad["as"+connectType];
+		bootbox.confirm( messageBox+" ?", 
 		function(result) {
 			if (!result) {
 				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");

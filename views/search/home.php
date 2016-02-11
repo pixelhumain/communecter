@@ -130,7 +130,8 @@ input[type="text"].input-search:focus{
 	display: inline;
 }
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/contact-map.jpg) top center no-repeat; background-size: 160% }
-.keyword{margin-bottom: 3px;font-size:1.3em;}
+.keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
+.keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
 .headerIcon{font-size: 1.6em;}
 
@@ -143,6 +144,8 @@ a.btn.btn-social:hover{	background: none;}
 a.btn.btn-facebook:hover{	color: #3b5998;}
 a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
+a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
+.yellowph{color:#F6E201;}
 </style>
 
 <div class="home_page">
@@ -171,8 +174,7 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		style="font-size:40px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
 
 	<h3 class="text-dark text-center no-margin subtitle">
-		Le réseau social citoyen libre 
-		<a href="/ph/vitrine" target="_blank"><img id="" class="" src="<?php echo $this->module->assetsUrl; ?>/images/byPH.png"/></a>
+		Un réseau social citoyen libre 
 	</h3>
 
 	<hr> 
@@ -238,36 +240,6 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		</div>
 	</div>
 
-	
-
-
-	<div class="col-md-10 col-md-offset-1">
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Dead Code ::: Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
-		</h3>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Périscolaire :</strong></span><br/> Outils d’informations pour découvrir et utiliser les activités périscolaires locales</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Associatif :</strong></span><br/> Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Economie :</strong></span><br/> Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale ...</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Territoire :</strong></span><br/> Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Tourisme :</strong></span><br/> Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Alimentation :</strong></span><br/> Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques ...</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Agriculture :</strong></span><br/> Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Culture :</strong></span><br/> Partage d'information sur l'animation du territoire, création d'événements, échange de services (ex : cours de guitare contre des cours de chant) ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Emploi :</strong></span><br/> Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Transport :</strong></span><br/> Facilitateur de  covoiturage, changements de comportements, débats sur les transports et recueil des besoins des administrés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Logement :</strong></span><br/> Service d'annonces interactives, recueil des besoins des administrés, interactions avec les collectivités locales, débats citoyens agrégés ...</div>
-			<div class="col-md-4 list-action text-dark"><span class="text-azure"><strong><i class="fa fa-circle"></i> Énergie :</strong></span><br/> Sensibilisation à la dépense énergétique, consommation produits HQE, partage d'information, débats sur la consommation plus durable / biens énergivores et non durables …</div>
-		</div>
-	</div>
-
 	<div class="col-md-12" style="margin-bottom:40px">
 		<h2 class="center text-dark">
 			<i class="fa fa-2x fa-angle-down"></i><br/>
@@ -302,7 +274,7 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
 			<i class="fa fa-caret-down" style="color:white;"></i><br/>
-			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>L'application</h1>
+			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
 			<div class="space20"></div>
 			<div class="col-md-6 col-sm-12">
 				Plus qu'une simple application Communecter se présente sous differente forme :
@@ -319,58 +291,94 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		</center>
 	</div>
 
-	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
-		
-		<!-- SECTION TITLE -->
+	
+	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
+		<center>
+			<i class="fa fa-caret-down" style="color:#DFE5E7"></i><br/>
+			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
+		</center>
+		<div class="space20"></div>
 		<div class="col-md-6 col-sm-12">
-
+			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
+				<img class="img-responsive" style="border:4px solid #293A46;margin-top:40px" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+			</a>
+		</div>
+		<div class="col-md-6 col-sm-12">
 			<center>
-				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
-				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera headerIcon" ></i><br/>USE CASE</h1>
-				<div class="space20"></div>
-				<div class="buttonArea">
-					Quelques exemples d’actions concrètes réalisables grace à <span class="text-red">Communecter.org</span> : 
-					<br/>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainPériscolaire" >Périscolaire</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" >Associatif</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Economie</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" >Territoire</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Tourisme</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" >Alimentation</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Agriculture</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Culture</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Emploi</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Transport</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Logement</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Énergie</a>
+				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
+				<br/><br/>
+				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
+				fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
+				plus grand nombre, nous souhaitons passer à l’étape suivante... Cette étape nécessite 40 000 € et
+				 nous l’atteindrons en gardant la philosophie du projet : c’est à dire avec un financement citoyen pour un projet citoyen !
+				<br/><br/>
+				Nous avons choisi la plateforme KissKissbankBank pour nous aider à atteindre notre objectif.
+				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
+				<br/><br/>
+				Notre campagne de crowdfounding va donc démarrer le ......
+			<center>
+		</div>
+	</div>
+
+	<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
+		<center>
+			<i class="fa fa-caret-down" style="color:#92BE1F"></i><br/>
+			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURES</h1>
+			<div class="space20"></div>
+			<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
+		<center>	
+	</div>
+
+	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
+		<div class="col-md-6 col-sm-12">
+			<center>
+				
+				<div class="keysUsages">
+					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera " ></i> USAGES</h1>
+					<div class="space20"></div>
+					<div class="buttonArea">
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainPeriscolaire" >Périscolaire</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAssociatif" >Associatif</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEconomie" > Economie</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTerritoire" >Territoire</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTourisme" > Tourisme</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAlimentation" >Alimentation</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAgriculture" > Agriculture</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainCulture" > Culture</a>
+						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEmploi" > Emploi</a>
+					</div>
 				</div>
+				<div class="keywordExplain" style="margin-top:40px"></div>
 			</center>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			
 			<center>
-				<i class="fa fa-caret-down" style="color:#DFE5E7;"></i><br/>
-				<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key headerIcon"></i><br/>MOTS CLEFS</h1>
-				<div class="space20"></div>
-				<div class="buttonArea">
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeRéseau" > Cartographie de réseau</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
-					<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
+				<div class="usageExplain"></div>
+				<div class="keysKeyWords">
+					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key "></i> MOTS CLEFS</h1>
+					<div class="space20"></div>
+					<div class="buttonArea">
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeReseau" > Cartographie de réseau</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
+					</div>
 				</div>
 			</center>
 		</div>
@@ -381,17 +389,15 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		<div class="col-md-6 col-sm-12">
 			
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user headerIcon"></i><br/>Un AMI</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
-				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/sylvain.PNG"/>
+				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"/>
 				<br/>Sylvain Barbot
 			</center>
 		</div>
 		<div class="col-md-6 col-sm-12">
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46"></i><br/>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o" style="font-size:2em "></i><br/>Une Pensée</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o "></i> Une Pensée</h1>
 				<div class="space20"></div>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -404,30 +410,23 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 		
 	</div>
 	
-	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
+	<hr>
+
+	<div class="col-md-12" style="color:#293A46;padding-bottom:40px " >	
 		<center>
-			<i class="fa fa-caret-down" style="color:#FFF"></i><br/>
-			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		<center>
-	</div>
-	
-	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:40px " >	
-		<center>
+			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
-				<li><a href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
-				<li><a href="https://twitter.com/pixelhumain" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
-				<li><a href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
+				<li><a target="_blank" href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
+				<li><a target="_blank" href="https://twitter.com/communecter" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
+				<li><a target="_blank" href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
+				<li><a target="_blank" href="https://github.com/pixelhumain/communecter" class="btn btn-github btn-social"><span class="fa fa-github"></span> </a></li>
 			</ul>
 		<center>	
 	</div>
+
+	
 
 </div>
 
@@ -462,8 +461,17 @@ jQuery(document).ready(function() {
     });
 
     $(".keyword").click(function() { 
-    	$(".hover-menu").trigger("mouseenter");
-    	toggle("."+$(this).data("id") ,".explain");
+    	$(".keysUsages").hide();
+    	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
+    	$(".keywordExplain").html( $("."+$(this).data("id")).html()+link ).fadeIn(400);
+    	 $(".showUsage").off().on("click",function() { $(".keywordExplain").slideUp(); $(".keysUsages").slideDown();}); 
+    });
+
+    $(".keyword1").click(function() { 
+    	$(".keysKeyWords").hide();
+    	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
+    	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
+    	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
     });
 
 });

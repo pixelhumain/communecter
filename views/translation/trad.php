@@ -11,6 +11,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"asadmin" : "<?php echo Yii::t("common", "as admin") ?>",
 		"suretojoinprojects" : "<?php echo Yii::t("common", "Are you sure to join the project") ?>",
 		"suretojoinorganizations" : "<?php echo Yii::t("common", "Are you sure to join the organization") ?>",
+		"suretojoinevents" : "<?php echo Yii::t("common", "Are you sure to participate to the event") ?>",
 		"areyouadmin" : "<?php echo Yii::t("common", "Are you admin") ?>",
 		"yes" : "<?php echo Yii::t("common","Yes") ?>",
 		"no" : "<?php echo Yii::t("common","No") ?>"
