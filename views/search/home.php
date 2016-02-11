@@ -15,9 +15,6 @@
 	margin-top:30px;
 }
 
-.home_page #img-video-communecter{
-	/*max-height: 440px;*/
-}
 .home_page .imageSectionVideo{
 	width:80%;
 	margin-left:10%;
@@ -147,6 +144,7 @@ a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
 .information{font-size:15px;}
+
 </style>
 
 <div class="home_page">
@@ -161,13 +159,12 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
+		
 
-
-	<center>
-		<img id="main-logo-home" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-home2.png"/><br/>
+	<center class="imageSection imageSectionVideo">
+		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
 	</center>
-
-	
+<?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
 
@@ -177,7 +174,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<h3 class="text-dark text-center no-margin subtitle">
 		Un réseau social citoyen libre 
 	</h3>
-
+*/?>
 	<hr> 
 
 	<h3 class="text-dark information center" style="margin-top:15px; ">
@@ -189,10 +186,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
-		<div class="" style="display:none;" id="div-param-postal-code">	
+		<center class="" style="display:none;" id="div-param-postal-code">	
 			<i class="fa fa-2x fa-angle-right"></i> 
 			<input id="searchBarPostalCode" class="input-search text-red" style="margin-left:5px;" type="text" placeholder="...">
-		</div>
+		</center>
 	</div>
 	<div class="col-md-6">
 		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
@@ -232,15 +229,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 	
 	<hr>
-	
-	<div class="section-content section-video" style="margin-top:90px;">
-		<div class="textProjectSlider">
-		</div>
-		<div class="imageSection imageSectionVideo text-center">
-			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
-		</div>
-		<div class="space20"></div>
-	</div>
 
 	<div class="col-md-12">
 		
@@ -295,7 +283,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
-					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
+					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
 					pour valoriser le territoire et le bien commun.  
 			</div>
 			
@@ -358,7 +346,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
 		<center>
 			<i class="fa fa-caret-down" style="color:#92BE1F"></i><br/>
-			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURES</h1>
+			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURS</h1>
 			<div class="space20"></div>
 			<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
 		<center>	
@@ -495,7 +483,11 @@ jQuery(document).ready(function() {
     		$("#modal-select-scope").modal("show");
     	}
     });
-
+    
+    $(".explainLink").click(function() {  
+		showDefinition( $(this).data("id") );
+	});
+    
     $(".keyword").click(function() { 
     	$(".keysUsages").hide();
     	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
@@ -510,6 +502,7 @@ jQuery(document).ready(function() {
     	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
     });
 
+    
 });
 
 function openVideo(){
