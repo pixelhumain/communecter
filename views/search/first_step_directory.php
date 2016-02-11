@@ -1,7 +1,7 @@
 <style>
 	#panel-first-step{
 		text-align: center;
-		margin-top:70px;
+		margin-top:20px;
 	}
 	#panel-first-step button{
 		margin-bottom:5px;

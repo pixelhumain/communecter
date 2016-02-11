@@ -59,7 +59,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
-	bindBtnFollow();
+	//bindBtnFollow();
 	$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?> ");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
 });
 
 
-function bindBtnFollow(){
+/*function bindBtnFollow(){
 
 		$(".disconnectBtn").off().on("click",function () {
 	        
@@ -160,5 +160,5 @@ function bindBtnFollow(){
 		        }
 		    });       
 		});
-	}
+	}*/
 </script>

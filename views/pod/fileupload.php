@@ -88,6 +88,7 @@
 		var imageId= "";
 		var imagesPath = [];
 		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
+
 		if("undefined" != typeof(contentKeyBase))
 			var contentKey = contentKeyBase+"."+contentIdtoSend;
 		else
@@ -173,7 +174,6 @@
 						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
 						  		"contentKey" : contentKey
 						  	};
-			  			
 			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else

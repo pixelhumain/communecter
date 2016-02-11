@@ -122,11 +122,44 @@
 }
 
 .box-ajaxTools{
-	margin-top: 50px;
+	margin-top: -10px;
 }
-.moduleLabel{
+.box-ajaxTools .btn.tooltips {
+	border-radius: 0px 0px 10px 10px !important;
+	background-color: #FFF !important;
+	border-bottom: 0px solid #337793 !important;
+    moz-box-shadow: 0px 2px 4px 0px #656565;
+	-webkit-box-shadow: 0px 2px 4px 0px #656565;
+	-o-box-shadow: 0px 2px 4px 0px #656565;
+	box-shadow: 0px 2px 4px 0px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+}
+
+.box-ajaxTools .btn.tooltips:hover {
+	/*border-radius: 0px 0px 10px 10px !important;*/
+	/*background-color: rgba(59, 74, 80, 0.53) !important;*/
+	color:#315C6E !important;
+	border-bottom: 0px solid #337793 !important;
+    moz-box-shadow: 0px 2px 4px 0px #176386;
+	-webkit-box-shadow: 0px 2px 4px 0px #176386;
+	-o-box-shadow: 0px 2px 4px 0px #176386;
+	box-shadow: 0px 2px 4px 0px #176386;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+}
+.box-ajaxTools .btn.tooltips.active {
+    border-radius: 0px 0px 10px 10px !important;
+	border-bottom: 0px solid #337793 !important;
+    background-color: rgba(49, 92, 110, 0.73) !important;
+}
+
+.main-top-menu .moduleLabel{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 65%;
 	margin-left:0px !important;
 }
+
 input[type="text"].input-search{
 	margin-top: 73px;
 	margin-left: 15%;
@@ -175,8 +208,8 @@ input[type="text"].input-search.postalCode{
 	margin-top: 8px;
 	margin-left: 24%;
 	width: 52%;
-	height: 37px;
-	font-size: 24px !important;
+	height: 35px;
+	font-size: 20px !important;
 	padding: 0px !important;
 	font-family: "homestead";
 	
@@ -703,6 +736,19 @@ button.btn-infos{
 	    left: 20%;
 	    border-radius: 30px;
 	}
+	.main-top-menu .moduleLabel{
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    max-width: 42%;
+	    max-height: 36px;
+	    font-size: 18px !important;
+	    height: 36px;
+	    padding-top: 5px;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	    font-weight: 200;
+	  }
+
 }
 
 @media screen and (max-width: 768px) {
