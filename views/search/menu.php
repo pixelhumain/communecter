@@ -227,13 +227,13 @@ jQuery(document).ready(function() {
     $(".btn-login").click(function(){
 		console.log("btn-login");
 		showPanel("box-login");
-		$(".main-col-search").html("");
+		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ toggle(".explainConnect",".explain");});
 
     $(".btn-register").click(function(){
     	console.log("btn-register");
 		showPanel("box-register");
-		$(".main-col-search").html("");
+		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
 
 	$(".btn-logout").click(function(){
