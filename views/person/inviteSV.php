@@ -100,6 +100,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 			
 			<div class="panel-body">
+
 				<form class="form-invite" autocomplete="off">
 					<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
 					<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
@@ -284,7 +285,7 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
   })();
 </script> -->
 
-<<script src="https://apis.google.com/js/client.js"></script>
+<script src="https://apis.google.com/js/client.js"></script>
 <script type="text/javascript">
 
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
@@ -838,11 +839,22 @@ function fetch(token){
     		$("#list-contact").html("");
     		$.each(data.feed.entry, function(key, value){
     			console.log("value", value);
+    			console.log("title", value.title);
       			var text = "";
       			if(value.gd$email){
       				$.each(value.gd$email, function( keyMails, valueMails ){
         				console.log("valueMails.address", valueMails.address);
-          				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">'+valueMails.address+'</span>';
+        				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">';
+        				console.log("value.link", value.link);
+        				/*if(value.link){
+        					$.each(value.link, function( keyLink, valueLink ){
+        						if(valueLink.type == "image/*"){
+        							text += '<img width="50" height="50" src="'+valueLink.href+'">';
+
+        						}	
+        					});
+        				}*/	
+          				text += valueMails.address+'</span>';
           			});
         			$("#list-contact").append(text);
       			}
