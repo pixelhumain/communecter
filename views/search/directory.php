@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  
+
   <button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 
 </div>
@@ -165,7 +165,7 @@ jQuery(document).ready(function() {
  
 
   $(".btn-activate-communexion").click(function(){
-    toogleCommunexion($(this));
+    toogleCommunexion();
   });
 
   initBtnScopeList();

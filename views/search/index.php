@@ -61,6 +61,19 @@
     }
 ?>
 
+<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
+	<i class="fa fa-university"></i>
+</button> 
+<div id="input-communexion">
+	<span class="search-loader text-red">Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
+	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+</div>
+<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+	<i class="fa fa-crosshairs"></i>
+	<span class="lbl-btn-menu-name">Localisez-moi</span>
+</button>
+
+
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-top-menu">
 	
 	<img id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
@@ -200,10 +213,12 @@ var typesLabels = {
 	    resizeInterface();
 	    showFloopDrawer();
 
-	    console.log("WHERE ? ", where);
+	    //console.log("WHERE ? ", where);
 		//alert("ha");
 		setScopeValue(where);
 		
+		toogleCommunexion();
+
 	    $(window).bind("popstate", function(e) {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
@@ -460,7 +475,7 @@ var typesLabels = {
 			
 			console.log("setInputPlaceValue")
 			$("#input-communexion").show();
-			$("#searchBarPostalCode").css( "width","350px" );
+			//$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
 			setTimeout(function(){ $("#input-communexion").hide(300); }, 2000);
 		  	
 		//}
@@ -468,23 +483,42 @@ var typesLabels = {
 		startSearch();
 	}
 
-	var communexionActivated = true;
-	function toogleCommunexion(btn){ //this = jQuery Element
+	var communexionActivated = false;
+	function toogleCommunexion(){ //this = jQuery Element
 	  communexionActivated = !communexionActivated;
 	  console.log("communexionActivated", communexionActivated);
 	  if(communexionActivated){
-	    btn.removeClass("text-red");
-	    btn.addClass("bg-red");
+	    //btn.removeClass("text-red");
+	    //btn.addClass("bg-red");
+	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("text-red");
+	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("bg-red");
+	   // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
+	    
 	    $(".lbl-scope-list").show(400);
 	    console.log("WHERE", where);
 	    setScopeValue(where);
 	    //showInputCommunexion();
 	  }else{
-	    btn.addClass("text-red");
-	    btn.removeClass("bg-red");
+	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("text-red");
+	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("bg-red");
+	    //$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
+	    
 	    $(".lbl-scope-list").hide(400);
 	    $("#searchBarPostalCode").val("");
 	  }
+	}
+
+	function showInputCommunexion(){
+		clearTimeout(timeoutCommunexion);
+		console.log("showCommunexion");
+		$("#searchBarPostalCode").css({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
+
+		if(communexionActivated)
+		$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200 );
+		
+		$("#input-communexion").show(300);
+		$(".main-col-search").animate({ opacity:0.3 }, 200 );
+		$(".hover-info").hide();
 	}
 
 </script>

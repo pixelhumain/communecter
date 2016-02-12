@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
   });
 
   $(".btn-activate-communexion").click(function(){
-    toogleCommunexion($(this));
+    toogleCommunexion();
   });
 
 

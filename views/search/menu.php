@@ -97,7 +97,7 @@
 
 #btn-param-postal-code{
 	left: 56px;
-	bottom: 56px;
+	bottom: 60px;
 	width: 55px !important;
 	height: 55px !important;
 	border-radius: 50%;
@@ -113,7 +113,7 @@
 
 #btn-geoloc-auto{
 	left: 38px;
-	bottom: 14px;
+	bottom: 11px;
 }
 
 #input-communexion{
@@ -127,7 +127,7 @@
 #searchBarPostalCode{
 	position: absolute;
 	left: 52px;
-	bottom: 52px;
+	bottom: 56px;
 	margin-top: 10px;
 	width: 350px;
 	margin-left: 0px;
@@ -142,7 +142,7 @@
 #input-communexion .search-loader{
 	position: absolute;
 	left: 75px;
-	bottom: 120px;
+	bottom: 125px;
 	width: 350px;
 	font-weight: 600;
 	font-size: 14px;
@@ -222,17 +222,6 @@
 		update <?php echo $this->versionDate ?>
 	</div>
 </div>
-
-<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
-	<i class="fa fa-university"></i>
-</button> 
-<div id="input-communexion">
-	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
-	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
-</div>
-<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
-	<i class="fa fa-crosshairs"></i>
-</button>
 
 
 
@@ -369,7 +358,7 @@ jQuery(document).ready(function() {
 	});
 
 
-	$(".hover-menu .btn-menu").mouseenter(function(){
+	$(".hover-menu .btn-menu, #btn-geoloc-auto").mouseenter(function(){
 		//console.log("enter btn");
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
@@ -446,14 +435,6 @@ jQuery(document).ready(function() {
 
 });
 
-function showInputCommunexion(){
-		clearTimeout(timeoutCommunexion);
-		console.log("showCommunexion");
-		$("#searchBarPostalCode").css("width", "0px");
-		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
-		$("#input-communexion").show(300);
-		$(".main-col-search").animate({ opacity:0.3 }, 200 );
-		$(".hover-info").hide();
-	}
+	
 
 </script>
