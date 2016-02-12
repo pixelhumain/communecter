@@ -166,17 +166,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										//console.log("saveMembre");
 										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-										//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-										//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-										//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-										//bindFicheInfoBtn();
-										//if (data.notification && data.notification=="toBeValidated")
 										toastr.success(data.msg);	
-										//else
-										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 										loadByHash(location.hash);
 									}
 									else
@@ -207,18 +198,9 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 				dataType: "json",
 				success: function(data) {
 					if(data.result){
-						//console.log("saveMembre");
 						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-						//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-						//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-						//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-						//bindFicheInfoBtn();
-						//if (data.notification && data.notification=="toBeValidated")
-							toastr.success(data.msg);	
-						//else
-						//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-							loadByHash(location.hash);
+						toastr.success(data.msg);	
+						loadByHash(location.hash);
 					}
 					else
 						toastr.error(data.msg);
@@ -322,7 +304,7 @@ function loadByHash( hash , back) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } else if(userId != "")
-        showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
+        showAjaxPanel( '/news?isSearchDesign=1', 'KESS KISS PASS ','rss' );
     else
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
@@ -331,5 +313,11 @@ function loadByHash( hash , back) {
       history.pushState( { "hash" :hash} , null, hash );
     console.warn("pushState",hash);
 
+}
+
+function showDefinition( id ){
+	$(".hover-menu").trigger("mouseenter");
+	$(".infoVersion").css("display" , "inline");
+	toggle( "."+id , ".explain" );
 }
 

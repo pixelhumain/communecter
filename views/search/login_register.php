@@ -16,12 +16,23 @@
 	.btn-round{
 		border-radius:0px 0px 15px 15px !important;
 	}
+
+	.btn-close-box{
+		position:absolute;
+		right:0px;
+		top:0px;
+		border-radius: 0px 10px 0px 0px;
+		border: 0px;
+		height:35px;
+		background-color: transparent;
+	}
 </style>
 	
 	<div class="main-login col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1">
 		<!-- <a class="byPHRight" href="#"><img style="" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a> -->
 		
 			<div class="box-login box box-white-round no-padding pull-right">
+				<button class="btn btn-default btn-close-box" id=""><i class="fa fa-times"></i></button>
 				<?php 
 					$this->renderPartial('../default/menuTitle');
 				?>
@@ -90,6 +101,7 @@
 			<!-- end: LOGIN BOX -->
 			<!-- start: FORGOT BOX -->
 			<div class="box-email box box-white-round">
+				<button class="btn btn-default btn-close-box" id=""><i class="fa fa-times"></i></button>
 				<form class="form-email box-white-round">
 					<img style="width:100%; border: 10px solid white;" class="pull-right box-white-round" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					<br/>
@@ -119,7 +131,7 @@
 			<!-- end: FORGOT BOX -->
 			<!-- start: REGISTER BOX -->
 			<div class="box-register box box-white-round no-padding" style=" margin-top:-25px !important;">
-				
+				<button class="btn btn-default btn-close-box" id=""><i class="fa fa-times"></i></button>
 				<form class="form-register center box-white-round" style="background-color:white !important;">
 					<img style="width:70%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					
@@ -281,6 +293,11 @@ jQuery(document).ready(function() {
 		$(".custom-msg").show();
 		$(".custom-msg").text(msgError);
 	}
+
+	$(".btn-close-box").click(function(){
+		$(".box").hide(400);
+		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+	});
 
 });
 

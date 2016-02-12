@@ -71,12 +71,12 @@ $this->renderPartial('../default/panels/toolbar');
   }
 
   #btn-communecter{
-    width: 60%;
-    font-size: 30px;
-    margin-bottom: 20px !important;
-    margin-left: 20% !important;
+    width: auto;
+    font-size: 16px;
     border-radius: 10px;
     border: none;
+    float: left !important;
+    margin-top: -4px !important;
   }
   #btn-communecter small{
     font-size:16px;
@@ -87,12 +87,12 @@ $this->renderPartial('../default/panels/toolbar');
     color:white !important;
   }
   h1.you-live{
-    font-size: 35px !important;
+    font-size: 18px !important;
     padding: 10px;
     border-radius: 0px;
     margin: -5px -5px 5px;
     font-weight: 300 !important;
-    margin-top: 30px;
+    margin-bottom: 0px;
   }
   .why-communect{
     font-size:17px;
@@ -206,9 +206,15 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div class="col-sm-12 col-xs-12">
 
-    <h1 class="homestead text-red text-center">
+    <h1 class="homestead text-red">
       <i class="fa fa-university"></i> <?php echo $city["name"]." "; ?>
     </h1>
+    <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
+      <h1 class="homestead text-dark center you-live pull-left">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
+      <a href="javascript:;" class="btn homestead text-red no-margin register pull-left" id="btn-communecter" onclick="communecter();">
+        COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
+    <?php } ?>
+    </a>
     <!-- <h2 class="">
       <?php if(@$city["communected"]){ ?>
           <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn btn-azure homestead no-margin">
@@ -225,15 +231,12 @@ $this->renderPartial('../default/panels/toolbar');
 
   <div class="col-sm-12 col-xs-12">
 
-    <?php if(!isset(Yii::app()->session["userId"]) || $countTotal >= 0 ){ // ?>
-    <h1 class="homestead text-blue center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
-    <a href="javascript:;" class="btn homestead text-red no-margin register" id="btn-communecter" onclick="communecter();">
-      COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
-    </a>    
+    <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
+        
     <div class="panel panel-white">
       <div>
         <div class="panel-heading border-light padding-5">
-          <h2 class="homestead text-blue center"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
+          <h2 class="homestead text-left text-blue"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
         </div>
       </div>
       <div class="panel-body">
@@ -613,11 +616,15 @@ function communecter(){ //toastr.info('TODO : redirect to form register || OR ||
     var cp = "<?php echo $city['cp']; ?>";
     $(".form-register #cp").val(cp);
     
-    $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-      $(this).show().removeClass("animated bounceInLeft");
+    // $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+    //   $(this).show().removeClass("animated bounceInLeft");
 
-    });
-    $(".box-ajax").hide(400);
+    // });
+
+    // $(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
+
+    // $(".box-ajax").hide(400);
+    showPanel("box-register");
     activePanel = "box-register";
 
 }

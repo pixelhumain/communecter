@@ -1,4 +1,5 @@
 <div class="hover-info col-md-6 col-md-offset-4 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
+
 	<div class="explainHome explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Accueil</h1>
 		<ul>
@@ -7,6 +8,7 @@
 			<li><i class="fa fa-angle-right"></i> Pourquoi <strong>Communecter</strong>" ?</li>
 		</ul>
 	</div>
+
 	<div class="explainDirectory explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-connectdevelop"></i> L'annuaire Local</h1>
 		
@@ -29,6 +31,7 @@
 		
 		<h1 class="homestead text-dark">Créer son propre répertoire</h1>
 	</div>
+
 	<div class="explainNews explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-rss"></i> L'actualité Locales </h1>
 		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h2>
@@ -41,6 +44,7 @@
 		disponible et libre, mais qui doit aussi évoluer avec la technologie.</li> -->
 		</ul>
 	</div>
+
 	<div class="explainAgenda explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-calendar"></i> Les évenements Locaux</h1>
 		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les évenements près de chez vous, en quelques clicks</h2>
@@ -52,6 +56,7 @@
 			<!-- <li><i class="fa fa-angle-right"></i> Créez et partagez vos évennements locaux.</li> -->
 		</ul>
 	</div>
+
 	<div class="explainProjects explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-lightbulb-o"></i> Les Projets Locaux</h1>
 		<ul>
@@ -100,8 +105,6 @@
 		</ul>
 	</div>
 	
-	
-
 	<div class="explainHelpUs explain hide">
 
 		<h1 class="homestead text-dark"><i class="fa fa-bullhorn"></i> Pour un meilleur outil </h1>
@@ -187,7 +190,6 @@
 		<h1 class="homestead yellowph">Emploi :</h1>
 		Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...
 	</div>
-explainCartographiedeReseau
 	<div class="explainOpendata explain hide">
 		<h1 class="homestead yellowph">Opendata</h1>
 		<ul>
@@ -225,6 +227,17 @@ explainCartographiedeReseau
 	</div>
 	<div class="explainCommunecter explain hide">
 		<h1 class="homestead yellowph">Communecter</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+	<div class="explainCommunecteur explain hide">
+		<h1 class="homestead yellowph">Communecteur</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

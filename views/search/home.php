@@ -1,6 +1,10 @@
 
 
 <style>
+
+.main-col-search{
+	padding:0px !important;
+}
 .home_page h3.subtitle{
 	font-weight: 300;
 	font-size:20px;
@@ -15,9 +19,6 @@
 	margin-top:30px;
 }
 
-.home_page #img-video-communecter{
-	/*max-height: 440px;*/
-}
 .home_page .imageSectionVideo{
 	width:80%;
 	margin-left:10%;
@@ -78,7 +79,7 @@
 	z-index: 30;
 	border-radius: 30px 30px 30px 30px;
 }
-#searchBarPostalCode{
+/*#searchBarPostalCode{
 	margin-top: 10px;
 	width: 200px;
 	margin-left: 0px;
@@ -86,7 +87,7 @@
 	font-size: 22px !important;
 	border-radius: 3px !important;
 	height: 40px;
-}
+}*/
 input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -146,6 +147,8 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
+.information{font-size:15px;}
+
 </style>
 
 <div class="home_page">
@@ -160,13 +163,12 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
+		
 
-
-	<center>
-		<img id="main-logo-home" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-home2.png"/><br/>
+	<center class="imageSection imageSectionVideo">
+		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
 	</center>
-
-	
+<?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
 
@@ -176,26 +178,25 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<h3 class="text-dark text-center no-margin subtitle">
 		Un réseau social citoyen libre 
 	</h3>
+*/?>
+	<!-- <hr>  -->
 
-	<hr> 
-
-	<h3 class="text-dark information center" style="margin-top:15px; ">
-		<!-- <i class="fa fa-2x fa-angle-down"></i><br/> -->
+	<!-- <h3 class="text-dark information center" style="margin-top:15px; ">
 		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong><br/>
 		Je suis communecté : j'ai accès à ma ville !<br/>
-	</h3>
+	</h3> -->
 
-	<div class="col-md-6" style="text-align:right;">
+	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
-		<div class="" style="display:none;" id="div-param-postal-code">	
+		<center class="" style="display:none;" id="div-param-postal-code">	
 			<i class="fa fa-2x fa-angle-right"></i> 
 			<input id="searchBarPostalCode" class="input-search text-red" style="margin-left:5px;" type="text" placeholder="...">
-		</div>
+		</center>
 	</div>
 	<div class="col-md-6">
 		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
-	</div>
+	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
 		
@@ -207,7 +208,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Découvrir
 		</h2>
-		<div class="col-md-12" style="margin-bottom:40px">
+		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
@@ -231,49 +232,74 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 	
 	<hr>
-	
-	<div class="section-content section-video" style="margin-top:90px;">
-		<div class="textProjectSlider">
+
+	<div class="col-md-12 no-padding">
+		
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
+			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
 		</div>
-		<div class="imageSection imageSectionVideo text-center">
-			<img id="img-video-communecter" class="img-responsive img-thumbnail" src="<?php echo $this->module->assetsUrl; ?>/images/video2.jpg" onclick="openVideo()"/>
-		</div>
-	</div>
-
-	<div class="col-md-12" style="margin-bottom:40px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			Un réseau pour tous !
-		</h2>
-
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:500;">
-			<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
-			pour valoriser le territoire et le bien commun.  
-		</h3>
-
 		<center>
-			<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss2.jpg"/>
-			<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-	</div>
+		<div class="col-sm-12 no-padding">
+			<div class="col-sm-4 no-padding">
+				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+			
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<div class="col-md-12" style="margin-bottom:20px">
-		<h2 class="center text-dark">
-			<i class="fa fa-2x fa-angle-down"></i><br/>
-			<button class="btn btn-lg btn-register btn-success" style="border-radius:30px;"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		</h2>
-		<h3 class="text-dark information center" style="margin-bottom:20px; padding-left:10px; font-weight:300;">
-			Vous êtes un <strong>citoyen, une association, une collectivité, une entreprise</strong> ?<br/>
-			Vous rêvez d'un territoire <strong>connecté, interactif et dynamique</strong> ?<br/>
-			Le réseau <span class="text-red"><strong>Communecter</strong></span> est fait pour vous !
-		</h3>
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
+				<br/>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			</div>
+
+			<div class="col-sm-8 information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<br/>
+					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
+					pour valoriser le territoire et le bien commun.  
+			</div>
+			
+			<div class="col-sm-8">
+				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
+			</div>
+			
+		</div>
 	</div>
-	<?php } ?>
 	
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
-			<i class="fa fa-caret-down" style="color:white;"></i><br/>
+			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
 			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
 			<div class="space20"></div>
 			<div class="col-md-6 col-sm-12">
@@ -300,11 +326,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 		<div class="col-md-6 col-sm-12">
 			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive" style="border:4px solid #293A46;margin-top:40px" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				<img class="img-responsive" style="border:0px solid #293A46;margin-top:20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 			</a>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<center>
+			<div style="font-size: 17px; font-weight: 300; text-align: left;">
 				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
 				<br/><br/>
 				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
@@ -316,14 +342,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
 				<br/><br/>
 				Notre campagne de crowdfounding va donc démarrer le ......
-			<center>
+			</div>
 		</div>
 	</div>
 
 	<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
 		<center>
 			<i class="fa fa-caret-down" style="color:#92BE1F"></i><br/>
-			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURES</h1>
+			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURS</h1>
 			<div class="space20"></div>
 			<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
 		<center>	
@@ -361,6 +387,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					<div class="space20"></div>
 					<div class="buttonArea">
 						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
+						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecteur" > Communecteur</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
 						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
@@ -452,14 +479,18 @@ jQuery(document).ready(function() {
     
      $("#btn-geoloc-auto").click(function(e){
 		if(geolocHTML5Done == false){
-			$("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...</span></center>");		
+			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
     		initHTML5Localisation('prefillSearch');
 		}
     	else{
     		$("#modal-select-scope").modal("show");
     	}
     });
-
+    
+    $(".explainLink").click(function() {  
+		showDefinition( $(this).data("id") );
+	});
+    
     $(".keyword").click(function() { 
     	$(".keysUsages").hide();
     	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
@@ -474,6 +505,7 @@ jQuery(document).ready(function() {
     	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
     });
 
+    
 });
 
 function openVideo(){
@@ -490,10 +522,9 @@ function openVideo(){
 
 var timeout = null;
 function startSearch(){
-	var name = $('#searchBarPostalCode').val();
+	//var name = ""; //$('#autoGeoPostalCode').val();
     var locality = $('#searchBarPostalCode').val();
 
-    name = name.replace(/[^\w\s']/gi, '');
     locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
@@ -501,12 +532,11 @@ function startSearch(){
         if(locality.length == 0 || locality.length > 5) locality = "";
     }
 
-    if(name.length>=3 || name.length == 0){
       clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
-    }else{
+      timeout = setTimeout('autoCompleteSearch("", "'+locality+'")', 500);
+    //}else{
       
-    }   
+    //}   
 }
 
 
@@ -542,12 +572,10 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_search").show();
-	        	toastr.error('Aucune donnée');
+	        	$(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !</span></center>");
-    			$("#dropdown_search").show();
+	        	$(".search-loader").html("<i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !");
+    			//$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
 
@@ -682,8 +710,8 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_search").css({"display" : "inline" });
+    $(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    //$("#dropdown_search").css({"display" : "inline" });
                     
   }
 
@@ -694,7 +722,11 @@ function autoCompleteSearch(name, locality){
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
-		$("#div-discover").show(500);
+		$("#div-discover").show(100);
+		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
+		$(".main-col-search").animate({ opacity:1 }, 200 );
+		$(".my-main-container").animate({"scrollTop" : "690px"}, 1000);
+
   	}
 
 	function setScopeValue(valText, insee){
