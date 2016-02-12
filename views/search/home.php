@@ -126,7 +126,7 @@ input[type="text"].input-search:focus{
 	color:white !important;
 	display: inline;
 }
-.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/contact-map.jpg) top center no-repeat; background-size: 160% }
+.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
@@ -408,19 +408,22 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12" style="margin-bottom:40px ">
-		
-		<div class="col-md-6 col-sm-12">
-			
+	<div class="col-md-12" style="background-color:#fff;">
+		<div class="col-sm-1">
+			<i class="fa fa-caret-left" style="color:#293A46;"></i>
+		</div>
+		<div class="col-md-5 col-sm-12">
 			<center>
+				<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
-				<img class="img-responsive" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"/>
+				<img class="img-responsive img-circle img-thumbnail" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"/>
 				<br/>Sylvain Barbot
 			</center>
 		</div>
 		<div class="col-md-6 col-sm-12">
 			<center>
+				<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o "></i> Une Pensée</h1>
 				<div class="space20"></div>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -431,12 +434,15 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</center>
 		</div>
-		
+		<div class="col-sm-1">
+			<i class="fa fa-caret-right" style="color:#293A46;"></i>
+		</div>
+		<div class="space20"></div>
 	</div>
 	
 	<hr>
 
-	<div class="col-md-12" style="color:#293A46;padding-bottom:40px " >	
+	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:180px " >	
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
@@ -449,13 +455,15 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 		<center>	
 	</div>
-
+	
 	
 
 </div>
 
 
 <script type="text/javascript">
+<?php $this->renderPartial("peopleTalk"); ?> 
+
 jQuery(document).ready(function() {
 	
 	topMenuActivated = false;
