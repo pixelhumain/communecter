@@ -21,18 +21,11 @@ var peopleTalk = [
         "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/jean.PNG"
     },
     {
-        "name" : "Tibor Katelbach",
-        "project" : "Communecter",
-        "url" : "https://www.communecter.org/",
-        "comment" : "L’innovation sociétal au service des biens communs. La société c’est pas si compliqué, ca peut meme devenir amusant.",
-        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/tibor.PNG"
-    },
-    {
         "name" : "Clément Damiens - le ch’ti ",
         "project" : "Livin'Coop et communecter",
         "url" : "http://www.livincoop.fr/beta_1.0/index.php?referer",
         "comment" : "La connaissance de ce qui nous entoure jetée comme des graines par les citoyens se lit comme un chant d’espoir et se dessine comme une rencontre pour une vie meilleure",
-        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/mathieu.PNG"
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/clement.png"
     },
     {
         "name" : "Guillaume Douhkan",
@@ -92,7 +85,7 @@ var peopleTalk = [
     },
     {
         "name" : "Guillaume Libersat",
-        "project" : "Unisson",
+        "project" : "Brasserie Unisson",
         "url" : "http://unisson.co/fr/",
         "comment" : "A l'aube de la (re)construction des communs, Communecter nous offre une toile vierge et solide : saisissons l'opportunité d'être des pixels-créatifs pour esquisser un avenir plus collectif !",
         "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/guillaumeL.png"
@@ -132,13 +125,25 @@ var peopleTalk = [
         "comment" : "Pixel Humain, pour connecter le virtuel et le réél. Un catalyseur d'initiatives locales !",
         "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/sylvain.PNG"
     },
-   
+    {
+        "name" : "Tristan Goguet",
+        "project" : "Demosalithia & Communecter",
+        "url" : "https://www.communecter.org/",
+        "comment" : "Le monde de nos enfants dépend de nos actions quotidiennes dès aujourd’hui.<br/>C’est à nous tous, dès maintenant, de prendre soin de ce que nous allons leur laisser en héritage. A nous tous de penser notre monde d’une façon différente, plus durable, plus respectueuse, et plus saine. Sans attendre que les décisions viennent d’en haut, nous avons le pouvoir de penser et d’agir en autonomie, pour le bien de tous. <br/>Communectons-nous ! Relions-nous les uns aux autres, pour construire le monde de demain ensemble !",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/tristan.PNG"
+    },
     {
         "name" : "Simon Sarazin",
         "project" : "Unisson",
         "url" : "http://unisson.co/fr/",
-        "comment" : "Communecter est en train de mettre à disposition un espace où décrire et travailler autour de son initiative, ouvert à tous les accompagnateurs de projet, 
-            contributeurs, financeurs, usagers. Un espace où l'on peut voir ou trouver ceux qui font aussi la même. De quoi largement accélérer la production de communs !",
+        "comment" : "Communecter est en train de mettre à disposition un espace où décrire et travailler autour de son initiative, ouvert à tous les accompagnateurs de projet, contributeurs, financeurs, usagers. Un espace où l'on peut voir ou trouver ceux qui font aussi la même. De quoi largement accélérer la production de communs !",
         "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"
-    }
+    },
+    {
+        "name" : "Tibor Katelbach",
+        "project" : "Communecter",
+        "url" : "https://www.communecter.org/",
+        "comment" : "L’innovation sociétal au service des biens communs. La société c’est pas si compliqué, ca peut meme devenir amusant.",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/tibor.PNG"
+    },
 ];

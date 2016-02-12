@@ -236,8 +236,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	<div class="col-md-12 no-padding">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
-			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
+			<div class="col-sm-2">
+				<i class="fa fa-question-circle fa-5x" style="color:white;padding-top:11px;"></i>
+			</div>
+			<div class="col-sm-10">
+				<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
+			</div>
 		</div>
+
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
@@ -411,34 +417,33 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12" style="background-color:#fff;">
-		<div class="col-sm-1">
-			<i class="fa fa-caret-left" style="color:#293A46;"></i>
-		</div>
-		<div class="col-md-5 col-sm-12">
+	<div class="col-sm-12" style="background-color:#fff;">
+		<center>
+			<i class="fa fa-caret-down" style="color:#293A46;"></i>
+		</center>
+		
+		<div class="col-sm-6 col-xs-12 ">
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
-				<img class="img-responsive img-circle img-thumbnail" style="height:150px;" src="<?php echo $this->module->assetsUrl; ?>/images/testamonials/simon.PNG"/>
-				<br/>Sylvain Barbot
+				
+				<div class="col-sm-12">
+					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
+					<img class="img-responsive img-circle img-thumbnail peopleTalkImg" style="height:200px;" src="" onclick="showPeopleTalk();"/>
+					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
+				</div>
+				<div class="space20"></div>
+				<span class="peopleTalkName text-extra-large"></span>
+				<br/>
+				<span class="peopleTalkProject text-extra-large"></span>
 			</center>
 		</div>
-		<div class="col-md-6 col-sm-12">
+		<div class="col-sm-6 col-xs-12 ">
 			<center>
-				<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-comment-o "></i> Une Pensée</h1>
 				<div class="space20"></div>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				<div class="text-extra-large peopleTalkComment"></div>
 			</center>
-		</div>
-		<div class="col-sm-1">
-			<i class="fa fa-caret-right" style="color:#293A46;"></i>
 		</div>
 		<div class="space20"></div>
 	</div>
@@ -466,13 +471,16 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 <script type="text/javascript">
 <?php $this->renderPartial("peopleTalk"); ?> 
-
+var peopleTalkCt = 0;
 jQuery(document).ready(function() {
 	
 	topMenuActivated = false;
 	hideScrollTop = true; 
 	checkScroll();
 	
+	peopleTalkCt = getRandomInt(0,peopleTalk.length);
+	showPeopleTalk();
+
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER.Org");
 
 	$('.tooltips').tooltip();
@@ -498,7 +506,6 @@ jQuery(document).ready(function() {
     $(".explainLink").click(function() {  
 		showDefinition( $(this).data("id") );
 	});
-    
     $(".keyword").click(function() { 
     	$(".keysUsages").hide();
     	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
@@ -511,10 +518,25 @@ jQuery(document).ready(function() {
     	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
     	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
     	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
-    });
-
-    
+    });    
 });
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function showPeopleTalk(step)
+{
+	if(!step)
+		step = 1;
+	peopleTalkCt = peopleTalkCt+step;
+	if( undefined == peopleTalk[ peopleTalkCt ]  )
+		peopleTalkCt = 0;	
+	person = peopleTalk[ peopleTalkCt ];
+	$(".peopleTalkName").html( person.name );
+	$(".peopleTalkImg").attr("src",person.image);
+	$(".peopleTalkComment").html(person.comment);
+	$(".peopleTalkProject").html( "<a target='_blank' href='"+person.url+"'>"+person.project+"</a>" );
+	
+}
 
 function openVideo(){
 	var width = $(".imageSectionVideo").width();
