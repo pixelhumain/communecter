@@ -209,9 +209,11 @@ $this->renderPartial('../default/panels/toolbar');
     <h1 class="homestead text-red">
       <i class="fa fa-university"></i> <?php echo $city["name"]." "; ?>
     </h1>
-    <h1 class="homestead text-dark center you-live pull-left">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
-    <a href="javascript:;" class="btn homestead text-red no-margin register pull-left" id="btn-communecter" onclick="communecter();">
-      COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
+    <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
+      <h1 class="homestead text-dark center you-live pull-left">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
+      <a href="javascript:;" class="btn homestead text-red no-margin register pull-left" id="btn-communecter" onclick="communecter();">
+        COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
+    <?php } ?>
     </a>
     <!-- <h2 class="">
       <?php if(@$city["communected"]){ ?>
@@ -234,7 +236,7 @@ $this->renderPartial('../default/panels/toolbar');
     <div class="panel panel-white">
       <div>
         <div class="panel-heading border-light padding-5">
-          <h2 class="text-left text-dark"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
+          <h2 class="homestead text-left text-blue"><i class="fa fa-info-circle"></i> Pourquoi se communecter ?</h2>
         </div>
       </div>
       <div class="panel-body">

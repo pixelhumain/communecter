@@ -187,9 +187,14 @@ function getInseeByCityName(cityName){
 var geolocHTML5Done = false;
 function showModalSelectScope(obj){
 	var HTML = "";
-	$.each(obj, function(key, value){
-		HTML += "<button class='btn bg-red btn-scope-list' val='"+value.cp+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+value.cp+ " " +value.name+"</button>";
-	});
+
+	if(typeof obj["@type"] != "undefined"){
+		HTML += "<button class='btn bg-red btn-scope-list' val='"+obj.cp+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+obj.cp+ " " +obj.name+"</button>";
+	}else{
+		$.each(obj, function(key, value){
+			HTML += "<button class='btn bg-red btn-scope-list' val='"+value.cp+"' data-dismiss='modal' style='margin: 0px 4px 4px 0px; border-radius:30px;'>"+value.cp+ " " +value.name+"</button>";
+		});
+	}
 	$("#main-title-modal-scope").html('<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?'); 
     $("#modal-select-scope #list-scope").html(HTML); initBtnScopeList();
 	$("#modal-select-scope").modal("show");

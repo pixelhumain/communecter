@@ -6,6 +6,8 @@
 <h1 class="homestead text-red  text-center" id="main-title-communect"
 	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
 
+<div class="lbl-scope-list text-red"></div>
+
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
@@ -28,10 +30,10 @@
 				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
 			   			Yii::app()->request->cookies['postalCode'] : "";
 	?>
-	<input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
-		   value="<?php echo $where; ?>" >
+	<!-- <input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
+		   value="<?php echo $where; ?>" > -->
 
-	<?php $this->renderPartial("dropdown_scope"); ?> 
+	<?php //$this->renderPartial("dropdown_scope"); ?> 
 
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->

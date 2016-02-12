@@ -1,6 +1,10 @@
 
 
 <style>
+
+.main-col-search{
+	padding:0px !important;
+}
 .home_page h3.subtitle{
 	font-weight: 300;
 	font-size:20px;
@@ -75,7 +79,7 @@
 	z-index: 30;
 	border-radius: 30px 30px 30px 30px;
 }
-#searchBarPostalCode{
+/*#searchBarPostalCode{
 	margin-top: 10px;
 	width: 200px;
 	margin-left: 0px;
@@ -83,7 +87,7 @@
 	font-size: 22px !important;
 	border-radius: 3px !important;
 	height: 40px;
-}
+}*/
 input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -175,15 +179,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		Un réseau social citoyen libre 
 	</h3>
 */?>
-	<hr> 
+	<!-- <hr>  -->
 
-	<h3 class="text-dark information center" style="margin-top:15px; ">
-		<!-- <i class="fa fa-2x fa-angle-down"></i><br/> -->
+	<!-- <h3 class="text-dark information center" style="margin-top:15px; ">
 		<strong><span class="text-red">Communecter</span> c'est simple : un code postal et c'est parti !</strong><br/>
 		Je suis communecté : j'ai accès à ma ville !<br/>
-	</h3>
+	</h3> -->
 
-	<div class="col-md-6" style="text-align:right;">
+	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
 		
 		<center class="" style="display:none;" id="div-param-postal-code">	
@@ -193,7 +196,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 	<div class="col-md-6">
 		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
-	</div>
+	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
 		
@@ -205,7 +208,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<i class="fa fa-2x fa-angle-down"></i><br/>
 			Découvrir
 		</h2>
-		<div class="col-md-12" style="margin-bottom:40px">
+		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
@@ -230,16 +233,16 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	
 	<hr>
 
-	<div class="col-md-12">
+	<div class="col-md-12 no-padding">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
-			<h1 class="homestead text-white">POUR QUI ? <br/> POURQUOI FAIRE ?</h1>
+			<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
 		</div>
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-sm-12">
-			<div class="col-sm-4">
+		<div class="col-sm-12 no-padding">
+			<div class="col-sm-4 no-padding">
 				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
 			</div>
 			
@@ -323,11 +326,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 		<div class="col-md-6 col-sm-12">
 			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive" style="border:4px solid #293A46;margin-top:40px" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				<img class="img-responsive" style="border:0px solid #293A46;margin-top:20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 			</a>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<center>
+			<div style="font-size: 17px; font-weight: 300; text-align: left;">
 				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
 				<br/><br/>
 				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
@@ -339,7 +342,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
 				<br/><br/>
 				Notre campagne de crowdfounding va donc démarrer le ......
-			<center>
+			</div>
 		</div>
 	</div>
 
@@ -484,7 +487,7 @@ jQuery(document).ready(function() {
     
      $("#btn-geoloc-auto").click(function(e){
 		if(geolocHTML5Done == false){
-			$("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...</span></center>");		
+			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
     		initHTML5Localisation('prefillSearch');
 		}
     	else{
@@ -527,10 +530,9 @@ function openVideo(){
 
 var timeout = null;
 function startSearch(){
-	var name = $('#searchBarPostalCode').val();
+	//var name = ""; //$('#autoGeoPostalCode').val();
     var locality = $('#searchBarPostalCode').val();
 
-    name = name.replace(/[^\w\s']/gi, '');
     locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
@@ -538,12 +540,11 @@ function startSearch(){
         if(locality.length == 0 || locality.length > 5) locality = "";
     }
 
-    if(name.length>=3 || name.length == 0){
       clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
-    }else{
+      timeout = setTimeout('autoCompleteSearch("", "'+locality+'")', 500);
+    //}else{
       
-    }   
+    //}   
 }
 
 
@@ -579,12 +580,10 @@ function autoCompleteSearch(name, locality){
 	        });
 
 	        if(countData == 0){
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			$("#dropdown_search").show();
-	        	toastr.error('Aucune donnée');
+	        	$(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
 	        }else{
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size: 18px; font-weight: 600;'><i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !</span></center>");
-    			$("#dropdown_search").show();
+	        	$(".search-loader").html("<i class='fa fa-check'></i> Code postal validé : "+locality+"  <br/>Vous êtes communecté !");
+    			//$("#dropdown_search").show();
     			validatePostalcode(locality);
 	        }
 
@@ -719,8 +718,8 @@ function autoCompleteSearch(name, locality){
     $(".btn-start-search").addClass("bg-azure");
     //$("#link-start-search").html("Recherche en cours ...");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_search").css({"display" : "inline" });
+    $(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    //$("#dropdown_search").css({"display" : "inline" });
                     
   }
 
@@ -731,7 +730,11 @@ function autoCompleteSearch(name, locality){
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
-		$("#div-discover").show(500);
+		$("#div-discover").show(100);
+		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
+		$(".main-col-search").animate({ opacity:1 }, 200 );
+		$(".my-main-container").animate({"scrollTop" : "690px"}, 1000);
+
   	}
 
 	function setScopeValue(valText, insee){
