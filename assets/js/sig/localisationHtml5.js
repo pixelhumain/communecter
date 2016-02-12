@@ -198,6 +198,7 @@ function showModalSelectScope(obj){
 	$("#main-title-modal-scope").html('<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?'); 
     $("#modal-select-scope #list-scope").html(HTML); initBtnScopeList();
 	$("#modal-select-scope").modal("show");
+	$(".search-loader").html("Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span>");
 	geolocHTML5Done = true;
 }
 
