@@ -116,6 +116,7 @@
 			<li class="text-red"><i class="fa fa-angle-right"></i> Communecter est une communauté active et collaborative, votre aide est la bienvenue !</li>
 		</ul>
 	</div>
+
 	<div class="explainConnect explain hide">
 
 		<h1 class="homestead text-dark"><i class="fa fa-sign-in"></i> Se connecter :</h1>
@@ -128,6 +129,7 @@
 			<!-- <li><i class="fa fa-angle-right"></i> Les gens et les liens sont au coeur du système, des territoires et des villes que nous habitons.</li> -->
 		</ul>
 	</div>
+
 	<div class="explainRegister explain hide">
 
 		<h1 class="homestead text-dark"><i class="fa fa-plus-circle"></i> S'inscrire</h1>
@@ -215,7 +217,7 @@
 	</div>
 
 	<div class="explainDemoPart explain hide">
-		<h1 class="homestead yellowph">Opensource et Opendata</h1>
+		<h1 class="homestead yellowph">Démocratie Participative</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -236,18 +238,8 @@
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</ul>
 	</div>
-	<div class="explainCommunecteur explain hide">
-		<h1 class="homestead yellowph">Communecteur</h1>
-		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</ul>
-	</div>
-	<div class="OpenSource explain hide">
+	
+	<div class="explainOpenSource explain hide">
 		<h1 class="homestead yellowph">Opensource</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
