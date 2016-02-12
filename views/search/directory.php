@@ -372,7 +372,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                str += "</div>";
 
   	                str += "<div class='col-md-2 entityCenter'>";
-  						      str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+  						      str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
   	                str += "</div>";
   					         target = "";
   	                str += "<div class='col-md-5 entityRight no-padding'>";
