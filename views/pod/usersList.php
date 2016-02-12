@@ -62,6 +62,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="padding-10"><blockquote class="no-margin"><?php if ($contentType==Event::COLLECTION) echo Yii::t("common","No attendee for this event"); else if ($contentType==Project::COLLECTION) echo Yii::t("common","No contributor for this project"); else if ($contentType==Organization::COLLECTION) echo Yii::t("common","No member for this organization"); ?></blockquote></div>
 			<?php }
 			else{
+				//print_r($followers);
+				if(isset($followers)){
+					$text="";
+					if($contentType==Organization::COLLECTION)
+						$userTitle=Yii::t("common","member");
+					else if ($contentType==Project::COLLECTION)
+						$userTitle=Yii::t("common","contributor");
+					if(!empty($followers)){
+						$text = $followers." follower";
+						if ($followers > 1)
+							$text .="s";
+						$text .= " ".Yii::t("common","and")." ";
+					}
+					$text .= count($users)." ".$userTitle;
+					if(count($users)>1)
+						$text .= "s";
+					echo "<div class='no-padding text-dark entityTitle' style='font-size:18px;'><span class='text'>".$text."</span></div>";
+				} 
+				
 				foreach ($users as $e) { 
 					//print_r($e);
 					if (@$e["isAdmin"]){
@@ -85,7 +104,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 				?>
 				
-					<a href="#" onclick="openMainPanelFromPanel('/<?php echo $redirect; ?>/detail/id/<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>', '<?php echo $redirect; ?> : <?php echo $name ?>','<?php echo $refIcon ?>', '<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"] ?>')" title="<?php echo $name ?>" class="btn no-padding" style="margin-top:3px;height:50px;">
+					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding" style="margin-top:3px;height:50px;">
 
 					<?php if($e && isset($e["imagePath"])) {
 						// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)

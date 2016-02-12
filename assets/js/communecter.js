@@ -113,7 +113,30 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		},
 	});  
 }
-
+function follow(parentType, parentId, childId, childType){
+	$(".followBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
+	var formData = {
+		"childId" : childId,
+		"childType" : childType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+	};
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+"/link/follow",
+		data: formData,
+		dataType: "json",
+		success: function(data) {
+			if(data.result){
+				//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+				toastr.success(data.msg);	
+				loadByHash(location.hash);
+			}
+			else
+				toastr.error(data.msg);
+		},
+	});
+}
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();

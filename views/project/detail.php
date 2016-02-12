@@ -23,8 +23,8 @@ $this->renderPartial('../default/panels/toolbar');
 					<?php  //print_r($attending); 
 						$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
-															"userCategory" => Yii::t("project","CONTRIBUTORS",null,Yii::app()->controller->module->id), 
-															"contentType" => Project::COLLECTION,
+															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"followers" => $followers,																													"contentType" => Project::COLLECTION,
 															"admin" => $admin,
 															"isNotSV" => 1	));
 					?>

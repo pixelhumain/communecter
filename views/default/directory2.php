@@ -248,7 +248,7 @@ if( isset($_GET["isNotSV"])) {
 		$thisOrga = Organization::getById($organization["_id"]);
 		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
 		$contextIcon = "users";
-		$contextTitle = Yii::t("common","Members of organization");
+		$contextTitle = Yii::t("common","Community of organization");
 		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
 			if(!isset($organization["disabled"]))
@@ -271,12 +271,14 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
 		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+		$connectType="network";
+		$parentType=Person::COLLECTION;
 	}
 	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 		//Menu::project( $person );
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
-		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
 		if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 			$manage=1;
@@ -318,14 +320,14 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="javascript:;" class="bg-dark">
+							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();$('.labelFollowers').show();">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
 							</a>
 						</li>
 						<?php if(count($people) > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
-							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();">
+							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollowers').show();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
 								<span class="badge"><?php echo $countPeople;  ?></span>
 							</a>
@@ -341,7 +343,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php } ?>
 						<?php if(count($events) > 0){  ?>
 						<li class="filter" data-filter=".events">
-							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();">
+							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollowers').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
 								<span class="badge bg"><?php echo $countEvent;  ?></span>
 							</a>
@@ -349,7 +351,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php } ?>
 						<?php if(count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();"> 
+							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();$('.labelFollowers').hide();$('.labelFollows').show()"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg"><?php echo $countProject;  ?></span>
 							</a>
@@ -394,6 +396,13 @@ if( isset($_GET["isNotSV"])) {
 						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
+					if ($parentType==Organization::COLLECTION || $parentType==Project::COLLECTION || $parentType==Person::COLLECTION){ ?>
+						<div class="col-md-12 col-sm-12 col-xs-12 row">
+							<span class="homestead panelLabel pull-left labelCommunity"> 
+							<?php echo ucfirst(Yii::t("common",$connectType)) ?>
+							</span>
+						</div>
+					<?php } 
 					/* ************ ORGANIZATIONS ********************** */
 					if(isset($organizations)) 
 					{ 
@@ -444,7 +453,53 @@ if( isset($_GET["isNotSV"])) {
 						//echo "[[".$str."]]";
 						return $str;
 					}
+					///// SHOW FOLLOWS
+					if (isset($follows) && $follows["count"] > 0){ ?>
+						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
+							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
+							<?php echo ucfirst(Yii::t("common","follows")) ?>
+							</span>
+						</div>
 
+					<?php 
+						if(isset($follows[Organization::COLLECTION])) 
+						{ 
+							foreach ($follows[Organization::COLLECTION] as $e) 
+							{ 	
+								buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							};
+						}
+	
+						/* ********** PEOPLE ****************** */
+						if(isset($follows[Person::COLLECTION])) 
+						{ 
+							foreach ($follows[Person::COLLECTION] as $e) 
+							{
+								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+							}
+						}	
+						if(isset($follows[Project::COLLECTION])) 
+						{ 
+							foreach ($follows[Project::COLLECTION] as $e) 
+							{ 
+								buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							}
+						}
+					} 
+					///// SHOW FOLLOWERS !!!!!
+					if (isset($followers) && !empty($followers)){ ?>
+						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
+							<span class="homestead panelLabel pull-left labelCommunity labelFollowers"> 
+							<?php echo ucfirst(Yii::t("common","followers")) ?>
+							</span>
+						</div>
+
+					<?php 
+						foreach ($followers as $e) 
+						{
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+						}
+					}
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$parentType=null,$parentId=null)
 					{
 						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
@@ -770,16 +825,20 @@ jQuery(document).ready(function() {
  }
 
  function toggleFilters(what){
- 	if( !$(what).is(":visible") )
+ 	if( !$(what).is(":visible") ){
  		$('.optionFilter').hide();
+ 		}
  	$(what).slideToggle();
  }
  function showFilters(what, show){
  	if(show){
  		$(what).show('fast');
+ 		$(".labelFollowers").hide('fast');
+ 		$(".labelFollows").show('fast');
  	}else{
  		$(what).hide('fast');
  	}
+
  }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
@@ -803,6 +862,7 @@ function initGrid(){
 							"<br>No Connections yet"+
 						"</div>";
 		$('#Grid').append(htmlDefault);
+		$(".labelCommunity").hide();
 	}
 }
 
