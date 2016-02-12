@@ -152,6 +152,8 @@
 </style>
 <?php 
     echo $this->renderPartial('explainPanels');
+    if(isset(Yii::app()->session['userId']))
+    $me = Person::getById(Yii::app()->session['userId']);
 ?>
 <div class="hover-menu">
 	
