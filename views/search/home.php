@@ -326,11 +326,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 		<div class="col-md-6 col-sm-12">
 			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive" style="border:4px solid #293A46;margin-top:40px" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				<img class="img-responsive" style="border:0px solid #293A46;margin-top:20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 			</a>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<center>
+			<div style="font-size: 17px; font-weight: 300; text-align: left;">
 				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
 				<br/><br/>
 				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
@@ -342,7 +342,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
 				<br/><br/>
 				Notre campagne de crowdfounding va donc démarrer le ......
-			<center>
+			</div>
 		</div>
 	</div>
 
@@ -722,10 +722,10 @@ function autoCompleteSearch(name, locality){
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
-		$("#div-discover").show(500);
+		$("#div-discover").show(100);
 		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
 		$(".main-col-search").animate({ opacity:1 }, 200 );
-		$(".my-main-container").animate({"scrollTop" : "550px"}, 1000);
+		$(".my-main-container").animate({"scrollTop" : "690px"}, 1000);
 
   	}
 
