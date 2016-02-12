@@ -88,7 +88,7 @@ function getFloopItem(id, type, value){
 	var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
 	var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
-	//var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
+	var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
 	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
 	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
