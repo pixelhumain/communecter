@@ -35,6 +35,8 @@
 <h1 class="homestead text-red  text-center" id="main-title-communect"
 	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1>
 
+<div class="lbl-scope-list text-red"></div>
+
 <?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
@@ -43,8 +45,8 @@
 </button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-geolocate bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
-		<i class="fa fa-crosshairs"></i>
+	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
+		<i class="fa fa-university"></i>
 	</button>
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
@@ -117,9 +119,13 @@ jQuery(document).ready(function() {
           $("#modal-select-scope").modal("show");
       }
     });
+
+    $(".btn-activate-communexion").click(function(){
+      toogleCommunexion($(this));
+    });
       
     initBtnScopeList();
-	startSearch();
+	  startSearch();
 });
 
 
@@ -151,7 +157,8 @@ function autoCompleteSearch(name, locality){
 	              $.each(v, function(k, o){
 	              	oneElement = o;
 	              	countData++;
-	              });
+	              });where = locality;
+    
 	            }
 	        });
 
@@ -166,14 +173,14 @@ function autoCompleteSearch(name, locality){
           str = "<div class='col-md-12 center'>";
           str += "<h3 class='text-dark'><i class='fa fa-angle-down'></i> Quelle commune souhaitez-vous consulter ?</h3>";
           var city, postalCode = "";
-          $.each(data, function(i, v) {
+          $.each(data, function(i, o) {
             var typeIco = i;
             var ico = mapIconTop["default"];
             var color = mapColorIconTop["default"];
 
             
-            if(v.length!=0){
-              $.each(v, function(k, o){
+            //if(v.length!=0){
+              //$.each(v, function(k, o){
 
                mapElements.push(o);
 
@@ -248,8 +255,8 @@ function autoCompleteSearch(name, locality){
 				        str += "</div>";
 
 			
-              })
-            }
+              //})
+            //}
 
 
 
@@ -296,11 +303,11 @@ function autoCompleteSearch(name, locality){
 
 var timeout;
 function startSearch(){
-	var name = $('#searchBarText').val();
+	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
+    where = locality;
 
-    //name = name.replace(/[^\w\s']/gi, '');
-   // locality = locality.replace(/[^\w\s']/gi, '');
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
 
     //verification si c'est un nombre
     if(!isNaN(parseInt(locality))){

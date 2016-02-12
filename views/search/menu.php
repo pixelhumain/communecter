@@ -284,6 +284,9 @@
 
 
 <script type="text/javascript">
+
+var timeoutCommunexion = setTimeout(function(){}, 0);
+
 jQuery(document).ready(function() {
 	
 	$('.btn-menu0').click( function(e){ loadByHash("#search.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
@@ -318,6 +321,10 @@ jQuery(document).ready(function() {
 
 	$("#btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
+	});
+
+	$("#searchBarPostalCode").mouseenter(function(e){
+		clearTimeout(timeoutCommunexion);
 	});
 
 	var timeoutSearch = setTimeout(function(){}, 0);
@@ -372,8 +379,7 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	var timeoutCommunexion = setTimeout(function(){}, 0);
-    $(".main-col-search").click(function(){
+	$(".main-col-search").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
@@ -384,7 +390,9 @@ jQuery(document).ready(function() {
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		//console.log("hide communexion");
-		timeoutCommunexion = setTimeout(function(){ $("#input-communexion").hide(300); clearTimeout(timeoutCommunexion); }, 2000);
+		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
+		//console.log("HIDE HIDE");
+		//$("#input-communexion").hide(200); 
 		//$("#input-communexion").hide(400);
 	});
 
@@ -397,6 +405,7 @@ jQuery(document).ready(function() {
 					hoverPersist = false;
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
+					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 1300);
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
@@ -438,11 +447,12 @@ jQuery(document).ready(function() {
 });
 
 function showInputCommunexion(){
+		clearTimeout(timeoutCommunexion);
 		console.log("showCommunexion");
-		$(".main-col-search").animate({ opacity:0.3 }, 200 );
 		$("#searchBarPostalCode").css("width", "0px");
-		$("#input-communexion").show();
 		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
+		$("#input-communexion").show(300);
+		$(".main-col-search").animate({ opacity:0.3 }, 200 );
 		$(".hover-info").hide();
 	}
 

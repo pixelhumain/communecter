@@ -336,6 +336,7 @@ var typesLabels = {
 
 
 	function setScopeValue(value){
+		where = value;
 	  	$("#searchBarPostalCode").val(value);
 	  	console.log("setScopeValue")
 		showInputCommunexion();
@@ -468,14 +469,22 @@ var typesLabels = {
 	}
 
 	var communexionActivated = true;
-	function activateCommunexion(activated){
-		communexionActivated = activated;
-		if(activated){
-			$(".btn-activate-communexion").addClass("text-red");
-			$(".btn-activate-communexion").removeClass("text-red");
-		}else{
-
-		}
+	function toogleCommunexion(btn){ //this = jQuery Element
+	  communexionActivated = !communexionActivated;
+	  console.log("communexionActivated", communexionActivated);
+	  if(communexionActivated){
+	    btn.removeClass("text-red");
+	    btn.addClass("bg-red");
+	    $(".lbl-scope-list").show(400);
+	    console.log("WHERE", where);
+	    setScopeValue(where);
+	    //showInputCommunexion();
+	  }else{
+	    btn.addClass("text-red");
+	    btn.removeClass("bg-red");
+	    $(".lbl-scope-list").hide(400);
+	    $("#searchBarPostalCode").val("");
+	  }
 	}
 
 </script>

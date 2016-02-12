@@ -35,9 +35,9 @@
 </button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
-		<i class="fa fa-university"></i>
-	</button>
+	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
+    <i class="fa fa-university"></i>
+  </button>
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
@@ -54,7 +54,6 @@
 
 	<?php //$this->renderPartial("dropdown_scope"); ?> 
 
-	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 
   <div class="col-md-12 center" style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
@@ -74,6 +73,9 @@
       </button>
     </div>
   </div>
+
+  
+  <button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 
 </div>
 
@@ -161,6 +163,11 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
  
+
+  $(".btn-activate-communexion").click(function(){
+    toogleCommunexion($(this));
+  });
+
   initBtnScopeList();
   startSearch();
 });
@@ -191,8 +198,9 @@ function startSearch(indexMin, indexMax){
 
 	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
-
-    $(".lbl-scope-list").html(locality.toLowerCase());
+    where = locality;
+    
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
       
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;

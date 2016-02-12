@@ -16,9 +16,9 @@
 </button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-geolocate bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
-		<i class="fa fa-crosshairs"></i>
-	</button>
+	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
+    <i class="fa fa-university"></i>
+  </button>
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
@@ -112,6 +112,11 @@ jQuery(document).ready(function() {
     }
   });
 
+  $(".btn-activate-communexion").click(function(){
+    toogleCommunexion($(this));
+  });
+
+
   // $(".btn-filter-type").click(function(e){
   //   var type = $(this).attr("type");
   //   var index = searchType.indexOf(type);
@@ -157,7 +162,10 @@ function startSearch(indexMin, indexMax){
 
     var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
-
+    where = locality;
+    
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
+    
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
