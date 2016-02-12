@@ -27,6 +27,9 @@ class AdminController extends CommunecterController {
 	        'importinmongo'  => 'citizenToolKit.controllers.admin.ImportInMongoAction',
 	        'assigndata'  => 'citizenToolKit.controllers.admin.AssignDataAction',
 	        'checkdataimport'  => 'citizenToolKit.controllers.admin.CheckDataImportAction',
+	        'openagenda'  => 'citizenToolKit.controllers.admin.OpenAgendaAction',
+	        'checkventsopenagendaindb'  => 'citizenToolKit.controllers.admin.CheckEventsOpenAgendaInDBAction',
+	        'importeventsopenagendaindb'  => 'citizenToolKit.controllers.admin.ImportEventsOpenAgendaInDBAction',
 	    );
 	}
 }

@@ -56,8 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	<li role="presentation">
 	  		<a href="#" class="" id="menuGmail">
 	  			<h4 id="titleGmail" class='radius-10 padding-10 text-grey text-bold'>
-	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-envelope fa-2x"></i> 
+	  				<i class="fa fa-envelope fa-2x"></i> 
 					Gmail
 				</h4>
 	  		</a>
@@ -65,8 +64,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	<li role="presentation">
 	  		<a href="#" class="" id="menuGooglePlus">
 	  			<h4 id="titleGooglePlus" class='radius-10 padding-10 text-grey text-bold'>
-	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-google-plus-square fa-2x"></i> 
+	  				<i class="fa fa-google-plus-square fa-2x"></i> 
 					Google+
 				</h4>	  		
 	  		</a>
@@ -74,8 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	<li role="presentation">
 	  		<a href="#" class="" id="menuImportFile">
 	  			<h4 id="titleImportFile" class='radius-10 padding-10 text-grey text-bold'>
-	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-upload fa-2x"></i> 
+	  				<i class="fa fa-upload fa-2x"></i> 
 					Importer un fichier
 				</h4>
 	  		</a>
@@ -83,8 +80,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	<li role="presentation">
 	  		<a href="#" class="" id="menuWriteMails">
 	  			<h4 id="titleWriteMails" class='radius-10 padding-10 text-grey text-bold'>
-	  				<i class="fa fa-plus"></i> 
-					<i class="fa fa-pencil-square-o fa-2x"></i> 
+	  				<i class="fa fa-pencil-square-o fa-2x"></i> 
 					Saisir
 				</h4>
 	  		</a>
@@ -104,6 +100,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 			
 			<div class="panel-body">
+
 				<form class="form-invite" autocomplete="off">
 					<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
 					<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
@@ -140,7 +137,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</div>
 		               	<div class ="row">
 			               	<div class="col-md-10  col-md-offset-1">	
-								<a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a>
+								<h4><a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a></h4>
 							</div>
 						</div>
 					</div>
@@ -173,6 +170,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<div class="col-md-2 col-md-offset-1">
 								<div class="form-group">
 						    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
+						    		<button class="btn btn-primary btnCancel" id="btnCancelStep3" >Cancel</button>
 						    	</div>
 						    </div>
 					    </div>
@@ -202,16 +200,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="panel-body">
 				<form class="form-googlePlus" autocomplete="off">
 					<div class="col-sm-12 col-xs-12">
-						<a  href="#" 
+						<!-- Placez cette balise où vous souhaitez faire apparaître le gadget bouton "Partager". -->
+						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
+						<!--<a  href="#" 
 							class="g-interactivepost btn btn-primary col-md-3"
-							data-clientid="991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com"
+						    data-clientid="<?php echo Yii::app()->params['google']['client_id'] ; ?>"
 							data-contenturl="www.communecter.org"
 							data-calltoactionlabel="INVITE"
 							data-calltoactionurl="www.communecter.org"
 							data-cookiepolicy="single_host_origin"
-							data-prefilltext="Viens nous rejoindre!!!">
-							Partagez PixelHumain sur Google+
-						</a>
+							data-prefilltext="Bonjour, J'ai découvert un réseau sociétal citoyen appelé Communecter - être connecter à sa commune. Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.">
+							Partagez Communecter sur Google+
+						</a> -->
 					</div>
 				</form>
 			</div>
@@ -256,11 +256,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<span class="list-group-item">
 							<input type='checkbox' id='allchecked'/><label id="textallchecked" for="allchecked">Tout cocher</label>	
 						</span>
-						<div id="list-contact"> </div>
+						<div id="list-contact" class="panel-scroll row-fluid height-300"> </div>
 		       		</div>
 		        	<div id="Messages" class="col-sm-5">
 		        		<label for="textmail" class="control-label">Votre Message :</label>
-		        		<textarea id="textmail" class="form-control" rows="5">Venez me rejoindre sur PixelHumain</textarea>
+		        		<textarea id="textmail" class="form-control" rows="5">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
+Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
 		        		<a href="#" class="btn btn-primary col-sm-2" id="submitInviter">Inviter</a>
 					</div>
@@ -269,16 +270,27 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 </div>
 <!-- Function utiliser pour faire des appels aux API de google -->
-<script type="text/javascript">
+
+<!-- Placez cette balise dans l'en-tête ou juste avant la balise de fermeture du corps de texte. -->
+<script src="https://apis.google.com/js/platform.js" async defer>
+  {lang: 'fr'}
+</script>
+
+
+<!--<script type="text/javascript">
 (function(){
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/client:plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
-</script>
+</script> -->
 
+<script src="https://apis.google.com/js/client.js"></script>
 <script type="text/javascript">
+
 var userId = "<?php echo Yii::app()->session["userId"]; ?>";
+var googleID = "<?php echo Yii::app()->params['google']['client_id']; ?>";
+var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
 var currentUser = <?php echo json_encode($currentUser) ?>;
 var tags;
 
@@ -295,7 +307,7 @@ jQuery(document).ready(function() {
  	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
 });
 
-function bindInviteSubViewInvites() {	
+function bindInviteSubViewInvites() {
 	$("#menuInviteSomeone").click(function() {
 		fadeInView("divInviteSomeone");
 		$("#shareForm").hide();
@@ -334,18 +346,14 @@ function bindInviteSubViewInvites() {
         }          
                
     });
+	$(".btnCancel").off().on('click', function(){
+		backToSearch();
+	});
 
 	$("#buttonContactsGmail").off().on('click', function(){
 		console.log("buttonContactsGmail");
-    	var config = {
-	    	'client_id': '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com',
-	    	'scope': 'https://www.google.com/m8/feeds'
-	    };
-	    console.log("config", config);
-	    gapi.auth.authorize(config, function()
-	    {
-	    	fetch(gapi.auth.getToken());
-	    });
+		auth();
+    	
 	});
 
 	$(".form-writeMails #submitAfficher").off().on('click', function(){
@@ -615,7 +623,7 @@ function autoCompleteInviteSearch(search){
 	 				}
 	  				str += 	"<li class='li-dropdown-scope'>" +
 	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
-	  						"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
+	  						//"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
 	  						"</li>";
 	  				compt++;
   				}
@@ -782,28 +790,169 @@ function changeFocus(newFocus){
 	
 }
 
-function fetch(token){
-	console.log("fetch");
+
+function auth() {
+	var config = {
+		'client_id': googleID,
+		'scope': 'https://www.google.com/m8/feeds'
+	};
+	gapi.auth.authorize(config, function() {
+		getToken();
+
+		//fetch(gapi.auth.getToken());
+	});
+}
+
+function getToken(stop) {
+	var token = gapi.auth.getToken();
+	if(typeof token != "undefined"){
+		fetch(token);
+	}
+	else {
+		if(stop == false)
+			getToken(true) ;
+		else
+			toastr.error("Veuillez réessayer plus tard.");
+	}
+}
+
+
+/*function fetch(token) {
 	$.ajax({
-  		url: "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json",
+	  url: 'https://www.google.com/m8/feeds/contacts/default/full?access_token=' + token.access_token + '&alt=json',
+	  dataType: 'jsonp',
+	  data: token,
+	}).done(function(data) {
+		console.log("data",data);
+	    //console.log(JSON.stringify(data));
+	});
+}*/
+
+function fetch(token){
+	console.log("fetch", token);
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json"
+	$.ajax({
+  		url: urlGmail,
   		dataType: "jsonp",
   		success:function(data){
-    		console.log(data);
+    		console.log("dataFetch", data);
     		$("#list-contact").html("");
     		$.each(data.feed.entry, function(key, value){
+    			console.log("value", value);
+    			console.log("title", value.title);
       			var text = "";
       			if(value.gd$email){
       				$.each(value.gd$email, function( keyMails, valueMails ){
         				console.log("valueMails.address", valueMails.address);
-          				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">'+valueMails.address+'</span>';
+        				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">';
+        				console.log("value.link", value.link);
+        				/*if(value.link){
+        					$.each(value.link, function( keyLink, valueLink ){
+        						if(valueLink.type == "image/*"){
+        							text += '<img width="50" height="50" src="'+valueLink.href+'">';
+
+        						}	
+        					});
+        				}*/	
+          				text += valueMails.address+'</span>';
           			});
         			$("#list-contact").append(text);
       			}
       			$("#divCheckMail").show();
       		});
+  		},
+  		error:function(data){
+  			console.log("error",data)
   		}
 	});
 }
+
+
+/*function contactGmail(secondTime){
+	var config = {
+    	'client_id': '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com',
+    	//'scope': 'https://www.google.com/m8/feeds'
+    	'scope': 'https://www.googleapis.com/auth/urlshortener'
+    };
+	
+    gapi.auth.authorize(config, function() {
+          console.log('login complete');
+          console.log(gapi.auth.getToken());
+        });
+
+}
+
+function getcontactGmail(authResult){
+	console.log("authResult", authResult);
+	var token = gapi.auth.getToken() ;
+	if(typeof token != "undefined"){
+		fetch(token);
+	}
+	else {
+		if(stop == false)
+			getcontactGmail(token) ; 
+	}
+
+}
+
+
+var clientId = '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com';
+var apiKey = 'iStMgQekGCuepkvAWUc-BfkJ';
+var scopes = 'https://www.googleapis.com/auth/plus.me';
+
+function handleClientLoad() {
+  console.log("handleClientLoad");
+  gapi.client.setApiKey(apiKey);
+  window.setTimeout(checkAuth,1);
+}
+
+function checkAuth() {
+	console.log("checkAuth");
+  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
+}
+
+function handleAuthResult(authResult) {
+	console.log("handleAuthResult", authResult);
+  var authorizeButton = document.getElementById('authorize-button');
+  if (authResult && !authResult.error) {
+  	console.log("yo");
+    authorizeButton.style.visibility = 'hidden';
+    var token = gapi.auth.getToken() ;
+    fetch(authResult);
+  } else {
+  	console.log("yo2");
+    authorizeButton.style.visibility = '';
+    authorizeButton.onclick = handleAuthClick;
+  }
+}
+
+function handleAuthClick(event) {
+	console.log("handleAuthResult");
+  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+  return false;
+}
+
+function makeApiCall() {
+  gapi.client.load('plus', 'v1').then(function() {
+    var request = gapi.client.plus.people.get({
+        'userId': 'me'
+          });
+    request.then(function(resp) {
+      var heading = document.createElement('h4');
+      var image = document.createElement('img');
+      image.src = resp.result.image.url;
+      heading.appendChild(image);
+      heading.appendChild(document.createTextNode(resp.result.displayName));
+
+      document.getElementById('content').appendChild(heading);
+    }, function(reason) {
+      console.log('Error: ' + reason.result.error.message);
+    });
+  });
+}
+*/
+
+
 
 
 </script>

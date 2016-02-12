@@ -280,7 +280,25 @@ function loadByHash( hash , back) {
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
+    } else if ( hash.indexOf("#survey.entry.id") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'VOTE LOCAL ','legal' );
+    }  else if ( hash.indexOf("#rooms") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTION ROOMS ','cubes' );
+    }   
+
+    else if ( hash.indexOf("#admin.importdata") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','upload' );
+    }  
+    else if ( hash.indexOf("#admin.index") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'INDEX ','download' );
+    } 
+    else if ( hash.indexOf("#admin.directory") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'DIRECTORY ','user' );
     }
+    else if ( hash.indexOf("#admin.openagenda") >= 0 ) {
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'OPENAGENDA','calendar' );
+    }
+
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
