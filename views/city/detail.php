@@ -204,10 +204,12 @@ $this->renderPartial('../default/panels/toolbar');
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
 
+<center><img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-city.png?c=cl" style="max-height:300px;"/></center>
+
 <div class="col-sm-12 col-xs-12">
 
     <h1 class="homestead text-red">
-      <i class="fa fa-university"></i> <?php echo $city["name"]." "; ?>
+      <center><i class="fa fa-university"></i> <?php echo $city["name"]." "; ?></center>
     </h1>
     <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
       <h1 class="homestead text-dark center you-live pull-left">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
