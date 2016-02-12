@@ -12,15 +12,6 @@
 		margin-top: 4px;
 	}
 
-  .lbl-scope-list{
-    position: absolute;
-    left: 59%;
-    z-index: 3;
-    top: 146px;
-    font-size: 25px;
-    font-weight: 300;
-    text-transform: capitalize;
-  }
 
   .btn-filter-type{
     height:44px;
@@ -44,8 +35,8 @@
 </button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-geolocate bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
-		<i class="fa fa-crosshairs"></i>
+	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="bottom" title="Trouver votre position actuelle" alt="Rechercher votre position">
+		<i class="fa fa-university"></i>
 	</button>
 	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>

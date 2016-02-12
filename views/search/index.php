@@ -467,6 +467,17 @@ var typesLabels = {
 		startSearch();
 	}
 
+	var communexionActivated = true;
+	function activateCommunexion(activated){
+		communexionActivated = activated;
+		if(activated){
+			$(".btn-activate-communexion").addClass("text-red");
+			$(".btn-activate-communexion").removeClass("text-red");
+		}else{
+
+		}
+	}
+
 </script>
 
 
