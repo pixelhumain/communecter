@@ -242,22 +242,22 @@
 
 <div class="drop-up-btn-add">
 
-	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="">
+	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="loadByHash('#person.invitesv');" >
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-user"></i>
 		<span class="lbl-btn-menu-name-add">inviter quelqu'un</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add2 bg-green" onclick="">
+	<button class="menu-button btn-menu btn-menu-add2 bg-green" onclick="loadByHash('#organization.addorganizationform');">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-group"></i>
 		<span class="lbl-btn-menu-name-add">une organisation</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add3 bg-purple" onclick="">
+	<button class="menu-button btn-menu btn-menu-add3 bg-purple" onclick="loadByHash('#project.projectsv');">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-lightbulb-o"></i>
 		<span class="lbl-btn-menu-name-add">un projet</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add4 bg-orange" onclick="">
+	<button class="menu-button btn-menu btn-menu-add4 bg-orange" onclick="loadByHash('#event.eventsv');">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-calendar"></i>
 		<span class="lbl-btn-menu-name-add">un événement</span></span>
@@ -370,7 +370,8 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	$(".main-col-search").click(function(){
+	var timeoutCommunexion = setTimeout(function(){}, 0);
+    $(".main-col-search").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
@@ -380,7 +381,9 @@ jQuery(document).ready(function() {
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
-		$("#input-communexion").hide(400);
+		//console.log("hide communexion");
+		timeoutCommunexion = setTimeout(function(){ $("#input-communexion").hide(300); clearTimeout(timeoutCommunexion); }, 2000);
+		//$("#input-communexion").hide(400);
 	});
 
 	$(".main-col-search").mouseenter(function(){
@@ -395,7 +398,7 @@ jQuery(document).ready(function() {
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
-				$("#input-communexion").hide(400);
+				//$("#input-communexion").hide(400);
 			}
 	});
 
@@ -428,7 +431,11 @@ jQuery(document).ready(function() {
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");
 	}
 
-	function showInputCommunexion(){
+	
+
+});
+
+function showInputCommunexion(){
 		console.log("showCommunexion");
 		$(".main-col-search").animate({ opacity:0.3 }, 200 );
 		$("#searchBarPostalCode").css("width", "0px");
@@ -437,6 +444,4 @@ jQuery(document).ready(function() {
 		$(".hover-info").hide();
 	}
 
-
-});
 </script>

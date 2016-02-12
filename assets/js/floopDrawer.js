@@ -51,7 +51,8 @@ function buildListContactHtml(contacts, myId){
 		HTML += 							'<label class="no-element"><i class="fa fa-angle-right"></i> Aucun élément</label>';									
 										}
 										$.each(contacts[type.name], function(key2, value){ 
-		HTML += 							getFloopItem(key2, type, value);
+											var entityId = Sig.getEntityId(value);
+		HTML += 							getFloopItem(entityId, type, value);
 										});									
 		HTML += 						'</ul>' +	
 									'</div>'+	

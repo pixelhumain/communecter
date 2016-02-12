@@ -335,9 +335,11 @@ var typesLabels = {
 	}
 
 
-    function setScopeValue(value){
+	function setScopeValue(value){
 	  	$("#searchBarPostalCode").val(value);
-	  	startSearch();
+	  	console.log("setScopeValue")
+		showInputCommunexion();
+		startSearch();
     }
     function setSearchValue(value){
 	  	$("#searchBarText").val(value);
@@ -455,9 +457,25 @@ var typesLabels = {
 		//}else{
 			$("#searchBarPostalCode").val($(thisBtn).attr("val"));
 			
+			console.log("setInputPlaceValue")
+			$("#input-communexion").show();
+			$("#searchBarPostalCode").css( "width","350px" );
+			setTimeout(function(){ $("#input-communexion").hide(300); }, 2000);
+		  	
 		//}
 		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
 		startSearch();
+	}
+
+	var communexionActivated = true;
+	function activateCommunexion(activated){
+		communexionActivated = activated;
+		if(activated){
+			$(".btn-activate-communexion").addClass("text-red");
+			$(".btn-activate-communexion").removeClass("text-red");
+		}else{
+
+		}
 	}
 
 </script>

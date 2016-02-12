@@ -235,8 +235,8 @@ input[type="text"].input-search.postalCode:focus{
 button.btn-start-search{
 	position: relative;
 	margin-bottom: 5px;
-	top: 129px;
-	right: 42%;
+	top: 63px;
+	right: 4%;
 	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color: white;
@@ -428,11 +428,11 @@ button.main-btn-toogle-map{
 	-o-box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 }
-button.btn-geolocate{
+button.btn-activate-communexion{
 	font-size: 18px;
 	position: absolute;
-	top: 55px;
-	left: 10px;
+	top: 18px;
+	left: 45.5%;
 	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
@@ -442,8 +442,8 @@ button.btn-geolocate{
 button.btn-infos{
 	font-size: 17px;
 	position: absolute;
-	top: 55px;
-	right: 10px;
+	top: 147px;
+	left: 10%;
 	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
@@ -615,10 +615,17 @@ button.btn-infos{
       top: 5px;
     }
 
+  .lbl-scope-list{
+    position: absolute;
+    left: 52%;
+    z-index: 3;
+    top: 145px;
+    font-size: 25px;
+    font-weight: 300;
+    text-transform: capitalize;
+  }
 
-#scope-list{
 
-}
 .dropdown.dropdown-scope .btn-scope-list{
 	/*border-radius: 30px;*/
 	text-transform: uppercase;
