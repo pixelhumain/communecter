@@ -470,8 +470,8 @@
 		<h1 class="homestead yellowph">Version Béta</h1>
 		<ul>
 			<li>Les fonctionalités prinicipales fonctionnes</li>
-			<li>si vous trouvez des bugs, transmettez les </li>
-			<li>On fait tous pour améliorer la plateforme </li>
+			<li>si vous trouvez des bugs, transmettez les nous</li>
+			<li>On fait tout pour améliorer la plateforme </li>
 		</ul>
 	</div>
 

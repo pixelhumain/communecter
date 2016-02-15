@@ -234,16 +234,17 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true);
+	        loadByHash(location.hash,true, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 	      }
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
 	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
-			loadByHash(location.hash);
+			loadByHash(location.hash,null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 			return;
 		}
-		else{ loadByHash("#search.home");
+		else{ 
+			loadByHash("#search.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 		}
 
 		checkScroll();
