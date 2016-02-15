@@ -23,6 +23,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     font-size: 0.95rem;
     font-weight: 300;
     line-height: 0.8125rem;
+
 }
 
 #newInvite{
@@ -278,8 +279,8 @@ input.form-control{
 						<!-- Placez cette balise où vous souhaitez faire apparaître le gadget bouton "Partager". -->
 						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
 						<!--<a  href="#" 
-							class="g-interactivepost btn bg-dark col-md-3"
-						    data-clientid="<?php echo Yii::app()->params['google']['client_id'] ; ?>"
+							class="g-interactivepost btn btn-primary col-md-3"
+						    data-clientid="<?php //echo Yii::app()->params['google']['client_id'] ; ?>"
 							data-contenturl="www.communecter.org"
 							data-calltoactionlabel="INVITE"
 							data-calltoactionurl="www.communecter.org"
@@ -327,7 +328,10 @@ input.form-control{
         	<div class="panel-body">
         		<div id="checkMail" class="col-sm-12 col-xs-12">
 					<div class="list-group col-sm-5">
-						<span class="list-group-item active bg-dark">Liste des contacts</span>
+						<span class="list-group-item active">
+							<div>Liste des contacts 
+							<div id="nbContact" class="text-right"></div></div>
+						</span>
 						<span class="list-group-item">
 							<input type='checkbox' id='allchecked'/> <label id="textallchecked" for="allchecked">Tout cocher</label>	
 						</span>
@@ -436,10 +440,13 @@ function bindInviteSubViewInvites() {
   		arraymail = listemail.split(';');
   		$("#list-contact").html("");
   		var text = "" ;
+  		var nbContact = 0 ; 
   		$.each(arraymail, function(keyMails, valueMails){
-        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'"> '+valueMails.trim()+'</span>';
+  			nbContact++;
+        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
         	
         });
+        $("#nbContact").html(nbContact + " contacts");
   		$("#list-contact").append(text);
         $("#divCheckMail").show();
   	});
@@ -451,7 +458,9 @@ function bindInviteSubViewInvites() {
 		if($.inArray(ext, ["csv"]) == -1) {
 			alert('Upload CSV');
 			return false;
-		}  
+		} 
+
+		var nbContact = 0 ; 
 		if (e.target.files != undefined) {
 			var reader = new FileReader();
 			reader.onload = function(e) {
@@ -459,14 +468,18 @@ function bindInviteSubViewInvites() {
 				var text = "" ;
 				$.each(csvval, function(keyMails, valueMails){
 					console.log("valueMails",valueMails);
-					if(valueMails.trim() != "")
+					if(valueMails.trim() != ""){
+						nbContact++;
 						text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+					}	
 				});
 				$("#list-contact").append(text);
 			};
 			reader.readAsText(e.target.files.item(0));
 
 		}
+
+		$("#nbContact").html(nbContact + " contacts");
 		$("#divCheckMail").show();
 		return false;
 	});
@@ -693,9 +706,13 @@ function autoCompleteInviteSearch(search){
 	 					postalCode = v.address.postalCode;
 	 				}
 	  				str += 	"<li class='li-dropdown-scope'>" +
-	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
-	  						//"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
-	  						"</li>";
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+
+	  				if(typeof postalCode != "undefined")
+	  					str += "<br/>"+postalCode+" "+city;
+	  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+	  				str += "</a></li>";
+
 	  				compt++;
   				}
 			});
@@ -883,7 +900,7 @@ function getToken(stop) {
 		if(stop == false)
 			getToken(true) ;
 		else
-			toastr.error("Veuillez réessayer plus tard.");
+			toastr.error("Veuillez réessayer plus taSrd.");
 	}
 }
 
@@ -901,22 +918,31 @@ function getToken(stop) {
 
 function fetch(token){
 	console.log("fetch", token);
-	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json"
+	rand = Math.floor((Math.random() * 8) + 1);
+	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+			});
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=true"
 	$.ajax({
   		url: urlGmail,
   		dataType: "jsonp",
   		success:function(data){
     		console.log("dataFetch", data);
     		$("#list-contact").html("");
+    		
+    		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
-    			console.log("value", value);
-    			console.log("title", value.title);
+    			//console.log("value", value);
+    			//console.log("title", value.title);
       			var text = "";
       			if(value.gd$email){
+
       				$.each(value.gd$email, function( keyMails, valueMails ){
-        				console.log("valueMails.address", valueMails.address);
+        				//console.log("valueMails.address", valueMails.address);
+        				nbContact++;
         				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">';
-        				console.log("value.link", value.link);
+        				//console.log("value.link", value.link);
         				/*if(value.link){
         					$.each(value.link, function( keyLink, valueLink ){
         						if(valueLink.type == "image/*"){
@@ -929,8 +955,10 @@ function fetch(token){
           			});
         			$("#list-contact").append(text);
       			}
-      			$("#divCheckMail").show();
       		});
+      		$("#nbContact").html(nbContact + " contacts");
+      		$("#divCheckMail").show();
+      		$.unblockUI();
   		},
   		error:function(data){
   			console.log("error",data)

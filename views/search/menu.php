@@ -90,14 +90,14 @@
 .infoVersion{
 	display: none;
 	position: fixed;
-	bottom: 5px;
-	left : 90px;
+	bottom: 200px;
+	left : 20px;
 }
 
 
 #btn-param-postal-code{
 	left: 56px;
-	bottom: 60px;
+	bottom: 56px;
 	width: 55px !important;
 	height: 55px !important;
 	border-radius: 50%;
@@ -113,7 +113,7 @@
 
 #btn-geoloc-auto{
 	left: 38px;
-	bottom: 11px;
+	bottom: 14px;
 }
 
 #input-communexion{
@@ -127,7 +127,7 @@
 #searchBarPostalCode{
 	position: absolute;
 	left: 52px;
-	bottom: 56px;
+	bottom: 52px;
 	margin-top: 10px;
 	width: 350px;
 	margin-left: 0px;
@@ -142,7 +142,7 @@
 #input-communexion .search-loader{
 	position: absolute;
 	left: 75px;
-	bottom: 125px;
+	bottom: 120px;
 	width: 350px;
 	font-weight: 600;
 	font-size: 14px;
@@ -209,19 +209,34 @@
 	</button>
 
 	<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-    <button class="menu-button menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
+    <button class="menu-button menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
 	<?php } ?>
-
+	
 
 	
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
+		<br/>
+		<span class="homestead" style="font-size: 1.5em">version <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
+		<br/>
+		<span >Tests et amélioration continue</span>
 	</div>
 </div>
+
+<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
+	<i class="fa fa-university"></i>
+</button> 
+<div id="input-communexion">
+	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
+	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+</div>
+<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+	<i class="fa fa-crosshairs"></i>
+</button>
 
 
 
@@ -358,7 +373,7 @@ jQuery(document).ready(function() {
 	});
 
 
-	$(".hover-menu .btn-menu, #btn-geoloc-auto").mouseenter(function(){
+	$(".hover-menu .btn-menu").mouseenter(function(){
 		//console.log("enter btn");
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
@@ -375,7 +390,6 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
-			timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
@@ -436,6 +450,14 @@ jQuery(document).ready(function() {
 
 });
 
-	
+function showInputCommunexion(){
+		clearTimeout(timeoutCommunexion);
+		console.log("showCommunexion");
+		$("#searchBarPostalCode").css("width", "0px");
+		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
+		$("#input-communexion").show(300);
+		$(".main-col-search").animate({ opacity:0.3 }, 200 );
+		$(".hover-info").hide();
+	}
 
 </script>

@@ -197,9 +197,9 @@
 						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
 						button	+= 	"<div class='info_item country_item_map_list inline'>" + element['address']['addressCountry'] + "</div>";
 								
-						if("undefined" != typeof element['telephone'])
-						button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
-								
+						//if("undefined" != typeof element['telephone'])
+						//button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
+						
 						
 				button += 	'</div>';
 

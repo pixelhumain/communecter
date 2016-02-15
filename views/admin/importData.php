@@ -31,6 +31,7 @@ $userId = Yii::app()->session["userId"] ;
 						$listCollection = Import::getMicroFormats($params, $fields);
 					?>
 					<select id="chooseCollection" name="chooseCollection">
+						<option value="-1">Choisir</option>
 						<?php
 							foreach ($listCollection as $key => $value) {
 								echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
@@ -259,7 +260,7 @@ $userId = Yii::app()->session["userId"] ;
 $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 
 var tabObject = [];
-var arrayCSV = [];
+var file = [];
 var userId = "<?php echo $userId; ?>" ;
 $("#memberId").html(userId);
 
@@ -286,26 +287,41 @@ function bindEvents()
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-		if($.inArray(ext, ["csv"]) == -1 || $.inArray(ext, ["json"]) == -1 || $.inArray(ext, ["js"]) == -1) {
+    	console.log("ext", ext, $.inArray(ext, "json"));
+		if(ext != "csv" && ext !=  "json" && ext == "js") {
 			alert('Upload CSV or JSON');
 			return false;
-		}  
-		if (e.target.files != undefined) {
-			var reader = new FileReader();
-			arrayCSV = [];
-			reader.onload = function(e) {
-				console.log("csv : ", e.target.result );
-				
-				var csvval=e.target.result.split("\n");
-				console.log("csv : ", csvval );
-				$.each(csvval, function(key, value){
-	  				arrayCSV.push(value.split(";"));
-	  			});
-	  			console.log("arrayCSV : ", arrayCSV );
-			};
-			reader.readAsText(e.target.files.item(0));
-
 		}
+
+		if(ext == "csv") {
+			if (e.target.files != undefined) {
+				var reader = new FileReader();
+				file = [];
+				reader.onload = function(e) {
+					console.log("csv : ", e.target.result );
+					var csvval=e.target.result.split("\n");
+					console.log("csv : ", csvval );
+					$.each(csvval, function(key, value){
+		  				file.push(value.split(";"));
+		  			});
+		  			console.log("file : ", file );
+				};
+				reader.readAsText(e.target.files.item(0));
+			}
+		}
+		else if(ext == "json" || ext == "js") {
+			if (e.target.files != undefined) {
+				var reader = new FileReader();
+				file = [];
+				reader.onload = function(e) {
+					//console.log("json : ", e.target.result );
+					file.push(e.target.result);
+		  			//console.log("arrayCSV : ", arrayCSV );
+				};
+				reader.readAsText(e.target.files.item(0));
+			}
+		}
+		
 		return false;
 
 	});
@@ -319,12 +335,18 @@ function bindEvents()
   			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
   			return false ;
   		}
+
+  		if($("#chooseCollection").val() == "-1")
+  		{
+  			toastr.error("Vous devez sélectionner une collection");
+  			return false ;
+  		}
 			$.ajax({
 		        type: 'POST',
 		        data: {
 		        		nameFile : nameFile[0],
 		        		typeFile : nameFile[nameFile.length-1],
-		        		arrayCSV : arrayCSV,
+		        		file : file,
 		        		chooseCollection : $("#chooseCollection").val()
 		        	},
 		        url: baseUrl+'/communecter/admin/assigndata/',
@@ -334,9 +356,7 @@ function bindEvents()
 		        	console.log("data",data);
 		        	if(data.createLink){
 
-		        		
-		        		
-
+		        		resultAssignData(data);
 		        		$("#createLink").show();
 		        	}
 		        	else{
@@ -523,7 +543,7 @@ function bindEvents()
 			        data: {
 			        		infoCreateData : infoCreateData, 
 			        		idCollection : $("#idCollection").val(),
-			        		jsonFile :  jsonFile,
+			        		file :  file,
 			        		subFile : $("#subFile").val(),
 			        		nameFile : $("#nameFile").val(),
 			        		typeFile : $("#typeFile").val(),
@@ -545,17 +565,17 @@ function bindEvents()
 			        		$("#divJsonErrorView").JSONView(data.jsonError);
 			        		$("#jsonError").val(data.jsonError);
 
-			        		console.log("csvContenu", data.csvContenu);
+			        		console.log("listEntite", data.listEntite);
 							var chaine = "" ;
-			        		$.each(data.csvContenu, function(keyCsvContenu, valueCsvContenu){
+			        		$.each(data.listEntite, function(keyListEntite, valueListEntite){
 			        			chaine += "<tr>" ;
-			        			if(keyCsvContenu == 0)
+			        			if(keyListEntite == 0)
 			        			{
-			        				$.each(valueCsvContenu, function(key, value){
+			        				$.each(valueListEntite, function(key, value){
 			        					chaine += "<th>"+value+"</th>";
 			        				});
 			        			}else{
-									$.each(valueCsvContenu, function(key, value){
+									$.each(valueListEntite, function(key, value){
 			        					chaine += "<td>"+value+"</td>";
 			        				});
 			        			}
@@ -628,122 +648,56 @@ function bindEvents()
   	{
   		var dataGood = [];
   		var dataBad = jQuery.parseJSON($('#jsonError').val()) ;
-
-  		var nbNominatim = 0;
-  		var nbGoogle = 0;
-
+  		console.log(dataBad);
   		var json = jQuery.parseJSON($('#jsonImport').val()) ;
   		$.each( json, function( key, org ) {
-  			//console.log("org", org);
-			
-		   	var adressLong = "" ;
-		   	var adressShort = "" ;
+  			console.log("org", org);
+  			console.log("typeof org.geo", typeof org.geo);
+			if(typeof org.geo == "undefined"){
 
-	  		if(org.address.streetAddress.trim() != "")
-	  			adressLong = adressLong + org.address.streetAddress ;
+				org = getGeo(org) ;
+			  	console.log("getGeoFINI");
 
-	  		if(org.address.postalCode.trim() != "")
-	  		{
-	  			adressLong = adressLong + ", " + org.address.postalCode;
-	  			adressShort += org.address.postalCode;
-	  		}	
-	  		if(org.address.addressLocality.trim() != "")
-	  		{
-	  			adressLong = adressLong + ", " +  org.address.addressLocality;
-	  			adressShort += ", " + org.address.addressLocality
-	  		}	
-
-			
-	  		var address = transformNominatimUrl(adressLong);
-		  		//lance la requette nominatim (sig/geoloc.js l.109)
-		  	var objNominatim = findGeoposByNominatim(address);
+				if(typeof org["msgError"] == "undefined")
+			  		org = getInsee(org) ;
 				
-			var geo = {};
-			var address2 = org.address;
+				if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
+				{
+					dataGood.push(org) ;
+				}	
+				else
+				{
+					dataBad.push(org) ;
+				}
 
-			if(objNominatim.length != 0){
-				valNominatim = objNominatim[0];
-				//$.each(objNominatim, function( keyNominatim, valNominatim ){
-					geo["@type"] = "GeoCoordinates";
-					geo["latitude"] = valNominatim.lat;
-					geo["longitude"] = valNominatim.lon;
-					nbNominatim = nbNominatim + 1 ;
-				//});
-			}else{
-				address = transformNominatimUrl(adressLong);
-				objGoogleMaps = findGeoposByGoogleMaps(address);
-				console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.length, objGoogleMaps.size);
-				if(objGoogleMaps.results.length != 0){	
-					var valGoogleMaps = objGoogleMaps.results[0] ;
-					geo["@type"] = "GeoCoordinates";
-					geo["latitude"] = valGoogleMaps.geometry.location.lat;
-					geo["longitude"] = valGoogleMaps.geometry.location.lng;
-					nbGoogle = nbGoogle + 1 ;
-				}else{
-					address = transformNominatimUrl(adressShort);
-					objNominatim = findGeoposByNominatim(address);
-					if(objNominatim.length != 0){
-						valNominatim = objNominatim[0];
-						//$.each(objNominatim, function( keyNominatim, valNominatim ){
-							geo["@type"] = "GeoCoordinates";
-							geo["latitude"] = valNominatim.lat;
-							geo["longitude"] = valNominatim.lon;
-							org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
-							nbNominatim = nbNominatim + 1 ;
-						//});
 
-					}else{
-						address = transformNominatimUrl(adressShort);
-						objGoogleMaps = findGeoposByGoogleMaps(address);
-						console.log("objGoogleMaps", objGoogleMaps);
-						if(objGoogleMaps.results.length != 0 && objGoogleMaps.status != "ZERO_RESULTS"){	
-							var valGoogleMaps = objGoogleMaps.results[0] ;
-							geo["@type"] = "GeoCoordinates";
-							geo["latitude"] = valGoogleMaps.geometry.location.lat;
-							geo["longitude"] = valGoogleMaps.geometry.location.lng;
-							org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
-							nbGoogle = nbGoogle + 1 ;
-						}
-						else
-							org["msgError"] = "Nous n'avons pas pu faire la Géolocalisation" ;
-			  		}
-			  	}
 			}
+			else if(org.address.codeInsee.trim().length == 0){
 
-
-		  	if(address2["codeInsee"].trim().length == 0 && geo["latitude"].length != 0 && geo["longitude"].length != 0)
-	  		{
-	  			address2["codeInsee"] = getInseeWithLatLon(geo["latitude"], geo["longitude"]);
-	  			if(address2["codeInsee"].trim().length != 0)
-	  				address2["addressLocality"] = getInfoAdressByInsee(address2["codeInsee"], address2["postalCode"]);
-	  			else
-	  				org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
-	  		}
-			
-			org["geo"] = geo ;
-			org["address"] = address2 ;
-
-			if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
-			{
-				console.log("dataGood", typeof org["Warning"]);
-				dataGood.push(org) ;
-			}	
+				org = getInsee(org) ;
+				
+		  		if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
+				{
+					dataGood.push(org) ;
+				}	
+				else
+				{
+					dataBad.push(org) ;
+				}
+			}
 			else
-			{
-				console.log("dataBad", typeof org["Warning"]);
-				dataBad.push(org) ;
-			}	
-		
+				dataGood.push(org);
 
 		});
 
-		console.log("nbNominatim", nbNominatim);
-		console.log("nbGoogle", nbGoogle);
+		
+		console.log("here");
 		$("#divJsonImportView").JSONView(JSON.stringify(dataGood));
 		$("#jsonImport").val(JSON.stringify(dataGood));
-		$("#divJsonErrorView").JSONView(dataBad);
-		$("#jsonError").val(dataBad);
-		
+		console.log("here2", dataBad);
+		$("#divJsonErrorView").JSONView(JSON.stringify(dataBad));
+		$("#jsonError").val(JSON.stringify(dataBad));
+		console.log("here3");
 		var list = dataGood;
 		$.each(dataBad, function(key, value){
 			list.push(value)
@@ -788,18 +742,23 @@ function resultAssignData(data){
 
 	$("#subFile").html(chaineNameSubFile);
 
-	console.log("JSON", JSON.stringify(data.arrayCSV));
+	//console.log("JSON", JSON.stringify(data.arrayCSV));
 	chaineInputHidden = "" ;
 	chaineInputHidden += '<input type="hidden" id="idCollection" value="' + data.idCollection + '"/>';
 	chaineInputHidden += '<input type="hidden" id="nameFile" value="'+data.nameFile+'"/>';
 	chaineInputHidden += '<input type="hidden" id="typeFile" value="'+data.typeFile+'"/>';
-	
-	if(data.typeFile == "csv")
+	/*console.log(data.json_origine);
+	console.log(JSON.stringify(data.json_origine));*/
+	/*if(data.typeFile == "csv")
 		chaineInputHidden += '<input type="hidden" id="jsonCSV" value="'+ JSON.stringify(data.arrayCSV) + '"/>';
 	if(data.typeFile == "json")
-		chaineInputHidden += "<input type='hidden' id='jsonJSON' value='"+ JSON.stringify($json_origine) + "' />";
+		chaineInputHidden += '<input type="hidden" id="jsonJSON" value="'+ JSON.stringify(data.json_origine) + '"/>';*/
 		
+
+
 	$("#divInputHidden").html(chaineInputHidden);
+
+	//console.log(("#jsonJSON").val());
 
 	chaineSelectCSVHidden = "" ;
 
@@ -820,24 +779,25 @@ function resultAssignData(data){
 
 	chainePathMapping = "" ;
 	$.each(data.arrayPathMapping, function(key, value){
-		console.log("value",value);
 		chainePathMapping += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
 	});
 
 	$("#selectLinkCollection").html(chainePathMapping);
+	bindEvents();
 }
 
 
 
 
 
-function getInseeWithLatLon(lat, lon){
+function getInseeWithLatLon(lat, lon, cp){
 	var insee = "" ;
 	$.ajax({
 		type: 'POST',
 		data: { 
 			latitude : lat,
-			longitude : lon
+			longitude : lon,
+			cp : cp
 		},
 		async:false,
 		url: baseUrl+'/communecter/sig/getinseebylatlng/',
@@ -1090,6 +1050,115 @@ function selectPeopleForLink(num){
 	$("#memberId").html(personId);
 	$("#namePeople").html(person["name"]);
 	$("#dropdown_searchInvite").css({"display" : "none" });	
+	
+}
+
+
+
+function getInsee(org){
+	console.log("getInsee");
+	var address = org.address;
+	address.codeInsee = getInseeWithLatLon(org.geo.latitude, org.geo.longitude, org.address.postalCode);
+	
+	if(typeof address.codeInsee != "undefined"){
+		if(address.codeInsee.trim().length != 0 ){
+			var locality = getInfoAdressByInsee(address.codeInsee, address.postalCode );
+			if(locality.trim().length != 0 || typeof locality != "undefined")
+				address.addressLocality = locality ;
+			else
+				org["msgError"] = "Nous n'avons pas pu récupérer le nom de la commune. INSEE et code postal n'ont compatible" ;
+		}
+		else
+			org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
+	}
+	else
+			org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
+
+	org["address"] = address;
+
+	return org ;
+	
+}
+
+
+
+
+function getGeo(org){
+	console.log("getGeo");
+	var adressLong = "" ;
+   	var adressShort = "" ;
+
+   	var nbNominatim = 0;
+  	var nbGoogle = 0;
+
+	if(org.address.streetAddress.trim() != "")
+		adressLong = adressLong + org.address.streetAddress ;
+
+	if(org.address.postalCode.trim() != ""){
+		adressLong = adressLong + ", " + org.address.postalCode;
+		adressShort += org.address.postalCode;
+	}	
+	if(org.address.addressLocality.trim() != ""){
+		adressLong = adressLong + ", " +  org.address.addressLocality;
+		adressShort += ", " + org.address.addressLocality
+	}	
+
+	
+	var addressLongTransform = transformNominatimUrl(adressLong);
+	
+  	//lance la requette nominatim (sig/geoloc.js l.109)
+  	var objNominatim = findGeoposByNominatim(addressLongTransform);
+		
+	var geo = {};
+	var address = org.address;
+	
+	geo["@type"] = "GeoCoordinates";
+	
+	if(objNominatim.length != 0){
+		valNominatim = objNominatim[0];
+		geo["latitude"] = valNominatim.lat;
+		geo["longitude"] = valNominatim.lon;
+		nbNominatim = nbNominatim + 1 ;	
+	}else{
+		objGoogleMaps = findGeoposByGoogleMaps(addressLongTransform);
+		console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
+		if(objGoogleMaps.results.length != 0){	
+			var valGoogleMaps = objGoogleMaps.results[0] ;
+			geo["latitude"] = valGoogleMaps.geometry.location.lat;
+			geo["longitude"] = valGoogleMaps.geometry.location.lng;
+			nbGoogle = nbGoogle + 1 ;
+		}else{
+			console.log("objNominatim");
+			var adressShortTransform = transformNominatimUrl(adressShort);
+			objNominatim = findGeoposByNominatim(adressShortTransform);
+			if(objNominatim.length != 0){
+				valNominatim = objNominatim[0];
+				geo["latitude"] = valNominatim.lat;
+				geo["longitude"] = valNominatim.lon;
+				org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+				nbNominatim = nbNominatim + 1 ;
+
+			}else{
+				objGoogleMaps = findGeoposByGoogleMaps(adressShortTransform);
+				console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
+				if(objGoogleMaps.results.length != 0 && objGoogleMaps.status != "ZERO_RESULTS"){	
+					var valGoogleMaps = objGoogleMaps.results[0] ;
+					geo["latitude"] = valGoogleMaps.geometry.location.lat;
+					geo["longitude"] = valGoogleMaps.geometry.location.lng;
+					org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+					nbGoogle = nbGoogle + 1 ;
+				}
+				else
+					org["msgError"] = "Nous n'avons pas pu faire la Géolocalisation" ;
+	  		}
+	  	}
+	}
+
+	if(typeof org["msgError"] == "undefined")
+		org["geo"] = geo ;
+	
+
+	return org ;
 	
 }
 

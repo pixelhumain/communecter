@@ -54,6 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 ?>
 <div id="newContributors">
+	<div class="space20"></div>
 	<?php if( @$isNotSV ){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
 	<?php } ?>

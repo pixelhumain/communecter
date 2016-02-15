@@ -164,7 +164,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	}
 ?> 
 		
-
 	<center class="imageSection imageSectionVideo">
 		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
 	</center>
@@ -290,7 +289,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
 					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
-					pour valoriser le territoire et le bien commun.  
+					pour valoriser le territoire et le <a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">bien commun</a>.  
 			</div>
 			
 			<div class="col-sm-8">
@@ -299,7 +298,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			
 		</div>
 	</div>
-	
+
+
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
@@ -334,12 +334,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
 		</center>
 		<div class="space20"></div>
-		<div class="col-md-6 col-sm-12">
+		<div class="col-sm-12">
 			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive" style="border:0px solid #293A46;margin-top:20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				<img class="img-responsive pull-right" style="border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 			</a>
-		</div>
-		<div class="col-md-6 col-sm-12">
+		
 			<div style="font-size: 17px; font-weight: 300; text-align: left;">
 				Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">financement participatif</a>.
 				<br/><span class="text-bold">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
@@ -459,11 +458,26 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 	
-	<hr>
+	<div class="col-sm-12" style="background-color:#E33551; ">
+		<center>
+			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
+			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
+			<div class="col-sm-12 text-white">
+				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
+				<h3 class="homestead">Rejoignez nous : </h3>
+				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
+				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
+				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
+				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
+				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
+			</div>
+		</center>
+		<div class="space20"></div>
+	</div>
 
 	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:180px " >	
 		<center>
-			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
+			<i class="fa fa-caret-down" style="color:#E33551"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
@@ -481,6 +495,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 
 <script type="text/javascript">
+function focusPeople (tag) { 
+	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
+	showFilterOnMap(tag)
+}
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
 jQuery(document).ready(function() {
