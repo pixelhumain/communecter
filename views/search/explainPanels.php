@@ -1,3 +1,13 @@
+<style>
+	ul{
+		font-weight: 300;
+		font-size:14px;
+		color:#3C5665 !important;
+	}
+	h3{
+		font-weight: 300;
+	}
+</style>
 <div class="hover-info col-md-6 col-md-offset-4 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
 
 	<div class="explainHome explain hide">
@@ -12,7 +22,11 @@
 	<div class="explainDirectory explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-connectdevelop"></i> L'annuaire Local</h1>
 		
-		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Rechercher simplement les personnes, les projets, les associations, les entreprises,<br/>qui existent près de chez vous... ou ailleurs !</h2>
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Rechercher simplement 
+					les	<strong>personnes</strong>, 
+					les <strong>projets</strong>, 
+					les <strong>associations</strong>, 
+					les <strong>entreprises</strong>, qui existent près de chez vous... ou ailleurs !</h2>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Retrouvez tous les acteurs locaux par code postal.</li>
 			<li><i class="fa fa-angle-right"></i> Recherchez par #tag ou mots-clés</li>

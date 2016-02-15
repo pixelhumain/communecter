@@ -26,16 +26,91 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 
 #newInvite{
-		float: left;
-		padding: 10px;
-		background-color: rgba(242, 242, 242, 0.9);
-		width: 100%;
-		-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		box-shadow: 1px 1px 5px 3px #cfcfcf;
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
-	}
+	float: left;
+	padding: 10px;
+	background-color: rgba(242, 242, 242, 0.6);
+	width: 100%;
+	-moz-box-shadow: 0px 0px 3px -1px #747474;
+	-webkit-box-shadow: 0px 0px 3px -1px #747474;
+	-o-box-shadow: 0px 0px 3px -1px #747474;
+	box-shadow: 0px 0px 3px -1px #747474;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+}
+
+
+
+
+/* design alpha tango*/
+.main-col-search{
+	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-yellow.png");
+	background-size:100%;
+	background-repeat: no-repeat;
+	background-color: #ffffb5 !important;
+}
+
+.noteWrap .panel-white{
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+	font-size: 15px;
+	font-weight: 300;
+}
+.noteWrap .control-label{
+	font-size:15px;
+	font-weight:600;
+}
+
+.main-top-menu{
+	background-color: rgba(255, 255, 255, 0.82) !important;
+}
+.select2-container .select2-choice .select2-arrow b::before{
+	/*content:"";*/
+}
+
+.btn-select-type-orga {
+	font-size: 14px;
+}
+
+.noteWrap input {
+	text-align:left !important;
+}
+.noteWrap #description{
+	word-wrap: break-word;
+	resize: horizontal;
+	max-height: 460px;
+	overflow: scroll;
+	max-width: 100%;
+	width: 924px;
+	min-height: 250px !important;
+}
+.input-icon > input {
+    padding-left: 25px;
+    padding-right: 6px;
+}
+input.form-control{
+	text-align: left !important;
+}
+
+
+#newInvite .nav-tabs > li > a {
+    border: 0 none;
+    border-radius: 5px;
+    color: #8E9AA2;
+    min-width: 70px;
+    padding: 5px !important;
+    margin-bottom:10px;
+}
+#newInvite .nav-tabs > li > a {
+	background-color: transparent !important;
+}
+#newInvite .nav-tabs > li > a > div:hover {
+    background-color: #3C5665;
+    color:white !important;
+}
+#newInvite .nav-tabs > li > a > div:focus {
+    background-color: #3C5665;
+    color:white !important;
+}
+
 </style>
 
 <?php if( @$isNotSV ){ 
@@ -45,58 +120,58 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="newInvite">
 	<ul class="nav nav-tabs">
 		<li role="presentation">
-			<a href="#" class="" id="menuInviteSomeone">
-				<h4 id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-yellow text-bold'>
-					<i class="fa fa-plus"></i> 
-					<i class="fa fa-user fa-2x"></i> 
-					<?php echo Yii::t("person","Add a Person") ?>
-				</h4>
+			<a href="javascript:" class="" id="menuInviteSomeone">
+				<div id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-yellow text-dark'>
+					<!-- <i class="fa fa-plus"></i>  -->
+					<i class="fa fa-search fa-2x"></i> Rechercher ...
+					<?php //echo Yii::t("person","Add a Person") ?>
+				</div>
 			</a>
 		</li>
 	  	<li role="presentation">
 	  		<a href="#" class="" id="menuGmail">
-	  			<h4 id="titleGmail" class='radius-10 padding-10 text-grey text-bold'>
+	  			<div id="titleGmail" class='radius-10 padding-10 text-grey text-dark'>
 	  				<i class="fa fa-envelope fa-2x"></i> 
 					Gmail
-				</h4>
+				</div>
 	  		</a>
 	  	</li>
 	  	<li role="presentation">
-	  		<a href="#" class="" id="menuGooglePlus">
-	  			<h4 id="titleGooglePlus" class='radius-10 padding-10 text-grey text-bold'>
+	  		<a href="javascript:" class="" id="menuGooglePlus">
+	  			<div id="titleGooglePlus" class='radius-10 padding-10 text-grey text-dark'>
 	  				<i class="fa fa-google-plus-square fa-2x"></i> 
 					Google+
-				</h4>	  		
+				</div>	  		
 	  		</a>
 	  	</li>
 	  	<li role="presentation">
-	  		<a href="#" class="" id="menuImportFile">
-	  			<h4 id="titleImportFile" class='radius-10 padding-10 text-grey text-bold'>
+	  		<a href="javascript:" class="" id="menuImportFile">
+	  			<div id="titleImportFile" class='radius-10 padding-10 text-grey text-dark'>
 	  				<i class="fa fa-upload fa-2x"></i> 
 					Importer un fichier
-				</h4>
+				</div>
 	  		</a>
 	  	</li>
 	  	<li role="presentation">
-	  		<a href="#" class="" id="menuWriteMails">
-	  			<h4 id="titleWriteMails" class='radius-10 padding-10 text-grey text-bold'>
+	  		<a href="javascript:" class="" id="menuWriteMails">
+	  			<div id="titleWriteMails" class='radius-10 padding-10 text-grey text-dark'>
 	  				<i class="fa fa-pencil-square-o fa-2x"></i> 
 					Saisir
-				</h4>
+				</div>
 	  		</a>
 	  	</li>
 	</ul>	
 	<?php 
-	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12 height-230"
+	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12";
 	?>
-	<div class="<?php echo $size ?>" >
+	<div class="<?php echo $size ?>" style="margin-top:20px;">
 		<!-- Partie "Invite Someone" -->
        	<div class="panel panel-white" id="divInviteSomeone">
         	<div class="panel-heading border-light">
         		<?php if( !@$isNotSV ){ ?>
 					<h1><?php echo Yii::t("common","Connect people to your network") ?></h1>
 				<?php } ?>	
-			    <p>  <?php echo Yii::t("person","Find people you know by name or email") ?>. </p>
+			    <h3 class="text-dark">  <?php echo Yii::t("person","Find people you know by name or email") ?>. </h3>
 			</div>
 			
 			<div class="panel-body">
@@ -105,12 +180,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input class="invite-parentId hide"  id="inviteParentId" name="inviteParentId" type="text"/>
 					<input class="invite-id hide" id = "inviteId" name="inviteId" type="text"/>
 					<div class="row" id="step1">
-						<div class="col-md-1">	
+						<div class="col-md-1 text-right" style="margin-top:5px;">	
 			           		<i class="fa fa-search fa-2x"></i> 
 			           	</div>
 						<div class="col-md-10">
 							<div class="form-group">
-								<input class="invite-search form-control" placeholder="Search Here" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
+								<input class="invite-search form-control text-left" placeholder="Un nom, un e-mail ..." autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
 					        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
 										<li class="li-dropdown-scope">-</li>
 									</ul>
@@ -137,7 +212,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</div>
 		               	<div class ="row">
 			               	<div class="col-md-10  col-md-offset-1">	
-								<h4><a href="javascript:backToSearch()"><i class="fa fa-search"></i> Search</a></h4>
+								<h4><a href="javascript:backToSearch()"><i class="fa fa-search"></i> Rechercher</a></h4>
 							</div>
 						</div>
 					</div>
@@ -167,10 +242,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</div>
 						</div>
 						<div class="row margin-bottom-10">
-							<div class="col-md-2 col-md-offset-1">
+							<div class="col-md-11">
 								<div class="form-group">
-						    	    <button class="btn btn-primary" id="btnInviteNew" >Inviter</button>
-						    		<button class="btn btn-primary btnCancel" id="btnCancelStep3" >Cancel</button>
+						    	    <button class="btn bg-dark pull-right" id="btnInviteNew" >Inviter</button> 
+						    		<button class="btn btn-danger pull-right btnCancel" style="margin-right:10px;" id="btnCancelStep3" >Annuler</button>
 						    	</div>
 						    </div>
 					    </div>
@@ -186,7 +261,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<form class="form-gmail" autocomplete="off">
 					<div class="col-sm-12 col-xs-12">
 						<a href="#" id="buttonContactsGmail"
-							class="btn btn-primary col-md-3">
+							class="btn bg-dark col-md-3">
 							Récupérez vos contacts Gmail
 						</a>
 					</div>
@@ -203,7 +278,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<!-- Placez cette balise où vous souhaitez faire apparaître le gadget bouton "Partager". -->
 						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
 						<!--<a  href="#" 
-							class="g-interactivepost btn btn-primary col-md-3"
+							class="g-interactivepost btn bg-dark col-md-3"
 						    data-clientid="<?php echo Yii::app()->params['google']['client_id'] ; ?>"
 							data-contenturl="www.communecter.org"
 							data-calltoactionlabel="INVITE"
@@ -242,7 +317,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="col-sm-5 col-xs-12">
 							<textarea id="textareaMails" class="form-control col-sm-5" rows="5"></textarea>
 						</div>
-						<a href="#" class="btn btn-primary col-sm-2" id="submitAfficher">Afficher</a>
+						<a href="#" class="btn bg-dark col-sm-2" id="submitAfficher">Afficher</a>
 					</div>
 				</form>
 			</div>
@@ -252,9 +327,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         	<div class="panel-body">
         		<div id="checkMail" class="col-sm-12 col-xs-12">
 					<div class="list-group col-sm-5">
-						<span class="list-group-item active">Liste des contacts</span>
+						<span class="list-group-item active bg-dark">Liste des contacts</span>
 						<span class="list-group-item">
-							<input type='checkbox' id='allchecked'/><label id="textallchecked" for="allchecked">Tout cocher</label>	
+							<input type='checkbox' id='allchecked'/> <label id="textallchecked" for="allchecked">Tout cocher</label>	
 						</span>
 						<div id="list-contact" class="panel-scroll row-fluid height-300"> </div>
 		       		</div>
@@ -263,7 +338,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        		<textarea id="textmail" class="form-control" rows="5">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
 Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
-		        		<a href="#" class="btn btn-primary col-sm-2" id="submitInviter">Inviter</a>
+		        		<a href="#" class="btn bg-dark col-sm-2" id="submitInviter">Inviter</a>
 					</div>
 				</div>
 			</div>
@@ -362,7 +437,7 @@ function bindInviteSubViewInvites() {
   		$("#list-contact").html("");
   		var text = "" ;
   		$.each(arraymail, function(keyMails, valueMails){
-        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'"> '+valueMails.trim()+'</span>';
         	
         });
   		$("#list-contact").append(text);
@@ -542,11 +617,7 @@ function runinviteFormValidation(el) {
 			var invitedUserName = $("#inviteName").val();
 			var invitedUserEmail = $("#inviteEmail").val();
 			$.blockUI({
-				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-	            '<blockquote>'+
-	              '<p>Get up Stand up ! Stand up for your right !</p>'+
-	              '<cite title="Bob Marley">Bob Marley</cite>'+
-	            '</blockquote> '
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Merci de patienter ...</span>'
 			});
 			$.ajax({
 		        type: "POST",

@@ -61,6 +61,17 @@
     }
 ?>
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
 	<i class="fa fa-university"></i>
 </button> 
@@ -351,6 +362,7 @@ var typesLabels = {
 
 
 	function setScopeValue(value){
+		//value = value.replace("#", "'");
 		where = value;
 	  	$("#searchBarPostalCode").val(value);
 	  	console.log("setScopeValue")
@@ -392,8 +404,10 @@ var typesLabels = {
 				"<span style='font-size:35px;' class='homestead'>"+
 					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 					"<span class='text-red'>COMMUNE</span>CTER.org</span></br></br>" + 
-				"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
-			"</div>");
+				//"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
+			"</div>"
+			+
+			'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
 	
 			$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement en cours ...");
 

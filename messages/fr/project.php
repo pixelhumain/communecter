@@ -31,7 +31,7 @@ return array(
 	
 	//Porject form
 	"Add a new project" => "Créer un nouveau projet",
-	"If you want to create a new project in order to make it more visible : it's the best place<br/>You can as well organize your project team, plan tasks, discuss, take decisions...<br/>Depending on the project visibility, contributors can join the project and help<br>to make it happen ! " => "Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br/>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions... <br/>En fonction de la visibilité du projet, des contributeurs peuvent lui venir en aide<br/>Pour le voir se réaliser",
+	"If you want to create a new project in order to make it more visible : it's the best place<br/>You can as well organize your project team, plan tasks, discuss, take decisions...<br/>Depending on the project visibility, contributors can join the project and help<br>to make it happen ! " => "Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br/>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...",
 	"Project duration" => "Durée du projet",
 	//Contributors
 	"CONTRIBUTORS" => "CONTRIBUTEURS",

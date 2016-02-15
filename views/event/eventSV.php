@@ -28,12 +28,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	display: block;
 	float: left;
 	padding: 10px;
-	background-color: rgba(242, 242, 242, 0.9);
+	background-color: rgba(242, 242, 242, 0.6);
 	width: 100%;
-	-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
-	-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
-	-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
-	box-shadow: 1px 1px 5px 3px #cfcfcf;
+	-moz-box-shadow: 0px 0px 3px -1px #747474;
+	-webkit-box-shadow: 0px 0px 3px -1px #747474;
+	-o-box-shadow: 0px 0px 3px -1px #747474;
+	box-shadow: 0px 0px 3px -1px #747474;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
 }
 
@@ -73,12 +73,61 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	font-weight: 300;
 }
 #iconeChargement{
-		display: none;
-		float: right;
-		margin-top: -35px;
-		margin-right: 10px;
-		position: relative;
-	}
+	display: none;
+	float: right;
+	margin-top: -35px;
+	margin-right: 10px;
+	position: relative;
+}
+
+
+
+/* design alpha tango*/
+.main-col-search{
+	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-orange.png");
+	background-size:100%;
+	background-repeat: no-repeat;
+	background-color: #ffc694 !important;
+}
+
+.noteWrap .panel-white{
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+	font-size: 15px;
+	font-weight: 300;
+}
+.noteWrap .control-label{
+	font-size:15px;
+	font-weight:600;
+}
+
+.main-top-menu{
+	background-color: rgba(255, 255, 255, 0.82) !important;
+}
+.select2-container .select2-choice .select2-arrow b::before{
+	/*content:"";*/
+}
+
+.btn-select-type-orga {
+	font-size: 14px;
+}
+
+.noteWrap input {
+	text-align:left !important;
+}
+.noteWrap #description{
+	word-wrap: break-word;
+	resize: horizontal;
+	max-height: 460px;
+	overflow: scroll;
+	max-width: 100%;
+	width: 924px;
+	min-height: 250px !important;
+}
+.input-icon > input {
+    padding-left: 25px;
+    padding-right: 6px;
+}
 </style>
 
 <!-- *** NEW EVENT *** -->
@@ -88,7 +137,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	else if (@$organization){
 		Menu::organization($organization);	
 	}else {
-		Menu::person($person);		
+		//Menu::person($person);		
 	}
 	$this->renderPartial('../default/panels/toolbar'); 
 }
@@ -100,7 +149,7 @@ if( !isset($_GET["isNotSV"]))
 
 <div id="newEvent">
 	<?php if( @$isNotSV ){ ?>
-	<h2 class='radius-10 padding-10 text-orange text-bold'><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-2x"></i> <?php echo Yii::t("event","Add an Event"); ?></h2>
+	<!-- <h2 class='radius-10 padding-10 text-dark text-bold'><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-2x"></i> <?php echo Yii::t("event","Add an Event"); ?></h2> -->
 	<?php } ?>
 	<?php 
 	$size = ( !@$isNotSV ) ? "col-md-8 col-md-offset-2" : "col-md-12"
@@ -118,7 +167,7 @@ if( !isset($_GET["isNotSV"]))
 			<div class="col-md-6">
 				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
-						<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Informations générales") ?></h3>
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?></h3>
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
                         </a>
@@ -161,13 +210,13 @@ if( !isset($_GET["isNotSV"]))
 
 				</div>
 				
-				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
 				<div class="form-group">
 					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
 					<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
 				</div>
 
-				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Categories") ?></h3>
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event", "Event Categories") ?></h3>
                 <div class="form-group">
 					<select class="form-control selectpicker event-categories">
 						<?php if(isset($lists) && isset($lists["eventTypes"])) {
@@ -179,7 +228,7 @@ if( !isset($_GET["isNotSV"]))
 					</select>
 				</div>
 
-				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Duration") ?> ?</h3>
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Duration") ?> ?</h3>
                 <div class="form-group">
 					<input type="checkbox" class="all-day" data-label-text="<?php echo Yii::t("common","All-Day")?>" data-on-text="<?php echo Yii::t("common","True") ?>" data-off-text="<?php echo Yii::t("common","False")?>">				
 				</div>
@@ -208,13 +257,13 @@ if( !isset($_GET["isNotSV"]))
 
 			<div class="col-md-6">
 					<div class="form-group">
-						<h3 class="text-orange">
+						<h3 class="text-dark">
 							<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 						</h3>
 						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
 					</div>
 
-					<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
+					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
                         
 					<div class="form-group">
 						<span class="input-icon">
@@ -260,7 +309,7 @@ if( !isset($_GET["isNotSV"]))
 
 			<div class="col-md-12">
 				
-				<h3 class="text-orange"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
                         
 					<div class="form-group">
 						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
@@ -268,7 +317,7 @@ if( !isset($_GET["isNotSV"]))
 				<?php if( @$isNotSV ){ ?>
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn btn-primary" onclick="">Enregistrer</button>
+						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> Enregistrer</button>
 					</div>
 					<?php } else {  ?>
 						<div class= "row  col-xs-12">
@@ -504,12 +553,8 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
 				console.log("newEvent");		
 				console.dir(newEvent);			
-				$.blockUI({
-					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-		            '<blockquote>'+
-		              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
-		              '<cite title="Hegel">Hegel</cite>'+
-		            '</blockquote> '
+					$.blockUI({
+					message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
 				});
 
 				if($(".form-event #newEventOrga").val() !==""){

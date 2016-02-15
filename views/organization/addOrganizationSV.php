@@ -27,12 +27,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	#addOrganization{
 		float: left;
 		padding: 10px;
-		background-color: rgba(242, 242, 242, 0.9);
+		background-color: rgba(242, 242, 242, 0.6);
 		width: 100%;
-		-moz-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		-webkit-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		-o-box-shadow: 1px 1px 5px 3px #cfcfcf;
-		box-shadow: 1px 1px 5px 3px #cfcfcf;
+		-moz-box-shadow: 0px 0px 3px -1px #747474;
+		-webkit-box-shadow: 0px 0px 3px -1px #747474;
+		-o-box-shadow: 0px 0px 3px -1px #747474;
+		box-shadow: 0px 0px 3px -1px #747474;
 		filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
 	}
 	#iconeChargement{
@@ -48,6 +48,51 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 #addOrganization .select2-input{
 	border:none !important;
 }
+
+
+/* design alpha tango*/
+.main-col-search{
+	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-green.png");
+	background-size:100%;
+	background-repeat: no-repeat;
+	background-color: #daffc6 !important;
+}
+
+.noteWrap .panel-white{
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+	font-size: 15px;
+	font-weight: 300;
+}
+.noteWrap .control-label{
+	font-size:15px;
+	font-weight:600;
+}
+
+.main-top-menu{
+	background-color: rgba(255, 255, 255, 0.82) !important;
+}
+.select2-container .select2-choice .select2-arrow b::before{
+	content:"";
+}
+
+.btn-select-type-orga {
+	font-size: 14px;
+}
+
+.noteWrap input {
+	text-align:left !important;
+}
+.noteWrap #description{
+	word-wrap: break-word;
+	resize: horizontal;
+	max-height: 460px;
+	overflow: scroll;
+	max-width: 100%;
+	width: 924px;
+	min-height: 250px !important;
+}
+
 </style>
 <?php if( @$isNotSV ){ 
 	$this->renderPartial('../default/panels/toolbar'); 
@@ -59,7 +104,7 @@ if( !isset($_GET["isNotSV"]))
 ?>
 <div id="addOrganization" >
 	<?php if( isset($_GET["isNotSV"])){?>
-	<h2 class='radius-10 padding-10 text-green text-bold'><i class="fa fa-plus"></i> <i class="fa fa-users fa-2x"></i> <?php echo Yii::t("common","Add an Organization") ?></h2>
+	<!-- <h2 class='radius-10 padding-10 text-dark text-bold'><i class="fa fa-plus"></i> <i class="fa fa-users fa-2x"></i> <?php echo Yii::t("common","Add an Organization") ?></h2> -->
 	<?php
 	} 
 	
@@ -67,15 +112,18 @@ if( !isset($_GET["isNotSV"]))
 	?>
 	<div class="<?php echo $size ?> form-add-data" >  
 	<div class="noteWrap">
-	    <div class="panel panel-white">
+	    <!-- <div class="panel panel-white">
         	<div class="panel-heading border-light">
 				<?php if( !@$isNotSV ){ ?>
 					<h1><?php echo Yii::t("organisation","Reference your organization",null,Yii::app()->controller->module->id); ?></h1>
 			    <?php } ?>
-			    <p><?php echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?></p>
+			    <p>
+			    	<?php //echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?>
+			    	
+			    </p>
 
 			</div>
-		</div>
+		</div> -->
 		<div class="panel-body" style="background-color:transparent !important;">
 			<form id="organizationForm" role="form">
 				<div class="row">
@@ -88,10 +136,39 @@ if( !isset($_GET["isNotSV"]))
 						</div>
 					</div>
 					<div id="formNewOrganization">
+						<div class="col-md-12" style="margin-bottom: 50px; border-bottom: 1px solid rgba(0, 0, 0, 0.13); padding-bottom: 25px;">
+							<div class="form-group center">
+								<h1 class="homestead text-dark center"><i class="fa fa-angle-right"></i> Quel type d'organisation souhaitez-vous référencer ?</h1>
+								
+									<label class="control-label text-dark">
+									<!-- <i class="fa fa-angle-down"></i> <?php //echo Yii::t("common","Type") ?> :  -->
+									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="association"><i class="fa fa-group"></i> Une association</div>
+									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="entreprise"><i class="fa fa-industry"></i> Une entreprise</div> 
+									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="group"><i class="fa fa-circle"></i> Un groupe</div> 
+									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="project"><i class="fa fa-lightbulb-o"></i> Un projet</div> 
+										<span class="symbol required"></span>
+									</label>
+									<select name="type" id="type" class="form-control hidden" >
+										<option value=""></option>
+										<?php
+										foreach ($types as $key=>$value) {
+										?>
+											<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
+										<?php 
+										}
+										?>
+									</select>
+								</div>
+								
+							</div>
+						</div>
+						
 						<div class="col-md-6 col-sd-6" >
+
+
 							<input id="organizationId" type="hidden" name="organizationId">
 							<div class="form-group">
-								<label class="control-label text-green">
+								<label class="control-label text-dark">
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Name")?> (<?php echo Yii::t("organisation","Corporate Name",null,Yii::app()->controller->module->id)?>) <span class="symbol required"></span>
 								</label>
 								<span id="organizationNameInput">
@@ -100,21 +177,7 @@ if( !isset($_GET["isNotSV"]))
 								</span>
 							</div>
 
-							<div class="form-group">
-								<label class="control-label text-green">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Type") ?> <span class="symbol required"></span>
-								</label>
-								<select name="type" id="type" class="form-control" >
-									<option value=""></option>
-									<?php
-									foreach ($types as $key=>$value) {
-									?>
-										<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
-									<?php 
-									}
-									?>
-								</select>
-							</div>
+							
 							<div class="form-group organizationCategory categoryNGO">
 								<label class="control-label">
 									<?php echo Yii::t("common","Category") ?>
@@ -128,41 +191,53 @@ if( !isset($_GET["isNotSV"]))
 			        		    <input id="categoryLocalBusiness" type="hidden" name="category" style="width:100%; height:35px;">
 							</div>
 							<div class="form-group">
-								<label class="control-label text-green">
+								<label class="control-label text-dark">
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Email") ?>
 								</label>
 								<input id="organizationEmail" class="form-control" name="organizationEmail" value="<?php if($organization && isset($organization['email']) ) echo $organization['email']; else echo Yii::app()->session['userEmail']; ?>"/>
 							</div>
 							<div class="form-group">
-								<label class="control-label text-green">
+								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Key Words") ?>
 								</label>
 			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
 							</div>
+							<div class="form-group pull-left">
+								<div class="form-group">
+									<label class="control-label text-dark">
+										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","What's your role inside this new organization ?") ?> <span class="symbol required"></span>
+									</label>
+									<select name="role" id="role" class="form-control" >
+										<option value="admin"><?php echo Yii::t("common","Administrator") ?></option>
+										<option value="member"><?php echo Yii::t("common","Member") ?></option>
+										<option value="creator"><?php echo Yii::t("common","Just a citizen wanting to give visibility to it :)") ?></option>
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-6 col-sd-6 ">
 							<div class="form-group">
-								<label class="control-label text-green">
+								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
 								</label>
 								<input type="hidden" name="organizationCountry" id="organizationCountry" style="width: 100%; height:35px;">								
 							</div>
 							<div class="form-group">
-								<label for="address" class="text-green">
+								<label for="address" class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
 								</label>
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
 							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
-									<label for="postalCode" class="text-green">
+									<label for="postalCode" class="control-label text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
 									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
-									<label for="city" class="text-green">
+									<label for="city" class="text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","City") ?> <span class="symbol required"></span>
 									</label>
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
@@ -178,28 +253,17 @@ if( !isset($_GET["isNotSV"]))
 							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
 
 
-							<div class="form-group pull-left">
-								<div class="form-group">
-									<label class="control-label text-green">
-										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","What's your role inside this new organization ?") ?> <span class="symbol required"></span>
-									</label>
-									<select name="role" id="role" class="form-control" >
-										<option value="admin"><?php echo Yii::t("common","Administrator") ?></option>
-										<option value="member"><?php echo Yii::t("common","Member") ?></option>
-										<option value="creator"><?php echo Yii::t("common","Just a citizen wanting to give visibility to it :)") ?></option>
-									</select>
-								</div>
-							</div>
+							
 						</div>
 
 							
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<label for="form-field-24" class="control-label text-green">
+									<label for="form-field-24" class="control-label text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 									</label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; min-height: 160px; max-height: 360px; overflow:scroll;"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -212,7 +276,7 @@ if( !isset($_GET["isNotSV"]))
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary pull-right" id="btnSaveNewOrganization"><?php echo Yii::t("common","SAVE")?></button>
+						<button class="btn btn-success pull-right" style="" id="btnSaveNewOrganization"><i class="fa fa-save"></i> Enregistrer<?php //echo Yii::t("common","SAVE")?></button>
 					</div>
 					<div id="infoOrgaSameName" style='display:none'>
 						<a class="pull-right btn-close-panel" onclick="$.unblockUI();" href="#">
@@ -231,6 +295,19 @@ if( !isset($_GET["isNotSV"]))
 </div>
 
 <script type="text/javascript">
+
+jQuery(document).ready(function() {
+	$(".btn-select-type-orga").click(function(){
+		var val = $(this).attr("val");
+		$(".btn-select-type-orga").removeClass("bg-green");
+		$(this).addClass("bg-green");
+		$("#type").val(val);
+		console.log("TYPE : ", val);
+		//$('#type option[value="'+val+'"]').prop('selected', true);
+	});
+
+});
+
 
 var formValidator = function() {
 	addCustomValidators();
@@ -255,11 +332,7 @@ var formValidator = function() {
 		},
 		submitHandler : function(form) {
 			$.blockUI({
-				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-	            '<blockquote>'+
-	              "<p>C'est le devoir de chaque homme de rendre au monde au moins autant qu'il en a reçu.</p>"+
-	              '<cite title="Einstein">Einstein</cite>'+
-	            '</blockquote> '
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
 			});
 
 	        $.ajax({

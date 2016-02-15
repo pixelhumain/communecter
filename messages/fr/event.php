@@ -14,7 +14,7 @@ return array(
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
 		=> "Créez et particpez...<br/>Aux évèvenements locaux pour...<br/>Construire l'activité local,<br/>Diffuser la culture,<br/>Engendrer des mouvements.",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
-		=> "Créez et particpez aux évèvenements locaux pour construire l'activité local, diffuser la culture, engendrer des mouvements.",
+		=> "Créez et particpez aux événements locaux pour construire l'activité local, diffuser la culture, engendrer des mouvements.",
 	//Form
 	"Add new event" => "Ajouter un nouvel évènement",
 	"Choose an organizer" => "Choisir un organisateur",
@@ -34,6 +34,6 @@ return array(
 	"ATTENDEE SUCCESSFULLY ADD!!" => "Participant ajouté avec succès !!",
 	"Attendee well registered and invite!!" => "Participant enregistré et invité avec succès ",
 	"All day" => "Toute la journée",
-	"Your event has been connected." => "Votre evenement est communecté"
+	"Your event has been connected." => "Votre événement est communecté",
 );
 ?>
