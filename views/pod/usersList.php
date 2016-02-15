@@ -35,26 +35,45 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	border-radius: 0 0 5px 0px;
 }
 
+.contentImg{
+	margin-top:3px;
+	height:50px;
+	width:50px;
+}
+.count{
+	margin-left: 1px;
+    margin-top: 4px;
+    font-size: large;
+    background-color: #e25555 !important;
+    color: white;
+    border-radius: inherit;
+}
 </style>
+<?php if ($contentType == Project::COLLECTION){ 
+		$parentRedirect = "project";
+		$parentId = (string)$project["_id"];
+	}
+	else if ($contentType == Organization::COLLECTION){
+		$parentRedirect = "organization";
+		$parentId = (string)$organization["_id"];							
+	}
+?>
 	<div class="panel panel-white user-list">
 		<div class="panel-heading border-light text-white bg-yellow">
 			<h4 class="panel-title"><i class="fa fa-connectdevelop"></i> <?php echo $userCategory ?></h4>
 			
 		</div> 
 		<div class="panel-tools">
-				<?php if ($admin){ ?>
-					<?php if ($contentType == "projects"){ ?>
-						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showAjaxPanel( '/project/directory/id/<?php echo (string)$project["_id"]; ?>?tpl=directory2&amp;isNotSV=1', 'Les contributeurs du projet','connectdevelop' )" data-placement="bottom" data-original-title="Les contributeurs du projet"><i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?></a>
-						<a href="javascript:;" class="new-contributor btn btn-xs btn-light-blue tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("project","Connect People or Organizations that are part of the project",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/project/addcontributorsv?isNotSV=1&projectId=<?php echo (string)$project["_id"];?>', 'ADD CONTRIBUTORS','users' )"> 
-					<?php } else if ($contentType == "organizations"){ ?>
-						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showAjaxPanel( '/organization/directory/id/<?php echo (string)$organization["_id"]; ?>?tpl=directory2&amp;isNotSV=1', 'Les membres de l\'organisation','connectdevelop' )" data-placement="bottom" data-original-title="Les membres de l'organisation"><i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?></a>
-						<a href="javascript:;" class="new-member btn btn-xs btn-light-blue tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/organization/addmember/id/<?php echo (string)$organization["_id"];?>?isNotSV=1', 'Add a member to this organization','users' )"> 
-					<?php } else if ($contentType == "events"){ ?>
-						<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId=<?php echo (string)$event["_id"];?>', 'ADD ATTENDEES','users' )">
-							
-					<?php }?>
-					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Sent invitations") ?>						</a>
-				<?php } ?>
+				<?php if ($admin){ 
+					if ($contentType == "events"){ ?>
+						<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash( '#event.addattendeesv.eventId.<?php echo (string)$event["_id"];?>')">
+							<i class="fa fa-plus"></i> <?php echo Yii::t("common","Sent invitations") ?>
+						</a>			
+					<?php }else{?>
+						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2&isNotSV=1')" data-placement="bottom" data-original-title="Les contributeurs du projet">
+							<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
+						</a>								
+				<?php } } ?>
 
 			</div>
 		<div class="padding-10">
@@ -69,15 +88,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						$userTitle=Yii::t("common","member");
 					else if ($contentType==Project::COLLECTION)
 						$userTitle=Yii::t("common","contributor");
-					if(!empty($followers)){
-						$text = $followers." follower";
-						if ($followers > 1)
-							$text .="s";
-						$text .= " ".Yii::t("common","and")." ";
-					}
 					$text .= count($users)." ".$userTitle;
 					if(count($users)>1)
 						$text .= "s";
+					if(!empty($followers)){
+						$text .= " ".Yii::t("common","and")." ";
+						$text .= $followers." ".Yii::t("common","follower");
+						if ($followers > 1)
+							$text .="s";
+
+					}
 					echo "<div class='no-padding text-dark entityTitle' style='font-size:18px;'><span class='text'>".$text."</span></div>";
 				} 
 				
@@ -104,7 +124,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 				?>
 				
-					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding" style="margin-top:3px;height:50px;">
+					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg">
 
 					<?php if($e && isset($e["imagePath"])) {
 						// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
@@ -119,8 +139,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</a>
 									
 				<?php 
-				}	
-			} ?>
+				}
+				if(!empty($followers)){ ?>
+				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2&isNotSV=1')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
+					<span style="line-height:50px;">+ <?php echo $followers ?></span>
+				</a>
+		<?php } } ?>
 		</div>
 	</div>
 

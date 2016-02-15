@@ -31,7 +31,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		-moz-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 		box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
 	}
-
+	#grid .followers{
+	display: none;
+}
 	.mix a{
 		color:black;
 		/*font-weight: bold;*/
@@ -216,19 +218,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		color:#58879B;
 		font-size:25px
 	}
-
-	
+	.bg-light-red{
+		color:white !important;
+		background-color: #e25555 !important;
+	}
 	.active .bg-yellow, .active .bg-green, .active .bg-orange, 
-	.active .bg-purple, .active .bg-dark, .active .bg-red{
+	.active .bg-purple, .active .bg-dark, .active .bg-red, .active .bg-light-red{
 		border-bottom: 3px solid rgba(96, 96, 96, 0.65);
 	}
 	
-	.bg-red, .bg-dark, .bg-yellow, .bg-green, .bg-orange, .bg-purple{
+	.bg-red, .bg-dark, .bg-yellow, .bg-green, .bg-orange, .bg-purple, .bg-light-red{
 		padding-top:10px;
 		border-bottom: 3px solid transparent;
 	}
 
-	.bg-red:hover, .bg-dark:hover, .bg-yellow:hover, .bg-green:hover, .bg-orange:hover, .bg-purple:hover{
+	.bg-red:hover, .bg-dark:hover, .bg-yellow:hover, .bg-green:hover, .bg-orange:hover, .bg-purple:hover, .bg-light-red:hover{
 		border-bottom: 3px solid rgba(255, 255, 255, 0.8);
 	}
 </style>
@@ -296,12 +300,34 @@ if( isset($_GET["isNotSV"])) {
 		);*/
 	$this->renderPartial('../default/panels/toolbar'); 
 
-	$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0;
+	$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0;
 
-	foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;	}
+	foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;}
 	foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
 	foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
 	foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
+	foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+	if (isset($follows)){
+		if(isset($follows[Person::COLLECTION])){ 
+			foreach ($follows[Person::COLLECTION] as $e) {
+				$followsPeople++;
+				$countPeople++;
+			}
+		}
+		if(isset($follows[Organization::COLLECTION])){ 
+			foreach ($follows[Organization::COLLECTION] as $e) {
+				$followsOrga++;
+				$countOrga++;
+			}
+		}
+		if(isset($follows[Project::COLLECTION])){ 
+			foreach ($follows[Project::COLLECTION] as $e) {
+				$followsProject++;
+				$countProject++;
+			}
+		}
+
+	}
 }
 ?>
 <div class="row">
@@ -320,14 +346,14 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();$('.labelFollowers').show();">
+							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();$('.labelFollows').show();">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
-								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
+								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countFollowers;  ?>
 							</a>
 						</li>
 						<?php if(count($people) > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
-							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollowers').show();">
+							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
 								<span class="badge"><?php echo $countPeople;  ?></span>
 							</a>
@@ -343,7 +369,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php } ?>
 						<?php if(count($events) > 0){  ?>
 						<li class="filter" data-filter=".events">
-							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollowers').hide();$('.labelFollows').hide();">
+							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
 								<span class="badge bg"><?php echo $countEvent;  ?></span>
 							</a>
@@ -351,9 +377,17 @@ if( isset($_GET["isNotSV"])) {
 						<?php } ?>
 						<?php if(count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();$('.labelFollowers').hide();$('.labelFollows').show()"> 
+							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();$('.labelFollows').show()"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg"><?php echo $countProject;  ?></span>
+							</a>
+						</li>
+						<?php } ?>
+						<?php if(count($countFollowers) > 0){  ?>
+						<li class="filter" data-filter=".followers">
+							<a href="javascript:;" class="filterfollowers bg-light-red" onclick="$('.optionFilter').hide();$('.labelFollows').hide()"> 
+								<i class="fa fa-heart fa-2"></i> <span class=""><?php echo Yii::t("common","Followers") ?></span> 
+								<span class="badge bg"><?php echo $countFollowers;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
@@ -396,13 +430,13 @@ if( isset($_GET["isNotSV"])) {
 						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
-					if ($parentType==Organization::COLLECTION || $parentType==Project::COLLECTION || $parentType==Person::COLLECTION){ ?>
-						<div class="col-md-12 col-sm-12 col-xs-12 row">
+					//if ($parentType==Person::COLLECTION){ ?>
+						<!-- <div class="col-md-12 col-sm-12 col-xs-12 row">
 							<span class="homestead panelLabel pull-left labelCommunity"> 
 							<?php echo ucfirst(Yii::t("common",$connectType)) ?>
 							</span>
-						</div>
-					<?php } 
+						</div> -->
+					<?php //} 
 					/* ************ ORGANIZATIONS ********************** */
 					if(isset($organizations)) 
 					{ 
@@ -453,6 +487,25 @@ if( isset($_GET["isNotSV"])) {
 						//echo "[[".$str."]]";
 						return $str;
 					}
+					if(isset($follows[Person::COLLECTION])) 
+						{ 
+							foreach ($follows[Person::COLLECTION] as $e) 
+							{
+								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+							}
+					}	
+					///// SHOW FOLLOWERS !!!!!
+					if(isset($followers)){
+						/*echo '<li id="" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix citoyensLine citoyens" data-cat="1" style="border: inset 1px white;display: inline-block;">'.
+							'<div style="position:relative;">'.
+										'<div class="portfolio-item" style="line-height: 75px;color: #e25555 !important;font-variant: small-caps;font-size: large;"> '.
+										'<span><i class="fa fa-plus" style="float: inherit;"></i> '.$countFollowers.' '.Yii::t("common","followers").'</span>'.
+								'</div></div></li>';*/
+						foreach ($followers as $e) 
+							{
+								buildDirectoryLine($e, "followers", Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,false);
+							}
+						}
 					///// SHOW FOLLOWS
 					if (isset($follows) && $follows["count"] > 0){ ?>
 						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
@@ -471,13 +524,14 @@ if( isset($_GET["isNotSV"])) {
 						}
 	
 						/* ********** PEOPLE ****************** */
-						if(isset($follows[Person::COLLECTION])) 
+						/* Intégrer au réseau en attendant un lien plus fort
+							if(isset($follows[Person::COLLECTION])) 
 						{ 
 							foreach ($follows[Person::COLLECTION] as $e) 
 							{
 								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
 							}
-						}	
+						}	*/
 						if(isset($follows[Project::COLLECTION])) 
 						{ 
 							foreach ($follows[Project::COLLECTION] as $e) 
@@ -486,20 +540,8 @@ if( isset($_GET["isNotSV"])) {
 							}
 						}
 					} 
-					///// SHOW FOLLOWERS !!!!!
-					if (isset($followers) && !empty($followers)){ ?>
-						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
-							<span class="homestead panelLabel pull-left labelCommunity labelFollowers"> 
-							<?php echo ucfirst(Yii::t("common","followers")) ?>
-							</span>
-						</div>
-
-					<?php 
-						foreach ($followers as $e) 
-						{
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
-						}
-					}
+					
+					
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$parentType=null,$parentId=null)
 					{
 						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
@@ -772,7 +814,6 @@ var itemType = "";
 var controllerId = ""
 
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
-
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = [];
 var actions = [];
@@ -789,8 +830,6 @@ jQuery(document).ready(function() {
 	$("#scopeFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','Where are you looking ?') ?></h4>" + scopeFilters);
 	initGrid();
 
-	console.log("change filter " + activeType);
-
 	if( activeType != ""){
 		 $('#item_panel_filter_'+activeType).trigger("click");
 		 $('.filter'+activeType).trigger("click");
@@ -799,6 +838,7 @@ jQuery(document).ready(function() {
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
+	
 	
 	convertAllStartDateEvent();
 	console.dir(mapData);
@@ -833,7 +873,6 @@ jQuery(document).ready(function() {
  function showFilters(what, show){
  	if(show){
  		$(what).show('fast');
- 		$(".labelFollowers").hide('fast');
  		$(".labelFollows").show('fast');
  	}else{
  		$(what).hide('fast');
@@ -848,7 +887,18 @@ function showHideFeatures(classId){
 function initGrid(){
 	if( $(".mix").length ){
 		bindBtnEvents();
-		$('#Grid').mixItUp();
+		///// MixItUp is a plugin from jQuery to customize element filtering and sortering
+		///// https://mixitup.kunkalabs.com
+		
+		$('#Grid').mixItUp({
+			callbacks: {
+				onMixEnd: function(state){
+					console.log(state);
+					if (state.activeFilter != ".followers")
+						$(".followers").hide();
+				}	
+			}
+		});
 		/*$('.portfolio-item .chkbox').bind('click', function () {
 	        if ($(this).parent().hasClass('selected')) {
 	            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');

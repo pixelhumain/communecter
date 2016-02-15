@@ -174,7 +174,10 @@ class Menu {
         // ADD MEMBER
         //-----------------------------
         if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
-            self::entry("right", 'showAjaxPanel',Yii::t('common','Add a member to this organization'), Yii::t("common",'Add member'),'plus','/organization/addmember/id/'.$id.'?isNotSV=1',"organization","addmember");
+	        self::entry("right", 'onclick',
+            			Yii::t('common','Add a member to this organization'), 
+            			Yii::t("common",'Add member'),'plus',
+            			"loadByHash('#organization.addmember.id.".$id."')",null,null);
         }
 
         //SEND MESSAGE
@@ -390,7 +393,10 @@ class Menu {
                 // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
-            self::entry("right", 'showAjaxPanel',Yii::t('common','Add a contributor to this project'), Yii::t("common",'Add contributor'),'plus','/project/addcontributorsv/projectId/'.$id.'?isNotSV=1',"project","addcontributorsv");
+            self::entry("right", 'onclick',
+            			Yii::t('common','Add a contributor to this project'), 
+            			Yii::t("common",'Add contributor'),'plus',
+            			"loadByHash('#project.addcontributorsv.projectId.".$id."')",null,null);
         }
 		if(isset($project["_id"]) && isset(Yii::app()->session["userId"]) && 
                 Link::isLinked((string)$project["_id"], Project::COLLECTION, Yii::app()->session["userId"])){

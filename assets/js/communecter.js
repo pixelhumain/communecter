@@ -274,7 +274,6 @@ function loadByHash( hash , back) {
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
-
     //
     if( replaceAndShow(hash,params) )
     	console.warn("loadByHash replaceAndShow",hash);
@@ -297,9 +296,18 @@ function loadByHash( hash , back) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-    else if( hash.indexOf("#project.addcontributorsv") >= 0 )    
-        showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-
+    else if( hash.indexOf("#project.addcontributorsv") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add contributors','plus' );
+	}
+	else if( hash.indexOf("#organization.addmember") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add members','plus' );
+	}
+	else if( hash.indexOf("#event.addattendeesv") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ADD ATTENDEES','plus' );
+	}
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
