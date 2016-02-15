@@ -362,8 +362,10 @@ var typesLabels = {
 
 
 	function setScopeValue(value){
-		//value = value.replace("#", "'");
 		where = value;
+		if( typeof value === "object" )
+			where = value.data("id");
+
 	  	$("#searchBarPostalCode").val(value);
 	  	console.log("setScopeValue")
 		showInputCommunexion();

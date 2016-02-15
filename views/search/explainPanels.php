@@ -116,6 +116,8 @@
 			Construire ensemble pour un résultat partagé
 			Le résultat est souvent beaucoup plus riche 
 			qu'on ne se l'imaginait 
+			Les communs sont des ressources partagées entre une communauté d’utilisateurs qui déterminent eux-mêmes le cadre et les normes régulant la gestion et l’usage de leur ressource.
+			<br/>« Il n’y a pas de commun sans « commoners ». (…) Il n’y a pas de commun sans agir en commun. » New to the Commons ? David Bollier.
 		</ul>
 	</div>
 	
@@ -209,24 +211,23 @@
 	<div class="explainOpendata explain hide">
 		<h1 class="homestead yellowph">Opendata</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			L'open data ou donnée ouverte est une donnée numérique d'origine publique ou privée. Elle peut être notamment produite par une collectivité, un service public (éventuellement délégué) ou une entreprise. Elle est diffusée de manière structurée selon une méthode et une licence ouverte garantissant son libre accès et sa réutilisation par tous, sans restriction technique, juridique ou financière.
+			<br/>L'ouverture des données (open data) représente à la fois un mouvement, une philosophie d'accès à l'information et une pratique de publication de données librement accessibles et exploitables.
+			<br/>Elle s'inscrit dans une tendance qui considère l'information publique comme un bien commun (tel que défini par Elinor Ostrom) dont la diffusion est d'intérêt public et général.
+			<br/>En Europe et dans certains pays, des directives et lois imposent aux collectivités de publier certaines données publiques sous forme numérique.
+			<a href="https://fr.wikipedia.org/wiki/Open_data" target="_blank" class="btn btn-default"><i class="fa-wikipedia-w fa"></i> Wikipedia</a>
 		</ul>
 	</div>
 
 	<div class="explainCartographiedeReseau explain hide">
 		<h1 class="homestead yellowph">Cartographie de Réseau</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Network mapping is the study of the physical connectivity of networks. Internet mapping is the study of the physical 
+			connectivity of the Internet. Network mapping discovers the devices on the network and their connectivity. 
+			It is not to be confused with network discovery or network enumerating which discovers devices on the network and their 
+			characteristics such as (operating system, open ports, listening network services, etc.). 
+			The field of automated network mapping has taken on greater importance as networks become more dynamic and complex in nature.
+			<a href="https://en.wikipedia.org/wiki/Network_mapping" target="_blank" class="btn btn-default"><i class="fa-wikipedia-w fa"></i> Wikipedia</a>
 		</ul>
 	</div>
 
@@ -378,14 +379,12 @@
 	<div class="explainCodeSocial explain hide">
 		<h1 class="homestead yellowph">Code Social</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Le code social est un modèle de description à destination des organisations et des projets 
+			souhaitant s'inscrire dans des logiques de transparence, d'ouverture et de collaboration. 
+			Il est assimilable à une carte d'identité mise en mouvement.
 		</ul>
 	</div>
+
 	<div class="explainGlocal explain hide">
 		<h1 class="homestead yellowph">Glocal</h1>
 		<ul>
@@ -397,4 +396,83 @@
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</ul>
 	</div>
+
+	<div class="explainCommunecteur explain hide">
+		<h1 class="homestead yellowph">Communecteur</h1>
+		<ul>
+			Je suis communecteur quand j'ai envie de : 
+			<br/>- faire bouger les choses autour de moi 
+			<br/>- faire partie d'un projet oeuvrant pour les communs
+			<br/>- transmettre massivement Communecter 
+			<br/>- oeuvrer au bien commun
+			<br/>- transmettre les valeurs de la transparence et du partage 
+			<br/>- agir, particper à gérer mon territoire
+			<br/>- préparer plusieurs apéro citoyen (45min) pour présenter l'outil 
+			<br/>- participer activement à relayer massivement la campagne de crowdfunding
+			Je suis communecteur quand je crois à :
+			<br/>- un nouvel outil pour de nouveaux usages
+			<br/>- la valeur par l'usage et plus à celui d'un prix
+			<br/>- l'open-source et à l'open-data
+			<br/>- et qu'il est temps de changer de présentatrice météo et d'actu !!
+			Bref, être un Communecteur, c'est tout ça à la fois. C'est quelqu'un de vraiment actif, qui est prêt à s'engager, à relayer activement et durant toute sa durée la campagne de crowdfunding, à nous aider et qui croit à 100% à notre projet !
+		</ul>
+	</div>
+
+	<div class="explainDeveloper explain hide">
+		<h1 class="homestead yellowph">Developpeur</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainEditor explain hide">
+		<h1 class="homestead yellowph">Editeur</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainDesigner explain hide">
+		<h1 class="homestead yellowph">Designeur</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainContributor explain hide">
+		<h1 class="homestead yellowph">Contributeur</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainBeta explain hide">
+		<h1 class="homestead yellowph">Version Béta</h1>
+		<ul>
+			<li>Les fonctionalités prinicipales fonctionnes</li>
+			<li>si vous trouvez des bugs, transmettez les </li>
+			<li>On fait tous pour améliorer la plateforme </li>
+		</ul>
+	</div>
+
 </div>

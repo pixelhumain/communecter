@@ -164,10 +164,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	}
 ?> 
 		
-
 	<center class="imageSection imageSectionVideo">
 		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
+		<br/>
+		<span class="homestead">Nous somme en <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
 	</center>
+
+
 <?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
@@ -290,7 +293,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
 					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
-					pour valoriser le territoire et le bien commun.  
+					pour valoriser le territoire et le <a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">bien commun</a>.  
 			</div>
 			
 			<div class="col-sm-8">
@@ -299,7 +302,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			
 		</div>
 	</div>
-	
+
+
 	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
@@ -459,11 +463,26 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 	
-	<hr>
+	<div class="col-sm-12" style="background-color:#E33551; ">
+		<center>
+			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
+			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
+			<div class="col-sm-12 text-white">
+				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
+				<h3 class="homestead">Rejoignez nous : </h3>
+				<a href="javascript:loadByHash" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
+				<a href="javascript:;" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
+				<a href="javascript:;" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
+				<a href="javascript:;" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
+				<a href="javascript:;" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
+			</div>
+		</center>
+		<div class="space20"></div>
+	</div>
 
 	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:180px " >	
 		<center>
-			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
+			<i class="fa fa-caret-down" style="color:#E33551"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
