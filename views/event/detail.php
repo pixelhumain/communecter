@@ -43,7 +43,7 @@ $admin = false;
 	
 	jQuery(document).ready(function() {
 		bindBtnFollow();
-		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo $event["name"] ?> ");
+		$(".moduleLabel").html("<i class='fa fa-calendar'></i> ÉVÉNEMENT : <?php echo $event["name"] ?> ");
 		console.dir(contextMap);
 		
 		Sig.restartMap();

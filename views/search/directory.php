@@ -43,9 +43,9 @@
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
 	<?php 
-		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   			    Yii::app()->request->cookies['cityName'] : "";
-		if($where == "") 
+		//$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		//   			    Yii::app()->request->cookies['cityName'] : "";
+		//if($where == "") 
 				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
 			   			  Yii::app()->request->cookies['postalCode'] : "";
 	?>
@@ -140,7 +140,7 @@ jQuery(document).ready(function() {
         if(scrollEnd == false){
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
-          if( ($(this).scrollTop() + heightWindow) == heightContainer){
+          if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
             console.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
@@ -321,11 +321,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
                   var onclickCp = "";
                   var target = " target='_blank'";
+                  var dataId = "";
                   if(type == "city"){
                   	url = "javascript:"; //#main-col-search";
-                  	onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
+                  	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
                   	onclickCp = 'setScopeValue("'+o.cp+'");';
                   	target = "";
+                    dataId = o.name; //.replace("'", "\'");
                   }
 
                   var tags = "";
@@ -377,7 +379,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                str += "<div class='col-md-5 entityRight no-padding'>";
   	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
   	                	if(fullLocality != "" && fullLocality != " ")
-  	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+  	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
   	                	if(startDate != null)
   	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
   	                	if(endDate != null)

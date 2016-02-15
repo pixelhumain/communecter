@@ -54,11 +54,11 @@
 
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search text-red">
 	<?php 
-		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   			    Yii::app()->request->cookies['cityName'] : "";
-		if($where == "") 
-				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
-			   			Yii::app()->request->cookies['postalCode'] : "";
+		//$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		//   			    Yii::app()->request->cookies['cityName'] : "";
+		//if($where == "") 
+		//		 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+		//	   			Yii::app()->request->cookies['postalCode'] : "";
 	?>
 	<!-- <input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
 		   value="<?php echo $where; ?>" > -->

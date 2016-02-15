@@ -223,7 +223,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		border-bottom: 3px solid rgba(96, 96, 96, 0.65);
 	}
 	
-	.bg-red, .bg-dark, .bg-yellow, .bg-green, .bg-orange, .bg-purple{
+	.container_menu_directory .bg-red, 
+	.container_menu_directory .bg-dark, 
+	.container_menu_directory .bg-yellow, 
+	.container_menu_directory .bg-green, 
+	.container_menu_directory .bg-orange, 
+	.container_menu_directory .bg-purple{
 		padding-top:10px;
 		border-bottom: 3px solid transparent;
 	}

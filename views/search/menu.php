@@ -375,6 +375,7 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
+			timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
