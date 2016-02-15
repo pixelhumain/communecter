@@ -204,7 +204,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
 						<!--<a  href="#" 
 							class="g-interactivepost btn btn-primary col-md-3"
-						    data-clientid="<?php echo Yii::app()->params['google']['client_id'] ; ?>"
+						    data-clientid="<?php //echo Yii::app()->params['google']['client_id'] ; ?>"
 							data-contenturl="www.communecter.org"
 							data-calltoactionlabel="INVITE"
 							data-calltoactionurl="www.communecter.org"
@@ -252,7 +252,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         	<div class="panel-body">
         		<div id="checkMail" class="col-sm-12 col-xs-12">
 					<div class="list-group col-sm-5">
-						<span class="list-group-item active">Liste des contacts</span>
+						<span class="list-group-item active">
+							<div>Liste des contacts 
+							<div id="nbContact" class="text-right"></div></div>
+						</span>
 						<span class="list-group-item">
 							<input type='checkbox' id='allchecked'/><label id="textallchecked" for="allchecked">Tout cocher</label>	
 						</span>
@@ -361,10 +364,13 @@ function bindInviteSubViewInvites() {
   		arraymail = listemail.split(';');
   		$("#list-contact").html("");
   		var text = "" ;
+  		var nbContact = 0 ; 
   		$.each(arraymail, function(keyMails, valueMails){
+  			nbContact++;
         	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
         	
         });
+        $("#nbContact").html(nbContact + " contacts");
   		$("#list-contact").append(text);
         $("#divCheckMail").show();
   	});
@@ -376,7 +382,9 @@ function bindInviteSubViewInvites() {
 		if($.inArray(ext, ["csv"]) == -1) {
 			alert('Upload CSV');
 			return false;
-		}  
+		} 
+
+		var nbContact = 0 ; 
 		if (e.target.files != undefined) {
 			var reader = new FileReader();
 			reader.onload = function(e) {
@@ -384,14 +392,18 @@ function bindInviteSubViewInvites() {
 				var text = "" ;
 				$.each(csvval, function(keyMails, valueMails){
 					console.log("valueMails",valueMails);
-					if(valueMails.trim() != "")
+					if(valueMails.trim() != ""){
+						nbContact++;
 						text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+					}	
 				});
 				$("#list-contact").append(text);
 			};
 			reader.readAsText(e.target.files.item(0));
 
 		}
+
+		$("#nbContact").html(nbContact + " contacts");
 		$("#divCheckMail").show();
 		return false;
 	});
@@ -830,22 +842,26 @@ function getToken(stop) {
 
 function fetch(token){
 	console.log("fetch", token);
-	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json"
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false"
 	$.ajax({
   		url: urlGmail,
   		dataType: "jsonp",
   		success:function(data){
     		console.log("dataFetch", data);
     		$("#list-contact").html("");
+    		
+    		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
-    			console.log("value", value);
-    			console.log("title", value.title);
+    			//console.log("value", value);
+    			//console.log("title", value.title);
       			var text = "";
       			if(value.gd$email){
+
       				$.each(value.gd$email, function( keyMails, valueMails ){
-        				console.log("valueMails.address", valueMails.address);
+        				//console.log("valueMails.address", valueMails.address);
+        				nbContact++;
         				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">';
-        				console.log("value.link", value.link);
+        				//console.log("value.link", value.link);
         				/*if(value.link){
         					$.each(value.link, function( keyLink, valueLink ){
         						if(valueLink.type == "image/*"){
@@ -858,8 +874,9 @@ function fetch(token){
           			});
         			$("#list-contact").append(text);
       			}
-      			$("#divCheckMail").show();
       		});
+      		$("#nbContact").html(nbContact + " contacts");
+      		$("#divCheckMail").show();
   		},
   		error:function(data){
   			console.log("error",data)

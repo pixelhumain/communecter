@@ -197,9 +197,39 @@
 						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
 						button	+= 	"<div class='info_item country_item_map_list inline'>" + element['address']['addressCountry'] + "</div>";
 								
-						if("undefined" != typeof element['telephone'])
-						button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
-								
+						//if("undefined" != typeof element['telephone'])
+						//button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
+						if(typeof element["telephone"] != "undefined"){
+							var telephone = "" ;
+							if(typeof element["telephone"] == "object"){
+
+								if(typeof element["telephone"]["fixe"] != "undefined"){
+									$.each(element["telephone"]["fixe"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+
+								if(typeof element["telephone"]["mobile"] != "undefined")
+								{
+									$.each(element["telephone"]["mobile"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+							}
+							else
+							{
+								if(typeof element["telephone"] == "string"){
+									if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+								}
+							}
+							button += "<div class='info_item telephone_item_map_list inline'>" + telephone + "<div/>";
+						}		
 						
 				button += 	'</div>';
 

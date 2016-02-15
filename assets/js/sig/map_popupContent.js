@@ -84,10 +84,42 @@
 			}
 
 			//NUMÉRO DE TEL
-			if(data['telephone'] != null)
+			/*if(data['telephone'] != null)
 			popupContent += 	"<div class='popup-info-profil'>" + data['telephone'] + "<div/>";
 			//else
-			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";
+			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";*/
+
+			if(typeof data["telephone"] != "undefined"){
+				var telephone = "" ;
+				if(typeof data["telephone"] == "object"){
+
+					if(typeof data["telephone"]["fixe"] != "undefined"){
+						$.each(data["telephone"]["fixe"], function(key, value){
+			  				if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+			  			});
+					}
+
+					if(typeof data["telephone"]["mobile"] != "undefined")
+					{
+						$.each(data["telephone"]["mobile"], function(key, value){
+			  				if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+			  			});
+					}
+				}
+				else
+				{
+					if(typeof data["telephone"] == "string"){
+						if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+					}
+				}
+				popupContent += 	"<div class='popup-info-profil'>" + telephone + "<div/>";
+			}
 
 			return popupContent;
 		};
@@ -164,9 +196,41 @@
 						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
 						popupContent	+= 	"<div class='info_item country_item_map_list'>" + data['address']['addressCountry'] + "</div>";
 								
-						if("undefined" != typeof data['telephone'])
-						popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
+						//if("undefined" != typeof data['telephone'])
+						//popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
 						
+						if(typeof data["telephone"] != "undefined"){
+							var telephone = "" ;
+							if(typeof data["telephone"] == "object"){
+
+								if(typeof data["telephone"]["fixe"] != "undefined")
+								{
+									$.each(data["telephone"]["fixe"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+
+								if(typeof data["telephone"]["mobile"] != "undefined")
+								{
+									$.each(data["telephone"]["mobile"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+							}
+							else
+							{
+								if(typeof data["telephone"] == "string"){
+									if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+								}
+							}
+							popupContent += "<div class='info_item telephone_item_map_list'>" + telephone + "<div/>";
+						}
 						
 				popupContent += '</div>';
 
@@ -275,9 +339,42 @@
 						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
 						popupContent	+= 	"<div class='info_item country_item_map_list inline'>" + data['address']['addressCountry'] + "</div>";
 								
-						if("undefined" != typeof data['telephone'])
-						popupContent	+= 	"<div class='info_item telephone_item_map_list inline'>" + data['telephone'] + "</div>";
+						//if("undefined" != typeof data['telephone'])
+						//popupContent	+= 	"<div class='info_item telephone_item_map_list inline'>" + data['telephone'] + "</div>";
 
+
+						if(typeof data["telephone"] != "undefined"){
+							var telephone = "" ;
+							if(typeof data["telephone"] == "object"){
+
+								if(typeof data["telephone"]["fixe"] != "undefined")
+								{
+									$.each(data["telephone"]["fixe"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+
+								if(typeof data["telephone"]["mobile"] != "undefined")
+								{
+									$.each(data["telephone"]["mobile"], function(key, value){
+						  				if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+						  			});
+								}
+							}
+							else
+							{
+								if(typeof data["telephone"] == "string"){
+									if(telephone != "")
+											telephone += ", ";
+										telephone += value ;
+								}
+							}
+							popupContent += "<div class='info_item telephone_item_map_list inline'>" + telephone + "<div/>";
+						}
 				popupContent += '</div>';
 
 				if("undefined" != typeof allData['text']){
@@ -377,10 +474,43 @@
 			}
 
 			//NUMÉRO DE TEL
-			if(data['telephone'] != null)
+			/*if(data['telephone'] != null)
 			popupContent += 	"<div class='popup-info-profil'>" + data['telephone'] + "<div/>";
 			//else
-			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";
+			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";*/
+
+			if(typeof data["telephone"] != "undefined"){
+				var telephone = "" ;
+				if(typeof data["telephone"] == "object"){
+
+					if(typeof data["telephone"]["fixe"] != "undefined")
+					{
+						$.each(data["telephone"]["fixe"], function(key, value){
+			  				if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+			  			});
+					}
+
+					if(typeof data["telephone"]["mobile"] != "undefined")
+					{
+						$.each(data["telephone"]["mobile"], function(key, value){
+			  				if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+			  			});
+					}
+				}
+				else
+				{
+					if(typeof data["telephone"] == "string"){
+						if(telephone != "")
+								telephone += ", ";
+							telephone += value ;
+					}
+				}
+				popupContent += 	"<div class='popup-info-profil'>" + telephone + "<div/>";
+			}
 
 			return popupContent;
 		};

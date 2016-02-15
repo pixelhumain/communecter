@@ -65,7 +65,7 @@ jQuery(document).ready(function() {
 function bindEvents(){
 	$("#collectOpenAgenda").off().on('click', function(e){
 		$.ajax({
-			url: "//api.openagenda.com/v1/events/53141842?key=e103e404d39947b621771086b36649dd",
+			url: "//api.openagenda.com/v1/events?uids[]=39616433&uids[]=76959109&uids[]=26938900&key=36528cb9cc14c9c3920000fd0d5890f8",
 			type: 'POST',
 			dataType: 'jsonp',
 			json: "callback",
@@ -123,8 +123,8 @@ function bindEvents(){
 				jsonEventsUpdate : $("#jsonEventsUpdate").val(),
 				jsonEventsDelete : $("#jsonEventsDelete").val(),
 			},
-			success: function (result){
-				console.log('success', result);
+			success: function (data){
+				console.log('success', data);
 			},
 			error: function (error) {
 				console.log('error', error);
@@ -141,32 +141,33 @@ function checkEventsOpenAgendaInDB(data){
 	var arrayUpdate = [] ;
 	var arrayDelete = [] ;
 	var arrayEvents = {} ;
-	//$.each(data, function( key, val ) {
-		//console.log(val);
+	$.each(data.data, function( key, val ) {
+		//console.log(data.data.location);
 		$.ajax({
 			url: baseUrl+'/communecter/admin/checkventsopenagendaindb/',
 			type: 'POST',
 			dataType: 'json',
 			data : {
-				OpenAgendaID : data.data.uid,
-				modified : data.data.updatedAt
+				OpenAgendaID : val.uid,
+				modified : val.updatedAt,
+				location : val.locations
 			},
 			async:false,
 			complete: function () {},
 			success: function (result){
 				console.log('success', result);
 				if(result.state == "Add")
-					arrayAdd.push(data.data);
+					arrayAdd.push(val);
 				else if(result.state == "Update")
-					arrayUpdate.push(data.data);
+					arrayUpdate.push(val);
 				else if(result.state == "Delete")
-					arrayDelete.push(data.data);
+					arrayDelete.push(val);
 			},
 			error: function (error) {
 				console.log('error', error);
 			}
 		});
-	//});
+	});
 	arrayEvents["Add"] = arrayAdd;
 	arrayEvents["Update"] = arrayUpdate;
 	arrayEvents["Delete"] = arrayDelete;
