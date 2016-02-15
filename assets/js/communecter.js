@@ -166,8 +166,17 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
+										//console.log("saveMembre");
 										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
+										//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
+										//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
+										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
+										//bindFicheInfoBtn();
+										//if (data.notification && data.notification=="toBeValidated")
 										toastr.success(data.msg);	
+										//else
+										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 										loadByHash(location.hash);
 									}
 									else
@@ -198,9 +207,18 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 				dataType: "json",
 				success: function(data) {
 					if(data.result){
+						//console.log("saveMembre");
 						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						loadByHash(location.hash);
+						//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
+						//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
+						//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
+						//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
+						//bindFicheInfoBtn();
+						//if (data.notification && data.notification=="toBeValidated")
+							toastr.success(data.msg);	
+						//else
+						//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
+							loadByHash(location.hash);
 					}
 					else
 						toastr.error(data.msg);
@@ -280,31 +298,13 @@ function loadByHash( hash , back) {
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
-    } else if ( hash.indexOf("#survey.entry.id") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'VOTE LOCAL ','legal' );
-    }  else if ( hash.indexOf("#rooms") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTION ROOMS ','cubes' );
-    }   
-
-    else if ( hash.indexOf("#admin.importdata") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'IMPORT DATA ','upload' );
-    }  
-    else if ( hash.indexOf("#admin.index") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'INDEX ','download' );
-    } 
-    else if ( hash.indexOf("#admin.directory") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'DIRECTORY ','user' );
     }
-    else if ( hash.indexOf("#admin.openagenda") >= 0 ) {
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'OPENAGENDA','calendar' );
-    }
-
 
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } else if(userId != "")
-        showAjaxPanel( '/news?isSearchDesign=1', 'KESS KISS PASS ','rss' );
+        showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
     else
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
@@ -317,7 +317,7 @@ function loadByHash( hash , back) {
 
 function showDefinition( id ){
 	$(".hover-menu").trigger("mouseenter");
-	$(".infoVersion").css("display" , "inline");
+	$(".hover-info").css("display" , "inline");
 	toggle( "."+id , ".explain" );
 }
 

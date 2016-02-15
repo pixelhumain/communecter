@@ -231,8 +231,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 	
-	<hr>
-
 	<div class="col-md-12 no-padding">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
@@ -256,36 +254,35 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
 				<br/>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
+					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain. 
 			</div>
 			
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
 				<br/>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
+					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
+					Economie solidaire, Fablabs, jardins partagés, biens communs. L'innovation sociale c'est aussi ça.
 			</div>
 
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
 				<br/>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
+					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités. 
+					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
 			</div>
 
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen 
+				avec un vrai respect de la qualité, quelque soit son métier.
+				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
 			</div>
 
 			<div class="col-sm-8 information">
@@ -309,13 +306,20 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
 			<div class="space20"></div>
 			<div class="col-md-6 col-sm-12">
+				
+				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink text-red">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire, 
+				<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">"Communecter"</a> propose des outils numériques innovants et disponibles pour tous afin de créer ensemble 
+				un <a href="javascript:;" data-id="explainConnectedTerritory" class="explainLink text-red">territoire connecté</a> qui nous ressemble.
+				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink text-red">bien commun</a> 
+				fait pour et par chacun d’entre nous, porté par une association à but non lucratif.
+				<br/><br/>
 				Plus qu'une simple application Communecter se présente sous differente forme :
-				<br/>Une projet open source
+				<br/>Une projet <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">open source</a>
 				<br/>Une communauté riche et diversifié
 				<br/>Un site web qui vous tend les bras
 				<br/>Une application mobile encore en court 
 				<br/>Des interfaces tiers contribuant ou pas à une Base de donnée commune
-				<br/>Des instances indépendantes mais interopérantes par leurs sémantiques communes 
+				<br/>Des instances indépendantes mais interopérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">sémantiques</a> communes 
 			</div>
 			<div class="col-md-6 col-sm-12">
 				<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screens.png"/>
@@ -337,7 +341,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 		<div class="col-md-6 col-sm-12">
 			<div style="font-size: 17px; font-weight: 300; text-align: left;">
-				Lancement d'une opération de crowdfunding sur la plate-forme KissKissBankBank.
+				Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">financement participatif</a>.
+				<br/><span class="text-bold">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
+				<br/>Pour <span class="text-bold">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
+				<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-bold">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+				<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
+				<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-bold">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
+				<?php /* ?>
 				<br/><br/>
 				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
 				fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
@@ -348,6 +358,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
 				<br/><br/>
 				Notre campagne de crowdfounding va donc démarrer le ......
+				*/?>
 			</div>
 		</div>
 	</div>
@@ -429,7 +440,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				
 				<div class="col-sm-12">
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
-					<img class="img-responsive img-circle img-thumbnail peopleTalkImg" style="height:200px;" src="" onclick="showPeopleTalk();"/>
+					<img class="img-responsive img-circle img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
 				</div>
 				<div class="space20"></div>
@@ -505,6 +516,7 @@ jQuery(document).ready(function() {
     
     $(".explainLink").click(function() {  
 		showDefinition( $(this).data("id") );
+		return false;
 	});
     $(".keyword").click(function() { 
     	$(".keysUsages").hide();
