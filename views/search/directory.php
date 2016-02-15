@@ -27,7 +27,7 @@
 
 <div class="lbl-scope-list text-red"></div>
 
-<?php $this->renderPartial("short_info_profil", array("type" => "main")); ?> 
+<?php //$this->renderPartial("short_info_profil", array("type" => "main")); ?> 
 
 <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
 		data-toggle="tooltip" data-placement="right" title="Carte">
@@ -110,10 +110,10 @@ jQuery(document).ready(function() {
       clearTimeout(timeoutSearch);
       timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
   });
-  $('#searchBarPostalCode').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  });
+  // $('#searchBarPostalCode').keyup(function(e){
+  //     clearTimeout(timeoutSearch);
+  //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  // });
   $('#btn-start-search').click(function(e){
       startSearch();
   });

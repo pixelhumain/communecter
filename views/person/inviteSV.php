@@ -630,7 +630,7 @@ function runinviteFormValidation(el) {
 			var invitedUserName = $("#inviteName").val();
 			var invitedUserEmail = $("#inviteEmail").val();
 			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Merci de patienter ...</span>'
+				message : '<span class="homestead"><i class="fa fa-spin fa-circle-o-noch"></i> Merci de patienter ...</span>'
 			});
 			$.ajax({
 		        type: "POST",

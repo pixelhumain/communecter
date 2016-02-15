@@ -408,11 +408,14 @@ var typesLabels = {
 					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 					"<span class='text-red'>COMMUNE</span>CTER.org</span></br></br>" + 
 				//"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
-			"</div>"
-			+
-			'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
-	
-			$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement en cours ...");
+			"</div>");
+			//+
+			//'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
+			
+			// $.blockUI({
+			// 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>'
+			// });
+			$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
 
 			//$(".main-col-search").show();
 
@@ -434,6 +437,7 @@ var typesLabels = {
 		setTimeout(function(){
 			getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
 				$(".main-col-search").slideDown(); initNotifications(); 
+				$.unblockUI();
 			},"html");
 		}, 800);
 		

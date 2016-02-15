@@ -88,7 +88,7 @@
 	border-radius: 3px !important;
 	height: 40px;
 }*/
-input[type="text"].input-search:focus{
+/*input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -100,7 +100,7 @@ input[type="text"].input-search:focus{
 #dropdown_search{
 	margin-top:30px;
 	margin-bottom:30px;
-}
+}*/
 
 .btn-success.communected{
 	width: 50%;
@@ -110,7 +110,7 @@ input[type="text"].input-search:focus{
 	background-color:#5cb85c;
 	color:white;
 }
-
+/*
 .searchEntity{
 	margin-bottom:10px;
 	margin-left:5px;
@@ -129,7 +129,7 @@ input[type="text"].input-search:focus{
 .searchEntity .entityRight .entityName{
 	color:white !important;
 	display: inline;
-}
+}*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
@@ -160,7 +160,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		
 	</div>
 <?php }else{
-		$this->renderPartial("short_info_profil", array("type" => "main")); 
+		//$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
 		
