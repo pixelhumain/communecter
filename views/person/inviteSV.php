@@ -913,7 +913,12 @@ function getToken(stop) {
 
 function fetch(token){
 	console.log("fetch", token);
-	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false"
+	rand = Math.floor((Math.random() * 8) + 1);
+	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+			});
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=true"
 	$.ajax({
   		url: urlGmail,
   		dataType: "jsonp",
@@ -948,6 +953,7 @@ function fetch(token){
       		});
       		$("#nbContact").html(nbContact + " contacts");
       		$("#divCheckMail").show();
+      		$.unblockUI();
   		},
   		error:function(data){
   			console.log("error",data)

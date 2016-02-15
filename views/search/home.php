@@ -166,11 +166,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		
 	<center class="imageSection imageSectionVideo">
 		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
-		<br/>
-		<span class="homestead">Nous somme en <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
 	</center>
-
-
 <?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
@@ -338,12 +334,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
 		</center>
 		<div class="space20"></div>
-		<div class="col-md-6 col-sm-12">
+		<div class="col-sm-12">
 			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive" style="border:0px solid #293A46;margin-top:20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				<img class="img-responsive pull-right" style="border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 			</a>
-		</div>
-		<div class="col-md-6 col-sm-12">
+		
 			<div style="font-size: 17px; font-weight: 300; text-align: left;">
 				Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">financement participatif</a>.
 				<br/><span class="text-bold">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
@@ -470,11 +465,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-12 text-white">
 				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
 				<h3 class="homestead">Rejoignez nous : </h3>
-				<a href="javascript:loadByHash" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
-				<a href="javascript:;" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
-				<a href="javascript:;" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
-				<a href="javascript:;" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
-				<a href="javascript:;" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
+				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
+				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
+				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
+				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
+				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
 			</div>
 		</center>
 		<div class="space20"></div>
@@ -500,6 +495,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 
 <script type="text/javascript">
+function focusPeople (tag) { 
+	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
+	showFilterOnMap(tag)
+}
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
 jQuery(document).ready(function() {

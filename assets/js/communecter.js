@@ -265,7 +265,7 @@ function replaceAndShow(hash,params){
 	});
 	return res;
 }
-function loadByHash( hash , back) { 
+function loadByHash( hash , back, mapEnd) { 
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
@@ -313,6 +313,8 @@ function loadByHash( hash , back) {
       history.pushState( { "hash" :hash} , null, hash );
     console.warn("pushState",hash);
 
+    if(mapEnd)
+    	showMap();
 }
 
 function showDefinition( id ){
