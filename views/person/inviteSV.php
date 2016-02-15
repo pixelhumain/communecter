@@ -23,6 +23,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     font-size: 0.95rem;
     font-weight: 300;
     line-height: 0.8125rem;
+
 }
 
 #newInvite{
@@ -705,9 +706,13 @@ function autoCompleteInviteSearch(search){
 	 					postalCode = v.address.postalCode;
 	 				}
 	  				str += 	"<li class='li-dropdown-scope'>" +
-	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name + 
-	  						//"<span class='city-search'> "+postalCode+" "+city+"</span>"+"</a>"+
-	  						"</li>";
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+
+	  				if(typeof postalCode != "undefined")
+	  					str += "<br/>"+postalCode+" "+city;
+	  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+	  				str += "</a></li>";
+
 	  				compt++;
   				}
 			});
@@ -895,7 +900,7 @@ function getToken(stop) {
 		if(stop == false)
 			getToken(true) ;
 		else
-			toastr.error("Veuillez réessayer plus tard.");
+			toastr.error("Veuillez réessayer plus taSrd.");
 	}
 }
 
