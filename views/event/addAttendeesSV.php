@@ -16,6 +16,7 @@ if( @$isNotSV ) {
 }
 </style>
 <div id="newAttendees">
+	<div class="space20"></div>
 	<?php if(@$isNotSV){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h2>
 	<?php } ?>
