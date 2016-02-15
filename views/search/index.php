@@ -297,21 +297,21 @@ var typesLabels = {
 		// }
 
 		//console.log("checkScroll" , $(".my-main-container").scrollTop() , hideScrollTop);
-		if($(".my-main-container").scrollTop() < 90 && hideScrollTop){
-			if($(".main-top-menu").css("opacity") == 1){
-				$(".main-top-menu").animate({
-	         							top: -60,
-	         							opacity:0
-								      }, 500 );
-			}
-		}else{
-			if($(".main-top-menu").css("opacity") == 0){
+		// if($(".my-main-container").scrollTop() < 90 && hideScrollTop){
+		// 	if($(".main-top-menu").css("opacity") == 1){
+		// 		$(".main-top-menu").animate({
+	 //         							top: -60,
+	 //         							opacity:0
+		// 						      }, 500 );
+		// 	}
+		// }else{
+			//if($(".main-top-menu").css("opacity") == 0){
 				$(".main-top-menu").animate({
 	         							top: 0,
 	         							opacity:1
 								      }, 500 );
-			}
-		}
+			//}
+		//}
 	}
 	function showMap(show){
 			console.log("showMap");
