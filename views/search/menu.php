@@ -318,10 +318,10 @@ jQuery(document).ready(function() {
 
 	var timeoutSearch = setTimeout(function(){}, 0);
 	$('#searchBarPostalCode').keyup(function(e){
-		if(location.hash == "#search.home"){
+		//if(location.hash == "#search.home"){
 	        clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-	    }
+	    //}
     });
     
     $("#btn-geoloc-auto").click(function(e){
