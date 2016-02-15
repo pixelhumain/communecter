@@ -95,30 +95,30 @@
 
 					if(typeof data["telephone"]["fixe"] != "undefined"){
 						$.each(data["telephone"]["fixe"], function(key, value){
-			  				if(telephone != "")
+			  				/*if(telephone != "")
 								telephone += ", ";
-							telephone += value ;
+							telephone += value ;*/
+							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
 			  			});
 					}
 
 					if(typeof data["telephone"]["mobile"] != "undefined")
 					{
 						$.each(data["telephone"]["mobile"], function(key, value){
-			  				if(telephone != "")
+			  				/*if(telephone != "")
 								telephone += ", ";
-							telephone += value ;
+							telephone += value ;*/
+							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
 			  			});
 					}
 				}
 				else
 				{
 					if(typeof data["telephone"] == "string"){
-						if(telephone != "")
-								telephone += ", ";
-							telephone += value ;
+						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "<div/>";
 					}
 				}
-				popupContent += 	"<div class='popup-info-profil'>" + telephone + "<div/>";
+				//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
 			}
 
 			return popupContent;
@@ -203,33 +203,32 @@
 							var telephone = "" ;
 							if(typeof data["telephone"] == "object"){
 
-								if(typeof data["telephone"]["fixe"] != "undefined")
-								{
+								if(typeof data["telephone"]["fixe"] != "undefined"){
 									$.each(data["telephone"]["fixe"], function(key, value){
-						  				if(telephone != "")
+						  				/*if(telephone != "")
 											telephone += ", ";
-										telephone += value ;
+										telephone += value ;*/
+										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "<div/>";
 						  			});
 								}
 
 								if(typeof data["telephone"]["mobile"] != "undefined")
 								{
 									$.each(data["telephone"]["mobile"], function(key, value){
-						  				if(telephone != "")
+						  				/*if(telephone != "")
 											telephone += ", ";
-										telephone += value ;
+										telephone += value ;*/
+										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "<div/>";
 						  			});
 								}
 							}
 							else
 							{
 								if(typeof data["telephone"] == "string"){
-									if(telephone != "")
-											telephone += ", ";
-										telephone += value ;
+									popupContent += "<div class='info_item telephone_item_map_list'>" + data["telephone"] + "<div/>";
 								}
 							}
-							popupContent += "<div class='info_item telephone_item_map_list'>" + telephone + "<div/>";
+							//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
 						}
 						
 				popupContent += '</div>';
@@ -347,33 +346,32 @@
 							var telephone = "" ;
 							if(typeof data["telephone"] == "object"){
 
-								if(typeof data["telephone"]["fixe"] != "undefined")
-								{
+								if(typeof data["telephone"]["fixe"] != "undefined"){
 									$.each(data["telephone"]["fixe"], function(key, value){
-						  				if(telephone != "")
+						  				/*if(telephone != "")
 											telephone += ", ";
-										telephone += value ;
+										telephone += value ;*/
+										popupContent += "<div class='info_item telephone_item_map_list inline'>" + value + "<div/>";
 						  			});
 								}
 
 								if(typeof data["telephone"]["mobile"] != "undefined")
 								{
 									$.each(data["telephone"]["mobile"], function(key, value){
-						  				if(telephone != "")
+						  				/*if(telephone != "")
 											telephone += ", ";
-										telephone += value ;
+										telephone += value ;*/
+										popupContent += "<div class='info_item telephone_item_map_list inline'>" + value + "<div/>";
 						  			});
 								}
 							}
 							else
 							{
 								if(typeof data["telephone"] == "string"){
-									if(telephone != "")
-											telephone += ", ";
-										telephone += value ;
+									popupContent += "<div class='info_item telephone_item_map_list inline'>" + data["telephone"] + "<div/>";
 								}
 							}
-							popupContent += "<div class='info_item telephone_item_map_list inline'>" + telephone + "<div/>";
+							//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
 						}
 				popupContent += '</div>';
 
@@ -483,33 +481,32 @@
 				var telephone = "" ;
 				if(typeof data["telephone"] == "object"){
 
-					if(typeof data["telephone"]["fixe"] != "undefined")
-					{
+					if(typeof data["telephone"]["fixe"] != "undefined"){
 						$.each(data["telephone"]["fixe"], function(key, value){
-			  				if(telephone != "")
+			  				/*if(telephone != "")
 								telephone += ", ";
-							telephone += value ;
+							telephone += value ;*/
+							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
 			  			});
 					}
 
 					if(typeof data["telephone"]["mobile"] != "undefined")
 					{
 						$.each(data["telephone"]["mobile"], function(key, value){
-			  				if(telephone != "")
+			  				/*if(telephone != "")
 								telephone += ", ";
-							telephone += value ;
+							telephone += value ;*/
+							popupContent += "<div class='popup-info-profile'>" + value + "<div/>";
 			  			});
 					}
 				}
 				else
 				{
 					if(typeof data["telephone"] == "string"){
-						if(telephone != "")
-								telephone += ", ";
-							telephone += value ;
+						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "<div/>";
 					}
 				}
-				popupContent += 	"<div class='popup-info-profil'>" + telephone + "<div/>";
+				//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
 			}
 
 			return popupContent;
