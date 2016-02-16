@@ -298,10 +298,10 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 
 jQuery(document).ready(function() {
 	
-	$('.btn-menu0').click( function(e){ loadByHash("#search.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
-    $('.btn-menu2').click(function(e){ loadByHash("#search.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
-    $('.btn-menu3').click(function(e){ loadByHash("#search.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
-   	$('.btn-menu4').click(function(e){ loadByHash("#search.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
+	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
+    $('.btn-menu2').click(function(e){ loadByHash("#default.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+    $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+   	$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
     $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
     $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
     
@@ -338,7 +338,7 @@ jQuery(document).ready(function() {
 
 	var timeoutSearch = setTimeout(function(){}, 0);
 	$('#searchBarPostalCode').keyup(function(e){
-		//if(location.hash == "#search.home"){
+		//if(location.hash == "#default.home"){
 	        clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
 	    //}

@@ -102,6 +102,7 @@ class CommunecterController extends Controller
       "login"                  => array("href" => "/ph/communecter/default/news"),
       "home"                  => array("href" => "/ph/communecter/default/home"),
       "add"                  => array("href" => "/ph/communecter/default/add"),
+      "view"                  => array("href" => "/ph/communecter/default/view"),
     ),
 
     "city"=> array(
