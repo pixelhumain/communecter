@@ -193,6 +193,7 @@ class CommunecterController extends Controller
         "invitation"      => array("href" => "/ph/communecter/person/invitation"),
         "updatefield"     => array("href" => "/person/updatefield"),
         "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
+        'checklinkmailwithuser'   => array("href" => "/ph/communecter/checklinkmailwithuser"),
 
         "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
