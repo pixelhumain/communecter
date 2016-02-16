@@ -96,12 +96,12 @@ class CommunecterController extends Controller
 
     "default" => array(
       "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
-      "about"     => array("href" => "/ph/communecter/default/about"),
-      "help"      => array("href" => "/ph/communecter/default/help"),
-      "contact"   => array("href" => "/ph/communecter/default/contact"),
-      "view"      => array("href" => "/ph/communecter/default/view", "public" => true),
-      "directory" => array("href" => "/ph/communecter/default/directory"),
-      "simple"    => array("href" => "/ph/communecter/default/simple"),
+      "directory"             => array("href" => "/ph/communecter/default/directory"),
+      "agenda"                => array("href" => "/ph/communecter/default/agenda"),
+      "news"                  => array("href" => "/ph/communecter/default/news"),
+      "login"                  => array("href" => "/ph/communecter/default/news"),
+      "home"                  => array("href" => "/ph/communecter/default/home"),
+      "add"                  => array("href" => "/ph/communecter/default/add"),
     ),
 
     "city"=> array(
@@ -140,12 +140,7 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
-      "directory"             => array("href" => "/ph/communecter/search/directory"),
-      "agenda"                => array("href" => "/ph/communecter/search/agenda"),
-      "news"                  => array("href" => "/ph/communecter/search/news"),
-      "login"                  => array("href" => "/ph/communecter/search/news"),
-      "home"                  => array("href" => "/ph/communecter/search/home"),
-      "add"                  => array("href" => "/ph/communecter/search/add"),
+      
     ),
 
     "rooms"=> array(
