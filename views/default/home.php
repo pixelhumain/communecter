@@ -211,19 +211,19 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</h2>
 		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.directory'); ?>" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#search.directory'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-connectdevelop"></i>
 				</a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.agenda'); ?>" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#search.agenda'); ?>" 
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-calendar"></i>
 				</a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/search#search.news'); ?>" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#search.news'); ?>" 
 					target="_blank" 
 					class="btn btn-discover bg-azure">
 					<i class="fa fa-rss"></i>
