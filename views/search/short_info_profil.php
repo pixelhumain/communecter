@@ -154,8 +154,10 @@
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
       </button>
     
+    <?php }else{ ?>
+      <button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
+      <button class="btn-top btn btn-success" style="margin-right:10px;" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
     <?php } ?>
-
     <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
        <i class="fa fa-search"></i>

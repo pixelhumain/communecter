@@ -67,8 +67,6 @@ function getCityInseeByGeoPos(coords){
 		success: function (obj) {
 			if (obj != null) {
 				
-				console.log("cities found : ");
-				console.dir(obj);
 					
 				if(currentRoleLoc == "showCityMap" && typeof obj.insee != "undefined"){
 					console.log("donne city : ");
@@ -110,7 +108,12 @@ function getCityInseeByGeoPos(coords){
 					//$.cookie("HTML5CityName", 	 obj.name, 	   { path : '/ph/' });
 					//startSearch();
 					//searchCity();
-					showModalSelectScope(obj);
+					//showModalSelectScope(obj);
+					$.each(obj, function(key, value){ obj[key]["typeSig"] = "city"; });
+					console.log("cities found : ");
+					console.dir(obj);
+				
+					Sig.showMapElements(Sig.map, obj);
 				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
