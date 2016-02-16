@@ -8,7 +8,41 @@ class TestController extends CommunecterController {
     $userNotifcations = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );//PHDB::find( ActivityStream::COLLECTION,array("notify.id"  => Yii::app()->session["userId"] ));
     echo count($userNotifcations);
   }
+  public function knowsToFollows(){
+	 $persons=PHDB::find(Person::COLLECTION);
+	foreach($persons as $key => $data){
+		if(isset($data["links"]["knows"])){
+			if(!empty($data["links"]["knows"])){
+				echo $data["name"]. "=>=>+>=>+>+><br/><br/>";
+				$follows = [];
+				foreach ($data["links"]["knows"] as $uid => $e){
+					$child=array("childId"=>$uid,"childType"=> Person::COLLECTION);
+					$follows[$uid] = $e;
+					Link::follow($key, Person::COLLECTION, $child);
+				}
+				//print_r($data["links"]);
+
+				print_r($follows);
+				echo "<br/><br/>";
+
+				/*PHDB::update(Person::COLLECTION,
+								 array("_id" => $data["_id"]) , 
+								 array('$set' => array("links.knows" => $follows)));*/
+				PHDB::update(Person::COLLECTION,
+								 array("_id" => $data["_id"]) , 
+								 array('$unset' => array("links.knows" => "")));
+
+				$newLinks=PHDB::findOneById(Person::COLLECTION ,$data["_id"]);
+				echo "<br/>/////////////////////////// NEW LINK ////////////////////<br/>";
+				print_r($newLinks["links"]);
+				
+			}	
+		}
+	}
+  }
   public function actionTest() {
+	
+
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 

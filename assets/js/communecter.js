@@ -27,7 +27,7 @@ function connectPerson(connectUserId, callback)
 }
 
 
-function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
+/*function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
 {
 
 	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?", 
@@ -54,7 +54,7 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 			});
 		}
 	);
-}
+}*/
 
 function disconnectTo(parentType,parentId,childId,childType,connectType){
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
