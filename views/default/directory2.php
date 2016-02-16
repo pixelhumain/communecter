@@ -358,7 +358,7 @@ if( isset($_GET["isNotSV"])) {
 								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countFollowers;  ?>
 							</a>
 						</li>
-						<?php if(count($people) > 0){  ?>
+						<?php if($countPeople > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
 							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
