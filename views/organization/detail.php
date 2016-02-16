@@ -41,7 +41,8 @@
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
-															"userCategory" => Yii::t("organisation","MEMBERS",null,Yii::app()->controller->module->id), 
+															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"followers" => $followers,
 															"contentType" => Organization::COLLECTION,
 															"admin" => $admin,
 															"isNotSV" => 1	));

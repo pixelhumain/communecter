@@ -27,7 +27,7 @@ function connectPerson(connectUserId, callback)
 }
 
 
-function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
+/*function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
 {
 
 	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?", 
@@ -54,7 +54,7 @@ function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, ca
 			});
 		}
 	);
-}
+}*/
 
 function disconnectTo(parentType,parentId,childId,childType,connectType){
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
@@ -113,7 +113,30 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		},
 	});  
 }
-
+function follow(parentType, parentId, childId, childType){
+	$(".followBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
+	var formData = {
+		"childId" : childId,
+		"childType" : childType, 
+		"parentType" : parentType,
+		"parentId" : parentId,
+	};
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+"/link/follow",
+		data: formData,
+		dataType: "json",
+		success: function(data) {
+			if(data.result){
+				//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+				toastr.success(data.msg);	
+				loadByHash(location.hash);
+			}
+			else
+				toastr.error(data.msg);
+		},
+	});
+}
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	//e.preventDefault();
@@ -269,7 +292,6 @@ function loadByHash( hash , back, mapEnd) {
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
-
     //
     if( replaceAndShow(hash,params) )
     	console.warn("loadByHash replaceAndShow",hash);
@@ -292,9 +314,18 @@ function loadByHash( hash , back, mapEnd) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-    else if( hash.indexOf("#project.addcontributorsv") >= 0 )    
-        showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-
+    else if( hash.indexOf("#project.addcontributorsv") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add contributors','plus' );
+	}
+	else if( hash.indexOf("#organization.addmember") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add members','plus' );
+	}
+	else if( hash.indexOf("#event.addattendeesv") >= 0 ) {
+	    hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ADD ATTENDEES','plus' );
+	}
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
