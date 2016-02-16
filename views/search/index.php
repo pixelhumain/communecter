@@ -79,10 +79,7 @@
 	<span class="search-loader text-red">Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
 </div>
-<button class="menu-button menu-button-title btn-menu bg-dark btn-geoloc-auto" id="btn-geoloc-auto-menu">
-	<i class="fa fa-crosshairs"></i>
-	<span class="lbl-btn-menu-name">Localisez-moi</span>
-</button>
+
 
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-top-menu">
@@ -367,8 +364,10 @@ var typesLabels = {
 		if( typeof value === "object" )
 			where = value.data("id");
 
+	  	console.log("setScopeValue");
+	  	
 	  	$("#searchBarPostalCode").val(value);
-	  	console.log("setScopeValue")
+	  	$.cookie("codePostal", 	 value, 	   { path : '/ph/' });
 		showInputCommunexion();
 		startSearch();
     }
@@ -402,19 +401,24 @@ var typesLabels = {
 		$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
 
 		setTimeout(function(){
-			$(".main-col-search").html(
-			"<div class='loader text-dark '>"+
-				"<span style='font-size:35px;' class='homestead'>"+
-					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
-					"<span class='text-red'>COMMUNE</span>CTER.org</span></br></br>" + 
-				//"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
-			"</div>");
+			$(".main-col-search").html("");
+			// "<div class='loader text-dark '>"+
+			// 	"<span style='font-size:35px;' class='homestead'>"+
+			// 		"<i class='fa fa-spin fa-circle-o-notch'></i> "+
+			// 		"<span class='text-red'>COMMUNE</span>CTER.org</span></br></br>" + 
+			// 	//"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
+			// "</div>");
 			//+
 			//'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
 			
-			// $.blockUI({
-			// 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>'
-			// });
+			 $.blockUI({
+			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
+			 	"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>" +
+			 	"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+			 	
+
+			 });
 			$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
 
 			//$(".main-col-search").show();

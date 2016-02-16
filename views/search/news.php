@@ -323,13 +323,13 @@ function startSearch(){
 	
 }
 
-function setScopeValue(valText, insee){
-	$("#searchBarPostalCode").val(valText);
-	if(insee != "")
-	  	showNewsStream(insee);
-	else
-		startSearch();
-}
+// function setScopeValue(valText, insee){
+// 	$("#searchBarPostalCode").val(valText);
+// 	if(insee != "")
+// 	  	showNewsStream(insee);
+// 	else
+// 		startSearch();
+// }
 
 // function initScrolling(){
 		

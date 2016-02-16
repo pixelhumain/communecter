@@ -467,6 +467,17 @@ creer des conflits : regle pas assez specfique
     font-weight: 500;
     border-radius: 0px 0px 10px 10px !important;
 }
+.btn-communecter-city{
+	background-color: #E9E9E9;
+    border-color: #D2D2D2;
+    border-bottom-width: 0px !important;
+    margin-top: 5px;
+    margin-bottom: 7px;
+    text-align: center;
+    color: #3C3C3C;
+    font-weight: 500;
+    border-radius: 10px 10px 0px 0px !important;
+}
 
 .item_map_list .btn-more i{
 	float:none !important;
