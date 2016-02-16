@@ -22,6 +22,7 @@ class LinkController extends CommunecterController {
 			'disconnect' 		=> 'citizenToolKit.controllers.link.DisconnectAction',
 			//New Actions
 			'connect' 			=> 'citizenToolKit.controllers.link.ConnectAction',
+			'follow' 			=> 'citizenToolKit.controllers.link.FollowAction',
 			'validate' 			=> 'citizenToolKit.controllers.link.ValidateAction',
 	    );
 	}
