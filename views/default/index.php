@@ -241,7 +241,7 @@ var typesLabels = {
 			return;
 		}
 		else{ 
-			//loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 		}
 
 		checkScroll();
