@@ -112,6 +112,49 @@ input.form-control{
     color:white !important;
 }
 
+#listEmailGrid{
+	margin-top: 20px;
+	background-color: transparent;
+	padding: 15px;
+	border-radius: 4px;
+	/*border-right: 1px solid #474747;*/
+	padding: 0px;
+	width:100%;
+}
+#listEmailGrid .mix{
+	margin-bottom: -1px !important;
+}
+#listEmailGrid  .item_map_list{
+	padding:10px 10px 10px 0px !important; 
+	margin-top:0px;
+	text-decoration:none;
+	background-color:white;
+	border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	text-align: center;
+}
+#listEmailGrid  .item_map_list_blue{
+	background-color:rgba(0, 0, 0, 0.08);
+	padding:10px 10px 10px 0px !important; 
+	margin-top:0px;
+	text-decoration:none;
+	border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	text-align: center;
+}
+#listEmailGrid .item_map_list .left-col .thumbnail-profil{
+	width: 75px;
+	height: 75px;
+}
+#listEmailGrid .ico-type-account i.fa{
+	margin-left:11px !important;
+}
+#listEmailGrid .thumbnail-profil{
+	margin-left:10px;
+}
+#listEmailGrid .detailDiv a.text-xss{
+	font-size: 12px;
+	font-weight: 300;
+}
+
 </style>
 
 <?php if( @$isNotSV ){ 
@@ -337,12 +380,46 @@ input.form-control{
 						</span>
 						<div id="list-contact" class="panel-scroll row-fluid height-300"> </div>
 		       		</div>
-		        	<div id="Messages" class="col-sm-5">
+		        	<!--<div id="Messages" class="col-sm-5">
 		        		<label for="textmail" class="control-label">Votre Message :</label>
 		        		<textarea id="textmail" class="form-control" rows="5">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
 Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
 		        		<a href="#" class="btn bg-dark col-sm-2" id="submitInviter">Inviter</a>
+					</div>-->					
+				</div>				
+			</div>
+		</div>
+		<div class="panel panel-white" id="divCheckMail2">
+        	<div class="panel-body">
+        		<div id="checkMail2" class="col-sm-12 col-xs-12">
+        			<div id="Messages" class="col-sm-12 col-xs-12">
+		        		<label for="textmail" class="control-label">Votre Message :</label>
+		        		<textarea id="textmail" class="form-control" rows="3">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
+Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
+		        		<div class="col-sm-12">&nbsp;</div>
+		        		<a href="#" class="btn bg-dark col-sm-2" id="submitInviter">Inviter</a>
+					</div>
+					<div class="panel-scroll row-fluid height-300">	
+		        		<ul id="listEmailGrid" class="pull-left  list-unstyled">
+							<!--<li id="01" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">
+								<a href="javascript:;" onclick="checkedMail('01', 'lendormi37974@yahoo.fr');">
+									<div style="position:relative;">
+										<div class="portfolio-item">
+											<div class="detailDiv">
+												<span class="thumb-info item_map_list_panel">TOTO Tata</span>
+												<br>
+												<span class="text-xss" >lendormi37974@yahoo.fr</span>
+												<div class=" scopes5694ea2a94ef47ad1c8b456dperson features">
+												</div>
+												<br>
+												<div></div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>-->
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -373,6 +450,8 @@ var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
 var currentUser = <?php echo json_encode($currentUser) ?>;
 var tags;
 
+var listMails = [];
+
 var subViewElement, subViewContent;
 var timeout;
 var tabObject = [];
@@ -382,6 +461,7 @@ jQuery(document).ready(function() {
  	initSubView();
  	bindInviteSubViewInvites();
  	runinviteFormValidation();
+ 	initGrid();
 
  	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
 });
@@ -466,13 +546,45 @@ function bindInviteSubViewInvites() {
 			reader.onload = function(e) {
 				var csvval=e.target.result.split("\n");
 				var text = "" ;
+				var text2 = "" ;
 				$.each(csvval, function(keyMails, valueMails){
 					console.log("valueMails",valueMails);
 					if(valueMails.trim() != ""){
 						nbContact++;
 						text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+					
+
+						idMail = "contact"+nbContact ;
+          				/*text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
+          								'<div style="position:relative;">'+
+          									'<div class="portfolio-item">'+
+          										'<div class="detailDiv">'+
+          											'<span class="thumb-info item_map_list_panel">'+ valueMails.trim() + '</span><br/>'+
+          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
+          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+          							'<br/><div></div></div></div></div></a></li>';*/
+
+
+
+          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
+          								'<div style="position:relative;">'+
+          									'<div class="portfolio-item">'+
+          										'<div class="detailDiv">'+
+          											'<span class="thumb-info item_map_list_panel"></span><br/>'+
+          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
+          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+          							'<br/><div></div></div></div></div></a></li>';
+
+
+
+
+
+
 					}	
 				});
+				$("#listEmailGrid").append(text2);	
 				$("#list-contact").append(text);
 			};
 			reader.readAsText(e.target.files.item(0));
@@ -568,6 +680,29 @@ function bindInviteSubViewInvites() {
   	});
 };
 
+function checkedMail(id, mail, name) {
+	console.log(id, mail);
+	var contact = {} ;
+	contact["mail"] = mail ;
+	contact["name"] = name ;
+
+	console.log("before",listMails);
+
+	console.log("inArray",jQuery.inArray(contact, listMails));
+	if(jQuery.inArray(contact, listMails) != "-1"){
+		$( "#"+id ).removeClass("item_map_list_blue");
+		$( "#"+id ).addClass("item_map_list");
+		listMails.pop(contact);
+	}else{
+		$( "#"+id ).removeClass("item_map_list");
+		$( "#"+id ).addClass("item_map_list_blue");
+		listMails.push(contact);
+	}
+
+	console.log("after",listMails);
+
+	bindInviteSubViewInvites();
+};
 
 //validate new invite form
 function runinviteFormValidation(el) {
@@ -923,7 +1058,7 @@ function fetch(token){
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
 			});
-	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=true"
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/thin?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false"
 	$.ajax({
   		url: urlGmail,
   		dataType: "jsonp",
@@ -936,6 +1071,7 @@ function fetch(token){
     			//console.log("value", value);
     			//console.log("title", value.title);
       			var text = "";
+      			var text2 = "";
       			if(value.gd$email){
 
       				$.each(value.gd$email, function( keyMails, valueMails ){
@@ -951,9 +1087,25 @@ function fetch(token){
         						}	
         					});
         				}*/	
-          				text += valueMails.address+'</span>';
+          				text += value.title.$t + " " + valueMails.address+'</span>';
+          				idMail = "contact"+nbContact ;
+          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.address+'\', \''+value.title.$t+'\');">'+
+          								'<div style="position:relative;">'+
+          									'<div class="portfolio-item">'+
+          										'<div class="detailDiv">'+
+          											'<span class="thumb-info item_map_list_panel">'+ value.title.$t + '</span><br/>'+
+          											'<span class="text-xss" >'+ valueMails.address + '</span><br/>'+
+          											'<span class="text-xss" >'+ value.updated.$t + '</span><br/>'+
+          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+          							'<br/><div></div></div></div></div></a></li>';
+
+
+
           			});
+					console.log(text2);
         			$("#list-contact").append(text);
+        			$("#listEmailGrid").append(text2);
       			}
       		});
       		$("#nbContact").html(nbContact + " contacts");
