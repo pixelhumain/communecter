@@ -381,6 +381,21 @@ button.btn-menu-notif{
 .main-top-menu  button.btn-menu-notif{
 	z-index: 20;
 }
+.main-top-menu  button.btn-menu-global-search{
+	font-size: 18px;
+	height: 33px;
+	min-width: 30px;
+	width: auto !important;
+	position: relative;
+	margin-top: 4px;
+	box-shadow: 0px 0px !important;
+	border: 0px;
+	border-radius: 0px;
+}
+.main-top-menu  button.btn-menu-global-search:hover{
+	background-color: white;
+	color:#2BB0C6 !important;
+}
 
 button#btn-toogle-map{
 	right: -31px;
@@ -788,8 +803,8 @@ button.btn-infos{
 }
 .searchEntity .entityCenter i.fa, 
 .searchEntity .entityCenter img{
-	width: 70px;
-	height: 70px;
+	width: 55px;
+	height: 55px;
 	border-radius: 50%;
 	font-size: 33px;
 	padding: 19px 21px;
@@ -799,24 +814,24 @@ button.btn-infos{
 	/*background-color: #CADDE9 !important;*/
 }
 .searchEntity .entityCenter i.fa.fa-calendar{
-	font-size: 28px;
-	padding: 21px;
+	font-size: 23px;
+	padding: 16px;
 }
 .searchEntity .entityCenter i.fa.fa-user{
-	font-size: 32px;
-	padding: 17px;
+	font-size: 25px;
+	padding: 14px;
 }
 .searchEntity .entityCenter i.fa.fa-users{
-	font-size: 27px;
-	padding: 21px 20px;
+	font-size: 22px;
+	padding: 17px 16px;
 }
 .searchEntity .entityCenter i.fa.fa-university{
-	font-size: 27px;
-	padding: 20px 21px;
+	font-size: 21px;
+	padding: 16px 17px;
 }
 .searchEntity .entityCenter i.fa.fa-lightbulb-o{
-	font-size: 30px;
-	padding: 20px 27px;
+	font-size: 26px;
+	padding: 15px 20px;
 }
 .searchEntity .entityRight{
 	text-align: left;

@@ -111,7 +111,7 @@
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
-#btn-geoloc-auto{
+#btn-geoloc-auto-menu{
 	left: 38px;
 	bottom: 14px;
 }
@@ -226,7 +226,7 @@
 		<span >Tests et amélioration continue</span>
 	</div>
 </div>
-
+<!-- 
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
 	<i class="fa fa-university"></i>
 </button> 
@@ -234,9 +234,9 @@
 	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
 </div>
-<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+<button class="menu-button menu-button-title btn-menu bg-dark btn-geoloc-auto" id="btn-geoloc-auto-menu">
 	<i class="fa fa-crosshairs"></i>
-</button>
+</button> -->
 
 
 
@@ -333,15 +333,16 @@ jQuery(document).ready(function() {
 
 	var timeoutSearch = setTimeout(function(){}, 0);
 	$('#searchBarPostalCode').keyup(function(e){
-		if(location.hash == "#search.home"){
+		//if(location.hash == "#search.home"){
 	        clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-	    }
+	    //}
     });
     
-    $("#btn-geoloc-auto").click(function(e){
+    $(".btn-geoloc-auto").click(function(e){
 		if(geolocHTML5Done == false){
-			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+			showMap(true);
     		initHTML5Localisation('prefillSearch');
 		}
     	else{

@@ -88,7 +88,7 @@
 	border-radius: 3px !important;
 	height: 40px;
 }*/
-input[type="text"].input-search:focus{
+/*input[type="text"].input-search:focus{
 	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -100,7 +100,7 @@ input[type="text"].input-search:focus{
 #dropdown_search{
 	margin-top:30px;
 	margin-bottom:30px;
-}
+}*/
 
 .btn-success.communected{
 	width: 50%;
@@ -110,7 +110,7 @@ input[type="text"].input-search:focus{
 	background-color:#5cb85c;
 	color:white;
 }
-
+/*
 .searchEntity{
 	margin-bottom:10px;
 	margin-left:5px;
@@ -129,8 +129,9 @@ input[type="text"].input-search:focus{
 .searchEntity .entityRight .entityName{
 	color:white !important;
 	display: inline;
-}
+}*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
+.headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
@@ -154,19 +155,19 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 <div class="home_page">
 
 <?php if(!isset( Yii::app()->session['userId'] )) { ?>
-	<div class="menu-home-btn-ins text-right" style="margin-right:8%;">
+	<div class="menu-home-btn-ins text-right" style="margin-right:8%;margin-top: 60px">
 		<button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
 		<button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
-		
 	</div>
 <?php }else{
-		$this->renderPartial("short_info_profil", array("type" => "main")); 
+		//$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
 		
-	<center class="imageSection imageSectionVideo">
-		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
-	</center>
+<center class="imageSection imageSectionVideo headSection" style="margin-top: 50px;HEIGHT:550px;">
+	<a href="javascript:;" onclick="openVideo()" style="margin-top:40%;display: inline-block;"><i class="fa fa-youtube-play fa-5x"></i> </a>
+	<a href="javascript:;" onclick="openVideo()" style="margin-top:40%;display: inline-block;"><i class="fa fa-crosshairs fa-5x"></i> Localisez moi </a>
+</center>
 <?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
@@ -194,7 +195,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</center>
 	</div>
 	<div class="col-md-6">
-		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
+		<button class="btn bg-dark pull-left btn-geoloc-auto" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
 	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
@@ -497,7 +498,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 <script type="text/javascript">
 function focusPeople (tag) { 
 	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
-	showFilterOnMap(tag)
+	Sig.showFilterOnMap(tag)
 }
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
@@ -522,15 +523,16 @@ jQuery(document).ready(function() {
         startSearch();
     });
     
-     $("#btn-geoloc-auto").click(function(e){
-		if(geolocHTML5Done == false){
-			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
-    		initHTML5Localisation('prefillSearch');
-		}
-    	else{
-    		$("#modal-select-scope").modal("show");
-    	}
-    });
+  //    $(".btn-geoloc-auto").click(function(e){
+		// if(geolocHTML5Done == false){
+		// 	$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+		// 	showMap();
+  //   		initHTML5Localisation('prefillSearch');
+		// }
+  //   	else{
+  //   		$("#modal-select-scope").modal("show");
+  //   	}
+  //   });
     
     $(".explainLink").click(function() {  
 		showDefinition( $(this).data("id") );
