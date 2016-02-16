@@ -231,17 +231,17 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+	        loadByHash(location.hash,true);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 	      }
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
 	    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
-			loadByHash(location.hash,null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash(location.hash,null);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 			return;
 		}
 		else{ 
-			loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			//loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 		}
 
 		checkScroll();
@@ -249,7 +249,8 @@ var typesLabels = {
 
 	function startSearch(){}
 
-	function resizeInterface(){
+	function resizeInterface()
+	{
 	  //console.log("resize");
 	  var height = $("#mapCanvasBg").height() - 55;
 	  $("#ajaxSV").css({"minHeight" : height});

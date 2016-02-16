@@ -97,12 +97,11 @@ class CommunecterController extends Controller
     "default" => array(
       "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"             => array("href" => "/ph/communecter/default/directory"),
-      "agenda"                => array("href" => "/ph/communecter/default/agenda"),
+      "agenda"                => array("href" => "/ph/communecter/default/agenda", "public" => true),
       "news"                  => array("href" => "/ph/communecter/default/news"),
-      "login"                  => array("href" => "/ph/communecter/default/news"),
-      "home"                  => array("href" => "/ph/communecter/default/home"),
+      "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
       "add"                  => array("href" => "/ph/communecter/default/add"),
-      "view"                  => array("href" => "/ph/communecter/default/view"),
+      "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
     ),
 
     "city"=> array(

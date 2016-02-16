@@ -48,8 +48,8 @@ class DefaultController extends CommunecterController {
 
   public function actionHome() 
   {
-    $this->layout = "//layouts/mainSearch";
-    $this->render("home");
+    //$this->layout = "//layouts/mainSearch";
+    $this->renderPartial("home");
   }
   public function actionLogin() 
   {

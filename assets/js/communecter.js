@@ -246,9 +246,8 @@ var urlParams = {
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#default.home" : {title:'COMMUNECTED AGENDA ', icon : 'home'},
-	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-    "#vitrine" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
+	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home'},
+	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
 };
 function replaceAndShow(hash,params){
 	res = false;
