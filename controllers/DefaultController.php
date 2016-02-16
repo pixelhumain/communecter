@@ -29,7 +29,7 @@ class DefaultController extends CommunecterController {
         else{
 
 
-        $this->layout = "//layouts/mainSimple";
+        $this->layout = "//layouts/mainSearch";
 
          $params = array();
         if( isset( Yii::app()->session['userId']) )
@@ -132,7 +132,7 @@ class DefaultController extends CommunecterController {
           $params["people"] = $people;
         }
 
-        $this->render("index",$params); 
+        $this->render("../search/index",$params); 
         }     
     }
 

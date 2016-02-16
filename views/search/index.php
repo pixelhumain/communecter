@@ -364,8 +364,10 @@ var typesLabels = {
 		if( typeof value === "object" )
 			where = value.data("id");
 
+	  	console.log("setScopeValue");
+	  	
 	  	$("#searchBarPostalCode").val(value);
-	  	console.log("setScopeValue")
+	  	$.cookie("codePostal", 	 value, 	   { path : '/ph/' });
 		showInputCommunexion();
 		startSearch();
     }

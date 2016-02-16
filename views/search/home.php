@@ -131,6 +131,7 @@
 	display: inline;
 }*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
+.headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
@@ -154,18 +155,21 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 <div class="home_page">
 
 <?php if(!isset( Yii::app()->session['userId'] )) { ?>
-	<div class="menu-home-btn-ins text-right" style="margin-right:8%;">
-		
-		
+
+	<div class="menu-home-btn-ins text-right" style="margin-right:8%;margin-top: 60px">
+		<button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
+		<button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+
 	</div>
 <?php }else{
 		//$this->renderPartial("short_info_profil", array("type" => "main")); 
 	}
 ?> 
 		
-	<center class="imageSection imageSectionVideo">
-		<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=cl" style="width:70%;cursor: pointer" onclick="openVideo()"/>
-	</center>
+<center class="imageSection imageSectionVideo headSection" style="margin-top: 50px;HEIGHT:550px;">
+	<a href="javascript:;" onclick="openVideo()" style="margin-top:40%;display: inline-block;"><i class="fa fa-youtube-play fa-5x"></i> </a>
+	<a href="javascript:;" onclick="openVideo()" style="margin-top:40%;display: inline-block;"><i class="fa fa-crosshairs fa-5x"></i> Localisez moi </a>
+</center>
 <?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-home"></i> Bienvenue <span class="text-red">sur</span></h1>
