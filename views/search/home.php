@@ -497,7 +497,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 <script type="text/javascript">
 function focusPeople (tag) { 
 	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
-	showFilterOnMap(tag)
+	Sig.showFilterOnMap(tag)
 }
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
