@@ -236,12 +236,12 @@ var typesLabels = {
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
-	    if(location.hash != "#search.home" && location.hash != "#" && location.hash != ""){
+	    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash,null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 			return;
 		}
 		else{ 
-			loadByHash("#search.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
 		}
 
 		checkScroll();
@@ -286,7 +286,7 @@ var typesLabels = {
 	}
 
 	function checkScroll(){
-		// if(location.hash == "#search.home") {
+		// if(location.hash == "#default.home") {
 		// 	$(".main-top-menu").animate({
 	 //         							top: -60,
 	 //         							opacity:0
@@ -493,7 +493,7 @@ var typesLabels = {
 	}
 
 	function setInputPlaceValue(thisBtn){
-		//if(location.hash == "#search.home"){
+		//if(location.hash == "#default.home"){
 			//$("#autoGeoPostalCode").val($(thisBtn).attr("val"));
 		//}else{
 			$("#searchBarPostalCode").val($(thisBtn).attr("val"));

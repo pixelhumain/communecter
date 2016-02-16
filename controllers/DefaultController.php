@@ -28,6 +28,35 @@ class DefaultController extends CommunecterController {
     $this->render("index");
   }
 
+  public function actionAgenda() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->render("agenda");
+  }
+
+  public function actionNews() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->render("news");
+  }
+
+  public function actionDirectory() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->render("directory");
+  }
+
+  public function actionHome() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->render("home");
+  }
+  public function actionLogin() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->render("login");
+  }
+
     public function actionView($page,$dir=null,$layout=null) 
     {
       if(@$dir){
@@ -49,12 +78,12 @@ class DefaultController extends CommunecterController {
     }
   
 
-    public function actionDirectory($type=null,$id=null) 
+    /*public function actionDirectory($type=null,$id=null) 
     {
       if( $type == "person" && !$id )
         $id = Yii::app()->session['userId'];
 
       $url = $type."/directory/id/".$id;
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/".$url));
-    }
+    }*/
 }

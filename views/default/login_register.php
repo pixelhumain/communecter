@@ -650,7 +650,7 @@ var Login = function() {
     		  			// 	message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
     		  			// });
 		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
-		        		loadByHash("#search.directory");
+		        		loadByHash("#default.directory");
 		        		//window.location.reload();
 		        		//setTimeout(function() { $.unblockUI(); showPanel(); },5000);
 		    		  }

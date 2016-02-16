@@ -155,6 +155,13 @@ input.form-control{
 	font-weight: 300;
 }
 
+.panelLabel{
+		margin-bottom:10px;
+		margin-left:25px;
+		color:#58879B;
+		font-size:25px
+	}
+
 </style>
 
 <?php if( @$isNotSV ){ 
@@ -301,16 +308,6 @@ input.form-control{
         	<div class="panel-heading border-light">
         		Inviter vos contacts Gmail
 			</div>
-			<div class="panel-body">
-				<form class="form-gmail" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
-						<a href="#" id="buttonContactsGmail"
-							class="btn bg-dark col-md-3">
-							Récupérez vos contacts Gmail
-						</a>
-					</div>
-				</form>
-			</div>
 		</div>
 		<div class="panel panel-white" id="divGooglePlus">
         	<div class="panel-heading border-light">
@@ -348,9 +345,6 @@ input.form-control{
 				</form>
 			</div>
 		</div>
-
-
-		
 		<div class="panel panel-white" id="divWriteMails">
         	<div class="panel-heading border-light">
         		Copier vos emails, séparé par des points-virgules.
@@ -366,60 +360,55 @@ input.form-control{
 				</form>
 			</div>
 		</div>
-
 		<div class="panel panel-white" id="divCheckMail">
         	<div class="panel-body">
         		<div id="checkMail" class="col-sm-12 col-xs-12">
-					<div class="list-group col-sm-5">
-						<span class="list-group-item active">
-							<div>Liste des contacts 
-							<div id="nbContact" class="text-right"></div></div>
-						</span>
-						<span class="list-group-item">
-							<input type='checkbox' id='allchecked'/> <label id="textallchecked" for="allchecked">Tout cocher</label>	
-						</span>
-						<div id="list-contact" class="panel-scroll row-fluid height-300"> </div>
-		       		</div>
-		        	<!--<div id="Messages" class="col-sm-5">
-		        		<label for="textmail" class="control-label">Votre Message :</label>
-		        		<textarea id="textmail" class="form-control" rows="5">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
-Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
-		        		<div class="col-sm-12">&nbsp;</div>
-		        		<a href="#" class="btn bg-dark col-sm-2" id="submitInviter">Inviter</a>
-					</div>-->					
-				</div>				
-			</div>
-		</div>
-		<div class="panel panel-white" id="divCheckMail2">
-        	<div class="panel-body">
-        		<div id="checkMail2" class="col-sm-12 col-xs-12">
+        			<div class="homestead panelLabel pull-left">
+							<i class="fa fa-edit"></i>
+							<label for="textmail" class="control-label">Message</label>
+					</div>
         			<div id="Messages" class="col-sm-12 col-xs-12">
-		        		<label for="textmail" class="control-label">Votre Message :</label>
 		        		<textarea id="textmail" class="form-control" rows="3">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
 Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
-		        		<a href="#" class="btn bg-dark col-sm-2" id="submitInviter">Inviter</a>
 					</div>
-					<div class="panel-scroll row-fluid height-300">	
+					
+						<div class="homestead panelLabel pull-left">
+							<i class="fa fa-users"></i>
+							Liste des contacts 		
+						</div>
+				
+					<div class="col-sm-12 col-xs-12">
+						<div  id="nbContact" class="homestead pull-left">
+						</div>
+						<select id="selectContact" class="col-sm-offset-2">
+							<option value="all">Tous les contacts</option>
+							<option value="2015-01-01">Depuis 2015</option>
+							<option value="2014-01-01">Depuis 2014</option>
+							<option value="2013-01-01">Depuis 2013</option>
+							<option value="2012-01-01">Depuis 2012</option>
+							<option value="2011-01-01">Depuis 2011</option>
+							<option value="2010-01-01">Depuis 2010</option>
+							<option value="2009-01-01">Depuis 2009</option>
+							<option value="2008-01-01">Depuis 2008</option>
+							<option value="2007-01-01">Depuis 2007</option>
+							<option value="2006-01-01">Depuis 2006</option>
+							<option value="2005-01-01">Depuis 2005</option>
+							<option value="2004-01-01">Depuis 2004</option>
+							<option value="2003-01-01">Depuis 2003</option>
+							<option value="2002-01-01">Depuis 2002</option>
+							<option value="2001-01-01">Depuis 2001</option>
+							<option value="2000-01-01">Depuis 2000</option>
+						</select>	
+					</div>
+					<br/>	
+					<div class="panel-scroll row-fluid height-300">
 		        		<ul id="listEmailGrid" class="pull-left  list-unstyled">
-							<!--<li id="01" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">
-								<a href="javascript:;" onclick="checkedMail('01', 'lendormi37974@yahoo.fr');">
-									<div style="position:relative;">
-										<div class="portfolio-item">
-											<div class="detailDiv">
-												<span class="thumb-info item_map_list_panel">TOTO Tata</span>
-												<br>
-												<span class="text-xss" >lendormi37974@yahoo.fr</span>
-												<div class=" scopes5694ea2a94ef47ad1c8b456dperson features">
-												</div>
-												<br>
-												<div></div>
-											</div>
-										</div>
-									</div>
-								</a>
-							</li>-->
 						</ul>
+					</div>
+					<br/>
+					<div class="col-sm-12 col-xs-12 pull-center">
+		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter">Inviter</a>
 					</div>
 				</div>
 			</div>
@@ -451,7 +440,7 @@ var currentUser = <?php echo json_encode($currentUser) ?>;
 var tags;
 
 var listMails = [];
-
+var totalMails = 0;
 var subViewElement, subViewContent;
 var timeout;
 var tabObject = [];
@@ -461,7 +450,6 @@ jQuery(document).ready(function() {
  	initSubView();
  	bindInviteSubViewInvites();
  	runinviteFormValidation();
- 	initGrid();
 
  	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
 });
@@ -491,7 +479,35 @@ function bindInviteSubViewInvites() {
 		$("#shareForm").hide();
 	});
 
-	$('#allchecked').change(function() { 
+	$("#selectContact").change(function() {
+		var nbc = 0 ;
+		if($("#selectContact").val() == "all"){
+			for (i = 1; i < totalMails; i++) { 
+			    $("#contact"+i).show();
+			    nbc++;
+			}
+
+			setNbContact(nbc);
+		}else{
+
+			var date1 = new Date($("#selectContact").val()).getTime() ;
+			for (i = 1; i < totalMails; i++) { 
+				var date2 =  new Date($("#contact"+i+"_update").val()).getTime();
+				if(date2 >= date1)
+			    {
+			    	$("#contact"+i).show();
+			    	nbc++;
+			    }	
+			    else
+			    	$("#contact"+i).hide();
+			}
+			setNbContact(nbc);
+		}
+
+	});
+
+
+	/*$('#allchecked').change(function() { 
 		console.log("allchecked");          
         var cases = $("#list-contact").find('[name=mailPersonInvite]'); // on cherche les checkbox qui dépendent de la liste 'list-contact'
         if(this.checked)
@@ -504,36 +520,53 @@ function bindInviteSubViewInvites() {
             $('#textallchecked').html('Tout cocher');// mise à jour du texte de cocheText
         }          
                
-    });
+    });*/
 	$(".btnCancel").off().on('click', function(){
 		backToSearch();
 	});
 
-	$("#buttonContactsGmail").off().on('click', function(){
+	/*$("#buttonContactsGmail").off().on('click', function(){
 		console.log("buttonContactsGmail");
 		auth();
     	
-	});
+	});*/
 
 	$(".form-writeMails #submitAfficher").off().on('click', function(){
 		var listemail = $('.form-writeMails #textareaMails').val().replace(/\s/g,"");
   		arraymail = listemail.split(';');
-  		$("#list-contact").html("");
-  		var text = "" ;
+  		//$("#list-contact").html("");
+  		$("#listEmailGrid").html("");
+  		var text2 = "" ;
   		var nbContact = 0 ; 
   		$.each(arraymail, function(keyMails, valueMails){
-  			nbContact++;
-        	text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
-        	
+
+  			var res = validMail(valueMails);
+  			if(res == true){
+  				nbContact++;
+	  			idMail = "contact"+nbContact ;
+	        	text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+	          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
+	          								'<div style="position:relative;">'+
+	          									'<div class="portfolio-item">'+
+	          										'<div class="detailDiv">'+
+	          											'<span class="thumb-info item_map_list_panel"></span><br/>'+
+	          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
+	          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+	          							'<br/><div></div></div></div></div></a></li>';
+  			}
+  			
+        
+
         });
-        $("#nbContact").html(nbContact + " contacts");
-  		$("#list-contact").append(text);
+		$("#listEmailGrid").append(text2);
+		totalMails = nbContact ;
+        setNbContact() ;
         $("#divCheckMail").show();
   	});
-
+	
 	$(".form-importFile #fileEmail").change(function(e) {
-		console.log("YOYOYO");
-    	$("#list-contact").html("");
+		$("#list-contact").html("");
+    	$("#listEmailGrid").html("");
 		var ext = $(".form-importFile input#fileEmail").val().split(".").pop().toLowerCase();
 		if($.inArray(ext, ["csv"]) == -1) {
 			alert('Upload CSV');
@@ -547,52 +580,42 @@ function bindInviteSubViewInvites() {
 				var csvval=e.target.result.split("\n");
 				var text = "" ;
 				var text2 = "" ;
+				listMails = [];
 				$.each(csvval, function(keyMails, valueMails){
-					console.log("valueMails",valueMails);
+					//console.log("valueMails",valueMails);
 					if(valueMails.trim() != ""){
-						nbContact++;
-						text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
-					
+						var res = validMail(valueMails.trim());
+  						if(res == true){
+	  						nbContact++;
+							//text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+							idMail = "contact"+nbContact ;
 
-						idMail = "contact"+nbContact ;
-          				/*text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
-          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
-          								'<div style="position:relative;">'+
-          									'<div class="portfolio-item">'+
-          										'<div class="detailDiv">'+
-          											'<span class="thumb-info item_map_list_panel">'+ valueMails.trim() + '</span><br/>'+
-          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
-          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
-          							'<br/><div></div></div></div></div></a></li>';*/
-
-
-
-          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
-          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
-          								'<div style="position:relative;">'+
-          									'<div class="portfolio-item">'+
-          										'<div class="detailDiv">'+
-          											'<span class="thumb-info item_map_list_panel"></span><br/>'+
-          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
-          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
-          							'<br/><div></div></div></div></div></a></li>';
-
-
-
-
-
-
+	          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+	          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.trim()+'\');">'+
+	          								'<div style="position:relative;">'+
+	          									'<div class="portfolio-item">'+
+	          										'<div class="detailDiv">'+
+	          											'<span class="thumb-info item_map_list_panel"></span><br/>'+
+	          											'<span class="text-xss" >'+ valueMails.trim() + '</span><br/>'+
+	          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+	          							'<br/><div></div></div></div></div></a></li>';
+	          			}
 					}	
 				});
+				//$("#totalContact").html(nbContact);
+				totalMails = nbContact;
+				setNbContact();
 				$("#listEmailGrid").append(text2);	
-				$("#list-contact").append(text);
+				//$("#list-contact").append(text);
 			};
 			reader.readAsText(e.target.files.item(0));
-
+			$("#divCheckMail").show();
+		}else{
+			toastr.error("Nous n'avons pas réussie à lire votre fichier.")
 		}
-
-		$("#nbContact").html(nbContact + " contacts");
-		$("#divCheckMail").show();
+		
+		
+		
 		return false;
 	});
 
@@ -636,17 +659,22 @@ function bindInviteSubViewInvites() {
 
 	$("#divCheckMail #submitInviter").off().on('click', function()
 	{
-		var mails = [];
+		/*var mails = [];
 		$('input:checked[name=mailPersonInvite]').each(function() {
 		 	mails.push($(this).val());
-		});
-    	if(mails.length == 0)
+		});*/
+    	if(listMails.length == 0)
     		toastr.error("Veuillez sélectionner une adresse mail.");
     	else{
-    		$.each(mails, function(key, value) {
+    		var nameUtil ;
+    		console.log("listMails", listMails);
+    		$.each(listMails, function(key, value) {
     			//console.log("value", value)
-    			if(value != "on"){
-			  		nameUtil = 	value.split("@");
+    			if(value.mail != ""){
+    				if(typeof value.name != "undefined")
+    					nameUtil[0] = value.name;
+    				else
+						nameUtil = 	value.mail.split("@");
 				  	$.ajax({
 				        type: "POST",
 				        url: baseUrl+"/"+moduleId+'/person/connect',
@@ -654,7 +682,7 @@ function bindInviteSubViewInvites() {
 				        data: {
 				        	parentId : $("#parentId").val(),
 				        	invitedUserName : nameUtil[0],
-				        	invitedUserEmail : value,
+				        	invitedUserEmail : value.mail,
 				        	msgEmail : $("#textmail").val()
 				        },
 						type:"POST",
@@ -680,29 +708,7 @@ function bindInviteSubViewInvites() {
   	});
 };
 
-function checkedMail(id, mail, name) {
-	console.log(id, mail);
-	var contact = {} ;
-	contact["mail"] = mail ;
-	contact["name"] = name ;
 
-	console.log("before",listMails);
-
-	console.log("inArray",jQuery.inArray(contact, listMails));
-	if(jQuery.inArray(contact, listMails) != "-1"){
-		$( "#"+id ).removeClass("item_map_list_blue");
-		$( "#"+id ).addClass("item_map_list");
-		listMails.pop(contact);
-	}else{
-		$( "#"+id ).removeClass("item_map_list");
-		$( "#"+id ).addClass("item_map_list_blue");
-		listMails.push(contact);
-	}
-
-	console.log("after",listMails);
-
-	bindInviteSubViewInvites();
-};
 
 //validate new invite form
 function runinviteFormValidation(el) {
@@ -950,7 +956,8 @@ function fadeInView(inView){
 		$("#divImportFile").hide();
 		$("#divWriteMails").hide();
 		$("#divCheckMail").hide();
-		changeFocus("titleGmail");
+		//changeFocus("titleGmail");
+		auth();
 	}
 	else if(inView == "divInviteSomeone")
 	{
@@ -960,7 +967,7 @@ function fadeInView(inView){
 		$("#divImportFile").hide();
 		$("#divWriteMails").hide();
 		$("#divCheckMail").hide();
-		changeFocus("titleInviteSomeone");
+		//changeFocus("titleInviteSomeone");
 
 	}
 	else if(inView == "divGooglePlus")
@@ -971,7 +978,7 @@ function fadeInView(inView){
 		$("#divImportFile").hide();
 		$("#divWriteMails").hide();
 		$("#divCheckMail").hide();
-		changeFocus("titleGooglePlus");
+		//changeFocus("titleGooglePlus");
 	}
 	else if(inView == "divImportFile")
 	{
@@ -981,7 +988,7 @@ function fadeInView(inView){
 		$("#divGooglePlus").hide();
 		$("#divWriteMails").hide();
 		$("#divCheckMail").hide();
-		changeFocus("titleImportFile");
+		//changeFocus("titleImportFile");
 	}
 	else if(inView == "divWriteMails")
 	{
@@ -991,14 +998,14 @@ function fadeInView(inView){
 		$("#divGooglePlus").hide();
 		$("#divImportFile").hide();
 		$("#divCheckMail").hide();
-		changeFocus("titleWriteMails");
+		//changeFocus("titleWriteMails");
 	}
 
 }
 
 
 
-function changeFocus(newFocus){
+/*function changeFocus(newFocus){
 	console.log("changeFocus", newFocus);
 	var nameId = $(".titleInviteSV").attr('id');
 	console.log("nameId", nameId);
@@ -1011,7 +1018,7 @@ function changeFocus(newFocus){
 	$( "#"+newFocus ).addClass("text-yellow");
 	
 	
-}
+}*/
 
 
 function auth() {
@@ -1039,18 +1046,6 @@ function getToken(stop) {
 	}
 }
 
-
-/*function fetch(token) {
-	$.ajax({
-	  url: 'https://www.google.com/m8/feeds/contacts/default/full?access_token=' + token.access_token + '&alt=json',
-	  dataType: 'jsonp',
-	  data: token,
-	}).done(function(data) {
-		console.log("data",data);
-	    //console.log(JSON.stringify(data));
-	});
-}*/
-
 function fetch(token){
 	console.log("fetch", token);
 	rand = Math.floor((Math.random() * 8) + 1);
@@ -1058,7 +1053,13 @@ function fetch(token){
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
 			});
-	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/thin?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false"
+	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/thin?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false";
+	
+
+
+	if($("#selectContact").val() != "all")
+		urlGmail += "&updated-min="+$("#selectContact").val();
+
 	$.ajax({
   		url: urlGmail,
   		dataType: "jsonp",
@@ -1068,47 +1069,34 @@ function fetch(token){
     		
     		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
-    			//console.log("value", value);
-    			//console.log("title", value.title);
-      			var text = "";
+    			var text = "";
       			var text2 = "";
       			if(value.gd$email){
 
       				$.each(value.gd$email, function( keyMails, valueMails ){
         				//console.log("valueMails.address", valueMails.address);
-        				nbContact++;
-        				text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.address+'" value="'+valueMails.address+'">';
-        				//console.log("value.link", value.link);
-        				/*if(value.link){
-        					$.each(value.link, function( keyLink, valueLink ){
-        						if(valueLink.type == "image/*"){
-        							text += '<img width="50" height="50" src="'+valueLink.href+'">';
-
-        						}	
-        					});
-        				}*/	
-          				text += value.title.$t + " " + valueMails.address+'</span>';
-          				idMail = "contact"+nbContact ;
-          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
-          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.address+'\', \''+value.title.$t+'\');">'+
-          								'<div style="position:relative;">'+
-          									'<div class="portfolio-item">'+
-          										'<div class="detailDiv">'+
-          											'<span class="thumb-info item_map_list_panel">'+ value.title.$t + '</span><br/>'+
-          											'<span class="text-xss" >'+ valueMails.address + '</span><br/>'+
-          											'<span class="text-xss" >'+ value.updated.$t + '</span><br/>'+
-          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
-          							'<br/><div></div></div></div></div></a></li>';
-
-
-
-          			});
-					console.log(text2);
+        				var res = validMail(valueMails);
+  						if(res == true){
+	        				nbContact++;
+	          				idMail = "contact"+nbContact ;
+	          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+	          							'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueMails.address+'\', \''+value.title.$t+'\');">'+
+	          								'<div style="position:relative;">'+
+	          									'<div class="portfolio-item">'+
+	          										'<div class="detailDiv">'+
+	          											'<span class="thumb-info item_map_list_panel">'+ value.title.$t + '</span><br/>'+
+	          											'<span class="text-xss" >'+ valueMails.address + '</span><br/>'+
+	          											'<input type="hidden" name="'+idMail+'_update"  id="'+idMail+'_update" value="'+value.updated.$t+'"/>'+
+	          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
+	          							'<br/><div></div></div></div></div></a></li>';
+	          			}
+					});
         			$("#list-contact").append(text);
         			$("#listEmailGrid").append(text2);
       			}
       		});
-      		$("#nbContact").html(nbContact + " contacts");
+			totalMails = nbContact; 
+      		setNbContact();
       		$("#divCheckMail").show();
       		$.unblockUI();
   		},
@@ -1116,94 +1104,70 @@ function fetch(token){
   			console.log("error",data)
   		}
 	});
+
+	bindInviteSubViewInvites();
 }
 
 
-/*function contactGmail(secondTime){
-	var config = {
-    	'client_id': '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com',
-    	//'scope': 'https://www.google.com/m8/feeds'
-    	'scope': 'https://www.googleapis.com/auth/urlshortener'
-    };
-	
-    gapi.auth.authorize(config, function() {
-          console.log('login complete');
-          console.log(gapi.auth.getToken());
-        });
-
-}
-
-function getcontactGmail(authResult){
-	console.log("authResult", authResult);
-	var token = gapi.auth.getToken() ;
-	if(typeof token != "undefined"){
-		fetch(token);
-	}
-	else {
-		if(stop == false)
-			getcontactGmail(token) ; 
-	}
-
-}
-
-
-var clientId = '991320747617-dnqguopevn9bn3mg21nm1k12gj305anv.apps.googleusercontent.com';
-var apiKey = 'iStMgQekGCuepkvAWUc-BfkJ';
-var scopes = 'https://www.googleapis.com/auth/plus.me';
-
-function handleClientLoad() {
-  console.log("handleClientLoad");
-  gapi.client.setApiKey(apiKey);
-  window.setTimeout(checkAuth,1);
-}
-
-function checkAuth() {
-	console.log("checkAuth");
-  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
-}
-
-function handleAuthResult(authResult) {
-	console.log("handleAuthResult", authResult);
-  var authorizeButton = document.getElementById('authorize-button');
-  if (authResult && !authResult.error) {
-  	console.log("yo");
-    authorizeButton.style.visibility = 'hidden';
-    var token = gapi.auth.getToken() ;
-    fetch(authResult);
-  } else {
-  	console.log("yo2");
-    authorizeButton.style.visibility = '';
-    authorizeButton.onclick = handleAuthClick;
-  }
-}
-
-function handleAuthClick(event) {
-	console.log("handleAuthResult");
-  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
-  return false;
-}
-
-function makeApiCall() {
-  gapi.client.load('plus', 'v1').then(function() {
-    var request = gapi.client.plus.people.get({
-        'userId': 'me'
-          });
-    request.then(function(resp) {
-      var heading = document.createElement('h4');
-      var image = document.createElement('img');
-      image.src = resp.result.image.url;
-      heading.appendChild(image);
-      heading.appendChild(document.createTextNode(resp.result.displayName));
-
-      document.getElementById('content').appendChild(heading);
-    }, function(reason) {
-      console.log('Error: ' + reason.result.error.message);
+function validMail(mail) {
+	//checklinkmailwithuser
+	var res = false ;
+	$.ajax({
+        type: "POST",
+        url: baseUrl+'/communecter/person/checklinkmailwithuser/',
+        dataType : "json",
+        data: {
+        	mail : mail,
+        },
+        async : false ,
+		success:function(data){
+    		res =  data.result ;
+  		},
+  		error:function(data){
+  			console.log("error",data)
+  		}
     });
-  });
+
+    return res ;
 }
-*/
 
 
+function checkedMail(id, mail, name) {
+	var contact = {} ;
+	contact["mail"] = mail ;
+	contact["name"] = name ;
+
+	var newArray = [] ;
+
+	var find = false ;
+	$.each(listMails, function(key, val) {
+		if(mail == val.mail){
+			find = true ;
+		}else{
+			newArray.push(val);
+		}
+	});
+
+	listMails = newArray ;
+	if(find == true){
+		$( "#"+id ).removeClass("item_map_list_blue");
+		$( "#"+id ).addClass("item_map_list");
+		
+	}else{
+		$( "#"+id ).removeClass("item_map_list");
+		$( "#"+id ).addClass("item_map_list_blue");
+		listMails.push(contact);
+	}
+
+	setNbContact()
+	bindInviteSubViewInvites();
+};
 
 
+function setNbContact(total) {
+	if(typeof total == "undefined")
+		$("#nbContact").html(listMails.length + " / " + totalMails + " contacts sélectionné(s)");
+	else
+		$("#nbContact").html(listMails.length + " / " + total + " contacts sélectionné(s)");
+}
 </script>

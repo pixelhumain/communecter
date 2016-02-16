@@ -266,11 +266,11 @@ var urlParams = {
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
-    "#search.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
-    "#search.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
-    "#search.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#search.home" : {title:'COMMUNECTED AGENDA ', icon : 'home'},
-	"#search.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
+    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
+    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#default.home" : {title:'COMMUNECTED AGENDA ', icon : 'home'},
+	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
     "#vitrine" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
 };
 function replaceAndShow(hash,params){
