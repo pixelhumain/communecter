@@ -11,6 +11,7 @@ function initHTML5Localisation(role){
 			//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
 	  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
 			//$("#main-title-public1").show(400);
+			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			locationHTML5Found = true;
 			$(".box-discover").hide(400);
 			$(".box-menu").hide(400);

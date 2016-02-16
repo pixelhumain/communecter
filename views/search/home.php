@@ -194,7 +194,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</center>
 	</div>
 	<div class="col-md-6">
-		<button class="btn bg-dark pull-left" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
+		<button class="btn bg-dark pull-left btn-geoloc-auto" id="btn-geoloc-auto"><i class="fa fa-crosshairs"></i> Localisez-moi automatiquement</button>
 	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
@@ -522,15 +522,16 @@ jQuery(document).ready(function() {
         startSearch();
     });
     
-     $("#btn-geoloc-auto").click(function(e){
-		if(geolocHTML5Done == false){
-			$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
-    		initHTML5Localisation('prefillSearch');
-		}
-    	else{
-    		$("#modal-select-scope").modal("show");
-    	}
-    });
+  //    $(".btn-geoloc-auto").click(function(e){
+		// if(geolocHTML5Done == false){
+		// 	$("#search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+		// 	showMap();
+  //   		initHTML5Localisation('prefillSearch');
+		// }
+  //   	else{
+  //   		$("#modal-select-scope").modal("show");
+  //   	}
+  //   });
     
     $(".explainLink").click(function() {  
 		showDefinition( $(this).data("id") );

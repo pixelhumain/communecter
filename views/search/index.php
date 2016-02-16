@@ -79,7 +79,7 @@
 	<span class="search-loader text-red">Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
 </div>
-<button class="menu-button menu-button-title btn-menu bg-dark" id="btn-geoloc-auto">
+<button class="menu-button menu-button-title btn-menu bg-dark btn-geoloc-auto" id="btn-geoloc-auto-menu">
 	<i class="fa fa-crosshairs"></i>
 	<span class="lbl-btn-menu-name">Localisez-moi</span>
 </button>
