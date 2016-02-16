@@ -142,11 +142,11 @@ var currentIndexMax = indexStep;
 var scrollEnd = false;
 var totalData = 0;
 
-function setScopeValue(value){
-  value = value.replace("#", "'");
-  $("#searchBarPostalCode").val(value);
-  startSearch();
-}
+// function setScopeValue(value){
+//   value = value.replace("#", "'");
+//   $("#searchBarPostalCode").val(value);
+//   startSearch();
+// }
 
 
 var timeout = null;

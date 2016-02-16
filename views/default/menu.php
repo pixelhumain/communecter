@@ -112,8 +112,8 @@
 }
 
 #btn-geoloc-auto-menu{
-	left: 38px;
-	bottom: 14px;
+	left: 105px;
+	top: 60px;
 }
 
 #input-communexion{
@@ -168,16 +168,21 @@
 	</button>
 	<?php } ?>
 
+	<button class="menu-button menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
+		<i class="fa fa-crosshairs"></i>
+		<span class="lbl-btn-menu-name">Communectez-moi</span>
+	</button>
+
 	<button class="menu-button menu-button-title btn-menu btn-menu0 bg-red tooltips" 
 			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
 			<i class="fa fa-home"></i>
 	</button>
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
+	<!-- <button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="S'inscrire">
 			<i class="fa fa-plus-circle"></i>
 			<span class="lbl-btn-menu-name">S'inscrire</span>
-	</button>
+	</button> -->
 	<?php } ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-connectdevelop"></i>
@@ -343,7 +348,7 @@ jQuery(document).ready(function() {
 		if(geolocHTML5Done == false){
 			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			showMap(true);
-    		initHTML5Localisation('prefillSearch');
+    		initHTML5Localisation('communexion');
 		}
     	else{
     		$("#modal-select-scope").modal("show");

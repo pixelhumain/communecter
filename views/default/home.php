@@ -155,9 +155,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 <div class="home_page">
 
 <?php if(!isset( Yii::app()->session['userId'] )) { ?>
+
 	<div class="menu-home-btn-ins text-right" style="margin-right:8%;margin-top: 60px">
 		<button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
 		<button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+
 	</div>
 <?php }else{
 		//$this->renderPartial("short_info_profil", array("type" => "main")); 
@@ -767,22 +769,26 @@ function autoCompleteSearch(name, locality){
     });
 
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
-    $(".btn-start-search").html(str);
-    $(".btn-start-search").addClass("bg-azure");
+    //$(".btn-start-search").html(str);
+    //$(".btn-start-search").addClass("bg-azure");
     //$("#link-start-search").html("Recherche en cours ...");
-    $(".btn-start-search").removeClass("bg-dark");
-    $(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    //$(".btn-start-search").removeClass("bg-dark");
+    //$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     //$("#dropdown_search").css({"display" : "inline" });
                     
   }
 
   	function validatePostalcode(postalCode){
-  		var path = "/";
-		//console.log(location.hostname.indexOf("localhost") );
+  		//console.log(location.hostname.indexOf("localhost") );
 		//console.dir(location);
+		var path = "/";
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+	    
+	    //enregistre le code postal dans un cookie
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
+		setScopeValue(postalCode);
+		//scroll sur les 3 boutons "découvrir" de la page d'accueil
 		$("#div-discover").show(100);
 		setTimeout(function(){ $("#input-communexion").hide(200); }, 3000);
 		$(".main-col-search").animate({ opacity:1 }, 200 );
@@ -790,12 +796,12 @@ function autoCompleteSearch(name, locality){
 
   	}
 
-	function setScopeValue(valText, insee){
-		$("#searchBarPostalCode").val(valText);
-		if(insee != "")
-		  	showNewsStream(insee);
-		else
-			startSearch();
-	}
+	// function setScopeValue(valText, insee){
+	// 	$("#searchBarPostalCode").val(valText);
+	// 	if(insee != "")
+	// 	  	showNewsStream(insee);
+	// 	else
+	// 		startSearch();
+	// }
 
 </script>
