@@ -269,9 +269,9 @@ var urlParams = {
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#default.home" : {title:'COMMUNECTED AGENDA ', icon : 'home'},
-	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-    "#vitrine" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
+	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home'},
+	"#home" : {"alias":"#default.home"},
+	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
 };
 function replaceAndShow(hash,params){
 	res = false;
@@ -280,15 +280,18 @@ function replaceAndShow(hash,params){
 		console.log("replaceAndShow ",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
-			extraParams = (urlParams[urlIndex].urlExtraParam) ? urlParams[urlIndex].urlExtraParam : "";
-			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, urlParams[urlIndex].title,urlParams[urlIndex].icon );
+			endPoint = urlParams[urlIndex];
+			if(endPoint.alias)
+				endPoint = replaceAndShow(endPoint.alias,params);
+			extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
+			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
 			res = true;
 			return false;
 		}
 	});
 	return res;
 }
-function loadByHash( hash , back, mapEnd) { 
+function loadByHash( hash , back ) { 
     console.log("loadByHash",hash);
 
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
@@ -344,7 +347,7 @@ function loadByHash( hash , back, mapEnd) {
       history.pushState( { "hash" :hash} , null, hash );
     console.warn("pushState",hash);
 
-    if(mapEnd)
+    if( isMapEnd )
     	showMap();
 }
 

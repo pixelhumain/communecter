@@ -53,18 +53,7 @@
 	</button>
 
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search text-red">
-	<?php 
-		//$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-		//   			    Yii::app()->request->cookies['cityName'] : "";
-		//if($where == "") 
-		//		 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
-		//	   			Yii::app()->request->cookies['postalCode'] : "";
-	?>
-	<!-- <input id="searchBarPostalCode" type="text" placeholder="Où ?" class="text-red input-search postalCode" 
-		   value="<?php echo $where; ?>" > -->
-
-	<?php //$this->renderPartial("dropdown_scope"); ?> 
-
+	
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 </div>

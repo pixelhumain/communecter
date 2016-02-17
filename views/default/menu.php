@@ -90,7 +90,7 @@
 .infoVersion{
 	display: none;
 	position: fixed;
-	bottom: 200px;
+	bottom: 165px;
 	left : 20px;
 }
 
@@ -147,6 +147,21 @@
 	font-weight: 600;
 	font-size: 14px;
 }
+
+
+
+<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
+		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		   			    Yii::app()->request->cookies['cityName'] : "";
+		if($where == "") 
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			  		 Yii::app()->request->cookies['postalCode'] : "";
+		if($where == "") {  		 
+?>
+button.btn-menu2, .btn-menu3, .btn-menu4{
+	display: none;
+}
+<?php } ?>
 
 
 </style>
@@ -371,11 +386,7 @@ jQuery(document).ready(function() {
 
 		showInputCommunexion();
 
-		hoverPersist = false;
-		clearTimeout(timeoutHover);
-		timeoutHover = setTimeout(function(){
-			hoverPersist = true;
-		}, 1000);
+		
 	});
 
 
@@ -386,10 +397,16 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
 			$(".menu-button-title").addClass("large");
+
+			hoverPersist = false;
+			clearTimeout(timeoutHover);
+			timeoutHover = setTimeout(function(){
+				hoverPersist = true;
+			}, 2000);
 		}
 	});
 
-	$(".main-col-search").click(function(){
+	$(".main-col-search, .mapCanvas").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
@@ -406,7 +423,7 @@ jQuery(document).ready(function() {
 		//$("#input-communexion").hide(400);
 	});
 
-	$(".main-col-search").mouseenter(function(){
+	$(".main-col-search, .mapCanvas").mouseenter(function(){
 			//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 		    if(!hoverPersist){
 				if(!isLoginRegister()){

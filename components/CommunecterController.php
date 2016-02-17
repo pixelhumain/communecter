@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.092";
-  public $versionDate = "15/02/2016 08:36";
+  public $version = "v0.093";
+  public $versionDate = "17/02/2016 15:36";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -96,13 +96,12 @@ class CommunecterController extends Controller
 
     "default" => array(
       "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
-      "directory"             => array("href" => "/ph/communecter/default/directory"),
-      "agenda"                => array("href" => "/ph/communecter/default/agenda"),
-      "news"                  => array("href" => "/ph/communecter/default/news"),
-      "login"                  => array("href" => "/ph/communecter/default/news"),
-      "home"                  => array("href" => "/ph/communecter/default/home"),
+      "directory"             => array("href" => "/ph/communecter/default/directory", "public" => true),
+      "agenda"                => array("href" => "/ph/communecter/default/agenda", "public" => true),
+      "news"                  => array("href" => "/ph/communecter/default/news", "public" => true),
+      "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
       "add"                  => array("href" => "/ph/communecter/default/add"),
-      "view"                  => array("href" => "/ph/communecter/default/view"),
+      "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
     ),
 
     "city"=> array(
@@ -195,13 +194,9 @@ class CommunecterController extends Controller
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
 
-        "invitecontact"=> array('href'    => "/ph/communecter/person/invitecontact"),
+        
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
-        "network"=> array('href'    => "/ph/communecter/person/network"),
-        "google"=> array('href'     => "/ph/communecter/person/google"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
-        "importfile"=> array('href' => "/ph/communecter/person/importfile"),
-        "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
         
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),

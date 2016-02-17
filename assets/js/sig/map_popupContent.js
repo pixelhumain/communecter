@@ -541,7 +541,7 @@
 										"<i class='fa fa-university'></i> "+dataTxt+
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
-									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' onclick='javascript:"+showAjaxPanel+"'>"+
+									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' onclick='javascript:setScopeValue(\""+cp+"\")'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
 									"</button>" +
 									"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+

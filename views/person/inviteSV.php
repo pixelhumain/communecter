@@ -666,22 +666,26 @@ function bindInviteSubViewInvites() {
     	if(listMails.length == 0)
     		toastr.error("Veuillez sélectionner une adresse mail.");
     	else{
-    		var nameUtil ;
+    		var nameUtil = "" ;
     		console.log("listMails", listMails);
     		$.each(listMails, function(key, value) {
-    			//console.log("value", value)
+    			console.log("value", value)
     			if(value.mail != ""){
-    				if(typeof value.name != "undefined")
-    					nameUtil[0] = value.name;
+    				if(typeof value.name != "undefined" && value.name != "")
+    					nameUtil = value.name;
     				else
-						nameUtil = 	value.mail.split("@");
+					{
+						var name = 	value.mail.split("@");
+						nameUtil = name[0];
+					}	
+				  	console.log("nameUtil", nameUtil);
 				  	$.ajax({
 				        type: "POST",
 				        url: baseUrl+"/"+moduleId+'/person/connect',
 				        dataType : "json",
 				        data: {
 				        	parentId : $("#parentId").val(),
-				        	invitedUserName : nameUtil[0],
+				        	invitedUserName : nameUtil,
 				        	invitedUserEmail : value.mail,
 				        	msgEmail : $("#textmail").val()
 				        },
