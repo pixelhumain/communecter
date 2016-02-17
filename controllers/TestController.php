@@ -8,7 +8,7 @@ class TestController extends CommunecterController {
     $userNotifcations = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );//PHDB::find( ActivityStream::COLLECTION,array("notify.id"  => Yii::app()->session["userId"] ));
     echo count($userNotifcations);
   }
-  public function knowsToFollows(){
+  public function actionKnowsToFollows(){
 	 $persons=PHDB::find(Person::COLLECTION);
 	foreach($persons as $key => $data){
 		if(isset($data["links"]["knows"])){
