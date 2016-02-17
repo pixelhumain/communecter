@@ -99,9 +99,11 @@
 
 </div>
 
+<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
+
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
-	<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
+	
 			
 	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
 	</div>
@@ -401,6 +403,14 @@ var typesLabels = {
 			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
                 "indexMin" : 0, "indexMax" : 500  };
 
+            $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+			
+			$.blockUI({
+				message : "<h2 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + postalCode + " : Commune<span class='text-dark'>xion en cours ...</span></h2>"
+			});
+
+			showMap(true);
+			
 			$.ajax({
 		      type: "POST",
 		          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -413,7 +423,9 @@ var typesLabels = {
 		            if(!data){ toastr.error(data.content); }
 		            else{
 		            	console.dir(data);
-		            	Sig.showMapElements(Sig.map, {"cities" : data });
+		            	Sig.showMapElements(Sig.map, data);
+		            	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span class='text-red'>COMMUNE</span>CTER.ORG > " + postalCode );
+		            	$.unblockUI();
 		            }
 		          }
 		 	});
