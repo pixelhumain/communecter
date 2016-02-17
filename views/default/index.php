@@ -389,11 +389,34 @@ var typesLabels = {
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
 		
-		showMap(false);
+		//showMap(false);
 		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 		
 		if(location.hash == "#default.home"){
 			
+			console.log("globalautocomplete after communexion");
+
+			searchType = [ "persons", "organizations", "projects", "events", "cities" ];
+  
+			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
+                "indexMin" : 0, "indexMax" : 500  };
+
+			$.ajax({
+		      type: "POST",
+		          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+		          data: data,
+		          dataType: "json",
+		          error: function (data){
+		             console.log("error"); console.dir(data);          
+		          },
+		          success: function(data){
+		            if(!data){ toastr.error(data.content); }
+		            else{
+		            	console.dir(data);
+		            	Sig.showMapElements(Sig.map, {"cities" : data });
+		            }
+		          }
+		 	});
 		}
 
   	}
@@ -435,9 +458,10 @@ var typesLabels = {
 			
 			 $.blockUI({
 			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
-			 	"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>" +
-			 	"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
+			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+			 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 			 	
 
 			 });
