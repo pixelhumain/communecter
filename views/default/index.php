@@ -231,17 +231,17 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+	        loadByHash(location.hash,true);
 	      }
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
 	    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
-			loadByHash(location.hash,null);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash(location.hash);
 			return;
 		}
 		else{ 
-			loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash("#default.home");
 		}
 
 		checkScroll();
@@ -312,10 +312,12 @@ var typesLabels = {
 			//}
 		//}
 	}
+	var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 	function showMap(show){
 			console.log("showMap");
 			if(show === undefined) show = $("#right_tool_map").css("display") == "none";
 			if(show){
+				isMapEnd =true;
 				showNotif(false);
 				showTopMenu(true);
 				if(Sig.currentMarkerPopupOpen != null){
@@ -335,7 +337,7 @@ var typesLabels = {
 				var timer = setTimeout("Sig.constructUI()", 1000);
 				
 			}else{
-				
+				isMapEnd =false;
 				$(".btn-group-map").hide( 700 );
 				$("#right_tool_map").hide(700);
 				$(".panel_map").hide(1);
