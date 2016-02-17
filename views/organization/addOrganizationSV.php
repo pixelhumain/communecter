@@ -142,22 +142,32 @@ if( !isset($_GET["isNotSV"]))
 								
 									<label class="control-label text-dark">
 									<!-- <i class="fa fa-angle-down"></i> <?php //echo Yii::t("common","Type") ?> :  -->
-									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="association"><i class="fa fa-group"></i> Une association</div>
+									<!--<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="association"><i class="fa fa-group"></i> Une association</div>
 									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="entreprise"><i class="fa fa-industry"></i> Une entreprise</div> 
 									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="group"><i class="fa fa-circle"></i> Un groupe</div> 
-									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="project"><i class="fa fa-lightbulb-o"></i> Un projet</div> 
+									<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="gouv"><i class="fa fa-lightbulb-o"></i> Une organisation gourvernemantal</div>-->
+									<?php
+										foreach ($types as $key=>$value) {
+											$icon = "" ;
+											if($key=="NGO")
+												$icon = '<i class="fa fa-group"></i>' ;
+											if($key=="LocalBusiness")
+												$icon = '<i class="fa fa-industry"></i>' ;
+											if($key=="Group")
+												$icon = '<i class="fa fa-circle"></i>' ;
+											if($key=="GovernmentOrganization")
+												$icon = '<i class="fa fa-lightbulb-o"></i>' ;
+									?>
+										<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="<?php echo $key?>"><?php echo $icon ." ".$value ; ?></div>
+										
+									<?php 
+									}
+									?>
+
+									<input type="hidden" name="type" id="type" value=""/>
 										<span class="symbol required"></span>
 									</label>
-									<select name="type" id="type" class="form-control hidden" >
-										<option value=""></option>
-										<?php
-										foreach ($types as $key=>$value) {
-										?>
-											<option value="<?php echo $key?>" <?php if(($organization && isset($organization['type']) && $key == $organization['type']) ) echo "selected"; ?> ><?php echo $value?></option>
-										<?php 
-										}
-										?>
-									</select>
+									
 								</div>
 								
 							</div>
@@ -224,7 +234,7 @@ if( !isset($_GET["isNotSV"]))
 							</div>
 							<div class="form-group">
 								<label for="address" class="control-label text-dark">
-									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> <span class="symbol required"></span>
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></span>
 								</label>
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
 							</div>
