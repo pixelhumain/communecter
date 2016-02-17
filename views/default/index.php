@@ -387,11 +387,34 @@ var typesLabels = {
 	    console.log("mise à jour du cookie postalCode", path);
 		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
 		
-		showMap(false);
+		//showMap(false);
 		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 		
 		if(location.hash == "#default.home"){
 			
+			console.log("globalautocomplete after communexion");
+
+			searchType = [ "persons", "organizations", "projects", "events", "cities" ];
+  
+			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
+                "indexMin" : 0, "indexMax" : 500  };
+
+			$.ajax({
+		      type: "POST",
+		          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+		          data: data,
+		          dataType: "json",
+		          error: function (data){
+		             console.log("error"); console.dir(data);          
+		          },
+		          success: function(data){
+		            if(!data){ toastr.error(data.content); }
+		            else{
+		            	console.dir(data);
+		            	Sig.showMapElements(Sig.map, {"cities" : data });
+		            }
+		          }
+		 	});
 		}
 
   	}
