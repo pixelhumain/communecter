@@ -194,13 +194,9 @@ class CommunecterController extends Controller
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
 
-        "invitecontact"=> array('href'    => "/ph/communecter/person/invitecontact"),
+        
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
-        "network"=> array('href'    => "/ph/communecter/person/network"),
-        "google"=> array('href'     => "/ph/communecter/person/google"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
-        "importfile"=> array('href' => "/ph/communecter/person/importfile"),
-        "saisir"=> array('href'     => "/ph/communecter/person/saisir"),
         
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
