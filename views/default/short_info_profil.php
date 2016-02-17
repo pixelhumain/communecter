@@ -71,14 +71,14 @@
     width: 240px;
     height: 53px;
     border: 1px solid rgba(128, 128, 128, 0.46) !important;
-    box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+    /*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
     -webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
     -o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-    box-shadow: 0px 3px 10px 0px rgba(66, 66, 66, 0.37) !important;
+    box-shadow: 0px 3px 10px 0px rgba(66, 66, 66, 0.37) !important;*/
     padding: 3px 20px;
     font-size: 16px;
     border-radius: 0px !important;
-    background-color: rgba(206, 206, 206, 0.27);
+    background-color: #FFF;
   }
   .main-top-menu .input-global-search:focus{
     box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
@@ -155,8 +155,8 @@
       </button>
     
     <?php }else{ ?>
-      <button class="btn-top btn bg-red" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> Se connecter</button> 
-      <button class="btn-top btn btn-success" style="margin-right:10px;" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> S'inscrire</button>
+      <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm">S'inscrire</span></button>
+      <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-md">Se connecter</span></button> 
     <?php } ?>
     <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
