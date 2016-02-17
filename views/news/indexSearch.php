@@ -824,24 +824,34 @@ function buildLineHTML(newsObj,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if( author != null && typeof author.address != "undefined" )
+	if( (author != null && typeof author.address != "undefined") || newsObj.type == "activityStream")
 	{
-		if( typeof author.address.postalCode != "undefined")
+		if(newsObj.type != "activityStream"){
+			postalCode=author.address.postalCode;
+			city=author.address.addressLocality;			
+		}else{
+			postalCode=newsObj.scope.address.postalCode;
+			city=newsObj.scope.address.addressLocality;		
+		}
+		
+		if( typeof postalCode != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+author.address.postalCode+"</span> ";
-			scopeClass += author.address.postalCode+" ";
-			if( $.inArray(author.address.postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(author.address.postalCode);
+			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
+			scopeClass += postalCode+" ";
+			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
+				contextMap.scopes.codePostal.push(postalCode);
 				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
 			}
 		}
-		if( typeof author.address.addressLocality != "undefined")
+		if( typeof city != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+author.address.addressLocality+"</span> ";
-			scopeClass += author.address.addressLocality+" ";
-			if( $.inArray(author.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
-				contextMap.scopes.addressLocality.push(author.address.addressLocality);
-				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+author.address.addressLocality+'"><span class="text-red text-xss">'+author.address.addressLocality+'</span></a>';
+			scopes += "<span class='label label-danger'>"+city+"</span> ";
+			scopeClass += city+" ";
+			if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
+				cityFilter=city.replace(/\s/g, "");
+				console.log(city);
+				contextMap.scopes.addressLocality.push(cityFilter);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
 			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';

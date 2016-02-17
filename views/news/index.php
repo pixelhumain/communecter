@@ -793,7 +793,7 @@ function buildLineHTML(newsObj)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if( author != null && typeof author.address != "undefined" )
+	if( author != null && typeof author.address != "undefined" && newsObj.type != "activityStream")
 	{
 		if( typeof author.address.postalCode != "undefined")
 		{
