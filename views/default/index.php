@@ -456,9 +456,10 @@ var typesLabels = {
 			
 			 $.blockUI({
 			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
-			 	"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>" +
-			 	"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
+			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+			 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 			 	
 
 			 });
