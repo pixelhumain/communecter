@@ -90,7 +90,7 @@
 .infoVersion{
 	display: none;
 	position: fixed;
-	bottom: 200px;
+	bottom: 165px;
 	left : 20px;
 }
 
@@ -147,6 +147,21 @@
 	font-weight: 600;
 	font-size: 14px;
 }
+
+
+
+<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
+		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+		   			    Yii::app()->request->cookies['cityName'] : "";
+		if($where == "") 
+				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+			   			  		 Yii::app()->request->cookies['postalCode'] : "";
+		if($where == "") {  		 
+?>
+button.btn-menu2, .btn-menu3, .btn-menu4{
+	display: none;
+}
+<?php } ?>
 
 
 </style>

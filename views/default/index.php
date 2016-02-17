@@ -341,6 +341,7 @@ var typesLabels = {
 				$(".panel_map").hide(1);
 				$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 				$("#btn-toogle-map").attr("data-original-title", "Carte");
+				$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 				$(".my-main-container").animate({
 	         							top: 0,
 	         							opacity:1
@@ -367,8 +368,9 @@ var typesLabels = {
 
 	  	console.log("setScopeValue");
 	  	
-	  	$("#searchBarPostalCode").val(value);
-	  	$.cookie("codePostal", 	 value, 	   { path : '/ph/' });
+	  	where = where.replace("#", "'");
+	  	$("#searchBarPostalCode").val(where);
+	  	
 		showInputCommunexion();
 		startSearch();
     }
@@ -376,6 +378,23 @@ var typesLabels = {
 	  	$("#searchBarText").val(value);
 	  	startSearch();
     }
+
+    function validatePostalcode(postalCode){
+  		var path = "/";
+		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+	    
+	    //enregistre le code postal dans un cookie
+	    console.log("mise à jour du cookie postalCode", path);
+		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
+		
+		showMap(false);
+		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+		
+		if(location.hash == "#default.home"){
+			
+		}
+
+  	}
 
 
     function showPanel(box,bgStyle,title){ 	
@@ -424,7 +443,7 @@ var typesLabels = {
 
 			//$(".main-col-search").show();
 
-			$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+			
 			showMap(false);
 			
 		}, 800);
