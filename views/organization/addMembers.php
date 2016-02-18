@@ -44,6 +44,71 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	.li-dropdown-scope a{
 		padding:15px 25px !important;
 	}
+#addMembers .nav-tabs > li > a {
+    border: 0 none;
+    border-radius: 5px;
+    color: #8E9AA2;
+    min-width: 70px;
+    padding: 5px !important;
+    margin-bottom:10px;
+}
+#addMembers .nav-tabs > li > a {
+	background-color: transparent !important;
+}
+#addMembers .nav-tabs > li > a > div:hover {
+    background-color: #3C5665;
+    color:white !important;
+}
+#addMembers .nav-tabs > li > a > div:focus {
+    background-color: #3C5665;
+    color:white !important;
+}
+
+
+#listEmailGrid{
+	margin-top: 20px;
+	background-color: transparent;
+	padding: 15px;
+	border-radius: 4px;
+	/*border-right: 1px solid #474747;*/
+	padding: 0px;
+	width:100%;
+}
+#listEmailGrid .mix{
+	margin-bottom: -1px !important;
+}
+#listEmailGrid  .item_map_list{
+	padding:10px 10px 10px 0px !important; 
+	margin-top:0px;
+	text-decoration:none;
+	background-color:white;
+	border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	text-align: center;
+	height: 150px;
+}
+#listEmailGrid  .item_map_list_blue{
+	background-color:rgba(0, 0, 0, 0.08);
+	padding:10px 10px 10px 0px !important; 
+	margin-top:0px;
+	text-decoration:none;
+	border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	text-align: center;
+	height: 150px;
+}
+#listEmailGrid .item_map_list .left-col .thumbnail-profil{
+	width: 75px;
+	height: 75px;
+}
+#listEmailGrid .ico-type-account i.fa{
+	margin-left:11px !important;
+}
+#listEmailGrid .thumbnail-profil{
+	margin-left:10px;
+}
+#listEmailGrid .detailDiv a.text-xss{
+	font-size: 12px;
+	font-weight: 300;
+}
 </style>
 <?php 
 $visible = "";
@@ -63,12 +128,31 @@ if( isset($_GET["isNotSV"])) {
 	</h2>
 	<?php
 	} 
-	$size = ( !@$isNotSV ) ? " col-md-6 col-md-offset-3" : "col-md-12"
+	//$size = ( !@$isNotSV ) ? " col-md-6 col-md-offset-3" : "col-md-12"
+	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
 	?>
 	<div class="<?php echo $size ?> " >  
-    	
+    	<ul class="nav nav-tabs">
+			<li role="presentation">
+				<a href="javascript:;" onclick="fadeInView('divSearch');" class="" id="menuInviteSomeone">
+					<div id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-dark'>
+						<!-- <i class="fa fa-plus"></i>  -->
+						<i class="fa fa-search fa-2x"></i> Rechercher ...
+						<?php //echo Yii::t("person","Add a Person") ?>
+					</div>
+				</a>
+			</li>
+		  	<li role="presentation">
+		  		<a href="javascript:;" onclick="fadeInView('divImportFile');" class="" id="menuImportFile">
+		  			<div id="titleImportFile" class='radius-10 padding-10 text-grey text-dark'>
+		  				<i class="fa fa-upload fa-2x"></i> 
+						Importer un fichier
+					</div>
+		  		</a>
+		  	</li>
+		</ul>
        
-        <div class="panel panel-white">
+        <div  id="divSearch" class="panel panel-white">
         	<div class="panel-heading border-light">
         	<?php if( !isset($_GET["isNotSV"])){?>
         		<h1>Add a Member ( Person, Organization )</h1>
@@ -169,6 +253,47 @@ if( isset($_GET["isNotSV"])) {
 		        </form>
 	        </div>
         </div>
+        <div class="panel panel-white" id="divImportFile">
+        	<div class="panel-heading border-light">
+        		<blockquote>
+        			Selectionner un ficher csv qui contient les mails de vos contacts<br/>
+        			Format : Email;Nom et Prénom;Type;TypeOrga<br/>
+        			Information :<br/> 
+        				- l'email est obligatoire, le reste est facultatif <br/>
+        				- Type : citoyens ou organizations<br/>
+        				- TypeOrga : NGO, LocalBusiness, Group, GovernmentOrganization<br/>
+        		</blockquote>
+			</div>
+			<div class="panel-body">
+				<form class="form-importFile" autocomplete="off">
+					<div class="col-sm-12 col-xs-12">
+						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
+					</div>
+				</form>
+			</div>
+			<div class="panel-body">
+				<div id="checkMail">
+        			<div class="homestead panelLabel pull-left">
+						<i class="fa fa-users"></i>
+						Liste des contacts 		
+					</div>
+					<div  id="nbContact" class="homestead pull-right"></div>
+					<br/>	
+					<div class="homestead panelLabel pull-left">
+		        		<input type="checkbox" id="checkboxAll" name="checkboxAll"/><label for="checkboxAll">Cocher/Décocher tous les contacts</label>
+					</div>
+					<br/><br/>		
+					<div class="panel-scroll row-fluid height-300">
+		        		<ul id="listEmailGrid" class="pull-left  list-unstyled ">
+						</ul>
+					</div>
+					<br/>
+					<div class="col-sm-12 col-xs-12 pull-center">
+		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter" onclick="inviteImportFile();">Inviter</a>
+					</div>
+				</div>
+			</div>
+		</div>
     </div>
 	<div class="row ">
 	 	<div class="col-md-8 col-md-offset-2">
@@ -186,12 +311,16 @@ if( isset($_GET["isNotSV"])) {
 	        </table>
 	    </div>
 	</div>
+	
+        	
     
 
     
 </div>
 <script type="text/javascript">
 	var timeout;
+	var listMails = [];
+	var totalMails = 0;
 	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo $organization["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
@@ -208,7 +337,7 @@ if( isset($_GET["isNotSV"])) {
 		bindOrganizationSubViewAddMember();
 		<?php } ?>
 		
-		
+		bindTEST();
 
 
 	});
@@ -221,6 +350,137 @@ if( isset($_GET["isNotSV"])) {
 		"Group" : "fa-circle-o",
 		"GovernmentOrganization" : "fa-university"
  	};
+ 	function bindTEST() {
+
+ 		$('#checkboxAll').change(function() { 
+ 			console.log("checkboxAll");
+			if(this.checked)
+	        { 
+	        	allchecked(true);
+	        }else{ 
+	        	allchecked(false);
+	        }          
+	               
+	    });
+
+
+		$(".form-importFile #fileEmail").change(function(e) {
+			$("#list-contact").html("");
+	    	$("#listEmailGrid").html("");
+			var ext = $(".form-importFile input#fileEmail").val().split(".").pop().toLowerCase();
+			if($.inArray(ext, ["csv"]) == -1) {
+				alert('Upload CSV');
+				return false;
+			} 
+
+			var nbContact = 0 ; 
+			if (e.target.files != undefined) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var csvval=e.target.result.split("\n");
+					file = [];
+					var csvval=e.target.result.split("\n");
+					console.log("csv : ", csvval );
+					$.each(csvval, function(key, value){
+		  				file.push(value.split(";"));
+		  			});
+		  			console.log("file : ", file );
+
+					var text2 = "" ;
+					listMails = [];
+					$.each(file, function(keyContacts, valueContacts){
+						//console.log("valueMails",valueMails);
+						text2 = "" ;
+						if(valueContacts[0].trim() != ""){
+							//var res = validMail(valueMails.trim());
+							var res = true;
+	  						if(res == true){
+		  						nbContact++;
+								//text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
+								idMail = "contact"+nbContact ;
+
+		          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-4 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
+	          								'<div style="position:relative;">'+
+	          									'<div class="portfolio-item">'+
+	          										'<div class="detailDiv">'+
+	          											'<a href="javascript:;" onclick="checkedMail(\''+idMail+'\', \''+valueContacts[0].trim()+'\');">'+
+		          											'<span class="thumb-info item_map_list_panel">'+ valueContacts[1].trim() + '</span><br/>'+
+		          											'<span class="text-xss" >'+ valueContacts[0].trim() + '</span><br/>'+
+		          											'<input type="hidden" id="'+idMail+'memberType"/>'+
+		          											'<input type="hidden" id="'+idMail+'name" value="'+valueContacts[1].trim()+'"/>'+
+		          											'<input type="hidden" id="'+idMail+'mail" value="'+valueContacts[0].trim()+'"/>'+
+		          										'<br/>'+
+		          										'</a>'+
+	          											'<div id="'+idMail+'btn" class="btn-group ">'+
+															'<button id="'+idMail+'btnCitoyen" href="javascript:;" onclick="switchTypeImport(\'citoyens\', \''+idMail+'\', \''+valueContacts[0].trim()+'\')" class="btn btn-default btn-green">'+
+																'Citoyen'+
+															'</button>'+
+															'<button id="'+idMail+'btnOrganization" href="javascript:;" onclick="switchTypeImport(\'organizations\', \''+idMail+'\', \''+valueContacts[0].trim()+'\')" class="btn btn-default btn-green">'+
+																'Organisation'+
+															'</button>'+
+														'</div>'+
+														'<br/>'+
+														'<div class="col-md-12 classOrganizationType" id="'+idMail+'divOrganizationType">'+
+									    	        		'<select class="form-control" placeholder="Organization Type" id="'+idMail+'organizationType" name="'+idMail+'organizationType">'+
+																'<?php foreach ($organizationTypes as $key => $value) { ?>'+
+																	'<option value="<?php echo $key ?>"><?php echo $value?></option>'+
+																'<?php }	?>'+
+															'</select>'+
+														'</div>'+
+	          											'<br/>'+
+	          											'<div></div>'+
+	          										'</div>'+
+	          									'</div>'+
+	          								'</div>'+
+	          							'</li>';
+		          			}
+
+		          			$("#listEmailGrid").append(text2);	
+							$("#"+idMail+"organizationType").hide();
+							console.log(valueContacts[0], valueContacts[1], valueContacts[2], valueContacts[3]);
+							if(typeof valueContacts[2] != "undefined"){
+								if(valueContacts[2].trim() == "citoyens")
+									switchTypeImport('citoyens', idMail, valueContacts[0].trim());
+								else if(valueContacts[2].trim() == "organizations"){
+									switchTypeImport('organizations', idMail, valueContacts[0].trim());
+
+									if(valueContacts[3].trim() == "NGO"){
+										$('#'+idMail+'organizationType').val("NGO");
+									}else if(valueContacts[3].trim() == "LocalBusiness"){
+										$('#'+idMail+'organizationType').val("LocalBusiness");
+									}else if(valueContacts[3].trim() == "Group"){
+										$('#'+idMail+'organizationType').val("Group");
+									}else if(valueContacts[3].trim() == "GovernmentOrganization"){
+										$('#'+idMail+'organizationType').val("GovernmentOrganization");
+									}else{
+										$('#'+idMail+'organizationType').val("NGO");
+									}
+								}
+							}
+
+
+
+
+						}
+					});
+					//$("#totalContact").html(nbContact);
+					totalMails = nbContact;
+					setNbContact();
+					
+					//$("#list-contact").append(text);
+				};
+				reader.readAsText(e.target.files.item(0));
+				//checkboxAdmin();
+				$("#checkMail").show();
+			}else{
+				toastr.error("Nous n'avons pas réussie à lire votre fichier.")
+			}
+			
+			
+			
+			return false;
+		});
+	};
 
 	function bindOrganizationSubViewAddMember() {	
 		$(".addMembersBtn").off().on("click", function() {
@@ -242,7 +502,10 @@ if( isset($_GET["isNotSV"])) {
 			e.prinviteDefault();
 		});
 	};
-	function initFormAddMember(){
+	function initFormAddMember(){checkMail
+		$("#divImportFile").hide();
+		$("#checkMail").hide();
+		
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
@@ -466,6 +729,88 @@ if( isset($_GET["isNotSV"])) {
 		$("#addMembers #memberType").val(str);
 	}
 
+	function switchTypeImport(str, idMail, mail){
+		if(str=="citoyens"){
+			$("#"+idMail+"organizationType").hide();
+			$("#"+idMail+"divOrganizationType").css("display", "none");
+			$("#"+idMail+"btn  #"+idMail+"btnCitoyen").removeClass("btn-green").addClass("btn-dark-green");
+			$("#"+idMail+"btn  #"+idMail+"btnOrganization").removeClass("btn-dark-green").addClass("btn-green");
+		}else{
+			$("#"+idMail+"organizationType").show();
+			$("#"+idMail+"divOrganizationType").css("display", "block");
+			$("#"+idMail+"btn  #"+idMail+"btnOrganization").removeClass("btn-green").addClass("btn-dark-green");
+			$("#"+idMail+"btn  #"+idMail+"btnCitoyen").removeClass("btn-dark-green").addClass("btn-green");
+		}
+		$("#"+idMail+"memberType").val(str);
+
+		checkedDiv(idMail, mail);
+	}
+
+function checkedMail(id, mail) {
+	console.log("checkedMail",id, mail);
+	var contact = {} ;
+	contact["mail"] = mail ;
+	contact["id"] = id ;
+	/*contact["typeOrga"] = "" ;
+	if(contact["type"] == "organizations")
+		contact["typeOrga"] = $("#"+id+"organizationType").val() ;*/
+
+	var newArray = [] ;
+
+	var find = false ;
+	$.each(listMails, function(key, val) {
+		if(mail == val.mail){
+			find = true ;
+		}else{
+			newArray.push(val);
+		}
+	});
+
+	listMails = newArray ;
+	if(find == true){
+		$( "#"+id ).removeClass("item_map_list_blue");
+		$( "#"+id ).addClass("item_map_list");
+		
+	}else{
+		$( "#"+id ).removeClass("item_map_list");
+		$( "#"+id ).addClass("item_map_list_blue");
+		listMails.push(contact);
+	}
+	console.log("checkedMail",listMails);
+	setNbContact()
+	//bindInviteSubViewInvites();
+};
+
+
+
+function checkedDiv(id, mail) {
+	console.log("checkedDiv",id, mail);
+	var contact = {} ;
+	contact["mail"] = mail ;
+	contact["id"] = id ;
+
+	var find = false ;
+	$.each(listMails, function(key, val) {
+		if(mail == val.mail){
+			find = true ;
+		}	
+	});
+	if(find == false){
+		listMails.push(contact);
+	}
+	if(!$( "#"+id ).hasClass( "item_map_list_blue" )){
+		$( "#"+id ).removeClass("item_map_list");
+		$( "#"+id ).addClass("item_map_list_blue");
+	}
+	console.log("checkedDiv",listMails);
+	setNbContact();	
+};
+
+
+
+
+
+
 	function setValidationTable(){
 		var admin= "";
 		var type="";
@@ -489,6 +834,190 @@ if( isset($_GET["isNotSV"])) {
             $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
 
+function fadeInView(inView){
+
+	if(inView == "divSearch")
+	{
+		$("#divSearch").fadeIn("slow", function() {});
+		$("#divImportFile").hide();
+
+	}else if(inView == "divImportFile")
+	{
+		$("#divImportFile").fadeIn("slow", function() {});
+		$("#divSearch").hide();
+	}
+
+}
+
+function getIdByMail(mail) {
+	var res = false ;
+	$.ajax({
+        type: "POST",
+        url: baseUrl+'/communecter/person/getuseridbymail/',
+        dataType : "json",
+        data: {
+        	mail : mail,
+        },
+        async : false ,
+		success:function(data){
+			console.log(data.userId.$id);
+			res =  data.userId.$id ;
+  		},
+  		error:function(data){
+  			console.log("error",data)
+  		}
+    });
+
+    return res ;
+}
+
+/*function checkedMail(id, mail) {
+	var newArray = [] ;
+
+	var find = false ;
+	$.each(listMails, function(key, val) {
+		if(mail == val){
+			find = true ;
+		}else{
+			newArray.push(val);
+		}
+	});
+
+	listMails = newArray ;
+	if(find == true){
+		$( "#"+id ).removeClass("item_map_list_blue");
+		$( "#"+id ).addClass("item_map_list");
+		
+	}else{
+		$( "#"+id ).removeClass("item_map_list");
+		$( "#"+id ).addClass("item_map_list_blue");
+		listMails.push(mail);
+	}
+	console.log("listMails", listMails);
+	//setNbContact()
+	//bindInviteSubViewInvites();
+};*/
+
+
+
+
+
+function inviteImportFile(){
+		if(listMails.length == 0)
+    		toastr.error("Veuillez sélectionner une adresse mail.");
+    	else{
+    		var name = "";
+    		var connectType = "member";
+    		console.log("listMails", listMails);
+    		$.each(listMails, function(key, value) {
+    			console.log("value", value)
+    			if(value.mail != ""){
+					console.log("name", $("#"+value.id+"name").val());
+    				if($("#"+value.id+"name").val() == "")
+					{
+						var nom = value.mail.split("@") ;
+						name = nom[0];
+					}	
+					else
+						name = 	$("#"+value.id+"name").val();
+    				
+
+    				var userId = getIdByMail(value.mail);
+    				var typeOrga = "" ;
+					if($("#"+value.id+"memberType").val() == "organizations")
+						typeOrga = $("#"+value.id+"organizationType").val() ;
+					var params = {
+						"childId" : userId,
+						"childName" : name,
+						"childEmail" : value.mail,
+						"childType" : $("#"+value.id+"memberType").val(), 
+						"organizationType" : typeOrga,
+						"parentType" : "<?php echo Organization::COLLECTION;?>",
+						"parentId" : $("#addMembers #parentOrganisation").val(),
+						"connectType" : connectType
+					};
+				  	console.log("params", params);
+				  	$.ajax({
+			            type: "POST",
+			            url: baseUrl+"/communecter/link/connect",
+			            data: params,
+			            dataType: "json",
+			            success: function(data){
+			            	if(!data.result){
+			            		toastr.error(data.msg);
+			            	}else{
+			            		toastr.success("Member added successfully ");
+			            		/*if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
+				        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
+				               	setValidationTable();
+				                $("#addMembers #memberType").val("");
+				                $("#addMembers #memberName").val("");
+				                $("#addMembers #memberEmail").val("");
+				                $("#addMembers #memberIsAdmin").val("");
+				                $('#addMembers #organizationType').val("");
+								$("#addMembers #memberIsAdmin").val("false");
+								$("[name='my-checkbox']").bootstrapSwitch('state', false);
+				                showSearch();*/
+			            	}
+			            	console.log(data.result);   
+			            },
+			            error:function (xhr, ajaxOptions, thrownError){
+			              toastr.error( thrownError );
+			            } 
+			    	});
+				}
+    		});
+    	}
+
+}
+
+
+function checkboxAdmin() {
+	
+	console.log("checkboxAdmin");
+	$("[name='my-checkboxAdmin']").bootstrapSwitch();
+	$("[name='my-checkboxAdmin']").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		if (state == true) {
+			$("#addMembers #memberIsAdmin").val(1);
+		} else {
+			$("#addMembers #memberIsAdmin").val(0);
+		}
+		
+	}); 
+}
+function setNbContact(total) {
+	if(typeof total == "undefined")
+		$("#nbContact").html(listMails.length + " / " + totalMails + " contacts sélectionné(s)");
+	else
+		$("#nbContact").html(listMails.length + " / " + total + " contacts sélectionné(s)");
+}
+
+function allchecked(bool) {
+	console.log("allchecked");
+
+	var lesLI = $("#listEmailGrid li").each(function(){
+		var elt = $(this) ;
+
+		console.log( elt[0].id);
+		console.log($("#"+elt[0].id+"mail").val());
+		if(bool == true){
+			checkedDiv(elt[0].id, $("#"+elt[0].id+"mail").val());
+		}
+		else{
+			if(!$( "#"+elt[0].id).hasClass( "item_map_list" )){
+				$( "#"+elt[0].id ).removeClass("item_map_list_blue");
+				$( "#"+elt[0].id).addClass("item_map_list");
+			}
+		}
+			    
+	});
+
+	if(bool == false)
+		listMails = [];
+
+	setNbContact()	
+}
 </script>
 	
 

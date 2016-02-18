@@ -172,7 +172,7 @@ input.form-control{
 	<ul class="nav nav-tabs">
 		<li role="presentation">
 			<a href="javascript:" class="" id="menuInviteSomeone">
-				<div id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-yellow text-dark'>
+				<div id="titleInviteSomeone" class='radius-10 padding-10 text-yellow text-dark'>
 					<!-- <i class="fa fa-plus"></i>  -->
 					<i class="fa fa-search fa-2x"></i> Rechercher ...
 					<?php //echo Yii::t("person","Add a Person") ?>
