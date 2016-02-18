@@ -353,7 +353,7 @@ jQuery(document).ready(function() {
     	else{
     		$("#modal-select-scope").modal("show");
     	}
-    });
+    }).mouseenter(function(e){ toggle(".explainCommunectMe",".explain")});;
 	
 
 

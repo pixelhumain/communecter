@@ -313,7 +313,9 @@ if( isset($_GET["isNotSV"])) {
 	foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
 	foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
 	foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
-	foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+	if (isset($followers)){
+		foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+	}
 	if (isset($follows)){
 		if(isset($follows[Person::COLLECTION])){ 
 			foreach ($follows[Person::COLLECTION] as $e) {
@@ -437,13 +439,13 @@ if( isset($_GET["isNotSV"])) {
 						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
-					//if ($parentType==Person::COLLECTION){ ?>
-						<!-- <div class="col-md-12 col-sm-12 col-xs-12 row">
+					/*if ($parentType==Person::COLLECTION){ 
+						<div class="col-md-12 col-sm-12 col-xs-12 row">
 							<span class="homestead panelLabel pull-left labelCommunity"> 
-							<?php echo ucfirst(Yii::t("common",$connectType)) ?>
+							<?php echo ucfirst(Yii::t("common",$connectType)) 
 							</span>
-						</div> -->
-					<?php //} 
+						</div> 
+					 */
 					/* ************ ORGANIZATIONS ********************** */
 					if(isset($organizations)) 
 					{ 
