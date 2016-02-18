@@ -155,8 +155,8 @@
       </button>
     
     <?php }else{ ?>
-      <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm">S'inscrire</span></button>
-      <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-md">Se connecter</span></button> 
+      <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
+      <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
     <?php } ?>
     <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
@@ -194,7 +194,7 @@
     $('.dropdown-result-global-search').mouseenter(function(e){
         clearTimeout(timeoutDropdownGS);
     });
-    $('.main-col-search').mouseenter(function(e){
+    $('.main-col-search, .mapCanvas').mouseenter(function(e){
         clearTimeout(timeoutDropdownGS);
         timeoutDropdownGS = setTimeout(function(){ 
             showDropDownGS(false);

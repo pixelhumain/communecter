@@ -348,6 +348,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-bold">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
 				<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
 				<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-bold">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
+				<br/> <a href="javascript:;" data-id="explainActiveCrowdfunder" class="explainLink text-red">Comment faire pour vous aider</a>
+				
 				<?php /* ?>
 				<br/><br/>
 				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 

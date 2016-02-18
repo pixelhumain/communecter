@@ -8,7 +8,7 @@
 		font-weight: 300;
 	}
 </style>
-<div class="hover-info col-md-6 col-md-offset-4 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
+<div class="hover-info col-md-6 col-md-offset-3 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
 
 	<div class="explainHome explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Accueil</h1>
@@ -16,6 +16,25 @@
 			<li><i class="fa fa-angle-right"></i> En Savoir plus ...</li>
 			<li><i class="fa fa-angle-right"></i> Qui Sommes Nous ? </li>
 			<li><i class="fa fa-angle-right"></i> Pourquoi <strong>Communecter</strong>" ?</li>
+		</ul>
+	</div>
+	
+	<div class="explainCommunectMe explain hide">
+		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Communectez moi</h1>
+		Ce n'est pas la technologie qui changera la société mais la philosophie bien outillé.
+		<br/>Me communecter me permet :  
+		<ul>
+			<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li>
+			<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auquels je crois ici et là</li>
+			<li><i class="fa fa-angle-right"></i> je peux ajouter à mon réseau 
+			<ul>
+				<li><i class="fa fa-user"></i> des personnes</li>
+				<li><i class="fa fa-users"></i> des organisations</li>
+				<li><i class="fa fa-lightbuld-o"></i> des projets</li>
+				<li><i class="fa fa-calendar"></i>des évennements</li></li>
+			</ul></li>
+			<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne local</li>
+			<li><i class="fa fa-angle-right"></i> je partage pour améliorer mon territoire</li>
 		</ul>
 	</div>
 
@@ -111,13 +130,7 @@
 	<div class="explainCommuns explain hide">
 		<h1 class="homestead text-dark">Les Biens Communs</h1>
 		<ul>
-			Reconnaitre et travailler pour un bien commun
-			C'est automatiquement ce tourner vers l'autre 
-			Construire ensemble pour un résultat partagé
-			Le résultat est souvent beaucoup plus riche 
-			qu'on ne se l'imaginait 
-			Les communs sont des ressources partagées entre une communauté d’utilisateurs qui déterminent eux-mêmes le cadre et les normes régulant la gestion et l’usage de leur ressource.
-			<br/>« Il n’y a pas de commun sans « commoners ». (…) Il n’y a pas de commun sans agir en commun. » New to the Commons ? David Bollier.
+			D’un jardin partagé à un logiciel « libre », d’une place de village à une encyclopédie en ligne, les « communs » parlent d’une construction sociale et politique nouvelle où se fabrique à la fois de la citoyenneté, une réponse à des besoins (se nourrir, se loger, partager des connaissances, une imprimante 3D…), une nouvelle gouvernance, une pratique démocratique dialoguée avec les institutions publiques, et la possibilité pour chacun de contribuer avec ses compétences à faire société. S’immisçant entre l’état et le marché, cet état d’esprit des « Communs » s’ancre dans des pratiques locales tout en fonctionnant en réseau et en maillant un ensemble de territoires et de pays. Ces nouveaux espaces retissent pour soi et pour autrui le désir d’être en activité, de contribuer, d’être utile, de développer des compétences, de créer de la richesse… en relation à un intérêt général.
 		</ul>
 	</div>
 	
@@ -456,6 +469,81 @@
 
 	<div class="explainContributor explain hide">
 		<h1 class="homestead yellowph">Contributeur</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainActiveCrowdfunder explain hide">
+		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Aidez Nous a CrowdFunder (Financer) </h1>
+		vous pouvez contribuer au financement participatif mais aussi permettre de distribuer massivement 
+		la campagne autour de vous dans vos reseaux. 
+		<br/> Si ca vous interresse, vous etes au bon endroit
+		<br/> Voici votre cocktail de Crowdfunder actif :  
+		<ul>
+			<li><i class="fa fa-angle-right"></i> voici le <a href="kisskissbankbank.com/communecter--2" target="_blank">lien vers la campagne</a></li>
+			<li><i class="fa fa-angle-right"></i> Vous trouverez toutes les documentations décrivant le projet <a href="javascript:;" data-id="explainCommunectorDocs" class="explainLink text-red"><i class="fa fa-upload"></i></a> </li>
+			<li><i class="fa fa-angle-right"></i> parlez en autour de vous</li>
+			<li><i class="fa fa-angle-right"></i> faite des <a href="javascript:;" data-id="explainMOAC" class="explainLink text-red">MOAC</a> : Massifs Offline ou Online Apéros Citoyens</li>
+			<li><i class="fa fa-angle-right"></i> relayer massivement la campagne sur reseau sociaux FaceBook, Twitter, LinkedIn, Ello,...</li>
+			<li><i class="fa fa-angle-right"></i> faite des mailing personnaliser avec des <a href="javascript:;" data-id="explainCrowdfundingLetters" class="explainLink text-red">lettres type</a></li>
+			<li><i class="fa fa-angle-right"></i> Partagez votre motivation avec les membres de la pages et du groupe</li>
+			<li><i class="fa fa-angle-right"></i> soyez créatif et partagez vos idées avec <a href="https://www.facebook.com/groups/1706464852909714/" target="_blank"> vos amis communecteurs</a> </li>
+			<li><i class="fa fa-angle-right"></i> partagez aussi vos retours d'experiences et les avis recoltés</li>
+		</ul>
+	</div>
+
+	<div class="explainCommunectorDocs explain hide">
+		<h1 class="homestead yellowph">Boite à Outil Communecteur</h1>
+		<ul>
+			nos outils 
+			<ul>
+			<li><i class="fa fa-angle-right"></i> https://gitter.im/pixelhumain/pixelhumain
+			<li><i class="fa fa-angle-right"></i> https://www.loomio.org/g/vdaxhNF4/pixelhumain
+			</ul>
+			nos documentations, power point
+			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf
+			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf
+			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf
+			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/BPS Communecter.ppt
+
+			 nos vidéos
+			<li><i class="fa fa-angle-right"></i> https://vimeo.com/133636468
+			<li><i class="fa fa-angle-right"></i> https://vimeo.com/74212373
+		</ul>
+	</div>
+
+	<div class="explainMOAC explain hide">
+		<h1 class="homestead yellowph">M.O.A.C<br/>Massifs Offline ou Online Apéros Citoyens</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainCrowdfundingLetters explain hide">
+		<h1 class="homestead yellowph">CrowdFunding letter Collection</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainPixelHumain explain hide">
+		<h1 class="homestead yellowph">Pixel Humain</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
