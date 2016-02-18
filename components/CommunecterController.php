@@ -176,6 +176,7 @@ class CommunecterController extends Controller
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
         "register"        => array("href" => "/ph/communecter/person/register"),
         "activate"        => array('href' => "/ph/communecter/person/activate"),
+        "validateinvitation" => array('href' => "/ph/communecter/person/validateinvitation"),
         "logout"          => array("href" => "/ph/communecter/person/logout"),
         'getthumbpath'    => array("href" => "/ph/communecter/person/getThumbPath"),
         'getnotification' => array("href" => "/person/getNotification"),
@@ -189,6 +190,7 @@ class CommunecterController extends Controller
         "updatefield"     => array("href" => "/person/updatefield"),
         "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
         'checklinkmailwithuser'   => array("href" => "/ph/communecter/checklinkmailwithuser"),
+        'getuseridbymail'   => array("href" => "/ph/communecter/getuseridbymail"),
 
         "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
