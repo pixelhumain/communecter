@@ -110,6 +110,21 @@
 	#modalItemNotLocated .modal-body .btn-more{
 		display: none !important;
 	}
+
+	.<?php echo $moduleName; ?>
+	.bg-main-menu{
+		background-color: rgba(26, 33, 38, 0.68);
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 16.5%;
+		height: 100%;
+		-moz-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+	    -webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+	    -o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+	    box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+	    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+	}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {

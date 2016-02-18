@@ -98,7 +98,7 @@
 			  				/*if(telephone != "")
 								telephone += ", ";
 							telephone += value ;*/
-							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
+							popupContent += "<div class='popup-info-profil'>" + value + "</div>";
 			  			});
 					}
 
@@ -108,14 +108,14 @@
 			  				/*if(telephone != "")
 								telephone += ", ";
 							telephone += value ;*/
-							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
+							popupContent += "<div class='popup-info-profil'>" + value + "</div>";
 			  			});
 					}
 				}
 				else
 				{
 					if(typeof data["telephone"] == "string"){
-						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "<div/>";
+						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "</div>";
 					}
 				}
 				//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
@@ -208,7 +208,7 @@
 						  				/*if(telephone != "")
 											telephone += ", ";
 										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "<div/>";
+										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "</div>";
 						  			});
 								}
 
@@ -218,14 +218,14 @@
 						  				/*if(telephone != "")
 											telephone += ", ";
 										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "<div/>";
+										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "</div>";
 						  			});
 								}
 							}
 							else
 							{
 								if(typeof data["telephone"] == "string"){
-									popupContent += "<div class='info_item telephone_item_map_list'>" + data["telephone"] + "<div/>";
+									popupContent += "<div class='info_item telephone_item_map_list'>" + data["telephone"] + "</div>";
 								}
 							}
 							//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";

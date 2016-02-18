@@ -8,7 +8,7 @@
 		font-weight: 300;
 	}
 </style>
-<div class="hover-info col-md-6 col-md-offset-4 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
+<div class="hover-info col-md-6 col-md-offset-3 col-sm-5 col-sm-offset-6 hidden-xs panel-white padding-20">
 
 	<div class="explainHome explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Accueil</h1>

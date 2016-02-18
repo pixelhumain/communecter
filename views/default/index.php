@@ -328,6 +328,7 @@ var typesLabels = {
 				
 				$(".btn-group-map").show( 700 );
 				$("#right_tool_map").show(700);
+				$(".btn-menu5, .btn-menu-add").hide();
 				$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
 				$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 				$(".my-main-container").animate({
@@ -342,6 +343,7 @@ var typesLabels = {
 				isMapEnd =false;
 				$(".btn-group-map").hide( 700 );
 				$("#right_tool_map").hide(700);
+				$(".btn-menu5, .btn-menu-add").show();
 				$(".panel_map").hide(1);
 				$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 				$("#btn-toogle-map").attr("data-original-title", "Carte");
@@ -359,6 +361,7 @@ var typesLabels = {
 				if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
 					$("#ajaxSV").show( 700 );
 
+				showTopMenu(true);	
 				checkScroll();
 			}
 			

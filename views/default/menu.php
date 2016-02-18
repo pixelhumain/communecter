@@ -70,7 +70,7 @@
 .hover-info{
 	display: none;
 	margin-top: 130px;
-	position: fixed;
+	position: fixed !important;
 	top: 0px;
 	left: 0px;
 	z-index: 1;
@@ -291,14 +291,6 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 </div>
 <?php } ?>
 
-<?php if(isset($me)) if(isset(Yii::app()->session['userId'])){ ?>
-<button class="menu-button btn-menu btn-menu5 tooltips " 
-		data-toggle="tooltip" data-placement="left" title="Mon répertoire" alt="Mon répertoire">
-	<i class="fa fa-bookmark fa-rotate-270"></i>
-</button>
-<?php } ?>
-
-
 
 
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
@@ -346,6 +338,9 @@ jQuery(document).ready(function() {
 	$("#btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
 	});
+
+	
+
 
 	$("#searchBarPostalCode").mouseenter(function(e){
 		clearTimeout(timeoutCommunexion);
