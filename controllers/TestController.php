@@ -42,7 +42,8 @@ class TestController extends CommunecterController {
   }
   public function actionTest() {
 	
-
+  echo hash('sha256',"566ad04f126e9a7c69b7acefbobby@g.fr");
+  echo  $this->module->id;
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 

@@ -281,7 +281,7 @@ function replaceAndShow(hash,params){
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = urlParams[urlIndex];
-			if(endPoint.alias)
+			if( endPoint.alias )
 				endPoint = replaceAndShow(endPoint.alias,params);
 			extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
 			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
