@@ -1,4 +1,11 @@
+<?php 
+$cssAnsScriptFilesModule = array(
+  
+  '/plugins/select2/select2.min.js'
 
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+?>
 <style>
 
 .searchEntity{
@@ -60,6 +67,7 @@
 
 
 <?php $this->renderPartial("first_step_news"); ?> 
+<?php //$this->renderPartial("news/index"); ?> 
 
 <div class="" id="dropdown_search"></div>
 <div class="" id="newsstream"></div>
@@ -312,13 +320,13 @@ function startSearch(){
 	
 }
 
-// function setScopeValue(valText, insee){
-// 	$("#searchBarPostalCode").val(valText);
-// 	if(insee != "")
-// 	  	showNewsStream(insee);
-// 	else
-// 		startSearch();
-// }
+function setScopeValue(valText, insee){
+	$("#searchBarPostalCode").val(valText);
+	if(insee != "")
+	  	showNewsStream(insee);
+	else
+		startSearch();
+}
 
 // function initScrolling(){
 		
@@ -348,7 +356,7 @@ function showNewsStream(insee){
 					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 					"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
-		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/id/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
+		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
 		$("#dropdown_search").hide(300);
 	}
 }

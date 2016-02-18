@@ -124,7 +124,8 @@ jQuery(document).ready(function() {
   startSearch();
 });
 
-var indexStep = 15;
+var indexStepInit = 50;
+var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
 var scrollEnd = false;
@@ -146,7 +147,7 @@ function startSearch(indexMin, indexMax){
 
     console.log("loadingData true");
     loadingData = true;
-    indexStep = 15;
+    indexStep = indexStepInit;
 
     var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();
