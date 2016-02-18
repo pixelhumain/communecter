@@ -197,7 +197,7 @@
 	<button class="menu-button menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
 			<i class="fa fa-rss"></i>
-			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
+			<span class="lbl-btn-menu-name text-bold">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
 	</button>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>

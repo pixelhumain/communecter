@@ -386,11 +386,7 @@ jQuery(document).ready(function() {
 
 		showInputCommunexion();
 
-		hoverPersist = false;
-		clearTimeout(timeoutHover);
-		timeoutHover = setTimeout(function(){
-			hoverPersist = true;
-		}, 1000);
+		
 	});
 
 
@@ -401,10 +397,16 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
 			$(".menu-button-title").addClass("large");
+
+			hoverPersist = false;
+			clearTimeout(timeoutHover);
+			timeoutHover = setTimeout(function(){
+				hoverPersist = true;
+			}, 2000);
 		}
 	});
 
-	$(".main-col-search").click(function(){
+	$(".main-col-search, .mapCanvas").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
@@ -421,7 +423,7 @@ jQuery(document).ready(function() {
 		//$("#input-communexion").hide(400);
 	});
 
-	$(".main-col-search").mouseenter(function(){
+	$(".main-col-search, .mapCanvas").mouseenter(function(){
 			//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 		    if(!hoverPersist){
 				if(!isLoginRegister()){

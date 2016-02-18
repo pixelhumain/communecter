@@ -1039,7 +1039,7 @@ var Login = function() {
                    "city" : $("#city").val(),
                    "pendingUserId" : pendingUserId
                 };
-			      
+			      console.log(params);
 		    	$.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",

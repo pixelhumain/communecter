@@ -99,9 +99,11 @@
 
 </div>
 
+<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
+
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
-	<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
+	
 			
 	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
 	</div>
@@ -231,17 +233,17 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+	        loadByHash(location.hash,true);
 	      }
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
 	    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
-			loadByHash(location.hash,null);//, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash(location.hash);
 			return;
 		}
 		else{ 
-			loadByHash("#default.home",null, <?php echo (isset( $_GET["mapEnd"])) ? "true" : "false" ?>);
+			loadByHash("#default.home");
 		}
 
 		checkScroll();
@@ -312,10 +314,12 @@ var typesLabels = {
 			//}
 		//}
 	}
+	var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 	function showMap(show){
 			console.log("showMap");
 			if(show === undefined) show = $("#right_tool_map").css("display") == "none";
 			if(show){
+				isMapEnd =true;
 				showNotif(false);
 				showTopMenu(true);
 				if(Sig.currentMarkerPopupOpen != null){
@@ -335,7 +339,7 @@ var typesLabels = {
 				var timer = setTimeout("Sig.constructUI()", 1000);
 				
 			}else{
-				
+				isMapEnd =false;
 				$(".btn-group-map").hide( 700 );
 				$("#right_tool_map").hide(700);
 				$(".panel_map").hide(1);
@@ -399,6 +403,14 @@ var typesLabels = {
 			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
                 "indexMin" : 0, "indexMax" : 500  };
 
+            $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+			
+			$.blockUI({
+				message : "<h2 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + postalCode + " : Commune<span class='text-dark'>xion en cours ...</span></h2>"
+			});
+
+			showMap(true);
+			
 			$.ajax({
 		      type: "POST",
 		          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -411,7 +423,9 @@ var typesLabels = {
 		            if(!data){ toastr.error(data.content); }
 		            else{
 		            	console.dir(data);
-		            	Sig.showMapElements(Sig.map, {"cities" : data });
+		            	Sig.showMapElements(Sig.map, data);
+		            	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span class='text-red'>COMMUNE</span>CTER.ORG > " + postalCode );
+		            	$.unblockUI();
 		            }
 		          }
 		 	});
@@ -456,9 +470,10 @@ var typesLabels = {
 			
 			 $.blockUI({
 			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
-			 	"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>" +
-			 	"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
+			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+			 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 			 	
 
 			 });
