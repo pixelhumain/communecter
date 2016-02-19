@@ -256,7 +256,7 @@ if( isset($_GET["isNotSV"])) {
         <div class="panel panel-white" id="divImportFile">
         	<div class="panel-heading border-light">
         		<blockquote>
-        			Selectionner un ficher csv qui contient les mails de vos contacts<br/>
+        			Selectionner un ficher csv qui contient les mails de vos membres<br/>
         			Format : Email;Nom et Prénom;Type;TypeOrga<br/>
         			Information :<br/> 
         				- l'email est obligatoire, le reste est facultatif <br/>

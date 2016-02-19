@@ -263,6 +263,8 @@ var urlParams = {
     "#city.detail" : {title:'CITY ', icon : 'university' },
     "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#admin.chekgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
+    "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
@@ -277,7 +279,7 @@ function replaceAndShow(hash,params){
 	res = false;
 	$.each( urlParams, function(urlIndex,urlObj)
 	{
-		console.log("replaceAndShow ",urlIndex);
+		console.log("replaceAndShow",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = urlParams[urlIndex];
@@ -349,6 +351,8 @@ function loadByHash( hash , back ) {
 
     if( isMapEnd )
     	showMap();
+
+
 }
 
 function showDefinition( id ){
