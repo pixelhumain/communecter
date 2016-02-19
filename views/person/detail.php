@@ -52,7 +52,7 @@ jQuery(document).ready(function() {
 	$(".changePasswordBtn").off().on("click",function () {
 		openChangePasswordSV();
 	});
-	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo $person["name"] ?> <a href='javascript:' id='btn-center-person'></a>");
+	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo $person["name"] ?>");
 
 	$("#btn-center-person").click(function(){
 		showMap(true);

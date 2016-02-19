@@ -174,9 +174,9 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
+	<!-- <button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
 			<i class="fa fa-sign-in"></i>
-	</button>
+	</button> -->
 	<?php }else{ ?>
 	<button class="menu-button btn-menu btn-logout tooltips" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 			<i class="fa fa-sign-out"></i>

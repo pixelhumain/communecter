@@ -288,7 +288,7 @@ div.timeline .date_separator span{
 	color:#3C5665;
 }
 
-<?php if (isset($_GET["isSearchDesign"]) ){ ?>
+<?php //if (isset($_GET["isSearchDesign"]) ){ ?>
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
 #newsHistory{
 	top:110px !important;
@@ -311,7 +311,7 @@ div.timeline .date_separator span{
 .main-col-search{
 	/*padding-top:10px !important;*/
 }
-<?php } ?>
+<?php //} ?>
 
 </style>
 
@@ -353,7 +353,7 @@ div.timeline .date_separator span{
 					</ul>
 				</div>	
 				<?php }else if($type=="city"){ ?>
-					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
+					<div class="badge bg-red"><i class="fa fa-university"></i> <span id="scope-city-name"></span></div>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
@@ -557,6 +557,8 @@ jQuery(document).ready(function()
 	        }
 	    }
 	});
+
+	$("#scope-city-name").html(where);
 	
 	getUrlContent();
 	setTimeout(function(){
