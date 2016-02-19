@@ -239,7 +239,7 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        //loadByHash(location.hash,true);
+	        loadByHash(location.hash,true);
 	      }
 	      lastUrl = location.hash;
 	    });
