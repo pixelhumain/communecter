@@ -61,7 +61,7 @@
     }
 ?>
 
-<div id="fb-root"></div>
+<!-- <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -69,7 +69,7 @@
   js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
+ -->
 
 
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
@@ -141,8 +141,9 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript">
 
+<script type="text/javascript">
+	
 
 	var mapIconTop = {
 	    "default" : "fa-arrow-circle-right",
@@ -200,6 +201,11 @@ var typesLabels = {
 
 	jQuery(document).ready(function() {
 		
+	  	if(myId != "" && where == "" && cityName != ""){
+	  		where = cityName;
+	  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+	  	}
+
 		$(".my-main-container").css("min-height", $(".sigModuleBg").height());
 	    $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 
