@@ -84,8 +84,6 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClient
 	top: 152px;
 }
 
-
-
 </style>
 
 <script type="text/javascript">
