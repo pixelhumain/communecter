@@ -427,7 +427,7 @@ jQuery(document).ready(function() {
 					hoverPersist = false;
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
-					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 1300);
+					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
@@ -468,14 +468,14 @@ jQuery(document).ready(function() {
 
 });
 
-function showInputCommunexion(){
-		clearTimeout(timeoutCommunexion);
-		console.log("showCommunexion");
-		$("#searchBarPostalCode").css("width", "0px");
-		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
-		$("#input-communexion").show(300);
-		$(".main-col-search").animate({ opacity:0.3 }, 200 );
-		$(".hover-info").hide();
-	}
+// function showInputCommunexion(){
+// 		clearTimeout(timeoutCommunexion);
+// 		console.log("showCommunexion");
+// 		$("#searchBarPostalCode").css("width", "0px");
+// 		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
+// 		$("#input-communexion").show(300);
+// 		$(".main-col-search").animate({ opacity:0.3 }, 200 );
+// 		$(".hover-info").hide();
+// 	}
 
 </script>

@@ -268,7 +268,10 @@ if( "<?php echo Yii::app()->session['userId']?>" == "" && window.location.href.i
 						<div class="errorHandler alert alert-danger no-display custom-msg">
 							<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
 						</div>
-						
+						<div class="errorHandler info alert-info no-display login-Beta">
+							<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
+						</div>
+
 						<br/>
 						<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button center-block">
 							<span class="ladda-label"><i class="fa fa-sign-in"></i> <?php echo Yii::t("login","Login") ?></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
@@ -888,8 +891,8 @@ var Login = function() {
 							$('#email3').prop('disabled', true);
 		    		  	} else{
 		    		  		msg = data.msg;
-		    		  		$('.loginResult').html(msg);
-							$('.loginResult').show();
+		    		  		$('.login-Beta').html(msg);
+							$('.login-Beta').show();
 		    		  	}
 						loginBtn.stop();
 		    		  }
