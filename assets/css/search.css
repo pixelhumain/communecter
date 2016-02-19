@@ -156,7 +156,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	max-width: 65%;
+	max-width: 50%;
 	margin-left:0px !important;
 }
 

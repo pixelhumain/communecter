@@ -386,7 +386,7 @@ jQuery(document).ready(function() {
 
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
-		//console.log("enter btn");
+		//console.log("enter btn, loginRegister", isLoginRegister());
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
@@ -404,6 +404,7 @@ jQuery(document).ready(function() {
 	$(".main-col-search, .mapCanvas").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
+	    	hoverPersist = false;
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
@@ -415,7 +416,7 @@ jQuery(document).ready(function() {
 		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
 		//console.log("HIDE HIDE");
 		//$("#input-communexion").hide(200); 
-		//$("#input-communexion").hide(400);
+		$("#input-communexion").hide(400);
 	});
 
 	$(".main-col-search, .mapCanvas").mouseenter(function(){
