@@ -763,7 +763,7 @@ button.btn-infos{
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	    overflow: hidden;
-	    max-width: 42%;
+	    max-width: 35%;
 	    max-height: 36px;
 	    font-size: 18px !important;
 	    height: 36px;
