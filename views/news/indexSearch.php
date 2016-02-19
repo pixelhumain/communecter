@@ -338,13 +338,13 @@ div.timeline .date_separator span{
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li>
-							<a href="#" id="scope-my-wall" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
+							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
 								<!--<div class="small" style="padding-left:12px;">-->
 							<p class="list-group-item-text small">Ouvert au public et votre localité</p><!--</div>-->
 							</a>
 						</li>
 						<li>
-							<a href="#" id="scope-my-network" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
 								<p class="list-group-item-text small">Le réseau auquel vous êtes connecté</p>
 							</a>
 						</li>
@@ -354,8 +354,10 @@ div.timeline .date_separator span{
 					</ul>
 				</div>	
 				<?php }else if($type=="city"){ ?>
+					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
 				<?php } ?>
+				<input type="hidden" name="scope" value="public"/>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
@@ -1068,6 +1070,8 @@ function bindEvent(){
 		console.log(this);
 		replaceText=$(this).find("h4").html();
 		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down"></i>');
+		scopeChange=$(this).data("value");
+		$("input[name='scope']").val(scopeChange);
 	});
 
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
@@ -1618,8 +1622,10 @@ function saveNews(){
 			}
 			newNews.typeId = $("#form-news #parentId").val(),
 			newNews.type = $("#form-news #parentType").val(),
-			newNews.scope = "public",
+			newNews.scope = $("input[name='scope']").val(),
 			newNews.text = $("#form-news #get_url").val();
+			if($("input[name='cityInsee']").length)
+				newNews.codeInsee = $("input[name='cityInsee']").val();
 			console.log(newNews);
 			$.ajax({
 		        type: "POST",
