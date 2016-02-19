@@ -1,4 +1,11 @@
+<?php 
+$cssAnsScriptFilesModule = array(
+  
+  '/plugins/select2/select2.min.js'
 
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+?>
 <style>
 
 .searchEntity{
@@ -48,7 +55,7 @@
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
 	</button>
-	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 
@@ -60,6 +67,7 @@
 
 
 <?php $this->renderPartial("first_step_news"); ?> 
+<?php //$this->renderPartial("news/index"); ?> 
 
 <div class="" id="dropdown_search"></div>
 <div class="" id="newsstream"></div>
@@ -312,13 +320,13 @@ function startSearch(){
 	
 }
 
-// function setScopeValue(valText, insee){
-// 	$("#searchBarPostalCode").val(valText);
-// 	if(insee != "")
-// 	  	showNewsStream(insee);
-// 	else
-// 		startSearch();
-// }
+function setScopeValue(valText, insee){
+	$("#searchBarPostalCode").val(valText);
+	if(insee != "")
+	  	showNewsStream(insee);
+	else
+		startSearch();
+}
 
 // function initScrolling(){
 		
@@ -348,7 +356,7 @@ function showNewsStream(insee){
 					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 					"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
-		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/id/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
+		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
 		$("#dropdown_search").hide(300);
 	}
 }

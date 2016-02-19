@@ -6,6 +6,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
 	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/select2/select2.css',
 	//X-editable...
 	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
 	'/plugins/x-editable/js/bootstrap-editable.js' , 

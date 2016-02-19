@@ -61,7 +61,7 @@
     }
 ?>
 
-<div id="fb-root"></div>
+<!-- <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -69,7 +69,7 @@
   js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
+ -->
 
 
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
@@ -141,8 +141,9 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript">
 
+<script type="text/javascript">
+	
 
 	var mapIconTop = {
 	    "default" : "fa-arrow-circle-right",
@@ -200,6 +201,11 @@ var typesLabels = {
 
 	jQuery(document).ready(function() {
 		
+	  	if(myId != "" && where == "" && cityName != ""){
+	  		where = cityName;
+	  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+	  	}
+
 		$(".my-main-container").css("min-height", $(".sigModuleBg").height());
 	    $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 
@@ -233,7 +239,7 @@ var typesLabels = {
 	      console.warn("--------------------- pop",e);
 	      if( lastUrl && "onhashchange" in window && location.hash){
 	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true);
+	        //loadByHash(location.hash,true);
 	      }
 	      lastUrl = location.hash;
 	    });
@@ -403,7 +409,7 @@ var typesLabels = {
 
 			searchType = [ "persons", "organizations", "projects", "events", "cities" ];
   
-			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
+			 var data = {"name" : "", "locality" : postalCode, "searchType" : searchType, 
                 "indexMin" : 0, "indexMax" : 500  };
 
             $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
@@ -437,12 +443,15 @@ var typesLabels = {
   	}
 
 
-    function showPanel(box,bgStyle,title){ 	
+    function showPanel(box,bgStyle,title){ 
+
+		$(".my-main-container").scrollTop(0);
+
 	  	$(".box").hide(200);
 	  	showNotif(false);
 				
 		console.log("showPanel");
-		showTopMenu(false);
+		//showTopMenu(false);
 		$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
 
 		$("."+box).show(500);
@@ -472,7 +481,7 @@ var typesLabels = {
 			//'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
 			
 			 $.blockUI({
-			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
+			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h1>' +
 			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
 			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
 			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
@@ -503,6 +512,10 @@ var typesLabels = {
 			getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
 				$(".main-col-search").slideDown(); initNotifications(); 
 				$.unblockUI();
+				$(".explainLink").click(function() {  
+				    showDefinition( $(this).data("id") );
+				    return false;
+				 });
 			},"html");
 		}, 800);
 		
@@ -562,7 +575,7 @@ var typesLabels = {
 			console.log("setInputPlaceValue")
 			$("#input-communexion").show();
 			//$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
-			setTimeout(function(){ $("#input-communexion").hide(300); }, 2000);
+			setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 		  	
 		//}
 		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });

@@ -38,7 +38,7 @@
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
   </button>
-	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainDirectory" class="explainLink menu-button btn-infos  bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
@@ -156,11 +156,13 @@ jQuery(document).ready(function() {
     toogleCommunexion();
   });
 
+
   initBtnScopeList();
   startSearch();
 });
 
-var indexStep = 15;
+var indexStepInit = 50;
+var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
 var scrollEnd = false;
@@ -182,7 +184,7 @@ function startSearch(indexMin, indexMax){
 
     console.log("loadingData true");
     loadingData = true;
-    indexStep = 15;
+    indexStep = indexStepInit;
 
 	  var name = $('#searchBarText').val();
     var locality = $('#searchBarPostalCode').val();

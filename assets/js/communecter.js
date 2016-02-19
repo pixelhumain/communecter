@@ -352,8 +352,30 @@ function loadByHash( hash , back ) {
 }
 
 function showDefinition( id ){
-	$(".hover-menu").trigger("mouseenter");
+	console.log("showDefinition",id);
+	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	$(".hover-info").css("display" , "inline");
 	toggle( "."+id , ".explain" );
+	return false;
 }
 
+var timeoutHover = setTimeout(function(){}, 0);
+var hoverPersist = false;
+var positionMouseMenu = "out";
+
+function activateHoverMenu () { 
+	//console.log("enter all");
+	positionMouseMenu = "in";
+	$(".main-col-search").animate({ opacity:0.3 }, 400 );
+	$(".lbl-btn-menu-name").show(200);
+	$(".lbl-btn-menu-name").css("display", "inline");
+	$(".menu-button-title").addClass("large");
+
+	showInputCommunexion();
+
+	hoverPersist = false;
+	clearTimeout(timeoutHover);
+	timeoutHover = setTimeout(function(){
+		hoverPersist = true;
+	}, 1000);
+}
