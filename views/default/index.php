@@ -403,7 +403,7 @@ var typesLabels = {
 
 			searchType = [ "persons", "organizations", "projects", "events", "cities" ];
   
-			 var data = {"name" : name, "locality" : postalCode, "searchType" : searchType, 
+			 var data = {"name" : "", "locality" : postalCode, "searchType" : searchType, 
                 "indexMin" : 0, "indexMax" : 500  };
 
             $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
@@ -437,12 +437,15 @@ var typesLabels = {
   	}
 
 
-    function showPanel(box,bgStyle,title){ 	
+    function showPanel(box,bgStyle,title){ 
+
+		$(".my-main-container").scrollTop(0);
+
 	  	$(".box").hide(200);
 	  	showNotif(false);
 				
 		console.log("showPanel");
-		showTopMenu(false);
+		//showTopMenu(false);
 		$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
 
 		$("."+box).show(500);
@@ -472,7 +475,7 @@ var typesLabels = {
 			//'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
 			
 			 $.blockUI({
-			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-noch"></i> Chargement en cours...</h1>' +
+			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h1>' +
 			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
 			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
 			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
@@ -566,7 +569,7 @@ var typesLabels = {
 			console.log("setInputPlaceValue")
 			$("#input-communexion").show();
 			//$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
-			setTimeout(function(){ $("#input-communexion").hide(300); }, 2000);
+			setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 		  	
 		//}
 		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
