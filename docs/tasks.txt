@@ -17,13 +17,6 @@
 
 
 
-Développer des "commons transition party" où l'on pourrait "être aidé pour passer : 
-- non seulement son ordinateur sous un commun (linux, libre office), 
-- passer son compte en banque à la NEF, 
-- son fournisseur d'électricité chez Enercoop, 
-- sa connexion internet chez le fournisseur d'accès associatif Tetaneutral
-- son approvisionnement en légumes auprès d'une AMAP locale…
-
 * Beinact
 	- Getion de projet 
 		seminaire : system de rencontre 

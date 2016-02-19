@@ -503,6 +503,10 @@ var typesLabels = {
 			getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
 				$(".main-col-search").slideDown(); initNotifications(); 
 				$.unblockUI();
+				$(".explainLink").click(function() {  
+				    showDefinition( $(this).data("id") );
+				    return false;
+				 });
 			},"html");
 		}, 800);
 		
