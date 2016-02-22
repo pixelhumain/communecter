@@ -1,3 +1,18 @@
+<?php
+echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js');
+echo CHtml::cssFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/css/DT_bootstrap.css');
+echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/DT_bootstrap.js');
+/*
+TKA : doesn't work , produces empty /ph urls causing issues
+
+$cssAnsScriptFilesModule = array(
+	'/plugins/DataTables/media/css/DT_bootstrap.css',
+	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
+	'/plugins/DataTables/media/js/DT_bootstrap.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
+?>
+
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> <a href="javascript:;" onclick="applyStateFilter('organization|NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
