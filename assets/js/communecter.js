@@ -257,6 +257,7 @@ var urlParams = {
 	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#person.invitesv" : {title:'PERSON INVITE ', icon : 'user' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
