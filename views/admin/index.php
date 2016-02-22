@@ -13,7 +13,7 @@ $cs = Yii::app()->getClientScript();
       <div class="panel-body no-padding center">
         <ul class="list-group text-left no-margin">
           <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
-            <div class="" onclick="loadByHash('#admin.directory)">
+            <div class="" onclick="loadByHash('#admin.directory')">
               <i class="fa fa-user fa-2x"></i>
                 
               <?php echo Yii::t("common", "DIRECTORY"); ?>

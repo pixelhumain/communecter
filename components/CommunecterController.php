@@ -93,6 +93,7 @@ class CommunecterController extends Controller
       "checkventsopenagendaindb"    => array("href" => "/ph/communecter/admin/checkventsopenagendaindb"),
       "importeventsopenagendaindb"    => array("href" => "/ph/communecter/admin/importeventsopenagendaindb"),
       "checkgeocodage"   => array("href" => "/ph/communecter/admin/checkgeocodage"),
+      "getentitybadlygeolocalited"   => array("href" => "/ph/communecter/admin/getentitybadlygeolocalited"),
     ),
 
     "default" => array(
