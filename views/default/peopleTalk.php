@@ -146,4 +146,46 @@ var peopleTalk = [
         "comment" : "L’innovation sociétal au service des biens communs. La société c’est pas si compliqué, ca peut meme devenir amusant.",
         "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/tibor.PNG"
     },
+    {
+        "name" : "Clemence Le Nir",
+        "project" : "Nacelle 0.2",
+        "url" : "http://nacelles02.com/",
+        "comment" : "Communecter c’est d’abord une rencontre, puis le partage d’une vision commune, le bonheur de se dire "c'est possible", le début d'une aventure humaine incroyable, le sentiment de n'être jamais seul et la force de faire partie d'un tout. Communectons-nous pour réenchanter le monde ensemble! ",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/clemence.png"
+    },
+    {
+        "name" : "Rieul Techer",
+        "project" : "La Paillasse Saône",
+        "url" : "http://saone.paillas.se/",
+        "comment" : "Le citoyen comme sujet du réseau et le commun comme objet d’appropriation, de réplication et de démultiplication des initiatives citoyennes, Communecter a raison de se définir comme un réseau sociétal et non social.",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/rieul.png"
+    },
+    {
+        "name" : "Lilian ricaud",
+        "project" : "Les Communs",
+        "url" : "http://www.lilianricaud.com/",
+        "comment" : "Réseau social géolocalisé conçu dans l'esprit des communs, Communecter a tout le potentiel pour rendre visible, connecter et dupliquer les meilleures initiatives citoyennes.",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/lilian.png"
+    },
+    {
+        "name" : "Maia Dereva",
+        "project" : "Semeoz",
+        "url" : "http://semeoz.info/",
+        "comment" : "Communecter? C’est un projet ambitieux  et porteur d’espoir. Il est mis en oeuvre en communs par des hommes et des femmes autonomes et connecté.e.s qui croient en un monde plus souriant :)",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/maia.png"
+    },
+    {
+        "name" : "Christian Dupuy",
+        "project" : "Semeoz",
+        "url" : "http://semeoz.info/",
+        "comment" : "Communecter : action de transformer la mise en commun de nos actions en un délicieux nectar de vie.",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/christian.png"
+    },
+    {
+        "name" : "Pierre Magnin",
+        "project" : "Communecter",
+        "url" : "https://www.communecter.org/",
+        "comment" : "Depuis son émergence, l’humanité s’est développée grâce aux échanges d’information entre les êtres humains pour apprivoiser l’environnement naturel, construire des structures sociétales et explorer l’univers. COMMUNECTER est certainement le maillon qui permettra le prochain pas en avant tant pour la création d’unité de conscience à l’échelle planétaire que pour le renforcement des liens de proximité. ",
+        "image" : "<?php echo $this->module->assetsUrl; ?>/images/testamonials/.png"
+    },
 ];
