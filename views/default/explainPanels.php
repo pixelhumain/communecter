@@ -422,12 +422,25 @@
 			<br/>- agir, particper à gérer mon territoire
 			<br/>- préparer plusieurs apéro citoyen (45min) pour présenter l'outil 
 			<br/>- participer activement à relayer massivement la campagne de crowdfunding
+			<br/><br/>
 			Je suis communecteur quand je crois à :
 			<br/>- un nouvel outil pour de nouveaux usages
 			<br/>- la valeur par l'usage et plus à celui d'un prix
 			<br/>- l'open-source et à l'open-data
 			<br/>- et qu'il est temps de changer de présentatrice météo et d'actu !!
-			Bref, être un Communecteur, c'est tout ça à la fois. C'est quelqu'un de vraiment actif, qui est prêt à s'engager, à relayer activement et durant toute sa durée la campagne de crowdfunding, à nous aider et qui croit à 100% à notre projet !
+			<br/> Bref, être un Communecteur, c'est tout ça à la fois. C'est quelqu'un de vraiment actif, qui est prêt à s'engager, à relayer activement et durant toute sa durée la campagne de crowdfunding, à nous aider et qui croit à 100% à notre projet !
+		</ul>
+	</div>
+	
+	<div class="explainOpenAtlas explain hide">
+		<h1 class="homestead yellowph">OpenAtlas</h1>
+		<ul>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</ul>
 	</div>
 

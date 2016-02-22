@@ -236,8 +236,6 @@
 	</div>
 <script>
 
-var register = <?php echo isset($_GET["register"]) ? "true" : "false"; ?>;
-
 
 jQuery(document).ready(function() {
 
@@ -246,21 +244,6 @@ jQuery(document).ready(function() {
 	userId = null;
 	Main.init();
 	Login.init();
-	console.log("register", register);
-
-	if(register == true){
-		//masque la box login
-		$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).hide().removeClass("animated bounceOutRight");
-
-		});
-		$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).show().removeClass("animated bounceInLeft");
-
-		});
-		
-		activePanel = "box-register";
-	}
 
 	$('#btn-show-city').click(function(){
 			showMap(true);
