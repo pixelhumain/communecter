@@ -204,6 +204,7 @@ div.timeline .date_separator span{
 }
 .extracted_url{
 	min-height:100px;
+	margin-top: 10px;
 }
 #get_url{
 	max-width:100%; 
@@ -302,12 +303,20 @@ div.timeline .date_separator span{
 	box-shadow: 0px 0px !important
 }
 #newsHistory #timeline {
-    width: 91.66666667%;
+    /*width: 91.66666667%;*/
 }
 #newsHistory .timeline-scrubber {
-    right: 8%;
-    position: fixed;
-    top: 115px;
+    right: 0%;
+	position: fixed;
+	top: 315px;
+}
+#newsHistory .timeline-scrubber li:last-child a {
+    border-color: #50687d;
+    color: #50687d;
+}
+#newsHistory .timeline-scrubber a {
+    border-left: 5px solid #50687d;
+    color: #50687d;
 }
 .main-col-search{
 	/*padding-top:10px !important;*/
@@ -381,7 +390,7 @@ div.timeline .date_separator span{
 				<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 	
-				<div id="timeline" class="col-md-10">
+				<div id="timeline" class="col-md-12">
 					<?php if($type=="city"){ ?>
 					<div class="panel-heading text-center">
 						<h3 class="panel-title text-blue lbl-title-newsstream"><i class="fa fa-rss"></i> Les actualités locales</h3>
@@ -538,7 +547,7 @@ jQuery(document).ready(function()
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType!="city"){
-		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>");
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	}
@@ -694,7 +703,7 @@ function buildTimeLine (news, indexMin, indexMax)
 				//$('.first')
 				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
-							'<span style="height:inherit;"><i class="fa fa-ban"> <?php echo Yii::t("common","No more news"); ?></i><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> <?php echo Yii::t("common","No more news"); ?><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
@@ -914,12 +923,12 @@ function buildLineHTML(newsObj,update)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
-	
+
 	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						manageMenu+
-						scopes+
+						//scopes+
 						'<div class="space1"></div>'+ 
 						imageBackground+
 						'<div class="timeline_author_block">'+
@@ -928,12 +937,13 @@ function buildLineHTML(newsObj,update)
 							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
 						'</div>'+
 						'<div class="space5"></div>'+
+						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
-							'<div class="timeline_title">'+
+							//'<div class="timeline_title">'+
 								//'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+
-								title+
+							//	title+
 								//'</span>'+
-							'</div>'+
+							//'</div>'+
 							'<div class="space5"></div>'+
 							//'<span class="timeline_text">'+ 
 							text + media +//+ '</span>' +	
@@ -1207,7 +1217,7 @@ function bindEvent(){
 	});
 	$(".videoSignal").click(function(){
 		videoLink = $(this).find(".videoLink").val();
-		iframe='<iframe src="'+videoLink+'" width="100%" height=""></iframe>';
+		iframe='<iframe src="'+videoLink+'" width="100%" height="280"></iframe>';
 		$(this).parent().next().before(iframe);
 		$(this).parent().remove();
 	});
@@ -1579,7 +1589,7 @@ function saveNews(){
 	formNews.submit(function(e) {
     		e.preventDefault();
 		}).validate({
-								<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		errorElement : "span", // contain the error msg in a span tag
 		errorClass : 'help-block',
 		errorPlacement : function(error, element) {// render error placement for each input type
@@ -1660,7 +1670,7 @@ function saveNews(){
 		}
 		<?php }else{ ?>
 			submitHandler : function(form) {
-showPanel("box-login");
+				showPanel("box-login");
 			}
 		<?php } ?>
 	});
