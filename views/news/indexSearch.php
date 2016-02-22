@@ -1207,7 +1207,8 @@ function bindEvent(){
 	});
 	$(".videoSignal").click(function(){
 		videoLink = $(this).find(".videoLink").val();
-		iframe='<iframe src="'+videoLink+'" width="100%" height=""></iframe>';
+		iframe='<div class="embed-responsive embed-responsive-16by9">'+
+			'<iframe src="'+videoLink+'" width="100%" height="" class="embed-responsive-item"></iframe></div>';
 		$(this).parent().next().before(iframe);
 		$(this).parent().remove();
 	});
@@ -1489,7 +1490,7 @@ function getUrlContent(){
     var getUrl  = $('#get_url'); //url to extract from text field
     getUrl.keyup(function() { //user types url in text field        
         //url to match in the text field
-        var match_url = /\b(https?):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i;
+        var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         //continue if matched url is found in text field
         if (match_url.test(getUrl.val())) {
 	        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href") != getUrl.val().match(match_url)[0]){
@@ -1497,6 +1498,7 @@ function getUrlContent(){
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
+                //alert(extracted_url);
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
