@@ -161,13 +161,34 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	display:inline;
 	max-height: 700px;
 }
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+	display: none;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 </style>
 
 <div class="home_page">
 
 <div class="imageSection center-block imageSectionVideo" style="margin-top: 50px; text-align:center; cursor:pointer; position:relative;" onclick="openVideo()" >
-	<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg"/>
-	<a href="javascript:;" onclick="openVideo()" class="btn-show-video"><i class="fa fa-youtube-play fa-5x"></i></a>
+	<div id="homeImg">
+		<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg"/>
+		<a href="javascript:;" onclick="openVideo()" class="btn-show-video"><i class="fa fa-youtube-play fa-5x"></i></a>
+	</div>
+	<div class="videoWrapper">
+		<iframe width="560" height="349" src="http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1">
+		</iframe>
+	</div>
 </div>
 
 <!-- <div class="imageSection imageSectionVideo headSection" style="margin-top: 50px;height:600px; cursor:pointer; position:relative;" onclick="openVideo()" > -->
@@ -445,7 +466,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				
 				<div class="col-sm-12">
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
-					<img class="img-responsive img-circle img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
+					<img class="img-responsive img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
 				</div>
 				<div class="space20"></div>
@@ -487,7 +508,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
-				<li><a target="_blank" href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
+				<li><a target="_blank" href="https://www.facebook.com/communecter" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
 				<li><a target="_blank" href="https://twitter.com/communecter" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
 				<li><a target="_blank" href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
 				<li><a target="_blank" href="https://github.com/pixelhumain/communecter" class="btn btn-github btn-social"><span class="fa fa-github"></span> </a></li>
@@ -571,16 +592,10 @@ function showPeopleTalk(step)
 }
 
 function openVideo(){
-	var width = $(".imageSectionVideo").width();
-	var height = $(".imageSectionVideo").height();
-	console.log(width, height);
-	$(".imageSectionVideo").empty();
-	//$(".imageSectionVideo").html('<iframe  class="img-responsive img-thumbnail" src="http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1"></iframe>')
-	$(".imageSectionVideo").load('http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4');
-	/*$("iframe").css("width", width);
-	$("iframe").css("height", height);*/
+	$("#homeImg").fadeOut("slow",function() {
+		$(".videoWrapper").fadeIn('slow');
+	});
 }
-
 
 var timeoutSearchHome = null;
 function startSearch(){

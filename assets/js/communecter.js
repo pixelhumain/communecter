@@ -296,7 +296,7 @@ function loadByHash( hash , back ) {
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
     if( replaceAndShow(hash,params) )
-    	console.warn("loadByHash replaceAndShow",hash);
+    	console.log("loadByHash >>> replaceAndShow",hash);
    
     else if( hash.indexOf("#panel") >= 0 ){
         if(hash.substr(7) == "box-add")
@@ -343,7 +343,7 @@ function loadByHash( hash , back ) {
 
     location.hash = hash;
     if( !back )
-      history.pushState( { "hash" :hash} , null, hash );
+      history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
     console.warn("pushState",hash);
 
     if( isMapEnd )

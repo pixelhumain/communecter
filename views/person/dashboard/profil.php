@@ -309,21 +309,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 
-					<?php if( $email = Person::showField("email",$person, $isLinked) ){ ?>
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
-						<?php echo $email?>
+						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-					<?php } ?>
+
 					<hr style="margin:10px 0px 3px 0px;">
 					
-					<?php if( $street = Person::showField("address.streetAddress",$person, $isLinked) ){ ?>
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
-						<?php echo $street?>
+						<?php echo Person::showField("address.streetAddress",$person, $isLinked)?>
 					</a>
-					<?php } ?>
+
 					<br>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
@@ -333,13 +331,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
-					<?php if( $telephone = Person::showField("telephone",$person, $isLinked) ){ ?>
+					
 					<i class="fa fa-phone fa_telephone hidden"></i> 
 					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
-						<?php echo $telephone?>
+						<?php echo Person::showField("telephone",$person, $isLinked)?>
 					</a>
 					<br>
-					<?php } ?>
+					
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>

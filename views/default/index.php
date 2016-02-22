@@ -61,17 +61,6 @@
     }
 ?>
 
-<!-- <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
- -->
-
-
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
 	<i class="fa fa-university"></i>
 </button> 
@@ -235,9 +224,13 @@ var typesLabels = {
 		
 		toogleCommunexion();
 
+		//manages the back button state 
+		//every url change (loadByHash) is pushed into history.pushState 
+		//onclick back btn popstate is launched
+		//
 	    $(window).bind("popstate", function(e) {
-	      console.warn("--------------------- pop",e);
-	      if( lastUrl && "onhashchange" in window && location.hash){
+	      console.dir(e.originalEvent);
+	      if( lastUrl && "onhashchange" in window && location.hash && !history.state){
 	        console.warn("poped state",location.hash);
 	        loadByHash(location.hash,true);
 	      }
@@ -471,19 +464,10 @@ var typesLabels = {
 
 		setTimeout(function(){
 			$(".main-col-search").html("");
-			// "<div class='loader text-dark '>"+
-			// 	"<span style='font-size:35px;' class='homestead'>"+
-			// 		"<i class='fa fa-spin fa-circle-o-notch'></i> "+
-			// 		"<span class='text-red'>COMMUNE</span>CTER.org</span></br></br>" + 
-			// 	//"<img style='max-width:30%;' src='"+urlImgRand+"'>" +
-			// "</div>");
-			//+
-			//'<div class="fb-share-button" data-href="https://www.facebook.com/communecter/" data-layout="box_count"></div>');
-			
 			 $.blockUI({
 			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h1>' +
 			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-			 	"<img style='max-width:50%;' src='"+urlImgRand+"'><br/>" +
+			 	"<img style='max-width:60%;' src='"+urlImgRand+"'><br/>" +
 			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
 			 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 			 	
