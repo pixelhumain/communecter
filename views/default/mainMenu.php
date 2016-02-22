@@ -61,9 +61,8 @@
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-sign-out fa-2x"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "LOGOUT"); ?></span>
     </a> 
-    
-    <?php if(Role::isDeveloper($me['roles'])){?>
-    <a  href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" 
+    <?php if(Role::isSuperAdmin($me['roles'])){?>
+    <a  href="javascript:;" onclick="loadByHash('#admin.index')" 
         class="menuIcon btn-main-menu hoverRed no-floop-item">
         <i class="fa fa-cog fa-2x text-red"></i><span class="menuline hide homestead " style="color:inherit !important;"> <?php echo Yii::t("common", "ADMIN"); ?></span>
     </a>

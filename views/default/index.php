@@ -360,7 +360,7 @@ var typesLabels = {
 				if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
 					$("#ajaxSV").show( 700 );
 
-				showTopMenu(true);	
+				showTopMenu(true);
 				checkScroll();
 			}
 			

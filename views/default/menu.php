@@ -77,6 +77,7 @@
 	overflow: visible;
 	border: 0px solid #3C5665;
 	border-radius:5px;
+	background-color: white;
 	-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
 	-o-box-shadow: 0px 0px 5px 0px #353535 !important;
@@ -243,7 +244,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		<br/>
 		<span class="homestead" style="font-size: 1.5em">version <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
 		<br/>
-		<span >Tests et amélioration continue</span>
+		<span >Tests et améliorations en continu</span>
 	</div>
 </div>
 <!-- 
