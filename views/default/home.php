@@ -148,7 +148,10 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
-.information{font-size:15px;}
+.information{
+	font-size:15px;
+	color:#8b91a0;
+}
 
 
 .btn-show-video{
@@ -176,6 +179,19 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	width: 100%;
 	height: 100%;
 }
+
+.flexContainer {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.explainLink {
+	color: #e33551;
+	text-decoration-line: underline !important;;
+	text-decoration-style : dotted !important;;
+}
+
 </style>
 
 <div class="home_page">
@@ -315,8 +331,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
-					<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">Communecter</a> réunit et fédère les principaux acteurs de la vie locale<br/>
-					pour valoriser le territoire et le <a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">bien commun</a>.  
+					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
+					pour valoriser le territoire et le <span class="text-red">bien commun</span>.  
 			</div>
 			
 			<div class="col-sm-8">
@@ -326,76 +342,112 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
+	<div class="col-md-12 no-padding">
+		
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 24%; ">
+			<div class="col-sm-4 text-white text-right">
+				<i class="fa fa-mobile fa-5x"></i> <i class="fa fa-tablet fa-5x"></i> <i class="fa fa-desktop fa-5x"></i>
+			</div>
+			<div class="col-sm-8">
+				<h1 class="homestead text-white">World Wide Web</h1>
+			</div>
+		</div>
 
-	<div class="col-md-12"  style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
-		<center>
-			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-			<h1 class="homestead" style="color:#293A46"><i class="fa fa-mobile headerIcon"></i> <i class="fa fa-tablet headerIcon"></i> <i class="fa fa-desktop headerIcon"></i><br/>World Wide Web</h1>
+		<center style="background-color:#DFE5E7;">
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
+		</center>
+
+		<div class="col-md-12" style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
 			<div class="space20"></div>
-			<div class="col-md-6 col-sm-12">
+			<div class="col-md-6 col-sm-12 information" style="text-align: left; color:#3c5665";>
 				
-				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink text-red">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire, 
-				<a href="javascript:;" data-id="explainCommunecter" class="explainLink text-red">"Communecter"</a> propose des outils numériques innovants et disponibles pour tous afin de créer ensemble 
-				un <a href="javascript:;" data-id="explainConnectedTerritory" class="explainLink text-red">territoire connecté</a> qui nous ressemble.
-				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink text-red">bien commun</a> 
+				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire, 
+				<a href="javascript:;" data-id="explainCommunecter" class="explainLink">"Communecter"</a> propose des outils numériques innovants et disponibles pour tous afin de créer ensemble 
+				un <a href="javascript:;" data-id="explainConnectedTerritory" class="explainLink">territoire connecté</a> qui nous ressemble.
+				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink">bien commun</a> 
 				fait pour et par chacun d’entre nous, porté par une association à but non lucratif.
 				<br/><br/>
-				Plus qu'une simple application Communecter se présente sous differente forme :
-				<br/>Une projet <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">open source</a>
-				<br/>Une communauté riche et diversifié
-				<br/>Un site web qui vous tend les bras
-				<br/>Une application mobile encore en court 
-				<br/>Des interfaces tiers contribuant ou pas à une Base de donnée commune
-				<br/>Des instances indépendantes mais interopérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">sémantiques</a> communes 
+				Plus qu'une simple application Communecter se présente sous differentes formes :
+				<ul class="information" style="font-weight: normal;">
+				<li>Une projet <a href="javascript:;" data-id="explainOpenSource" class="explainLink">open source</a>
+				<li>Une communauté riche et diversifié</li>
+				<li>Un site web qui vous tend les bras</li>
+				<li>Une application mobile encore en court </li>
+				<li>Des interfaces tiers contribuant ou pas à une Base de donnée commune</li>
+				<li>Des instances indépendantes mais interopérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink">sémantiques</a> communes </li>
+				</ul>
 			</div>
-			<div class="col-md-6 col-sm-12">
+			<div class="col-md-6 col-sm-12 flexContainer">
 				<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screens.png"/>
-			</div>
-		</center>
-	</div>
-
-	
-	<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
-		<center>
-			<i class="fa fa-caret-down" style="color:#DFE5E7"></i><br/>
-			<h1 class="homestead"><i class="fa fa-users headerIcon"></i><br/>CROWDFUNDING</h1>
-		</center>
-		<div class="space20"></div>
-		<div class="col-sm-12">
-			<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
-				<img class="img-responsive pull-right" style="border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
-			</a>
-		
-			<div style="font-size: 17px; font-weight: 300; text-align: left;">
-				Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainOpenSource" class="explainLink text-red">financement participatif</a>.
-				<br/><span class="text-bold">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
-				<br/>Pour <span class="text-bold">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
-				<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-bold">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
-				<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
-				<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-bold">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
-				<?php /* ?>
-				<br/><br/>
-				Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
-				fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
-				plus grand nombre, nous souhaitons passer à l’étape suivante... Cette étape nécessite 40 000 € et
-				 nous l’atteindrons en gardant la philosophie du projet : c’est à dire avec un financement citoyen pour un projet citoyen !
-				<br/><br/>
-				Nous avons choisi la plateforme KissKissbankBank pour nous aider à atteindre notre objectif.
-				http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
-				<br/><br/>
-				Notre campagne de crowdfounding va donc démarrer le ......
-				*/?>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
-		<center>
-			<i class="fa fa-caret-down" style="color:#92BE1F"></i><br/>
-			<h1 class="homestead"><i class="fa fa-heart headerIcon"></i><br/>NOS VALEURS</h1>
+	<div class="col-md-12 no-padding">
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
+			<div class="col-sm-2 text-white text-right">
+				<i class="fa fa-users fa-4x"></i>
+			</div>
+			<div class="col-sm-8">
+				<h1 class="homestead text-white">CROWDFUNDING</h1>
+			</div>
+		</div>
+
+		<center style="background-color:#92BE1F;">
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
+		</center>
+		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
 			<div class="space20"></div>
-			<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
-		<center>	
+			<div class="col-sm-12">
+				<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
+					<img class="img-responsive pull-right" style="width: 60%; border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+				</a>
+			
+				<div class="information" style="text-align: left; color:#3c5665">
+					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
+					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
+					<br/>Pour <span class="text-red">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
+					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+					<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
+					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-red">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
+					<?php /* ?>
+					<br/><br/>
+					Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
+					fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
+					plus grand nombre, nous souhaitons passer à l’étape suivante... Cette étape nécessite 40 000 € et
+					 nous l’atteindrons en gardant la philosophie du projet : c’est à dire avec un financement citoyen pour un projet citoyen !
+					<br/><br/>
+					Nous avons choisi la plateforme KissKissbankBank pour nous aider à atteindre notre objectif.
+					http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
+					<br/><br/>
+					Notre campagne de crowdfounding va donc démarrer le ......
+					*/?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 no-padding">
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
+			<div class="col-sm-2 text-white text-right">
+				<i class="fa fa-heart fa-4x"></i>
+			</div>
+			<div class="col-sm-8">
+				<h1 class="homestead text-white">NOS VALEURS</h1>
+			</div>
+			
+		</div>
+		
+		<center>
+			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
+		</center>
+		
+		<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
+			<center>
+				<div class="space20"></div>
+				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
+			</center>	
+		</div>
 	</div>
 
 	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
