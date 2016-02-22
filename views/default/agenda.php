@@ -52,6 +52,8 @@ jQuery(document).ready(function() {
   checkScroll();
   var timeoutSearch = setTimeout(function(){ }, 100);
   
+  setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+  
   $(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
   $('.tooltips').tooltip();

@@ -502,8 +502,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 <script type="text/javascript">
 function focusPeople (tag) { 
+	console.log("focusPeople");
+	console.dir(tag);
 	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
-	Sig.showFilterOnMap(tag)
+	Sig.showFilterOnMap(tag);
 }
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
@@ -515,6 +517,8 @@ jQuery(document).ready(function() {
 	
 	peopleTalkCt = getRandomInt(0,peopleTalk.length);
 	showPeopleTalk();
+
+	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span class='text-red'>COMMUNE</span>CTER.Org");
 

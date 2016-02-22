@@ -292,10 +292,9 @@ function replaceAndShow(hash,params){
 	return res;
 }
 function loadByHash( hash , back ) { 
-    console.log("loadByHash ,"+hash+","+back);
-
+    console.log("loadByHash",hash);
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
-    //
+
     if( replaceAndShow(hash,params) )
     	console.log("loadByHash >>> replaceAndShow",hash);
    
