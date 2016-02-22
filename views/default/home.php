@@ -466,7 +466,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				
 				<div class="col-sm-12">
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
-					<img class="img-responsive img-circle img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
+					<img class="img-responsive img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
 				</div>
 				<div class="space20"></div>
@@ -508,7 +508,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
 			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
 			<ul class="social-list">
-				<li><a target="_blank" href="https://www.facebook.com/groups/pixelhumain/" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
+				<li><a target="_blank" href="https://www.facebook.com/communecter" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
 				<li><a target="_blank" href="https://twitter.com/communecter" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
 				<li><a target="_blank" href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
 				<li><a target="_blank" href="https://github.com/pixelhumain/communecter" class="btn btn-github btn-social"><span class="fa fa-github"></span> </a></li>
