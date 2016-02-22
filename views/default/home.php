@@ -161,13 +161,34 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	display:inline;
 	max-height: 700px;
 }
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+	display: none;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 </style>
 
 <div class="home_page">
 
 <div class="imageSection center-block imageSectionVideo" style="margin-top: 50px; text-align:center; cursor:pointer; position:relative;" onclick="openVideo()" >
-	<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg"/>
-	<a href="javascript:;" onclick="openVideo()" class="btn-show-video"><i class="fa fa-youtube-play fa-5x"></i></a>
+	<div id="homeImg">
+		<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg"/>
+		<a href="javascript:;" onclick="openVideo()" class="btn-show-video"><i class="fa fa-youtube-play fa-5x"></i></a>
+	</div>
+	<div class="videoWrapper">
+		<iframe width="560" height="349" src="http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1">
+		</iframe>
+	</div>
 </div>
 
 <!-- <div class="imageSection imageSectionVideo headSection" style="margin-top: 50px;height:600px; cursor:pointer; position:relative;" onclick="openVideo()" > -->
@@ -571,16 +592,10 @@ function showPeopleTalk(step)
 }
 
 function openVideo(){
-	var width = $(".imageSectionVideo").width();
-	var height = $(".imageSectionVideo").height();
-	console.log(width, height);
-	$(".imageSectionVideo").empty();
-	//$(".imageSectionVideo").html('<iframe  class="img-responsive img-thumbnail" src="http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1"></iframe>')
-	$(".imageSectionVideo").load('http://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4');
-	/*$("iframe").css("width", width);
-	$("iframe").css("height", height);*/
+	$("#homeImg").fadeOut("slow",function() {
+		$(".videoWrapper").fadeIn('slow');
+	});
 }
-
 
 var timeoutSearchHome = null;
 function startSearch(){
