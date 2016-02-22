@@ -363,7 +363,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php if($countPeople > 0){  ?>
 						<li class="filter" data-filter=".citoyens">
 							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
-								<i class="fa fa-user fa-2"></i> <span class=" "><?php echo Yii::t("common", "People"); ?></span> 
+								<i class="fa fa-user fa-2"></i> <span class=" hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common", "People"); ?></span> 
 								<span class="badge"><?php echo $countPeople;  ?></span>
 							</a>
 						</li>
@@ -371,7 +371,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php if(count($organizations) > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
-								<i class="fa fa-users fa-2"></i> <span class=""><?php echo Yii::t("common","Organizations") ?></span> 
+								<i class="fa fa-users fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Organizations") ?></span> 
 								<span class="badge"><?php echo $countOrga;  ?></span>
 							</a>
 						</li>
@@ -379,7 +379,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php if(count($events) > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
-								<i class="fa fa-calendar fa-2"></i> <span class=""><?php echo Yii::t("common","Events") ?></span> 
+								<i class="fa fa-calendar fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Events") ?></span> 
 								<span class="badge bg"><?php echo $countEvent;  ?></span>
 							</a>
 						</li>
@@ -387,7 +387,7 @@ if( isset($_GET["isNotSV"])) {
 						<?php if(count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();$('.labelFollows').show()"> 
-								<i class="fa fa-lightbulb-o fa-2"></i> <span class=""><?php echo Yii::t("common","Projects") ?></span> 
+								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg"><?php echo $countProject;  ?></span>
 							</a>
 						</li>
@@ -395,16 +395,16 @@ if( isset($_GET["isNotSV"])) {
 						<?php if(count($countFollowers) > 0){  ?>
 						<li class="filter" data-filter=".followers">
 							<a href="javascript:;" class="filterfollowers bg-light-red" onclick="$('.optionFilter').hide();$('.labelFollows').hide()"> 
-								<i class="fa fa-heart fa-2"></i> <span class=""><?php echo Yii::t("common","Followers") ?></span> 
+								<i class="fa fa-heart fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Followers") ?></span> 
 								<span class="badge bg"><?php echo $countFollowers;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
 						<li  class="" style="margin-left:30px;">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <?php echo Yii::t("common","Tags"); ?></a>
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Tags"); ?></span></a>
 						</li>
 						<li class="" style="margin-right:0px;">
-							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <?php echo Yii::t("common","Places"); ?></a>
+							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#scopeFilters')"><i class="fa fa-circle-o  fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Places"); ?></span></a>
 						</li>
 						
 						

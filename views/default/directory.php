@@ -88,6 +88,8 @@ jQuery(document).ready(function() {
 	checkScroll();
   var timeoutSearch = setTimeout(function(){ }, 100);
   
+  setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
 	$('.tooltips').tooltip();
@@ -351,8 +353,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "<div class='col-md-12 searchEntity'>";
   	                str += "<div class='col-md-5 entityLeft'>";
   	                	
-  	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
-  	                	if(type!="city")
+  	                	<?php if( isset( Yii::app()->session['userId'] ) ) { ?>
+  	                	if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
           						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
               							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
               							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+

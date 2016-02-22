@@ -257,7 +257,6 @@ $userId = Yii::app()->session["userId"] ;
 </div>
 <script type="text/javascript">
 
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 
 var tabObject = [];
 var file = [];

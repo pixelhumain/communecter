@@ -257,12 +257,15 @@ var urlParams = {
 	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#person.invitesv" : {title:'PERSON INVITE ', icon : 'user' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
     "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
+    "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
@@ -277,7 +280,7 @@ function replaceAndShow(hash,params){
 	res = false;
 	$.each( urlParams, function(urlIndex,urlObj)
 	{
-		console.log("replaceAndShow ",urlIndex);
+		console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = urlParams[urlIndex];
@@ -296,7 +299,7 @@ function loadByHash( hash , back ) {
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
     if( replaceAndShow(hash,params) )
-    	console.warn("loadByHash replaceAndShow",hash);
+    	console.log("loadByHash >>> replaceAndShow",hash);
    
     else if( hash.indexOf("#panel") >= 0 ){
         if(hash.substr(7) == "box-add")
@@ -310,8 +313,6 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invitesv") >= 0 )
         showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' );
-    else if( hash.indexOf("#person.invitecontact") >= 0 )
-        showAjaxPanel( '/person/invitecontact?isNotSV=1', 'INVITE SOMEONE','share-alt' );
     else if( hash.indexOf("#event.eventsv") >= 0 )
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
@@ -343,11 +344,13 @@ function loadByHash( hash , back ) {
 
     location.hash = hash;
     if( !back )
-      history.pushState( { "hash" :hash} , null, hash );
+		history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
     console.warn("pushState",hash);
 
     if( isMapEnd )
     	showMap();
+
+
 }
 
 function showDefinition( id ){
