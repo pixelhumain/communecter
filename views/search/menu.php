@@ -353,29 +353,13 @@ jQuery(document).ready(function() {
     	else{
     		$("#modal-select-scope").modal("show");
     	}
-    }).mouseenter(function(e){ toggle(".explainCommunectMe",".explain")});;
+    }).mouseenter(function(e){ 
+    	console.log("btn-geoloc-auto");
+    	toggle(".explainCommunectMe",".explain")});;
 	
 
-
-	var timeoutHover = setTimeout(function(){}, 0);
-	var hoverPersist = false;
-	var positionMouseMenu = "out";
-
 	$(".hover-menu").mouseenter(function(){
-		//console.log("enter all");
-		positionMouseMenu = "in";
-		$(".main-col-search").animate({ opacity:0.3 }, 400 );
-		$(".lbl-btn-menu-name").show(200);
-		$(".lbl-btn-menu-name").css("display", "inline");
-		$(".menu-button-title").addClass("large");
-
-		showInputCommunexion();
-
-		hoverPersist = false;
-		clearTimeout(timeoutHover);
-		timeoutHover = setTimeout(function(){
-			hoverPersist = true;
-		}, 1000);
+		activateHoverMenu();
 	});
 
 

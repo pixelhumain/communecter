@@ -38,7 +38,7 @@
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
   </button>
-	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainDirectory" class="explainLink menu-button btn-infos  bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
@@ -87,6 +87,8 @@ jQuery(document).ready(function() {
 	hideScrollTop = true; 
 	checkScroll();
   var timeoutSearch = setTimeout(function(){ }, 100);
+  
+  setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
   
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
@@ -155,6 +157,7 @@ jQuery(document).ready(function() {
   $(".btn-activate-communexion").click(function(){
     toogleCommunexion();
   });
+
 
   initBtnScopeList();
   startSearch();
@@ -351,7 +354,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                str += "<div class='col-md-5 entityLeft'>";
   	                	
   	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
-  	                	if(type!="city")
+  	                	if(type!="city" && id != "<?php echo Yii::app()->session['userId']) ) ?>")
           						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
               							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
               							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+

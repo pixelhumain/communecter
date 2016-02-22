@@ -31,19 +31,19 @@ class DefaultController extends CommunecterController {
   public function actionAgenda() 
   {
     $this->layout = "//layouts/mainSearch";
-    $this->render("agenda");
+    $this->renderPartial("agenda");
   }
 
   public function actionNews() 
   {
     $this->layout = "//layouts/mainSearch";
-    $this->render("news");
+    $this->renderPartial("news");
   }
 
   public function actionDirectory() 
   {
     $this->layout = "//layouts/mainSearch";
-    $this->render("directory");
+    $this->renderPartial("directory");
   }
 
   public function actionHome() 
@@ -54,7 +54,7 @@ class DefaultController extends CommunecterController {
   public function actionLogin() 
   {
     $this->layout = "//layouts/mainSearch";
-    $this->render("login");
+    $this->renderPartial("login");
   }
 
     public function actionView($page,$dir=null,$layout=null) 

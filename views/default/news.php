@@ -55,7 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
 	</button>
-	<button class="menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 
@@ -81,6 +81,8 @@ jQuery(document).ready(function() {
 	checkScroll();
 	var timeoutSearch = setTimeout(function(){ }, 100);
 
+  setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+  
 	$('.tooltips').tooltip();
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
@@ -149,15 +151,15 @@ function autoCompleteSearch(name, locality){
               toastr.error(data.content);
             }else{
 
-            $.each(data, function(i, v) {
-	            if(v.length!=0){
-	              $.each(v, function(k, o){
+            //$.each(data, function(i, v) {
+	            if(data.length!=0){
+	              $.each(data, function(k, o){
 	              	oneElement = o;
 	              	countData++;
 	              });where = locality;
     
 	            }
-	        });
+	        //});
 
 	        if(countData == 0){
 	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
@@ -269,9 +271,9 @@ function autoCompleteSearch(name, locality){
 	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
 	            $("#dropdown_search").css({"display" : "inline" });
 	           	$(".my-main-container").scrollTop(95);
-	           	$("#link-start-search").html("Rechercher");
+	           	//$("#link-start-search").html("Rechercher");
 	            //$("#link-start-search").removeClass("badge");
-
+              console.log("une ville trouvée ? ", countData);
 	             if(countData == 1){
 	            	console.log("only one");
 	            	$("#dropdown_search").css({"display" : "none" });
@@ -313,7 +315,7 @@ function startSearch(){
 
     if(name.length>=3 || name.length == 0){
       clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 500);
+      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 100);
     }else{
       
     }   
@@ -322,6 +324,9 @@ function startSearch(){
 
 function setScopeValue(valText, insee){
 	$("#searchBarPostalCode").val(valText);
+  where = valText;
+  $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + where.toLowerCase());
+
 	if(insee != "")
 	  	showNewsStream(insee);
 	else
@@ -347,6 +352,7 @@ function setScopeValue(valText, insee){
 // }
 
 function showNewsStream(insee){
+  console.log("showNewsStream", insee);
 	if(insee == "") insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";
 	//var insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";//$("#searchBarPostalCode").val();
 	
