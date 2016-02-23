@@ -304,7 +304,7 @@ function replaceAndShow(hash,params){
 	return res;
 }
 function loadByHashMap( hash , back ) { 
-	alert("loadByHashMap",hash , back);
+	//alert("loadByHashMap",hash , back);
 }
 function loadByHash( hash , back ) { 
     console.log("loadByHash",hash);
