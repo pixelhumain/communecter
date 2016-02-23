@@ -269,7 +269,21 @@ jQuery(document).ready(function() {
 		$('#email3').prop('disabled', true);
 	}
 
-	//Validation of the email
+	//Validation of the user (invitation or validation)
+	userValidatedActions();
+
+	if (msgError != "") {
+		$(".custom-msg").show();
+		$(".custom-msg").text(msgError);
+	}
+
+	$(".btn-close-box").click(function(){
+		$(".box").hide(400);
+		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+	});
+
+});
+function userValidatedActions() { 
 	if (userValidated) {
 		$(".errorHandler").hide();
 		$(".emailValidated").show();
@@ -283,19 +297,7 @@ jQuery(document).ready(function() {
 		$('#name').val(name);
 		$('#email3').prop('disabled', true);
 	}
-
-	if (msgError != "") {
-		$(".custom-msg").show();
-		$(".custom-msg").text(msgError);
-	}
-
-	$(".btn-close-box").click(function(){
-		$(".box").hide(400);
-		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
-	});
-
-});
-
+}
 
 var Login = function() {
 	"use strict";

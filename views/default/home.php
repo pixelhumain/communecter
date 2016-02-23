@@ -598,10 +598,10 @@ jQuery(document).ready(function() {
 		$("#div-param-postal-code").show(400);
 	});
 
-	$('#searchBarPostalCode').keyup(function(e){
-        clearTimeout(timeoutSearchHome);
-        timeoutSearchHome = setTimeout(function(){ startSearch(); }, 800);
-    });
+	// $('#searchBarPostalCode').keyup(function(e){
+ //        clearTimeout(timeoutSearchHome);
+ //        timeoutSearchHome = setTimeout(function(){ startSearch(); }, 800);
+ //    });
     
     
     $(".explainLink").click(function() {  
@@ -647,6 +647,7 @@ function openVideo(){
 }
 
 var timeoutSearchHome = null;
+/*
 function startSearch(){
 	//var name = ""; //$('#autoGeoPostalCode').val();
     var locality = $('#searchBarPostalCode').val();
@@ -714,6 +715,6 @@ function autoCompleteSearch(name, locality){
     
                     
   }
-
+*/
 
 </script>

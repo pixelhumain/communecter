@@ -113,7 +113,8 @@ function getCityInseeByGeoPos(coords){
 					console.log("cities found : ");
 					console.dir(obj);
 				
-					Sig.showMapElements(Sig.map, obj);
+					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+		        	Sig.showMapElements(Sig.map, obj);
 				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
