@@ -569,6 +569,18 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
   }  
 
+  public function actionTestMailInvitation() {
+    var_dump(Utils::getServerInformation());
+    $person = Person::getById("56cc4d972336f2bbe60041b0");
+    var_dump($person);
+    $params = array( "invitorName"   => "Invitation Man !",
+                     "title" => Yii::app()->name ,
+                     "logo"  => "/images/logo.png",
+                     "invitedUserId" => $person["_id"],
+                     "message" => "Bah alors ramène toi sur Communecter ma couille !");
+    $this->renderPartial('application.views.emails.invitation', $params);
+  } 
+
   public function actionTestBecomeAnAdmin() {
     $person = Person::getById("55c0c1a72336f213040041ee");
     $organization = Organization::getById("55797ceb2336f25c0c0041a8");

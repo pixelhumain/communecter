@@ -571,9 +571,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 		<center>	
 	</div>
-	
-	
-
 </div>
 
 
