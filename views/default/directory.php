@@ -75,12 +75,12 @@
 
 <script type="text/javascript">
 
-var searchType = [ "persons", "organizations", "projects", "cities" ];
+var searchType = [ "persons", "organizations", "projects" ];
 var allSearchType = [ "persons", "organizations", "projects" ];
 
 jQuery(document).ready(function() {
 
-  searchType = [ "persons", "organizations", "projects", "cities" ];
+  searchType = [ "persons", "organizations", "projects" ];
   allSearchType = [ "persons", "organizations", "projects" ];
 
 	topMenuActivated = true;
@@ -110,17 +110,16 @@ jQuery(document).ready(function() {
   $('#link-start-search').click(function(e){
       startSearch();
   });
-
-  $(".btn-geolocate").click(function(e){
-		if(geolocHTML5Done == false){
-    		initHTML5Localisation('prefillSearch');
-        $("#modal-select-scope").modal("show");
-        $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
-        //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
-    }	else{
-    		$("#modal-select-scope").modal("show");
-    }
-  });
+  // $(".btn-geolocate").click(function(e){
+		// if(geolocHTML5Done == false){
+  //   		initHTML5Localisation('prefillSearch');
+  //       $("#modal-select-scope").modal("show");
+  //       $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+  //       //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+  //   }	else{
+  //   		$("#modal-select-scope").modal("show");
+  //   }
+  // });
 
   $(".my-main-container").scroll(function(){
     if(!loadingData && !scrollEnd){
@@ -158,12 +157,12 @@ jQuery(document).ready(function() {
     toogleCommunexion();
   });
 
-
-  initBtnScopeList();
+  //initBtnScopeList();
   startSearch();
+
 });
 
-var indexStepInit = 50;
+var indexStepInit = 100;
 var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
@@ -185,14 +184,14 @@ function startSearch(indexMin, indexMax){
     if(loadingData) return;
 
     console.log("loadingData true");
-    loadingData = true;
     indexStep = indexStepInit;
 
 	  var name = $('#searchBarText').val();
-    var locality = $('#searchBarPostalCode').val();
-    where = locality;
+    //var locality = $('#searchBarPostalCode').val();
+    //inseeCommunexion = locality;
     
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
+    if(communexionActivated)
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
       
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
@@ -210,12 +209,12 @@ function startSearch(indexMin, indexMax){
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
-    if(!isNaN(parseInt(locality))){
-        if(locality.length == 0 || locality.length > 5) locality = "";
-    }
+    //if(!isNaN(parseInt(locality))){
+    //    if(locality.length == 0 || locality.length > 5) locality = "";
+    //}
 
     if(name.length>=3 || name.length == 0){
-      validatePostalcode(locality);
+      var locality = communexionActivated ? inseeCommunexion : "";
       autoCompleteSearch(name, locality, indexMin, indexMax);
     }else{
       
@@ -244,10 +243,12 @@ var loadingData = false;
 var mapElements = new Array(); 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
     
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, 
+    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : "INSEE", 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
-
+    console.log("loadingData false");
+    loadingData = true;
+    
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
@@ -305,7 +306,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
                   
-                  
+                  console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
@@ -318,7 +319,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(type == "city"){
                   	url = "javascript:"; //#main-col-search";
                   	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                  	onclickCp = 'setScopeValue("'+o.cp+'");';
+                  	onclickCp = 'setScopeValue($(this));';
                   	target = "";
                     dataId = o.name; //.replace("'", "\'");
                   }
@@ -352,13 +353,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //template principal
                   str += "<div class='col-md-12 searchEntity'>";
   	                str += "<div class='col-md-5 entityLeft'>";
-  	                	
-  	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
-  	                	if(type!="city" && id != userId)
-
-          						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-              							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
-              							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+  	                	<?php if( isset( Yii::app()->session['userId'] ) ) { ?>
+  	                	isFollowed=false;
+  	                	if(typeof o.isFollowed != "undefined" )
+  	                		isFollowed=true;
+  	                	if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
+          						str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+              							'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+              							" data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
               									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
               								"</a>";
           						<?php } ?>
@@ -470,83 +472,124 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
   }
 
-  function addEventOnSearch() {
-    $('.searchEntry').off().on("click", function(){
+  // function addEventOnSearch() {
+  //   $('.searchEntry').off().on("click", function(){
       
-      //toastr.success($("#dropdown_search").position().top);
-      var top = $(this).position().top;// + $("#dropdown_search").position().top;
+  //     //toastr.success($("#dropdown_search").position().top);
+  //     var top = $(this).position().top;// + $("#dropdown_search").position().top;
 
-      setSearchInput($(this).data("id"), $(this).data("type"),
-                     $(this).data("insee"), top );
-    });
-  }
+  //     setSearchInput($(this).data("id"), $(this).data("type"),
+  //                    $(this).data("insee"), top );
+  //   });
+  // }
 
   function initBtnLink(){
-
+    $('.tooltips').tooltip();
   	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
   	$.each($(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
    		if(type == "person") type = "people";
    		else type = type + "s";
-
    		//console.log("#floopItem-"+type+"-"+id);
    		if($("#floopItem-"+type+"-"+id).length){
    			//console.log("I FOLLOW THIS");
-   			$(value).html("<i class='fa fa-chain text-green'></i>");
-   			$(value).attr("title", "Supprimer de votre répertoire");
+   			if(type=="people"){
+	   			$(value).html("<i class='fa fa-unlink text-green'></i>");
+	   			$(value).attr("data-original-title", "Ne plus suivre cette personne");
+	   			$(value).attr("data-ownerlink","unfollow");
+   			}
+   			else{
+	   			$(value).html("<i class='fa fa-user-plus text-green'></i>");
+	   			if(type == "organizations")
+	   				$(value).attr("data-original-title", "Vous êtes membre de cette organization");
+	   			else if(type == "projects")
+	   				$(value).attr("data-original-title", "Vous êtes contributeur de ce projet");
+	   			$(value).attr("onclick", "");
+	   			$(value).removeClass("followBtn");
+	   		}
+   		}
+   		if($(value).attr("data-isFollowed")=="true"){
+	   		$(value).html("<i class='fa fa-unlink text-green'></i>");
+	   		$(value).attr("data-original-title", "Ne plus suivre");
+			$(value).attr("data-ownerlink","unfollow");
    		}
    	});
 
   	//on click sur les boutons link
    	$(".followBtn").click(function(){
-   		var id = $(this).attr("data-id");
+	   	formData = new Object();
+   		formData.parentId = $(this).attr("data-id");
+   		formData.childId = "<?php echo Yii::app() -> session["userId"] ?>";
+   		formData.childType = "<?php echo Person::COLLECTION ?>";
    		var type = $(this).attr("data-type");
    		var name = $(this).attr("data-name");
-
+   		var id = $(this).attr("data-id");
    		//traduction du type pour le floopDrawer
    		var typeOrigine = type + "s";
-   		if(typeOrigine != "person") typeOrigine + "s";
-   		
+   		if(typeOrigine == "persons"){ typeOrigine = "<?php echo Person::COLLECTION ?>";}
+   		formData.parentType = typeOrigine;
    		if(type == "person") type = "people";
    		else type = type + "s";
 
-   		//si l'entité n'existe pas dans le floopDrawer == on l'ajoute
-   		if(!$("#floopItem-"+type+"-"+id).length){
-   			//cas du type people
-   			if(type == "people"){
-   				var thiselement = this;
-   				$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-				    connectPerson(id, function(entityValue){
-           			//console.log("connecting entity");
-           			//console.log(entityValue);
-           			$(thiselement).html("<i class='fa fa-chain text-green'></i>")
-           			addFloopEntity(id, type, entityValue);
-           			showFloopDrawer(true);
-           		});
-			}
-			//cas du type orga
-			else if(type == "organizations"){
-				toastr.info('TODO : link with orga');
-			}
-			//cas du type project
-			else if(type == "projects"){
-				toastr.info('TODO : link with projects');
-			}
-		}
-		//si l'entité existe déjà dans le floopDrawer == on la supprime
-		else{
-			disconnectPerson(id, typeOrigine, name, function(entityValue){
-       			//console.log("disconnect");
-       			//console.log(entityValue);
-       			removeFloopEntity(id, type, entityValue);
-       			showFloopDrawer(true);
-       		});
+		var thiselement = this;
+		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+		console.log(formData);
+		if ($(this).attr("data-ownerlink")=="follow"){
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/follow",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+						toastr.success(data.msg);	
+						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
+						$(thiselement).attr("data-ownerlink","unfollow");
+						$(thiselement).attr("data-original-title", "Ne plus suivre");
+						if(type=="people"){
+							addFloopEntity(id, type, data.parentEntity);
+							showFloopDrawer(true);
+						}
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});
+		} else if ($(this).attr("data-ownerlink")=="unfollow"){
+			formData.connectType =  "followers";
+			console.log(formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/disconnect",
+				data : formData,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {
+						$(thiselement).html("<i class='fa fa-chain'></i>");
+						$(thiselement).attr("data-ownerlink","follow");
+						$(thiselement).attr("data-original-title", "Suivre");
+						removeFloopEntity(data.parentId, type);
+						toastr.success(data.msg);	
+					} else {
+					   toastr.error("You leave succesfully");
+					}
+				}
+			});
 		}
    	});
-
+   	//on click sur les boutons link
     $(".btn-tag").click(function(){
       setSearchValue($(this).html());
     });
   }
+
+
+
+  function setSearchValue(value){
+    $("#searchBarText").val(value);
+    startSearch();
+  }
+
 </script>

@@ -79,7 +79,10 @@ function disconnectTo(parentType,parentId,childId,childType,connectType){
 			dataType: "json",
 			success: function(data){
 				if ( data && data.result ) {
-					removeFloopEntity(data.parentId, data.parentType);
+					type=formData.parentType;
+					if(formData.parentType==  "citoyens")
+						type="people";
+					removeFloopEntity(data.parentId, type);
 					loadByHash(location.hash);
 				} else {
 				   toastr.error("You leave succesfully");
@@ -128,7 +131,8 @@ function follow(parentType, parentId, childId, childType){
 		dataType: "json",
 		success: function(data) {
 			if(data.result){
-				//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+				if (formData.parentType)
+					addFloopEntity(formData.parentId, "people", data.parentEntity);
 				toastr.success(data.msg);	
 				loadByHash(location.hash);
 			}

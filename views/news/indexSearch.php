@@ -416,7 +416,7 @@ div.timeline .date_separator span{
 				
 			</div>
 			<div class="stream-processing center">
-				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-spin fa-circle-o-notch"></i> Recherche en cours ...</span>
+				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-spin fa-circle-o-notch"></i></span>
 			</div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
@@ -550,6 +550,8 @@ jQuery(document).ready(function()
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>");
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
+	}else{
+		
 	}
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
@@ -559,7 +561,7 @@ jQuery(document).ready(function()
 	    if(!loadingData && !scrollEnd){
 	        var heightContainer = $(".my-main-container")[0].scrollHeight;
 	        var heightWindow = $(window).height();
-	        console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
+	        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
 	        if(scrollEnd == false){
 	          var heightContainer = $(".my-main-container")[0].scrollHeight;
 	          var heightWindow = $(window).height();

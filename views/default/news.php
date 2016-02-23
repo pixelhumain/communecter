@@ -44,17 +44,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <div class="lbl-scope-list text-red"></div>
 
-<?php //$this->renderPartial("short_info_profil", array("type" => "main")); ?> 
-
-<button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte">
-		<i class="fa fa-map-marker"></i>
-</button>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
+	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
-	</button>
+	</button> -->
 	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
@@ -76,27 +70,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	
-	topMenuActivated = true;
-	hideScrollTop = true; 
-	checkScroll();
-	var timeoutSearch = setTimeout(function(){ }, 100);
+  	topMenuActivated = true;
+  	hideScrollTop = true; 
+  	checkScroll();
+  	var timeoutSearch = setTimeout(function(){ }, 100);
 
-  setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
-  
-	$('.tooltips').tooltip();
+    setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+    
+  	$('.tooltips').tooltip();
 
-	$('.main-btn-toogle-map').click(function(e){ showMap(); });
-	
-	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
+  	$('.main-btn-toogle-map').click(function(e){ showMap(); });
+  	
+  	
+  	$('#searchBarText').keyup(function(e){
+        clearTimeout(timeoutSearch);
+        timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+    });
 
-	$('#searchBarText').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  });
-  // $('#searchBarPostalCode').keyup(function(e){
-  //     clearTimeout(timeoutSearch);
-  //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  // });
   
     $('#btn-start-search').click(function(e){
         startSearch();
@@ -108,248 +98,28 @@ jQuery(document).ready(function() {
     	initHTML5Localisation('prefillSearch');
     });
 
-    $(".btn-geolocate").click(function(e){
-      if(geolocHTML5Done == false){
-          initHTML5Localisation('prefillSearch');
-          $("#modal-select-scope").modal("show");
-          $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
-          //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
-      } else{
-          $("#modal-select-scope").modal("show");
-      }
-    });
 
     $(".btn-activate-communexion").click(function(){
-      toogleCommunexion();
+      //toogleCommunexion();
     });
-      
-    initBtnScopeList();
+    
+    $(".moduleLabel").html("<i class='fa fa-rss'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
+  
 	  startSearch();
 });
 
 
-
-function autoCompleteSearch(name, locality){
-    var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ]  };
-    var countData = 0;
-    var oneElement = null;
-    $("#shortDetailsEntity").hide();
-    $.ajax({
-      type: "POST",
-          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
-          data: data,
-          dataType: "json",
-          error: function (data){
-             console.log("error");
-          	console.dir(data);
-            
-          },
-          success: function(data){
-          	console.log("success, try to load sig");
-          	console.dir(data);
-            if(!data){
-              toastr.error(data.content);
-            }else{
-
-            //$.each(data, function(i, v) {
-	            if(data.length!=0){
-	              $.each(data, function(k, o){
-	              	oneElement = o;
-	              	countData++;
-	              });where = locality;
-    
-	            }
-	        //});
-
-	        if(countData == 0){
-	        	$("#dropdown_search").html("<center><span class='search-loader text-red' style='font-size:20px;'><i class='fa fa-ban'></i> Aucun résultat</span></center>");
-    			  $("#dropdown_search").show();
-	        	toastr.error('Aucune donnée');
-	        }
-
-          var mapElements = new Array();  	
-          
-          str = "<div class='col-md-12 center'>";
-          str += "<h3 class='text-dark'><i class='fa fa-angle-down'></i> Quelle commune souhaitez-vous consulter ?</h3>";
-          var city, postalCode = "";
-          $.each(data, function(i, o) {
-            var typeIco = i;
-            var ico = mapIconTop["default"];
-            var color = mapColorIconTop["default"];
-
-            
-            //if(v.length!=0){
-              //$.each(v, function(k, o){
-
-               mapElements.push(o);
-
-				        typeIco = o.type;
-                ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                
-                htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-               	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                  var htmlIco= "<img width='80' height='80' alt='image' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                }
-
-                city="";
-
-                var postalCode = o.cp
-                if (o.address != null) {
-                  city = o.address.addressLocality;
-                  postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                }
-                
-                
-                var id = getObjectId(o);
-                var insee = o.insee ? o.insee : "";
-                type = o.type;
-                if(type=="citoyen") type = "person";
-                var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
-                var onclickCp = "";
-                var target = " target='_blank'";
-                if(type == "city"){
-                	url = "javascript:";
-                	onclick = 'setScopeValue("'+o.name+'", "'+o.insee+'");';
-                	onclickCp = 'setScopeValue("'+o.cp+'", "");';
-                	target = "";
-                }
-
-                var tags = "";
-                if(typeof o.tags != "undefined" && o.tags != null){
-        					$.each(o.tags, function(key, value){
-        						if(value != "")
-        		                tags +=   "<span class='badge bg-red'>#" + value + "</span>";
-  		            });
-                }
-
-                var name = typeof o.name != "undefined" ? o.name : "";
-                var postalCode = (typeof o.address != "undefined" &&
-                				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                
-                if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                var cityName = (typeof o.address != "undefined" &&
-                				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                
-                var fullLocality = postalCode + " " + cityName;
-
-                var description = (typeof o.shortDescription != "undefined" &&
-                					o.shortDescription != null) ? o.shortDescription : "";
-                if(description == "") description = (typeof o.description != "undefined" &&
-                									 o.description != null) ? o.description : "";
-         
-                var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
-                //template principal
-                str += "<div class='searchEntity'>";
-	     			    target = "";
-	                str += "<div class='entityRight bg-red badge'>";
-	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName'>" + name + "</a></br>";
-	                	if(fullLocality != "" && fullLocality != " ")
-	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a> ";
-	                	
-	                str += "</div>";
-				        str += "</div>";
-
-			
-              //})
-            //}
-
-
-
-            }); 
-            if(countData == 0) {
-            	//$("#dropdown_search").html("");
-            	$(".btn-start-search").html("<i class='fa fa-ban'></i>");
-            	//$("#dropdown_search").css({"display" : "none" });	             
-            }else{
-            	//str += '<div class="col-md-5 no-padding" id="shortDetailsEntity"></div>';
-            	str += '</div>';
-	            $("#dropdown_search").html(str);
-	            $(".btn-start-search").html("<i class='fa fa-search'></i>");
-	            $("#dropdown_search").css({"display" : "inline" });
-	           	$(".my-main-container").scrollTop(95);
-	           	//$("#link-start-search").html("Rechercher");
-	            //$("#link-start-search").removeClass("badge");
-              console.log("une ville trouvée ? ", countData);
-	             if(countData == 1){
-	            	console.log("only one");
-	            	$("#dropdown_search").css({"display" : "none" });
-	            	setScopeValue(oneElement.name, oneElement.insee);
-	            }
-	        }
-	        $(".btn-start-search").removeClass("bg-azure");
-    		//$(".btn-start-search").addClass("bg-dark");
-          }
-
-          console.log("ALL MAP ELEMTN");
-          console.dir(mapElements);
-          Sig.showMapElements(Sig.map, mapElements);
-      }
-    });
-
-    str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
-    $(".btn-start-search").html(str);
-    $(".btn-start-search").addClass("bg-azure");
-    //$("#link-start-search").html("Recherche en cours ...");
-    $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-    $("#dropdown_search").css({"display" : "inline" });
-                    
-  }
-
 var timeout;
 function startSearch(){
-	  var name = $('#searchBarText').val();
-    var locality = $('#searchBarPostalCode').val();
-    where = locality;
 
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
+  if(inseeCommunexion != ""){
+    showNewsStream(inseeCommunexion);
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
+  }
 
-    //verification si c'est un nombre
-    if(!isNaN(parseInt(locality))){
-        if(locality.length == 0 || locality.length > 5) locality = "";
-    }
-
-    if(name.length>=3 || name.length == 0){
-      clearTimeout(timeout);
-      timeout = setTimeout('autoCompleteSearch("'+name+'", "'+locality+'")', 100);
-    }else{
-      
-    }   
 	
 }
 
-function setScopeValue(valText, insee){
-	$("#searchBarPostalCode").val(valText);
-  where = valText;
-  $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + where.toLowerCase());
-
-	if(insee != "")
-	  	showNewsStream(insee);
-	else
-		startSearch();
-}
-
-// function initScrolling(){
-		
-// 		var offset=newsReferror.news.offset;
-// 		minusOffset=730;
-			
-// 		$(".my-main-container").off().on("scroll",function(){
-// 			console.log($(".my-main-container").scrollTop());
-// 			console.log(offset.top, minusOffset, offset.top - minusOffset, $(".my-main-container").scrollTop())
-// 			//console.log((offset.top - minusOffset) + " <= " + $("#newsHistory").scrollTop());
-// 			if(offset.top - minusOffset <= $(".my-main-container").scrollTop()) {
-// 				if (lastOffset != offset.top){
-// 					lastOffset=offset.top;
-// 					loadStream();
-// 				}
-// 			}
-// 		});
-// }
 
 function showNewsStream(insee){
   console.log("showNewsStream", insee);
@@ -360,8 +130,9 @@ function showNewsStream(insee){
 		$("#newsstream").html("<div class='loader text-dark '>"+
 				"<span style='font-size:25px;' class='homestead'>"+
 					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
-					"<span class='text-dark'>Chargement en cours ...</span>" + 
+					//"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
+    //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement de l'actualité ...");
 		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
 		$("#dropdown_search").hide(300);
 	}

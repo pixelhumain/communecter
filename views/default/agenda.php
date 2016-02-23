@@ -8,13 +8,6 @@
 
 <div class="lbl-scope-list text-red"></div>
 
-<?php //$this->renderPartial("short_info_profil", array("type" => "main")); ?> 
-
-<button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte">
-		<i class="fa fa-map-marker"></i>
-</button>
-
 <div class="img-logo bgpixeltree_little">
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
@@ -37,14 +30,14 @@
 <script type="text/javascript">
 
 
-var searchType = [ "events", "cities" ];
+var searchType = [ "events" ];
 var allSearchType = [ "events" ];
 
 
 jQuery(document).ready(function() {
   
 
-  searchType = [ "events", "cities" ];
+  searchType = [ "events" ];
   allSearchType = [ "events" ];
 
   topMenuActivated = true;
@@ -122,11 +115,11 @@ jQuery(document).ready(function() {
   //   else addSearchType(type);
   // });
  
-  initBtnScopeList();
+  //initBtnScopeList();
   startSearch();
 });
 
-var indexStepInit = 50;
+var indexStepInit = 100;
 var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
@@ -145,18 +138,19 @@ var timeout = null;
 function startSearch(indexMin, indexMax){
     console.log("startSearch", indexMin, indexMax, indexStep);
 
+    console.log("loadingData", loadingData);
     if(loadingData) return;
 
     console.log("loadingData true");
-    loadingData = true;
     indexStep = indexStepInit;
 
     var name = $('#searchBarText').val();
-    var locality = $('#searchBarPostalCode').val();
-    where = locality;
+    //var locality = $('#searchBarPostalCode').val();
+    //inseeCommunexion = locality;
     
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
-    
+    if(communexionActivated)
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
+      
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -169,19 +163,20 @@ function startSearch(indexMin, indexMax){
     }
     else{ if(scrollEnd) return; }
     
-    name = name.replace(/[^\w\s']/gi, '');
+    //name = name.replace(/[^\w\s']/gi, '');
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
-    if(!isNaN(parseInt(locality))){
-        if(locality.length == 0 || locality.length > 5) locality = "";
-    }
+    //if(!isNaN(parseInt(locality))){
+    //    if(locality.length == 0 || locality.length > 5) locality = "";
+    //}
 
     if(name.length>=3 || name.length == 0){
+      var locality = communexionActivated ? inseeCommunexion : "";
       autoCompleteSearch(name, locality, indexMin, indexMax);
     }else{
       
-    }   
+    }     
 }
 
 function addSearchType(type){
@@ -266,7 +261,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
                   
-                  
+                  console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
@@ -275,11 +270,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
                   var onclickCp = "";
                   var target = " target='_blank'";
+                  var dataId = "";
                   if(type == "city"){
-                    url = "javascript:";
-                    onclick = 'setScopeValue("'+o.name.replace("'", "#")+'");';
-                    onclickCp = 'setScopeValue("'+o.cp+'");';
+                    url = "javascript:"; //#main-col-search";
+                    onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+                    onclickCp = 'setScopeValue($(this));';
                     target = "";
+                    dataId = o.name; //.replace("'", "\'");
                   }
 
                   var tags = "";
@@ -312,8 +309,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "<div class='col-md-12 searchEntity'>";
                     str += "<div class='col-md-5 entityLeft'>";
                       
-                      <?php if( isset( Yii::app()->session['userId']) ) { ?>
-                      if(type!="city")
+                      <?php if( isset( Yii::app()->session['userId'] ) ) { ?>
+                      if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
                       str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
                             'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
                             " data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
@@ -325,13 +322,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     str += "</div>";
 
                     str += "<div class='col-md-2 entityCenter'>";
-                    str += "<a href='"+url+"' target='_blank' >" + htmlIco + "</a>";
+                    str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
                     str += "</div>";
                      target = "";
                     str += "<div class='col-md-5 entityRight no-padding'>";
                       str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
                       if(fullLocality != "" && fullLocality != " ")
-                      str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+"  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+                      str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
                       if(startDate != null)
                       str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
                       if(endDate != null)
@@ -343,12 +340,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "</div>";
               }); //end each
 
-              if(str == "") { $(".btn-start-search").html("<i class='fa fa-search'></i>"); }
+              if(str == "") { 
+                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
+                  if(indexMin == 0){
+                    //ajout du footer       
+                    str += '<div class="center" id="footerDropdown">';
+                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
+                    str += "</div>";
+                    $("#dropdown_search").html(str);
+                  }
+              }
               else
               {       
                 //ajout du footer       
                 str += '<div class="center" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;'>" + totalData + " résultats</label><br/>";
+                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
 
@@ -373,7 +379,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //on affiche le résultat à l'écran
                   $("#dropdown_search").html(str);
                   //on scroll pour coller le haut de l'arbre au menuTop
-                  $(".my-main-container").scrollTop(115);
+                  $(".my-main-container").scrollTop(95);
                 }
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
@@ -497,5 +503,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".btn-tag").click(function(){
       setSearchValue($(this).html());
     });
+  }
+
+
+  function setSearchValue(value){
+    $("#searchBarText").val(value);
+    startSearch();
   }
 </script>

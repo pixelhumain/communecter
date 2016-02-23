@@ -72,11 +72,15 @@ $this->renderPartial('../default/panels/toolbar');
 
   #btn-communecter{
     width: auto;
-    font-size: 16px;
+    font-size: 20px;
     border-radius: 10px;
     border: none;
-    float: left !important;
-    margin-top: -4px !important;
+    position: absolute;
+    top: 100px;
+    left: 51%;
+    background-color: transparent;
+    padding-bottom: 5px;
+    box-shadow: 0px 0px 3px 3px RGBA(114, 114, 114, 0.31);
   }
   #btn-communecter small{
     font-size:16px;
@@ -200,7 +204,17 @@ $this->renderPartial('../default/panels/toolbar');
   $countTotal = count($people) + count($organizations) + count($events);
 ?>
 <!-- start: PAGE CONTENT -->
+
 <div class="row padding-20" id="cityDetail">
+
+ <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
+  <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
+  <a href="javascript:;" class="btn homestead text-red no-margin register"
+     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
+     id="btn-communecter" onclick="setScopeValue($(this));">
+     
+     <i class="fa fa-crosshairs"></i> COMMUNECTER</a>
+<?php } ?>
 
 <div class="space20"></div>
 <div class="col-sm-12 col-xs-12">
@@ -208,12 +222,8 @@ $this->renderPartial('../default/panels/toolbar');
     <h1 class="homestead text-red">
       <center><i class="fa fa-university"></i> <?php echo $city["name"]." "; ?></center>
     </h1>
-    <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
-      <h1 class="homestead text-dark center you-live pull-left">Vous habitez ici ? <?php //echo $city["name"]; ?></h1>
-      <a href="javascript:;" class="btn homestead text-red no-margin register pull-left" id="btn-communecter" onclick="communecter();">
-        COMMUNECTEZ-VOUS <i class="fa fa-arrow-circle-right"></i>
-    <?php } ?>
-    </a>
+   
+    
     <!-- <h2 class="">
       <?php if(@$city["communected"]){ ?>
           <a href="javascript:;" onclick="loadByHash('#panel.box-connectedCity')" class="btn btn-azure homestead no-margin">
@@ -228,7 +238,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 
-  <div class="col-sm-12 col-xs-12">
+  <!-- <div class="col-sm-12 col-xs-12">
 
     <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
         
@@ -256,7 +266,7 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
     </div>
     <?php } ?>
-  </div>
+  </div> -->
 
 <div class="col-sm-12 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
 
@@ -552,14 +562,17 @@ jQuery(document).ready(function() {
 	getAjax("#newsCity",baseUrl+"/"+moduleId+"/news/index/type/city/insee/<?php echo $city["insee"]?>?isNotSV=1",null,"html");
 	bindBtnFollow();
   var iconCity = "<i class='fa fa-university'></i>";
+  var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
 
   <?php if( @$city["communected"] ){ ?>
   iconCity = "<span class='fa-stack'>"+
                   "<i class='fa fa-university fa-stack-1x'></i>";                  
                   "<i class='fa fa-circle-thin fa-stack-2x' style='color:#93C020'></i>"+
                 "</span>";
+  
+
   <?php } ?>
-  $(".moduleLabel").html(iconCity+" <?php echo Yii::t('common', 'MY CITY'); ?> : <?php echo $city["name"] ?>  <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+  $(".moduleLabel").html(iconCity + mine + " COMMUNE : <?php echo $city["name"] ?>");
  
   initCityMap();
 /*  $('.pulsate').pulsate({
