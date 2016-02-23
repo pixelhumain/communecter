@@ -273,8 +273,13 @@ var urlParams = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home'},
-	"#home" : {"alias":"#default.home"},
-	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
+	//"#home" : {"alias":"#default.home"},
+	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
+	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
+	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
+	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 };
 function replaceAndShow(hash,params){
 	res = false;
@@ -294,8 +299,16 @@ function replaceAndShow(hash,params){
 	});
 	return res;
 }
+function loadByHashMap( hash , back ) { 
+	alert("loadByHashMap",hash , back);
+}
 function loadByHash( hash , back ) { 
     console.log("loadByHash",hash);
+    if( isMapEnd ){
+    	showMap(true);
+    	loadByHashMap(hash , back);
+    	return;
+    }
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
     if( replaceAndShow(hash,params) )
@@ -317,18 +330,8 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-    else if( hash.indexOf("#project.addcontributorsv") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add contributors','plus' );
-	}
-	else if( hash.indexOf("#organization.addmember") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add members','plus' );
-	}
-	else if( hash.indexOf("#event.addattendeesv") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ADD ATTENDEES','plus' );
-	}
+
+    
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
@@ -347,10 +350,6 @@ function loadByHash( hash , back ) {
     if( !back )
 		history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
     console.warn("pushState",hash);
-
-    if( isMapEnd )
-    	showMap();
-
 
 }
 
