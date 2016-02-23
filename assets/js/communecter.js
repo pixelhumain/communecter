@@ -285,7 +285,7 @@ function replaceAndShow(hash,params){
 	res = false;
 	$.each( urlParams, function(urlIndex,urlObj)
 	{
-		console.log("replaceAndShow2",urlIndex);
+		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = urlParams[urlIndex];

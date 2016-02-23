@@ -270,20 +270,7 @@ jQuery(document).ready(function() {
 	}
 
 	//Validation of the email
-	if (userValidated) {
-		//We are in a process of invitation. The user already exists in the db
-		if (invitor != null) {
-			$(".errorHandler").hide();
-			$('.register').click();
-			$('.pendingProcess').show();
-			$('#email3').val(email);
-			$('#email3').prop('disabled', true);
-		} else {
-			$(".errorHandler").hide();
-			$(".emailValidated").show();
-			$(".form-login #password").focus();
-		}
-	}
+	userValidatedActions();
 
 	if (msgError != "") {
 		$(".custom-msg").show();
@@ -296,7 +283,20 @@ jQuery(document).ready(function() {
 	});
 
 });
-
+function userValidatedActions() { 
+	if (userValidated) {
+		//We are in a process of invitation. The user already exists in the db
+		if (invitor != "") {
+			$(".errorHandler").hide();
+			$('.register').click();
+			$('.pendingProcess').show();
+		} else {
+			$(".errorHandler").hide();
+			$(".emailValidated").show();
+			$(".form-login #password").focus();
+		}
+	}
+}
 
 var Login = function() {
 	"use strict";
