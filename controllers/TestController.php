@@ -82,6 +82,7 @@ class TestController extends CommunecterController {
 	
   }
   public function actionTest() {
+
   echo hash('sha256',"pouillaude.clem@gmail.compoupou");
   echo  $this->module->id;
     //echo $_SERVER["X-Auth-Token"];

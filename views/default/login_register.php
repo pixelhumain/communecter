@@ -236,31 +236,21 @@
 	</div>
 <script>
 
-var register = <?php echo isset($_GET["register"]) ? "true" : "false"; ?>;
+var email = '<?php echo @$_GET["email"]; ?>';
+var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
+var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
+var msgError = '<?php echo @$_GET["msg"]; ?>';
+var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
 
+var timeout;
+var emailType;
 
 jQuery(document).ready(function() {
-
 	$(".box").hide();
 
 	userId = null;
 	Main.init();
 	Login.init();
-	console.log("register", register);
-
-	if(register == true){
-		//masque la box login
-		$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).hide().removeClass("animated bounceOutRight");
-
-		});
-		$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).show().removeClass("animated bounceInLeft");
-
-		});
-		
-		activePanel = "box-register";
-	}
 
 	$('#btn-show-city').click(function(){
 			showMap(true);
@@ -272,22 +262,15 @@ jQuery(document).ready(function() {
 		validateUserName();
 	})
 
-	
-	//Validation of the email
-	if (userValidated) {
-		//We are in a process of invitation. The user already exists in the db
-		if (invitor != null) {
-			$(".errorHandler").hide();
-			$('.register').click();
-			$('.pendingProcess').show();
-			$('#email3').val(email);
-			$('#email3').prop('disabled', true);
-		} else {
-			$(".errorHandler").hide();
-			$(".emailValidated").show();
-			$(".form-login #password").focus();
-		}
+	if(email != ''){
+		$('#email').val(email);
+		$('#email').prop('disabled', true);
+		$('#email3').val(email);
+		$('#email3').prop('disabled', true);
 	}
+
+	//Validation of the email
+	userValidatedActions();
 
 	if (msgError != "") {
 		$(".custom-msg").show();
@@ -300,15 +283,21 @@ jQuery(document).ready(function() {
 	});
 
 });
+function userValidatedActions() { 
+	if (userValidated) {
+		//We are in a process of invitation. The user already exists in the db
+		if (invitor != "") {
+			$(".errorHandler").hide();
+			$('.register').click();
+			$('.pendingProcess').show();
+		} else {
+			$(".errorHandler").hide();
+			$(".emailValidated").show();
+			$(".form-login #password").focus();
+		}
+	}
+}
 
-var email = '<?php echo @$_GET["email"]; ?>';
-var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
-var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
-var msgError = '<?php echo @$_GET["msg"]; ?>';
-var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
-
-var timeout;
-var emailType;
 var Login = function() {
 	"use strict";
 	var runBoxToShow = function() {
@@ -779,7 +768,7 @@ function validateUserName() {
 	if(username.length >= 8) {
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
-				console.log("bing !");
+				//console.log("bing !");
 				if (! isUniqueUsername(username)) {
 					var validator = $( '.form-register' ).validate();
 					validator.showErrors({

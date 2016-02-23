@@ -170,26 +170,27 @@ var typesLabels = {
   "<?php echo Project::COLLECTION ?>":"Project",
 };
 
-	<?php 
-		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   			    Yii::app()->request->cookies['cityName'] : "";
-		if($where == "") 
-				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
-			   			  		 Yii::app()->request->cookies['postalCode'] : "";
-	?>
-	var where = "<?php echo $where; ?>";
+<?php 
+	$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
+	   			    Yii::app()->request->cookies['cityName'] : "";
+	if($where == "") 
+			 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
+		   			  		 Yii::app()->request->cookies['postalCode'] : "";
+?>
+var where = "<?php echo $where; ?>";
 
-	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
+var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
+var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
-	var proverbs = <?php echo json_encode(random_pic()) ?>;  
+var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
-	var isNotSV = true;
-	var hideScrollTop = true;
-	var lastUrl = null;
-
+var isNotSV = true;
+var hideScrollTop = true;
+var lastUrl = null;
+var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
+console.warn("isMapEnd 1",isMapEnd);
 	jQuery(document).ready(function() {
-		
+		console.warn("isMapEnd 2",isMapEnd);
 	  	if(myId != "" && where == "" && cityName != ""){
 	  		where = cityName;
 	  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
@@ -229,7 +230,7 @@ var typesLabels = {
 		//onclick back btn popstate is launched
 		//
 	    $(window).bind("popstate", function(e) {
-	      console.dir(e.originalEvent);
+	      //console.dir(e.originalEvent);
 	      if( lastUrl && "onhashchange" in window && location.hash && !history.state){
 	        console.warn("poped state",location.hash);
 	        loadByHash(location.hash,true);
@@ -237,6 +238,7 @@ var typesLabels = {
 	      lastUrl = location.hash;
 	    });
 	    //console.log("hash", location.hash);
+	    console.warn("isMapEnd 3",isMapEnd);
 	    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash);
 			return;
@@ -313,56 +315,58 @@ var typesLabels = {
 			//}
 		//}
 	}
-	var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
-	function showMap(show){
-			console.log("showMap");
-			if(show === undefined) show = $("#right_tool_map").css("display") == "none";
-			if(show){
-				isMapEnd =true;
-				showNotif(false);
-				showTopMenu(true);
-				if(Sig.currentMarkerPopupOpen != null){
-					Sig.currentMarkerPopupOpen.fire('click');
-				}
-				
-				$(".btn-group-map").show( 700 );
-				$("#right_tool_map").show(700);
-				$(".btn-menu5, .btn-menu-add").hide();
-				$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
-				$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
-				$(".my-main-container").animate({
-	         							top: -1000,
-	         							opacity:0,
-								      }, 'slow' );
-
-				setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
-				var timer = setTimeout("Sig.constructUI()", 1000);
-				
-			}else{
-				isMapEnd =false;
-				$(".btn-group-map").hide( 700 );
-				$("#right_tool_map").hide(700);
-				$(".btn-menu5, .btn-menu-add").show();
-				$(".panel_map").hide(1);
-				$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
-				$("#btn-toogle-map").attr("data-original-title", "Carte");
-				$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
-				$(".my-main-container").animate({
-	         							top: 0,
-	         							opacity:1
-								      }, 'slow' );
-				setTimeout(function(){ $(".my-main-container").show(); }, 100);
-
-				if(Sig.currentMarkerPopupOpen != null){
-					Sig.currentMarkerPopupOpen.closePopup();
-				}
-
-				if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
-					$("#ajaxSV").show( 700 );
-
-				showTopMenu(true);
-				checkScroll();
+	
+	function showMap(show)
+	{
+		console.log("showMap");
+		console.warn("showMap");
+		if(show === undefined) show = $("#right_tool_map").css("display") == "none";
+		if(show){
+			isMapEnd =true;
+			showNotif(false);
+			showTopMenu(true);
+			if(Sig.currentMarkerPopupOpen != null){
+				Sig.currentMarkerPopupOpen.fire('click');
 			}
+			
+			$(".btn-group-map").show( 700 );
+			$("#right_tool_map").show(700);
+			$(".btn-menu5, .btn-menu-add").hide();
+			$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
+			$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
+			$(".my-main-container").animate({
+         							top: -1000,
+         							opacity:0,
+							      }, 'slow' );
+
+			setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
+			var timer = setTimeout("Sig.constructUI()", 1000);
+			
+		}else{
+			isMapEnd =false;
+			$(".btn-group-map").hide( 700 );
+			$("#right_tool_map").hide(700);
+			$(".btn-menu5, .btn-menu-add").show();
+			$(".panel_map").hide(1);
+			$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
+			$("#btn-toogle-map").attr("data-original-title", "Carte");
+			$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+			$(".my-main-container").animate({
+         							top: 0,
+         							opacity:1
+							      }, 'slow' );
+			setTimeout(function(){ $(".my-main-container").show(); }, 100);
+
+			if(Sig.currentMarkerPopupOpen != null){
+				Sig.currentMarkerPopupOpen.closePopup();
+			}
+
+			if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
+				$("#ajaxSV").show( 700 );
+
+			showTopMenu(true);	
+			checkScroll();
+		}
 			
 	}
 
