@@ -257,12 +257,15 @@ var urlParams = {
 	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#person.invitesv" : {title:'PERSON INVITE ', icon : 'user' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
     "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
+    "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
@@ -270,14 +273,19 @@ var urlParams = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home'},
-	"#home" : {"alias":"#default.home"},
-	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'}
+	//"#home" : {"alias":"#default.home"},
+	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
+	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
+	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
+	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 };
 function replaceAndShow(hash,params){
 	res = false;
 	$.each( urlParams, function(urlIndex,urlObj)
 	{
-		console.log("replaceAndShow ",urlIndex);
+		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = urlParams[urlIndex];
@@ -291,8 +299,16 @@ function replaceAndShow(hash,params){
 	});
 	return res;
 }
+function loadByHashMap( hash , back ) { 
+	alert("loadByHashMap",hash , back);
+}
 function loadByHash( hash , back ) { 
     console.log("loadByHash",hash);
+    if( isMapEnd ){
+    	showMap(true);
+    	loadByHashMap(hash , back);
+    	return;
+    }
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
     if( replaceAndShow(hash,params) )
@@ -310,24 +326,12 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invitesv") >= 0 )
         showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' );
-    else if( hash.indexOf("#person.invitecontact") >= 0 )
-        showAjaxPanel( '/person/invitecontact?isNotSV=1', 'INVITE SOMEONE','share-alt' );
     else if( hash.indexOf("#event.eventsv") >= 0 )
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
         showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
-    else if( hash.indexOf("#project.addcontributorsv") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add contributors','plus' );
-	}
-	else if( hash.indexOf("#organization.addmember") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'Add members','plus' );
-	}
-	else if( hash.indexOf("#event.addattendeesv") >= 0 ) {
-	    hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ADD ATTENDEES','plus' );
-	}
+
+    
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
@@ -342,12 +346,11 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
+    //add the new entry into the push state in case the back button is hit
     if( !back )
-      history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
+		history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
     console.warn("pushState",hash);
 
-    if( isMapEnd )
-    	showMap();
 }
 
 function showDefinition( id ){

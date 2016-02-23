@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.093";
-  public $versionDate = "17/02/2016 15:36";
+  public $version = "v0.094";
+  public $versionDate = "23/02/2016 13:36";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -92,6 +92,8 @@ class CommunecterController extends Controller
       "openagenda"    => array("href" => "/ph/communecter/admin/openagenda"),
       "checkventsopenagendaindb"    => array("href" => "/ph/communecter/admin/checkventsopenagendaindb"),
       "importeventsopenagendaindb"    => array("href" => "/ph/communecter/admin/importeventsopenagendaindb"),
+      "checkgeocodage"   => array("href" => "/ph/communecter/admin/checkgeocodage"),
+      "getentitybadlygeolocalited"   => array("href" => "/ph/communecter/admin/getentitybadlygeolocalited"),
     ),
 
     "default" => array(

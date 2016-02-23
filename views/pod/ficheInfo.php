@@ -132,6 +132,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
+
 			<div class="col-sm-6 col-md-6">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $organization["_id"],
@@ -191,6 +192,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 						</a>
+						<?php 
+							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
+							if($roles["superAdmin"] == true){
+								?>
+									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
+										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
+									</a>
+								<?php
+							}
+						?>
+
+						
+						
+
+
 						<br>
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
@@ -401,6 +417,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		}));
 
 		$("#btn-update-geopos").click(function(){
+			findGeoPosByAddress();
+		});
+
+		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
 

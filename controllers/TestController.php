@@ -11,11 +11,56 @@ class TestController extends CommunecterController {
   public function actionKnowsToFollows(){
 	 $persons=PHDB::find(Person::COLLECTION);
 	foreach($persons as $key => $data){
-		if(isset($data["links"]["knows"])){
-			if(!empty($data["links"]["knows"])){
+		if(isset($data["links"]["followers"]) || isset($data["links"]["follows"])){
+			$followers=array();
+			$follows=array();
+			if(isset($data["links"]["followers"]) && !empty($data["links"]["followers"])){
+				$followers=$data["links"]["followers"];
+			}
+			if(isset($data["links"]["follows"]) && !empty($data["links"]["follows"])){
+				$follows=$data["links"]["follows"];
+			}
+			PHDB::update(Person::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$unset' => array("links.followers" => ""))
+			);
+			PHDB::update(Person::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$unset' => array("links.follows" => ""))
+			);
+			if(!empty($followers)){
+				//foreach ($followers as $uid => $e){	
+					PHDB::update(Person::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("links.follows" => $followers))
+						);
+				//}
+			}
+			if (!empty($follows)){
+				foreach ($follows as $uid => $e){	
+					if($e["type"]=="citoyens"){
+					PHDB::update(Person::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("links.followers.".$uid => $e))
+						);
+					} else {
+						PHDB::update(Person::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("links.follows.".$uid => $e))
+						);
+					}
+				}
+			}
+			$newLinks=PHDB::findOneById(Person::COLLECTION ,$data["_id"]);
+			echo "<br/>/////////////////////////// NEW LINK ////////////////////<br/>";
+			print_r($newLinks["links"]);
+			/*	if(isset($data["links"]["follows"])
 				echo $data["name"]. "=>=>+>=>+>+><br/><br/>";
 				$follows = [];
-				foreach ($data["links"]["knows"] as $uid => $e){
+				foreach ($data["links"]["followers"] as $uid => $e){
+					PHDB::update(Person::COLLECTION,
+								 array("_id" => $data["_id"]) , 
+								 array('$set' => array("links.follows" => $follows)));
 					$child=array("childId"=>$uid,"childType"=> Person::COLLECTION);
 					$follows[$uid] = $e;
 					Link::follow($key, Person::COLLECTION, $child);
@@ -25,24 +70,20 @@ class TestController extends CommunecterController {
 				print_r($follows);
 				echo "<br/><br/>";
 
-				/*PHDB::update(Person::COLLECTION,
-								 array("_id" => $data["_id"]) , 
-								 array('$set' => array("links.knows" => $follows)));*/
+
 				PHDB::update(Person::COLLECTION,
 								 array("_id" => $data["_id"]) , 
-								 array('$unset' => array("links.knows" => "")));
+								 array('$unset' => array("links.knows" => "")));*/
 
-				$newLinks=PHDB::findOneById(Person::COLLECTION ,$data["_id"]);
-				echo "<br/>/////////////////////////// NEW LINK ////////////////////<br/>";
-				print_r($newLinks["links"]);
+				
 				
 			}	
 		}
-	}
+	
   }
   public function actionTest() {
-	
-  echo hash('sha256',"5601760d126e9a416100000eo@ji.fr");
+
+  echo hash('sha256',"pouillaude.clem@gmail.compoupou");
   echo  $this->module->id;
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );

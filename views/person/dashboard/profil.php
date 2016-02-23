@@ -341,6 +341,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
+					<?php 
+							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
+							if($roles["superAdmin"] == true){
+								?>
+									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
+										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
+									</a>
+								<?php
+							}
+						?>
 					<div class="hidden" id="entity-insee-value" 
 						 insee-val="<?php echo (isset( $person["address"]["codeInsee"])) ? $person["address"]["codeInsee"] : ""; ?>">
 					</div>
@@ -446,6 +456,9 @@ jQuery(document).ready(function()
 		});
 		
 		$("#btn-update-geopos").click(function(){
+			findGeoPosByAddress();
+		});
+		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
 

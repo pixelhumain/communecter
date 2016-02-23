@@ -445,6 +445,8 @@ var subViewElement, subViewContent;
 var timeout;
 var tabObject = [];
 
+var listFollows = validMail();
+
 
 jQuery(document).ready(function() {
  	initSubView();
@@ -540,8 +542,7 @@ function bindInviteSubViewInvites() {
   		var nbContact = 0 ; 
   		$.each(arraymail, function(keyMails, valueMails){
 
-  			var res = validMail(valueMails);
-  			if(res == true){
+  			if(jQuery.inArray(valueMails, listFollows) == -1 ){
   				nbContact++;
 	  			idMail = "contact"+nbContact ;
 	        	text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
@@ -554,8 +555,6 @@ function bindInviteSubViewInvites() {
 	          											'<div class=" scopes5694ea2a94ef47ad1c8b456dperson features"></div>'+
 	          							'<br/><div></div></div></div></div></a></li>';
   			}
-  			
-        
 
         });
 		$("#listEmailGrid").append(text2);
@@ -584,8 +583,7 @@ function bindInviteSubViewInvites() {
 				$.each(csvval, function(keyMails, valueMails){
 					//console.log("valueMails",valueMails);
 					if(valueMails.trim() != ""){
-						var res = validMail(valueMails.trim());
-  						if(res == true){
+						if(jQuery.inArray(valueMails.trim(), listFollows) == -1 ){
 	  						nbContact++;
 							//text += '<span class="list-group-item"><input name="mailPersonInvite" type="checkbox" aria-label="'+valueMails.trim()+'" value="'+valueMails.trim()+'">'+valueMails.trim()+'</span>';
 							idMail = "contact"+nbContact ;
@@ -1078,9 +1076,9 @@ function fetch(token){
       			if(value.gd$email){
 
       				$.each(value.gd$email, function( keyMails, valueMails ){
-        				//console.log("valueMails.address", valueMails.address);
-        				var res = validMail(valueMails);
-  						if(res == true){
+        				console.log("valueMails.address", valueMails.address);
+        				console.log("valueMails.address", valueMails.address);
+        				if(jQuery.inArray(valueMails.address, listFollows) == -1 ){
 	        				nbContact++;
 	          				idMail = "contact"+nbContact ;
 	          				text2 += '<li id="'+idMail+'" class="item_map_list col-lg-3 col-md-4 col-sm-6 col-xs-6" data-cat="1" style="display: inline-block;">'+
@@ -1113,25 +1111,29 @@ function fetch(token){
 }
 
 
-function validMail(mail) {
+function validMail() {
 	//checklinkmailwithuser
-	var res = false ;
+	var res = [] ;
 	$.ajax({
         type: "POST",
         url: baseUrl+'/communecter/person/checklinkmailwithuser/',
         dataType : "json",
-        data: {
-        	mail : mail,
-        },
         async : false ,
 		success:function(data){
-    		res =  data.result ;
+			console.log("data", data)
+
+			$.each(data.follows, function(key, val) {
+				if(typeof val.email != "undefined" && val.email != ""){
+					res.push(val.email);
+				}
+			});
   		},
   		error:function(data){
   			console.log("error",data)
   		}
     });
 
+	console.log("mails", res);
     return res ;
 }
 
