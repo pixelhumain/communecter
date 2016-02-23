@@ -266,7 +266,7 @@ function startGlobalSearch(indexMin, indexMax){
 function autoCompleteSearchGS(search, indexMin, indexMax){
     console.log("autoCompleteSearchGS");
 
-    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, 
+    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, "searchBy" : "ALL",
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
 

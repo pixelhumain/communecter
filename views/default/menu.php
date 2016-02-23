@@ -150,14 +150,8 @@
 }
 
 
-
 <?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-		$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-		   			    Yii::app()->request->cookies['cityName'] : "";
-		if($where == "") 
-				 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
-			   			  		 Yii::app()->request->cookies['postalCode'] : "";
-		if($where == "") {  		 
+		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
 ?>
 button.btn-menu2, .btn-menu3, .btn-menu4{
 	display: none;
@@ -307,9 +301,35 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 jQuery(document).ready(function() {
 	
 	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
-    $('.btn-menu2').click(function(e){ loadByHash("#default.directory");  }).mouseenter(function(e){ toggle(".explainDirectory",".explain")});
-    $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
-   	$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
+
+    $('.btn-menu2')
+    .click(function(e){ 
+    	if(location.hash != "#default.directory" || isMapEnd == false) 
+    		loadByHash("#default.directory"); 
+    	else showMap(false);  
+    })
+    .mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+
+    $('.btn-menu3')
+    .click(function(e){ 
+    	if(location.hash != "#default.agenda" || isMapEnd == false) 
+    		loadByHash("#default.agenda"); 
+    	else showMap(false);  
+    })
+    .mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+
+    $('.btn-menu4')
+    .click(function(e){ 
+    	if(location.hash != "#default.news" || isMapEnd == false) 
+    		loadByHash("#default.news"); 
+    	else showMap(false);  
+    })
+    .mouseenter(function(e){ toggle(".explainNews",".explain")});
+
+
+
+   // $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+   //$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
     $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
     $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
     
@@ -351,7 +371,7 @@ jQuery(document).ready(function() {
 	$('#searchBarPostalCode').keyup(function(e){
 		//if(location.hash == "#default.home"){
 	        clearTimeout(timeoutSearch);
-      		timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+      		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 1200);
 	    //}
     });
     
@@ -380,7 +400,7 @@ jQuery(document).ready(function() {
 		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
 
-		showInputCommunexion();
+		//showInputCommunexion();
 
 		
 	});

@@ -355,7 +355,7 @@ if( isset($_GET["isNotSV"])) {
 				<div class="col-md-12 col-sm-12 col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
-							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();$('.labelFollows').show();">
+							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
 								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countFollowers;  ?>
 							</a>
@@ -386,13 +386,13 @@ if( isset($_GET["isNotSV"])) {
 						<?php } ?>
 						<?php if(count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
-							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();$('.labelFollows').show()"> 
+							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();<?php if($followsProject > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 
 								<span class="badge bg"><?php echo $countProject;  ?></span>
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(count($countFollowers) > 0){  ?>
+						<?php if($countFollowers > 0){  ?>
 						<li class="filter" data-filter=".followers">
 							<a href="javascript:;" class="filterfollowers bg-light-red" onclick="$('.optionFilter').hide();$('.labelFollows').hide()"> 
 								<i class="fa fa-heart fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Followers") ?></span> 
@@ -516,7 +516,7 @@ if( isset($_GET["isNotSV"])) {
 							}
 						}
 					///// SHOW FOLLOWS
-					if (isset($follows) && $follows["count"] > 0){ ?>
+					if (isset($follows) && ($followsProject+$followsOrga) > 0){ ?>
 						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
 							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
 							<?php echo ucfirst(Yii::t("common","follows")) ?>
@@ -882,7 +882,11 @@ jQuery(document).ready(function() {
  function showFilters(what, show){
  	if(show){
  		$(what).show('fast');
+ 		<?php if ($followsOrga > 0){?>
  		$(".labelFollows").show('fast');
+ 		<?php } else { ?>
+ 		 	$(".labelFollows").hide('fast');
+ 		<?php } ?>
  	}else{
  		$(what).hide('fast');
  	}

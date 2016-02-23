@@ -531,17 +531,19 @@
 		};
 
 		Sig.getPopupSimpleCity = function(data){
-			var dataTxt = data["name"];
+			var cityName = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
-			//var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
+			//var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+cityName+'", "fa-university");';
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
-										"<i class='fa fa-university'></i> "+dataTxt+
+										"<i class='fa fa-university'></i> "+cityName+
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
-									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' onclick='javascript:setScopeValue(\""+cp+"\")'>"+
+									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
+											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + 
+											 "onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
 									"</button>" +
 									"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+

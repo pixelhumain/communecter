@@ -44,10 +44,35 @@
 ?>
 
 <?php 
+	//si l'utilisateur n'est pas connecté
+ 	if(!isset(Yii::app()->session['userId'])){
+		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+		
+		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+		
+		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+	}
+	//si l'utilisateur est connecté
+	else{
+		$me = Person::getById(Yii::app()->session['userId']);
+		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
+		   			    			  $me['address']['codeInsee'] : "";
+		
+		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
+		   			    			  $me['address']['postalCode'] : "";
+		
+		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
+		   			    			  $me['address']['addressLocality'] : "";
+	}
+
+?>
+
+<?php 
 		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 		$this->renderPartial($layoutPath.'mainMap');
-	 	//$this->renderPartial("login_register"); 
-
 ?>
 
 <?php //get all my link to put in floopDrawer
@@ -61,13 +86,21 @@
     }
 ?>
 
-<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
+<?php 
+	$actionBtnMyCity = "";
+	if($inseeCommunexion != ""){
+		$actionBtnMyCity = "loadByHash('#city.detail.insee.".$inseeCommunexion."');";
+	}
+?>
+<button class="menu-button menu-button-title bg-red tooltips" id="btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
+		<?php if($actionBtnMyCity != ""){ ?>data-toggle="tooltip" data-placement="bottom" title="<?php echo $cityNameCommunexion; ?> en détails" alt="<?php echo $cityNameCommunexion; ?> en détails" <?php } ?> >
 	<i class="fa fa-university"></i>
 </button> 
 <div id="input-communexion">
 	<span class="search-loader text-red">Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
 </div>
+<?php //} ?>
 
 
 
@@ -111,24 +144,6 @@
 	}
 ?>
 
-<div class="modal fade" id="modal-select-scope" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-red">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title homestead"><i class="fa fa-crosshairs"></i> Communection</h4>
-      </div>
-      <div class="modal-body text-dark">
-      	<h3 style="margin-top:0px;" id="main-title-modal-scope"></h3>
-        <div id="list-scope"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Annuler</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 
 <script type="text/javascript">
@@ -170,14 +185,15 @@ var typesLabels = {
   "<?php echo Project::COLLECTION ?>":"Project",
 };
 
-<?php 
-	$where = isset( Yii::app()->request->cookies['cityName'] ) ? 
-	   			    Yii::app()->request->cookies['cityName'] : "";
-	if($where == "") 
-			 $where = isset( Yii::app()->request->cookies['postalCode'] ) ? 
-		   			  		 Yii::app()->request->cookies['postalCode'] : "";
-?>
-var where = "<?php echo $where; ?>";
+
+	/* variables globales communexion */
+	var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
+	var cpCommunexion = "<?php echo $cpCommunexion; ?>";
+	var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+	/* variables globales communexion */
+	
+	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
+	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
@@ -190,9 +206,20 @@ var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 console.warn("isMapEnd 1",isMapEnd);
 	jQuery(document).ready(function() {
-		console.warn("isMapEnd 2",isMapEnd);
-	  	if(myId != "" && where == "" && cityName != ""){
-	  		where = cityName;
+
+		
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+			var path = "/";
+			if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+
+			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
+			
+		<?php } ?>
+
+
+	  	if(inseeCommunexion != ""){
 	  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 	  	}
 
@@ -219,10 +246,11 @@ console.warn("isMapEnd 1",isMapEnd);
 	    resizeInterface();
 	    showFloopDrawer();
 
-	    //console.log("WHERE ? ", where);
-		//alert("ha");
-		setScopeValue(where);
-		
+	    if(cityNameCommunexion != ""){
+			$('#searchBarPostalCode').val(cityNameCommunexion);
+			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+		}
+
 		toogleCommunexion();
 
 		//manages the back button state 
@@ -250,7 +278,53 @@ console.warn("isMapEnd 1",isMapEnd);
 		checkScroll();
 	});
 
-	function startSearch(){}
+	function startNewCommunexion(){
+		var locality = $('#searchBarPostalCode').val();
+		locality = locality.replace(/[^\w\s']/gi, '');
+
+		$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+
+		var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
+	    var countData = 0;
+	    var oneElement = null;
+	    $.ajax({
+	      type: "POST",
+	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+	          data: data,
+	          dataType: "json",
+	          error: function (data){
+	            console.log("error");
+	          	console.dir(data);
+	            $(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
+	          },
+	          success: function(data){
+	          	console.log("success, try to load sig");
+	          	console.dir(data);
+	            if(!data){
+	              toastr.error(data.content);
+	            }else{
+
+
+	            $.each(data, function(i, v) {
+		            if(v.length!=0){
+		              $.each(v, function(k, o){ countData++; });
+		            }
+		        });
+
+		        if(countData == 0){
+		        	$(".search-loader").html("<i class='fa fa-ban'></i> Aucun résultat");
+		        }else{
+		        	$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+		        	showMap(true);
+		        	Sig.showMapElements(Sig.map, data);
+		        	
+		        }
+
+	          }
+	          
+	      }
+	    });
+	}
 
 	function resizeInterface()
 	{
@@ -371,74 +445,101 @@ console.warn("isMapEnd 1",isMapEnd);
 	}
 
 
-	function setScopeValue(value){
-		where = value;
-		if( typeof value === "object" )
-			where = value.data("id");
+	function setScopeValue(btn){
+		if( typeof btn === "object" ){
+			//récupère les valeurs
+			inseeCommunexion = btn.attr("insee-com");
+			cityNameCommunexion = btn.attr("name-com");
+			cpCommunexion = btn.attr("cp-com");
 
-	  	console.log("setScopeValue");
-	  	
-	  	where = where.replace("#", "'");
-	  	$("#searchBarPostalCode").val(where);
-	  	
-		showInputCommunexion();
-		startSearch();
-    }
-    function setSearchValue(value){
-	  	$("#searchBarText").val(value);
-	  	startSearch();
-    }
+			//definit le path du cookie selon si on est en local, ou en prod
+			var path = "/";
+			if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 
-    function validatePostalcode(postalCode){
-  		var path = "/";
-		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
-	    
-	    //enregistre le code postal dans un cookie
-	    console.log("mise à jour du cookie postalCode", path);
-		$.cookie('postalCode',   postalCode,  { expires: 365, path: path });
+			
+			<?php if(!isset(Yii::app()->session['userId'])){ ?>
+			
+				$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+				$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+				$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
+				
+				$("#btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
+				$("#btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
+				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+
+			<?php } ?>
+
+			$("#searchBarPostalCode").val(cityNameCommunexion);
+			
+	  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 		
-		//showMap(false);
-		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
-		
-		if(location.hash == "#default.home"){
-			
-			console.log("globalautocomplete after communexion");
+			Sig.clearMap();
 
-			searchType = [ "persons", "organizations", "projects", "events", "cities" ];
-  
-			 var data = {"name" : "", "locality" : postalCode, "searchType" : searchType, 
-                "indexMin" : 0, "indexMax" : 500  };
-
-            $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
-			
-			$.blockUI({
-				message : "<h2 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + postalCode + " : Commune<span class='text-dark'>xion en cours ...</span></h2>"
-			});
-
-			showMap(true);
-			
-			$.ajax({
-		      type: "POST",
-		          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
-		          data: data,
-		          dataType: "json",
-		          error: function (data){
-		             console.log("error"); console.dir(data);          
-		          },
-		          success: function(data){
-		            if(!data){ toastr.error(data.content); }
-		            else{
-		            	console.dir(data);
-		            	Sig.showMapElements(Sig.map, data);
-		            	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span class='text-red'>COMMUNE</span>CTER.ORG > " + postalCode );
-		            	$.unblockUI();
-		            }
-		          }
-		 	});
+			if(location.hash == "#default.home"){
+				showLocalActorsCityCommunexion();
+			}else
+			if(location.hash == "#default.directory"){
+				startSearch();
+			}else
+			if(location.hash == "#default.agenda"){
+				startSearch();
+			}else
+			if(location.hash == "#default.news"){
+				startSearch();
+				showMap(false);
+			}else{
+				if(inseeCommunexion != "")
+				toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+				//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
+				showMap(false);
+			}
 		}
+		
+	  	console.log("setScopeValue", inseeCommunexion, cityNameCommunexion, cpCommunexion);
+    }
+    
+    function showLocalActorsCityCommunexion(){
+  		console.log("showLocalActorsCityCommunexion");
+  		var data = { "name" : "", 
+		 			 "locality" : inseeCommunexion,
+		 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ], 
+		 			 "searchBy" : "INSEE",
+            		 "indexMin" : 0, 
+            		 "indexMax" : 500  
+            		};
+
+        $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+		
+		$.blockUI({
+			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + cpCommunexion + " : Commune<span class='text-dark'>xion en cours ...</span></h1>"
+		});
+
+		showMap(true);
+		
+		$.ajax({
+	      type: "POST",
+	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+	          data: data,
+	          dataType: "json",
+	          error: function (data){
+	             console.log("error"); console.dir(data);          
+	          },
+	          success: function(data){
+	            if(!data){ toastr.error(data.content); }
+	            else{
+	            	console.dir(data);
+	            	Sig.showMapElements(Sig.map, data);
+	            	$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+					$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+					toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+					$.unblockUI();
+	            }
+	          }
+	 	});
 
   	}
 
+  	
 
     function showPanel(box,bgStyle,title){ 
 
@@ -548,11 +649,11 @@ console.warn("isMapEnd 1",isMapEnd);
 	    }
 	}
 
-	function initBtnScopeList(){
-		$(".btn-scope-list").click(function(){
-			setInputPlaceValue(this);
-		});
-	}
+	// function initBtnScopeList(){
+	// 	$(".btn-scope-list").click(function(){
+	// 		setInputPlaceValue(this);
+	// 	});
+	// }
 
 	function setInputPlaceValue(thisBtn){
 		//if(location.hash == "#default.home"){
@@ -567,7 +668,7 @@ console.warn("isMapEnd 1",isMapEnd);
 		  	
 		//}
 		//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
-		startSearch();
+		startNewCommunexion();
 	}
 
 	var communexionActivated = false;
@@ -579,17 +680,24 @@ console.warn("isMapEnd 1",isMapEnd);
 	    //btn.addClass("bg-red");
 	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("text-red");
 	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("bg-red");
+	    $("#searchBarPostalCode").val(cityNameCommunexion);
+
+	    if(inseeCommunexion != "")
+	    $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+					
 	   // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
 	    
 	    $(".lbl-scope-list").show(400);
-	    console.log("WHERE", where);
-	    setScopeValue(where);
+	    console.log("inseeCommunexion", inseeCommunexion);
+	    //setScopeValue(inseeCommunexion);
 	    //showInputCommunexion();
 	  }else{
 	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("text-red");
 	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("bg-red");
 	    //$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
 	    
+	    $(".search-loader").html("<i class='fa fa-times'></i> Communection désactivée (" + cityNameCommunexion + ', ' + cpCommunexion + ")");
+					
 	    $(".lbl-scope-list").hide(400);
 	    $("#searchBarPostalCode").val("");
 	  }
