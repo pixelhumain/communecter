@@ -678,8 +678,11 @@ console.warn("isMapEnd 1",isMapEnd);
 	}
 
 	var communexionActivated = false;
-	function toogleCommunexion(){ //this = jQuery Element
+	function toogleCommunexion(init){ //this = jQuery Element
+	  
+	  if(init != true)
 	  communexionActivated = !communexionActivated;
+
 	  console.log("communexionActivated", communexionActivated);
 	  if(communexionActivated){
 	    //btn.removeClass("text-red");
@@ -692,7 +695,7 @@ console.warn("isMapEnd 1",isMapEnd);
 	    $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 					
 	   // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
-	    
+	    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
 	    $(".lbl-scope-list").show(400);
 	    console.log("inseeCommunexion", inseeCommunexion);
 	    //setScopeValue(inseeCommunexion);
@@ -707,6 +710,10 @@ console.warn("isMapEnd 1",isMapEnd);
 	    $(".lbl-scope-list").hide(400);
 	    $("#searchBarPostalCode").val("");
 	  }
+	}
+
+	function initBtnToogleCommunexion(){
+		toogleCommunexion(true);
 	}
 
 	function showInputCommunexion(){

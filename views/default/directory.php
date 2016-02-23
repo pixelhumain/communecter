@@ -152,7 +152,7 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
  
-
+  initBtnToogleCommunexion();
   $(".btn-activate-communexion").click(function(){
     toogleCommunexion();
   });
