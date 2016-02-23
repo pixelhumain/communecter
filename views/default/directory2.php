@@ -609,8 +609,8 @@ if( isset($_GET["isNotSV"])) {
 						else if(@$e["isAdminPending"])
 							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
 						
-						if(@$e["tobeactivated"]){
-							$process= " (Non inscrit)";
+						if(@$e["tobeactivated"] || @$e["pending"]){
+							$process= " (En cours d'inscription)";
 							$processStyle='style="filter:grayscale(100%);-webkit-filter:grayscale(100%);"';
 						}
 						else{
@@ -620,7 +620,11 @@ if( isset($_GET["isNotSV"])) {
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" '.$processStyle.'>'.
 							'<div style="position:relative;">'.
 										'<div class="portfolio-item">';
-						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.$process.'</a>';
+						$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
+						
+						if ($process) {
+							$strHTML .= '<span class="text-xss">'.$process.'</span>';
+						}
 						
 						/* **************************************
 						* EMAIL for admin use only

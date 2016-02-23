@@ -1,4 +1,4 @@
- 
+ <div class="cityHeadSection"></div>
  <?php /* ?>
  <div class="col-md-12 main-title">
   <h2 class="panel-title">
@@ -190,7 +190,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
   /*view randomOrga*/
 
-.cityHeadSection {  background:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg) bottom center no-repeat; background-size: 100%;background-color:#fff;  }
+.cityHeadSection {  background:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg) top center no-repeat; background-size: 100%;background-color:#fff;  }
 </style>
 
 <?php 
@@ -204,18 +204,19 @@ $this->renderPartial('../default/panels/toolbar');
   $countTotal = count($people) + count($organizations) + count($events);
 ?>
 <!-- start: PAGE CONTENT -->
-<div class="row padding-20 cityHeadSection" id="cityDetail">
 
-<center><img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-city.png?c=cl" style="max-height:300px;"/></center>
+<div class="row padding-20" id="cityDetail">
+
  <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
-      <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
-      <a href="javascript:;" class="btn homestead text-red no-margin register"
-         insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
-         id="btn-communecter" onclick="setScopeValue($(this));">
-         
-         <i class="fa fa-crosshairs"></i> COMMUNECTER</a>
-    <?php } ?>
+  <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
+  <a href="javascript:;" class="btn homestead text-red no-margin register"
+     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
+     id="btn-communecter" onclick="setScopeValue($(this));">
+     
+     <i class="fa fa-crosshairs"></i> COMMUNECTER</a>
+<?php } ?>
 
+<div class="space20"></div>
 <div class="col-sm-12 col-xs-12">
 
     <h1 class="homestead text-red">
@@ -557,6 +558,7 @@ var events = <?php echo json_encode($events) ?>;
 
 
 jQuery(document).ready(function() {
+  $(".main-col-search").addClass("cityHeadSection");
 	getAjax("#newsCity",baseUrl+"/"+moduleId+"/news/index/type/city/insee/<?php echo $city["insee"]?>?isNotSV=1",null,"html");
 	bindBtnFollow();
   var iconCity = "<i class='fa fa-university'></i>";
