@@ -75,12 +75,12 @@
 
 <script type="text/javascript">
 
-var searchType = [ "persons", "organizations", "projects", "cities" ];
+var searchType = [ "persons", "organizations", "projects" ];
 var allSearchType = [ "persons", "organizations", "projects" ];
 
 jQuery(document).ready(function() {
 
-  searchType = [ "persons", "organizations", "projects", "cities" ];
+  searchType = [ "persons", "organizations", "projects" ];
   allSearchType = [ "persons", "organizations", "projects" ];
 
 	topMenuActivated = true;
@@ -110,17 +110,16 @@ jQuery(document).ready(function() {
   $('#link-start-search').click(function(e){
       startSearch();
   });
-
-  $(".btn-geolocate").click(function(e){
-		if(geolocHTML5Done == false){
-    		initHTML5Localisation('prefillSearch');
-        $("#modal-select-scope").modal("show");
-        $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
-        //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
-    }	else{
-    		$("#modal-select-scope").modal("show");
-    }
-  });
+  // $(".btn-geolocate").click(function(e){
+		// if(geolocHTML5Done == false){
+  //   		initHTML5Localisation('prefillSearch');
+  //       $("#modal-select-scope").modal("show");
+  //       $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
+  //       //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
+  //   }	else{
+  //   		$("#modal-select-scope").modal("show");
+  //   }
+  // });
 
   $(".my-main-container").scroll(function(){
     if(!loadingData && !scrollEnd){
@@ -158,12 +157,12 @@ jQuery(document).ready(function() {
     toogleCommunexion();
   });
 
-
-  initBtnScopeList();
+  //initBtnScopeList();
   startSearch();
+
 });
 
-var indexStepInit = 50;
+var indexStepInit = 100;
 var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
@@ -185,14 +184,14 @@ function startSearch(indexMin, indexMax){
     if(loadingData) return;
 
     console.log("loadingData true");
-    loadingData = true;
     indexStep = indexStepInit;
 
 	  var name = $('#searchBarText').val();
-    var locality = $('#searchBarPostalCode').val();
-    where = locality;
+    //var locality = $('#searchBarPostalCode').val();
+    //inseeCommunexion = locality;
     
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + locality.toLowerCase());
+    if(communexionActivated)
+    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
       
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
@@ -210,12 +209,12 @@ function startSearch(indexMin, indexMax){
     ///locality = locality.replace(/[^\w\s']/gi, '');
 
     //verification si c'est un nombre
-    if(!isNaN(parseInt(locality))){
-        if(locality.length == 0 || locality.length > 5) locality = "";
-    }
+    //if(!isNaN(parseInt(locality))){
+    //    if(locality.length == 0 || locality.length > 5) locality = "";
+    //}
 
     if(name.length>=3 || name.length == 0){
-      validatePostalcode(locality);
+      var locality = communexionActivated ? inseeCommunexion : "";
       autoCompleteSearch(name, locality, indexMin, indexMax);
     }else{
       
@@ -244,10 +243,12 @@ var loadingData = false;
 var mapElements = new Array(); 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
     
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, 
+    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : "INSEE", 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
-
+    console.log("loadingData false");
+    loadingData = true;
+    
     str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
@@ -305,7 +306,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
                   
-                  
+                  console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
@@ -318,7 +319,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(type == "city"){
                   	url = "javascript:"; //#main-col-search";
                   	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                  	onclickCp = 'setScopeValue("'+o.cp+'");';
+                  	onclickCp = 'setScopeValue($(this));';
                   	target = "";
                     dataId = o.name; //.replace("'", "\'");
                   }
@@ -469,16 +470,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
   }
 
-  function addEventOnSearch() {
-    $('.searchEntry').off().on("click", function(){
+  // function addEventOnSearch() {
+  //   $('.searchEntry').off().on("click", function(){
       
-      //toastr.success($("#dropdown_search").position().top);
-      var top = $(this).position().top;// + $("#dropdown_search").position().top;
+  //     //toastr.success($("#dropdown_search").position().top);
+  //     var top = $(this).position().top;// + $("#dropdown_search").position().top;
 
-      setSearchInput($(this).data("id"), $(this).data("type"),
-                     $(this).data("insee"), top );
-    });
-  }
+  //     setSearchInput($(this).data("id"), $(this).data("type"),
+  //                    $(this).data("insee"), top );
+  //   });
+  // }
 
   function initBtnLink(){
 
@@ -548,4 +549,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       setSearchValue($(this).html());
     });
   }
+
+
+
+  function setSearchValue(value){
+    $("#searchBarText").val(value);
+    startSearch();
+  }
+
 </script>

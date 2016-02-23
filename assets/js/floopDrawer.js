@@ -189,7 +189,7 @@ function addFloopEntity(entityId, entityType, entityValue){
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);
 	var html = getFloopItem(entityId, type, entityValue);
-	$("ul#floopType-"+entityType).append(html);
+	$("ul#floopType-"+entityType).prepend(html);
 	//toastr.success("ajout de l'element floop ok");
 }
 

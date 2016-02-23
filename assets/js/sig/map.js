@@ -584,7 +584,7 @@
 
 				var len = 0;
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
-				if(len > 1){
+				if(len >= 1){
 					$.each(data, function (key, value){
 						var oneData = key;
 						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
@@ -634,7 +634,8 @@
 											coordinates = visibleOne.getLatLng();
 											thisMap.panTo(coordinates, {"animate" : false });
 											visibleOne.fire("click");
-											visibleOne = Sig.markersLayer.getVisibleParent(layer);
+											if(typeof layer != "undefined")
+												visibleOne = Sig.markersLayer.getVisibleParent(layer);
 											thisSig.currentParentToOpen = visibleOne;
 											i++;
 										}
