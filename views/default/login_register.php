@@ -221,7 +221,7 @@
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Please verify your entries.") ?>
 							</div>
 							<div class="errorHandler alert alert-success no-display pendingProcess">
-								<i class="fa fa-check"></i> <?php echo Yii::t("login","Please fill your personal information in order to log in.") ?>
+								<i class="fa fa-check"></i> <?php echo Yii::t("login","You've been invited : please resume the registration process in order to log in.") ?>
 							</div>
 						</div>
 					</fieldset>
@@ -253,9 +253,9 @@ jQuery(document).ready(function() {
 	Login.init();
 
 	$('#btn-show-city').click(function(){
-			showMap(true);
-			$(".sigModuleBg #right_tool_map, .sigModuleBg .btn-group").hide();
-		});
+		showMap(true);
+		$(".sigModuleBg #right_tool_map, .sigModuleBg .btn-group").hide();
+	});
 
 
 	$('.form-register #username').keyup(function(e) {
@@ -271,18 +271,17 @@ jQuery(document).ready(function() {
 
 	//Validation of the email
 	if (userValidated) {
-		//We are in a process of invitation. The user already exists in the db
-		if (invitor != null) {
-			$(".errorHandler").hide();
-			$('.register').click();
-			$('.pendingProcess').show();
-			$('#email3').val(email);
-			$('#email3').prop('disabled', true);
-		} else {
-			$(".errorHandler").hide();
-			$(".emailValidated").show();
-			$(".form-login #password").focus();
-		}
+		$(".errorHandler").hide();
+		$(".emailValidated").show();
+		$(".form-login #password").focus();
+	}
+
+	//We are in a process of invitation. The user already exists in the db.
+	if (invitor != null) {
+		$(".errorHandler").hide();
+		$('.pendingProcess').show();
+		$('#name').val(name);
+		$('#email3').prop('disabled', true);
 	}
 
 	if (msgError != "") {
