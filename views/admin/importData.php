@@ -23,41 +23,64 @@ $userId = Yii::app()->session["userId"] ;
 		</div>
 		<div class="panel-body">
 			<!--<form id="formfile" method="POST" action="<?php //echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/admin/importData';?>" enctype="multipart/form-data"> -->
-				<div class="col-sm-3 col-xs-12">
-					<label for="chooseCollection">Collection : </label>
-					<?php
-						$params = array();
-						$fields = array("_id", "key");
-						$listCollection = Import::getMicroFormats($params, $fields);
-					?>
-					<select id="chooseCollection" name="chooseCollection">
-						<option value="-1">Choisir</option>
+				<div class="col-sm-12 col-xs-12 rows">
+					<div class="col-sm-3 col-xs-12">
+						<label for="chooseCollection">Collection : </label>
 						<?php
-							foreach ($listCollection as $key => $value) {
-								echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
-							}
+							$params = array();
+							$fields = array("_id", "key");
+							$listCollection = Import::getMicroFormats($params, $fields);
 						?>
-					</select>
+						<select id="chooseCollection" name="chooseCollection">
+							<option value="-1">Choisir</option>
+							<?php
+								foreach ($listCollection as $key => $value) {
+									echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
+								}
+							?>
+						</select>
+					</div>
+					<div class="col-sm-3 col-xs-12">
+						<select id="selectTypeData" name="selectTypeData">
+							<option value="-1">Choisir</option>
+							<option value="url">URL</option>
+							<option value="file">File</option>
+						</select>
+					</div>
 				</div>
-				<div class="col-sm-3 col-xs-12">
-					<label for="fileImport">Fichier (CSV,JSON) :</label>
-					<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js">
-				</div>
-				<div class="col-sm-3 col-xs-12">
-					<label> Séparateur de données :</label>
-					<select id="separateurDonnees" name="separateurDonnees">
-						<option value=";">point-virgule</option>
-					  	<option value=",">virgule</option>
-					  	<option value=".">point</option>
-					  	<option value=" ">espace</option>
-					</select>
-				</div>
-				<div class="col-sm-3 col-xs-12">
-					<label> Séparateur de texte :</label>
-					<select id="separateurTexte" name="separateurTexte">
-						<option value='"'>guillemet</option>
-					  	<option value="'">cote</option>
-					</select>
+				<div class="col-sm-12 col-xs-12 rows">
+					<div id="divFile">
+						<div class="col-sm-3 col-xs-12">
+							<label for="fileImport">Fichier (CSV,JSON) :</label>
+							<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js">
+						</div>
+						<div class="col-sm-3 col-xs-12">
+							<label> Séparateur de données :</label>
+							<select id="separateurDonnees" name="separateurDonnees">
+								<option value=";">point-virgule</option>
+							  	<option value=",">virgule</option>
+							  	<option value=".">point</option>
+							  	<option value=" ">espace</option>
+							</select>
+						</div>
+						<div class="col-sm-3 col-xs-12">
+							<label> Séparateur de texte :</label>
+							<select id="separateurTexte" name="separateurTexte">
+								<option value='"'>guillemet</option>
+							  	<option value="'">cote</option>
+							</select>
+						</div>
+					</div>
+					<div id="divUrl">
+						<div class="col-sm-12 col-xs-12">
+							<label for="textUrl">URL (format JSON):</label>
+							<input type="text" id="textUrl" name="textUrl" value="">
+						</div>
+						<div class="col-sm-12 col-xs-12">
+							<label for="textUrl">Path Object :</label>
+							<input type="text" id="pathObject" name="pathObject" value="">
+						</div>
+					</div>
 				</div>
 				<br/><br/><br/><br/><br/>
 				<div class="col-sm-4 col-sm-offset-5 col-xs-12">
@@ -275,6 +298,8 @@ jQuery(document).ready(function()
 		$("#createLink").hide();
 	$("#verifBeforeImport").hide();
 	$("#divSearchCreator").hide();
+	$("#divUrl").hide();
+	$("#divFile").hide();
 	//$("#representation").DataTable();
 
 });
@@ -315,7 +340,7 @@ function bindEvents()
 				reader.onload = function(e) {
 					//console.log("json : ", e.target.result );
 					file.push(e.target.result);
-		  			//console.log("arrayCSV : ", arrayCSV );
+		  			//console.log("file : ", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -327,43 +352,98 @@ function bindEvents()
 
 	$("#sumitVerification").off().on('click', function(e)
   	{
-  		var nameFile = $("#fileImport").val().split("."); 
-  		console.log("type",nameFile[nameFile.length-1]);
-  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" )
-  		{
-  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
-  			return false ;
-  		}
-
-  		if($("#chooseCollection").val() == "-1")
-  		{
+  		if($("#chooseCollection").val() == "-1"){
   			toastr.error("Vous devez sélectionner une collection");
   			return false ;
   		}
+
+  		var typeDate = $("#selectTypeData").val();
+  		if(typeDate == "url")
+		{
+
+			console.log("url", $("#textUrl").val());
+
 			$.ajax({
-		        type: 'POST',
-		        data: {
-		        		nameFile : nameFile[0],
-		        		typeFile : nameFile[nameFile.length-1],
-		        		file : file,
-		        		chooseCollection : $("#chooseCollection").val()
-		        	},
-		        url: baseUrl+'/communecter/admin/assigndata/',
-		        dataType : 'json',
-		        success: function(data)
-		        {
-		        	console.log("data",data);
-		        	if(data.createLink){
+				url: baseUrl+'/communecter/admin/getdatabyurl/',
+				type: 'POST',
+				dataType: 'json', 
+				data:{ url : $("#textUrl").val() },
+				success: function (obj){
+					console.log('success', obj);
+					file.push(obj.data) ;
 
-		        		resultAssignData(data);
-		        		$("#createLink").show();
-		        	}
-		        	else{
+					$.ajax({
+				        type: 'POST',
+				        data: {
+				        		nameFile : "JSON_URL",
+				        		typeFile : "json",
+				        		file : file,
+				        		chooseCollection : $("#chooseCollection").val(),
+				        		pathObject : $("#pathObject").val()
+				        	},
+				        url: baseUrl+'/communecter/admin/assigndata/',
+				        dataType : 'json',
+				        success: function(data)
+				        {
+				        	console.log("data",data);
+				        	if(data.createLink){
 
-		        	}
+				        		resultAssignData(data);
+				        		$("#createLink").show();
+				        	}
+				        	else{
 
-		        }
+				        	}
+
+				        }
+					});
+
+
+
+
+				},
+				error: function (error) {
+					console.log('error', error);
+				}
 			});
+		}	
+		else if(typeDate == "file")
+		{
+			var nameFile = $("#fileImport").val().split("."); 
+	  		console.log("type",nameFile[nameFile.length-1]);
+	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" )
+	  		{
+	  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
+	  			return false ;
+	  		}
+
+	  		
+				$.ajax({
+			        type: 'POST',
+			        data: {
+			        		nameFile : nameFile[0],
+			        		typeFile : nameFile[nameFile.length-1],
+			        		file : file,
+			        		chooseCollection : $("#chooseCollection").val()
+			        	},
+			        url: baseUrl+'/communecter/admin/assigndata/',
+			        dataType : 'json',
+			        success: function(data)
+			        {
+			        	console.log("data",data);
+			        	if(data.createLink){
+
+			        		resultAssignData(data);
+			        		$("#createLink").show();
+			        	}
+			        	else{
+
+			        	}
+
+			        }
+				});
+		}	
+  		
 
 		
 		
@@ -394,6 +474,20 @@ function bindEvents()
 		else
 			$("#divSearchMember").show();
 	});*/
+
+	$("#selectTypeData").change( function (){
+		var typeDate = $("#selectTypeData").val();
+		if(typeDate == "url")
+		{
+			$("#divUrl").show();
+			$("#divFile").hide();
+		}	
+		else if(typeDate == "file")
+		{
+			$("#divUrl").hide();
+			$("#divFile").show();
+		}	
+	});
 
 
 	$("#selectCreator").change( function (){
@@ -549,6 +643,7 @@ function bindEvents()
 			        		role : $("#selectRole").val(),
 			        		creatorID : creator,
 			        		creatorEmail : $('#creatorEmail').val(),
+			        		pathObject : $('#pathObject').val()
 			        },
 			        url: baseUrl+'/communecter/admin/previewData/',
 			        dataType : 'json',
@@ -753,7 +848,8 @@ function resultAssignData(data){
 	if(data.typeFile == "json")
 		chaineInputHidden += '<input type="hidden" id="jsonJSON" value="'+ JSON.stringify(data.json_origine) + '"/>';*/
 		
-
+	if(typeof data.jsonData == "undefined")
+		file[0] = data.jsonData;
 
 	$("#divInputHidden").html(chaineInputHidden);
 

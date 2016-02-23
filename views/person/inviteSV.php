@@ -679,7 +679,7 @@ function bindInviteSubViewInvites() {
 				  	console.log("nameUtil", nameUtil);
 				  	$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/person/connect',
+				        url: baseUrl+"/"+moduleId+'/person/follows',
 				        dataType : "json",
 				        data: {
 				        	parentId : $("#parentId").val(),
@@ -777,7 +777,7 @@ function runinviteFormValidation(el) {
 			});
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/person/connect',
+		        url: baseUrl+"/"+moduleId+'/person/follows',
 		        dataType : "json",
 		        data: {
 		        	parentId : parentId,

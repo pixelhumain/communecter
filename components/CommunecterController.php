@@ -94,6 +94,7 @@ class CommunecterController extends Controller
       "importeventsopenagendaindb"    => array("href" => "/ph/communecter/admin/importeventsopenagendaindb"),
       "checkgeocodage"   => array("href" => "/ph/communecter/admin/checkgeocodage"),
       "getentitybadlygeolocalited"   => array("href" => "/ph/communecter/admin/getentitybadlygeolocalited"),
+      "getdatabyurl"   => array("href" => "/ph/communecter/admin/getdatabyurl"),
     ),
 
     "default" => array(
@@ -174,7 +175,7 @@ class CommunecterController extends Controller
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
         "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
         "detail"          => array("href" => "/ph/communecter/person/detail", "public" => true),
-        "connect"         => array("href" => "/ph/communecter/person/connect"),
+        "follows"         => array("href" => "/ph/communecter/person/follows"),
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
         "register"        => array("href" => "/ph/communecter/person/register"),
         "activate"        => array('href' => "/ph/communecter/person/activate"),
