@@ -305,11 +305,11 @@ class Menu {
 
         //STATISTICS
         //-----------------------------
-        self::entry("left", 'onclick',
+        /*self::entry("left", 'onclick',
         			Yii::t( "common", 'Show some statistics about this city'),
         			Yii::t( "common", 'Statistics'), 'line-chart',
         			"loadByHash('#city.opendata.insee.".$insee."?isNotSV=1')",null,null);
-//        			'/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");
+//        			'/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");*/
 
         //FOLLOW BUTTON
         //-----------------------------

@@ -544,11 +544,15 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-12 text-white">
 				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
 				<h3 class="homestead">Rejoignez nous : </h3>
+				
 				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
 				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
 				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
 				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
-				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
+				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a>
+				<div class="space20"></div>
+				<a href="javascript:loadByHash('#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>');" class=" btn btn-default text-bold">Association Open Atlas</a>
+				<a href="javascript:loadByHash('#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>')"  class="btn btn-default text-bold">Projet Communecter</a> 
 			</div>
 		</center>
 		<div class="space20"></div>
