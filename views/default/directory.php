@@ -71,7 +71,7 @@
 
 <div style="margin-top:0px;" class="col-md-12" id="dropdown_search"></div>
 
-<?php $this->renderPartial("first_step_directory"); ?> 
+<?php $this->renderPartial(@$path."first_step_directory"); ?> 
 
 <script type="text/javascript">
 
@@ -353,8 +353,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "<div class='col-md-12 searchEntity'>";
   	                str += "<div class='col-md-5 entityLeft'>";
   	                	
-  	                	<?php if( isset( Yii::app()->session['userId'] ) ) { ?>
-  	                	if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
+  	                	<?php if( isset( Yii::app()->session['userId']) ) { ?>
+  	                	if(type!="city" && id != userId)
+
           						str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
               							'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
               							" data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+

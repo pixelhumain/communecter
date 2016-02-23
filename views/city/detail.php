@@ -186,7 +186,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
   /*view randomOrga*/
 
-
+.cityHeadSection {  background:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg) bottom center no-repeat; background-size: 100%;background-color:#fff;  }
 </style>
 
 <?php 
@@ -199,10 +199,8 @@ $this->renderPartial('../default/panels/toolbar');
 
   $countTotal = count($people) + count($organizations) + count($events);
 ?>
-
-
 <!-- start: PAGE CONTENT -->
-<div class="row padding-20" id="cityDetail">
+<div class="row padding-20 cityHeadSection" id="cityDetail">
 
 <center><img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/main-logo-city.png?c=cl" style="max-height:300px;"/></center>
 

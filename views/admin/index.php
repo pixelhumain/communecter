@@ -13,7 +13,7 @@ $cs = Yii::app()->getClientScript();
       <div class="panel-body no-padding center">
         <ul class="list-group text-left no-margin">
           <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
-            <div class="" onclick="loadByHash('#admin.directory')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.directory')">
               <i class="fa fa-user fa-2x"></i>
                 
               <?php echo Yii::t("common", "DIRECTORY"); ?>
@@ -21,7 +21,7 @@ $cs = Yii::app()->getClientScript();
             </div>
           </li>
           <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
-            <div class="" onclick="loadByHash('#admin.importdata')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.importdata')">
               <i class="fa fa-upload fa-2x"></i>
                 
               <?php echo Yii::t("common", "IMPORT DATA"); ?>
@@ -29,18 +29,10 @@ $cs = Yii::app()->getClientScript();
             </div>
           </li>
           <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
-            <div class="" onclick="loadByHash('#admin.openagenda')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.openagenda')">
               <i class="fa fa-calendar fa-2x"></i>
                 
               <?php echo Yii::t("common", "OPENAGENDA"); ?>
-              
-            </div>
-          </li>
-          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
-            <div class="" onclick="loadByHash('#admin.checkgeocodage')">
-              <i class="fa fa-map-marker fa-2x"></i>
-                
-              <?php echo Yii::t("common", "CHECKGEOCODAGE"); ?>
               
             </div>
           </li>
