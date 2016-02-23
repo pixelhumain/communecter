@@ -464,12 +464,14 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
-		    		  	alert(url);
-		    		  	if(url) {
-		    		  		console.log(url);
+		    		  	if(url && url.indexOf("#") >= 0 ) {
+		    		  		//console.log(url);
 		    		  		window.location.href = url;
 		        		} else {
-		        			window.location.reload();
+		        			if( url.split("/").length - 1 <= 3 ) 
+		        				window.location.href = baseUrl+'#default.home';
+		        			else 
+		        				window.location.reload();
 		        		}
 		    		  } else {
 		    		  	var msg;

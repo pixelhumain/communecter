@@ -148,7 +148,10 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-
+.homeShortcuts{position:absolute;top:450px;left:10px;}
+.homeShortcuts ul{list-style: none; }
+.homeShortcuts a{color: #9D9396;}
+.homeShortcuts a:hover{	color: #00B8EB;}
 
 <?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
 		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
@@ -231,14 +234,24 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	<?php } ?>
 	
 
-	
+	<div class="homeShortcuts hide menuShortcuts hidden-sm hidden-xs">
+		<ul>
+		<li><a href="javascript:scrollTo('#whySection')">POURQUOI</a></li>
+		<li><a href="javascript:scrollTo('#wwwSection')">UN BIEN COMMUN</a></li>
+		<li><a href="javascript:scrollTo('#crowfundingSection')">CROWDFUNDER</a></li>
+		<li><a href="javascript:scrollTo('#valueSection')">DES VALEURS</a></li>
+		<li><a href="javascript:scrollTo('#dicoSection')">DES MOTS CLEFS</a></li>
+		<li><a href="javascript:scrollTo('#friendsSection')">DES AMIS</a></li>
+		<li><a href="javascript:scrollTo('#teamSection')">COLLABORATIFS</a></li>
+		<li><a href="javascript:scrollTo('#contactSection')">CONTACT</a></li>
+		</ul>
+	</div>
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
 		<br/>
 		<span class="homestead" style="font-size: 1.5em">version <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
-		<br/>
-		<span >Tests et améliorations en continu</span>
+		<br/><span >Tests et améliorations en continu</span>
 	</div>
 </div>
 <!-- 
