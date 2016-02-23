@@ -236,9 +236,16 @@
 	</div>
 <script>
 
+var email = '<?php echo @$_GET["email"]; ?>';
+var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
+var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
+var msgError = '<?php echo @$_GET["msg"]; ?>';
+var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
+
+var timeout;
+var emailType;
 
 jQuery(document).ready(function() {
-
 	$(".box").hide();
 
 	userId = null;
@@ -255,7 +262,13 @@ jQuery(document).ready(function() {
 		validateUserName();
 	})
 
-	
+	if(email != ''){
+		$('#email').val(email);
+		$('#email').prop('disabled', true);
+		$('#email3').val(email);
+		$('#email3').prop('disabled', true);
+	}
+
 	//Validation of the email
 	if (userValidated) {
 		//We are in a process of invitation. The user already exists in the db
@@ -284,14 +297,7 @@ jQuery(document).ready(function() {
 
 });
 
-var email = '<?php echo @$_GET["email"]; ?>';
-var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
-var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
-var msgError = '<?php echo @$_GET["msg"]; ?>';
-var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
 
-var timeout;
-var emailType;
 var Login = function() {
 	"use strict";
 	var runBoxToShow = function() {
@@ -762,7 +768,7 @@ function validateUserName() {
 	if(username.length >= 8) {
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
-				console.log("bing !");
+				//console.log("bing !");
 				if (! isUniqueUsername(username)) {
 					var validator = $( '.form-register' ).validate();
 					validator.showErrors({

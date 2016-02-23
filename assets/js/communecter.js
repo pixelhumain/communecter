@@ -343,6 +343,7 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
+    //add the new entry into the push state in case the back button is hit
     if( !back )
 		history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
     console.warn("pushState",hash);
