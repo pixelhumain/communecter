@@ -76,9 +76,9 @@ $this->renderPartial('../default/panels/toolbar');
     border-radius: 10px;
     border: none;
     position: absolute;
-    top: 100px;
-    left: 51%;
-    background-color: transparent;
+    top: 105px;
+    right: 5%;
+    background-color: rgba(255, 255, 255, 0.63);
     padding-bottom: 5px;
     box-shadow: 0px 0px 3px 3px RGBA(114, 114, 114, 0.31);
   }
@@ -90,6 +90,13 @@ $this->renderPartial('../default/panels/toolbar');
     background-color: #E33551;
     color:white !important;
   }
+  h1.cityName-header{
+    background-color: rgba(255, 255, 255, 0.63);
+    padding: 30px;
+    margin-bottom: -3px;
+    font-size: 32px;
+  }
+
   h1.you-live{
     font-size: 18px !important;
     padding: 10px;
@@ -219,7 +226,7 @@ $this->renderPartial('../default/panels/toolbar');
 <div class="space20"></div>
 <div class="col-sm-12 col-xs-12">
 
-    <h1 class="homestead text-red">
+    <h1 class="homestead text-red cityName-header">
       <center><i class="fa fa-university"></i> <?php echo $city["name"]." "; ?></center>
     </h1>
    

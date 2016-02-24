@@ -676,7 +676,7 @@ console.warn("isMapEnd 1",isMapEnd);
 	  
 	  if(init != true)
 	  communexionActivated = !communexionActivated;
-
+		
 	  console.log("communexionActivated", communexionActivated);
 	  if(communexionActivated){
 	    //btn.removeClass("text-red");
