@@ -237,7 +237,7 @@ var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 console.warn("isMapEnd 1",isMapEnd);
 	jQuery(document).ready(function() {
-
+	
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 			var path = "/";
@@ -392,12 +392,16 @@ console.warn("isMapEnd 1",isMapEnd);
 	}
 	function showNotif(show){
 		if(typeof show == "undefined"){
-			if($("#notificationPanel").css("display") == "none") show = true; 
+			if($("#notificationPanelSearch").css("display") == "none") show = true; 
 	    	else show = false;
 	    }
 
-	    if(show) $('#notificationPanel').show("fast");
-		else 	 $('#notificationPanel').hide("fast");
+	    if(show) {$('#notificationPanelSearch').show("fast");  
+		    $('#notificationPanelSearch').mouseleave(function(e){
+				$('#notificationPanelSearch').hide("fast");
+			});
+}
+		else 	 $('#notificationPanelSearch').hide("fast");
 	}
 
 	function checkScroll(){
