@@ -416,7 +416,7 @@ function bindBtnFollow(){
 
     $.ajax({
           type: "POST",
-          url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
+          url: baseUrl+"/"+moduleId+"/person/follows/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
           dataType : "json"
       })
       .done(function (data)

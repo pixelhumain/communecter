@@ -5,7 +5,7 @@ function connectPerson(connectUserId, callback)
 	console.log("connect Person");
 	$.ajax({
 		type: "POST",
-		url: baseUrl+"/"+moduleId+'/person/connect',
+		url: baseUrl+"/"+moduleId+'/person/follows',
 		dataType : "json",
 		data : {
 			connectUserId : connectUserId,
