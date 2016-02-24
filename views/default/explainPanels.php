@@ -433,7 +433,7 @@
 	</div>
 	
 	<div class="explainOpenAtlas explain hide">
-		<h1 class="homestead yellowph">OpenAtlas</h1>
+		<h1 class="homestead">L'association Open Atlas</h1>
 		<ul>
 			<li>Communecter est un projet actuellement porté par l’association Open Atlas mais dont les racines se trouvent dans une quinzaine d’années d'expérimentations, d’essais, de pertes de motivation, d’espoirs retrouvés, de rencontres, d’amitiés et d'innovation permanente pour l’ensemble des acteurs qui ont rejoint peu à peu l’aventure jusqu’à aujourd’hui.</li>
 
