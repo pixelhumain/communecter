@@ -95,6 +95,7 @@ jQuery(document).ready(function() {
     }
   });
 
+  initBtnToogleCommunexion();
   $(".btn-activate-communexion").click(function(){
     toogleCommunexion();
   });

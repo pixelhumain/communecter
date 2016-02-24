@@ -391,7 +391,7 @@ class CommunecterController extends Controller
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/login"));
+        $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));
     }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];

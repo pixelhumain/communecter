@@ -49,15 +49,15 @@
     /*border-top-color: transparent;*/
   }
 
-  .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+  .main-top-menu .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
     background-color: #d2e7f2;
   }
-  .dropdown-menu .fa{
+  .main-top-menu .dropdown-menu .fa{
     width:20px;
     text-align: center;
   }
 
-  .notifications-count{
+  .main-top-menu .notifications-count{
     position: absolute;
     left: 46%;
     top: 0px;

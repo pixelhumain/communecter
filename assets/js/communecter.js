@@ -276,7 +276,7 @@ var urlParams = {
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home'},
+	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -287,6 +287,7 @@ var urlParams = {
 };
 function replaceAndShow(hash,params){
 	res = false;
+	$(".menuShortcuts").addClass("hide");
 	$.each( urlParams, function(urlIndex,urlObj)
 	{
 		//console.log("replaceAndShow2",urlIndex);
@@ -297,6 +298,8 @@ function replaceAndShow(hash,params){
 				endPoint = replaceAndShow(endPoint.alias,params);
 			extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
 			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
+			if(endPoint.menu)
+				$("."+endPoint.menu).removeClass("hide");
 			res = true;
 			return false;
 		}
@@ -304,15 +307,15 @@ function replaceAndShow(hash,params){
 	return res;
 }
 function loadByHashMap( hash , back ) { 
-	alert("loadByHashMap",hash , back);
+	//alert("loadByHashMap",hash , back);
 }
 function loadByHash( hash , back ) { 
-    console.log("loadByHash",hash);
-    if( isMapEnd ){
+    console.log("loadByHash",hash,back);
+    /*if( isMapEnd ){
     	showMap(true);
     	loadByHashMap(hash , back);
     	return;
-    }
+    }*/
     params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
     if( replaceAndShow(hash,params) )
@@ -350,11 +353,6 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
-    //add the new entry into the push state in case the back button is hit
-    if( !back )
-		history.pushState( { "hash" :hash} , null, hash ); //changes the history.state
-    console.warn("pushState",hash);
-
 }
 
 function showDefinition( id ){
@@ -385,3 +383,4 @@ function activateHoverMenu () {
 		hoverPersist = true;
 	}, 1000);
 }
+

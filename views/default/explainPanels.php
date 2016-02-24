@@ -433,14 +433,28 @@
 	</div>
 	
 	<div class="explainOpenAtlas explain hide">
-		<h1 class="homestead yellowph">OpenAtlas</h1>
+		<h1 class="homestead">L'association Open Atlas</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<li>Communecter est un projet actuellement porté par l’association Open Atlas mais dont les racines se trouvent dans une quinzaine d’années d'expérimentations, d’essais, de pertes de motivation, d’espoirs retrouvés, de rencontres, d’amitiés et d'innovation permanente pour l’ensemble des acteurs qui ont rejoint peu à peu l’aventure jusqu’à aujourd’hui.</li>
+
+			<li><b>Depuis sa création en 2008</b>, l'association Open Atlas travaille sur des projets liés aux biens communs, à la cartographie et à la démocratie participative. C’est une association locale qui oeuvre au développement territorial à La Réunion. </li>
+			<li>2002 - Application et Site web Open Atlas - projet open source de Service Géolocalisé réalisé par 3 développeurs à Limoges dans le cadre d’un incubateur. </li>
+
+			<li><b>2008 - Association Open Atlas</b> - création de l’association loi 1901 à La Réunion (suite au déménagement du porteur de projet). Son objectif initial était de tester l’outil Open Atlas sur le territoire réunionnais selon un modèle pensé pour être distribué. Malgré un bon démarrage avec quelques milliers d’utilisateurs, le projet s’est essoufflé et l’association s’est tournée vers d’autres activités.</li>
+
+			<li><b>2008 - Worldsouk</b> - projet de E-commerce d’artisanat équitable avec redistribution du profit pour construire des puits à Madagascar. </li>
+
+			<li><b>2012 - Pixel Humain</b> - Communauté et écosystème de concepteurs et de projets orientés vers l’innovation sociétale, amélioration continue, efficience d’un territoire. Ateliers et boite à outils citoyens</li>
+
+			<li><b>2013 - Ateliers citoyens sur toutes l’île</b>. Expérimentation sur le terrain. Création du Tool Kit Citoyen (boite à outils pour construire des applications Citoyennes). </li>
+
+			<li><b>2014 - FabLab.re</b> - communauté de Fablabeurs dans le sud de la Réunion dont le 1er projet est un réseau Smart Citizen sur le territoire réunionnais, en collaboration avec le FabLab de Barcelone. </li>
+
+			<li><b>2015 - Le Forum des Communs</b> - pendant le Temps des communs, l’association a organiser une journée dédié aux rencontres et présentations d’acteurs et de projets oeuvrant pour le bien commun à la Réunion. </li>
+
+			<li><b>2014-2016 - Communecter - Réseau Social Citoyen Libre</b> pour créer un territoire connecté d’acteurs et d’activité locale.</li> 
+
+			<li><b>2016 - Projet de SCIC</b> - Le projet Communecter s’apprête à prendre son envol dans le cadre d’une SCIC. L’objectif est de le sortir du cadre de l’association pour en faire un bien commun.</li>
 		</ul>
 	</div>
 

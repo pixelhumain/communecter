@@ -39,6 +39,7 @@
 		max-width:300px !important;
 		width:300px !important;
 		background:#7093A7;
+		border-radius: 0px;
 		/*position:absolute !important;*/
 		/*height:<?php echo $mapHeight; ?>px;*/
 		/*top:<?php echo $mapTop; ?>px;*/

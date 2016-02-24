@@ -180,9 +180,11 @@ creer des conflits : regle pas assez specfique
 	text-align: left;
 }
 #input_name_filter{
-	font-size:13px;
-	width:100%;
+	font-size: 13px;
+	width: 100%;
 	padding-left: 20px;
+	text-align: left;
+	border-radius: 0px !important;
 }
 #input_txt_pseudo_filter{
 	width:84%;
@@ -585,8 +587,8 @@ creer des conflits : regle pas assez specfique
  	margin: 0px;
 	padding: 4px;
 	padding-left: 15px;
-	text-align: left;
 	font-weight: 200;
+	color:white;
  }
 .item_panel_map.selected{
  	background-color:#77A3AE !important;
@@ -602,6 +604,8 @@ creer des conflits : regle pas assez specfique
  }
  .item_panel_map i{
  	font-size:1.3em;
+	width:30px;
+ 	text-align: center; 
  }
  p.item_panel_map {
  	margin-bottom:3px;
@@ -653,7 +657,10 @@ creer des conflits : regle pas assez specfique
 	margin-top: 10px;
 }
 
- .panel_map i.fa { padding:5px; }
+ .panel_map i.fa { 
+ 	padding:5px;
+ 	
+ }
 
 
  .fa-blue{ color:#00C9FF !important; }

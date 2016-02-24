@@ -106,7 +106,7 @@
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-top-menu">
 	
-	<img id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+	<a href="javascript:loadByHash('#default.home')" ><img id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/></a>
 
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
@@ -259,9 +259,15 @@ console.warn("isMapEnd 1",isMapEnd);
 		//
 	    $(window).bind("popstate", function(e) {
 	      //console.dir(e.originalEvent);
-	      if( lastUrl && "onhashchange" in window && location.hash && !history.state){
-	        console.warn("poped state",location.hash);
-	        loadByHash(location.hash,true);
+	      //console.log("history.state",$.isEmptyObject(history.state),history.state);
+	      if( lastUrl && "onhashchange" in window && location.hash  ){
+	        if( $.isEmptyObject( history.state ) ){
+		        //console.warn("poped state",location.hash);
+		        loadByHash(location.hash,true);
+		    } /*else { //pas necessaire de stocké le navigateur le fait tout seul
+		      	history.pushState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
+	    		console.warn("pushState",location.hash);
+		    }*/
 	      }
 	      lastUrl = location.hash;
 	    });
@@ -672,8 +678,11 @@ console.warn("isMapEnd 1",isMapEnd);
 	}
 
 	var communexionActivated = false;
-	function toogleCommunexion(){ //this = jQuery Element
+	function toogleCommunexion(init){ //this = jQuery Element
+	  
+	  if(init != true)
 	  communexionActivated = !communexionActivated;
+		
 	  console.log("communexionActivated", communexionActivated);
 	  if(communexionActivated){
 	    //btn.removeClass("text-red");
@@ -686,7 +695,7 @@ console.warn("isMapEnd 1",isMapEnd);
 	    $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 					
 	   // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
-	    
+	    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
 	    $(".lbl-scope-list").show(400);
 	    console.log("inseeCommunexion", inseeCommunexion);
 	    //setScopeValue(inseeCommunexion);
@@ -701,6 +710,10 @@ console.warn("isMapEnd 1",isMapEnd);
 	    $(".lbl-scope-list").hide(400);
 	    $("#searchBarPostalCode").val("");
 	  }
+	}
+
+	function initBtnToogleCommunexion(){
+		toogleCommunexion(true);
 	}
 
 	function showInputCommunexion(){

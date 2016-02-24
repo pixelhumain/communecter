@@ -160,6 +160,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	right:40%;
 }
 
+
 #img-header{
 	display:inline;
 	max-height: 700px;
@@ -273,7 +274,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 	
-	<div class="col-md-12 no-padding">
+	<div class="col-md-12 no-padding" id="whySection">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
 			<div class="col-sm-2">
@@ -342,7 +343,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding">
+	<div class="col-md-12 no-padding" id="wwwSection">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 24%; ">
 			<div class="col-sm-4 text-white text-right">
@@ -383,7 +384,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding">
+	<div class="col-md-12 no-padding" id="crowfundingSection">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
 			<div class="col-sm-2 text-white text-right">
 				<i class="fa fa-users fa-4x"></i>
@@ -427,7 +428,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding">
+	<div class="col-md-12 no-padding" id="valueSection">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
 			<div class="col-sm-2 text-white text-right">
 				<i class="fa fa-heart fa-4x"></i>
@@ -450,7 +451,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12" style="background-color:#293A46;color:white;padding-bottom:40px ">
+	<div class="col-md-12" id="dicoSection" style="background-color:#293A46;color:white;padding-bottom:40px ">
 		<div class="col-md-6 col-sm-12">
 			<center>
 				
@@ -506,7 +507,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-sm-12" style="background-color:#fff;">
+	<div class="col-sm-12" style="background-color:#fff;" id="friendsSection">
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i>
 		</center>
@@ -537,39 +538,43 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 	
-	<div class="col-sm-12" style="background-color:#E33551; ">
+	<div class="col-sm-12" style="background-color:#E33551; " id="teamSection">
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
 			<div class="col-sm-12 text-white">
 				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
 				<h3 class="homestead">Rejoignez nous : </h3>
+				
 				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
 				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
 				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
 				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
-				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a> ...
+				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a>
+				<div class="space20"></div>
+				<a href="javascript:loadByHash('#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>');" class=" btn btn-default text-bold">Association Open Atlas</a>
+				<a href="javascript:loadByHash('#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>')"  class="btn btn-default text-bold">Projet Communecter</a> 
 			</div>
 		</center>
 		<div class="space20"></div>
 	</div>
 
-	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:180px " >	
+	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px " id="contactSection">	
 		<center>
 			<i class="fa fa-caret-down" style="color:#E33551"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
-			+ 262 692 38 32 58<br><a href="#">contact@pixelhumain.com</a>
+			+ 262 262 34 36 86<br><a href="#">contact@pixelhumain.com</a>
+
 			<ul class="social-list">
 				<li><a target="_blank" href="https://www.facebook.com/communecter" class="btn btn-facebook btn-social"><span class="fa fa-facebook"></span></a></li>
 				<li><a target="_blank" href="https://twitter.com/communecter" class="btn btn-twitter btn-social"><span class="fa fa-twitter"></span></a></li>
 				<li><a target="_blank" href="https://plus.google.com/communities/111483652487023091469" class="btn btn-google btn-social"><span class="fa fa-google-plus"></span> </a></li>
 				<li><a target="_blank" href="https://github.com/pixelhumain/communecter" class="btn btn-github btn-social"><span class="fa fa-github"></span> </a></li>
 			</ul>
+
+			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
 		<center>	
 	</div>
-	
-	
-
 </div>
 
 
