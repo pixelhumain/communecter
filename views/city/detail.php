@@ -198,6 +198,23 @@ $this->renderPartial('../default/panels/toolbar');
   /*view randomOrga*/
 
 .cityHeadSection {  background:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg) top center no-repeat; background-size: 100%;background-color:#fff;  }
+
+
+#div-discover .btn-discover{
+  border-radius: 60px;
+  font-size: 50px;
+  font-weight: 200;
+  border: 1px solid transparent;
+  width: 90px;
+  height: 90px;
+}
+#div-discover .btn-discover:hover{
+  background-color: white !important;
+  border-color: #2BB0C6 !important;
+  color: #2BB0C6 !important;
+}
+
+
 </style>
 
 <?php 
@@ -351,180 +368,42 @@ $this->renderPartial('../default/panels/toolbar');
     </div>
   </div>
 
-  <?php //$this->renderPartial('../news/index', array ("type"=>"city", "codeInsee" => $city["insee"],"isNotSV"=>1)); ?>
-
-    <?php //$minCountOrga = $minCount-2; } ?>
-
-    <!-- 
-    <?php if(count($organizations) > 0){ ?>
-      <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des organisations au hasard</h3> 
-      <?php $cnt=0; foreach($organizations as $randomEntity){ ?>
-        <?php if($randomEntity != null && $cnt<$minCountOrga){ 
-                //$cnt++; $this->renderPartial('../pod/randomOrganization',
-                       // array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
-              } 
-        ?>
-      <?php } ?>
-      <a href='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-        Découvrir les autres organisations <i class="fa fa-arrow-circle-right"></i>
-      </a>
-    <?php }else if(isset(Yii::app()->session["userId"])){ ?>
-      <h3 class='homestead bg-green padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucune organisation dans cette commune</h3> 
-      <button onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" 
-              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-green" data-placement="left" 
-              data-original-title="Créer une nouvelle organisation">
-              <i class="fa fa-plus"></i> Créer
-      </button>
-    <?php } ?>
- -->
-  
-
-
-  <!-- <div class="col-sm-8 col-xs-12" id="pod-local-actors"  id="cityDetail_numbers">
-
-    <div class="panel panel-white">
-      <div id="local-actors-popup-sig">
-        <div class="panel-heading border-light">
-          <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
-  		    <!-- <div class="panel-tools" style="display:block"> </div> - ->
-        </div>
-        <div class="panel-body padding-10 no-padding center">
-
-          <ul class="list-group text-left no-margin">
-            <li class="list-group-item text-yellow">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <?php $cnt= (isset($people)) ? count($people): 0; ?>
-                <span class="badge pull-right bg-yellow"><?php echo $cnt;?></span>
-                <i class="fa fa-user"></i> <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
-              </div>
-            </li>
-            <li class="list-group-item text-purple">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                <span class="badge pull-right bg-purple"><?php echo $cnt;?></span>
-                <i class="fa fa-lightbulb-o"></i> <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
-              </div>
-            </li>
-            <li class="list-group-item text-azure">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
-                <span class="badge pull-right bg-azure"><?php echo $cnt;?></span>
-                <i class="fa fa-industry"></i> <?php echo Yii::t("common", "ENTREPRISES"); ?>
-              </div>
-            </li>
-            <li class="list-group-item text-green">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
-                <span class="badge pull-right bg-green"><?php echo $cnt;?></span>
-                <i class="fa fa-users"></i> <?php echo Yii::t("common", "ORGANIZATIONS"); ?>
-              </div>
-            </li>
-            <li class="list-group-item text-prune">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
-                <span class="badge pull-right bg-prune"><?php echo $cnt;?></span>
-                <i class="fa fa-male"></i><i class="fa fa-female"></i> <?php echo Yii::t("common", "GROUPES"); ?>
-              </div>
-            </li>
-            <!-- <li class="list-group-item">
-              <span class="badge"><?php echo $cnt;?></span>
-              COLLECTIVITÉ
-            </li> - - >
-            <li class="list-group-item text-orange">
-              <div class="link-to-directory" onclick='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");'>
-                <span class="badge pull-right bg-orange"><?php echo count($events);?></span>
-                <i class="fa fa-calendar"></i> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
-              </div>
-            </li>
-            
-          </ul>
-          
-        </div>
-      </div>
-      <div class="panel-footer text-right">
-        <a class="btn btn-sm btn-default" 
-            href='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university")',
-            class="btn btn-sm btn-light-blue" 
-            title="<?php echo Yii::t("common","Show Directory") ?>" 
-            alt="">
-            <i class="fa fa-bookmark fa-rotate-270"></i> <?php echo Yii::t("common","Show Directory") ?>
-        </a>
-      </div>
-  
-    </div>
-  </div> -->
-    
-  <!-- 
-  <?php if(count($people) > 0){ ?>
-  <div class="col-sm-4 col-xs-12 pull-right">
-    <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des citoyens au hasard</h3> 
-    <?php $cnt=0; foreach($people as $randomEntity){ ?>
-    <?php if($randomEntity != null && $cnt<$minCount){ 
-            //$cnt++; $this->renderPartial('../pod/randomOrganization',
-                    //array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
-          } ?>
-    <?php } ?>
-    <a href='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir les autres citoyens <i class="fa fa-arrow-circle-right"></i>
-    </a>
-  </div>
-  <?php }else  if(isset(Yii::app()->session["userId"])){ ?>
-    <div class="col-sm-4 col-xs-12 pull-right">
-      <h3 class='homestead bg-yellow padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun citoyen connecté dans cette commune</h3> 
-      <button onclick="showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt')" 
-              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-yellow" data-placement="left" 
-              data-original-title="Inviter quelqu'un">
-              <i class="fa fa-plus"></i> Inviter
-      </button>
-    </div>
-  <?php } ?>
-    
-
-  <?php if(count($projects) > 0){ ?>
-  <div class="col-sm-4 col-xs-12 pull-right">
-  <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-angle-down"></i> Des projets au hasard</h3> 
-    <?php $cnt=0; foreach($projects as $randomEntity){ ?>
-      <?php if($randomEntity != null && $cnt<$minCount){ 
-            //$cnt++; $this->renderPartial('../pod/randomOrganization',
-                    //array( "randomEntity" => (isset($randomEntity)) ? $randomEntity : null )); 
-      } ?>
-    <?php } ?>
-    <a href='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>", "Commune : <?php echo $city["name"]; ?>", "fa-university");' class="btn btn-discover-more pull-right text-red homestead">
-      Découvrir les autres projets <i class="fa fa-arrow-circle-right"></i>
-    </a>
-  </div>
-  <?php }else if(isset(Yii::app()->session["userId"])){ ?>
-    <div class="col-sm-4 col-xs-12 pull-right">
-      <h3 class='homestead bg-purple padding-10 margin-bottom-10'><i class="fa fa-ban"></i> Aucun projet dans cette commune</h3> 
-      <button onclick="showAjaxPanel( '/project/projectsv/id/54265d58c0461fcf528e8d04/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" 
-              class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add bg-purple" data-placement="left" 
-              data-original-title="Créer un nouveau projet">
-              <i class="fa fa-plus"></i> Créer
-      </button>
-    </div>
-  <?php } ?>
-    
-  
-
- -->
-  
 
 </div>
 
-<!-- <div class="row"  >
-  <div class="col-md-4 col-sm-12 col-xs-12" id="cityDetail_events" data-position="top" data-intro="Find Local Events">
-    <?php //$this->renderPartial('../pod/eventsList',array( "events" => $events, "userId" => (string)$person["_id"])); ?>
+<div style="" class="col-md-12" id="div-discover">
+    <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
+    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+      <i class="fa fa-2x fa-angle-down"></i><br/>
+      Découvrir
+    </h2>
+    <div class="col-md-12 no-padding" style="margin-bottom:40px">
+      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.directory'); ?>" 
+          target="_blank" class="btn btn-discover bg-azure">
+          <i class="fa fa-connectdevelop"></i>
+        </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+      </div>
+      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.agenda'); ?>" 
+          target="_blank" class="btn btn-discover bg-azure">
+          <i class="fa fa-calendar"></i>
+        </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+      </div>
+      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.news'); ?>" 
+          target="_blank" 
+          class="btn btn-discover bg-azure">
+          <i class="fa fa-rss"></i>
+        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+      </div>
+    </div>
   </div>
-  <div class="col-md-4 col-sm-6  col-xs-12"  id="cityDetail_organizations" data-position="top" data-intro="Find Local  Organizations" >
-    <?php //$this->renderPartial('../person/dashboard/organizations',array( "organizations" => $organizations, "userId" => new MongoId($person["_id"]))); ?>
-  </div>
-  <div class="col-md-4 col-sm-6 col-xs-12"  id="cityDetail_projects" data-position="top" data-intro="Find Local Projects">
-    <?php //$this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
-          //"userId" => (string)$person["_id"])); ?>
-  </div>
-</div> -->
+
+
 <div id="newsCity">
- </div>
+</div>
+
 <div class="row">
 
 	<div class="col-sm-7 col-xs-12">
@@ -534,18 +413,6 @@ $this->renderPartial('../default/panels/toolbar');
     
 
 </div>
-
-<!-- <div class="row">
-	 <div class="col-sm-12 col-xs-12 statisticPop">
-		 <div class="panel panel-white pulsate">
-			<div class="panel-heading border-light ">
-				<h4 class="panel-title"> <i class='fa fa-cog fa-spinn fa-2x icon-big text-center'></i> Loading Shared Agenda Section</h4>
-				<div class="space5"></div>
-			</div>
-		 </div>
-	</div>
-</div> -->
-
 
 
 
