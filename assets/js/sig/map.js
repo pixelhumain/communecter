@@ -178,6 +178,8 @@
 					thisSig.map.removeLayer(this);
 				});
 
+				this.clearPolygon();
+
 				this.listId = new Array();
 				this.elementsMap = new Array();
 				this.changePagination(1);
@@ -366,6 +368,30 @@
 				}
 			};
 
+			this.Sig.polygonsCollection = new Array();
+
+			this.Sig.addPolygon = function(polygonPoints, options)
+			{
+				console.log("addPolygon");
+				var poly = L.polygon(polygonPoints, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.3,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+
+				this.polygonsCollection.push(poly);
+			};
+
+			this.Sig.clearPolygon = function()
+			{
+				$.each(this.polygonsCollection, function(key, poly){
+					this.map.removeLayer(poly);
+				});
+				this.polygonsCollection = new Array();
+			};
+
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
 				console.log("showPolygon");
@@ -472,6 +498,17 @@
 									coordinates = this.getCoordinates(thisData, "markerGeoJson");
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
+								}
+
+
+								if(thisData["type"] == "city"){
+									//console.log("geoshapes ?");
+									//console.dir(thisData);	
+										
+									if(typeof thisData["geoShape"] != "undefined"){
+										var geoShape = Sig.inversePolygon(thisData["geoShape"]["coordinates"][0]);
+										this.addPolygon(geoShape);
+									}
 								}
 								
 								this.elementsMap.push(thisData);
