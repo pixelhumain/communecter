@@ -168,7 +168,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
     if(isset(Yii::app()->session['userId']))
     $me = Person::getById(Yii::app()->session['userId']);
 ?>
-<div class="hover-menu">
+<div class="hover-menu  hidden-sm hidden-xs">
 	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
@@ -199,18 +199,18 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	<?php } ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-connectdevelop"></i>
-			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span>
+			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
 		<i class="fa fa-calendar"></i>
-			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span>
+			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
 	<button class="menu-button menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
 			<i class="fa fa-rss"></i>
-			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span>
+			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -234,9 +234,9 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	<?php } ?>
 	
 
-	<div class="homeShortcuts hide menuShortcuts hidden-sm hidden-xs">
+	<div class="homeShortcuts hide menuShortcuts">
 		<ul>
-		<li><a href="javascript:scrollTo('#whySection')">POURQUOI</a></li>
+		<li><a href="javascript:scrollTo('#whySection')">POURQUOI<br/>POURQUI</a></li>
 		<li><a href="javascript:scrollTo('#wwwSection')">UN BIEN COMMUN</a></li>
 		<li><a href="javascript:scrollTo('#crowfundingSection')">CROWDFUNDER</a></li>
 		<li><a href="javascript:scrollTo('#valueSection')">DES VALEURS</a></li>
@@ -269,9 +269,9 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
-<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-		<span class="lbl-btn-menu-name">Ajouter</span></span>
-		<i class="fa fa-plus-circle"></i>
+<button class="menu-button menu-button-title btn-menu btn-menu-add hidden-sm hidden-xs" onclick="">
+	<span class="lbl-btn-menu-name">Ajouter</span></span>
+	<i class="fa fa-plus-circle"></i>
 </button>
 
 <div class="drop-up-btn-add">
