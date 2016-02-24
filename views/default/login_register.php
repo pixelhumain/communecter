@@ -239,6 +239,7 @@
 var email = '<?php echo @$_GET["email"]; ?>';
 var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
 var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
+var name = '<?php echo @$_GET["name"]; ?>';
 var msgError = '<?php echo @$_GET["msg"]; ?>';
 var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
 
@@ -614,7 +615,7 @@ var Login = function() {
 				}
 			},
 			messages: {
-				agree: "You must validate the CGU to sign up.",
+				agree: "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
 			},
 			submitHandler : function(form) {
 				errorHandler3.hide();
