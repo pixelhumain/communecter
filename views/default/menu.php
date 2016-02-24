@@ -164,9 +164,10 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 </style>
 <?php 
-    echo $this->renderPartial('explainPanels');
     if(isset(Yii::app()->session['userId']))
     $me = Person::getById(Yii::app()->session['userId']);
+    if (isset($me["settings"]["seeExplanations"]))
+   		echo $this->renderPartial('explainPanels');
 ?>
 <div class="hover-menu  hidden-sm hidden-xs">
 	

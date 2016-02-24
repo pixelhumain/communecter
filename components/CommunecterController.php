@@ -178,6 +178,7 @@ class CommunecterController extends Controller
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
         "register"        => array("href" => "/ph/communecter/person/register"),
         "activate"        => array('href' => "/ph/communecter/person/activate"),
+        "updatesettings"        => array('href' => "/ph/communecter/person/updatesettings"),
         "validateinvitation" => array('href' => "/ph/communecter/person/validateinvitation"),
         "logout"          => array("href" => "/ph/communecter/person/logout"),
         'getthumbpath'    => array("href" => "/ph/communecter/person/getThumbPath"),
