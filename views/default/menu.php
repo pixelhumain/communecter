@@ -424,14 +424,15 @@ jQuery(document).ready(function() {
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
-			$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
 			$(".menu-button-title").addClass("large");
 
 			hoverPersist = false;
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
 				hoverPersist = true;
-			}, 2000);
+				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
+			
+			}, 1500);
 		}
 	});
 
@@ -451,6 +452,7 @@ jQuery(document).ready(function() {
 		//console.log("HIDE HIDE");
 		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
+		clearTimeout(timeoutHover);
 	});
 
 	$(".main-col-search, .mapCanvas").mouseenter(function(){
@@ -466,6 +468,7 @@ jQuery(document).ready(function() {
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
+				clearTimeout(timeoutHover);
 				//$("#input-communexion").hide(400);
 			}
 	});
