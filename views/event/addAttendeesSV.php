@@ -87,6 +87,21 @@ if( @$isNotSV ) {
 					    </div>
 				    </div>
 				</div>
+							<div class="row ">
+			 	<div class="col-md-12">
+			        <table class="table table-striped table-bordered table-hover attendeesAddedTable hide">
+			            <thead>
+			                <tr>
+			                    <th class="hidden-xs">Type</th>
+			                    <th>Name</th>
+			                    <th class="hidden-xs center">Email</th>
+			                    <th>Status</th>
+			                </tr>
+			            </thead>
+			            <tbody class="attendeesAdded"></tbody>
+			        </table>
+			    </div>
+			</div>
 			</form>
 		</div>
 	</div>
@@ -244,7 +259,14 @@ if( @$isNotSV ) {
 
 				    	$.unblockUI();
 				        if (data &&  data.result) { 
-					        console.log(data);           
+					        console.log(data);      
+					        setValidationTable(); 
+		        			$(".form-attendees .attendees-name").val("");
+							$(".form-attendees .attendees-name").removeAttr("disabled");
+							$('.form-attendees .attendees-id').val("");
+							$('.form-attendees .attendees-email').val("");
+							$('.form-attendees .attendees-email').removeAttr("disabled");
+		        			showSearchAttendees();  
 				        	toastr.success(data.msg);
 				        } else {
 				           toastr.error(data.msg);
@@ -336,5 +358,14 @@ if( @$isNotSV ) {
 		$("#newAttendees .attendees-search").val("");
 		$("#newAttendees .attendees-id").val("");
 		$("#newAttendees #dropdown_search").css({"display" : "none" });
+	}
+	function setValidationTable(){
+		strHTML = "<tr><td>"+type+"</td><td>"
+	   						+$(".form-attendees .attendees-name").val()+"</td><td>"
+	   						+$(".form-attendees .attendees-email").val()+"</td><td>"+
+	   						"<span class='label label-info'>added</span></td> <tr>";
+	    $(".attendeesAdded").append(strHTML);
+	    if($(".attendeesAddedTable").hasClass("hide"))
+	        $(".attendeesAddedTable").removeClass('hide').addClass('animated bounceIn');
 	}
 </script>
