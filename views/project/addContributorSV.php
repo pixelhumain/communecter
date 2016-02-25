@@ -145,7 +145,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							</div>
 							
 							<div class="form-group">
-								<div class="row">
+								<div class="row center">
 					    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
 					    	    </div>
 					    	</div>
@@ -153,6 +153,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 				</div>
 			</div>
+			<div class="row ">
+		 	<div class="col-md-12">
+		        <table class="table table-striped table-bordered table-hover contributorsAddedTable hide">
+		            <thead>
+		                <tr>
+		                    <th class="hidden-xs">Type</th>
+		                    <th>Name</th>
+		                    <th class="hidden-xs center">Email</th>
+		                    <th>Admin</th>
+		                    <th>Status</th>
+		                </tr>
+		            </thead>
+		            <tbody class="contributorsAdded"></tbody>
+		        </table>
+		    </div>
 		</form>
 	</div>
 </div>
@@ -302,13 +317,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					"connectType" : connectType
 				};
 			console.log(params);
-				$.blockUI({
+				/*$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
 		              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
-				});
+				});*/
 				if ($(".form-contributor .contributor-id").val() !== "") {
 					el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
@@ -333,13 +348,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
 							if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
-		        				updateContributor( data.member,  $("#newContributors #contributorType").val());            
+		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); 
+		        			setValidationTable(); 
+		        			$("#newContributors #contributorName").val("");
+							$("#newContributors #contributorName").removeAttr("disabled");
+							$("#newContributors #contributorId").val("");
+							$('#newContributors #contributorEmail').val("");
+							$('#newContributors #contributorEmail').removeAttr("disabled");
+							$('#newContributors #organizationType').removeAttr("disabled");
+							$("#newContributors #contributorRole").val("");
+							$("#newContributors #contributorIsAdmin").val("0");
+							$("[name='my-checkbox']").bootstrapSwitch('state', false);
+		        			showSearchContributor();   
 				        	toastr.success('Invatation to project success');
-				        	if(isNotSV==0){ 
+				        	/*if(isNotSV==0){ 
 								$.hideSubview();
 							} else{ 
 								openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-							} 	
+							} */	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -454,6 +480,28 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		}
 		$("#newContributors #contributorType").val(str);
 	}
+function setValidationTable(){
+	var admin= "";
+	var type="";
+	if($(".form-contributor #contributorType").val()=="citoyens"){
+		type = "Personne";
+	}else{
+		type = "Organisation"
+	}
+	if($("#newContributors #contributorIsAdmin").val()=="1"){
+		admin="Oui";
+	}else{
+		admin = "Non";
+	}
+	strHTML = "<tr><td>"+type+"</td><td>"
+   						+$(".form-contributor .contributor-name").val()+"</td><td>"
+   						+$(".form-contributor .contributor-email").val()+"</td><td>"
+   						+admin+"</td><td>"+
+   						"<span class='label label-info'>added</span></td> <tr>";
+    $(".contributorsAdded").append(strHTML);
+    if($(".contributorsAddedTable").hasClass("hide"))
+        $(".contributorsAddedTable").removeClass('hide').addClass('animated bounceIn');
+}
 
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
