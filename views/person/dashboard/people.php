@@ -89,7 +89,7 @@ jQuery(document).ready(function() {
 
 function bindConnectEvent() {
 	$(".new-invite").off().on("click", function() {
-		openSubView('Invite someone', '/'+moduleId+'/person/invitesv',null);
+		openSubView('Invite someone', '/'+moduleId+'/person/invite',null);
 	});
 
 	$(".disconnectPersonBtn").off().on("click", function() {

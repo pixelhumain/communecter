@@ -72,7 +72,10 @@
 							<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Your account is not validated : please check your mailbox to validate your email address.") ?>
 								      <?php echo Yii::t("login","If you didn't receive it or lost it, click") ?>
-								      <a class="validate" href="#">here</a> to receive it again.
+								      <a class="validate" href="#"><?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
+							</div>
+							<div class="errorHandler alert alert-info no-display betaTestNotOpenResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Our developpers are fighting to open soon ! Check your mail that will happen soon !")?>
 							</div>
 							<div class="errorHandler alert alert-success no-display emailValidated">
 								<i class="fa fa-check"></i> <?php echo Yii::t("login","Your account is now validated ! Please try to login.") ?>
@@ -240,8 +243,14 @@ var email = '<?php echo @$_GET["email"]; ?>';
 var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
 var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
 var name = '<?php echo @$_GET["name"]; ?>';
-var msgError = '<?php echo @$_GET["msg"]; ?>';
-var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
+var error = '<?php echo @$_GET["error"]; ?>';
+var invitor = "<?php echo @$_GET["invitor"]?>";
+
+var msgError = {
+	"accountAlreadyExists" : "<?php echo Yii::t("login","Your account already exists on the plateform : please try to login.") ?>",
+	"unknwonInvitor" : "<?php echo Yii::t("login","Something went wrong ! Impossible to retrieve your invitor.") ?>",
+	"somethingWrong" : "<?php echo Yii::t("login","Something went wrong !") ?>",
+}
 
 var timeout;
 var emailType;
@@ -273,9 +282,9 @@ jQuery(document).ready(function() {
 	//Validation of the user (invitation or validation)
 	userValidatedActions();
 
-	if (msgError != "") {
+	if (error != "") {
 		$(".custom-msg").show();
-		$(".custom-msg").text(msgError);
+		$(".custom-msg").text(msgError[error]);
 	}
 
 	$(".btn-close-box").click(function(){
@@ -292,7 +301,7 @@ function userValidatedActions() {
 	}
 
 	//We are in a process of invitation. The user already exists in the db.
-	if (invitor != null) {
+	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
 		$('#name').val(name);
@@ -478,6 +487,8 @@ var Login = function() {
 		    		  	var msg;
 		    		  	if (data.msg == "notValidatedEmail") {
 							$('.notValidatedEmailResult').show();
+		    		  	} else if (data.msg == "betaTestNotOpen") {
+		    		  		$('.betaTestNotOpenResult').show();
 		    		  	} else if (data.msg == "accountPending") {
 		    		  		pendingUserId = data.pendingUserId;
 		    		  		$(".errorHandler").hide();
@@ -638,15 +649,9 @@ var Login = function() {
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",
 		    	  data: params,
 		    	  success: function(data){
-		    		  if(data.result)
-		    		  {
-		    		  	// $.blockUI({
-    		  			// 	message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
-    		  			// });
-		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
+		    		  if(data.result) {
+		        		toastr.success(data.msg);
 		        		loadByHash("#default.directory");
-		        		//window.location.reload();
-		        		//setTimeout(function() { $.unblockUI(); showPanel(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);

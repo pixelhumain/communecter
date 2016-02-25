@@ -402,21 +402,17 @@ $this->renderPartial('../default/panels/toolbar');
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.directory'); ?>" 
-          target="_blank" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="loadByHash('#default.directory');" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
         </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.agenda'); ?>" 
-          target="_blank" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="loadByHash('#default.agenda')" class="btn btn-discover bg-azure">
           <i class="fa fa-calendar"></i>
         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.news'); ?>" 
-          target="_blank" 
-          class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="loadByHash('#default.news')" class="btn btn-discover bg-azure">
           <i class="fa fa-rss"></i>
         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
@@ -638,7 +634,7 @@ function bindBtnFollow(){
 
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        url: baseUrl+"/"+moduleId+"/person/follows/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)

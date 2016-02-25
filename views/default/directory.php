@@ -571,7 +571,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						$(thiselement).attr("data-ownerlink","follow");
 						$(thiselement).attr("data-original-title", "Suivre");
 						removeFloopEntity(data.parentId, type);
-						toastr.success(data.msg);	
+						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name+" <?php echo Yii::t("common","anymore") ?>");	
 					} else {
 					   toastr.error("You leave succesfully");
 					}
