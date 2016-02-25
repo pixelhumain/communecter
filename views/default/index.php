@@ -113,7 +113,7 @@
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
 	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" ><img  class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/></a>
-	<?php $this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); ?> 
+	<?php if (@$me) $this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); ?> 
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">

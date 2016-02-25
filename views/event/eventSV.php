@@ -163,6 +163,15 @@ if( !isset($_GET["isNotSV"]))
 			<form class="form-event">
 			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
+				function mySort($a, $b){
+			  		if(isset($a['name']) && isset($b['name'])){
+				    	return ( strtolower($b['name']) < strtolower($a['name']) );
+					}else{
+						return false;
+					}
+				}
+				usort($myOrganizationAdmin,"mySort");
+				usort($myProjectAdmin,"mySort");
 				?>
 			<div class="col-md-6">
 				<div class="selectpicker">
@@ -176,7 +185,7 @@ if( !isset($_GET["isNotSV"]))
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
-			                        <li><a href="#" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
+			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
 		                        </ul>
 	                        </li>
 	                        <?php if(!empty($myOrganizationAdmin)) { ?>
@@ -184,7 +193,7 @@ if( !isset($_GET["isNotSV"]))
 		                        <ul class="dropOrgaEvent" id="organization">
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("common","Organizations") ?></li>
 		                        	<?php foreach ($myOrganizationAdmin as $e) { ?>
-			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                        	<li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 			                       	<?php } ?>
 		                        </ul>
 	                        </li>
@@ -194,7 +203,7 @@ if( !isset($_GET["isNotSV"]))
 		                         <ul class="dropOrgaEvent" id="project">
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-lightbulb-o'></i> <?php echo Yii::t("common","Projects") ?></li>
 			                        <?php foreach ($myProjectAdmin as $p) { ?>
-			                        	<li><a href="#" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
+			                        	<li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo $p['_id']?>" data-id="<?php echo $p['_id']?>" data-name="<?php echo $p['name']?>"><?php echo $p['name']?></a></li>
 			                       	<?php } ?>
 
 		                        </ul>
@@ -545,6 +554,7 @@ if( !isset($_GET["isNotSV"]))
 				newEvent.description = $(".form-event .eventDetail ").val();
 				//newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
+				newEvent.streetAddress = $(".form-event #fullStreet ").val();
 				newEvent.city = $(".form-event #city ").val();
 				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
@@ -572,10 +582,11 @@ if( !isset($_GET["isNotSV"]))
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {
-				        	toastr.success('Event Created success');
+				        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
 				        	$("#newEventId").val(data.id["$id"]);
 				        	//$.hideSubview();
-				        		addFloopEntity(data.id["$id"], "events", newEvent);
+				        	console.log(data);
+				        		addFloopEntity(data.id["$id"], "events", data.event);
 				        		loadByHash("#event.detail.id."+data.id["$id"]);
 								//showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS','calendar' );
 						} else {
@@ -693,11 +704,11 @@ if( !isset($_GET["isNotSV"]))
 		}
 		if(organizerParentType.length > 0){
 			if (organizerParentType=="organization"){
-				titleName="Organization";
+				titleName="<?php echo Yii::t("common","Organization") ?>";
 				contextName=listOrgaAdmin[organizerParentId]["name"];
 			}	
 			else{
-				titleName="Project";
+				titleName="<?php echo Yii::t("common","Project") ?>";
 				contextName=listProjectAdmin[organizerParentId]["name"];
 			}
 			$("#labelOrga").text(titleName+" : "+contextName);
@@ -705,17 +716,17 @@ if( !isset($_GET["isNotSV"]))
 		$(".dropOrg").click(function() {
 			console.log(this);
 			if ($(this).parents().eq(1).attr("id")=="organization"){
-				$("#labelOrga").text("Organisation : "+$(this).data("name"));
+				$("#labelOrga").text("<?php echo Yii::t("common","Organization") ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("organizations");
 			}
 			else if ($(this).parents().eq(1).attr("id")=="project"){
-				$("#labelOrga").text("Project : "+$(this).data("name"));
+				$("#labelOrga").text("<?php echo Yii::t("common","Project"); ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("projects");
 			}
 			else {
-				$("#labelOrga").text("Person : "+$(this).data("name"));
+				$("#labelOrga").text("<?php echo Yii::t("common","Person"); ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("citoyens");
 			}
