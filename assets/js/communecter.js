@@ -322,11 +322,15 @@ function loadByHash( hash , back ) {
     	console.log("loadByHash >>> replaceAndShow",hash);
    
     else if( hash.indexOf("#panel") >= 0 ){
-        if(hash.substr(7) == "box-add")
+    	panelName = hash.substr(7);
+    	if( (panelName == "box-login" || panelName == "box-register") && userId != ""){
+    		loadByHash("#default.home");
+    		return false;
+    	} else if(panelName == "box-add")
             title = 'ADD SOMETHING TO MY NETWORK';
         else
             title = "WELCOM MUNECT HEY !!!";
-        showPanel(hash.substr(7),null,title);
+        showPanel(panelName,null,title);
     }
         
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )

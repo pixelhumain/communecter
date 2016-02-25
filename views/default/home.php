@@ -598,7 +598,7 @@ jQuery(document).ready(function() {
 
 	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span class='text-red'>COMMUNE</span>CTER.Org");
+	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.Org");
 
 	$('.tooltips').tooltip();
 
