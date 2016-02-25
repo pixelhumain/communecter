@@ -118,6 +118,7 @@
           <i class="fa fa-bars fa-2x"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-left">
+        	<?php if(isset(Yii::app()->session['userId'])){ ?>
         	<li>
         		<a href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
         			<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; margin-bottom: 5px;" width="27" height="27" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
@@ -133,6 +134,7 @@
 			    </a>
         	</li>
 			<li role="separator" class="divider"></li>
+          	<?php } ?>
           	<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-calendar"></i> L'Agenda communecté</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-rss"></i> L'Actualité communecté</a></li>
