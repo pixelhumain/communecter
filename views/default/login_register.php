@@ -244,7 +244,7 @@ var userValidated = '<?php echo @$_GET["userValidated"]; ?>';
 var pendingUserId = '<?php echo @$_GET["pendingUserId"]; ?>';
 var name = '<?php echo @$_GET["name"]; ?>';
 var error = '<?php echo @$_GET["error"]; ?>';
-var invitor = <?php echo Yii::app()->session["invitor"] ? json_encode(Yii::app()->session["invitor"]) : '""'?>;
+var invitor = "<?php echo @$_GET["invitor"]?>";
 
 var msgError = {
 	"accountAlreadyExists" : "<?php echo Yii::t("login","Your account already exists on the plateform : please try to login.") ?>",
@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
 	//Validation of the user (invitation or validation)
 	userValidatedActions();
 
-	if (msgError != "") {
+	if (error != "") {
 		$(".custom-msg").show();
 		$(".custom-msg").text(msgError[error]);
 	}
@@ -301,7 +301,7 @@ function userValidatedActions() {
 	}
 
 	//We are in a process of invitation. The user already exists in the db.
-	if (invitor != null) {
+	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
 		$('#name').val(name);
