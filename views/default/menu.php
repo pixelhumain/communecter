@@ -166,8 +166,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 <?php 
     if(isset(Yii::app()->session['userId']))
     $me = Person::getById(Yii::app()->session['userId']);
-    if (isset($me["settings"]["seeExplanations"]))
-   		echo $this->renderPartial('explainPanels');
+   	echo $this->renderPartial('explainPanels');
 ?>
 <div class="hover-menu  hidden-sm hidden-xs">
 	
@@ -311,10 +310,13 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 <script type="text/javascript">
 
 var timeoutCommunexion = setTimeout(function(){}, 0);
-
+var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
-	
-	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ toggle(".explainHome",".explain")});
+
+	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ 
+		if(showMenuExplanation)
+			toggle(".explainHome",".explain");
+	});
 
     $('.btn-menu2')
     .click(function(e){ 
@@ -322,7 +324,10 @@ jQuery(document).ready(function() {
     		loadByHash("#default.directory"); 
     	else showMap(false);  
     })
-    .mouseenter(function(e){ toggle(".explainDirectory",".explain")});
+    .mouseenter(function(e){ 
+	    if(showMenuExplanation)
+		    toggle(".explainDirectory",".explain");
+	});
 
     $('.btn-menu3')
     .click(function(e){ 
@@ -330,7 +335,10 @@ jQuery(document).ready(function() {
     		loadByHash("#default.agenda"); 
     	else showMap(false);  
     })
-    .mouseenter(function(e){ toggle(".explainAgenda",".explain")});
+    .mouseenter(function(e){ 
+	    if(showMenuExplanation)
+		    toggle(".explainAgenda",".explain")
+	});
 
     $('.btn-menu4')
     .click(function(e){ 
@@ -338,14 +346,23 @@ jQuery(document).ready(function() {
     		loadByHash("#default.news"); 
     	else showMap(false);  
     })
-    .mouseenter(function(e){ toggle(".explainNews",".explain")});
+    .mouseenter(function(e){ 
+	    if(showMenuExplanation)
+	    	toggle(".explainNews",".explain")
+	 });
 
 
 
    // $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
    //$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ toggle(".explainMyDirectory",".explain")});
-    $('.btn-menu6').mouseenter(function(e){ toggle(".explainHelpUs",".explain")});
+    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ 
+	    if(showMenuExplanation)	
+	    	toggle(".explainMyDirectory",".explain")
+	    });
+    $('.btn-menu6').mouseenter(function(e){ 
+	    if(showMenuExplanation)
+	    	toggle(".explainHelpUs",".explain")
+	    });
     
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
@@ -357,7 +374,9 @@ jQuery(document).ready(function() {
 		console.log("btn-login");
 		showPanel("box-login");
 		//$(".main-col-search").html("");
-	}).mouseenter(function(e){ toggle(".explainConnect",".explain");});
+	}).mouseenter(function(e){ 
+			toggle(".explainConnect",".explain");
+	});
 
     $(".btn-register").click(function(){
     	console.log("btn-register");
@@ -431,7 +450,8 @@ jQuery(document).ready(function() {
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
 				hoverPersist = true;
-				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
+				if(showMenuExplanation)
+					$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
 			
 			}, 1500);
 		}

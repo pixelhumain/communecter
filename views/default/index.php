@@ -235,6 +235,7 @@ var isNotSV = true;
 var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
+
 console.warn("isMapEnd 1",isMapEnd);
 	jQuery(document).ready(function() {
 	
