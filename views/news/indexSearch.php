@@ -372,7 +372,7 @@ div.timeline .date_separator span{
 		</form>
 	 </div>
 </div>
-<div id="newsHistory" class="padding-20">
+<div id="newsHistory" class="padding-10">
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;<?php if (isset($_GET["isSearchDesign"]) ){ ?>box-shadow:inherit;<?php } ?>">
