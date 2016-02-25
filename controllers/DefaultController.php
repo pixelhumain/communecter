@@ -57,25 +57,25 @@ class DefaultController extends CommunecterController {
     $this->renderPartial("login");
   }
 
-    public function actionView($page,$dir=null,$layout=null) 
-    {
-      if(@$dir){
-        if(strpos($dir,"|")){
-	        $dir=str_replace("|", "/", $dir);
-        }
-        $page = $dir."/".$page;
-		
+  public function actionView($page,$dir=null,$layout=null) 
+  {
+    if(@$dir){
+      if(strpos($dir,"|")){
+        $dir=str_replace("|", "/", $dir);
       }
-      if(Yii::app()->request->isAjaxRequest || $layout=="empty"){
-        $this->layout = "//layouts/empty";
-        echo $this->renderPartial($page, null,true);
-      }
-      else {
-        //$this->sidebar2 = Menu::$infoMenu;
-        $this->render($page);
-      }
-      
+      $page = $dir."/".$page;
+	
     }
+    if(Yii::app()->request->isAjaxRequest || $layout=="empty"){
+      $this->layout = "//layouts/empty";
+      echo $this->renderPartial($page, null,true);
+    }
+    else {
+      //$this->sidebar2 = Menu::$infoMenu;
+      $this->render($page);
+    }
+    
+  }
   
 
     /*public function actionDirectory($type=null,$id=null) 
