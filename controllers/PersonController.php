@@ -38,7 +38,6 @@ class PersonController extends CommunecterController {
 	        'getnotification'    => 'citizenToolKit.controllers.person.GetNotificationAction',
           'getthumbpath'       => 'citizenToolKit.controllers.person.getThumbPathAction',
           'invite'  		       => 'citizenToolKit.controllers.person.InviteAction',
-          'invitesv'           => 'citizenToolKit.controllers.person.InviteSVAction',
 	        'invitation'         => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	       => 'citizenToolKit.controllers.person.UpdateFieldAction',
           'directory'          => 'citizenToolKit.controllers.person.DirectoryAction',

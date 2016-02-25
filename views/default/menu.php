@@ -276,7 +276,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 <div class="drop-up-btn-add">
 
-	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="loadByHash('#person.invitesv');" >
+	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="loadByHash('#person.invite');" >
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-user"></i>
 		<span class="lbl-btn-menu-name-add">inviter quelqu'un</span></span>

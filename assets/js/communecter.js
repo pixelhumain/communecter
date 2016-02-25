@@ -261,7 +261,7 @@ var urlParams = {
 	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
-    "#person.invitesv" : {title:'PERSON INVITE ', icon : 'user' },
+    "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
@@ -331,8 +331,8 @@ function loadByHash( hash , back ) {
         
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
-    else if( hash.indexOf("#person.invitesv") >= 0 )
-        showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' );
+    else if( hash.indexOf("#person.invite") >= 0 )
+        showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' );
     else if( hash.indexOf("#event.eventsv") >= 0 )
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    
