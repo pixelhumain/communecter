@@ -352,7 +352,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                   //template principal
                   str += "<div class='col-md-12 searchEntity'>";
-  	                str += "<div class='col-md-5 entityLeft'>";
+  	                str += "<div class='col-md-5 col-sm-4 entityLeft'>";
   	                	<?php if( isset( Yii::app()->session['userId'] ) ) { ?>
   	                	isFollowed=false;
   	                	if(typeof o.isFollowed != "undefined" )
@@ -368,11 +368,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   						
   	                str += "</div>";
 
-  	                str += "<div class='col-md-2 entityCenter'>";
+  	                str += "<div class='col-md-2 col-sm-2 entityCenter'>";
   						      str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
   	                str += "</div>";
   					         target = "";
-  	                str += "<div class='col-md-5 entityRight no-padding'>";
+  	                str += "<div class='col-md-5 col-sm-5 entityRight no-padding'>";
   	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
   	                	if(fullLocality != "" && fullLocality != " ")
   	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";

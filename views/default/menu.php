@@ -39,7 +39,7 @@
 	position: fixed;
 	bottom: 75px;
 	right: 25px;
-	height: 200px;
+	height: 220px;
 	background-color: transparent;
 	width: 300px;
 	z-index:10;
@@ -49,22 +49,22 @@
 }	
 .btn-menu-add1{
 	position:absolute !important;
-	top:0px;
+	top:15px;
 	right:15px;
 }
 .btn-menu-add2{
 	position:absolute !important;
-	top:50px;
+	top:65px;
 	right:15px;
 }
 .btn-menu-add3{
 	position:absolute !important;
-	top:100px;
+	top:115px;
 	right:15px;
 }
 .btn-menu-add4{
 	position:absolute !important;
-	top:150px;
+	top:165px;
 	right:15px;
 }
 .hover-info{
@@ -96,7 +96,7 @@
 }
 
 
-#btn-param-postal-code{
+.btn-param-postal-code{
 	left: 56px;
 	bottom: 56px;
 	width: 55px !important;
@@ -162,14 +162,111 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 <?php } ?>
 
 
+#menu-bottom{
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	height:40px;
+	width:100%;
+	background-color:white;
+	z-index: 10;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
+#menu-bottom .btn-menu-add {
+	border-radius: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 40px;
+}
+
+#menu-bottom .btn-param-postal-code{
+	border-radius: 0px;
+	left: 0px;
+	bottom: 0px;
+	height: 40px !important;
+	width: 40px !important;
+	font-size: 15px;
+}
+
+
+@media screen and (max-width: 768px) {
+	#searchBarPostalCode{
+		position: relative;
+		left: 2% !important;
+		bottom: 45px;
+		margin-top: 10px;
+		width: 96%;
+		margin-left: 0px;
+		font-family: "homestead";
+		font-size: 22px !important;
+		border-radius: 0px !important;
+		height: 50px;
+		text-align: center;
+		padding-left: 15px !important;
+	}
+
+	#input-communexion {
+	    width: 100%;
+	}
+
+	#input-communexion .search-loader {
+	    position: absolute;
+	    left: 2%;
+	    bottom: 95px;
+	    width: 96%;
+	    font-weight: 600;
+	    font-size: 12px;
+	    background-color: rgb(255, 255, 255);
+	    padding: 5px;
+	    border-radius:5px 5px 0px 0px;
+	    text-align: center;
+	}
+
+	#menu-bottom .input-global-search{
+		left: 44px;
+		height: 40px;
+		position: relative;
+		width: 74%;
+		border: 0px;
+	}
+	.main-top-menu .dropdown-result-global-search {
+	    bottom: 40px;
+		right: 5%;
+		width: 90%;
+		top: unset;
+		border-radius: 10px 10px 0px 0px;
+		-moz-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		-webkit-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		-o-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;		
+	}
+
+	.drop-up-btn-add {
+	    bottom: 40px;
+	    right: 0px;
+	    background-color: rgba(255, 255, 255, 0.8);
+	}
+}
+
+
 </style>
+
+
 <?php 
     if(isset(Yii::app()->session['userId']))
     $me = Person::getById(Yii::app()->session['userId']);
     if (isset($me["settings"]["seeExplanations"]))
    		echo $this->renderPartial('explainPanels');
 ?>
-<div class="hover-menu  hidden-sm hidden-xs">
+
+
+<div class="hover-menu hidden-xs">
 	
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
@@ -182,12 +279,12 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
+	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
 		<i class="fa fa-crosshairs"></i>
 		<span class="lbl-btn-menu-name">Communectez-moi</span>
 	</button>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu0 bg-red tooltips" 
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 bg-red tooltips" 
 			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
 			<i class="fa fa-home"></i>
 	</button>
@@ -198,17 +295,17 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-connectdevelop"></i>
 			<span class="lbl-btn-menu-name">L'Annuaire <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
 		<i class="fa fa-calendar"></i>
 			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
 			<i class="fa fa-rss"></i>
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
@@ -222,13 +319,13 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')">
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')">
 			<i class="fa fa-bullhorn"></i>
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>
 
 	<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-    <button class="menu-button menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
+    <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
@@ -270,7 +367,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
-<button class="menu-button menu-button-title btn-menu btn-menu-add hidden-sm hidden-xs" onclick="">
+<button class="menu-button menu-button-title btn-menu btn-menu-add hidden-xs" onclick="">
 	<span class="lbl-btn-menu-name">Ajouter</span></span>
 	<i class="fa fa-plus-circle"></i>
 </button>
@@ -299,6 +396,25 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 </div>
 <?php } ?>
+
+
+<?php 
+	$actionBtnMyCity = "";
+	if($inseeCommunexion != ""){
+		$actionBtnMyCity = "loadByHash('#city.detail.insee.".$inseeCommunexion."');";
+	}
+?>
+<div class="visible-xs" id="menu-bottom">
+	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
+		<?php if($actionBtnMyCity != ""){ ?>data-toggle="tooltip" data-placement="bottom" title="<?php echo $cityNameCommunexion; ?> en détails" alt="<?php echo $cityNameCommunexion; ?> en détails" <?php } ?> >
+		<i class="fa fa-university"></i>
+	</button> 
+	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
+	<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
+	</button>
+</div>
 
 
 
@@ -370,7 +486,7 @@ jQuery(document).ready(function() {
 		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	});
 
-	$("#btn-param-postal-code").mouseenter(function(e){
+	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
 	});
 
@@ -448,6 +564,7 @@ jQuery(document).ready(function() {
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
+		$("#notificationPanelSearch").hide();
 		//console.log("hide communexion");
 		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
 		//console.log("HIDE HIDE");
@@ -469,6 +586,7 @@ jQuery(document).ready(function() {
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
+				$("#notificationPanelSearch").hide();
 				clearTimeout(timeoutHover);
 				//$("#input-communexion").hide(400);
 			}
@@ -495,8 +613,7 @@ jQuery(document).ready(function() {
     	$(".btn-menu-add .lbl-btn-menu-name").show(200);
 		$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");;
     });
-    
-    
+
 	
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
