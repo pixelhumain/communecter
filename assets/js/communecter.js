@@ -5,7 +5,7 @@ function connectPerson(connectUserId, callback)
 	console.log("connect Person");
 	$.ajax({
 		type: "POST",
-		url: baseUrl+"/"+moduleId+'/person/connect',
+		url: baseUrl+"/"+moduleId+'/person/follows',
 		dataType : "json",
 		data : {
 			connectUserId : connectUserId,
@@ -261,7 +261,7 @@ var urlParams = {
 	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
-    "#person.invitesv" : {title:'PERSON INVITE ', icon : 'user' },
+    "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
@@ -322,17 +322,21 @@ function loadByHash( hash , back ) {
     	console.log("loadByHash >>> replaceAndShow",hash);
    
     else if( hash.indexOf("#panel") >= 0 ){
-        if(hash.substr(7) == "box-add")
+    	panelName = hash.substr(7);
+    	if( (panelName == "box-login" || panelName == "box-register") && userId != ""){
+    		loadByHash("#default.home");
+    		return false;
+    	} else if(panelName == "box-add")
             title = 'ADD SOMETHING TO MY NETWORK';
         else
             title = "WELCOM MUNECT HEY !!!";
-        showPanel(hash.substr(7),null,title);
+        showPanel(panelName,null,title);
     }
         
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
-    else if( hash.indexOf("#person.invitesv") >= 0 )
-        showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' );
+    else if( hash.indexOf("#person.invite") >= 0 )
+        showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' );
     else if( hash.indexOf("#event.eventsv") >= 0 )
         showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
     else if( hash.indexOf("#project.projectsv") >= 0 )    

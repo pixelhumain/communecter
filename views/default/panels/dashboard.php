@@ -59,7 +59,7 @@
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
             <!-- <a title="My people" href="javascript:;" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'PERSON DIRECTORY ','user' )" class="col-xs-4 padding-10 text-center text-yellow tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a> -->
-            <a title="Invite Someone" href="javascript:;" onclick="showAjaxPanel( '/person/invitesv?isNotSV=1', 'INVITE SOMEONE','share-alt' )" 
+            <a title="Invite Someone" href="javascript:;" onclick="showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' )" 
                class="btn btn-default btn-add-something text-center bg-yellow" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <!-- <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-yellow tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a> -->
           </div>

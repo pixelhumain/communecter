@@ -78,6 +78,7 @@ $this->renderPartial('../default/panels/toolbar');
     position: absolute;
     top: 105px;
     right: 5%;
+    z-index:1;
     background-color: rgba(255, 255, 255, 0.63);
     padding-bottom: 5px;
     box-shadow: 0px 0px 3px 3px RGBA(114, 114, 114, 0.31);
@@ -123,7 +124,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
   @media screen and (max-width: 1024px) {
     #btn-communecter{
-      font-size:22px;
+      font-size:17px;
     }
     h1.you-live{
       font-size:26px !important;
@@ -197,7 +198,14 @@ $this->renderPartial('../default/panels/toolbar');
   }
   /*view randomOrga*/
 
-.cityHeadSection {  background:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg) top center no-repeat; background-size: 100%;background-color:#fff;  }
+.cityHeadSection {  
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg); 
+  background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: 0px 50px;
+  background-size: 100% auto;
+}
 
 
 #div-discover .btn-discover{
@@ -215,6 +223,21 @@ $this->renderPartial('../default/panels/toolbar');
 }
 
 
+@media screen and (max-width: 768px) {
+ h1.cityName-header{
+  margin-top:-30px;
+ }
+ #pod-local-actors .list-group-item{
+  height:65px;
+  font-size:14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  text-transform: capitalize;
+ }
+ #btn-communecter{
+    top:60px;
+ }
+}
 </style>
 
 <?php 
@@ -231,14 +254,14 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div class="row padding-20" id="cityDetail">
 
- <?php if(!isset(Yii::app()->session["userId"]) ){ // ?>
+ <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
   <a href="javascript:;" class="btn homestead text-red no-margin register"
      insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
      id="btn-communecter" onclick="setScopeValue($(this));">
      
      <i class="fa fa-crosshairs"></i> COMMUNECTER</a>
-<?php } ?>
+<?php //} ?>
 
 <div class="space20"></div>
 <div class="col-sm-12 col-xs-12">
@@ -297,51 +320,51 @@ $this->renderPartial('../default/panels/toolbar');
     <div class="panel panel-white">
       <div id="local-actors-popup-sig">
         <div class="panel-heading text-center border-light">
-          <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo Yii::t("common", "LOCAL ACTORS"); ?></h3>
+          <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> <?php echo strtolower (Yii::t("common", "LOCAL ACTORS")); ?></h3>
           <!-- <div class="panel-tools" style="display:block"> </div> -->
         </div>
         <div class="panel-body no-padding center">
 
           <ul class="list-group text-left no-margin">
-            <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-yellow col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-user fa-2x"></i>
                 <?php $cnt= (isset($people)) ? count($people): 0; ?>
                 <span class="badge bg-yellow"><?php echo $cnt;?></span></br> 
-                <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS"); ?>
+                <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
                 
               </div>
             </li>
-            <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-purple col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL PROJECTS"); ?>
+                <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
                 <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-orange col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-calendar fa-2x"></i></br> <?php echo Yii::t("common", "LOCAL EVENTS"); ?>
+                <i class="fa fa-calendar fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
                 <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
-            <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-green col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-users fa-2x"></i></br> <?php echo Yii::t("common", "ORGANIZATIONS"); ?>
+                <i class="fa fa-users fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                 <span class="badge bg-green"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-prune col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-prune col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-male"></i><i class="fa fa-male fa-2x"></i><i class="fa fa-male"></i></br> <?php echo Yii::t("common", "GROUPES"); ?>
+                <i class="fa fa-male"></i><i class="fa fa-male fa-2x"></i><i class="fa fa-male"></i></br> <?php echo strtolower (Yii::t("common", "GROUPES")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
                 <span class="badge bg-prune"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-azure col-md-4 col-sm-6 link-to-directory">
+            <li class="list-group-item text-azure col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-industry fa-2x"></i></br> <?php echo Yii::t("common", "ENTREPRISES"); ?>
+                <i class="fa fa-industry fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ENTREPRISES")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
                 <span class="badge bg-azure"><?php echo $cnt;?></span>
               </div>
@@ -378,19 +401,19 @@ $this->renderPartial('../default/panels/toolbar');
       Découvrir
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
-      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.directory'); ?>" 
           target="_blank" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
         </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
-      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.agenda'); ?>" 
           target="_blank" class="btn btn-discover bg-azure">
           <i class="fa fa-calendar"></i>
         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
-      <div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.news'); ?>" 
           target="_blank" 
           class="btn btn-discover bg-azure">
@@ -529,7 +552,7 @@ function initCityMap(){
   var latlng = [parseFloat(city.geo.latitude)+0.0003, parseFloat(city.geo.longitude)+0.0003];
    console.dir(latlng);
  
-  var content = Sig.getPopupCity(city.name, city.insee);
+  var content = Sig.getPopupSimpleCity(city);
   var properties = {  id : "0",
                       icon : Sig.getIcoMarkerMap({"type" : "city"}),
                       zIndexOffset: 100001,
@@ -615,7 +638,7 @@ function bindBtnFollow(){
 
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
+	        url: baseUrl+"/"+moduleId+"/person/follows/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
 	        dataType : "json"
 	    })
 	    .done(function (data)

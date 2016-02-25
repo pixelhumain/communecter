@@ -1,8 +1,8 @@
 <?php if( isset( Yii::app()->session['userId']) )
       {
       	$me = Person::getById(Yii::app()->session['userId']);
-        if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
+        if(isset($me['profilThumbImageUrl']) && $me['profilThumbImageUrl'] != "")
+          $urlPhotoProfil = $me['profilThumbImageUrl'];
         else
           $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       }
@@ -108,16 +108,28 @@
   .main-top-menu .dropdown-result-global-search #footerDropdownGS{
     padding-bottom:10px;
   }
+
+
+@media screen and (max-width: 767px) {
+  .main-top-menu .input-global-search{
+    width: 50px;
+    padding-left:10px;
+    font-size:13px;
+  }
+}
+
+
+
   </style>
   
 
   <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 
-    <input type="text" class="text-dark input-global-search" placeholder="Que recherchez-vous ?"/>
+    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>
     
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
-      <div class="dropdown pull-right">
+      <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
           <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <?php //echo $me["name"]; ?>
@@ -130,33 +142,31 @@
           <!-- <li><a href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li> -->
           <li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');"             id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="javascript:;" onclick="loadByHash('#person.invitesv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i> Inviter quelqu'un</a></li>
+          <li><a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i> Inviter quelqu'un</a></li>
           <li><a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i> Créer un événement</a></li>
           <li><a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-purple"></i> <i class="fa fa-lightbulb-o text-purple"></i> Créer un projet</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer mon association</a></li>
-          <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-azure"></i> <i class="fa fa-industry text-azure"></i> Référencer mon entreprise</a></li>
-          <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-dark"></i> <i class="fa fa-asterisk text-dark"></i> Référencer ...</a></li>
+          <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer une organisation</a></li>
           <li role="separator" class="divider"></li>
           <li>
             <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
                id="btn-menu-dropdown-logout" class="text-red">
-              <i class="fa fa-sign-out"></i> Déconnection
+              <i class="fa fa-sign-out"></i> Déconnexion
             </a>
           </li>  
         </ul>
       </div>
 
       
-      <button class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+      <button class="menu-button btn-menu btn-menu-notif tooltips text-dark hidden-xs" 
             data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
         <i class="fa fa-bell"></i>
-        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?>0</span>
+        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?></span>
       </button>
     
     <?php }else{ ?>
-      <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
-      <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
+      <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
+      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
     <?php } ?>
     <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
@@ -194,12 +204,22 @@
     $('.dropdown-result-global-search').mouseenter(function(e){
         clearTimeout(timeoutDropdownGS);
     });
-    $('.main-col-search, .mapCanvas').mouseenter(function(e){
+    $('.main-col-search, .mapCanvas, .main-menu-top').mouseenter(function(e){
         clearTimeout(timeoutDropdownGS);
         timeoutDropdownGS = setTimeout(function(){ 
             showDropDownGS(false);
-        }, 800);
+        }, 300);
     });
+
+    $('.moduleLabel').click(function(e){
+        clearTimeout(timeoutDropdownGS);
+        timeoutDropdownGS = setTimeout(function(){ 
+            showDropDownGS(false);
+        }, 300);
+    });
+
+
+
 
     showDropDownGS(false);
   });
@@ -242,6 +262,7 @@ function startGlobalSearch(indexMin, indexMax){
     loadingDataGS = true;
     
     var search = $('.input-global-search').val();
+    if(search == "") search = $('#input-global-search-xs').val();
       
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStepGS;
@@ -255,10 +276,10 @@ function startGlobalSearch(indexMin, indexMax){
     }
     else{ if(scrollEndGS) return; }
     
-    if(search.length>=3 || search.length == 0){
+    if(search.length>=3){
       autoCompleteSearchGS(search, indexMin, indexMax);
     }else{
-      
+      $(".dropdown-result-global-search").html("<label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label>");
     }   
 }
 

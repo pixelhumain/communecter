@@ -323,17 +323,6 @@
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</ul>
 	</div>
-	<div class="explainLiveTogether explain hide">
-		<h1 class="homestead yellowph">Vivre ensemble</h1>
-		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</ul>
-	</div>
 	<div class="explainCollabEco explain hide">
 		<h1 class="homestead yellowph">Economie collaborative</h1>
 		<ul>
@@ -357,7 +346,7 @@
 		</ul>
 	</div>
 	<div class="explainAssociation explain hide">
-		<h1 class="homestead yellowph">Association</h1>
+		<h1 class="homestead yellowph">Associations</h1>
 		<ul>
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -370,23 +359,22 @@
 	<div class="explainSocietyNetwork explain hide">
 		<h1 class="homestead yellowph">Réseau sociétal</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Il a fallu differencier les réseaux sociaux des réseaux sociétaux à cause de la place 
+			des 1ers dans l'esprit des gens. Les réseaux sociaux sont orientés vers la création de liens entre amis, 
+			partager plus ou moins d'évennment de son quotidien. 
+			Les réseaux sociétaux, comme Communecter, servent aussi à créer du liens, des évennements, des groupes, et des projets 
+			mais on surtout pour objectif d'améliorer le fonctionnement de la société. L'objectif est de trouver un bon équilibre 
+			entre le jeu et le fonctionnement de la société pour reprendre plaisir à y participer.
+			Plus on sera nombreux à participer à ce genre de réseau plus, nos actions auront un impacts convainquant.
 		</ul>
 	</div>
 	<div class="explainCTK explain hide">
 		<h1 class="homestead yellowph">Citizen Tool Kit</h1>
 		<ul>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Le Toolkit Citoyen est l'architecture modulaire sur laquelle repose Communecter.
+			Il offre un vrai squelette applicatif pour construire de nouveaux modules sociétaux.
+			Facil à prendre en main le CTK permet de construire rapidement et génériquement des fonctionalités.
+			les fonctions du CTK sont faites pour etre réutilisable, entre les modules.
 		</ul>
 	</div>
 
@@ -529,20 +517,23 @@
 	<div class="explainCommunectorDocs explain hide">
 		<h1 class="homestead yellowph">Boite à Outil Communecteur</h1>
 		<ul>
-			nos outils 
+			Nos outils de communication interne
 			<ul>
-			<li><i class="fa fa-angle-right"></i> https://gitter.im/pixelhumain/pixelhumain
-			<li><i class="fa fa-angle-right"></i> https://www.loomio.org/g/vdaxhNF4/pixelhumain
+				<li><i class="fa fa-angle-right"></i> <a href="">https://gitter.im/pixelhumain/pixelhumain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://www.loomio.org/g/vdaxhNF4/pixelhumain</a></li>
 			</ul>
-			nos documentations, power point
-			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf
-			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf
-			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf
-			<li><i class="fa fa-angle-right"></i> https://www.communecter.org/doc/BPS Communecter.ppt
-
-			 nos vidéos
-			<li><i class="fa fa-angle-right"></i> https://vimeo.com/133636468
-			<li><i class="fa fa-angle-right"></i> https://vimeo.com/74212373
+			Nos documentations, power point
+			<ul>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/BPS Communecter.ppt</a></li>
+			</ul>
+			Nos vidéos
+			 <ul>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://vimeo.com/133636468</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="">https://vimeo.com/74212373</a></li>
+			</ul>
 		</ul>
 	</div>
 

@@ -264,9 +264,9 @@ button.menu-button{
 	position: fixed;
 	height: 40px;
 	min-width: 40px;
-	border-radius: 25px;
+	border-radius: 30px;
 	border: none;
-	z-index: 1;
+	z-index: 2;
 }
 button.menu-button-title.large{
 	padding-left:10px;
@@ -733,16 +733,7 @@ button.btn-infos{
 		font-weight: 300;
 	}
 
-	.searchEntity .entityLeft{
-		text-align: center !important;
-	}
-	.searchEntity .entityRight{
-		text-align: center !important;
-	}
-	.searchEntity .entityCenter{
-		max-width:100% !important;
-	}
-
+	
 
 	button.btn-geolocate{
 		top: 30px;
@@ -763,7 +754,7 @@ button.btn-infos{
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	    overflow: hidden;
-	    max-width: 35%;
+	    max-width: 37%;
 	    max-height: 36px;
 	    font-size: 18px !important;
 	    height: 36px;
@@ -774,12 +765,49 @@ button.btn-infos{
 
 }
 
+
+
 @media screen and (max-width: 768px) {
 	.searchEntity .entityRight{
 		text-align: center !important;
 	}
 	.searchEntity .entityCenter{
 		max-width:100% !important;
+	}
+
+	.main-top-menu .moduleLabel{
+		font-size: 15px !important;
+		max-width: 75%;
+	}
+
+	.main-top-menu{
+		margin-left:0px !important;
+	}
+
+	button#btn-toogle-map{
+		right:0px !important;
+		border-radius: 0px !important;
+	}
+	.searchEntity .entityLeft{
+		text-align: center !important;
+	}
+	#dropdown_search .searchEntity .entityRight{
+		text-align: center !important;
+	}
+	#dropdown_search .searchEntity .entityCenter{
+		max-width:100% !important;
+	}
+
+	
+}
+
+
+@media screen and (max-width: 1024px) {
+	div.timeline .newsTL > .newsFeed{
+		width:100% !important;
+	}
+	.main-top-menu .input-global-search{
+		width:200px !important;
 	}
 }
 
@@ -908,9 +936,15 @@ button.btn-infos{
 }
 
 
-/* NOTIFICATIONS */
 
 
+
+@media screen and (max-width: 767px) {
+	button.menu-button.menu-button-left{
+		left:5% !important;
+		display:none !important;
+	}
+}
 
 
 

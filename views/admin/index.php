@@ -36,6 +36,14 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
+          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.checkgeocodage')">
+              <i class="fa fa-map fa-2x"></i>
+                
+              <?php echo Yii::t("common", "CHECKGEOCODAGE"); ?>
+              
+            </div>
+          </li>
         </ul>
       </div>
   </div>

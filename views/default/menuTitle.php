@@ -193,7 +193,7 @@ function gotToPrevNav()
 	}
 </script>
 <?php if(!isset($topTitleExists)){ ?>
-	<span class="badge badge-danger" style="border-radius:10px 10px 0px 0px; font-weight:300; width:100%; line-height: 1.2;"> PRE-ALPHA-invites-only </br>( beta testing till january, early registration open ) </span>
+	<span class="badge badge-danger" style="border-radius:10px 10px 0px 0px; font-weight:300; width:100%; line-height: 1.2;"> Ouverture totale prévue pour bientôt ! <br/> Restez informé en vous inscrivant. </span>
 	<div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>

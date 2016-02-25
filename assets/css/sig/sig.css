@@ -460,14 +460,15 @@ creer des conflits : regle pas assez specfique
 }
 
 .btn-more{
-	background-color: #E9E9E9;
-    border-color: #D2D2D2;
-    margin-top: 5px;
-    margin-bottom: 7px;
-    text-align: center;
-    color: #3C3C3C;
-    font-weight: 500;
-    border-radius: 0px 0px 10px 10px !important;
+	background-color: #E9E9E9 !important;
+	border-color: #D2D2D2 !important;
+	margin-top: 5px;
+	margin-bottom: 7px !important;
+	text-align: center;
+	color: #3C3C3C !important;
+	font-weight: 500;
+	border-radius: 0px 0px 10px 10px !important;
+	width: 100%;
 }
 .btn-communecter-city{
 	background-color: #E9E9E9;
@@ -479,6 +480,7 @@ creer des conflits : regle pas assez specfique
     color: #3C3C3C;
     font-weight: 500;
     border-radius: 10px 10px 0px 0px !important;
+    width:100%;
 }
 
 .item_map_list .btn-more i{

@@ -213,16 +213,13 @@ input.form-control{
 	  	</li>
 	</ul>	
 	<?php 
-	$size = ( !@$isNotSV ) ? "col-md-6 col-md-offset-3" : "col-md-12";
+	$size = "col-md-12";
 	?>
 	<div class="<?php echo $size ?>" style="margin-top:20px;">
 		<!-- Partie "Invite Someone" -->
        	<div class="panel panel-white" id="divInviteSomeone">
         	<div class="panel-heading border-light">
-        		<?php if( !@$isNotSV ){ ?>
-					<h1><?php echo Yii::t("common","Connect people to your network") ?></h1>
-				<?php } ?>	
-			    <h3 class="text-dark">  <?php echo Yii::t("person","Find people you know by name or email") ?>. </h3>
+        		<h3 class="text-dark">  <?php echo Yii::t("person","Find people you know by name or email") ?>. </h3>
 			</div>
 			
 			<div class="panel-body">
@@ -445,7 +442,8 @@ var subViewElement, subViewContent;
 var timeout;
 var tabObject = [];
 
-var listFollows = validMail();
+var listFollows = <?php echo json_encode($follows) ?>;
+console.log("listFollowsazaza", listFollows);
 
 
 jQuery(document).ready(function() {
@@ -679,7 +677,7 @@ function bindInviteSubViewInvites() {
 				  	console.log("nameUtil", nameUtil);
 				  	$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/person/connect',
+				        url: baseUrl+"/"+moduleId+'/person/follows',
 				        dataType : "json",
 				        data: {
 				        	parentId : $("#parentId").val(),
@@ -777,7 +775,7 @@ function runinviteFormValidation(el) {
 			});
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/person/connect',
+		        url: baseUrl+"/"+moduleId+'/person/follows',
 		        dataType : "json",
 		        data: {
 		        	parentId : parentId,

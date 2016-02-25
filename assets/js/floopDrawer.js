@@ -24,7 +24,7 @@ function buildListContactHtml(contacts, myId){
 							$.each(floopContactTypes, function(key, type){
 
 							var urlBtnAdd = "";
-							if(type.name == "people") 		 urlBtnAdd = "loadByHash( '#person.invitesv')";
+							if(type.name == "people") 		 urlBtnAdd = "loadByHash( '#person.invite')";
 							if(type.name == "organizations") urlBtnAdd = "loadByHash( '#organization.addorganizationform')";
 							if(type.name == "events") 		 urlBtnAdd = "loadByHash( '#event.eventsv')";
 							if(type.name == "projects") 	 urlBtnAdd = "loadByHash( '#project.projectsv.id."+myId+".type.citoyen')";
