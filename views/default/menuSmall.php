@@ -31,6 +31,11 @@ width: 100%;
     top: 6% !important;
     width: 82% !important;
 }
+.menuSmallBlockUI img {
+    height: auto;
+    max-width: 70%;
+    width: 80px;
+}
 </style>
 <div class="hide menuSmall">
 	<div class="menuSmallMenu">
@@ -44,39 +49,39 @@ width: 100%;
 			<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();"><i class="fa fa-plus-circle"></i></a>
 			</br>S'inscrire
 		</div> 
-		<?php } ?>
+		<?php }  else { ?>
+		<div class="item">
+			<a class="btn bg-white" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
+				<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; " width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
+			</a>
+			<br/><?php echo $me["name"]; ?>
+		</div>
+	  	<div class="item">
+			<a class="btn bg-white" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+	            data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
+		        <i class="fa fa-bell"></i> 
+		        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"  style="position:relative; top:-2px; left:unset;"><?php count($this->notifications); ?></span>
+		    </a>
+		    <br/>Notifications
+		</div>
+	  	<?php } ?>
 
+	  	<?php if(!@$me["address"]["codeInsee"]){?>
 		<div class="item">
 			<a class="btn bg-red" href="javascript:;" onclick="$('.btn-geoloc-auto').trigger('click');$.unblockUI();"><i class="fa fa-university"></i></a>
 			</br>Communectez
 		</div> 
-		
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<div class="item">
-			<a href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
-				<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; margin-bottom: 5px;" width="30" height="30" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
-				<br/><?php echo $me["name"]; ?>
-			</a>
-			
-		</div>
-	  	<div class="item">
-			<a href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-	            data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
-		        <i class="fa fa-bell"></i> 
-		        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"  style="position:relative; top:-2px; left:unset;"><?php count($this->notifications); ?></span>
-		        <br/>Notifications
-		    </a>
-		    
-		</div>
-	  	<?php } ?>
-	  	<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu2').trigger('click');$.unblockUI();" ><i class="fa fa-connectdevelop"></i> </a><br/>L'Annuaire communecté</div>
-		<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu3').trigger('click');$.unblockUI();" ><i class="fa fa-calendar"></i> </a><br/>L'Agenda communecté</div>
-		<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu4').trigger('click');$.unblockUI();" ><i class="fa fa-rss"></i> </a><br/>L'Actualité communecté</div>
-	  	<div class="item"><a class="btn bg-red" href="javascript:;" onclick="$('.btn-menu0').trigger('click');$.unblockUI();" ><i class="fa fa-home"></i> </a><br/>Accueil</div>
-	  	<div class="item"><a class="btn bg-red" href="javascript:;" onclick="$('.btn-menu6').trigger('click');$.unblockUI();" ><i class="fa fa-bullhorn"></i> </a><br/>Bugs, idées</div>
+		<?php } else {?>
+			<div class="item"><a class="btn bg-white" href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');" id="btn-menu-dropdown-my-city"><i class="fa fa-university text-red"></i> </a><br/>Ma commune</div>
+		<?php } ?>
+
+	  	<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu2').trigger('click');$.unblockUI();" ><i class="fa fa-connectdevelop"></i> </a><br/>L'Annuaire</div>
+		<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu3').trigger('click');$.unblockUI();" ><i class="fa fa-calendar"></i> </a><br/>L'Agenda </div>
+		<div class="item"><a class="btn bg-azure" href="javascript:;" onclick="$('.btn-menu4').trigger('click');$.unblockUI();" ><i class="fa fa-rss"></i> </a><br/>L'Actualité </div>
+	  	<div class="item"><a class="btn bg-white" href="javascript:;" onclick="$('.btn-menu0').trigger('click');$.unblockUI();" ><i class="fa fa-home text-red"></i> </a><br/>Accueil</div>
+	  	<div class="item"><a class="btn bg-white" href="javascript:;" onclick="$('.btn-menu6').trigger('click');$.unblockUI();" ><i class="fa fa-bullhorn text-red"></i> </a><br/>Bugs, idées</div>
 	  	
 	  	<?php if(isset(Yii::app()->session['userId'])){ ?>
-		  	<div class="item"><a class="btn bg-red" href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');" id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> <br/>Ma commune</a></div>
 			<!-- <li role="separator" class="divider"></div>
 			<div><a href="javascript:;" onclick="loadByHash('#person.invitesv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i> Inviter quelqu'un</a></div>
 			<div><a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i> Créer un événement</a></div>
@@ -86,7 +91,7 @@ width: 100%;
 			<div><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-azure"></i> <i class="fa fa-industry text-azure"></i> Référencer mon entreprise</a></div>
 			<div><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-dark"></i> <i class="fa fa-asterisk text-dark"></i> Référencer ...</a></div>
 			 -->
-			<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
+			<?php if( isset($me) && Role::isDeveloper($me['roles']) ){?>
 			<div class="item"><a class="btn bg-red" href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" ><i class="fa fa-cog"></i> </a><br/><?php echo Yii::t("common", "Admin"); ?></div>
 			<?php } ?>
 			<div class="item"><a class="btn bg-red" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
