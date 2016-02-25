@@ -18,6 +18,7 @@ width: 100%;
 	display: inline-block;
 	border-radius: 26px;
 	border:2px solid white;
+	margin-bottom: 5px;
 }
 .menuSmallMenu a:hover{
 	border:2px solid grey;
