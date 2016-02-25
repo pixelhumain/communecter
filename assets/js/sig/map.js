@@ -386,8 +386,9 @@
 
 			this.Sig.clearPolygon = function()
 			{
+				var thisSig = this;
 				$.each(this.polygonsCollection, function(key, poly){
-					this.map.removeLayer(poly);
+					thisSig.map.removeLayer(poly);
 				});
 				this.polygonsCollection = new Array();
 			};

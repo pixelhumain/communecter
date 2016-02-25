@@ -528,6 +528,7 @@
 										"</button>" +
 								'</div>';
 			return popupContent;
+			
 		};
 
 		Sig.getPopupSimpleCity = function(data){

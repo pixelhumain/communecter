@@ -66,6 +66,12 @@
 		
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
+
+
+		if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
+          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
+        else
+          $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
 
 ?>
@@ -92,7 +98,7 @@
 		$actionBtnMyCity = "loadByHash('#city.detail.insee.".$inseeCommunexion."');";
 	}
 ?>
-<button class="menu-button menu-button-title bg-red tooltips hidden-sm hidden-xs" id="btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
+<button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
 		<?php if($actionBtnMyCity != ""){ ?>data-toggle="tooltip" data-placement="bottom" title="<?php echo $cityNameCommunexion; ?> en détails" alt="<?php echo $cityNameCommunexion; ?> en détails" <?php } ?> >
 	<i class="fa fa-university"></i>
 </button> 
@@ -104,22 +110,38 @@
 
 
 
-<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-top-menu">
+<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
-	<a href="javascript:loadByHash('#default.home')" class="hidden-sm hidden-xs" ><img  class="hidden-sm hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/></a>
-	<div class="dropdown pull-left hidden-md hidden-lg">
+	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" ><img  class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/></a>
+	<div class="dropdown pull-left hidden-md hidden-lg hidden-sm " style="margin-top: 10px; margin-right: 10px;">
         <a href="javascript:;" class="dropdown-toggle application-menu text-dark" data-toggle="dropdown">
-          <i class="fa fa-bars fa-3x"></i>
+          <i class="fa fa-bars fa-2x"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-left">
-			<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
+        	<li>
+        		<a href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
+        			<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; margin-bottom: 5px;" width="27" height="27" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
+        			<?php echo $me["name"]; ?>
+        		</a>
+        	</li>
+			<li role="separator" class="divider"></li>
+          	<li>
+        		<a href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+		            data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
+			        <i class="fa fa-bell"></i> Notifications
+			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"  style="position:relative; top:-2px; left:unset;"><?php count($this->notifications); ?></span>
+			    </a>
+        	</li>
+			<li role="separator" class="divider"></li>
+          	<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-calendar"></i> L'Agenda communecté</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-rss"></i> L'Actualité communecté</a></li>
           	<li><a href="javascript:;" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')" ><i class="fa fa-bullhorn"></i> Bugs, idées</a></li>
           	
+          	<?php if(isset(Yii::app()->session['userId'])){ ?>
           	<li role="separator" class="divider"></li>
-          	<li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');"             id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
-			<li role="separator" class="divider"></li>
+          	<li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');" id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
+			<!-- <li role="separator" class="divider"></li>
 			<li><a href="javascript:;" onclick="loadByHash('#person.invitesv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i> Inviter quelqu'un</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i> Créer un événement</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-purple"></i> <i class="fa fa-lightbulb-o text-purple"></i> Créer un projet</a></li>
@@ -127,15 +149,18 @@
 			<li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer mon association</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-azure"></i> <i class="fa fa-industry text-azure"></i> Référencer mon entreprise</a></li>
 			<li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-dark"></i> <i class="fa fa-asterisk text-dark"></i> Référencer ...</a></li>
-			
+			 -->
 			<li role="separator" class="divider"></li>
 				<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-				<li><a href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "ADMIN"); ?></a></li>
+				<li><a href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "Admin"); ?></a></li>
 				<?php } ?>
 			<li><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
 				   id="btn-menu-dropdown-logout" class="text-red">
 				  <i class="fa fa-sign-out"></i> Déconnection
-				</a></li>  
+				</a>
+			</li>  
+			<?php } ?>
+			
         </ul>
       </div>
 	
@@ -152,13 +177,11 @@
 
 </div>
 
-<?php $this->renderPartial('menu', array("page" => "accueil")); ?>
+<?php $this->renderPartial('menu', array("page" => "accueil", "inseeCommunexion" => $inseeCommunexion, "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
-	
-			
-	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1 main-col-search">
+	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-col-search">
 	</div>
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
@@ -392,12 +415,12 @@ console.warn("isMapEnd 1",isMapEnd);
 	}
 	function showNotif(show){
 		if(typeof show == "undefined"){
-			if($("#notificationPanel").css("display") == "none") show = true; 
+			if($("#notificationPanelSearch").css("display") == "none") show = true; 
 	    	else show = false;
 	    }
 
-	    if(show) $('#notificationPanel').show("fast");
-		else 	 $('#notificationPanel').hide("fast");
+	    if(show) $('#notificationPanelSearch').show("fast");
+		else 	 $('#notificationPanelSearch').hide("fast");
 	}
 
 	function checkScroll(){
@@ -431,7 +454,7 @@ console.warn("isMapEnd 1",isMapEnd);
 	{
 		console.log("showMap");
 		console.warn("showMap");
-		if(show === undefined) show = $("#right_tool_map").css("display") == "none";
+		if(show === undefined) show = !isMapEnd;
 		if(show){
 			isMapEnd =true;
 			showNotif(false);
@@ -500,8 +523,8 @@ console.warn("isMapEnd 1",isMapEnd);
 				$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
 				$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
 				
-				$("#btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
-				$("#btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
+				$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
+				$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 
 			<?php } ?>
@@ -607,7 +630,7 @@ console.warn("isMapEnd 1",isMapEnd);
 		setTimeout(function(){
 			$(".main-col-search").html("");
 			 $.blockUI({
-			 	message : '<h1 class="homestead text-dark"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h1>' +
+			 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
 			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
 			 	"<img style='max-width:60%;' src='"+urlImgRand+"'><br/>" +
 			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
@@ -718,8 +741,8 @@ console.warn("isMapEnd 1",isMapEnd);
 	  if(communexionActivated){
 	    //btn.removeClass("text-red");
 	    //btn.addClass("bg-red");
-	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("text-red");
-	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("bg-red");
+	    $(".btn-activate-communexion, .btn-param-postal-code").removeClass("text-red");
+	    $(".btn-activate-communexion, .btn-param-postal-code").addClass("bg-red");
 	    $("#searchBarPostalCode").val(cityNameCommunexion);
 
 	    if(inseeCommunexion != "")
@@ -732,8 +755,8 @@ console.warn("isMapEnd 1",isMapEnd);
 	    //setScopeValue(inseeCommunexion);
 	    //showInputCommunexion();
 	  }else{
-	    $(".btn-activate-communexion, #btn-param-postal-code").addClass("text-red");
-	    $(".btn-activate-communexion, #btn-param-postal-code").removeClass("bg-red");
+	    $(".btn-activate-communexion, .btn-param-postal-code").addClass("text-red");
+	    $(".btn-activate-communexion, .btn-param-postal-code").removeClass("bg-red");
 	    //$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
 	    
 	    $(".search-loader").html("<i class='fa fa-times'></i> Communection désactivée (" + cityNameCommunexion + ', ' + cpCommunexion + ")");
