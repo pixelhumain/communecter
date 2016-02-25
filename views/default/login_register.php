@@ -649,15 +649,9 @@ var Login = function() {
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",
 		    	  data: params,
 		    	  success: function(data){
-		    		  if(data.result)
-		    		  {
-		    		  	// $.blockUI({
-    		  			// 	message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '
-    		  			// });
-		        		toastr.success(data.msg+" , we'll contact you as soon as we open up! Thanks for joining.");
+		    		  if(data.result) {
+		        		toastr.success(data.msg);
 		        		loadByHash("#default.directory");
-		        		//window.location.reload();
-		        		//setTimeout(function() { $.unblockUI(); showPanel(); },5000);
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
