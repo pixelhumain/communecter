@@ -1,4 +1,17 @@
-
+<style>
+	.btn-add-to-directory{
+		font-size: 14px;
+		margin-right: 0px;
+		border-radius: 6px;
+		color: #666;
+		border: 1px solid rgba(188, 185, 185, 0.69);
+		margin-left: 3px;
+		float: right;
+		padding: 1px;
+		width: 24px;
+		margin-top: 4px;
+	}
+</style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-calendar"></i> L'Agenda</h1>
@@ -49,7 +62,6 @@ jQuery(document).ready(function() {
   
   $(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
-  $('.tooltips').tooltip();
 
   $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
@@ -313,9 +325,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       <?php if( isset( Yii::app()->session['userId'] ) ) { ?>
                       if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
                       str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-                            'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
-                            " data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
-                                "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                            'data-toggle="tooltip" data-placement="left" data-original-title="Participer à l\'évènement"'+
+                            " data-ownerlink='participate' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
+                                "<i class='fa fa-user-plus'></i>"+ //fa-bookmark fa-rotate-270
                               "</a>";
                       <?php } ?>
                       str += tags;
@@ -408,7 +420,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               //quand la recherche est terminé, on remet la couleur normal du bouton search
               $(".btn-start-search").removeClass("bg-azure");
             }
-
+			 $('.tooltips').tooltip();
             console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
             if(indexMax - countData > indexMin){
@@ -443,62 +455,75 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $.each($(".followBtn"), function(index, value){
       var id = $(value).attr("data-id");
       var type = $(value).attr("data-type");
-      if(type == "person") type = "people";
-      else type = type + "s";
+	  type = type + "s";
 
       //console.log("#floopItem-"+type+"-"+id);
       if($("#floopItem-"+type+"-"+id).length){
         //console.log("I FOLLOW THIS");
-        $(value).html("<i class='fa fa-chain text-green'></i>");
-        $(value).attr("title", "Supprimer de votre répertoire");
+        $(value).html("<i class='fa fa-unlink text-green'></i>");
+		$(value).attr("data-ownerlink","unparticipate");
+        $(value).attr("data-original-title","Ne plus participer à l\'évènement");
       }
     });
-
     //on click sur les boutons link
     $(".followBtn").click(function(){
-      var id = $(this).attr("data-id");
-      var type = $(this).attr("data-type");
-      var name = $(this).attr("data-name");
-
-      //traduction du type pour le floopDrawer
-      var typeOrigine = type + "s";
-      if(typeOrigine != "person") typeOrigine + "s";
-      
-      if(type == "person") type = "people";
-      else type = type + "s";
-
-      //si l'entité n'existe pas dans le floopDrawer == on l'ajoute
-      if(!$("#floopItem-"+type+"-"+id).length){
-        //cas du type people
-        if(type == "people"){
-          var thiselement = this;
-          $(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-            connectPerson(id, function(entityValue){
-                //console.log("connecting entity");
-                //console.log(entityValue);
-                $(thiselement).html("<i class='fa fa-chain text-green'></i>")
-                addFloopEntity(id, type, entityValue);
-                showFloopDrawer(true);
-              });
-      }
-      //cas du type orga
-      else if(type == "organizations"){
-        toastr.info('TODO : link with orga');
-      }
-      //cas du type project
-      else if(type == "projects"){
-        toastr.info('TODO : link with projects');
-      }
-    }
-    //si l'entité existe déjà dans le floopDrawer == on la supprime
-    else{
-      disconnectPerson(id, typeOrigine, name, function(entityValue){
-            //console.log("disconnect");
-            //console.log(entityValue);
-            removeFloopEntity(id, type, entityValue);
-            showFloopDrawer(true);
-          });
-    }
+      formData = new Object();
+   		formData.parentId = $(this).attr("data-id");
+   		formData.parentType = $(this).attr("data-id");
+   		formData.childId = "<?php echo Yii::app() -> session["userId"] ?>";
+   		formData.childType = "<?php echo Person::COLLECTION ?>";
+   		var type = $(this).attr("data-type");
+   		var name = $(this).attr("data-name");
+   		var id = $(this).attr("data-id");
+   		//traduction du type pour le floopDrawer
+   		var typeOrigine = type + "s";
+   		formData.parentType = typeOrigine;
+   		type = type + "s";
+		var thiselement = this;
+		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+		console.log(formData);
+		if ($(this).attr("data-ownerlink")=="participate"){
+			formData.connectType =  "attendee";
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/connect",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+						toastr.success(data.msg);	
+						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
+						$(thiselement).attr("data-ownerlink","unparticipate");
+						$(thiselement).attr("data-original-title", "Ne plus particper à l'évènement");
+						addFloopEntity(id, type, data.parent);
+						showFloopDrawer(true);
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});
+		} else if ($(this).attr("data-ownerlink")=="unparticipate"){
+			formData.connectType =  "attendees";
+			console.log(formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/disconnect",
+				data : formData,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {
+						$(thiselement).html("<i class='fa fa-user-plus'></i>");
+						$(thiselement).attr("data-ownerlink","participate");
+						$(thiselement).attr("data-original-title", "Suivre");
+						removeFloopEntity(data.parentId, type);
+						toastr.success(data.msg);	
+					} else {
+					   toastr.error("You leave succesfully");
+					}
+				}
+			});
+		}
     });
 
     $(".btn-tag").click(function(){

@@ -49,6 +49,7 @@ class PersonController extends CommunecterController {
           'checklinkmailwithuser'   => 'citizenToolKit.controllers.person.CheckLinkMailWithUserAction',
           'validateinvitation' => 'citizenToolKit.controllers.person.ValidateInvitationAction',
           'getuseridbymail'   => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
+          "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction'
 	    );
 	}
 

@@ -589,5 +589,26 @@
 			<li>On fait tout pour améliorer la plateforme </li>
 		</ul>
 	</div>
-
+	<span><input type="checkbox" class="removeExplaination" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
 </div>
+
+<script>
+
+function removeExplainations(){
+	$(".removeExplaination").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+	$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/person/updatesettings",
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+						toastr.success(data.msg);	
+						loadByHash(location.hash);
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});
+}
+</script>
