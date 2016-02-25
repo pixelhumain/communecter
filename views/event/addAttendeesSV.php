@@ -194,12 +194,22 @@ if( @$isNotSV ) {
 			submitHandler : function(form) {
 				successHandler2.show();
 				errorHandler2.hide();
-				newAttendee = new Object;
-				newAttendee.id = $(".form-attendees .attendees-id").val();
-				newAttendee.name = $(".form-attendees .attendees-name ").val(), 
-				newAttendee.email = $('.form-attendees .attendees-email').val(),
-				console.log(newAttendee);
-				idEvent = $(".attendees-parentId").val();
+				//newAttendee = new Object;
+				var params = {
+					"childId" :  $(".form-attendees .attendees-id").val(),
+					"childName" : $(".form-attendees .attendees-name ").val(),
+					"childEmail" : $('.form-attendees .attendees-email').val(),
+					"childType" : "<?php echo Person::COLLECTION; ?>", 
+					"parentType" : "<?php echo Event::COLLECTION;?>",
+					"parentId" : $(".attendees-parentId").val(),
+					"connectType" : "attendee"
+				};
+
+				//newAttendee.id = $(".form-attendees .attendees-id").val();
+				//newAttendee.name = $(".form-attendees .attendees-name ").val(), 
+				//newAttendee.email = $('.form-attendees .attendees-email').val(),
+				//console.log(newAttendee);
+				//idEvent = $(".attendees-parentId").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -224,9 +234,9 @@ if( @$isNotSV ) {
 
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/event/saveattendees/eventId/"+idEvent+"/attendeeId/"+newAttendee.id,
+				        url: baseUrl+"/"+moduleId+"/link/connect",
 				        dataType : "json",
-				        data:newAttendee,
+				        data:params,
 						type:"POST",
 				    })
 				    .done(function (data) 
@@ -236,16 +246,6 @@ if( @$isNotSV ) {
 				        if (data &&  data.result) { 
 					        console.log(data);           
 				        	toastr.success(data.msg);
-				        	if (isNotSV==0){
-					        	$.hideSubview();
-					        	if(typeof(data.attendee.person) != "undefined")
-					        		newAttendee=data.attendee.person;
-					        	else
-					        		newAttendee=data.attendee;
-					        	addAttendeeToTabe(data.id,newAttendee);
-							} else {
-								openMainPanelFromPanel( '/event/detail/id/'+idEvent, 'Event : <?php if(@$event["name"]) echo $event["name"] ?>',"fa-calendar", idEvent );
-							}
 				        } else {
 				           toastr.error(data.msg);
 				        }
