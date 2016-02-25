@@ -135,7 +135,7 @@ jQuery(document).ready(function() {
 				//newContibutor.contributorIsAdmin = $("#newContributors #contributorIsAdmin").val();
 			//var data =
 			var urlToSend = "/project/savecontributor";
-	        //var urlToSend = baseUrl+"/"+moduleId+"/person/connect/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
+	        //var urlToSend = baseUrl+"/"+moduleId+"/person/follows/id/"+idConnect+"/type/<?php echo Project::COLLECTION ?>/ownerLink/"+ownerLink;
 	        //if("undefined" != typeof $(this).data("targetlink")){
 	        	//var targetLink = $(this).data("targetlink");
 	        	//urlToSend += "/targetLink/"+targetLink;

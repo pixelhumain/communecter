@@ -45,10 +45,10 @@ function bindCheckGeo(){
 	        	$.each(data, function(typeEntity, listEntity){
 	  				$.each(listEntity, function(key, entity){
 	  					textHTML += "<tr>"+
-	  									"<td>"+typeEntity+"</td>"+             
+	  									"<td>"+typeEntity+"</td>"+          
 	  									"<td>"+								    
 	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity[typeEntity]["_id"]["$id"]+'\')" class=""> '+
-	  										entity[typeEntity].name+ "</td>"+
+	  										entity[typeEntity].name+ "</a></td>"+
 	  									"<td>"+entity["error"]+"</td>"+
 	  								"</tr>";
 					});

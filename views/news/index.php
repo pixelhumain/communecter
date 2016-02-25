@@ -559,7 +559,7 @@ function buildTimeLine (news)
 			"</h5>"+
 			'<div class="form-group box-add row partition-white no-padding no-margin" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
 				'<div class="no-padding col-md-6 col-xs-12">'+
-                   '<button type="button" class="btn-add-something btn bg-yellow col-md-12 col-xs-12" onclick="showAjaxPanel( \'/person/invitesv?isNotSV=1\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> <?php echo Yii::t("common","person") ?>'+
+                   '<button type="button" class="btn-add-something btn bg-yellow col-md-12 col-xs-12" onclick="showAjaxPanel( \'/person/invite\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> <?php echo Yii::t("common","person") ?>'+
 				   '</button>'+
 				'</div>'+
 				'<div class="no-padding col-md-6 col-xs-12">'+

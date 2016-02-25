@@ -37,7 +37,7 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "onclick" => "openSubView('Invite someone', '/'+moduleId+'/person/invitesv',null);", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "onclick" => "openSubView('Invite someone', '/'+moduleId+'/person/invite',null);", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
@@ -73,7 +73,7 @@ class CommunecterController extends Controller
 
   public $subviews = array(
     "news.newsSV",
-    //"person.inviteSV",
+    //"person.invite",
     "event.addAttendeesSV"
   );
 
@@ -94,6 +94,7 @@ class CommunecterController extends Controller
       "importeventsopenagendaindb"    => array("href" => "/ph/communecter/admin/importeventsopenagendaindb"),
       "checkgeocodage"   => array("href" => "/ph/communecter/admin/checkgeocodage"),
       "getentitybadlygeolocalited"   => array("href" => "/ph/communecter/admin/getentitybadlygeolocalited"),
+      "getdatabyurl"   => array("href" => "/ph/communecter/admin/getdatabyurl"),
     ),
 
     "default" => array(
@@ -174,7 +175,7 @@ class CommunecterController extends Controller
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
         "dashboard"       => array("href" => "/ph/communecter/person/dashboard"),
         "detail"          => array("href" => "/ph/communecter/person/detail", "public" => true),
-        "connect"         => array("href" => "/ph/communecter/person/connect"),
+        "follows"         => array("href" => "/ph/communecter/person/follows"),
         "disconnect"      => array("href" => "/ph/communecter/person/disconnect"),
         "register"        => array("href" => "/ph/communecter/person/register"),
         "activate"        => array('href' => "/ph/communecter/person/activate"),
@@ -188,7 +189,6 @@ class CommunecterController extends Controller
         'checkusername'   => array("href" => "/person/checkusername"),
 
         "invite"          => array("href" => "/ph/communecter/person/invite"),
-        "invitesv"        => array("href" => "/ph/communecter/person/invitesv", "public" => true),
         "invitation"      => array("href" => "/ph/communecter/person/invitation"),
         "updatefield"     => array("href" => "/person/updatefield"),
         "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),

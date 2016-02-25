@@ -32,6 +32,7 @@ class AdminController extends CommunecterController {
 	        'importeventsopenagendaindb'  => 'citizenToolKit.controllers.admin.ImportEventsOpenAgendaInDBAction',
 	        'checkgeocodage'  => 'citizenToolKit.controllers.admin.CheckGeoCodageAction',
 	        'getentitybadlygeolocalited'  => 'citizenToolKit.controllers.admin.GetEntityBadlyGeoLocalitedAction',
+	        'getdatabyurl' => 'citizenToolKit.controllers.admin.GetDataByUrlAction',
 	    );
 	}
 }

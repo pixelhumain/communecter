@@ -8,6 +8,7 @@
 		font-weight: 300;
 	}
 </style>
+
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 
 	<div class="explainHome explain hide">
@@ -580,13 +581,15 @@
 			<li>On fait tout pour améliorer la plateforme </li>
 		</ul>
 	</div>
-	<span><input type="checkbox" class="removeExplaination" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
+	<?php if (isset(Yii::app() -> session["userId"])){ ?>
+	<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
+	<?php } ?>
 </div>
 
 <script>
 
 function removeExplainations(){
-	$(".removeExplaination").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+	$(".removeExplanation").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
 	$.ajax({
 				type: "POST",
 				url: baseUrl+"/"+moduleId+"/person/updatesettings",
@@ -595,6 +598,7 @@ function removeExplainations(){
 					if(data.result){
 						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
 						toastr.success(data.msg);	
+						showMenuExplanation = false;
 						loadByHash(location.hash);
 					}
 					else
