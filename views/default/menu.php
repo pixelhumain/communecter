@@ -509,9 +509,6 @@ jQuery(document).ready(function() {
 		showInputCommunexion();
 	});
 
-	
-
-
 	$("#searchBarPostalCode").mouseenter(function(e){
 		clearTimeout(timeoutCommunexion);
 	});

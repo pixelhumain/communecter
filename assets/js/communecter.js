@@ -388,3 +388,23 @@ function activateHoverMenu () {
 	}, 1000);
 }
 
+function openMenuSmall () { 
+	menuContent = $(".menuSmall").html();
+	$.blockUI({  }); 
+	$.blockUI({ 
+		title:    'Welcome to your page', 
+		message : menuContent,
+		onOverlayClick: $.unblockUI,
+        css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: 'rgba(0,0,0,0.7)', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            color: '#fff' ,
+        	"cursor": "pointer"
+        },
+		overlayCSS: { backgroundColor: '#000'}
+	});
+}
+
