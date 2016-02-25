@@ -390,7 +390,6 @@ function activateHoverMenu () {
 
 function openMenuSmall () { 
 	menuContent = $(".menuSmall").html();
-	$.blockUI({  }); 
 	$.blockUI({ 
 		title:    'Welcome to your page', 
 		message : menuContent,
@@ -406,5 +405,6 @@ function openMenuSmall () {
         },
 		overlayCSS: { backgroundColor: '#000'}
 	});
+	$(".blockPage").addClass("menuSmallBlockUI");
 }
 
