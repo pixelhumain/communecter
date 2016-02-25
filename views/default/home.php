@@ -289,8 +289,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
 		<div class="col-sm-12 no-padding">
-			<div class="col-sm-4 no-padding">
-				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
+			<div class="col-sm-4 no-padding hidden-xs">
+				<img class="img-responsive "  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
 			</div>
 			
 			<div class="col-sm-8 information">
@@ -598,7 +598,7 @@ jQuery(document).ready(function() {
 
 	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.Org");
+	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.org");
 
 	$('.tooltips').tooltip();
 
