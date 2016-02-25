@@ -544,6 +544,7 @@ if( isset($_GET["isNotSV"])) {
 	            		toastr.error(data.msg);
 	            	}else{
 	            		toastr.success("Member added successfully ");
+	            		console.log(data);
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();
@@ -811,28 +812,28 @@ function checkedDiv(id, mail) {
 
 
 
-	function setValidationTable(){
-		var admin= "";
-		var type="";
-		if($("#addMembers #memberType").val()=="citoyens"){
-			type = "Personne";
-		}else{
-			type = "Organisation"
-		}
-		if($("#addMembers #memberIsAdmin").val()=="1"){
-			admin="Oui";
-		}else{
-			admin = "Non";
-		}
-		strHTML = "<tr><td>"+type+"</td><td>"
-       						+$("#addMembers #memberName").val()+"</td><td>"
-       						+$("#addMembers #memberEmail").val()+"</td><td>"
-       						+admin+"</td><td>"+
-       						"<span class='label label-info'>added</span></td> <tr>";
-        $(".newMembersAdded").append(strHTML);
-        if($(".newMembersAddedTable").hasClass("hide"))
-            $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+function setValidationTable(){
+	var admin= "";
+	var type="";
+	if($("#addMembers #memberType").val()=="citoyens"){
+		type = "Personne";
+	}else{
+		type = "Organisation"
 	}
+	if($("#addMembers #memberIsAdmin").val()=="1"){
+		admin="Oui";
+	}else{
+		admin = "Non";
+	}
+	strHTML = "<tr><td>"+type+"</td><td>"
+   						+$("#addMembers #memberName").val()+"</td><td>"
+   						+$("#addMembers #memberEmail").val()+"</td><td>"
+   						+admin+"</td><td>"+
+   						"<span class='label label-info'>added</span></td> <tr>";
+    $(".newMembersAdded").append(strHTML);
+    if($(".newMembersAddedTable").hasClass("hide"))
+        $(".newMembersAddedTable").removeClass('hide').addClass('animated bounceIn');
+}
 
 function fadeInView(inView){
 
