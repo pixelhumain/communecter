@@ -414,7 +414,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	bottom: 0px;
 	background-color: rgb(255, 255, 255);
 	z-index: 1;
-	width: 400px !important;
+	width: 400px;
 	margin-left: 20%;
 	padding-top: 10px !important;
 	font-size: 16px;
@@ -440,9 +440,9 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 }
 </style>
 <div class="globale-announce text-dark hidden-xs">
-	<div id="kkbb-min" stlye="display:none;">
-		<img src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
-		<img src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
+	<div id="kkbb-min" style="display:none; margin-bottom: -12px;">
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
 	</div>
 	<div id="kkbb-big">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
@@ -485,11 +485,13 @@ var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || 
 jQuery(document).ready(function() {
 
 	setTimeout(function(){ 
+		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 	}, 15000);
 
 	$('#btn-close-globale-announce').click( function(e){ 
+		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 		//var path = "/";
@@ -498,6 +500,7 @@ jQuery(document).ready(function() {
 		//$.cookie('kkbbok',  true, { expires: 365, path: path });
 	});
 	$('#kkbb-min').mouseenter( function(e){ 
+		$(".globale-announce").css("width", 400);
 		$("#kkbb-min").hide(400);
 		$("#kkbb-big").show(400);
 		
