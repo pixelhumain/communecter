@@ -1,11 +1,3 @@
-<?php
-$cssAnsScriptFilesModule = array(
-	//Data helper
-	'/js/communecter.js'
-	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>
-
 <style>
 
 #newInvite .dropdown-menu{
@@ -690,7 +682,7 @@ function bindInviteSubViewInvites() {
 				    .done(function (data){
 				    	$.unblockUI();
 				        if (data &&  data.result) {               
-				        	toastr.success('The invitation has been sent with success !');
+				        	toastr.success('L\'invitation a été envoyée avec succès!');
 				        	$.hideSubview();
 				        	if( isNotSV )	
 				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
@@ -788,7 +780,7 @@ function runinviteFormValidation(el) {
 		    .done(function (data) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
-		        	toastr.success('The invitation has been sent with success !');
+		        	toastr.success('L\'invitation a été envoyée avec succès!');
 		        	$.hideSubview();
 		        	if( isNotSV )	
 		        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );

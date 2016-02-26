@@ -1,13 +1,3 @@
-<?php 
-  
-  $cssAnsScriptFilesModule = array('/js/communecter.js');
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-  
-/* ?>
-<a href="javascript:;" onclick="gotToPrevNav()" class="pull-left"><i class="fa fa-arrow-circle-left fa-2x"> </i></a>
-<a href="javascript:;" onclick="$('.box-ajax').hide()" class="pull-right text-red btn-close-panel"><i class="fa fa-times "> </i></a>
-<?php /* ?><div class="pull-right center text-bold text-extra-large box-ajaxTitle" style="width:90%"> </div> */?>
-
 <style type="text/css">
 	.btnSpacer{ margin-right:40px; }
 	@media screen and (max-width: 768px) {

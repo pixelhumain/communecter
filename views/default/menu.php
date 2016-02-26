@@ -194,6 +194,25 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 }
 
 
+.globale-announce{
+	position: fixed;
+	bottom: 0px;
+	background-color: rgb(255, 255, 255);
+	z-index: 1;
+	width: 20% !important;
+	margin-left: 20%;
+	padding-top: 10px !important;
+	font-size: 16px;
+	border-radius: 10px 10px 0px 0px;
+	padding: 10px;
+	border-radius: 10px 10px 0px 0px;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
 @media screen and (max-width: 768px) {
 	#searchBarPostalCode{
 		position: relative;
@@ -330,7 +349,18 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 	
-	
+	<div class="homeShortcuts hide menuShortcuts">
+		<ul>
+		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#wwwSection')" title="UN BIEN COMMUN" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#crowfundingSection')" title="CROWDFUNDER" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#valueSection')" title="DES VALEURS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#dicoSection')" title="DES MOTS CLEFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#friendsSection')" title="DES AMIS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		</ul>
+	</div>
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
@@ -403,75 +433,22 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 </div>
 
-
-<?php 
-	$kkbbok = isset( Yii::app()->request->cookies['kkbbok'] ) ? Yii::app()->request->cookies['kkbbok'] : false;
-	//if(!$kkbbok){
-?>
-<style>
-.globale-announce{
-	position: fixed;
-	bottom: 0px;
-	background-color: rgb(255, 255, 255);
-	z-index: 1;
-	width: 400px;
-	margin-left: 20%;
-	padding-top: 10px !important;
-	font-size: 16px;
-	border-radius: 10px 10px 0px 0px;
-	padding: 10px;
-	border-radius: 10px 10px 0px 0px;
-	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
-	box-shadow: 0px -2px 5px -2px #353535 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-}
-
-#btn-close-globale-announce{
-	width: 30px;
-	height: 30px;
-	border-radius: 20px;
-	position: absolute;
-	right: 5px;
-	top: 4px;
-	text-align: center;
-	padding: 0px;
-}
-</style>
 <div class="globale-announce text-dark hidden-xs">
-	<div id="kkbb-min" style="display:none; margin-bottom: -12px;">
-		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
-		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
+	<img class="pull-left" style="width:40%;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
+	<div class="pull-left" style="width:30%;">
+		Du 1er mars<br/>
+		Au 15 avril
 	</div>
-	<div id="kkbb-big">
-		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="javascript:" target="_blank"><img class="pull-left" style="width:20%;" 
-			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
-		
-		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 26 février<br/>
-			Au 15 avril
-		</div>
 
-		
-		<a href="javascript:" target="_blank">
-			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
-		</a>
-
-		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
-		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 40%;">
-		    40%
-		  </div>
-		</div>
-
-		<div class="pull-left" style="width:100%; margin-top:5px;">
-		<div class="pull-left" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Objectif : 20 000€</div>
-		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : 0€</div>
-		</div>
+	<img class="pull-right" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
+	
+	<div class="progress" style="width:100%;">
+	  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 40%;">
+	    40%
+	  </div>
 	</div>
 </div>
-<?php //} ?>
+
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
 	<i class="fa fa-envelope"></i>
@@ -484,31 +461,11 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	setTimeout(function(){ 
-		$(".globale-announce").css("width", 250);
-		$("#kkbb-big").hide(400);
-		$("#kkbb-min").show(400);
-	}, 15000);
-
-	$('#btn-close-globale-announce').click( function(e){ 
-		$(".globale-announce").css("width", 250);
-		$("#kkbb-big").hide(400);
-		$("#kkbb-min").show(400);
-		//var path = "/";
-		//if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
-
-		//$.cookie('kkbbok',  true, { expires: 365, path: path });
-	});
-	$('#kkbb-min').mouseenter( function(e){ 
-		$(".globale-announce").css("width", 400);
-		$("#kkbb-min").hide(400);
-		$("#kkbb-big").show(400);
-		
-	});
-
 	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
 			toggle(".explainHome",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu2')
@@ -518,8 +475,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
 		    toggle(".explainDirectory",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu3')
@@ -529,8 +488,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
-		    toggle(".explainAgenda",".explain")
+	    if(showMenuExplanation){
+		    toggle(".explainAgenda",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu4')
@@ -540,8 +501,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
+	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainNews",".explain")
+	    }
 	 });
 
 
@@ -553,9 +516,11 @@ jQuery(document).ready(function() {
 	    	toggle(".explainMyDirectory",".explain")
 	    });
     $('.btn-menu6').mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
+	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainHelpUs",".explain")
-	    });
+	    }
+	});
     
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
@@ -568,8 +533,10 @@ jQuery(document).ready(function() {
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
 			toggle(".explainConnect",".explain");
+		}
 	});
 
     $(".btn-register").click(function(){
@@ -577,8 +544,10 @@ jQuery(document).ready(function() {
 		showPanel("box-register");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
 			toggle(".explainRegister",".explain");
+		}
 	});
 
 	$(".btn-logout").click(function(){
@@ -588,8 +557,10 @@ jQuery(document).ready(function() {
 
 	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
-		if(showMenuExplanation)
-			toggle(".explainCommunectMe",".explain");
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
+			showDefinition("explainCommunectMe");
+		}
 	});
 
 	$("#searchBarPostalCode").mouseenter(function(e){
@@ -613,7 +584,12 @@ jQuery(document).ready(function() {
     	else{
     		$("#modal-select-scope").modal("show");
     	}
-    });
+    }).mouseenter(function(e){
+		if(showMenuExplanation){
+			showDefinition("explainCommunectMe");
+			$(".removeExplanation").parent().show();
+		}
+	});;
 	
 
 
@@ -642,14 +618,13 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".menu-button-title").addClass("large");
 
-			hoverPersist = false;
+			/*hoverPersist = false;
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
-				hoverPersist = true;
+				hoverPersist = true;*/
 				if(showMenuExplanation)
-					$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
-			
-			}, 1500);
+				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
+			//}, 1500);
 		}
 	});
 
@@ -719,8 +694,6 @@ jQuery(document).ready(function() {
 		if($(".box-login").length <= 0) return false;
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");
 	}
-
-	
 
 });
 

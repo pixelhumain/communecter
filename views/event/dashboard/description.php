@@ -281,7 +281,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var countries = <?php echo json_encode($countries) ?>;
 	//By default : view mode
 	var mode = "view";
-	var allDay = '<?php echo (@$event["allDay"] == true) ? $event["allDay"] : "false"; ?>'
+	var allDay = '<?php echo (@$event["allDay"] == true) ? "true" : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;

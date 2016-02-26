@@ -30,8 +30,8 @@
 			<ul>
 				<li><i class="fa fa-user"></i> des personnes</li>
 				<li><i class="fa fa-users"></i> des organisations</li>
-				<li><i class="fa fa-lightbuld-o"></i> des projets</li>
-				<li><i class="fa fa-calendar"></i>des évennements</li></li>
+				<li><i class="fa fa-lightbulb-o"></i> des projets</li>
+				<li><i class="fa fa-calendar"></i> des évennements</li></li>
 			</ul></li>
 			<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne local</li>
 			<li><i class="fa fa-angle-right"></i> je partage pour améliorer mon territoire</li>
@@ -630,8 +630,9 @@
 			</ul>
 		</ul>
 	</div>
-		<?php if (isset(Yii::app() -> session["userId"])){ ?>
-	<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
+
+	<?php if (isset(Yii::app()->session["userId"])){ ?>
+		<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
 	<?php } ?>
 
 </div>
@@ -645,10 +646,9 @@ function removeExplainations(){
 	dataType: "json",
 	success: function(data) {
 	if(data.result){
-	//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-	toastr.success(data.msg);	
-	showMenuExplanation = false;
-	loadByHash(location.hash);
+		toastr.success(data.msg);	
+		showMenuExplanation = false;
+		loadByHash(location.hash);
 	}
 	else
 	toastr.error(data.msg);

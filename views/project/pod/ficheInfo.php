@@ -188,7 +188,7 @@ progress[value]::-moz-progress-bar {
 	</div>
 	<div class="panel-body padding-20">
 		<div class="col-sm-6 col-xs-6 text-dark padding-10">
-			<?php 
+			<?php
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
 																  "type" => Project::COLLECTION,
 																  "resize" => false,
@@ -249,8 +249,8 @@ progress[value]::-moz-progress-bar {
 				<tr>
 					<td>
 						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
-						<?php echo Yii::t("common","To") ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
+						<?php if(!empty($project["startDate"])) echo Yii::t("common","From") ; ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
+						<?php if(!empty($project["endDate"])) echo Yii::t("common","To"); ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
 					</td>
 				</tr>
 				<tr>

@@ -575,7 +575,7 @@ console.warn("isMapEnd 1",isMapEnd);
 
     function showAjaxPanel (url,title,icon) { 
 		//$(".main-col-search").css("opacity", 0);
-		
+		console.log("TITLE",title);
 		hideScrollTop = false;
 
 		var rand = Math.floor((Math.random() * 7) + 1); 
