@@ -532,11 +532,7 @@ jQuery(document).ready(function()
 		tagsNews = <?php echo json_encode($tags); ?>
 	}
 	/////// A réintégrer pour la version last
-	<?php if (isset($_GET["isSearchDesign"]) ){ ?>
-		var $scrollElement = $(".my-main-container");
-	<?php } else { ?>
-		var $scrollElement = $("#newsHistory");
-	<?php } ?>
+	var $scrollElement = $(".my-main-container");
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType!="city"){
