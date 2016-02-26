@@ -81,9 +81,18 @@ class TestController extends CommunecterController {
 		}
 	
   }
+    public function actionAddExplain() {
+		$persons=PHDB::find(Person::COLLECTION);
+		foreach($persons as $key => $data){
+			PHDB::update(Person::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$set' => array("preferences.seeExplanations" => true))
+			);
+		}
+    }
   public function actionTest() {
 
-  echo hash('sha256',"pouillaude.clem@gmail.compoupou");
+  echo hash('sha256',"56cf45a0126e9a2e63b7acdbzezete@gmail.com");
   echo  $this->module->id;
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
