@@ -487,6 +487,8 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 <script type="text/javascript">
 
+
+
 var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
