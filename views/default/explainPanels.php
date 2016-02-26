@@ -593,7 +593,6 @@
 			<li>On fait tout pour améliorer la plateforme </li>
 			<li> Et aprés on fait quoi ? <a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red">Roadmap</a></li>
 		</ul>
-
 	</div>
 
 	<div class="explainRoadMap explain hide">

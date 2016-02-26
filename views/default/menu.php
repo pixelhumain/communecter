@@ -523,6 +523,7 @@ jQuery(document).ready(function() {
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
+		if(showMenuExplanation)
 			toggle(".explainConnect",".explain");
 	});
 
@@ -530,7 +531,10 @@ jQuery(document).ready(function() {
     	console.log("btn-register");
 		showPanel("box-register");
 		//$(".main-col-search").html("");
-	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
+	}).mouseenter(function(e){ 
+		if(showMenuExplanation)
+			toggle(".explainRegister",".explain");
+	});
 
 	$(".btn-logout").click(function(){
     	console.log("btn-logout");
@@ -539,6 +543,8 @@ jQuery(document).ready(function() {
 
 	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
+		if(showMenuExplanation)
+			toggle(".explainCommunectMe",".explain");
 	});
 
 	$("#searchBarPostalCode").mouseenter(function(e){

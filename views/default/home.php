@@ -350,7 +350,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<i class="fa fa-mobile fa-5x"></i> <i class="fa fa-tablet fa-5x"></i> <i class="fa fa-desktop fa-5x"></i>
 			</div>
 			<div class="col-sm-8">
-				<h1 class="homestead text-white">World Wide Web People and Territories</h1>
+				<h1 class="homestead text-white">World Wide Web<br/>People and Territories</h1>
 			</div>
 		</div>
 
