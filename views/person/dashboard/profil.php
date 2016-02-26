@@ -764,9 +764,10 @@ function manageSocialNetwork(iconObject, value) {
 	}
 
 	function openChangePasswordSV(){
+		loadByHash('#person.changepassword.id.'+personId+'.mode.initSV');
 		//showAjaxPanel( '/person/changePassword?mode=initSV&userId='+personId+'&isNotSV=1', '<?php echo Yii::t("person","Change your password",null,Yii::app()->controller->module->id) ?>','key');
 	
-		$.ajax({
+		/*$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/changePassword",
 	        dataType : "json",
@@ -784,7 +785,7 @@ function manageSocialNetwork(iconObject, value) {
 	        } else {
 	           toastr.error('Something Went Wrong : ' . data.msg);
 	        }
-	    });
+	    });*/
 	}
 
 </script>
