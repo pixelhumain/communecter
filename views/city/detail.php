@@ -420,9 +420,6 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 
 
-<div id="newsCity">
-</div>
-
 <div class="row">
 
 	<div class="col-sm-7 col-xs-12">
@@ -452,7 +449,6 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
   $(".main-col-search").addClass("cityHeadSection");
-	getAjax("#newsCity",baseUrl+"/"+moduleId+"/news/index/type/city/insee/<?php echo $city["insee"]?>?isNotSV=1",null,"html");
 	bindBtnFollow();
   var iconCity = "<i class='fa fa-university'></i>";
   var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
