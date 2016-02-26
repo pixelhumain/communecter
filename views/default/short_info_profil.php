@@ -1,8 +1,8 @@
 <?php if( isset( Yii::app()->session['userId']) )
       {
       	$me = Person::getById(Yii::app()->session['userId']);
-        if(isset($me['profilThumbImageUrl']) && $me['profilThumbImageUrl'] != "")
-          $urlPhotoProfil = $me['profilThumbImageUrl'];
+        if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
+          $urlPhotoProfil = $me['profilImageUrl'];
         else
           $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       }
@@ -116,6 +116,10 @@
     padding-left:10px;
     font-size:13px;
   }
+
+  .dropdown-result-global-search .entityRight{
+    text-align: left !important;
+  }
 }
 
 
@@ -131,7 +135,7 @@
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
-          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$urlPhotoProfil); ?>" alt="image" >
           <?php //echo $me["name"]; ?>
           <span class="caret"></span>
         </button>
@@ -413,11 +417,11 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
 
                     target = "";
 
-                    str += "<div class='col-md-12 no-padding searchEntity'>";
-                    str += "<div class='col-md-2 no-padding entityCenter'>";
+                    str += "<div class='col-md-12 col-sm-12 col-xs-12 no-padding searchEntity'>";
+                    str += "<div class='col-md-2 col-sm-2 col-xs-2 no-padding entityCenter'>";
                     str +=   "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
                     str += "</div>";
-                    str += "<div class='col-md-10 entityRight'>";
+                    str += "<div class='col-md-10 col-sm-10 col-xs-10 entityRight'>";
                     //str += "</div>";
                     //str +=  "<div class='col-md-5 entityRight no-padding'>";
                       str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";

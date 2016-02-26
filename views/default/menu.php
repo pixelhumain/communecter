@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;left:10px;}
+.homeShortcuts{position:absolute;top:450px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -193,6 +193,25 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	font-size: 15px;
 }
 
+
+.globale-announce{
+	position: fixed;
+	bottom: 0px;
+	background-color: rgb(255, 255, 255);
+	z-index: 1;
+	width: 20% !important;
+	margin-left: 20%;
+	padding-top: 10px !important;
+	font-size: 16px;
+	border-radius: 10px 10px 0px 0px;
+	padding: 10px;
+	border-radius: 10px 10px 0px 0px;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
 
 @media screen and (max-width: 768px) {
 	#searchBarPostalCode{
@@ -330,17 +349,16 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 	
-
 	<div class="homeShortcuts hide menuShortcuts">
 		<ul>
-		<li><a href="javascript:scrollTo('#whySection')">POURQUOI<br/>POURQUI</a></li>
-		<li><a href="javascript:scrollTo('#wwwSection')">UN BIEN COMMUN</a></li>
-		<li><a href="javascript:scrollTo('#crowfundingSection')">CROWDFUNDER</a></li>
-		<li><a href="javascript:scrollTo('#valueSection')">DES VALEURS</a></li>
-		<li><a href="javascript:scrollTo('#dicoSection')">DES MOTS CLEFS</a></li>
-		<li><a href="javascript:scrollTo('#friendsSection')">DES AMIS</a></li>
-		<li><a href="javascript:scrollTo('#teamSection')">COLLABORATIFS</a></li>
-		<li><a href="javascript:scrollTo('#contactSection')">CONTACT</a></li>
+		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#wwwSection')" title="UN BIEN COMMUN" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#crowfundingSection')" title="CROWDFUNDER" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#valueSection')" title="DES VALEURS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#dicoSection')" title="DES MOTS CLEFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#friendsSection')" title="DES AMIS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
 		</ul>
 	</div>
 
@@ -415,7 +433,21 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 </div>
 
+<div class="globale-announce text-dark hidden-xs">
+	<img class="pull-left" style="width:40%;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
+	<div class="pull-left" style="width:30%;">
+		Du 1er mars<br/>
+		Au 15 avril
+	</div>
 
+	<img class="pull-right" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
+	
+	<div class="progress" style="width:100%;">
+	  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 40%;">
+	    40%
+	  </div>
+	</div>
+</div>
 
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">

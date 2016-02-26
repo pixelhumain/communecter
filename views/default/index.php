@@ -112,8 +112,14 @@
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
-	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" ><img  class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/></a>
-	<?php if (@$me) $this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); ?> 
+	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" >
+		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+	</a>
+	<?php 
+		if(!isset($urlPhotoProfil)) $urlPhotoProfil = "";
+	 	if(!isset($me)) $me = "";
+	 	$this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); 
+	?> 
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
@@ -584,8 +590,8 @@ console.warn("isMapEnd 1",isMapEnd);
 			 $.blockUI({
 			 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
 			 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-			 	"<img style='max-width:60%;' src='"+urlImgRand+"'><br/>" +
-			 	"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+			 	"<img style='max-width:60%;' src='"+urlImgRand+"'><br/>"
+			 	//"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
 			 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 			 	
 
