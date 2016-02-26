@@ -604,6 +604,7 @@ jQuery(document).ready(function() {
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
 				hoverPersist = true;*/
+				if(showMenuExplanation)
 				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
 			//}, 1500);
 		}
