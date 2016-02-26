@@ -323,7 +323,7 @@ function loadByHash( hash , back ) {
    
     else if( hash.indexOf("#panel") >= 0 ){
     	panelName = hash.substr(7);
-    	if( (panelName == "box-login" || panelName == "box-register") && userId != ""){
+    	if( (panelName == "box-login" || panelName == "box-register") && userId != "" && userId != null ){
     		loadByHash("#default.home");
     		return false;
     	} else if(panelName == "box-add")

@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;left:10px;}
+.homeShortcuts{position:absolute;top:450px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -349,17 +349,16 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 	
-
 	<div class="homeShortcuts hide menuShortcuts">
 		<ul>
-		<li><a href="javascript:scrollTo('#whySection')">POURQUOI<br/>POURQUI</a></li>
-		<li><a href="javascript:scrollTo('#wwwSection')">UN BIEN COMMUN</a></li>
-		<li><a href="javascript:scrollTo('#crowfundingSection')">CROWDFUNDER</a></li>
-		<li><a href="javascript:scrollTo('#valueSection')">DES VALEURS</a></li>
-		<li><a href="javascript:scrollTo('#dicoSection')">DES MOTS CLEFS</a></li>
-		<li><a href="javascript:scrollTo('#friendsSection')">DES AMIS</a></li>
-		<li><a href="javascript:scrollTo('#teamSection')">COLLABORATIFS</a></li>
-		<li><a href="javascript:scrollTo('#contactSection')">CONTACT</a></li>
+		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#wwwSection')" title="UN BIEN COMMUN" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#crowfundingSection')" title="CROWDFUNDER" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#valueSection')" title="DES VALEURS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#dicoSection')" title="DES MOTS CLEFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#friendsSection')" title="DES AMIS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
+		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
 		</ul>
 	</div>
 
