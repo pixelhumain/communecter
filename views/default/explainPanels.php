@@ -646,10 +646,9 @@ function removeExplainations(){
 	dataType: "json",
 	success: function(data) {
 	if(data.result){
-	//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-	toastr.success(data.msg);	
-	showMenuExplanation = false;
-	loadByHash(location.hash);
+		toastr.success(data.msg);	
+		showMenuExplanation = false;
+		loadByHash(location.hash);
 	}
 	else
 	toastr.error(data.msg);

@@ -462,8 +462,10 @@ var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || 
 jQuery(document).ready(function() {
 
 	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
 			toggle(".explainHome",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu2')
@@ -473,8 +475,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
 		    toggle(".explainDirectory",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu3')
@@ -484,8 +488,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
-		    toggle(".explainAgenda",".explain")
+	    if(showMenuExplanation){
+		    toggle(".explainAgenda",".explain");
+			$(".removeExplanation").parent().show();
+		}
 	});
 
     $('.btn-menu4')
@@ -495,8 +501,10 @@ jQuery(document).ready(function() {
     	else showMap(false);  
     })
     .mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
+	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainNews",".explain")
+	    }
 	 });
 
 
@@ -508,9 +516,11 @@ jQuery(document).ready(function() {
 	    	toggle(".explainMyDirectory",".explain")
 	    });
     $('.btn-menu6').mouseenter(function(e){ 
-	    if(showMenuExplanation)
+	    if(showMenuExplanation){
+	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainHelpUs",".explain")
-	    });
+	    }
+	});
     
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
@@ -523,8 +533,10 @@ jQuery(document).ready(function() {
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
 			toggle(".explainConnect",".explain");
+		}
 	});
 
     $(".btn-register").click(function(){
@@ -532,8 +544,10 @@ jQuery(document).ready(function() {
 		showPanel("box-register");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
-		if(showMenuExplanation)
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
 			toggle(".explainRegister",".explain");
+		}
 	});
 
 	$(".btn-logout").click(function(){
@@ -543,8 +557,10 @@ jQuery(document).ready(function() {
 
 	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
-		if(showMenuExplanation)
+		if(showMenuExplanation){
+			$(".removeExplanation").parent().show();
 			showDefinition("explainCommunectMe");
+		}
 	});
 
 	$("#searchBarPostalCode").mouseenter(function(e){
@@ -569,8 +585,10 @@ jQuery(document).ready(function() {
     		$("#modal-select-scope").modal("show");
     	}
     }).mouseenter(function(e){
-		if(showMenuExplanation)
+		if(showMenuExplanation){
 			showDefinition("explainCommunectMe");
+			$(".removeExplanation").parent().show();
+		}
 	});;
 	
 
