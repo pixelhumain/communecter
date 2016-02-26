@@ -28,7 +28,7 @@ width: 100%;
 	padding: 3px;
 	font-size: 2em;
 }
-.blockMsg {
+.menuSmallBlockUI .blockMsg {
     left: 10% !important;
     top: 6% !important;
     width: 82% !important;
