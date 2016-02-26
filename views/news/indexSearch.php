@@ -106,13 +106,7 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 #newsHistory{
 	overflow: scroll;
 	overflow-x: hidden;
-	<?php if($type!="city" && !isset($_GET["isSearchDesign"])) { ?>
-	position:fixed;
-	top:100px;
-	<?php } ?>
-	<?php if(isset($_GET["isSearchDesign"])) { ?>
-		/*position:absolute;*/
-	<?php } ?>
+
 	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
@@ -290,7 +284,6 @@ div.timeline .date_separator span{
 	color:#3C5665;
 }
 
-<?php if (isset($_GET["isSearchDesign"]) ){ ?>
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
 #newsHistory{
 	top:110px !important;
@@ -321,7 +314,6 @@ div.timeline .date_separator span{
 .main-col-search{
 	/*padding-top:10px !important;*/
 }
-<?php } ?>
 
 </style>
 
@@ -375,7 +367,7 @@ div.timeline .date_separator span{
 <div id="newsHistory" class="padding-10">
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
-		<div class="panel panel-white" style="padding-top:10px;<?php if (isset($_GET["isSearchDesign"]) ){ ?>box-shadow:inherit;<?php } ?>">
+		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
 			<div class="panel-heading border-light  <?php if( isset($_GET["isNotSV"])) echo "hidden"; ?>">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
@@ -530,6 +522,7 @@ var totalEntries = 0;
 var timeout = null;
 var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
+var loadingData = false;
 jQuery(document).ready(function() 
 {	
 	if(contextParentType=="pixels"){
@@ -556,23 +549,24 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	},100);
-	$(".my-main-container").scroll(function(){
+		$(".my-main-container").scroll(function(){
 	    if(!loadingData && !scrollEnd){
-	        var heightContainer = $(".my-main-container")[0].scrollHeight;
-	        var heightWindow = $(window).height();
+	        //var heightContainer = $(".my-main-container")[0].scrollHeight;
+	        //var heightWindow = $(window).height();
 	        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
-	        if(scrollEnd == false){
+	        //if(scrollEnd == false){
 	          var heightContainer = $(".my-main-container")[0].scrollHeight;
 	          var heightWindow = $(window).height();
 	          if( ($(this).scrollTop() + heightWindow) == heightContainer){
 	            console.log("scroll MAX");
 	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 	          }
-	        }
+	        //}
 	    }
 	});
-	
+
+	},100);
+		
 	getUrlContent();
 	setTimeout(function(){
 		saveNews();
@@ -591,7 +585,7 @@ jQuery(document).ready(function()
 */
 var loadStream = function(indexMin, indexMax){
 	loadingData = true;
-    indexStep = 15;
+    indexStep = 5;
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -822,7 +816,7 @@ function buildLineHTML(newsObj,update)
 	title="";
 	if (streamType=="news" && newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
-			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a>";
+			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		text='<a href="#" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
@@ -831,6 +825,8 @@ function buildLineHTML(newsObj,update)
 	}
 	else{
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
+		if(newsObj.text != "")
+			title += "</br>";
 		text = '<span class="timeline_text">'+newsObj.text+'</span>';
 	}
 	
@@ -948,7 +944,7 @@ function buildLineHTML(newsObj,update)
 							//'</div>'+
 							'<div class="space5"></div>'+
 							//'<span class="timeline_text">'+ 
-							text + media +//+ '</span>' +	
+							title + text + media +//+ '</span>' +	
 						'</a>'+
 						'<div class="space5"></div>';
 						//'<span class="timeline_text">'+ authorLine + '</span>' +
