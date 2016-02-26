@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;left:10px;}
+.homeShortcuts{position:absolute;top:450px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -330,19 +330,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 	<?php } ?>
 	
-
-	<div class="homeShortcuts hide menuShortcuts">
-		<ul>
-		<li><a href="javascript:scrollTo('#whySection')">POURQUOI<br/>POURQUI</a></li>
-		<li><a href="javascript:scrollTo('#wwwSection')">UN BIEN COMMUN</a></li>
-		<li><a href="javascript:scrollTo('#crowfundingSection')">CROWDFUNDER</a></li>
-		<li><a href="javascript:scrollTo('#valueSection')">DES VALEURS</a></li>
-		<li><a href="javascript:scrollTo('#dicoSection')">DES MOTS CLEFS</a></li>
-		<li><a href="javascript:scrollTo('#friendsSection')">DES AMIS</a></li>
-		<li><a href="javascript:scrollTo('#teamSection')">COLLABORATIFS</a></li>
-		<li><a href="javascript:scrollTo('#contactSection')">CONTACT</a></li>
-		</ul>
-	</div>
+	
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
@@ -577,6 +565,7 @@ jQuery(document).ready(function() {
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
+		if(showMenuExplanation)
 			toggle(".explainConnect",".explain");
 	});
 
@@ -584,7 +573,10 @@ jQuery(document).ready(function() {
     	console.log("btn-register");
 		showPanel("box-register");
 		//$(".main-col-search").html("");
-	}).mouseenter(function(e){ toggle(".explainRegister",".explain");});
+	}).mouseenter(function(e){ 
+		if(showMenuExplanation)
+			toggle(".explainRegister",".explain");
+	});
 
 	$(".btn-logout").click(function(){
     	console.log("btn-logout");
@@ -593,6 +585,8 @@ jQuery(document).ready(function() {
 
 	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
+		if(showMenuExplanation)
+			toggle(".explainCommunectMe",".explain");
 	});
 
 	$("#searchBarPostalCode").mouseenter(function(e){

@@ -474,6 +474,7 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
+		    		  	//alert(url+", has #"+url.indexOf("#")+", count / : "+url.split("/").length - 1 );
 		    		  	if(url && url.indexOf("#") >= 0 ) {
 		    		  		//console.log(url);
 		    		  		window.location.href = url;

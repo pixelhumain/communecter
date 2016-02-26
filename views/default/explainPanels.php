@@ -8,7 +8,6 @@
 		font-weight: 300;
 	}
 </style>
-
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 
 	<div class="explainHome explain hide">
@@ -118,16 +117,29 @@
 	<div class="explainCommune explain hide">
 		<h1 class="homestead text-dark">Les Communes</h1>
 		<ul>
-			<li>People have walked quite a path since they started building tools</li>
-			<li>Cities are the largest of all man's creations</li>
-			<li>Constantly evolving with technology and social movements</li>
-			<li>Cities are living organisms made of layers, just like forests</li>
-			<li>But Forests seem to have very little impact on nature</li>
-			<li>We need to move towards Natural Efficiency to reduce our global impact</li>
-			<li>while communicating massively and building everything smarter. </li>
+			<li>On a fait un bon bout de chemin depuis la création des premiers outils</li>
+			<li>Les villes sont les plus grandes créations de l'homme</li>
+			<li>Evoluant constament avec la technologie et les mouvements sociaux</li>
+			<li>Les villes sont des organismes vivants fait de nombreuses couches, tout comme une foret</li>
+			<li>cependant les foret ont trés peu d’impact sur la nature</li>
+			<li>Nous devons évoluer vers une efficience naturelle réduisant l’impact de nos vies</li>
+			<li>Tout en communiquant massivement et construisant intelligement</li>
+			<li><a href="javascript:;" data-id="explainCommuneJoin" class="explainLink text-red">Devenir une commune adhérante !!</a>  </li>
 		</ul>
 	</div>
 	
+	<div class="explainCommuneJoin explain hide">
+		<h1 class="homestead text-dark">Devenir un Commune adhérante</h1>
+		<ul>
+			<li>C'est choisir comprendre l'enjeu d'un fonctionnement démocratique</li>
+			<li>C'est contribuer au fonctionnement et au développement d'un outil comme Communecter</li>
+			<li>C'est Soutenir vos administrés et le tissu associatif et economique local dans les actions et projets</li>
+			<li>C'est officialiser le lien entre un outil citoyen et la commune, et interagir directement</li>
+			<li>C'est une possibilité de collaboration et de contribution</li>
+			<li>C'est porté un Badge Commune Adhérante !! </li>
+		</ul>
+	</div>
+
 	<div class="explainCommuns explain hide">
 		<h1 class="homestead text-dark">Les Biens Communs</h1>
 		<ul>
@@ -519,7 +531,7 @@
 		<ul>
 			Nos outils de communication interne
 			<ul>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://gitter.im/pixelhumain/pixelhumain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://gitter.im/pixelhumain/pixelhumain">mur de discussion</a></li>
 				<li><i class="fa fa-angle-right"></i> <a href="">https://www.loomio.org/g/vdaxhNF4/pixelhumain</a></li>
 			</ul>
 			Nos documentations, power point
@@ -579,31 +591,68 @@
 			<li>Les fonctionalités prinicipales fonctionnes</li>
 			<li>si vous trouvez des bugs, transmettez les nous</li>
 			<li>On fait tout pour améliorer la plateforme </li>
+			<li> Et aprés on fait quoi ? <a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red">Roadmap</a></li>
 		</ul>
 	</div>
-	<?php if (isset(Yii::app() -> session["userId"])){ ?>
+
+	<div class="explainRoadMap explain hide">
+		<h1 class="homestead yellowph"> <i class="fa fa-sitemap"></i> Roadmap</h1>
+		<ul>
+			version 0.1
+			<ul>
+				<li><i class="fa fa-angle-right"></i>Add People, Organizations, Events, Projects </li>
+				<li><i class="fa fa-angle-right"></i>Annuaire Personnel</li>
+				<li><i class="fa fa-angle-right"></i>Double Design : Web + Cartographique</li>
+				<li><i class="fa fa-angle-right"></i>Prototype Mobile Meteor</li>
+				<li><i class="fa fa-angle-right"></i>Page Ma Ville simple en mode annuaire local</li>
+				<li><i class="fa fa-angle-right"></i>Mur d'actualité pour toutes les entités</li>
+				<li><i class="fa fa-angle-right"></i>Système de notification</li>
+				<li><i class="fa fa-angle-right"></i> Viralité : connecte to GMail contacts, import CSV (invité, membres, contributeurs)</li>
+			</ul>
+
+			version 0.2
+			<ul>
+				<li><i class="fa fa-angle-right"></i>Systeme Module Tiers : ex CommuNacelle (communecter épuré ou en meteor à voir)</li>
+				<li><i class="fa fa-angle-right"></i>Besoin et Competence </li>
+				<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
+				<li><i class="fa fa-angle-right"></i>scope quartier pour les communes inscrite</li>
+				<li><i class="fa fa-angle-right"></i>Opendata avec une API, system de preference d'ouverture de la donnée</li>
+				<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
+				<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
+			</ul>
+
+			version 0.3
+			<ul>
+				<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
+				<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>
+				<li><i class="fa fa-angle-right"></i>Action Rooms : Sondages et Votes</li>
+				<li><i class="fa fa-angle-right"></i>Librairie video : memoire du territoire</li>
+			</ul>
+		</ul>
+	</div>
+		<?php if (isset(Yii::app() -> session["userId"])){ ?>
 	<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
 	<?php } ?>
-</div>
 
+</div>
 <script>
 
 function removeExplainations(){
 	$(".removeExplanation").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
 	$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/person/updatesettings",
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						showMenuExplanation = false;
-						loadByHash(location.hash);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});
+	type: "POST",
+	url: baseUrl+"/"+moduleId+"/person/updatesettings",
+	dataType: "json",
+	success: function(data) {
+	if(data.result){
+	//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+	toastr.success(data.msg);	
+	showMenuExplanation = false;
+	loadByHash(location.hash);
+	}
+	else
+	toastr.error(data.msg);
+	},
+	});
 }
 </script>
