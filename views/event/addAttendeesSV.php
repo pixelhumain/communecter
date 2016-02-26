@@ -360,6 +360,7 @@ if( @$isNotSV ) {
 		$("#newAttendees #dropdown_search").css({"display" : "none" });
 	}
 	function setValidationTable(){
+		type="<?php echo Yii::t("common", Person::COLLECTION); ?>";
 		strHTML = "<tr><td>"+type+"</td><td>"
 	   						+$(".form-attendees .attendees-name").val()+"</td><td>"
 	   						+$(".form-attendees .attendees-email").val()+"</td><td>"+
