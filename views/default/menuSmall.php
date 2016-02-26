@@ -8,11 +8,12 @@
 width: 100%;
 }
 .menuSmallMenu div.item{
-	width:100px;
-	height:65px;
+	width: 49%;
+	height: 65px;
 	text-align: center;
 	display: inline-block;
-	margin:10px;
+	margin: 0px;
+	margin-bottom: 20px;
 }
 .menuSmallMenu a{
 	display: inline-block;
@@ -35,7 +36,7 @@ width: 100%;
 .menuSmallBlockUI img {
     height: auto;
     max-width: 70%;
-    width: 80px;
+    width: 60px;
 }
 </style>
 <div class="hide menuSmall">
