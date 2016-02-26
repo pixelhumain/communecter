@@ -547,13 +547,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<h3 class="homestead">Rejoignez nous : </h3>
 				
 				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
-				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class="explainLink btn btn-default text-bold">Communecteurs</a> 
-				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class="explainLink btn btn-default text-bold">Editeurs </a> 
-				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class="explainLink btn btn-default text-bold">Designeur </a> 
-				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class="explainLink btn btn-default text-bold">Contributeurs</a>
+				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class=" btn btn-default text-bold">Communecteurs</a> 
+				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class=" btn btn-default text-bold">Editeurs </a> 
+				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class=" btn btn-default text-bold">Designeur </a> 
+				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class=" btn btn-default text-bold">Contributeurs</a>
 				<div class="space20"></div>
-				<a href="javascript:loadByHash('#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>');" class=" btn btn-default text-bold">Association Open Atlas</a>
-				<a href="javascript:loadByHash('#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>')"  class="btn btn-default text-bold">Projet Communecter</a> 
+				<a href="javascript:focusPeople ('#openAtlas')" class=" btn btn-default text-bold">Association Open Atlas</a>
+				<a href="javascript:focusPeople ('#communecter'))"  class="btn btn-default text-bold">Projet Communecter</a> 
 			</div>
 		</center>
 		<div class="space20"></div>
@@ -582,8 +582,46 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 function focusPeople (tag) { 
 	console.log("focusPeople");
 	console.dir(tag);
-	loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
-	Sig.showFilterOnMap(tag);
+
+	var data = { 	 "name" : tag, 
+		 			 "locality" : "",
+		 			 "searchType" : [ "persons" ], 
+		 			 //"searchBy" : "INSEE",
+            		 "indexMin" : 0, 
+            		 "indexMax" : 500  
+            		};
+
+        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+		
+		$.blockUI({
+			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
+		});
+
+		showMap(true);
+		
+		$.ajax({
+	      type: "POST",
+	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+	          data: data,
+	          dataType: "json",
+	          error: function (data){
+	             console.log("error"); console.dir(data);          
+	          },
+	          success: function(data){
+	            if(!data){ toastr.error(data.content); }
+	            else{
+	            	console.dir(data);
+	            	Sig.showMapElements(Sig.map, data);
+	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+					$.unblockUI();
+	            }
+	          }
+	 	});
+
+	//loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
+	//Sig.showFilterOnMap(tag);
 }
 <?php $this->renderPartial("peopleTalk"); ?> 
 var peopleTalkCt = 0;
