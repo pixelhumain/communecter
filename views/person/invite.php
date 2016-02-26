@@ -1,11 +1,3 @@
-<?php
-$cssAnsScriptFilesModule = array(
-	//Data helper
-	'/js/communecter.js'
-	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>
-
 <style>
 
 #newInvite .dropdown-menu{
