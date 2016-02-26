@@ -116,6 +116,10 @@
     padding-left:10px;
     font-size:13px;
   }
+
+  .dropdown-result-global-search .entityRight{
+    text-align: left !important;
+  }
 }
 
 
@@ -413,11 +417,11 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
 
                     target = "";
 
-                    str += "<div class='col-md-12 no-padding searchEntity'>";
-                    str += "<div class='col-md-2 no-padding entityCenter'>";
+                    str += "<div class='col-md-12 col-sm-12 col-xs-12 no-padding searchEntity'>";
+                    str += "<div class='col-md-2 col-sm-2 col-xs-2 no-padding entityCenter'>";
                     str +=   "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
                     str += "</div>";
-                    str += "<div class='col-md-10 entityRight'>";
+                    str += "<div class='col-md-10 col-sm-10 col-xs-10 entityRight'>";
                     //str += "</div>";
                     //str +=  "<div class='col-md-5 entityRight no-padding'>";
                       str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
