@@ -256,6 +256,9 @@ var timeout;
 var emailType;
 
 jQuery(document).ready(function() {
+	//Remove parameters from URLs in case of invitation without reloading the page
+	removeParametersWithoutReloading();
+	
 	$(".box").hide();
 
 	userId = null;
@@ -307,6 +310,12 @@ function userValidatedActions() {
 		$('#name').val(name);
 		$('#email3').prop('disabled', true);
 	}
+}
+
+function removeParametersWithoutReloading() {
+	window.history.pushState("Invitation", 
+		"Invitation", 
+		location.href.replace(location.search,""));
 }
 
 var Login = function() {
