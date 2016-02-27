@@ -2,6 +2,8 @@
 
 <style>
 
+
+
 .main-col-search{
 	padding:0px !important;
 }
@@ -274,15 +276,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 	
-	<div class="col-md-12 no-padding" id="whySection">
+	<div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
 		
-		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:1px 0px 1px 34%; ">
-			<div class="col-sm-2">
-				<i class="fa fa-question-circle fa-5x" style="color:white;padding-top:11px;"></i>
-			</div>
-			<div class="col-sm-10">
-				<h1 class="homestead text-white">POUR QUI ? <br/> POUR QUOI FAIRE ?</h1>
-			</div>
+		<div class="col-md-12 center" style="background-color:#394B59;width:100%;padding:1px 0px 1px 0%; ">
+			<h1 class="homestead text-white">
+				<i class="fa fa-question-circle fa-2x" style="color:white;"></i>
+				 POUR QUI ? <br/> POUR QUOI FAIRE ?
+			</h1>
+			
 		</div>
 
 		<center>
@@ -336,30 +337,29 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.  
 			</div>
 			
-			<div class="col-sm-8">
+			<div class="col-md-8 col-sm-12 col-xs-12 pull-right">
 				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
 			</div>
 			
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="wwwSection">
+	<div class="col-md-12 no-padding" id="wwwSection" style="display: inline-block; max-width: 100%;">
 		
-		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 24%; ">
-			<div class="col-sm-4 text-white text-right">
-				<i class="fa fa-mobile fa-5x"></i> <i class="fa fa-tablet fa-5x"></i> <i class="fa fa-desktop fa-5x"></i>
-			</div>
-			<div class="col-sm-8">
-				<h1 class="homestead text-white">World Wide Web<br/>People and Territories</h1>
-			</div>
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%; ">
+				
+				<h1 class="homestead text-white center">
+					<i class="fa fa-mobile fa-5x"></i> <i class="fa fa-tablet fa-5x"></i> <i class="fa fa-desktop fa-5x"></i><br/>
+					World Wide Web<br/>Personnes et territoires
+				</h1>
 		</div>
 
 		<center style="background-color:#DFE5E7;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
 
-		<div class="col-md-12" style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px">
-			<div class="space20"></div>
+		<div class="col-md-12" style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px; float:left; width: 100%;">
+			<div class="space20 hidden-xs"></div>
 			<div class="col-md-6 col-sm-12 information" style="text-align: left; color:#3c5665";>
 				
 				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire, 
@@ -384,21 +384,16 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="crowfundingSection">
-		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
-			<div class="col-sm-2 text-white text-right">
-				<i class="fa fa-users fa-4x"></i>
-			</div>
-			<div class="col-sm-8">
-				<h1 class="homestead text-white">CROWDFUNDING</h1>
-			</div>
+	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%; ">
+			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>
 
 		<center style="background-color:#92BE1F;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px ">
-			<div class="space20"></div>
+		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px;  float:left; ">
+			<div class="space20 hidden-xs"></div>
 			<div class="col-sm-12">
 				<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
 					<img class="img-responsive pull-right" style="width: 60%; border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
@@ -428,30 +423,24 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="valueSection">
-		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 34%; ">
-			<div class="col-sm-2 text-white text-right">
-				<i class="fa fa-heart fa-4x"></i>
-			</div>
-			<div class="col-sm-8">
-				<h1 class="homestead text-white">NOS VALEURS</h1>
-			</div>
-			
+	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
 		</div>
 		
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
 		
-		<div class="col-md-12" style="color:#E33551;padding-bottom:40px " >	
+		<div class="col-md-12" style="color:#E33551;padding-bottom:40px;max-width:100%;" >	
 			<center>
 				<div class="space20"></div>
-				<img class="img-responsive"  src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
+				<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
 			</center>	
 		</div>
 	</div>
 
-	<div class="col-md-12" id="dicoSection" style="background-color:#293A46;color:white;padding-bottom:40px ">
+	<div class="col-md-12" id="dicoSection" style="background-color:#293A46;color:white;padding-bottom:40px; float:left; ">
 		<div class="col-md-6 col-sm-12">
 			<center>
 				
@@ -507,7 +496,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-sm-12" style="background-color:#fff;" id="friendsSection">
+	<div class="col-sm-12" style="background-color:#fff; float:left;" id="friendsSection">
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i>
 		</center>
@@ -538,7 +527,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 	
-	<div class="col-sm-12" style="background-color:#E33551; " id="teamSection">
+	<div class="col-sm-12" style="background-color:#E33551;  float:left;" id="teamSection">
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
@@ -559,7 +548,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 
-	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px " id="contactSection">	
+	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px; float:left; width:100%;" id="contactSection">	
 		<center>
 			<i class="fa fa-caret-down" style="color:#E33551"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
