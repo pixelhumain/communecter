@@ -298,7 +298,7 @@ console.warn("isMapEnd 1",isMapEnd);
 
 	function startNewCommunexion(){
 		var locality = $('#searchBarPostalCode').val();
-		locality = locality.replace(/[^\w\s']/gi, '');
+		locality = locality.replace(/[^\w\s-']/gi, '');
 
 		$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
 
