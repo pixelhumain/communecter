@@ -310,8 +310,10 @@ function replaceAndShow(hash,params){
 function loadByHashMap( hash , back ) { 
 	//alert("loadByHashMap",hash , back);
 }
+//back sert juste a differencier un load avec le back btn
+//ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
-    console.log("loadByHash",hash,back);
+    console.warn("loadByHash",hash,back);
     /*if( isMapEnd ){
     	showMap(true);
     	loadByHashMap(hash , back);
@@ -356,6 +358,67 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
+}
+
+function showPanel(box,bgStyle,title){ 
+
+	$(".my-main-container").scrollTop(0);
+
+  	$(".box").hide(200);
+  	showNotif(false);
+			
+	console.log("showPanel");
+	//showTopMenu(false);
+	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
+
+	$("."+box).show(500);
+}
+
+function showAjaxPanel (url,title,icon) { 
+	//$(".main-col-search").css("opacity", 0);
+	console.log("TITLE",title);
+	hideScrollTop = false;
+
+	var rand = Math.floor((Math.random() * 7) + 1); 
+	var urlImgRand = proverbs[rand];
+	
+	showNotif(false);
+			
+	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
+
+	setTimeout(function(){
+		$(".main-col-search").html("");
+		 $.blockUI({
+		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
+		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+		 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
+		 	//"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+		 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+		 });
+		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+		//$(".main-col-search").show();
+		showMap(false);
+	}, 800);
+
+	$(".box").hide(200);
+	//showPanel('box-ajax');
+	icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
+	$(".panelTitle").html(icon+title).fadeIn();
+	console.log("GETAJAX");
+	
+	showTopMenu(true);
+
+	setTimeout(function(){
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+			$(".main-col-search").slideDown(); initNotifications(); 
+			$.unblockUI();
+			$(".explainLink").click(function() {  
+			    showDefinition( $(this).data("id") );
+			    return false;
+			 });
+		},"html");
+	}, 800);
+	
 }
 
 function showDefinition( id ){
