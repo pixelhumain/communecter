@@ -206,9 +206,6 @@ var typesLabels = {
 	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
-var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
-
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
 var isNotSV = true;
