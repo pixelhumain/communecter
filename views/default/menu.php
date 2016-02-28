@@ -194,7 +194,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 	#searchBarPostalCode{
 		position: relative;
 		left: 2% !important;
@@ -467,8 +467,8 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		</a>
 
 		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
-		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 40%;">
-		    40%
+		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+		    0%
 		  </div>
 		</div>
 
@@ -497,7 +497,7 @@ jQuery(document).ready(function() {
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
-	}, 15000);
+	}, 5000);
 
 	$('#btn-close-globale-announce').click( function(e){ 
 		$(".globale-announce").css("width", 250);

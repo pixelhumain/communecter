@@ -17,6 +17,8 @@ var tooltips_lbl = { 	"people" 		 : "Ajouter quelqu'un à votre répertoire.",
 					};
 
 var floopTypeUsed = new Array();
+var floopShowLock = false;
+var timeoutShowFloopDrawer = false;
 
 function buildListContactHtml(contacts, myId){
 
@@ -156,8 +158,7 @@ function bindEventFloopDrawer(){
 			//var width = $(this).width();
 	        //$("#floopDrawerDirectory").css({left:width});
 	        //showFloopDrawer(true);
-
-			var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
+	        var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
 							$(".floopScroll #scroll-type-"+type.name).position().top;
 			$('.floopScroll').scrollTop(scrollTOP);
 		});
@@ -165,13 +166,15 @@ function bindEventFloopDrawer(){
 
 
     $("#ajaxSV,#menu-top-container").mouseenter(function() { 
-      showFloopDrawer(false);
+      if(!floopShowLock)
+			showFloopDrawer(false);
     });
     $(".floopDrawer, .floopDrawer #search-contact").mouseover(function() {
       showFloopDrawer(true);
     });
     $(".menuIcon.no-floop-item, .box-add, .blockUI, .mapCanvas").mouseover(function() {
-      	showFloopDrawer(false);
+      	if(!floopShowLock)
+			showFloopDrawer(false);
     });
 
 }
@@ -212,12 +215,26 @@ function addFloopEntity(entityId, entityType, entityValue){
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);
 	var html = getFloopItem(entityId, type, entityValue);
-	$("ul#floopType-"+entityType).append(html);
+	$("ul#floopType-"+entityType).prepend(html);
+	
+	floopShowLock = true;
+    showFloopDrawer(true);
+
+    setTimeout(function(){
+		var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
+						$(".floopScroll #scroll-type-"+entityType).position().top;
+		$('.floopScroll').scrollTop(scrollTOP);
+	}, 1000);
+
+	timeoutShowFloopDrawer = setTimeout(function(){
+		floopShowLock = false;
+		showFloopDrawer(false);
+		clearTimeout(timeoutShowFloopDrawer);
+	}, 4000);
 	//toastr.success("ajout de l'element floop ok");
 }
 
 //ajout d'un élément dans la liste
 function removeFloopEntity(entityId, entityType){
 	$('#floopItem-'+entityType+'-'+entityId).remove();
-	//toastr.success("remove de l'element floop ok");
 }

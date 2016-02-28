@@ -11,6 +11,21 @@
 		width: 24px;
 		margin-top: 4px;
 	}
+
+@media screen and (max-width: 1024px) {
+  button.btn-start-search {
+    margin-top: -40px;
+    margin-left: 47%;
+    color: white;
+    border-radius: 30px;
+    font-weight: 300;
+    font-size: 19px;
+    margin-bottom: 20px;
+    height: 45px;
+    width: 45px;
+    padding: 0px;
+  }
+}
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
@@ -25,7 +40,7 @@
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
   </button>
-	<button data-id="explainAgenda" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainAgenda" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
@@ -34,7 +49,7 @@
 </div>
 
 
-<div class="" id="dropdown_search"></div>
+<div style="" id="dropdown_search"></div>
 
 
 <?php $this->renderPartial("first_step_agenda"); ?> 
@@ -221,7 +236,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").css({"display" : "inline" });
+    //$("#dropdown_search").css({"display" : "inline" });
 
     if(indexMin > 0)
     $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
@@ -320,25 +335,27 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                   //template principal
                   str += "<div class='col-md-12 searchEntity'>";
-                    str += "<div class='col-md-5 entityLeft'>";
-                      
+                    str += "<div class='col-md-5 col-sm-4 entityLeft'>";
                       <?php if( isset( Yii::app()->session['userId'] ) ) { ?>
+                      isFollowed=false;
+                      if(typeof o.isFollowed != "undefined" )
+                        isFollowed=true;
                       if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
-                      str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
-                            'data-toggle="tooltip" data-placement="left" data-original-title="Participer à l\'évènement"'+
-                            " data-ownerlink='participate' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
-                                "<i class='fa fa-user-plus'></i>"+ //fa-bookmark fa-rotate-270
+                      str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                            'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+                            " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                                "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                               "</a>";
                       <?php } ?>
                       str += tags;
               
                     str += "</div>";
 
-                    str += "<div class='col-md-2 entityCenter'>";
+                    str += "<div class='col-md-2 col-sm-2 entityCenter'>";
                     str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
                     str += "</div>";
                      target = "";
-                    str += "<div class='col-md-5 entityRight no-padding'>";
+                    str += "<div class='col-md-5 col-sm-5 entityRight no-padding'>";
                       str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
                       if(fullLocality != "" && fullLocality != " ")
                       str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
@@ -397,7 +414,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
                 //affiche la dropdown
-                $("#dropdown_search").css({"display" : "inline" });
+                //$("#dropdown_search").css({"display" : "inline" });
 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)

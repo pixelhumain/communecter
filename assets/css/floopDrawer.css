@@ -4,6 +4,7 @@
 	margin-bottom: 0px;
 }
 .floopDrawer {
+	  z-index: 10;
 	  display: none;	
 	  width:0px;
       float:right;

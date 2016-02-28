@@ -206,9 +206,6 @@ var typesLabels = {
 	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
 
-var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
-
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
 var isNotSV = true;
@@ -298,7 +295,7 @@ console.warn("isMapEnd 1",isMapEnd);
 
 	function startNewCommunexion(){
 		var locality = $('#searchBarPostalCode').val();
-		locality = locality.replace(/[^\w\s']/gi, '');
+		locality = locality.replace(/[^\w\s-']/gi, '');
 
 		$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
 
