@@ -262,7 +262,7 @@ var urlParams = {
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
-    "#person.changepassword" : {title:'Change your password ', icon : 'user' },
+    "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
@@ -358,8 +358,15 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
+    if(!back){
+    	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
+	    console.warn("replaceState history.state",history.state);
+	}
 }
 
+/* ****************
+Generic non-ajax panel loading process 
+**************/
 function showPanel(box,bgStyle,title){ 
 
 	$(".my-main-container").scrollTop(0);
@@ -374,6 +381,11 @@ function showPanel(box,bgStyle,title){
 	$("."+box).show(500);
 }
 
+/* ****************
+Generic ajax panel loading process 
+loads any REST Url endpoint returning HTML into the content section
+also switches the global Title and Icon
+**************/
 function showAjaxPanel (url,title,icon) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("TITLE",title);
@@ -404,7 +416,7 @@ function showAjaxPanel (url,title,icon) {
 	//showPanel('box-ajax');
 	icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 	$(".panelTitle").html(icon+title).fadeIn();
-	console.log("GETAJAX");
+	console.log("GETAJAX",icon+title);
 	
 	showTopMenu(true);
 
