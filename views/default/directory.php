@@ -38,7 +38,7 @@
 	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
   </button>
-	<button data-id="explainDirectory" class="explainLink menu-button btn-infos  bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainDirectory" class="explainLink menu-button btn-infos  bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
@@ -51,13 +51,13 @@
         <i class="fa fa-asterisk"></i>
       </button> -->
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
-        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i> Citoyens
+        <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i> <span class="hidden-xs">Citoyens</span>
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
-        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> Organisations
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs">Organisations</span>
       </button>
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
-        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> Projets
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs">Projets</span>
       </button>
     </div>
   </div>
@@ -69,7 +69,7 @@
 
 
 
-<div style="margin-top:0px;" class="col-md-12" id="dropdown_search"></div>
+<div style="" class="col-md-12" id="dropdown_search"></div>
 
 <?php $this->renderPartial(@$path."first_step_directory"); ?> 
 
@@ -253,7 +253,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".btn-start-search").html(str);
     $(".btn-start-search").addClass("bg-azure");
     $(".btn-start-search").removeClass("bg-dark");
-    $("#dropdown_search").css({"display" : "inline" });
+    //$("#dropdown_search").css({"display" : "inline" });
 
     if(indexMin > 0)
     $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
@@ -431,7 +431,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
                 //affiche la dropdown
-                $("#dropdown_search").css({"display" : "inline" });
+                //$("#dropdown_search").css({"display" : "inline" });
 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
@@ -501,18 +501,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    			}
    			else{
 	   			$(value).html("<i class='fa fa-user-plus text-green'></i>");
-	   			if(type == "organizations")
+	   			
+          if(type == "organizations")
 	   				$(value).attr("data-original-title", "Vous êtes membre de cette organization");
 	   			else if(type == "projects")
 	   				$(value).attr("data-original-title", "Vous êtes contributeur de ce projet");
-	   			$(value).attr("onclick", "");
+	   			
+          //(value).attr("onclick", "");
 	   			$(value).removeClass("followBtn");
 	   		}
    		}
    		if($(value).attr("data-isFollowed")=="true"){
 	   		$(value).html("<i class='fa fa-unlink text-green'></i>");
 	   		$(value).attr("data-original-title", "Ne plus suivre");
-			$(value).attr("data-ownerlink","unfollow");
+			  $(value).attr("data-ownerlink","unfollow");
+        $(value).addClass("followBtn");
    		}
    	});
 
@@ -548,10 +551,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
 						$(thiselement).attr("data-ownerlink","unfollow");
 						$(thiselement).attr("data-original-title", "Ne plus suivre");
-						if(type=="people"){
+						//if(type=="people"){
 							addFloopEntity(id, type, data.parentEntity);
-							showFloopDrawer(true);
-						}
+						//}
 					}
 					else
 						toastr.error(data.msg);
@@ -571,7 +573,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						$(thiselement).attr("data-ownerlink","follow");
 						$(thiselement).attr("data-original-title", "Suivre");
 						removeFloopEntity(data.parentId, type);
-						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name+" <?php echo Yii::t("common","anymore") ?>");	
+						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name); //+" <?php echo Yii::t("common","anymore") ?>");	
 					} else {
 					   toastr.error("You leave succesfully");
 					}

@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;right:20px;}
+.homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -194,26 +194,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 }
 
 
-.globale-announce{
-	position: fixed;
-	bottom: 0px;
-	background-color: rgb(255, 255, 255);
-	z-index: 1;
-	width: 20% !important;
-	margin-left: 20%;
-	padding-top: 10px !important;
-	font-size: 16px;
-	border-radius: 10px 10px 0px 0px;
-	padding: 10px;
-	border-radius: 10px 10px 0px 0px;
-	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
-	box-shadow: 0px -2px 5px -2px #353535 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 	#searchBarPostalCode{
 		position: relative;
 		left: 2% !important;
@@ -433,22 +414,70 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 </div>
 
-<div class="globale-announce text-dark hidden-xs">
-	<img class="pull-left" style="width:40%;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
-	<div class="pull-left" style="width:30%;">
-		Du 1er mars<br/>
-		Au 15 avril
-	</div>
+<style>
+.globale-announce{
+	position: fixed;
+	bottom: 0px;
+	background-color: rgb(255, 255, 255);
+	z-index: 1;
+	width: 400px;
+	margin-left: 20%;
+	padding-top: 10px !important;
+	font-size: 16px;
+	border-radius: 10px 10px 0px 0px;
+	padding: 10px;
+	border-radius: 10px 10px 0px 0px;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
 
-	<img class="pull-right" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
-	
-	<div class="progress" style="width:100%;">
-	  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 40%;">
-	    40%
-	  </div>
+#btn-close-globale-announce{
+	width: 30px;
+	height: 30px;
+	border-radius: 20px;
+	position: absolute;
+	right: 5px;
+	top: 4px;
+	text-align: center;
+	padding: 0px;
+}
+</style>
+<div class="globale-announce text-dark hidden-xs">
+	<div id="kkbb-min" style="display:none; margin-bottom: -12px;">
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
+	</div>
+	<div id="kkbb-big">
+		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
+		<a href="javascript:" target="_blank"><img class="pull-left" style="width:20%;" 
+			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
+		
+		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
+			Du 26 février<br/>
+			Au 15 avril
+		</div>
+
+		
+		<a href="javascript:" target="_blank">
+			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
+		</a>
+
+		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
+		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+		    0%
+		  </div>
+		</div>
+
+		<div class="pull-left" style="width:100%; margin-top:5px;">
+		<div class="pull-left" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Objectif : 20 000€</div>
+		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : 0€</div>
+		</div>
 	</div>
 </div>
-
+<?php //} ?>
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
 	<i class="fa fa-envelope"></i>
@@ -457,9 +486,33 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 <script type="text/javascript">
 
+
+
 var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
+
+	setTimeout(function(){ 
+		$(".globale-announce").css("width", 250);
+		$("#kkbb-big").hide(400);
+		$("#kkbb-min").show(400);
+	}, 5000);
+
+	$('#btn-close-globale-announce').click( function(e){ 
+		$(".globale-announce").css("width", 250);
+		$("#kkbb-big").hide(400);
+		$("#kkbb-min").show(400);
+		//var path = "/";
+		//if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+
+		//$.cookie('kkbbok',  true, { expires: 365, path: path });
+	});
+	$('#kkbb-min').mouseenter( function(e){ 
+		$(".globale-announce").css("width", 400);
+		$("#kkbb-min").hide(400);
+		$("#kkbb-big").show(400);
+		
+	});
 
 	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ 
 		if(showMenuExplanation){

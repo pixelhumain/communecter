@@ -18,7 +18,7 @@
 	
 
 	<?php if($sigParams['useRightList']){ ?>
-		<div id="right_tool_map" class="hidden-xs">
+		<div id="right_tool_map" class="hidden-xs hidden-sm">
 
 			<!-- 	HEADER -->
 			<div class="right_tool_map_header">

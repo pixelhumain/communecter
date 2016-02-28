@@ -226,6 +226,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	.active .bg-purple, .active .bg-dark, .active .bg-red, .active .bg-light-red{
 		border-bottom: 3px solid rgba(96, 96, 96, 0.65);
 	}
+
+	.startDateEvent, .endDateEvent{
+		display: block;
+		line-height: 17px;
+	}
 	
 
 	.container_menu_directory .bg-red, 
@@ -645,7 +650,7 @@ if( isset($_GET["isNotSV"])) {
 						if(isset($e["startDate"]) && isset($e["endDate"]) && $type == "event"){
 						 	if(isset($e["startDate"]->sec)){
 						 		$strHTML .=  '<br/>'.
-						 					 '<a class="startDateEvent start double" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a></br>';
+						 					 '<a class="startDateEvent start double" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a>';
 						 		$strHTML .=  '<a class="startDateEvent end double" '.$url.'>'.date('m/d/Y', $e["endDate"]->sec).'</a>';
 						 		
 							}else{
@@ -654,7 +659,7 @@ if( isset($_GET["isNotSV"])) {
 
 								if(substr($start, 0, 10) != substr($end, 0, 10)){
 									$strHTML .=  '<br/>'.
-												 '<a class="startDateEvent start double" '.$url.'>'.$e["startDate"].'</a></br>';
+												 '<a class="startDateEvent start double" '.$url.'>'.$e["startDate"].'</a>';
 									$strHTML .=  '<a class="startDateEvent end   double" '.$url.'>'.$e["endDate"].'</a>';
 								}else{
 									$hour1 = substr($start, strpos($start, "-")+2, strlen($start));
@@ -662,12 +667,12 @@ if( isset($_GET["isNotSV"])) {
 									
 									if($hour1 == "00h00" && $hour2 == "23h59") {
 										$strHTML .=  '<br/>'.
-													 '<a class="startDateEvent double" '.$url.' allday="true"><i class="fa fa-caret-right"></i> Le '.substr($start, 0, 10).'</a></br>';
-										$strHTML .=  '<a class="startDateEvent double" '.$url.'><i class="fa fa-caret-right"></i> '.Yii::t("event","All day",null,Yii::app()->controller->module->id).'</a>';
+													 '<a class="startDateEvent double" '.$url.' allday="true"> Le '.substr($start, 0, 10).'</a>';
+										$strHTML .=  '<a class="startDateEvent double" '.$url.'>'.Yii::t("event","All day",null,Yii::app()->controller->module->id).'</a>';
 									}else{
 										$strHTML .=  '<br/>'.
-													 '<a class="startDateEvent double" '.$url.' allday="true"><i class="fa fa-caret-right"></i> Le '.substr($start, 0, 10).'</a></br>';
-										$strHTML .=  '<a class="startDateEvent double" '.$url.'><i class="fa fa-caret-right"></i> '.$hour1. " - ".$hour2.'</a>';
+													 '<a class="startDateEvent double" '.$url.' allday="true"> Le '.substr($start, 0, 10).'</a>';
+										$strHTML .=  '<a class="startDateEvent double" '.$url.'>'.$hour1. " - ".$hour2.'</a>';
 									}
 								}
 							}
@@ -866,14 +871,14 @@ jQuery(document).ready(function() {
  	$.each($(".startDateEvent.start"), function(){
  		var date = dateToStr($(this).html(), "fr", true);
  		if($(this).attr("allday") == "true"){
- 			$(this).html("<i class='fa fa-caret-right'></i> Le " + date);
+ 			$(this).html("Le " + date);
  		}else{
-	 		$(this).html("<i class='fa fa-caret-right'></i> Du " + date);
+	 		$(this).html("Du " + date);
 	 	}
  	});
  	$.each($(".startDateEvent.end"), function(){
  		var date = dateToStr($(this).html(), "fr", true);
- 		$(this).html("<i class='fa fa-caret-right'></i> Au " + date);
+ 		$(this).html("Au " + date);
  	});
  }
 

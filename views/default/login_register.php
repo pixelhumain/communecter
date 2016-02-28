@@ -44,13 +44,13 @@
 						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> Je me connecte</h2>
 						<div class="form-group">
 							<span class="input-icon">		
-								<input type="text" class="form-control radius-10" name="email" id="email" placeholder="<?php echo Yii::t("login","Email") ?>" >
+								<input type="text" class="form-control radius-10" name="email" id="email-login" placeholder="<?php echo Yii::t("login","Email") ?>" >
 								<i class="fa fa-user"></i> </span>
 						</div>
 						<div class="form-group form-actions">
 							
 							<span class="input-icon">
-								<input type="password" class="form-control password"  name="password" id="password" placeholder="<?php echo Yii::t("login","Password") ?>">
+								<input type="password" class="form-control password"  name="password" id="password-login" placeholder="<?php echo Yii::t("login","Password") ?>">
 								
 								<label for="remember" class="checkbox-inline">
 									<input type="checkbox" class="grey remember" id="remember" name="remember">
@@ -209,7 +209,7 @@
 							<div>
 								<label for="agree" class="checkbox-inline">
 									<input type="checkbox" class="grey agree" id="agree" name="agree">
-									<?php echo Yii::t("login","I agree to the Terms of") ?> <a href="#" class="bootbox-spp"><?php echo Yii::t("login","Service and Privacy Policy") ?></a>
+									<?php echo Yii::t("login","I agree to the Terms of") ?> <a href="https://www.communecter.org/doc/Conditions Générales d'Utilisation.pdf" target="_blank" class="bootbox-spp"><?php echo Yii::t("login","Service and Privacy Policy") ?></a>
 								</label>
 							</div>
 						</div>			
@@ -276,8 +276,8 @@ jQuery(document).ready(function() {
 	})
 
 	if(email != ''){
-		$('#email').val(email);
-		$('#email').prop('disabled', true);
+		$('#email-login').val(email);
+		$('#email-login').prop('disabled', true);
 		$('#email3').val(email);
 		$('#email3').prop('disabled', true);
 	}
@@ -300,7 +300,7 @@ function userValidatedActions() {
 	if (userValidated) {
 		$(".errorHandler").hide();
 		$(".emailValidated").show();
-		$(".form-login #password").focus();
+		$(".form-login #password-login").focus();
 	}
 
 	//We are in a process of invitation. The user already exists in the db.
@@ -471,8 +471,8 @@ var Login = function() {
 				errorHandler.hide();
 				loginBtn.start();
 				var params = { 
-				   "email" : $("#email").val(), 
-                   "pwd" : $("#password").val()
+				   "email" : $("#email-login").val(), 
+                   "pwd" : $("#password-login").val()
                 };
 			      
 		    	$.ajax({

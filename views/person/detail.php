@@ -42,10 +42,7 @@ $this->renderPartial('../default/panels/toolbar');
 jQuery(document).ready(function() {
 	bindBtnFollow();
 	var images = <?php echo json_encode($images) ?>;
-	$(".changePasswordBtn").click(function () {
-		console.log("changePasswordbuttton");
-		loadByHash('#person.changepassword.id.'+personId+'.mode.initSV', false);
-	});
+	
 	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo $person["name"] ?>");
 
 	$("#btn-center-person").click(function(){
