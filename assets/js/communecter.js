@@ -286,10 +286,8 @@ var loadableUrls = {
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', 
-						   action:function( hash ){ 
-										showTagOnMap(hash.split('.')[2])
-									} },
+	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
+	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 };
 function replaceAndShow(hash,params){
 	res = false;
