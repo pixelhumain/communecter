@@ -73,7 +73,7 @@
 	position: fixed !important;
 	top: 0px;
 	left: 0px;
-	z-index: 1;
+	z-index: 12;
 	overflow: visible;
 	border: 0px solid #3C5665;
 	border-radius:5px;
