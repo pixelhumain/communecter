@@ -254,7 +254,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		});             
 	}
 }		
-var urlParams = {
+var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
@@ -285,22 +285,35 @@ var urlParams = {
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', 
+						   action:function( hash ){ 
+										showTagOnMap(hash.split('.')[2])
+									} },
 };
 function replaceAndShow(hash,params){
 	res = false;
 	$(".menuShortcuts").addClass("hide");
-	$.each( urlParams, function(urlIndex,urlObj)
+	$.each( loadableUrls, function(urlIndex,urlObj)
 	{
 		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
-			endPoint = urlParams[urlIndex];
-			if( endPoint.alias )
+			endPoint = loadableUrls[urlIndex];
+			//alises are renaming of urls example default.home could be #home
+			if( endPoint.alias ){
 				endPoint = replaceAndShow(endPoint.alias,params);
-			extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
-			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
-			if(endPoint.menu)
-				$("."+endPoint.menu).removeClass("hide");
+				return false;
+			} 
+			// an action can be connected to a url, and executed
+			if( endPoint.action && typeof endPoint.action == "function"){
+				endPoint.action(hash);
+			} else {
+				//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
+				extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
+				showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
+				if(endPoint.menu)
+					$("."+endPoint.menu).removeClass("hide");
+			}
 			res = true;
 			return false;
 		}
@@ -335,7 +348,7 @@ function loadByHash( hash , back ) {
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
     }
-        
+    
     else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invite") >= 0 )
@@ -433,6 +446,57 @@ function showAjaxPanel (url,title,icon) {
 	
 }
 
+/* ****************
+visualize all tagged elements on a map
+**************/
+function showTagOnMap (tag) { 
+
+	console.log("showTagOnMap",tag);
+
+	var data = { 	 "name" : tag, 
+		 			 "locality" : "",
+		 			 "searchType" : [ "persons" ], 
+		 			 //"searchBy" : "INSEE",
+            		 "indexMin" : 0, 
+            		 "indexMax" : 500  
+            		};
+
+        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+		
+		$.blockUI({
+			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
+		});
+
+		showMap(true);
+		
+		$.ajax({
+	      type: "POST",
+	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+	          data: data,
+	          dataType: "json",
+	          error: function (data){
+	             console.log("error"); console.dir(data);          
+	          },
+	          success: function(data){
+	            if(!data){ toastr.error(data.content); }
+	            else{
+	            	console.dir(data);
+	            	Sig.showMapElements(Sig.map, data);
+	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+					$.unblockUI();
+	            }
+	          }
+	 	});
+
+	//loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
+	//Sig.showFilterOnMap(tag);
+}
+
+/* ****************
+show a definition in the focus menu panel
+**************/
 function showDefinition( id ){
 	console.log("showDefinition",id);
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
