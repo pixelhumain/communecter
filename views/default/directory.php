@@ -501,18 +501,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    			}
    			else{
 	   			$(value).html("<i class='fa fa-user-plus text-green'></i>");
-	   			if(type == "organizations")
+	   			
+          if(type == "organizations")
 	   				$(value).attr("data-original-title", "Vous êtes membre de cette organization");
 	   			else if(type == "projects")
 	   				$(value).attr("data-original-title", "Vous êtes contributeur de ce projet");
-	   			$(value).attr("onclick", "");
+	   			
+          //(value).attr("onclick", "");
 	   			$(value).removeClass("followBtn");
 	   		}
    		}
    		if($(value).attr("data-isFollowed")=="true"){
 	   		$(value).html("<i class='fa fa-unlink text-green'></i>");
 	   		$(value).attr("data-original-title", "Ne plus suivre");
-			$(value).attr("data-ownerlink","unfollow");
+			  $(value).attr("data-ownerlink","unfollow");
+        $(value).addClass("followBtn");
    		}
    	});
 
@@ -548,10 +551,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
 						$(thiselement).attr("data-ownerlink","unfollow");
 						$(thiselement).attr("data-original-title", "Ne plus suivre");
-						if(type=="people"){
+						//if(type=="people"){
 							addFloopEntity(id, type, data.parentEntity);
-							showFloopDrawer(true);
-						}
+						//}
 					}
 					else
 						toastr.error(data.msg);
@@ -571,7 +573,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						$(thiselement).attr("data-ownerlink","follow");
 						$(thiselement).attr("data-original-title", "Suivre");
 						removeFloopEntity(data.parentId, type);
-						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name+" <?php echo Yii::t("common","anymore") ?>");	
+						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name); //+" <?php echo Yii::t("common","anymore") ?>");	
 					} else {
 					   toastr.error("You leave succesfully");
 					}
