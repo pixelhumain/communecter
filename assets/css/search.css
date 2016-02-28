@@ -521,6 +521,9 @@ button.btn-infos{
 #dropdown_searchTop{
 	padding-left: 0px;
 	margin-left: 0px;
+	margin-top:20px; 
+	float:left;
+	width:100%;
 }
 #dropdown_searchTop .li-dropdown-scope ol{
 	width:50%;
@@ -711,16 +714,16 @@ button.btn-infos{
 
 
 	button.btn-start-search {
-	    margin-top: -20px;
-	    margin-left: 71%;
-	    color: white;
-	    border-radius: 30px;
-	    font-weight: 300;
-	    font-size: 15px;
-	    margin-bottom: 20px;
-	    height: 35px;
-	    width: 35px;
-	    padding: 0px;
+	    margin-top: -60px;
+		margin-left: 46%;
+		color: white;
+		border-radius: 30px;
+		font-weight: 300;
+		font-size: 19px;
+		margin-bottom: 20px;
+		height: 45px;
+		width: 45px;
+		padding: 0px;
 	}
 
 	#dropdown_searchTop .li-dropdown-scope ol{
@@ -733,6 +736,18 @@ button.btn-infos{
 		font-weight: 300;
 	}
 
+	button.btn-activate-communexion {
+	    font-size: 15px;
+	    position: absolute;
+	    top: 11px;
+	    left: 44.5%;
+	    height: 33px;
+		min-width: 33px;
+   	}
+   	.lbl-scope-list {
+	    left: 53%;
+	    font-size: 20px;
+   	}
 	
 
 	button.btn-geolocate{
@@ -740,10 +755,15 @@ button.btn-infos{
 		left: 0px;
 	}
 	button.btn-infos{
-		top: 30px;
-		right: 0px;
+		font-size: 15px;
+	    height: 33px;
+		min-width: 33px;
+		top: 25px;
+		left: -2%;
 	}
-
+	.btn-filter-type {
+	    height: 35px !important;
+	}
 	.dropdown.dropdown-scope {
 	    position: absolute;
 	    top: 102px;
@@ -762,7 +782,9 @@ button.btn-infos{
 	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	    font-weight: 200;
 	  }
-
+	  #dropdown_search{
+	  	margin-top:20px;
+	  }
 }
 
 
@@ -798,6 +820,52 @@ button.btn-infos{
 		max-width:100% !important;
 	}
 
+
+	#main-title-communect{
+		font-size:35px !important;
+	}
+
+	.bgpixeltree{
+		background-image: url("") !important;
+	}
+
+	.img-logo {
+	    width: 290px;
+		max-width: 290px;
+		min-width: 290px;
+		height: 170px;
+		top: 6px;
+		margin-left: auto;
+		margin-right: auto;
+		position: relative;
+	}
+
+	button.btn-activate-communexion {
+	    font-size: 12px;
+	    position: absolute;
+	    top: 15px;
+	    left: -2.5%;
+	    height: 28px;
+	    min-width: 28px;
+	}
+
+	.lbl-scope-list {
+	    left: 13%;
+	    font-size: 14px;
+	    top: 130px !important;
+	}
+
+	input.input-search {
+	    margin-top: 30px !important;
+	    margin-left: 8% !important;
+	    width: 81% !important;
+	}
+
+	.blockMsg {
+	    width: 80% !important;
+	    top: 2% !important;
+	    left: 10% !important;
+	}
 	
 }
 
@@ -814,6 +882,9 @@ button.btn-infos{
 .searchEntity{
 	margin-bottom:10px;
 	margin-left:7px;
+	min-height: 60px !important;
+	float: left;
+	width: 100%;
 }
 .searchEntity .entityLeft{
 	text-align: right;

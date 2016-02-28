@@ -194,7 +194,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 	#searchBarPostalCode{
 		position: relative;
 		left: 2% !important;
@@ -497,7 +497,7 @@ jQuery(document).ready(function() {
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
-	}, 15000);
+	}, 5000);
 
 	$('#btn-close-globale-announce').click( function(e){ 
 		$(".globale-announce").css("width", 250);

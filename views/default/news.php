@@ -34,6 +34,29 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	height:250px;
 }
 
+
+@media screen and (max-width: 1024px) {
+  button.btn-start-search {
+    margin-top: -40px;
+    margin-left: 47%;
+    color: white;
+    border-radius: 30px;
+    font-weight: 300;
+    font-size: 19px;
+    margin-bottom: 20px;
+    height: 45px;
+    width: 45px;
+    padding: 0px;
+  }
+
+  .img-logo {
+    height: 170px;
+  }
+  #newsHistory #timeline {
+    margin-top: -50px;
+  }
+}
+
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
@@ -49,7 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
 	</button> -->
-	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 
