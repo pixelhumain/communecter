@@ -48,8 +48,15 @@
 															"isNotSV" => 1	));
 					?>
 		    	</div>
-		    	<?php if ($organization["type"]=="NGO" || $organization["type"]=="Group"){ ?>
+		    	<?php if (($admin == 1 || !empty($needs)) && ($organization["type"]=="NGO" || $organization["type"]=="Group")){ ?> 
 				<div class="col-md-12 col-xs-12 needsPod">	
+					<?php $this->renderPartial('../pod/needsList',array( 	"needs" => $needs, 
+																			"parentId" => (String) $organization["_id"],
+																			"parentType" => Organization::COLLECTION,
+																			"isAdmin" => $admin,
+																			"parentName" => $organization["name"]
+																		  )); ?>
+
 				</div>
 				<?php } ?>
 				<?php if ($admin == 1 || !empty($events)){ ?>
@@ -82,9 +89,7 @@
 <script>
 
 	jQuery(document).ready(function() {
-		<?php if ((@$organization["links"]["needs"] && !empty($organization["links"]["needs"])) || $admin == true){ ?>
-			getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Organization::COLLECTION ?>/id/<?php echo $organization["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
-		<?php } ?>
+
 		$(".moduleLabel").html("<i class='fa fa-users'></i> <?php echo $organization["name"] ?> ");
 		//if($(".tooltips").length) {
      	//	$('.tooltips').tooltip();
