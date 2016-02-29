@@ -65,11 +65,11 @@
   }
 
   .main-top-menu .input-global-search{
-    float: right;
-    margin-top: -10px;
-    margin-right: -1px;
+    /*float: right;*/
+    margin-top: -2px;
+    margin-right: 9px;
     width: 240px;
-    height: 53px;
+    height: 38px;
     border: 1px solid rgba(128, 128, 128, 0.46) !important;
     /*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
     -webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
@@ -124,10 +124,10 @@
 
 
 
-  </style>
+</style>
   
 
-  <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>
@@ -140,7 +140,7 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');"            id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon profil</a></li>
+          <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');"            id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon profil <span class="badge badge-warning"><i class="fa fa-bookmark"></i>  <?php echo Gamification::badge( Yii::app()->session['userId'] ) ?></span> </a></li>
           <li><a href="javascript:;" onclick="loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId']?>');"         id="btn-menu-dropdown-my-directory"><i class="fa fa-bookmark fa-rotate-270 text-dark"></i> Mon répertoire</a></li>
           <li><a href="javascript:;" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isSearchDesign=1');"         id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li>
           <!-- <li><a href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li> -->

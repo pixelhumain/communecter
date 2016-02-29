@@ -7,10 +7,6 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 
-<style>
-
-</style>
-
 <div id="changePassword" >
 	<!-- start: PAGE CONTENT -->
 	<div class="noteWrap col-md-6 col-md-offset-3">
@@ -101,30 +97,27 @@ var formValidator = function() {
 
 	        $.ajax({
 		    	  type: "POST",
+		    	  dataType: "json",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/changepassword",
 		    	  data: {
 					"mode" : "changePassword",
-	            	"userId" : userId, 
+	            	"id" : userId, 
 		    	  	"oldPassword" : $('#oldPassword').val(),
 		    	  	"newPassword" : $('#newPassword').val()
 		    	  },
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
-	                   		$.unblockUI();
 	                   	}
 	                    else { 
 	                        toastr.success(data.msg);
-							$.hideSubview();
-							$.unblockUI();
-							loadByHash(location.hash);
+							loadByHash("#person.detail.id."+userId);
 	                    }
 		    	  },
 		    	  error: function(data) {
 						toastr.error("Something went really bad : contact your admin." + data.msg);
-                   		$.unblockUI();
 		    	  },
-		    	  dataType: "json"
+		    	  
 		    });
 	       	return false; // required to block normal submit since you used ajax
 		},

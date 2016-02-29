@@ -33,6 +33,8 @@ class AdminController extends CommunecterController {
 	        'checkgeocodage'  => 'citizenToolKit.controllers.admin.CheckGeoCodageAction',
 	        'getentitybadlygeolocalited'  => 'citizenToolKit.controllers.admin.GetEntityBadlyGeoLocalitedAction',
 	        'getdatabyurl' => 'citizenToolKit.controllers.admin.GetDataByUrlAction',
+	        'adddata' => 'citizenToolKit.controllers.admin.AddDataAction',
+	        'adddataindb' => 'citizenToolKit.controllers.admin.AddDataInDbAction',
 	    );
 	}
 }

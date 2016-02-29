@@ -483,15 +483,22 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
-		    		  	//alert(url+", has #"+url.indexOf("#")+", count / : "+url.split("/").length - 1 );
+		    		  	//console.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
 		    		  	if(url && url.indexOf("#") >= 0 ) {
-		    		  		//console.log(url);
+		    		  		//console.log("login 1",url);
 		    		  		window.location.href = url;
 		        		} else {
-		        			if( url.split("/").length - 1 <= 3 ) 
-		        				window.location.href = baseUrl+'#default.home';
-		        			else 
+		        			if( url.split("/").length - 1 <= 3 ) {
+		        				//console.log("login 2",baseUrl+'#default.home');
+		        				if(window.location.href.indexOf('#default.home') >= 0)
+		        					window.location.reload();
+		        				else
+		        					window.location.href = baseUrl+'#default.home';
+		        			}
+		        			else {
+		        				//console.log("login 3 reload");
 		        				window.location.reload();
+		        			}
 		        		}
 		    		  } else {
 		    		  	var msg;
