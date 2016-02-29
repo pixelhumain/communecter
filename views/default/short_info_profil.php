@@ -124,10 +124,10 @@
 
 
 
-  </style>
+</style>
   
 
-  <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>
