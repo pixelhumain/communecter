@@ -287,6 +287,7 @@ var urlParams = {
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 };
 function replaceAndShow(hash,params){
+	console.log("replaceAndShow",hash,params);
 	res = false;
 	$(".menuShortcuts").addClass("hide");
 	$.each( urlParams, function(urlIndex,urlObj)
@@ -321,7 +322,6 @@ function loadByHash( hash , back ) {
 
     if( replaceAndShow(hash,params) )
     	console.log("loadByHash >>> replaceAndShow",hash);
-   
     else if( hash.indexOf("#panel") >= 0 ){
     	panelName = hash.substr(7);
     	if( (panelName == "box-login" || panelName == "box-register") && userId != "" && userId != null ){
@@ -332,9 +332,7 @@ function loadByHash( hash , back ) {
         else
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
-    }
-        
-    else if( hash.indexOf("#organization.addorganizationform") >= 0 )
+    } else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invite") >= 0 )
         showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' );

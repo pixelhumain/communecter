@@ -7,10 +7,6 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 
-<style>
-
-</style>
-
 <div id="changePassword" >
 	<!-- start: PAGE CONTENT -->
 	<div class="noteWrap col-md-6 col-md-offset-3">
