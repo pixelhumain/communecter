@@ -494,7 +494,7 @@ function bindAboutPodEvents()
 {
 	$(".changePasswordBtn").click(function () {
 		console.log("changePasswordbuttton");
-		loadByHash('#person.changepassword.mode.initSV', false);
+		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
 	});
 
 	$("#editProfil").click( function(){
