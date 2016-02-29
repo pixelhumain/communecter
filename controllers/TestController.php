@@ -580,7 +580,7 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
   public function actionTestMailInvitation() {
     var_dump(Utils::getServerInformation());
-    $person = Person::getById("56cc4d972336f2bbe60041b0");
+    $person = Person::getById("56cc5a0c94ef47ae237b23d6");
     var_dump($person);
     $params = array( "invitorName"   => "Invitation Man !",
                      "title" => Yii::app()->name ,

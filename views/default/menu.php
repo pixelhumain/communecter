@@ -323,7 +323,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>
 
-	<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
+	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
     <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
@@ -456,7 +456,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 26 février<br/>
+			Du 1er Mars<br/>
 			Au 15 avril
 		</div>
 

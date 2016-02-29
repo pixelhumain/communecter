@@ -1186,16 +1186,23 @@ function getGeo(org){
    	var nbNominatim = 0;
   	var nbGoogle = 0;
 
-	if(org.address.streetAddress.trim() != "")
-		adressLong = adressLong + org.address.streetAddress ;
+	if(typeof org.address.streetAddress != "undefined"){
+		if(org.address.streetAddress.trim() != "")
+			adressLong = adressLong + org.address.streetAddress ;
+	}
+		
+	if(typeof org.address.postalCode != "undefined"){
+		if(org.address.postalCode.trim() != ""){
+			adressLong = adressLong + ", " + org.address.postalCode;
+			adressShort += org.address.postalCode;
+		}
+	}
 
-	if(org.address.postalCode.trim() != ""){
-		adressLong = adressLong + ", " + org.address.postalCode;
-		adressShort += org.address.postalCode;
-	}	
-	if(org.address.addressLocality.trim() != ""){
-		adressLong = adressLong + ", " +  org.address.addressLocality;
-		adressShort += ", " + org.address.addressLocality
+	if(typeof org.address.addressLocality != "undefined"){	
+		if(org.address.addressLocality.trim() != ""){
+			adressLong = adressLong + ", " +  org.address.addressLocality;
+			adressShort += ", " + org.address.addressLocality
+		}
 	}	
 
 	
