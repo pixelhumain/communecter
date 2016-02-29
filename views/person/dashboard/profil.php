@@ -213,9 +213,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
  		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i>Beta Tester</div>
 		<?php 	} ?>
- 		
- 				
   	</div>
+
   	<div class="modal fade" role="dialog" id="modal-confidentiality">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -313,7 +312,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-
+					<i class="fa fa-bookmark"></i> badge : <a href="javascript:loadByHash('#define.Gamification');"><span class="badge badge-warning"> <?php echo Gamification::badge( Yii::app()->session['userId'] )." : ".Gamification::calcPoints( Yii::app()->session['userId'] )." points"?></span>
 					<hr style="margin:10px 0px 3px 0px;">
 					
 					<i class="fa fa-road fa_streetAddress hidden"></i> 

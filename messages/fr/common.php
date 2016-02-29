@@ -39,4 +39,12 @@ return array(
 	"Check the URL you entered for any mistakes and try again." => "Vérifier l'URL et rééssayez",
 	"Return home" => "Retour Acceuil",
 	
+	"air" => "air",
+	"seed" => "graine",
+	"germ" => "germe",
+	"plant" => "plante",
+	"tree" => "arbre",
+	"forest" => "foret",
+	"country" => "pays",
+	"planet" => "planète",
 );
