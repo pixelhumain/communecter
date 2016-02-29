@@ -95,6 +95,8 @@ class CommunecterController extends Controller
       "checkgeocodage"   => array("href" => "/ph/communecter/admin/checkgeocodage"),
       "getentitybadlygeolocalited"   => array("href" => "/ph/communecter/admin/getentitybadlygeolocalited"),
       "getdatabyurl"   => array("href" => "/ph/communecter/admin/getdatabyurl"),
+      "adddata"    => array("href" => "/ph/communecter/admin/adddata"),
+      "adddataindb"    => array("href" => "/ph/communecter/admin/adddataindb"),
     ),
 
     "default" => array(
