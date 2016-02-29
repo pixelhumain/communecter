@@ -485,13 +485,17 @@ var Login = function() {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
 		    		  	console.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
 		    		  	if(url && url.indexOf("#") >= 0 ) {
-		    		  		//console.log(url);
+		    		  		console.log("login 1",url);
 		    		  		window.location.href = url;
 		        		} else {
-		        			if( url.split("/").length - 1 <= 3 ) 
+		        			if( url.split("/").length - 1 <= 3 ) {
+		        				console.log("login 2",baseUrl+'#default.home');
 		        				window.location.href = baseUrl+'#default.home';
-		        			else 
+		        			}
+		        			else {
+		        				console.log("login 3 reload");
 		        				window.location.reload();
+		        			}
 		        		}
 		    		  } else {
 		    		  	var msg;
