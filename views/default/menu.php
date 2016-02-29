@@ -323,7 +323,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>
 
-	<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
+	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
     <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
