@@ -597,10 +597,10 @@ console.warn("isMapEnd 1",isMapEnd);
 
 			//$(".main-col-search").show();
 
-			
+
 			showMap(false);
 			
-		}, 800);
+		}, 100);
 		//
 		//
 
@@ -620,6 +620,9 @@ console.warn("isMapEnd 1",isMapEnd);
 				    showDefinition( $(this).data("id") );
 				    return false;
 				 });
+				$(".hover-info, .infoVersion").hide();
+				hoverPersist = false;
+			
 			},"html");
 		}, 800);
 		

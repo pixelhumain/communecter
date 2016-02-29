@@ -672,13 +672,15 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".menu-button-title").addClass("large");
 
-			/*hoverPersist = false;
+			if(showMenuExplanation)
+				$(".lbl-btn-menu-name, .infoVersion").css("display" , "inline");
+
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
-				hoverPersist = true;*/
+				//hoverPersist = true;
 				if(showMenuExplanation)
-				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
-			//}, 1500);
+				$(".hover-info").css("display" , "inline");
+			}, 1500);
 		}
 	});
 
@@ -686,6 +688,7 @@ jQuery(document).ready(function() {
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 	    	hoverPersist = false;
+			clearTimeout(timeoutHover);
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
@@ -708,7 +711,6 @@ jQuery(document).ready(function() {
 				if(!isLoginRegister()){
 					positionMouseMenu = "out";
 					$(".main-col-search").animate({ opacity:1 }, 200 );
-					hoverPersist = false;
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
 					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);

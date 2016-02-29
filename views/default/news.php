@@ -68,7 +68,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <div class="lbl-scope-list text-red"></div>
 
 
-<div class="img-logo bgpixeltree_little">
+<div class="img-logo bgpixeltree_little hidden">
 	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
 	</button> -->
@@ -83,11 +83,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 
-<?php $this->renderPartial("first_step_news"); ?> 
+<?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
 
+<?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
+<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 40px; ">
+  <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
+  <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
+  <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button> 
+</div>
+<?php } ?>
+
 <div class="" id="dropdown_search"></div>
-<div class="" id="newsstream"></div>
+<div class="col-md-12" id="newsstream"></div>
 
 
 <script type="text/javascript">
