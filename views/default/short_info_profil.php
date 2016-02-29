@@ -68,7 +68,7 @@
     /*float: right;*/
     margin-top: -2px;
     margin-right: 9px;
-    width: 24 0px;
+    width: 240px;
     height: 38px;
     border: 1px solid rgba(128, 128, 128, 0.46) !important;
     /*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
