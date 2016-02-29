@@ -456,7 +456,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 26 février<br/>
+			Du 1er Mars<br/>
 			Au 15 avril
 		</div>
 
