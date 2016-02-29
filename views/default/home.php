@@ -354,11 +354,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				</h1>
 		</div>
 
-		<center style="background-color:#DFE5E7;">
+		<center style="background-color:#fffff;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
 
-		<div class="col-md-12" style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px; float:left; width: 100%;">
+		<div class="col-md-12" style="background-color:#fffff;color:#293A46;padding-bottom:40px; float:left; width: 100%;">
 			<div class="space20 hidden-xs"></div>
 			<div class="col-md-6 col-sm-12 information" style="text-align: left; color:#3c5665";>
 				
