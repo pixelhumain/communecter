@@ -524,7 +524,7 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 var loadingData = false;
 jQuery(document).ready(function() 
-{	
+{
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
@@ -545,8 +545,11 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+	},100);
+	setTimeout(function(){
 		$(".my-main-container").scroll(function(){
 	    if(!loadingData && !scrollEnd){
+		    //alert(loadingData);
 	        //var heightContainer = $(".my-main-container")[0].scrollHeight;
 	        //var heightWindow = $(window).height();
 	        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
@@ -560,8 +563,7 @@ jQuery(document).ready(function()
 	        //}
 	    }
 	});
-
-	},100);
+	},4000);
 		
 	getUrlContent();
 	setTimeout(function(){
@@ -605,6 +607,7 @@ var loadStream = function(indexMin, indexMax){
 					dateLimit=data.limitDate.created.sec;
 				else
 					dateLimit=data.limitDate.created;
+				loadingData = false;
 			}
 		}
 	});
@@ -657,7 +660,7 @@ function buildTimeLine (news, indexMin, indexMax)
 		manageModeContext(key);
 	});
 
-	loadingData = false;
+
 	//offset=$('.newsTL'+' .newsFeed:last').offset(); 
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);

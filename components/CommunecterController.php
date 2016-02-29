@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.094";
-  public $versionDate = "23/02/2016 13:36";
+  public $version = "v0.095";
+  public $versionDate = "19/02/2016 10:00";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -158,15 +158,15 @@ class CommunecterController extends Controller
   		"generatetimeline" => array("href" => "/ph/communecter/gantt/generatetimeline"),
   		"addtimesheetsv"   => array("href" => "/ph/communecter/gantt/addtimesheetsv"),
     ),
-  	"needs"=> array(
-        "index" => array("href" => "/ph/communecter/needs/index", "public" => true),
-        "description" => array("href" => "/ph/communecter/needs/dashboard/description"),
-        "dashboard" => array("href" => "/ph/communecter/needs/dashboard"),
-        "detail" => array("href" => "/ph/communecter/needs/detail", "public" => true),
-        "saveneed" => array("href" => "/ph/communecter/needs/saveneed"),
-        "updatefield" => array("href" => "/ph/communecter/needs/updatefield"),
-        "addhelpervalidation" => array("href" => "/ph/communecter/needs/addhelpervalidation"),
-        "addneedsv" => array("href" => "/ph/communecter/needs/addneedsv"),
+  	"need"=> array(
+        "index" => array("href" => "/ph/communecter/need/index", "public" => true),
+        "description" => array("href" => "/ph/communecter/need/dashboard/description"),
+        "dashboard" => array("href" => "/ph/communecter/need/dashboard"),
+        "detail" => array("href" => "/ph/communecter/need/detail", "public" => true),
+        "saveneed" => array("href" => "/ph/communecter/need/saveneed"),
+        "updatefield" => array("href" => "/ph/communecter/need/updatefield"),
+        "addhelpervalidation" => array("href" => "/ph/communecter/need/addhelpervalidation"),
+        "addneedsv" => array("href" => "/ph/communecter/need/addneedsv"),
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),

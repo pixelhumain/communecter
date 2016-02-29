@@ -139,7 +139,7 @@ $this->renderPartial('../default/panels/toolbar');
       background-color: #FFF;
       border: 1px solid #DDD;
       display: inline-block;
-      height: 100px;
+      height: 125px;
       text-align: center;
       font-family: "homestead";
       font-size: 20px;
@@ -158,29 +158,27 @@ $this->renderPartial('../default/panels/toolbar');
   filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
 }
   #pod-local-actors .list-group-item .badge {
-    font-size: 16px;
+    font-size: 14px;
     font-family: Helvetica;
-    /*width: 45px;*/
-    height: 26px;
-    border-radius: 0px 0px 0px 8px;
-    padding-top: 6px;
-    position: absolute;
-    top: -1px;
-    right: 0px;
+    width: 50px;
+    height: 20px;
+    border-radius: 20px;
+    padding-top: 5px;
+    top: 11px;
+    right: 20px;
     text-align: center;
   }
 
 
   .pod-local-actors .list-group-item .badge {
-    font-size: 13px;
+    font-size: 14px;
     font-family: Helvetica;
-    /*width: 25px;*/
-    height: 25px;
-    border-radius: 0px 0px 0px 8px;
-    padding-top: 6px;
-    position: absolute;
-    top: -1px;
-    right: -1px;
+    width: 50px;
+    height: 20px;
+    border-radius: 20px;
+    padding-top: 5px;
+    top: 11px;
+    right: 20px;
     text-align: center;
   }
 
@@ -228,7 +226,7 @@ $this->renderPartial('../default/panels/toolbar');
   margin-top:-30px;
  }
  #pod-local-actors .list-group-item{
-  height:65px;
+  height:90px;
   font-size:14px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
@@ -326,36 +324,36 @@ $this->renderPartial('../default/panels/toolbar');
         <div class="panel-body no-padding center">
 
           <ul class="list-group text-left no-margin">
-            <li class="list-group-item text-yellow col-md-4 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-yellow col-md-6 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-user fa-2x"></i>
+                <i class="fa fa-user fa-2x"></i><br/>
                 <?php $cnt= (isset($people)) ? count($people): 0; ?>
+                <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?><br/>
                 <span class="badge bg-yellow"><?php echo $cnt;?></span></br> 
-                <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
                 
               </div>
             </li>
-            <li class="list-group-item text-purple col-md-4 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-purple col-md-6 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
+                <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?><br/>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
                 <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-orange col-md-4 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-orange col-md-6 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-calendar fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
+                <i class="fa fa-calendar fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?><br/>
                 <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
-            <li class="list-group-item text-green col-md-4 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-green col-md-6 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
-                <i class="fa fa-users fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?>
+                <i class="fa fa-users fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?><br/>
                 <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                 <span class="badge bg-green"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-prune col-md-4 col-sm-6 col-xs-6 link-to-directory">
+            <!-- <li class="list-group-item text-prune col-md-4 col-sm-6 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-male"></i><i class="fa fa-male fa-2x"></i><i class="fa fa-male"></i></br> <?php echo strtolower (Yii::t("common", "GROUPES")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
@@ -368,7 +366,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
                 <span class="badge bg-azure"><?php echo $cnt;?></span>
               </div>
-            </li>
+            </li> -->
             <!-- <li class="list-group-item">
               <span class="badge"><?php echo $cnt;?></span>
               COLLECTIVITÉ

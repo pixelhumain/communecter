@@ -254,7 +254,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		});             
 	}
 }		
-var urlParams = {
+var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
@@ -262,10 +262,11 @@ var urlParams = {
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
-    "#person.changepassword" : {title:'Change your password ', icon : 'user' },
+    "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
+    "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
     "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
@@ -285,22 +286,34 @@ var urlParams = {
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
+	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 };
 function replaceAndShow(hash,params){
+	console.log("replaceAndShow",hash,params);
 	res = false;
 	$(".menuShortcuts").addClass("hide");
-	$.each( urlParams, function(urlIndex,urlObj)
+	$.each( loadableUrls, function(urlIndex,urlObj)
 	{
 		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
-			endPoint = urlParams[urlIndex];
-			if( endPoint.alias )
+			endPoint = loadableUrls[urlIndex];
+			//alises are renaming of urls example default.home could be #home
+			if( endPoint.alias ){
 				endPoint = replaceAndShow(endPoint.alias,params);
-			extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
-			showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
-			if(endPoint.menu)
-				$("."+endPoint.menu).removeClass("hide");
+				return false;
+			} 
+			// an action can be connected to a url, and executed
+			if( endPoint.action && typeof endPoint.action == "function"){
+				endPoint.action(hash);
+			} else {
+				//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
+				extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
+				showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
+				if(endPoint.menu)
+					$("."+endPoint.menu).removeClass("hide");
+			}
 			res = true;
 			return false;
 		}
@@ -310,8 +323,10 @@ function replaceAndShow(hash,params){
 function loadByHashMap( hash , back ) { 
 	//alert("loadByHashMap",hash , back);
 }
+//back sert juste a differencier un load avec le back btn
+//ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
-    console.log("loadByHash",hash,back);
+    console.warn("loadByHash",hash,back);
     /*if( isMapEnd ){
     	showMap(true);
     	loadByHashMap(hash , back);
@@ -321,7 +336,6 @@ function loadByHash( hash , back ) {
 
     if( replaceAndShow(hash,params) )
     	console.log("loadByHash >>> replaceAndShow",hash);
-   
     else if( hash.indexOf("#panel") >= 0 ){
     	panelName = hash.substr(7);
     	if( (panelName == "box-login" || panelName == "box-register") && userId != "" && userId != null ){
@@ -332,9 +346,7 @@ function loadByHash( hash , back ) {
         else
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
-    }
-        
-    else if( hash.indexOf("#organization.addorganizationform") >= 0 )
+    } else if( hash.indexOf("#organization.addorganizationform") >= 0 )
         showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
     else if( hash.indexOf("#person.invite") >= 0 )
         showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' );
@@ -356,8 +368,132 @@ function loadByHash( hash , back ) {
         showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
 
     location.hash = hash;
+    if(!back){
+    	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
+	    console.warn("replaceState history.state",history.state);
+	}
 }
 
+/* ****************
+Generic non-ajax panel loading process 
+**************/
+function showPanel(box,bgStyle,title){ 
+
+	$(".my-main-container").scrollTop(0);
+
+  	$(".box").hide(200);
+  	showNotif(false);
+			
+	console.log("showPanel");
+	//showTopMenu(false);
+	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
+
+	$("."+box).show(500);
+}
+
+/* ****************
+Generic ajax panel loading process 
+loads any REST Url endpoint returning HTML into the content section
+also switches the global Title and Icon
+**************/
+function showAjaxPanel (url,title,icon) { 
+	//$(".main-col-search").css("opacity", 0);
+	console.log("TITLE",title);
+	hideScrollTop = false;
+
+	var rand = Math.floor((Math.random() * 7) + 1); 
+	var urlImgRand = proverbs[rand];
+	
+	showNotif(false);
+			
+	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
+
+	setTimeout(function(){
+		$(".main-col-search").html("");
+		 $.blockUI({
+		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
+		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
+		 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
+		 	//"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
+		 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
+		 });
+		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+		//$(".main-col-search").show();
+		showMap(false);
+	}, 800);
+
+	$(".box").hide(200);
+	//showPanel('box-ajax');
+	icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
+	$(".panelTitle").html(icon+title).fadeIn();
+	console.log("GETAJAX",icon+title);
+	
+	showTopMenu(true);
+
+	setTimeout(function(){
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+			$(".main-col-search").slideDown(); initNotifications(); 
+			$.unblockUI();
+			$(".explainLink").click(function() {  
+			    showDefinition( $(this).data("id") );
+			    return false;
+			 });
+		},"html");
+	}, 800);
+	
+}
+
+/* ****************
+visualize all tagged elements on a map
+**************/
+function showTagOnMap (tag) { 
+
+	console.log("showTagOnMap",tag);
+
+	var data = { 	 "name" : tag, 
+		 			 "locality" : "",
+		 			 "searchType" : [ "persons" ], 
+		 			 //"searchBy" : "INSEE",
+            		 "indexMin" : 0, 
+            		 "indexMax" : 500  
+            		};
+
+        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+		
+		$.blockUI({
+			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
+		});
+
+		showMap(true);
+		
+		$.ajax({
+	      type: "POST",
+	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+	          data: data,
+	          dataType: "json",
+	          error: function (data){
+	             console.log("error"); console.dir(data);          
+	          },
+	          success: function(data){
+	            if(!data){ toastr.error(data.content); }
+	            else{
+	            	console.dir(data);
+	            	Sig.showMapElements(Sig.map, data);
+	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+					$.unblockUI();
+	            }
+	          }
+	 	});
+
+	//loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
+	//Sig.showFilterOnMap(tag);
+}
+
+/* ****************
+show a definition in the focus menu panel
+**************/
 function showDefinition( id ){
 	console.log("showDefinition",id);
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );

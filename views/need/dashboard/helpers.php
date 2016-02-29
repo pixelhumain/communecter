@@ -29,42 +29,10 @@
 <div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("need","HELPERS",null,Yii::app()->controller->module->id); ?></h4>
-			<div class="panel-tools">
 				<?php $admin = false;
-					if(isset(Yii::app()->session["userId"]) && isset($_GET["id"]))
-						$admin = Authorisation::canEditItem(Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]);
-					if($admin){
-     				?>	
-					<?php } ?>
-				<div class="dropdown">
-					<a class="btn btn-xs dropdown-toggle btn-transparent-grey" data-toggle="dropdown">
-						<i class="fa fa-cog"></i>
-					</a>
-					<ul role="menu" class="dropdown-menu dropdown-light pull-right">
-						<li>
-							<a href="#" class="panel-collapse collapses"><i class="fa fa-angle-up"></i> 								<span>Collapse</span> </a>
-						</li>
-						<li>
-							<a href="#" class="panel-refresh">
-								<i class="fa fa-refresh"></i> <span>Refresh</span>
-							</a>
-						</li>
-						<li>
-							<a data-toggle="modal" href="#panel-config" class="panel-config">
-								<i class="fa fa-wrench"></i> <span>Configurations</span>
-							</a>
-						</li>
-						<li>
-							<a href="#" class="panel-expand">
-								<i class="fa fa-expand"></i> <span>Fullscreen</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<a href="#" class="btn btn-xs btn-link panel-close">
-					<i class="fa fa-times"></i>
-				</a>
-			</div>
+					if(isset(Yii::app()->session["userId"]) && isset($parentId))
+						$admin = Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId);
+				?>
 		</div>
 		<div class="panel-body no-padding">
 			<div class="tabbable no-margin no-padding">				
@@ -77,7 +45,7 @@
 						foreach ($helpers as $id => $val){
 							if($val["isValidated"] == 1){ ?>
 								<div class="col-md-3 col-xs-4 center padding-10 helperBox">
-									<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".(string)$val["_id"])?>" title="validated">
+									<a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo (string)$val["_id"] ?>')" title="validated">
 									<?php if(isset($val["imagePath"])) { ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$val['imagePath']) ?>">
 								<?php } else{ 
@@ -93,7 +61,7 @@
 									<a href="javascript:;" class="refuseHelp">
 										<i class="fa fa-times-circle refuseBtn confirmBtn"></i>
 									</a>
-									<a href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard/id/".(string)$val["_id"])?>" title="wait for validation">
+									<a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo (string)$val["_id"] ?>')" title="wait for validation">
 									<?php if(isset($val["imagePath"])) { ?>
 									<img width="50" height="50" alt="image" class="img-circle grayscale" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$val['imagePath']) ?>">
 									<?php } else{ 
@@ -151,7 +119,7 @@
 	</div>
 <script type="text/javascript">
 var admin= <?php if(isset($admin) && !empty($admin))	echo $admin; else echo 0 ?>;
-var needId= "<?php echo $_GET["idNeed"]; ?>";
+var needId= "<?php echo $id; ?>";
 var quantity = <?php echo $nbValidate ?>;
 
 jQuery(document).ready(function(){
@@ -177,7 +145,7 @@ $(".new-proposal").off().on("click",function () {
 					if (result) {
 						$.ajax({
 					        type: "POST",
-					        url: baseUrl+"/"+moduleId+"/needs/addhelpervalidation/needId/"+needId+"/booleanState/0/",
+					        url: baseUrl+"/"+moduleId+"/need/addhelpervalidation/needId/"+needId+"/booleanState/0/",
 					       	dataType: "json",
 				        	success: function(data){
 					        	console.log(data);
@@ -204,7 +172,7 @@ $(".acceptHelp").off().on("click",function () {
 					if (result) {
 						$.ajax({
 					        type: "POST",
-					        url: baseUrl+"/"+moduleId+"/needs/addhelpervalidation/needId/"+needId+"/helperId/"+idHelper+"/booleanState/1/",
+					        url: baseUrl+"/"+moduleId+"/need/addhelpervalidation/needId/"+needId+"/helperId/"+idHelper+"/booleanState/1/",
 					       	dataType: "json",
 				        	success: function(data){
 					        	console.log(data);
@@ -226,7 +194,7 @@ function addAttentConfirmBox(helper, bool){
 	if(bool == 0){
 		console.log(helper);
 		divHelper = '<div class="col-md-3 col-xs-4 center padding-10 helperBox'+helper._id["$id"]+'">'+
-						'<a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+helper._id["$id"]+'" title="wait for validation">';
+						'<a href="javascript:;" onclick="loadByHash(\'#person.detail.id.'+helper._id["$id"]+'\')" title="wait for validation">';
 						if(typeof(helper.imagePath) != "undefined") { 
 							divHelper += '<img width="50" height="50" alt="image" class="img-circle grayscale" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+helper.imagePath+'">';
 						}else{ 
@@ -237,7 +205,7 @@ function addAttentConfirmBox(helper, bool){
 	}
 	else {
 		divHelper='<div class="col-md-3 col-xs-4 center padding-10 helperBox">'+
-						'<a href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+helper._id["$id"]+'" title="validated">';
+						'<a href="javascript:;" onclick="loadByHash(\'#person.detail.id.'+helper._id["$id"]+'\')" title="validated">';
 						if(typeof(helper.imagePath) != "undefined") { 
 							divHelper += '<img width="50" height="50" alt="image" class="img-circle" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+helper.imagePath+'">';
 						}else{ 

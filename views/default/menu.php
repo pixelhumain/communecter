@@ -73,7 +73,7 @@
 	position: fixed !important;
 	top: 0px;
 	left: 0px;
-	z-index: 1;
+	z-index: 12;
 	overflow: visible;
 	border: 0px solid #3C5665;
 	border-radius:5px;
@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;right:20px;}
+.homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -414,7 +414,6 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 </div>
 
-
 <style>
 .globale-announce{
 	position: fixed;
@@ -457,7 +456,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 26 février<br/>
+			Du 1er Mars<br/>
 			Au 15 avril
 		</div>
 
@@ -672,13 +671,15 @@ jQuery(document).ready(function() {
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".menu-button-title").addClass("large");
 
-			/*hoverPersist = false;
+			if(showMenuExplanation)
+				$(".lbl-btn-menu-name, .infoVersion").css("display" , "inline");
+
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){
-				hoverPersist = true;*/
+				//hoverPersist = true;
 				if(showMenuExplanation)
-				$(".lbl-btn-menu-name, .hover-info, .infoVersion").css("display" , "inline");
-			//}, 1500);
+				$(".hover-info").css("display" , "inline");
+			}, 1500);
 		}
 	});
 
@@ -686,6 +687,7 @@ jQuery(document).ready(function() {
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
 	    	hoverPersist = false;
+			clearTimeout(timeoutHover);
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			$(".lbl-btn-menu-name").hide();
@@ -708,7 +710,6 @@ jQuery(document).ready(function() {
 				if(!isLoginRegister()){
 					positionMouseMenu = "out";
 					$(".main-col-search").animate({ opacity:1 }, 200 );
-					hoverPersist = false;
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
 					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);

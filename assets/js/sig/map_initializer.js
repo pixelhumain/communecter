@@ -368,6 +368,8 @@
 				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
 			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
 				imgProfilPath =  baseUrl + "/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
+				imgProfilPath =  assetPath + "/images/city/city_default_l.png";
 			return imgProfilPath;
 		};
 

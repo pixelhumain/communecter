@@ -492,19 +492,24 @@ function buildBgClassesList()
 }
 function bindAboutPodEvents() 
 {
-	$("#editProfil").on("click", function(){
+	$(".changePasswordBtn").click(function () {
+		console.log("changePasswordbuttton");
+		loadByHash('#person.changepassword.mode.initSV', false);
+	});
+
+	$("#editProfil").click( function(){
 		switchMode();
 	});
 
-	console.log("personData");
-	console.dir(personData);
+	//console.log("personData");
+	//console.dir(personData);
 
 	$("#editGeoPosition").click(function(){
 		Sig.startModifyGeoposition(personId, "citoyens", Sig.currentPersonData);
 		showMap(true);
 	});
 
-	$('.exportMyDataBtn').off().on("click",function () { 
+	$('.exportMyDataBtn').click("click",function () { 
     	console.log("exportMyDataBtn");
     	$.ajax({
 	        type: "GET",
