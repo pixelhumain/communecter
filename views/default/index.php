@@ -490,7 +490,7 @@ function setScopeValue(btn){
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 	
 		Sig.clearMap();
-
+		console.log("hash city ? ", location.hash.indexOf("#default.city"));
 		if(location.hash == "#default.home"){
 			showLocalActorsCityCommunexion();
 		}else
@@ -503,11 +503,17 @@ function setScopeValue(btn){
 		if(location.hash == "#default.news"){
 			startSearch();
 			showMap(false);
+		}else
+		if(location.hash.indexOf("#city.detail") >= 0) {
+			showLocalActorsCityCommunexion();
+			//showMap(false);
 		}else{
-			if(inseeCommunexion != "")
-			toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
-			//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
-			showMap(false);
+			if(inseeCommunexion != ""){
+				showLocalActorsCityCommunexion();
+				//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+				//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
+				//showMap(false);
+			}
 		}
 	}
 	
