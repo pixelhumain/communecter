@@ -73,7 +73,7 @@
 	position: fixed !important;
 	top: 0px;
 	left: 0px;
-	z-index: 1;
+	z-index: 12;
 	overflow: visible;
 	border: 0px solid #3C5665;
 	border-radius:5px;
@@ -148,7 +148,7 @@
 	font-weight: 600;
 	font-size: 14px;
 }
-.homeShortcuts{position:absolute;top:450px;right:20px;}
+.homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
@@ -413,7 +413,6 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		<i class="fa fa-plus-circle"></i>
 	</button>
 </div>
-
 
 <style>
 .globale-announce{

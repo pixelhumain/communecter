@@ -32,9 +32,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	<div class="panel-heading border-light margin-bottom-10">
 		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
 		<div class="navigator padding-0 text-right">
-			<div class="panel-tools">
+			<div class="panel-tools" style="border:inherit !important;">
 				<?php if ($isAdmin){ ?>
-					<a href="#" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt=""><i class="fa fa-pencil"></i></a>
+					<a href="javascript:;" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt="" style="border:inherit !important;"><i class="fa fa-pencil"></i> Éditer le besoin</a>
         		<?php } ?>
 			</div>
 		</div>
@@ -46,15 +46,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				<tbody>
 					<tr>
 						<td><?php echo Yii::t("common","Name") ?></td>
-						<td><a href="#" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a></td>
+						<td><a href="javascript:;" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a></td>
 					</tr>
 					<tr>
 						<td>Type</td>
-						<td><a href="#" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a></td>
+						<td><a href="javascript:;" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a></td>
 					</tr>
 					<tr>
 						<td><?php echo Yii::t("common","Duration") ?></td>
-						<td><a href="#" id="duration" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a></td>
+						<td><a href="javascript:;" id="duration" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a></td>
 					</tr>
 					<!--<tr>
 						<td>Description</td>
@@ -93,7 +93,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 	
 <script type="text/javascript">
-var needID="<?php echo $_GET["idNeed"]; ?>";
+var needID="<?php echo $need["_id"]; ?>";
 var mode = "update";
 var startDate = '<?php if(isset($need["startDate"])) echo $need["startDate"]; else echo ""; ?>';
 var endDate = '<?php if(isset($need["endDate"])) echo $need["endDate"]; else echo ""; ?>';
@@ -116,7 +116,7 @@ function bindAboutPodneeds() {
 function initNeedXEditable() {
 	$.fn.editable.defaults.mode = 'popup';
 	$('.editable-need').editable({
-    	url: baseUrl+"/"+moduleId+"/needs/updatefield", //this url will not be used for creating new job, it is only for update
+    	url: baseUrl+"/"+moduleId+"/need/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
     	success : function(data) {
@@ -132,7 +132,7 @@ function initNeedXEditable() {
     	if(!v) return 'Required field!';
 	});
 	$('#startDate').editable({
-		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+		url: baseUrl+"/"+moduleId+"/need/updatefield", 
 		type: "date",
 		mode: "popup",
 		placement: "bottom",
@@ -150,7 +150,7 @@ function initNeedXEditable() {
 	});
 
 	$('#endDate').editable({
-		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+		url: baseUrl+"/"+moduleId+"/need/updatefield", 
 		type: "date",
 		mode: "popup",
 		placement: "bottom",
@@ -171,7 +171,7 @@ function initNeedXEditable() {
 	$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 
 	$('#type').editable({
-			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			url: baseUrl+"/"+moduleId+"/need/updatefield", 
 			//mode: 'popup',
 			source:function() {
 				listType=["Materials","Competences","Services"];
@@ -185,7 +185,7 @@ function initNeedXEditable() {
 	    }
 	});
 	$('#benefits').editable({
-			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			url: baseUrl+"/"+moduleId+"/need/updatefield", 
 			//mode: 'popup',
 			source:function() {
 				listBenefits=["Remunéré","Volontaire"];
@@ -199,7 +199,7 @@ function initNeedXEditable() {
 	    }
 	});
 	$('#duration').editable({
-			url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+			url: baseUrl+"/"+moduleId+"/need/updatefield", 
 			//mode: 'popup',
 			source:function() {
 				listBenefits=["Ponctuel","Permanent"];
@@ -221,7 +221,7 @@ function initNeedXEditable() {
 	    	}
 	});
 	$('#description').editable({
-		url: baseUrl+"/"+moduleId+"/needs/updatefield", 
+		url: baseUrl+"/"+moduleId+"/need/updatefield", 
 		value: <?php echo (isset($description) && $description) ? json_encode($description) : "'Courte description du besoin...<br/>Pour qui? quel profil?<br/>Quelles sont les conditions? temps, retribution, etc.?'"; ?>,
 		placement: 'hover',
 		mode: 'popup',
