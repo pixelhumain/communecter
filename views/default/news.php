@@ -34,6 +34,29 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	height:250px;
 }
 
+
+@media screen and (max-width: 1024px) {
+  button.btn-start-search {
+    margin-top: -40px;
+    margin-left: 47%;
+    color: white;
+    border-radius: 30px;
+    font-weight: 300;
+    font-size: 19px;
+    margin-bottom: 20px;
+    height: 45px;
+    width: 45px;
+    padding: 0px;
+  }
+
+  .img-logo {
+    height: 170px;
+  }
+  #newsHistory #timeline {
+    margin-top: -50px;
+  }
+}
+
 </style>
 
 <h1 class="homestead text-dark text-center" id="main-title"
@@ -45,11 +68,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <div class="lbl-scope-list text-red"></div>
 
 
-<div class="img-logo bgpixeltree_little">
+<div class="img-logo bgpixeltree_little hidden">
 	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
 		<i class="fa fa-university"></i>
 	</button> -->
-	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
+	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 
@@ -60,11 +83,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 
-<?php $this->renderPartial("first_step_news"); ?> 
+<?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
 
+<?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
+<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 40px; ">
+  <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
+  <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
+  <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button> 
+</div>
+<?php } ?>
+
 <div class="" id="dropdown_search"></div>
-<div class="" id="newsstream"></div>
+<div class="col-md-12" id="newsstream"></div>
 
 
 <script type="text/javascript">

@@ -21,20 +21,20 @@
 	
 	<div class="explainCommunectMe explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Communectez moi</h1>
-		Ce n'est pas la technologie qui changera la société mais la philosophie bien outillé.
-		<br/>Me communecter me permet :  
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Ce n'est pas la technologie qui changera la société mais la philosophie bien outillé.
+		<br/>Me communecter me permet de :  </h3>
 		<ul>
-			<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li>
-			<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auquels je crois ici et là</li>
-			<li><i class="fa fa-angle-right"></i> je peux ajouter à mon réseau 
+			<li><i class="fa fa-angle-right"></i> Voir les acteurs autour de moi</li>
+			<li><i class="fa fa-angle-right"></i> Référencer et valoriser les choses auquels je crois ici et là</li>
+			<li><i class="fa fa-angle-right"></i> Ajouter à mon réseau :
 			<ul>
-				<li><i class="fa fa-user"></i> des personnes</li>
-				<li><i class="fa fa-users"></i> des organisations</li>
-				<li><i class="fa fa-lightbulb-o"></i> des projets</li>
-				<li><i class="fa fa-calendar"></i> des évennements</li></li>
+				<li><i class="fa fa-angle-right"></i> <i class="fa fa-user" style="width:25px;text-align:center;"></i> Des personnes</li>
+				<li><i class="fa fa-angle-right"></i> <i class="fa fa-users" style="width:25px;text-align:center;"></i> Des organisations</li>
+				<li><i class="fa fa-angle-right"></i> <i class="fa fa-lightbulb-o" style="width:25px;text-align:center;"></i> Des projets</li>
+				<li><i class="fa fa-angle-right"></i> <i class="fa fa-calendar" style="width:25px;text-align:center;"></i> Des évennements</li></li>
 			</ul></li>
-			<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne local</li>
-			<li><i class="fa fa-angle-right"></i> je partage pour améliorer mon territoire</li>
+			<li><i class="fa fa-angle-right"></i> Je participe à l'activité citoyenne local</li>
+			<li><i class="fa fa-angle-right"></i> Je partage pour améliorer mon territoire</li>
 		</ul>
 	</div>
 
@@ -67,7 +67,7 @@
 
 	<div class="explainNews explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-rss"></i> L'actualité Locales </h1>
-		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h2>
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h3>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Vous souhaitez être informé de ce qui se passe autour de vous ?</li>
 			<li><i class="fa fa-angle-right"></i> Vous avez des informations à partager avec les habitants votre ville ?</li>	
@@ -80,7 +80,7 @@
 
 	<div class="explainAgenda explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-calendar"></i> Les évenements Locaux</h1>
-		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les évenements près de chez vous, en quelques clicks</h2>
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les évenements près de chez vous, en quelques clicks</h3>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Tout autour de nous ca bouge, nous sommes la société.</li>
 			<li><i class="fa fa-angle-right"></i> La société est faite d'activités sociales.</li>
@@ -646,10 +646,9 @@ function removeExplainations(){
 	dataType: "json",
 	success: function(data) {
 	if(data.result){
-	//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-	toastr.success(data.msg);	
-	showMenuExplanation = false;
-	loadByHash(location.hash);
+		toastr.success(data.msg);	
+		showMenuExplanation = false;
+		loadByHash(location.hash);
 	}
 	else
 	toastr.error(data.msg);

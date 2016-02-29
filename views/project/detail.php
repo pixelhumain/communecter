@@ -34,8 +34,18 @@ $this->renderPartial('../default/panels/toolbar');
 						}
 					?>
 				</div>
-				<div class="col-md-12 col-xs-12 needsPod"></div>
-				<?php if((@$project["links"]["events"] && !empty($project["links"]["events"])) || $admin==true){ ?>
+				<?php if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?> 
+				<div class="col-md-12 col-xs-12 needsPod">	
+					<?php $this->renderPartial('../pod/needsList',array( 	
+						"needs" => $needs, 
+						"parentId" => (String) $project["_id"],
+						"parentType" => Project::COLLECTION,
+						"isAdmin" => $admin,
+						"parentName" => $project["name"]
+					  )); ?>
+				</div>
+				<?php } 
+					if((@$project["links"]["events"] && !empty($project["links"]["events"])) || $admin==true){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
@@ -65,9 +75,9 @@ jQuery(document).ready(function() {
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	<?php } ?>
-	<?php if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?>
-	getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
-	<?php } ?>
+	<?php //if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?>
+	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
+	<?php //} ?>
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, contextMap);		
 });

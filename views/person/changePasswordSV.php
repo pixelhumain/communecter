@@ -131,20 +131,19 @@ var formValidator = function() {
 }
 
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-lock'></i> <?php echo Yii::t("common","Change password") ?>");
 	$("#changePassword").show();
 	formValidator();
-
-	$(".btnChangePassword").off().on("click",function () {
-		console.log("clique sur button");
-		event.preventDefault();
-		
-	});
 });
 
 function changePassword() {
 	console.log("change Password !");
 	$('#passwordForm').submit();
 }
+
+
+
+
 
 </script>	
 

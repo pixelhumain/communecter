@@ -274,16 +274,21 @@ function startGlobalSearch(indexMin, indexMax){
     currentIndexMinGS = indexMin;
     currentIndexMaxGS = indexMax;
 
-    if(indexMin == 0 && indexMax == indexStepGS) {
+    if(indexMin == 0) {
       totalDataGS = 0;
       mapElementsGS = new Array(); 
     }
-    else{ if(scrollEndGS) return; }
+    else{ console.log("scrollEndGS ? ", scrollEndGS); if(scrollEndGS) return; }
     
     if(search.length>=3){
       autoCompleteSearchGS(search, indexMin, indexMax);
     }else{
-      $(".dropdown-result-global-search").html("<label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label>");
+      var str = '<div class="center" id="footerDropdownGS">';
+      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
+      str += "</div>";
+      $(".dropdown-result-global-search").html(str);
+      loadingDataGS = false;
+      scrollEndGS = false;
     }   
 }
 
@@ -304,7 +309,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
     if(indexMin > 0)
     $("#btnShowMoreResultGS").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     else
-    $(".dropdown-result-global-search").html("<h2 class='text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</h2>");
+    $(".dropdown-result-global-search").html("<h3 class='text-dark center'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</h3>");
       
 
     $.ajax({
@@ -452,10 +457,14 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
               {       
                 //ajout du footer   
                 if(!scrollEndGS){    
+                  //var nbRes = '<div class="center" id="footerDropdownGS">';
+                  //nbRes    += "</div>";
+                  
+                  //str = nbRes + str;
                   str += '<div class="center" id="footerDropdownGS">';
-                  str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalDataGS + " résultats</label><br/>";
+                  str += "<hr style='margin-top: 5px; margin-top: 10px; float:left; width:100%;'/><label style='margin-top:0px; margin-bottom:5px;' class='text-dark'>" + totalDataGS + " résultats</label><br/>";
                   str += '<button class="btn btn-default" id="btnShowMoreResultGS"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-                  str += "</div>";
+                  str += '</div>';
                 }
                 //si on n'est pas sur une première recherche (chargement de la suite des résultat)
                 if(indexMin > 0){
@@ -489,8 +498,8 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
                 $("#btnShowMoreResultGS").click(function(){
-                  if(!loadingData){
-                    startGlobalSearch(indexMin+indexStep, indexMax+indexStep);
+                  if(!loadingDataGS){
+                    startGlobalSearch(indexMin+indexStepGS, indexMax+indexStepGS);
                   }
                 });
                 
