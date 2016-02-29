@@ -238,9 +238,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-email inline-block">
-		        		<button class="btn btn-default" type="email" value="public"><i class="fa fa-group"></i> Public</button>
-		        		<button class="btn btn-default" type="email" value="private"><i class="fa fa-user-secret"></i> Privé</button>
-		        		<button class="btn btn-default" type="email" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -248,9 +248,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-locality inline-block">
-		        		<button class="btn btn-default" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
-		        		<button class="btn btn-default" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
-		        		<button class="btn btn-default" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -258,9 +258,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-phone inline-block">
-		        		<button class="btn btn-default" type="phone" value="public"><i class="fa fa-group"></i> Public</button>
-		        		<button class="btn btn-default" type="phone" value="private"><i class="fa fa-user-secret"></i> Privé</button>
-		        		<button class="btn btn-default" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
 		        </div>
 	        </div>
@@ -500,7 +500,7 @@ function bindAboutPodEvents()
 	$("#editProfil").click( function(){
 		switchMode();
 	});
-
+	
 	//console.log("personData");
 	//console.dir(personData);
 
@@ -530,6 +530,20 @@ function bindAboutPodEvents()
     $(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
+    	$(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/person/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+    	});
     });
 
 
