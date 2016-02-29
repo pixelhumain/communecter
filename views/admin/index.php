@@ -16,7 +16,7 @@ $cs = Yii::app()->getClientScript();
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.directory')">
               <i class="fa fa-user fa-2x"></i>
                 
-              <?php echo Yii::t("common", "DIRECTORY"); ?>
+              <?php echo Yii::t("admin", "DIRECTORY", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>
@@ -24,7 +24,7 @@ $cs = Yii::app()->getClientScript();
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.importdata')">
               <i class="fa fa-upload fa-2x"></i>
                 
-              <?php echo Yii::t("common", "IMPORT DATA"); ?>
+              <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>
@@ -32,7 +32,7 @@ $cs = Yii::app()->getClientScript();
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.openagenda')">
               <i class="fa fa-calendar fa-2x"></i>
                 
-              <?php echo Yii::t("common", "OPENAGENDA"); ?>
+              <?php echo Yii::t("admin", "OPEN AGENDA", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>
@@ -40,7 +40,15 @@ $cs = Yii::app()->getClientScript();
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.checkgeocodage')">
               <i class="fa fa-map fa-2x"></i>
                 
-              <?php echo Yii::t("common", "CHECKGEOCODAGE"); ?>
+              <?php echo Yii::t("admin", "CHECK GEOCODAGE", null, Yii::app()->controller->module->id); ?>
+              
+            </div>
+          </li>
+          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.adddata')">
+              <i class="fa fa-plus fa-2x"></i>
+                
+              <?php echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>

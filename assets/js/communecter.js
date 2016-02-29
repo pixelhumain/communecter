@@ -272,6 +272,7 @@ var loadableUrls = {
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
     "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
+    "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
