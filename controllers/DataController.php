@@ -78,46 +78,49 @@ class DataController extends Controller {
      }
   }
   
-    public function actionGet( $type, $id = null, $format = null ,$limit=50) 
-    {
-        $bindMap = null;
-        $data = null;
+  public function actionGet( $type , $id = null, $format = null , $limit=50 ) 
+  {
+    $bindMap = null;
+    $data = null;
 
-        if( $type == Person::COLLECTION )
-        {
-            if( $format == Translate::FORMAT_SCHEMA)
-                $bindMap = TranslateSchema::$dataBinding_person;
-             else if( $format == Translate::FORMAT_PLP )
-                $bindMap = TranslatePlp::$dataBinding_person;
-             else if( $format == Translate::FORMAT_AS )
-                $bindMap = TranslateActivityStream::$dataBinding_person;
-        }
-        else if( $type == Event::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_event;
-        else if( $type == Organization::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_organization;
-        else if( $type == Project::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_project;
-        else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_city;
-        
-        $params = array('isOpendata'=>true );
-        if( @$id ) 
-          $params["_id"] =  new MongoId($id);
-        if( $type == City::COLLECTION && @$_GET["insee"] ) {
-          $params["insee"] = $_GET["insee"];
-          unset($params["isOpendata"]);
-        }
-        if( @$id || @$_GET["insee"] )
-        {
-            $data = PHDB::find( $type , $params ); 
-            /*if($limit)
-              $data = $data->limit($limit);*/
-            if( $data && $bindMap )
-                $data = Translate::convert( $data, $bindMap );
-        }
-        Rest::json($data);
+    if( $type == Person::COLLECTION )
+    {
+        if( $format == Translate::FORMAT_SCHEMA)
+            $bindMap = TranslateSchema::$dataBinding_person;
+         else if( $format == Translate::FORMAT_PLP )
+            $bindMap = TranslatePlp::$dataBinding_person;
+         else if( $format == Translate::FORMAT_AS )
+            $bindMap = TranslateActivityStream::$dataBinding_person;
     }
+    else if( $type == Event::COLLECTION && $format == Translate::FORMAT_SCHEMA)
+        $bindMap = TranslateSchema::$dataBinding_event;
+    else if( $type == Organization::COLLECTION && $format == Translate::FORMAT_SCHEMA)
+        $bindMap = TranslateSchema::$dataBinding_organization;
+    else if( $type == Project::COLLECTION && $format == Translate::FORMAT_SCHEMA )
+        $bindMap = TranslateSchema::$dataBinding_project;
+    else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
+        $bindMap = TranslateSchema::$dataBinding_city;
+    
+    $params = array('isOpendata'=>true );
+    
+    if( @$id ) 
+      $params["_id"] =  new MongoId($id);
+
+    if( $type == City::COLLECTION && @$_GET["insee"] ) {
+      $params["insee"] = $_GET["insee"];
+      unset($params["isOpendata"]);
+    }
+
+    if( @$id || @$_GET["insee"] )
+    {
+        $data = PHDB::find( $type , $params ); 
+        /*if($limit)
+          $data = $data->limit($limit);*/
+        if( $data && $bindMap )
+            $data = Translate::convert( $data, $bindMap );
+    }
+    Rest::json($data);
+  }
 
   /**
    * Page de démo pour le concours etalab : dataconnexion

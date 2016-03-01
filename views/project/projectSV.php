@@ -93,30 +93,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <!-- *** NEW PROJECT *** -->
-<?php if( @$isNotSV ){ 
+<?php 
 	$this->renderPartial('../default/panels/toolbar'); 
-}
-
-if( !isset($_GET["isNotSV"])) 
-	$this->renderPartial('../default/mapFormSV'); 
-
 ?>
 <div id="newProject">
-<?php if( @$isNotSV ){ ?>
-<!-- <h2 class='radius-10 padding-10 text-purple text-bold'>
-	<i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-2x"></i> 
-	<?php //echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?>
-</h2> -->
-<?php } ?>
-<?php 
-	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
-	?>
-	<div class="noteWrap <?php echo $size ?>  form-add-data" >  
+	<div class="noteWrap col-md-12 form-add-data" >  
 		 <div class="panel panel-white">
         	<div class="panel-heading border-light text-dark">
-				<?php if( !@$isNotSV ){ ?>
-				<h1><?php echo Yii::t("project","Add a new project",null,Yii::app()->controller->module->id) ?></h1>
-			    <?php } ?>
 			    <p><i class='fa fa-info-circle'></i> <?php echo Yii::t("project","If you want to create a new project in order to make it more visible : it's the best place<br/>You can as well organize your project team, plan tasks, discuss, take decisions...<br/>Depending on the project visibility, contributors can join the project and help<br>to make it happen ! ",null,Yii::app()->controller->module->id) ?></p>
 
 			</div>
@@ -232,17 +215,15 @@ if( !isset($_GET["isNotSV"]))
 						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
 					</div>
 				</div>
-				<?php } ?>	
-				<?php if( @$isNotSV ){ ?>
-					<?php if( Yii::app()->session['userId'] ){ ?>
-					<div class= "row col-xs-12">
-						<button class="pull-right btn bg-purple" onclick="$('.form-event').submit();"><i class="fa fa-save"></i> Enregistrer</button>
+				<?php } 
+				if( Yii::app()->session['userId'] ){ ?>
+				<div class= "row col-xs-12">
+					<button class="pull-right btn bg-purple" onclick="$('.form-event').submit();"><i class="fa fa-save"></i> Enregistrer</button>
+				</div>
+				<?php } else { ?>
+					<div class= "row  col-xs-12">
+						<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
 					</div>
-					<?php } else { ?>
-						<div class= "row  col-xs-12">
-							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
-						</div>
-					<?php } ?>
 				<?php } ?>
 			</div>
 		</form>
@@ -552,9 +533,9 @@ function convertDate2(date, num){
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
-		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+		var show = Sig.showCityOnMap(resultNominatim, true, "project");
 		if(!show && currentCityByInsee != null) {
-			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+			Sig.showCityOnMap(currentCityByInsee, true, "project");
 		}
 	}
 
@@ -588,7 +569,7 @@ function convertDate2(date, num){
 				}
 			}
 			else{
-				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "project");
+				Sig.showCityOnMap(obj, true, "project");
 			}
 		}
 		else {

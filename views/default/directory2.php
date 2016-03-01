@@ -250,98 +250,97 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <?php 
-if( isset($_GET["isNotSV"])) {
-	/*
-	$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
-	$contextName = "";
-	$contextIcon = "bookmark fa-rotate-270";
-	$contextTitle = "";
-	$parentId="";
-	$parentType="";
-	$manage="";
-	if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
-		Menu::organization( $organization );
-		$thisOrga = Organization::getById($organization["_id"]);
-		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
-		$contextIcon = "users";
-		$contextTitle = Yii::t("common","Community of organization");
-		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
-			if(!isset($organization["disabled"]))
-				$manage=1;
-		}
-		$parentName=$organization["name"];
-		$parentId=$organization["_id"];
-		$parentType=Organization::COLLECTION;
-		$connectType="members";
-		$projects=array();
-	}
-	else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
-		Menu::city( $city );
-		$contextName = Yii::t("common","City")." : ".$city["name"];
-		$contextIcon = "university";
-		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
-	}
-	else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
-		Menu::person( $person );
-		$contextName = Yii::t("common","Person")." : ".$person["name"];
-		$contextIcon = "user";
-		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
-		$connectType="network";
-		$parentType=Person::COLLECTION;
-	}
-	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
-		//Menu::project( $person );
-		$contextName = Yii::t("common","Project")." : ".$project["name"];
-		$contextIcon = "lightbulb-o";
-		$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
-		if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
+
+/*
+$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
+$contextName = "";
+$contextIcon = "bookmark fa-rotate-270";
+$contextTitle = "";
+$parentId="";
+$parentType="";
+$manage="";
+if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
+	Menu::organization( $organization );
+	$thisOrga = Organization::getById($organization["_id"]);
+	$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
+	$contextIcon = "users";
+	$contextTitle = Yii::t("common","Community of organization");
+	if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+		if(!isset($organization["disabled"]))
 			$manage=1;
-		}
-		$parentName=$project["name"];
-		$parentId=$project["_id"];
-		$parentType=Project::COLLECTION;
-		$connectType="contributors";
-		$projects=array();
-		$events=array();
 	}
-	/*else
-		$this->toolbarMBZ = array(
-		    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-		);*/
-	$this->renderPartial('../default/panels/toolbar'); 
-
-	$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0;
-
-	foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;}
-	foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
-	foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
-	foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
-	if (isset($followers)){
-		foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+	$parentName=$organization["name"];
+	$parentId=$organization["_id"];
+	$parentType=Organization::COLLECTION;
+	$connectType="members";
+	$projects=array();
+}
+else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
+	Menu::city( $city );
+	$contextName = Yii::t("common","City")." : ".$city["name"];
+	$contextIcon = "university";
+	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+}
+else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
+	Menu::person( $person );
+	$contextName = Yii::t("common","Person")." : ".$person["name"];
+	$contextIcon = "user";
+	$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+	$connectType="network";
+	$parentType=Person::COLLECTION;
+}
+else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
+	//Menu::project( $person );
+	$contextName = Yii::t("common","Project")." : ".$project["name"];
+	$contextIcon = "lightbulb-o";
+	$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
+	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
+		$manage=1;
 	}
-	if (isset($follows)){
-		if(isset($follows[Person::COLLECTION])){ 
-			foreach ($follows[Person::COLLECTION] as $e) {
-				$followsPeople++;
-				$countPeople++;
-			}
-		}
-		if(isset($follows[Organization::COLLECTION])){ 
-			foreach ($follows[Organization::COLLECTION] as $e) {
-				$followsOrga++;
-				$countOrga++;
-			}
-		}
-		if(isset($follows[Project::COLLECTION])){ 
-			foreach ($follows[Project::COLLECTION] as $e) {
-				$followsProject++;
-				$countProject++;
-			}
-		}
+	$parentName=$project["name"];
+	$parentId=$project["_id"];
+	$parentType=Project::COLLECTION;
+	$connectType="contributors";
+	$projects=array();
+	$events=array();
+}
+/*else
+	$this->toolbarMBZ = array(
+	    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
+	);*/
+$this->renderPartial('../default/panels/toolbar'); 
 
+$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0;
+
+foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;}
+foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
+foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
+foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
+if (isset($followers)){
+	foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+}
+if (isset($follows)){
+	if(isset($follows[Person::COLLECTION])){ 
+		foreach ($follows[Person::COLLECTION] as $e) {
+			$followsPeople++;
+			$countPeople++;
+		}
 	}
+	if(isset($follows[Organization::COLLECTION])){ 
+		foreach ($follows[Organization::COLLECTION] as $e) {
+			$followsOrga++;
+			$countOrga++;
+		}
+	}
+	if(isset($follows[Project::COLLECTION])){ 
+		foreach ($follows[Project::COLLECTION] as $e) {
+			$followsProject++;
+			$countProject++;
+		}
+	}
+
 }
 ?>
 <div class="row">
