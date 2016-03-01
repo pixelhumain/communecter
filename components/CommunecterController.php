@@ -429,11 +429,4 @@ class CommunecterController extends Controller
     }
     return parent::beforeAction($action);
   }
-  protected function afterAction($action){
-    //permet d'agir dans le javascript lors d'un fin de session
-    // interdire les process ou reload le menu
-    if( Yii::app()->request->isAjaxRequest && !isset( Yii::app()->session[ "userId" ] )  )
-      echo "<script type='text/javascript'> userId=null; </script>";
-      return parent::afterAction($action);
-  }
 }
