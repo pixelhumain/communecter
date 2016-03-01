@@ -7,6 +7,17 @@
 			<div class="col-sm-12 col-xs-12">
 				<a href="#" class="btn btn-primary" id="btnCheckGeo"> Récupérer les citoyens/organisations qui sont mal géolocaliser</a>
 			</div>
+			<div class="col-sm-12 col-xs-12">
+				Process : <br/>
+				- On vérifie si l'entité a une adresse, si il en a une,  <br/>
+				- On vérifie si l'entité a un code postal et un code INSEE : <br/>
+					&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur<br/>
+					&nbsp;&nbsp;- Sinon on test si il y a une géolocalisation :<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur :<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;- On récupère la commune via la lat/lon/cp <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;- Si on ne récupère pas la commune , on affiche un message d'erreur sinon<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- On test si le code INSEE de la commune et celui de l'entité sont identiques <br/>
+			</div>
 		</div>
 	</div>
 
