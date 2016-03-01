@@ -46,5 +46,8 @@ return array(
 	"Add<br/>A new<br/>Property" => "Ajouter<br/>Une nouvelle<br/>Propriété",
 	"No contributor for this project" => "Pas de contributeur sur le projet",
 	"Your project is updated" => "Projet mis à jour avec succés"
+
+
+	//Erreur
 );
 ?>

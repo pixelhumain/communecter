@@ -264,6 +264,8 @@ function startGlobalSearch(indexMin, indexMax){
 
     if(loadingDataGS) return;
 
+    setTimeout(function(){ loadingDataGS = false; }, 10000);
+
     console.log("loadingDataGS true");
     loadingDataGS = true;
     
@@ -298,7 +300,7 @@ function startGlobalSearch(indexMin, indexMax){
 function autoCompleteSearchGS(search, indexMin, indexMax){
     console.log("autoCompleteSearchGS");
 
-    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, 
+    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, "searchBy" : "ALL",
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
 
