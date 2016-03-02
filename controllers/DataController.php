@@ -78,7 +78,7 @@ class DataController extends Controller {
      }
   }
   
-    public function actionGet( $type, $id = null, $format = null ,$limit=50) 
+    public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
     {
         $bindMap = null;
         $data = null;
@@ -106,17 +106,56 @@ class DataController extends Controller {
           $params["_id"] =  new MongoId($id);
         if( $type == City::COLLECTION && @$_GET["insee"] ) {
           $params["insee"] = $_GET["insee"];
-          unset($params["isOpendata"]);
+          //unset($params["isOpendata"]);
         }
-        if( @$id || @$_GET["insee"] )
-        {
-            $data = PHDB::find( $type , $params ); 
-            /*if($limit)
-              $data = $data->limit($limit);*/
-            if( $data && $bindMap )
-                $data = Translate::convert( $data, $bindMap );
+
+        if( @$tags ) {
+          $tagsArray = explode(",", $tags);
+          $params["tags"] =  array('$in' => $tagsArray) ;
         }
-        Rest::json($data);
+
+        if( @$key )
+          $params["source.sourceKey"] = $key ;
+
+        if( @$insee )
+          $params["address.codeInsee"] = $insee ;
+        
+          
+
+        //var_dump($params);
+
+
+        if($limit > 500)
+          $limit = 500 ;
+        else if($limit < 1)
+          $limit = 50 ;
+
+        if($index < 0)
+          $index = 0 ;
+
+        //if( @$id || @$_GET["insee"] )
+        //{
+            //$data = PHDB::find( $type , $params );
+            $data = PHDB::findAndLimitAndIndex( $type , $params, $limit, $index);
+
+            $meta["limit"] = $limit;
+            $meta["next"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".($index+$limit) ;
+            if($index != 0){
+                $newIndex = $index - $limit;
+                if($newIndex < 0)
+                    $newIndex = 0 ;
+                $meta["previous"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".$newIndex ;
+            }
+
+            $result["meta"] = $meta ;
+            
+            if($data && $bindMap )
+              $data = Translate::convert( $data, $bindMap );
+
+            $result["entities"] = $data ; 
+            
+        //}
+        Rest::json($result, JSON_UNESCAPED_SLASHES);
     }
 
   /**
