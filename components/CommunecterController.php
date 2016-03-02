@@ -360,7 +360,7 @@ class CommunecterController extends Controller
   );
 
   function initPage(){
-
+    
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
@@ -388,12 +388,19 @@ class CommunecterController extends Controller
     }
       //} 
     //}
-     else if( (!isset( $page["public"] ) )
+    else if( (!isset( $page["public"] ) )
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));
+        /*if( Yii::app()->request->isAjaxRequest){
+          echo "<script type='text/javascript'> loadByHash('#panel.box-login'); </script>";*/
+
+          /*$this->layout = '';
+          Rest::json( array("action"=>"loadByHash('#panel.box-login')", "msg"=>"this page is not public, please log in first."  ) );*/
+        /*}
+        else
+          $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));*/
     }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
@@ -401,7 +408,8 @@ class CommunecterController extends Controller
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)
       $this->redirect(Yii::app()->createUrl("/".$this->module->id."/person/logout"));*/
 
-    if( $prepareData ){
+    if( $prepareData )
+    {
       $this->sidebar1 = array_merge( Menu::menuItems(), $this->sidebar1 );
 
       $this->person = Person::getPersonMap(Yii::app() ->session["userId"]);

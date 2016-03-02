@@ -78,12 +78,13 @@ class DataController extends Controller {
      }
   }
   
-    public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
-    {
-        $bindMap = null;
-        $data = null;
 
-        if( $type == Person::COLLECTION )
+    public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
+  {
+    $bindMap = null;
+    $data = null;
+
+    if( $type == Person::COLLECTION )
         {
             if( $format == Translate::FORMAT_SCHEMA)
                 $bindMap = TranslateSchema::$dataBinding_person;
@@ -119,8 +120,6 @@ class DataController extends Controller {
 
         if( @$insee )
           $params["address.codeInsee"] = $insee ;
-        
-          
 
         //var_dump($params);
 
@@ -157,6 +156,7 @@ class DataController extends Controller {
         //}
         Rest::json($result, JSON_UNESCAPED_SLASHES);
     }
+  }
 
   /**
    * Page de démo pour le concours etalab : dataconnexion
