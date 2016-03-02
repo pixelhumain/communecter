@@ -79,12 +79,12 @@ class DataController extends Controller {
   }
   
 
-    public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
+  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
   {
     $bindMap = null;
     $data = null;
 
-    if( $type == Person::COLLECTION )
+        if( $type == Person::COLLECTION )
         {
             if( $format == Translate::FORMAT_SCHEMA)
                 $bindMap = TranslateSchema::$dataBinding_person;
@@ -155,7 +155,6 @@ class DataController extends Controller {
             
         //}
         Rest::json($result, JSON_UNESCAPED_SLASHES);
-    }
   }
 
   /**
