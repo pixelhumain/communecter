@@ -456,8 +456,8 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 1er Mars<br/>
-			Au 15 avril
+			Du 2 Mars<br/>
+			Au 13 avril
 		</div>
 
 		
@@ -466,14 +466,18 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		</a>
 
 		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
-		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
-		    0%
+		
+		<?php $kkbb = "1"; //en % ?>
+		<?php $kkbb_collected = "225"; //en € ?>
+		  
+		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="<?php echo $kkbb;?>" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: <?php echo $kkbb;?>%;">
+		    <?php echo $kkbb;?>%
 		  </div>
 		</div>
 
 		<div class="pull-left" style="width:100%; margin-top:5px;">
 		<div class="pull-left" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Objectif : 20 000€</div>
-		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : 0€</div>
+		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : <?php echo $kkbb_collected;?>€</div>
 		</div>
 	</div>
 </div>
@@ -681,6 +685,26 @@ jQuery(document).ready(function() {
 				$(".hover-info").css("display" , "inline");
 			}, 1500);
 		}
+	});
+
+	$(document).mouseleave(function(){
+		if(!isLoginRegister()){
+	    	hoverPersist = false;
+			clearTimeout(timeoutHover);
+			positionMouseMenu = "out";
+			$(".main-col-search").animate({ opacity:1 }, 200 );
+			$(".lbl-btn-menu-name").hide();
+			$(".menu-button").removeClass("large");
+		}
+		$(".hover-info, .infoVersion").hide();
+		$(".drop-up-btn-add").hide(400);
+		$("#notificationPanelSearch").hide();
+		//console.log("hide communexion");
+		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
+		//console.log("HIDE HIDE");
+		//$("#input-communexion").hide(200); 
+		$("#input-communexion").hide(400);
+		clearTimeout(timeoutHover);
 	});
 
 	$(".main-col-search, .mapCanvas").click(function(){
