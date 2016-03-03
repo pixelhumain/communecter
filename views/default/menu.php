@@ -452,7 +452,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</div>
 	<div id="kkbb-big">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="javascript:" target="_blank"><img class="pull-left" style="width:20%;" 
+		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
@@ -461,7 +461,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		</div>
 
 		
-		<a href="javascript:" target="_blank">
+		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
 			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
 		</a>
 
