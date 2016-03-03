@@ -563,10 +563,13 @@ jQuery(document).ready(function() {
 
    // $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
    //$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ 
-	    if(showMenuExplanation)	
-	    	//toggle(".explainMyDirectory",".explain")
-	    });
+    $('.btn-menu5').click(function(e){ 
+    	showFloopDrawer(true);	 		 
+    })
+    .mouseenter(function(e){ 
+	   // if(showMenuExplanation)	
+	   // 	toggle(".explainMyDirectory",".explain")
+	});
     $('.btn-menu6').mouseenter(function(e){ 
 	    if(showMenuExplanation){
 	    	$(".removeExplanation").parent().show();
