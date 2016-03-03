@@ -16,6 +16,21 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+2016/03/01
+@Raphael
+Add "'isOpendata': true" for all projects which have sourceKey == "patapouf"
+
+db.projects.find().forEach(function(doc){ 
+    if(doc.source.sourceKey == "patapouf"){ 
+        print(doc.name); 
+        db.projects.update({"_id":doc._id},{
+            '$set':{'isOpendata': true}
+        }) 
+    } 
+});
+
+
+
 ----------------------------------------------------
 set up indexes 
 db.cities.createIndex({"geoPosition.coordinates": "2dsphere"})

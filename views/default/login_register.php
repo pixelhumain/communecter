@@ -261,7 +261,6 @@ jQuery(document).ready(function() {
 	
 	$(".box").hide();
 
-	userId = null;
 	Main.init();
 	Login.init();
 

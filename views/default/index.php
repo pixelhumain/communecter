@@ -143,7 +143,9 @@
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php if(!isset(Yii::app()->session['userId'])) $this->renderPartial("login_register"); ?>
+	<?php //if(!isset(Yii::app()->session['userId'])) 
+			$this->renderPartial("login_register"); 
+			?>
 
 	
 </div>
@@ -197,14 +199,12 @@ var typesLabels = {
 };
 
 
-	/* variables globales communexion */
-	var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
-	var cpCommunexion = "<?php echo $cpCommunexion; ?>";
-	var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
-	/* variables globales communexion */
-	
-	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
+/* variables globales communexion */
+var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
+var cpCommunexion = "<?php echo $cpCommunexion; ?>";
+var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+/* variables globales communexion */	
+var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
       console.log("history.state",$.isEmptyObject(history.state),location.hash);
       console.warn("popstate history.state",history.state);
       if( lastUrl && "onhashchange" in window && location.hash  ){
-        if( !$.isEmptyObject( history.state ) ){
+        if( $.isEmptyObject( history.state ) ){
 	        //console.warn("poped state",location.hash);
 	        loadByHash(location.hash,true);
 	    } //else { //pas necessaire de stocké le navigateur le fait tout seul
@@ -581,7 +581,7 @@ function initFloopDrawer(){
 	console.log("initFloopDrawer");
 	console.dir(myContacts);
 	if(myContacts != null){
-      var floopDrawerHtml = buildListContactHtml(myContacts, myId);
+      var floopDrawerHtml = buildListContactHtml(myContacts, userId);
       $("#floopDrawerDirectory").html(floopDrawerHtml);
       initFloopScrollByType();
 

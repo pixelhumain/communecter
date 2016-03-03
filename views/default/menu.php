@@ -328,7 +328,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
-	<?php } ?>
+	<?php } /*?>
 	
 	<div class="homeShortcuts hide menuShortcuts">
 		<ul>
@@ -341,7 +341,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
 		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
 		</ul>
-	</div>
+	</div>*/?>
 
 	<div class="infoVersion">
 		update <?php echo $this->versionDate ?>
@@ -518,12 +518,7 @@ jQuery(document).ready(function() {
 		
 	});
 
-	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} ).mouseenter(function(e){ 
-		if(showMenuExplanation){
-			toggle(".explainHome",".explain");
-			$(".removeExplanation").parent().show();
-		}
-	});
+	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} );
 
     $('.btn-menu2')
     .click(function(e){ 

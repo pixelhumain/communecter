@@ -131,7 +131,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <!-- *** NEW EVENT *** -->
-<?php if( @$isNotSV ){
+<?php 
 	if(@$project)
 		Menu::project($project);			
 	else if (@$organization){
@@ -140,24 +140,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		//Menu::person($person);		
 	}
 	$this->renderPartial('../default/panels/toolbar'); 
-}
-if( !isset($_GET["isNotSV"])) 
-	$this->renderPartial('../default/mapFormSV'); 
-
 ?>
 
 
 <div id="newEvent">
-	<?php if( @$isNotSV ){ ?>
-	<!-- <h2 class='radius-10 padding-10 text-dark text-bold'><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-2x"></i> <?php echo Yii::t("event","Add an Event"); ?></h2> -->
-	<?php } ?>
-	<?php 
-	$size = ( !@$isNotSV ) ? "col-md-8 col-md-offset-2" : "col-md-12"
-	?>
-	<div class="noteWrap <?php echo $size ?> form-add-data">
-		<?php if( !@$isNotSV ){ ?>
-			<h1><?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id); ?></h1>
-		<?php } ?>
+	
+	<div class="noteWrap col-md-12 form-add-data">
+		
 		<div class="row">
 		<div class="col-md-12">
 			<form class="form-event">
@@ -323,7 +312,7 @@ if( !isset($_GET["isNotSV"]))
 					<div class="form-group">
 						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
 					</div>
-				<?php if( @$isNotSV ){ ?>
+				
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
 						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> Enregistrer</button>
@@ -333,7 +322,6 @@ if( !isset($_GET["isNotSV"]))
 							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
 						</div>
 					<?php } ?>
-				<?php } ?>
 			</div>
 		</form>
 	</div>
@@ -588,7 +576,7 @@ if( !isset($_GET["isNotSV"]))
 				        	console.log(data);
 				        		addFloopEntity(data.id["$id"], "events", data.event);
 				        		loadByHash("#event.detail.id."+data.id["$id"]);
-								//showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'MY EVENTS','calendar' );
+								
 						} else {
 				           toastr.error(data.msg);
 				        }
@@ -757,9 +745,9 @@ if( !isset($_GET["isNotSV"]))
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
-		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
+		var show = Sig.showCityOnMap(resultNominatim, true, "event");
 		if(!show && currentCityByInsee != null) {
-			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
+			Sig.showCityOnMap(currentCityByInsee, true, "event");
 		}
 	}
 
@@ -793,7 +781,7 @@ if( !isset($_GET["isNotSV"]))
 				}
 			}
 			else{
-				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "event");
+				Sig.showCityOnMap(obj, true, "event");
 			}
 		}
 		else {
