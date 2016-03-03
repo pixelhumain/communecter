@@ -52,7 +52,7 @@ class Menu {
 	        if (isset($person["links"]["followers"][Yii::app()->session["userId"]])){
             //Link button
             self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this Person"),
+                        Yii::t( "common", "Unfollow this person"),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Person::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
@@ -216,7 +216,7 @@ class Menu {
             } else if (isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($organization["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this Person"),
+                        Yii::t( "common", "Unfollow this person"),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
@@ -409,7 +409,7 @@ class Menu {
         } else if (isset($project["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($project["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this Person"),
+                        Yii::t( "common", "Unfollow this person"),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
