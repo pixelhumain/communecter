@@ -301,7 +301,7 @@ function runProjectFormValidation(el) {
 				date : true
 			},
 			postalCode : {
-				rangelength : [4, 5],
+				rangelength : [5, 5],
 				required : true,
 				validPostalCode : true
 			}
@@ -496,7 +496,7 @@ function searchCity() {
 	});
 
 	var searchValue = $('.form-project #postalCode').val();
-	if(searchValue.length >= 4 && searchValue.length <= 5) {
+	if(searchValue.length <= 5) {
 		$("#city").empty();
 		setTimeout(function(){
 			$("#iconeChargement").css("display", "inline-block");
