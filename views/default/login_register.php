@@ -515,7 +515,7 @@ var Login = function() {
 		    		  		$(".errorHandler").hide();
 							$('.register').click();
 							$('.pendingProcess').show();
-							$('#email3').val($("#email").val());
+							$('#email3').val($("#email-login").val());
 							$('#email3').prop('disabled', true);
 		    		  	} else{
 		    		  		msg = data.msg;
