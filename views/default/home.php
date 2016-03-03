@@ -424,6 +424,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 
 	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
+		<div class="col-md-12" style="background-color:#E33551;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> | réussir la campagne.</h1>
+		</div>
+		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
 		</div>
