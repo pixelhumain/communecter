@@ -1,4 +1,11 @@
+<?php 
+	$cs = Yii::app()->getClientScript();
 
+	$cssAnsScriptFilesModule = array(
+		//'js/svg/tonfichier.js'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
 
 <style>
 
