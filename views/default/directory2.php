@@ -265,6 +265,7 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Community of organization");
+		$contextData = $thisOrga;
 		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
 			if(!isset($organization["disabled"]))
@@ -280,6 +281,7 @@ if( isset($_GET["isNotSV"])) {
 		Menu::city( $city );
 		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
+		$contextData = $city;
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 	}
 	else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
@@ -288,6 +290,7 @@ if( isset($_GET["isNotSV"])) {
 		$contextIcon = "user";
 		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
 		$connectType="network";
+		$contextData = $person;
 		$parentType=Person::COLLECTION;
 	}
 	else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
@@ -295,6 +298,7 @@ if( isset($_GET["isNotSV"])) {
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
+		$contextData = $project;
 		if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
 				 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 			$manage=1;
@@ -818,6 +822,7 @@ if( isset($_GET["isNotSV"])) {
     foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
+    if(isset($contextData))		$contextMap = array("this" => $contextData);
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
     if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
