@@ -1,5 +1,9 @@
 <style>
 .main-col-search{	padding:0px !important; }
+.home_page h3.subtitle{	font-weight: 300;
+	font-size:20px;}
+#img-header{	display:inline;
+	max-height: 700px;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
 .social-list{	padding: 0;}
 .social-list li{	list-style-type: none;	display:inline;margin-right:10px;}
@@ -16,9 +20,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	font-size:15px;
 	color:#8b91a0;
 }
+.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
+
 </style>
 
-<div class="home_page">
+<div class="home_page" style="margin-top:50px;">
 
 	<center>
 		<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
@@ -143,14 +149,3 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<center>	
 	</div>
 </div>
-
-
-<script type="text/javascript">
-
-jQuery(document).ready(function() {
-	
-	
-});
-
-
-</script>
