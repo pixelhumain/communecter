@@ -28,7 +28,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 	
-if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
+if(  (@$type && $type!="city") ) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
