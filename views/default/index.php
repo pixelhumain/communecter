@@ -143,7 +143,9 @@
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php if(!isset(Yii::app()->session['userId'])) $this->renderPartial("login_register"); ?>
+	<?php //if(!isset(Yii::app()->session['userId'])) 
+			$this->renderPartial("login_register"); 
+			?>
 
 	
 </div>
@@ -197,14 +199,12 @@ var typesLabels = {
 };
 
 
-	/* variables globales communexion */
-	var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
-	var cpCommunexion = "<?php echo $cpCommunexion; ?>";
-	var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
-	/* variables globales communexion */
-	
-	var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
-	var myId = "<?php echo isset( Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "" ?>"; 
+/* variables globales communexion */
+var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
+var cpCommunexion = "<?php echo $cpCommunexion; ?>";
+var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+/* variables globales communexion */	
+var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
       console.log("history.state",$.isEmptyObject(history.state),location.hash);
       console.warn("popstate history.state",history.state);
       if( lastUrl && "onhashchange" in window && location.hash  ){
-        if( !$.isEmptyObject( history.state ) ){
+        if( $.isEmptyObject( history.state ) ){
 	        //console.warn("poped state",location.hash);
 	        loadByHash(location.hash,true);
 	    } //else { //pas necessaire de stocké le navigateur le fait tout seul
@@ -490,7 +490,7 @@ function setScopeValue(btn){
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 	
 		Sig.clearMap();
-
+		console.log("hash city ? ", location.hash.indexOf("#default.city"));
 		if(location.hash == "#default.home"){
 			showLocalActorsCityCommunexion();
 		}else
@@ -503,11 +503,17 @@ function setScopeValue(btn){
 		if(location.hash == "#default.news"){
 			startSearch();
 			showMap(false);
+		}else
+		if(location.hash.indexOf("#city.detail") >= 0) {
+			showLocalActorsCityCommunexion();
+			//showMap(false);
 		}else{
-			if(inseeCommunexion != "")
-			toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
-			//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
-			showMap(false);
+			if(inseeCommunexion != ""){
+				showLocalActorsCityCommunexion();
+				//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
+				//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
+				//showMap(false);
+			}
 		}
 	}
 	
@@ -575,7 +581,7 @@ function initFloopDrawer(){
 	console.log("initFloopDrawer");
 	console.dir(myContacts);
 	if(myContacts != null){
-      var floopDrawerHtml = buildListContactHtml(myContacts, myId);
+      var floopDrawerHtml = buildListContactHtml(myContacts, userId);
       $("#floopDrawerDirectory").html(floopDrawerHtml);
       initFloopScrollByType();
 

@@ -254,11 +254,11 @@ $this->renderPartial('../default/panels/toolbar');
 
  <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
-  <a href="javascript:;" class="btn homestead text-red no-margin register"
+  <a href="javascript:;" class="btn homestead text-red no-margin"
      insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
      id="btn-communecter" onclick="setScopeValue($(this));">
-     
-     <i class="fa fa-crosshairs"></i> COMMUNECTER</a>
+     <i class="fa fa-crosshairs"></i> COMMUNECTER
+  </a>
 <?php //} ?>
 
 <div class="space20"></div>
@@ -400,17 +400,17 @@ $this->renderPartial('../default/panels/toolbar');
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="loadByHash('#default.directory');" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="discover('#default.directory');" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
         </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="loadByHash('#default.agenda')" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
           <i class="fa fa-calendar"></i>
         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="loadByHash('#default.news')" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
           <i class="fa fa-rss"></i>
         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
@@ -647,6 +647,12 @@ function bindBtnFollow(){
         
 	});
 };
+
+
+function discover(hash){
+  $("#btn-communecter").click();
+  loadByHash(hash);
+}
 
 	
 </script>

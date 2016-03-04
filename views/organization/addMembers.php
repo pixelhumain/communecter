@@ -542,7 +542,9 @@ if( isset($_GET["isNotSV"])) {
 	            success: function(data){
 	            	if(!data.result){
 	            		toastr.error(data.msg);
-	            	}else{
+	            	}
+	            	else
+	            	{
 	            		toastr.success("Member added successfully ");
 	            		console.log(data);
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")

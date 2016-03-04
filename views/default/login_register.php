@@ -261,7 +261,6 @@ jQuery(document).ready(function() {
 	
 	$(".box").hide();
 
-	userId = null;
 	Main.init();
 	Login.init();
 
@@ -483,15 +482,27 @@ var Login = function() {
 		    		  if(data.result)
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
-		    		  	//alert(url+", has #"+url.indexOf("#")+", count / : "+url.split("/").length - 1 );
+		    		  	//console.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
 		    		  	if(url && url.indexOf("#") >= 0 ) {
-		    		  		//console.log(url);
+		    		  		//console.log("login 1",url);
+		    		  		//reload to the url initialy requested
 		    		  		window.location.href = url;
 		        		} else {
-		        			if( url.split("/").length - 1 <= 3 ) 
+		        			if( url.split("/").length - 1 <= 3 ) {
+		        				//console.log("login 2",baseUrl+'#default.home');
+		        				//classic use case wherever you login from if not notifications/get/not/id...
+		        				//you stay on the current page
+		        				//if(location.hash == '#default.home')
+		        					window.location.reload();
+		        				/*else
+		        					window.location.href = baseUrl+'#default.home';*/
+		        			}
+		        			else {
+		        				//console.log("login 3 reload");
+		        				//for urls like notifications/get/not/id...
 		        				window.location.href = baseUrl+'#default.home';
-		        			else 
-		        				window.location.reload();
+		        				//window.location.reload();
+		        			}
 		        		}
 		    		  } else {
 		    		  	var msg;
@@ -504,7 +515,7 @@ var Login = function() {
 		    		  		$(".errorHandler").hide();
 							$('.register').click();
 							$('.pendingProcess').show();
-							$('#email3').val($("#email").val());
+							$('#email3').val($("#email-login").val());
 							$('#email3').prop('disabled', true);
 		    		  	} else{
 		    		  		msg = data.msg;

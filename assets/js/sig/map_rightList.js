@@ -143,6 +143,8 @@
 		//renvoi un item (html) pour la liste de droite
 		Sig.createItemRigthListMap = function(element, thisMarker, thisMap){
 
+			console.dir(element);
+
 			var thisSig = this;
 			var objectId = thisSig.getObjectId(this);
 			var allElement = element;
@@ -196,6 +198,9 @@
 								
 						if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
 						button	+= 	"<div class='info_item country_item_map_list inline'>" + element['address']['addressCountry'] + "</div>";
+						
+						if("undefined" != typeof element['cp'] )
+						button	+= 	"<div class='info_item country_item_map_list inline' style='font-size: 15px; font-weight: 300;'>" + element['cp'] + "</div>";
 								
 						//if("undefined" != typeof element['telephone'])
 						//button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";

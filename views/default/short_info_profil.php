@@ -124,14 +124,15 @@
 
 
 
-  </style>
+</style>
   
 
-  <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>
     
+    <div class="topMenuButtons pull-right">
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
@@ -140,7 +141,7 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');"            id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon profil</a></li>
+          <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');"            id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon profil <span class="badge badge-warning"><i class="fa fa-bookmark"></i>  <?php echo Gamification::badge( Yii::app()->session['userId'] ) ?></span> </a></li>
           <li><a href="javascript:;" onclick="loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId']?>');"         id="btn-menu-dropdown-my-directory"><i class="fa fa-bookmark fa-rotate-270 text-dark"></i> Mon répertoire</a></li>
           <li><a href="javascript:;" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isSearchDesign=1');"         id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li>
           <!-- <li><a href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li> -->
@@ -172,6 +173,7 @@
       <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
       <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
     <?php } ?>
+    </div>
     <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
        <i class="fa fa-search"></i>
@@ -262,6 +264,8 @@ function startGlobalSearch(indexMin, indexMax){
 
     if(loadingDataGS) return;
 
+    setTimeout(function(){ loadingDataGS = false; }, 10000);
+
     console.log("loadingDataGS true");
     loadingDataGS = true;
     
@@ -296,7 +300,7 @@ function startGlobalSearch(indexMin, indexMax){
 function autoCompleteSearchGS(search, indexMin, indexMax){
     console.log("autoCompleteSearchGS");
 
-    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, 
+    var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, "searchBy" : "ALL",
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
 

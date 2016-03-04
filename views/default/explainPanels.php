@@ -10,15 +10,7 @@
 </style>
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 
-	<div class="explainHome explain hide">
-		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Accueil</h1>
-		<ul>
-			<li><i class="fa fa-angle-right"></i> En Savoir plus ...</li>
-			<li><i class="fa fa-angle-right"></i> Qui Sommes Nous ? </li>
-			<li><i class="fa fa-angle-right"></i> Pourquoi <strong>Communecter</strong>" ?</li>
-		</ul>
-	</div>
-	
+
 	<div class="explainCommunectMe explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Communectez moi</h1>
 		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Ce n'est pas la technologie qui changera la société mais la philosophie bien outillé.
@@ -507,44 +499,26 @@
 		</ul>
 	</div>
 
-	<div class="explainActiveCrowdfunder explain hide">
-		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Aidez Nous a CrowdFunder (Financer) </h1>
-		vous pouvez contribuer au financement participatif mais aussi permettre de distribuer massivement 
-		la campagne autour de vous dans vos reseaux. 
-		<br/> Si ca vous interresse, vous etes au bon endroit
-		<br/> Voici votre cocktail de Crowdfunder actif :  
-		<ul>
-			<li><i class="fa fa-angle-right"></i> voici le <a href="kisskissbankbank.com/communecter--2" target="_blank">lien vers la campagne</a></li>
-			<li><i class="fa fa-angle-right"></i> Vous trouverez toutes les documentations décrivant le projet <a href="javascript:;" data-id="explainCommunectorDocs" class="explainLink text-red"><i class="fa fa-upload"></i></a> </li>
-			<li><i class="fa fa-angle-right"></i> parlez en autour de vous</li>
-			<li><i class="fa fa-angle-right"></i> faite des <a href="javascript:;" data-id="explainMOAC" class="explainLink text-red">MOAC</a> : Massifs Offline ou Online Apéros Citoyens</li>
-			<li><i class="fa fa-angle-right"></i> relayer massivement la campagne sur reseau sociaux FaceBook, Twitter, LinkedIn, Ello,...</li>
-			<li><i class="fa fa-angle-right"></i> faite des mailing personnaliser avec des <a href="javascript:;" data-id="explainCrowdfundingLetters" class="explainLink text-red">lettres type</a></li>
-			<li><i class="fa fa-angle-right"></i> Partagez votre motivation avec les membres de la pages et du groupe</li>
-			<li><i class="fa fa-angle-right"></i> soyez créatif et partagez vos idées avec <a href="https://www.facebook.com/groups/1706464852909714/" target="_blank"> vos amis communecteurs</a> </li>
-			<li><i class="fa fa-angle-right"></i> partagez aussi vos retours d'experiences et les avis recoltés</li>
-		</ul>
-	</div>
-
+	
 	<div class="explainCommunectorDocs explain hide">
 		<h1 class="homestead yellowph">Boite à Outil Communecteur</h1>
 		<ul>
 			Nos outils de communication interne
 			<ul>
-				<li><i class="fa fa-angle-right"></i> <a href="https://gitter.im/pixelhumain/pixelhumain">mur de discussion</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://www.loomio.org/g/vdaxhNF4/pixelhumain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://gitter.im/pixelhumain/pixelhumain" target="_blank">Mur de discussion</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://www.loomio.org/g/vdaxhNF4/pixelhumain" target="_blank">Notre Loomio</a></li>
 			</ul>
-			Nos documentations, power point
+			Nos documentations, présentations
 			<ul>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://www.communecter.org/doc/BPS Communecter.ppt</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf" target="_blank">Communecter - Plaquette Offre Services</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf" target="_blank">Présentation Courte de Communecter - OPEN ATLAS</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf" target="_blank">Présentation de Communecter - OPEN ATLAS</a></li>
 			</ul>
 			Nos vidéos
 			 <ul>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://vimeo.com/133636468</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="">https://vimeo.com/74212373</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/133636468" target="_blank">Communecter</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/74212373" target="_blank">La philosophie Pixel Humain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/147290335" target="_blank">Loca’Terre - Communectez-vous !</a></li>
 			</ul>
 		</ul>
 	</div>
@@ -570,6 +544,16 @@
 			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</ul>
+	</div>
+
+	<div class="explainGamification explain hide">
+		<h1 class="homestead yellowph"> Gamification Citoyenne </h1>
+		<ul>
+			Dans communecter on comptabillise la valeur par l'usage, celle ci est calculé par rapport 
+			à chaque lien de chaque individu fait avec des personnes, organisatinons, evennement, projets.
+			En gros la valeur calculé par les liens que vous avez avec votre environnement permet de pondérer votre activité locale.
+			Plus tard viendra s'ajouter la qualité de vos posts, le nombres de vote et de contribution au systèm et donc à votre société locale. 
 		</ul>
 	</div>
 
