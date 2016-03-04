@@ -222,10 +222,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 		<div class="col-md-12" style="color:#293A46;padding-bottom:40px;  float:left; ">
 			<div class="space20 hidden-xs"></div>
-			<div class="col-sm-12 col-md-4">
-				<iframe frameborder="0" width="232" height="330" src="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"></iframe>
-			</div>
-			<div class="col-sm-12 col-md-8">
+			<div class="col-sm-12 col-md-12">
 				<div class="information" style="text-align: left; color:#3c5665">
 					Encore une campagne de crowdfunding de plus ! Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
 					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
