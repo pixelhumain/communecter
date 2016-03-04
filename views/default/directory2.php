@@ -636,7 +636,7 @@ if (isset($follows)){
 						/* **************************************
 						* EMAIL for admin use only
 						***************************************** */
-						$strHTML .= isset($e["email"]) ? '<br/><a class="text-xss" '.$url.'>'.$e["email"].'</a>' : "";
+						//$strHTML .= isset($e["email"]) ? '<br/><a class="text-xss" '.$url.'>'.$e["email"].'</a>' : "";
 
 						/* **************************************
 						* DATE for Event and PROJECT uses
