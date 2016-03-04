@@ -840,8 +840,13 @@ function buildLineHTML(newsObj,update)
 			postalCode=author.address.postalCode;
 			city=author.address.addressLocality;			
 		}else{
-			postalCode=newsObj.scope.address.postalCode;
-			city=newsObj.scope.address.addressLocality;		
+			if (newsObj.scope != null && newsObj.scope.address != null) {
+				postalCode=newsObj.scope.address.postalCode;
+				city=newsObj.scope.address.addressLocality;		
+			} else {
+				postalCode = "NA";
+				city = "NA";
+			}
 		}
 		
 		if( typeof postalCode != "undefined")

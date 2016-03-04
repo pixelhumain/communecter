@@ -24,7 +24,7 @@
 				<li><i class="fa fa-users"></i> des organisations</li>
 				<li><i class="fa fa-lightbuld-o"></i> des projets</li>
 				<li><i class="fa fa-calendar"></i>des évènements</li></li>
-			</ul></li>
+			</ul>
 			<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne locale</li>
 			<li><i class="fa fa-angle-right"></i> je partage pour améliorer mon territoire</li>
 		</ul>
@@ -38,7 +38,8 @@
 					les <strong>personnes</strong>, 
 					les <strong>projets</strong>, 
 					les <strong>associations</strong>, 
-					les <strong>entreprises</strong>, qui existent près de chez vous... ou ailleurs !</h2>
+					les <strong>entreprises</strong>, qui existent près de chez vous... ou ailleurs !
+		</h3>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Retrouvez tous les acteurs locaux par code postal.</li>
 			<li><i class="fa fa-angle-right"></i> Recherchez par #tag ou mots-clés</li>
@@ -53,7 +54,6 @@
 		</ul> -->
 	</div>
 
-	</div>
 	<div class="explainMyDirectory explain hide">
 		<h1 class="homestead text-dark">Mon Répertoire </h1>
 		
@@ -62,7 +62,7 @@
 
 	<div class="explainNews explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-rss"></i> L'actualité Locale </h1>
-		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h2>
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h3>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Vous souhaitez être informé de ce qui se passe autour de vous ?</li>
 			<li><i class="fa fa-angle-right"></i> Vous avez des informations à partager avec les habitants votre ville ?</li>	
@@ -75,7 +75,7 @@
 
 	<div class="explainAgenda explain hide">
 		<h1 class="homestead text-dark"><i class="fa fa-calendar"></i> Les événements Locaux</h1>
-		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les événements près de chez vous, en quelques clics</h2>
+		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les événements près de chez vous, en quelques clics</h3>
 		<ul>
 			<li><i class="fa fa-angle-right"></i> Tout autour de nous ca bouge, nous sommes la société.</li>
 			<li><i class="fa fa-angle-right"></i> La société est faite d'activités sociales.</li>

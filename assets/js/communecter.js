@@ -362,6 +362,7 @@ function loadByHash( hash , back ) {
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+
     } 
     else if( hash.indexOf("#city.directory") >= 0 ){
         hashT = hash.split(".");
