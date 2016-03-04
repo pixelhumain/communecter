@@ -1,6 +1,144 @@
+
+
 <style>
-.main-col-search{	padding:0px !important; }
+
+
+
+.main-col-search{
+	padding:0px !important;
+}
+.home_page h3.subtitle{
+	font-weight: 300;
+	font-size:20px;
+}
+.home_page h3.information{
+	/*font-weight: 500;*/
+	font-size:16px;
+}
+
+.home_page #main-logo-home{
+	max-height: 290px;
+	margin-top:30px;
+}
+
+.home_page .imageSectionVideo{
+	width:80%;
+	margin-left:10%;
+}
+.home_page .section-video{
+	margin-top: 40px;
+}
+
+.home_page .btn-top{
+	border-radius: 50px;
+}
+
+.home_page .btn-discover{
+	border-radius: 60px;
+	font-size: 50px;
+	font-weight: 200;
+	border: 1px solid transparent;
+	width: 90px;
+	height: 90px;
+}
+.home_page .btn-discover:hover{
+	background-color: white !important;
+	border-color: #2BB0C6 !important;
+	color: #2BB0C6 !important;
+}
+
+.home_page .discover-subtitle{
+	font-size:13px; 
+	margin-top: -6px; 
+	display: block;
+}
+
+.home_page .pastille{
+	height: 100%;
+	width: 100%;
+	border-radius: 50px;
+	font-size: 45px;
+	padding: 13px 32px;
+}
+
+.list-action{
+	/*width: 100%;*/
+	/*padding: 5px 10px;*/
+	margin-bottom:40px;
+	font-size: 15px;
+	font-weight: 300;
+}
+
+#img-network-for-all{
+	/*max-width: 800px;*/
+	padding:25px;
+}
+.menu-home-btn-ins{
+	position: fixed;
+	top: 0px;
+	padding: 5px;
+	right: 2%;
+	z-index: 30;
+	border-radius: 30px 30px 30px 30px;
+}
+/*#searchBarPostalCode{
+	margin-top: 10px;
+	width: 200px;
+	margin-left: 0px;
+	font-family: "homestead";
+	font-size: 22px !important;
+	border-radius: 3px !important;
+	height: 40px;
+}*/
+/*input[type="text"].input-search:focus{
+	/*border-color: #3C5665 !important;*/
+	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	box-shadow: 0px 0px 5px -1px #CF3838 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+}
+
+#dropdown_search{
+	margin-top:30px;
+	margin-bottom:30px;
+}*/
+
+.btn-success.communected{
+	width: 50%;
+	margin-left: 25%;
+	padding: 10px;
+	border-radius: 20px;
+	background-color:#5cb85c;
+	color:white;
+}
+/*
+.searchEntity{
+	margin-bottom:10px;
+	margin-left:5px;
+	display: inline-block;
+}
+.searchEntity .entityRight{
+	text-align: center;
+	padding: 6px 16px !important;
+	margin-left: -1%;
+	border-radius: 30px;
+}
+.searchEntity .entityRight .entityLocality{
+	color:white !important;
+	display: inline;
+}
+.searchEntity .entityRight .entityName{
+	color:white !important;
+	display: inline;
+}*/
+.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
+.headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
+.keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
+.keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
+.headerIcon{font-size: 1.6em;}
+
 .social-list{	padding: 0;}
 .social-list li{	list-style-type: none;	display:inline;margin-right:10px;}
 .social-list li a{ font-size:20px;}
@@ -16,13 +154,60 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	font-size:15px;
 	color:#8b91a0;
 }
+
+
+.btn-show-video{
+	position:absolute;
+	bottom:10px;
+	right:40%;
+}
+
+
+#img-header{
+	display:inline;
+	max-height: 700px;
+}
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+	display: none;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.flexContainer {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.explainLink {
+	color: #e33551;
+	text-decoration-line: underline !important;;
+	text-decoration-style : dotted !important;;
+}
+
 </style>
 
 <div class="home_page">
 
-	<center>
-		<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
-	</center>
+	<div class="imageSection center-block imageSectionVideo" style="margin-top: 50px; text-align:center; cursor:pointer; position:relative;" onclick="openVideo()" >
+		<div id="homeImg">
+			<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
+		</div>
+		<div class="videoWrapper">
+			<iframe width="560" height="349" src="https://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1">
+			</iframe>
+		</div>
+	</div>
 
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:0px 0px 3px 0%; ">
@@ -150,10 +335,76 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 <script type="text/javascript">
 
+<?php $this->renderPartial("peopleTalk"); ?> 
+var peopleTalkCt = 0;
 jQuery(document).ready(function() {
 	
+	topMenuActivated = false;
+	hideScrollTop = true; 
+	checkScroll();
 	
-});
+	peopleTalkCt = getRandomInt(0,peopleTalk.length);
+	showPeopleTalk();
 
+	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+
+	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.org");
+
+	$('.tooltips').tooltip();
+
+	$("#btn-param-postal-code").click(function(){
+		$("#div-param-postal-code").show(400);
+	});
+
+	// $('#searchBarPostalCode').keyup(function(e){
+ //        clearTimeout(timeoutSearchHome);
+ //        timeoutSearchHome = setTimeout(function(){ startSearch(); }, 800);
+ //    });
+    
+    
+    $(".explainLink").click(function() {  
+	    $(".removeExplanation").parent().hide();
+		showDefinition( $(this).data("id") );
+		return false;
+	});
+    $(".keyword").click(function() { 
+    	$(".keysUsages").hide();
+    	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
+    	$(".keywordExplain").html( $("."+$(this).data("id")).html()+link ).fadeIn(400);
+    	 $(".showUsage").off().on("click",function() { $(".keywordExplain").slideUp(); $(".keysUsages").slideDown();}); 
+    });
+
+    $(".keyword1").click(function() { 
+    	$(".keysKeyWords").hide();
+    	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
+    	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
+    	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
+    });    
+});
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function showPeopleTalk(step)
+{
+	if(!step)
+		step = 1;
+	peopleTalkCt = peopleTalkCt+step;
+	if( undefined == peopleTalk[ peopleTalkCt ]  )
+		peopleTalkCt = 0;	
+	person = peopleTalk[ peopleTalkCt ];
+	$(".peopleTalkName").html( person.name );
+	$(".peopleTalkImg").attr("src",person.image);
+	$(".peopleTalkComment").html("<i class='fa fa-quote-left'></i> "+person.comment+"<i class='fa fa-quote-right'></i> ");
+	$(".peopleTalkProject").html( "<a target='_blank' href='"+person.url+"'>"+person.project+"</a>" );
+	
+}
+
+function openVideo(){
+	$("#homeImg").fadeOut("slow",function() {
+		$(".videoWrapper").fadeIn('slow');
+	});
+}
+
+var timeoutSearchHome = null;
 
 </script>
