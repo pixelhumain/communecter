@@ -262,7 +262,7 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt","urlExtraParam":"tpl=directory2"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users","urlExtraParam":"tpl=directory2"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users","urlExtraParam":"tpl=directory2"},
-	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
+	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
@@ -341,7 +341,6 @@ function jsController(hash){
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
     console.warn("loadByHash",hash,back);
-
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
     }
@@ -363,6 +362,10 @@ function loadByHash( hash , back ) {
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+    } 
+    else if( hash.indexOf("#city.directory") >= 0 ){
+        hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
