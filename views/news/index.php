@@ -28,7 +28,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 	
-if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
+//if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
@@ -62,7 +62,7 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 	}
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
-}
+//}
 ?>
 <style>
 #btnCitoyens:hover{
