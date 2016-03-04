@@ -362,7 +362,7 @@ function loadByHash( hash , back ) {
     }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+"?tpl=directory2", 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );

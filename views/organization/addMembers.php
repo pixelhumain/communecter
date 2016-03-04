@@ -542,6 +542,7 @@ if( isset($_GET["isNotSV"])) {
 	            success: function(data){
 	            	if(!data.result){
 	            		toastr.error(data.msg);
+	            		//checkIsLoggued();
 	            	}
 	            	else
 	            	{
