@@ -94,36 +94,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 
 </style>
-<?php if( @$isNotSV ){ 
-	$this->renderPartial('../default/panels/toolbar'); 
-}?>
 <?php 
-
-if( !isset($_GET["isNotSV"])) 
-	$this->renderPartial('../default/mapFormSV'); 
+$this->renderPartial('../default/panels/toolbar');  
 ?>
 <div id="addOrganization" >
-	<?php if( isset($_GET["isNotSV"])){?>
-	<!-- <h2 class='radius-10 padding-10 text-dark text-bold'><i class="fa fa-plus"></i> <i class="fa fa-users fa-2x"></i> <?php echo Yii::t("common","Add an Organization") ?></h2> -->
-	<?php
-	} 
 	
-	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
-	?>
-	<div class="<?php echo $size ?> form-add-data" >  
+	
+	<div class="col-md-12 form-add-data" >  
 	<div class="noteWrap">
-	    <!-- <div class="panel panel-white">
-        	<div class="panel-heading border-light">
-				<?php if( !@$isNotSV ){ ?>
-					<h1><?php echo Yii::t("organisation","Reference your organization",null,Yii::app()->controller->module->id); ?></h1>
-			    <?php } ?>
-			    <p>
-			    	<?php //echo Yii::t("organisation","If you manage one or several organizations or you're simply part of an organization as member:<br/>You are at the best place to emphasize, to promote, to help your organization in order make it alive.<br/>Verify if the organization already exists with its name or its email in search field.",null,Yii::app()->controller->module->id); ?>
-			    	
-			    </p>
-
-			</div>
-		</div> -->
+	    
 		<div class="panel-body" style="background-color:transparent !important;">
 			<form id="organizationForm" role="form">
 				<div class="row">
@@ -335,7 +314,7 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				rangelength : [4, 5],
+				rangelength : [5, 5],
 				required : true,
 				validPostalCode : true
 			}
@@ -415,9 +394,8 @@ jQuery(document).ready(function() {
 		data : countries,
 	});
 
-	<?php if( isset($_GET["isNotSV"])){?>
-		Sig.clearMap();
-	<?php } ?>
+
+	Sig.clearMap();
 	
 
 	$("textarea.autosize").autosize();
@@ -586,7 +564,7 @@ jQuery(document).ready(function() {
 		});
 
 		var searchValue = $('#organizationForm #postalCode').val();
-		if(searchValue.length >= 4 && searchValue.length <= 5) {
+		if(searchValue.length == 5) {
 			$("#city").empty();
 
 			clearTimeout(timeout);
@@ -604,9 +582,9 @@ jQuery(document).ready(function() {
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
-		var show = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+		var show = Sig.showCityOnMap(resultNominatim, true, "organization");
 		if(!show && currentCityByInsee != null) {
-			Sig.showCityOnMap(currentCityByInsee, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");	
+			Sig.showCityOnMap(currentCityByInsee, true, "organization");	
 		}
 	}
 
@@ -640,7 +618,7 @@ jQuery(document).ready(function() {
 				}
 			}
 			else{
-				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+				Sig.showCityOnMap(obj, true, "organization");
 			}
 		}
 		else {

@@ -38,6 +38,12 @@ return array(
 	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut etre temporairement indisponible, déplacé ou n'existe plus.",
 	"Check the URL you entered for any mistakes and try again." => "Vérifier l'URL et rééssayez",
 	"Return home" => "Retour Acceuil",
+
+	"Follow this person" => "Suivre cette personne",
+	"Follow this organization" => "Suivre cette organisation",
+	"Follow this project" => "Suivre ce projet",
+	"Unfollow" => "Ne plus suivre",
+
 	
 	
 );

@@ -8,6 +8,7 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Import Data</h4>
 		</div>
 		<div class="panel-body">
+			<?php //var_dump($city); ?>
 			<div class="col-sm-12 col-xs-12">
 				<div class="col-sm-4 col-xs-12">
 						<label for="chooseEntity">Collection : </label>
@@ -90,6 +91,11 @@ function bind()
   			toastr.error("Vous devez sélectionner une collection");
   			return false ;
   		}
+  		rand = Math.floor((Math.random() * 8) + 1);
+  		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+		});
   		console.log("file", file);
   		$.ajax({
 	        type: 'POST',
@@ -115,9 +121,13 @@ function bind()
 	  			});
 
 	  			$("#bodyResult").html(chaine);
-	        	
+	        	$.unblockUI();
 
-	        }
+	        },
+	  		error:function(data){
+	  			console.log("error",data);
+	  			$.unblockUI();
+	  		}
 		});
 		 		
 

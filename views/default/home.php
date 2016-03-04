@@ -1,13 +1,12 @@
-
 <?php
-$cs = Yii::app()->getClientScript();
+	$cs = Yii::app()->getClientScript();
+
 
 $cssAnsScriptFilesModule = array(
 //'js/svg/tonfichier.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
-
 
 <style>
 
@@ -432,7 +431,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left; color:#B2B2B2; padding-bottom:40px;">
+	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
+		<div class="col-md-12" style="background-color:#E33551;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> | réussir la campagne.</h1>
+		</div>
+
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
 		</div>
@@ -447,14 +450,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur02.png"/>Pas de PUB</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Données Protégées</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur04.png"/>Informations Partagées</div>
-                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Linked Data</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur05.png"/>Linked Data</div>
             </div>
             <div class=" col-md-12 homestead" style="text-align:center;">
                  <div class=" col-md-1"></div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur06.png"/>Territoire Connecté</div>
-                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Inteligence Collective</div>
-                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Gratuit</div>
-                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Société 2.2.main</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur07.png"/>Inteligence Collective</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur08.png"/>Gratuit</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur09.png"/>Société 2.2.main</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Biens Communs</div>
             </div>
 	</div>

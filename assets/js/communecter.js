@@ -255,10 +255,14 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 	}
 }		
 var loadableUrls = {
-	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
-	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
-	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
-	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270"},
+	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
+	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
+	"#event.eventsv": {title:'ADD AN EVENT', icon : "calendar","login":true},
+	"#project.projectsv": {title:'ADD A PROJECT', icon : 'lightbulb-o','urlExtra':'/id/'+userId+'/type/citoyen',"login":true},
+	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt","urlExtraParam":"tpl=directory2"},
+	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users","urlExtraParam":"tpl=directory2"},
+	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users","urlExtraParam":"tpl=directory2"},
+	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
@@ -276,22 +280,22 @@ var loadableUrls = {
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"&isSearchDesign"},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
+	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
-	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 };
-function replaceAndShow(hash,params){
-	console.log("replaceAndShow",hash,params);
+function jsController(hash){
+	console.log("jsController",hash);
 	res = false;
 	$(".menuShortcuts").addClass("hide");
 	$.each( loadableUrls, function(urlIndex,urlObj)
@@ -300,43 +304,47 @@ function replaceAndShow(hash,params){
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = loadableUrls[urlIndex];
-			//alises are renaming of urls example default.home could be #home
-			if( endPoint.alias ){
-				endPoint = replaceAndShow(endPoint.alias,params);
+			//console.log("jsController 2",endPoint,"login",endPoint.login );
+			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
+				//alises are renaming of urls example default.home could be #home
+				if( endPoint.alias ){
+					endPoint = jsController(endPoint.alias);
+					return false;
+				} 
+				// an action can be connected to a url, and executed
+				if( endPoint.action && typeof endPoint.action == "function"){
+					endPoint.action(hash);
+				} else {
+					//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
+					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
+					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
+
+					showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+urlExtra+extraParams, endPoint.title,endPoint.icon );
+
+					if(endPoint.menu)
+						$("."+endPoint.menu).removeClass("hide");
+				}
+				res = true;
 				return false;
-			} 
-			// an action can be connected to a url, and executed
-			if( endPoint.action && typeof endPoint.action == "function"){
-				endPoint.action(hash);
 			} else {
-				//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
-				extraParams = (endPoint.urlExtraParam) ? endPoint.urlExtraParam : "";
-				showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+params+extraParams, endPoint.title,endPoint.icon );
-				if(endPoint.menu)
-					$("."+endPoint.menu).removeClass("hide");
+				console.warn("PRIVATE SECTION LOGIN FIRST",hash);
+				showPanel( "box-login" );
+				resetUnlogguedTopBar();
+				res = true;
 			}
-			res = true;
-			return false;
 		}
 	});
 	return res;
 }
-function loadByHashMap( hash , back ) { 
-	//alert("loadByHashMap",hash , back);
-}
+
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
     console.warn("loadByHash",hash,back);
-    /*if( isMapEnd ){
-    	showMap(true);
-    	loadByHashMap(hash , back);
-    	return;
-    }*/
-    params = ( hash.indexOf("?") < 0 ) ? '?tpl=directory2&isNotSV=1' : "";
 
-    if( replaceAndShow(hash,params) )
-    	console.log("loadByHash >>> replaceAndShow",hash);
+    if( jsController(hash) ){
+    	console.log("loadByHash >>> jsController",hash);
+    }
     else if( hash.indexOf("#panel") >= 0 ){
     	panelName = hash.substr(7);
     	if( (panelName == "box-login" || panelName == "box-register") && userId != "" && userId != null ){
@@ -347,32 +355,32 @@ function loadByHash( hash , back ) {
         else
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
-    } else if( hash.indexOf("#organization.addorganizationform") >= 0 )
-        showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' );
-    else if( hash.indexOf("#person.invite") >= 0 )
-        showAjaxPanel( '/person/invite', 'INVITE SOMEONE','share-alt' );
-    else if( hash.indexOf("#event.eventsv") >= 0 )
-        showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' );
-    else if( hash.indexOf("#project.projectsv") >= 0 )    
-        showAjaxPanel( '/project/projectsv/id/'+userId+'/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' );
+    } 
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
-    else if(userId != "")
-        showAjaxPanel( '/news?isNotSV=1', 'KESS KISS PASS ','rss' );
-    else
-        showPanel('box-communecter',null,"WELCOM MUNECT HEY !!!",null);
+    else 
+        showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
     if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
 	}
+}
+
+function checkIsLoggued(){
+	
+}
+function resetUnlogguedTopBar() { 
+	//replace the loggued toolBar nav by log buttons
+	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
+									' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 
 /* ****************
@@ -399,7 +407,7 @@ also switches the global Title and Icon
 **************/
 function showAjaxPanel (url,title,icon) { 
 	//$(".main-col-search").css("opacity", 0);
-	console.log("TITLE",title);
+	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
 
 	var rand = Math.floor((Math.random() * 7) + 1); 
@@ -430,20 +438,24 @@ function showAjaxPanel (url,title,icon) {
 	console.log("GETAJAX",icon+title);
 	
 	showTopMenu(true);
-
+	userIdBefore = userId;
 	setTimeout(function(){
 		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
-			$(".main-col-search").slideDown(); initNotifications(); 
-			$.unblockUI();
+			/*if(!userId && userIdBefore != userId )
+				window.location.reload();*/
+
+			$(".main-col-search").slideDown(); 
+			initNotifications(); 
+			
 			$(".explainLink").click(function() {  
 			    showDefinition( $(this).data("id") );
 			    return false;
 			 });
+
+			$.unblockUI();
 		},"html");
 	}, 800);
-	
 }
-
 /* ****************
 visualize all tagged elements on a map
 **************/
