@@ -548,12 +548,9 @@
 	</div>
 
 	<div class="explainGamification explain hide">
-		<h1 class="homestead yellowph"> Gamification Citoyenne </h1>
+		<h1 class="homestead yellowph"> Gamification (ou ludification) Citoyenne </h1>
 		<ul>
-			Dans communecter on comptabillise la valeur par l'usage, celle ci est calculé par rapport 
-			à chaque lien de chaque individu fait avec des personnes, organisatinons, evennement, projets.
-			En gros la valeur calculé par les liens que vous avez avec votre environnement permet de pondérer votre activité locale.
-			Plus tard viendra s'ajouter la qualité de vos posts, le nombres de vote et de contribution au systèm et donc à votre société locale. 
+			Dans Communecter on comptabilise la valeur par l'usage. Celle-ci est calculée par rapport à chaque lien de chaque individu fait avec des personnes, organisations, événements, projets. Pour résumé, la valeur calculée par les liens que vous avez avec votre environnement permet de pondérer votre activité locale. Plus tard viendra s'ajouter la qualité de vos posts, le nombre de votes et de contributions au système et donc à votre société locale.
 		</ul>
 	</div>
 
