@@ -505,21 +505,20 @@
 		<ul>
 			Nos outils de communication interne
 			<ul>
-				<li><i class="fa fa-angle-right"></i> <a href="https://gitter.im/pixelhumain/pixelhumain" target="_blank">mur de discussion</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="https://www.loomio.org/g/vdaxhNF4/pixelhumain" target="_blank">https://www.loomio.org/g/vdaxhNF4/pixelhumain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://gitter.im/pixelhumain/pixelhumain" target="_blank">Mur de discussion</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://www.loomio.org/g/vdaxhNF4/pixelhumain" target="_blank">Notre Loomio</a></li>
 			</ul>
-			Nos documentations, power point
+			Nos documentations, présentations
 			<ul>
 				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Communecter - Plaquette Offre Services.pdf" target="_blank">Communecter - Plaquette Offre Services</a></li>
 				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf" target="_blank">Présentation Courte de Communecter - OPEN ATLAS</a></li>
 				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/Présentation de Communecter - OPEN ATLAS.pdf" target="_blank">Présentation de Communecter - OPEN ATLAS</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="https://www.communecter.org/doc/BPS Communecter.ppt" target="_blank">BPS Communecter</a></li>
 			</ul>
 			Nos vidéos
 			 <ul>
-				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/133636468" target="_blank">https://vimeo.com/133636468</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/74212373" target="_blank">https://vimeo.com/74212373</a></li>
-				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/147290335" target="_blank">https://vimeo.com/147290335</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/133636468" target="_blank">Communecter</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/74212373" target="_blank">La philosophie Pixel Humain</a></li>
+				<li><i class="fa fa-angle-right"></i> <a href="https://vimeo.com/147290335" target="_blank">Loca’Terre - Communectez-vous !</a></li>
 			</ul>
 		</ul>
 	</div>
