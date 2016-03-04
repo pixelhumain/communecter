@@ -6,7 +6,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
 	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	'/plugins/x-editable/css/bootstrap-editable.css',
-	'/plugins/select2/select2.css',
 	//X-editable...
 	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
 	'/plugins/x-editable/js/bootstrap-editable.js' , 
@@ -14,13 +13,12 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/plugins/wysihtml5/wysihtml5.js',
 	'/plugins/moment/min/moment.min.js',
-	'/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
 	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
 	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
 	'/plugins/jquery.appear/jquery.appear.js',
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
+	//'/plugins/select2/select2.min.js',
 
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -106,7 +104,13 @@ if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 #newsHistory{
 	overflow: scroll;
 	overflow-x: hidden;
-
+	<?php if($type!="city" && !isset($_GET["isSearchDesign"])) { ?>
+	position:fixed;
+	top:100px;
+	<?php } ?>
+	<?php if(isset($_GET["isSearchDesign"])) { ?>
+		/*position:absolute;*/
+	<?php } ?>
 	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
@@ -198,7 +202,6 @@ div.timeline .date_separator span{
 }
 .extracted_url{
 	min-height:100px;
-	margin-top: 10px;
 }
 #get_url{
 	max-width:100%; 
@@ -284,6 +287,7 @@ div.timeline .date_separator span{
 	color:#3C5665;
 }
 
+<?php if (isset($_GET["isSearchDesign"]) ){ ?>
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
 #newsHistory{
 	top:110px !important;
@@ -296,24 +300,17 @@ div.timeline .date_separator span{
 	box-shadow: 0px 0px !important
 }
 #newsHistory #timeline {
-    /*width: 91.66666667%;*/
+    width: 91.66666667%;
 }
 #newsHistory .timeline-scrubber {
-    right: 0%;
-	position: fixed;
-	top: 315px;
-}
-#newsHistory .timeline-scrubber li:last-child a {
-    border-color: #50687d;
-    color: #50687d;
-}
-#newsHistory .timeline-scrubber a {
-    border-left: 5px solid #50687d;
-    color: #50687d;
+    right: 8%;
+    position: fixed;
+    top: 115px;
 }
 .main-col-search{
-	/*padding-top:10px !important;*/
+	padding-top:10px !important;
 }
+<?php } ?>
 
 </style>
 
@@ -339,13 +336,13 @@ div.timeline .date_separator span{
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li>
-							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
+							<a href="#" id="scope-my-wall" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
 								<!--<div class="small" style="padding-left:12px;">-->
 							<p class="list-group-item-text small">Ouvert au public et votre localité</p><!--</div>-->
 							</a>
 						</li>
 						<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
+							<a href="#" id="scope-my-network" class="scopeShare"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
 								<p class="list-group-item-text small">Le réseau auquel vous êtes connecté</p>
 							</a>
 						</li>
@@ -355,19 +352,17 @@ div.timeline .date_separator span{
 					</ul>
 				</div>	
 				<?php }else if($type=="city"){ ?>
-					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
 				<?php } ?>
-				<input type="hidden" name="scope" value="public"/>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
 	 </div>
 </div>
-<div id="newsHistory" class="padding-10">
+<div id="newsHistory" class="padding-20">
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
-		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
+		<div class="panel panel-white" style="padding-top:10px;<?php if (isset($_GET["isSearchDesign"]) ){ ?>box-shadow:inherit;<?php } ?>">
 			<div class="panel-heading border-light  <?php if( isset($_GET["isNotSV"])) echo "hidden"; ?>">
 				<h4 class="panel-title">News</h4>
 				<ul class="panel-heading-tabs border-light">
@@ -382,7 +377,7 @@ div.timeline .date_separator span{
 				<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 	
-				<div id="timeline" class="col-md-12">
+				<div id="timeline" class="col-md-10">
 					<?php if($type=="city"){ ?>
 					<div class="panel-heading text-center">
 						<h3 class="panel-title text-blue lbl-title-newsstream"><i class="fa fa-rss"></i> Les actualités locales</h3>
@@ -399,7 +394,9 @@ div.timeline .date_separator span{
 								</a>
 							</div>
 						</div>-->
-						<div class="newsTL">
+						<div class="newsTLnews">
+						</div>
+						<div class="newsTLactivity">
 						</div>
 					</div>
 				</div>
@@ -407,9 +404,7 @@ div.timeline .date_separator span{
 				<ul class="timeline-scrubber inner-element newsTLmonthsListactivity col-md-2"></ul>
 				
 			</div>
-			<div class="stream-processing center">
-				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-spin fa-circle-o-notch"></i></span>
-			</div>
+			<div class="title-processing homestead stream-processing center fa-2x" style="margin-right:100px;"><i class="fa fa-circle-o-notch fa-spin"></i></div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
@@ -418,50 +413,7 @@ div.timeline .date_separator span{
 <div id="modal_scope_extern" class="form-create-news-container hide"></div>
 
 <style type="text/css">
-	div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}
-	
-
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) {
-    float: right;
-    margin-top: 20px;
-    width: 50%;
-    clear: right;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+1) {
-    float: left;
-    width: 50%;
-    clear: left;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) .timeline_element {
-    float: left;
-    margin-left: 30px;
-    right: 10%;
-    opacity: 1;
-    right: 0;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element {
-    float: right;
-    left: 10%;
-    margin-right: 30px;
-    left: 0;
-    opacity: 1;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) .timeline_element:before {
-    left: -27px;
-    top: 15px;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) .timeline_element:after {
-    left: -35px;
-    top: 10px;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:after {
-    right: -35px;
-    top: 10px;
-}
-div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
-    right: -27px;
-    top: 15px;
-}
+	div.timeline .columns > li:nth-child(2n+2) {margin-top: 10px;}
 	.timeline_element {padding: 10px;}
 </style>
 
@@ -493,8 +445,6 @@ var newsReferror={
 			},
 	};
 var mode = "view";
-var canPostNews = <?php echo json_encode(@$canPostNews) ?>;
-
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
@@ -513,64 +463,50 @@ var contextMap = {
 	},
 };
 var formCreateNews;
-var indexStep = 15;
-var currentIndexMin = 0;
-var currentIndexMax = indexStep;
-var currentMonth = null;
-var scrollEnd = false;
-var totalEntries = 0;
-var timeout = null;
-var tagsFilterListHTML = "";
-var scopesFilterListHTML = "";
-var loadingData = false;
+
 jQuery(document).ready(function() 
-{
+{	
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
 	else {
 		tagsNews = <?php echo json_encode($tags); ?>
 	}
-	/////// A réintégrer pour la version last
-	var $scrollElement = $(".my-main-container");
+	<?php if (isset($_GET["isSearchDesign"]) ){ ?>
+		var $scrollElement = $(".my-main-container");
+	<?php } else { ?>
+		var $scrollElement = $("#newsHistory");
+	<?php } ?>
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType!="city"){
-		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>");
+		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
-	}else{
-		
 	}
+	
 	// SetTimeout => Problem of sequence in js script reader
-	setTimeout(function(){
-		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	},100);
-	setTimeout(function(){
-		$(".my-main-container").scroll(function(){
-	    if(!loadingData && !scrollEnd){
-		    //alert(loadingData);
-	        //var heightContainer = $(".my-main-container")[0].scrollHeight;
-	        //var heightWindow = $(window).height();
-	        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
-	        //if(scrollEnd == false){
-	          var heightContainer = $(".my-main-container")[0].scrollHeight;
-	          var heightWindow = $(window).height();
-	          if( ($(this).scrollTop() + heightWindow) == heightContainer){
-	            console.log("scroll MAX");
-	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	          }
-	        //}
-	    }
+	setTimeout(function(){loadStream()},0);
+	if (streamType=="news"){
+		if(contextParentType=="city"){
+			minusOffset=1130;
+		} else {
+			minusOffset=730;
+		}
+	}
+	$scrollElement.off().on("scroll",function(){
+		console.log((offset.top - minusOffset) + " <= " + $scrollElement.scrollTop());
+		if(offset.top - minusOffset <= $scrollElement.scrollTop()) {
+			if (lastOffset != offset.top){
+				lastOffset=offset.top;
+				loadStream();
+			}
+		}
 	});
-	},4000);
-		
-	getUrlContent();
-	setTimeout(function(){
-		saveNews();
-	},5000);
  	//Construct the first NewsForm
 	//buildDynForm();
+	getUrlContent();
+	saveNews();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
@@ -581,20 +517,7 @@ jQuery(document).ready(function()
 * @param string contextParentId indicates the precise parent id 
 * @param strotime dateLimite indicates the date to load news
 */
-var loadStream = function(indexMin, indexMax){
-	loadingData = true;
-    indexStep = 5;
-    if(typeof indexMin == "undefined") indexMin = 0;
-    if(typeof indexMax == "undefined") indexMax = indexStep;
-
-    currentIndexMin = indexMin;
-    currentIndexMax = indexMax;
-    if(indexMin == 0 && indexMax == indexStep) {
-      totalData = 0;
-      mapElements = new Array(); 
-    }
-    else{ if(scrollEnd) return; }
-    
+var loadStream = function(){
 	$.ajax({
         type: "POST",
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit,
@@ -602,12 +525,11 @@ var loadStream = function(indexMin, indexMax){
     	success: function(data){
 	    	console.log(data.news)
 	    	if(data){
-				buildTimeLine (data.news, indexMin, indexMax);
+				buildTimeLine (data.news);
 				if(typeof(data.limitDate.created) == "object")
 					dateLimit=data.limitDate.created.sec;
 				else
 					dateLimit=data.limitDate.created;
-				loadingData = false;
 			}
 		}
 	});
@@ -615,10 +537,10 @@ var loadStream = function(indexMin, indexMax){
 
 var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
-function buildTimeLine (news, indexMin, indexMax)
+function buildTimeLine (news)
 {
 	if (dateLimit==0){
-		$(".newsTL").html('<div class="spine"></div>');
+		$(".newsTL"+streamType).html('<div class="spine"></div>');
 		if (streamType=="activity"){
 			btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
 				'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
@@ -627,15 +549,37 @@ function buildTimeLine (news, indexMin, indexMax)
 			$(".newsTLmonthsList"+streamType).html(btnFilterSpecific);
 		}
 	}
-	//insertion du formulaire CreateNews dans le stream
-	var formCreateNews = $("#formCreateNewsTemp");
+		//insertion du formulaire CreateNews dans le stream
+	if (streamType=="news")
+		var formCreateNews = $("#formCreateNewsTemp");
+	else {
+		var formCreateNews = "<div id='formActivity' class='center-block'><div class='no-padding form-create-news-container'>"+
+			"<h5 class='padding-10 partition-light no-margin text-left'>"+
+				"<i class='fa fa-pencil'></i> <?php echo Yii::t("news","Add something to share your activity",null,Yii::app()->controller->module->id) ?>"+
+			"</h5>"+
+			'<div class="form-group box-add row partition-white no-padding no-margin" style="display: block;border: 1px solid #E6E8E8;margin-left:0px;margin-right:0px;">'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+                   '<button type="button" class="btn-add-something btn bg-yellow col-md-12 col-xs-12" onclick="showAjaxPanel( \'/person/invite\', \'INVITE SOMEONE\',\'share-alt\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Invite Someone"><i class="fa fa-plus"></i> <i class="fa fa-user fa-x"></i> <?php echo Yii::t("common","person") ?>'+
+				   '</button>'+
+				'</div>'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+                	'<button type="button" class="btn-add-something btn bg-green col-md-12 col-xs-12" onclick="showAjaxPanel(\'/organization/addorganizationform?isNotSV=1\', \'ADD AN ORGANIZATION\',\'users\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Organization"><i class="fa fa-plus"></i> <i class="fa fa-users fa-x"></i> <?php echo Yii::t("common","organizations") ?>'+
+					'</button>'+
+				'</div>'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+					'<button type="button" class="btn-add-something btn bg-orange col-md-12 col-xs-12" onclick="showAjaxPanel(\'/event/eventsv?isNotSV=1\', \'ADD AN EVENT\',\'calendar\')" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add An Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar fa-x"></i> <?php echo Yii::t("common","events") ?>'+
+					'</button>'+
+				'</div>'+
+				'<div class="no-padding col-md-6 col-xs-12">'+
+					'<button type="button" class="btn-add-something btn bg-purple col-md-12 col-xs-12" onclick="showAjaxPanel(\'/project/projectsv/id/'+contextParentId+'/type/citoyen?isNotSV=1\', \'ADD A PROJECT\',\'lightbulb-o\' )" class="padding-10 text-center tooltips text-white" data-toggle="tooltip" data-placement="top" data-original-title="Add A Project"><i class="fa fa-plus"></i> <i class="fa fa-lightbulb-o fa-x"></i> <?php echo Yii::t("common","projects") ?>'+
+					'</button>'+
+				'</div>'+
+			'</div>'+
+		'</div>';
+	}
+	console.log(formCreateNews);
 	//currentMonth = null;
-	var countEntries = 0;
-	$.each(news, function(i, v) { if(v.length!=0){ countEntries++; } });
-	
-	totalEntries += countEntries;
-	
-	str = "";
+	countEntries = 0;
 	console.log(news);
 	$.each( news , function(key,newsObj)
 	{
@@ -647,65 +591,73 @@ function buildTimeLine (news, indexMin, indexMax)
 				var date = new Date( parseInt(newsObj.created)*1000 );
 			var d = new Date();
 			
-			str += buildLineHTML(newsObj);
+			var newsTLLine = buildLineHTML(newsObj);
+			if(countEntries == 0 && dateLimit == 0){
+				/**Construct the first month actual month separator***/
+								/**** End of construct *****/
+				$(".newsTL"+streamType+d.getMonth()).append(
+					"<li class='newsFeed'>"+
+						"<div id='newFeedForm"+streamType+"' class='timeline_element partition-white no-padding' style='min-width:85%;'>"+
+					"</li>");
+				$("#newFeedForm"+streamType).append(formCreateNews);
+				$("#formCreateNewsTemp").css("display", "inline");
+			}
+			$(".newsTL"+streamType+date.getMonth()).append(newsTLLine);
+			if (streamType=="news"){
+			initXEditable();
+			manageModeContext(newsObj._id.$id);
+			}
+
+			countEntries++;
 		}
 	});
-	$(".newsTL").append(str);
-	if(canPostNews==true){
-		$("#newFeedForm").append(formCreateNews);
-		$("#formCreateNewsTemp").css("display", "inline");
-	}
-	$.each( news , function(key,o){
-		initXEditable();
-		manageModeContext(key);
-	});
-
-
-	//offset=$('.newsTL'+' .newsFeed:last').offset(); 
+	offset=$('.newsTL'+streamType+' .newsFeed:last').offset(); 
 	if( tagsFilterListHTML != "" )
 		$("#tagFilters").html(tagsFilterListHTML);
 	if( scopesFilterListHTML != "" )
 		$("#scopeFilters").html(scopesFilterListHTML);
 
-	if(!countEntries || countEntries < 5){
-		if( dateLimit == 0 && countEntries == 0){
-			var date = new Date(); 
-			form ="";
-			if(canPostNews==true){
-				form = "<div class='newsFeed'>"+
-						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
-					"</div>";
-				msg = "Aucune activité.<br/>Soyez le premier à publier ici";
-			}
-			else{
-				msg = "Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur";
-			}
-			newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form+"<div class='col-md-5 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
-		
-			$(".spine").css("bottom","0px");
+	if(!countEntries){
+		if( dateLimit == 0){
 			$(".tagFilter, .scopeFilter").hide();
-			
-			$(".newsTL").append(newsTLLine);
-			if(canPostNews==true){
-				$("#newFeedForm").append(formCreateNews);
-				$("#formCreateNewsTemp").css("display", "inline");
-			}
+			var date = new Date(); 
+			$(".newsTL"+streamType).html("<div id='newFeedForm"+streamType+"' class='col-md-7 text-extra-large'></div>");
+			$("#newFeedForm"+streamType).append(formCreateNews);
+			$("#formCreateNewsTemp").css("display", "inline");
+			$(".newsTL"+streamType).append("<div class='col-md-5 text-extra-large emptyNews"+streamType+"'><i class='fa fa-ban'></i> Aucun message.<br/>Soyez le premier à publier ici.</div>");
+
 		}
 		else {
-			if($("#backToTop").length <= 0){
-				//$('.first')
-				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
-						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
-							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> <?php echo Yii::t("common","No more news"); ?><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+			if($("#backToTop"+streamType).length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
+						'<a href="#top" class="smoothScroll" title="retour en haut de page">'+
+							'<span style="height:inherit;"><i class="fa fa-ban"></i><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
 					'</div>';
-					$(".newsTL").append(titleHTML);
+					$(".newsTL"+streamType).append(titleHTML);
 					$(".spine").css('bottom',"0px");
 			}
 		}
 			$(".stream-processing").hide();
+	}else{
+		$(".tagFilter, .scopeFilter").show();
+		if(countEntries < 5){
+			if($("#backToTop"+streamType).length <= 0){
+				titleHTML = '<div class="date_separator" id="backToTop'+streamType+'" data-appear-top-offset="-400" style="height:150px;">'+
+						'<a href="#top" class="smoothScroll">'+
+							'<span style="height:inherit;"><i class="fa fa-ban"></i><br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+						'</a>'+
+					'</div>';
+					$(".newsTL"+streamType).append(titleHTML);
+					$(".spine").css('bottom',"0px");
+			}
+			$(".stream-processing").hide();
+			//dateLimit="end";
+		}
+		else{
+		//deplacement du formulaire dans le stream
+		showFormBlock(false);
+		}
 	}
 	
 	bindEvent();
@@ -714,28 +666,39 @@ function buildTimeLine (news, indexMin, indexMax)
 		setTimeout(function(){$.unblockUI()},1);
 }
 
-
-
-function buildLineHTML(newsObj,update)
+var currentMonth = null;
+function buildLineHTML(newsObj)
 {
-	newsTLLine = "";
-	
-	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
+	if(countEntries == 0 && dateLimit == 0){
+				/**Construct the first month actual month separator***/
+				var d = new Date();
+				var currentMonth=d.getMonth();
+				linkHTML =  '<li class="">'+
+				'<a href="#'+streamType+'month'+d.getMonth()+d.getFullYear()+'" data-separator="#month'+d.getMonth()+d.getFullYear()+'">'+months[d.getMonth()]+' '+d.getFullYear()+'</a>'+
+				'</li>';
+				$(".newsTLmonthsList"+streamType).append(linkHTML);
+				titleHTML = '<div class="date_separator" id="'+streamType+'month'+d.getMonth()+d.getFullYear()+'" data-appear-top-offset="-400">'+
+								'<span>'+months[d.getMonth()]+' '+d.getFullYear()+'</span>'+
+							'</div>'+
+							'<ul class="columns newsTL'+streamType+d.getMonth()+'"></ul>';
+				$(".newsTL"+streamType).append(titleHTML);
+				/**** End of construct *****/
+			}
+
+	//console.log("buildLineHTML");
+	//console.dir(newsObj);
 	manageMenu = "";
 	if (newsObj.author.id=="<?php echo Yii::app() -> session["userId"] ?>" && streamType=="news"){
-		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
+		manageMenu='<div class="btn dropdown pull-right" style="padding-left:10px !important;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
 			'<ul class="dropdown-menu">'+
-				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>';
-		if (newsObj.type != "activityStream"){
-		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>';
-		}
-		manageMenu +=	'</ul>'+
+				'<li><a href="#" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>'+
+				'<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>'+
+			'</ul>'+
 		'</div>';
 	}
-	
 	if(typeof(newsObj.created) == "object")
 		var date = new Date( parseInt(newsObj.created.sec)*1000 );
 	else
@@ -747,38 +710,23 @@ function buildLineHTML(newsObj,update)
 	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	// if month of the current news is different than currentMonth
-	// Added new month link to the right sidebar and a new date separator in the timeline
-	// Check if inject the new's form
-	if( currentMonth != date.getMonth() && update != true)
+	if( currentMonth != date.getMonth() && $('.newsTL'+streamType+date.getMonth()).length == 0)
 	{
-		form="";
-		// Append for at the beginning after the construction of the timeline
-		//alert(canPostNews);
-		if (currentMonth == null  && canPostNews == true){
-		//	alert();
-			form = "<div class='newsFeed'>"+
-						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
-					"</div>";
-
-		}
 		currentMonth = date.getMonth();
-		// Add item to the left filter by month YY
 		linkHTML =  '<li class="">'+
-						'<a href="javascript:;" class="linkMonth" onclick="smoothScroll(\'#month'+date.getMonth()+date.getFullYear()+'\');">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
+						'<a href="#'+streamType+'month'+date.getMonth()+date.getFullYear()+'" data-separator="#month'+date.getMonth()+date.getFullYear()+'">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
-		// Add date separator by month YY
 		$(".newsTLmonthsList"+streamType).append(linkHTML);
-		newsTLLine += '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+		titleHTML = '<div class="date_separator" id="'+streamType+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form;
-		
+					'</div>'+
+					'<ul class="columns newsTL'+streamType+date.getMonth()+'"></ul>';
+		$(".newsTL"+streamType).append(titleHTML);
 		$(".spine").css("bottom","0px");
 	}
 	else{
 		$(".spine").css("bottom","30px");
 	}
-	
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
@@ -815,7 +763,7 @@ function buildLineHTML(newsObj,update)
 	title="";
 	if (streamType=="news" && newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
-			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
+			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a>";
 		}
 		text='<a href="#" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
@@ -824,8 +772,6 @@ function buildLineHTML(newsObj,update)
 	}
 	else{
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
-		if(newsObj.text != "")
-			title += "</br>";
 		text = '<span class="timeline_text">'+newsObj.text+'</span>';
 	}
 	
@@ -847,34 +793,24 @@ function buildLineHTML(newsObj,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if( (author != null && typeof author.address != "undefined") || newsObj.type == "activityStream")
+	if( author != null && typeof author.address != "undefined" && newsObj.type != "activityStream")
 	{
-		if(newsObj.type != "activityStream"){
-			postalCode=author.address.postalCode;
-			city=author.address.addressLocality;			
-		}else{
-			postalCode=newsObj.scope.address.postalCode;
-			city=newsObj.scope.address.addressLocality;		
-		}
-		
-		if( typeof postalCode != "undefined")
+		if( typeof author.address.postalCode != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
-			scopeClass += postalCode+" ";
-			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(postalCode);
+			scopes += "<span class='label label-danger'>"+author.address.postalCode+"</span> ";
+			scopeClass += author.address.postalCode+" ";
+			if( $.inArray(author.address.postalCode, contextMap.scopes.codePostal )  == -1){
+				contextMap.scopes.codePostal.push(author.address.postalCode);
 				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
 			}
 		}
-		if( typeof city != "undefined")
+		if( typeof author.address.addressLocality != "undefined")
 		{
-			scopes += "<span class='label label-danger'>"+city+"</span> ";
-			scopeClass += city+" ";
-			if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
-				cityFilter=city.replace(/\s/g, "");
-				console.log(city);
-				contextMap.scopes.addressLocality.push(cityFilter);
-				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
+			scopes += "<span class='label label-danger'>"+author.address.addressLocality+"</span> ";
+			scopeClass += author.address.addressLocality+" ";
+			if( $.inArray(author.address.addressLocality, contextMap.scopes.addressLocality )  == -1){
+				contextMap.scopes.addressLocality.push(author.address.addressLocality);
+				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+author.address.addressLocality+'"><span class="text-red text-xss">'+author.address.addressLocality+'</span></a>';
 			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
@@ -920,12 +856,12 @@ function buildLineHTML(newsObj,update)
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
-
-	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	
+	newsTLLine = '<li class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						manageMenu+
-						//scopes+
+						scopes+
 						'<div class="space1"></div>'+ 
 						imageBackground+
 						'<div class="timeline_author_block">'+
@@ -934,16 +870,15 @@ function buildLineHTML(newsObj,update)
 							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
 						'</div>'+
 						'<div class="space5"></div>'+
-						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
-							//'<div class="timeline_title">'+
+							'<div class="timeline_title">'+
 								//'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+
-							//	title+
+								title+
 								//'</span>'+
-							//'</div>'+
+							'</div>'+
 							'<div class="space5"></div>'+
 							//'<span class="timeline_text">'+ 
-							title + text + media +//+ '</span>' +	
+							text + media +//+ '</span>' +	
 						'</a>'+
 						'<div class="space5"></div>';
 						//'<span class="timeline_text">'+ authorLine + '</span>' +
@@ -958,7 +893,7 @@ function buildLineHTML(newsObj,update)
 						"</div>";
 						<?php } ?>
 	newsTLLine +=	'</div>'+
-				'</div>';
+				'</li>';
 	return newsTLLine;
 }
 function buildHtmlUrlAndActionObject(obj){
@@ -1072,13 +1007,10 @@ function builHtmlAuthorImageObject(obj){
 function bindEvent(){
 	var separator, anchor;
 	$("#get_url").elastic();
-	
 	$(".scopeShare").click(function() {
 		console.log(this);
 		replaceText=$(this).find("h4").html();
 		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down"></i>');
-		scopeChange=$(this).data("value");
-		$("input[name='scope']").val(scopeChange);
 	});
 
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
@@ -1104,11 +1036,11 @@ function bindEvent(){
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		if($(".newsVoteDown[data-id='"+$(this).data("id")+"']").children(".label").hasClass("text-orange"))
-			toastr.info('<?php echo Yii::t("common","Remove your negative vote before") ?> !');
+			toastr.info('Remove your negative vote before!');
 		else{	
-		//toastr.info('This vote has been well registred');
-			if($(this).children(".label").hasClass("text-green")){
-				method = true;
+		toastr.info('This vote has been well registred');
+		if($(this).children(".label").hasClass("text-green")){
+			method = true;
 		}
 		else{
 			method = false;
@@ -1121,11 +1053,11 @@ function bindEvent(){
 	});
 	$('.newsVoteDown').off().on("click",function(){
 		if($(".newsVoteUp[data-id='"+$(this).data("id")+"']").children(".label").hasClass("text-green"))
-			toastr.info('<?php echo Yii::t("common","Remove your positive vote before") ?> !');
+			toastr.info('Remove your positive vote before!');
 		else{	
-		//toastr.info('This vote has been well registred');
-			if($(this).children(".label").hasClass("text-orange")){
-				method = true;
+		toastr.info('This vote has been well registred');
+		if($(this).children(".label").hasClass("text-orange")){
+			method = true;
 		}
 		else{
 			method = false;
@@ -1151,11 +1083,35 @@ function bindEvent(){
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
 			<?php } ?>
 			console.log(newsReferror);
+			if ($(this).data("filter")== ".news"){
+				newsReferror.activity.offset=offset,
+				newsReferror.activity.lastOffset=lastOffset,
+				newsReferror.activity.dateLimit=dateLimit;
+				offset=newsReferror.news.offset;
+				dateLimit = newsReferror.news.dateLimit;	
+				lastOffset=newsReferror.news.lastOffset;
+				streamType="news";
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				
+				$("#btnActivity").removeClass("btn-dark-green").addClass("btn-green");
+				$(".newsTLactivity, .newsTLmonthsListactivity").fadeOut();
+			}else if ($(this).data("filter")== ".activityStream"){
+				newsReferror.news.offset=offset,
+				newsReferror.news.lastOffset=lastOffset,
+				newsReferror.news.dateLimit=dateLimit;
+				offset=newsReferror.activity.offset;
+				dateLimit = newsReferror.activity.dateLimit;	
+				lastOffset=newsReferror.activity.lastOffset;
+				streamType="activity";
+				$(this).removeClass("btn-green").addClass("btn-dark-green");
+				$("#btnNews").removeClass("btn-dark-green").addClass("btn-green");
+				$(".newsTLnews, .newsTLmonthsListnews").fadeOut();
+			}
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});
 				loadStream();
 			}
-			
+			$(".newsTL"+streamType+", .newsTLmonthsList"+streamType).fadeIn();
 			if ($("#backToTop"+streamType).length > 0 || $(".emptyNews"+streamType).length > 0){
 				if($("#backToTop"+streamType).length > 0){
 					$(".tagFilter, .scopeFilter").show();
@@ -1180,11 +1136,28 @@ function bindEvent(){
 	$(".form-create-news-container #name").focus(function(){
 		showFormBlock(true);	
 	});
-	
+	$('.smoothScroll').off().on("click",function() {
+    	if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) 		{
+			var target = $(this.hash);
+
+			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+			if (target.length) {
+				if(target.offset().top < 0)
+					targetOffset=target.offset().top;
+				else
+					targetOffset=target.offset().top;
+				console.log(targetOffset);
+			$scrollElement.animate({
+			  scrollTop: targetOffset
+			}, 1000, 'swing'); // The number here represents the speed of the scroll in milliseconds
+			return false;
+			}
+    	}
+	});
 	$(".deleteNews").off().on("click",function(){
 		var $this=$(this);
 		idNews=$(this).data("id");
-		bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete this news") ?>", 
+		bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete this news") ?> ?", 
 			function(result) {
 				if (result) {
 					$.ajax({
@@ -1214,15 +1187,10 @@ function bindEvent(){
 	});
 	$(".videoSignal").click(function(){
 		videoLink = $(this).find(".videoLink").val();
-		iframe='<div class="embed-responsive embed-responsive-16by9">'+
-			'<iframe src="'+videoLink+'" width="100%" height="" class="embed-responsive-item"></iframe></div>';
+		iframe='<iframe src="'+videoLink+'" width="100%" height=""></iframe>';
 		$(this).parent().next().before(iframe);
 		$(this).parent().remove();
 	});
-}
-
-function smoothScroll(scroolTo){
-	$(".my-main-container").scrollTo(scroolTo,500,{over:-0.6});
 }
 
 function switchModeEdit(idNews){
@@ -1323,12 +1291,9 @@ function actionOnNews(news, action,method) {
                     if (data.userAllreadyDidAction) {
                     	toastr.info("You already vote on this comment.");
                     } else {
-						count = parseInt(news.data("count"));
-	                    if(count < count+data.inc)
-	                    	toastr.success("<?php echo Yii::t("common","Your vote has been succesfully added")?>");
-	                    else
-		                    toastr.success("<?php echo Yii::t("common","Your vote has been succesfully removed")?>");
-	                    console.log(data);
+	                    toastr.success(data.msg);
+	                    console.log(data)
+;						count = parseInt(news.data("count"));
 						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
 						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
@@ -1384,9 +1349,8 @@ function updateNews(newsObj)
 	if(newsObj.date.sec && newsObj.date.sec != newsObj.created.sec) {
 		date = new Date( parseInt(newsObj.date.sec)*1000 );
 	}
-	var newsTLLine = buildLineHTML(newsObj,true);
-	$(".emptyNews").remove();
-	$("#newFeedForm").parent().after(newsTLLine).fadeIn();
+	var newsTLLine = buildLineHTML(newsObj);
+	$("#newFeedFormnews").parent().after(newsTLLine);
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
 	$("#form-news #results").html("").hide();
@@ -1465,7 +1429,9 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 	}
 }
-
+function replaceImageByIframe(){
+	
+}
 function getUrlContent(){
     //user clicks previous thumbail
     $("body").on("click","#thumb_prev", function(e){        
@@ -1497,7 +1463,7 @@ function getUrlContent(){
     var getUrl  = $('#get_url'); //url to extract from text field
     getUrl.keyup(function() { //user types url in text field        
         //url to match in the text field
-        var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
+        var match_url = /\b(https?):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i;
         //continue if matched url is found in text field
         if (match_url.test(getUrl.val())) {
 	        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href") != getUrl.val().match(match_url)[0]){
@@ -1505,7 +1471,6 @@ function getUrlContent(){
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
-                //alert(extracted_url);
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -1588,7 +1553,7 @@ function saveNews(){
 	formNews.submit(function(e) {
     		e.preventDefault();
 		}).validate({
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
+								<?php if(isset(Yii::app()->session['userId'])){ ?>
 		errorElement : "span", // contain the error msg in a span tag
 		errorClass : 'help-block',
 		errorPlacement : function(error, element) {// render error placement for each input type
@@ -1631,10 +1596,8 @@ function saveNews(){
 			}
 			newNews.typeId = $("#form-news #parentId").val(),
 			newNews.type = $("#form-news #parentType").val(),
-			newNews.scope = $("input[name='scope']").val(),
+			newNews.scope = "public",
 			newNews.text = $("#form-news #get_url").val();
-			if($("input[name='cityInsee']").length)
-				newNews.codeInsee = $("input[name='cityInsee']").val();
 			console.log(newNews);
 			$.ajax({
 		        type: "POST",
@@ -1647,13 +1610,16 @@ function saveNews(){
 		        console.log(data);
 	    		if(data.result)
 	    		{
-	    			//if(totalEntries == 0){
-	    			//	loadByHash('#news.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isSearchDesign=1', 'KESS KISS PASS ','rss' )
-					//}
-					//else {
-		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" )	
+	    			if(countEntries == 0){
+	    				showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>?isNotSV=1', 'KESS KISS PASS ','rss' )
+					}
+					else {
+		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){	
 		            		updateNews(data.object);
-		  			//}
+		            	}else {
+		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news?isNotSV=1', 'KESS KISS PASS ','rss' )
+		            	}
+					}
 					$.unblockUI();
 					$.hideSubview();
 					toastr.success('Saved successfully!');
@@ -1669,7 +1635,7 @@ function saveNews(){
 		}
 		<?php }else{ ?>
 			submitHandler : function(form) {
-				showPanel("box-login");
+showPanel("box-login");
 			}
 		<?php } ?>
 	});
