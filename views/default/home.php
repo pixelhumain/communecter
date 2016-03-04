@@ -8,138 +8,67 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
+
 <style>
 
 
 
-.main-col-search{
-	padding:0px !important;
-}
-.home_page h3.subtitle{
-	font-weight: 300;
-	font-size:20px;
-}
-.home_page h3.information{
-	/*font-weight: 500;*/
-	font-size:16px;
-}
+.main-col-search{	padding:0px !important;}
+.home_page h3.subtitle{	font-weight: 300;
+	font-size:20px;}
+.home_page h3.information{	font-size:16px;}
+.home_page #main-logo-home{	max-height: 290px;
+	margin-top:30px;}
 
-.home_page #main-logo-home{
-	max-height: 290px;
-	margin-top:30px;
-}
-
-.home_page .imageSectionVideo{
-	width:80%;
-	margin-left:10%;
-}
-.home_page .section-video{
-	margin-top: 40px;
-}
-
-.home_page .btn-top{
-	border-radius: 50px;
-}
-
-.home_page .btn-discover{
-	border-radius: 60px;
+.home_page .imageSectionVideo{	width:80%;
+	margin-left:10%;}
+.home_page .section-video{	margin-top: 40px;}
+.home_page .btn-top{	border-radius: 50px;}
+.home_page .btn-discover{	border-radius: 60px;
 	font-size: 50px;
 	font-weight: 200;
 	border: 1px solid transparent;
 	width: 90px;
-	height: 90px;
-}
-.home_page .btn-discover:hover{
-	background-color: white !important;
+	height: 90px;}
+.home_page .btn-discover:hover{	background-color: white !important;
 	border-color: #2BB0C6 !important;
-	color: #2BB0C6 !important;
-}
 
-.home_page .discover-subtitle{
-	font-size:13px;
-	margin-top: -6px;
-	display: block;
-}
-
-.home_page .pastille{
-	height: 100%;
+	color: #2BB0C6 !important;}
+.home_page .discover-subtitle{	font-size:13px; 
+	margin-top: -6px; 
+	display: block;}
+.home_page .pastille{	height: 100%;
 	width: 100%;
 	border-radius: 50px;
 	font-size: 45px;
-	padding: 13px 32px;
-}
-
+	padding: 13px 32px;}
 .list-action{
-	/*width: 100%;*/
-	/*padding: 5px 10px;*/
 	margin-bottom:40px;
 	font-size: 15px;
-	font-weight: 300;
-}
-
-#img-network-for-all{
-	/*max-width: 800px;*/
-	padding:25px;
-}
-.menu-home-btn-ins{
-	position: fixed;
+	font-weight: 300;}
+#img-network-for-all{	padding:25px;}
+.menu-home-btn-ins{	position: fixed;
 	top: 0px;
 	padding: 5px;
 	right: 2%;
 	z-index: 30;
-	border-radius: 30px 30px 30px 30px;
-}
-/*#searchBarPostalCode{
-	margin-top: 10px;
-	width: 200px;
-	margin-left: 0px;
-	font-family: "homestead";
-	font-size: 22px !important;
-	border-radius: 3px !important;
-	height: 40px;
-}*/
-/*input[type="text"].input-search:focus{
-	/*border-color: #3C5665 !important;*/
+	border-radius: 30px 30px 30px 30px;}
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	box-shadow: 0px 0px 5px -1px #CF3838 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
-}
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;}
 
-#dropdown_search{
-	margin-top:30px;
-	margin-bottom:30px;
-}*/
+#dropdown_search{	margin-top:30px;
+	margin-bottom:30px;}
 
-.btn-success.communected{
-	width: 50%;
+.btn-success.communected{	width: 50%;
 	margin-left: 25%;
 	padding: 10px;
 	border-radius: 20px;
 	background-color:#5cb85c;
-	color:white;
-}
-/*
-.searchEntity{
-	margin-bottom:10px;
-	margin-left:5px;
-	display: inline-block;
-}
-.searchEntity .entityRight{
-	text-align: center;
-	padding: 6px 16px !important;
-	margin-left: -1%;
-	border-radius: 30px;
-}
-.searchEntity .entityRight .entityLocality{
-	color:white !important;
-	display: inline;
-}
-.searchEntity .entityRight .entityName{
-	color:white !important;
-	display: inline;
-}*/
+	color:white;}
+
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
@@ -158,50 +87,31 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
-.information{
-	font-size:15px;
-	color:#8b91a0;
-}
-
-
-.btn-show-video{
-	position:absolute;
+.information{	font-size:15px;
+	color:#8b91a0;}
+.btn-show-video{	position:absolute;
 	bottom:10px;
-	right:40%;
-}
-
-
-#img-header{
-	display:inline;
-	max-height: 700px;
-}
-
-.videoWrapper {
-	position: relative;
+	right:40%;}
+#img-header{	display:inline;
+	max-height: 700px;}
+.videoWrapper {	position: relative;
 	padding-bottom: 56.25%; /* 16:9 */
 	padding-top: 25px;
 	height: 0;
-	display: none;
-}
-.videoWrapper iframe {
-	position: absolute;
+	display: none;}
+.videoWrapper iframe {	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
-}
+	height: 100%;}
 
-.flexContainer {
-	display: flex;
+.flexContainer {	display: flex;
 	align-items: center;
-    justify-content: center;
-}
+    justify-content: center;}
 
-.explainLink {
-	color: #e33551;
-	text-decoration-line: underline !important;;
-	text-decoration-style : dotted !important;;
-}
+.explainLink {	color: #e33551;
+	text-decoration-line: underline !important;
+	text-decoration-style : dotted !important;}
 
 </style>
 
@@ -397,10 +307,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>
 
-		<center style="background-color:#92BE1F;">
+		<center style="background-color:#fff;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px;  float:left; ">
+		<div class="col-md-12" style="background-color:#fff; color:#293A46;padding-bottom:40px;  float:left; ">
 			<div class="space20 hidden-xs"></div>
 			<div class="col-sm-12">
 				<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
@@ -432,8 +342,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 
 	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
-		<div class="col-md-12" style="background-color:#E33551;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> | réussir la campagne.</h1>
+		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
+		</div>
+		<div class="col-md-12" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
 
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
