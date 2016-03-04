@@ -396,10 +396,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>
 
-		<center style="background-color:#92BE1F;">
+		<center style="background-color:#fff;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px;  float:left; ">
+		<div class="col-md-12" style="background-color:#fff; color:#293A46;padding-bottom:40px;  float:left; ">
 			<div class="space20 hidden-xs"></div>
 			<div class="col-sm-12">
 				<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
@@ -431,8 +431,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 
 	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
-		<div class="col-md-12" style="background-color:#E33551;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> | réussir la campagne.</h1>
+		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
+		</div>
+		<div class="col-md-12" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
