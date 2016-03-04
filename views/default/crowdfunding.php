@@ -231,8 +231,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
+		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
+		</div>
 		<div class="col-md-12 no-padding" style="max-width:100%; float:left;">
 			<div class="col-md-12" style="background-color:#E33551;width:100%;padding:0px 0px 3px 0%;">
 				<h1 class="homestead text-white center"><i class="fa fa-share-alt fa-2x"></i> Devenez Crowdfunder</h1>
@@ -306,7 +309,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px; float:left; width:100%;" id="contactSection">	
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i>
