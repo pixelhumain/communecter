@@ -35,6 +35,8 @@ class AdminController extends CommunecterController {
 	        'getdatabyurl' => 'citizenToolKit.controllers.admin.GetDataByUrlAction',
 	        'adddata' => 'citizenToolKit.controllers.admin.AddDataAction',
 	        'adddataindb' => 'citizenToolKit.controllers.admin.AddDataInDbAction',
+	        'createfileforimport' => 'citizenToolKit.controllers.admin.CreateFileForImportAction',
+	        'sourceadmin' => 'citizenToolKit.controllers.admin.SourceAdminAction',
 	    );
 	}
 }

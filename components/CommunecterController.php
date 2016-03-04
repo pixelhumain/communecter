@@ -97,6 +97,8 @@ class CommunecterController extends Controller
       "getdatabyurl"   => array("href" => "/ph/communecter/admin/getdatabyurl"),
       "adddata"    => array("href" => "/ph/communecter/admin/adddata"),
       "adddataindb"    => array("href" => "/ph/communecter/admin/adddataindb"),
+      "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
+      "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
     ),
 
     "default" => array(
