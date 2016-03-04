@@ -254,6 +254,14 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	}
 }
 
+#iframe-kkbb {
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+}
 
 </style>
 
@@ -444,6 +452,10 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	text-align: center;
 	padding: 0px;
 }
+
+
+
+
 </style>
 <div class="globale-announce text-dark hidden-xs">
 	<div id="kkbb-min" style="display:none; margin-bottom: -12px;">
@@ -452,31 +464,44 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</div>
 	<div id="kkbb-big">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="javascript:" target="_blank"><img class="pull-left" style="width:20%;" 
+		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 1er Mars<br/>
-			Au 15 avril
+			Du 2 Mars<br/>
+			Au 13 avril
 		</div>
 
 		
-		<a href="javascript:" target="_blank">
+		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
 			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
 		</a>
 
 		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
-		  <div class="progress-bar bg-red" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
-		    0%
-		  </div>
+			<div class="progress-bar bg-red" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+			    <span id="amount"></span>
+			</div>
 		</div>
 
 		<div class="pull-left" style="width:100%; margin-top:5px;">
 		<div class="pull-left" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Objectif : 20 000€</div>
-		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : 0€</div>
+		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : <span id="collected"></span></div>
 		</div>
 	</div>
 </div>
+
+<div id="iframe-kkbb" class="hidden">
+	<?php 
+		$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
+		$start = strpos($kkbb_html, "<div class='widget'>");
+		$end = strpos($kkbb_html, "<div class='goal'>", $start);
+		$kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
+		echo $kkbb_html;
+	?>
+</div>
+
+
+
 <?php //} ?>
 <!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
@@ -492,6 +517,8 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
+	realTimeKKBB();
+	
 	setTimeout(function(){ 
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
@@ -559,10 +586,13 @@ jQuery(document).ready(function() {
 
    // $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
    //$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
-    $('.btn-menu5').click(function(e){ showFloopDrawer(true);	 		 }).mouseenter(function(e){ 
-	    if(showMenuExplanation)	
-	    	toggle(".explainMyDirectory",".explain")
-	    });
+    $('.btn-menu5').click(function(e){ 
+    	showFloopDrawer(true);	 		 
+    })
+    .mouseenter(function(e){ 
+	   // if(showMenuExplanation)	
+	   // 	toggle(".explainMyDirectory",".explain")
+	});
     $('.btn-menu6').mouseenter(function(e){ 
 	    if(showMenuExplanation){
 	    	$(".removeExplanation").parent().show();
@@ -678,6 +708,26 @@ jQuery(document).ready(function() {
 		}
 	});
 
+	$(document).mouseleave(function(){
+		if(!isLoginRegister()){
+	    	hoverPersist = false;
+			clearTimeout(timeoutHover);
+			positionMouseMenu = "out";
+			$(".main-col-search").animate({ opacity:1 }, 200 );
+			$(".lbl-btn-menu-name").hide();
+			$(".menu-button").removeClass("large");
+		}
+		$(".hover-info, .infoVersion").hide();
+		$(".drop-up-btn-add").hide(400);
+		$("#notificationPanelSearch").hide();
+		//console.log("hide communexion");
+		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
+		//console.log("HIDE HIDE");
+		//$("#input-communexion").hide(200); 
+		$("#input-communexion").hide(400);
+		clearTimeout(timeoutHover);
+	});
+
 	$(".main-col-search, .mapCanvas").click(function(){
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    if(!isLoginRegister()){
@@ -747,14 +797,23 @@ jQuery(document).ready(function() {
 
 });
 
-// function showInputCommunexion(){
-// 		clearTimeout(timeoutCommunexion);
-// 		console.log("showCommunexion");
-// 		$("#searchBarPostalCode").css("width", "0px");
-// 		$("#searchBarPostalCode").animate({ width:"350px" }, 200 );
-// 		$("#input-communexion").show(300);
-// 		$(".main-col-search").animate({ opacity:0.3 }, 200 );
-// 		$(".hover-info").hide();
-// 	}
+function realTimeKKBB(){
 
+	var contents    = $("#iframe-kkbb"); 
+	var collected 	= contents.find( ".collected" ).html();
+	var amount 		= contents.find( ".amount strong" ).html();
+
+	$("#kkbb-big #collected").html(collected);
+	$("#kkbb-big #collected small").html("");
+	$("#kkbb-big #collected strong").html("");
+
+
+	var amountNumeric = amount.replace("%", "");
+	$("#kkbb-big #amount").html(amount);	
+	$("#kkbb-big .percentage-wrapper").html("");
+	$("#kkbb-big .progress-bar").css("width", amount);
+	$("#kkbb-big .progress-bar").attr("aria-valuenow", amountNumeric);
+
+	$( "#iframe-kkbb" ).html("");
+}
 </script>

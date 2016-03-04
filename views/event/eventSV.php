@@ -430,7 +430,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		});
 			
 		var searchValue = $('.form-event #postalCode').val();
-		if(searchValue.length >= 4 && searchValue.length <= 5) {
+		if(searchValue.length == 5) {
 			$("#city").empty();
 			setTimeout(function(){
 				$("#iconeChargement").css("display", "inline-block");
@@ -487,7 +487,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					required : true
 				},
 				postalCode : {
-					rangelength : [4, 5],
+					rangelength : [5, 5],
 					required : true
 				},
 				city : {
@@ -693,11 +693,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		if(organizerParentType.length > 0){
 			if (organizerParentType=="organization"){
 				titleName="<?php echo Yii::t("common","Organization") ?>";
-				contextName=listOrgaAdmin[organizerParentId]["name"];
+				console.log(listOrgaAdmin);
+				contextName="<?php if (@$organization) echo $organization["name"] ?>";//listOrgaAdmin[organizerParentId]["name"];
 			}	
 			else{
 				titleName="<?php echo Yii::t("common","Project") ?>";
-				contextName=listProjectAdmin[organizerParentId]["name"];
+				contextName="<?php if (@$project) echo $project["name"] ?>";//listProjectAdmin[organizerParentId]["name"];
 			}
 			$("#labelOrga").text(titleName+" : "+contextName);
 		}

@@ -274,6 +274,7 @@ if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 	$parentId=$organization["_id"];
 	$parentType=Organization::COLLECTION;
 	$connectType="members";
+	$contextData = $thisOrga;
 	$projects=array();
 }
 else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
@@ -288,6 +289,7 @@ else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
 	$contextIcon = "user";
 	$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
 	$connectType="network";
+	$contextData = $person;
 	$parentType=Person::COLLECTION;
 }
 else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
@@ -303,6 +305,7 @@ else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 	$parentId=$project["_id"];
 	$parentType=Project::COLLECTION;
 	$connectType="contributors";
+	$contextData = $project;
 	$projects=array();
 	$events=array();
 }
@@ -817,6 +820,7 @@ if (isset($follows)){
     foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
+    if(isset($contextData)) $contextMap = array("context" => $contextData);
     if(isset($people))          $contextMap = array_merge($contextMap, $people);
     if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
     if(isset($events))          $contextMap = array_merge($contextMap, $events);

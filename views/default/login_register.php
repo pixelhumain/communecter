@@ -485,18 +485,23 @@ var Login = function() {
 		    		  	//console.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
 		    		  	if(url && url.indexOf("#") >= 0 ) {
 		    		  		//console.log("login 1",url);
+		    		  		//reload to the url initialy requested
 		    		  		window.location.href = url;
 		        		} else {
 		        			if( url.split("/").length - 1 <= 3 ) {
 		        				//console.log("login 2",baseUrl+'#default.home');
-		        				if(window.location.href.indexOf('#default.home') >= 0)
+		        				//classic use case wherever you login from if not notifications/get/not/id...
+		        				//you stay on the current page
+		        				//if(location.hash == '#default.home')
 		        					window.location.reload();
-		        				else
-		        					window.location.href = baseUrl+'#default.home';
+		        				/*else
+		        					window.location.href = baseUrl+'#default.home';*/
 		        			}
 		        			else {
 		        				//console.log("login 3 reload");
-		        				window.location.reload();
+		        				//for urls like notifications/get/not/id...
+		        				window.location.href = baseUrl+'#default.home';
+		        				//window.location.reload();
 		        			}
 		        		}
 		    		  } else {
@@ -510,7 +515,7 @@ var Login = function() {
 		    		  		$(".errorHandler").hide();
 							$('.register').click();
 							$('.pendingProcess').show();
-							$('#email3').val($("#email").val());
+							$('#email3').val($("#email-login").val());
 							$('#email3').prop('disabled', true);
 		    		  	} else{
 		    		  		msg = data.msg;

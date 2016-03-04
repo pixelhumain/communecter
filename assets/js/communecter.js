@@ -285,6 +285,7 @@ var loadableUrls = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
+	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -362,7 +363,8 @@ function loadByHash( hash , back ) {
     }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+
     } 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
@@ -372,6 +374,15 @@ function loadByHash( hash , back ) {
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
 	}
+}
+
+function checkIsLoggued(){
+	
+}
+function resetUnlogguedTopBar() { 
+	//replace the loggued toolBar nav by log buttons
+	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
+									' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 
 /* ****************
@@ -446,11 +457,6 @@ function showAjaxPanel (url,title,icon) {
 			$.unblockUI();
 		},"html");
 	}, 800);
-}
-function resetUnlogguedTopBar() { 
-	//replace the loggued toolBar nav by log buttons
-	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
-									' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 /* ****************
 visualize all tagged elements on a map
