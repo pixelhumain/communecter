@@ -211,7 +211,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
 		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT DEJA<i class="fa fa-child fa-2x"></i></h1>
 		</div>
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:0px 0px 3px 0%; ">
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
@@ -222,7 +222,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 		<div class="col-md-12" style="color:#293A46;padding-bottom:40px;  float:left; ">
 			<div class="space20 hidden-xs"></div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-md-4">
+				<iframe frameborder="0" width="232" height="330" src="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"></iframe>
+			</div>
+			<div class="col-sm-12 col-md-8">
 				<div class="information" style="text-align: left; color:#3c5665">
 					Encore une campagne de crowdfunding de plus ! Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
 					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
@@ -236,12 +239,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 	
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
-		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
-		</div>
-		<center style="background-color:#E33551;">
-			<i class="fa fa-caret-down" style="color:#92BE1F;"></i><br/>
-		</center>
 		<div class="col-md-12 no-padding" style="max-width:100%; float:left;">
 			<div class="col-md-12" style="background-color:#E33551;width:100%;padding:0px 0px 3px 0%;">
 				<h1 class="homestead text-white center"><i class="fa fa-share-alt fa-2x"></i> Devenez Crowdfunder Actif</h1>
