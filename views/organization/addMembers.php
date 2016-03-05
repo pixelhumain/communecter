@@ -111,27 +111,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 }
 </style>
 <?php 
-$visible = "";
-if( isset($_GET["isNotSV"])) {
-	Menu::organization($organization);
+Menu::organization($organization);
 	$this->renderPartial('../default/panels/toolbar'); 
-} else
-	$visible = ' style="display:none" ';
 
 ?>
-<div <?php echo $visible; ?> id="addMembers" >
+<div  id="addMembers" >
     <!-- start: PAGE CONTENT -->
-    <?php if( isset($_GET["isNotSV"])){?>
-	<h2 class='radius-10 padding-10 text-bold text-dark'> 
+    <h2 class='radius-10 padding-10 text-bold text-dark'> 
 		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
 		<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>
 	</h2>
 	<?php
-	} 
-	//$size = ( !@$isNotSV ) ? " col-md-6 col-md-offset-3" : "col-md-12"
-	$size = ( !@$isNotSV ) ? " col-md-8 col-md-offset-2" : "col-md-12"
+	 
 	?>
-	<div class="<?php echo $size ?> " >  
+	<div class="col-md-12 " >  
     	<ul class="nav nav-tabs">
 			<li role="presentation">
 				<a href="javascript:;" onclick="fadeInView('divSearch');" class="" id="menuInviteSomeone">
@@ -154,9 +147,7 @@ if( isset($_GET["isNotSV"])) {
        
         <div  id="divSearch" class="panel panel-white">
         	<div class="panel-heading border-light">
-        	<?php if( !isset($_GET["isNotSV"])){?>
-        		<h1>Add a Member ( Person, Organization )</h1>
-        	<?php } ?>
+        	
         		<blockquote>
         			<?php echo Yii::t("organisation","An Organization can have People as members or Organizations",null,Yii::app()->controller->module->id) ?>
         		</blockquote>
@@ -330,12 +321,7 @@ if( isset($_GET["isNotSV"])) {
 		      return false;
 		    }
 		  });*/
-		<?php if( isset($_GET["isNotSV"])){?>
 		initFormAddMember();
-		<?php
-		} else { ?>
-		bindOrganizationSubViewAddMember();
-		<?php } ?>
 		
 		bindTEST();
 

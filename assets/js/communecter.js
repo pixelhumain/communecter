@@ -288,7 +288,7 @@ var loadableUrls = {
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
-	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
+	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
@@ -372,10 +372,10 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
-    if(!back){
+    /*if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
-	}
+	}*/
 }
 
 function checkIsLoggued(){
@@ -444,9 +444,10 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
+
 
 			$(".main-col-search").slideDown(); 
 			initNotifications(); 
