@@ -1,35 +1,24 @@
 <?php
-if( @$isNotSV ) {
-	if(@$event)
-		Menu::event($event);
-		$this->renderPartial('../default/panels/toolbar'); 
-	}
+if(@$event) {
+	Menu::event($event);
+	$this->renderPartial('../default/panels/toolbar'); 
+}
 ?>
 <style>
-<?php if(!@$isNotSV){ ?>
-#newAttendees{
-	display: none;
-}
-<?php } ?>
 #step3{
 	display:none;
 }
 </style>
 <div id="newAttendees">
 	<div class="space20"></div>
-	<?php if(@$isNotSV){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h2>
-	<?php } ?>
 	<div class="col-md-6 col-md-offset-3">  
        	<div class="panel panel-white">
         	<div class="panel-heading border-light">
-	        	<?php if(!@$isNotSV){ ?>
-				<h1><?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h1>
-				<?php } ?>
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
-				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php if (@$isNotSV) echo $id ?>" type="text"/>
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php echo @$id ?>" type="text"/>
 				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" value="" type="text"/>
 				<div class="row" id="step1">
 					<div class="col-md-1">	
@@ -107,7 +96,6 @@ if( @$isNotSV ) {
 	</div>
 </div>
 <script type="text/javascript">
-	var isNotSV = <?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo @$event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
