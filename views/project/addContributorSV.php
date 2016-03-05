@@ -1,5 +1,5 @@
 <?php 
-if (@$isNotSV){
+
 	$cssAnsScriptFilesModule = array(
 		//Data helper
 		'/js/dataHelpers.js'
@@ -16,22 +16,9 @@ if (@$isNotSV){
 	'/plugins/autosize/jquery.autosize.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-}
+
 ?>
 <style>
-<?php if (!@$isNotSV){ ?>
-#newContributors{
-	display: none;
-}
-<?php } else{ ?>
-#newContributors{
-	min-height: 300px;
-}
-.dropdown-menu{
-	height:200px;
-	overflow:scroll;
-}
-<?php } ?>
 .li-dropdown-scope{
 	padding: 8px 3px;
 }
@@ -45,25 +32,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	display: none;
 }
 </style>
-<?php
-	if( @$isNotSV ) {
-	if(@$project)
-		Menu::project($project);
-		$this->renderPartial('../default/panels/toolbar'); 
-	}
-
-?>
+<?php 
+Menu::project($project);
+$this->renderPartial('../default/panels/toolbar'); 
+ ?>
 <div id="newContributors">
 	<div class="space20"></div>
-	<?php if( @$isNotSV ){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
-	<?php } ?>
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<?php if (!@$isNotSV){ ?>
-			<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
-		<?php } ?>
+
 		<form class="form-contributor" autocomplete="off">
-			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php if (!@$isNotSV) echo (string)$project["_id"]; else echo $id; ?>'>
+			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value=''>
 			<div class="form-group" id="searchMemberSection" style="z-index:1000000;">
     	    	<div class='row'>
 					<div class="col-md-1">	
@@ -175,7 +154,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
-	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
+	var isNotSV=1;
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();

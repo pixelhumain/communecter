@@ -262,7 +262,7 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt","urlExtraParam":"tpl=directory2"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users","urlExtraParam":"tpl=directory2"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users","urlExtraParam":"tpl=directory2"},
-	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
+	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
@@ -288,7 +288,7 @@ var loadableUrls = {
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
-	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
+	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
@@ -341,7 +341,6 @@ function jsController(hash){
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
     console.warn("loadByHash",hash,back);
-
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
     }
@@ -365,14 +364,18 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
 
     } 
+    else if( hash.indexOf("#city.directory") >= 0 ){
+        hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+    } 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
-    if(!back){
+    /*if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
-	}
+	}*/
 }
 
 function checkIsLoggued(){
@@ -441,9 +444,10 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
+
 
 			$(".main-col-search").slideDown(); 
 			initNotifications(); 
