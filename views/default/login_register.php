@@ -58,8 +58,13 @@
 								</label>
 
 								<i class="fa fa-lock"></i>
-								<a class="forgot pull-right padding-5" href="javascript:" onclick="showPanel('box-email');"><?php echo Yii::t("login","I forgot my password") ?></a> 
-							
+								<a class="forgot pull-right padding-5" href="javascript:" 
+								onclick="showPanel('box-email', 
+									function() {
+										emailType = 'password';
+										$('#email2').val($('#email-login').val());
+										$('.forgotBtn .ladda-label').text(buttonLabel[emailType])});">
+								<?php echo Yii::t("login","I forgot my password") ?></a> 
 							</span>
 						</div>
 						<div class="form-actions" style="margin-top:-20px;">
@@ -72,7 +77,13 @@
 							<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
 								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Your account is not validated : please check your mailbox to validate your email address.") ?>
 								      <?php echo Yii::t("login","If you didn't receive it or lost it, click") ?>
-								      <a class="validate" href="#" onclick="showPanel('box-email');">><?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
+								      <a class="validate" href="#" 
+								      onclick="showPanel('box-email', 
+								      	function() {
+								      		emailType = 'validateEmail';
+								      		$('#email2').val($('#email-login').val());
+								      		$('.forgotBtn .ladda-label').text(buttonLabel[emailType])});">
+								      <?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
 							</div>
 							<div class="errorHandler alert alert-info no-display betaTestNotOpenResult">
 								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Our developpers are fighting to open soon ! Check your mail that will happen soon !")?>
@@ -120,7 +131,7 @@
 							</div>
 							
 							<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="forgotBtn ladda-button center center-block">
-								<span class="ladda-label"><i class="fa fa-key"></i> <?php echo Yii::t("login","Get my password") ?></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
+								<span class="ladda-label">XXXXXXXX</span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 							</button>
 						</div>
 					</fieldset>
@@ -252,6 +263,11 @@ var msgError = {
 	"somethingWrong" : "<?php echo Yii::t("login","Something went wrong !") ?>",
 }
 
+var buttonLabel = {
+	"password" : '<?php echo Yii::t("login","Get my password") ?>',
+	"validateEmail" : "<?php echo Yii::t("login","Send me validation email") ?>"
+}
+
 var timeout;
 var emailType;
 
@@ -332,7 +348,7 @@ var Login = function() {
 					break;
 				case "validate" :
 					el = $('.box-email');
-					emailType = 'validate'
+					emailType = 'validateEmail'
 					break;
 				default :
 					el = $('.box-login');
@@ -541,6 +557,7 @@ var Login = function() {
 			}
 		});
 	};
+
 	var runForgotValidator = function() {
 		var form2 = $('.form-email');
 		var errorHandler2 = $('.errorHandler', form2);
@@ -598,6 +615,7 @@ var Login = function() {
 			}
 		});
 	};
+
 	var runRegisterValidator = function() {
 		var form3 = $('.form-register');
 		var errorHandler3 = $('.errorHandler', form3);

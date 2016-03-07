@@ -390,7 +390,7 @@ function resetUnlogguedTopBar() {
 /* ****************
 Generic non-ajax panel loading process 
 **************/
-function showPanel(box,bgStyle,title){ 
+function showPanel(box,callback){ 
 
 	$(".my-main-container").scrollTop(0);
 
@@ -402,6 +402,10 @@ function showPanel(box,bgStyle,title){
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
 
 	$("."+box).show(500);
+
+	if (typeof callback == "function") {
+		callback();
+	}
 }
 
 /* ****************
