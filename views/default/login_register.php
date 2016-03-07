@@ -70,9 +70,9 @@
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Please verify your entries.") ?>
 							</div>
 							<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
-								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Your account is not validated : please check your mailbox to validate your email address.") ?>
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Your account is not validated : please check your mailbox to validate your email address.") ?>
 								      <?php echo Yii::t("login","If you didn't receive it or lost it, click") ?>
-								      <a class="validate" href="#"><?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
+								      <a class="validate" href="#" onclick="showPanel('box-email');">><?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
 							</div>
 							<div class="errorHandler alert alert-info no-display betaTestNotOpenResult">
 								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Our developpers are fighting to open soon ! Check your mail that will happen soon !")?>
@@ -326,11 +326,13 @@ var Login = function() {
 				case "register" :
 					el = $('.box-register');
 					break;
-				case "email" :
+				case "password" :
 					el = $('.box-email');
+					emailType = 'password'
 					break;
 				case "validate" :
 					el = $('.box-email');
+					emailType = 'validate'
 					break;
 				default :
 					el = $('.box-login');
