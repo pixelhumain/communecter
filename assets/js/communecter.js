@@ -279,6 +279,7 @@ var loadableUrls = {
     "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
