@@ -1,9 +1,5 @@
 <style>
 .main-col-search{	padding:0px !important; }
-.home_page h3.subtitle{	font-weight: 300;
-	font-size:20px;}
-#img-header{	display:inline;
-	max-height: 700px;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
 .social-list{	padding: 0;}
 .social-list li{	list-style-type: none;	display:inline;margin-right:10px;}
@@ -20,20 +16,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	font-size:15px;
 	color:#8b91a0;
 }
-.contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
-
 </style>
 
-<div class="home_page" style="margin-top:50px;">
+<div class="home_page">
 
-	<center>
-		<img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
-	</center>
-
-	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
-		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT DEJA<i class="fa fa-child fa-2x"></i></h1>
-		</div>
+	
+	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;margin-top:50px;">
+		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:0px 0px 3px 0%; ">
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>

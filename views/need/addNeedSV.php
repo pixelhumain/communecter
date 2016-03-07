@@ -406,7 +406,7 @@ if( @$isNotSV ) {
 				        	if(isNotSV==0){ 
 								$.hideSubview();
 							} else{ 
-								openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo $_GET["parentName"] ?>',iconRedirect, parentId );
+								openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo addslashes($_GET["parentName"]) ?>',iconRedirect, parentId );
 							} 
 				        		
 				        } else {
@@ -493,7 +493,7 @@ if( @$isNotSV ) {
 		if(isNotSV==0){ 
 		$.hideSubview();
 		} else{ 
-			openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo $_GET["parentName"] ?>',iconRedirect, parentId );
+			openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo addslashes($_GET["parentName"]) ?>',iconRedirect, parentId );
 		 } 
 	};
 	// enables the edit form 
