@@ -33,7 +33,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .img-logo{
 	height:250px;
 }
-
+.btn-scope{
+  display: none;
+}
 
 @media screen and (max-width: 1024px) {
   button.btn-start-search {

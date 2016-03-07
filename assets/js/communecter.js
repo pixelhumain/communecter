@@ -419,6 +419,7 @@ function showAjaxPanel (url,title,icon) {
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
+		$(".hover-info").hide();
 		 $.blockUI({
 		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
 		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +

@@ -12,7 +12,7 @@
 
 
 	<div class="explainCommunectMe explain hide">
-		<h1 class="homestead text-dark"><i class="fa fa-home"></i> Communectez moi</h1>
+		<h1 class="homestead text-dark"><i class="fa fa-university"></i> Communection</h1>
 		<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Ce n'est pas la technologie qui changera la société mais la philosophie bien outillé.
 		<br/>Me communecter me permet de :  </h3>
 		<ul>

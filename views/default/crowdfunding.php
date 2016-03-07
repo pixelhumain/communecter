@@ -194,7 +194,9 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	text-decoration-line: underline !important;;
 	text-decoration-style : dotted !important;;
 }
-
+.crowfundingSection{
+	width:100%;
+}
 </style>
 
 <div class="home_page">
@@ -209,7 +211,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
+	<div class="col-md-12 no-padding crowfundingSection" style="float:left;">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:0px 0px 3px 0%; ">
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>
@@ -232,8 +234,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
-		<div class="col-md-12 no-padding" style="max-width:100%; float:left;">
+	<div class="col-md-12 no-padding crowfundingSection" style="float:left;">
+		<div class="col-md-12 no-padding" style="width:100%; float:left;">
 			<div class="col-md-12" style="background-color:#E33551;width:100%;padding:0px 0px 3px 0%;">
 				<h1 class="homestead text-white center"><i class="fa fa-share-alt fa-2x"></i> Devenez Crowdfunder</h1>
 			</div>
@@ -246,7 +248,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="space20 hidden-xs"></div>
 			<div class="col-sm-12">
 				<div class="information" style="text-align: left; color:#3c5665">
-					vous pouvez contribuer au financement participatif mais aussi permettre de distribuer massivement 
+					Vous pouvez contribuer au financement participatif mais aussi permettre de distribuer massivement 
 					la campagne autour de vous dans vos reseaux. 
 					<br/> Si ca vous interresse, vous etes au bon endroit
 					<br/> Voici votre cocktail de Crowdfunder actif :  
@@ -269,8 +271,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
-		<div class="col-md-12 no-padding" style="max-width:100%; float:left;">
+	<div class="col-md-12 no-padding crowfundingSection" style="float:left;">
+		<div class="col-md-12 no-padding" style="width:100%; float:left;">
 			<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:0px 0px 3px 0%;">
 				<h1 class="homestead text-white center"><i class="fa fa-clock-o  fa-2x"></i> Les étapes de la campagne</h1>
 			</div>

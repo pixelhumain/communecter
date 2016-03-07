@@ -400,7 +400,7 @@ $this->renderPartial('../default/panels/toolbar');
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="discover('#default.directory');" class="btn btn-discover bg-azure">
+        <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
         </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>

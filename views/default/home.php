@@ -5,6 +5,15 @@
 		//'js/svg/tonfichier.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+	$countCitoyen 	= PHDB::count(Person::COLLECTION);
+	$countAsso 		= PHDB::count(Organization::COLLECTION, array("type" => "association"));
+	$countEntreprise = PHDB::count(Organization::COLLECTION, array("type" => "entreprise"));
+	$countProject 	= PHDB::count(Project::COLLECTION);
+	$countEvent 	= PHDB::count(Event::COLLECTION);
+
+		error_log("countCitoyen : " . $countCitoyen);
+
 ?>
 
 <style>
@@ -201,7 +210,24 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	text-decoration-line: underline !important;;
 	text-decoration-style : dotted !important;;
 }
-
+.panel-count-actors{
+	font-size: 18px;
+	text-align: left;
+	background-color: rgba(255, 255, 255, 0.77);
+	border-radius: 20px;
+	padding: 20px;
+	margin: 3%;
+	width: 94%;
+	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+	margin-top: 0;
+}
+.panel-count-actors .badge{
+	font-size: 22px;
+}
 </style>
 
 <div class="home_page">
@@ -215,7 +241,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<iframe width="560" height="349" src="https://player.vimeo.com/video/133636468?api=1&title=0&amp;byline=0&amp;portrait=0&amp;color=57c0d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="video" aria-hidden="true" tabindex="-1">
 		</iframe>
 	</div>
+
+
 </div>
+
 
 <!-- <div class="imageSection imageSectionVideo headSection" style="margin-top: 50px;height:600px; cursor:pointer; position:relative;" onclick="openVideo()" > -->
 	
@@ -305,16 +334,20 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
 				<br/>
-					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
-					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain. 
+					<span class="text-azure">Déjà <?php echo $countCitoyen; ?> inscrits et <?php echo $countProject; ?> projets référencés</span>
+				<br/>
+					Être Acteur ! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
+					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain. 
 			</div>
 			
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $countAsso; ?> associations référencées</span>
+				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
-					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
+					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un événement ...</span>
 					Economie solidaire, Fablabs, jardins partagés, biens communs. L'innovation sociale c'est aussi ça.
 			</div>
 
@@ -322,7 +355,9 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
 				<br/>
-					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
+					<span class="text-azure">Retrouvez toutes les communes de France métropolitaine et des DOM-TOM</span>
+				<br/>
+					Donner du sens au mot <span class="text-red">lien social</span>, reconnaître ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
 					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités. 
 					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
 			</div>
@@ -331,14 +366,26 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
-				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen 
+					<span class="text-azure">Déjà <?php echo $countEntreprise; ?> entreprises référencées</span>
+				<br/>
+				Etre un <span class="text-red">acteur local</span> au vrai sens du terme, <span class="text-red">se faire reconnaître comme une ressource</span> en terme de service au citoyen 
 				avec un vrai respect de la qualité, quelque soit son métier.
-				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
+				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme Communecter.
 			</div>
 
-			<div class="col-sm-8 information">
+			<div class="col-sm-8  pull-right information">
 				<br/>
-				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<span class="homestead text-dark text-extra-large" >POUR PARTAGER VOS ÉVÉNEMENTS</span>
+				<br/>
+					<span class="text-azure">Déjà <?php echo $countEvent; ?> événements partagés</span>
+				<br/>
+					<span class="text-red">Communecter</span> vous permet de faire connaître les événements locaux que vous organisez<br/>
+					et de retrouver facilement tout ce qui est organisé près de chez vous.  
+			</div>
+			
+			<div class="col-sm-8  pull-right information">
+				<br/>
+				<span class="homestead text-dark text-extra-large" >Un réseau pour tous</span>
 				<br/>
 					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.  

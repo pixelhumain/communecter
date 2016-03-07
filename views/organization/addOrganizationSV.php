@@ -204,7 +204,7 @@ $this->renderPartial('../default/panels/toolbar');
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-sd-6 ">
+						<div class="col-md-6 col-sm-12 ">
 							<div class="form-group">
 								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
