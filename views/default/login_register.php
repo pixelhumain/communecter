@@ -185,37 +185,7 @@
 						<div class="col-md-12 no-padding no-margin">
 							<hr style="margin-top: 0px; margin-bottom: 15px;">
 						</div>
-						<div class="col-md-6 padding-5">
-							<div class="form-group">
-								<span class="input-icon">
-									<input type="text" class="form-control" name="streetAddress" id="fullStreet" placeholder="<?php echo Yii::t("login","Full Street") ?>" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
-									<i class="fa fa-road"></i>
-								</span>
-							</div>
-						</div>
-						<div class="col-md-6 padding-5">
-							<div class="form-group">
-								<span class="input-icon">
-									<input type="text" class="form-control" id="cp" name="cp" placeholder="<?php echo Yii::t("login","Postal Code") ?>">
-									<i class="fa fa-home"></i>
-								</span>
-							</div>
-						</div>
-						<div class="col-md-6 padding-5">
-							<div class="form-group" id="cityDiv" style="display: none;">
-								<span class="input-icon col-md-12" style="margin-bottom:7px;">
-									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("login","Select your City...") ?>'>
-									</select>
-								</span>
-							</div>	
-						</div>
-						<div class="col-md-6 padding-5 text-center hidden" id="alert-city-found" style="text-align:center;font-family:inherit; border-radius:0px; margin-top:0px;">
-							<!-- <span class="pull-left" style="padding:6px;"><i class="fa fa-check"></i> Position géographique</span> -->
-							<div class="btn btn-success" id="btn-show-city"><i class="fa fa-map-marker"></i> Personnaliser</div>
-							
-							<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
-							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
-						</div>	
+						
 						<div class="form-group pull-left no-margin" style="width:100%;">
 							<div>
 								<label for="agree" class="checkbox-inline">
@@ -279,11 +249,6 @@ jQuery(document).ready(function() {
 
 	Main.init();
 	Login.init();
-
-	$('#btn-show-city').click(function(){
-		showMap(true);
-		$(".sigModuleBg #right_tool_map, .sigModuleBg .btn-group").hide();
-	});
 
 
 	$('.form-register #username').keyup(function(e) {
@@ -359,71 +324,7 @@ var Login = function() {
 			$(this).removeClass("animated flipInX");
 		});
 	};
-	var runLoginButtons = function() {
-		/*
-		$('.forgot').on('click', function() {
-			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).hide().removeClass("animated bounceOutRight");
-
-			});
-			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInLeft");
-			});
-			emailType = "password";
-			$("#email2").val($("#email").val());
-			activePanel = "box-email";
-		});
-		$('.validate').on('click', function() {
-			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).hide().removeClass("animated bounceOutRight");
-
-			});
-			$('.box-email').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInLeft");
-			});
-			emailType = "validation";
-			$("#email2").val($("#email").val());
-			activePanel = "box-email";
-		});
-		$('.register').on('click', function() {
-			$('.box-login').removeClass("animated flipInX").addClass("animated bounceOutRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).hide().removeClass("animated bounceOutRight");
-
-			});
-			$('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInLeft");
-
-			});
-			activePanel = "box-register";
-		});
-		$('.go-back').click(function() {
-			var boxToShow;
-			if ($('.box-register').is(":visible")) {
-				boxToShow = $('.box-register');
-				activePanel = "box-register";
-			} else {
-				boxToShow = $('.box-email');
-				activePanel = "box-email";
-			}
-			boxToShow.addClass("animated bounceOutLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				boxToShow.hide().removeClass("animated bounceOutLeft");
-
-			});
-			$('.box-login').show().addClass("animated bounceInRight").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$(this).show().removeClass("animated bounceInRight");
-
-			});
-			if(!locationHTML5Found)
-			$("#mapCanvasBg").hide(400);
-			$(".box-menu").hide(400);
-			$(".box-discover").hide(400);
-		});
-		$('.big-button').click(function() {
-			$(".box-ajax").hide(400);
-		});
-	*/
 		
-	};
 	//function to return the querystring parameter with a given name.
 	var getParameterByName = function(name) {
 		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -628,15 +529,6 @@ var Login = function() {
 	    });
 		form3.validate({
 			rules : {
-				cp : {
-					required : true,
-					rangelength : [5, 5],
-					validPostalCode : true
-				},
-				city : {
-					required : true,
-					minlength : 1
-				},
 				name : {
 					required : true
 				},
@@ -677,11 +569,7 @@ var Login = function() {
 				   "username" : $("#username").val(),
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
-                   "cp" : $("#cp").val(),
-                   "geoPosLatitude" : $("#geoPosLatitude").val(),
-                   "geoPosLongitude" : $("#geoPosLongitude").val(),
                    "app" : "<?php echo $this->module->id?>",
-                   "city" : $("#city").val(),
                    "pendingUserId" : pendingUserId
                 };
 			      
@@ -719,100 +607,15 @@ var Login = function() {
 		init : function() {
 			addCustomValidators();
 			runBoxToShow();
-			runLoginButtons();
 			runSetDefaultValidation();
 			runLoginValidator();
 			runForgotValidator();
 			runRegisterValidator();
-			bindPostalCodeAction();
 		}
 	};
 }();
 
-
-
-function runShowCity(searchValue) {
-	citiesByPostalCode = getCitiesByPostalCode(searchValue);
-	Sig.citiesByPostalCode = citiesByPostalCode;
-
-	var oneValue = "";
-	console.table(citiesByPostalCode);
-	$.each(citiesByPostalCode,function(i, value) {
-    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
-    	oneValue = value.value;
-	});
-	
-	if (citiesByPostalCode.length == 1) {
-		$("#city").val(oneValue);
-	}
-
-	if (citiesByPostalCode.length >0) {
-        $("#cityDiv").slideDown("medium");
-      } else {
-        $("#cityDiv").slideUp("medium");
-      }
-
-    //si l'utilisateur a déjà donné sa fullStreet
-    if($('.form-register #fullStreet').val() != ""){
-    	//on fait une recherche nominatim
-    	clearTimeout(timeout);
-		timeout = setTimeout(function() {
-			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
-		}, 200);
-    }else{ //sinon : on a que le CP et on recherche par le codeInsee de la première ville de la liste
-    	findGeoposByInsee(citiesByPostalCode[0].value, callbackFindByInseeSuccessRegister);
-    }
-}
-
-function bindPostalCodeAction() {
-	$('.form-register #cp').change(function(e){
-		//searchCity();
-	});
-	$('.form-register #cp').keyup(function(e){
-		searchCity();
-	});
-
-	$('.form-register #fullStreet').keyup(function(e){
-		if($('.form-register #cp').val() != "") {
-			clearTimeout(timeout);
-			timeout = setTimeout(function() {
-				searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
-			}, 500);
-		}
-	});
-
-	$('.form-register #fullStreet').change(function(e){
-		if($('.form-register #cp').val() != "") {
-			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
-		}
-	});
-
-	$('#city').change(function(e){
-		//Sig.execFullSearchNominatim(0);
-		console.log('findGeoposByInsee', $('#city').val());
-		findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessRegister);
-	});
-}
-
 var oldCp = "";
-function searchCity() { 
-	console.log("searchCity");
-	var searchValue = $('.form-register #cp').val();
-	if(searchValue.length == 5) {
-		if(oldCp != searchValue){
-			$("#city").empty();
-			clearTimeout(timeout);
-			timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
-			clearTimeout(timeout);
-			timeout = setTimeout('runShowCity("'+searchValue+'")', 500); 
-		}
-	} else {
-		$("#cityDiv").slideUp("medium");
-		$("#city").val("");
-		$("#city").empty();
-	}
-	oldCp = searchValue;
-}
 
 function validateUserName() {
 	var username = $('.form-register #username').val();
@@ -842,10 +645,6 @@ function callBackFullSearch(resultNominatim){
 
 	//setTimeout("setMapPositionregister();", 1000);
 }
-// function setMapPositionregister(){ console.log("setMapPositionregister");
-// 	Sig.map.panTo(Sig.markerNewData.getLatLng(), {animate:false}); 
-// 	Sig.map.panBy([300, 0]);
-// }
 
 //quand la recherche par code insee a fonctionné
 function callbackFindByInseeSuccessRegister(obj){
