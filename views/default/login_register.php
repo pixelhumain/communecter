@@ -570,7 +570,8 @@ var Login = function() {
 				   "email" : $("#email3").val(),
                    "pwd" : $("#password3").val(),
                    "app" : "<?php echo $this->module->id?>",
-                   "pendingUserId" : pendingUserId
+                   "pendingUserId" : pendingUserId,
+                   "mode" : "<?php echo Person::REGISTER_MODE_TWO_STEPS ?>"
                 };
 			      
 		    	$.ajax({
