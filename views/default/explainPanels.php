@@ -522,9 +522,9 @@
 		<h1 class="homestead yellowph">Version Béta</h1>
 		<ul>
 			<li>Les fonctionalités prinicipales fonctionnent</li>
-			<li>si vous trouvez des bugs, transmettez les nous</li>
+			<li>Si vous trouvez des bugs, transmettez les nous</li>
 			<li>On fait tout pour améliorer la plateforme </li>
-			<li> Et aprés on fait quoi ? <a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red">Roadmap</a></li>
+			<li>Et aprés on fait quoi ? <a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red">Roadmap</a></li>
 		</ul>
 
 	</div>

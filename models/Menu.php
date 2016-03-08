@@ -19,10 +19,15 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
+        self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his person'), 
+                    Yii::t("common", 'Details'),
+                    'bookmark fa-rotate-270',
+                    "loadByHash('#person.detail.id.".$id."')","person", "detail");
+        /*self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
                     Yii::t("common", "Details"), 
                     'user',
-                    '/person/detail/id/'.$id,"person", "detail");
+                    '/person/detail/id/'.$id,"person", "detail");*/
         
         //SEND MESSAGE
         //-----------------------------
