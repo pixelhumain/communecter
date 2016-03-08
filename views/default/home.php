@@ -1,14 +1,20 @@
-<?php
+<?php 
 	$cs = Yii::app()->getClientScript();
 
+	$cssAnsScriptFilesModule = array(
+		//'js/svg/tonfichier.js'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-$cssAnsScriptFilesModule = array(
-//'js/svg/tonfichier.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	$countCitoyen 	= PHDB::count(Person::COLLECTION);
+	$countAsso 		= PHDB::count(Organization::COLLECTION, array("type" => "association"));
+	$countEntreprise = PHDB::count(Organization::COLLECTION, array("type" => "entreprise"));
+	$countProject 	= PHDB::count(Project::COLLECTION);
+	$countEvent 	= PHDB::count(Event::COLLECTION);
+
+	//error_log("countCitoyen : " . $countCitoyen);
+
 ?>
-
-
 <style>
 
 .main-col-search{
@@ -304,6 +310,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $countCitoyen; ?> inscrits et <?php echo $countProject; ?> projets référencés</span>
+				<br/>
 					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
 					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain.
 			</div>
@@ -311,6 +319,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
+				<br/>
+					<span class="text-azure">Déjà <?php echo $countAsso; ?> associations référencées</span>
 				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
 					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
@@ -321,6 +331,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
 				<br/>
+					<span class="text-azure">Retrouvez toutes les communes de France métropolitaine et des DOM-TOM</span>
+				<br/>
 					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
 					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités.
 					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
@@ -330,6 +342,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $countEntreprise; ?> entreprises référencées</span>
+				<br/>
 				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen
 				avec un vrai respect de la qualité, quelque soit son métier.
 				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
@@ -338,6 +352,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<br/>
+					<span class="text-azure">Déjà <?php echo $countEvent; ?> événements partagés</span>
 				<br/>
 					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.
