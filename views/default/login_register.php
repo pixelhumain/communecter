@@ -643,7 +643,7 @@ var Login = function() {
 				username : {
 					required : true,
 					validUserName : true,
-					rangelength : [8, 20]
+					rangelength : [4, 20]
 				},
 				email3 : {
 					required : { 
@@ -823,7 +823,7 @@ function validateUserName() {
 				if (! isUniqueUsername(username)) {
 					var validator = $( '.form-register' ).validate();
 					validator.showErrors({
-  						"username": "The user name is not unique : please change it."
+  						"username": <?php echo Yii::t("login","The user name is not unique : please change it.") ?>
 					});
 				}
 			}, 200);
