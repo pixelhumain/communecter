@@ -823,7 +823,7 @@ function validateUserName() {
 				if (! isUniqueUsername(username)) {
 					var validator = $( '.form-register' ).validate();
 					validator.showErrors({
-  						"username": <?php echo Yii::t("login","The user name is not unique : please change it.") ?>
+  						"username": '<?php echo Yii::t("login","The user name is not unique : please change it.")?>'
 					});
 				}
 			}, 200);
