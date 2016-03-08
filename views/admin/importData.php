@@ -348,14 +348,14 @@ function bindEvents()
 				data:{ url : $("#textUrl").val() },
 				async : false,
 				success: function (obj){
-					console.log('success', obj);
+					console.log('success');
 					file.push(obj.data) ;
 
 					$.ajax({
 				        type: 'POST',
 				        data: {
-				        		nameFile : "JSON_URL",
-				        		typeFile : "json",
+				        		nameFile : nameF,
+				        		typeFile : typeF,
 				        		file : file,
 				        		chooseCollection : $("#chooseCollection").val(),
 				        		pathObject : $("#pathObject").val()
@@ -365,7 +365,7 @@ function bindEvents()
 				        async : false,
 				        success: function(data)
 				        {
-				        	console.log("data",data);
+				        	console.log("btnVerification data",data.createLink);
 				        	if(data.createLink){
 
 				        		resultAssignData(data);
@@ -594,19 +594,22 @@ function bindEvents()
 	  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js")
 	  			jsonFile = $("#jsonJSON").val() ;*/
 
-	  		if(infoCreateData != [])
-	  		{	var params = {
-		        		infoCreateData : infoCreateData, 
-		        		idCollection : $("#idCollection").val(),
-		        		nameFile : $("#nameFile").val(),
-		        		typeFile : $("#typeFile").val(),
-		        		role : $("#selectRole").val(),
-		        		creatorID : creator,
-		        		creatorEmail : $('#creatorEmail').val(),
-		        		pathObject : $('#pathObject').val(),
-				        key : $("#inputKey").val(),
-				        warnings : $("#checkboxWarnings").is(':checked')
-			        }
+	  		if(infoCreateData != []){	
+	  			
+	  			var params = {
+	        		infoCreateData : infoCreateData, 
+	        		idCollection : $("#idCollection").val(),
+	        		nameFile : $("#nameFile").val(),
+	        		typeFile : $("#typeFile").val(),
+	        		role : $("#selectRole").val(),
+	        		creatorID : creator,
+	        		creatorEmail : $('#creatorEmail').val(),
+	        		pathObject : $('#pathObject').val(),
+			        key : $("#inputKey").val(),
+			        warnings : $("#checkboxWarnings").is(':checked')
+			    }
+
+
 	  			if($("#checkboxTest").is(':checked')){
 	  				if($("#typeFile").val() == "csv"){
 	  					var subFile = file.slice(0,$("#inputNbTest").val());
@@ -614,9 +617,11 @@ function bindEvents()
 	  				}
 			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js"){
 			  			params["file"] = file;
+			  			params["nbTest"] = $("#inputNbTest").val();
 			  		}
 	  				
 		  			visualisation(params);
+
 	  			}else{
 
 	  				if($("#typeFile").val() == "csv"){
@@ -671,7 +676,7 @@ function bindEvents()
 	        dataType : 'json',
 	        success: function(data)
 	        {
-	            console.dir(data);
+	            //console.dir(data);
 	            if(data.result)
 	              	toastr.success("Les données ont été ajouté.");
 	            else
@@ -785,7 +790,7 @@ function bindEvents()
 
 function resultAssignData(data){
 
-	console.log(file[0]);
+	//console.log(file[0]);
 	var chaineSelectCSVHidden = "" ;
 	if(data.typeFile == "csv"){
 		$.each(file[0], function(key, value){
@@ -918,23 +923,24 @@ function callbackNominatimSuccess(obj){
 //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 
 function findGeoposByGoogleMaps(requestPart){
+	var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
 	var objnominatim = {} ;
-	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM");
+	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
 	showLoadingMsg("Recherche de la position en cours");
 	$.ajax({
-		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM",
+		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp,
 		type: 'POST',
 		dataType: 'json',
 		async:false,
 		crossDomain:true,
 		complete: function () {},
 		success: function (obj){
-			console.log('success');	
+			//console.log('success');	
 			hideLoadingMsg();
 			objnominatim = callbackNominatimSuccess(obj);
 		},
 		error: function (error) {
-			console.log('error');	
+			//console.log('error');	
 			return callbackNominatimError(error);
 		}
 	});
@@ -1300,7 +1306,7 @@ function assignData2(idMicroformat, typeFile){
         async : false,
         success: function(data)
         {
-        	console.log("data",data);
+        	console.log("assignData2 data",data.createLink);
         	if(data.createLink){
         		resultAssignData(data);
         		$("#createLink").show();
@@ -1322,7 +1328,7 @@ function visualisation(params){
         dataType : 'json',
         success: function(data)
         {
-        	console.log("data",data);
+        	console.log("visualisation data",data.result);
         	if(data.result){
         		
         		if($("#checkboxTest").is(':checked')){

@@ -5,34 +5,39 @@
 	<div class="panel-body">
 		<h4 class="panel-title">Entité mal </h4>
 		<br/>
+		<div><span id="nbWarnings"></span></div>
 		<table id="tableEntity" class="col-sm-12 col-xs-12">
 			<tr>
 				<th>Type</th>
 				<th>Name</th>
 				<th>Warnings</th>
 			</tr>
-			<?php 
+			<?php
+				$nb = 0 ;
 				$chaine = "";
-				//var_dump($entities);
-				foreach ($entities as $keyEntities => $valueEntities) {
-					//var_dump(count($valueEntities));
-					foreach ($valueEntities as $key => $entity) {
-						if(count($entity) > 0){
+				//var_dump($entitiesSourceAdmin);
+				foreach ($entitiesSourceAdmin as $keyEntities => $valueEntities) {
+					foreach ($valueEntities as $typeEntities => $entities) {
+						$nb += count($entities);
+						foreach ($entities as $key => $entity) {
 							//var_dump($entity);
-							?>
-							<tr>
-								<td>
-								</td>
-								<td>
-									<a  href='javascript:;' onclick='loadByHash("#<?php echo $key ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
-										<?php echo $entity["name"]; ?> 
-									</a>
-								</td>
-								<td> 
-									<?php echo (empty($entity["warnings"])?"": Import::getMessagesWarnings($entity["warnings"])) ; ?>
-								</td>
-							</tr>
-							<?php
+							if(count($entity) > 0){
+								//var_dump($entity);
+								?>
+								<tr>
+									<td>
+									</td>
+									<td>
+										<a  href='javascript:;' onclick='loadByHash("#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
+											<?php echo $entity["name"]; ?> 
+										</a>
+									</td>
+									<td> 
+										<?php echo (empty($entity["warnings"])?"": Import::getMessagesWarnings($entity["warnings"])) ; ?>
+									</td>
+								</tr>
+								<?php
+							}
 						}
 					}
 					
@@ -46,6 +51,10 @@
 <script type="text/javascript">
 $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 jQuery(document).ready(function() {
+
+	var nbWarnings = "<?php echo $nb ?>" ;
+	console.log(nbWarnings);
+	$("#nbWarnings").html(nbWarnings);
 	bindCheckGeo();
 });
 

@@ -25,7 +25,17 @@ return array(
 	// Partie concernant la géolocalisation et l'adresse.
 	"170" => "Incohérence entre la géolocalisation et le code postal. Vérifier l'adresse et la géolocalisation",
 	"171" => "L'INSEE du fichier et celui retourné par la géolocalisation n'est pas le même.",
-	"172" => "Le code postal du fichier et celui retourné par la géolocalisation n'est pas le même."
+	"172" => "Le code postal du fichier et celui retourné par la géolocalisation n'est pas le même.",
+
+
+	"201" => "Le nom est obligatoire.",
+	"202" => "Le surnom est obligatoire.",
+	"203" => "L'email est obligatoire.",
+	"204" => "Le mot de passe est obligatoire.",
+	"205" => "L'email n'est pas bien formaté.",
+	"206" => "Une personne avec ce mail existe déjà sur la plateforme.",
+	"207" => "Une personne avec ce username existe déjà sur la plateforme.",
+
 );
 
 ?>
