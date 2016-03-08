@@ -213,6 +213,7 @@ if( @$isNotSV ) {
 		iconRedirect="fa-lightbulb-o";
 	}
 	jQuery(document).ready(function() {
+		 $(".moduleLabel").html("<i class='fa fa-cubes'></i> <span id='main-title-menu'>Ajouter un besoin</span>");
 	 	bindSubViewNeed();
 	 	runNeedFormValidation();
 	});

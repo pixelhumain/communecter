@@ -349,6 +349,10 @@ function loadByHash( hash , back ) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
+	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	        hashT = hash.split(".");
+	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
+	} 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
