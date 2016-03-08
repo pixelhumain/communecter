@@ -1,3 +1,4 @@
+<?php //echo "hello !"; ?>
 <style>
 	.main-login{
 		position:absolute;
