@@ -344,14 +344,14 @@ jQuery(document).ready(function() {
       console.log("history.state",$.isEmptyObject(history.state),location.hash);
       console.warn("popstate history.state",history.state);
       if( lastUrl && "onhashchange" in window && location.hash  ){
-        if( $.isEmptyObject( history.state ) ){
+        if( $.isEmptyObject( history.state ) && allReadyLoad == false ){
 	        //console.warn("poped state",location.hash);
+	        //alert("popstate");
 	        loadByHash(location.hash,true);
-	    } //else { //pas necessaire de stocké le navigateur le fait tout seul
-	      	//history.pushState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
-    		//console.warn("pushState",location.hash);
-	    //}
+	    } 
+	    allReadyLoad = false;
       }
+
       lastUrl = location.hash;
     });
 
@@ -364,10 +364,12 @@ jQuery(document).ready(function() {
     //console.log("hash", location.hash);
     //console.warn("isMapEnd 3",isMapEnd);
     if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
+		//alert("ici");
 		loadByHash(location.hash);
 		return;
 	}
 	else{ 
+		//alert("ici");
 		loadByHash("#default.home");
 	}
 

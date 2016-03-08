@@ -143,7 +143,6 @@ function follow(parentType, parentId, childId, childType){
 }
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
-	//e.preventDefault();
 	var formData = {
 		"childId" : childId,
 		"childType" : childType, 
@@ -151,9 +150,6 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	if(actionAdmin=="true"){
-		formData.adminAction=true;
-	}
 	console.log(formData);
 	
 	if(connectType!="admin" && connectType !="attendee"){
@@ -193,17 +189,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										//console.log("saveMembre");
 										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-										//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-										//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-										//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-										//bindFicheInfoBtn();
-										//if (data.notification && data.notification=="toBeValidated")
 										toastr.success(data.msg);	
-										//else
-										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 										loadByHash(location.hash);
 									}
 									else
@@ -234,18 +221,9 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 				dataType: "json",
 				success: function(data) {
 					if(data.result){
-						//console.log("saveMembre");
 						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-						//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-						//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-						//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-						//bindFicheInfoBtn();
-						//if (data.notification && data.notification=="toBeValidated")
-							toastr.success(data.msg);	
-						//else
-						//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-							loadByHash(location.hash);
+						toastr.success(data.msg);	
+						loadByHash(location.hash);
 					}
 					else
 						toastr.error(data.msg);
@@ -341,6 +319,8 @@ function jsController(hash){
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+	allReadyLoad = true;
+	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
@@ -373,6 +353,7 @@ function loadByHash( hash , back ) {
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
+
     /*if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
