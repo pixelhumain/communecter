@@ -7,7 +7,7 @@ $cssAnsScriptFilesTheme = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
-if (isset($isNotSV)){
+
 	$cssAnsScriptFilesModule = array(
 		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
@@ -17,14 +17,9 @@ if (isset($isNotSV)){
 		'/plugins/autosize/jquery.autosize.min.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-}
 ?>
 <style>
-<?php if (!@$isNotSV){ ?>
-#newNeed{
-	display: none;
-}
-<?php } ?>
+
 .li-dropdown-scope{
 	padding: 8px 3px;
 }
@@ -77,24 +72,17 @@ if (isset($isNotSV)){
 
 </style>
 <?php 
-if( @$isNotSV ) {
 	if(@$project)
 		Menu::project($project);
 	else 
 		Menu::organization($organization);
 	$this->renderPartial('../default/panels/toolbar'); 
-}
 ?>
 <div id="newNeed">
-	<?php if (@$isNotSV) { ?>
 		<h2 class='radius-10 padding-10 text-azure text-bold'><i class="fa fa-plus"></i> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>
-	<?php } ?>
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-white">
 			<div class="panel-heading border-light">
-				<?php if (!@$isNotSV) { ?>
-				<h1>Add Need</h1>
-				<?php } ?>
 				<p><?php echo Yii::t("need","Task will show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
 			</div>
 			<div class="panel-body">
@@ -119,7 +107,7 @@ if( @$isNotSV ) {
 										</a>
 									</div>
 					            </div><br>
-				                <div id="formNewNeed" <?php if (@$isNotSV) echo "class='text-center'" ?>>
+				                <div id="formNewNeed" class='text-center'>
 					    	        <div class="col-md-12 form-group">
 					    	        	<label class="control-label text-dark col-md-12">
 					    	        		<i class="fa fa-angle-down"></i> 
@@ -205,7 +193,6 @@ if( @$isNotSV ) {
 </div>
 
 <script type="text/javascript">
-	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	var parentId = $(".form-need #parentId").val();
 	var parentType = $(".form-need #parentType").val();
 	if (parentType=="projects"){
@@ -391,7 +378,7 @@ if( @$isNotSV ) {
 								
 					$.ajax({
 				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/needs/saveneed',
+				        url: baseUrl+"/"+moduleId+'/need/saveneed',
 				        dataType : "json",
 				        data:newNeed,
 						type:"POST",
@@ -400,16 +387,9 @@ if( @$isNotSV ) {
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-					        console.log(data); 
-							if(typeof updateNeed != "undefined" && typeof updateNeed == "function")
-		        				updateNeed(data);            
+					        console.log(data);           
 				        	toastr.success('Need added successfuly');
-				        	if(isNotSV==0){ 
-								$.hideSubview();
-							} else{ 
-								openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo addslashes($_GET["parentName"]) ?>',iconRedirect, parentId );
-							} 
-				        		
+				        	loadByHash("#need.detail.id."+data.idNeed.$id);				        		
 				        } else {
 				           toastr.error('Something Went Wrong');
 				        }
@@ -491,11 +471,7 @@ if( @$isNotSV ) {
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditNeed() {
-		if(isNotSV==0){ 
-		$.hideSubview();
-		} else{ 
 			openMainPanelFromPanel( '/'+typeRedirect+'/detail/id/'+parentId, typeRedirect+' : <?php if (@$_GET["parentName"]) echo addslashes($_GET["parentName"]) ?>',iconRedirect, parentId );
-		 } 
 	};
 	// enables the edit form 
 	function editNeed(el) {
