@@ -464,6 +464,18 @@ function showAjaxPanel (url,title,icon) {
 			 });
 
 			$.unblockUI();
+
+			// setTimeout(function(){
+			// 	console.log("call timeout MAP MAP");
+			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
+			// 		toastr.info('<i class="fa fa-check"></i> Cartographie activée');
+			// 		showMap(false); 
+			// 		$("#btn-toogle-map").show(400);
+			// 		//console.log("getAJAX OK timeout MAIN MAP");
+					
+			// 	},"html");
+			// }, 2000);
+
 		},"html");
 	}, 800);
 }

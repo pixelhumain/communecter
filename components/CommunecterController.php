@@ -107,7 +107,7 @@ class CommunecterController extends Controller
       "agenda"                => array("href" => "/ph/communecter/default/agenda", "public" => true),
       "news"                  => array("href" => "/ph/communecter/default/news", "public" => true),
       "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
-      "add"                  => array("href" => "/ph/communecter/default/add"),
+      "add"                   => array("href" => "/ph/communecter/default/add"),
       "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
     ),
 
@@ -147,6 +147,7 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
+      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true),
       
     ),
 

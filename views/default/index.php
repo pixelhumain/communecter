@@ -76,10 +76,12 @@
 
 ?>
 
-<?php 
+<div id="mainMap">
+	<?php 
 		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 		$this->renderPartial($layoutPath.'mainMap');
-?>
+	?>
+</div>
 
 <?php //get all my link to put in floopDrawer
 	if(isset(Yii::app()->session['userId'])){
@@ -352,6 +354,13 @@ jQuery(document).ready(function() {
       }
       lastUrl = location.hash;
     });
+
+
+	//console.log("start timeout MAIN MAP LOOOOOL");
+	//$("#btn-toogle-map").hide();
+	
+
+
     //console.log("hash", location.hash);
     //console.warn("isMapEnd 3",isMapEnd);
     if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
@@ -479,6 +488,10 @@ function checkScroll(){
 
 function showMap(show)
 {
+	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
+	console.log("typeof SIG : ", typeof Sig);
+	if(typeof Sig == "undefined") show = false;
+
 	console.log("showMap");
 	console.warn("showMap");
 	if(show === undefined) show = !isMapEnd;
@@ -518,6 +531,7 @@ function showMap(show)
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
+		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.closePopup();
 		}
