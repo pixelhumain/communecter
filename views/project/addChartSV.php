@@ -147,6 +147,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 var countProperties=<?php echo json_encode(count($properties)); ?>;
 var projectId = $(".form-chart .projectId").val();
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-puzzle-piece'></i> Editer la charte</a>");
 	knobInit();
     $(".addProperties").click(function(){
 	   newProperty=addNewProperties();
