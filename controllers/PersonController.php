@@ -40,6 +40,7 @@ class PersonController extends CommunecterController {
           'invite'  		       => 'citizenToolKit.controllers.person.InviteAction',
 	        'invitation'         => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	       => 'citizenToolKit.controllers.person.UpdateFieldAction',
+          'update'             => 'citizenToolKit.controllers.person.UpdateAction',
           'directory'          => 'citizenToolKit.controllers.person.DirectoryAction',
           'data'               => 'citizenToolKit.controllers.person.DataAction',
           'chooseinvitecontact'      => 'citizenToolKit.controllers.person.ChooseInviteContactAction',
