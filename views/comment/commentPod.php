@@ -58,12 +58,14 @@ $optionsLabels = array(
 
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
+			<?php if (@$me && Role::isDeveloper($me['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
 					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
 				}?>
 			</div>
+			<?php } ?>
 			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> Comments</h4>
 			
 		</div>
