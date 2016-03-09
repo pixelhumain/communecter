@@ -541,7 +541,7 @@ jQuery(document).ready(function() {
 		
 	});
 
-	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} );
+	$('.btn-menu0').click( function(e){ loadByHash("#default.twostepregister")} );
 
     $('.btn-menu2')
     .click(function(e){ 

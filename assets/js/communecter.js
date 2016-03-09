@@ -285,6 +285,7 @@ var loadableUrls = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
+	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},

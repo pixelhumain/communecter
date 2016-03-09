@@ -8,6 +8,7 @@
 		left: unset !important;
 		right: 14% !important;
 		border-radius:15px;
+		display:none;
 	}
 	.form-login, .form-register, .form-email{
 		left: unset !important;

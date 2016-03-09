@@ -205,6 +205,7 @@ var cpCommunexion = "<?php echo $cpCommunexion; ?>";
 var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
 /* variables globales communexion */	
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
+var userConnected = <?php echo isset($me) ? json_encode($me) : "null"; ?>;
 
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
@@ -217,7 +218,9 @@ var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 jQuery(document).ready(function() {
 
 	
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
+	<?php if(isset(Yii::app()->session['userId']) && //et que le two_step est terminé
+			(!isset($me["two_steps_register"]) || $me["two_steps_register"] != true)){ ?>
+		
 		var path = "/";
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 
@@ -288,7 +291,14 @@ jQuery(document).ready(function() {
 		return;
 	}
 	else{ 
-		loadByHash("#default.home");
+		console.log("userConnected", userConnected);
+		if(userConnected != null && userConnected["twostepregister"]){
+			loadByHash("#default.twostepregister");
+		} else{
+			loadByHash("#default.home");
+		}
+
+		//loadByHash("#default.home");
 	}
 
 	checkScroll();
@@ -507,6 +517,13 @@ function setScopeValue(btn){
 		if(location.hash.indexOf("#city.detail") >= 0) {
 			showLocalActorsCityCommunexion();
 			//showMap(false);
+		}else
+		if(location.hash.indexOf("#default.twostepregister") >= 0) {
+			showMap(false);
+			$("#tsr-commune-name-cp").html(cityNameCommunexion + ", " + cpCommunexion);
+			$("#TSR-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
+			setTimeout(function(){ showTwoStep("street"); }, 3000);
+			//showMap(false);
 		}else{
 			if(inseeCommunexion != ""){
 				showLocalActorsCityCommunexion();
@@ -521,14 +538,14 @@ function setScopeValue(btn){
 }
 
 function showLocalActorsCityCommunexion(){
-		console.log("showLocalActorsCityCommunexion");
-		var data = { "name" : "", 
-	 			 "locality" : inseeCommunexion,
-	 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ], 
-	 			 "searchBy" : "INSEE",
-        		 "indexMin" : 0, 
-        		 "indexMax" : 500  
-        		};
+	console.log("showLocalActorsCityCommunexion");
+	var data = { "name" : "", 
+ 			 "locality" : inseeCommunexion,
+ 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ], 
+ 			 "searchBy" : "INSEE",
+    		 "indexMin" : 0, 
+    		 "indexMax" : 500  
+    		};
 
     $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 	

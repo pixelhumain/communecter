@@ -126,6 +126,30 @@
 	    box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
 	    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 	}
+
+
+	.<?php echo $moduleName; ?>
+	#mapLegende{
+		-moz-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		-webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		-o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+		display: none;
+		position: fixed;
+		top: 70px;
+		left: 19%;
+		width: 30%;
+		max-height: 100px;
+		background-color: rgba(26, 33, 38, 0.93);
+		border-radius: 4px;
+		color: white;
+		padding: 14px;
+		font-size: 12px;
+		font-weight: 300;
+		min-height: 45px;
+		overflow: hidden;
+	}
 	
 	/* XS */
 	@media screen and (max-width: 768px) {

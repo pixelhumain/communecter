@@ -116,6 +116,15 @@ function getCityInseeByGeoPos(coords){
 					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
 		        	Sig.showMapElements(Sig.map, obj);
 				}
+				else if(currentRoleLoc == "communexion_tsr"){ // && typeof obj.name != "undefined"){
+					$.each(obj, function(key, value){ obj[key]["typeSig"] = "city"; });
+					console.log("cities found : ");
+					console.dir(obj);
+					showMap(true);
+					//$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+		        	showMapLegende("crosshairs", "Sélectionnez votre commune ...");
+		        	Sig.showMapElements(Sig.map, obj);
+				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
