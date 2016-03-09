@@ -250,7 +250,7 @@ progress[value]::-moz-progress-bar {
 					<td>
 						<i class="fa fa-calendar"></i> 
 						<?php if(!empty($project["startDate"])) echo Yii::t("common","From") ; ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
-						<?php if(!empty($project["endDate"])) echo Yii::t("common","To"); ?> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
+						<label id="labelTo"><?php echo Yii::t("common","To"); ?></label><a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>
 					</td>
 				</tr>
 				<tr>
@@ -309,7 +309,7 @@ jQuery(document).ready(function()
 	initXEditable();
 	manageModeContext();
 	debugMap.push(projectData);
-
+	console.log("endDate",$('#endDate').val());
 	console.dir(projectData);
 	$("#btn-update-geopos").click(function(){
 		findGeoPosByAddress();
@@ -515,6 +515,8 @@ function manageModeContext() {
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
 		});
+		if(endDate == "")
+			$("#labelTo").removeClass("hidden");
 		$("#btn-update-geopos").removeClass("hidden");
 	} else if (mode == "update") {
 		// Add a pk to make the update process available on X-Editable
@@ -526,7 +528,10 @@ function manageModeContext() {
 			$(value).editable('option', 'pk', projectId);
 			$(value).editable('toggleDisabled');
 		});
+
 		
+		if(endDate == "")
+			$("#labelTo").addClass("hidden");
 		$("#btn-update-geopos").addClass("hidden");
 	}
 }
