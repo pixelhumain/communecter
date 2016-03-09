@@ -175,7 +175,7 @@ function buildComments(commentsLevel, level, withActions) {
 			if (commentObj.status == "deleted") {
 				commentActions = "disabled";
 			}
-			var commentsTLLine = buildLineHTML(commentObj, commentActions);
+			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions);
 			
 			commentsHTML += commentsTLLine;
 			
@@ -192,7 +192,7 @@ function buildComments(commentsLevel, level, withActions) {
 	return commentsHTML;
 }
 
-function buildLineHTML(commentObj, withActions) {
+function buildCommentLineHTML(commentObj, withActions) {
 	console.log(commentObj, withActions);
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
@@ -463,7 +463,7 @@ function copyCommentOnAbuseTab(commentAbused) {
 	var commentObj = comments[commentAbused.data("id")];
 	abusedComments[commentAbused.data("id")] = commentObj;
 
-	var newCommentLine = buildLineHTML(commentObj, "abuse");
+	var newCommentLine = buildCommentLineHTML(commentObj, "abuse");
 	var ulRoot = $('#entry_abuse .tree');
 	ulRoot.prepend(newCommentLine);
 	$('.nbCommentsAbused').html((parseInt($('.nbCommentsAbused').html()) || 0) + 1);
@@ -596,7 +596,7 @@ function validateComment(commentId, parentCommentId) {
 function switchComment(tempCommentId, comment, parentCommentId) {
 	comments[comment["_id"]["$id"]] = comment;
 	$('#'+tempCommentId).remove();
-	var commentsTLLine = buildLineHTML(comment, "all");
+	var commentsTLLine = buildCommentLineHTML(comment, "all");
 	// When it's a root comment
 	if (parentCommentId == "" || "undefined" == typeof parentCommentId) {
 		var ulChildren = $('#entry_comments .tree');
