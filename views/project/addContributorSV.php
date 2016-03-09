@@ -42,7 +42,7 @@ $this->renderPartial('../default/panels/toolbar');
 	<div class="noteWrap col-md-8 col-md-offset-2">
 
 		<form class="form-contributor" autocomplete="off">
-			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value=''>
+			<input  class="project-id"  id="projectID" name="projectID" type="hidden" value='<?php echo $id ?>'>
 			<div class="form-group" id="searchMemberSection" style="z-index:1000000;">
     	    	<div class='row'>
 					<div class="col-md-1">	
@@ -295,16 +295,16 @@ $this->renderPartial('../default/panels/toolbar');
 					"parentId" : projectId,
 					"connectType" : connectType
 				};
-			console.log(params);
-				/*$.blockUI({
+				console.log(params);
+				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
 		              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
-				});*/
-				if ($(".form-contributor .contributor-id").val() !== "") {
-					el = $(".form-contributor .contributor-id").val();
+				});
+				if ($(".form-contributor .project-id").val() !== "") {
+				//	el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
 					$.mockjax({
 						url : '/contributor/edit/webservice',
