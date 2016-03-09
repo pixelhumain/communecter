@@ -39,7 +39,7 @@
 		 -->
 		<li role="separator" class="divider"></li>
 			<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-			<li><a href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "Admin"); ?></a></li>
+			<li><a href="javascript:;" onclick="loadByHash('#admin.index')" ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "Admin"); ?></a></li>
 			<?php } ?>
 		<li><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
 			   id="btn-menu-dropdown-logout" class="text-red">

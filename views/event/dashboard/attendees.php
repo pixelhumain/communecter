@@ -71,28 +71,9 @@
 	</div>
 
 <script type="text/javascript">
-	var isNotSV=<?php if (@$isDetailView) echo 1; else echo 0; ?>;
 	jQuery(document).ready(function() {
 		$(".new-attendees").off().on("click", function() {
-			if (isNotSV==0){
-				subViewElement = $(this);
-				$(".form-attendees .attendees-parentId").val($(this).data("id"));
-				subViewContent = subViewElement.attr('href');
-				$.subview({
-					content : subViewContent,
-					onShow : function() {
-						editAttendee();
-					},
-					onHide : function() {
-						hideEditAttendee();
-					},
-					onSave: function() {
-						hideEditAttendee();
-					}
-				});
-			} else {
-				showAjaxPanel( '/event/addattendeesv?isNotSV=1&eventId='+$(this).data("id"), 'ADD ATTENDEE','users' )
-			}
+			showAjaxPanel( '/event/addattendeesv?eventId='+$(this).data("id"), 'ADD ATTENDEE','users' )
 		});
 	});
 </script>

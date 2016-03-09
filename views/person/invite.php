@@ -156,9 +156,9 @@ input.form-control{
 
 </style>
 
-<?php if( @$isNotSV ){ 
-	$this->renderPartial('../default/panels/toolbar'); 
-}?>
+<?php 
+$this->renderPartial('../default/panels/toolbar'); 
+?>
 
 <div id="newInvite">
 	<ul class="nav nav-tabs">
@@ -610,13 +610,7 @@ function bindInviteSubViewInvites() {
 	$(".connectBtn").off().on("click", function() {
 		connectPerson($('#newInvite #inviteId').val(), function(user){
 			console.log('callback connectPerson')
-			if( isNotSV )
-				loadByHash( "#person.directory" );
-			else if(updateInvite != undefined && typeof updateInvite == "function"){
-				updateInvite(user, false, false);
-			}
-			$.hideSubview();
-
+			loadByHash( "#person.directory" );
 		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
@@ -625,12 +619,7 @@ function bindInviteSubViewInvites() {
 		var nameToDisconnect = $("#newInvite #ficheName").text();
 		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, function(id) {
 			console.log('callback disconnectPerson')
-			if( isNotSV )
-				loadByHash( "#person.directory" );
-			else if(updateInvite != undefined && typeof updateInvite == "function"){
-				updateInvite(id, false, true);
-			}
-			$.hideSubview();
+			loadByHash( "#person.directory" );
 		});
 	});
 
@@ -684,11 +673,7 @@ function bindInviteSubViewInvites() {
 				        if (data &&  data.result) {               
 				        	toastr.success('L\'invitation a été envoyée avec succès!');
 				        	$.hideSubview();
-				        	if( isNotSV )	
-				        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
-				        	else if(updateInvite != undefined && typeof updateInvite == "function"){
-				        		updateInvite(data.invitedUser, true);
-				        	} 
+				        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 				        } else {
 				        	$.unblockUI();
 							toastr.error(data.msg);
@@ -782,11 +767,7 @@ function runinviteFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
 		        	$.hideSubview();
-		        	if( isNotSV )	
-		        		showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
-		        	else if(updateInvite != undefined && typeof updateInvite == "function"){
-		        		updateInvite(data.invitedUser, true);
-		        	} 
+		        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 		        } else {
 		        	$.unblockUI();
 					toastr.error(data.msg);

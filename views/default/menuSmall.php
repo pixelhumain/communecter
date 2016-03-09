@@ -94,7 +94,7 @@ width: 100%;
 			<div><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-dark"></i> <i class="fa fa-asterisk text-dark"></i> Référencer ...</a></div>
 			 -->
 			<?php if( isset($me) && Role::isDeveloper($me['roles']) ){?>
-			<div class="item"><a class="btn bg-red" href="javascript:;" onclick="loadByHash('#admin.index?isNotSV=1')" ><i class="fa fa-cog"></i> </a><br/><?php echo Yii::t("common", "Admin"); ?></div>
+			<div class="item"><a class="btn bg-red" href="javascript:;" onclick="loadByHash('#admin.index')" ><i class="fa fa-cog"></i> </a><br/><?php echo Yii::t("common", "Admin"); ?></div>
 			<?php } ?>
 			<div class="item"><a class="btn bg-red" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
 				   id="btn-menu-dropdown-logout" class="text-red">

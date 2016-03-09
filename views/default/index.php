@@ -270,7 +270,6 @@ var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContac
 
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
-var isNotSV = true;
 var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;

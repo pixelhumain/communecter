@@ -11,7 +11,7 @@ $cssAnsScriptFilesTheme = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-if (isset($isNotSV)){
+
 		$cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
@@ -23,37 +23,28 @@ if (isset($isNotSV)){
 	'/plugins/autosize/jquery.autosize.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-}
+
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
-<style>
-<?php if(!isset($isNotSV)){ ?>
-#editTimesheet{
-	display: none;
-}
-<?php } ?>
-</style>
+
 <?php
-if( @$isNotSV ) {
+
 	if(@$project)
 		Menu::project($project);
 	$this->renderPartial('../default/panels/toolbar'); 
-}
+
 ?>
 <div id="editTimesheet">
-	<?php if( @$isNotSV ){ ?>
+
 <h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
-<?php } ?>
+
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-white">
 	    	<div class="panel-heading border-light">
-		    	<?php if( !@$isNotSV ){ ?>
-	    		<h1><?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h1>
-	    		<?php } ?>
 	    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
 	    	</div>
 	    	<div class="panel-body">

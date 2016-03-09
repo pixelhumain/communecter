@@ -1,5 +1,4 @@
 <?php 
-if( isset($_GET["isNotSV"])) 
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">

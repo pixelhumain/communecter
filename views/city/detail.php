@@ -325,7 +325,7 @@ $this->renderPartial('../default/panels/toolbar');
 
           <ul class="list-group text-left no-margin">
             <li class="list-group-item text-yellow col-md-6 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=citoyens&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-user fa-2x"></i><br/>
                 <?php $cnt= (isset($people)) ? count($people): 0; ?>
                 <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?><br/>
@@ -334,34 +334,34 @@ $this->renderPartial('../default/panels/toolbar');
               </div>
             </li>
             <li class="list-group-item text-purple col-md-6 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=projects&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?><br/>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
                 <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-orange col-md-6 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=events&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-calendar fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?><br/>
                 <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
             <li class="list-group-item text-green col-md-6 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-users fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?><br/>
                 <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                 <span class="badge bg-green"><?php echo $cnt;?></span>
               </div>
             </li>
             <!-- <li class="list-group-item text-prune col-md-4 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-male"></i><i class="fa fa-male fa-2x"></i><i class="fa fa-male"></i></br> <?php echo strtolower (Yii::t("common", "GROUPES")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){if($orga["type"]==Organization::TYPE_GROUP )$cnt++;} ?>
                 <span class="badge bg-prune"><?php echo $cnt;?></span>
               </div>
             </li>
             <li class="list-group-item text-azure col-md-4 col-sm-6 col-xs-6 link-to-directory">
-              <div class="" onclick='loadByHash("#city.directory?isNotSV=1&tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
+              <div class="" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                 <i class="fa fa-industry fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ENTREPRISES")); ?>
                 <?php $cnt=0;foreach($organizations as $orga){ if($orga["type"] == Organization::TYPE_BUSINESS )$cnt++; } ?>
                 <span class="badge bg-azure"><?php echo $cnt;?></span>
@@ -378,7 +378,7 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
       <div class="panel-footer text-right">
         <a class="btn btn-sm btn-default" 
-            href='javascript:loadByHash("#city.directory?isNotSV=1&tpl=directory2&insee=<?php echo $city["insee"]; ?>")',
+            href='javascript:loadByHash("#city.directory?tpl=directory2&insee=<?php echo $city["insee"]; ?>")',
             class="btn btn-sm btn-light-blue" 
             title="<?php echo Yii::t("common","Show Directory") ?>" 
             alt="">

@@ -154,7 +154,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
-	var isNotSV=1;
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();
@@ -327,8 +326,8 @@ $this->renderPartial('../default/panels/toolbar');
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-							if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
-		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); 
+							/*if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
+		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); */
 		        			setValidationTable(); 
 		        			$("#newContributors #contributorName").val("");
 							$("#newContributors #contributorName").removeAttr("disabled");
@@ -341,11 +340,6 @@ $this->renderPartial('../default/panels/toolbar');
 							$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		        			showSearchContributor();   
 				        	toastr.success('Invatation to project success');
-				        	/*if(isNotSV==0){ 
-								$.hideSubview();
-							} else{ 
-								openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-							} */	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -486,11 +480,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditContributor() {
-		if(isNotSV==0){ 
-			$.hideSubview();
-		} else{ 
-			openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
-		} 
+		openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
 	};
 	// enables the edit form 
 	function editContributor(el) {

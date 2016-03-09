@@ -16,11 +16,6 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <style>
-<?php if (!@$isNotSV){?>
-#editProjectChart{
-	display: none;
-}
-<?php } ?>
 .borderHover{
 	background-color: rgba(0,  0,  0, 0.04);
 	border-radius:5px;
@@ -41,14 +36,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 }
 </style>
 <?php
-	if( @$isNotSV ) {
+	
 	if(@$project)
 		Menu::project($project);
-		$this->renderPartial('../default/panels/toolbar'); 
-	}
+	$this->renderPartial('../default/panels/toolbar'); 
+
 ?>
 <div id="editProjectChart">
-	<div class="noteWrap <?php if (@$isNotSV) echo "panel-white col-md-12"; else echo "col-md-8 col-md-offset-2"?>">
+	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3><?php echo Yii::t("project","Add values of your project",null,Yii::app()->controller->module->id) ?></h3>
 		<form class="form-chart">
 			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
@@ -352,13 +347,11 @@ Quelle logique de financement par les usagers et partenaires ainsi que de redist
 						</div>
 					</div>
 				</div>
-				<?php if (@$isNotSV){ ?>
 				<div class="">
 					<div class="row center">
 		    	        <button class="btn btn-primary" >Enregistrer</button>
 					</div>
 				</div>
-				<?php } ?>
 			</div>
 		</form>
 	</div>
@@ -366,7 +359,6 @@ Quelle logique de financement par les usagers et partenaires ainsi que de redist
 
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
-var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 var projectId = $(".form-chart .projectId").val();
 jQuery(document).ready(function() {
 	knobInit();
@@ -469,17 +461,8 @@ function runChartFormValidation() {
 		    {
 			   if (data.result==true) {   
 		        	toastr.success('Project properties succesfully update');
-		        	if(isNotSV==0){
-		        		updateNewKnob();
-		        		knobInit();
-		        		removeChartProperty();
-		        		updateChart(data.properties,nbProperties);
-						$.unblockUI();
-						$.hideSubview(); 
-					} else { 
-						$.unblockUI();
-						openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-					}	
+		        	$.unblockUI();
+					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }
@@ -513,11 +496,7 @@ function bindprojectSubViewchart() {
 
 var subViewElement, subViewContent, subViewIndex;
 function hideEditChart() {
-	if (isNotSV==0){
-		$.hideSubview();
-	} else { 
-		openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-	}	
+	openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
 };
 // enables the edit form 
 function editChart() {

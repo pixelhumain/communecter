@@ -12,13 +12,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised ) { 
-			if(@$isNotSV){ ?>
-			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>?isNotSV=1', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
-		<?php } else { ?>
-			<a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
+		<?php if( @$authorised ) { ?>
+			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
+		
 		<?php
-			}
 		 } ?>
 	</div>
 	
@@ -78,7 +75,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = '<?php if (@$isNotSV) echo $contextId; else {?> contextMap<?php if(@$contextType == Organization::CONTROLLER )echo '["organization"]["_id"]["$id"]';else if(@$contextType == Project::CONTROLLER )echo '["project"]["_id"]["$id"]'; }?>';
+		var itemId = '<?php echo $contextId;?>';
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
