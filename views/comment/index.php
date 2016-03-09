@@ -98,7 +98,7 @@ function buildComments(commentsLevel, level) {
 	$.each( commentsLevel , function(key,commentObj) {
 		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
-			var commentsTLLine = buildLineHTML(commentObj);
+			var commentsTLLine = buildCommentLineHTML(commentObj);
 			
 			commentsHTML += commentsTLLine;
 			
@@ -115,7 +115,7 @@ function buildComments(commentsLevel, level) {
 	return commentsHTML;
 }
 
-function buildLineHTML(commentObj) {
+function buildCommentLineHTML(commentObj) {
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.format('D MMM YYYY HH:mm');
@@ -347,7 +347,7 @@ function validateComment(commentId, parentCommentId) {
 //Switch from Edditing comment to view comment
 function switchComment(tempCommentId, comment, parentCommentId) {
 	$('#'+tempCommentId).remove();
-	var commentsTLLine = buildLineHTML(comment);
+	var commentsTLLine = buildCommentLineHTML(comment);
 	// When it's a root comment
 	if (parentCommentId == "" || "undefined" == typeof parentCommentId) {
 		var ulChildren = $('.tree');

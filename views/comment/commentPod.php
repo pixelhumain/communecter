@@ -58,12 +58,14 @@ $optionsLabels = array(
 
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
+			<?php if (@$me && Role::isDeveloper($me['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
 					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
 				}?>
 			</div>
+			<?php } ?>
 			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> Comments</h4>
 			
 		</div>
@@ -175,7 +177,7 @@ function buildComments(commentsLevel, level, withActions) {
 			if (commentObj.status == "deleted") {
 				commentActions = "disabled";
 			}
-			var commentsTLLine = buildLineHTML(commentObj, commentActions);
+			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions);
 			
 			commentsHTML += commentsTLLine;
 			
@@ -192,7 +194,7 @@ function buildComments(commentsLevel, level, withActions) {
 	return commentsHTML;
 }
 
-function buildLineHTML(commentObj, withActions) {
+function buildCommentLineHTML(commentObj, withActions) {
 	console.log(commentObj, withActions);
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
@@ -463,7 +465,7 @@ function copyCommentOnAbuseTab(commentAbused) {
 	var commentObj = comments[commentAbused.data("id")];
 	abusedComments[commentAbused.data("id")] = commentObj;
 
-	var newCommentLine = buildLineHTML(commentObj, "abuse");
+	var newCommentLine = buildCommentLineHTML(commentObj, "abuse");
 	var ulRoot = $('#entry_abuse .tree');
 	ulRoot.prepend(newCommentLine);
 	$('.nbCommentsAbused').html((parseInt($('.nbCommentsAbused').html()) || 0) + 1);
@@ -596,7 +598,7 @@ function validateComment(commentId, parentCommentId) {
 function switchComment(tempCommentId, comment, parentCommentId) {
 	comments[comment["_id"]["$id"]] = comment;
 	$('#'+tempCommentId).remove();
-	var commentsTLLine = buildLineHTML(comment, "all");
+	var commentsTLLine = buildCommentLineHTML(comment, "all");
 	// When it's a root comment
 	if (parentCommentId == "" || "undefined" == typeof parentCommentId) {
 		var ulChildren = $('#entry_comments .tree');

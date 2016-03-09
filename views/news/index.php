@@ -313,7 +313,12 @@ div.timeline .date_separator span{
 .main-col-search{
 	/*padding-top:10px !important;*/
 }
-
+.panel-scroll{
+max-height: 250px !important;	
+}
+.blockUI{
+	padding:inherit !important;
+}
 </style>
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
