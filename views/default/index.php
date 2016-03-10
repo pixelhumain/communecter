@@ -203,6 +203,9 @@ var typesLabels = {
 var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
 var cpCommunexion = "<?php echo $cpCommunexion; ?>";
 var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+var latCommunexion = 0;
+var lngCommunexion = 0;
+
 /* variables globales communexion */	
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 var userConnected = <?php echo isset($me) ? json_encode($me) : "null"; ?>;
@@ -286,21 +289,26 @@ jQuery(document).ready(function() {
     });
     //console.log("hash", location.hash);
     //console.warn("isMapEnd 3",isMapEnd);
-    if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
-		loadByHash(location.hash);
+    console.log("userConnected");
+	console.dir(userConnected);
+	//si l'utilisateur doit passer par le two_step_register
+	if(userConnected != null && typeof userConnected["two_steps_register"] != "undefined" && userConnected["two_steps_register"] == true){
+		loadByHash("#default.twostepregister");
 		return;
-	}
-	else{ 
-		console.log("userConnected", userConnected);
-		if(userConnected != null && userConnected["twostepregister"]){
-			loadByHash("#default.twostepregister");
-		} else{
-			loadByHash("#default.home");
+	} 
+	else{ //si l'utilisateur est déjà passé par le two_step_register
+ 		if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
+			loadByHash(location.hash);
+			return;
 		}
+		else{ 
+			//console.log("userConnected", userConnected);
+				loadByHash("#default.home");
+			//}
 
-		//loadByHash("#default.home");
+			//loadByHash("#default.home");
+		}
 	}
-
 	checkScroll();
 });
 
@@ -477,6 +485,8 @@ function setScopeValue(btn){
 		inseeCommunexion = btn.attr("insee-com");
 		cityNameCommunexion = btn.attr("name-com");
 		cpCommunexion = btn.attr("cp-com");
+		latCommunexion = btn.attr("lat-com");
+		lngCommunexion = btn.attr("lat-com");
 
 		//definit le path du cookie selon si on est en local, ou en prod
 		var path = "/";
@@ -495,6 +505,7 @@ function setScopeValue(btn){
 
 		<?php } ?>
 
+		if(location.hash.indexOf("#default.twostepregister") == -1)
 		$("#searchBarPostalCode").val(cityNameCommunexion);
 		
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
@@ -522,6 +533,14 @@ function setScopeValue(btn){
 			showMap(false);
 			$("#tsr-commune-name-cp").html(cityNameCommunexion + ", " + cpCommunexion);
 			$("#TSR-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
+			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
+			
+			$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
+			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
+			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+
 			setTimeout(function(){ showTwoStep("street"); }, 3000);
 			//showMap(false);
 		}else{

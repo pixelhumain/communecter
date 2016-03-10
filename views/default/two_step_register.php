@@ -21,10 +21,13 @@
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
 	.menu-button, .menu-info-profil, .globale-announce {
+		display:none !important;
+	}
+	#TSR-conf-communected, #step2{
 		display:none;
 	}
 	.btn-menu0{
-		display: inline;
+		display: inline !important;
 	}
 
 	.section-tsr{ /*tsr = two step register*/
@@ -65,7 +68,7 @@
 		</span>
 	</div>
 
-	<div class="col-md-12 center bg-azure-light-2 section-tsr">
+	<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step1">
 		<h1 class="homestead text-white">
 			<i class="fa fa-circle"></i>
 			 Étape 1 : Votre addresse
@@ -74,39 +77,65 @@
 		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
 			Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
 			nous aurions besoin de quelques informations sur votre position géographique ...
-			<br><br>
+			<!-- <br><br>
 			Rassurez-vous ! Ces informations ne seront jamais utilisées à d'autres fins que le bon fonctionnement du réseau <strong>Communecter</strong>.
-			<br><a href="javascript:" class="text-dark strong">En savoir + sur l'utilisation de vos données</a>
+			 -->
+			 <br><a href="javascript:" class="text-dark strong">En savoir + sur l'utilisation de vos données</a>
 			<br><br>
-			Elles serviront à vous positionner plus précisément sur notre carte partagée, 
-			et ainsi donner à chacun la possibilité de visualiser son réseau local réel.
+			Ces informations serviront à vous positionner plus précisément sur notre carte partagée, <br>
+			et ainsi donner à chacun la possibilité de visualiser son réseau local.
 
-			<br><br>Votre position finale sur la carte reste libre, 
+			<!-- <br><br>Votre position finale sur la carte reste libre, 
 			<br>vous pourrez (à tout moment) déplacer votre icône sur la position de votre choix.
 
-			<br><br>Merci de rester fidèle (autant que possible) à la réalité !
+			<br><br>Merci de rester fidèle (autant que possible) à la réalité ! -->
 
 		</span>
 		</div>
 	</div>
 
+
+	<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
+			<h1 class="homestead text-dark">Pour commencer :</h1>
+			<h3 class=" text-dark">
+				Dans quelle zone vous situez-vous ? 
+			</h3>
+
+			<div class="col-md-6 col-md-offset-3">
+				<select class="form-control" id="addressCountry">
+				  <option value="FR">France</option>
+				  <option value="GP">Gouadeloupe</option>
+				  <option value="GF">Guyanne Française</option>
+				  <option value="MQ">Martinique</option>
+				  <option value="YT">Mayotte</option>
+				  <option value="NC">Nouvelle-Calédonie</option>
+				  <option value="RE">Réunion</option>
+				  <option value="PM">St Pierre et Miquelon</option>
+				</select>
+			</div>
+			<div class="col-md-12">
+				<button class="btn btn-success margin-top-15" onclick="validateZone()">Continuer <i class="fa fa-angle-right"></i></button>
+			</div>
+	</div>
+
 	<?php if(!isset($inseeCommunexion)){ ?>
-		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
+		<!-- <div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
 			<h1 class="homestead text-dark">Pour commencer :</h1>
 			<h2 class="homestead text-dark">Dans quelle zone vous situez-vous ?</h2>
-		</div>
+		</div> -->
 	<?php }else{ ?>
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-communexion">
-			<h1 class="homestead text-dark">Pour commencer :</h1>
+			<h1 class="homestead text-dark">Continuons :</h1>
 			<h3 class=" text-dark">
 				Vous êtes actuellement communecté à <span class="text-red"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span>
 			</h3>
 			<h3 class=" text-dark">
 				Souhaitez-vous conserver cette commune pour vous géolocaliser ?<br><br>
-				<button class="btn btn-success" onclick="showTwoStep('street');">Oui, j'habite ici</button>
+				<button class="btn btn-success" onclick="showTwoStep('conf-communected'); showTwoStep('street');">Oui, j'habite ici</button>
 				<button class="btn btn-danger" onclick="showTwoStep('communexion');">Non, j'habite ailleurs</button>
 			</h3>
 		</div>	
+	<?php } ?>
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-communexion">
 			<h1 class="homestead text-dark">Où habitez-vous ?</h1>
 			<button class="btn btn-danger" onclick="geolocAutoTSR();"><i class="fa fa-crosshairs"></i> Localisation automatique</button>
@@ -115,21 +144,61 @@
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
 		</div>	
-		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-street">
+		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-conf-communected">
 			<h1 class="homestead text-dark">
 				<i class="fa fa-thumbs-up fa-2x"></i> 
 				Commune identifiée : <span id="tsr-commune-name-cp"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span>
 			</h1>
+		</div>
+		<div class="col-md-12 center section-tsr bg-azure-light-2" style="padding-top:15px;" id="TSR-street">
+			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
+				Tout l'intéret du réseau Communecter réside dans les liens proximité qui existent entre les acteurs d'une même commune.<br>
+				C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
+			</span><br>
+			<button id="btn-start-street-search" style="margin-top:15px;" class="btn bg-dark" onclick="startStreetSearch();">
+				<i class="fa fa-map-marker"></i> Positionnement manuel
+			</button>
 			<h3 class=" text-dark">
-				Saisissez le nom de votre rue ...
+				Ou saisir le nom de votre rue ...
 			</h3>
-			<input type="text" class="input-street-twostep" placeholder="ex : 11, rue des peupliers"/><br>
+			<input type="text" class="input-street-twostep" placeholder="ex : 11, rue des peupliers"/>
+			<br>
 			<h4 class="center text-red" id="error_street"></h4>
-			<button id="btn-start-street-search" class="btn btn-success" onclick="startStreetSearch();"><i class="fa fa-search"></i> Rechercher ma position</button>
+			<button id="btn-start-street-search" class="btn btn-success" onclick="startStreetSearch();">
+				<i class="fa fa-search"></i> Rechercher ma rue
+			</button><br>
+			<button class="btn btn-info btn-sm" style="margin-top:15px;" onclick="achiveTSRAddress();">
+				<i class="fa fa-times"></i> Je ne souhaite pas indiquer ma rue
+			</button>	
 			
+
 		</div>	
-	<?php } ?>
-			
+	
+		
+		<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step2">
+			<h1 class="homestead text-white">
+				<i class="fa fa-circle"></i>
+				 Étape 2 : Photo de profil
+			</h1>
+			<div class="col-md-8 col-md-offset-2">
+			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
+				<div class="margin-bottom-15">Sélectionnez votre première photo de profil.</div>
+				<button class="btn bg-dark margin-bottom-15" onclick="$('#profil_avatar').click();">
+					<i class="fa fa-download"></i> Choisir une image
+				</button>
+				<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string) Yii::app()->session['userId'],
+																	  "type" => Person::COLLECTION,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "show" => true,
+																	  "editMode" => true,
+																	  "image" => null )); 
+				?>
+				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')"><i class="fa fa-sign-in"></i> Entrer dans mon espace personnel</button>
+			</span>
+			</div>
+		</div>
+
 </div>
 
 
@@ -138,16 +207,39 @@
 
 <script type="text/javascript">
 
+
+	userConnected = <?php echo isset($userConnected) ? json_encode($userConnected) : "null"; ?>;
+	inseeCommunexion 	= "<?php echo $inseeCommunexion; ?>";
+	cpCommunexion 		= "<?php echo $cpCommunexion; ?>";
+	cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+
 	jQuery(document).ready(function() {
+		console.log("userConnected");
+		console.dir(userConnected);
+	
+		if(userConnected != null && 
+			typeof userConnected["two_steps_register"] != "undefined" && 
+			userConnected["two_steps_register"] == "false"){
+			loadByHash("#person.detail.id.<?php echo Yii::app()->session['userId']; ?>");
+			return;
+		}
 		
+
+		location.hash = "#default.twostepregister";
+		//$('.btn-menu0').off().click( function(e){ loadByHash("#default.twostepregister")} );
+
 		$(".moduleLabel").html("<i class='fa fa-user'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER");
   		
+		//$(".menu-button").hide();
+
   		<?php if(!isset($inseeCommunexion)){ ?>
-  			showTwoStep("begin-zone");
+  			//showTwoStep("begin-zone");
   		<?php }else{ ?>
-  			showTwoStep("begin-communexion");
+  			//showTwoStep("begin-communexion");
   		<?php } ?>
   		
+  		showTwoStep("begin-zone");
+
   		var timeoutSearch = setTimeout(function(){}, 0);
   		$(".input-communexion-twostep").keyup(function(e){
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
@@ -169,74 +261,111 @@
 
   	function startStreetSearch(){
 
-  		if($(".input-street-twostep").val() == ""){
-  			$("#error_street").html("Aucun nom de rue");
-  			return;
-  		}
-
-  		if($(".input-street-twostep").val().length < 2){
-  			$("#error_street").html("Nom de rue trop court (minimum 2 caractères)");
-  			return;
-  		}
-
   		$("#btn-start-street-search").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche en cours');
 
-  		var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html();
-  		console.log("requestPart", requestPart);
-  		$.ajax({
-			url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
-			type: 'POST',
-			dataType: 'json',
-			async:false,
-			crossDomain:true,
-			complete: function () {},
-			success: function (result){
-				console.log("nominatim success", result.length);
-				console.dir(obj);
-				$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+  		if($(".input-street-twostep").val().length < 2){
+  			
+  			$.ajax({
+				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
+				type: 'POST',
+				data: "insee="+inseeCommunexion,
+	    		success: function (obj){
 
-				//var obj = null;
-				if(result.length > 0){ 
-					$("#error_street").html("Nous avons trouvé votre rue");
-					var obj = result[0];
-					var coords = Sig.getCoordinates(obj, "markerSingle");
-					//si on a une geoShape on l'affiche
-					if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
-					var coords = L.latLng(obj.lat, obj.lon);
-					userConnected["geo"] = { latitude : obj.lat, longitude : obj.lon };
-					showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
-				}else{
-					$("#error_street").html("Nous n'avons trouvé votre rue. Recherche google");
-				
+	    			//toastr.success("Votre addresse a été mise à jour avec succès");
+	    			console.log("res getlatlngbyinsee");
+	    			console.dir(obj);
+
+	    			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+	    			showMapLegende("info-circle", "Déplacer l'icône sur la position de votre choix,<br><strong>puis cliquez sur \"Valider\"</strong> ...")
+      			
+					//var obj = null;
+					if(typeof obj["geo"] != "undefined"){ 
+						$("#error_street").html("");
+						//var obj = obj[0];
+						var coords = Sig.getCoordinates(obj, "markerSingle");
+						//si on a une geoShape on l'affiche
+						if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+						var coords = L.latLng(obj.lat, obj.lon);
+						userConnected["geo"] = obj["geo"]; //{ latitude : obj.lat, longitude : obj.lon };
+						showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+					}else{
+						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");
+					
+					}
+				},
+				error: function(error){
+					console.log("Une erreur est survenue pendant la recherche de la geopos city");
+					//console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 				}
-			},
-			error: function (error) {
-				console.log("nominatim error");
-				console.dir(obj);
-				$("#error_street").html("Aucun résultat");
-				$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
-			}
-		});
+			});
+		
+  		}else{
+			
+			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html();
+	  		console.log("requestPart", requestPart);
+	  		$.ajax({
+				url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
+				type: 'POST',
+				dataType: 'json',
+				async:false,
+				crossDomain:true,
+				complete: function () {},
+				success: function (result){
+					console.log("nominatim success", result.length);
+					console.dir(obj);
+					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+
+					//var obj = null;
+					if(result.length > 0){ 
+						$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
+						var obj = result[0];
+						var coords = Sig.getCoordinates(obj, "markerSingle");
+						//si on a une geoShape on l'affiche
+						if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+						var coords = L.latLng(obj.lat, obj.lon);
+						userConnected["geo"] = { latitude : obj.lat, longitude : obj.lon };
+						showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+					}else{
+						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue. Recherche google");
+					
+					}
+				},
+				error: function (error) {
+					console.log("nominatim error");
+					console.dir(obj);
+					$("#error_street").html("Aucun résultat");
+					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+				}
+			});
+
+		}
   	}
 
 
-  	function achiveTSR(){
-  		console.log("achiveTSR");
+  	function achiveTSRAddress(){
+  		console.log("achiveTSR", "<?php echo Yii::app()->session['userId']; ?>");
   		showMap(false);
-  		var address = {
-  			"streetAddress" : $(".input-street-twostep").val(),
-  			"postalCode" : cpCommunexion,
-  			"addressLocality" : cityNameCommunexion,
-  			"codeInsee" : inseeCommunexion
-  		}
-  		$.ajax({
-			url: baseUrl+"/"+moduleId+"/person/updatefield",
-			type: 'POST',
-			data: "pk=<?php echo Yii::app()->session['userId']; ?>"+"&name=address&value="+address,
-    		success: function (obj){
-    			
+  		var streetAddress = $(".input-street-twostep").val();
+  		var addressCountry = $("#addressCountry").val();
+  		
+  		//if(streetAddress == "" || streetAddress.length <= 2){
+  		//	Sig.saveNewGeoposition("<?php echo Yii::app()->session['userId']; ?>", "person", latCommunexion, lngCommunexion);
+  		//}
 
+  		$.ajax({
+			url: baseUrl+"/"+moduleId+"/person/update",
+			type: 'POST',
+			data: "personId=<?php echo Yii::app()->session['userId']; ?>"+
+				  "&streetAddress="+streetAddress+
+				  "&postalCode="+cpCommunexion+
+				  "&addressLocality="+cityNameCommunexion+
+				  "&addressCountry="+addressCountry+
+				  "&codeInsee="+inseeCommunexion+
+				  "&two_steps_register=false",
+    		success: function (obj){
+    			showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
+    			//console.dir(obj);
 			},
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle addresse");
@@ -250,5 +379,19 @@
   	function geolocAutoTSR(){
   		initHTML5Localisation('communexion_tsr'); 
   		showMap(true);
+  	}
+
+  	function validateZone(){
+  		if(inseeCommunexion != ""){
+  			showTwoStep("begin-communexion");
+  		}else{
+  			showTwoStep("communexion");
+  		}
+  	}
+
+  	function showStep2(){
+  		showTwoStep("");
+  		$("#step1").hide(400);
+  		$("#step2").show(400);
   	}
 </script>

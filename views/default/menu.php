@@ -541,7 +541,12 @@ jQuery(document).ready(function() {
 		
 	});
 
-	$('.btn-menu0').click( function(e){ loadByHash("#default.twostepregister")} );
+	$('.btn-menu0').click( function(e){ 
+		if(location.hash != "#default.twostepregister")
+			loadByHash("#default.home");
+		else
+			loadByHash("#default.twostepregister");
+	} );
 
     $('.btn-menu2')
     .click(function(e){ 

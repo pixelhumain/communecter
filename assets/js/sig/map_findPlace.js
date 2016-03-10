@@ -667,10 +667,10 @@ SigLoader.getSigFindPlace = function (Sig){
     				//actualise myPosition pour que le bouton "home" de la carto centre sur la nouvelle position
     				Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
-    				if(location.hash != "#default.twostepregister"){ alert("load");
-	    				loadByHash(location.hash);
+    				if(location.hash != "#default.twostepregister"){ 
+    					loadByHash(location.hash);
 	    			}else{
-	    				achiveTSR();
+	    				achiveTSRAddress();
 	    			}
     			}
     			else{
