@@ -34,8 +34,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	border-color: #2BB0C6 !important;
 
 	color: #2BB0C6 !important;}
-.home_page .discover-subtitle{	font-size:13px; 
-	margin-top: -6px; 
+.home_page .discover-subtitle{	font-size:13px;
+	margin-top: -6px;
 	display: block;}
 .home_page .pastille{	height: 100%;
 	width: 100%;
