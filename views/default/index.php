@@ -486,7 +486,7 @@ function setScopeValue(btn){
 		cityNameCommunexion = btn.attr("name-com");
 		cpCommunexion = btn.attr("cp-com");
 		latCommunexion = btn.attr("lat-com");
-		lngCommunexion = btn.attr("lat-com");
+		lngCommunexion = btn.attr("lng-com");
 
 		//definit le path du cookie selon si on est en local, ou en prod
 		var path = "/";
