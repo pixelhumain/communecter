@@ -371,7 +371,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur07.png"/>Inteligence Collective</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur08.png"/>Gratuit</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur09.png"/>Société 2.2.main</div>
-                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Biens Communs</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur10.png"/>Biens Communs</div>
             </div>
 	</div>
 
