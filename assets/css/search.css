@@ -272,6 +272,19 @@ button.menu-button-title.large{
 	padding-left:10px;
 	padding-right:10px;
 }
+button.menu-button-title.bg-azure.large:hover{
+	box-shadow: 0px 0px 5px 5px rgba(91, 160, 171, 0.8) !important;
+}
+button.menu-button-title.bg-dark.large:hover{
+	box-shadow: 0px 0px 5px 5px rgba(33, 41, 45, 0.8) !important;
+}
+button.menu-button-title.bg-red.large:hover{
+	box-shadow: 0px 0px 5px 5px rgba(227, 53, 81, 0.8) !important;
+}
+button.menu-button-title.btn-menu-add:hover{
+	box-shadow: 0px 0px 5px 5px rgba(122, 207, 91, 0.8) !important;
+}
+
 button.btn-login, button.btn-logout{
 	left: 83px;
 	top: 12px;

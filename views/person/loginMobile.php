@@ -148,10 +148,7 @@ body.login .main-login {
 	
 
 	jQuery(document).ready(function() {
-		Main.init();
 		Login.init();
-		
-	
 	});
 
 var Login = function() {

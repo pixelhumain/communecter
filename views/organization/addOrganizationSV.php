@@ -204,7 +204,7 @@ $this->renderPartial('../default/panels/toolbar');
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-sd-6 ">
+						<div class="col-md-6 col-sm-12 ">
 							<div class="form-group">
 								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
@@ -335,10 +335,8 @@ var formValidator = function() {
 	                   	}
 	                    else { 
 	                        toastr.success(data.msg);
-	                        if( isNotSV )	{
-	                        	addFloopEntity(data.id, "organizations", data.newOrganization);
-								openMainPanelFromPanel('/organization/detail/id/'+data.id, data.newOrganization.name, 'fa-group', data.id );
-	                        }
+                        	addFloopEntity(data.id, "organizations", data.newOrganization);
+							openMainPanelFromPanel('/organization/detail/id/'+data.id, data.newOrganization.name, 'fa-group', data.id );
 				        	else if( "undefined" != typeof updateMyOrganization ){
 		        				updateMyOrganization(data.newOrganization, data.id);
 				        	}

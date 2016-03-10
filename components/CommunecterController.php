@@ -37,12 +37,12 @@ class CommunecterController extends Controller
             "children"=> array(
               //"myaccount" => array( "label"=>"My Account","key"=>"newContributor", "class"=>"new-contributor", "href" => "#newContributor", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-pencil fa-stack-1x stack-right-bottom text-danger")),
               "showContributors" => array( "label"=>"Find People","class"=>"show-contributor","key"=>"showContributors", "href" => "#showContributors", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-search fa-stack-1x stack-right-bottom text-danger")),
-              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "onclick" => "openSubView('Invite someone', '/'+moduleId+'/person/invite',null);", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+              "newInvite" => array( "label"=>"Invite Someone","key"=>"invitePerson", "class"=>"ajaxSV", "onclick" => "", "iconStack"=> array("fa fa-user fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
             )
           ),
     array('label' => "Organisation", "key"=>"organization",
             "children"=> array(
-              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"openSubView('Add an Organisation', '/communecter/organization/addorganizationform',null)", "iconStack"=> array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
+              "addOrganization" => array( "label"=>"Add an Organisation","key"=>"addOrganization", "class"=>"ajaxSV", "onclick"=>"", "iconStack"=> array("fa fa-group fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger"))
             )
           ),
     array('label' => "News", "key"=>"note",
@@ -66,7 +66,7 @@ class CommunecterController extends Controller
           ),
      array('label' => "Rooms", "key"=>"rooms",
                 "children"=> array(
-                  "newRoom" => array( "label"=>"Add new Room","key"=>"newRoom", "class"=>"ajaxSV", "onclick"=>"openSubView('Add a Room', '/communecter/rooms/editroom',null,function(){editRoomSV ();})", "iconStack"=> array("fa fa-comments fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
+                  "newRoom" => array( "label"=>"Add new Room","key"=>"newRoom", "class"=>"ajaxSV", "onclick"=>"", "iconStack"=> array("fa fa-comments fa-stack-1x fa-lg","fa fa-plus fa-stack-1x stack-right-bottom text-danger")),
                   )
           )
   );
@@ -148,6 +148,7 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
+      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true),
       
     ),
 

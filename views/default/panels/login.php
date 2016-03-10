@@ -201,7 +201,6 @@
 	var citiesByPostalCode = null;
 	jQuery(document).ready(function() {
 		userId = null;
-		Main.init();
 		Login.init();	
 		//titleAnim ();	
 		if (email != "") {
@@ -716,7 +715,7 @@ function searchCity() { console.log("searchCity");
 
 function callBackFullSearch(resultNominatim){
 	//console.log("callback ok");
-	Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "organization");
+	Sig.showCityOnMap(resultNominatim, true, "organization");
 	$(".topLogoAnim").hide();
 
 	//setTimeout("setMapPositionregister();", 1000);

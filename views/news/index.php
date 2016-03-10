@@ -28,7 +28,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<!-- start: PAGE CONTENT -->
 <?php 
 	
-//if( isset($_GET["isNotSV"]) && (@$type && $type!="city") ) {
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
@@ -62,7 +61,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
-//}
+
 ?>
 <style>
 #btnCitoyens:hover{
@@ -314,7 +313,12 @@ div.timeline .date_separator span{
 .main-col-search{
 	/*padding-top:10px !important;*/
 }
-
+.panel-scroll{
+max-height: 250px !important;	
+}
+.blockUI{
+	padding:inherit !important;
+}
 </style>
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
@@ -893,11 +897,7 @@ function buildLineHTML(newsObj,update)
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
 	if(typeof(newsObj.verb) != "undefined" && typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id){
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
-		<?php } else{ ?>
-			urlAuthor = 'href="'+baseUrl+'/'+moduleId+'/person/dashboard/id/'+newsObj.author.id+'"';
-		<?php } ?>
+		urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a> "+urlAction.titleAction;
 	}
 	else 
@@ -960,11 +960,8 @@ function buildHtmlUrlAndActionObject(obj){
 	else 
 		redirectTypeUrl="news";
 	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || obj.type !="activityStream"){
-		<?php if (isset($_GET["isNotSV"])){ ?> 
-			url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
-		<?php } else{ ?>
-			url = 'href="'+baseUrl+'/'+moduleId+'/'+redirectTypeUrl+'/latest/id/'+obj.id+'"';
-		<?php } ?>
+		url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
+		
 		if(typeof(obj.postOn) != "undefined" && obj.type != contextParentType){
 			if(obj.type == "organizations"){
 				color="green";
@@ -1138,10 +1135,9 @@ function bindEvent(){
 	$('.filter').off().on("click",function(){
 	 	if($(this).data("filter") == ".news" || $(this).data("filter")==".activityStream"){
 		 	htmlMessage = '<div class="title-processing homestead"><i class="fa fa-circle-o-notch fa-spin"></i></div>';
-		 	<?php if( isset($_GET["isNotSV"]) ) { ?>
-				htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
+		 	htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
-			<?php } ?>
+			
 			console.log(newsReferror);
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});

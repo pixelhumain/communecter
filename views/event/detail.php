@@ -31,8 +31,7 @@ $admin = false;
 															"users" => $attending,
 															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
 															"contentType" => Event::COLLECTION,
-															"admin" => $admin,
-															"isNotSV" => 1	));
+															"admin" => $admin));
 					?>
 	</div>
 </div>
@@ -77,10 +76,8 @@ $admin = false;
 				    {
 				        if ( data && data.result ) {
 				        	toastr.info("Vous ne participez plus à cet événement");
-				        	if( isNotSV ){
-								removeFloopEntity(idToDisconnect, "events");
-								loadByHash(location.hash);
-				        	}
+				        	removeFloopEntity(idToDisconnect, "events");
+							loadByHash(location.hash);
 				        } else {
 				           toastr.info("something went wrong!! please try again.");
 				          $(".disconnectBtn").removeClass("fa-spinner fa-spin").addClass("fa-link");
@@ -105,10 +102,8 @@ $admin = false;
 		    {
 		        if ( data && data.result ) {
 		        	toastr.info(data.msg);
-		        	if( isNotSV ){
-		        		addFloopEntity(idEvent, "events", thisEvent);
-						loadByHash(location.hash);
-		        	}
+	        		addFloopEntity(idEvent, "events", thisEvent);
+					loadByHash(location.hash);
 		        } else {
 		           toastr.info("something went wrong!! please try again.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");

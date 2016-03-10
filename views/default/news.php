@@ -33,7 +33,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .img-logo{
 	height:250px;
 }
-
+.btn-scope{
+  display: none;
+}
 
 @media screen and (max-width: 1024px) {
   button.btn-start-search {
@@ -136,7 +138,7 @@ jQuery(document).ready(function() {
     
     $(".moduleLabel").html("<i class='fa fa-rss'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
   
-	  startSearch();
+	 startSearch();
 });
 
 
@@ -156,7 +158,7 @@ function showNewsStream(insee){
   console.log("showNewsStream", insee);
 	if(insee == "") insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";
 	//var insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";//$("#searchBarPostalCode").val();
-	
+	//alert();
 	if(insee != ""){
 		$("#newsstream").html("<div class='loader text-dark '>"+
 				"<span style='font-size:25px;' class='homestead'>"+
@@ -164,7 +166,7 @@ function showNewsStream(insee){
 					//"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
     //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement de l'actualité ...");
-		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isNotSV=1&isSearchDesign=1",null,"html");
+		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee,null,"html");
 		$("#dropdown_search").hide(300);
 	}
 }

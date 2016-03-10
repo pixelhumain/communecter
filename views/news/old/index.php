@@ -11,16 +11,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
-if( isset($_GET["isNotSV"])) {
+
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization))
 		Menu::organization( $organization );
 	$this->renderPartial('../default/panels/toolbar'); 
 
-}
 
-if( !isset($_GET["isNotSV"])) {
 	$this->renderPartial('../sig/generic/mapLibs');
-}
+
 ?>
 
 <div id="formCreateNewsTemp">
@@ -104,27 +102,15 @@ var contextMap = {
 	},
 };
 
-<?php if( !isset($_GET["isNotSV"]) ) { ?>
-		var Sig = null;
-	<?php } ?>
 
 jQuery(document).ready(function() 
 {
-	
-	<?php if( !isset($_GET["isNotSV"]) ) { ?>
-		Sig = SigLoader.getSig();
-		Sig.loadIcoParams();
-	<?php } ?>	
-
 	buildTimeLine();
-
-	<?php if( isset($_GET["isNotSV"]) ) { ?>
-		Sig.restartMap();
-		Sig.showMapElements(Sig.map, news);
-	<?php } ?>
+	
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, news);
 
 	buildDynForm();
-
 });
 
 function buildTimeLine ()

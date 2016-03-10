@@ -37,9 +37,9 @@
 <div class="lbl-scope-list text-red"></div>
 
 <div class="img-logo bgpixeltree_little">
-	<button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
+	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
     <i class="fa fa-university"></i>
-  </button>
+  </button> -->
 	<button data-id="explainAgenda" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
@@ -64,7 +64,8 @@ var allSearchType = [ "events" ];
 
 jQuery(document).ready(function() {
   
-
+  selectScopeLevelCommunexion(levelCommunexion);
+  
   searchType = [ "events" ];
   allSearchType = [ "events" ];
 
@@ -154,13 +155,6 @@ var currentIndexMax = indexStep;
 var scrollEnd = false;
 var totalData = 0;
 
-// function setScopeValue(value){
-//   value = value.replace("#", "'");
-//   $("#searchBarPostalCode").val(value);
-//   startSearch();
-// }
-
-
 var timeout = null;
 
 function startSearch(indexMin, indexMax){
@@ -168,6 +162,8 @@ function startSearch(indexMin, indexMax){
 
     console.log("loadingData", loadingData);
     if(loadingData) return;
+    loadingData = true;
+    
 
     console.log("loadingData true");
     indexStep = indexStepInit;
@@ -176,8 +172,8 @@ function startSearch(indexMin, indexMax){
     //var locality = $('#searchBarPostalCode').val();
     //inseeCommunexion = locality;
     
-    if(communexionActivated)
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
+    //if(communexionActivated)
+    //$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
       
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
@@ -200,11 +196,18 @@ function startSearch(indexMin, indexMax){
     //}
 
     if(name.length>=3 || name.length == 0){
-      var locality = communexionActivated ? inseeCommunexion : "";
+      var locality = "";
+      if(communexionActivated){
+        if(levelCommunexion == 1) locality = inseeCommunexion;
+        if(levelCommunexion == 2) locality = cpCommunexion;
+        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+        if(levelCommunexion == 4) locality = inseeCommunexion;
+        if(levelCommunexion == 5) locality = "";
+      } 
       autoCompleteSearch(name, locality, indexMin, indexMax);
     }else{
       
-    }     
+    }   
 }
 
 function addSearchType(type){
@@ -228,7 +231,13 @@ var loadingData = false;
 var mapElements = new Array(); 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
     
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, 
+     var levelCommunexionName = { 1 : "INSEE",
+                             2 : "CODE_POSTAL_INSEE",
+                             3 : "DEPARTEMENT",
+                             4 : "REGION"
+                           };
+    console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
+    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
 
@@ -243,6 +252,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     else
     $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
       
+    if(isMapEnd)
+        $.blockUI({
+          message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+        });
 
     $.ajax({
       type: "POST",
@@ -289,7 +302,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
                   
-                  console.dir(o);
+                  //console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
@@ -374,8 +387,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer       
+                    var msg = "Aucun résultat";    
+                    if(name == "" && locality == "") msg = "Préciser votre recherche pour plus de résultats ..."; 
                     str += '<div class="center" id="footerDropdown">';
-                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
+                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
                     str += "</div>";
                     $("#dropdown_search").html(str);
                   }
@@ -413,6 +428,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 }
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
+                $.unblockUI();
+                
                 //affiche la dropdown
                 //$("#dropdown_search").css({"display" : "inline" });
 

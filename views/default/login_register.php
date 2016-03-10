@@ -249,7 +249,6 @@ jQuery(document).ready(function() {
 	
 	$(".box").hide();
 
-	Main.init();
 	Login.init();
 
 
@@ -537,7 +536,7 @@ var Login = function() {
 				username : {
 					required : true,
 					validUserName : true,
-					rangelength : [8, 20]
+					rangelength : [4, 20]
 				},
 				email3 : {
 					required : { 
@@ -629,7 +628,7 @@ function validateUserName() {
 				if (! isUniqueUsername(username)) {
 					var validator = $( '.form-register' ).validate();
 					validator.showErrors({
-  						"username": "The user name is not unique : please change it."
+  						"username": '<?php echo Yii::t("login","The user name is not unique : please change it.")?>'
 					});
 				}
 			}, 200);
@@ -638,7 +637,7 @@ function validateUserName() {
 
 function callBackFullSearch(resultNominatim){
 	console.log("callback ok");
-	var ok = Sig.showCityOnMap(resultNominatim, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+	var ok = Sig.showCityOnMap(resultNominatim, true, "person");
 	if(!ok){
 		if($('#city').val() != "") {
 			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessRegister);
@@ -662,7 +661,7 @@ function callbackFindByInseeSuccessRegister(obj){
 		$("#alert-city-found").show();
 		//console.log("verification contenue obj");
 		//console.dir(obj);
-		Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+		Sig.showCityOnMap(obj, true, "person");
 
 		if(typeof obj.name != "undefined"){
 			$("#main-title-public2").html("<i class='fa fa-university'></i> "+obj.name);
@@ -706,7 +705,7 @@ function callbackFindByInseeSuccessRegister(obj){
 				}
 			}
 			else{
-				Sig.showCityOnMap(obj, <?php echo isset($_GET["isNotSV"]) ? "true":"false" ; ?>, "person");
+				Sig.showCityOnMap(obj, true, "person");
 			}
 
 			if(typeof obj.name != "undefined"){

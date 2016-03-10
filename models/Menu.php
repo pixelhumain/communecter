@@ -19,10 +19,15 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
+        self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his person'), 
+                    Yii::t("common", 'Details'),
+                    'bookmark fa-rotate-270',
+                    "loadByHash('#person.detail.id.".$id."')","person", "detail");
+        /*self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
                     Yii::t("common", "Details"), 
                     'user',
-                    '/person/detail/id/'.$id,"person", "detail");
+                    '/person/detail/id/'.$id,"person", "detail");*/
         
         //SEND MESSAGE
         //-----------------------------
@@ -40,7 +45,7 @@ class Menu {
                     Yii::t("common", 'Show his directory'), 
                     Yii::t("common", 'Directory'),
                     'bookmark fa-rotate-270',
-                    "loadByHash('#person.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
+                    "loadByHash('#person.directory.id.".$id."?tpl=directory2&isNotSV=1')","person", "directory");
         
         //FOLLOW BUTTON
         //-----------------------------
@@ -143,7 +148,7 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t("organization","Contact information"), 
         			Yii::t("common","Details"),'home',
-        			"loadByHash('#organization.detail.id.".$id."')",null,null);
+        			"loadByHash('#organization.detail.id.".$id."')","organization", "detail");
 //        			'/organization/detail/id/'.$id,"organization","detail");
        
         //SEE TIMELINE
@@ -152,7 +157,7 @@ class Menu {
         		Yii::t( "common", 'Read all news publicated by this organization'), 
         		Yii::t( "common", 'Activity'), 
         		'rss',
-        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
+        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 //        		'/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
 
         //DIRECTORY
@@ -161,7 +166,7 @@ class Menu {
         			Yii::t("common","Organization community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
-        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
+        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2&isNotSV=1')","organization", "directory");
         
         //ACTION ROOMS
         //-----------------------------
@@ -375,21 +380,21 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t( "common", 'General information about this project'),
         			Yii::t( "common", 'Details'), 'home',
-        			"loadByHash( '#project.detail.id.".$id."')",null,null);
+        			"loadByHash( '#project.detail.id.".$id."')","project", "detail");
 
         //SEE TIMELINE
         //-----------------------------
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
         			Yii::t( "common", 'Activity'), "rss",
-        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')",null,null);
+        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'onclick',
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
-        "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')",null,null);
+        "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')","project", "directory");
                 // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
@@ -459,12 +464,13 @@ class Menu {
         else if( $type == 'onclick')
         { 
             $onclick = $url;
+            $active = (Yii::app()->controller->id == $controllerid && Yii::app()->controller->action->id == $actionid ) ? "active" : "";
             $entry = array( 'tooltip'    => $title,
                             'position'   => $position,
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips btn btn-default ".$class."' href='javascript:;' onclick=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."' href='javascript:;' onclick=\"".$onclick."\"");
 						
 
         }

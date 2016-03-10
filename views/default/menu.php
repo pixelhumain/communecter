@@ -1,6 +1,6 @@
 
 <style>
-.lbl-btn-menu-name, .lbl-btn-menu-name-add{
+.lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: none;
 	font-size: 17px;
 	text-align: left;
@@ -11,7 +11,7 @@
 	font-weight: 300;
 	font-family: "homestead";
 }
-.lbl-btn-menu-name-add{
+.lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: inline;
 }
 
@@ -91,16 +91,16 @@
 .infoVersion{
 	display: none;
 	position: fixed;
-	bottom: 165px;
+	bottom: 185px;
 	left : 20px;
 }
 
 
 .btn-param-postal-code{
-	left: 56px;
-	bottom: 56px;
-	width: 55px !important;
-	height: 55px !important;
+	left: 61px;
+	bottom: 57px;
+	width: 45px !important;
+	height: 45px !important;
 	border-radius: 50%;
 	z-index:2;
 	color: #FFF;
@@ -115,6 +115,13 @@
 #btn-geoloc-auto-menu{
 	left: 105px;
 	top: 60px;
+	padding-bottom: 6px;
+	padding-top: 4px;
+	padding-right: 10px;
+	padding-left: 12px;
+}
+#btn-geoloc-auto-menu i.fa{
+	font-size: 16px;
 }
 
 #input-communexion{
@@ -127,23 +134,23 @@
 
 #searchBarPostalCode{
 	position: absolute;
-	left: 52px;
-	bottom: 52px;
+	left: 62px;
+	bottom: 57px;
+	height: 45px;
 	margin-top: 10px;
 	width: 350px;
 	margin-left: 0px;
 	font-family: "homestead";
 	font-size: 22px !important;
 	border-radius: 55px !important;
-	height: 63px;
 	padding-left: 69px !important;
 	text-align: left;
 }
 
 #input-communexion .search-loader{
 	position: absolute;
-	left: 75px;
-	bottom: 120px;
+	left: 170px;
+	bottom: 35px;
 	width: 350px;
 	font-weight: 600;
 	font-size: 14px;
@@ -184,14 +191,6 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	height: 40px;
 }
 
-#menu-bottom .btn-param-postal-code{
-	border-radius: 0px;
-	left: 0px;
-	bottom: 0px;
-	height: 40px !important;
-	width: 40px !important;
-	font-size: 15px;
-}
 
 
 @media screen and (max-width: 767px) {
@@ -281,14 +280,18 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<i class="fa fa-sign-in"></i>
 	</button> -->
 	<?php }else{ ?>
-	<button class="menu-button btn-menu btn-logout tooltips" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+	<button class="menu-button btn-menu btn-logout bg-red tooltips" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 			<i class="fa fa-sign-out"></i>
 	</button>
 	<?php } ?>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
-		<i class="fa fa-crosshairs"></i>
-		<span class="lbl-btn-menu-name">Communectez-moi</span>
+		<i class="fa fa-university"></i>
+		<span class="lbl-btn-menu-name-city">
+			<?php if(isset( Yii::app()->request->cookies['cityNameCommunexion']) && isset( Yii::app()->request->cookies['cpCommunexion'] )){
+					   echo '<span class="lbl-btn-menu-name">'.Yii::app()->request->cookies['cityNameCommunexion'] . ", </span>" . Yii::app()->request->cookies['cpCommunexion'];
+				}else{ echo "Communectez-moi"; } ?>
+		</span>
 	</button>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 bg-red tooltips" 
@@ -332,7 +335,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</button>
 
 	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-    <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-red <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index?isNotSV=1')" >
+    <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
@@ -404,22 +407,20 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 <?php } ?>
 
 
-<?php 
-	$actionBtnMyCity = "";
-	if($inseeCommunexion != ""){
-		$actionBtnMyCity = "loadByHash('#city.detail.insee.".$inseeCommunexion."');";
-	}
-?>
+
 <div class="visible-xs" id="menu-bottom">
-	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
-		<?php if($actionBtnMyCity != ""){ ?>data-toggle="tooltip" data-placement="bottom" title="<?php echo $cityNameCommunexion; ?> en détails" alt="<?php echo $cityNameCommunexion; ?> en détails" <?php } ?> >
-		<i class="fa fa-university"></i>
+	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
+		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
+		<i class="fa fa-crosshairs"></i>
 	</button> 
 	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
-	<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+	<?php 
+	if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
 		<span class="lbl-btn-menu-name">Ajouter</span></span>
 		<i class="fa fa-plus-circle"></i>
-	</button>
+		</button>
+	<?php } ?>
 </div>
 
 <style>
@@ -534,6 +535,16 @@ jQuery(document).ready(function() {
 
 		//$.cookie('kkbbok',  true, { expires: 365, path: path });
 	});
+	$('.globale-announce').mouseleave( function(e){ 
+		$(".globale-announce").css("width", 250);
+		$("#kkbb-big").hide(400);
+		$("#kkbb-min").show(400);
+		//var path = "/";
+		//if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+
+		//$.cookie('kkbbok',  true, { expires: 365, path: path });
+	});
+
 	$('#kkbb-min').mouseenter( function(e){ 
 		$(".globale-announce").css("width", 400);
 		$("#kkbb-min").hide(400);
@@ -612,7 +623,7 @@ jQuery(document).ready(function() {
     });
     
     $(".btn-login").click(function(){
-		console.log("btn-login");
+		//console.log("btn-login");
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
@@ -623,7 +634,7 @@ jQuery(document).ready(function() {
 	});
 
     $(".btn-register").click(function(){
-    	console.log("btn-register");
+    	//console.log("btn-register");
 		showPanel("box-register");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
@@ -634,18 +645,32 @@ jQuery(document).ready(function() {
 	});
 
 	$(".btn-logout").click(function(){
-    	console.log("btn-logout");
+    	//console.log("btn-logout");
 		window.location.href = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
+	});
+
+	$(".btn-scope, .btn-param-postal-code").mouseenter(function(e){
+		clearTimeout(timeoutHover);
+		$(".hover-info").hide();
 	});
 
 	$(".btn-param-postal-code").mouseenter(function(e){
 		showInputCommunexion();
 		if(showMenuExplanation){
 			$(".removeExplanation").parent().show();
-			showDefinition("explainCommunectMe");
+			//showDefinition("explainCommunectMe");
 		}
 	});
-
+	$(".btn-param-postal-code").click(function(e){
+		////console.log("cookie", $.cookie('inseeCommunexion'));
+		if(typeof $.cookie('inseeCommunexion') == "undefined"){
+			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+			showMap(true);
+    		initHTML5Localisation('communexion');
+		}else{
+			selectScopeLevelCommunexion(1);
+		}
+	});
 	$("#searchBarPostalCode").mouseenter(function(e){
 		clearTimeout(timeoutCommunexion);
 	});
@@ -659,14 +684,17 @@ jQuery(document).ready(function() {
     });
     
     $(".btn-geoloc-auto").click(function(e){
-		if(geolocHTML5Done == false){
-			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
-			showMap(true);
-    		initHTML5Localisation('communexion');
-		}
-    	else{
-    		$("#modal-select-scope").modal("show");
+		//console.log("cookie", $.cookie('inseeCommunexion'));
+    	if($.cookie('inseeCommunexion')){
+    		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion'));
+    	}else{
+    		if(geolocHTML5Done == false){
+				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+				showMap(true);
+	    		initHTML5Localisation('communexion');
+			}
     	}
+
     }).mouseenter(function(e){
 		if(showMenuExplanation){
 			showDefinition("explainCommunectMe");
@@ -681,7 +709,7 @@ jQuery(document).ready(function() {
 	var positionMouseMenu = "out";
 
 	$(".hover-menu").mouseenter(function(){
-		//console.log("enter all");
+		////console.log("enter all");
 		positionMouseMenu = "in";
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
 		$(".lbl-btn-menu-name").show(200);
@@ -693,9 +721,14 @@ jQuery(document).ready(function() {
 		
 	});
 
+	$(".hover-menu").mouseleave(function(){
+		clearTimeout(timeoutHover);
+		$(".hover-info").hide();
+	});
+
 
 	$(".hover-menu .btn-menu").mouseenter(function(){
-		//console.log("enter btn, loginRegister", isLoginRegister());
+		////console.log("enter btn, loginRegister", isLoginRegister());
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
@@ -725,9 +758,9 @@ jQuery(document).ready(function() {
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		//console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		//console.log("HIDE HIDE");
+		////console.log("hide communexion");
+		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
+		////console.log("HIDE HIDE");
 		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
 		clearTimeout(timeoutHover);
@@ -746,9 +779,9 @@ jQuery(document).ready(function() {
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		//console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		//console.log("HIDE HIDE");
+		////console.log("hide communexion");
+		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
+		////console.log("HIDE HIDE");
 		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
 		clearTimeout(timeoutHover);
@@ -762,7 +795,9 @@ jQuery(document).ready(function() {
 					$(".main-col-search").animate({ opacity:1 }, 200 );
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
-					timeoutCommunexion = setTimeout(function(){ console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 300);
+					timeoutCommunexion = setTimeout(function(){ 
+						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
+					}, 300);
 				}
 				$(".hover-info").hide();
 				$(".drop-up-btn-add").hide(400);
@@ -773,11 +808,11 @@ jQuery(document).ready(function() {
 	});
 
 	$(".menu-button").click(function(){
-		//console.log("login display", !isLoginRegister());
+		////console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    var login_register = isLoginRegister();
 	    
-	    console.log(isLoginRegister());
+	    //console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );

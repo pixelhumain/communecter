@@ -7,24 +7,13 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
-if( isset( $_GET["isNotSV"])){
-	Menu::city($city);
-	$this->renderPartial('../default/panels/toolbar'); 
-}
+Menu::city($city);
+$this->renderPartial('../default/panels/toolbar');
 ?>
 <!-- start: PAGE CONTENT -->
 <div class='panel panel-white'>
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">Liste des pods</h4>
-		<?php 
-		if( !isset( $_GET["isNotSV"])){
-			?>
-		<ul class="panel-heading-tabs border-light ulline">
-			<li>
-				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/city/creategraph/insee/'.$_GET['insee'];?>" class=""/>Ajouter</a>
-			</li>
-		<ul>
-		<?php } ?>
 	</div>
 	<div class="panel-body">
 		<div id="listPod">

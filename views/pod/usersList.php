@@ -70,7 +70,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<i class="fa fa-plus"></i> <?php echo Yii::t("common","Sent invitations") ?>
 						</a>			
 					<?php }else{?>
-						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2&isNotSV=1')" data-placement="bottom" data-original-title="Les contributeurs du projet">
+						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="Les contributeurs du projet">
 							<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 						</a>								
 				<?php } } ?>
@@ -141,7 +141,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php 
 				}
 				if(!empty($followers)){ ?>
-				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2&isNotSV=1')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
+				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
 					<span style="line-height:50px;">+ <?php echo $followers ?></span>
 				</a>
 		<?php } } ?>

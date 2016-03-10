@@ -25,8 +25,7 @@ $this->renderPartial('../default/panels/toolbar');
 															"users" => $contributors,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
 															"followers" => $followers,																													"contentType" => Project::COLLECTION,
-															"admin" => $admin,
-															"isNotSV" => 1	));
+															"admin" => $admin	));
 					?>
 					<?php 
 						if(!empty($properties) || $admin==true){
@@ -50,8 +49,7 @@ $this->renderPartial('../default/panels/toolbar');
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
 																	"contextType" => Project::CONTROLLER,
-																	"authorised" => $admin,
-																	"isNotSV" => 1
+																	"authorised" => $admin
 																  )); ?>
 				</div>
 				<?php } ?>
@@ -114,10 +112,9 @@ jQuery(document).ready(function() {
 				    {
 				        if ( data && data.result ) {               
 				        	toastr.success("<?php echo Yii::t("common", "Link divorced succesfully") ?>!!");
-				        	if( isNotSV ){
-				        		removeFloopEntity(idToDisconnect, "projects");
+				        	removeFloopEntity(idToDisconnect, "projects");
 								loadByHash(location.hash);
-				        	}
+				        	
 				        } else {
 					        console.log(data);
 				           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
@@ -160,10 +157,10 @@ jQuery(document).ready(function() {
 		    {
 		        if ( data && data.result ) {               
 		        	toastr.success("<?php echo Yii::t("common", "Relation applied successfully") ?> !!");
-		        	if( isNotSV ){
+		        	
 		        		addFloopEntity(idConnect, "projects", contextMap["thisProject"][0]);
 						loadByHash(location.hash);
-		        	}
+		        	
 		        } else {
 		           toastr.error("<?php echo Yii::t("common", "Something went wrong!")." ".Yii::t("common","Please try again")?>.");
 		           $(".connectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-link");

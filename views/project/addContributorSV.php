@@ -42,7 +42,7 @@ $this->renderPartial('../default/panels/toolbar');
 	<div class="noteWrap col-md-8 col-md-offset-2">
 
 		<form class="form-contributor" autocomplete="off">
-			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value=''>
+			<input  class="project-id"  id="projectID" name="projectID" type="hidden" value='<?php echo $id ?>'>
 			<div class="form-group" id="searchMemberSection" style="z-index:1000000;">
     	    	<div class='row'>
 					<div class="col-md-1">	
@@ -154,7 +154,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
-	var isNotSV=1;
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();
@@ -296,16 +295,16 @@ $this->renderPartial('../default/panels/toolbar');
 					"parentId" : projectId,
 					"connectType" : connectType
 				};
-			console.log(params);
-				/*$.blockUI({
+				console.log(params);
+				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
 		              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
-				});*/
-				if ($(".form-contributor .contributor-id").val() !== "") {
-					el = $(".form-contributor .contributor-id").val();
+				});
+				if ($(".form-contributor .project-id").val() !== "") {
+				//	el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
 					$.mockjax({
 						url : '/contributor/edit/webservice',
@@ -327,8 +326,8 @@ $this->renderPartial('../default/panels/toolbar');
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-							if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
-		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); 
+							/*if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
+		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); */
 		        			setValidationTable(); 
 		        			$("#newContributors #contributorName").val("");
 							$("#newContributors #contributorName").removeAttr("disabled");
@@ -341,11 +340,6 @@ $this->renderPartial('../default/panels/toolbar');
 							$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		        			showSearchContributor();   
 				        	toastr.success('Invatation to project success');
-				        	/*if(isNotSV==0){ 
-								$.hideSubview();
-							} else{ 
-								openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-							} */	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -486,11 +480,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditContributor() {
-		if(isNotSV==0){ 
-			$.hideSubview();
-		} else{ 
-			openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
-		} 
+		openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
 	};
 	// enables the edit form 
 	function editContributor(el) {
