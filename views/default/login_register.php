@@ -277,7 +277,6 @@ jQuery(document).ready(function() {
 	
 	$(".box").hide();
 
-	Main.init();
 	Login.init();
 
 	$('#btn-show-city').click(function(){
