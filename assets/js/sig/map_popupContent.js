@@ -151,19 +151,9 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
-			var isNotSV = true;
-			if(isNotSV){
-				var url = '#'+typeElement+'.detail.id.'+id;
-				//var title = data.typeSig + ' : ' + data.name;
-				//title = title.replace("'", "");
-				//title = title.replace('"', "");
-
-				//onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
-				onclick = 'loadByHash("'+url+'");';
-			}else{
-				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
-				onclick = 'window.location.href = "'+url+'"';
-			}
+			var url = '#'+typeElement+'.detail.id.'+id;
+			onclick = 'loadByHash("'+url+'");';
+			
 
 			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='"+onclick+"'>";
 										
@@ -262,7 +252,7 @@
 						}
 					}
 				}
-				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
 
@@ -517,7 +507,7 @@
 			if($("#local-actors-popup-sig").length > 0){ //console.log("try to catch local actors");
 				localActors = $("#local-actors-popup-sig").html();
 			}
-			var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
+			var showAjaxPanel = 'showAjaxPanel("/city/detail?insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-blue'>"+
 										"<i class='fa fa-university'></i> "+dataTxt+
@@ -538,14 +528,13 @@
 			var lat = data["geo"]["latitude"];
 			var lng = data["geo"]["longitude"];
 
-			//var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+cityName+'", "fa-university");';
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
 										"<i class='fa fa-university'></i> "+cityName+
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
-									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
+									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
 											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" + 
 											 "onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
@@ -581,17 +570,10 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
-			if(isNotSV){
-				var url = '/'+typeElement+'/detail/id/'+id;
-				var title = data.typeSig + ' : ' + data.name;
-				title = title.replace("'", "");
-				title = title.replace('"', "");
-
-				//onclick = "openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");";
-			}else{
-				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
-				//onclick = 'window.location.href = "'+url+'"';
-			}
+			var url = '/'+typeElement+'/detail/id/'+id;
+			var title = data.typeSig + ' : ' + data.name;
+			title = title.replace("'", "");
+			title = title.replace('"', "");
 
 			
 			popupContent += "<div class='item_map_list popup-marker padding-5'>";

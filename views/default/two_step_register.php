@@ -41,6 +41,23 @@
 	.bg-azure-light-2{
 		background-color: rgba(43, 176, 198, 0.7) !important;
 	}
+	.bg-azure-light-3{
+		background-color: rgba(42, 135, 155, 0.8) !important;
+	}
+	.menu-step-tsr div{
+		margin-left: 20px;
+	    font-size: 18px;
+	    width: 25%;
+	    text-align: center;
+	    display: inline-block;
+	    margin-top:15px;
+	}
+	.menu-step-tsr div.homestead{
+		font-size:22px;
+	}
+	.menu-step-tsr div.selected {
+	    border-bottom: 7px solid white;
+	}
 	input.input-communexion-twostep, input.input-street-twostep{
 		border-radius: 30px !important;
 		width: 50%;
@@ -49,23 +66,52 @@
 		font-size: 20px;
 		text-align: center;
 	}
-
+	input.input-street-twostep{
+		margin-left: 50px;
+	}
+	
 	#TSR-communexion, #TSR-street{
 		display: none;
+	}
+	#fileuploadContainer {
+	    width: 66% !important;
+	    margin-left: 16% !important;
+	}
+	.btn-scope{
+		display: none;
+	}
+	.btn-start-street-search{
+		margin-top: -6px;
+		border-radius: 50px;
+		font-size: 16px;
+		margin-left: 5px;
+		width: 40px;
 	}
 </style>
 <div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
 
-	<div class="col-md-12 center bg-dark section-tsr">
+	<div class="col-md-12 center bg-dark section-tsr" id="congrats">
 		<h1 class="homestead" style="color:#7ACF5B;">
 			<i class="fa fa-thumbs-up fa-2x"></i>
 			 Félicitation <span class="text-yellow"><?php echo $userConnected["name"]; ?></span>
 		</h1>
 
 		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Votre compte personnel sera bientôt activé !<br>
-			Merci de suivre les dernières étapes d'inscription ...
+			Votre compte personnel sera bientôt activé !
+			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
 		</span>
+	</div>
+
+	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
+		<div class="homestead text-white selected" id="menu-step-1">
+			<i class="fa fa-2x fa-circle"></i> Étape 1
+		</div>
+		<div class="homestead text-white" id="menu-step-2">
+			<i class="fa fa-2x fa-circle-o"></i> Étape 2
+		</div>
+		<div class="homestead"  style="color:#7ACF5B;">
+			<i class="fa fa-2x fa-sign-in"></i> GO !
+		</div>
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step1">
@@ -81,10 +127,10 @@
 			Rassurez-vous ! Ces informations ne seront jamais utilisées à d'autres fins que le bon fonctionnement du réseau <strong>Communecter</strong>.
 			 -->
 			 <br><a href="javascript:" class="text-dark strong">En savoir + sur l'utilisation de vos données</a>
-			<br><br>
+			<!-- <br><br>
 			Ces informations serviront à vous positionner plus précisément sur notre carte partagée, <br>
 			et ainsi donner à chacun la possibilité de visualiser son réseau local.
-
+ -->
 			<!-- <br><br>Votre position finale sur la carte reste libre, 
 			<br>vous pourrez (à tout moment) déplacer votre icône sur la position de votre choix.
 
@@ -130,7 +176,7 @@
 				Vous êtes actuellement communecté à <span class="text-red"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span>
 			</h3>
 			<h3 class=" text-dark">
-				Souhaitez-vous conserver cette commune pour vous géolocaliser ?<br><br>
+				Souhaitez-vous conserver cette commune dans votre addresse ?<br><br>
 				<button class="btn btn-success" onclick="showTwoStep('conf-communected'); showTwoStep('street');">Oui, j'habite ici</button>
 				<button class="btn btn-danger" onclick="showTwoStep('communexion');">Non, j'habite ailleurs</button>
 			</h3>
@@ -144,34 +190,35 @@
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
 		</div>	
-		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-conf-communected">
-			<h1 class="homestead text-dark">
+		<div class="col-md-12 center section-tsr bg-azure-light-1 padding-15" id="TSR-conf-communected">
+			<h1 class="no-margin text-dark">
 				<i class="fa fa-thumbs-up fa-2x"></i> 
-				Commune identifiée : <span id="tsr-commune-name-cp"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span>
+				<span class="homestead">Commune identifiée : <span id="tsr-commune-name-cp" class="text-red"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span> </span>
+				<button class="btn btn-sm bg-dark tooltips" onclick="showTwoStep('communexion'); $('#TSR-conf-communected').hide(300);" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></button>
 			</h1>
 		</div>
-		<div class="col-md-12 center section-tsr bg-azure-light-2" style="padding-top:15px;" id="TSR-street">
-			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-				Tout l'intéret du réseau Communecter réside dans les liens proximité qui existent entre les acteurs d'une même commune.<br>
-				C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
-			</span><br>
-			<button id="btn-start-street-search" style="margin-top:15px;" class="btn bg-dark" onclick="startStreetSearch();">
-				<i class="fa fa-map-marker"></i> Positionnement manuel
-			</button>
-			<h3 class=" text-dark">
-				Ou saisir le nom de votre rue ...
-			</h3>
-			<input type="text" class="input-street-twostep" placeholder="ex : 11, rue des peupliers"/>
-			<br>
-			<h4 class="center text-red" id="error_street"></h4>
-			<button id="btn-start-street-search" class="btn btn-success" onclick="startStreetSearch();">
-				<i class="fa fa-search"></i> Rechercher ma rue
-			</button><br>
-			<button class="btn btn-info btn-sm" style="margin-top:15px;" onclick="achiveTSRAddress();">
-				<i class="fa fa-times"></i> Je ne souhaite pas indiquer ma rue
-			</button>	
-			
-
+		<div class="col-md-12 center section-tsr bg-azure-light-2" style="padding:0px;" id="TSR-street">
+			<div class="col-md-8 col-md-offset-2" style="padding:30px;">
+				<span class="text-center text-white" style="font-size:15px; font-weight:300;">
+					Tout l'intéret du réseau Communecter réside dans les liens proximité qui existent entre les acteurs d'une même commune. 
+					C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
+				</span><br>
+				<h3 class=" text-dark">
+					Saisissez le nom de votre rue ...
+				</h3>
+				<input type="text" class="input-street-twostep" placeholder="ex : 11, rue des peupliers"/>
+				<button class="btn bg-dark btn-start-street-search tooltips" onclick="startStreetSearch();" data-toggle="tooltip" data-placement="right" title="Positionnement manuel">
+					<i class="fa fa-map-marker"></i>
+				</button>
+				<h4 class="center text-red" id="error_street"></h4>
+				<!-- <br> -->
+				<button class="btn btn-success" onclick="startStreetSearch();" style="margin-bottom:15px;">
+					<i class="fa fa-search"></i> Rechercher ma rue
+				</button> <br>
+				<button class="btn btn-success homestead"  style="padding:15px; font-size:22px;" style="margin-top:15px;" onclick="achiveTSRAddress();">
+					<i class="fa fa-chevron-right"></i> Étape 2
+				</button>	
+			</div>	
 		</div>	
 	
 		
@@ -194,7 +241,9 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')"><i class="fa fa-sign-in"></i> Entrer dans mon espace personnel</button>
+				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+					<i class="fa fa-sign-in"></i> Go ! Entrer dans mon espace personnel
+				</button>
 			</span>
 			</div>
 		</div>
@@ -202,6 +251,11 @@
 </div>
 
 
+
+<!-- <div class="col-md-12 bg-black" style="background-color:black; color:white; font-size:20px; padding-top:40px; height:140px; text-align:center;">
+<span class="homestead">Je suis</span><br>
+<span class="homestead text-red">commune</span><span class="homestead">cté</span><br>
+</div> -->
 
 
 
@@ -217,6 +271,9 @@
 		console.log("userConnected");
 		console.dir(userConnected);
 	
+		Sig.clearMap();
+		$('.tooltips').tooltip();
+
 		if(userConnected != null && 
 			typeof userConnected["two_steps_register"] != "undefined" && 
 			userConnected["two_steps_register"] == "false"){
@@ -245,7 +302,7 @@
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
-      			showMapLegende("info-circle", "Sélectionnez la commune où vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...")
+      			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...")
       			startNewCommunexion(); 
       		}, 1200);
   		});
@@ -256,7 +313,11 @@
   		console.log("showTwoStep(#TSR-"+id+")");
   		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion,#TSR-street").hide();
   		$("#TSR-"+id).show(400);
-  		setTimeout(function(){ $("#TSR-"+id).show(400); }, 300);
+  		setTimeout(function(){ 
+  			$("#TSR-"+id).show(400); 
+  			//$(".my-main-container").scrollTop(2000); 
+  		}, 300);
+
   	}
 
   	function startStreetSearch(){
@@ -342,7 +403,7 @@
   	}
 
 
-  	function achiveTSRAddress(){
+  	function achiveTSRAddress(){ 
   		console.log("achiveTSR", "<?php echo Yii::app()->session['userId']; ?>");
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
@@ -351,7 +412,7 @@
   		//if(streetAddress == "" || streetAddress.length <= 2){
   		//	Sig.saveNewGeoposition("<?php echo Yii::app()->session['userId']; ?>", "person", latCommunexion, lngCommunexion);
   		//}
-
+		//showStep2(); return;
   		$.ajax({
 			url: baseUrl+"/"+moduleId+"/person/update",
 			type: 'POST',
@@ -382,6 +443,8 @@
   	}
 
   	function validateZone(){
+  		$("#congrats").hide(300);
+  		
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
   		}else{
@@ -391,6 +454,10 @@
 
   	function showStep2(){
   		showTwoStep("");
+  		$('#menu-step-2 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
+  		$('#menu-step-1 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
+  		$('#menu-step-1').removeClass("selected");
+  		$('#menu-step-2').addClass("selected");
   		$("#step1").hide(400);
   		$("#step2").show(400);
   	}
