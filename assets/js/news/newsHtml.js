@@ -1,10 +1,24 @@
+var contextMap = {
+	"tags" : [],
+	"scopes" : {
+		codeInsee : [],
+		codePostal : [], 
+		region :[],
+		addressLocality : []
+	},
+};
+var tagsFilterListHTML = "";
+var scopesFilterListHTML = "";
+var mode = "view";
+
 function buildLineHTML(newsObj,idSession,update)
 {
+	if(typeof(contextParentType) == "undefined")
+		contextParentType="citoyens";
 	newsTLLine = "";
-	alert(idSession);
 	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
 	manageMenu = "";
-	if (newsObj.author.id==idSession && streamType=="news"){
+	if (newsObj.author.id==idSession){
 		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
@@ -32,7 +46,7 @@ function buildLineHTML(newsObj,idSession,update)
 	// if month of the current news is different than currentMonth
 	// Added new month link to the right sidebar and a new date separator in the timeline
 	// Check if inject the new's form
-	if( currentMonth != date.getMonth() && update != true)
+	if(typeof(currentMonth) != "undefined" && currentMonth != date.getMonth() && update != true)
 	{
 		form="";
 		// Append for at the beginning after the construction of the timeline
@@ -50,7 +64,7 @@ function buildLineHTML(newsObj,idSession,update)
 						'<a href="javascript:;" class="linkMonth" onclick="smoothScroll(\'#month'+date.getMonth()+date.getFullYear()+'\');">'+months[date.getMonth()]+' '+date.getFullYear()+'</a>'+
 					'</li>';
 		// Add date separator by month YY
-		$(".newsTLmonthsList"+streamType).append(linkHTML);
+		$(".newsTLmonthsList").append(linkHTML);
 		newsTLLine += '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 					'</div>'+form;
@@ -95,7 +109,7 @@ function buildLineHTML(newsObj,idSession,update)
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
-	if (streamType=="news" && newsObj.type != "activityStream"){
+	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
@@ -110,7 +124,6 @@ function buildLineHTML(newsObj,idSession,update)
 			title += "</br>";
 		text = '<span class="timeline_text">'+newsObj.text+'</span>';
 	}
-	
 	tags = "", 
 	scopes = "",
 	tagsClass = "",
@@ -150,7 +163,6 @@ function buildLineHTML(newsObj,idSession,update)
 			scopeClass += postalCode+" ";
 			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
 				contextMap.scopes.codePostal.push(postalCode);
-				//scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+newsObj.address.postalCode+'"><span class="text-red text-xss">'+newsObj.address.postalCode+'</span></a>';
 			}
 		}
 		if( typeof city != "undefined")
@@ -195,11 +207,7 @@ function buildLineHTML(newsObj,idSession,update)
 		authorLine="";
 	//END OF CREATED BY OR INVITED BY
 	var commentCount = 0;
-	if (streamType=="news"){
-		idVote=newsObj._id['$id'];
-	}
-	else
-		idVote=newsObj.id;
+	idVote=newsObj._id['$id'];
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
@@ -219,25 +227,15 @@ function buildLineHTML(newsObj,idSession,update)
 						'<div class="space5"></div>'+
 						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
-							//'<div class="timeline_title">'+
-								//'<span class="text-large text-bold light-text timeline_title no-margin padding-5">'+
-							//	title+
-								//'</span>'+
-							//'</div>'+
 							'<div class="space5"></div>'+
-							//'<span class="timeline_text">'+ 
-							title + text + media +//+ '</span>' +	
+							title + text + media +
 						'</a>'+
 						'<div class="space5"></div>';
-						//'<span class="timeline_text">'+ authorLine + '</span>' +
-						//'<div class="space10"></div>'+
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
-						"<div class='bar_tools_post pull-left'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+						"<div class='bar_tools_post'>"+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
 							vote+
-							//"<a href='javascript:;' class='newsShare' data-count='10' data-id='"+newsObj._id['$id']+"'><span class='label text-dark'>10 <i class='fa fa-share-alt'></i></span></a> "+
-							//"<span class='label label-info'>10 <i class='fa fa-eye'></i></span>"+
 						"</div>";
 						}
 	newsTLLine +=	'</div>'+
@@ -319,35 +317,79 @@ function builHtmlAuthorImageObject(obj){
 			var iconBlank="fa-lightbulb-o";
 		else if (obj.target.objectType=="organizations")
 			var iconBlank="fa-group";
-		if(typeof obj.target.profilImageUrl !== "undefined" && obj.target.profilImageUrl != ""){ 
-			imgProfilPath = obj.target.profilImageUrl;
-		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+		if(typeof obj.target.profilThumbImageUrl !== "undefined" && obj.target.profilThumbImageUrl != ""){ 
+			imgProfilPath = obj.target.profilThumbImageUrl;
+		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" +baseUrl+ imgProfilPath + "'></div>" + flag ; 
 		}else {
 			var iconStr = "<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
 	}else{
 			var imgProfilPath =  "/images/news/profile_default_l.png";
 			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined" && obj.type!="gantts"){
-				if(typeof obj.target.profilImageUrl != "undefined" && obj.target.profilImageUrl != ""){ 
-					imgProfilPath = obj.target.profilImageUrl;
-					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+				if(typeof obj.target.profilThumbImageUrl != "undefined" && obj.target.profilThumbImageUrl != ""){ 
+					imgProfilPath = obj.target.profilThumbImageUrl;
+					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl+imgProfilPath + "'></div>" + flag ; 
 				}else {
 					if(obj.object.objectType=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
-						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
+						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" +baseUrl+ imgProfilPath + "'></div>" + flag ; 
 
 				}
 			}
 			else{	
-				if(typeof obj.author.profilImageUrl !== "undefined" && obj.author.profilImageUrl != ""){
-					imgProfilPath =obj.author.profilImageUrl;
+				if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
+					imgProfilPath =obj.author.profilThumbImageUrl;
 				}
-				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ;	 
+				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ baseUrl+ imgProfilPath + "'></div>" + flag ;	 
 			}
 	}
 	return iconStr;
 }
+function actionOnNews(news, action,method) {
+	type="news";
+	params=new Object,
+	params.id=news.data("id"),
+	params.collection=type,
+	params.action=action;
+	if(method){
+		params.unset=method;
+	}
+	$.ajax({
+		url: baseUrl+'/'+moduleId+"/action/addaction/",
+		data: params,
+		type: 'post',
+		global: false,
+		dataType: 'json',
+		success: 
+			function(data) {
+    			if(!data.result){
+                    toastr.error(data.msg);
+                    console.log(data);
+               	}
+                else { 
+                    if (data.userAllreadyDidAction) {
+                    	toastr.info("You already vote on this comment.");
+                    } else {
+						count = parseInt(news.data("count"));
+	                    if(count < count+data.inc)
+	                    	toastr.success("Your vote has been succesfully added");
+	                    else
+		                    toastr.success("Your vote has been succesfully removed");
+	                    console.log(data);
+						news.data( "count" , count+data.inc );
+						icon = news.children(".label").children(".fa").attr("class");
+						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
+					}
+                }
+            },
+        error: 
+        	function(data) {
+        		toastr.error("Error calling the serveur : contact your administrator.");
+        	}
+	});
+}
+
 function voteCheckAction(idVote, newsObj) {
 	var voteUpCount = 0;
 	textUp="text-dark";
@@ -367,7 +409,125 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsVoteUp[data-id="+idVote+"]").off();
 		}
 	}
-	voteHtml = "<a href='javascript:;' class='newsVoteUp' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-			"<a href='javascript:;' class='newsVoteDown' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>";
+	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>";
 	return voteHtml;
+}
+
+function manageModeContext(id) {
+	listXeditables = ['#newsContent'+id, '#newsTitle'+id];
+	if (mode == "view") {
+		//$('.editable-project').editable('toggleDisabled');
+		$.each(listXeditables, function(i,value) {
+			$(value).editable('toggleDisabled');
+		});
+		//$("#btn-update-geopos").removeClass("hidden");
+	} else if (mode == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('.editable-news').editable('option', 'pk', id);
+		$.each(listXeditables, function(i,value) {
+			$(value).editable('option', 'pk', id);
+			$(value).editable('toggleDisabled');
+		});
+	}
+}
+
+function initXEditable() {
+	$.fn.editable.defaults.mode = 'inline';
+	$('.editable-news').editable({
+    	url: baseUrl+"/"+moduleId+"/news/updatefield", //this url will not be used for creating new job, it is only for update
+    	textarea: {
+			html: true,
+			video: true,
+			image: true
+		},
+    	showbuttons: 'bottom',
+    	success : function(data) {
+	        if(data.result) {
+	        	toastr.success(data.msg);
+				console.log(data);
+	        }
+	        else{
+	        	toastr.error(data.msg);  
+	        }
+	    }
+	});
+    //make jobTitle required
+	$('.newsTitle').editable('option', 'validate', function(v) {
+    	if(!v) return 'Required field!';
+	});
+
+	$('.newsContent').editable({
+		url: baseUrl+"/"+moduleId+"/news/updatefield", 
+		showbuttons: 'bottom',
+		wysihtml5: {
+			html: true,
+			video: true,
+			image: true
+		},
+		success : function(data) {
+	        if(data.result) 
+	        	toastr.success(data.msg);
+	        else
+	        	toastr.error(data.msg);  
+	    },
+	});
+}
+
+function showComments(id){
+	$.blockUI({
+			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
+							'<div class="commentContent"></div></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
+		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
+		},"html");
+}
+function newsVoteUp($this, id){
+	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
+			toastr.info("Remove your negative vote before");
+		else{	
+		//toastr.info('This vote has been well registred');
+			if($($this).children(".label").hasClass("text-green")){
+				method = true;
+		}
+		else{
+			method = false;
+		}
+		actionOnNews($($this),'voteUp',method);
+		disableOtherAction($($this), '.commentVoteUp', method);
+		count = parseInt($($this).data("count"));
+		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
+		}
+}
+function newsVoteDown($this, id){
+	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green"))
+			toastr.info("Remove your positive vote before");
+	else{	
+	//toastr.info('This vote has been well registred');
+		if($($this).children(".label").hasClass("text-orange")){
+			method = true;
+		}
+		else{
+			method = false;
+	}
+	actionOnNews($($this),'voteDown',method);
+	disableOtherAction($($this), '.commentVoteDown', method);
+	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+	}
+}
+function disableOtherAction($this,action,method){
+	if(method){
+		if (action != ".commentVoteUp")
+			$this.children(".label").removeClass("text-orange").addClass("text-dark");
+		if (action != ".commentVoteDown")
+			$this.children(".label").removeClass("text-green").addClass("text-dark");
+	}
+	else{
+		if (action != ".commentVoteUp")
+			$this.children(".label").removeClass("text-dark").addClass("text-orange");
+		if (action != ".commentVoteDown")
+			$this.children(".label").removeClass("text-dark").addClass("text-green");
+	}
 }

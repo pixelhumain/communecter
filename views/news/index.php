@@ -412,7 +412,7 @@ max-height: 250px !important;
 <div id="modal_scope_extern" class="form-create-news-container hide"></div>
 
 <style type="text/css">
-	div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}
+div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}
 	
 
 div.timeline .newsTL > .newsFeed:nth-child(2n+2) {
@@ -1084,11 +1084,7 @@ function bindEvent(){
 			onOverlayClick: $.unblockUI,
 			css: {"text-align": "left", "cursor":"default"}
 		});
-		if(streamType=="news"){
-			type="news";
-		} else
-			type=$(this).data("type");
-			getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+type+"/id/"+$(this).data("id"),function(){ 
+		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+$(this).data("id"),function(){ 
 		},"html");
 	});
 	$('.newsVoteUp').off().on("click",function(){
