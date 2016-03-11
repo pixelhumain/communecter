@@ -2,24 +2,7 @@ debug = true;
 
 $(document).ready(function() { 
 	
-	//NProgress.start();
-	
-	/* *************************** */
-	
-	/* *************************** */
-	/* instance du menu questionnaire*/
-	/* *************************** */
-	var dd = new DropDown( $('#dd') );
-	var ddinvité = new DropDown( $('#ddinvité') );
-	
-	$(document).click(function() {
-		// all dropdowns
-		$('.wrapper-dropdown-3').removeClass('active');
-	});
-	
-	
 	initSequence();
-	setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 2000);
 	
 });
 

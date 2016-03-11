@@ -304,7 +304,6 @@ $this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionT
 
 	jQuery(document).ready(function() {
 
-		Main.init();
 		Login.init();	
 		titleAnim ();	
 	});
