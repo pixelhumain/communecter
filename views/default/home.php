@@ -365,7 +365,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur04.png"/>Informations Partagées</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur05.png"/>Linked Data</div>
             </div>
-            <div class=" col-md-12 homestead" style="text-align:center;">
+            <div class=" col-md-12" style="text-align:center;">
                  <div class=" col-md-1"></div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur06.png"/>Territoire Connecté</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur07.png"/>Inteligence Collective</div>
