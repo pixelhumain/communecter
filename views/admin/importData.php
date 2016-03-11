@@ -82,10 +82,10 @@ $userId = Yii::app()->session["userId"] ;
 						</div>
 					</div>
 				</div>
-				<br/><br/><br/><br/><br/>
-				<div class="col-sm-4 col-sm-offset-5 col-xs-12">
-					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
-					<!--<input type="submit" class="btn btn-primary col-sm-3" id="sumitVerification" value="Vérification"/> -->
+				<div class="col-sm-12 col-xs-12">
+					<div class="form-group col-sm-2 col-sm-offset-5">
+						<a href="#" id="btnVerification" class="btn btn-primary col-sm-12">Vérification</a>
+					</div>
 				</div>
 			<!--</form>-->
 		</div>
@@ -95,7 +95,7 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Assignation des données</h4>
 		</div>
 		<div class="panel-body">
-			<div class="col-sm-12 col-xs-12">
+			<!--<div class="col-sm-12 col-xs-12">
 				<label for="subFile">Fichier : </label>
 				<select id="subFile">
 					
@@ -104,31 +104,8 @@ $userId = Yii::app()->session["userId"] ;
 			</div>
 
 			
-			<br/> <br/>
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-4 col-xs-12">
-					<label for="selectCreator">Créateur : </label>
-					<select id="selectCreator">
-						<option value="you">Vous-même</option>
-						<option value="other">Autre</option>
-					</select>
-				</div>
-				<div id="divSearchCreator">
-					<div class="col-sm-4 col-xs-12">
-						<input class="" placeholder="Saisir l'ID du creator de données" id="creatorID" name="creatorID" value="">
-						<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
-					</div>
-				</div>
-				<div class="col-sm-4 col-xs-12">
-					<label for="selectRole">Role : </label>
-					<select id="selectRole">
-						<option value="creator">Creator</option>
-						<option value="admin">Admin</option>
-						<option value="member">Member</option>
-					</select>
-				</div>
-			</div>
-			<br/> <br/>
+			<br/> <br/> -->
+			
 			<div class="col-sm-12 col-xs-12">
 				
 				<!--<div id="divSearchMember">
@@ -145,25 +122,10 @@ $userId = Yii::app()->session["userId"] ;
 					</div>
 				</div>-->
 			</div>
-			<br/> <br/>
 			<div id="divtab" class="table-responsive">
 				<input type="hidden" id="nbLigneMapping" value="0"/>
 				<div id="divInputHidden"></div>
-				<?php
-					/*if(!empty($createLink)){
-						echo '<input type="hidden" id="idCollection" value="'.$idCollection.'"/>';
-						echo '<input type="hidden" id="nameFile" value="'.$arrayNameFile[0].'"/>';
-						echo '<input type="hidden" id="typeFile" value="'.$typeFile.'"/>';
-						//var_dump(json_encode($json_origine));
-						if(!empty($typeFile) && $typeFile == "csv")
-							echo '<input type="hidden" id="jsonCSV" value="'.json_encode($arrayCSV).'"/>';
-						if(!empty($typeFile) && $typeFile == "json")
-							echo "<input type='hidden' id='jsonJSON' value='".json_encode($json_origine)."' />";
-							//echo '<input type="hidden" id="jsonJSON" value="'.json_encode($json_origine).'"/>';
-						
-					}*/
-				?>
-		    	<table id="tabcreatemapping" class="table table-striped table-bordered table-hover">
+				<table id="tabcreatemapping" class="table table-striped table-bordered table-hover">
 		    		<thead>
 			    		<tr>
 			    			<th class="col-sm-5">Colonne CSV</th>
@@ -174,51 +136,10 @@ $userId = Yii::app()->session["userId"] ;
 			    	<tbody class="directoryLines" id="bodyCreateMapping">
 				    	<tr id="LineAddMapping">
 			    			<td>
-			    				<select id="selectHeadCSV" class="col-sm-12">
-			    					<?php
-			    						/*if(!empty($createLink)){
-			    							if(!empty($typeFile) && $typeFile == "csv"){
-				    							foreach ($arrayCSV[0] as $key => $value) 
-												{
-													echo '<option value="'.$key.'">'.$value.'</option>' ;
-												}
-											}
-											else if(!empty($arbre)  && $typeFile == "json"){
-												foreach ($arbre as $key => $value) 
-												{
-													echo '<option value="'.$value.'">'.$value.'</option>';
-												}
-											}
-											
-			    						}*/
-			    					?>
-			    				</select>
+			    				<select id="selectHeadCSV" class="col-sm-12"></select>
 			    			</td>
 			    			<td>
-			    				<select id="selectLinkCollection" class="col-sm-12">
-									<?php
-			    						/*if(!empty($createLink))
-			    						{
-			    							$params = array("_id"=>new MongoId($idCollection));
-											$fields = array("mappingFields");
-											$fieldsCollection = Import::getMicroFormats($params, $fields);
-											
-			    							foreach ($fieldsCollection as $key => $value) 
-											{
-												//var_dump($value);
-												$pathMapping = FileHelper::arbreJson($value['mappingFields'], "", "");
-												$arrayPathMapping = explode(";",  $pathMapping);
-												foreach ($arrayPathMapping as $keyPathMapping => $valuePathMapping) 
-												{
-													
-													if(!empty($valuePathMapping))
-														echo '<option name="optionLinkCollection" value="'.$valuePathMapping.'">'.$valuePathMapping.'</option>' ;
-												}
-											}
-			    							
-			    						}*/
-			    					?>
-			    				</select>
+			    				<select id="selectLinkCollection" class="col-sm-12"></select>
 			    			</td>
 			    			<td>
 			    				<input type="submit" id="addMapping" class="btn btn-primary col-sm-12" value="Ajouter"/>
@@ -227,9 +148,52 @@ $userId = Yii::app()->session["userId"] ;
 					</tbody>
 				</table>
 			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label for="selectCreator">Créateur : </label>
+					<select id="selectCreator">
+						<option value="you">Vous-même</option>
+						<option value="other">Autre</option>
+					</select>
+				</div>
+				<div id="divSearchCreator" class="col-sm-6 col-xs-12">
+						<input class="" placeholder="Saisir l'ID du creator de données" id="creatorID" name="creatorID" value="">
+						<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<label for="selectRole">Role : </label>
+				<select id="selectRole">
+					<option value="creator">Creator</option>
+					<option value="admin">Admin</option>
+					<option value="member">Member</option>
+				</select>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label for="inputKey">Key : </label>
+					<input class="" placeholder="Key attribuer a l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+				</div>
+				<div class="col-sm-6 col-xs-12">
+					<label>
+						Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label>
+						Test : <input type="checkbox" value="" id="checkboxTest" name="checkboxTest">
+					</label>
+				</div>
+				<div class="col-sm-6 col-xs-12">
+					<label for="inputNbTest">Nombre d'entités à tester max(900) : </label>
+					<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="">
+				</div>
+			</div>
 			<div class="form-group col-sm-12">
-				<div class="form-group col-sm-4 col-sm-offset-5">
-					<a href="#" id="sumitVisualisation" class="btn btn-primary col-sm-3">Visualisation</a>
+				<div class="form-group col-sm-2 col-sm-offset-5">
+					<a href="#" id="btnVisualisation" class="btn btn-primary col-sm-12">Visualisation</a>
 				</div>
 			</div>
 		</div>
@@ -247,14 +211,14 @@ $userId = Yii::app()->session["userId"] ;
 				</div>
 				
 			</div>
-			<div class="col-xs-12 col-sm-12">
+			<div class="col-xs-12 col-sm-12" id="affichageJSON">
 				<div class="col-xs-12 col-sm-6">
 					<label>Données importés :</label>	
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div id="divJsonImport" class="panel-scroll height-300">
 								<input type="hidden" id="jsonImport" value="">
-							    <div class="col-md-12" id="divJsonImportView"></div>
+							    <div class="col-sm-12" id="divJsonImportView"></div>
 							</div>
 						</div>
 					</div>
@@ -265,15 +229,15 @@ $userId = Yii::app()->session["userId"] ;
 						<div class="panel-body">
 							<div id="divJsonError" class="panel-scroll height-300">
 								<input type="hidden" id="jsonError" value="">
-							    <div class="col-md-12" id="divJsonErrorView"></div>
+							    <div class="col-sm-12" id="divJsonErrorView"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-5 col-md-offset-5">
-				<a href="#" class="btn btn-primary col-md-3" type="submit" id="sumitGeo">GeoLocalisation</a>
-				<a href="#" class="btn btn-primary col-md-3" type="submit" id="sumitImport">Import</a>
+			<div class="col-xs-12 col-sm-12">
+				<a href="#" class="btn btn-primary col-sm-2 col-md-offset-2" type="submit" id="btnGeo">Geolocalisation</a>
+				<a href="#" class="btn btn-primary col-sm-2 col-md-offset-2" type="submit" id="btnImport">Import</a>
 			</div>
 		</div>
 	</div>
@@ -283,7 +247,8 @@ $userId = Yii::app()->session["userId"] ;
 
 var tabObject = [];
 var file = [];
-var userId = "<?php echo $userId; ?>" ;
+var userId = "<?php echo $userId; ?>" ; ;
+var pathTmp = "<?php echo sys_get_temp_dir().'/importData/'; ?>" ;
 $("#memberId").html(userId);
 
 jQuery(document).ready(function() 
@@ -311,7 +276,7 @@ function bindEvents()
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-    	console.log("ext", ext, $.inArray(ext, "json"));
+    	//console.log("ext", ext, $.inArray(ext, "json"));
 		if(ext != "csv" && ext !=  "json" && ext == "js") {
 			alert('Upload CSV or JSON');
 			return false;
@@ -322,13 +287,25 @@ function bindEvents()
 				var reader = new FileReader();
 				file = [];
 				reader.onload = function(e) {
-					console.log("csv : ", e.target.result );
+					//console.log("csv : ", e.target.result );
 					var csvval=e.target.result.split("\n");
-					console.log("csv : ", csvval );
+					//console.log("csv : ", csvval );
 					$.each(csvval, function(key, value){
-		  				file.push(value.split(";"));
+						var ligne = value.split(";");
+						var newLigne = [];
+						$.each(ligne, function(keyLigne, valueLigne){
+							//console.log("valueLigne", valueLigne);
+							if(valueLigne.charAt(0) == '"' && valueLigne.charAt(valueLigne.length-1) == '"'){
+								var elt = valueLigne.substr(1,valueLigne.length-2);
+								newLigne.push(elt);
+							}else{
+								newLigne.push(valueLigne);
+							}
+						});
+						
+		  				file.push(newLigne);
 		  			});
-		  			console.log("file : ", file );
+		  			console.log("file :", file.length );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -350,42 +327,45 @@ function bindEvents()
 
 	});
 
-	$("#sumitVerification").off().on('click', function(e)
+	$("#btnVerification").off().on('click', function(e)
   	{
   		if($("#chooseCollection").val() == "-1"){
   			toastr.error("Vous devez sélectionner une collection");
   			return false ;
   		}
-
+  		var nameF = "";
+  		var idCollection = $("#chooseCollection").val();
+  		var typeF = "";
+  		
   		var typeDate = $("#selectTypeData").val();
-  		if(typeDate == "url")
-		{
-
-			console.log("url", $("#textUrl").val());
-
+  		if(typeDate == "url"){
+			nameF = "JSON_URL";
+  			typeF = "json";			
 			$.ajax({
 				url: baseUrl+'/communecter/admin/getdatabyurl/',
 				type: 'POST',
 				dataType: 'json', 
 				data:{ url : $("#textUrl").val() },
+				async : false,
 				success: function (obj){
-					console.log('success', obj);
+					console.log('success');
 					file.push(obj.data) ;
 
 					$.ajax({
 				        type: 'POST',
 				        data: {
-				        		nameFile : "JSON_URL",
-				        		typeFile : "json",
+				        		nameFile : nameF,
+				        		typeFile : typeF,
 				        		file : file,
 				        		chooseCollection : $("#chooseCollection").val(),
 				        		pathObject : $("#pathObject").val()
 				        	},
 				        url: baseUrl+'/communecter/admin/assigndata/',
 				        dataType : 'json',
+				        async : false,
 				        success: function(data)
 				        {
-				        	console.log("data",data);
+				        	console.log("btnVerification data",data.createLink);
 				        	if(data.createLink){
 
 				        		resultAssignData(data);
@@ -397,10 +377,6 @@ function bindEvents()
 
 				        }
 					});
-
-
-
-
 				},
 				error: function (error) {
 					console.log('error', error);
@@ -417,36 +393,42 @@ function bindEvents()
 	  			return false ;
 	  		}
 
+	  		nameF = nameFile[0];
+  			typeF = nameFile[nameFile.length-1];
+  			console.log("file2 :", file.length );
+  			assignData2($("#chooseCollection").val(), typeF);
 	  		
-				$.ajax({
-			        type: 'POST',
-			        data: {
-			        		nameFile : nameFile[0],
-			        		typeFile : nameFile[nameFile.length-1],
-			        		file : file,
-			        		chooseCollection : $("#chooseCollection").val()
-			        	},
-			        url: baseUrl+'/communecter/admin/assigndata/',
-			        dataType : 'json',
-			        success: function(data)
-			        {
-			        	console.log("data",data);
-			        	if(data.createLink){
 
-			        		resultAssignData(data);
-			        		$("#createLink").show();
-			        	}
-			        	else{
+	  		/*var fin = false ;
+	  		var indexStart = 0 ;
+	  		var limit = 900 ;
+	  		var indexEnd = limit;
 
-			        	}
 
-			        }
-				});
+	  		while(fin == false){
+	  			subFile = file.slice(indexStart,indexEnd);
+	  			//console.log("indexStart", indexStart, indexEnd);
+	  			console.log("subFile", subFile.length);
+	  			// Appel methode assignData
+	  			assignData(subFile, typeF);
+
+	  			// Appel methode CréationSubFile
+
+	  			indexStart = indexEnd ;
+	  			indexEnd = indexEnd + limit;
+
+	  			if(indexStart > file.length)
+	  				fin = true ;
+
+	  		}*/
 		}	
   		
 
-		
-		
+		chaineInputHidden = "" ;
+		chaineInputHidden += '<input type="hidden" id="idCollection" value="' + idCollection + '"/>';
+		chaineInputHidden += '<input type="hidden" id="nameFile" value="'+nameF+'"/>';
+		chaineInputHidden += '<input type="hidden" id="typeFile" value="'+typeF+'"/>';
+		$("#divInputHidden").html(chaineInputHidden);
 		return false;
   		
   	});
@@ -554,7 +536,7 @@ function bindEvents()
 	  		ligne = '<tr id="lineMapping'+nbLigneMapping+'"> ';
 	  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'">' + selectValueHeadCSV + '</td>';
 	  		ligne =	 ligne + '<td id="valueLinkCollection'+nbLigneMapping+'">' + selectLinkCollection + '</td>';
-	  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ selectIdHeadCSV +'"/><a href="#" class="deleteLineMapping btn btn-primary">X</a></td></tr>';
+	  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ selectIdHeadCSV +'"/><a href="#" class="deleteLineMapping btn btn-danger">X</a></td></tr>';
 	  		$("#nbLigneMapping").val(nbLigneMapping);
 	  		$("#LineAddMapping").before(ligne);
 	  		bindEvents();
@@ -574,23 +556,8 @@ function bindEvents()
   	});
 
 
-  	$("#sumitVisualisation").off().on('click', function()
+  	$("#btnVisualisation").off().on('click', function()
   	{
-		/*$.blockUI({
-		message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-		           '<blockquote>'+
-		             '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
-		             '<cite title="Hegel">Hegel</cite>'+
-		           '</blockquote> '
-		});
-		$.blockUI({
-				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-	            '<blockquote>'+
-	              '<p>Get up Stand up ! Stand up for your right !</p>'+
-	              '<cite title="Bob Marley">Bob Marley</cite>'+
-	            '</blockquote> '
-			});*/
-
 		var creator = "" ;
   		if($("#selectCreator").val() == "you")
   			creator = userId ;
@@ -620,72 +587,69 @@ function bindEvents()
 				
 	  		}
 
-	  		var jsonFile = "" ;
+	  		/*var jsonFile = "" ;
 
 	  		if($("#typeFile").val() == "csv")
 	  			jsonFile = $("#jsonCSV").val() ;
 	  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js")
-	  			jsonFile = $("#jsonJSON").val() ;
+	  			jsonFile = $("#jsonJSON").val() ;*/
 
-	  		//console.log("type", $("#typeFile").val());
-	  		//console.log("jsonFile", jsonFile, $("#jsonJSON").val());
-	  		if(infoCreateData != [])
-	  		{
-	  			$.ajax({
-			        type: 'POST',
-			        data: {
-			        		infoCreateData : infoCreateData, 
-			        		idCollection : $("#idCollection").val(),
-			        		file :  file,
-			        		subFile : $("#subFile").val(),
-			        		nameFile : $("#nameFile").val(),
-			        		typeFile : $("#typeFile").val(),
-			        		role : $("#selectRole").val(),
-			        		creatorID : creator,
-			        		creatorEmail : $('#creatorEmail').val(),
-			        		pathObject : $('#pathObject').val()
-			        },
-			        url: baseUrl+'/communecter/admin/previewData/',
-			        dataType : 'json',
-			        success: function(data)
-			        {
-			        	console.log("data",data);
-			        	if(data.result)
-			        	{
-			        		console.log("data.jsonImport",data.jsonImport);
-			        		$("#divJsonImportView").JSONView(data.jsonImport);
-			        		//$("#divJsonImportView").JSON.stringify(data.jsonImport)
-			        		$("#jsonImport").val(data.jsonImport);
-			        		$("#divJsonErrorView").JSONView(data.jsonError);
-			        		$("#jsonError").val(data.jsonError);
-
-			        		console.log("listEntite", data.listEntite);
-							var chaine = "" ;
-			        		$.each(data.listEntite, function(keyListEntite, valueListEntite){
-			        			chaine += "<tr>" ;
-			        			if(keyListEntite == 0)
-			        			{
-			        				$.each(valueListEntite, function(key, value){
-			        					chaine += "<th>"+value+"</th>";
-			        				});
-			        			}else{
-									$.each(valueListEntite, function(key, value){
-			        					chaine += "<td>"+value+"</td>";
-			        				});
-			        			}
-			        			chaine += "</tr>" ;
-			        		});
-			        		$("#representation").html(chaine);
-
-			        		$("#verifBeforeImport").show();
+	  		if(infoCreateData != []){	
+	  			
+	  			var params = {
+	        		infoCreateData : infoCreateData, 
+	        		idCollection : $("#idCollection").val(),
+	        		nameFile : $("#nameFile").val(),
+	        		typeFile : $("#typeFile").val(),
+	        		role : $("#selectRole").val(),
+	        		creatorID : creator,
+	        		creatorEmail : $('#creatorEmail').val(),
+	        		pathObject : $('#pathObject').val(),
+			        key : $("#inputKey").val(),
+			        warnings : $("#checkboxWarnings").is(':checked')
+			    }
 
 
+	  			if($("#checkboxTest").is(':checked')){
+	  				if($("#typeFile").val() == "csv"){
+	  					var subFile = file.slice(0,$("#inputNbTest").val());
+	  					params["file"] = subFile;
+	  				}
+			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js"){
+			  			params["file"] = file;
+			  			params["nbTest"] = $("#inputNbTest").val();
+			  		}
+	  				
+		  			visualisation(params);
 
+	  			}else{
 
-			        		$.unblockUI();
-			        	}
-			        }
-			    });
+	  				if($("#typeFile").val() == "csv"){
+	  					var fin = false ;
+				  		var indexStart = 0 ;
+				  		var limit = 900 ;
+				  		var indexEnd = limit;
+
+				  		while(fin == false){
+				  			subFile = file.slice(indexStart,indexEnd);
+				  			console.log("subFile", subFile.length);
+
+				  			params["file"] = subFile;
+				  			visualisation(params);
+
+							indexStart = indexEnd ;
+				  			indexEnd = indexEnd + limit;
+				  			if(indexStart > file.length)
+				  				fin = true ;
+
+				  		}
+	  				}
+			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js"){
+			  			params["file"] = file;
+				  		visualisation(params);
+			  		}
+	  				
+	  			}
 	  		}
 	  		else
 			{
@@ -698,34 +662,21 @@ function bindEvents()
   	});
 
 
-	$("#sumitImport").off().on('click', function()
+	$("#btnImport").off().on('click', function()
   	{
-  		var creator = "" ;
-  		if($("#selectCreator").val() == "you")
-  			creator = userId ;
-  		else if($("#selectCreator").val() == "other")
-  			creator = $('#creatorID').val() ;
-
-  		console.log("creator", creator);
-  		/*$.blockUI({
-		message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-  	            '<blockquote>'+
-  	              "<p>Rien n'est plus proche du vrai que le faux</p>"+
-  	              '<cite title="Einstein">Einstein</cite>'+
-  	            '</blockquote> '
-		});*/
+  		console.log("jsonImport" , $('#jsonImport').val());
+  		console.log("jsonError" , $('#jsonError').val());
   		$.ajax({
 	        type: 'POST', 
 	        data: { jsonImport : $('#jsonImport').val(), 
-	        		nameFile : $('#nameFile').val(),
 	        		jsonError : $('#jsonError').val(),
-	        		creatorID : creator,
+	        		nameFile : $('#nameFile').val(),
 	        		idCollection : $("#idCollection").val()},
 	        url: baseUrl+'/communecter/admin/importinmongo/',
 	        dataType : 'json',
 	        success: function(data)
 	        {
-	            console.dir(data);
+	            //console.dir(data);
 	            if(data.result)
 	              	toastr.success("Les données ont été ajouté.");
 	            else
@@ -738,8 +689,12 @@ function bindEvents()
 
 
 
-  	$("#sumitGeo").off().on('click', function()
+  	$("#btnGeo").off().on('click', function()
   	{
+  		/*$.getJSON( pathTmp+$("#nameFile").val()+"/jsonImport.json", function( data ) {
+  			console.log(data);
+		});*/
+
   		var dataGood = [];
   		var dataBad = jQuery.parseJSON($('#jsonError').val()) ;
   		console.log(dataBad);
@@ -755,28 +710,32 @@ function bindEvents()
 				if(typeof org["msgError"] == "undefined")
 			  		org = getInsee(org) ;
 				
-				if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
-				{
+
+			  	//VerifierLesWarningg
+
+				if($("#checkboxWarnings").is(':checked')){
 					dataGood.push(org) ;
-				}	
-				else
-				{
-					dataBad.push(org) ;
 				}
-
-
+				else{
+					if(typeof org["msgError"] == "undefined" && typeof org["warnings"] == "undefined")
+						dataGood.push(org) ;
+					else
+						dataBad.push(org) ;
+					
+				}
 			}
 			else if(org.address.codeInsee.trim().length == 0){
 
 				org = getInsee(org) ;
-				
-		  		if(typeof org["msgError"] == "undefined" && typeof org["Warning"] == "undefined")
-				{
+				//VerifierLesWarningg
+		  		if($("#checkboxWarnings").is(':checked')){
 					dataGood.push(org) ;
-				}	
-				else
-				{
-					dataBad.push(org) ;
+				}
+				else{
+					if(typeof org["msgError"] == "undefined" && typeof org["warnings"] == "undefined")
+						dataGood.push(org) ;
+					else
+						dataBad.push(org) ;
 				}
 			}
 			else
@@ -785,13 +744,14 @@ function bindEvents()
 		});
 
 		
-		console.log("here");
-		$("#divJsonImportView").JSONView(JSON.stringify(dataGood));
+		if($("#checkboxTest").is(':checked')){
+			$("#divJsonImportView").JSONView(JSON.stringify(dataGood));
+			$("#divJsonErrorView").JSONView(JSON.stringify(dataBad));
+		}
+		
 		$("#jsonImport").val(JSON.stringify(dataGood));
-		console.log("here2", dataBad);
-		$("#divJsonErrorView").JSONView(JSON.stringify(dataBad));
 		$("#jsonError").val(JSON.stringify(dataBad));
-		console.log("here3");
+		
 		var list = dataGood;
 		$.each(dataBad, function(key, value){
 			list.push(value)
@@ -822,25 +782,48 @@ function bindEvents()
         		$("#representation").html(chaine);
 	        }
 	    });
+
+	    $("#btnImport").show();
 		
   	});
 }
 
 function resultAssignData(data){
-	chaineNameSubFile = "" ;
+
+	//console.log(file[0]);
+	var chaineSelectCSVHidden = "" ;
+	if(data.typeFile == "csv"){
+		$.each(file[0], function(key, value){
+			chaineSelectCSVHidden += '<option value="' + key+'">'+value+'</option>';
+			});
+	}else if(data.typeFile == "json"){
+		$.each(data.arbre, function(key, value){
+			chaineSelectCSVHidden += '<option value="' + value+'">'+value+'</option>';
+			});
+	}
+	$("#selectHeadCSV").html(chaineSelectCSVHidden);
+
+	chainePathMapping = "" ;
+	$.each(data.arrayPathMapping, function(key, value){
+		chainePathMapping += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
+	});
+
+	$("#selectLinkCollection").html(chainePathMapping);
+
+	/*chaineNameSubFile = "" ;
 	$.each(data.subFiles, function(key, value){
 
 		if(value.indexOf(data.nameFile) != -1 )
 				chaineNameSubFile += '<option value="' + value+'">'+value+'</option>';
 	});
 
-	$("#subFile").html(chaineNameSubFile);
+	$("#subFile").html(chaineNameSubFile);*/
 
 	//console.log("JSON", JSON.stringify(data.arrayCSV));
-	chaineInputHidden = "" ;
+	/*chaineInputHidden = "" ;
 	chaineInputHidden += '<input type="hidden" id="idCollection" value="' + data.idCollection + '"/>';
 	chaineInputHidden += '<input type="hidden" id="nameFile" value="'+data.nameFile+'"/>';
-	chaineInputHidden += '<input type="hidden" id="typeFile" value="'+data.typeFile+'"/>';
+	chaineInputHidden += '<input type="hidden" id="typeFile" value="'+data.typeFile+'"/>';*/
 	/*console.log(data.json_origine);
 	console.log(JSON.stringify(data.json_origine));*/
 	/*if(data.typeFile == "csv")
@@ -848,7 +831,7 @@ function resultAssignData(data){
 	if(data.typeFile == "json")
 		chaineInputHidden += '<input type="hidden" id="jsonJSON" value="'+ JSON.stringify(data.json_origine) + '"/>';*/
 		
-	if(typeof data.jsonData == "undefined")
+	/*if(typeof data.jsonData == "undefined")
 		file[0] = data.jsonData;
 
 	$("#divInputHidden").html(chaineInputHidden);
@@ -858,7 +841,7 @@ function resultAssignData(data){
 	chaineSelectCSVHidden = "" ;
 
 	if(data.typeFile == "csv"){
-		$.each(data.arrayCSV[0], function(key, value){
+		$.each(file.arrayCSV[0], function(key, value){
 			chaineSelectCSVHidden += '<option value="' + key+'">'+value+'</option>';
 			});
 	}else if(data.typeFile == "json"){
@@ -878,7 +861,7 @@ function resultAssignData(data){
 	});
 
 	$("#selectLinkCollection").html(chainePathMapping);
-	bindEvents();
+	bindEvents();*/
 }
 
 
@@ -940,23 +923,24 @@ function callbackNominatimSuccess(obj){
 //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 
 function findGeoposByGoogleMaps(requestPart){
+	var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
 	var objnominatim = {} ;
-	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM");
+	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
 	showLoadingMsg("Recherche de la position en cours");
 	$.ajax({
-		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key=AIzaSyCKvVYQHdz8dD34nvp7xl8wEYVGHQhXKtM",
+		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp,
 		type: 'POST',
 		dataType: 'json',
 		async:false,
 		crossDomain:true,
 		complete: function () {},
 		success: function (obj){
-			console.log('success');	
+			//console.log('success');	
 			hideLoadingMsg();
 			objnominatim = callbackNominatimSuccess(obj);
 		},
 		error: function (error) {
-			console.log('error');	
+			//console.log('error');	
 			return callbackNominatimError(error);
 		}
 	});
@@ -1160,14 +1144,26 @@ function getInsee(org){
 			var locality = getInfoAdressByInsee(address.codeInsee, address.postalCode );
 			if(locality.trim().length != 0 || typeof locality != "undefined")
 				address.addressLocality = locality ;
-			else
-				org["msgError"] = "Nous n'avons pas pu récupérer le nom de la commune. INSEE et code postal n'ont compatible" ;
+			else{
+				if($("#checkboxWarnings").is(':checked'))
+					org["warnings"].push("111") ;
+				else
+					org["msgError"] = "111" ;
+			}
 		}
-		else
-			org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
+		else{
+			if($("#checkboxWarnings").is(':checked'))
+				org["warnings"].push("112") ;
+			else
+				org["msgError"] = "112" ;
+		}
 	}
-	else
-			org["msgError"] = "Nous n'avons pas pu récupérer le code INSEE" ;
+	else{
+		if($("#checkboxWarnings").is(':checked'))
+			org["warnings"].push("112") ;
+		else
+			org["msgError"] = "112" ;
+	}
 
 	org["address"] = address;
 
@@ -1237,7 +1233,7 @@ function getGeo(org){
 				valNominatim = objNominatim[0];
 				geo["latitude"] = valNominatim.lat;
 				geo["longitude"] = valNominatim.lon;
-				org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+				org["warnings"].push("153") ;
 				nbNominatim = nbNominatim + 1 ;
 
 			}else{
@@ -1247,11 +1243,16 @@ function getGeo(org){
 					var valGoogleMaps = objGoogleMaps.results[0] ;
 					geo["latitude"] = valGoogleMaps.geometry.location.lat;
 					geo["longitude"] = valGoogleMaps.geometry.location.lng;
-					org["Warning"] = "Nous n'avons pas pu géolocaliser précisément l'organisme." ;
+					org["warnings"].push("153") ;
 					nbGoogle = nbGoogle + 1 ;
 				}
-				else
-					org["msgError"] = "Nous n'avons pas pu faire la Géolocalisation" ;
+				else{
+					if($("#checkboxWarnings").is(':checked'))
+						org["warnings"].push("154") ;
+					else
+						org["msgError"] = "154" ;
+				}
+					
 	  		}
 	  	}
 	}
@@ -1262,6 +1263,168 @@ function getGeo(org){
 
 	return org ;
 	
+}
+
+
+function assignData(subfile, typeFile){
+	console.log("typeFile", typeFile);
+	$.ajax({
+        type: 'POST',
+        data: {
+        		file : subfile,
+        		typeFile : typeFile
+        	},
+        url: baseUrl+'/communecter/admin/assigndata/',
+        dataType : 'json',
+        async : false,
+        success: function(data)
+        {
+        	console.log("data",data);
+        	if(data.createLink){
+
+        		resultAssignData(data);
+        		$("#createLink").show();
+        	}
+        	else{
+
+        	}
+
+        }
+	});
+}
+
+
+function assignData2(idMicroformat, typeFile){
+	$.ajax({
+        type: 'POST',
+        data: {
+        		idMicroformat : idMicroformat,
+        		typeFile : typeFile
+        	},
+        url: baseUrl+'/communecter/admin/assigndata/',
+        dataType : 'json',
+        async : false,
+        success: function(data)
+        {
+        	console.log("assignData2 data",data.createLink);
+        	if(data.createLink){
+        		resultAssignData(data);
+        		$("#createLink").show();
+        	}
+        	else{
+
+        	}
+
+        }
+	});
+}
+
+
+function visualisation(params){
+	$.ajax({
+        type: 'POST',
+        data: params,
+        url: baseUrl+'/communecter/admin/previewData/',
+        dataType : 'json',
+        success: function(data)
+        {
+        	console.log("visualisation data",data.result);
+        	if(data.result){
+        		
+        		if($("#checkboxTest").is(':checked')){
+        			$("#divJsonImportView").JSONView(data.jsonImport);
+        			$("#divJsonErrorView").JSONView(data.jsonError);
+        		}
+        		
+
+        		$("#jsonImport").val(data.jsonImport);
+        		$("#jsonError").val(data.jsonError);
+
+				var chaine = "" ;
+        		$.each(data.listEntite, function(keyListEntite, valueListEntite){
+        			chaine += "<tr>" ;
+        			if(keyListEntite == 0)
+        			{
+        				$.each(valueListEntite, function(key, value){
+        					chaine += "<th>"+value+"</th>";
+        				});
+        			}else{
+						$.each(valueListEntite, function(key, value){
+        					chaine += "<td>"+value+"</td>";
+        				});
+        			}
+        			chaine += "</tr>" ;
+        		});
+        		$("#representation").html(chaine);
+
+
+        		if(data.geo == true){
+        			$("#btnGeo").show();
+        		}else{
+        			$("#btnGeo").hide();
+        		}
+
+        		if($("#checkboxTest").is(':checked')){
+        			$("#btnImport").hide();
+        		}else
+        			$("#btnImport").show();
+        			
+        			
+
+        		$("#verifBeforeImport").show();
+
+
+
+
+        		$.unblockUI();
+        	}
+        }
+    });
+}
+
+
+function createJson(params){
+	$.ajax({
+        type: 'POST',
+        data: params,
+        url: baseUrl+'/communecter/admin/createfileforimport/',
+        dataType : 'json',
+        success: function(data)
+        {
+        	console.log("createfileforimport",data);
+        	$("#verifBeforeImport").show();
+        	if(data.result)
+        	{
+        		//console.log("data.jsonImport",data.jsonImport);
+        		//$("#divJsonImportView").JSONView(data.jsonImport);
+        		//$("#divJsonImportView").JSON.stringify(data.jsonImport)
+        		$("#jsonImport").val(data.jsonImport);
+        		$("#jsonError").val(data.jsonError);
+        		//$("#divJsonErrorView").JSONView(data.jsonError);
+        		console.log("listEntite", data.listEntite);
+				var chaine = "" ;
+        		$.each(data.listEntite, function(keyListEntite, valueListEntite){
+        			chaine += "<tr>" ;
+        			if(keyListEntite == 0)
+        			{
+        				$.each(valueListEntite, function(key, value){
+        					chaine += "<th>"+value+"</th>";
+        				});
+        			}else{
+						$.each(valueListEntite, function(key, value){
+        					chaine += "<td>"+value+"</td>";
+        				});
+        			}
+        			chaine += "</tr>" ;
+        		});
+        		$("#representation").html(chaine);
+        		$("#verifBeforeImport").show();
+        		$("#affichageJSON").show();
+				$.unblockUI();
+        	}
+        	$.unblockUI();
+        }
+    });
 }
 
 </script>

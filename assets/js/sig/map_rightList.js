@@ -143,7 +143,7 @@
 		//renvoi un item (html) pour la liste de droite
 		Sig.createItemRigthListMap = function(element, thisMarker, thisMap){
 
-			console.dir(element);
+			//console.dir(element);
 
 			var thisSig = this;
 			var objectId = thisSig.getObjectId(this);

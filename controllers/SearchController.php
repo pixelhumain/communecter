@@ -21,6 +21,7 @@ class SearchController extends CommunecterController {
           'getshortdetailsentity'     => 'citizenToolKit.controllers.search.GetShortDetailsEntityAction',
           'searchbycriteria'          => 'citizenToolKit.controllers.search.SearchByCriteriaAction',
           'index'                     => 'citizenToolKit.controllers.search.IndexAction',
+          'mainmap'                   => 'citizenToolKit.controllers.search.MainMapAction',
       );
   }
   

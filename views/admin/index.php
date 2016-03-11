@@ -12,6 +12,8 @@ $cs = Yii::app()->getClientScript();
 
       <div class="panel-body no-padding center">
         <ul class="list-group text-left no-margin">
+           <?php if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )) { ?>
+
           <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.directory')">
               <i class="fa fa-user fa-2x"></i>
@@ -52,6 +54,21 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
+
+          <?php }
+            if( Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){ 
+          ?>
+             <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+              <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.sourceadmin')">
+                <i class="fa fa-plus fa-2x"></i>
+                  
+                <?php echo Yii::t("admin", "SOURCE ADMIN", null, Yii::app()->controller->module->id); ?>
+                
+              </div>
+            </li>
+          <?php 
+            }
+          ?>
         </ul>
       </div>
   </div>

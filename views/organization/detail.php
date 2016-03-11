@@ -44,8 +44,7 @@
 															"userCategory" => Yii::t("common","COMMUNITY"), 
 															"followers" => $followers,
 															"contentType" => Organization::COLLECTION,
-															"admin" => $admin,
-															"isNotSV" => 1	));
+															"admin" => $admin	));
 					?>
 		    	</div>
 		    	<?php if (($admin == 1 || !empty($needs)) && ($organization["type"]=="NGO" || $organization["type"]=="Group")){ ?> 
@@ -64,8 +63,7 @@
 					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $organization["_id"],
 																			"contextType" => Organization::CONTROLLER,
-																			"authorised" => $admin,
-																			"isNotSV" => 1
+																			"authorised" => $admin
 																		  )); ?>
 				</div>
 				<?php } ?>
@@ -74,8 +72,7 @@
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
 															"contextId" => (String) $organization["_id"],
 															"contextType" => "organization",
-															"authorised" =>	$admin,
-															"isNotSV" => 1
+															"authorised" =>	$admin
 					)); ?>
 				</div>
 				<?php } ?>
@@ -148,10 +145,9 @@
 							if ($("#organizations tr").length == 0) {
 								$("#info").show();
 							}
-							if( isNotSV ){
-								removeFloopEntity(idMemberOf, "organizations");
-								loadByHash(location.hash);
-							}
+							
+							removeFloopEntity(idMemberOf, "organizations");
+							loadByHash(location.hash);
 						} else {
 						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
 						}

@@ -88,7 +88,7 @@
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
             <!-- <a title="My organizations" href="javascript:;" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Organization::COLLECTION ?>', 'ORGANIZATION DIRECTORY ','users' )" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a> -->
-            <a title="Add An Organization" href="javascript:;" onclick="showAjaxPanel( '/organization/addorganizationform?isNotSV=1', 'ADD AN ORGANIZATION','users' )" 
+            <a title="Add An Organization" href="javascript:;" onclick="showAjaxPanel( '/organization/addorganizationform', 'ADD AN ORGANIZATION','users' )" 
                class="btn btn-default btn-add-something text-center bg-green" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <!-- <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-green tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a> -->
           </div>
@@ -117,7 +117,7 @@
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
            <!-- <a title="My events" href="javascript:;" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Event::COLLECTION ?>', 'EVENT DIRECTORY ','calendar' )" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a> -->
-            <a title="Add An Event" href="javascript:;" onclick="showAjaxPanel( '/event/eventsv?isNotSV=1', 'ADD AN EVENT','calendar' )" 
+            <a title="Add An Event" href="javascript:;" onclick="showAjaxPanel( '/event/eventsv', 'ADD AN EVENT','calendar' )" 
                class="btn btn-default btn-add-something text-center bg-orange" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <!-- <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-orange tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a> -->
           </div>
@@ -146,7 +146,7 @@
           </div>
           <div class="panel-footer partition-white clearfix no-padding">
             <!-- <a title="My projects" href="javascript:;" onclick="showAjaxPanel( '/person/directory/?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'PROJECT DIRECTORY ','lightbulb-o' )" class="col-xs-4 padding-10 text-center text-purple tooltips" data-toggle="tooltip" data-placement="top"  ><i class="fa fa-bars"></i></a> -->
-            <a title="Add A Project" href="javascript:;" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" 
+            <a title="Add A Project" href="javascript:;" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo Yii::app()->session['userId']?>/type/citoyen', 'ADD A PROJECT','lightbulb-o' )" 
                class="btn btn-default btn-add-something text-center bg-purple" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
             <!-- <a title="My dashboard" href="<?php echo Yii::app()->createUrl("/".$this->module->id."/person/dashboard")?>" class="col-xs-4 padding-10 text-center text-purple tooltips" data-toggle="tooltip" data-placement="top" ><i class="fa fa-chevron-right"></i></a> -->
           </div>

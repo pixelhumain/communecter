@@ -1,74 +1,151 @@
 <?php
 	$cs = Yii::app()->getClientScript();
 
+	$cssAnsScriptFilesModule = array(
+		//'js/svg/tonfichier.js'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-$cssAnsScriptFilesModule = array(
-//'js/svg/tonfichier.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	$countCitoyen 	= PHDB::count(Person::COLLECTION);
+	$countAsso 		= PHDB::count(Organization::COLLECTION, array("type" => "association"));
+	$countEntreprise = PHDB::count(Organization::COLLECTION, array("type" => "entreprise"));
+	$countProject 	= PHDB::count(Project::COLLECTION);
+	$countEvent 	= PHDB::count(Event::COLLECTION);
+
+	//error_log("countCitoyen : " . $countCitoyen);
+
 ?>
-
-
 <style>
 
+.main-col-search{
+	padding:0px !important;
+}
+.home_page h3.subtitle{
+	font-weight: 300;
+	font-size:20px;
+}
+.home_page h3.information{
+	/*font-weight: 500;*/
+	font-size:16px;
+}
 
+.home_page #main-logo-home{
+	max-height: 290px;
+	margin-top:30px;
+}
 
-.main-col-search{	padding:0px !important;}
-.home_page h3.subtitle{	font-weight: 300;
-	font-size:20px;}
-.home_page h3.information{	font-size:16px;}
-.home_page #main-logo-home{	max-height: 290px;
-	margin-top:30px;}
+.home_page .imageSectionVideo{
+	width:80%;
+	margin-left:10%;
+}
+.home_page .section-video{
+	margin-top: 40px;
+}
 
-.home_page .imageSectionVideo{	width:80%;
-	margin-left:10%;}
-.home_page .section-video{	margin-top: 40px;}
-.home_page .btn-top{	border-radius: 50px;}
-.home_page .btn-discover{	border-radius: 60px;
+.home_page .btn-top{
+	border-radius: 50px;
+}
+
+.home_page .btn-discover{
+	border-radius: 60px;
 	font-size: 50px;
 	font-weight: 200;
 	border: 1px solid transparent;
 	width: 90px;
-	height: 90px;}
-.home_page .btn-discover:hover{	background-color: white !important;
+	height: 90px;
+}
+.home_page .btn-discover:hover{
+	background-color: white !important;
 	border-color: #2BB0C6 !important;
+	color: #2BB0C6 !important;
+}
 
-	color: #2BB0C6 !important;}
-.home_page .discover-subtitle{	font-size:13px;
+.home_page .discover-subtitle{
+	font-size:13px;
 	margin-top: -6px;
-	display: block;}
-.home_page .pastille{	height: 100%;
+	display: block;
+}
+
+
+.home_page .pastille{
+	height: 100%;
 	width: 100%;
 	border-radius: 50px;
 	font-size: 45px;
-	padding: 13px 32px;}
+	padding: 13px 32px;
+}
+
 .list-action{
+	/*width: 100%;*/
+	/*padding: 5px 10px;*/
 	margin-bottom:40px;
 	font-size: 15px;
-	font-weight: 300;}
-#img-network-for-all{	padding:25px;}
-.menu-home-btn-ins{	position: fixed;
+	font-weight: 300;
+}
+
+#img-network-for-all{
+	/*max-width: 800px;*/
+	padding:25px;
+}
+.menu-home-btn-ins{
+	position: fixed;
 	top: 0px;
 	padding: 5px;
 	right: 2%;
 	z-index: 30;
-	border-radius: 30px 30px 30px 30px;}
+	border-radius: 30px 30px 30px 30px;
+}
+/*#searchBarPostalCode{
+	margin-top: 10px;
+	width: 200px;
+	margin-left: 0px;
+	font-family: "homestead";
+	font-size: 22px !important;
+	border-radius: 3px !important;
+	height: 40px;
+}*/
+/*input[type="text"].input-search:focus{
+	/*border-color: #3C5665 !important;*/
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	box-shadow: 0px 0px 5px -1px #CF3838 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;}
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+}
 
-#dropdown_search{	margin-top:30px;
-	margin-bottom:30px;}
+#dropdown_search{
+	margin-top:30px;
+	margin-bottom:30px;
+}*/
 
-.btn-success.communected{	width: 50%;
+.btn-success.communected{
+	width: 50%;
 	margin-left: 25%;
 	padding: 10px;
 	border-radius: 20px;
 	background-color:#5cb85c;
-	color:white;}
-
+	color:white;
+}
+/*
+.searchEntity{
+	margin-bottom:10px;
+	margin-left:5px;
+	display: inline-block;
+}
+.searchEntity .entityRight{
+	text-align: center;
+	padding: 6px 16px !important;
+	margin-left: -1%;
+	border-radius: 30px;
+}
+.searchEntity .entityRight .entityLocality{
+	color:white !important;
+	display: inline;
+}
+.searchEntity .entityRight .entityName{
+	color:white !important;
+	display: inline;
+}*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
@@ -87,32 +164,50 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
-.information{	font-size:15px;
-	color:#8b91a0;}
-.btn-show-video{	position:absolute;
+.information{
+	font-size:15px;
+	color:#8b91a0;
+}
+
+
+.btn-show-video{
+	position:absolute;
 	bottom:10px;
-	right:40%;}
-#img-header{	display:inline;
-	max-height: 700px;}
-.videoWrapper {	position: relative;
+	right:40%;
+}
+
+
+#img-header{
+	display:inline;
+	max-height: 700px;
+}
+
+.videoWrapper {
+	position: relative;
 	padding-bottom: 56.25%; /* 16:9 */
 	padding-top: 25px;
 	height: 0;
-	display: none;}
-.videoWrapper iframe {	position: absolute;
+	display: none;
+}
+.videoWrapper iframe {
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;}
+	height: 100%;
+}
 
-.flexContainer {	display: flex;
+.flexContainer {
+	display: flex;
 	align-items: center;
-    justify-content: center;}
+    justify-content: center;
+}
 
-.explainLink {	color: #e33551;
-	text-decoration-line: underline !important;
-	text-decoration-style : dotted !important;}
-
+.explainLink {
+	color: #e33551;
+	text-decoration-line: underline !important;;
+	text-decoration-style : dotted !important;;
+}
 </style>
 
 <div class="home_page">
@@ -216,6 +311,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $countCitoyen; ?> inscrits et <?php echo $countProject; ?> projets référencés</span>
+				<br/>
 					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
 					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain.
 			</div>
@@ -223,6 +320,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
+				<br/>
+					<span class="text-azure">Déjà <?php echo $countAsso; ?> associations référencées</span>
 				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
 					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
@@ -233,6 +332,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
 				<br/>
+					<span class="text-azure">Retrouvez toutes les communes de France métropolitaine et des DOM-TOM</span>
+				<br/>
 					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
 					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités.
 					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
@@ -242,6 +343,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $countEntreprise; ?> entreprises référencées</span>
+				<br/>
 				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen
 				avec un vrai respect de la qualité, quelque soit son métier.
 				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
@@ -250,6 +353,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
+				<br/>
+					<span class="text-azure">Déjà <?php echo $countEvent; ?> événements partagés</span>
 				<br/>
 					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.

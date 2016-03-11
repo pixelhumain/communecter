@@ -20,12 +20,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> "></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised ) {
-			if(@$isNotSV){ ?>
-			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>?isNotSV=1', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
-		<?php } else { ?>
-			<a href="#newProject"  class="new-project btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Add a project" alt="Add an project"><i class="fa fa-plus"></i></a>
-		<?php } } ?>
+		<?php if( @$authorised ) { ?>
+			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
+		<?php  } ?>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">			

@@ -1,5 +1,5 @@
 <?php 
-if (@$isNotSV){
+
 	$cssAnsScriptFilesModule = array(
 		//Data helper
 		'/js/dataHelpers.js'
@@ -16,22 +16,9 @@ if (@$isNotSV){
 	'/plugins/autosize/jquery.autosize.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-}
+
 ?>
 <style>
-<?php if (!@$isNotSV){ ?>
-#newContributors{
-	display: none;
-}
-<?php } else{ ?>
-#newContributors{
-	min-height: 300px;
-}
-.dropdown-menu{
-	height:200px;
-	overflow:scroll;
-}
-<?php } ?>
 .li-dropdown-scope{
 	padding: 8px 3px;
 }
@@ -45,25 +32,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	display: none;
 }
 </style>
-<?php
-	if( @$isNotSV ) {
-	if(@$project)
-		Menu::project($project);
-		$this->renderPartial('../default/panels/toolbar'); 
-	}
-
-?>
+<?php 
+Menu::project($project);
+$this->renderPartial('../default/panels/toolbar'); 
+ ?>
 <div id="newContributors">
 	<div class="space20"></div>
-	<?php if( @$isNotSV ){ ?>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
-	<?php } ?>
 	<div class="noteWrap col-md-8 col-md-offset-2">
-		<?php if (!@$isNotSV){ ?>
-			<h1><?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h1>
-		<?php } ?>
+
 		<form class="form-contributor" autocomplete="off">
-			<input  class="contributor-id"  id="projectID" name="projectID" type="hidden" value='<?php if (!@$isNotSV) echo (string)$project["_id"]; else echo $id; ?>'>
+			<input  class="project-id"  id="projectID" name="projectID" type="hidden" value='<?php echo $id ?>'>
 			<div class="form-group" id="searchMemberSection" style="z-index:1000000;">
     	    	<div class='row'>
 					<div class="col-md-1">	
@@ -175,7 +154,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
-	var isNotSV=<?php if (@$isNotSV) echo $isNotSV; else echo 0; ?>;
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();
@@ -317,16 +295,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					"parentId" : projectId,
 					"connectType" : connectType
 				};
-			console.log(params);
-				/*$.blockUI({
+				console.log(params);
+				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
 		              '<p>la Liberté est la reconnaissance de la nécessité.</p>'+
 		              '<cite title="Hegel">Hegel</cite>'+
 		            '</blockquote> '
-				});*/
-				if ($(".form-contributor .contributor-id").val() !== "") {
-					el = $(".form-contributor .contributor-id").val();
+				});
+				if ($(".form-contributor .project-id").val() !== "") {
+				//	el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
 					$.mockjax({
 						url : '/contributor/edit/webservice',
@@ -348,8 +326,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-							if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
-		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); 
+							/*if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
+		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); */
 		        			setValidationTable(); 
 		        			$("#newContributors #contributorName").val("");
 							$("#newContributors #contributorName").removeAttr("disabled");
@@ -362,11 +340,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		        			showSearchContributor();   
 				        	toastr.success('Invatation to project success');
-				        	/*if(isNotSV==0){ 
-								$.hideSubview();
-							} else{ 
-								openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-							} */	
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -507,11 +480,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	// on hide contributor's form destroy summernote and bootstrapSwitch plugins
 	function hideEditContributor() {
-		if(isNotSV==0){ 
-			$.hideSubview();
-		} else{ 
-			openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
-		} 
+		openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName); ?>',"fa-lightbulb-o", projectId );
 	};
 	// enables the edit form 
 	function editContributor(el) {

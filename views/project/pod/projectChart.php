@@ -36,7 +36,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				?>
 				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
 					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> 
-					onclick="showAjaxPanel( '/project/addchartsv/id/<?php echo $itemId ?>?isNotSV=1<?php echo $urlArray ?>&projectName=<?php if(@$itemName) echo addslashes($itemName) ?>', 'EDIT CHARTE','charte' )" <?php } ?>>
+					onclick="showAjaxPanel( '/project/addchartsv/id/<?php echo $itemId ?>?<?php echo $urlArray ?>&projectName=<?php if(@$itemName) echo addslashes($itemName) ?>', 'EDIT CHARTE','charte' )" <?php } ?>>
 					<i class="fa fa-pencil"></i> Editer la charte 
 				</a>
 				<?php } ?>

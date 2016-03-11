@@ -317,7 +317,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					success: function(data){
 						if ( data && data.result ) {               
 							toastr.info(data.msg);
-							showAjaxPanel( '/person/directory?isNotSV=1&tpl=directory2&type=events', 'MES ÉVÉNEMENTS','calender' );
+							showAjaxPanel( '/person/directory?tpl=directory2&type=events', 'MES ÉVÉNEMENTS','calender' );
 						}else{
 							toastr.error("Something went wrong");
 						}

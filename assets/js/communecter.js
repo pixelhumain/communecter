@@ -1,3 +1,143 @@
+debug = true;
+
+$(document).ready(function() { 
+	
+	
+	initSequence();
+	
+});
+
+function toggleSpinner(){
+	if($("#logoLink").length){
+		$("#logo").html('');
+		var spinner = new Spinner(spinner_opts).spin($("#logo")[0]);
+		NProgress.start();
+	} else {
+		$("#logo").html('<a id="logoLink" class="ml10 " href="/ph">PH</a>');
+		NProgress.done();
+	}
+}
+
+var spinner_opts = {
+  lines: 9, // The number of lines to draw
+  length: 6, // The length of each line
+  width: 5, // The line thickness
+  radius: 8, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 47, // The rotation offset
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#F7E400', // #rgb or #rrggbb
+  speed: 0.7, // Rounds per second
+  trail: 32, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: '-7px', // Top position relative to parent in px
+  left: 'auto' // Left position relative to parent in px
+};
+/* *************************** */
+/* instance du menu questionnaire*/
+/* *************************** */
+function DropDown(el) {
+	this.dd = el;
+	this.placeholder = this.dd.children('span');
+	this.opts = this.dd.find('ul.dropdown > li');
+	this.val = '';
+	this.index = -1;
+	this.initEvents();
+}
+DropDown.prototype = {
+	initEvents : function() {
+		var obj = this;
+
+		obj.dd.on('click', function(event){
+			$(this).toggleClass('active');
+			return false;
+		});
+
+		obj.opts.on('click',function(){
+			var opt = $(this);
+			obj.val = opt.text();
+			obj.index = opt.index();
+			obj.placeholder.text(obj.val);
+			window.open($(this).find('a').slice(0,1).attr('href'));
+		});
+	},
+	getValue : function() {
+		return this.val;
+	},
+	getIndex : function() {
+		return this.index;
+	}
+}
+
+function openModal(key,collection,id,tpl,savePath,isSub){
+    	$("#loginForm").modal('hide');
+    	toggleSpinner();
+    	$.ajax({
+    	  type: "POST",
+    	  url: baseUrl+"/common/GetMicroformat/key/"+key,
+    	  data: { "key" : key, 
+    	  		  "template" : tpl, 
+    	  		  "collection" : collection, 
+    	  		  "id" : id,
+    	  		  "savePath" : savePath,
+    	  		  "isSub" : isSub },
+    	  success: function(data){
+    			  $("#flashInfoLabel").html(data.title);
+    			  $("#flashInfoContent").html(data.content);
+    			  $("#flashInfoSaveBtn").html('<a class="btn btn-warning " href="javascript:;" onclick="$(\'#flashForm\').submit(); return false;"  >Enregistrer</a>');
+    		  toggleSpinner();
+    	  },
+    	  dataType: "json"
+    	});
+    
+	
+	$("#flashInfo").modal('show');
+}
+
+/* *************************** */
+/* global JS tools */
+/* *************************** */
+function log(msg,type){
+	if(debug){
+	   try {
+	    if(type){
+	      switch(type){
+	        case 'info': console.info(msg); break;
+	        case 'warn': console.warn(msg); break;
+	        case 'debug': console.debug(msg); break;
+	        case 'error': console.error(msg); break;
+	        case 'dir': console.dir(msg); break;
+	        default : console.log(msg);
+	      }
+	    } else
+	          console.log(msg);
+	  } catch (e) { 
+	     //alert(msg);
+	  }
+	}
+}
+/* ------------------------------- */
+
+function initSequence(){
+    $.each(initT, function(k,v){
+        log(k,'info');
+        v();
+    });
+    initT = null;
+}
+
+function showEvent(id){
+	$("#"+id).click(function(){
+    	if($("#"+id).prop("checked"))
+    		$("#"+id+"What").removeClass("hidden");
+    	else
+    		$("#"+id+"What").addClass("hidden");
+    });
+}
+
 //In this javascript file you can find a bunk of functional functions
 //Calling Actions in ajax. Can be used easily on views
 function connectPerson(connectUserId, callback) 
@@ -143,7 +283,6 @@ function follow(parentType, parentId, childId, childType){
 }
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
 	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
-	//e.preventDefault();
 	var formData = {
 		"childId" : childId,
 		"childType" : childType, 
@@ -151,9 +290,6 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	if(actionAdmin=="true"){
-		formData.adminAction=true;
-	}
 	console.log(formData);
 	
 	if(connectType!="admin" && connectType !="attendee"){
@@ -193,17 +329,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										//console.log("saveMembre");
 										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-										//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-										//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-										//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-										//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-										//bindFicheInfoBtn();
-										//if (data.notification && data.notification=="toBeValidated")
 										toastr.success(data.msg);	
-										//else
-										//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
 										loadByHash(location.hash);
 									}
 									else
@@ -234,18 +361,9 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 				dataType: "json",
 				success: function(data) {
 					if(data.result){
-						//console.log("saveMembre");
 						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						//$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+data.parent.name+'"'+ 
-						//					'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-						//					'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-						//					'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-						//bindFicheInfoBtn();
-						//if (data.notification && data.notification=="toBeValidated")
-							toastr.success(data.msg);	
-						//else
-						//	toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-							loadByHash(location.hash);
+						toastr.success(data.msg);	
+						loadByHash(location.hash);
 					}
 					else
 						toastr.error(data.msg);
@@ -262,7 +380,7 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt","urlExtraParam":"tpl=directory2"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users","urlExtraParam":"tpl=directory2"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users","urlExtraParam":"tpl=directory2"},
-	"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
+	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
@@ -279,6 +397,7 @@ var loadableUrls = {
     "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
@@ -288,7 +407,7 @@ var loadableUrls = {
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
-	"#organization.addmember" : {title:'Add members ', icon : 'plus'},
+	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
 	"#event.addattendeesv" : {title:'ADD ATTENDEES ', icon : 'plus'},
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
@@ -340,8 +459,9 @@ function jsController(hash){
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+	allReadyLoad = true;
+	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
-
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
     }
@@ -362,16 +482,26 @@ function loadByHash( hash , back ) {
     }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
+
+    } 
+    else if( hash.indexOf("#city.directory") >= 0 ){
+        hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
+	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	        hashT = hash.split(".");
+	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
+	} 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
-    if(!back){
+
+    /*if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
-	}
+	}*/
 }
 
 function checkIsLoggued(){
@@ -386,7 +516,7 @@ function resetUnlogguedTopBar() {
 /* ****************
 Generic non-ajax panel loading process 
 **************/
-function showPanel(box,bgStyle,title){ 
+function showPanel(box,callback){ 
 
 	$(".my-main-container").scrollTop(0);
 
@@ -398,6 +528,10 @@ function showPanel(box,bgStyle,title){
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
 
 	$("."+box).show(500);
+
+	if (typeof callback == "function") {
+		callback();
+	}
 }
 
 /* ****************
@@ -419,6 +553,7 @@ function showAjaxPanel (url,title,icon) {
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
+		$(".hover-info").hide();
 		 $.blockUI({
 		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
 		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
@@ -440,9 +575,10 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(){ 
+		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
+
 
 			$(".main-col-search").slideDown(); 
 			initNotifications(); 
@@ -453,6 +589,18 @@ function showAjaxPanel (url,title,icon) {
 			 });
 
 			$.unblockUI();
+
+			// setTimeout(function(){
+			// 	console.log("call timeout MAP MAP");
+			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
+			// 		toastr.info('<i class="fa fa-check"></i> Cartographie activée');
+			// 		showMap(false); 
+			// 		$("#btn-toogle-map").show(400);
+			// 		//console.log("getAJAX OK timeout MAIN MAP");
+					
+			// 	},"html");
+			// }, 2000);
+
 		},"html");
 	}, 800);
 }

@@ -1,3 +1,9 @@
+/*
+	Pour info, depuis qu'on utilise le nouveau design Tango
+	on utilise aussi le floopDrawerRight.js
+	floopDrawer.js n'est plus utilisé
+*/
+
 //liste des types à afficher avec leurs icons
 var floopContactTypes = [	{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
 							{ name : "events", 			color: "orange"	, icon:"calendar"		},

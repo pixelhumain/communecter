@@ -56,10 +56,8 @@ function bindBtnFollow() {
 		var id = $(this).data("id");
 		connectPerson($(this).data("id"), function(user) {
 			console.log(user);
-			if( isNotSV ){
-				addFloopEntity(id, "people", user);
-				loadByHash(location.hash);
-			}
+			addFloopEntity(id, "people", user);
+			loadByHash(location.hash);
 		});
 	});
 
@@ -68,10 +66,8 @@ function bindBtnFollow() {
 		var type = $(this).data("type");
 		var name = $(this).data("name");
 		disconnectPerson(id, type,name, function(id, type, name) {
-			if( isNotSV ){
-				removeFloopEntity(id, "people");
-				loadByHash(location.hash);
-			}
+			removeFloopEntity(id, "people");
+			loadByHash(location.hash);
 		});
 	});
 }

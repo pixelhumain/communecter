@@ -1,5 +1,4 @@
 <?php 
-if( isset($_GET["isNotSV"])) 
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
@@ -28,6 +27,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		$(".moduleLabel").html("<i class='fa fa-cubes'></i> <?php echo $need["name"] ?> ");
 		getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo Need::COLLECTION ?>/id/<?php echo (string)$need["_id"];?>",null,"html");
 	});
 </script>

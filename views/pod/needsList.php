@@ -14,7 +14,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<?php if($isAdmin) { ?>
 		<div class="panel-tools">
-    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="showAjaxPanel('/need/addneedsv/id/<?php echo $parentId ?>/type/<?php echo $parentType ?>/parentName/<?php echo $parentName ?>?isNotSV=1', 'ADD NEED','cubes' )">
+    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="loadByHash('#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>.parentName.<?php echo addslashes($parentName) ?>')">
+	    		
 	    		<i class="fa fa-plus"></i> Ajouter un besoin
 	    	</a>
 		</div>

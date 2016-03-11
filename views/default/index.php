@@ -9,7 +9,7 @@
 	//Data helper
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 	//Data helper
-	$cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClientScript::POS_END);
+	//$cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClientScript::POS_END);
 	//Validation
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 	//select2
@@ -76,10 +76,12 @@
 
 ?>
 
-<?php 
+<div id="mainMap">
+	<?php 
 		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 		$this->renderPartial($layoutPath.'mainMap');
-?>
+	?>
+</div>
 
 <?php //get all my link to put in floopDrawer
 	if(isset(Yii::app()->session['userId'])){
@@ -91,23 +93,83 @@
 
     }
 ?>
+<style>
 
-<?php 
-	$actionBtnMyCity = "";
-	if($inseeCommunexion != ""){
-		$actionBtnMyCity = "loadByHash('#city.detail.insee.".$inseeCommunexion."');";
+	#menu-bottom .btn-param-postal-code{
+		border-radius: 0px;
+		left: 0px;
+		bottom: 0px;
+		height: 40px !important;
+		width: 40px !important;
+		font-size: 23px;
 	}
-?>
-<button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code" onclick="<?php echo $actionBtnMyCity; ?>"
-		<?php if($actionBtnMyCity != ""){ ?>data-toggle="tooltip" data-placement="bottom" title="<?php echo $cityNameCommunexion; ?> en détails" alt="<?php echo $cityNameCommunexion; ?> en détails" <?php } ?> >
-	<i class="fa fa-university"></i>
+
+	.btn-scope{
+		position: fixed;
+		border-radius: 50%;
+		z-index: 1;
+		border: none;
+		background-color: rgba(255, 255, 255, 0.45) !important;
+		box-shadow: 0px 0px 3px 3px rgba(114, 114, 114, 0.1);
+	} 
+	.btn-scope.selected{
+		background-color: rgb(233, 96, 118) !important;
+	}
+	.btn-scope:hover{
+		background-color: rgb(233, 96, 118) !important;
+	}
+	.btn-scope-niv-2{
+		bottom: 43px;
+		width: 74px;
+		height: 73px;
+		left: 46px;
+	}
+	.btn-scope-niv-3{
+		bottom: 29px;
+		width: 105px;
+		height: 104px;
+		left: 31px;
+	}
+	.btn-scope-niv-4{
+		bottom: 15px;
+		width: 136px;
+		height: 135px;
+		left: 16px;
+	}
+	
+	.btn-scope-niv-5{
+		bottom: 0px;
+		width: 167px;
+		height: 166px;
+		left: 0px;
+		border-radius: 50% 50% 50% 0%;
+		background-color: rgb(177, 194, 204) !important;
+	}
+	.btn-scope-niv-5:hover{
+		background-color: rgb(109, 120, 140) !important;
+	}
+	.btn-scope-niv-5.selected{
+		background-color: rgb(109, 120, 140) !important;
+	}
+	
+</style>
+<button class="btn-scope btn-scope-niv-5 tooltips" level="5"
+		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
+<button class="bg-red btn-scope btn-scope-niv-4 tooltips" level="4"
+		data-toggle="tooltip" data-placement="top" title="Niveau 4 : Région" alt="Niveau 4 : Région" ></button>
+<button class="bg-red btn-scope btn-scope-niv-3 tooltips" level="3"
+		data-toggle="tooltip" data-placement="top" title="Niveau 3 : Déparement" alt="Niveau 3 : Département" ></button>
+<button class="bg-red btn-scope btn-scope-niv-2 tooltips" level="2"
+		data-toggle="tooltip" data-placement="top" title="Niveau 2 : Code postal" alt="Niveau 2 : Code postal" ></button>
+
+<button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code btn-scope-niv-1"
+		data-toggle="tooltip" data-placement="top" title="Niveau 1 :  Commune" alt="Niveau 1 : Commune" >
+	<i class="fa fa-crosshairs"></i>
 </button> 
 <div id="input-communexion">
-	<span class="search-loader text-red">Communection : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
+	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
 </div>
-<?php //} ?>
-
 
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
@@ -208,7 +270,6 @@ var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContac
 
 var proverbs = <?php echo json_encode(random_pic()) ?>;  
 
-var isNotSV = true;
 var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
@@ -244,6 +305,17 @@ jQuery(document).ready(function() {
     	//console.log("scrolling my-container");
     	checkScroll();
     });
+
+    $(".btn-scope").click(function(){
+    	var level = $(this).attr("level");
+    	selectScopeLevelCommunexion(level);
+    });
+    $(".btn-scope").mouseenter(function(){
+    	$(".btn-scope").removeClass("selected");
+    });
+    $(".btn-scope").mouseout(function(){
+    	$(".btn-scope-niv-"+levelCommunexion).addClass("selected");
+    });
     
     initNotifications();
 	initFloopDrawer();
@@ -257,7 +329,7 @@ jQuery(document).ready(function() {
 
     if(cityNameCommunexion != ""){
 		$('#searchBarPostalCode').val(cityNameCommunexion);
-		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 	}
 
 	toogleCommunexion();
@@ -271,23 +343,32 @@ jQuery(document).ready(function() {
       console.log("history.state",$.isEmptyObject(history.state),location.hash);
       console.warn("popstate history.state",history.state);
       if( lastUrl && "onhashchange" in window && location.hash  ){
-        if( $.isEmptyObject( history.state ) ){
+        if( $.isEmptyObject( history.state ) && allReadyLoad == false ){
 	        //console.warn("poped state",location.hash);
+	        //alert("popstate");
 	        loadByHash(location.hash,true);
-	    } //else { //pas necessaire de stocké le navigateur le fait tout seul
-	      	//history.pushState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
-    		//console.warn("pushState",location.hash);
-	    //}
+	    } 
+	    allReadyLoad = false;
       }
+
       lastUrl = location.hash;
     });
+
+
+	//console.log("start timeout MAIN MAP LOOOOOL");
+	//$("#btn-toogle-map").hide();
+	
+
+
     //console.log("hash", location.hash);
     //console.warn("isMapEnd 3",isMapEnd);
     if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
+		//alert("ici");
 		loadByHash(location.hash);
 		return;
 	}
 	else{ 
+		//alert("ici");
 		loadByHash("#default.home");
 	}
 
@@ -408,6 +489,10 @@ function checkScroll(){
 
 function showMap(show)
 {
+	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
+	console.log("typeof SIG : ", typeof Sig);
+	if(typeof Sig == "undefined") show = false;
+
 	console.log("showMap");
 	console.warn("showMap");
 	if(show === undefined) show = !isMapEnd;
@@ -447,6 +532,7 @@ function showMap(show)
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
+		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.closePopup();
 		}
@@ -479,14 +565,18 @@ function setScopeValue(btn){
 			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
 			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
 			
-			$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
-			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
-			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+			
+			//$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
+			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
+			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
+			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
 
+				
 		<?php } ?>
 
 		$("#searchBarPostalCode").val(cityNameCommunexion);
-		
+		selectScopeLevelCommunexion(levelCommunexion);
+
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
 	
 		Sig.clearMap();
@@ -549,10 +639,11 @@ function showLocalActorsCityCommunexion(){
           success: function(data){
             if(!data){ toastr.error(data.content); }
             else{
-            	console.dir(data);
+            	//console.dir(data);
             	Sig.showMapElements(Sig.map, data);
             	$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
-				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
+				
 				toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
 				$.unblockUI();
             }
@@ -579,7 +670,7 @@ function showTopMenu(show){
 
 function initFloopDrawer(){
 	console.log("initFloopDrawer");
-	console.dir(myContacts);
+	//console.dir(myContacts);
 	if(myContacts != null){
       var floopDrawerHtml = buildListContactHtml(myContacts, userId);
       $("#floopDrawerDirectory").html(floopDrawerHtml);
@@ -637,10 +728,11 @@ function toogleCommunexion(init){ //this = jQuery Element
     $("#searchBarPostalCode").val(cityNameCommunexion);
 
     if(inseeCommunexion != "")
-    $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
+    $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 				
    // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
+    //$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
+    selectScopeLevelCommunexion(levelCommunexion);
     $(".lbl-scope-list").show(400);
     console.log("inseeCommunexion", inseeCommunexion);
     //setScopeValue(inseeCommunexion);
@@ -672,6 +764,51 @@ function showInputCommunexion(){
 	$("#input-communexion").show(300);
 	$(".main-col-search").animate({ opacity:0.3 }, 200 );
 	$(".hover-info").hide();
+}
+
+//niv 1 : city
+//niv 2 : CP
+//niv 3 : department
+//niv 4 : region
+//niv 4 : pays / global / tout
+var levelCommunexion = 1;
+function selectScopeLevelCommunexion(level){
+
+	var change = (level != levelCommunexion);
+
+	$(".btn-scope").removeClass("selected");
+	$(".btn-scope-niv-"+level).addClass("selected");
+	levelCommunexion = level;
+
+	if(level == 1) endMsg = "à " + cityNameCommunexion + ", " + cpCommunexion;
+	if(level == 2) endMsg = "au code postal " + cpCommunexion;
+	if(level == 3) endMsg = "au département " + cpCommunexion.substr(0, 2);
+	if(level == 4) endMsg = "à votre région";
+	if(level == 5) endMsg = "à l'ensemble du réseau";
+
+	if(change)
+	toastr.success('Vous êtes connecté ' + endMsg);
+
+	if(level == 1) endMsg = cityNameCommunexion + ", " + cpCommunexion;
+	if(level == 2) endMsg = cpCommunexion;
+	if(level == 3) endMsg = "Département " + cpCommunexion.substr(0, 2);
+	if(level == 4) endMsg = "Votre région";
+	if(level == 5) endMsg = "Tout le réseau";
+	
+	if(!communexionActivated)
+    toogleCommunexion();
+
+	$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + endMsg);
+
+	$(".btn-scope-niv-5").attr("data-original-title", "Niveau 5 - Tout le réseau");
+	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région");
+	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + cpCommunexion.substr(0, 2));
+	$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Code postal : " + cpCommunexion);
+	$(".btn-scope-niv-1").attr("data-original-title", "Niveau 1 - " + cityNameCommunexion + ", " + cpCommunexion);
+	$('.tooltips').tooltip();
+
+	if(typeof startSearch == "function")
+	startSearch();
 }
 
 </script>
