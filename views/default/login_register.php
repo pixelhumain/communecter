@@ -816,7 +816,7 @@ function searchCity() {
 
 function validateUserName() {
 	var username = $('.form-register #username').val();
-	if(username.length >= 8) {
+	if(username.length >= 4) {
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
 				//console.log("bing !");
