@@ -2,7 +2,7 @@ debug = true;
 
 $(document).ready(function() { 
 	
-	NProgress.start();
+	//NProgress.start();
 	
 	/* *************************** */
 	
@@ -403,6 +403,7 @@ var loadableUrls = {
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
