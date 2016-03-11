@@ -629,7 +629,7 @@ function setScopeValue(btn){
 			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 
-			setTimeout(function(){ showTwoStep("street"); }, 3000);
+			setTimeout(function(){ showTwoStep('conf-communected'); showTwoStep("street");  }, 3000);
 			//showMap(false);
 		}else{
 			if(inseeCommunexion != ""){

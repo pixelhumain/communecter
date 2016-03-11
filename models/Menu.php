@@ -22,7 +22,7 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t("common", 'Show his person'), 
                     Yii::t("common", 'Details'),
-                    'bookmark fa-rotate-270',
+                    'user',
                     "loadByHash('#person.detail.id.".$id."')","person", "detail");
         /*self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
                     Yii::t("common", "Details"), 
