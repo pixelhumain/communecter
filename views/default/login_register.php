@@ -277,7 +277,6 @@ jQuery(document).ready(function() {
 	removeParametersWithoutReloading();
 	
 	$(".box").hide();
-
 	Login.init();
 
 	$('#btn-show-city').click(function(){
