@@ -424,11 +424,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 				<div class="information" style="text-align: left; color:#8b91a0">
 					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="text-azure">financement participatif</a>.
-					<br/><span class="explainLink">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
-					<br/>Pour <span class="explainLink">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
-					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="explainLink">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+					<br/><span class="text-blue">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
+					<br/>Pour <span class="text-blue">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
+					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-blue">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
 					<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
-					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="explainLink">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
+					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-blue">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
 					<?php /* ?>
 					<br/><br/>
 					Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les
