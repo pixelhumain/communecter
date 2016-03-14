@@ -422,13 +422,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					<img class="img-responsive pull-right" style="width: 60%; border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 				</a>
 
-				<div class="information" style="text-align: left; color:#3c5665">
-					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
-					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
-					<br/>Pour <span class="text-red">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
-					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+				<div class="information" style="text-align: left; color:#8b91a0">
+					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="text-azure">financement participatif</a>.
+					<br/><span class="explainLink">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
+					<br/>Pour <span class="explainLink">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
+					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="explainLink">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
 					<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
-					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-red">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
+					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="explainLink">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
 					<?php /* ?>
 					<br/><br/>
 					Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les
@@ -442,16 +442,33 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					Notre campagne de crowdfounding va donc démarrer le ......
 					*/?>
 				</div>
+				<style>
+				.text-green-btn{
+					color: #93C020 !important;
+					font-size: 18px;
+					padding: 6px 10px;
+					border-radius: 12px;
+					border: 2px solid #93C020!important;
+				}
+
+					.text-green-btn:hover{
+						color: #FFFFFF !important;
+						background: #93C020!important;
+						-webkit-box-shadow: 0 0 6px rgba(146, 190, 31, 0.6);
+					  -moz-box-shadow: 0 0 6px rgba(146, 190, 31, 0.6);
+					  box-shadow: 0 0 6px rgba(146, 190, 31, 0.6); }
+				</style>
+					<h1 class="homestead center" style="display:block; font-size:18px; text-align:left;"><a href="javascript:loadByHash('#default.view.page.crowdfunding')" class="text-green-btn">Aidez-Nous</a> à réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 			</div>
 		</div>
 	</div>
 
 	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
-		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
+		<!--<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
-		</div>
+		</div>-->
 		<div class="col-md-12" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
+
 		</div>
 
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">

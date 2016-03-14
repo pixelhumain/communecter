@@ -85,7 +85,7 @@
     -webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
     -o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
     box-shadow: 0px 3px 10px 0px rgba(66, 66, 66, 0.37) !important;
-  } 
+  }
 
   .main-top-menu .dropdown-result-global-search{
     position: fixed;
@@ -125,13 +125,13 @@
 
 
 </style>
-  
+
 
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
-    <div class="dropdown-result-global-search"></div>
-    
+    <div class="dropdown-result-global-search" style="width:240px; right:24.3%; top:44px;"></div>
+
     <div class="topMenuButtons pull-right">
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
@@ -154,35 +154,35 @@
           <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer une organisation</a></li>
           <li role="separator" class="divider"></li>
           <li>
-            <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
+            <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>"
                id="btn-menu-dropdown-logout" class="text-red">
               <i class="fa fa-sign-out"></i> Déconnexion
             </a>
-          </li>  
+          </li>
         </ul>
       </div>
 
-      
-      <button class="menu-button btn-menu btn-menu-notif tooltips text-dark hidden-xs" 
+
+      <button class="menu-button btn-menu btn-menu-notif tooltips text-dark hidden-xs"
             data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
         <i class="fa fa-bell"></i>
         <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?></span>
       </button>
-    
+
     <?php }else{ ?>
       <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
-      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
+      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>
     <?php } ?>
     </div>
-    <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
+    <!-- <button class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark"
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
        <i class="fa fa-search"></i>
     </button> -->
 
-    
+
   </div>
 
- 
+
 
 <script>
   var timeoutGS = setTimeout(function(){ }, 100);
@@ -212,14 +212,14 @@
     });
     $('.main-col-search, .mapCanvas, .main-menu-top').mouseenter(function(e){
         clearTimeout(timeoutDropdownGS);
-        timeoutDropdownGS = setTimeout(function(){ 
+        timeoutDropdownGS = setTimeout(function(){
             showDropDownGS(false);
         }, 300);
     });
 
     $('.moduleLabel').click(function(e){
         clearTimeout(timeoutDropdownGS);
-        timeoutDropdownGS = setTimeout(function(){ 
+        timeoutDropdownGS = setTimeout(function(){
             showDropDownGS(false);
         }, 300);
     });
@@ -257,7 +257,7 @@ var currentIndexMinGS = 0;
 var currentIndexMaxGS = indexStepGS;
 var scrollEndGS = false;
 var totalDataGS = 0;
-var mapElementsGS = new Array(); 
+var mapElementsGS = new Array();
 
 function startGlobalSearch(indexMin, indexMax){
     console.log("startGlobalSearch", indexMin, indexMax, indexStepGS, loadingDataGS);
@@ -268,10 +268,10 @@ function startGlobalSearch(indexMin, indexMax){
 
     console.log("loadingDataGS true");
     loadingDataGS = true;
-    
+
     var search = $('.input-global-search').val();
     if(search == "") search = $('#input-global-search-xs').val();
-      
+
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStepGS;
 
@@ -280,10 +280,10 @@ function startGlobalSearch(indexMin, indexMax){
 
     if(indexMin == 0) {
       totalDataGS = 0;
-      mapElementsGS = new Array(); 
+      mapElementsGS = new Array();
     }
     else{ console.log("scrollEndGS ? ", scrollEndGS); if(scrollEndGS) return; }
-    
+
     if(search.length>=3){
       autoCompleteSearchGS(search, indexMin, indexMax);
     }else{
@@ -293,7 +293,7 @@ function startGlobalSearch(indexMin, indexMax){
       $(".dropdown-result-global-search").html(str);
       loadingDataGS = false;
       scrollEndGS = false;
-    }   
+    }
 }
 
 
@@ -314,7 +314,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
     $("#btnShowMoreResultGS").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     else
     $(".dropdown-result-global-search").html("<h3 class='text-dark center'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</h3>");
-      
+
 
     $.ajax({
       type: "POST",
@@ -322,7 +322,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);          
+             console.log("error"); console.dir(data);
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
@@ -333,12 +333,12 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
 
               var countData = 0;
               $.each(data, function(i, v) { if(v.length!=0){ countData++; } });
-              
+
               totalDataGS += countData;
-            
+
               str = "";
               var city, postalCode = "";
-              
+
               //parcours la liste des résultats de la recherche
               $.each(data, function(i, o) {
                   var typeIco = i;
@@ -350,7 +350,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   typeIco = o.type;
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                  
+
                   htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
                   if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
                     var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
@@ -363,8 +363,8 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                     city = o.address.addressLocality;
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
-                  
-                  
+
+
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
@@ -393,35 +393,35 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   var name = typeof o.name != "undefined" ? o.name : "";
                   var postalCode = (typeof o.address != "undefined" &&
                             typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                  
+
                   if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
                   var cityName = (typeof o.address != "undefined" &&
                           typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                  
+
                   var fullLocality = postalCode + " " + cityName;
 
                   var description = (typeof o.shortDescription != "undefined" &&
                             o.shortDescription != null) ? o.shortDescription : "";
                   if(description == "") description = (typeof o.description != "undefined" &&
                                      o.description != null) ? o.description : "";
-           
+
                   var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
                   var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                   //template principal
                   //str += "<div class='col-md-12 searchEntity'>";
                     /*str += "<div class='col-md-5 entityLeft'>";
-                      
+
                       <?php if( isset( Yii::app()->session['userId']) ) { ?>
                       if(type!="city")
-                      str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" + 
+                      str += "<a href='javascript:' class='followBtn btn btn-sm btn-add-to-directory bg-white tooltips'" +
                             'data-toggle="tooltip" data-placement="left" title="Ajouter dans votre répertoire"'+
                             " data-ownerlink='knows' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"'>"+
                                 "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                               "</a>";
                       <?php } ?>
                       str += tags;
-              
+
                     str += "</div>";*/
 
                     target = "";
@@ -444,13 +444,13 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                       //str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
                     str += "</div>";
                     str += "</div>";
-                              
+
                   //str += "</div>";
               }); //end each
 
-              if(str == "") { 
+              if(str == "") {
                   if(indexMin == 0){
-                    //ajout du footer       
+                    //ajout du footer
                     str += '<div class="center" id="footerDropdownGS">';
                     str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Aucun résultat</label><br/>";
                     str += "</div>";
@@ -458,12 +458,12 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   }
               }
               else
-              {       
-                //ajout du footer   
-                if(!scrollEndGS){    
+              {
+                //ajout du footer
+                if(!scrollEndGS){
                   //var nbRes = '<div class="center" id="footerDropdownGS">';
                   //nbRes    += "</div>";
-                  
+
                   //str = nbRes + str;
                   str += '<div class="center" id="footerDropdownGS">';
                   str += "<hr style='margin-top: 5px; margin-top: 10px; float:left; width:100%;'/><label style='margin-top:0px; margin-bottom:5px;' class='text-dark'>" + totalDataGS + " résultats</label><br/>";
@@ -483,8 +483,8 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   $(".dropdown-result-global-search").append(str);
                   //on scroll pour afficher le premier résultat de la dernière recherche
                   $(".dropdown-result-global-search").animate({"scrollTop" : heightContainer}, 1000);
-                  
-                  
+
+
                 //si on est sur une première recherche
                 }else{
                   //on ajoute le texte dans le html
@@ -506,7 +506,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                     startGlobalSearch(indexMin+indexStepGS, indexMax+indexStepGS);
                   }
                 });
-                
+
                 //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
                 //initBtnLinkGS();
 
@@ -523,7 +523,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
             //console.log("scrollEndGS ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
             if(indexMax - countData > indexMin){
-              $("#btnShowMoreResultGS").remove(); 
+              $("#btnShowMoreResultGS").remove();
               scrollEndGS = true;
             }else{
               scrollEndGS = false;
@@ -534,11 +534,10 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
           }
     });
 
-                    
+
   }
 
 
 
 
   </script>
-

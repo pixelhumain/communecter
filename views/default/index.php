@@ -1,4 +1,4 @@
-<?php 
+<?php
 	$cs = Yii::app()->getClientScript();
 
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
@@ -9,7 +9,7 @@
 	//Data helper
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
 	//Data helper
-	//$cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClientScript::POS_END);
+	$cs->registerScriptFile($this->module->assetsUrl. '/js/communecter.js' , CClientScript::POS_END);
 	//Validation
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 	//select2
@@ -17,7 +17,7 @@
 
 	//FloopDrawer
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/floopDrawerRight.js' , CClientScript::POS_END);
-	
+
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/localisationHtml5.js' , CClientScript::POS_END);
 	//geolocalisation nominatim et byInsee
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
@@ -34,7 +34,7 @@
         if(file_exists ( "../../modules/communecter/assets/images/proverb" )){
           $files = glob('../../modules/communecter/assets/images/proverb/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
           $res = array();
-          for ($i=0; $i < 8; $i++) { 
+          for ($i=0; $i < 8; $i++) {
             array_push( $res , str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)]) );
           }
           return $res;
@@ -43,28 +43,28 @@
     }
 ?>
 
-<?php 
+<?php
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
-		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ?
 		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
-		
-		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+
+		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ?
 		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
-		
-		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+
+		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ?
 		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
 	}
 	//si l'utilisateur est connecté
 	else{
 		$me = Person::getById(Yii::app()->session['userId']);
-		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
+		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ?
 		   			    			  $me['address']['codeInsee'] : "";
-		
-		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
+
+		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ?
 		   			    			  $me['address']['postalCode'] : "";
-		
-		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
+
+		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ?
 		   			    			  $me['address']['addressLocality'] : "";
 
 
@@ -77,7 +77,7 @@
 ?>
 
 <div id="mainMap">
-	<?php 
+	<?php
 		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 		$this->renderPartial($layoutPath.'mainMap');
 	?>
@@ -86,7 +86,7 @@
 <?php //get all my link to put in floopDrawer
 	if(isset(Yii::app()->session['userId'])){
       $myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
-      $myFormContact = $myContacts; 
+      $myFormContact = $myContacts;
       $getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
     }else{
       $myFormContact = null;
@@ -111,7 +111,7 @@
 		border: none;
 		background-color: rgba(255, 255, 255, 0.45) !important;
 		box-shadow: 0px 0px 3px 3px rgba(114, 114, 114, 0.1);
-	} 
+	}
 	.btn-scope.selected{
 		background-color: rgb(233, 96, 118) !important;
 	}
@@ -136,7 +136,7 @@
 		height: 135px;
 		left: 16px;
 	}
-	
+
 	.btn-scope-niv-5{
 		bottom: 0px;
 		width: 167px;
@@ -151,7 +151,7 @@
 	.btn-scope-niv-5.selected{
 		background-color: rgb(109, 120, 140) !important;
 	}
-	
+
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
@@ -165,7 +165,7 @@
 <button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code btn-scope-niv-1"
 		data-toggle="tooltip" data-placement="top" title="Niveau 1 :  Commune" alt="Niveau 1 : Commune" >
 	<i class="fa fa-crosshairs"></i>
-</button> 
+</button>
 <div id="input-communexion">
 	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
@@ -173,21 +173,21 @@
 
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
-	
+
 	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" >
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
-	<?php 
+	<?php
 		if(!isset($urlPhotoProfil)) $urlPhotoProfil = "";
 	 	if(!isset($me)) $me = "";
-	 	$this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); 
-	?> 
-	
+	 	$this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil));
+	?>
+
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
 		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu">L'Annuaire</span> <span class="text-red">COMMUNE</span>CTÉ</h1>
 
-	<?php $this->renderPartial("short_info_profil"); ?> 
+	<?php $this->renderPartial("short_info_profil"); ?>
 
 	<button class="menu-button btn-menu btn-menu-top bg-azure tooltips" id="btn-toogle-map"
 			data-toggle="tooltip" data-placement="right" title="Carte" alt="Carte">
@@ -205,14 +205,14 @@
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php //if(!isset(Yii::app()->session['userId'])) 
-			$this->renderPartial("login_register"); 
+	<?php //if(!isset(Yii::app()->session['userId']))
+			$this->renderPartial("login_register");
 			?>
 
-	
+
 </div>
 
-<?php  
+<?php
 	if(isset(Yii::app()->session['userId'])) {
 		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 		$this->renderPartial($layoutPath.'notifications2');
@@ -222,11 +222,11 @@
 
 
 <script type="text/javascript">
-	
+
 
 	var mapIconTop = {
 	    "default" : "fa-arrow-circle-right",
-	    "citoyen":"<?php echo Person::ICON ?>", 
+	    "citoyen":"<?php echo Person::ICON ?>",
 	    "NGO":"<?php echo Organization::ICON ?>",
 	    "LocalBusiness" :"<?php echo Organization::ICON_BIZ ?>",
 	    "Group" : "<?php echo Organization::ICON_GROUP ?>",
@@ -240,7 +240,7 @@
 	  };
 	var mapColorIconTop = {
 	    "default" : "dark",
-	    "citoyen":"yellow", 
+	    "citoyen":"yellow",
 	    "NGO":"green",
 	    "LocalBusiness" :"green",
 	    "Group" : "green",
@@ -265,10 +265,10 @@ var typesLabels = {
 var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
 var cpCommunexion = "<?php echo $cpCommunexion; ?>";
 var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
-/* variables globales communexion */	
+/* variables globales communexion */
 var myContacts = <?php echo ($myFormContact != null) ? json_encode($myFormContact) : "null"; ?>;
 
-var proverbs = <?php echo json_encode(random_pic()) ?>;  
+var proverbs = <?php echo json_encode(random_pic()) ?>;
 
 var hideScrollTop = true;
 var lastUrl = null;
@@ -277,7 +277,7 @@ var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
 
-	
+
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 		var path = "/";
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
@@ -285,7 +285,7 @@ jQuery(document).ready(function() {
 		$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
 		$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
 		$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
-		
+
 	<?php } ?>
 
 
@@ -300,7 +300,7 @@ jQuery(document).ready(function() {
     $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
     $("#mapCanvasBg").show();
-    
+
     $(".my-main-container").scroll(function(){
     	//console.log("scrolling my-container");
     	checkScroll();
@@ -316,10 +316,10 @@ jQuery(document).ready(function() {
     $(".btn-scope").mouseout(function(){
     	$(".btn-scope-niv-"+levelCommunexion).addClass("selected");
     });
-    
+
     initNotifications();
 	initFloopDrawer();
-    
+
     $(window).resize(function(){
       resizeInterface();
     });
@@ -334,8 +334,8 @@ jQuery(document).ready(function() {
 
 	toogleCommunexion();
 
-	//manages the back button state 
-	//every url change (loadByHash) is pushed into history.pushState 
+	//manages the back button state
+	//every url change (loadByHash) is pushed into history.pushState
 	//onclick back btn popstate is launched
 	//
     $(window).bind("popstate", function(e) {
@@ -347,7 +347,7 @@ jQuery(document).ready(function() {
 	        //console.warn("poped state",location.hash);
 	        //alert("popstate");
 	        loadByHash(location.hash,true);
-	    } 
+	    }
 	    allReadyLoad = false;
       }
 
@@ -357,7 +357,7 @@ jQuery(document).ready(function() {
 
 	//console.log("start timeout MAIN MAP LOOOOOL");
 	//$("#btn-toogle-map").hide();
-	
+
 
 
     //console.log("hash", location.hash);
@@ -367,7 +367,7 @@ jQuery(document).ready(function() {
 		loadByHash(location.hash);
 		return;
 	}
-	else{ 
+	else{
 		//alert("ici");
 		loadByHash("#default.home");
 	}
@@ -414,11 +414,11 @@ function startNewCommunexion(){
 	        	$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
 	        	showMap(true);
 	        	Sig.showMapElements(Sig.map, data);
-	        	
+
 	        }
 
           }
-          
+
       }
     });
 }
@@ -440,7 +440,7 @@ function resizeInterface()
 }
 
 function initNotifications(){
-	
+
 	$('.main-top-menu .btn-menu-notif').off().click(function(){
 	  console.log("click notification main-top-menu");
       showNotif();
@@ -452,7 +452,7 @@ function initNotifications(){
 }
 function showNotif(show){
 	if(typeof show == "undefined"){
-		if($("#notificationPanelSearch").css("display") == "none") show = true; 
+		if($("#notificationPanelSearch").css("display") == "none") show = true;
     	else show = false;
     }
 
@@ -489,7 +489,7 @@ function checkScroll(){
 
 function showMap(show)
 {
-	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
+	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; }
 	console.log("typeof SIG : ", typeof Sig);
 	if(typeof Sig == "undefined") show = false;
 
@@ -503,7 +503,7 @@ function showMap(show)
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.fire('click');
 		}
-		
+
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
 		$(".btn-menu5, .btn-menu-add").hide();
@@ -516,7 +516,7 @@ function showMap(show)
 
 		setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
 		var timer = setTimeout("Sig.constructUI()", 1000);
-		
+
 	}else{
 		isMapEnd =false;
 		$(".btn-group-map").hide( 700 );
@@ -540,10 +540,10 @@ function showMap(show)
 		if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
 			$("#ajaxSV").show( 700 );
 
-		showTopMenu(true);	
+		showTopMenu(true);
 		checkScroll();
 	}
-		
+
 }
 
 
@@ -558,27 +558,27 @@ function setScopeValue(btn){
 		var path = "/";
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 
-		
+
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
-		
+
 			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
 			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
 			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
-			
-			
+
+
 			//$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
 
-				
+
 		<?php } ?>
 
 		$("#searchBarPostalCode").val(cityNameCommunexion);
 		selectScopeLevelCommunexion(levelCommunexion);
 
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
-	
+
 		Sig.clearMap();
 		console.log("hash city ? ", location.hash.indexOf("#default.city"));
 		if(location.hash == "#default.home"){
@@ -606,35 +606,35 @@ function setScopeValue(btn){
 			}
 		}
 	}
-	
+
   	console.log("setScopeValue", inseeCommunexion, cityNameCommunexion, cpCommunexion);
 }
 
 function showLocalActorsCityCommunexion(){
 		console.log("showLocalActorsCityCommunexion");
-		var data = { "name" : "", 
+		var data = { "name" : "",
 	 			 "locality" : inseeCommunexion,
-	 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ], 
+	 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ],
 	 			 "searchBy" : "INSEE",
-        		 "indexMin" : 0, 
-        		 "indexMax" : 500  
+        		 "indexMin" : 0,
+        		 "indexMax" : 500
         		};
 
     $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
-	
+
 	$.blockUI({
 		message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + cpCommunexion + " : Commune<span class='text-dark'>xion en cours ...</span></h1>"
 	});
 
 	showMap(true);
-	
+
 	$.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);          
+             console.log("error"); console.dir(data);
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
@@ -643,7 +643,7 @@ function showLocalActorsCityCommunexion(){
             	Sig.showMapElements(Sig.map, data);
             	$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-				
+
 				toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
 				$.unblockUI();
             }
@@ -654,11 +654,11 @@ function showLocalActorsCityCommunexion(){
 
 
 var topMenuActivated = true;
-function showTopMenu(show){ 
+function showTopMenu(show){
 
-	if(typeof show == "undefined") 
+	if(typeof show == "undefined")
 		show = $("#main-top-menu").css("opacity") == 1;
-	
+
 	if(show){
 		$(".main-top-menu").animate({ top: 0, opacity:1 }, 500 );
 	}
@@ -702,12 +702,12 @@ function setInputPlaceValue(thisBtn){
 		//$("#autoGeoPostalCode").val($(thisBtn).attr("val"));
 	//}else{
 		$("#searchBarPostalCode").val($(thisBtn).attr("val"));
-		
+
 		console.log("setInputPlaceValue")
 		$("#input-communexion").show();
 		//$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
 		setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
-	  	
+
 	//}
 	//$.cookie("HTML5CityName", 	 $(thisBtn).attr("val"), 	   { path : '/ph/' });
 	startNewCommunexion();
@@ -715,10 +715,10 @@ function setInputPlaceValue(thisBtn){
 
 var communexionActivated = false;
 function toogleCommunexion(init){ //this = jQuery Element
-  
+
   if(init != true)
   communexionActivated = !communexionActivated;
-	
+
   console.log("communexionActivated", communexionActivated);
   if(communexionActivated){
     //btn.removeClass("text-red");
@@ -729,7 +729,7 @@ function toogleCommunexion(init){ //this = jQuery Element
 
     if(inseeCommunexion != "")
     $(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-				
+
    // $("#searchBarPostalCode").animate({"width" : "0px !important", "padding-left" : "51px !important;"}, 200);
     //$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
     selectScopeLevelCommunexion(levelCommunexion);
@@ -741,9 +741,9 @@ function toogleCommunexion(init){ //this = jQuery Element
     $(".btn-activate-communexion, .btn-param-postal-code").addClass("text-red");
     $(".btn-activate-communexion, .btn-param-postal-code").removeClass("bg-red");
     //$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200);
-    
+
     $(".search-loader").html("<i class='fa fa-times'></i> Communection désactivée (" + cityNameCommunexion + ', ' + cpCommunexion + ")");
-				
+
     $(".lbl-scope-list").hide(400);
     $("#searchBarPostalCode").val("");
   }
@@ -760,7 +760,7 @@ function showInputCommunexion(){
 
 	if(communexionActivated)
 	$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200 );
-	
+
 	$("#input-communexion").show(300);
 	$(".main-col-search").animate({ opacity:0.3 }, 200 );
 	$(".hover-info").hide();
@@ -794,7 +794,7 @@ function selectScopeLevelCommunexion(level){
 	if(level == 3) endMsg = "Département " + cpCommunexion.substr(0, 2);
 	if(level == 4) endMsg = "Votre région";
 	if(level == 5) endMsg = "Tout le réseau";
-	
+
 	if(!communexionActivated)
     toogleCommunexion();
 
@@ -812,8 +812,3 @@ function selectScopeLevelCommunexion(level){
 }
 
 </script>
-
-
-
-
-

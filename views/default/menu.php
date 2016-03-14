@@ -46,7 +46,7 @@
 }
 .drop-up-btn-add button{
 	padding-right:6px;
-}	
+}
 .btn-menu-add1{
 	position:absolute !important;
 	top:15px;
@@ -161,7 +161,7 @@
 .homeShortcuts a:hover{	color: #00B8EB;}
 
 <?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
+		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {
 ?>
 button.btn-menu2, .btn-menu3, .btn-menu4{
 	display: none;
@@ -243,7 +243,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		-webkit-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
 		-o-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
 		box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;		
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 	}
 
 	.drop-up-btn-add {
@@ -265,7 +265,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 </style>
 
 
-<?php 
+<?php
     if(isset(Yii::app()->session['userId']))
     $me = Person::getById(Yii::app()->session['userId']);
    	echo $this->renderPartial('explainPanels');
@@ -273,7 +273,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 
 <div class="hover-menu hidden-xs">
-	
+
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
 	<!-- <button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
@@ -294,12 +294,12 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		</span>
 	</button>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 bg-red tooltips" 
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 bg-red tooltips"
 			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
 			<i class="fa fa-home"></i>
 	</button>
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<!-- <button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
+	<!-- <button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>"
 			data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="S'inscrire">
 			<i class="fa fa-plus-circle"></i>
 			<span class="lbl-btn-menu-name">S'inscrire</span>
@@ -315,7 +315,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>"
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
 			<i class="fa fa-rss"></i>
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
@@ -325,7 +325,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
 			<i class="fa fa-bookmark fa-rotate-270"></i>
-			
+
 	</button>
 	<?php } ?>
 
@@ -340,7 +340,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
 	</button>
 	<?php } /*?>
-	
+
 	<div class="homeShortcuts hide menuShortcuts">
 		<ul>
 		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
@@ -361,10 +361,10 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 		<br/><span >Tests et améliorations en continu</span>
 	</div>
 </div>
-<!-- 
+<!--
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
 	<i class="fa fa-university"></i>
-</button> 
+</button>
 <div id="input-communexion">
 	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
@@ -412,9 +412,9 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
 		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
 		<i class="fa fa-crosshairs"></i>
-	</button> 
+	</button>
 	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
-	<?php 
+	<?php
 	if(isset(Yii::app()->session['userId'])){ ?>
 		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
 		<span class="lbl-btn-menu-name">Ajouter</span></span>
@@ -465,15 +465,15 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</div>
 	<div id="kkbb-big">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
+		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;"
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
-		
+
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
 			Du 2 Mars<br/>
 			Au 13 avril
 		</div>
 
-		
+
 		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
 			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
 		</a>
@@ -492,8 +492,8 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 </div>
 
 <div id="iframe-kkbb" class="hidden">
-	<?php 
-		$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
+	<?php
+		$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget");
 		$start = strpos($kkbb_html, "<div class='widget'>");
 		$end = strpos($kkbb_html, "<div class='goal'>", $start);
 		$kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
@@ -504,7 +504,7 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 
 <?php //} ?>
-<!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
+<!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>"
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
 	<i class="fa fa-envelope"></i>
 </button> -->
@@ -519,14 +519,14 @@ var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || 
 jQuery(document).ready(function() {
 
 	realTimeKKBB();
-	
-	setTimeout(function(){ 
+
+	setTimeout(function(){
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 	}, 5000);
 
-	$('#btn-close-globale-announce').click( function(e){ 
+	$('#btn-close-globale-announce').click( function(e){
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
@@ -535,7 +535,7 @@ jQuery(document).ready(function() {
 
 		//$.cookie('kkbbok',  true, { expires: 365, path: path });
 	});
-	$('.globale-announce').mouseleave( function(e){ 
+	$('.globale-announce').mouseleave( function(e){
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
@@ -545,22 +545,22 @@ jQuery(document).ready(function() {
 		//$.cookie('kkbbok',  true, { expires: 365, path: path });
 	});
 
-	$('#kkbb-min').mouseenter( function(e){ 
+	$('#kkbb-min').mouseenter( function(e){
 		$(".globale-announce").css("width", 400);
 		$("#kkbb-min").hide(400);
 		$("#kkbb-big").show(400);
-		
+
 	});
 
 	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} );
 
     $('.btn-menu2')
-    .click(function(e){ 
-    	if(location.hash != "#default.directory" || isMapEnd == false) 
-    		loadByHash("#default.directory"); 
-    	else showMap(false);  
+    .click(function(e){
+    	if(location.hash != "#default.directory" || isMapEnd == false)
+    		loadByHash("#default.directory");
+    	else showMap(false);
     })
-    .mouseenter(function(e){ 
+    .mouseenter(function(e){
 	    if(showMenuExplanation){
 		    toggle(".explainDirectory",".explain");
 			$(".removeExplanation").parent().show();
@@ -568,12 +568,12 @@ jQuery(document).ready(function() {
 	});
 
     $('.btn-menu3')
-    .click(function(e){ 
-    	if(location.hash != "#default.agenda" || isMapEnd == false) 
-    		loadByHash("#default.agenda"); 
-    	else showMap(false);  
+    .click(function(e){
+    	if(location.hash != "#default.agenda" || isMapEnd == false)
+    		loadByHash("#default.agenda");
+    	else showMap(false);
     })
-    .mouseenter(function(e){ 
+    .mouseenter(function(e){
 	    if(showMenuExplanation){
 		    toggle(".explainAgenda",".explain");
 			$(".removeExplanation").parent().show();
@@ -581,12 +581,12 @@ jQuery(document).ready(function() {
 	});
 
     $('.btn-menu4')
-    .click(function(e){ 
-    	if(location.hash != "#default.news" || isMapEnd == false) 
-    		loadByHash("#default.news"); 
-    	else showMap(false);  
+    .click(function(e){
+    	if(location.hash != "#default.news" || isMapEnd == false)
+    		loadByHash("#default.news");
+    	else showMap(false);
     })
-    .mouseenter(function(e){ 
+    .mouseenter(function(e){
 	    if(showMenuExplanation){
 	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainNews",".explain")
@@ -597,31 +597,31 @@ jQuery(document).ready(function() {
 
    // $('.btn-menu3').click(function(e){ loadByHash("#default.agenda"); 		 }).mouseenter(function(e){ toggle(".explainAgenda",".explain")});
    //$('.btn-menu4').click(function(e){ loadByHash("#default.news");	 }).mouseenter(function(e){ toggle(".explainNews",".explain")} );
-    $('.btn-menu5').click(function(e){ 
-    	showFloopDrawer(true);	 		 
+    $('.btn-menu5').click(function(e){
+    	showFloopDrawer(true);
     })
-    .mouseenter(function(e){ 
-	   // if(showMenuExplanation)	
+    .mouseenter(function(e){
+	   // if(showMenuExplanation)
 	   // 	toggle(".explainMyDirectory",".explain")
 	});
-    $('.btn-menu6').mouseenter(function(e){ 
+    $('.btn-menu6').mouseenter(function(e){
 	    if(showMenuExplanation){
 	    	$(".removeExplanation").parent().show();
 	    	toggle(".explainHelpUs",".explain")
 	    }
 	});
-    
+
     $(".btn-menu-add").mouseenter(function(){
     	$(".drop-up-btn-add").show(400);
     	$(".drop-up-btn-add .lbl-btn-menu-name").css("display","inline");
     	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");
     });
-    
+
     $(".btn-login").click(function(){
 		//console.log("btn-login");
 		showPanel("box-login");
 		//$(".main-col-search").html("");
-	}).mouseenter(function(e){ 
+	}).mouseenter(function(e){
 		if(showMenuExplanation){
 			$(".removeExplanation").parent().show();
 			toggle(".explainConnect",".explain");
@@ -632,7 +632,7 @@ jQuery(document).ready(function() {
     	//console.log("btn-register");
 		showPanel("box-register");
 		//$(".main-col-search").html("");
-	}).mouseenter(function(e){ 
+	}).mouseenter(function(e){
 		if(showMenuExplanation){
 			$(".removeExplanation").parent().show();
 			toggle(".explainRegister",".explain");
@@ -659,7 +659,7 @@ jQuery(document).ready(function() {
 	$(".btn-param-postal-code").click(function(e){
 		////console.log("cookie", $.cookie('inseeCommunexion'));
 		if(typeof $.cookie('inseeCommunexion') == "undefined"){
-			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");
 			showMap(true);
     		initHTML5Localisation('communexion');
 		}else{
@@ -677,14 +677,14 @@ jQuery(document).ready(function() {
       		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 1200);
 	    //}
     });
-    
+
     $(".btn-geoloc-auto").click(function(e){
 		//console.log("cookie", $.cookie('inseeCommunexion'));
     	if($.cookie('inseeCommunexion')){
     		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion'));
     	}else{
     		if(geolocHTML5Done == false){
-				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");
 				showMap(true);
 	    		initHTML5Localisation('communexion');
 			}
@@ -696,7 +696,7 @@ jQuery(document).ready(function() {
 			$(".removeExplanation").parent().show();
 		}
 	});;
-	
+
 
 
 	var timeoutHover = setTimeout(function(){}, 0);
@@ -713,7 +713,7 @@ jQuery(document).ready(function() {
 
 		//showInputCommunexion();
 
-		
+
 	});
 
 	$(".hover-menu").mouseleave(function(){
@@ -756,7 +756,7 @@ jQuery(document).ready(function() {
 		////console.log("hide communexion");
 		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
 		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
+		//$("#input-communexion").hide(200);
 		$("#input-communexion").hide(400);
 		clearTimeout(timeoutHover);
 	});
@@ -777,7 +777,7 @@ jQuery(document).ready(function() {
 		////console.log("hide communexion");
 		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
 		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
+		//$("#input-communexion").hide(200);
 		$("#input-communexion").hide(400);
 		clearTimeout(timeoutHover);
 	});
@@ -790,8 +790,8 @@ jQuery(document).ready(function() {
 					$(".main-col-search").animate({ opacity:1 }, 200 );
 					$(".lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
-					timeoutCommunexion = setTimeout(function(){ 
-						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
+					timeoutCommunexion = setTimeout(function(){
+						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion);
 					}, 300);
 				}
 				$(".hover-info").hide();
@@ -806,7 +806,7 @@ jQuery(document).ready(function() {
 		////console.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    var login_register = isLoginRegister();
-	    
+
 	    //console.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
@@ -824,7 +824,7 @@ jQuery(document).ready(function() {
 		$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");;
     });
 
-	
+
 	function isLoginRegister(){
 		if($(".box-login").length <= 0) return false;
 		return ($(".box-login").css("display") != "none" || $(".box-register").css("display") != "none");
@@ -834,7 +834,7 @@ jQuery(document).ready(function() {
 
 function realTimeKKBB(){
 
-	var contents    = $("#iframe-kkbb"); 
+	var contents    = $("#iframe-kkbb");
 	var collected 	= contents.find( ".collected" ).html();
 	var amount 		= contents.find( ".amount strong" ).html();
 
@@ -844,7 +844,7 @@ function realTimeKKBB(){
 
 
 	var amountNumeric = amount.replace("%", "");
-	$("#kkbb-big #amount").html(amount);	
+	$("#kkbb-big #amount").html(amount);
 	$("#kkbb-big .percentage-wrapper").html("");
 	$("#kkbb-big .progress-bar").css("width", amount);
 	$("#kkbb-big .progress-bar").attr("aria-valuenow", amountNumeric);
