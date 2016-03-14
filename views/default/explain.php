@@ -12,10 +12,7 @@ a.btn.btn-twitter:hover{	color: #00a0d1;	border-color: #00a0d1;}
 a.btn.btn-google:hover{	color: #dd4b39;	border-color: #dd4b39;}
 a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
-.information{
-	font-size:15px;
-	color:#8b91a0;
-}
+.information{font-size:15px;color:#8b91a0;}
 </style>
 
 <div class="home_page">

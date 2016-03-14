@@ -230,11 +230,12 @@
 								<span class="ladda-label"><i class="fa fa-plus"></i><i class="fa fa-user"></i>  <?php echo Yii::t("login","Submit") ?></span><span class="ladda-spinner"></span><span class="ladda-spinner"></span>
 							</button>
 						</div>
+						<div class="space20"></div>
 						<div class="pull-left form-actions no-margin" style="width:100%; padding:10px;">
-							<div class="errorHandler alert alert-danger no-display registerResult pull-left">
+							<div class="errorHandler alert alert-danger no-display registerResult pull-left " style="width:100%;">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Please verify your entries.") ?>
 							</div>
-							<div class="errorHandler alert alert-success no-display pendingProcess">
+							<div class="alert alert-success no-display pendingProcess" style="width:100%;">
 								<i class="fa fa-check"></i> <?php echo Yii::t("login","You've been invited : please resume the registration process in order to log in.") ?>
 							</div>
 						</div>
@@ -276,7 +277,6 @@ jQuery(document).ready(function() {
 	removeParametersWithoutReloading();
 	
 	$(".box").hide();
-
 	Login.init();
 
 	$('#btn-show-city').click(function(){
@@ -642,7 +642,7 @@ var Login = function() {
 				username : {
 					required : true,
 					validUserName : true,
-					rangelength : [4, 20]
+					rangelength : [4, 32]
 				},
 				email3 : {
 					required : { 
@@ -815,7 +815,7 @@ function searchCity() {
 
 function validateUserName() {
 	var username = $('.form-register #username').val();
-	if(username.length >= 8) {
+	if(username.length >= 4) {
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
 				//console.log("bing !");

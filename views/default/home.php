@@ -600,6 +600,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
+			<br/><a href="javascript:;" target="_blanck" >Mentions Légales</a>
 		<center>
 	</div>
 </div>

@@ -14,6 +14,8 @@ $userId = Yii::app()->session["userId"] ;
 						<label for="chooseEntity">Collection : </label>
 						<select id="chooseEntity" name="chooseEntity">
 							<option value="-1">Choisir</option>
+							<option value="organization">Organization</option>
+							<option value="person">Person</option>
 							<option value="project">Project</option>
 						</select>
 				</div>
@@ -21,7 +23,12 @@ $userId = Yii::app()->session["userId"] ;
 						<label for="fileImport">Fichier JSON :</label>
 						<input type="file" id="fileImport" name="fileImport" accept=".json,.js">
 				</div>
-				<br/><br/>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-4 col-xs-12">
+					<label for="pathFolderImage">Path dossier image :</label>
+					<input type="text" id="pathFolderImage" name="pathFolderImage" value="">
+				</div>
 				<div class="col-sm-4 col-xs-12">
 					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 				</div>
@@ -91,24 +98,25 @@ function bind()
   			toastr.error("Vous devez sélectionner une collection");
   			return false ;
   		}
-  		rand = Math.floor((Math.random() * 8) + 1);
+  		/*rand = Math.floor((Math.random() * 8) + 1);
   		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-		});
+		});*/
   		console.log("file", file);
   		$.ajax({
 	        type: 'POST',
 	        data: {
 	        		file : file,
 	        		chooseEntity : $("#chooseEntity").val(),
-	        		creatorID : "<?php echo $userId; ?>"
+	        		creatorID : "<?php echo $userId; ?>",
+	        		pathFolderImage : $("#pathFolderImage").val()
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
 	        success: function(data)
 	        {
-	        	console.log("data",data);
+	        	//console.log("data",data);
 	        	var chaine = ""
 
 	        	$.each(data.resData, function(key, value){
