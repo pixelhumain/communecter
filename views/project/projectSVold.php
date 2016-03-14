@@ -222,7 +222,7 @@ formProject.validate({
 				$.unblockUI();
 				if (json.say == "ok") {
 					calendar[projectIndex] = newProject;
-					$.hideSubview();
+					//$.hideSubview();
 					toastr.success('The project has been successfully modified!');
 				}
 			}
@@ -247,7 +247,7 @@ formProject.validate({
 			        	alert("dedans");
 		        		updateProject( newProject, data.id );
 						$.unblockUI();
-						$.hideSubview();
+						//$.hideSubview();
 		        	}	
 		        } else {
 		           toastr.error('Something Went Wrong');
@@ -261,7 +261,7 @@ formProject.validate({
 
 // on hide project's form destroy summernote and bootstrapSwitch plugins
 function hideEditProject() {
-	$.hideSubview();
+	//$.hideSubview();
 };
 // enables the edit form 
 function editProject(el) {

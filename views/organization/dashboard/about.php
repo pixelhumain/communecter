@@ -139,7 +139,7 @@ jQuery(document).ready(function() {
 								console.dir(data);
 								$.unblockUI();
 								$("#ajaxSV").html('');
-								$.hideSubview();
+								//$.hideSubview();
 								toastr.success('Saved successfully!');
 				    		}
 				    		else 
@@ -156,7 +156,7 @@ jQuery(document).ready(function() {
 			},
 			onHide : function() {
 				$("#ajaxSV").html('');
-				$.hideSubview();
+				//$.hideSubview();
 			},
 			onSave: function() {
 				$("#ajaxForm").submit();

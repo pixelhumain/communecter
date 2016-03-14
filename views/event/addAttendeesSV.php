@@ -269,7 +269,7 @@ if(@$event) {
 	// on hide attendees's form destroy summernote and bootstrapSwitch plugins
 	function hideEditAttendee() {
 		showSearchAttendees();
-		$.hideSubview();
+		//$.hideSubview();
 	};
 	// enables the edit form 
 	function editAttendee(el) {

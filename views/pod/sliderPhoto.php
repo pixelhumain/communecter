@@ -168,13 +168,13 @@
 		$("#uploadBtn").empty();
 		$("#uploadBtn").html("Upload File");
 		$(".fileupload").fileupload("clear");
-		$.hideSubview();
+		//$.hideSubview();
 	}
 
 	function hideFileuploadSubview(){
 		$('#'+constImgKey+'_avatar').val('');
 		$('#'+constImgKey+'_fileUpload').fileupload("clear");
-		$.hideSubview();
+		//$.hideSubview();
 	}
 
 	function clearFileupload(){

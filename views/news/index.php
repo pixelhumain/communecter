@@ -1639,7 +1639,7 @@ function saveNews(){
 		            		updateNews(data.object);
 		  			//}
 					$.unblockUI();
-					$.hideSubview();
+					//$.hideSubview();
 					toastr.success('Saved successfully!');
 	    		}
 	    		else 
