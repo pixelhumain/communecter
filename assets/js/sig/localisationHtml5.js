@@ -11,6 +11,10 @@ function initHTML5Localisation(role){
 			//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
 	  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
 			//$("#main-title-public1").show(400);
+			$.blockUI({
+				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+			});
+			
 			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			locationHTML5Found = true;
 			$(".box-discover").hide(400);
@@ -123,12 +127,16 @@ function getCityInseeByGeoPos(coords){
 					showMap(true);
 					//$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
 		        	showMapLegende("crosshairs", "Sélectionnez votre commune ...");
-		        	Sig.showMapElements(Sig.map, obj);
+
+  					Sig.showMapElements(Sig.map, obj);
 				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
 			}
+
+			$.unblockUI();
+		        	
 		},
 		error: function (error) {
 			console.dir(error);
