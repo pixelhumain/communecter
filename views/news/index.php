@@ -530,7 +530,7 @@ jQuery(document).ready(function()
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType!="city"){
-		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo @$contextName; ?>");
+		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo addslashes(@$contextName); ?>");
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, news);
 	}else{
