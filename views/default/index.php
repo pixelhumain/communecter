@@ -400,6 +400,11 @@ function startNewCommunexion(){
 	var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
     var countData = 0;
     var oneElement = null;
+
+    $.blockUI({
+		message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h1>"
+	});
+
     $.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -432,6 +437,8 @@ function startNewCommunexion(){
 	        	Sig.showMapElements(Sig.map, data);
 	        	
 	        }
+
+	        $.unblockUI();
 
           }
           
@@ -515,6 +522,10 @@ function showMap(show)
 	if(show){
 		isMapEnd =true;
 		showNotif(false);
+
+		$("#mapLegende").html("");
+		$("#mapLegende").hide();
+
 		showTopMenu(true);
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.fire('click');
@@ -618,9 +629,12 @@ function setScopeValue(btn){
 			//showMap(false);
 		}else
 		if(location.hash.indexOf("#default.twostepregister") >= 0) {
+			
 			showMap(false);
 			$("#tsr-commune-name-cp").html(cityNameCommunexion + ", " + cpCommunexion);
-			$("#TSR-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
+			$("#TSR-load-conf-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
+			showTwoStep("load-conf-communexion");
+
 			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
 			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
 			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });

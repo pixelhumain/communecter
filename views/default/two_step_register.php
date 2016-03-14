@@ -190,6 +190,8 @@
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
 		</div>	
+		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
+		</div>
 		<div class="col-md-12 center section-tsr bg-azure-light-1 padding-15" id="TSR-conf-communected">
 			<h1 class="no-margin text-dark">
 				<i class="fa fa-thumbs-up fa-2x"></i> 
@@ -311,7 +313,7 @@
 
   	function showTwoStep(id){
   		console.log("showTwoStep(#TSR-"+id+")");
-  		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion,#TSR-street").hide();
+  		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion, #TSR-load-conf-communexion,#TSR-street").hide();
   		$("#TSR-"+id).show(400);
   		setTimeout(function(){ 
   			$("#TSR-"+id).show(400); 
@@ -325,7 +327,10 @@
   		$("#btn-start-street-search").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche en cours');
 
   		if($(".input-street-twostep").val().length < 2){
-  			
+  			$.blockUI({
+				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+			});
+			
   			$.ajax({
 				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 				type: 'POST',
@@ -353,9 +358,12 @@
 						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");
 					
 					}
+
+					$.unblockUI();
 				},
 				error: function(error){
 					console.log("Une erreur est survenue pendant la recherche de la geopos city");
+					$.unblockUI();
 					//console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 				}
 			});
@@ -364,6 +372,10 @@
 			
 			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html();
 	  		console.log("requestPart", requestPart);
+	  		$.blockUI({
+				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+			});
+			
 	  		$.ajax({
 				url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
 				type: 'POST',
@@ -390,12 +402,14 @@
 						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue. Recherche google");
 					
 					}
+					$.unblockUI();
 				},
 				error: function (error) {
 					console.log("nominatim error");
 					console.dir(obj);
 					$("#error_street").html("Aucun résultat");
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+					$.unblockUI();
 				}
 			});
 
@@ -439,6 +453,7 @@
 
   	function geolocAutoTSR(){
   		initHTML5Localisation('communexion_tsr'); 
+  		$("#btn-toogle-map").show();
   		showMap(true);
   	}
 
