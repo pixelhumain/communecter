@@ -364,7 +364,7 @@ if (isset($follows)){
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
-								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countFollowers;  ?>
+								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
 							</a>
 						</li>
 						<?php if($countPeople > 0){  ?>
