@@ -285,19 +285,6 @@ button.menu-button-title.btn-menu-add:hover{
 	box-shadow: 0px 0px 5px 5px rgba(122, 207, 91, 0.8) !important;
 }
 
-button.btn-login, button.btn-logout{
-	left: 83px;
-	top: 12px;
-	background-color: #E33551;
-	color: #FFF;
-	font-size: 17px;
-	-moz-box-shadow: 0px 0px 5px 0px #CC3939 !important;
-	-webkit-box-shadow: 0px 0px 5px 0px #CC3939 !important;
-	-o-box-shadow: 0px 0px 5px 0px #CC3939 !important;
-	box-shadow: 0px 0px 5px 0px #CC3939 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#CC3939, Direction=NaN, Strength=5) !important;
-}
-
 button.btn-menu{
 	color: #FFF;
 	font-size: 19px;
