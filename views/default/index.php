@@ -105,6 +105,7 @@
 	}
 
 	.btn-scope{
+		display: none;
 		position: fixed;
 		border-radius: 50%;
 		z-index: 1;
@@ -512,6 +513,7 @@ function checkScroll(){
 
 function showMap(show)
 {
+
 	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
 	console.log("typeof SIG : ", typeof Sig);
 	if(typeof Sig == "undefined") show = false;
@@ -546,6 +548,8 @@ function showMap(show)
 		
 	}else{
 		isMapEnd =false;
+		hideMapLegende();
+
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
 		$(".btn-menu5, .btn-menu-add").show();

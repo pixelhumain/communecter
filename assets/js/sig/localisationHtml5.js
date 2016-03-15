@@ -3,6 +3,14 @@
 var currentRoleLoc = "";
 var locationHTML5Found = false;
 function initHTML5Localisation(role){
+
+	if(!locationHTML5Found)
+	$.blockUI({
+		message : 	"<h1 class='homestead text-dark padding-20'><i class='fa fa-hand-pointer-o'></i> Merci d'autoriser le partage de localisation</span></h1>" +
+					"<button class='btn btn-info margin-bottom-15' onclick='$.unblockUI();showMap(false);'>Annuler</button>"
+	});
+	
+
 	if (navigator.geolocation)
 	{
 	  if(!locationHTML5Found)
@@ -117,7 +125,7 @@ function getCityInseeByGeoPos(coords){
 					console.log("cities found : ");
 					console.dir(obj);
 				
-					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune en cliquant sur <b>Communecter</b> ...");
 		        	Sig.showMapElements(Sig.map, obj);
 				}
 				else if(currentRoleLoc == "communexion_tsr"){ // && typeof obj.name != "undefined"){
@@ -126,7 +134,7 @@ function getCityInseeByGeoPos(coords){
 					console.dir(obj);
 					showMap(true);
 					//$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
-		        	showMapLegende("crosshairs", "Sélectionnez votre commune ...");
+		        	showMapLegende("crosshairs", "Sélectionnez votre commune en cliquant sur <b>Communecter</b> ...");
 
   					Sig.showMapElements(Sig.map, obj);
 				}

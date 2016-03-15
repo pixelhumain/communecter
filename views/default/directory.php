@@ -17,6 +17,10 @@
     height:44px;
   }
 
+  .btn-scope{
+    display: inline;
+  }
+
  
 </style>
 

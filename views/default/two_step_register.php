@@ -97,27 +97,30 @@
 		</h1>
 
 		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Votre compte personnel sera bientôt activé !
+			Votre compte personnel est sur le point d'être activé !
 			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
 		</span>
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
-		<div class="homestead text-white selected" id="menu-step-1">
-			<i class="fa fa-2x fa-circle"></i> Étape 1
+		<div class="homestead text-white" id="menu-step-1">
+			<i class="fa fa-2x fa-check-circle"></i><br>1 - Inscription
 		</div>
-		<div class="homestead text-white" id="menu-step-2">
-			<i class="fa fa-2x fa-circle-o"></i> Étape 2
+		<div class="homestead text-white selected" id="menu-step-2">
+			<i class="fa fa-2x fa-circle"></i><br>2 - Addresse
 		</div>
-		<div class="homestead"  style="color:#7ACF5B;">
+		<div class="homestead text-white" id="menu-step-3">
+			<i class="fa fa-2x fa-circle-o"></i><br>3 - Photo
+		</div>
+		<!-- <div class="homestead"  style="color:#7ACF5B;">
 			<i class="fa fa-2x fa-sign-in"></i> GO !
-		</div>
+		</div> -->
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step1">
 		<h1 class="homestead text-white">
 			<i class="fa fa-circle"></i>
-			 Étape 1 : Votre addresse
+			 Étape 2 : Votre addresse
 		</h1>
 		<div class="col-md-8 col-md-offset-2">
 		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
@@ -218,7 +221,7 @@
 					<i class="fa fa-search"></i> Rechercher ma rue
 				</button> <br>
 				<button class="btn btn-success homestead"  style="padding:15px; font-size:22px;" style="margin-top:15px;" onclick="achiveTSRAddress();">
-					<i class="fa fa-chevron-right"></i> Étape 2
+					<i class="fa fa-chevron-right"></i> Étape 3
 				</button>	
 			</div>	
 		</div>	
@@ -227,7 +230,7 @@
 		<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step2">
 			<h1 class="homestead text-white">
 				<i class="fa fa-circle"></i>
-				 Étape 2 : Photo de profil
+				 Étape 3 : Photo de profil
 			</h1>
 			<div class="col-md-8 col-md-offset-2">
 			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
@@ -244,7 +247,7 @@
 																	  "image" => null )); 
 				?>
 				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
-					<i class="fa fa-sign-in"></i> Go ! Entrer dans mon espace personnel
+					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
 			</div>
@@ -469,10 +472,10 @@
 
   	function showStep2(){
   		showTwoStep("");
-  		$('#menu-step-2 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
-  		$('#menu-step-1 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
-  		$('#menu-step-1').removeClass("selected");
-  		$('#menu-step-2').addClass("selected");
+  		$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
+  		$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
+  		$('#menu-step-2').removeClass("selected");
+  		$('#menu-step-3').addClass("selected");
   		$("#step1").hide(400);
   		$("#step2").show(400);
   	}
