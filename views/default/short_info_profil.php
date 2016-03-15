@@ -332,11 +332,25 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
               console.log("DATA GS");
               console.dir(data);
 
+              
               var countData = 0;
               $.each(data, function(i, v) { if(v.length!=0){ countData++; } });
               
               totalDataGS += countData;
             
+              if(isMapEnd){
+                //var contextMap = { "data" : new Array() };
+                //$.each(data, function(i, v) { if(v.length!=0){ countData++; } });
+              
+                Sig.showMapElements(Sig.map, {"data":data});
+                showMap(true);
+                loadingDataGS = false;
+                $(".dropdown-result-global-search").html("");
+                showDropDownGS(false);
+                return;
+              }
+
+
               str = "";
               var city, postalCode = "";
               
