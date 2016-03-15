@@ -282,11 +282,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-				
-					
 			</div>
 			<div class="col-sm-6 col-md-7 margin-top-20">
 				<div class="padding-10 entityDetails text-dark">
+
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
 						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
@@ -360,7 +359,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
 				<!-- Description -->
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-					<?php //echo Person::showField("shortDescription",$person)?>
+					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
 				</a>
 			</div>
 		</div>
