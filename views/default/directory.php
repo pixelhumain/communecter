@@ -106,17 +106,17 @@ jQuery(document).ready(function() {
 
 	$('#searchBarText').keyup(function(e){
       clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
   });
   // $('#searchBarPostalCode').keyup(function(e){
   //     clearTimeout(timeoutSearch);
-  //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  //     timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
   // });
   $('#btn-start-search').click(function(e){
-      startSearch();
+      startSearch(0, 100);
   });
   $('#link-start-search').click(function(e){
-      startSearch();
+      startSearch(0, 100);
   });
   // $(".btn-geolocate").click(function(e){
 		// if(geolocHTML5Done == false){
@@ -166,7 +166,7 @@ jQuery(document).ready(function() {
   });
 
   //initBtnScopeList();
-  startSearch();
+  startSearch(0, 100);
 
 });
 
@@ -617,7 +617,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearch();
+    startSearch(0, 100);
   }
 
 </script>
