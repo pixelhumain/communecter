@@ -152,6 +152,35 @@
 	.btn-scope-niv-5.selected{
 		background-color: rgb(109, 120, 140) !important;
 	}
+
+
+@media screen and (max-width: 767px) {
+	.btn-scope{
+		display: none;
+		left:0px !important;
+		width:40px !important;
+		margin-bottom:40px !important;
+		border-radius: 0px 40px 0px 0px !important;
+		bottom:0px !important;
+		position: fixed;
+		z-index: 1;
+		border: none;
+		box-shadow: 0px 0px 3px 3px rgba(114, 114, 114, 0.1);
+	} 
+	.btn-scope-niv-2{
+		height: 43px;
+	}
+	.btn-scope-niv-3{
+		height: 83px;
+	}
+	.btn-scope-niv-4{
+		height: 123px;
+	}
+	
+	.btn-scope-niv-5{
+		height: 163px;
+	}
+}
 	
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
@@ -838,8 +867,10 @@ function selectScopeLevelCommunexion(level){
 	if(level == 4) endMsg = "à votre région";
 	if(level == 5) endMsg = "à l'ensemble du réseau";
 
-	if(change)
-	toastr.success('Vous êtes connecté ' + endMsg);
+	if(change){
+		toastr.success('Vous êtes connecté ' + endMsg);
+		$('.search-loader').html("<i class='fa fa-check'></i> Vous êtes connecté " + endMsg)
+	}
 
 	if(level == 1) endMsg = cityNameCommunexion + ", " + cpCommunexion;
 	if(level == 2) endMsg = cpCommunexion;

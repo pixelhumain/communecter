@@ -195,18 +195,19 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 @media screen and (max-width: 767px) {
 	#searchBarPostalCode{
-		position: relative;
-		left: 2% !important;
-		bottom: 45px;
+		position: absolute;
+		left: 40px !important;
+		bottom: 39px;
 		margin-top: 10px;
-		width: 96%;
+		width: 80% !important;
 		margin-left: 0px;
 		font-family: "homestead";
 		font-size: 22px !important;
 		border-radius: 0px !important;
-		height: 50px;
+		height: 45px;
 		text-align: center;
-		padding-left: 15px !important;
+		margin: 0px !important;
+		padding-left: 0px !important;
 	}
 
 	#input-communexion {
@@ -214,16 +215,21 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	}
 
 	#input-communexion .search-loader {
-	    position: absolute;
-	    left: 2%;
-	    bottom: 95px;
-	    width: 96%;
-	    font-weight: 600;
-	    font-size: 12px;
-	    background-color: rgb(255, 255, 255);
-	    padding: 5px;
-	    border-radius:5px 5px 0px 0px;
-	    text-align: center;
+	    position: relative;
+		left: 41px !important;
+		bottom: 88px;
+		width: 96%;
+		font-weight: 600;
+		font-size: 12px;
+		background-color: rgb(255, 255, 255);
+		padding: 5px;
+		border-radius: 0px 5px 0px 0px;
+		text-align: center;
+		-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+		box-shadow: 0px -2px 5px -2px #353535 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 	}
 
 	#menu-bottom .input-global-search{
@@ -518,7 +524,7 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	realTimeKKBB();
+	//realTimeKKBB();
 	
 	setTimeout(function(){ 
 		$(".globale-announce").css("width", 250);
