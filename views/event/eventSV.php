@@ -390,7 +390,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	var timeoutGeopos;
 	function bindPostalCodeAction() {
-		$('.form-event #postalCode').keyup(function(e){
+		$('.form-event #postalCode').on("keyup blur", function(e){
 			if($('#postalCode').val() != "" && $('#postalCode').val() != null){
 				clearTimeout(timeoutGeopos);
 				timeoutGeopos = setTimeout(function() {
