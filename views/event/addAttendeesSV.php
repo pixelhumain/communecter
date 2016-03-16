@@ -18,7 +18,7 @@ if(@$event) {
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
-				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php echo $eventId ?>" type="text"/>
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php echo $id ?>" type="text"/>
 				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" value="" type="text"/>
 				<div class="row" id="step1">
 					<div class="col-md-1">	
