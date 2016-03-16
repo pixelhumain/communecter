@@ -13,7 +13,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>
-			<a href="#" onclick="showAjaxPanel( '/event/eventsv/contextId/<?php echo $contextId ?>/contextType/<?php echo $contextType ?>', 'ADD AN EVENT','calendar' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="Add an Event"><i class="fa fa-plus"></i> Créer un nouvel événement</a>
+			<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash('#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>')">
+	    		
+	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
+	    	</a>
 		
 		<?php
 		 } ?>

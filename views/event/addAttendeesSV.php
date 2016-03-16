@@ -18,7 +18,7 @@ if(@$event) {
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
-				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php echo $eventId ?>" type="text"/>
+				<input class="attendees-parentId hide"  id="attendeesParentId" name="attendeesParentId" value="<?php echo $id ?>" type="text"/>
 				<input class="attendees-id hide" id = "attendeesId" name="attendeesId" value="" type="text"/>
 				<div class="row" id="step1">
 					<div class="col-md-1">	
@@ -98,7 +98,7 @@ if(@$event) {
 <script type="text/javascript">
 	
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo @$event["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<i class='fa fa-calendar'></i> EVENT : <?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
 	 	$('#attendeesSearch').keyup(function(e){

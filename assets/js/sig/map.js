@@ -450,6 +450,25 @@
 						return thisData.geoPosition.coordinates;
 					}
 				}
+				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
+					console.log("thisData.geometry ?");
+					console.dir(thisData);
+					if(type == "markerSingle"){
+						if(typeof thisData.geometry.location != "undefined"){
+							console.log(thisData.geometry.location.lat);
+							var lat = thisData.geometry.location.lat;
+							var lng = thisData.geometry.location.lng;
+							console.dir(new Array (lat, lng));
+							return new Array (lat, lng);
+						}	
+					} else if(type == "markerGeoJson"){
+						if(typeof thisData.geometry.location != "undefined"){
+							var lat = thisData.geometry.location.lat;
+							var lng = thisData.geometry.location.lng;
+							return new Array (lng, lat);
+						}
+					}
+				}
 				else{
 					return null;
 				}

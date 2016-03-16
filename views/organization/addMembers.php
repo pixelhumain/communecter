@@ -314,7 +314,7 @@ Menu::organization($organization);
 	var totalMails = 0;
 	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo $organization["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo addslashes($organization["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		 /*$(window).keydown(function(event){
 		    if(event.keyCode == 13) {
 		      event.preventDefault();

@@ -108,10 +108,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<div class="row">
 				<div class="col-md-12">
 					<div class="errorHandler alert alert-danger no-display">
-						<i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+						<i class="fa fa-times-sign"></i> <?php echo Yii::t("common","You have some form errors. Please check below.") ?>
 					</div>
 					<div class="successHandler alert alert-success no-display">
-						<i class="fa fa-ok"></i> Your form validation is successful!
+						<i class="fa fa-ok"></i> <?php echo Yii::t("common","Your form validation is successful") ?>!
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -161,13 +161,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<div class="col-md-6 col-sd-6 ">
 						<div class="form-group">
 							<label class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> <span class="symbol required"></span>
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Country") ?> 
 							</label>
 							<input type="hidden" name="projectCountry" id="projectCountry" style="width: 100%; height:35px;"/>								
 						</div>
 						<div class="form-group">
 							<label class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Adresse") ?> <span class="symbol required"></span>
+								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Adresse") ?> 
 							</label>
 							<span class="input-icon text-purple">
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" >
@@ -183,8 +183,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >
 							</div>
 							<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
-								<label for="city">
-									Ville
+								<label class="control-label text-purple" for="city">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","City") ?>
 								</label>
 								<select class="selectpicker2 form-control" id="city" name="city" title='Select your City...'>
 								</select>
@@ -307,7 +307,7 @@ function runProjectFormValidation(el) {
 			}
 		},
 		messages : {
-			projectName : "* Please specify the project name"
+			projectName : "* <?php echo Yii::t("common","Please specify the name") ?>"
 
 		},
 		invalidHandler : function(project, validator) {//display error alert on form submit
@@ -365,11 +365,11 @@ function runProjectFormValidation(el) {
 		    })
 		    .done(function (data) {
 		        if (data &&  data.result) {               
-		        	toastr.success('Project Created success');
+		        	toastr.success("<?php echo Yii::t("common",'Project created successfully') ?>");
 		        	$.unblockUI();
 	        		addFloopEntity(data.id, "projects", newProject);
-					showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Project::COLLECTION ?>', 'MY PROJECTS','lightbulb-o' );
-		        } else {
+	        		loadByHash("#project.detail.id."+data.id.$id);
+	      	} else {
 		           $.unblockUI();
 		           toastr.error(data.msg);
 		        }

@@ -616,6 +616,20 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     var_dump(Organization::update($organizationId, $organization, $userId));
   }
 
+  public function actionTestUpdatePerson() {
+    $personId = "56cedff02336f2a17a0041df";
+    $userId = "56cedff02336f2a17a0041df";
+    $person = array("address" => 
+		    	array(
+			    	"streetAddress" => "45X Chemin des Cactus",
+				    "postalCode" => "97426",
+				    "codeInsee" => "97423",
+				    "addressCountry" => "RE")
+		    	);
+
+    var_dump(Person::update($personId, $person, $userId));
+  }
+
   public function actionTestIsAdminOrganization($id) {
     var_dump(Authorisation::isOrganizationAdmin("55c0c1a72336f213040041ee", $id));
   }

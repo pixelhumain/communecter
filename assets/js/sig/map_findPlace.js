@@ -558,12 +558,15 @@ SigLoader.getSigFindPlace = function (Sig){
 	
 
 	Sig.startModifyGeoposition = function (entityId, entityType, entity){
+		
 		//vérifie si l'entité donné à bien une position geo
 		var coordinates = this.getCoordinates(entity, "markerSingle");
 		//si elle n'en a pas on sort
 		console.log("startModifyGeoposition coordinates", coordinates);
+		console.dir(entity);
+
 		if(typeof coordinates == "undefined" || coordinates == null) {
-			findGeoPosByAddress();
+			//findGeoPosByAddress();
 			return;
 		}
 		
@@ -667,7 +670,11 @@ SigLoader.getSigFindPlace = function (Sig){
     				//actualise myPosition pour que le bouton "home" de la carto centre sur la nouvelle position
     				Sig.myPosition.position.latitude = latitude;
     				Sig.myPosition.position.longitude = longitude;
-    				loadByHash(location.hash);
+    				if(location.hash != "#default.twostepregister"){ 
+    					loadByHash(location.hash);
+	    			}else{
+	    				achiveTSRAddress();
+	    			}
     			}
     			else{
     				//recharge la fiche info ouverte

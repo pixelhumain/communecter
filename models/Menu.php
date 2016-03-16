@@ -22,7 +22,7 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t("common", 'Show his person'), 
                     Yii::t("common", 'Details'),
-                    'bookmark fa-rotate-270',
+                    'user',
                     "loadByHash('#person.detail.id.".$id."')","person", "detail");
         /*self::entry("left", 'showAjaxPanel',"Person Details : ".$person['name'], 
                     Yii::t("common", "Details"), 
@@ -124,13 +124,6 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
-    		/*	array_push($controller->toolbarMBZ, array('position'=>'right', 
-                                                    'label'=>Yii::t("event",'Join'),
-                                                    'tooltip' => Yii::t("event","Join this Event"), 
-                                                    "parent"=>"span",
-                                                    "parentId"=>"linkBtns",
-                                                    "iconClass"=>"connectBtnIcon fa fa-unlink",
-                                                    "href"=>"<a href='javascript:;' class='connectBtn attendeeMeBtn tooltips  btn btn-default'   data-attendee-id='".Yii::app()->session['userId']."' data-placement='top'") );*/
      }
     
     public static function organization($organization)
