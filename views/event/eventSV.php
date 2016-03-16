@@ -694,11 +694,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			if (organizerParentType=="organization"){
 				titleName="<?php echo Yii::t("common","Organization") ?>";
 				console.log(listOrgaAdmin);
-				contextName="<?php if (@$organization) echo $organization["name"] ?>";//listOrgaAdmin[organizerParentId]["name"];
+				contextName="<?php if (@$organization) echo addslashes($organization["name"]) ?>";//listOrgaAdmin[organizerParentId]["name"];
 			}	
 			else{
 				titleName="<?php echo Yii::t("common","Project") ?>";
-				contextName="<?php if (@$project) echo $project["name"] ?>";//listProjectAdmin[organizerParentId]["name"];
+				contextName="<?php if (@$project) echo addslashes($project["name"]) ?>";//listProjectAdmin[organizerParentId]["name"];
 			}
 			$("#labelOrga").text(titleName+" : "+contextName);
 		}
