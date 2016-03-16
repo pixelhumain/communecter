@@ -1,20 +1,9 @@
-<style>
-	ul{
-		font-weight: 300;
-		font-size:14px;
-		color:#3C5665 !important;
-	}
-	h3{
-		font-weight: 300;
-	}
-</style>
-<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 
 
-	<div class="explainCommunectMe explain hide">
+	<div class="explainCommunectMe <?php echo $class?> hide">
 		
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-home"></i> Communectez-moi</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<h1 class="homestead explainTitle"><i class="fa fa-home"></i> Communectez-moi</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Ce n'est pas la technologie qui changera la société mais la philosophie bien outillée.
 			<br/>Me communecter me permet :  
@@ -25,7 +14,7 @@
 				<ul>
 					<li><i class="fa fa-user"></i> des personnes</li>
 					<li><i class="fa fa-users"></i> des organisations</li>
-					<li><i class="fa fa-lightbuld-o"></i> des projets</li>
+					<li><i class="fa fa-lightbulb-o"></i> des projets</li>
 					<li><i class="fa fa-calendar"></i>des évènements</li>
 				</ul>
 				<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne locale</li>
@@ -34,9 +23,9 @@
 		</div>
 	</div>
 
-	<div class="explainDirectory explain hide">
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-connectdevelop"></i> L'annuaire Local</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainDirectory <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"><i class="fa fa-connectdevelop"></i> L'annuaire Local</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 		
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Rechercher simplement 
@@ -57,16 +46,16 @@
 		</div>
 	</div>
 
-	<div class="explainMyDirectory explain hide">
-		<h1 class="homestead text-dark explainTitle">Mon Répertoire </h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainMyDirectory <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Mon Répertoire </h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 		</div>
 	</div>
 
-	<div class="explainNews explain hide">
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-rss"></i> L'actualité Locale </h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainNews <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"><i class="fa fa-rss"></i> L'actualité Locale </h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Communiquer localement est un jeu d'enfant !</h3>
 			<ul>
@@ -80,9 +69,9 @@
 		</div>
 	</div>
 
-	<div class="explainAgenda explain hide">
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-calendar"></i> Les événements Locaux</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainAgenda <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"><i class="fa fa-calendar"></i> Les événements Locaux</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Retrouvez tous les événements près de chez vous, en quelques clics</h3>
 			<ul>
@@ -95,9 +84,9 @@
 		</div>
 	</div>
 
-	<div class="explainOrganization explain hide">
-		<h1 class="homestead text-dark explainTitle">Des organisations locales</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainOrganization <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Des organisations locales</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>Quand quelque chose a du sens, nous trouvons souvent d’autres personnes intéressées, et nous construisons des communautés, ou nous rejoignons des communautés existantes.</li>
@@ -108,9 +97,9 @@
 		</div>
 	</div>
 
-	<div class="explainOrganization explain hide">
-		<h1 class="homestead text-dark explainTitle">Des organisations locales</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainOrganization <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Des organisations locales</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>When something has meaning, we often find other people interested and build Organizations or simply join existing.</li>
@@ -121,9 +110,9 @@
 		</div>
 	</div>
 
-	<div class="explainCommune explain hide">
-		<h1 class="homestead text-dark explainTitle">Les Communes</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommune <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Les Communes</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>On a fait un bon bout de chemin depuis la création des premiers outils</li>
@@ -138,9 +127,9 @@
 		</div>
 	</div>
 	
-	<div class="explainCommuneJoin explain hide">
-		<h1 class="homestead text-dark explainTitle">Devenir un Commune adhérente</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommuneJoin <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Devenir un Commune adhérente</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>C'est choisir et comprendre l'enjeu d'un fonctionnement démocratique</li>
@@ -153,9 +142,9 @@
 		</div>
 	</div>
 
-	<div class="explainCommuns explain hide">
-		<h1 class="homestead text-dark explainTitle">Les Biens Communs</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommuns <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Les Biens Communs</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				D’un jardin partagé à un logiciel « libre », d’une place de village à une encyclopédie en ligne, les « communs » parlent d’une construction sociale et politique nouvelle où se fabrique à la fois de la citoyenneté, une réponse à des besoins (se nourrir, se loger, partager des connaissances, une imprimante 3D…), une nouvelle gouvernance, une pratique démocratique dialoguée avec les institutions publiques, et la possibilité pour chacun de contribuer avec ses compétences à faire société. S’immiscant entre l’état et le marché, cet état d’esprit des « Communs » s’ancre dans des pratiques locales tout en fonctionnant en réseau et en créant un maillage dans un ensemble de territoires et de pays. Ces nouveaux espaces tissent pour soi et pour autrui le désir d’être en activité, de contribuer, d’être utile, de développer des compétences, de créer de la richesse… en relation à un intérêt général.
@@ -163,10 +152,10 @@
 		</div>
 	</div>
 
-	<div class="explainHelpUs explain hide">
+	<div class="explainHelpUs <?php echo $class?> hide">
 
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-bullhorn"></i> Pour un meilleur outil </h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<h1 class="homestead explainTitle"><i class="fa fa-bullhorn"></i> Pour un meilleur outil </h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Aidez-nous à développer le réseau</h3>
 			<ul>
@@ -179,10 +168,10 @@
 	</div>
 
 
-	<div class="explainConnect explain hide">
+	<div class="explainConnect <?php echo $class?> hide">
 
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-sign-in"></i> Se connecter :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<h1 class="homestead explainTitle"><i class="fa fa-sign-in"></i> Se connecter :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Pourquoi se connecter ?</h3>
 			<ul>
@@ -196,10 +185,10 @@
 	</div>
 
 
-	<div class="explainRegister explain hide">
+	<div class="explainRegister <?php echo $class?> hide">
 
-		<h1 class="homestead text-dark explainTitle"><i class="fa fa-plus-circle"></i> S'inscrire</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<h1 class="homestead explainTitle"><i class="fa fa-plus-circle"></i> S'inscrire</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Pourquoi créer un compte ?</h3>
 			<ul>
@@ -215,10 +204,10 @@
 		</div>
 	</div>
 
-	<div class="explainLinking explain hide">
+	<div class="explainLinking <?php echo $class?> hide">
 
-		<h1 class="homestead text-dark explainTitle">Créer du lien localement :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<h1 class="homestead explainTitle">Créer du lien localement :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>C'est valoriser les acteurs de mon territoire</li>
@@ -228,66 +217,66 @@
 		</div>
 	</div>
 
-	<div class="explainAssociatif explain hide">
-		<h1 class="homestead text-dark explainTitle">Associatif :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainAssociatif <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Associatif :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe...
 		</div>
 	</div>
-	<div class="explainEconomie explain hide">
-		<h1 class="homestead text-dark explainTitle">Economie :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainEconomie <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Economie :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale...
 		</div>
 	</div>
-	<div class="explainTerritoire explain hide">
-		<h1 class="homestead text-dark explainTitle">Territoire :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainTerritoire <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Territoire :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise...
 		</div>
 	</div>
-	<div class="explainTourisme explain hide"> 
-		<h1 class="homestead text-dark explainTitle">Tourisme :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainTourisme <?php echo $class?> hide"> 
+		<h1 class="homestead explainTitle">Tourisme :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc"> 
 			Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...
 		</div>
 	</div>
-	<div class="explainAlimentation explain hide">
-		<h1 class="homestead text-dark explainTitle">Alimentation :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainAlimentation <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Alimentation :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques...
 		</div>
 	</div>
-	<div class="explainAgriculture explain hide">
-		<h1 class="homestead text-dark explainTitle">Agriculture :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainAgriculture <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Agriculture :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...
 		</div>
 	</div>
-	<div class="explainCulture explain hide">
-		<h1 class="homestead text-dark explainTitle">Culture :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCulture <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Culture :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Partage d'informations sur l'animation du territoire, création d'événements, échanges de services (ex : cours de guitare contre des cours de chant) ...
 		</div>
 	</div>
-	<div class="explainEmploi explain hide">
-		<h1 class="homestead text-dark explainTitle">Emploi :</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainEmploi <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Emploi :</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...
 		</div>
 	</div>
 
-<div class="explainOpendata explain hide">
-		<h1 class="homestead text-dark explainTitle">Opendata</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+<div class="explainOpendata <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Opendata</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				L'open data ou donnée ouverte est une donnée numérique d'origine publique ou privée. Elle peut être notamment produite par une collectivité, un service public (éventuellement délégué) ou une entreprise. Elle est diffusée de manière structurée selon une méthode et une licence ouverte garantissant son libre accès et sa réutilisation par tous, sans restriction technique, juridique ou financière.
@@ -299,9 +288,9 @@
 		</div>
 	</div>
 
-	<div class="explainCartographiedeReseau explain hide">
-		<h1 class="homestead text-dark explainTitle">Cartographie de Réseau</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCartographiedeReseau <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Cartographie de Réseau</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>La cartographie de réseau est l'étude de la connectivité physique de réseaux. La cartographie d'Internet est l'étude de la connectivité physique d'Internet. La cartographie de réseau découvre les dispositifs sur le réseau et leur connectivité. </li>
@@ -311,9 +300,9 @@
 		</div>
 	</div>
 
-	<div class="explainDemoPart explain hide">
-		<h1 class="homestead text-dark explainTitle">Démocratie Participative</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainDemoPart <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Démocratie Participative</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				La démocratie participative désigne l'ensemble des dispositifs et des procédures qui permettent d'augmenter l'implication des citoyens dans la vie politique et d'accroître leur rôle dans les prises de décision.
@@ -321,9 +310,9 @@
 		</div>
 	</div>
 
-	<div class="explainCommunecter explain hide">
-		<h1 class="homestead text-dark explainTitle">Communecter</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommunecter <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Communecter</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Action de se connecter à sa commune. Par extension, nom d’une plateforme internet qui fournit l’interface et les outils nécessaires à une connexion citoyenne de qualité.
@@ -331,9 +320,9 @@
 		</div>
 	</div>
 	
-	<div class="explainOpenSource explain hide">
-		<h1 class="homestead text-dark explainTitle">Opensource</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainOpenSource <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Opensource</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				La désignation open source, ou « code source ouvert », s'applique aux logiciels dont la licence respecte des critères précisément établis par l'Open Source Initiative, c'est-à-dire les possibilités de libre redistribution, d'accès au code source et de création de travaux dérivés.
@@ -343,9 +332,9 @@
 		</div>
 	</div>
 
-	<div class="explainProxicity explain hide">
-		<h1 class="homestead text-dark explainTitle">Proxicité</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainProxicity <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Proxicité</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Nom commun féminin qui évoque le voisinage avec la cité, c’est la capacité d’un territoire a créer du lien de proximité. Néologisme visant à illustrer le rapprochement du citoyen avec sa commune tel que proposé par Communecter. 
@@ -353,9 +342,9 @@
 		</div>
 	</div>
 
-	<div class="explainCodeLogiciel explain hide">
-		<h1 class="homestead text-dark explainTitle">Code Logiciel</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCodeLogiciel <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Code Logiciel</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Le code logiciel ou code source est un texte qui représente les instructions de programme telles qu'elles ont été écrites par un programmeur. Le code source se matérialise souvent sous la forme d'un ensemble de fichiers textes. Le code source est généralement écrit dans un langage de programmation permettant ainsi une meilleure compréhension par des humains. Une fois le code source écrit, il permet de générer une représentation binaire d'une séquence d'instructions (CC BY-SA  Wikipedia). Avec Communecter, ce code logiciel est accessible au ciroyen.
@@ -363,9 +352,9 @@
 		</div>
 	</div>
 
-	<div class="explainConnectedTerritory explain hide">
-		<h1 class="homestead text-dark explainTitle">Territoire Connecté</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainConnectedTerritory <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Territoire Connecté</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Un territoire connecté est un territoire maillé par un réseau complet de moyens de communication. Communecter apporte sa touche au maillage en proposant des outils de communication directe entre les citoyens d’une même commune.
@@ -373,9 +362,9 @@
 		</div>
 	</div>
 
-	<div class="explainLocalActors explain hide">
-		<h1 class="homestead text-dark explainTitle">Acteurs Locaux</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainLocalActors <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Acteurs Locaux</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Ensemble des personnes physiques et morales qui agissent dans le périmètre d’un territoire géographique donné. On parle souvent des acteurs locaux d’une commune ou d’une région. Communecter apporte des outils de partage et de communication à ces acteurs locaux.
@@ -383,9 +372,9 @@
 		</div>
 	</div>
 
-	<div class="explainCollabEco explain hide">
-		<h1 class="homestead text-dark explainTitle">Economie collaborative</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCollabEco <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Economie collaborative</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				L’économie collaborative est une activité humaine qui vise à produire de la valeur en commun et qui repose sur de nouvelles formes d'organisation du travail. Elle s'appuie sur une organisation plus horizontale que verticale, la mutualisation des biens, des espaces et des outils (l'usage plutôt que la possession), l'organisation des citoyens en "réseau" ou en communautés et généralement l'intermédiation par des plateformes internet (à l'exception de modèles comme les réseaux d'échanges réciproques de savoirs).
@@ -395,9 +384,9 @@
 		</div>
 	</div>
 
-	<div class="explainCitoyens explain hide">
-		<h1 class="homestead text-dark explainTitle">Citoyens</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCitoyens <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Citoyens</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Est citoyen celui qui habite dans une ville et y jouit du droit de cité c'est à dire de l'aptitude juridique à jouir des droits politiques conformément aux lois du pays (CC BY-SA Wiktionnaire). Il est important de se souvenir que qui n'use pas de ses droits prend le risque de les perdre... Communecter vient proposer au citoyen d'exercer pleinement ses droits au sein de la commune.
@@ -405,9 +394,9 @@
 		</div>
 	</div>
 
-	<div class="explainAssociation explain hide">
-		<h1 class="homestead text-dark explainTitle">Associations</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainAssociation <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Associations</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Une association est la réunion, le rapprochement de plusieurs entités, tant physiques (personnes, entreprises…) que conceptuelles (idées, couleurs). (CC BY-SA 3.0 Wikipedia). Communecter propose aux associations locales de mieux se faire connaître afin de favoriser leur vie et leur développement. La vie associative est au coeur même de la vie de la cité et de ses citoyens.
@@ -415,9 +404,9 @@
 		</div>
 	</div>
 
-	<div class="explainSocietyNetwork explain hide">
-		<h1 class="homestead text-dark explainTitle">Réseau sociétal</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainSocietyNetwork <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Réseau sociétal</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Il a fallu différencier les réseaux sociaux des réseaux sociétaux à cause de la place 
@@ -431,9 +420,9 @@
 		</div>
 	</div>
 
-	<div class="explainCTK explain hide">
-		<h1 class="homestead text-dark explainTitle">Citizen Tool Kit</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCTK <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Citizen Tool Kit</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Le Toolkit Citoyen est l'architecture modulaire sur laquelle repose Communecter.
@@ -444,9 +433,9 @@
 		</div>
 	</div>
 
-	<div class="explainCodeSocial explain hide">
-		<h1 class="homestead text-dark explainTitle">Code Social</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCodeSocial <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Code Social</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Le “code social” est un modèle de description à destination des organisations et des projets 
@@ -473,9 +462,9 @@
 		</div>
 	</div>
 
-	<div class="explainGlocal explain hide">
-		<h1 class="homestead text-dark explainTitle">Glocal</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainGlocal <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Glocal</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Qui met en relation les échelles locales et mondiales, notamment dans le cadre de la mondialisation. La glocalisation est un néologisme qui désigne les processus d'interactions, d'interdépendances et d'articulations entre les échelles locales et mondiales, notamment dans le cadre de la mondialisation. (CC BY-SA 3.0 Wiktionnaire). Communecter est un acteur glocal car il permet de relier les citoyens à leur commune comme au reste du monde.
@@ -483,9 +472,9 @@
 		</div>
 	</div>
 
-	<div class="explainCommunecteur explain hide">
-		<h1 class="homestead text-dark explainTitle">Communecteur</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommunecteur <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Communecteur</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Je suis communecteur quand j'ai envie de : 
@@ -511,9 +500,9 @@
 		</div>
 	</div>
 	
-	<div class="explainOpenAtlas explain hide">
+	<div class="explainOpenAtlas <?php echo $class?> hide">
 		<h1 class="homestead">L'association Open Atlas</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>Communecter est un projet actuellement porté par l’association Open Atlas mais dont les racines se trouvent dans une quinzaine d’années d'expérimentations, d’essais, de pertes de motivation, d’espoirs retrouvés, de rencontres, d’amitiés et d'innovation permanente pour l’ensemble des acteurs qui ont rejoint peu à peu l’aventure jusqu’à aujourd’hui.</li>
@@ -540,9 +529,9 @@
 		</div>
 	</div>
 
-	<div class="explainDeveloper explain hide">
-		<h1 class="homestead text-dark explainTitle">Developpeurs</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainDeveloper <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Developpeurs</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Communecter est autant un projet technique que sociétal. Notre équipe de développeurs s’acharne à constamment améliorer le fonctionnement de la plateforme car les bonnes idées viennent de nombreuses sources et il faut bien leur donner vie, pour continuer à aller plus loin que les idées. Une idée en amène une autre, et chaque développeur amène sa pierre a l’édifice. Donc une bonne équipe soudée et libre porte et transforme les idées d’une communauté riche et diversifiée. C’est un projet Open source, si vous êtes développeur et que vous êtes motivé, vous ne serez pas décu du voyage… on s’amuse sur tous les points : technique, philosophique, libriste…	
@@ -551,9 +540,9 @@
 	</div>
 
 
-	<div class="explainEditor explain hide">
-		<h1 class="homestead text-dark explainTitle">Editeur</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainEditor <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Editeur</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Communecter est un médium qui permet la production et la diffusion de contenus par tous. Ces contenus restent la propriété de chacun. Certains contributeurs (individuels ou collectifs) peuvent labelliser des contenus afin de leur apporter un crédit supplémentaire. Ils agissent alors en éditeur.
@@ -561,9 +550,9 @@
 		</div>
 	</div>
 
-	<div class="explainDesigner explain hide">
-		<h1 class="homestead text-dark explainTitle">Designeurs et Artistes</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainDesigner <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Designeurs et Artistes</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>L’image graphique et la créativité artistique contribuent énormément à la bonne communication et à la transmission des valeurs que porte le projet. Les graphistes et Animateurs vidéo font un super travail de traduction de l’émotion que veut transmettre Communecter.</li>
@@ -572,9 +561,9 @@
 		</div>
 	</div>
 
-	<div class="explainContributor explain hide">
-		<h1 class="homestead text-dark explainTitle">Contributeur</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainContributor <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Contributeur</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Les contributions sont nombreuses dans tous les domaines mentoring, conseil, montage de dossier, créateur de liens, financier, communication, supporters, contributeur d’idée….
@@ -583,9 +572,9 @@
 		</div>
 	</div>
 	
-	<div class="explainCommunectorDocs explain hide">
-		<h1 class="homestead text-dark explainTitle">Boite à Outil Communecteur</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCommunectorDocs <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Boite à Outil Communecteur</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Nos outils de communication interne
@@ -609,9 +598,9 @@
 		</div>
 	</div>
 
-	<div class="explainMOAC explain hide">
-		<h1 class="homestead text-dark explainTitle">M.O.A.C<br/>Massifs Offline ou Online Apéros Citoyens</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainMOAC <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">M.O.A.C<br/>Massifs Offline ou Online Apéros Citoyens</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>Pourquoi ne pas mélanger le plaisir et la citoyeneté</li>
@@ -620,9 +609,9 @@
 		</div>
 	</div>
 
-	<div class="explainCrowdfundingLetters explain hide">
-		<h1 class="homestead text-dark explainTitle">CrowdFunding letter Collection</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainCrowdfundingLetters <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">CrowdFunding letter Collection</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -635,9 +624,9 @@
 		</div>
 	</div>
 
-	<div class="explainGamification explain hide">
-		<h1 class="homestead text-dark explainTitle"> Gamification (ou ludification) Citoyenne </h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainGamification <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"> Gamification (ou ludification) Citoyenne </h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Dans Communecter on comptabilise la valeur par l'usage. Celle-ci est calculée par rapport à chaque lien de chaque individu fait avec des personnes, organisations, événements, projets. Pour résumer, la valeur calculée par les liens que vous avez avec votre environnement permet de pondérer votre activité locale. Plus tard viendront s'ajouter la qualité de vos posts, le nombre de votes et de contributions au système et donc à votre société locale.
@@ -645,9 +634,9 @@
 		</div>
 	</div>
 
-	<div class="explainPixelHumain explain hide">
-		<h1 class="homestead text-dark explainTitle">Pixel Humain</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainPixelHumain <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Pixel Humain</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -660,9 +649,9 @@
 		</div>
 	</div>
 
-	<div class="explainBeta explain hide">
-		<h1 class="homestead text-dark explainTitle">Version Béta</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainBeta <?php echo $class?> hide">
+		<h1 class="homestead explainTitle">Version Béta</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>Les fonctionalités prinicipales fonctionnent</li>
@@ -673,9 +662,9 @@
 		</div>
 	</div>
 
-	<div class="explainRoadMap explain hide">
-		<h1 class="homestead text-dark explainTitle"> <i class="fa fa-sitemap"></i> Roadmap</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainRoadMap <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"> <i class="fa fa-sitemap"></i> Roadmap</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
@@ -713,9 +702,9 @@
 		</div>
 	</div>
 
-	<div class="explainODB explain hide">
-		<h1 class="homestead text-dark explainTitle"> ODB : Open dataBase</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainODB <?php echo $class?> hide">
+		<h1 class="homestead explainTitle"> ODB : Open dataBase</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 		<ul>
 			<li>Le projet communecter est totalement open source , mais surtout un concept de base donnée partagé, multi acteur, qu’on appelle une base de donnée en commun, C’est l’O.D.B : l’Open Database a laquelle plusieurs acteurs contribue et l’utilise directement via une API libre. </li>
@@ -727,14 +716,13 @@
 			<li>
 			L’ouverture de la base de donnée n’est pas un dogme. Communecter est conçu afin de permettre à chacun de faire ses choix en conscience. Il peut  donc aussi y avoir des instances qui choisissent de ne pas utiliser l’ODB tout en utilisant les interfaces. Elle produit alors une NotODB, une instance indépendante de la donnée, régit par les règles de son choix, en mode “silo”, ou juste une autonomie indépendante de l’ODB.</li>
 			<li>Nous gardons ainsi la porte de tous les possibles grande ouverte avec une jolie structure de participation et de partage massif  </li>
-			</li>
 		</ul>
 		</div>
 	</div>
 
-	<div class="explainTransition explain hide">
-			<h1 class="homestead text-dark explainTitle">Transition</h1>
-			<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainTransition <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Transition</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 			<div class="explainDesc">
 			<ul>
 				<li>Récemment plusieurs gares ont vu plusieurs trains de la transition partir dans différentes directions.</li>
@@ -751,75 +739,74 @@
 		</div>
 	</div>
 
-	<div class="explainMentionLegal explain hide" style="overflow:auto;">
-			<h1 class="homestead text-dark explainTitle">Mentions Légales</h1>
-			<center class="caretExplain"><i class="fa fa-caret-down" style="color:#449D44;"></i><br/></center>
+	<div class="explainMentionLegal <?php echo $class?> hide" style="overflow:auto;">
+			<h1 class="homestead explainTitle">Mentions Légales</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 			<div class="explainDesc">
 			<h1>Mentions légales</h1>
-</br>
-Merci de lire avec attentions les différentes modalités d’utilisation du présent site avant d’y parcourir ses pages. En vous connectant sur ce site, vous acceptez sans réserves les présentes modalités. Aussi, conformément de l’Article n°6 de la Loi n°2004-575 du 21 Juin 2004 pour la confiance dans l’économie numérique, les responsables du présent site internet <a href="http://www.communecter.org">www.communecter.org</a> sont :
+		</br>
+		Merci de lire avec attentions les différentes modalités d’utilisation du présent site avant d’y parcourir ses pages. En vous connectant sur ce site, vous acceptez sans réserves les présentes modalités. Aussi, conformément de l’Article n°6 de la Loi n°2004-575 du 21 Juin 2004 pour la confiance dans l’économie numérique, les responsables du présent site internet <a href="http://www.communecter.org">www.communecter.org</a> sont :
 
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Editeur du Site : </b></span></p>
-Association Open Atlas
-Numéro de SIRET :  513381830
-Responsable editorial : Tibor Katelbach
-102a rue pierre payet, 97421, La Réunion
-Téléphone :0262343686 - Fax : 0262343686
-Email : communecter@gmail.com
-Site Web : <a href="http://www.communecter.org">www.communecter.org</a>
-</br>
-<p style="color: #b51a00;"><b><span style="color: rgb(0, 0, 0);">Hébergement :</span> </b></p>
-Hébergeur : Amazon
-California, Usa
-Site Web :  <a href="http://www.amazon.com">www.amazon.com</a>
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Développement</b><b> : </b></span></p>
-collectif d'indépendant O.R.D
-Adresse : 102a rue pierre payet, 97421, La Réunion
-Site Web : <a href="http://www.oceatoon.com">www.oceatoon.com</a>
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Conditions d’utilisation : </b></span></p>
-Ce site (<a href="http://www.communecter.org">www.communecter.org</a>) est proposé en différents langages web (HTML, HTML5, Javascript, CSS, etc…) pour un meilleur confort d'utilisation et un graphisme plus agréable, nous vous recommandons de recourir à des navigateurs modernes comme Internet explorer, Safari, Firefox, Google Chrome, etc…
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Editeur du Site : </b></span></p>
+		Association Open Atlas
+		Numéro de SIRET :  513381830
+		Responsable editorial : Tibor Katelbach
+		102a rue pierre payet, 97421, La Réunion
+		Téléphone :0262343686 - Fax : 0262343686
+		Email : communecter@gmail.com
+		Site Web : <a href="http://www.communecter.org">www.communecter.org</a>
+		</br>
+		<p style="color: #b51a00;"><b><span style="color: rgb(0, 0, 0);">Hébergement :</span> </b></p>
+		Hébergeur : Amazon
+		California, Usa
+		Site Web :  <a href="http://www.amazon.com">www.amazon.com</a>
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Développement</b><b> : </b></span></p>
+		collectif d'indépendant O.R.D
+		Adresse : 102a rue pierre payet, 97421, La Réunion
+		Site Web : <a href="http://www.oceatoon.com">www.oceatoon.com</a>
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Conditions d’utilisation : </b></span></p>
+		Ce site (<a href="http://www.communecter.org">www.communecter.org</a>) est proposé en différents langages web (HTML, HTML5, Javascript, CSS, etc…) pour un meilleur confort d'utilisation et un graphisme plus agréable, nous vous recommandons de recourir à des navigateurs modernes comme Internet explorer, Safari, Firefox, Google Chrome, etc…
 
-<span style="color: #323333;">Association Open Atlas<b> </b></span>met en œuvre tous les moyens dont elle dispose, pour assurer une information fiable et une mise à jour fiable de ses sites internet. Toutefois, des erreurs ou omissions peuvent survenir. L'internaute devra donc s'assurer de l'exactitude des informations auprès de , et signaler toutes modifications du site qu'il jugerait utile. n'est en aucun cas responsable de l'utilisation faite de ces informations, et de tout préjudice direct ou indirect pouvant en découler.
+		<span style="color: #323333;">Association Open Atlas<b> </b></span>met en œuvre tous les moyens dont elle dispose, pour assurer une information fiable et une mise à jour fiable de ses sites internet. Toutefois, des erreurs ou omissions peuvent survenir. L'internaute devra donc s'assurer de l'exactitude des informations auprès de , et signaler toutes modifications du site qu'il jugerait utile. n'est en aucun cas responsable de l'utilisation faite de ces informations, et de tout préjudice direct ou indirect pouvant en découler.
 
-<b>Cookies</b> : Le site <a href="http://www.communecter.org">www.communecter.org</a> peut-être amené à vous demander l’acceptation des cookies pour des besoins de statistiques et d'affichage. Un cookies est une information déposée sur votre disque dure par le serveur du site que vous visitez. Il contient plusieurs données qui sont stockées sur votre ordinateur dans un simple fichier texte auquel un serveur accède pour lire et enregistrer des informations . Certaines parties de ce site ne peuvent être fonctionnelle sans l’acceptation de cookies.
+		<b>Cookies</b> : Le site <a href="http://www.communecter.org">www.communecter.org</a> peut-être amené à vous demander l’acceptation des cookies pour des besoins de statistiques et d'affichage. Un cookies est une information déposée sur votre disque dure par le serveur du site que vous visitez. Il contient plusieurs données qui sont stockées sur votre ordinateur dans un simple fichier texte auquel un serveur accède pour lire et enregistrer des informations . Certaines parties de ce site ne peuvent être fonctionnelle sans l’acceptation de cookies.
 
-<b>Liens hypertextes :</b> Les sites internet de peuvent offrir des liens vers d’autres sites internet ou d’autres ressources disponibles sur Internet. Association Open Atlas ne dispose d'aucun moyen pour contrôler les sites en connexion avec ses sites internet. ne répond pas de la disponibilité de tels sites et sources externes, ni ne la garantit. Elle ne peut être tenue pour responsable de tout dommage, de quelque nature que ce soit, résultant du contenu de ces sites ou sources externes, et notamment des informations, produits ou services qu’ils proposent, ou de tout usage qui peut être fait de ces éléments. Les risques liés à cette utilisation incombent pleinement à l'internaute, qui doit se conformer à leurs conditions d'utilisation.
-<br/><br/>
-Les utilisateurs, les abonnés et les visiteurs des sites internet de ne peuvent mettre en place un hyperlien en direction de ce site sans l'autorisation expresse et préalable de Association Open Atlas.
-<br/><br/>
-Dans l'hypothèse où un utilisateur ou visiteur souhaiterait mettre en place un hyperlien en direction d’un des sites internet de Association Open Atlas, il lui appartiendra d'adresser un email accessible sur le site afin de formuler sa demande de mise en place d'un hyperlien. Association Open Atlas se réserve le droit d’accepter ou de refuser un hyperlien sans avoir à en justifier sa décision.
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Services fournis : </b></span></p>
-<p style="color: #323333;">L'ensemble des activités de la société ainsi que ses informations sont présentés sur notre site <a href="http://www.communecter.org">www.communecter.org</a>.</p>
-<p style="color: #323333;">Association Open Atlas s’efforce de fournir sur le site www.communecter.org des informations aussi précises que possible. les renseignements figurant sur le site <a href="http://www.communecter.org">www.communecter.org</a> ne sont pas exhaustifs et les photos non contractuelles. Ils sont donnés sous réserve de modifications ayant été apportées depuis leur mise en ligne. Par ailleurs, tous les informations indiquées sur le site www.communecter.org<span style="color: #000000;"><b> </b></span>sont données à titre indicatif, et sont susceptibles de changer ou d’évoluer sans préavis.  </p>
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Limitation contractuelles sur les données : </b></span></p>
-Les informations contenues sur ce site sont aussi précises que possibles et le site remis à jour à différentes périodes de l’année, mais peut toutefois contenir des inexactitudes ou des omissions. Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par email, à l’adresse communecter@gmail.com, en décrivant le problème de la manière la plus précise possible (page posant problème, type d’ordinateur et de navigateur utilisé, …).
-<br/><br/>
-Tout contenu téléchargé se fait aux risques et périls de l'utilisateur et sous sa seule responsabilité. En conséquence, ne saurait être tenu responsable d'un quelconque dommage subi par l'ordinateur de l'utilisateur ou d'une quelconque perte de données consécutives au téléchargement. <span style="color: #323333;">De plus, l’utilisateur du site s’engage à accéder au site en utilisant un matériel récent, ne contenant pas de virus et avec un navigateur de dernière génération mis-à-jour</span>
-<br/><br/>
-Les liens hypertextes mis en place dans le cadre du présent site internet en direction d'autres ressources présentes sur le réseau Internet ne sauraient engager la responsabilité de Association Open Atlas.
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Propriété intellectuelle :</b></span></p>
-Tout le contenu du présent sur le site <a href="http://www.communecter.org">www.communecter.org</a>, incluant, de façon non limitative, les graphismes, images, textes, vidéos, animations, sons, logos, gifs et icônes ainsi que leur mise en forme sont la propriété exclusive de la société à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.
-<br/><br/>
-Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord exprès par écrit de Association Open Atlas. Cette représentation ou reproduction, par quelque procédé que ce soit, constitue une contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la propriété intellectuelle. Le non-respect de cette interdiction constitue une contrefaçon pouvant engager la responsabilité civile et pénale du contrefacteur. En outre, les propriétaires des Contenus copiés pourraient intenter une action en justice à votre encontre.
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Déclaration à la CNIL : </b></span></p>
-Conformément à la loi 78-17 du 6 janvier 1978 (modifiée par la loi 2004-801 du 6 août 2004 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel) relative à l'informatique, aux fichiers et aux libertés, ce site a fait l'objet d'une déclaration  auprès de la Commission nationale de l'informatique et des libertés (<a href="http://www.cnil.fr/">www.cnil.fr</a>).
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Litiges : </b></span></p>
-Les présentes conditions du site <a href="http://www.communecter.org">www.communecter.org</a> sont régies par les lois françaises et toute contestation ou litiges qui pourraient naître de l'interprétation ou de l'exécution de celles-ci seront de la compétence exclusive des tribunaux dont dépend le siège social de la société. La langue de référence, pour le règlement de contentieux éventuels, est le français.
-</br>
-<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Données personnelles :</b></span></p>
-De manière générale, vous n’êtes pas tenu de nous communiquer vos données personnelles lorsque vous visitez notre site Internet <a href="http://www.communecter.org">www.communecter.org</a>.
-<br/><br/>
-Cependant, ce principe comporte certaines exceptions. En effet, pour certains services proposés par notre site, vous pouvez être amenés à nous communiquer certaines données telles que : votre nom, votre fonction, le nom de votre société, votre adresse électronique, et votre numéro de téléphone. Tel est le cas lorsque vous remplissez le formulaire qui vous est proposé en ligne, dans la rubrique « contact ». Dans tous les cas, vous pouvez refuser de fournir vos données personnelles. Dans ce cas, vous ne pourrez pas utiliser les services du site, notamment celui de solliciter des renseignements sur notre société, ou de recevoir les lettres d’information.
-<br/><br/>
-Enfin, nous pouvons collecter de manière automatique certaines informations vous concernant lors d’une simple navigation sur notre site Internet, notamment : des informations concernant l’utilisation de notre site, comme les zones que vous visitez et les services auxquels vous accédez, votre adresse IP, le type de votre navigateur, vos temps d'accès. De telles informations sont utilisées exclusivement à des fins de statistiques internes, de manière à améliorer la qualité des services qui vous sont proposés. Les bases de données sont protégées par les dispositions de la loi du 1er juillet 1998 transposant la directive 96/9 du 11 mars 1996 relative à la protection juridique des bases de données.
-	</div>
+		<b>Liens hypertextes :</b> Les sites internet de peuvent offrir des liens vers d’autres sites internet ou d’autres ressources disponibles sur Internet. Association Open Atlas ne dispose d'aucun moyen pour contrôler les sites en connexion avec ses sites internet. ne répond pas de la disponibilité de tels sites et sources externes, ni ne la garantit. Elle ne peut être tenue pour responsable de tout dommage, de quelque nature que ce soit, résultant du contenu de ces sites ou sources externes, et notamment des informations, produits ou services qu’ils proposent, ou de tout usage qui peut être fait de ces éléments. Les risques liés à cette utilisation incombent pleinement à l'internaute, qui doit se conformer à leurs conditions d'utilisation.
+		<br/><br/>
+		Les utilisateurs, les abonnés et les visiteurs des sites internet de ne peuvent mettre en place un hyperlien en direction de ce site sans l'autorisation expresse et préalable de Association Open Atlas.
+		<br/><br/>
+		Dans l'hypothèse où un utilisateur ou visiteur souhaiterait mettre en place un hyperlien en direction d’un des sites internet de Association Open Atlas, il lui appartiendra d'adresser un email accessible sur le site afin de formuler sa demande de mise en place d'un hyperlien. Association Open Atlas se réserve le droit d’accepter ou de refuser un hyperlien sans avoir à en justifier sa décision.
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Services fournis : </b></span></p>
+		<p style="color: #323333;">L'ensemble des activités de la société ainsi que ses informations sont présentés sur notre site <a href="http://www.communecter.org">www.communecter.org</a>.</p>
+		<p style="color: #323333;">Association Open Atlas s’efforce de fournir sur le site www.communecter.org des informations aussi précises que possible. les renseignements figurant sur le site <a href="http://www.communecter.org">www.communecter.org</a> ne sont pas exhaustifs et les photos non contractuelles. Ils sont donnés sous réserve de modifications ayant été apportées depuis leur mise en ligne. Par ailleurs, tous les informations indiquées sur le site www.communecter.org<span style="color: #000000;"><b> </b></span>sont données à titre indicatif, et sont susceptibles de changer ou d’évoluer sans préavis.  </p>
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Limitation contractuelles sur les données : </b></span></p>
+		Les informations contenues sur ce site sont aussi précises que possibles et le site remis à jour à différentes périodes de l’année, mais peut toutefois contenir des inexactitudes ou des omissions. Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par email, à l’adresse communecter@gmail.com, en décrivant le problème de la manière la plus précise possible (page posant problème, type d’ordinateur et de navigateur utilisé, …).
+		<br/><br/>
+		Tout contenu téléchargé se fait aux risques et périls de l'utilisateur et sous sa seule responsabilité. En conséquence, ne saurait être tenu responsable d'un quelconque dommage subi par l'ordinateur de l'utilisateur ou d'une quelconque perte de données consécutives au téléchargement. <span style="color: #323333;">De plus, l’utilisateur du site s’engage à accéder au site en utilisant un matériel récent, ne contenant pas de virus et avec un navigateur de dernière génération mis-à-jour</span>
+		<br/><br/>
+		Les liens hypertextes mis en place dans le cadre du présent site internet en direction d'autres ressources présentes sur le réseau Internet ne sauraient engager la responsabilité de Association Open Atlas.
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Propriété intellectuelle :</b></span></p>
+		Tout le contenu du présent sur le site <a href="http://www.communecter.org">www.communecter.org</a>, incluant, de façon non limitative, les graphismes, images, textes, vidéos, animations, sons, logos, gifs et icônes ainsi que leur mise en forme sont la propriété exclusive de la société à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.
+		<br/><br/>
+		Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord exprès par écrit de Association Open Atlas. Cette représentation ou reproduction, par quelque procédé que ce soit, constitue une contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la propriété intellectuelle. Le non-respect de cette interdiction constitue une contrefaçon pouvant engager la responsabilité civile et pénale du contrefacteur. En outre, les propriétaires des Contenus copiés pourraient intenter une action en justice à votre encontre.
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Déclaration à la CNIL : </b></span></p>
+		Conformément à la loi 78-17 du 6 janvier 1978 (modifiée par la loi 2004-801 du 6 août 2004 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel) relative à l'informatique, aux fichiers et aux libertés, ce site a fait l'objet d'une déclaration  auprès de la Commission nationale de l'informatique et des libertés (<a href="http://www.cnil.fr/">www.cnil.fr</a>).
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Litiges : </b></span></p>
+		Les présentes conditions du site <a href="http://www.communecter.org">www.communecter.org</a> sont régies par les lois françaises et toute contestation ou litiges qui pourraient naître de l'interprétation ou de l'exécution de celles-ci seront de la compétence exclusive des tribunaux dont dépend le siège social de la société. La langue de référence, pour le règlement de contentieux éventuels, est le français.
+		</br>
+		<p style="color: #b51a00;"><span style="color: rgb(0, 0, 0);"><b>Données personnelles :</b></span></p>
+		De manière générale, vous n’êtes pas tenu de nous communiquer vos données personnelles lorsque vous visitez notre site Internet <a href="http://www.communecter.org">www.communecter.org</a>.
+		<br/><br/>
+		Cependant, ce principe comporte certaines exceptions. En effet, pour certains services proposés par notre site, vous pouvez être amenés à nous communiquer certaines données telles que : votre nom, votre fonction, le nom de votre société, votre adresse électronique, et votre numéro de téléphone. Tel est le cas lorsque vous remplissez le formulaire qui vous est proposé en ligne, dans la rubrique « contact ». Dans tous les cas, vous pouvez refuser de fournir vos données personnelles. Dans ce cas, vous ne pourrez pas utiliser les services du site, notamment celui de solliciter des renseignements sur notre société, ou de recevoir les lettres d’information.
+		<br/><br/>
+		Enfin, nous pouvons collecter de manière automatique certaines informations vous concernant lors d’une simple navigation sur notre site Internet, notamment : des informations concernant l’utilisation de notre site, comme les zones que vous visitez et les services auxquels vous accédez, votre adresse IP, le type de votre navigateur, vos temps d'accès. De telles informations sont utilisées exclusivement à des fins de statistiques internes, de manière à améliorer la qualité des services qui vous sont proposés. Les bases de données sont protégées par les dispositions de la loi du 1er juillet 1998 transposant la directive 96/9 du 11 mars 1996 relative à la protection juridique des bases de données.
 
 
 	<?php if (isset(Yii::app()->session["userId"])){ ?>
@@ -827,23 +814,4 @@ Enfin, nous pouvons collecter de manière automatique certaines informations vou
 	<?php } ?>
 	</div>
 </div>
-<script>
 
-function removeExplainations(){
-	$(".removeExplanation").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-	$.ajax({
-	type: "POST",
-	url: baseUrl+"/"+moduleId+"/person/updatesettings",
-	dataType: "json",
-	success: function(data) {
-	if(data.result){
-		toastr.success(data.msg);	
-		showMenuExplanation = false;
-		loadByHash(location.hash);
-	}
-	else
-	toastr.error(data.msg);
-	},
-	});
-}
-</script>

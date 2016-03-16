@@ -663,6 +663,7 @@ function showDefinition( id ){
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	$(".hover-info").css("display" , "inline");
 	toggle( "."+id , ".explain" );
+	$("."+id+" .explainDesc").removeClass("hide");
 	return false;
 }
 

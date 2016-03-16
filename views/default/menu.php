@@ -273,11 +273,41 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 <?php 
     if(isset(Yii::app()->session['userId']))
-    $me = Person::getById(Yii::app()->session['userId']);
-   	echo $this->renderPartial('explainPanels');
+    	$me = Person::getById(Yii::app()->session['userId']);
 ?>
 
+<style>
+ul{	font-weight: 300;	font-size:14px;	color:#3C5665 !important;}
+h3{	font-weight: 300;}
+.explainTitle{cursor:pointer; background-color: #656565; padding: 10px; text-align: center; color: #fff; margin:0px;border-top: 1px solid #666;}
+.explainTitle:hover{opacity: 0.8}
+.explainDesc{ padding: 10px; }
+.caretExplain{position: relative;top: 0px;color:#656565;}
+.fa-caret-down{font-size:56px;line-height: 10px;}
+</style>
+<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
+</div>
+<script>
 
+function removeExplainations(){
+	$(".removeExplanation").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+"/person/updatesettings",
+		dataType: "json",
+		success: function(data) {
+		if(data.result){
+			toastr.success(data.msg);	
+			showMenuExplanation = false;
+			loadByHash(location.hash);
+		}
+		else
+		toastr.error(data.msg);
+		},
+	});
+}
+</script>
 <div class="hover-menu hidden-xs">
 	
 
@@ -361,10 +391,12 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</div>*/?>
 
 	<div class="infoVersion">
+		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
+		<br/>
 		update <?php echo $this->versionDate ?>
 		<br/>
 		<span class="homestead" style="font-size: 1.5em">version <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
-		<br/><span >Tests et améliorations en continu</span>
+		<br/><span >Tests et améliorations continu</span>
 	</div>
 </div>
 <!-- 
