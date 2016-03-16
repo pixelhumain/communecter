@@ -150,9 +150,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
  <script type="text/javascript">
 
-//
- 	console.log("projectContributors");
- 	//console.dir(projectContributors);
 	jQuery(document).ready(function() {
 		var usersLinks = <?php echo isset($users) ? json_encode($users) : "''"; ?>;
 		//bindBtnContributor();

@@ -68,7 +68,7 @@
 												echo "<i class=\"fa fa-smile-o fa-2x\"></i>";
 											} ?>
 									</a>
-									<a href="javascript:;" class="acceptHelp" data-id="<?php echo (string)$val["_id"]; ?>" data-name="<?php echo $val["name"]; ?>">
+									<a href="javascript:;" class="acceptHelp" data-id="<?php echo (string)$val["_id"]; ?>" data-name="<?php echo addslashes($val["name"]); ?>">
 										<i class="fa fa-check-circle validateBtn confirmBtn"></i>
 									</a>
 								</div>
@@ -140,7 +140,7 @@ jQuery(document).ready(function(){
 function helpProposal(){
 $(".new-proposal").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        bootbox.confirm("Are you sure you want to help for this need <span class='text-red'><?php echo $name; ?></span>?", 
+	        bootbox.confirm("Are you sure you want to help for this need <span class='text-red'><?php echo addslashes($name); ?></span>?", 
 			function(result) {
 					if (result) {
 						$.ajax({
