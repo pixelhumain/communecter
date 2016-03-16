@@ -101,6 +101,11 @@ class CommunecterController extends Controller
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
     ),
 
+    "adminpublic" => array(
+      "index"    => array("href" => "/ph/communecter/adminpublic/index"),
+    ),
+
+
     "default" => array(
       "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"             => array("href" => "/ph/communecter/default/directory", "public" => true),
