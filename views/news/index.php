@@ -1309,9 +1309,9 @@ function actionOnNews(news, action,method) {
                     } else {
 						count = parseInt(news.data("count"));
 	                    if(count < count+data.inc)
-	                    	toastr.success("<?php echo Yii::t("common","Your vote has been succesfully added")?>");
+	                    	toastr.success("<?php echo Yii::t("common","Your vote has been successfully added")?>");
 	                    else
-		                    toastr.success("<?php echo Yii::t("common","Your vote has been succesfully removed")?>");
+		                    toastr.success("<?php echo Yii::t("common","Your vote has been successfully removed")?>");
 	                    console.log(data);
 						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
