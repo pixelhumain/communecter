@@ -46,15 +46,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</td>
 							<td>
 								<?php  if (! @$e["pending"]) {
-									echo '<a href="'.Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]).'">'.addslashes(@$e["name"]).'</a>'; ?>
+									echo '<a href="'.Yii::app()->createUrl('/'.$this->module->id.'/person/dashboard/id/'.$e["_id"]).'">'.@$e["name"].'</a>'; ?>
 								<?php } else {
-									echo addslashes(@$e["name"]);
+									echo @$e["name"];
 									} ?>
 							</td>
 							<td class="center">
 							<div class="visible-md visible-lg hidden-sm hidden-xs">
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-								<a href="javascript:;" class="disconnectPersonBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo $memberType ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo addslashes((string)$e["name"]);?>" data-placement="left" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+								<a href="javascript:;" class="disconnectPersonBtn btn btn-xs btn-red tooltips " data-linkType="<?php if(isset($e["linkType"]))echo $e["linkType"]?>"  data-type="<?php echo $memberType ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Remove Knows relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</div>
 							</td>

@@ -1,3 +1,11 @@
+<?php 
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/communecter.js'
+	);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$this->renderPartial('../default/panels/toolbar'); 
+?>
 <?php
 $admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"]))
