@@ -34,7 +34,7 @@ $admin = false;
 	
 	jQuery(document).ready(function() {
 		bindBtnFollow();
-		$(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo $event["name"] ?> ");
+		$(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo addslashes($event["name"]) ?> ");
 		console.dir(contextMap);
 		
 		Sig.restartMap();
