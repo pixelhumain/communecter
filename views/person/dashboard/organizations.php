@@ -39,13 +39,13 @@ Documents à supprimer -- n'a plus lieu d'exister !! a confirmer
 							</td>
 							<td >							
 								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')">
-									<?php if(isset($e["name"]))echo addslashes($e["name"])?>
+									<?php if(isset($e["name"]))echo $e["name"]?>
 								</a>
 							</td>
 							<td><?php if(isset($e["type"]))echo $e["type"]?></td>
 							<td class="center">
 								<?php if(isset($userId) && isset(Yii::app()->session["userId"]) && $userId == Yii::app()->session["userId"] ) { ?>
-									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-grey tooltips visible-lg" data-name="<?php echo addslashes($e["name"])?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-grey tooltips visible-lg" data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my Organizations" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; ?>
 							</td>
 						</tr>
