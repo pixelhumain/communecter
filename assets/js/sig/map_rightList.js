@@ -62,7 +62,7 @@
 									//on affiche l'élément seulement s'il correspond à la recherche
 										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
 											if(thisSig.inPagination(nbElement)){
-												$(thisSig.cssModuleName + " #element-right-list-" + this._id.$id.toString()).css({ "display" : "inline" });							
+												$(thisSig.cssModuleName + " #element-right-list-" + Sig.getObjectId(this)).css({ "display" : "inline" });							
 												nbVisible++;
 											}
 											nbElement++;
