@@ -15,31 +15,38 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .information{font-size:15px;color:#8b91a0;}
 .explainTitle{cursor:pointer; background-color: #449D44; padding: 10px; text-align: center; color: #fff;margin:0px;border-top: 1px solid #666;}
 .explainTitle:hover{opacity: 0.8}
-.explainDesc{ padding: 10px; }
-.caretExplain{position: relative;top: 0px;}
+.explainDesc{ padding: 10px; background-color: white; }
+.caretExplain{position: relative;top: 0px;background-color: white;color:#449D44;}
 </style>
 
 
 <div class="home_page">
-	
+	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain2")); ?>
 </div>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	$(".moduleLabel").html('<?php echo Yii::t("common","Frequently Asked Questions") ?>');
+	/*
 	$(".explain").each(function(i,e) { 
-		title = $(e).find(".explainTitle").removeClass("text-dark").text();
-		$(".home_page").append( $(e)[0] );
+		title = $(e).find(".explainTitle").text();
+		//$(this).removeClass('explain');
+		el = $(e);
+		$(".home_page").append( el[0] );
+		$(".home_page .explain").last().removeClass("explain");
 		//console.dir($(e)[0]);
 	});
+	*/
+
 	$(".explainDesc,.caretExplain").addClass("hide");
-	$(".home_page .explain").removeClass("hide").click( function() { 
+
+	$(".home_page .explain2").removeClass("hide").click( function() 
+	{ 
 		$(".explainDesc,.caretExplain").addClass("hide");
 		if( $(this).find(".explainDesc,.caretExplain").hasClass("hide"))
 			$(this).find(".explainDesc,.caretExplain").removeClass("hide");
 		else
 			$(this).find(".explainDesc,.caretExplain").addClass("hide");
 	});
-
 });
 </script>
