@@ -288,16 +288,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
-						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
-							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
+							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
 						</a>
 					</h2>
 					<?php 
 					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
 					?>
 					<i class="fa fa-smile-o fa_name hidden"></i> 
-					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-						<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
+						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
 					<br>
 
