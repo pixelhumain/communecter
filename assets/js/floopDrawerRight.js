@@ -227,9 +227,11 @@ function addFloopEntity(entityId, entityType, entityValue){
     showFloopDrawer(true);
 
     setTimeout(function(){
-		var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
-						$(".floopScroll #scroll-type-"+entityType).position().top;
-		$('.floopScroll').scrollTop(scrollTOP);
+    	if ($('.floopScroll').position().top != null ) {
+			var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
+							$(".floopScroll #scroll-type-"+entityType).position().top;
+			$('.floopScroll').scrollTop(scrollTOP);
+		}
 	}, 1000);
 
 	timeoutShowFloopDrawer = setTimeout(function(){

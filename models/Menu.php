@@ -45,7 +45,7 @@ class Menu {
                     Yii::t("common", 'Show his directory'), 
                     Yii::t("common", 'Directory'),
                     'bookmark fa-rotate-270',
-                    "loadByHash('#person.directory.id.".$id."?tpl=directory2&isNotSV=1')","person", "directory");
+                    "loadByHash('#person.directory.id.".$id."?tpl=directory2')","person", "directory");
         
         //FOLLOW BUTTON
         //-----------------------------
@@ -124,13 +124,6 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
-    		/*	array_push($controller->toolbarMBZ, array('position'=>'right', 
-                                                    'label'=>Yii::t("event",'Join'),
-                                                    'tooltip' => Yii::t("event","Join this Event"), 
-                                                    "parent"=>"span",
-                                                    "parentId"=>"linkBtns",
-                                                    "iconClass"=>"connectBtnIcon fa fa-unlink",
-                                                    "href"=>"<a href='javascript:;' class='connectBtn attendeeMeBtn tooltips  btn btn-default'   data-attendee-id='".Yii::app()->session['userId']."' data-placement='top'") );*/
      }
     
     public static function organization($organization)
@@ -158,7 +151,6 @@ class Menu {
         		Yii::t( "common", 'Activity'), 
         		'rss',
         		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
-//        		'/news/index/type/'.Organization::COLLECTION.'/id/'.$id.'?isNotSV=1',"news","index");
 
         //DIRECTORY
         //-----------------------------
@@ -166,7 +158,7 @@ class Menu {
         			Yii::t("common","Organization community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
-        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2&isNotSV=1')","organization", "directory");
+        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
         
         //ACTION ROOMS
         //-----------------------------
@@ -273,7 +265,7 @@ class Menu {
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."?isNotSV=1')",null,null);
+					"loadByHash('#city.detail.insee.".$insee."'')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -305,15 +297,14 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t( "common", 'Local network'), 
         			Yii::t( "common", 'Directory'),'bookmark fa-rotate-270',
-        			"loadByHash('#city.directory.insee.".$insee."?tpl=directory2&isNotSV=1')",null,null);
-        			//'/city/directory/insee/'.$insee.'?isNotSV=1&tpl=directory2',"city","directory");
+        			"loadByHash('#city.directory.insee.".$insee."?tpl=directory2')",null,null);
 
         //STATISTICS
         //-----------------------------
         /*self::entry("left", 'onclick',
         			Yii::t( "common", 'Show some statistics about this city'),
         			Yii::t( "common", 'Statistics'), 'line-chart',
-        			"loadByHash('#city.opendata.insee.".$insee."?isNotSV=1')",null,null);
+        			"loadByHash('#city.opendata.insee.".$insee."')",null,null);
 //        			'/city/opendata/insee/'.$insee.'?isNotSV=1',"city","opendata");*/
 
         //FOLLOW BUTTON
@@ -394,7 +385,7 @@ class Menu {
         self::entry("left", 'onclick',
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
-        "loadByHash('#project.directory.id.".$id."?tpl=directory2&isNotSV=1')","project", "directory");
+        "loadByHash('#project.directory.id.".$id."?tpl=directory2')","project", "directory");
                 // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){

@@ -87,7 +87,7 @@
 
 	jQuery(document).ready(function() {
 
-		$(".moduleLabel").html("<i class='fa fa-users'></i> <?php echo $organization["name"] ?> ");
+		$(".moduleLabel").html("<i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
 		//if($(".tooltips").length) {
      	//	$('.tooltips').tooltip();
    		//}

@@ -525,11 +525,14 @@
 			var cityName = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
+<<<<<<< HEAD
 			var reg = data["regionName"];
 			var cntry = data["country"];
 			var lat = data["geo"]["latitude"];
 			var lng = data["geo"]["longitude"];
 
+=======
+>>>>>>> origin/master
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
@@ -576,7 +579,10 @@
 			var title = data.typeSig + ' : ' + data.name;
 			title = title.replace("'", "");
 			title = title.replace('"', "");
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 			
 			popupContent += "<div class='item_map_list popup-marker padding-5'>";
 										

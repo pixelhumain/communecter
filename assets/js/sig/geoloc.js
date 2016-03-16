@@ -86,9 +86,6 @@
 	//insee
 	function callbackFindByInseeSuccess(obj){}
 	function callbackFindByInseeError(error){}
-	//google maps
-	function callbackGoogleMapsSuccess(obj){}
-	function callbackGoogleMapsError(error){}
 
 	//ajoute un élément de l'addresse à la requete
 	function addToRequest(request, dataStr){
