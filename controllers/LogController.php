@@ -12,6 +12,7 @@ class LogController extends CommunecterController {
 	{
 	    return array(
 	        'getipaddresstoblock'    => 'citizenToolKit.controllers.log.GetIpAddressToBlockAction',
+	        'monitoring'    	 	 => 'citizenToolKit.controllers.log.MonitoringAction',
 	        'cleanup'    			 => 'citizenToolKit.controllers.log.CleanUpAction'
 	    );
 	}

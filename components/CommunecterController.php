@@ -431,6 +431,19 @@ class CommunecterController extends Controller
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
     }
+
+    //Bring back logs needed
+    $actionsToLog = Log::getActionsToLog();
+    $actionInProcess = Yii::app()->controller->id.'/'.Yii::app()->controller->action->id;
+
+    //Manage logs if necessary
+    if(isset($actionsToLog[$actionInProcess])){
+      $logId = Log::pushBeforeAction($actionInProcess);
+      if($actionsToLog[$actionInProcess]['waitForResult']){
+        Yii::app()->session["LogInProcess"] = $logId;
+      }
+    }
+
     return parent::beforeAction($action);
   }
 }
