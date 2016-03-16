@@ -35,7 +35,11 @@ return array(
 	"205" => "L'email n'est pas bien formaté.",
 	"206" => "Une personne avec ce mail existe déjà sur la plateforme.",
 	"207" => "Une personne avec ce username existe déjà sur la plateforme.",
-
+	"208" => "Cette organisme n'a pas de type.",
+	"209" => "Vous devez remplir un email valide pour le contactPoint.",
+	"210" => "Cette personne n'a pas de username.",
+	"211" => "Cette username a été généré automatique à partir du nom de l'utilisateur.",
+	"212" => "Le Type \"Groupe\"  a été attribué a cette organisation. Veuilliez changer le type de l'organisation s'il ne correspond pas à ce type.",
 );
 
 ?>

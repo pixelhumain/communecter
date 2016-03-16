@@ -336,11 +336,8 @@ var formValidator = function() {
 	                    else { 
 	                        toastr.success(data.msg);
                         	addFloopEntity(data.id, "organizations", data.newOrganization);
-							openMainPanelFromPanel('/organization/detail/id/'+data.id, data.newOrganization.name, 'fa-group', data.id );
-				        	else if( "undefined" != typeof updateMyOrganization ){
-		        				updateMyOrganization(data.newOrganization, data.id);
-				        	}
-							$.hideSubview();
+							loadByHash('#organization.detail.id.'+data.id);
+							//$.hideSubview();
 							$.unblockUI();
 	                    }
 		    	  },

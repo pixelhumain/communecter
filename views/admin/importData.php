@@ -306,6 +306,7 @@ function bindEvents()
 		  				file.push(newLigne);
 		  			});
 		  			console.log("file :", file.length );
+		  			console.log("file :", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -317,7 +318,7 @@ function bindEvents()
 				reader.onload = function(e) {
 					//console.log("json : ", e.target.result );
 					file.push(e.target.result);
-		  			//console.log("file : ", file );
+		  			console.log("file : ", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -357,7 +358,7 @@ function bindEvents()
 				        		nameFile : nameF,
 				        		typeFile : typeF,
 				        		file : file,
-				        		chooseCollection : $("#chooseCollection").val(),
+				        		idMicroformat : $("#chooseCollection").val(),
 				        		pathObject : $("#pathObject").val()
 				        	},
 				        url: baseUrl+'/communecter/admin/assigndata/',
@@ -387,8 +388,7 @@ function bindEvents()
 		{
 			var nameFile = $("#fileImport").val().split("."); 
 	  		console.log("type",nameFile[nameFile.length-1]);
-	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" )
-	  		{
+	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" ){
 	  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
 	  			return false ;
 	  		}
@@ -398,29 +398,6 @@ function bindEvents()
   			console.log("file2 :", file.length );
   			assignData2($("#chooseCollection").val(), typeF);
 	  		
-
-	  		/*var fin = false ;
-	  		var indexStart = 0 ;
-	  		var limit = 900 ;
-	  		var indexEnd = limit;
-
-
-	  		while(fin == false){
-	  			subFile = file.slice(indexStart,indexEnd);
-	  			//console.log("indexStart", indexStart, indexEnd);
-	  			console.log("subFile", subFile.length);
-	  			// Appel methode assignData
-	  			assignData(subFile, typeF);
-
-	  			// Appel methode CréationSubFile
-
-	  			indexStart = indexEnd ;
-	  			indexEnd = indexEnd + limit;
-
-	  			if(indexStart > file.length)
-	  				fin = true ;
-
-	  		}*/
 		}	
   		
 
@@ -581,6 +558,7 @@ function bindEvents()
 	  			{
 	  				var valuesCreateData = {};
 					valuesCreateData['valueLinkCollection'] = $("#valueLinkCollection"+i).text();
+					console.log($("#idHeadCSV"+i).val());
 					valuesCreateData['idHeadCSV'] = $("#idHeadCSV"+i).val();
 					infoCreateData.push(valuesCreateData);
 	  			}
@@ -705,7 +683,7 @@ function bindEvents()
 			if(typeof org.geo == "undefined"){
 
 				org = getGeo(org) ;
-			  	console.log("getGeoFINI");
+			  	console.log("getGeoFINI", org["msgError"]);
 
 				if(typeof org["msgError"] == "undefined")
 			  		org = getInsee(org) ;
@@ -881,6 +859,7 @@ function getInseeWithLatLon(lat, lon, cp){
 		url: baseUrl+'/communecter/sig/getinseebylatlng/',
 		dataType : 'json',
 		success: function(data){
+			console.log("data.insee",data.insee);
 			insee = data.insee ;
 		}
 	});
@@ -888,6 +867,29 @@ function getInseeWithLatLon(lat, lon, cp){
 	return insee ;
 	
 }
+
+function getInseeWithLatLon2(lat, lon, cp){
+	var insee = "" ;
+	$.ajax({
+		type: 'POST',
+		data: { 
+			latitude : lat,
+			longitude : lon,
+			cp : cp
+		},
+		async:false,
+		url: baseUrl+'/communecter/sig/getinseebylatlng/',
+		dataType : 'json',
+		success: function(data){
+			insee = data.insee ;
+			nsee ;
+		}
+	});
+
+	return insee ;
+	
+}
+
 
 function getInfoAdressByInsee(insee,cp){
 	var alternateName = "" ;
@@ -1168,6 +1170,19 @@ function getInsee(org){
 	org["address"] = address;
 
 	return org ;
+}
+
+
+
+function getAddress(org){
+	console.log("getInsee");
+	var address = org.address;
+	data = getInseeWithLatLon2(org.geo.latitude, org.geo.longitude, org.address.postalCode);
+	
+
+	console.log("getAddress", data)
+
+	return org ;
 	
 }
 
@@ -1295,12 +1310,18 @@ function assignData(subfile, typeFile){
 
 
 function assignData2(idMicroformat, typeFile){
+	
+	var params = {
+		idMicroformat : idMicroformat,
+		typeFile : typeFile
+	};
+
+	if(typeFile == "json" || typeFile == "js")
+		params["file"] = file ;
+
 	$.ajax({
         type: 'POST',
-        data: {
-        		idMicroformat : idMicroformat,
-        		typeFile : typeFile
-        	},
+        data: params,
         url: baseUrl+'/communecter/admin/assigndata/',
         dataType : 'json',
         async : false,

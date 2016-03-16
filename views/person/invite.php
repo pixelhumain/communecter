@@ -672,7 +672,7 @@ function bindInviteSubViewInvites() {
 				    	$.unblockUI();
 				        if (data &&  data.result) {               
 				        	toastr.success('L\'invitation a été envoyée avec succès!');
-				        	$.hideSubview();
+				        	//$.hideSubview();
 				        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 				        } else {
 				        	$.unblockUI();
@@ -766,7 +766,7 @@ function runinviteFormValidation(el) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
-		        	$.hideSubview();
+		        	//$.hideSubview();
 		        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 		        } else {
 		        	$.unblockUI();

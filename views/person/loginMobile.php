@@ -145,11 +145,9 @@ body.login .main-login {
 	</div>
 </div>
 <script type="text/javascript">
-	
-
-	jQuery(document).ready(function() {
-		Login.init();
-	});
+jQuery(document).ready(function() {
+	Login.init();
+});
 
 var Login = function() {
 	"use strict";

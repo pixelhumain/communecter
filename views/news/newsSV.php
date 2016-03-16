@@ -453,7 +453,7 @@ function openSubview () {
 		},
 		onHide : function() {
 			$("#formCreateNewsTemp").html('');
-			$.hideSubview();
+			//$.hideSubview();
 		},
 		onSave: function() {
 			$("#ajaxForm").submit();
@@ -558,7 +558,7 @@ function buildDynForm(){
 					//console.dir(data);
 					$.unblockUI();
 					//$("#ajaxSV").html('');
-					$.hideSubview();
+					//$.hideSubview();
 					toastr.success('Saved successfully!');
 					//$("#ajaxForm").reset();
 	    		}

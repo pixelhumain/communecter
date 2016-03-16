@@ -587,7 +587,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	// on hide event's form destroy summernote and bootstrapSwitch plugins
 	function hideEditEvent() {
-		$.hideSubview();
+		//$.hideSubview();
 		$(".form-event .all-day").bootstrapSwitch('destroy');
 	};
 

@@ -131,7 +131,7 @@ function openJobSV(mode, id) {
 		},
 		onHide : function() {
 			$("#ajaxSV").html('');
-			$.hideSubview();
+			//$.hideSubview();
 		},
 		onSave : function() {
 			saveJob();

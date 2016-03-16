@@ -107,7 +107,7 @@
 					$('.form-event').submit();
 				},
 				onHide : function() {
-					$.hideSubview();
+					//$.hideSubview();
 				}
 			});
 		})

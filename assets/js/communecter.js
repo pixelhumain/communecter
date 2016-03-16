@@ -2,7 +2,6 @@ debug = true;
 
 $(document).ready(function() { 
 	
-	
 	initSequence();
 	
 });
@@ -387,6 +386,7 @@ var loadableUrls = {
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
@@ -399,6 +399,7 @@ var loadableUrls = {
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+    "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},

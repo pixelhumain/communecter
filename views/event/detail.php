@@ -1,11 +1,3 @@
-<?php 
-$cssAnsScriptFilesModule = array(
-	//Data helper
-	'/js/communecter.js'
-	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-$this->renderPartial('../default/panels/toolbar'); 
-?>
 <?php
 $admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"]))
@@ -13,7 +5,10 @@ $admin = false;
 ?>
 <div class="row">
 	<div class="col-md-8 col-sm-12">
-		<?php $this->renderPartial('dashboard/description',array(
+
+		<?php 
+		
+		$this->renderPartial('dashboard/description',array(
 								"event" => $event,
 								"organizer" =>$organizer,
 								"itemId" => (string)$event["_id"],
@@ -27,7 +22,7 @@ $admin = false;
 	</div>
 	<div class="col-md-4 col-sm-12">
 		<?php  //print_r($attending); 
-			$this->renderPartial('../pod/usersList', array(  "event"=> $event,
+			$this->renderPartial('../pod/usersList', array( "event"=> $event,
 															"users" => $attending,
 															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
 															"contentType" => Event::COLLECTION,
