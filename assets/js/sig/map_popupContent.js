@@ -151,19 +151,14 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
-			var isNotSV = true;
-			if(isNotSV){
-				var url = '#'+typeElement+'.detail.id.'+id;
+			var url = '#'+typeElement+'.detail.id.'+id;
 				//var title = data.typeSig + ' : ' + data.name;
 				//title = title.replace("'", "");
 				//title = title.replace('"', "");
 
 				//onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
-				onclick = 'loadByHash("'+url+'");';
-			}else{
-				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
-				onclick = 'window.location.href = "'+url+'"';
-			}
+			onclick = 'loadByHash("'+url+'");';
+			
 
 			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='"+onclick+"'>";
 										
@@ -517,7 +512,7 @@
 			if($("#local-actors-popup-sig").length > 0){ //console.log("try to catch local actors");
 				localActors = $("#local-actors-popup-sig").html();
 			}
-			var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
+			var showAjaxPanel = 'showAjaxPanel("/city/detail?insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-blue'>"+
 										"<i class='fa fa-university'></i> "+dataTxt+
@@ -535,7 +530,6 @@
 			var cityName = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
-			//var showAjaxPanel = 'showAjaxPanel("/city/detail?isNotSV=1&insee='+insee+'", "Commune : '+cityName+'", "fa-university");';
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
@@ -575,18 +569,10 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
-			if(isNotSV){
-				var url = '/'+typeElement+'/detail/id/'+id;
-				var title = data.typeSig + ' : ' + data.name;
-				title = title.replace("'", "");
-				title = title.replace('"', "");
-
-				//onclick = "openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");";
-			}else{
-				var url = baseUrl+"/"+moduleId+'/'+typeElement+'/dashboard/id/'+id;
-				//onclick = 'window.location.href = "'+url+'"';
-			}
-
+			var url = '/'+typeElement+'/detail/id/'+id;
+			var title = data.typeSig + ' : ' + data.name;
+			title = title.replace("'", "");
+			title = title.replace('"', "");
 			
 			popupContent += "<div class='item_map_list popup-marker padding-5'>";
 										
