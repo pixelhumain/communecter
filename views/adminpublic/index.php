@@ -3,10 +3,9 @@
 		<h3 class="panel-title text-red"><i class="fa fa-map-marker"></i>   <?php echo Yii::t("common", "SOURCE ADMIN"); ?></h3>
 	</div>
 	<div class="panel-body">
-		<h4 class="panel-title">Entité</h4>
+		<h4 class="panel-title">Entité mal </h4>
 		<br/>
-		<div>Il y a <span id="nbWarnings"></span> entité(s)</div>
-		<br/>
+		<div><span id="nbWarnings"></span></div>
 		<table id="tableEntity" class="col-sm-12 col-xs-12 table table-striped">
 			<tr>
 				<th>Name</th>

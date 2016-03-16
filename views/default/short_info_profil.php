@@ -158,7 +158,7 @@
               $sourceAdmin = Person::getSourceAdmin(Yii::app()->session['userId']);
               foreach ($sourceAdmin as $key => $value) {
                 ?>
-                  <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-cog text-blue"></i> Entités : <?php echo $value ; ?></a></li>
+                  <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> <?php echo $value ; ?></a></li>
                 <?php
               }
             }
