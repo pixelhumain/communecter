@@ -174,6 +174,7 @@
 					this.map.removeLayer(this.markerModifyPosition);
 
 				var thisSig = this;
+				if(this.markerSingleList != null)
 				$.each(this.markerSingleList, function(){
 					thisSig.map.removeLayer(this);
 				});
@@ -340,6 +341,7 @@
 
 
 					var inArray = false;
+					if(typeof thisData["tags"] != "undefined" && thisData["tags"] != null)
 					$.each(thisData["tags"], function(index, value){
 						if(value == thisSig.panelFilter) inArray = true;
 					});
@@ -634,13 +636,14 @@
 				//collection de marker geojson
 				this.geoJsonCollection = { type: 'FeatureCollection', features: new Array() };
 
-				this.showIcoLoading(true);
+				//this.showIcoLoading(true);
 
 				//on affiche les data filtre par filtre
 				var thisSig = this;
 				//var array = new Array();
 
 				var len = 0;
+
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
 					$.each(data, function (key, value){
@@ -653,6 +656,8 @@
 				}else{
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
+
+
 				
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker

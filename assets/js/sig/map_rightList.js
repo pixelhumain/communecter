@@ -213,10 +213,12 @@
 						if("undefined" != typeof allElement['tags'] && allElement['tags'] != null){
 							button	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
-							$.each(allElement['tags'], function(index, value){ totalTags++;
-								if(totalTags<4)
-								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
-							});
+							if(typeof allElement['tags'] != "undefined" && allElement['tags'] != null){
+								$.each(allElement['tags'], function(index, value){ totalTags++;
+									if(totalTags<4)
+									button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
+								});
+							}
 							button	+= 	"</div>";
 						}
 
