@@ -20,13 +20,15 @@
 @Raphael
 Add "'isOpendata': true" for all projects which have sourceKey == "patapouf"
 
-db.projects.find().forEach(function(doc){ 
-    if(doc.source.sourceKey == "patapouf"){ 
-        print(doc.name); 
-        db.projects.update({"_id":doc._id},{
-            '$set':{'isOpendata': true}
-        }) 
-    } 
+db.organizations.find().forEach(function(doc){ 
+    if(doc.source != null) { 
+        if(doc.source.key == "patapouf"){ 
+            print(doc.name); 
+            db.organizations.update({"_id":doc._id},{
+                '$set':{'isOpendata': true}
+            }) 
+        } 
+    }
 });
 
 

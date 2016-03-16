@@ -116,7 +116,7 @@ class DataController extends Controller {
         }
 
         if( @$key )
-          $params["source.sourceKey"] = $key ;
+          $params["source.key"] = $key ;
 
         if( @$insee )
           $params["address.codeInsee"] = $insee ;
@@ -135,6 +135,8 @@ class DataController extends Controller {
         //if( @$id || @$_GET["insee"] )
         //{
             //$data = PHDB::find( $type , $params );
+
+            
             $data = PHDB::findAndLimitAndIndex( $type , $params, $limit, $index);
 
             $meta["limit"] = $limit;
